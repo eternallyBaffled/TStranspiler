@@ -1,0 +1,33 @@
+{
+  "name": "tstranspiler",
+  "version": "1.0.0",
+  "description": "Parser for tablesmith files.",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --progress -p",
+    "watch": "webpack --progress --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eternallyBaffled/TStranspiler.git"
+  },
+  "author": "Pieter Van Dyck",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/eternallyBaffled/TStranspiler/issues"
+  },
+  "homepage": "https://github.com/eternallyBaffled/TStranspiler#readme",
+  "devDependencies": {
+    "@babel/core": "^7.3.4",
+    "@babel/preset-env": "^7.3.4",
+    "babel-loader": "^8.0.5",
+    "eslint": "^5.15.1",
+    "ohm-loader": "0.0.4",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.2.3"
+  },
+  "dependencies": {
+    "ohm-js": "^0.14.0"
+  }
+}
