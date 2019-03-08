@@ -1,23 +1,18 @@
-{
-  module: {
-    rules: [{
-      test: /\.ohm$/,
-      loader: 'ohm-loader'
-    }]
-  }
-}
+const path = require('path')
+
 module.exports = {
   mode: 'development',
-  entry: './src/index.js',
+  entry: path.resolve(__dirname, 'src', 'index.js'),
+  stats: 'normal',
   output: {
     filename: 'main.js',
-    publicPath: 'dist'
+    publicPath: path.resolve(__dirname, 'dist')
   },
   module: {
     rules: [
       {
         test: /\.js$/,
-        exclude: /node_modules/,
+        exclude: path.resolve(__dirname, 'node_modules'),
         use: {
           loader: 'babel-loader',
           options: {
@@ -31,4 +26,4 @@ module.exports = {
       }
     ]
   }
-};
+}
