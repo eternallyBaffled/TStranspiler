@@ -1,3 +1,3 @@
-import grammar from "./ts52.ohm"
+import grammar from './ts52.ohm'
 
-grammar.match("")
+grammar.match('')
