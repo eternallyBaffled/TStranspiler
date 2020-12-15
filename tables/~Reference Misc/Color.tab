@@ -1,0 +1,352 @@
+﻿# ---------------------------------------------------
+# Last Update: verified by Valminder Mar 28, 2018.
+# ---------------------------------------------------
+#
+# Color
+#
+# To call this table from another one:
+#       [Color.Start or [Color.Basic
+#    For upper case output:
+#       [Color.BasicUpperCase
+#
+# -------------------------------------------------------------------------
+# This Table Links to these tables as required:
+#    None
+#
+# -------------------------------------------------------------------------
+# This table is called by: (can be called by other tables also)
+#    Flower.tab
+#
+# -------------------------------------------------------------------------
+#
+# Modified by Valminder, May 2018.
+#    Main output now in lower case.
+#    Added "BasicUpperCase" subtable to give same effect as original table.
+#
+
+:Start
+1,[Basic]
+
+;Basic
+3,[White]
+3,black
+24,[Intensity][Shade]
+
+:BasicUpperCase
+1,{CapEachWord~[Basic]}
+
+:Intensity
+1,intense 
+2,brilliant 
+3,pale 
+4,dull 
+7-40,
+
+;Shade
+2,[Violet] (purple)
+2,[Pink] (pink)
+3,[Red] (red)
+2,[Orange] (orange)
+2,[Brown] (brown)
+3,[Yellow] (yellow)
+2,[Grey] (grey)
+3,[Green] (green)
+2,[Cyan] (cyan)
+3,[Blue] (blue)
+
+
+:White
+1,cream
+2,ivory
+3,magnolia
+4,old lace
+5,seashell
+6,white
+
+:Pink
+1,amaranth
+2,amaranth pink
+3,brink pink
+4,carmine pink
+5,cerise
+6,cerise pink
+7,cherry blossom pink
+8,coral pink
+9,dark pink
+10,deep carmine pink
+11,deep pink
+12,french rose
+13,fuchsia
+14,fuchsia pink
+15,hollywood cerise
+16,japanese pink
+17,lavender pink
+18,lavender rose
+19,light pink
+20,light thulian pink
+21,magenta
+22,mountbatten pink
+23,persian pink
+24,persian rose
+25,pink
+26,puce
+27,rose
+28,rose pink
+29,salmon pink
+30,shocking pink
+31,tea rose
+32,thulian pink
+33,ultra pink
+
+:Red
+1,alizarin
+2,amaranth
+3,burgundy
+4,cardinal
+5,carmine
+6,carnelian
+7,cerise
+8,chestnut
+9,coral red
+10,crimson
+11,dark pink
+12,falu red
+13,fire engine red
+14,fuchsia
+15,magenta
+16,maroon
+17,mauve taupe
+18,orange-red
+19,persian red
+20,pink
+21,persimmon
+22,red
+23,red-violet
+24,rose
+25,rose madder
+26,ruby
+27,rust
+28,puce
+29,sangria
+30,scarlet
+31,terra cotta
+32,venetian red
+33,vermilion
+
+:Orange
+1,amber
+2,apricot
+3,carrot orange
+4,coral
+5,brown
+6,burnt orange
+7,dark salmon
+8,gamboge
+9,international orange
+10,mahogany
+11,orange
+12,orenge-red
+13,orange peel
+14,peach
+15,peach-orange
+16,peach-yellow
+17,persimmon
+18,pink-orange
+19,pumpkin
+20,rust
+21,salmon
+22,tangerine
+23,tenne (tawny)
+24,tomato
+25,vermilion
+
+:Brown
+1,auburn
+2,beige
+3,bistre
+4,bole
+5,brown
+6,buff
+7,burgundy
+8,burnt sienna
+9,burnt umber
+10,chocolate
+11,copper
+12,cordovan
+13,ecru
+14,fallow
+15,khaki
+16,liver
+17,mahogany
+18,maroon
+19,ochre
+20,raw umber
+21,russet
+22,rust
+23,sandy brown
+24,seal brown
+25,sepia
+26,sienna
+27,tan
+28,taupe
+29,wheat
+30,zinnwaldite
+
+:Yellow
+1,amber
+2,apricot
+3,beige
+4,buff
+5,chartreuse yellow
+6,corn
+7,cream
+8,dark goldenrod
+9,ecru
+10,flax
+11,gamboge
+12,golden
+13,goldenrod
+14,golden poppy
+15,golden yellow
+16,green yellow
+17,khaki
+18,lemon
+19,lemon chiffon
+20,lime
+21,metallic gold
+22,mustard
+23,navajo white
+24,old gold
+25,olive
+26,peach yellow
+27,pear
+28,saffron
+29,school bus yellow
+30,selective yellow
+31,tangerine yellow
+32,yellow
+
+:Grey
+1,gray
+2,arsenic
+3,bistre
+4,charcoal
+5,davy's gray
+6,feldgrau
+7,liver
+8,payne's gray
+9,seal brown
+10,silver
+11,slate gray
+12,taupe
+13,purple taupe
+14,medium taupe
+15,taupe gray
+16,pale taupe
+17,rose quartz
+18,xanadu
+
+:Green
+1,army green
+2,asparagus
+3,bright green
+4,british racing green
+5,camouflage green
+6,celadon
+7,chartreuse
+8,yellow-green
+9,emerald
+10,fern green
+11,forest green
+12,gray asparagus
+13,green
+14,green-yellow
+15,harlequin
+16,hunter green
+17,islamic green
+18,jade
+19,jungle green
+20,kelly green
+21,lime
+22,lime green
+23,moss green
+24,myrtle
+25,office green
+26,olive
+27,olive drab
+28,pear
+29,persian green
+30,pigment green
+31,pine green
+32,sea green
+33,shamrock green
+34,spring green
+35,spring bud
+36,tea green
+
+:Cyan
+1,aqua
+2,aquamarine
+3,baby blue
+4,bondi blue
+5,cerulean
+6,cyan
+7,electric blue
+8,pine green
+9,robin egg blue
+10,teal
+11,turquoise
+12,viridian
+
+:Blue
+1,azure
+2,baby blue
+3,blue
+4,air force blue
+5,brandeis blue
+6,carolina blue
+7,cerulean
+8,cobalt blue
+9,columbia blue
+10,cornflower blue
+11,dark blue
+12,denim
+13,dodger blue
+14,duke blue
+15,egyptian blue
+16,electric blue
+17,han blue
+18,indigo
+19,international klein blue
+20,light blue
+21,majorelle
+22,maya blue
+23,midnight blue
+24,navy blue
+25,periwinkle
+26,persian blue
+27,powder blue
+28,prussian blue
+29,royal blue
+30,sapphire
+31,sky blue
+32,steel blue
+33,ultramarine
+34,yale blue
+
+:Violet
+1,amethyst
+2,eggplant
+3,fuchsia
+4,han purple
+5,helioptrope
+6,indigo
+7,lavender
+8,lilac
+9,mauve
+10,periwinkle
+11,persian indigo
+12,purple
+13,thistle
+14,violet
+15,wisteria

@@ -1,0 +1,414 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder Jan 30, 2006.
+# ---------------------------------------------------
+#
+# Vehicle Generator
+# (randomly selects a Vehicle from the RCRB or A&E and displays stats)
+#
+# Created by Patrick Hodak
+#
+# Modified by Valminder, Jan 2006.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+#    Added Parameters:
+#       VehicleType: Airspeeder, Ground Speeder, Speeder Bike, Walker,Random.
+#    Modified value of %Skill%
+#       :Quality
+#       2,|skill=0|
+#       4,|skill=2|
+#       8,|skill=4|
+#       12,|skill=8|
+#
+
+/OverrideRolls 1
+
+%check%,0
+%class%,0
+%size%,0
+%crew%,0
+%init%,0
+%man%,0
+%mansys%,0
+%EQ%,0
+%def%,0
+%SP%,0
+%HP%,0
+%Cu%,0
+%Cn%,0
+%Pass%,0
+%CC%,0
+%speed%,0
+%alt%,0
+
+%a%,0
+%b%,0
+%c%,0
+
+%wc%,0
+%FC%,0
+%SM%,0
+%wpn1%,0
+%wpn2%,0
+%wpn3%,0
+%wpn4%,0
+%wpn5%,0
+%skill%,0
+%dmg%,0
+%arc%,0
+%wpn%,0
+%MQ%,0
+%Fire%,1
+%range%,0
+
+%VehicleType%,0
+
+@VehicleType,5,Choose a vehicle type,Airspeeder,Ground Speeder,Speeder Bike,Walker,Random
+
+:Start
+1,{Status~By Patrick Hodak 2005, Valminder 2006}
+_<h3>{If~%VehicleType%=5? [Random]/[RandomVehicle=%VehicleType%]}</h3>
+_<table width="100&#37;" border=0 cellpadding=0>
+_<tbody style="font-size: small;">
+_<tr valign="top"><td width="20&#37;"><b>
+_Class:<br>
+_Size:<br>
+_Passengers:<br>
+_Cargo Capacity:<br>
+_Altitude:<br>
+_Speed*:<br>
+_Cost (new):</b><br>
+_</td><td width="28&#37;">
+_%class%<br>
+_{Split~size,",",a,b}%a% (%b%m)<br>
+_%Pass%<br>
+_%CC%<br>
+_%alt%<br>
+_{Split~speed,",",a,b}%a% m {If~%b% > 0 ? (%b% sq. per action)}<br>
+_{If~%Cn% > 0 ? [AddComma.Start(%Cn%)] / Not available for sale}<br>
+_</td><td width="20&#37;"><b>
+_Crew:<br>
+_Initiative:<br>
+_Manuever:<br>
+_Defense:<br>
+_Shield Points:<br>
+_Hull Points:<br>
+_{If~%Cu% > 0 ? Cost (used): }</b><br>
+_</td><td width="32&#37;">
+_{Split~crew,",",a,b}%a% (Skilled +%b%)[Quality=%b%]<br>
+_{Split~init,",",a,b,c}[plus=3]%a% ([plus=1]%b% size, +%c% crew)<br>
+_{Split~man,",",a,b,c}[plus=3]%a%[MS=1][EQ=1] ([plus=1]%b% size, +%c% crew)<br>
+_{Split~def,",",a,b,c}[plus=3]%a% ([plus=1]%b% size, +%c% armor)|SM=%b%|<br>
+_{Split~SP,",",a,b}{If~%a% = 0 ? None / %a% (DR %b%)}<br>
+_{Split~HP,",",a,b}%a% (DR %b%)<br>
+_{If~%Cu% > 0 ? [AddComma.Start(%Cu%)]}<br>
+_</td></tr></table>
+_<hr>
+_{If~%wpn1% > 0 ? [Weapon=%wpn1%]}
+_{If~%wpn2% > 0 ? <br>[Weapon=%wpn2%]}
+_{If~%wpn3% > 0 ? <br>[Weapon=%wpn3%]}
+_{If~%wpn4% > 0 ? <br>[Weapon=%wpn4%]}
+_{If~%wpn5% > 0 ? <br>[Weapon=%wpn5%]}
+#{If~%EQ% < 0 ? [EQ=3]}{If~%check% > 0 ? [EB=%wc%]}
+_<hr>
+_<font size="-2" style="font-family: arial;">* Speed in meters is for ground combat (2m-grid). Squares/Action is for Atmospheric Combat (50m-grid).<br>
+_{If~%mansys% > 0 ? [MS=2]}
+_{If~%mansys% < 0 ? [MS=3]}
+_{If~%EQ% > 0 ? [EQ=2]}[Fire=%Fire%]</font>
+
+# ---------------------------------------------------------------------
+
+;Random
+5,|class=Airspeeder|[Airspeeder]
+10,|class=Ground Speeder|[GroundSpeed]
+10,|class=Speeder Bike|[SpeedBike]
+1,|class=Walker|[Walker]
+
+:RandomVehicle
+1,|class=Airspeeder|[Airspeeder]
+2,|class=Ground Speeder|[GroundSpeed]
+3,|class=Speeder Bike|[SpeedBike]
+4,|class=Walker|[Walker]
+
+# ---------------------------------------------------------------------
+
+;Airspeeder
+10,Coruscant Air Taxi
+_|crew=1,2||init=1,-1,2||man=1,-1,2||def=14,-1,5||SP=0,0||HP=20,5||Cu=10000|
+_|size=Large,5||Pass=3||CC=50 kg||alt=Low (1000 m)||speed=75,3||Cn=20000|
+10,Incom T-47 Airspeeder
+_|crew=1,2||init=1,-1,2||man=1,-1,2||def=14,-1,5||SP=0,0||HP=20,5||Cu=6000|
+_|size=Large,4.5||Pass=1||CC=10 kg||alt=Atmospheric (25 m)||speed=275,11||Cn=12000|
+5,MandalMotors Shadow V Combat Airspeeder
+_|crew=2,4||init=2,-2,4||man=2,-2,4||def=13,-2,5||SP=0,0||HP=40,5||Cu=25000|
+_|size=Huge,6.5||Pass=1||CC=10 kg||alt=Low (1000 m)||speed=325,13||Cn=50000||wpn1=1|
+10,Desler Gizh Outworld Mobility Corp Koro-Z Airspeeder
+_|crew=1,2||init=0,-2,2||man=0,-2,2||def=13,-2,5||SP=0,0||HP=24,5||Cu=16400|
+_|size=Large,6.6||Pass=1||CC=80 kg||alt=Atmospheric (25 m)||speed=325,13||Cn=24800|
+1,Rothana Heavy Engineering LAAT/i Attack Gunship
+_|crew=6,4||init=0,-4,4||man=0,-4,4||def=16,-4,10||SP=0,0||HP=80,10||Cu=40000|
+_|size=Gargantuan,17.4||Pass=30 (troops)||CC=2 tons||alt=Low (1000 m)||speed=250,10||Cn=60000||wpn1=2||wpn2=3||wpn3=4||wpn4=5|
+5,Bespin Motors Storm IV Cloud Car
+_|crew=2,4||init=2,-2,4||man=2,-2,4||def=13,-2,5||SP=0,0||HP=40,5||Cu=10000|
+_|size=Huge,7||Pass=None||CC=10 kg||alt=Suborbital (100 m)||speed=425,17||Cn=20000||wpn1=6|
+10,Go-Corp Utilitech Metrocab
+_|crew=0 (droid),4||init=0,-4,4||man=0,-4,4||def=16,-4,10||SP=0,0||HP=40,15||Cu=7000|
+_|size=Huge,6||Pass=4||CC=100 kg||alt=Low (1000 m)||speed=50,2||Cn=20000|
+5,Incon T-16 Skyhopper
+_|crew=1,2||init=0,-2,2||man=0,-2,2||def=12,-2,4||SP=0,0||HP=17,5||Cu=6500|
+_|size=Huge,5.2||Pass=1||CC=50 kg||alt=Suborbital (100 m)||speed=500,20||Cn=14500||wpn1=7|
+1,Slayn and Korpil V-Wing
+_|crew=1,4||init=0,-4,4||man=0,-4,4||def=16,-4,10||SP=0,0||HP=80,10||Cu=7500|
+_|size=Gargantuan,12||Pass=None||CC=50 kg||alt=Suborbital (100 m)||speed=575,23||Cn=35000||wpn1=8|
+5,TaggeCo Cargohopper 102
+_|crew=1,2||init=0,-2,2||man=0,-2,2||def=11,-2,3||SP=0,0||HP=23,5||Cu=6500|
+_|size=Huge,5.5||Pass=None||CC=1000 kg||alt=Low (1000 m)||speed=175,7||Cn=13200||wpn1=9|
+5,Ubrikkian Talon I Combat Cloud Car
+_|crew=1,4||init=2,-2,4||mansys=2||man=4,-2,4||def=18,-2,10||SP=0,0||HP=50,5||Cu=7500|
+_|size=Huge,8.2||Pass=None||CC=10 kg||alt=Suborbital (100 m)||speed=200,8||Cn=15500||wpn1=6|
+10,Bespin Motors JR-4 Swoop
+_|crew=1,2||init=1,-1,2||man=1,-1,2||def=14,-2,5||SP=0,0||HP=30,5||Cu=3000|
+_|size=Large,3.9||Pass=None||CC=10 kg||alt=Low (1000 m)||speed=200,8||Cn=9000|
+10,Mobquet Flare-S Swoop
+_|crew=1,4||init=3,-1,4||mansys=-5||man=-2,-1,4||def=10,-1,1||SP=0,0||HP=13,5||Cu=2500|
+_|size=Large,2.5||Pass=1||CC=2 kg||alt=Low (1000 m)||speed=250,10||Cn=6500|
+5,TaggeCo Air-2 Swoop
+_|crew=1,2||init=2,0,2||mansys=-2||man=0,0,2||def=12,0,2||SP=0,0||HP=15,5||Cu=2000|
+_|size=Medium,2.4||Pass=None||CC=4 kg||alt=Low (1000 m)||speed=250,10||Cn=6000||wpn1=10|
+
+# ---------------------------------------------------------------------
+
+;GroundSpeed
+10,SoroSuub X-34 Landspeeder
+_|crew=1,2||init=1,-1,2||man=1,-1,2||def=11,-1,2||SP=0,0||HP=16,5||Cu=2500|
+_|size=Large,3.4||Pass=1||CC=30 kg||alt=Hovering (2 m)||speed=120,0||Cn=10550|
+1,Naboo Security Forces Flash Speeder
+_|crew=1,2||init=1,-1,2||man=1,-1,2||def=12,-1,3||SP=0,0||HP=18,5||Cu=6000|
+_|size=Large,4.5||Pass=1||CC=10 kg||alt=Hovering (2 m)||speed=100,0||Cn=12000||wpn1=11|
+1,Uulshos LAVr QH-7 Chariot Command Speeder
+_|crew=3,4||init=0,-4,4||man=0,-4,4||def=12,-4,6||SP=0,0||HP=40,10||Cu=0|
+_|size=Gargantuan,11.8||Pass=2||CC=20 kg||alt=Hovering (2 m)||speed=40,0||Cn=0||wpn1=12|
+3,Ubrikkian Luxury Sail Barge
+_|crew=5,2||init=-6,-8,2||man=-6,-8,2||def=7,-8,5||SP=0,0||HP=60,5||Cu=50000|
+_|size=Colossal,30||Pass=225||CC=300 tons||alt=Hovering (2 m)||speed=20,0||Cn=250000|
+10,Ubrikkian SuperHaul Model 11 Cargo Skiff
+_|crew=1,2||init=0,-2,2||man=0,-2,2||def=10,-2,2||SP=0,0||HP=20,5||Cu=5000|
+_|size=Huge,9.5||Pass=20 (or cargo)||CC=135 tons||alt=Hovering (2 m)||speed=80,0||Cn=10550|
+1,Baktoid Armor Workshop AAT-1
+_|crew=4,2||init=-2,-4,2||man=-2,-4,2||def=14,-4,8||SP=0,0||HP=120,10||Cu=0|
+_|size=Gargantuan,9.75||Pass=6||CC=500 kg||alt=Hovering (2 m)||speed=40,0||Cn=0||wpn1=13||wpn2=14|
+10,Aratech Arrow-23
+_|crew=1,2||init=0,-2,2||man=0,-2,2||def=13,-2,5||SP=0,0||HP=60,10||Cu=8000|
+_|size=Huge,8.1||Pass=5||CC=800 kg||alt=Hovering (2 m)||speed=160,0||Cn=10000|
+2,Borliss Automation Concepts Incorporated HVP-200 Hover Shopper
+_|crew=1,2||init=2,0,2||man=2,0,2||def=11,0,1||SP=0,0||HP=20,5||Cu=160|
+_|size=Medium,2||Pass=None||CC=300 kg||alt=Hovering (2 m)||speed=24,0||Cn=400|
+5,Mekuun TR-14a Land Carrier
+_|crew=1,4||init=2,-2,4||man=2,-2,4||def=18,-2,10||SP=15,0||HP=50,15||Cu=120000|
+_|size=Huge,8.1||Pass=6||CC=200 kg||alt=Hovering (2 m)||speed=110,0||Cn=180000|
+5,Mobquet A-1 Deluxe Floater
+_|crew=1,2||init=0,-2,2||man=0,-2,2||def=11,-2,3||SP=0,0||HP=20,5||Cu=8250|
+_|size=Huge,7.1||Pass=1||CC=10 kg||alt=Hovering (2 m)||speed=70,0||Cn=30500|
+5,SoroSuub JG-8 Luxury Speeder
+_|crew=1,2||init=0,-2,2||man=0,-2,2||def=11,-2,3||SP=0,0||HP=25,5||Cu=20500|
+_|size=Huge,6.2||Pass=1||CC=20 kg||alt=Hovering (2 m)||speed=180,0||Cn=40000|
+10,SoroSuub V-35 Courier
+_|crew=1,2||init=1,-1,2||man=1,-1,2||def=11,-1,2||SP=0,0||HP=18,5||Cu=1500|
+_|size=Large,3.8||Pass=2||CC=120 kg||alt=Hovering (2 m)||speed=120,0||Cn=6500|
+10,SoroSuub XP-38 Sport Landspeeder
+_|crew=1,2||init=1,-1,2||man=1,-1,2||def=11,-1,2||SP=0,0||HP=16,5||Cu=12500|
+_|size=Large,3.5||Pass=1||CC=30 kg||alt=Hovering (2 m)||speed=150,0||Cn=10000|
+2,TaggeCo SCS-19 Sentinel
+_|crew=1,4||init=0,-4,4||man=0,-4,4||def=15,-4,5||SP=15,0||HP=30,10||Cu=40000|
+_|size=Gargantuan,12||Pass=4||CC=50 kg||alt=Hovering (2 m)||speed=200,0||Cn=60000||wpn1=22|
+2,Tion Industries Hyperfoil 1000-XTC
+_|crew=1,2||init=0,-2,2||man=0,-2,2||def=11,-2,3||SP=0,0||HP=20,10||Cu=7500|
+_|size=Huge,7||Pass=2||CC=100 kg||alt=Hovering (2 m)||speed=120,0||Cn=12500|
+10,Trast A-A5 Speeder Truck
+_|crew=1,2||init=-6,-8,2||man=-6,-8,2||def=10,-8,8||SP=0,0||HP=50,10||Cu=8250|
+_|size=Colossal,21.4||Pass=25||CC=25,000 kg||alt=Hovering (2 m)||speed=70,0||Cn=30500|
+10,Ubrikkian Commuter Gravsled
+_|crew=1,2||init=1,-1,2||man=1,-1,2||def=10,-1,1||SP=0,0||HP=10,10||Cu=900|
+_|size=Large,3.5||Pass=1||CC=250 kg||alt=Hovering (2 m)||speed=36,0||Cn=1900|
+10,Ubrikkian Personnel Skiff Model VI
+_|crew=1,2||init=-2,-4,2||man=-2,-4,2||def=10,-4,4||SP=0,0||HP=50,5||Cu=12500|
+_|size=Gargantuan,17.5||Pass=45||CC=500 kg||alt=Hovering (2 m)||speed=40,0||Cn=23000|
+2,zZip Motor Concepts Astral-8
+_|crew=1,2||init=0,-2,2||man=0,-2,2||def=15,-2,7||SP=0,0||HP=30,10||Cu=18000|
+_|size=Huge,12||Pass=8||CC=250 kg||alt=Hovering (2 m)||speed=100,0||Cn=25000|
+1,Baktoid Armor Workshop Transpeeder
+_|crew=1,2||init=2,0,2||man=2,0,2||def=13,0,3||SP=0,0||HP=20,5||Cu=7000|
+_|size=Medium,2||Pass=None||CC=5 kg||alt=Hovering (2 m)||speed=110,0||Cn=10000||wpn1=23|
+1,KAAC Freerunner
+_|crew=1,4||init=0,-4,4||man=0,-4,4||def=14,-4,8||SP=0,0||HP=80,10||Cu=110000|
+_|size=Gargantuan,14.6||Pass=6||CC=250 kg||alt=Hovering (2 m)||speed=120,0||Cn=140000||wpn1=24||wpn2=25|
+1,Mekuun CMD-1 Speeder Command Vehicle
+_|crew=1,4||init=2,-2,4||man=2,-2,4||def=16,-2,8||SP=0,0||HP=28,5||Cu=20400|
+_|size=Huge,6.2||Pass=6||CC=100 kg||alt=Hovering (2 m)||speed=220,0||Cn=40000|
+1,Merr-Sonn WW-676 Repulsorlift Sled
+_|crew=2,4||init=3,-1,4||man=3,-1,4||def=12,-1,3||SP=0,0||HP=20,15||Cu=7000|
+_|size=Large,3.2||Pass=None||CC=250 kg||alt=Hovering (2 m)||speed=120,0||Cn=10000||wpn1=26|
+1,Sienar Ultra-Light Assault Vehicle
+_|crew=2,2||init=1,-1,2||man=1,-1,2||def=14,-1,5||SP=0,0||HP=60,5||Cu=13000|
+_|size=Large,7||Pass=None||CC=5 kg||alt=Hovering (2 m)||speed=160,0||Cn=20000||wpn1=27||wpn2=28||wpn3=29|
+1,SoroSuub V-18 Gian Speeder
+_|crew=2,2||init=1,-1,2||man=1,-1,2||def=13,-1,4||SP=0,0||HP=27,10||Cu=10000|
+_|size=Large,5.7||Pass=2||CC=50 kg||alt=Hovering (2 m)||speed=100,0||Cn=20000||wpn1=30||wpn2=31|
+5,Z-Gomer Ternbuell Guppat Corporation Tsmeu-6 Personal Wheel Bike
+_|crew=1,2||init=1,-1,2||man=1,-1,2||def=14,-1,5||SP=0,0||HP=20,5||Cu=0|
+_|size=Large,3.5||Pass=1||CC=5 kg||alt=Ground||speed=140,0||Cn=15000|
+1,Uulshos Manufacturing ISP (Infantry Support Platform)
+_|crew=2,4||init=2,-2,4||man=2,-2,4||def=13,-2,5||SP=0,0||HP=40,5||Cu=10000|
+_|size=Huge,5||Pass=None||CC=20 kg||alt=Hovering (2M)||speed=42,0||Cn=16000||wpn1=45|
+
+# ---------------------------------------------------------------------
+
+;Walker
+5,Kuat Drive Yards All-Terrain Scout Transport (AT-ST)
+_|crew=2,4||init=2,-2,4||man=2,-2,4||def=13,-2,5||SP=0,0||HP=60,5||Cu=0|
+_|size=Huge,6.4||Pass=None||CC=200 kg||alt=Ground||speed=30,0||Cn=0||wpn1=15||wpn2=16||wpn3=17|
+1,Kuat Drive Yards All-Terrain Armored Transport (AT-AT)
+_|crew=5,4||init=-4,-8,4||man=-4,-8,4||def=12,-8,10||SP=0,0||HP=180,15||Cu=0|
+_|size=Colossal,20.6||Pass=40 (troops)||CC=1 ton||alt=Ground||speed=20,0||Cn=0||wpn1=18||wpn2=19|
+1,Rothana Heavy Engineering All-Terrain Tactical Enforcer (AT-TE)
+_|crew=7,8||init=4,-4,8||man=4,-4,8||def=16,-4,10||SP=0,0||HP=160,15||Cu=0|
+_|size=Gargantuan,12.4||Pass=20 (troops)||CC=60 tons||alt=Ground||speed=20,0||Cn=0||wpn1=20||wpn2=21|
+1,Caridan Test Grounds Mountain-Terrain Armored Transport (MT-AT)
+_|crew=3,4||init=0,-4,4||man=0,-4,4||def=12,-4,6||SP=0,0||HP=70,15||Cu=48000|
+_|size=Gargantuan,15.6||Pass=None||CC=500 kg||alt=Ground||speed=36,0||Cn=80000||wpn1=32||wpn2=33|
+5,Kuat Drive Yards All-Terrain Personal Transport (AT-PT)
+_|crew=1,4||init=3,-1,4||man=3,-1,4||def=13,-1,4||SP=0,0||HP=50,10||Cu=36000|
+_|size=Large,4||Pass=None||CC=150 kg||alt=Ground||speed=25,0||Cn=60000||wpn1=34||wpn2=35|
+5,SecuriTech Espo Walker
+_|crew=1,2||init=0,-2,2||man=0,-2,2||def=17,-2,9||SP=0,0||HP=40,5||Cu=24000|
+_|size=Huge,4||Pass=None||CC=40 kg||alt=Ground||speed=25,0||Cn=40000||wpn1=36||wpn2=37||wpn3=38|
+5,zZip Moror Concepts Gladitor Walker
+_|crew=1,4||init=3,-1,4||man=3,-1,4||def=14,-1,5||SP=0,0||HP=50,10||Cu=24000|
+_|size=Large,3||Pass=None||CC=40 kg||alt=Ground||speed=25,0||Cn=40000||wpn1=39|
+2,Kuat Drive Yards AT-AP (All-Terrain Attack Pod)
+_|crew=3,4||init=0,-4,4||man=0,-4,4||def=16,-4,10||SP=0,0||HP=120,15||Cu=24000|
+_|size=Gargantuan,11||Pass=None||CC=200 kg||alt=Ground||speed=26,0||Cn=150000||wpn1=41||wpn2=42||wpn3=43|
+5,Kuat Drive Yards AT-RT (All-Terrain Recon Transport)
+_|crew=1,4||init=3,-1,4||man=3,-1,4||def=14,-1,5||SP=0,0||HP=30,5||Cu=24000|
+_|size=Large,3.2||Pass=None||CC=10 kg||alt=Ground||speed=30,0||Cn=40000||wpn1=44|
+
+# ---------------------------------------------------------------------
+
+;SpeedBike
+5,Ikas-Adno 22-B Nightfalcon
+_|crew=1,2||init=1,-1,2||man=1,-1,2||def=11,-1,2||SP=0,0||HP=16,5||Cu=2000|
+_|size=Large,4.9||Pass=1||CC=4 kg||alt=Hovering (2m)||speed=100,0||Cn=6000|
+1,Aratech 74-Z Military Speeder Bike
+_|crew=1,4||init=3,-1,4||man=3,-1,4||def=12,-1,3||SP=0,0||HP=22,5||Cu=8000|
+_|size=Large,4.9||Pass=1||CC=4 kg||alt=Hovering (2m)||speed=150,0||Cn=3000||wpn1=40|
+5,Ikas-Adno R-2000 Raptor Speeder Bike
+_|crew=1,2||init=1,-1,2||man=1,-1,2||def=11,-1,2||SP=0,0||HP=28,5||Cu=7000|
+_|size=Large,3.9||Pass=None||CC=1 kg||alt=Hovering (2m)||speed=200,0||Cn=10000|
+5,Incom MVR-3 Speeder Bike
+_|crew=1,2||init=1,-1,2||EQ=2||man=3,-1,2||def=11,-1,2||SP=0,0||HP=25,5||Cu=2000|
+_|size=Large,4.3||Pass=1||CC=50 kg||alt=Hovering (2m)||speed=50,0||Cn=7000|
+5,Mobquet Overracer Speeder Bike
+_|crew=1,2||init=1,-1,2||man=1,-1,2||def=12,-1,3||SP=0,0||HP=14,5||Cu=2500|
+_|size=Large,4.4||Pass=None||CC=4 kg||alt=Hovering (20m)||speed=220,0||Cn=10000|
+5,Razalon FC-20 Speeder Bike
+_|crew=1,2||init=2,0,2||EQ=2||man=4,0,2||def=13,0,3||SP=0,0||HP=18,5||Cu=1000|
+_|size=Medium,1.5||Pass=None||CC=2 kg||alt=Hovering (2m)||speed=70,0||Cn=4000|
+
+# ---------------------------------------------------------------------
+
+:Weapon
+1,|wpn=Double Laser Cannon||arc=Front||FC=4||dmg=5d8||range=200|[Cannon]
+2,|wpn=Mass Driver Missile Launchers (2 fire-linked)||arc=Front||FC=2||dmg=6d10||range=300|[Cannon]
+3,|wpn=Anti-Personnel Laser Cannons (2)||arc=Partial Turret (1 front/right, front/left)||FC=0||dmg=4d8||range=40|[Cannon]
+4,|wpn=Composite Beam Pinpoint Laser Turrets (4)||arc=Turret||FC=4||dmg=3d8||range=30|[Cannon]
+5,|wpn=Rocket Launchers (2, 4 missiles each)||arc=front||FC=2||dmg=5d10||range=200|[Cannon]
+6,|wpn=Double Blaster Cannon (fire-linked)||arc=Front||FC=2||dmg=5d8||range=300|[Cannon]
+7,|wpn=Double Laser Cannon (fire-linked)||arc=Front||FC=2||dmg=4d8||range=200|[Cannon]
+8,|wpn=Double Blaster Cannon (fire-linked||arc=Front||FC=6||dmg=4d10X2||range=2000|[Cannon]
+9,|wpn=Tractor Beam||arc=Turret||FC=2||dmg=Special||range=10|[Cannon]
+10,|wpn=Double Blaster Cannon (fire-linked)||arc=Front||FC=6||dmg=5d8||range=300|[Cannon]
+11,|wpn=Mounted Blaster Rifle||arc=Any||FC=0||dmg=3d8/19-20||range=20|[Cannon]
+12,|wpn=Laser Cannon||arc=Front||FC=4||dmg=4d8||range=20|[Cannon]
+13,|wpn=Heavy Laser Cannon||arc=Front||FC=4||dmg=5d8||range=30|[Cannon]
+14,|wpn=Shell Launchers (6-front mounted)||arc=Front||FC=0||dmg=3d10X6||range=300|[Cannon]
+15,|wpn=Twin Blaster Cannon (fire-linked)||arc=Front||FC=2||dmg=4d10||range=200|[Cannon]
+16,|wpn=Twin Light Blaster Cannon (fire-linked)||arc=Partial (front/rear)||FC=2||dmg=2d10||range=100|[Cannon]
+17,|wpn=Concussion Grenade Launcher||arc=Front||FC=2||dmg=4d6+1||range=20|[Cannon]
+18,|wpn=Heavy Laser Cannons (2, fire-linked)||arc=Special||FC=4||dmg=6d10||range=300|[Cannon]
+19,|wpn=Medium Blasters (2, fire-linked)||arc=Special||FC=4||dmg=3d10||range=100|[Cannon]
+20,|wpn=Heavy Projectile Cannon||arc=Front||FC=4||dmg=5d10||range=300|[Cannon]
+21,|wpn=Light Blaster Cannons (6)||arc=4 front, 2 rear||FC=6||dmg=2d10||range=100|[Cannon]
+22,|wpn=Double Blaster Cannon (fire-linked)||arc=Front||FC=4||dmg=4d10||range=200|[Cannon]
+23,|wpn=Double Light Laser Cannon (fire-linked)||arc=Front||FC=2||dmg=5d10||range=20|[Cannon]
+24,|wpn=Double Anti-vehicle Laser Cannon (fire-lined||arc=Turret||FC=2||range=200|[Cannon]
+25,|wpn=Anti-Infantry Blasters (2)||arc=Partial Turret (1 front/left/right, 1 left,right,rear)||FC=4||dmg=4d10||range=150|[Cannon]
+26,|wpn=Frag Grenade Launcher (512 grenades)||arc=Front||FC=4||dmg=4d6||range=100|[Cannon]
+27,|wpn=Double Light Blaster Cannon (fire-linked)||arc=Front||FC=2||dmg=2d10||range=200|[Cannon]
+28,|wpn=Concussive grenade Laucher (6 grenades)||arc=Front||FC=2||dmg=4d6+1||range=20|[Cannon]
+29,|wpn=Medium Blaster Cannon||arc=Left,Right,Rear||FC=4||dmg=4d10||range=500|[Cannon]
+30,|wpn=Double Repeating Blaster Cannon (fire-linked)||arc=Front||FC=2||dmg=4d8||range=30|[Cannon]
+31,|wpn=Repeating Blaster Cannon||arc=Turret||FC=2||dmg=4d8||range=30|[Cannon]
+32,|wpn=Double Laser Cannon (fire-linked)||arc=Front||FC=4||dmg=4d10||range=200|[Cannon]
+33,|wpn=Rotating Blaster Cannons (8)||arc=Turret||FC=2||dmg=1d10||range=100|[Cannon]
+34,|wpn=Double Heavy Blaster Cannon (fire-linked)||arc=Front||FC=2||dmg=5d10||range=200|[Cannon]
+35,|wpn=Concussion Grenade Launcher (8 grenades)||arc=Front||FC=2||dmg=4d6+1||range=20|[Cannon]
+36,|wpn=Light Blaster Cannon||arc=Front||FC=2||dmg=4d10||range=50|[Cannon]
+37,|wpn=Heavy Stun Cannon||arc=Front||FC=2||dmg=Stun (DC 23)||range=40|[Cannon]
+38,|wpn=Concussion Grenade Launcher (8 grenades)||arc=Front||FC=2||dmg=4d6+1||range=20|[Cannon]
+39,|wpn=Light Blaster Cannon||arc=Front||FC=0||dmg=2d10||range=100|[Cannon]
+40,|wpn=Laser Cannon||arc=Front||FC=4||dmg=4d8||range=20|[Cannon]
+41,|wpn=Heavy Projectile Launcher (50 shells)||arc=Front||FC=2||dmg=6d10||range=400|[Cannon]
+42,|wpn=Heavy Blaster Cannon||arc=Turret||FC=4||dmg=5d10||range=300|[Cannon]
+43,|wpn=Medium Laser Cannon||arc=Front/left/right||FC=6||dmg=3d10||range=100|[Cannon]
+44,|wpn=Laser Cannon||arc=Front||FC=2||dmg=3d10||range=100|[Cannon]
+45,|wpn=Twin Blaster Cannon (2)||arc=Front/left, Front/right||FC=4||dmg=2d10||range=100|[Cannon]
+
+# ---------------------------------------------------------------------
+
+# Prints Weapons
+:Cannon
+1,<font size="3"><b>Weapon:</b> %wpn% <b>Fire Arc:</b> %arc%<br>
+_<b>Attack Bonus:</b> [plus=4]{Calc~%SM%+%skill%+%FC%} ([plus=2]%SM% size, +%skill% crew, +%FC% fire control) 
+_<b>Damage:</b> %dmg% <b>Range:</b> %range% m<br></font>
+
+:Torpedo
+1,<b>Weapon:</b> %wpn% <b><br>Fire Arc:</b> %arc% 
+_<b>Missile Quality:</b> %MQ% <b>Damage:</b> %dmg%<br>
+
+# ---------------------------------------------------------------------
+
+# Miscellaneous Tables
+:Quality
+2,|skill=0|
+4,|skill=2|
+8,|skill=4|
+12,|skill=8|
+
+:plus
+1,{If~%b% >= 0 ? +}
+2,{If~%SM% >= 0 ? +}
+3,{If~%a% >= 0 ? +}
+4,{If~{Calc~%SM%+%skill%+%FC%+%EB%} >= 0 ? +}
+
+:EQ
+1,{If~%EQ% > 0 ?*}{If~%EQ% < 0 ?*}
+2,** Improved Stability adds +%EQ% to manuevering<br>
+3,<font size="-1">** Reduced Engine Quality reduces maneuvering by %EQ%</font><br>
+
+:EB
+1,<font size="-1">** Improved Control provides +%check% to attack bonus</font><br>
+2,<font size="-1">** Battery Fire provides +%check% to attack bonus</font><br>
+3,<font size="-1">** Battery Fire provides +%check% to attack bonus</font><br>
+4,{If~%EB% > 0 ? **}
+
+:Fire
+1,
+2,<font size="-1">*** Capable of Multifire
+3,<font size="-1">*** Capable of Autofire
+
+:MS
+1,{If~%mansys% > 0 ?**}{If~%mansys% < 0 ?**}
+2,** Manuevering jets adds +%mansys% to manuevering<br>
+2,** Manuevering suffers a %mansys% equipment penalty<br>
+
+:Cargo
+1,[Random],%Cn%

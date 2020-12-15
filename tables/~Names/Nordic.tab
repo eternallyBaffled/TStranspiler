@@ -1,0 +1,749 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder August 10, 2006.
+# ---------------------------------------------------
+#
+# Norse (Viking) Names
+# This table is designed to generate a
+# realistic sounding name for a typical
+# viking character. Some names have epithets
+# or nicknames attached. Female names are
+# marked with an asterix.
+#
+# It is interesting and worth note that the
+# Vikings named EVERYTHING! By coincidence,
+# this table works just as well for the naming
+# of objects. Simply drop the second name given.
+#
+# Primary inspiration for this table comes
+# from GURPS Vikings, copyright (c)1991 by
+# Steve Jackson Games and HR1 The Vikings, 
+# copyright (c)1991 by TSR, Inc. The table 
+# itself is copyright (c)1999 by John William
+# Grigsby IV.
+#
+# Modified by Valminder, August  2006.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+#    Added Gender parameter.
+#
+
+%Gender%,0
+
+@Gender,3,Please choose a Gender,Male,Female,Random
+
+:Start
+1,{If~%Gender%=3?|Gender={Dice~1d2}|}[PickGender=%Gender%]
+
+:PickGender
+1,[Nick2][Nordic_M_FN] [Nordic_L]sson [Nick1]
+2,[Nick2][Nordic_F_FN] [Nordic_L]sdottir [Nick1]
+
+:Nordic_FN
+1-2,[Nordic_M_FN]
+3,[Nordic_F_FN]
+
+:Nordic_P
+1,[Nordic_FN][suf]
+
+;suf
+1,bergen
+1,burg
+1,mark
+1,den
+1,sden
+1,hagen
+1,bard
+
+:Nordic_L
+1,[Nordic_M_FN]
+
+:Nordic_M_FN
+1,Aella
+2,Agni
+3,Agnar
+4,Aki
+5,Aldis
+6,Alf
+7,Alfgeir
+8,Alrek
+9,An
+10,Angantyr
+11,Ani
+12,Aran
+13,Ari
+14,Armod
+15,Arinbjorn
+16,Armod
+17,Arnald
+18,Arnbjorn
+19,Arnfid
+20,Arnfinn
+21,Arngeir
+22,Arngrim
+23,Arnvid
+24,Asbjorn
+25,Asgaut
+26,Asgeir
+27,Asmund
+28,Atli
+29,Auda
+30,Audbjorn
+31,Audun
+32,Bard
+33,Bardi
+34,Barri
+35,Baug
+36,Beiner
+37,Beiti
+38,Bersi
+39,Bild
+40,Bjalfi
+41,Bjarkmar
+42,Bjarni
+43,Bjorg
+44,Bjorgolf
+45,Bjorn
+46,Bodn
+47,Bodvar
+48,Bolli
+49,Borgar
+50,Bork
+51,Bosi
+52,Bragi
+53,Brand
+54,Brynjolf
+55,Budli
+56,Bui
+57,Cnut
+58,Dromi
+59,Drott
+60,Eddval
+61,Egil
+62,Eid
+63,Einar
+64,Eirik
+65,Eitil
+66,Eldgrim
+67,Erik
+68,Erlend
+69,Erling
+70,Erp
+71,Eyjolf
+72,Eylimi
+73,Eyolf
+74,Eystein
+75,Eyvind
+76,Fafnir
+77,Faravid
+78,Fid
+79,Finnbogi
+80,Fjolmod
+81,Fjolvar
+82,Fjori
+83,Franmar
+84,Freki
+85,Fridgeir
+86,Fridleif
+87,Frithjof
+88,Frodi
+89,Frosti
+90,Fyri
+91,Gardar
+92,Gauk
+93,Gauti
+94,Gautrek
+95,Geir
+96,Geirmund
+97,Geirrod
+98,Geirthjof
+99,Geitir
+100,Gelg
+101,Gelgja
+102,Gellir
+103,Gest
+104,Giermund
+105,Gilli
+106,Gilling
+107,Gizor
+108,Gjuki
+109,Glammad
+110,Glum
+111,Gorm
+112,Gothorm
+113,Grani
+114,Granmar
+115,Greilad
+116,Grettir
+117,Grifir
+118,Grim
+119,Grimhild
+120,Grimolf
+121,Gripir
+122,Gris
+123,Grjotgard
+124,Grunbjorn
+125,Grundi
+126,Gudmund
+127,Gunnar
+128,Gunnbjorn
+129,Gunnlaug
+130,Gust
+131,Guthorm
+132,Guttorm
+133,Hadd
+134,Hadding
+135,Haeming
+136,Hafgrim
+137,Hagal
+138,Hak
+139,Haki
+140,Hakon
+141,Halfdan
+142,Hall
+143,Hallbjorn
+144,Halldor
+145,Halli
+146,Hallstein
+147,Hallvard
+148,Hamal
+149,Hamdir
+150,Harald
+151,Harek
+152,Hastein
+153,Hauk
+154,Havard
+155,Hedin
+156,Hegg
+157,Heidrek
+158,Heimir 
+159,Helgi
+160,Herbjorn
+161,Herjolf
+162,Herlaug
+163,Herstein
+164,Herthjof
+165,Hervard
+166,Hildigrim
+167,Hildir
+168,Hjalm-Gunnar
+169,Hjalmar
+170,Hjalprek
+171,Hjorleif
+172,Hjorolf
+173,Hjorvard
+174,Hlodvard
+175,Hlodver
+176,Hlothver
+177,Hodbrodd
+178,Hogni
+179,Hoketil
+180,Holmgeir
+181,Holmstein
+182,Hord
+183,Horik
+184,Hoskuld
+185,Hosvir
+186,Hraerek
+187,Hrafknel
+188,Hrafn
+189,Hrani
+190,Hrapp
+191,Hreggvid
+192,Hrifla
+193,Hring
+194,Hroald
+195,Hroar
+196,Hrodmar
+197,Hroerek
+198,Hroi
+199,Hrolf
+200,Hrollaug
+201,Hromund
+202,Hrosskel
+203,Hrotti
+204,Hrut
+205,Hunbogi
+206,Hundi
+207,Hunding
+208,Hunthjof
+209,Hymling
+210,Idmund
+211,Illugi
+212,Imsigul
+213,Ingjald
+214,Ingolf
+215,Ivar
+216,Jarnskeggi
+217,Jokul
+218,Jon
+219,Jormunrek
+220,Jorund
+221,Kalf
+222,Kari
+223,Karl
+224,Karm
+225,Ketil
+226,Kjallak
+227,Kjar
+228,Kjartan
+229,Kjarval
+230,Kjotvi
+231,Knui
+232,Knut
+233,Kodran
+234,Kol
+235,Kolbein
+236,Koll
+237,Kollsvein
+238,Kori
+239,Kotkell
+240,Krabbi
+241,Kraki
+242,Kvig
+243,Lambi
+244,Leif
+245,Ligni
+246,Ljot
+247,Magnus
+248,Melnir
+249,Neri
+250,Njal
+251,Odd
+252,Ofeig
+253,Ogmund
+254,Olaf
+255,Olvald
+256,Olvir
+257,Onund
+258,Orkning
+259,Orm
+260,Orn
+261,Ornolf
+262,Orr
+263,Ospak
+264,Osvif
+265,Ottar
+266,Otrygg
+267,Ottar
+268,Ozur
+269,Raevil
+270,Ragi
+271,Ragnar
+272,Raknar
+273,Rati
+274,Raudabjorn
+275,Ref
+276,Reinn
+277,Rennir
+278,Rodstaff
+279,Rognvald
+280,Rolf
+281,Runolf
+282,Saemund
+283,Serk
+284,Sighvat
+285,Sigmund
+286,Sigtrygg
+287,Sigurd
+288,Sigvaldi
+289,Sinfjotli
+290,Sirnir
+291,Sjolf
+292,Skapti
+293,Skeggi
+294,Skorri
+295,Skuli
+296,Skuma
+297,Slagfid
+298,Smid
+299,Snaeulf
+300,Snaevar
+301,Snidil
+302,Snorri
+303,Sokkolf
+304,Solmund
+305,Solvi
+306,Sorkvir
+307,Sorli
+308,Soti
+309,Starkad
+310,Steinar
+311,Steindor
+312,Steingrim
+313,Steinthor
+314,Stigandi
+315,Storolf
+316,Storvirk
+317,Stuf
+318,Sturla
+319,Styr
+320,Styrmir
+321,Sumarlidi
+322,Svafnir
+323,Svar
+324,Svarlami
+325,Svart
+326,Svein
+327,Sverting
+328,Svidi
+329,Svip
+330,Swein
+331,Thangbrand
+332,Thidrani
+333,Thjodolf
+334,Thjodrek
+335,Thorarin
+336,Thorberg
+337,Thorbjorg
+338,Thorbjorn
+339,Thord
+340,Thorfid
+341,Thorfinn
+342,Thorgeir
+343,Thorgil
+344,Thorgrim
+345,Thorhall
+346,Thorir
+347,Thorkel
+348,Thorleik
+349,Thormod
+350,Thorodd
+351,Thorolf
+352,Thorstein
+353,Thorvald
+354,Thrall
+355,Thrand
+356,Thvari
+357,Tind
+358,Toki
+359,Tostig
+360,Trefil
+361,Tryfing
+362,Tryggvi
+363,Ulf
+364,Ulfhedin
+365,Unn
+366,Valgard
+367,Vali
+368,Vandrad
+369,Veleif
+370,Vemund
+371,Vermund
+372,Vestar
+373,Vetrlidi
+374,Vidgrip
+375,Vignir
+376,Vikar
+377,Visin
+378,Volund
+379,Yngvar
+380,Yngvi
+
+:Nordic_F_FN
+1, Alof
+2, Ase
+3, Asgerd
+4, Aslaug
+5, Asny
+6, Aud
+7, Bera
+8, Bergthora
+9, Dalla
+10, Geirlaug
+11, Gjaflaug
+12, Grima
+13, Groa
+14, Gudlaug
+15, Gudney
+16, Gudrid
+17, Gudrun
+18, Gunnhild
+19, Gyda
+20, Hallbera
+21, Helga
+22, Hilda
+23, Hildirid
+24, Hrafnhild
+25, Hrefna
+26, Hrodny
+27, Ingibjorg
+28, Ingirid
+29, Ingun
+30, Ingrid
+31, Jofrid
+32, Jorunn
+33, Kadlin
+34, Ljufa
+35, Moeid
+36, Nidbjorg
+37, Osk
+38, Ragnhild
+39, Rannveig
+40, Saeun
+41, Salbjorg
+42, Sigrid
+43, Sigrun
+44, Solveig
+45, Thora
+46, Thordis
+47, Thorfinna
+48, Thorgerd
+49, Thorhild
+50, Thorlaug
+51, Thorun
+52, Thorvor
+53, Thurid
+54, Ulfeid
+55, Valgerd
+56, Vigdis
+57, Yngvild
+58, Yr
+59, Asa
+60, Asfrid
+61, Bekkhild
+62, Bjorghild
+63, Brynhild
+64, Fredegand
+65, Addrun
+66, Glaumvor
+67, Grinhild
+68, Hjordis
+69, Kara
+70, Kostbera
+71, Ljod
+72, Sieglinde*
+73, Signy
+74, Swanhild
+75, Thyri
+76, Aesa
+77, Alfhild
+78, Arnora
+79, Bestla
+80, Bodvild
+81, Borghild
+82, Borgny
+83, Busla
+84, Dagmaer
+85, Dagny
+86, Edda
+87, Edny
+88, Eyfura
+89, Fjotra
+90, Freydis
+91, Galumvor
+92, Geirrid
+93, Grimhild
+94, Gullrond
+95, Halldis
+96, Hallfrid
+97, Hallveig
+98, Hekja
+99, Ingigerd
+100, Herborg
+101, Herkja
+102, Hervor
+103, Hildigunn
+104, Isgerd
+105, Hjotra
+106, Hleid
+107, Hrafnhild
+108, Hrodrglod
+109, Kolfrosta
+110, Lofnheid
+111, Lofthaena
+112, Lyngheid
+113, Nauma
+114, Oddrun
+115, Olvor
+116, Saereid
+117, Sigrlinn
+118, Silksif
+119, Sinrjod
+120, Skjalf
+121, Svanhvit
+122, Sylgja
+123, Thjodhild
+124, Thorunn
+125, Throa
+126, Tofa
+127, Unn
+128, Vaetild
+129, Yrsa
+
+:Nick1
+1, [Color]tooth
+2, Forkbeard
+3, Splittoes
+4, Finehair
+5, Coarsehair
+6, the Tall
+7, the Short
+8, the Broad
+9, the Fat
+10, the Round
+11, Lodbrok
+12, Walleye
+13, the Fair
+14, the Old
+15, the Younger
+16, the Slim
+17, the Hairy
+18, the Squinter
+19, Flatnose
+20, Broadnose
+21, [Color]cloak
+22, Hardrada
+23, the Good
+24, the Strong
+25, the Wise
+26, the Evil
+27, Blood[Weapon]
+28, the [Color]
+29, the {Cap~[Weapon]}
+30, the Proud
+31, the Dauntless
+32, the Insane
+33, the Peacock
+34, the Strong
+35, the Weak
+36, the Slow
+37, the Swift
+38, the Stupid
+39, the Rich
+40, the Poor
+41, the Victorious
+42, the Defeated
+43, the Boneless
+44, the Bold
+45, the Great
+46, the Deft
+47, the Quick
+48, {Cap~[Weapon]}biter
+49, Shieldbiter
+50, the Mad
+51, Snake-in-the-Eye
+52, the Lodestone
+53, Truesteer
+54, Cat-Ear
+55, the Blind
+56, One-Eye
+57, One-Arm
+58, the Ready
+59, Limberleg
+60, the Lucky
+61, the Unlucky
+62, Wallear
+63, Beastfriend
+64, Two-Hand
+65, the Wolf
+66, the Ox
+67, the Bear
+68, the Giant
+69, the Quiet
+70, the Braggart
+71, Post-Ear
+72, Wide-of-Girth
+73, Widegrin
+74, One-Tooth
+75, the Ancient
+76, the Brutal
+77, Flamehair
+78, Fire-Eye
+79, the Well-Traveled
+80, the Hogshead
+81, the Absent-Minded
+82, Arrow-Odd
+83, Bag-Nose
+84, Bare-Legs
+85, Belly-Shaker
+86, Berserks-Killer
+87, the Breast Rope
+88, the Bull-Bear
+89, Buttered-Bread
+90, the Crow
+91, the Deep-Minded
+92, the Dueller
+93, the Easterner
+94, the Feeble
+95, the Fetter-Hound
+96, Fish-Hook
+97, the Brave
+98, the Flayer
+99, the Fosterer
+100, the Gossip
+101, Hairy-Breeks
+102, Hairy-Cheek
+103, Hairy-Breast
+104, Hairy-Legs
+105, the Bull
+106, Hard-Mouth
+107, Horse-Head
+108, Hot-Head
+109, the Hunter
+110, the Keen-Eyed
+111, the Lean
+112, the Little
+113, Long-Leg
+114, Mansion-Might
+115, the Night-Sun
+116, the Noisy
+117, the Nosy
+118, the Peaceful
+119, the Pilgrim
+120, Pin-Leg
+121, Prow-Gleam
+122, Serpent-Tongue
+123, the Showy
+124, Silk-Beard
+125, the Skinflint
+126, Skull-Splitter
+127, Sleekstone-Eye
+128, Smooth-Tongue
+129, the Powerful
+130, the Southerner
+131, the Stubborn
+132, Tit-Bit
+133, the Unruly
+134, Wartooth
+135, the Whelp
+136, Wry-Mouth
+137, Wry-Neck
+138, the Yeoman
+139, Bear-Slayer
+140, Bull-Roarer
+141, the Stout
+142, the Wealthy
+143, Bull-Slayer
+144, Xxx-Bane
+145, Xxx-Slayer
+146, Coal-Chewer
+147, the Bald
+148, Fire-Breath
+149, Trolls-Breath
+150, the Mighty
+151-500, 
+
+:Nick2
+1, Skalla-
+2, Kveld-
+3-10, 
+
+:Color
+1,Red
+2,Green
+3,Blue
+4,Black
+5,White
+6,Grey
+7,Yellow
+8,Purple
+9,Dark
+10,Light
+
+:Weapon
+1,sword
+2,axe
+3,spear
+4,arrow
+5,francisca
+6,knife

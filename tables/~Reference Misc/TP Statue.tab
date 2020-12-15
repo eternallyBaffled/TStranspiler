@@ -1,0 +1,227 @@
+# ------------------------------------------------------
+# Last Update: modified by Valminder Jan 02, 2014.
+# ------------------------------------------------------
+#
+# Modified by Valminder, January 2014.
+#    Added link to: 
+#         Creatures.Animal
+#         Creatures.Flying
+#         Creatures.Humanoid
+#         Creatures.Humanoid2
+#         Equipment.container drinking
+#         Equipment.container fire
+#         Equipment.container liquid
+#         Equipment.container solid
+#         Equipment.lightdevices
+#         Equipment.ObjectSmall decorate
+#         Equipment.ShieldType
+#         Equipment.textiles
+#         Equipment.tools
+#         Equipment.weapon container
+#         Equipment.Musical Instruments
+#         Miscellaneous.Class
+#         Miscellaneous.ColorNoType
+#         Miscellaneous.Occupations
+#         Miscellaneous.Ruler
+#         Religion.Evil Gods
+#         Religion.Good Gods
+#         Religion.Neutral Gods
+#
+
+%name%,0
+%weight%,0
+%value%,0
+%vmod%,1
+%wmod%,1
+%type%,0
+%subject%,0
+%size%,0
+%material%,0
+%appraisalDC%,15
+%god%,0
+
+%format%,0
+
+@format,1,Select format:,Human-readable,Delimited for other table
+
+;Start
+1,|name=[Statue]||value*%vmod%||weight*%wmod%||weight={Trunc~%weight%}|[DisplayItem=%format%]
+
+# Format: name!value!weight
+:DisplayItem
+1,{Bold~{Cap~%name%}}{CR~}Value: %value% gp{CR~}Weight: %weight% lbs.
+2,%name%!%value%!%weight%!%appraisalDC%
+
+;Statue
+1,[Size][Material][Subject][Display%type%]
+
+;DisplayHumanoid
+1,%size% %material% statue of a kneeling {AorAn~%subject%}
+8,%size% %material% statue of {AorAn~%subject%}
+1,%size% %material% statue of {AorAn~%subject%} [Action]
+1,%size% %material% statue of {AorAn~%subject%} lying down
+1,%size% %material% statue of {AorAn~%subject%} with one arm raised
+1,%size% %material% statue of {AorAn~%subject%} [Seated]
+
+;Action
+1,brandishing {AorAn~[Object]}
+1,holding {AorAn~[Object]} up towards the sky
+2,carrying the body of [~Creature]
+1,receiving {AorAn~[Object]} from {AorAn~[AnimalSubjects]}
+1,receiving {AorAn~[Object]} from {AorAn~[HumanoidSubjects]}
+1,[Action2] [~Creature]
+1,offering {AorAn~[Object]} to {AorAn~[HumanoidSubjects]}
+
+;Action2
+2,brandishing
+2,carrying
+2,holding
+2,killing
+2,listening to
+2,looking at
+1,pulling
+1,throwing
+
+;Seated
+3,seated on a throne
+3,seated on a pile of skulls
+1,seated on a cushion
+1,seated on a pile of gold
+1,seated on a treasure
+1,seated on a chest
+1,seated on a large rock
+3,resting on a fallen log
+1,resting on a pillow
+1,resting on a couch
+1,resting on a pile of coins
+1,perched on a tree
+3,perched on a large rock
+
+;DisplayAnimal
+1,%size% %material% statue of {AorAn~%subject%} lying down
+1,%size% %material% statue of {AorAn~%subject%} rearing on its hind legs
+8,%size% %material% statue of {AorAn~%subject%}
+1,%size% %material% statue of {AorAn~%subject%} attacking {AorAn~[AnimalSubjects]}
+1,%size% %material% statue of {AorAn~%subject%} attacking {AorAn~[HumanoidSubjects]}
+1,%size% %material% statue of {AorAn~%subject%} devouring {AorAn~[HumanoidSubjects]}
+
+;DisplayFlyer
+8,%size% %material% statue of {AorAn~%subject%}
+4,%size% %material% statue of {AorAn~%subject%} in flight
+1,%size% %material% statue of {AorAn~%subject%} perched on a tree
+1,%size% %material% statue of {AorAn~%subject%} perched on a rock
+1,%size% %material% statue of {AorAn~%subject%} attacking {AorAn~[AnimalSubjects]}
+1,%size% %material% statue of {AorAn~%subject%} attacking {AorAn~[HumanoidSubjects]}
+1,%size% %material% statue of {AorAn~%subject%} attacked by {AorAn~[HumanoidSubjects]}
+1,%size% %material% statue of a giant %subject% devouring [Creature={Dice~1d2}]
+1,%size% %material% statue of a giant %subject% transporting [Creature={Dice~1d2}]
+
+;Object
+1,basket
+1,bow
+1,flower
+1,fruit
+1,lance
+1,key
+1,lyre
+1,pipe
+1,pouch
+1,scroll
+1,staff
+1,stone
+1,sword
+1,[~Equipment.container drinking]
+1,[~Equipment.container fire]
+1,[~Equipment.container liquid]
+1,[~Equipment.container solid]
+1,[~Equipment.lightdevices]
+1,[~Equipment.ObjectSmall decorate]
+1,[~Equipment.ShieldType]
+1,[~Equipment.textiles]
+1,[~Equipment.tools]
+1,[~Equipment.weapon container]
+1,[~Equipment.Musical Instruments]
+
+;Size
+5,|size=small||weight={Dice~1d100+150}||value={Dice~2d5*100}|
+3,|size=man-sized||weight={Dice~1d100+350}||value={Dice~2d5*500}|
+1,|size=huge||weight={Dice~1d100+750}||value={Dice~2d5*1000}|
+
+;Material
+8,|material=[MarbleColor] marble||vmod=1.00||wmod=1.00|
+4,|material=granite||vmod=0.50||wmod=1.00|
+1,|material=limestone||vmod=0.75||wmod=0.97|
+2,|material=sandstone||vmod=0.75||wmod=0.83|
+3,|material=wooden||vmod=0.60||wmod=0.25|
+
+;Depicted
+1,depicted
+1,portrayed
+1,sculpted as
+1,posed as
+
+;MarbleColor
+10,white
+3,black
+2,pink
+1,green
+4,[~Miscellaneous.ColorNoType]
+
+;Subject
+2,|type=Animal||subject=[AnimalSubjects]|
+3,|type=Humanoid||subject=[HumanoidSubjects]|
+1,|type=Flyer||subject=[FlyerSubjects]|
+
+;Creature
+1,{AorAn~[AnimalSubjects]}
+1,{AorAn~[HumanoidSubjects]}
+1,{AorAn~[FlyerSubjects]}
+
+;AnimalSubjects
+1,bear
+1,bull
+1,stag
+1,unicorn
+1,lion
+1,[Creatures.Animal]
+
+;HumanoidSubjects
+1,[Gender][Race]child
+2,[DeityAlign] deity %god%
+1,demon
+2,horse
+2,horseman
+3,[Race]king
+3,[Race]queen
+1,[Gender][Race][Miscellaneous.Ruler]
+3,[Gender]knight
+1,[Gender][Race]musician
+1,old [Race]{If~{Dice~1d2}=2?wo}man
+1,[Race]priest{If~{Dice~1d2}=2?ess}
+2,[Race]prince{If~{Dice~1d2}=2?ss}
+2,[Gender][Race]sage
+2,[Gender][Race]warrior
+2,[Gender][Race]wizard
+2,[Gender][Race][Miscellaneous.Class] 
+1,[Gender][Race][~Miscellaneous.Occupations]
+
+;FlyerSubjects
+1,swan
+1,dragon
+1,eagle
+1,hawk
+1,[Creatures.Flying]
+
+;Race
+5,
+4,[Creatures.Humanoid2] 
+1,[Creatures.Humanoid] 
+
+;Gender
+1,male 
+1,female 
+
+;DeityAlign
+6,good|god=([~Religion.Good Gods])|
+2,neutral|god=([~Religion.Neutral Gods])|
+4,evil|god=([~Religion.Evil Gods])|

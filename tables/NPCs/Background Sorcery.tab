@@ -1,0 +1,362 @@
+# ----------------------------------------------------
+# Last Update: verified by Valminder Jan 02, 2008.
+# ----------------------------------------------------
+#
+# Sorcery Background Table
+# Dragon Magazine #280
+# altered slightly for coherence.
+# Kit Plowman Ladycat@one.net
+#
+# -------------------------------------------------------------------------
+#
+# To call this table from another one:
+#    [Background Sorcery.Alternate(%Gender%)
+#
+#    Gender: (3)  1= Male
+#                 2= Female
+#                 3= Random
+#
+# -------------------------------------------------------------------------
+#
+# Modified really slightly by Valminder May 2003
+# Revised by Larry Cormier August 2005 to facilitate a collaborative
+#    interface with NPC Stat Block v3.5.tab
+# Modified by Valminder, Feb 2006
+#    Added parameters.
+#
+# Modified by Larry Cormier December 22, 2007
+#    Addressed a Formatting issue that was associated with the Sorcery Background coding that inadvertently
+#       changed the Gender of Male Sorcerers to Female in the Sorcery Background, itself when called from
+#       another table. This was accomplished by changing some Variable names (Gender2 to NPC_Gender), and
+#       adding a PC_Gender variable that consequentially made the Variable references a little more easy to
+#       understand as well - especially when other individuals are being referred to grammatically in the
+#       table... such as friends, relatives, mentors, and enemies
+#
+
+/OverrideRolls 1
+
+#  Define Variables - Added August 2005
+%Gender%,0
+%PC_Gender%,0
+%NPC_Gender%,0
+%Relative%,0
+%TempNumber%,0
+%Chance%,0
+
+@Gender,3,Choose gender,Male,Female,Random
+
+:Start
+1,{Status~By Kit Plowman from Dragon Magazine 280, Larry Cormier 2005, Valminder 2006.}
+_<b><u>Sorcery Background</u>:</b> [Generate]
+
+:Generate
+1,{If~%Gender%=3?|Gender={Dice~1d2}|}
+_|PC_Gender=%Gender%|
+_For a [Gender=%PC_Gender%] sorcerer <br><br>[Generate2]
+
+:Alternate
+1,{If~%Gender%=3?|Gender={Dice~1d2}|}
+_|PC_Gender=%Gender%|
+_|Gender=%PC_Gender%|
+_[Generate2]
+
+:Generate2
+1-3,[TAB]{Cap~[HeShe]} is the very first Sorcerer of [HisHer] family.<br>[TAB][two]
+4-5,[TAB]{Cap~[HeShe]} has Sorcerers in [HisHer] family, but [HeShe] did not know about them until [HeShe] became one. [onea]
+6,[TAB]{Cap~[HeShe]} grew up knowing about sorcery and Sorcerers because [oneb]
+
+# ---------------------------------------------------------
+# Miscellaneous tables, added by Larry Cormier, 2005
+
+:Chanceof
+1,|Chance={Dice~1d100}|
+
+:TAB
+1,{Loop~5,&nbsp;}
+
+:Relative
+1,father |NPC_Gender=1|
+2,mother |NPC_Gender=2|
+3,uncle |NPC_Gender=1|
+4,aunt |NPC_Gender=2|
+5,brother |NPC_Gender=1|
+6,sister |NPC_Gender=2|
+7,cousin|NPC_Gender={Dice~1d2}|
+8,grandfather |NPC_Gender=1|
+9,grandmother |NPC_Gender=2|
+10,stepbrother|NPC_Gender=1|
+11,stepsister|NPC_Gender=2|
+12,foster brother|NPC_Gender=1|
+13,foster sister|NPC_Gender=2|
+
+:Gender
+1,male
+2,female
+
+:ManWoman
+1,{If~%Gender%=1 ?man/woman}
+
+:HeShe
+1,{If~%Gender%=1 ?he/she}
+
+:HisHer
+1,{If~%Gender%=1 ?his/her}
+
+:HimHer
+1,{If~%Gender%=1 ?him/her}
+
+# ---------------------------------------------------------
+
+:onea
+1-2,They were afraid that others might [Chanceof]{If~%Chance%>50 ? want to/try to} hurt [HimHer].<br>[TAB][two]
+3-4,They were hoping that what [HeShe] didn't know couldn't hurt [HimHer], and [HeShe]'d grow up normal.<br>[TAB][two]
+5,It has been many generations since the Sorcery trait originally manifested in [HisHer] family.<br>[TAB][two]
+6,{Cap~[HisHer]} family felt it was a curse and refused to talk about it.<br>[TAB][two]
+
+:oneb
+1,[HisHer] |Relative={Dice~1d9}|[Relative=%Relative%] was a Sorcerer. {Cap~[HisHer]} [Relative=%Relative%] |Gender=%NPC_Gender%|[onec=7]
+
+:onec
+1,had been murdered by fearful neighbors.|Gender=%PC_Gender%|<br>[TAB][two]
+2,had been kidnapped by outlaws hoping to exploit |Gender=%PC_Gender%|[HisHer] [Relative=%Relative%]'s powers.<br>[TAB][two]
+3,had been tried and executed by the authorities for imagined crimes. |Gender=%PC_Gender%|<br>[TAB][two]
+4,had been tried and executed by the authorities for real crimes. |Gender=%PC_Gender%|<br>[TAB][two]
+5,had fled a hostile mob, never to return. |Gender=%PC_Gender%|<br>[TAB][two]
+6,had left the community to pursue a life of adventure.|Gender=%PC_Gender%|<br>[TAB][two]
+7,now lives in the wilds surrounding the community, and is occasionally consulted for magical advice or favors by [HisHer]
+_ fearful neighbors. |Gender=%PC_Gender%|<br>[TAB][oned]
+8,now lives among the community, concealing all sorcerous inclinations.|Gender=%PC_Gender%|<br>[TAB][oned]
+
+:oned
+1,Unfortunately, [HisHer] [Relative=%Relative%] died before [HeShe] began showing sorcerous tendencies of [HisHer] own.<br>
+_[TAB][two]
+2,When [HeShe] first began to show sorcerous tendencies though,
+_ [HisHer] [Relative=%Relative%] told [HimHer] that if [HeShe] were discovered [HeShe]'d be burned as a witch.<br>
+_[TAB][two]
+3,When [HeShe] first began to show sorcerous tendencies though,
+_ [HisHer] [Relative=%Relative%] told [HimHer] that there was nothing one Sorcerer could teach another.<br>
+_[TAB][two]
+4,When [HeShe] first began to show sorcerous tendencies though,
+_ [HisHer] [Relative=%Relative%] told [HimHer] the best thing to do was to just get out of town.<br>
+_[TAB][two]
+5,When [HeShe] first began to show sorcerous tendencies though,
+_ [HisHer] gifts proved to be greater than [HisHer] [Relative=%Relative%]'s, and |Gender=%NPC_Gender%|[HeShe] was too envious to help
+_ |Gender=%PC_Gender%|[HimHer].<br>
+_[TAB][two]
+6,When [HeShe] first began to show sorcerous tendencies though,
+_ [HisHer] [Relative=%Relative%] was greedy and saw greater gain in trying to sell [HimHer] to cruel captors who
+_ would then exploit [HisHer] powers, as oppoed to helping [HimHer] develop [HisHer] own burgeoning powers with
+_ |Gender=%NPC_Gender%|[HisHer] help.|Gender=%PC_Gender%|<br>
+_[TAB][two]
+7,When [HeShe] first began to show sorcerous tendencies though,
+_ [HisHer] [Relative=%Relative%] tried to help, but did not know how to assist [HimHer] effectively.<br>
+_[TAB][two]
+8,When [HeShe] first began to show sorcerous tendencies though,
+_ [HisHer] [Relative=%Relative%] provided [HimHer] some help that made the years of manifestation easier for [HimHer] than they
+_ might have been otherwise.<br>
+_[TAB][two]
+
+:two
+1-4,When [HeShe] was born, bizzare things started to happen. Storms raged, snakes crawled into homes, milk turned sour, and
+_ whippoorwills keened forlornly throughout the area for at least a fortnight.
+_ The first sign that [HeShe] seemed to be any different from the other children came when [three]
+5-6,{Cap~[HeShe]} seemed to have been born on a particularly fortuitous day. The skies were clear and bright, and people
+_ noted quietly that the next harvest seemed to have turned out to be an unusually good one that year.
+_ The first sign that [HeShe] seemed to be any different from the other children came when [three]
+7-8,There was no indication at [HisHer] birth that [HeShe] would turn out to be anything more than a normal child.
+_ The first sign that [HeShe] seemed to be any different from the other children came when [three]
+
+:three
+1,dogs and horses began to attack [HimHer] whenever [HeShe] came near.<br>
+_[TAB]When [HisHer] powers first manifested, [four]
+2,a visiting elven woman's hair turned white when she saw [HimHer].<br>
+_[TAB]When [HisHer] powers first manifested, [four]
+3,objects began to move around in [HisHer] presence - as if of their own volition.<br>
+_[TAB]When [HisHer] powers first manifested, [four]
+4,a visiting elven woman's hair turned white when she saw [HimHer].<br>
+_[TAB]When [HisHer] powers first manifested, [four]
+5,[HeShe] was able to bring a dying sparrow back to life just by holding it in [HisHer] claspsed hands.<br>
+_[TAB]When [HisHer] powers first manifested, [four]
+6,strange lights were seen dancing around [HisHer] home in the dark of night.<br>
+_[TAB]When [HisHer] powers first manifested, [four]
+7,other children started having accidents shortly after [Chanceof]{If~%Chance%>50 ? annoying/bullying} [HimHer].<br>
+_[TAB]When [HisHer] powers first manifested, [four]
+8,a crazy, dirty-robed old hermit who claimed that he worshipped the forest spirits, came to [HisHer] home to
+_ offer [HimHer] a leather bag full of feathers, odd-shaped stones, and animal bones.<br>
+_[TAB]When [HisHer] powers first manifested, [four]
+9,a rainbow-bearded figure kept appearing in [HisHer] dreams. One night, the figure spoke to [HimHer] directly,
+_ claiming that he was Boccob, god of magic.<br>
+_[TAB]When [HisHer] powers first manifested, [four]
+
+:four
+1,the object of [HisHer] first adolescent crush came down with a terrible fever and almost died.
+_ |NPC_Gender=%Gender%|{If~%Gender%=1 ? |NPC_Gender=2|/|NPC_Gender=1|}
+_ When [HeShe] recovered, [HeShe] revealed a dream of |Gender=%PC_Gender%|[HimHer] hovering over the bed,
+_ like a dark and glowing raven.<br>[TAB][five]
+2,kobold ambushers attacked [HimHer] and some of [HisHer] friends. Fire shot from [HisHer] fingertips, setting the dry
+_ grass around them alight.<br>[TAB][five]
+3,[HeShe] began to realize that [HeShe] seemed to know exactly what everyone around [HimHer] was thinking.<br>[TAB][five]
+4,the village bully erupted in hideous boils, and went blind after threatening to beat [HimHer].<br>[TAB][five]
+5,[HisHer] best friend recoiled during an instense conversation, saying that |NPC_Gender=%Gender%||NPC_Gender={Dice~1d2}|
+_ |Gender=%NPC_Gender%|[HisHer] features had changed to resemble |Gender=%PC_Gender%|{If~%Gender%=1 ? his/hers}.<br>
+_ [TAB][five]
+6,a family heirloom just turned to ice and shattered when [HeShe] touched it.<br>[TAB][five]
+7,a black cat began to follow [HimHer] around, and wouldn't go away. {Cap~[HeShe]} discovered that [HeShe] could make
+_ the cat respond to simple commands simply by concentrating on them.<br>[TAB][five]
+8,[HeShe] was caught out unexpectedly in a pounding hailstorm, yet not a single hailstone managed to hit [HimHer]
+_ during the storm.<br>[TAB][five]
+
+:five
+1-2,{Cap~[HeShe]} was forced to flee for [HisHer] life when pitchfork wielding villagers attempted to capture [HimHer]
+_ in order to [Chanceof]{If~%Chance%>50 ? burn/ drown} [HimHer] as a witch. After [HeShe] left, [six]
+3-4,{Cap~[HeShe]} was cast out of [HisHer] home by [HisHer] own family. After [HeShe] left, [six]
+5,{Cap~[HeShe]} grew tired of [HisHer] neighbor's foolish superstitions and suspicions, and decided to leave town as
+_ the result of it. After [HeShe] left, [six]
+6,{Cap~[HeShe]} wanted to find someone who could help [HimHer] mold [HisHer] uncontrollable
+_ [Chanceof]{If~%Chance%>50 ? urges/powers}, and decided to leave town in an attempt to find help.
+_ After [HeShe] left, [six]
+7,A world of exciting adventure beckoned to [HimHer], [Chanceof]{If~%Chance%>50 ? so/and} [HeShe] decided to leave
+_ town in an attempt to follow [HisHer] own dreams. After [HeShe] left, [six]
+8,Eventually, tragedy set [HisHer] foot on the path of vengenance after a passing evildoer
+_ [Chanceof]{If~%Chance%>50 ? hurt/ slew} someone that [HeShe] [Chanceof]{If~%Chance%>50 ? held dear/had loved}.
+_ {Cap~[HeShe]} took to the road shortly thereafter, and has been pursuing the villian ever since.
+_ After [HeShe] left, [six]
+
+:six
+1-2,[HeShe] never encountered another Sorcerer until [HeShe] had decided that [HeShe] had to solve [HisHer] own problems
+_ by [HimHer]self. <br>[TAB]As [HisHer] powers increased, [HeShe] found that people began to listen to [HisHer] words more
+_ carefully. [seven]
+3-4,[HeShe] encountered another Sorcerer who promised to help [HimHer], but [HeShe] eventually realized that
+_ |NPC_Gender=%Gender%||NPC_Gender={Dice~1d2}||Gender=%NPC_Gender%|
+_ [HeShe] just intended to [Chanceof]{If~%Chance%>50 ? rob/slay}|Gender=%PC_Gender%| [HimHer] in the night.
+_ <br>[TAB]As [HisHer] powers increased, [HeShe] found that people began to listen to [HisHer] words more carefully. [seven]
+5-6,[HeShe] realized that virtually all of the Sorcerers [HeShe] encountered along the way seemed to think that [HeShe]
+_ only meant to betray them. As a result, [HeShe] was quick to send them all on their way,
+_ as opposed to talking with any of them. <br>[TAB]As [HisHer] powers increased, [HeShe] found that people began to listen to
+_ [HisHer] words more carefully. [seven]
+7-8,[HeShe] eventually found a mentor who was [sixa]
+
+:sixa
+1,a saintly figure - who just wished to do for another, what |NPC_Gender=%Gender%||NPC_Gender={Dice~1d2}||Gender=%NPC_Gender%|
+_ [HisHer] equally benevolent mentor had done for [HimHer] so many years ago.|Gender=%PC_Gender%| [sixb]
+2,a selfish individual who just wanted someone to lift, tote, scrape, and clean for
+_ |NPC_Gender=%Gender%||NPC_Gender={Dice~1d2}||Gender=%NPC_Gender%|[HimHer].|Gender=%PC_Gender%| [sixb]
+3,a servitor of evil who just wanted to mold [HimHer] into yet another servant of
+_ [Chanceof]{If~%Chance%>50 ? chaos/destruction}. [sixb]
+4,a Sorcerer whose talent had faded, but who wished to experience vicarious power through yet another's exploits. [sixb]
+5,a tortured soul who was a Maniac-Depressive. The poor soul treated [HimHer] with teary-eyed kindness - or red-faced fury,
+_ depending on |NPC_Gender=%Gender%||NPC_Gender={Dice~1d2}||Gender=%NPC_Gender%|[HisHer] capricious moods.
+_|Gender=%PC_Gender%| [sixb]
+6,a vengeful killer who believed that Sorcerers should rule, and sought to initiate [HimHer] as a lieutenant in
+_ |NPC_Gender=%Gender%||NPC_Gender={Dice~1d2}||Gender=%NPC_Gender%|[HisHer] grand schemes.|Gender=%PC_Gender%| [sixb]
+7,a bored prankster who thought training another might prove to provide a bit of amusement along the way. [sixb]
+8,a hardened loner who, despite |NPC_Gender=%Gender%||NPC_Gender={Dice~1d2}||Gender=%NPC_Gender%|[HisHer] first instincts,
+_ came to see |Gender=%PC_Gender%|[HimHer] as a kindred spirit, deserving of the help that |Gender=%NPC_Gender%|[HeShe]
+_ never received [HimHer]self.|Gender=%PC_Gender%| [sixb]
+
+:sixb
+1,{Cap~[HeShe]} still {If~%NPC_Gender%=0 ? |NPC_Gender={Dice~1d2}|}|Gender=%NPC_Gender%| seeks [HimHer] out for advice and
+_ companionship. <br>[TAB]As [HisHer] powers increased, [HeShe] found that people began to listen to [HisHer] words
+_ more carefully. [seven]
+2,{Cap~[HeShe]} lost [HisHer] mentor when {If~%NPC_Gender%=0 ? |NPC_Gender={Dice~1d2}|}|Gender=%NPC_Gender%| [HeShe] was slain by
+_ their mutual enemies. <br>[TAB]As [HisHer] powers increased, [HeShe] found that people began to listen to [HisHer] words
+_ more carefully. [seven]
+3,{Cap~[HeShe]} lost [HisHer] mentor when {If~%NPC_Gender%=0 ? |NPC_Gender={Dice~1d2}|}|Gender=%NPC_Gender%| [HeShe] just disappeared
+_ one day. |Gender=%PC_Gender%| {Cap~[HisHer]} searches for [HisHer] mentor have been fruitless, so far.
+_ <br>[TAB]As [HisHer] powers increased, [HeShe] found that people began to listen to [HisHer] words more carefully. [seven]
+4,{Cap~[HeShe]} felt that [HeShe] had learned all that [HeShe] possibly could, and between the two of them,
+_ they had agreed that it was about time for [HimHer] to stand on [HisHer] own two feet.
+_ <br>[TAB]As [HisHer] powers increased, [HeShe] found that people began to listen to [HisHer] words more carefully. [seven]
+5,{Cap~[HeShe]} broke with [HisHer] mentor when she falsely believed that {If~%NPC_Gender%=0 ? |NPC_Gender={Dice~1d2}|}
+_ |Gender=%NPC_Gender%| [HeShe] had intended to betray |Gender=%PC_Gender%| [HimHer]. [sixc]
+6-8,{Cap~[HeShe]} broke with [HisHer] mentor when [HeShe] caught |NPC_Gender=%Gender%|
+_ {If~%NPC_Gender%=0 ? |NPC_Gender={Dice~1d2}|}|Gender=%NPC_Gender%| [HimHer] laying a trap for |Gender=%PC_Gender%| [HimHer]. [sixc]
+9,{Cap~[HeShe]} broke with [HisHer] mentor when the two of them got into a foolish quarrel over nothing,
+_ that soon escalated into something a lot more volatile. [sixc]
+10,{Cap~[HisHer]} mentor found another apprentice that {If~%NPC_Gender%=0 ? |NPC_Gender={Dice~1d2}|}|Gender=%NPC_Gender%|[HeShe]
+_ claimed to like a lot better, so [HeShe] told|Gender=%PC_Gender%| [HimHer] to pack up [HisHer] belongings, and go. [sixc]
+
+:sixc
+1,They exchanged harsh words, but despite the fact that neither blows, nor magic missiles flew between them, they still
+_ parted on bitter terms.|Gender=%PC_Gender%|
+_ <br>[TAB]As [HisHer] powers increased, [HeShe] found that people began to listen to [HisHer] words more carefully. [seven]
+2,After a long standoff, they both agreed to back away so that neither one of them would be injured or slain.
+_ <br>[TAB]As [HisHer] powers increased, [HeShe] found that people began to listen to [HisHer] words more carefully. [seven]
+3,They battled, and [HisHer] mentor nearly killed [HimHer].  {Cap~[HeShe]} still doesn't understand what impulse of mercy
+_ prevented |Gender=%NPC_Gender%|[HimHer] from delivering the killing blow when [HeShe] had the opportunity to do so.
+_ |Gender=%PC_Gender%| <br>[TAB]As [HisHer] powers increased, [HeShe] found that people began to listen to [HisHer] words
+_ more carefully. [seven]
+4,They battled, and both were nearly killed. {Cap~[HeShe]} crawled off to lick [HisHer] wounds, and has not seen
+_ [HisHer] mentor ever since.|Gender=%PC_Gender%|
+_ <br>[TAB]As [HisHer] powers increased, [HeShe] found that people began to listen to [HisHer] words more carefully. [seven]
+5,They battled. {Cap~[HeShe]} managed to get a lucky first shot off, severely wounding [HisHer] mentor, but
+_ |Gender=%NPC_Gender%| [HeShe] managed to escape, swearing to wreak vengeance on|Gender=%PC_Gender%|[HimHer] after
+_ |Gender=%NPC_Gender%| [HeShe] had recovered.|Gender=%PC_Gender%|
+_ <br>[TAB]As [HisHer] powers increased, [HeShe] found that people began to listen to [HisHer] words more carefully. [seven]
+6,The two of them battled, and [HisHer] mentor nearly killed [HimHer]. The mentor couldn't bring|Gender=%NPC_Gender%|
+_ [HimHer]self to finish [HimHer] off though, and left in disgust.|Gender=%PC_Gender%|
+_ <br>[TAB]As [HisHer] powers increased, [HeShe] found that people began to listen to [HisHer] words more carefully. [seven]
+7,{Cap~[HeShe]} slew [HisHer] mentor in an honest, but deadly battle.|Gender=%PC_Gender%|
+_ <br>[TAB]As [HisHer] powers increased, [HeShe] found that people began to listen to [HisHer] words more carefully. [seven]
+8,{Cap~[HeShe]} slew [HisHer] mentor by trickery, which was the only way [HeShe] could have possibly beaten
+_ the more experienced Sorcerer.|Gender=%PC_Gender%|
+_ <br>[TAB]As [HisHer] powers increased, [HeShe] found that people began to listen to [HisHer] words more carefully. [seven]
+
+:seven
+1,Deciding that they must be trying to trick [HimHer] somehow, [HeShe] recoiled, and began to avoid settlements and towns
+_ even more carefully than [HeShe] did before.<br>[TAB]The first time [HeShe] met another Sorcerer, [eight]
+2,{Cap~[HeShe]} reveled in [HisHer] sudden power over people, and decided to fleece them like the pitiful sheep that
+_ they had proven themselves to be.<br>[TAB]The first time [HeShe] met another Sorcerer, [eight]
+3,{Cap~[HeShe]} was troubled by the attention, suspecting that they only reacted to [HimHer] favorably because of the
+_ conception that a persuasive demeanor was just part of the Sorcerer's bag of tricks. {Cap~[HeShe]} fears that [HeShe]
+_ will never find true love or friendship, receiving only the false respect and affection generated by [HisHer] use of
+_ [HisHer] powers.<br>[TAB]The first time [HeShe] met another Sorcerer, [eight]
+4-5,{Cap~[HeShe]} found it convenient. Although [HeShe] never made the mistake of thinking of them as [HisHer] equals,
+_ [HeShe] decided it would be hypocritical to bully them - as their kind had bullied [HimHer] in the past.<br>
+_[TAB]The first time [HeShe] met another Sorcerer, [eight]
+6,Although distrustful at first, [HeShe] eventually came to bask in the sudden acceptance of others.
+_ {Cap~[HeShe]} found it to be an enormous relief to be welcomed back into the civilized world.<br>
+_[TAB]The first time [HeShe] met another Sorcerer, [eight]
+
+:eight
+1,|Gender=%NPC_Gender%|[HeShe] spoke with |Gender=%PC_Gender%|[HimHer] briefly,
+_ and then parted. {Cap~[HeShe]} could see that the other Sorcerer wanted to harm [HimHer], since [HeShe] could see it
+_ in the other's eyes.<br>
+_[TAB]Eventually, [HeShe] managed to fall in with a group of adventurers who were also just beginning their careers. [nine]
+2,|Gender=%NPC_Gender%| they conversed in a friendly, yet formal manner, until |Gender=%PC_Gender%|[HeShe]
+_ suddenly moved [HisHer] hand to scratch an itch. Then other Sorcerer attacked [HimHer]. It was an unfortunate
+_ misunderstanding - but [HeShe] barely escaped with [HisHer] life.<br>
+_[TAB]Eventually, [HeShe] managed to fall in with a group of adventurers who were also just beginning their careers. [nine]
+3,|Gender=%NPC_Gender%|[HeShe] convinced |Gender=%PC_Gender%|[HimHer] to ally with |Gender=%NPC_Gender%| [HimHer],
+_ but then |Gender=%NPC_Gender%| [HeShe] cheated |Gender=%PC_Gender%|[HimHer] out of a fair share of the treasure
+_ that they had gained in an adventure together.<br>
+_[TAB]Eventually, [HeShe] managed to fall in with a group of adventurers who were also just beginning their careers. [nine]
+4,[HeShe] tried to befriend |Gender=%NPC_Gender%| [HimHer]. The other Sorcerer hesitated for a moment, a scowl upon [HisHer]
+_ face, then showed |Gender=%PC_Gender%|[HimHer] a scar running down the side of |Gender=%NPC_Gender%| [HisHer] neck.
+_ At that point, [HeShe] told |Gender=%PC_Gender%|[HimHer] that |Gender=%NPC_Gender%|[HeShe] was sorry, but [HeShe]'d learned
+_ never to trust another Sorcerer again, and left.|Gender=%PC_Gender%|<br>
+_[TAB]Eventually, [HeShe] managed to fall in with a group of adventurers who were also just beginning their careers. [nine]
+5,[HeShe] worked with the other Sorcerer for a short time, but they ended up quarreling over some long-forgotten difference
+_ of opinion, then mutually decided to go their separate ways.<br>
+_[TAB]Eventually, [HeShe] managed to fall in with a group of adventurers who were also just beginning their careers. [nine]
+6,[HeShe] accompanied [HisHer] new companion into a local town, but as soon as the locals saw [HisHer] new acquaintence,
+_ they mobbed both of them, murder in their eyes. {Cap~[HeShe]} tried to rescue [HisHer] erstwhile partner,
+_ but was finally forced to flee to protect [HisHer] own hide. {Cap~[HeShe]} still doesn't know what
+_ [HisHer] companion had done to make the Townsfolk react that way, but it was a hard won lesson in any case.<br>
+_[TAB]Eventually, [HeShe] managed to fall in with a group of adventurers who were also just beginning their careers. [nine]
+
+:nine
+1-2,At that point, [HeShe] realized that finally, [HeShe] had found a group of people [HeShe] could really trust.
+3,They were rough and unruly, but [HeShe] felt that they could be bent slowly to [HisHer] will. [ninea]
+4-5,They had goals similar to [HisHer] own, and [HeShe] felt that if nothing else, they could be useful allies.
+_ {Cap~[HeShe]} felt that it would be more prudent to keep [HisHer] distance from them until they proved
+_ themselves trustworthy, however. [ninea]
+6,{Cap~[HeShe]} only trusted them as far as [HeShe] could throw them. [ninea]
+
+:ninea
+1-4,They have proven themselves many times over, since, and now [HeShe] doesn't trust anyone else.
+_ {Cap~[HisHer]} comrades-in-arms warrant [HisHer] unquestioned loyalty.
+5,They are still rough around the edges, but mean well. They are slowly winning [HisHer] affections.
+6,There is still a gulf of mistrust between [HimHer] and [HisHer] comrades, but [HeShe] will deal with
+_ them fairly until they give [HimHer] a reason to do otherwise.
+

@@ -1,0 +1,125 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder Oct 30, 2003.
+# ---------------------------------------------------
+#
+# SMS
+# 06/26/03
+# Forgotten Realms Table 54: Southern Sandy/Rocky Desert (EL 3-9) random encounter tables
+#
+# Corrected by Valminder, Oct 2003
+#   -{If~} and {Dice~}
+#
+#Variables
+
+%Time%,0
+%Temp%,0
+
+#Parameters
+
+@Time,3,Select a time of day,Day,Night,_
+
+#
+#  Starts by putting up the instructions
+#
+
+:Start
+1,{If~%Time% = 3 ? [Instructions]/[Southern Desert %Time%]}
+
+;Instructions
+1,<b>Forgotten Realms Table 54: Southern Sandy/Rocky Desert (EL 3-9)</b></br></br><h3>Instructions:</h3>
+_<b>Determine whether an encounter should occur before using this table. The chance of an encounter is based on terrain type and travel (chance per hour):</b><br>
+_<table border=1><tr><th>Terrain</th><th>Normal Travel</th><th>Cautious Travel</th><th>Hiding</th></tr>
+_<tr><td>Desolate/wasteland</td><td>5/%</td><td>2/%</td><td>1/%</td></tr>
+_<tr><td>Frontier/wilderness</td><td>8/%</td><td>4/%</td><td>2/%</td></tr>
+_<tr><td>Verdant/civilized area</td><td>10/%</td><td>5/%</td><td>2/%</td></tr>
+_<tr><td>Heavily traveled</td><td>12/%</td><td>6/%</td><td>3/%</td></tr>
+_</table>
+_<ol><li>Use the Parameter Box (below) to indicate whether it is day or night. Selecting "_" displays these instructions</li>
+_<li>This table applies to all Southern Deserts/Badlands so there is no region to set.</li></ul><br>
+
+# 1 corresponds to time="Day"
+:Southern Desert 1
+01,Androsphinx
+02-05,{Dice~1d4*10} Animal: Baboon
+06-08,Barghest Pack: {Dice~1d2} barghest and {Dice~1d4+4} goblins
+09-11,{Dice~1d3} Dire lion
+12-14,{Dice~1d4+4} Dire wolf
+15-17,{Dice~1d4} Djinni (genie)
+18-25,Dragon: [SD_Dragon]
+26-29,{Dice~1d3} Dragonne
+30-32,{Dice~1d3} Efreeti (genie)
+33-34,{Dice~1d3+1} Gargoyle
+35-37,Giant Ant Crew: {Dice~1d6+5} workers and 1 soldier
+38-42,{Dice~1d2} Giant lizard
+43-46,Gnoll hunters: {Dice~1d4+1} gnolls led by a level {Dice~1d3+1} gnoll ranger
+47-49,Gorgon
+50,Gynosphinx
+51,Ibrandlin (MoF)
+52-54,{Dice~1d3+1} Janni (genie)
+55-56,{Dice~1d3+1} Lamia
+57-61,{Dice~1d3+3} Monstrous scorpion, large (vermin)
+62-63,{Dice~1d3+2} Monstrous scorpion, huge (vermin)
+64,{Dice~1d3+1} Mummy
+65-72,<b>NPCs:</b><br>{Loop~{Dice~1d3+2},[FR_Random_NPC.FR_SM_NPC]}
+73,Nishruu
+74-78,Nomads (human Nar tribesmen, barbarians from the Ride, Shaar horsemen, or Tuigan bands): {Dice~1d4+2} 1st level warriors led by [FR_Misc.Nomad_Leader], all mounted on light warhorses
+79,Nyth
+80-82,{Dice~1d3+1} Ogre
+83-86,Orc Patrol: {Dice~1d4+4} orcs, {Dice~1d2} level {Dice~1d3} orc barbarians, led by level {Dice~1d4+2} [FR_Misc.Orc_Class]
+87-89,{Dice~1d2} Snake, huge viper
+90-94,Stinger hunters: {Dice~1d4+2} stingers and a level {Dice~1d3+1} cleric
+95-96,{Dice~1d2} Spider eater
+97-100,{Dice~1d6+3} Animal: wolf
+
+# 2 corresponds to time="Night"
+:Southern Desert 2
+01-02,{Dice~1d2} Abishai, blue (MoF)
+03,Androsphinx
+04,Baneguard (MoF)
+05-07,Barghest Pack: {Dice~1d2} barghest and {Dice~1d4+4} goblins
+08-09,{Dice~1d3} Darkenbeast
+10-11,{Dice~1d3} Dire lion
+12-13,{Dice~1d4+4} Dire wolf
+14-16,{Dice~1d4} Djinni (genie)
+17-24,Dragon: [SD_Dragon]
+25-26,{Dice~1d3} Dragonne
+27-28,Dread warrior (MoF)
+29-31,{Dice~1d3} Efreeti (genie)
+32-33,{Dice~1d3+1} Gargoyle
+34-35,{Dice~1d3+1} Ghast
+36-37,Ghast pack: {Dice~1d3+1} ghasts and {Dice~1d6+6} ghouls
+38-39,{Dice~1d3+3} Ghoul
+40-41,Gnoll hunters: {Dice~1d4+1} gnolls led by a level {Dice~1d3+1} gnoll ranger
+42-43,Gorgon
+44,Gynosphinx
+45-46,{Dice~1d2} Hound archon (celestial)
+47,Ibrandlin (MoF)
+48-50,{Dice~1d3+1} Janni (genie)
+51-52,{Dice~1d3+1} Lamia
+53-54,{Dice~1d3+3} Monstrous scorpion, large (vermin)
+55-56,{Dice~1d3+2} Monstrous scorpion, huge (vermin)
+57-61,{Dice~1d3+1} Mummy
+62-67,<b>NPCs:</b><br>{Loop~{Dice~1d3+2},[FR_Random_NPC.FR_SM_NPC]}
+68,Nishruu
+69-70,Nomads (human Nar tribesmen, barbarians from the Ride, Shaar horsemen, or Tuigan bands): {Dice~1d4+2} 1st level warriors led by [FR_Misc.Nomad_Leader], all mounted on light warhorses
+71,Nyth
+72-74,{Dice~1d3+1} Ogre
+75-80,Orc Patrol: {Dice~1d4+4} orcs, {Dice~1d2} level {Dice~1d3} orc barbarians, led by level {Dice~1d4+2} [FR_Misc.Orc_Class]
+81-82,{Dice~1d6} Shadow
+83-84,{Dice~1d3+1} Shadow mastiff
+85,{Dice~1d2} Snake, huge viper
+86-88,Stinger hunters: {Dice~1d4+2} stingers and a level {Dice~1d3+1} cleric
+89-90,{Dice~1d2} Spider eater
+91-93,{Dice~1d4+1} Vargouille
+94-95,{Dice~1d6} Wight
+96-98,{Dice~1d6+3} Animal: wolf
+99-100,{Dice~1d3} Wraith
+
+:SD_Dragon
+01-35,Blue, young adult
+36,Dracolich, blue, juvenile
+37-55,Brass, adult
+56,Dracolich: Brown, juvenile
+57-85,Brown, adult (MoF)
+86-95,Copper, adult
+96-100,Gold, juvenile

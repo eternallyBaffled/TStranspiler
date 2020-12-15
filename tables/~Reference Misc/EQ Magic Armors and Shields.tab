@@ -1,0 +1,53 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder August 28, 2006.
+# ---------------------------------------------------
+#
+# Magic Armor & Shields
+#
+# Sean Hlousek
+#
+# -------------------------------------------------------------------------
+#
+# To call this table from another one:
+#    [EQ Magic Armors and Shields.Generate(%Rolls%,%GenItem%)
+#
+#    Parameters: (%Rolls%,%GenItem%)
+#
+#    Rolls:    (1) Enter the number of items needed.
+#    Gen Item: (3) 1= Armor (Magical)
+#                  2= Shields (Magical)
+#                  3= ALL - Armor and Shields (Magical)
+#
+# -------------------------------------------------------------------------
+#
+# Modified by Valminder, August  2006.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+#    I heavily modified this table. I could modify it more by
+#       removing all the variables for the cost, but it would
+#       be too long. For now, it works fine.
+#    The final price need to be adjusted for some items, but it
+#       seems relatively OK.
+#    I diminished the price variation in [Store].
+#    Cost of Items: Put the cost in GP, the output will modify it
+#       for gp, sp, or cp.
+#       1 sp = 0.1 gp
+#       1 cp = 0.01 gp
+#
+
+%Rolls%,0
+%GenItem%,0
+
+@Rolls,10,How many Items are in this Shop?
+@GenItem,3,What do you want to generate,Armor (Magical),Shields (Magical),ALL - Armor and Shields (Magical)
+
+:Start
+1,{Status~By Sean Hlousek, Valminder 2006}[Generate]
+
+:Generate
+1,{Loop~%Rolls%,[ArmorMaster=%GenItem%]}
+                               
+:ArmorMaster
+1,[EQ Armory.Generate(1,4)]
+2,[EQ Armory.Generate(1,5)]
+3,[EQ Armory.Generate(1,6)]

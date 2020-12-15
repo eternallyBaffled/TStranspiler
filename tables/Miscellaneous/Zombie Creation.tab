@@ -1,0 +1,188 @@
+﻿# ------------------------------------------------------
+# Created by Valminder August 22, 2012.
+# ------------------------------------------------------
+#
+# From Blood & Brains : Zombie Hunter Guide 
+#
+
+%CRMod%,0
+%CR%,0
+%Description%,0
+%RerollDef%,0
+%RerollHAb%,0
+%RerollLAb%,0
+%RerollMov%,0
+%RerollSpA%,0
+%RerollVul%,0
+
+%Contagion%,0
+%Defenses%,0
+%Hardiness%,0
+%High Ability%,0
+%Hunger%,0
+%Low Ability%,0
+%Movement%,0
+%Origin%,0
+%Senses%,0
+%Special Attack%,0
+%Type%,0
+%Vulnerability%,0
+
+:Start
+1,[Generate]
+
+;Tab
+1,{Loop~5,&nbsp;}
+
+;Generate
+1,|CR=0|
+_<b><u>Type</u>:</b> [Type] {If~%Type%!=0? {Color~Green,(%Type%)}}<br>
+_<b><u>Senses</u>:</b> [Senses] {If~%Senses%!=0? {Color~Blue,(%Senses%)}}<br>
+_|RerollDef=0|<b><u>Defenses</u>:</b> [Defenses] {If~%Defenses%!=0? {Color~Blue,(%Defenses%)}}{If~%RerollDef%=1?[GenDef2]}<br>
+_|RerollMov=0|<b><u>Movement</u>:</b> [Movement] {If~%Movement%!=0? {Color~Blue,(%Movement%)}}{If~%RerollMov%>0?[GenMov2]}{If~%RerollMov%=2?[GenMov3]}<br>
+_<b><u>Hunger</u>:</b> [Hunger] {If~%Hunger%!=0? {Color~Blue,(%Hunger%)}}<br>
+_|RerollVul=0|<b><u>Vulnerability</u>:</b> [Vulnerability] {If~%Vulnerability%!=0? {Color~Blue,(%Vulnerability%)}}{If~%RerollVul%=1?[GenVul2]}<br>
+_<b><u>Hardiness</u>:</b> [Hardiness] {If~%Hardiness%!=0? {Color~Blue,(%Hardiness%)}}<br>
+_|RerollHAb=0|<b><u>High Ability</u>:</b> [High Ability] {If~%High Ability%!=0? {Color~Blue,(%High Ability%)}}{If~%RerollHAb%=1?[GenHAb2]}<br>
+_|RerollLAb=0|<b><u>Low Ability</u>:</b> [Low Ability] {If~%Low Ability%!=0? {Color~Blue,(%Low Ability%)}}{If~%RerollLAb%=1?[GenLAb2]}<br>
+_|RerollSpA=0|<b><u>Special Attack</u>:</b> [Special Attack] {If~%Special Attack%!=0? {Color~Blue,(%Special Attack%)}}{If~%RerollSpA%=1?[GenSpA2]}<br>
+_<b><u>Contagion</u>:</b> [Contagion] {If~%Contagion%!=0? {Color~Blue,(%Contagion%)}}<br>
+_<b><u>Origin</u>:</b> [~Origin]<br>
+_<br><b>CR=</b> %CR%<br>
+
+:GenDef2
+1,<br>[Tab][Defenses] {If~%Defenses%!=0? {Color~Blue,(%Defenses%)}}
+
+:GenHAb2
+1,<br>[Tab][High Ability] {If~%High Ability%!=0? {Color~Blue,(%High Ability%)}}
+
+:GenLAb2
+1,<br>[Tab][Low Ability] {If~%Low Ability%!=0? {Color~Blue,(%Low Ability%)}}
+
+:GenMov2
+1,<br>[Tab][Movement] {If~%Movement%!=0? {Color~Blue,(%Movement%)}}
+
+:GenMov3
+1,<br>[Tab][Movement] {If~%Movement%!=0? {Color~Blue,(%Movement%)}}
+
+:GenSpA2
+1,<br>[Tab][Special Attack] {If~%Special Attack%!=0? {Color~Blue,(%Special Attack%)}}
+
+:GenVul2
+1,<br>[Tab][Vulnerability] {If~%Vulnerability%!=0? {Color~Blue,(%Vulnerability%)}}
+
+
+# -------------------------------------------------------
+
+;Type
+10,Normal|CR+0||Type=The zombie has the same type that it had in life.|
+70,Undead|CR+2||Type=0|
+15,Construct|CR+1||Type=The zombie is a patchwork construct similar to a ﬂesh golem.|
+5,Plant|CR+1||Type=The zombie is actually a form of plant life that has formed around bones and animated them.|
+
+;Senses
+40,Normal|CR+0||Senses=The zombie has the same senses that it had in life.|
+30,Scent (Ex)|CR+1||Senses=The zombie can smell brains. This special quality allows a zombie to detect living enemies, sniff out hidden foes, and track by sense of smell. Zombies with  the scent ability can identify familiar odors just as humans do familiar sights. The zombie can detect living opponents within 30 feet by sense of smell. If  the opponent is upwind, the range increases to 60 feet; if downwind, it drops to 15 feet. The zombie can take a move action to note the direction of the scent.  Whenever the zombie comes within 5 feet of the source, the zombie pinpoints the source’s location. A zombie with the Track feat and the scent ability can follow  tracks by smell, making a Wisdom (or Survival) check to ﬁnd or follow a track. The typical DC for a fresh trail is 10 (no matter what kind of surface holds the  scent). This DC increases or decreases depending on how strong the quarry’s odor is, the number of living creatures, and the age of the trail. For each hour  that the trail is cold, the DC increases by 2. The ability otherwise follows the rules for the Track feat. Zombies tracking by scent ignore the effects of surface conditions and poor visibility.|
+20,Lifesense (Su)|CR+1||Senses=The zombie notices and locates living creatures within 60 feet, just as if it possessed the blindsight ability. It also automatically senses the strength of their life  force, as if it had cast deathwatch.|
+10,Tremorsense (Ex)|CR+1||Senses=The zombie is blind.  However, it is sensitive to vibrations in the ground and can automatically pinpoint the location of anything that is in contact with the  ground up to 60 feet away.|
+
+;!Defenses
+10,Normal|CR+0||Defenses=The zombie has the same defenses it had in life.|
+20,Damage Reduction (10/piercing)|CR+1||Defenses=0|
+10,Damage Reduction (10/silver)|CR+1||Defenses=0|
+10,Immune to Acid|CR+1||Defenses=0|
+10,Immune to Cold|CR+1||Defenses=0|
+10,Immune to Electrical|CR+1||Defenses=0|
+10,Immune to Fire|CR+1||Defenses=0|
+10,Immune to Sonic|CR+1||Defenses=0|
+5,Resistant to Turning|CR+1||Defenses=The zombie is considered to be double its Hit Dice for the purposes of turning.|
+5,[Defenses]|RerollDef=1|
+
+;!Movement
+1,[Movement]{If~{Dice~1d4}=1?|RerollMov=2|/|RerollMov=1|}
+20,Normal|CR+0||Movement=The zombie retains the normal movement it had in life.|
+30,Shamble (Ex)|CR-2||Movement=The zombie has poor reﬂexes and can perform only a single move action or attack action each round. A zombie can move up to its speed and attack in the same round, but only if it attempts a charge.|
+10,Burrow (Su)|CR+1||Movement=The zombie can tunnel through dirt at 30 feet per round, but not through rock. Zombies cannot charge or run while burrowing.|
+10,Hop (Su)|CR+1||Movement=The zombie can hop vertically or horizontally up to 30 feet per round without making Jump checks. It has a +8 racial bonus on any Jump check to perform some special action or avoid a hazard. The zombie can always choose to take 10 on a Jump check, even if distracted or endangered. The zombie can use the run action while jumping, provided it jumps in a straight line.|
+10,Swim (Ex)|CR+0||Movement=The zombie can move through water at 30 feet per round without making Swim checks. It has a +8 racial bonus on any Swim check to perform some special action or avoid a hazard. The zombie can always choose to take 10 on a Swim check, even if distracted or endangered. The zombie can use the run action while swimming, provided it swims in a straight line.|
+5,Silent (Su)|CR+1||Movement=The zombie can move at 30 feet per round without making Move Silently checks. It has a +8 racial bonus on any Move Silently check to perform some special action or avoid a hazard. The zombie can always choose to take 10 on a Move Silently check, even if distracted or endangered. The zombie can use the run action while Moving Silently, provided it moves in a straight line.|
+10,Fly (Su)|CR+1||Movement=The zombie can ﬂy supernaturally at 30 feet per round with a maneuverability of clumsy.|
+2,TV Travel (Su)|CR+2||Movement=The zombie can travel through TV sets that are turned on, entering “TV land.” For every minute the zombie spends moving through TV, it can re-emerge into the real world through another TV up to ﬁve miles away. Thus, a zombie can use this power to travel rapidly by physically entering the TV world, moving the desired distance, and then stepping back into the real world through another TV. The zombie knows where it will emerge in the real world. It cannot enter or exit a TV set that isn’t turned on.|
+1,Fog Form (Su)|CR+2||Movement=Most of the time a zombie is solid, but it can assume fog form at will. It can switch forms once per round as a free action and can spend up to 20 rounds per day in fog form. A zombie in fog form can ﬂy at a speed of 50 feet (perfect). This ability is otherwise similar to a gaseous form spell (caster level 7th).|
+
+;!Hunger
+30,None|CR+0||Hunger=The zombie isn’t hungry at all and doesn’t feed on anything.|
+30,Brains (Ex)|CR+2||Hunger=The zombie craves brains.  On a successful grapple check, the zombie can attempt to crush and crack open the victim’s skull. The victim must succeed at a Fortitude save (DC 15) to avoid this attack. If the victim fails his or her save, the zombie then spends 1 round munching on the victim’s brain (an activity that is usually fatal to the victim).|
+20,Blood Drain (Ex)|CR+1||Hunger=The zombie can suck blood from a living victim by making a successful grapple check. If it pins its foe, it drains blood, dealing 1d4 points of Constitution drain each round. On each such successful drain attack, the zombie gains 5 temporary hit pints.|
+10,Life Force (Su)|CR+2||Hunger=A zombie with this ability can sap a living opponent’s vital energy with a successful melee attack. A successful melee attack automatically drains energy from the victim,  bestowing one negative level. If an attack that includes an energy drain scores a critical hit, it bestows two negative levels. The zombie gains 5 temporary hit points for each negative level it bestows on an opponent. These temporary hit points last for a maximum of 1 hour. An affected opponent takes a –1 penalty on all skill checks and ability checks, attack rolls, and saving throws, and loses one effective level or Hit Die (whenever level is used in a die roll or calculation) for each negative level. A spellcaster loses one spell slot of the highest level of spells she can cast and (if applicable) one prepared spell of that level; this loss persists until the negative level is removed. Negative levels remain until 24 hours have passed or until they are removed with a spell such as restoration.<br> If a negative level is not removed before 24 hours have passed, the affected creature must attempt a Fortitude save (DC 10 + 1/2 zombie’s racial HD + zombie’s Cha modiﬁer). On a success, the negative level goes away with no harm to the creature. On a failure, the negative level goes away, but the creature’s level is also reduced by one. A separate saving throw is required for each negative level.|
+10,Fear (Su)|CR+1||Hunger=The zombie is shrouded in a dreadful aura of death and evil. Creatures of less than 5 HD within a 60-foot radius of the zombie that look at it must succeed at a Will save or be affected as though by a fear spell from a sorcerer of the zombie’s level. A creature that successfully saves cannot be affected again by the same zombie’s fear aura for 24 hours.|
+
+;!Vulnerability
+10,Normal|CR+0||Vulnerability=The zombie has the same vulnerabilities it had in life.|
+10,Daylight Powerlessness (Ex)|CR-2||Vulnerability=The zombie is utterly powerless in natural sunlight (not merely a daylight spell) and ﬂees from it.|
+10,Darkness Powerlessness (Ex)|CR-2||Vulnerability=The zombie is utterly powerless in darkness (natural or magical) and ﬂees from it.|
+10,Vulnerable to Acid|CR-1||Vulnerability=The zombie takes half again as much (+50 <b>percent</b>) damage as normal from acid, regardless of whether a saving throw is allowed, or if the save is a success or failure.|
+10,Vulnerable to Cold|CR-1||Vulnerability=The zombie takes half again as much (+50 <b>percent</b>) damage as normal from cold, regardless of whether a saving throw is allowed, or if the save is a success or failure.|
+10,Vulnerable to Electricity|CR-1||Vulnerability=The zombie takes half again as much (+50 <b>percent</b>) damage as normal from electrical attacks, regardless of whether a saving throw is allowed, or if the save is a success or failure.|
+20,Vulnerable to Fire|CR-1||Vulnerability=The zombie takes half again as much (+50 <b>percent</b>) damage as normal from ﬁre, regardless of whether a saving throw is allowed, or if the save is a success or failure.|
+5,Vulnerable to Holy Water|CR-1||Vulnerability=The zombie takes double from holy water (4d4 points of damage).|
+5,Vulnerable to Sonic|CR-1||Vulnerability=The zombie takes half again as much (+50 <b>percent</b>) damage as normal from sonic attacks, regardless of whether a saving throw is allowed, or if the save is a success or failure.|
+5,Fear of Mirrors (Ex)|CR-1||Vulnerability=The zombie cannot tolerate mirrors and will not knowingly enter an area with a mirror in it. Mirrors don’t harm the zombie; they merely keep it at bay by causing it to recoil in fear. A recoiling zombie must stay at least 5 feet away from a creature holding the mirror and cannot touch or make melee attacks against the creature holding the mirror as long as the creatures wields the mirror. Holding a zombie at bay with a mirror is a standard action.|
+4,Memories of Past Life (Ex)|CR-1||Vulnerability=The zombie is driven into a rage by the fear and loathing inevitably directed toward it by the living.  If a living humanoid treats the zombie like a normal person with a successful Bluff check (DC 20), the zombie takes no action for 1 round and thereafter suffers a -2 morale penalty to all attacks directed at that opponent.|
+1,[Vulnerability]|RerollVul=1|<
+
+;!Hardiness
+50,Normal|CR+0||Hardiness=The zombie is just as hardy as it was when it was alive.|
+25,Regeneration (Su)|CR+2||Hardiness=Damage dealt to the zombie is treated as nonlethal damage. The zombie automatically heals nonlethal damage at a rate of 5 hit points per round. Fire and acid deal lethal damage to the zombie, which can’t be regenerated.  Attacks that don’t deal hit point damage ignore regeneration. Regenerating zombies can regrow lost portions of their bodies and can reattach severed limbs or body parts.|
+20,Ouanga (Su)|CR+1||Hardiness=The ouanga is a small voodoo doll that stores the zombie’s life force. The only way to get rid of a zombie with this power is to destroy its ouanga. Unless its ouanga is located and destroyed, the zombie reappears 1d10 days after its apparent death.|
+5,Gigantism (Su)|CR+0||Hardiness=The zombie bloats up to two size levels larger than its original size, without adjustments except for attack roll, grapple and Defense modifiers.|
+
+;!High Ability
+30,Normal|CR+0||High Ability=The zombie’s attributes remain the same.|
+40,Strong|CR+1||High Ability=The zombie’s Strength increases by +4.|
+15,Alert|CR+1||High Ability=The zombie’s Wisdom increases by +4.|
+5,Fast|CR+1||High Ability=+1 The zombie’s Dexterity increases by +4.|
+5,Cold Beauty|CR+0||High Ability=The zombie’s Charisma increases by +2.|
+5,[High Ability]|RerollHAb=1|
+
+;!Low Ability
+20,Normal|CR+0||Low Ability=The zombie’s attributes remain the same.|
+30,Mindless|CR-2||Low Ability=The zombie has no Intelligence score. The zombie loses all skills and feats.|
+20,Slow|CR-1||Low Ability=The zombie’s Dexterity decreases by –4.|
+15,Horriﬁc|CR-1||Low Ability=The zombie’s Charisma decreases to 1.|
+5,Unobservant|CR-1||Low Ability= The zombie’s Wisdom decreases by –4.|
+5,Weak|CR-1||Low Ability= The zombie’s Strength decreases by –4.|
+5,[Low Ability]|RerollLAb=1|
+
+;!Special Attack
+30,Normal|CR+0||Special Attack=The zombie has no special attacks other than what it had in life.|
+30,Improved Grab (Ex)|CR+1||Special Attack=When the zombie hits with its claws, it can attempt to start a grapple as a free action without provoking an attack of opportunity. If it gets a hold, it can constrict.|
+30,Constrict|CR+1||Special Attack=The zombie deals 1d6+2 on a successful grapple check, in addition to the zombie’s normal claw damage.|
+8,Rage (Ex)|CR+1||Special Attack=The zombie ﬂies into a berserk rage after a certain trigger (speciﬁed by the Gamemaster) sets it off.  On the turn after becoming enraged, the zombie begins clawing and biting madly until either it or its opponent is dead. It gains +4 to Strength, +4 to Constitution, and –2 to Defense. The zombie cannot end its rage voluntarily.|
+1,Corrosive Touch (Su)|CR+1||Special Attack=The zombie’s touch is corrosive.  A zombie deals 1d6 points of acid damage to any creature or object it touches.  If making an unarmed attack, this damage is in addition to any other damage the zombie deals.  If the zombie successfully grapples or pins a foe, the grasp deals 2d6 points of acid damage.  If the zombie can entirely enclose an object (or a very small creature) in the grip of both of its hands, it deals 3d6 points of acid damage.  The acid denatures 1 round after use, losing all efﬁcacy and the ability to deal damage.|
+1000,[Special Attack]|RerollSpA=1|
+
+;Contagion
+20,Not Contagious|CR+0||Contagion=0|
+60,Zombie Fever (Su)|CR+1||Contagion=Disease—bite, Fortitude DC 12, incubation period 1 day, damage 1d3 Con and 1d3 Dex. The save DC is Constitution-based. An afﬂicted humanoid that dies of zombie fever rises as a zombie at the next midnight. It is not under the control of the zombie that created it, but it hungers for the brains of the living.|
+10,Blood (Ex)|CR+2||Contagion=A Successful hit on the zombie with a slashing or piercing weapon requires all creatures within a 10-foot radius to succeed at Reﬂex save (DC 13) or be sprayed with the zombie’s infectious blood.  Disease Blood, Fortitude DC 12, incubation period 1 round, damage 1d3 Con and 1d3 Dex. The save DC is Constitution based. An afﬂicted humanoid that dies of zombie fever rises as a zombie at the next midnight. It is not under the control of the zombie that created it, but it hungers for the brains of the living.|
+4,Radiation (Ex)|CR+2||Contagion=The zombie gives off radiation in a 30-foot radius. Anyone within range must make a Fortitude save (DC 18), incubation period 1 day, damage 1d6 Con. The save DC is Constitution-based. An afﬂicted humanoid that dies of radiation rises as a zombie at the next midnight. It is not under the control of the zombie that created it, but it hungers for the ﬂesh of the living.|
+5,Death Kiss (Ex)|CR+1||Contagion=A zombie that that makes a successful grapple check can attempt to spit a worm into its victim’s mouth.  The victim can evade this attempt with a successful Reﬂex save (DC 15) or have a worm spit into the victim’s mouth.  It can spit once per round so long as the grapple is maintained. The zombie has 2d4 worms in it. See the “creep” entry for an example of this contagion.|
+1,Explode (Ex)|CR+1||Contagion=The zombie can cause itself to explode, usually in a populated area.  This attack spews worms at every living being within 30 feet.  A living target caught within this radius must make a Reﬂex save (DC 10) to avoid having a particularly well-aimed worm enter an oriﬁce. See the “creep” entry for an example of this contagion.|
+
+;Origin
+10,Aliens (Aliens decide that rather than put themselves at risk, they’ll just use the human leftovers (read: corpses) and take over the Earth that way instead.  A few rays of extraplanar energy later and VOILA! Instant zombies.)
+5,Cursed (Ground An ancient curse causes all those on a particular spot of ground to turn into zombies.)
+10,Hell (For one reason or another, demonic forces decide to escape hell and prance around on earth in the form of bodies nobody’s using… the dead.)
+5,Lightning (Lightning hits at just the right time, inexplicably reanimating the zombie.  Nobody knows why this happens.)
+5,Love (The zombie comes back because he’s really in love with somebody still alive.)
+5,Meteor (A meteor crashes into the Earth, irradiating the surrounding corpses with strange energy that causes them to rise up as zombies.)
+10,Necromancy (An insane necromancer (is there any other kind?) decides to use the undead as cheap labor and begins reanimating people he didn’t like in life to do his bidding.)
+5,Parasite (A strange parasite reanimates corpses as vehicles to ﬁnd and infect more hosts.)
+5,Plague (Some kind of plague converts living humans into zombies—it might be spread by food, in the water, or even in the air itself.)
+5,Psychic (Powers Through mental willpower alone, the dead are dragged back into life.)
+5,Revenge (The zombie in question gets really mad and comes back to avenge its killer(s).)
+10,Science (Whether it’s experiments gone awry or the creation of a super soldier-program, the zombies are created through man-made science.  Nazis are fond of creating undead super-soldiers. )
+5,Toxic (Spill Toxic chemicals dumped into a river overﬂow into the nearest graveyard, animating the dead.)
+5,Video (Too much TV and videogames turns kids into zombies.  No really.)
+10,Voodoo (A malicious bokor reanimates the dead for his own purposes.)

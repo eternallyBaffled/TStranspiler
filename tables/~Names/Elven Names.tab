@@ -1,0 +1,101 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder August 10, 2006.
+# ---------------------------------------------------
+#
+# This table will create Elven Names
+#
+# Wednesday, October 14, 1998
+# Tim Dugger
+#
+# Modified by Valminder, Oct 2005
+#    -Adapted fot TS v5.
+#
+
+:Start
+1,[Given] [Clan]
+
+:Begin
+1,[Single]
+2-9,[First]
+
+:Given
+1-3,{Cap~[Begin]}[Last]
+4-5,{Cap~[Begin]}[Mid][Last]
+6,{Cap~[Begin]}[Mid][Mid][Last]
+
+:Clan
+1-3,{Cap~[Begin]}[Mid][Last]
+4-5,{Cap~[Begin]}[Mid][Mid][Last]
+6,{Cap~[Begin]}{Loop~{Dice~1d4},[Mid]}[Last]
+
+
+:Single
+1-2,a
+3-4,e
+5,ea
+6,au
+
+:First
+1,el
+2,lin
+3,ril
+4,sil
+5,ael
+6,aer
+7,al
+8,sin
+9,lir
+10,mel
+11,rin
+12,mer
+13,niel
+14,lyn
+15,ryl
+16,syl
+17,syn
+18,lyr
+19,myl
+20,ryn
+21,myr
+
+:Mid
+1,ar
+2,as
+3,or
+4,al
+5,ir
+6,in
+7,len
+8,aen
+9,eir
+10,li
+11,ri
+12,ril
+13,yr
+14,ys
+15,lyn
+16,yn
+17,ly
+18,ry
+19,ryl
+
+:Last
+1,nar
+2,nil
+3,rieth
+4,lan
+5,al
+6,nor
+7,lith
+8,nal
+9,en
+10,ril
+11,i
+12,ni
+13,ial
+14,ael
+15,ien
+16,lir
+17,ian
+18,ion
+

@@ -1,0 +1,537 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder Feb 28, 2006.
+# ---------------------------------------------------
+#
+# This Table rolls up Random Real-World Herbs, and indicates their purported Uses
+# ...by Larry Cormier
+#
+# Note: Although most of these herbal remedies and properties are generally
+# well known - and accepted in some circles - NEVER take them without proper
+# medical advice, supervision, and/or complete knowledge of any potential
+# dangers associated with their use.
+#
+# I cannot be held responsible for any intentional or unintentional misuse of
+# the purported uses and/or properties of the Herbs outlined in this table.
+#
+# Modified by Valminder, Feb 2006.
+#    Placed in "~Reference Misc" and linkd to "Herb Names.tab".
+#
+
+%HerbID%,0
+%IncludeUses%,0
+
+# Parameter Display Lists:
+@IncludeUses,1,Include the Herb's Purported Uses in the display?,Yes,No
+
+:Start
+1,|HerbID={Dice~1d253}|{Cap~[Herbs04]}{If~%IncludeUses%=1? ([PurportedUses=%HerbID%])}
+
+:Herbs04
+1,abcess root
+2,sweetroot
+3,acacia
+4,gum arabic
+5,aconite
+6,monkshood
+7,wolfsbane
+8,friar's cap
+9,acorn
+10,adder's tongue
+11,adrue
+12,agar-agar jelly
+13,agaric
+14,agrimony
+15,cocklebur
+16,stickwort
+17,alder
+18,alkanet root
+19,all-heal
+20,wound-wort
+21,almond milk
+22,almond powder
+23,aloe
+24,amaranth
+25,red cockscomb
+26,love-lies-bleeding
+27,ammoniacum
+28,persian gum
+29,angelica
+30,anise
+31,arbutus
+32,mayflower
+33,areca nut
+34,betel nut
+35,arenaria rubra
+36,sandwort
+37,arrach
+38,goosefoot
+39,artichoke juice
+40,asafetida
+41,gum asafetida
+42,devil's dung
+43,food of the gods
+44,asarabacca
+45,hazelwort
+46,wild nard
+47,bark of ash
+48,leaves of ash
+49,asparagus root
+50,asparagus juice
+51,avens
+52,colewort
+53,herb benet
+54,bael
+55,balm leaves
+56,sweet balm
+57,balm of gilead
+58,balmony
+59,bitter herb
+60,snake head
+61,barley
+62,basil
+63,bay leaf
+64,beet
+65,belladona
+66,deadly nightshade
+67,dwale
+68,black cherry root
+69,benne
+70,sesam
+71,sesame
+72,benzoin
+73,gum benzoin
+74,berberis
+75,beth root
+76,lamb's quarters
+77,bilberry
+78,huckleberry
+79,hurtleberry
+80,whortleberry
+81,birch
+82,white birch
+83,birthwort
+84,bistort
+85,adderwort
+86,bittersweet
+87,felonwort
+88,scarlet berry
+89,woody nightshade
+90,blackberry
+91,dewberry
+92,black current
+93,black willow bark
+94,pussy willow bark
+95,blueberry
+96,blue flag
+97,flag lily
+98,poison flag
+99,water flag
+100,water lily
+101,blue mallow
+102,common mallow
+103,boneset
+104,thoughtwort
+105,borage
+106,box leaves
+107,bryony
+108,bugle
+109,burdock
+110,butterbur
+111,cabbage juice
+112,calotopis
+113,mudar bark
+114,camphor
+115,gum camphor
+116,caraway
+117,caradamon
+118,carrot juice and seeds
+119,castor oil bush
+120,catnip
+121,cayenne
+122,celery
+123,chamomile
+124,chaulmoogra oil
+125,cherry gum
+126,chervil
+127,chives
+128,cinnamon
+129,cleavers
+130,goosegrass
+131,clover
+132,cloves
+133,comfrey root
+134,healing herb
+135,coriander
+136,couchgrass
+137,cucumber
+138,cumin seed
+139,dandelion
+140,digitalis
+141,dead men's bells
+142,fairy bells
+143,fairy cap
+144,fairy fingers
+145,foxglove
+146,dill weed
+147,ergot
+148,rye smut
+149,eye bright
+150,fennel
+151,fenugreek
+152,fig
+153,figwort
+154,scrofula plant
+155,throatwort
+156,fireweed
+157,fluellin
+158,garden burnet
+159,garlic
+160,gelsemium
+161,wild woodbind
+162,gentian
+163,bitter root
+164,felwort
+165,geranium
+166,sweet geranium
+167,ginger
+168,ginsing
+169,goat's rue
+170,grape juice
+171,hartstongue
+172,hawthorn
+173,hedge mustard
+174,hellebore
+175,honeysuckle
+176,white horehound
+177,black horehound
+178,horseradish
+179,hyssop
+180,ipecac
+181,irish moss
+182,jambul seed
+183,jewel weed
+184,balsam weed
+185,pale touch-me-not
+186,juniper berry
+187,jurubera
+188,kelp
+189,seawrack
+190,larkspur
+191,knight's spur
+192,leek
+193,lily-of-the-valley
+194,lotus
+195,lucerne
+196,alfalfa
+197,lycopodium
+198,common club moss
+199,fox's tail
+200,lamb's tail
+201,mace
+202,marigold
+203,marjoram
+204,masterwort
+205,mistletoe
+206,muria-puama
+207,mustard
+208,nutmeg
+209,nux vomica
+210,poison nut
+211,onion
+212,oregano
+213,paprika
+214,parsley
+215,parsnip
+216,peach seed
+217,black pepper
+218,peppermint
+219,pitcher plant
+220,plantain
+221,ripple grass
+222,waybread
+223,pomegranate
+224,poppy
+225,pumpkin seed
+226,quince
+227,radish
+228,raspberry
+229,rhubarb
+230,rose
+231,rosemary
+232,saffron
+233,sage
+234,sasaparilla
+235,china root
+236,spikenard
+237,scopolis
+238,skullcap
+239,madweed
+240,senna
+241,spearmint
+242,strawberry
+243,summer savory
+244,tamarind
+245,tansy
+246,tarragon
+247,tea
+248,thyme
+249,turmeric
+250,turnip
+251,watercress
+252,white bryony
+253,mandragora
+
+:PurportedUses
+1,used for respiratory disorders
+2,used for tissue repair
+3,used for tissue repair
+4,used for tissue repair
+5,used as sedative; werewolf repellent
+6,used as sedative; werewolf repellent
+7,used as sedative; werewolf repellent
+8,used as sedative; werewolf repellent
+9,used for tissue hardening
+10,used as emetic, emollient
+11,used as sedative, anti-vomiting aid
+12,used for anit-inflammation, and nutrient
+13,used as astringent, purgative
+14,used for muscle toning, diuretic
+15,used for muscle toning, diuretic
+16,used for muscle toning, diuretic
+17,used for anti-inflammation, and as tonic
+18,used as emollient, antiseptic, and wormer
+19,used as antiseptic, and anti-spasmodic
+20,used as antiseptic, and anti-spasmodic
+21,used as nutrient, and emollient
+22,used as nutrient, and emollient
+23,used to treat bites, and burns, as a laxative, a tonic, and as insect repellent
+24,used for an astringent, and anti-hemorrhaging aid
+25,used for an astringent, and anti-hemorrhaging aid
+26,used for an astringent, and anti-hemorrhaging aid
+27,used as a stimulant, and respiratory aid
+28,used as a stimulant, and respiratory aid
+29,used to treat lungs, liver, spleen, vision and hearing
+30,used for antacid, digestion, and coughing
+31,used for astringent, and bladder infections
+32,used for astringent, and bladder infections
+33,used as astringent and tape wormer
+34,used as astringent and tape wormer
+35,used as diuretic and for urinary diseases
+36,used as diuretic and for urinary diseases
+37,used as sedative, nervous tension and hysteria in particular
+38,used as sedative, nervous tension and hysteria in particular
+39,used to cure jaundice
+40,used as aphrodisiac, brain and nervous system stimulant, tonic, and others
+41,used as aphrodisiac, brain and nervous system stimulant, tonic, and others
+42,used as aphrodisiac, brain and nervous system stimulant, tonic, and others
+43,used as aphrodisiac, brain and nervous system stimulant, tonic, and others
+44,used as emetic, and purgative
+45,used as emetic, and purgative
+46,used as emetic, and purgative
+47,used as a laxative, anti-inflammatory, and for fevers
+48,used as a laxative, anti-inflammatory, and for fevers
+49,used as sedative, and for heart problems
+50,used as sedative, and for heart problems
+51,used as astringent, anti-hemorrhaging and anti-weakness agent, tonic and more
+52,used as astringent, anti-hemorrhaging and anti-weakness agent, tonic and more
+53,used as astringent, anti-hemorrhaging and anti-weakness agent, tonic and more
+54,used for anti-inflammation and ulcers
+55,used to calm nerves, and for fevers
+56,used to calm nerves, and for fevers
+57,used as nutrient and general organ stimulant
+58,used as tissue builder and strengthener, for liver ailments, and as a wormer
+59,used as tissue builder and strengthener, for liver ailments, and as a wormer
+60,used as tissue builder and strengthener, for liver ailments, and as a wormer
+61,used as a recuperative nutrient
+62,used for nervous disorders
+63,used for flavoring, no documented benefits
+64,used as an organic cleanser
+65,used as diuretic, sedative, pain reliever, anti-opiate, circulation stimulant, poison and lycanthropy cure
+66,used as diuretic, sedative, pain reliever, anti-opiate, circulation stimulant, poison and lycanthropy cure
+67,used as diuretic, sedative, pain reliever, anti-opiate, circulation stimulant, poison and lycanthropy cure
+68,used as diuretic, sedative, pain reliever, anti-opiate, circulation stimulant, poison and lycanthropy cure
+69,used for respiratory disorders, eye infections and more
+70,used for respiratory disorders, eye infections and more
+71,used for respiratory disorders, eye infections and more
+72,used as an expectorant, stimulant, antiseptic wounds and sores
+73,used as an expectorant, stimulant, antiseptic wounds and sores
+74,used for fevers
+75,used as an astringent, for coughs, as a tonic, as an anti-hemorrhaging aid, and more
+76,used as an astringent, for coughs, as a tonic, as an anti-hemorrhaging aid, and more
+77,used for anti-thirst remedy, dropsy, typhoid and more
+78,used for anti-thirst remedy, dropsy, typhoid and more
+79,used for anti-thirst remedy, dropsy, typhoid and more
+80,used for anti-thirst remedy, dropsy, typhoid and more
+81,used for intestines and stomach ailments, venereal diseases and skin conditions
+82,used for intestines and stomach ailments, venereal diseases and skin conditions
+83,used as a circulatory stimulant
+84,used as an astringent
+85,used as an astringent
+86,used to treat abscesses, lymph infections, swelling and inflammation
+87,used to treat abscesses, lymph infections, swelling and inflammation
+88,used to treat abscesses, lymph infections, swelling and inflammation
+89,used to treat abscesses, lymph infections, swelling and inflammation
+90,used as an astringent, a tonic, and for dysentery
+91,used as an astringent, a tonic, and for dysentery
+92,used as a diuretic, an antiseptic, and blood purifier
+93,used as an astringent, and antiseptic
+94,used as an astringent, and antiseptic
+95,used for anti-thirst remedy, dropsy, typhoid and more
+96,used as diuretic, cathartic, blood purifier vs poison, wound healing venereal disease and more
+97,used as diuretic, cathartic, blood purifier vs poison, wound healing venereal disease and more
+98,used as diuretic, cathartic, blood purifier vs poison, wound healing venereal disease and more
+99,used as diuretic, cathartic, blood purifier vs poison, wound healing venereal disease and more
+100,used as diuretic, cathartic, blood purifier vs poison, wound healing venereal disease and more
+101,used for coughs and colds
+102,used for coughs and colds
+103,used for fevers, as a tonic, and skin diseases
+104,used for fevers, as a tonic, and skin diseases
+105,used for coughs and lung infections
+106,used as a tonic and blood purifier
+107,used for paralysis and bruises
+108,used for gastrointestinal disorders, hemorrhaging
+109,used as a laxative, for tuberculosis and more
+110,used for fevers, and urinary complaints
+111,used as an ulcer and stomach treatment
+112,used for skin leprosy, elephantitis, and more
+113,used for skin leprosy, elephantitis, and more
+114,used to treat bruises, strains, chills, fevers, and as a cardiac stimulant
+115,used to treat bruises, strains, chills, fevers, and as a cardiac stimulant
+116,used as an antacid, and aids in digestion
+117,no known medicinal value
+118,used as a tonic to promote improved health
+119,used as a purgative, and cathartic
+120,used for colds, fevers, as an anti-spasmodic, and for treating hysteria
+121,used as a stimulant
+122,used to treat liver functions, as a tonic, and as a stimulant
+123,used to treat nervous conditions and tooth and ear aches
+124,used for fevers, as a sedative, and for skin eruptions
+125,used for respiratory infections, and a food substitute
+126,no known medicinal value
+127,used for colds, general diseases, and to treat evil eye
+128,used as a disinfectant, for nausea, and as a preservative
+129,used for fevers, circulation, as a blood purifier, for wounds and liver disease
+130,used for fevers, circulation, as a blood purifier, for wounds and liver disease
+131,used as a tonic
+132,used as an anesthetic, for circulation, as a germicide, and disinfectant
+133,used for colds, respiratory conditions, wounds, bone fractures, gangrene, and much, much more
+134,used for colds, respiratory conditions, wounds, bone fractures, gangrene, and much, much more
+135,used as a tonic
+136,used for bladder and urinary infections
+137,used to treat inflammation
+138,used as a stimulant
+139,used as a diuretic, purgative and tonic
+140,used as a heart stimulant, tonic, kidney treatment, and poison
+141,used as a heart stimulant, tonic, kidney treatment, and poison
+142,used as a heart stimulant, tonic, kidney treatment, and poison
+143,used as a heart stimulant, tonic, kidney treatment, and poison
+144,used as a heart stimulant, tonic, kidney treatment, and poison
+145,used as a heart stimulant, tonic, kidney treatment, and poison
+146,used to treat nausea
+147,used for hemorrhaging, and venereal disease
+148,used for hemorrhaging, and venereal disease
+149,used as an astringent and for eye infections
+150,used for digestion, weight control, muscle tone, reflexes, vision and much, much more
+151,used as a stimulant
+152,used as a demulcent
+153,used to treat abscesses, wounds, and as a pain killer
+154,used to treat abscesses, wounds, and as a pain killer
+155,used to treat abscesses, wounds, and as a pain killer
+156,used as an astringent, and anti-spasmodic
+157,used as an astringent and a tissue strengthener
+158,no known medicinal value
+159,used for coughing, colds, as a blood purifier, a detoxifier, it kills parasites, and wards of vampires
+160,used as a sedative, nerve tonic, to treat fevers, and more
+161,used as a sedative, nerve tonic, to treat fevers, and more
+162,used as a tonic, for fevers, and as an anti-venom
+163,used as a tonic, for fevers, and as an anti-venom
+164,used as a tonic, for fevers, and as an anti-venom
+165,used as an alkalizer
+166,used as an alkalizer
+167,used as a stimulant, and to treat colds and cramps
+168,used as a glandular stimulant, for vision problems, dizziness, headaches and weakness
+169,used as a diuretic, and a vermifuge wormer
+170,used as a blood fortifier
+171,used for coughs, and to treat problems with the liver, spleen, and bladder
+172,used for the heart and arteries
+173,used for throat and lung problems
+174,used as a heart tonic. the rootlets are poisonous
+175,used for liver, spleen and respiratory disorders
+176,used for coughs, pulmonary diseases, and as an anti-venom
+177,used as a stimulant, a wormer, and for hemorrhaging
+178,used as a tonic, antiseptic and wormer
+179,used for respiratory ailments, for jaundice, as a blood purifier, a tonic, to treat cuts and wounds and much more
+180,used for dysentery, mouth infections and much more
+181,used to treat coughs, scalds and burns
+182,used as a blood purifier, and to treat diabetes
+183,used as a diuretic, and to treat the kidneys, skin growths, fungus, infections and the liver
+184,used as a diuretic, and to treat the kidneys, skin growths, fungus, infections and the liver
+185,used as a diuretic, and to treat the kidneys, skin growths, fungus, infections and the liver
+186,used as an aphrodisiac, stimulant, disinfectant, to treat venereal disease and more
+187,used for anemia
+188,used for thyroid problems, heart problems, to treat the arteries, and more
+189,used for thyroid problems, heart problems, to treat the arteries, and more
+190,used for external parasites
+191,used for external parasites
+192,used for colds, general diseases, and to treat evil eye
+193,used as a heart tonic
+194,no known medicinal value
+195,used for strength
+196,used for strength
+197,used to treat wounds, for lungs, kidneys and more
+198,used to treat wounds, for lungs, kidneys and more
+199,used to treat wounds, for lungs, kidneys and more
+200,used to treat wounds, for lungs, kidneys and more
+201,used as a stimulant
+202,used for fevers, varicosities, to treat the eyes and heart
+203,used for melancholia, dizziness, brain disorders and toothaches
+204,used to stimulate organs, as an anti-spasmodic, and more
+205,used for convulsions, hysteria, as a narcotic, a tonic, and to treat typhoid fever, and the heart
+206,used as an aphrodisiac
+207,used as an emetic, a counter-irritant, for colds and fevers
+208,used for nausea, vomiting and diarrhea
+209,used as a stimulant and a debility tonic
+210,used as a stimulant and a debility tonic
+211,used as a poultice, and for treatment of colds, as well as general diseases, and to treat evil eye
+212,used as a germicide, and pain killer
+213,used as a stimulant and for poultices
+214,used as a blood purifier
+215,used for fevers
+216,used for fevers and as a blood tonic
+217,used for sprains and neuritis
+218,no known medicinal value
+219,used as a smallpox preventative and cure, and for the stomach, liver and kidneys
+220,used to treat minor wounds, stings, and rashes
+221,used to treat minor wounds, stings, and rashes
+222,used to treat minor wounds, stings, and rashes
+223,used as a nerve sedative, and wormer
+224,no known medicinal value
+225,used to enhance vitality, and as an organ tonic
+226,used for eye diseases, dysentery, and skin disorders
+227,used as a blood purifier, and for liver diseases
+228,used for fevers and as a tonic
+229,used as an astringent and a cathartic
+230,used for colds and fevers
+231,used as a germicide, muscle tonic, and drives off evil spirits
+232,used to treat scarlet fever, measles, and respiratory infections
+233,used as a tonic and for wounds
+234,used for system balance, as a blood purifier, for venereal diseases, and many more
+235,used for system balance, as a blood purifier, for venereal diseases, and many more
+236,used for system balance, as a blood purifier, for venereal diseases, and many more
+237,used as a nerve and muscle sedative, pain killer, and for coughs
+238,used for nervous disorders, and to treat rabies
+239,used for nervous disorders, and to treat rabies
+240,used as a purgative
+241,no known medicinal value
+242,used for vision problems, and swelling and inflammation
+243,used as a blood purifier and to treat palsy
+244,used for infections and gangrene
+245,used as a tonic, a narcotic, and a wormer
+246,no known medicinal value
+247,used as a poison antidote
+248,used as an antiseptic and a blood purifier
+249,no known medicinal value
+250,used to treat mouth and throat
+251,used as a blood tonic for anemia
+252,used as a cathartic, for respiratory diseases, and to treat the heart and kidneys
+253,used as a cathartic, for respiratory diseases, and to treat the heart and kidneys

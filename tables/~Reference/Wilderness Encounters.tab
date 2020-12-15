@@ -1,0 +1,540 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder Dec 14, 2007.
+# ---------------------------------------------------
+#
+# Wilderness (Non-creature) Encounters
+# Source: Freeplayers (?) Web Site
+# Send additions to jimmyflowers@bigfoot.com
+#
+# Non-creature wilderness encouter
+#
+# -------------------------------------------------------------------------
+#
+# To call this table from another one:
+#    [Wilderness Encounters.Start(%Bonus0Level%)
+#
+#    Parameters: (%Bonus0Level%)
+#
+#    Bonus0Level:  1= Yes, add 0-Level bonus spells.
+#                  2= No 0-Level bonus spells.
+#
+# -------------------------------------------------------------------------
+#
+# Modified by Valminder April 2002, May 2003
+#    I added some links to these other tables:
+#        CoatsOfArms.Start
+#        Creatures.Animal
+#        Creatures.Animal2
+#        Creatures.Battle
+#        Creatures.Fantastic
+#        Creatures.Humanoid
+#        Creatures.Humanoid2
+#        Creatures.Start
+#        Jewelery.Start
+#        Miscellaneous.Class
+#        Miscellaneous.Color
+#        Miscellaneous.Shape
+#        Miscellaneous.Size A
+#        Miscellaneous.Weapons
+#        Names Generator.NAME Random
+#        NPC Appearance.Generate
+#        Religion.Deities
+#        Rumors.Generate
+#
+# Modified by Larry Cormier December, 2005
+#    Broke out Multiple Items into seprate entities.
+#    Added Passive Tense sentence structure for consistency throughout entry
+#       options
+#    Added relevant variable Identifications and links to these other tables:
+#       MonsterStats.tab
+#       Random Treasure.tab
+#
+# Modified by Valminder, Jan 2006.
+#    Modified the output of the Monster Stats. 
+# Modified by Valminder, May 2006.
+#    Added encounters from "Roleplaying Tips Weekly E-Zine Issue #301"
+#       120 benign wilderness encounters.
+#    Added links to
+#       DUN Graffiti.Graffiti
+#       Equipment.Weapons
+#       Miscellaneous.ColorNoType
+#       Miscellaneous.Size A
+#       Religion.Deities(2)
+# Modified by Valminder, Dec 2007.
+#    Added link to: Spell Components.Generate
+#
+
+# Define Variables
+%MonsterID%,0
+%Chance%,0
+%Bonus0Level%,1
+
+@Bonus0Level,1,OPTIONAL: Bonus 0-level spells based on Prime Attribute? (same as 1st-level spells),Yes,No
+
+:Start
+1,{Status~Non-creature wilderness encounter} [Generate].
+_{If~%MonsterID%!=0?[GenerateMonsterStats]}
+
+:Chanceof
+1,|Chance={Dice~1d100}|
+
+:GenerateMonsterStats
+1,<hr>[Monster Stats.DetermineRandomMonster(%MonsterID%,%Bonus0Level%,,99)]<hr>
+
+;Generate
+1,a [~Creatures.Start] kite stuck high in a tree
+1,a full sized rusty iron tree, with nuts and bolts holding it together
+1,a bone that has been crudely carved into a miniature [~Miscellaneous.Weapons]
+1,a child throwing cats into a patch of catnip. [NPC]
+1,a broken metal carriage at the foot of a cliff
+1,a crude hut made from wooden shields
+1,a crude mudbrick statue of some unknown creature
+1,a crude wood replica of the party's most powerful enchanted weapon
+1,a crude wooden toy of a [~Creatures.Start]
+1,a crushed tin canteen, embossed with a [~Creatures.Start] head
+1,a deer darting out in front of the PCs
+1,a false portal
+1,a field of wild tobacco
+1,a field of cultivated tobacco
+1,a floating stone
+1,a standing stone
+1,a flock of carrion birds
+1,a folded (but damp) parchment with this written on it: [Rumors.Generate]
+1,a fully armed war brigade asking for directions (<b>{Dice~1d30+10}</b>). [NPC]
+1,a hollow stump containing <b>{Dice~1d10+10}</b> unrecognizable gold coins
+1,a huge heap of dung (from [~Creatures.Start])
+1,a line of [~Miscellaneous.Color] stones leading to a hornet's nest
+1,a line of [~Miscellaneous.Color] stones leading to a [IdentifyMonsters={Dice~1d4}]'s den
+_[Chanceof]{If~%Chance%<25?, and the den is occupied!/. The den is empty}
+1,a lost goat
+1,a lost lamb
+1,a lost piece of jewelry ([Jewelry.Start])
+1,a meteorite crater, filled with (growing) iridescent [~Miscellaneous.Color] wildflowers
+1,a moaning hill
+1,a pole decorated with flowing [~Miscellaneous.Color] silk streamers
+1,a [~Miscellaneous.Color] dragon totem, half buried in soil
+1,a ring of salt, killing the soil in a <b>{Dice~1d7+1}</b>ft radius
+1,a ruined temple of a long and forgotten deity
+1,a rusty tin can
+1,a section of road that has been made impassible by recent rains
+1,a sex hungry [IdentifyMonsters=5]
+1,a squeaky abandoned windmill (heard for miles around)
+1,a wagon with skis instead of wheels
+1,an abandoned bandit hideout
+1,an abandoned crop garden
+1,an abandoned crop field
+1,an abandoned mine construction site
+1,an abandoned monster's nest
+1,abandoned tents
+1,an abandoned watch tower
+1,an abandoned signal tower
+1,a [~Creatures.Humanoid] turned to stone. [NPC]
+1,[~Creatures.Animal] lair with dead occupant
+1,an animal out of its natural terrain
+1,an animal skull collection
+1,<b>{Dice~1d4+1}</b> archery targets
+1,an avalanche
+1,a blocked trail
+1,a baby left to the elements (<b>[Creatures.Humanoid]</b>)
+1,a backpack with supplies
+1,that bad weather has soaked the party's food
+1,a bag of spell components. <ul>{Loop~{Dice~1d10+3},{Cap~[Spell Components.Generate]}.<br>}</ul>
+1,a barely buried chest containing valuables?<br><br>[ValuablesBranch]
+1,a barge on dried up river bed
+1,a barrow that has been looted
+1,a battle site ([~Creatures.Battle] vs [~Creatures.Battle])
+1,a bear skeleton in steel trap
+1,a bee's nest
+1,a wasp's nest
+1,a hornet's nest
+1,the beginnings of a log cabin construction
+1,<b>{Dice~1d8+1}</b> berry bushes
+1,bird droppings
+1,a blueberry bush with poisonous berries
+1,bone trail signs
+1,a bridge of piled stones
+1,a burned-down building
+1,a burned-down village
+1,an empty burrow
+1,an occupied burrow 
+1,a bush decorated with flower garlands
+1,a bush with out of season berries
+1,a flooded camp
+1,a campfire with roasting rabbits
+1,a campsite with a tun of poisoned wine nearby
+1,a campsite with a tun of poor wine nearby
+1,a carnivorous raspberry bush
+1,a carved, living tree
+1,a sculpted, living tree
+1,abandoned castle foundations, with moat
+1,an operational catapult
+1,a non-operational catapult
+1,a cave carved as the mouth of a monster
+1,a child's doll amid signs of a struggle ([~Creatures.Humanoid2] vs [~Creatures.Battle])
+1,a circle of mushrooms
+1,a clearing
+1,a cliff, with rope and pitons
+1,a ridge, with rope and pitons
+1,a coat of arms banner on pole ([~CoatsOfArms.Start])
+1,a cracked crystal ball
+1,a copse of fruit trees
+1,a cursed item, discarded
+1,a trapped, cursed, item
+1,the dead end to a trail
+1,a dead tree across the path
+1,a deadfall trap
+1,a deer followed by a pack of <b>{Dice~1d10+6}</b> wolves
+1,a defiled outdoor altar (God: [~Religion.Deities])
+1,discarded monster eggs
+1,a domestic animal alone ([~Creatures.Animal2])
+1,a dried up lake, with the ruins of an aquatic village
+1,a dried up stream bed
+1,a dried up river bed
+1,a dried up well
+1,a drowned animal ([~Creatures.Animal]) on the riverbank
+1,a drowned monster ([~Creatures.Fantastic]) on the riverbank
+1,a druid grove (empty)
+1,a druid grove (occupied). [NPC]
+1,an easel, with paints and a half-completed portrait. [NPC]
+1,an equipment strap
+1,discarded wheel breaks
+1,a pet cemetery
+1,a potion
+1,a tombstone, with the PC's God's name on it... [NPC]
+1,a tombstone with a god's name on it (God: [~Religion.Deities]. [NPC]
+1,a tombstone with the name <b>[Names Generator.NAME Random]</b>. [NPC]
+1,a tombstone with no markings. [NPC]
+1,a [IdentifyMonsters=5] bathing in a lake 
+1,a fire pit with a burnt boar, covered in leaves
+1,a fire pit with stacked wood
+1,a fishing hole with small dock
+1,an infestation of fleas
+1,a fog bank
+1,spoiled food
+1,a foot bridge
+1,a forgotten cemetery of [~Creatures.Humanoid]
+1,a four leafed clover
+1,a frequently used campsite (it's been <b>{Dice~1d9+1}</b> days since one <b>[Creatures.Humanoid]</b> has visited it)
+1,a frequently used campsite (it's been <b>{Dice~1d9+1}</b> days since many <b>[Creatures.Humanoid]</b> have visited it)
+1,fruit bearing trees
+1,a giant sized fire pit
+1,a giant sized spit
+1,a giant wooden shield
+1,an infestation of gnats
+1,a half buried statue of a [~Creatures.Start]
+1,a half cut tree with a rusted saw laying beside it
+1,a half cut tree with a rusted saw left inside it
+1,a healers bag
+1,a hidden cache of [~Creatures.Humanoid] clothing and weapons
+1,a [IdentifyMonsters=6] with saddle, grazing. The owner is nearby. [NPC]
+1,a huge creature's skeleton ([~Creatures.Start])
+1,a huge creature's corpse ([~Creatures.Start])
+1,a huge hollow tree
+1,a humanoid burial site ([~Creatures.Humanoid])
+1,a humanoid skull collection ([~Creatures.Humanoid])
+1,a humanoid territory marker ([~Creatures.Humanoid])
+1,humanoid tracks ([~Creatures.Humanoid]-{Dice~1d24+1} hours old)
+1,humanoid tracks ([~Creatures.Humanoid]-{Dice~1d28+1} days old)
+1,a hunter's noose trap
+1,a hunter's pit trap
+1,a hunter's snare trap
+1,an ill mount ([IdentifyMonsters={Dice~1d3+5}])
+1,initials carved in a tree in [~Miscellaneous.Language].
+_ The initials are for the name <b>[Names Generator.NAME Random] [Names Generator.NAME Random]</b>
+1,the iron head of battering ram, rusted
+1,a [~Creatures.Start] kite in tree
+1,a lame mount
+1,that the land drops off
+1,a large iron cauldron with the remains of a fire, (<b>{Dice~1d6+1}</b> days old)
+1,a large, unwieldy telescope in a clearing
+1,an infestation of lice
+1,a line of [~Creatures.Humanoid] heads on pikes
+1,a pattern of stones marking an X on the ground
+1,a lookout post for [~Creatures.Humanoid]
+1,a lost [~Creatures.Humanoid] child
+1,some lost equipment
+1,a lost familiar ([~Creatures.Familiar])
+1,an injured familiar ([~Creatures.Familiar])
+1,a dying familiar ([~Creatures.Familiar])
+1,a low hedge
+1,a man trap
+1,a grove of maple trees with spouts, and buckets to catch sap
+1,a few maple trees with spouts, and buckets to catch sap
+1,marshy ground
+1,a meteorite
+1,an infestation of mice in your backpack
+1,an infestation of mice in your saddle bags
+1,a mineral spring
+1,monster droppings ([~Creatures.Fantastic])
+1,a monster ([~Creatures.Fantastic]) lair with dead occupant ([~Creatures.Humanoid])
+1,monster tracks ([~Creatures.Fantastic]-{Dice~1d24+1} hours old)
+1,monster tracks ([~Creatures.Fantastic]-{Dice~1d28+1} days old)
+1,an infestation of mosquitoes (can transmit disease)
+1,a mud pit
+1,a tar pit
+1,a natural forest fire
+1,a set forest fire
+1,a natural spring and pond
+1,a net trap
+1,a noose with a dead ([~Creatures.Humanoid2])
+1,an oak tree surrounded by kindling
+1,an oak tree with mistletoe
+1,an occupied trap. [NPC]
+1,an occupied trap ([~Creatures.Start])
+1,an oddly [~Miscellaneous.Shape]-shaped boulder
+1,a <b>{Dice~1d8+1}</b> days old campsite (from <b>{Dice~1d10+2}</b> [~Creatures.Humanoid])
+1,an old forest fire site
+1,that one of the horses has thrown a shoe
+1,one of the PC's close relatives wandering around (needs a reason)
+1,one of the PC's close friends is wandering around (needs a reason)
+1,an outdoor altar of [~Religion.Deities]
+1,a perfect ambush site
+1,a perfect fishing spot
+1,a personal shrine
+1,a petrified [~Creatures.Humanoid2] woodsman
+1,a petrified [~Creatures.Animal]
+1,a pile of wood shavings
+1,a pit trap filled with water
+1,a patch of poison ivy or sumac
+1,a poisoned pond
+1,a polluted pond
+1,a pond (normal, clear water)
+1,a pond with bubbles around it's edge
+1,a purple mist
+1,a pyramid of [~Creatures.Humanoid] skulls
+1,a rabid [~Creatures.Animal]
+1,<b>{Dice~1d4}</b> racoon(s)
+1,ranger trail signs
+1,a rare herb
+1,a rare plant
+1,a [IdentifyMonsters=9] has landed near the campfire. It caws for food
+1,a ridge
+1,a ring of <b>{Dice~1d10+10}</b> boulders
+1,a ring of <b>{Dice~1d10+10}</b> seashells
+1,a ring of <b>{Dice~1d10+10}</b> towering stones
+1,a ring of <b>{Dice~1d10+10}</b> trees
+1,a rope bridge (cut, unusable unless repaired)
+1,a rope bridge (usable)
+1,<b>{Dice~1d6+2}</b> rot infested trees
+1,a rowboat
+1,a canoe
+1,a rubbish dump
+1,a rusted iron cage (for a [~Miscellaneous.Size A] creature)
+1,a salt lake
+1,a salt water lake
+1,a salt water pond
+1,a saproling forest
+1,a sculpted shrubbery (topiary)
+1,a secret organization's ([~Group Namer.BuildGroup]) trail signs
+1,a section of <b>{Dice~1d100+1}</b> dead trees
+1,<b>{Dice~1d6+1}</b> slave wagons, torn open
+1,<b>{Dice~1d6+1}</b> prison wagons, torn open
+1,a shattered boat hull
+1,a short section of old road
+1,a single burned tree
+1,a sinkhole
+1,the site of a woodland creature's celebration area
+1,a [~Creatures.Humanoid2] skeleton in wooden cage suspended from a tree branch
+1,a [~Creatures.Humanoid] skeleton with a crushed hip
+1,a [~Creatures.Humanoid2] skeleton with a messenger's uniform, and a message pouch (empty)
+1,a [~Creatures.Humanoid2] skeleton with a messenger's uniform, and a message pouch containing this message: <br>[Rumors.Generate]
+1,a [~Creatures.Humanoid2] skeleton(s) crucified on tree
+1,a small lake
+1,small piles of rock around a campfire
+1,<b>{Dice~1d6}</b> snake(s) in the bedroll
+1,<b>{Dice~1d6}</b> snake(s) in the tent
+1,a splash of dried blood
+1,a sprung trap
+1,a stack of <b>{Dice~1d10+2}</b> [~Creatures.Humanoid] skeletons
+1,a steam vent
+1,a steel bear trap
+1,a stone battle monument (Race: [~Creatures.Humanoid])
+1,a stone obelisk
+1,a stone or wood totem representing a [~Creatures.Start]
+1,a stone well with drinkable water
+1,a stream
+1,some stumps near a burned-down cabin
+1,a swarm of bees
+1,a small, impassible escarpment with a small water fall and pond
+1,the ruins of a 'flying ship'
+1,the word [~Names Generator.NAME Random] carved into a tree stump
+1,the wreck of a galleon - miles from any sea or ocean
+1,a patch of thorns
+1,thousands of baby frogs
+1,an infestation of ticks (can transmit disease)
+1,a [~Creatures.Humanoid2] trapper's cabin
+1,a [~Creatures.Humanoid2] hunter's cabin
+1,a [~Creatures.Humanoid2] poacher's cabin
+1,a tree covered with silent crows
+1,a tree decorated with feathers, bones, and shiny rocks
+1,a tree decorated with [~Creatures.Humanoid] skulls
+1,a tree decorated with weapons
+1,a tree house
+1,a tree riddled with dagger holes
+1,a tree seat
+1,a tree split in half
+1,a tree struck by lightning
+1,a tree stump carved as a throne
+1,a rock carved as a throne
+1,a tree with out-of-season leaves
+1,a tribal holy sites of [~Creatures.Humanoid]
+1,an unburied chest next to an empty hole. The chest is empty
+1,an underground bolt hole
+1,an underground laboratory
+1,an underground torture chamber
+1,an unmarked grave. [NPC]
+1,an uprooted tree
+1,a vineyard
+1,waist high dead grass
+1,a waterfall
+1,a leak in a waterskin
+1,a way station
+1,a patch of [~Miscellaneous.Color] wildflowers
+1,a [~Creatures.Humanoid] witch's hut. [NPC]
+1,a [~Creatures.Humanoid] hedge wizard's hut. [NPC]
+1,a wood alcohol still
+1,a wooden ([~Miscellaneous.Shape] shaped) box containing <b>{Dice~1d20+1}</b> seeds
+1,a wooden palisade fence
+#
+# "Roleplaying Tips Weekly E-Zine Issue #301"
+# 120 benign wilderness encounters.
+#
+1,a large {If~{Dice~1d2}=1?patch/hill} of [~Miscellaneous.ColorNoType] flowers
+1,some squirrels chasing each other
+1,something stirs below the water's surface
+1,some [~Creatures.Bird of Prey] circling overhead
+1,an earsplitting squawk
+1,a shadow passes across the ground
+1,smoke rises in distance
+1,a feeling of <i>déjà vu</i>
+1,many thousands of ants crawl
+1,{If~{Dice~1d2}=1?howling/barking} in the distance
+1,a patch of vines strangling a tree
+1,a skeleton of an animal ([~Creatures.Animal])
+1,a skeleton of a humanoid ([~Creatures.Humanoid])
+1,some writing carved into tree ([~DUN Graffiti.Graffiti])
+1,a large patch of brightly colored [~Miscellaneous.ColorNoType] mushrooms
+1,a few scattered and broken {If~{Dice~1d2}=1?arrows/bolts}
+1,a small snake slithering away
+1,a rainbow in the distance
+1,a group of bats rise in the distance
+1,a tree falls in the distance
+1,a broken, rotted wagon wheel
+1,some [~Creatures.Animal] tracks (<b>{Dice~1d6}</b> days old)
+1,some [~Creatures.Animal] tracks (<b>{Dice~1d6}</b> hours old)
+1,some [~Creatures.Animal] tracks (<b>{Dice~1d6}</b> minutes old)
+1,an unusual patch of very lush growth
+1,a sudden sun shower
+1,the wind kicks up
+1,a dead, rotted, burnt, headless [~Creatures.Humanoid] body
+1,a giant [~Miscellaneous.ColorNoType] mushroom grove
+1,a discarded, tattered cloak ([~Creatures.Humanoid2])
+1,a rusty weapon ([~Equipment.Weapons])
+1,some dark storm cloud approaching
+1,a large beetle buzzes around head
+1,a [Miscellaneous.Size A] boot tracks in mud (<b>{Dice~1d6}</b> days old)
+1,a [Miscellaneous.Size A] boot tracks in mud (<b>{Dice~1d6}</b> hours old)
+1,a [Miscellaneous.Size A] boot tracks in mud (<b>{Dice~1d6}</b> minutes old)
+1,a dug, shallow hole
+1,the remnants of an old campfire (<b>{Dice~1d6}</b> {If~{Dice~1d2}=1?days/hours} old)
+1,a small dust whirlwind
+1,a nearly dry watering hole
+1,a puddle of murky water
+1,a few sun bleached papers
+1,a bird ([~Creatures.Bird of Prey]) seems to follow you
+1,a stack of rocks piled high
+1,a giant [~Miscellaneous.ColorNoType] feather
+1,a sweet smell of honeysuckle
+1,a small pond
+1,a bog
+1,some ray of sun light hits tree or bush
+1,an unusually cool breeze
+1,a couple of rats are following you
+1,an injured woodland creature lies helpless
+1,skunk smell
+1,eerily quiet
+1,a field of dead trees
+1,a bee which stung one of the PCs
+1,an odd crystalline growth
+1,an [~Creatures.Humanoid2] skull
+1,an abandoned shack
+1,a very friendly skunk
+1,a copper piece
+1,a {If~{Dice~1d2}=1?caterpillar/grub-infested} tree
+1,some coyotes fighting over a kill
+1,a mother bear protecting cubs
+1,some hatched eggs below an abandoned nest
+1,something scurrying away (chipmunk)
+1,a patch of berried bushes
+1,a large splatter of bird droppings
+1,an old, rotted horse carcass
+1,a large tree with face image in bark
+1,an oasis
+1,a rusty suit of armor ([~Equipment.Armors])
+1,an active bees nest
+1,a howling gust of wind
+1,a crow squawks repeatedly on approach
+1,a disabled wagon with nearby dead campfire
+1,a disheveled shrine or grave marker
+1,some rats are rummaging through PCs' food
+1,a cloud of insects moves across path
+1,some rocks falling in the distance
+1,a pair of small birds harassing the PCs
+1,a feral cat trails the party
+1,a large animal crashes through the brush
+1,a cloud shaped like a holy symbol ([~Religion.Deities(2)]) scuds out of sight
+1,an old ring sticks out of the dirt
+1,one PC's ears begin to ring
+1,one PC has an intense itch
+1,a hawk takes mole/mouse near the PCs
+1,a stick-figure voodoo doll is found
+1,a {If~{Dice~1d2}=1?mild/moderate} earthquake
+1,a great toppled tree, roots outstretched
+1,a creek bars your path
+1,a fern-filled clearing
+1,a beaver {If~{Dice~1d2}=1?pond/dam}
+1,a rocky outcropping
+1,a carpet of spongy moss over large area
+1,a cave
+1,a large den
+1,a groundhog colony (big holes, mounds of dirt)
+1,a tree with bark {If~{Dice~1d2}=1?chewed/clawed} off the bottom
+1,some picked mushrooms laying on stump to dry
+1,a sentry animal (probably bird or rodent) raises alarm
+1,a burned area (trees standing, no undergrowth, all black)
+1,some fool's gold sparkles in the dirt
+1,a huge spider's web
+1,a huge stick insect or mantis moves into the foliage
+1,a pleasant voice seems to chant on the breeze
+1,some fish bones
+1,a punctured {If~{Dice~1d2}=1?waterskin/flask} on path
+1,a forgotten dagger jammed into stump or earth
+
+# ---------------------------------------------------------------------------
+
+:NPC
+#1,<hr>[NPC Appearance.Generate]<hr>
+1,[NPC Appearance.NPC_Info1=3]
+
+# ---------------------------------------------------------------------------
+# Monster Stats
+# Added by Larry Cormier, December, 2005
+
+:IdentifyMonsters
+1,Black Bear|MonsterID=37|
+2,Brown Bear|MonsterID=38|
+3,Dire Bear|MonsterID=39|
+4,Polar Bear|MonsterID=40|
+5,Nymph|MonsterID=271|
+6,Horse|MonsterID=206|
+7,Pony|MonsterID=293|
+8,Donkey|MonsterID=101|
+9,Raven|MonsterID=304|
+
+;ValuablesBranch
+60,[Random Treasure.CoinBranch]
+25,[Random Treasure.GoodsBranch]
+10,[Random Treasure.ItemsBranch]
+3,[Random Treasure.CoinBranch]<br>[Random Treasure.GoodsBranch]
+2,[Random Treasure.CoinBranch]<br>[Random Treasure.ItemsBranch]
+1,[Random Treasure.CoinBranch]<br>[Random Treasure.GoodsBranch]<br>[Random Treasure.ItemsBranch]

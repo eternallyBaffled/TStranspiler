@@ -1,0 +1,1346 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder Jan 20, 2006.
+# ---------------------------------------------------
+#
+# SW Town Generator for TableSmith v1.1
+#
+# Originally based off the system in the Dungeon Master's Guide
+# Copyright 2000 Wizards of the Coast
+#
+# This table is meant to serve as a gaming aid for individuals
+# already possessing the D&D Dungeon Master's Guide. It is
+# not intended to replace that product, nor is it a challenge
+# in any way to copyrights of Wizards of the Coast.
+#
+# Version 2 of this table took inspiration from a variety of sources,
+# but in particular, "Medieval Demographics Made Easy" by S. John Ross
+# and the "World Builders Guidebook" by Rich Baker (published by TSR)
+# were useful for the business generation.
+#
+# This table has since been edited to suit the StarWars universe
+#
+# CUSTOMIZING THIS TABLE
+# This table is as customizable as any TableSmith table, but there are
+# specific areas that deserve clarification. These areas are preceded by
+# comments containing five asterisks ("*****"). Doing a search on "*****"
+# will take you to each of these sections.
+#
+#
+# Modified by Valminder, Jan 2006.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+#    Added link to
+#       Miscellaneous.Personality
+#       Names Generator.NAME Random (instead of only Fantasy Names.Start)
+#
+
+/OverrideRolls 1
+
+# ---------------------------------------------------------------------------
+# Variables
+%type%,0
+%typename%,0
+%population%,0
+%GPLimit%,0
+%SizeMod%,0
+%LvlMod%,0
+%NumDie%,0
+%DieNum%,0
+%NumRolls%,0
+%CurrRolls%,0
+%Add10%,0
+
+%indentNAME%,-
+%indent%,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+# *****
+# The variables below designate how many clerics of a particular
+# religion are necessary for maintaining a shrine, a temple, or a
+# "great temple" (a bigger version of a temple). Modify these as
+# you see fit.
+%NumClericsShrine%,1
+%NumClericsTemple%,5
+%NumClericsGTemple%,15
+
+%TownName%,0
+
+%HighFtr%,0
+%HighWar%,0
+%2ndHighWar%,0
+%NumGuards%,0
+%NumMilitia%,0
+
+%CurrHigh%,0
+%CurrNum%,0
+%ClassTotal%,0
+%PopRemaining%,0
+
+%NumLevel20%,0
+%NumLevel19%,0
+%NumLevel18%,0
+%NumLevel17%,0
+%NumLevel16%,0
+%NumLevel15%,0
+%NumLevel14%,0
+%NumLevel13%,0
+%NumLevel12%,0
+%NumLevel11%,0
+%NumLevel10%,0
+%NumLevel9%,0
+%NumLevel8%,0
+%NumLevel7%,0
+%NumLevel6%,0
+%NumLevel5%,0
+%NumLevel4%,0
+%NumLevel3%,0
+%NumLevel2%,0
+%NumLevel1%,0
+
+%temp%,0
+%temp2%,0
+%CalcVal%,0
+
+%SF%,0
+%BuyF%,0
+%SellF%,0
+%FMod%,0
+%MaxShow%,0
+
+%num_fringers%,0
+%num_nobles%,0
+%num_soldiers%,0
+%num_forceadepts%,0
+%num_techspecialists%,0
+%num_scouts%,0
+%num_scoundrels%,0
+%num_jedis%,0
+%num_thugs%,0
+%num_diplomats%,0
+
+%Skill1%,0
+%Skill2%,0
+%Skill3%,0
+%SkillCost%,0
+
+%num_lawyer%,0
+%num_chemist%,0
+%num_armsdealer%,0
+%num_artist%,0
+%num_assassin%,0
+%num_baker%,0
+%num_barber%,0
+%num_basketmaker%,0
+%num_blacksmith%,0
+%num_bookbinder%,0
+%num_bookseller%,0
+%num_bountyhunter%,0
+%num_bowyer_fletcher%,0
+%num_brewer%,0
+%num_butcher%,0
+%num_carpenter%,0
+%num_carter_teamster%,0
+%num_cartographer%,0
+%num_cartwright%,0
+%num_chandler%,0
+%num_cheesemaker%,0
+%num_clockmaker%,0
+%num_cobbler%,0
+%num_cooper%,0
+%num_droidshop%,0
+%num_dyer%,0
+%num_engineer%,0
+%num_banker%,0
+%num_fence%,0
+%num_electronics%,0
+%num_furrier%,0
+%num_glassblower_glazier%,0
+%num_goldsmith%,0
+%num_greengrocer%,0
+%num_infobroker%,0
+%num_herbalist%,0
+%num_inn%,0
+%num_jeweler%,0
+%num_laborer%,0
+%num_doctor%,0
+%num_locksmith%,0
+%num_magicshop%,0
+%num_medium%,0
+%num_mechanic%,0
+%num_mill%,0
+%num_entertainer%,0
+%entfame%,0
+%num_musicshop%,0
+%num_navigator_guide%,0
+%num_papermaker%,0
+%num_porter%,0
+%num_potter%,0
+%num_provisioner%,0
+%num_ropemaker%,0
+%num_rugmaker%,0
+%num_instructor%,0
+%num_clerk%,0
+%num_seamstress_tailor%,0
+%num_shipdealer%,0
+%num_silversmith%,0
+%num_spicemerchant%,0
+%num_speedershop%,0
+%num_textiles%,0
+%num_tavern%,0
+%num_theater%,0
+%num_vintner%,0
+%num_warehouse%,0
+%num_weaponsmith%,0
+%num_weaver%,0
+%num_wheelwright%,0
+%num_dock%,0
+%num_pharm%,0
+%num_arena%,0
+%num_track%,0
+%num_halls%,0
+
+%classmod%,1
+%control%,0
+%gbod%,0
+%guardd%,1
+%militiad%,1
+%NumRebel%,0
+%rebeld%,1
+
+# ---------------------------------------------------------------------------
+
+# ---------------------------------------------------------------------------
+# Parameters
+@type,11,Select size of town:,Specify Population,Random,Thorp,Hamlet,Village,Small Town,Large Town,Small City,Large City,Metropolis,Megalopolis,View Instructions
+@population,20,Enter Population:
+@control,2,Force Imperial Control?,Yes,No
+@temp,1,Generate name randomly?,Yes,No
+@TownName,RandomVille,Enter town name:
+@MaxShow,5,Maximum number of businesses of each type to show:
+# ---------------------------------------------------------------------------
+
+:Start
+1,{If~%type%=12? [Instructions] / [Generate]}
+
+:Instructions
+1,<b>StarWars Town Generator v1.1</b>
+_<p>
+_Welcome to the Town Generator!
+_</p>
+_<p>
+_The parameters for this table are detailed below. If you wish to customize the table
+_ for your campaign, refer to the instructions within the table file itself (accessible by
+_ the "open book" button to the left, found between the d6 and the lightning bolt, or
+_ "Edit Table" on the menu bar above).
+_<ul>
+_<li><b>Size of Town:</b> Select the size of the town you wish to generate with this parameter.
+_ Larger settlements will, naturally, take longer to generate. "Random" will generate a random town,
+_ which could be anything from a hamlet to a city. "View Instructions" will display these directions.</li>
+_<li><b>Generate Name:</b> Use this to tell TableSmith to either generate a town name for you,
+_ or to specify that you are going to enter one yourself.</li>
+_<li><b>Enter Town Name:</b> If you selected "No" for the previous parameter, this is where you
+_ enter the name of the town you are generating. This parameter is ignored if you selected "Yes"
+_ previously.</li>
+_<li><b>Maximum Number of Businesses:</b> Large towns, cities, etc. may have a <i>lot</i> of
+_ businesses for each type (numerous cobblers, smiths, etc.). The amount of each will be displayed
+_ in the results window, but it is likely you don't want to see the names and personalities of every
+_ single business owner in your town. This option will tell TableSmith to show you, at most,
+_ the number of businesses of each type that you specify (so, for example, the program may 
+_ generate 76 barbers, but it will only display 15, or however many you want).</li>
+_</ul>
+_</p>
+_<p>
+_Most of what is generated is self-explantory. A few elements of a generated town that may be unclear
+_ are explained below.
+_<ul>
+_<li><b>Personality:</b> Most of the business owners and other individuals listed will have a
+_ personality displayed. This is for GMs, to help them role-play the merchant (or whoever) when dealing
+_ with PCs. This can be ignored if the group doesn't care about such things.</li>
+_<li><b>Quality:</b> This is a rating from one to three stars. One star is poor, two is average, three
+_ is good. This is a general characteristic that the GM can apply however he sees fit. In mechanical terms,
+_ this might mean that masterwork weapons or armor are only available from a "3-star" business, and
+_ items from a "1-star" business might have a chance of breaking when used. The GM must decide how
+_ she wishes to apply this value.
+_<li><b>Buy/Sell Factor:</b> These are values that should be applied to the rulebook costs of things to
+_ determine how much the merchant will buy or sell items at. The "Buy" factor (the first number) should
+_ be multiplied by the rulebook cost to determine how much the merchant will pay for items of the
+_ type they deal in. Likewise, the "Sell" factor should be used for items they are selling. Example: A
+_ Parts Dealer would likely sell or buy parts. If his Buy/Sell Factor is 0.5 / 1.1, that means that he'll buy parts
+_ at 50&#37; their base cost in the rulebooks, and he sells parts at 10&#37; over their base cost (1.1 or 110&#37;).
+_</ul>
+_</p>
+_<p>
+_Many of the generated items can be changed by clicking on them. If you see text in blue, click on it and
+_ a new value will be generated (use this to change the names of businesses, their quality, their owner's
+_ personality, etc.).
+_</p>
+
+:Generate
+1,[GenName=%temp%][GenTown]
+
+:GenName
+1,|TownName=[~SW Town Names.Start]|
+2,
+
+:GenTown
+1,<h3>%TownName%</h3>
+_<hr>
+_<table width="100&#37;" border=0 cellpadding=5>
+_<tr valign="top"><td width="50&#37;">
+_{Status~Generating Basics}[GenBasics=%type%]<br>
+_<b>Town Specifics</b><br>[GenSpecifics]<br>
+_</td><td width="50&#37;">
+_{Status~Generating Government}{If~%control%>1? [GenGovt] / [GenGovt=13]}<br><br>
+_{Status~Generating Authorities}[GenAuthorities]<br>
+_</td></tr>
+_</table>
+_<hr>
+_{Status~Generating Class Breakdown}[GenClasses]
+_{Status~Generating Businesses}[GenBusinesses]
+_{Status~}
+_<hr>
+
+# If the user has specified a population number, entry
+# 1 is used to determine the type (size) of town this is.
+# Otherwise, it is generated randomly based on the type
+# specified.
+:GenBasics
+1,[DetermineType][GenBasics2]
+2-100,|type-2|{If~%type%=0? [GenTownSize]}|population=0|[GenBasics2]
+
+:GenBasics2
+1,[SetTownVariables=%type%]
+_<b>Size:</b> {Cap~[TownSize]}<br>
+_<b>Population:</b> [AddComma.Start(%population%)]<br>|PopRemaining=%population%|
+
+:TownSize
+1,%typename%
+
+:GenSpecifics
+1,<i>Town Condition:</i> [~TownCond], [~TownCond]<br>
+_<i>Major Trades:</i> [~Trades]<br>
+#_<i>This Space for Rent</i>
+
+:!TownCond
+1,Clean{Lockout~TownCond,2}
+2,Dirty{Lockout~TownCond,1}
+3,Poor{Lockout~TownCond,10}
+4,Rundown
+5,Aging
+6,Fortified
+7,Bustling
+8,Noisey{Lockout~TownCond,9}
+9,Quiet{Lockout~TownCond,8}
+10,Rich{Lockout~TownCond,3}
+11,Crowded
+12,High-Crime{Lockout~TownCond,13}
+13,Low-Crime{Lockout~TownCond,12}
+14,High-Tech{Lockout~TownCond,15}
+15,Low-Tech{Lockout~TownCond,14}
+
+;Trades
+2, Academics
+2, Governmental
+5, Agricultural
+2, Entertainment
+5, Manufacturing
+5, Processing
+1, Military
+10, Mining
+2, Research
+5, Trade-Goods
+
+:GenGovt
+1,<b>Power Center(s): </b>{Cap~[Government]}
+
+:GenAuthorities
+1,<b>Community Authorities</b><br>
+_<i>[~GenHead=%gbod%]</i><br>
+_<i>Imperial Soldiers:</i> |NumGuards=%population%||NumGuards\150||NumGuards*%guardd%|[AddComma.Start(%NumGuards%)]<br>
+_<i>Peace Officers:</i> |NumMilitia=%population%||NumMilitia\20||NumMilitia*%militiad%|[AddComma.Start(%NumMilitia%)]<br>
+_<i>Rebel Soldiers:</i> |NumRebel=%population%||NumRebel\200||NumRebel*%rebeld%|[AddComma.Start(%NumRebel%)]<br>
+
+:GenHead
+1-2, Prince [Names Generator.NAME Random]|guardd=0||rebeld=2|
+3, No One|guardd=0||militiad=0||rebeld=0|
+4, General [Names Generator.NAME Random]
+5-6, [Names Generator.NAME Random] Corporation|rebeld=0|
+7-8, Lord [Names Generator.NAME Random]|rebeld=0|
+9-10, [Names Generator.NAME Random], Patriarch|rebeld=0|
+11-12, Captain [Names Generator.NAME Random]|rebeld=0||militiad=0|
+13-23, Governor [Names Generator.NAME Random]|rebeld=0||guardd=3|
+24-28, Boss [Names Generator.NAME Random]|rebeld=0|
+29-30, President [Names Generator.NAME Random]|guardd=0|
+31-32, Chief [Names Generator.NAME Random]|rebeld=0||guardd=0|
+
+:GenClasses
+1,
+_<table width="100&#37;" border=1 cellpadding=5>
+_<tr valign="top"><td width="50&#37;">
+_<b>Populace - PC Classes</b><br><font size="-1">(Number per level: 1-5, 6-10, 11-15, 16-20)</font><br><br>|NumDie=1|[GenPCClasses]
+_</td><td width="50&#37;">
+_<b>Populace - NPC Classes</b><br><font size="-1">(Number per level: 1-5, 6-10, 11-15, 16-20)</font><br><br>|Add10=0|[GenNPCClasses]
+_</td></tr></table>
+
+:GenPCClasses
+1,
+_|classmod=2||ClassTotal=0||DieNum=6||Add10=0||CurrRolls=%NumRolls%|[ResetTally][GenLvl]<i>|num_fringers=%ClassTotal%|Fringers ({If~%ClassTotal%>=1000?[AddComma.Start(%ClassTotal%)]/%ClassTotal%})</i><br><font size="-1">[DisplayTally]</font>
+_|classmod=2||ClassTotal=0||DieNum=4||Add10=1||CurrRolls=%NumRolls%|[ResetTally][GenLvl]<i>|num_nobles=%ClassTotal%|Nobles ({If~%ClassTotal%>=1000?[AddComma.Start(%ClassTotal%)]/%ClassTotal%})</i><br><font size="-1">[DisplayTally]</font>
+_|classmod=2||ClassTotal=0||DieNum=8||Add10=0||CurrRolls=%NumRolls%|[ResetTally][GenLvl]<i>|num_soldiers=%ClassTotal%|Soldiers ({If~%ClassTotal%>=1000?[AddComma.Start(%ClassTotal%)]/%ClassTotal%})</i><br><font size="-1">[DisplayTally]</font>
+_|classmod=1||ClassTotal=0||DieNum=1||Add10=0||CurrRolls=%NumRolls%|[ResetTally][GenLvl]<i>|num_forceadepts=%ClassTotal%|Force Adepts ({If~%ClassTotal%>=1000?[AddComma.Start(%ClassTotal%)]/%ClassTotal%})</i><br><font size="-1">[DisplayTally]</font>
+_|classmod=2||ClassTotal=0||DieNum=3||Add10=0||CurrRolls=%NumRolls%|[ResetTally][GenLvl]<i>|num_techspecialists=%ClassTotal%|Tech Specialists ({If~%ClassTotal%>=1000?[AddComma.Start(%ClassTotal%)]/%ClassTotal%})</i><br><font size="-1">[DisplayTally]</font>
+_|classmod=2||ClassTotal=0||DieNum=3||Add10=1||CurrRolls=%NumRolls%|[ResetTally][GenLvl]<i>Scouts ({If~%ClassTotal%>=1000?[AddComma.Start(%ClassTotal%)]/%ClassTotal%})</i><br><font size="-1">[DisplayTally]</font>
+_|classmod=2||ClassTotal=0||DieNum=8||Add10=0||CurrRolls=%NumRolls%|[ResetTally][GenLvl]<i>|num_scoundrels=%ClassTotal%|Scoundrels ({If~%ClassTotal%>=1000?[AddComma.Start(%ClassTotal%)]/%ClassTotal%})</i><br><font size="-1">[DisplayTally]</font>
+_|classmod=1||ClassTotal=0||DieNum=1||Add10=0||CurrRolls=%NumRolls%|[ResetTally][GenLvl]<i>|num_jedis=%ClassTotal%|Jedis ({If~%ClassTotal%>=1000?[AddComma.Start(%ClassTotal%)]/%ClassTotal%})</i><br><font size="-1">[DisplayTally]</font>
+
+:GenNPCClasses
+1,
+_|classmod=2||ClassTotal=0||DieNum=4||NumDie=1||CurrRolls=%NumRolls%|[ResetTally][GenLvl]<i>|num_diplomats=%ClassTotal%|Diplomats ({If~%ClassTotal%>=1000?[AddComma.Start(%ClassTotal%)]/%ClassTotal%})</i><br><font size="-1">[DisplayTally]</font>
+_|classmod=2||ClassTotal=0||DieNum=4||NumDie=3||CurrRolls=%NumRolls%|[ResetTally][GenLvl]<i>Experts ({If~%ClassTotal%>=1000?[AddComma.Start(%ClassTotal%)]/%ClassTotal%})</i><br><font size="-1">[DisplayTally]</font>
+_|classmod=2||ClassTotal=0||DieNum=4||NumDie=2||CurrRolls=%NumRolls%|[ResetTally][GenLvl]<i>|num_thugs=%ClassTotal%|Thugs ({If~%ClassTotal%>=1000?[AddComma.Start(%ClassTotal%)]/%ClassTotal%})</i><br><font size="-1">[DisplayTally]</font>
+_|classmod=2||ClassTotal=0||DieNum=4||NumDie=4||CurrRolls=%NumRolls%|[ResetTally][GenLvl]<i>Commoners [RollUpCommoners]({If~%ClassTotal%>=1000?[AddComma.Start(%ClassTotal%)]/%ClassTotal%})</i><br><font size="-1">[DisplayTally]</font>
+
+# Commoners are special, so we take the
+# remaining populace and make them 1st Level
+:RollUpCommoners
+1,|ClassTotal+%PopRemaining%||NumLevel1+%PopRemaining%|
+
+:GenLvl
+1,[GenHighLevel]
+_|CurrNum=1|
+_{If~%CurrHigh%>0? [GenLocals]}
+_|CurrRolls-1|
+_{If~%CurrRolls%>0? [GenLvl]}
+
+:GenHighLevel
+1,|CurrHigh={Dice~%NumDie%d%DieNum%}|
+_|CurrHigh+%LvlMod%|
+_{If~%Add10% = 1 ? [BonusCheck]}
+_{If~%CurrHigh% > 20 ? [SetHighTo20]}
+
+:SetHighTo20
+1,|CurrHigh=20|
+
+# For thorps and hamlets, there is a 5% chance
+# of adding 10 to the highest-level druid's or ranger's level
+:BonusCheck
+1,{If~%type% <=2 ? [CheckForAdd]}
+
+:CheckForAdd
+1-19,
+20,|CurrHigh+10|
+
+:DisplayTally
+1,%NumLevel1%-
+_%NumLevel2%-
+_%NumLevel3%-
+_%NumLevel4%-
+_%NumLevel5% / 
+_%NumLevel6%-
+_%NumLevel7%-
+_%NumLevel8%-
+_%NumLevel9%-
+_%NumLevel10%  / 
+_%NumLevel11%-
+_%NumLevel12%-
+_%NumLevel13%-
+_%NumLevel14%-
+_%NumLevel15% / 
+_%NumLevel16%-
+_%NumLevel17%-
+_%NumLevel18%-
+_%NumLevel19%-
+_%NumLevel20%<br><br>
+
+:DisplayTally2
+1,|temp=|
+_|temp&{If~%NumLevel1% > 0 ? 1st: %NumLevel1%;} |
+_|temp&{If~%NumLevel2% > 0 ? 2nd: %NumLevel2%;} |
+_|temp&{If~%NumLevel3% > 0 ? 3rd: %NumLevel3%;} |
+_|temp&{If~%NumLevel4% > 0 ? 4th: %NumLevel4%;} |
+_|temp&{If~%NumLevel5% > 0 ? 5th: %NumLevel5%;} |
+_|temp&{If~%NumLevel6% > 0 ? 6th: %NumLevel6%;} |
+_|temp&{If~%NumLevel7% > 0 ? 7th: %NumLevel7%;} |
+_|temp&{If~%NumLevel8% > 0 ? 8th: %NumLevel8%;} |
+_|temp&{If~%NumLevel9% > 0 ? 9th: %NumLevel9%;} |
+_|temp&{If~%NumLevel10% > 0 ? 10th: %NumLevel10%;} |
+_|temp&{If~%NumLevel11% > 0 ? 11th: %NumLevel11%;} |
+_|temp&{If~%NumLevel12% > 0 ? 12v: %NumLevel12%;} |
+_|temp&{If~%NumLevel13% > 0 ? 13th: %NumLevel13%;} |
+_|temp&{If~%NumLevel14% > 0 ? 14th: %NumLevel14%;} |
+_|temp&{If~%NumLevel15% > 0 ? 15th: %NumLevel15%;} |
+_|temp&{If~%NumLevel16% > 0 ? 16th: %NumLevel16%;} |
+_|temp&{If~%NumLevel17% > 0 ? 17th: %NumLevel17%;} |
+_|temp&{If~%NumLevel18% > 0 ? 18th: %NumLevel18%;} |
+_|temp&{If~%NumLevel19% > 0 ? 19th: %NumLevel19%;} |
+_|temp&{If~%NumLevel20% > 0 ? 20th: %NumLevel20%;} |
+_|temp={Trim~%temp%}||temp2={Length~%temp%}||temp2-1|{If~%temp2% > 0 ? [ShowList]}
+_%temp%
+_<br><br>
+
+:ShowList
+1,|temp={Left~%temp2%,%temp%}|
+
+:GenLocals
+1,|PopRemaining-%CurrNum%|
+_|ClassTotal+%CurrNum%|
+_[IncreaseLvlTally=%CurrHigh%]
+_|CurrHigh\2||CurrNum*%classmod%|{If~%CurrHigh% >= 1 ? [GenLocals]}
+
+:IncreaseLvlTally
+1,|NumLevel1+%CurrNum%|
+2,|NumLevel2+%CurrNum%|
+3,|NumLevel3+%CurrNum%|
+4,|NumLevel4+%CurrNum%|
+5,|NumLevel5+%CurrNum%|
+6,|NumLevel6+%CurrNum%|
+7,|NumLevel7+%CurrNum%|
+8,|NumLevel8+%CurrNum%|
+9,|NumLevel9+%CurrNum%|
+10,|NumLevel10+%CurrNum%|
+11,|NumLevel11+%CurrNum%|
+12,|NumLevel12+%CurrNum%|
+13,|NumLevel13+%CurrNum%|
+14,|NumLevel14+%CurrNum%|
+15,|NumLevel15+%CurrNum%|
+16,|NumLevel16+%CurrNum%|
+17,|NumLevel17+%CurrNum%|
+18,|NumLevel18+%CurrNum%|
+19,|NumLevel19+%CurrNum%|
+20,|NumLevel20+%CurrNum%|
+
+:ResetTally
+1,|NumLevel1=0|
+_|NumLevel2=0|
+_|NumLevel3=0|
+_|NumLevel4=0|
+_|NumLevel5=0|
+_|NumLevel6=0|
+_|NumLevel7=0|
+_|NumLevel8=0|
+_|NumLevel9=0|
+_|NumLevel10=0|
+_|NumLevel11=0|
+_|NumLevel12=0|
+_|NumLevel13=0|
+_|NumLevel14=0|
+_|NumLevel15=0|
+_|NumLevel16=0|
+_|NumLevel17=0|
+_|NumLevel18=0|
+_|NumLevel19=0|
+_|NumLevel20=0|
+
+:Government
+1-2, Alliance Controlled|gbod=1|
+3, Anarchy|gbod=3|
+4, Disputed Region|gbod=4|
+5-6, Corporate Owned|gbod=5|
+7-8, Dictatorship|gbod=7|
+9-10, Family|gbod=9|
+11-12, Pirate Guild|gbod=11|
+13-23, Imperial Governor|gbod=13|
+24-28, Organized Crime|gbod=24|
+29-30, Republic|gbod=29|
+31-32, Tribal|gbod=31|
+
+:GenTownSize
+1-5,|type=1|
+6-15,|type=2|
+16-30,|type=3|
+31-50,|type=4|
+51-70,|type=5|
+71-85,|type=6|
+86-95,|type=7|
+96-99,|type=8|
+100,|type=9|
+
+:SetTownVariables
+1,|typename=thorp|{If~%population% = 0 ? [SetPopulation=%type%]}|GPLimit=40||LvlMod=-3||NumRolls=1|
+2,|typename=hamlet|{If~%population% = 0 ? [SetPopulation=%type%]}|GPLimit=100||LvlMod=-2||NumRolls=1|
+3,|typename=village|{If~%population% = 0 ? [SetPopulation=%type%]}|GPLimit=200||LvlMod=-1||NumRolls=1|
+4,|typename=small town|{If~%population% = 0 ? [SetPopulation=%type%]}|GPLimit=800||LvlMod=0||NumRolls=1|
+5,|typename=large town|{If~%population% = 0 ? [SetPopulation=%type%]}|GPLimit=3000||LvlMod=3||NumRolls=1|
+6,|typename=small city|{If~%population% = 0 ? [SetPopulation=%type%]}|GPLimit=15000||LvlMod=6||NumRolls=2|
+7,|typename=large city|{If~%population% = 0 ? [SetPopulation=%type%]}|GPLimit=40000||LvlMod=9||NumRolls=3|
+8,|typename=metropolis|{If~%population% = 0 ? [SetPopulation=%type%]}|GPLimit=100000||LvlMod=12||NumRolls=4|
+9,|typename=megalopolis|{If~%population% = 0 ? [SetPopulation=%type%]}|GPLimit=100000||LvlMod=12||NumRolls=4|
+
+:SetPopulation
+1,|population={Dice~1d481+19}|
+2,|population={Dice~1d500+500}|
+3,|population={Dice~1d4000+1000}|
+4,|population={Dice~1d15000+5000}|
+5,|population={Dice~1d30000+20000}|
+6,|population={Calc~{Dice~1d5000}*10+50000}|
+7,|population={Calc~{Dice~1d9000}*100+100000}|
+8,|population={Calc~{Dice~1d9000}*1000+1000000}|
+9,|population={Calc~{Dice~1d20000}*1000+10000000}|
+
+:DetermineType
+1,|population>20||population<30000000|
+_|type={If~%population% > 500 ? 2 / 1}|
+_|type={If~%population% > 1000 ? 3 / %type%}|
+_|type={If~%population% > 5000 ? 4 / %type%}|
+_|type={If~%population% > 20000 ? 5 / %type%}|
+_|type={If~%population% > 50000 ? 6 / %type%}|
+_|type={If~%population% > 100000 ? 7 / %type%}|
+_|type={If~%population% > 1000000 ? 8 / %type%}|
+_|type={If~%population% > 10000000 ? 9 ? %type%}|
+
+:Abbrev
+1,st
+2,nd
+3,rd
+4-1000,th
+
+:GenBusinesses
+1,
+_[GenNumBiz]
+_<hr>
+_<table width="100&#37;" border=1 cellpadding=5>
+_<tr valign="top"><td width="50&#37;">
+_[ShowNumBiz]
+_</td><td width="50&#37;">
+_{Status~Generating labor and facilties...}[ShowNumLabor]{Status~}
+_<br>[ShowServices]
+_<br>[GenSpecialBiz]
+_</td></tr>
+_</table>
+_
+
+# ------------------------ SERVICES ------------------------ 
+:ShowServices
+1,<b>Services</b> <font size="-1">(max displayed: %MaxShow%)</font><br>
+_<i>{If~%num_artist% > 0 ? <br>Artists (%num_artist%)<br>}</i>|temp=%num_artist%||temp<%MaxShow%||temp2=artist|{If~%temp% > 0 ? [GenEachServiceLoop]}
+_<i>{If~%num_assassin% > 0 ? <br>Assassins (%num_assassin%)<br>}</i>|temp=%num_assassin%||temp<%MaxShow%||temp2=assassin|{If~%temp% > 0 ? [GenEachServiceLoop]}
+_<i>{If~%num_bountyhunter% > 0 ? <br>Bounty Hunters (%num_bountyhunter%)<br>}</i>|temp=%num_bountyhunter%||temp<%MaxShow%||temp2=bountyhunter|{If~%temp% > 0 ? [GenEachServiceLoop]}
+_<i>{If~%num_clerk% > 0 ? <br>Clerks (%num_clerk%)<br>}</i>|temp=%num_clerk%||temp<%MaxShow%||temp2=clerk|{If~%temp% > 0 ? [GenEachServiceLoop]}
+_<i>{If~%num_doctor% > 0 ? <br>Doctors (%num_doctor%)<br>}</i>|temp=%num_doctor%||temp<%MaxShow%||temp2=doctor|{If~%temp% > 0 ? [GenEachServiceLoop]}
+_<i>{If~%num_engineer% > 0 ? <br>Engineers (%num_engineer%)<br>}</i>|temp=%num_engineer%||temp<%MaxShow%||temp2=engineer|{If~%temp% > 0 ? [GenEachServiceLoop]}
+_<i>{If~%num_entertainer% > 0 ? <br>Entertainers (%num_entertainer%)<br>}</i>|temp=%num_entertainer%||temp<%MaxShow%||temp2=entertainer|{If~%temp% > 0 ? [GenEachServiceLoop]}
+_<i>{If~%num_fence% > 0 ? <br>Fences (%num_fence%)<br>}</i>|temp=%num_fence%||temp<%MaxShow%||temp2=fence|{If~%temp% > 0 ? [GenEachServiceLoop]}
+_<i>{If~%num_instructor% > 0 ? <br>Instructor (%num_instructor%)<br>}</i>|temp=%num_instructor%||temp<%MaxShow%||temp2=instructor|{If~%temp% > 0 ? [GenEachServiceLoop]}
+_<i>{If~%num_lawyer% > 0 ? <br>Lawyers (%num_lawyer%)<br>}</i>|temp=%num_lawyer%||temp<%MaxShow%||temp2=lawyer|{If~%temp% > 0 ? [GenEachServiceLoop]}
+_<i>{If~%num_medium% > 0 ? <br>Mediums (%num_medium%)<br>}</i>|temp=%num_medium%||temp<%MaxShow%||temp2=medium|{If~%temp% > 0 ? [GenEachServiceLoop]}
+
+:GenEachServiceLoop
+1,{Status~Generating %temp2%s...}|temp-1|{If~%temp% >= 0 ? [GenService]}{If~%temp% >= 0 ? [GenEachServiceLoop]}
+
+:GenService
+1,[ServiceCommon][~Skills_%temp2%][ServiceClose]
+
+:Skills_lawyer
+1-5,[GenSkills=1]Knowledge (Law): %Skill1% [Cost_lawyer]
+6-7,[GenSkills=2]Knowledge (Law): %Skill1%[SkillIndent]Diplomacy: %Skill2% [Cost_lawyer]
+8,[GenSkills=3]Knowledge (Law): %Skill1%[SkillIndent]Diplomacy: %Skill2%[SkillIndent]Bluff: %Skill3% [Cost_lawyer]
+
+:Cost_lawyer
+1,[CostCalc]|SkillCost*50|%SkillCost% credits/day
+
+:Skills_artist
+1-3,[GenSkills=1]Craft (Painting): %Skill1% [Cost_artist]
+4-6,[GenSkills=1]Craft (Sculpture): %Skill1% [Cost_artist]
+7-9,[GenSkills=1]Craft (Calligraphy): %Skill1% [Cost_artist]
+10,[GenSkills=2]Craft (Calligraphy): %Skill1%[SkillIndent]Forgery: %Skill2% [Cost_artist]
+11-13,[GenSkills=1]Craft (Graphics): %Skill1% [Cost_artist]
+14,[GenSkills=2]Craft (Graphics): %Skill1%[SkillIndent]Forgery: %Skill2% [Cost_artist]
+
+:Cost_artist
+1,[CostCalc]|SkillCost*20|%SkillCost% credits/item {If~%Skill2% > 0 ? (|CalcVal=%SkillCost%||CalcVal*3|%CalcVal% for forged items)}
+
+:Skills_assassin
+1-4,[GenSkills=2]Move Silently: %Skill1%[SkillIndent]Hide: %Skill2% [Cost_assassin]
+5-6,[GenSkills=3]Move Silently: %Skill1%[SkillIndent]Hide: %Skill2%[SkillIndent]Tumble: %Skill3% [Cost_assassin]
+
+:Cost_assassin
+1,[CostCalc]|SkillCost*500|%SkillCost% credits/assignment
+
+:Skills_bountyhunter
+1-5,[GenSkills=1]Gather Information: %Skill1% [Cost_bountyhunter]
+6-7,[GenSkills=2]Gather Information: %Skill1%[SkillIndent]Search: %Skill2% [Cost_bountyhunter]
+8,[GenSkills=3]Gather Information: %Skill1%[SkillIndent]Search: %Skill2%[SkillIndent]Intimidate: %Skill3% [Cost_bountyhunter]
+
+:Cost_bountyhunter
+1,[CostCalc]|SkillCost*{Dice~1d3*100}|%SkillCost% credits/assignment
+
+:Skills_engineer
+1-3,[GenSkills=1]Knowledge (Architecture): %Skill1% [Cost_engineer]
+4,[GenSkills=2]Knowledge (Architecture): %Skill1%[SkillIndent]Knowledge (Geography): %Skill2% [Cost_engineer]
+5-7,[GenSkills=1]Knowledge (Electronics): %Skill1% [Cost_engineer]
+10,[GenSkills=2]Knowledge (Electronics): %Skill1%[SkillIndent]Knowledge (Computers): %Skill2% [Cost_engineer]
+9-11,[GenSkills=1]Knowledge (Mechanical): %Skill1% [Cost_engineer]
+12,[GenSkills=2]Knowledge (Mechanical): %Skill1%[SkillIndent]Knowledge (Starships): %Skill2% [Cost_engineer]
+
+:Cost_engineer
+1,[CostCalc]|SkillCost*20|%SkillCost% credits/day
+
+:Skills_fence
+1-3,[GenSkills=1]Appraise: %Skill1% [Cost_fence]
+4,[GenSkills=2]Appraise: %Skill1%[SkillIndent]Forgery: %Skill2% [Cost_fence]
+
+:Cost_fence
+1,<br>%indent%Buys at: {Dice~2d2}0&#37; / Sells at: x{Dice~2d2} standard
+
+:Skills_doctor
+1-3,[GenSkills=1]Treat Injury: %Skill1% [Cost_doctor]
+4,[GenSkills=2]Treat Injury: %Skill1%[SkillIndent]Knowledge (Medicine): %Skill2% [Cost_doctor]
+
+:Cost_doctor
+1,[CostCalc]|SkillCost*30|%SkillCost% credits/service
+
+:Skills_medium
+1-3,[GenSkills=1]Profession ([Medium_Spec]): %Skill1% [Cost_medium]
+4,[GenSkills=2]Profession ([Medium_Spec]): %Skill1%[SkillIndent]Bluff: %Skill2% [Cost_medium]
+
+:Cost_medium
+1,[CostCalc]|SkillCost*5|%SkillCost% credits/reading
+
+:Medium_Spec
+1,Astrologer
+2,Psychic
+3,Palm Reader
+4,Runecaster
+
+:Skills_entertainer
+1-3,{Reset~Entertainer_Spec}[GenSkills=1]Entertain ([Entertainer_Fame] {Cap~[Entertainer_Spec]}): %Skill1% [Cost_entertainer]
+#4,{Reset~Entertainer_Spec}{Reset~Knowledge}[GenSkills=2]Perform (favored: {Cap~[Entertainer_Spec]}): %Skill1%[SkillIndent]Knowledge ({Cap~[Knowledge]}): %Skill2% [Cost_entertainer]
+
+:Cost_entertainer
+1,[CostCalc]|SkillCost*10||SkillCost*%entfame%|%SkillCost% credits/performance
+
+;!Entertainer_Spec
+1,guitarist
+1,violinist
+1,juggler
+1,comedian
+1,pianist
+1,mime
+1,flute player
+1,dancer
+1,actor
+1,acrobat
+
+;Entertainer_Fame
+10,Unknown|entfame=1|
+5,Local|entfame=2|
+3,World Reknown|entfame=3|
+2,Star|entfame=5|
+1,Superstar|entfame=10|
+
+:Skills_instructor
+1-5,{Reset~Knowledge}[GenSkills=1]Knowledge([Knowledge]): %Skill1% [Cost_instructor]
+6-7,{Reset~Knowledge}[GenSkills=2]Knowledge([Knowledge]): %Skill1%[SkillIndent]Knowledge ([Knowledge]): %Skill2% [Cost_instructor]
+8,{Reset~Knowledge}[GenSkills=3]Knowledge([Knowledge]): %Skill1%[SkillIndent]Knowledge ([Knowledge]): %Skill2%[SkillIndent]Knowledge ([Knowledge]): %Skill3% [Cost_instructor]
+
+:Cost_instructor
+1,[CostCalc]|SkillCost*20|%SkillCost% credits/query
+
+;!Knowledge
+1,architecture
+1,[eng] engineering
+1,geography
+1,history
+1,local
+1,interplantary
+1,nature
+1,nobility & royalty
+1,religion
+1,languages
+1,art
+1,archeology
+1,mathematics
+1,metaphysics
+
+;eng
+1,civil
+1,structural
+1,computer
+1,electrical
+1,mechanical
+1,aeronautical
+1,chemical
+
+:Skills_clerk
+1-5,[GenSkills=1]Craft (Typing): %Skill1% [Cost_clerk]
+6-7,[GenSkills=2]Craft (Typing): %Skill1%[SkillIndent]Read/Write Language: %Skill2% [Cost_clerk]
+8,[GenSkills=3]Craft (Typing): %Skill1%[SkillIndent]Read/Write Language: %Skill2%[SkillIndent]Forgery: %Skill3% [Cost_clerk]
+
+:Cost_clerk
+1,[CostCalc]|SkillCost*5|%SkillCost% credits/item {If~%Skill3% > 0 ? (|CalcVal=%SkillCost%||CalcVal*10|%CalcVal% for forged items)}
+
+:ServiceCommon
+1,%indentNAME%[~OwnerName]<br>
+_<font size="-1">[ServicePersonality]<br>
+_%indent%Skills/Cost: 
+
+:SkillIndent
+1,<br>%indent%%indent%%indent%%indent%%indent%
+
+:ServiceClose
+1,<br></font>
+
+:CostCalc
+1,<br>%indent%Cost of Service: |SkillCost=%Skill1%||SkillCost+%Skill2%||SkillCost+%Skill3%|
+
+:GenSkills
+1,|Skill1={Dice~2d6+10}||Skill2=0||Skill3=0|
+2,|Skill1={Dice~3d6+10}||Skill2={Dice~2d6+10}||Skill3=0|
+3,|Skill1={Dice~4d6+10}||Skill2={Dice~3d6+10}||Skill3={Dice~3d6+5}|
+
+:ServicePersonality
+1,%indent%Personality: [~Miscellaneous.Personality]
+
+# ------------------------ LABOR ------------------------ 
+:ShowNumLabor
+1,<b>Laborers and Facilities Available</b><br>
+_%indent%Freight Haulers: [AddComma.Start(%num_carter_teamster%)] <font size="-1">(75 credits/hour)</font><br>
+_%indent%Space Hands: [AddComma.Start(%num_dyer%)] <font size="-1">(100 credits/hour)</font><br>
+_%indent%Laborers: [AddComma.Start(%num_laborer%)] <font size="-1">(50 credits/hour)</font><br>
+_%indent%Warehouses: [AddComma.Start(%num_warehouse%)] <font size="-1">(500 credits/day per)</font><br>
+
+# -------------------------- SHOPS --------------------------
+:ShowNumBiz
+1,<b>Businesses and Shops</b> <font size="-1">(max displayed: %MaxShow%)</font><br>
+_<i>{If~%num_armsdealer% > 0 ? <br>Arms Dealer (%num_armsdealer%)<br>}</i>|temp=%num_armsdealer%||temp<%MaxShow%||temp2=armsdealer|{If~%temp% > 0 ? [GenEachBizLoop]}
+_<i>{If~%num_baker% > 0 ? <br>Bakers (%num_baker%)<br>}</i>|temp=%num_baker%||temp<%MaxShow%||temp2=baker|{If~%temp% > 0 ? [GenEachBizLoop]}
+_<I>{If~%num_banker% > 0 ? <br>Bankers (%num_banker%)<br>}</I>|temp=%num_banker%||temp<%MaxShow%||temp2=banker|{If~%temp% > 0 ? [GenEachBizLoop]}
+_<i>{If~%num_barber% > 0 ? <br>Barbers (%num_barber%)<br>}</i>|temp=%num_barber%||temp<%MaxShow%||temp2=barber|{If~%temp% > 0 ? [GenEachBizLoop]}
+_<I>{If~%num_brewer% > 0 ? <br>Brewers (%num_brewer%)<br>}</I>|temp=%num_brewer%||temp<%MaxShow%||temp2=brewer|{If~%temp% > 0 ? [GenEachBizLoop]}
+_<I>{If~%num_butcher% > 0 ? <br>Butchers (%num_butcher%)<br>}</I>|temp=%num_butcher%||temp<%MaxShow%||temp2=butcher|{If~%temp% > 0 ? [GenEachBizLoop]}
+_<I>{If~%num_carpenter% > 0 ? <br>Builders (%num_carpenter%)<br>}</I>|temp=%num_carpenter%||temp<%MaxShow%||temp2=carpenter|{If~%temp% > 0 ? [GenEachBizLoop]}
+_<I>{If~%num_cartographer% > 0 ? <br>Cartographers (%num_cartographer%)<br>}</I>|temp=%num_cartographer%||temp<%MaxShow%||temp2=cartographer|{If~%temp% > 0 ? [GenEachBizLoop]}
+_<i>{If~%num_chemist% > 0 ? <br>Chemists (%num_chemist%)<br>}</i>|temp=%num_chemist%||temp<%MaxShow%||temp2=chemist|{If~%temp% > 0 ? [GenEachBizLoop]}
+_<i>{If~%num_dock% > 0 ? <br>Docking (%num_dock%)<br>}</i>|temp=%num_dock%||temp<%MaxShow%||temp2=dock|{If~%temp% > 0 ? [GenEachBizLoop]}
+_<I>{If~%num_droidshop% > 0 ? <br>Droid Shop (%num_droidshop%)<br>}</I>|temp=%num_droidshop%||temp<%MaxShow%||temp2=droidshop|{If~%temp% > 0 ? [GenEachBizLoop]}
+_<I>{If~%num_electronics% > 0 ? <br>Electronics (%num_electronics%)<br>}</I>|temp=%num_electronics%||temp<%MaxShow%||temp2=electronics|{If~%temp% > 0 ? [GenEachBizLoop]}
+_<I>{If~%num_greengrocer% > 0 ? <br>Greengrocers (%num_greengrocer%)<br>}</I>|temp=%num_greengrocer%||temp<%MaxShow%||temp2=greengrocer|{If~%temp% > 0 ? [GenEachBizLoop]}
+_<I>{If~%num_herbalist% > 0 ? <br>Herbalists (%num_herbalist%)<br>}</I>|temp=%num_herbalist%||temp<%MaxShow%||temp2=herbalist|{If~%temp% > 0 ? [GenEachBizLoop]}
+_<I>{If~%num_infobroker% > 0 ? <br>Infobrokers (%num_infobroker%)<br>}</I>|temp=%num_infobroker%||temp<%MaxShow%||temp2=infobroker|{If~%temp% > 0 ? [GenEachBizLoop]}
+_<I>{If~%num_inn% > 0 ? <br>Inns (%num_inn%)<br>}</I>|temp=%num_inn%||temp<%MaxShow%||temp2=inn|{If~%temp% > 0 ? [GenEachBizLoop]}
+_<I>{If~%num_jeweler% > 0 ? <br>Jewelers (%num_jeweler%)<br>}</I>|temp=%num_jeweler%||temp<%MaxShow%||temp2=jeweler|{If~%temp% > 0 ? [GenEachBizLoop]}
+_<I>{If~%num_locksmith% > 0 ? <br>Locksmiths (%num_locksmith%)<br>}</I>|temp=%num_locksmith%||temp<%MaxShow%||temp2=locksmith|{If~%temp% > 0 ? [GenEachBizLoop]}
+_<I>{If~%num_mechanic% > 0 ? <br>Mechanics (%num_mechanic%)<br>}</I>|temp=%num_mechanic%||temp<%MaxShow%||temp2=mechanic|{If~%temp% > 0 ? [GenEachBizLoop]}
+_<I>{If~%num_mill% > 0 ? <br>Mills (%num_mill%)<br>}</I>|temp=%num_mill%||temp<%MaxShow%||temp2=mill|{If~%temp% > 0 ? [GenEachBizLoop]}
+_<I>{If~%num_musicshop% > 0 ? <br>Musicshops (%num_musicshop%)<br>}</I>|temp=%num_musicshop%||temp<%MaxShow%||temp2=musicshop|{If~%temp% > 0 ? [GenEachBizLoop]}
+_<I>{If~%num_pharm% > 0 ? <br>Pharmacists (%num_pharm%)<br>}</I>|temp=%num_pharm%||temp<%MaxShow%||temp2=pharm|{If~%temp% > 0 ? [GenEachBizLoop]}
+_<I>{If~%num_provisioner% > 0 ? <br>Provisioners (%num_provisioner%)<br>}</I>|temp=%num_provisioner%||temp<%MaxShow%||temp2=provisioner|{If~%temp% > 0 ? [GenEachBizLoop]}
+_<I>{If~%num_rugmaker% > 0 ? <br>Rugmakers (%num_rugmaker%)<br>}</I>|temp=%num_rugmaker%||temp<%MaxShow%||temp2=rugmaker|{If~%temp% > 0 ? [GenEachBizLoop]}
+_<I>{If~%num_seamstress_tailor% > 0 ? <br>Seamstresses, Tailors (%num_seamstress_tailor%)<br>}</I>|temp=%num_seamstress_tailor%||temp<%MaxShow%||temp2=seamstress_tailor|{If~%temp% > 0 ? [GenEachBizLoop]}
+_<I>{If~%num_shipdealer% > 0 ? <br>Shipdealers (%num_shipdealer%)<br>}</I>|temp=%num_shipdealer%||temp<%MaxShow%||temp2=shipdealer|{If~%temp% > 0 ? [GenEachBizLoop]}
+_<I>{If~%num_spicemerchant% > 0 ? <br>Spice Merchants (%num_spicemerchant%)<br>}</I>|temp=%num_spicemerchant%||temp<%MaxShow%||temp2=spicemerchant|{If~%temp% > 0 ? [GenEachBizLoop]}
+_<I>{If~%num_speedershop% > 0 ? <br>Speeder Shops (%num_speedershop%)<br>}</I>|temp=%num_speedershop%||temp<%MaxShow%||temp2=speedershop|{If~%temp% > 0 ? [GenEachBizLoop]}
+_<I>{If~%num_textiles% > 0 ? <br>Textiles (%num_textiles%)<br>}</I>|temp=%num_textiles%||temp<%MaxShow%||temp2=textiles|{If~%temp% > 0 ? [GenEachBizLoop]}
+_<I>{If~%num_tavern% > 0 ? <br>Taverns (%num_tavern%)<br>}</I>|temp=%num_tavern%||temp<%MaxShow%||temp2=tavern|{If~%temp% > 0 ? [GenEachBizLoop]}
+_<I>{If~%num_vintner% > 0 ? <br>Winery (%num_vintner%)<br>}</I>|temp=%num_vintner%||temp<%MaxShow%||temp2=vintner|{If~%temp% > 0 ? [GenEachBizLoop]}
+
+:GenEachBizLoop
+1,{Status~Generating %temp2%s...}|temp-1|{If~%temp% >= 0 ? [Gen_%temp2%]}{If~%temp% >= 0 ? [GenEachBizLoop]}
+
+:Shop_Details
+1,<font size="-1">%indent%Personality: [~Miscellaneous.Personality]<br>
+_%indent%Quality: [~Quality]<br>
+_%indent%Buy/Sell Factors: [~BuySellFactors]</font><br>
+
+:Gen_chemist
+1,%indentNAME%[~Name_chemist]<br>[Shop_Details]
+
+:Gen_armsdealer
+1,%indentNAME%[~Name_armsdealer]<br>[Shop_Details]
+
+:Gen_baker
+1,%indentNAME%[~Name_baker]<br>[Shop_Details]
+
+:Gen_barber
+1,%indentNAME%[~Name_barber]<br>[Shop_Details]
+
+:Gen_brewer
+1,%indentNAME%[~Name_brewer]<br>[Shop_Details]
+
+:Gen_butcher
+1,%indentNAME%[~Name_butcher]<br>[Shop_Details]
+
+:Gen_carpenter
+1,%indentNAME%[~Name_carpenter]<br>[Shop_Details]
+
+:Gen_cartographer
+1,%indentNAME%[~Name_cartographer]<br>[Shop_Details]
+
+:Gen_dock
+1,%indentNAME%[~Name_dock]<br>[Shop_Details]
+
+:Gen_droidshop
+1,%indentNAME%[~Name_droidshop]<br>[Shop_Details]
+
+:Gen_banker
+1,%indentNAME%[~Name_banker]<br>[Shop_Details]
+
+:Gen_electronics
+1,%indentNAME%[~Name_electronics]<br>[Shop_Details]
+
+:Gen_greengrocer
+1,%indentNAME%[~Name_greengrocer]<br>[Shop_Details]
+
+:Gen_infobroker
+1,%indentNAME%[~Name_infobroker]<br>[Shop_Details]
+
+:Gen_herbalist
+1,%indentNAME%[~Name_herbalist]<br>[Shop_Details]
+
+:Gen_inn
+1,%indentNAME%[~Name_inn]<br>[Shop_Details]
+
+:Gen_jeweler
+1,%indentNAME%[~Name_jeweler]<br>[Shop_Details]
+
+:Gen_locksmith
+1,%indentNAME%[~Name_locksmith]<br>[Shop_Details]
+
+:Gen_mechanic
+1,%indentNAME%[~Name_mechanic]<br>[Shop_Details]
+
+:Gen_mill
+1,%indentNAME%[~Name_mill]<br>[Shop_Details]
+
+:Gen_musicshop
+1,%indentNAME%[~Name_musicshop]<br>[Shop_Details]
+
+:Gen_pharm
+1,%indentNAME%[~Name_pharm]<br>[Shop_Details]
+
+:Gen_provisioner
+1,%indentNAME%[~Name_provisioner]<br>[Shop_Details]
+
+:Gen_rugmaker
+1,%indentNAME%[~Name_rugmaker]<br>[Shop_Details]
+
+:Gen_seamstress_tailor
+1,%indentNAME%[~Name_seamstress_tailor]<br>[Shop_Details]
+
+:Gen_shipdealer
+1,%indentNAME%[~Name_shipdealer]<br>[Shop_Details]
+
+:Gen_spicemerchant
+1,%indentNAME%[~Name_spicemerchant]<br>[Shop_Details]
+
+:Gen_speedershop
+1,%indentNAME%[~Name_speedershop]<br>[Shop_Details]
+
+:Gen_textiles
+1,%indentNAME%[~Name_textiles]<br>[Shop_Details]
+
+:Gen_tavern
+1,%indentNAME%[~Name_tavern]<br>[Shop_Details]
+
+:Gen_vintner
+1,%indentNAME%[~Name_vintner]<br>[Shop_Details]
+
+# -------------------------- NAMES --------------------------
+# *****
+# The "Shop Names" table is one used by the table's author;
+# if you don't have a table like this, simply remove any lines
+# containing calls to that table (or substitute the name of your
+# own "Shop Names" table).
+
+;Name_chemist
+2,[OwnerName] Chemicals Inc.
+1,[OwnerName] Chemical Manufacters
+1,[OwnerName], Chemist
+
+;Name_armsdealer
+2,[OwnerName], Arms Dealer
+2,[OwnerName]'s Hunting Supplies
+1,[OwnerName]'s Military Surplus
+1,[OwnerName] Weapon Systems Inc.
+1,[arms]<br>
+_%indent%[OwnerName] (manager)
+
+;arms
+1,Czerka Arms Inc.
+1,Merr-Sonn Arms Inc.
+1,Golan Arms Inc.
+1,BlasTech Industries
+1,SoroSuub Industries
+1,Imperial Munitions
+
+;Name_baker
+1,[OwnerName], Baker
+1,[OwnerName]'s Bakery
+1,[OwnerName]'s [NameGood] Baked Goods
+1,[OwnerName]'s Breads & Cakes
+
+;Name_barber
+3,[OwnerName], Barber
+1,[OwnerName]'s Barbershop
+1,[OwnerName]'s Grooming
+
+;Name_brewer
+1,[OwnerName]'s Liquor Store
+1,[OwnerName]'s [NameGood] Alcohol
+1,[OwnerName] Brewery
+1,[OwnerName]'s [NameGood] Liquors
+1,[OwnerName] Distributing Company
+
+;Name_butcher
+1,[OwnerName], Butcher
+1,[OwnerName]'s [NameGood] Meats
+1,[OwnerName]'s Slaughterhouse
+
+;Name_carpenter
+1,[OwnerName] Construction Company
+1,[OwnerName] Builders
+
+;Name_cartographer
+1,[OwnerName], Cartographer
+1,[OwnerName]'s Regional Map Shop
+1,[OwnerName]'s [NameGood] Star-Charts
+1,[OwnerName], Mapper
+
+;Name_dock
+1,Dock {Dice~1d10-1}{Dice~1d10-1}{Dice~1d10-1}{Dice~1d10-1}<br>
+_%indent%[OwnerName] (attendant)
+1,Dock [alpha.alphabet]{Dice~1d10}<br>
+_%indent%[OwnerName] (attendant)
+1,Dock {Dice~1d10}[alpha.alphabet]{Dice~1d100}<br>
+_%indent%[OwnerName] (attendant)
+
+;Name_droidshop
+1,[OwnerName]'s Droids
+1,[OwnerName]'s Droid Repair
+1,[OwnerName]'s Droid Dealership
+
+;Name_banker
+1,[OwnerName] Banker
+1,First Bank of Coruscant<br>
+_%indent%[OwnerName] (manager)
+1,[OwnerName]'s Money-lending
+1,[OwnerName]'s Pay-day loans
+1,[OwnerName]'s Trust
+
+;Name_electronics
+1,[OwnerName] Electronics
+1,[OwnerName] Computers
+1,[OwnerName]'s Computer Repair
+1,Electroshaq, [OwnerName] (owner)
+
+;Name_greengrocer
+1,[OwnerName], Greengrocer
+1,[OwnerName]'s [NameGood] Greens
+1,[OwnerName]'s Fresh Foods
+
+;Name_infobroker
+1,[OwnerName], Infobroker
+1,Info-Anonymous Inc.<br>
+_%indent%[OwnerName] (manager)
+1,[OwnerName], Private Investigator
+
+;Name_herbalist
+1,[OwnerName], Herbalist
+1,[OwnerName]'s [NameGood] Herbs & Plants
+1,[OwnerName]'s [NameGood] Herbals
+1,[OwnerName]'s Remedy Shop
+
+;Name_inn
+1,[Inn and Tavern Names.Start] ([OwnerName], proprietor)
+
+;Name_jeweler
+1,[OwnerName], Jeweler
+1,[OwnerName]'s [NameGood] Jewelry
+1,[OwnerName]'s Gems & Jewels
+1,[OwnerName]'s [NameGood] Jewelry Shop
+
+;Name_locksmith
+1,[OwnerName], Locksmith
+1,[OwnerName]'s Lock Works
+1,[OwnerName]'s Locks & Latches
+
+;Name_mechanic
+1,[OwnerName], Mechanic
+1,[OwnerName] Speeder-Body Repair
+1,[OwnerName]'s Tune Shop
+1,[OwnerName] Parts Dealership
+
+;Name_mill
+1,[OwnerName]'s Mill
+1,Mill ([OwnerName], proprietor)
+
+;Name_musicshop
+1,[OwnerName]'s House of Music
+1,[OwnerName]'s MusicWorks
+1,[OwnerName]'s [NameGood] Instruments
+1,[OwnerName] Music
+
+;Name_pharm
+1,[OwnerName] Pharmicuticals
+1,[OwnerName]'s Drug Store
+1,[OwnerName] Medical Supplies
+
+;Name_provisioner
+1,[OwnerName]'s Dry Goods
+1,[OwnerName]'s Supplies
+1,Outfitter ([OwnerName], proprietor)
+1,[OwnerName]'s General Goods
+1,[OwnerName]'s General Store
+
+;Name_rugmaker
+1,[OwnerName], Rugmaker
+1,[OwnerName]'s [NameGood] Carpets
+1,[OwnerName]'s Rugs & Carpets
+1,[OwnerName]'s Carpet Shop
+
+;Name_seamstress_tailor
+1,[OwnerName], Seamstress
+1,[OwnerName], Tailor
+1,[OwnerName]'s Tailoring
+1,[OwnerName]'s Sewing Shop
+
+;Name_shipdealer
+1,[OwnerName] Ship Dealership
+1,[OwnerName]'s Shipyard
+1,[OwnerName]'s Starships
+1,[OwnerName]'s Used Ship Dealership
+1,[OwnerName]'s Custom order ships
+
+;Name_spicemerchant
+1,[OwnerName], Spice Dealer
+1,[OwnerName]'s Exotic Goods
+1,[OwnerName]'s Taste of Heaven
+
+;Name_speedershop
+1,[OwnerName]'s Speedershop
+1,[OwnerName]'s Discount Speeders
+1,[OwnerName]'s Custom-built Speeders
+
+;Name_textiles
+1,[OwnerName]'s Textiles
+1,[OwnerName]'s Clothing Department
+1,[OwnerName]'s Leather Store
+1,[OwnerName] Famous Brand Clothing
+
+;Name_tavern
+1,[Inn and Tavern Names.Start] ([OwnerName], proprietor)
+2,[OwnerName]'s Cantina
+
+;Name_vintner
+1,[OwnerName], Wine Maker
+1,[OwnerName]'s [NameGood] Wines
+1,[OwnerName]'s House of Wines
+
+# *****
+# Fill in whatever name table (or tables) you want to call
+:OwnerName
+1,[Names Generator.NAME Random]
+#1,[Fantastic Names.Start(1,2,2)]
+
+# ------------------------ SPECIAL ------------------------ 
+# *****
+# See farther below for modifications for religions and temples. Note that
+# these tables treat Druids and Paladins separately from Clerics. If you want
+# to collapse them into the other religions, you can either eliminate Paladins
+# (and/or Druids) completely, or add their totals into the "num_clerics"
+# variable.
+
+
+:GenSpecialBiz
+1,<b>Organizations</b><br>
+_{If~%num_jedis% > 100 ? [ShowJediOrder]}
+_|temp=%num_nobles%||temp+%num_diplomats%|{If~%temp% > 100 ? [ShowRoyalHouse]}
+_|temp=%num_scoundrels%||temp+%num_thugs%|{If~%temp% > 50 ? [ShowCrimeSynd]}
+_{If~%num_thugs% > 20 ? [ShowGang]}<br>
+_<b>Places</b><br>
+_{If~%num_theater% > 0 ? [ShowTheaters]}
+_{If~%num_arena% > 0 ? [ShowArena]}
+_{If~%num_track% > 0 ? [ShowTrack]}
+_{If~%num_halls% > 0 ? [ShowHalls]}
+_<br>
+_<b>Events</b><br>
+_{If~%num_arena% > 0 ? [ArenaEvent]}
+_{If~%num_track% > 0 ? [TrackEvent]}
+_{If~%num_thugs% > 40 ? [StreetEvent]}
+
+:ShowJediOrder
+1,%indentNAME%Jedi Order |temp=%num_jedis%||temp*0.8||temp+{Dice~1d3-2}|
+_({Trunc~%temp%} members)<br>
+
+:ShowRoyalHouse
+1-3,%indentNAME%Royal House |temp*0.8||temp+{Dice~1d3-2}|
+_({Trunc~%temp%} members)<br>
+4,{If~%gbod% = 9 ? [ShowRoyalHouse=1]}
+
+:ShowTheaters
+1,%indentNAME%Theaters: %num_theater%<br>
+
+:ShowCrimeSynd
+1-4,%indentNAME%Criminal Syndicate |temp=%num_scoundrels%||temp*0.7||temp+{Dice~1d3-2}|
+_({Trunc~%temp%} members)<br>
+5,{If~%gbod%=24? [ShowCrimeSynd=1]}
+
+:ShowGang
+1,%indentNAME%Swoop Gang |temp=%num_thugs%||temp*0.8||temp+{Dice~1d3-2}|
+_({Trunc~%temp%} members)<br>
+2,
+
+:ShowArena
+1,%indentNAME%Arenas: %num_arena%<br>
+
+:ArenaEvent
+1,%indentNAME%[AE]<br>
+
+;AE
+10,Shock-boxing Match<font size="-1"><br>%indent%%indent%[Names Generator.NAME Random] vs. [Names Generator.NAME Random]</font>
+1,Championship Shock-boxing Match<font size="-1"><br>%indent%%indent%[Names Generator.NAME Random] vs. [Names Generator.NAME Random]</font>
+10,Grav-ball Game<font size="-1"><br>%indent%%indent%%TownName% vs. [SW Town Names.Start]</font>
+2,Grav-ball Playoff Game<font size="-1"><br>%indent%%indent%%TownName% vs. [SW Town Names.Start]</font>
+1,Grav-ball Championship Game<font size="-1"><br>%indent%%indent%%TownName% vs. [SW Town Names.Start]</font>
+10,Scoopball Game<font size="-1"><br>%indent%%indent%%TownName% vs. [SW Town Names.Start]</font>
+2,Scoopball Playoff Game<font size="-1"><br>%indent%%indent%%TownName% vs. [SW Town Names.Start]</font>
+1,Scoopball Championship Game<font size="-1"><br>%indent%%indent%%TownName% vs. [SW Town Names.Start]</font>
+10,Smashball Game<font size="-1"><br>%indent%%indent%%TownName% vs. [SW Town Names.Start]</font>
+2,Smashball Playoff Game<font size="-1"><br>%indent%%indent%%TownName% vs. [SW Town Names.Start]</font>
+1,Smashball Championship Game<font size="-1"><br>%indent%%indent%%TownName% vs. [SW Town Names.Start]</font>
+
+:ShowTrack
+1,%indentNAME%Race Tracks: {If~%num_track% > 1 ? 2 / 1}<br>
+
+:TrackEvent
+1,%indentNAME%[TE]<br>
+
+;TE
+10,Amateur Swoop Race
+2,Professional Swoop Race
+10,Amateur Speeder Race
+2,Professional Speeder Race
+5,Ronto Race
+5,Pod Race
+
+:StreetEvent
+1,%indentNAME%Illegal Swoop Race<br>
+2,%indentNAME%Gladitorial Bouts<br>
+3-4,
+5,%indentNAME%Swoop Jousting<br>
+
+:ShowHalls
+1,%indentNAME%Gambling Halls: %num_halls%<br>
+
+# -------------------------- GENERAL --------------------------
+
+# *****
+# The meaning of the variables below should be obvious (i.e.; "num_alchemist"
+# is used to stored the number of alchemists in the town/city/village). The
+# use of "SF" is a means to determine how many services or businesses of a
+# given type exist in the town. It is used by the group "GenNumMacro".
+#
+# The "SF" value is the number of people that are needed to support one
+# business/service of the type given. Using the defaults as examples, this
+# means that for every 3000 people in a town, you will find an armorer; for
+# every 700 people, you'll find a cooper, and so forth. The group "GenNumMacro"
+# will divide the population of the town by the "SF" value to determine how many
+# businesses of that type exist. Remainders are divided by the "SF" value to derive
+# a percentage, which are the odds that one more of that business can be found.
+# For instance, in a town of 5000 people, you'll find 2 artists, and possibly 3.
+# 5000/2000 (the SF for artist) is 2.5. This means that you'll definitely have 2 artists
+# (the "2" of 2.5), and a 50% chance (the ".5" of 2.5) of having a third. Another
+# example: A town of 4350 people will have 5 blacksmiths, with a 44% chance of
+# having a 6th (blacksmiths have an SF of 800, so 4350/800 = 5.44).
+#
+# Adjust the "SF" values to increase or decrease the number of business/services
+# that will be generated in your town, villages, and such.
+
+:GenNumBiz
+1,|SF=20000||num_arena=[GenNumMacro]|
+_|SF=50000||num_lawyer=[GenNumMacro]|
+_|SF=10000||num_chemist=[GenNumMacro]|
+_|SF=15000||num_armsdealer=[GenNumMacro]|
+_|SF=2000||num_artist=[GenNumMacro]|
+_|SF=100000||num_assassin=[GenNumMacro]|
+_|SF=800||num_baker=[GenNumMacro]|
+_|SF=500||num_barber=[GenNumMacro]|
+_|SF=80000||num_bountyhunter=[GenNumMacro]|
+_|SF=3000||num_brewer=[GenNumMacro]|
+_|SF=1000||num_butcher=[GenNumMacro]|
+_|SF=1000||num_carpenter=[GenNumMacro]|
+_|SF=250||num_carter_teamster=[GenNumMacro]|
+_|SF=8000||num_cartographer=[GenNumMacro]|
+_|SF=700||num_cooper=[GenNumMacro]|
+_|SF=500||num_dock=[GenNumMacro]|
+_|SF=10000||num_droidshop=[GenNumMacro]|
+_|SF=3000||num_dyer=[GenNumMacro]|
+_|SF=15000||num_engineer=[GenNumMacro]|
+_|SF=8000||num_banker=[GenNumMacro]|
+_|SF=5000||num_fence=[GenNumMacro]|
+_|SF=5000||num_electronics=[GenNumMacro]|
+_|SF=2000||num_furrier=[GenNumMacro]|
+_|SF=5000||num_glassblower_glazier=[GenNumMacro]|
+_|SF=3000||num_goldsmith=[GenNumMacro]|
+_|SF=1500||num_greengrocer=[GenNumMacro]|
+_|SF=4000||num_halls=[GenNumMacro]|
+_|SF=200000||num_infobroker=[GenNumMacro]|
+_|SF=3000||num_herbalist=[GenNumMacro]|
+_|SF=1500||num_inn=[GenNumMacro]|
+_|SF=6400||num_jeweler=[GenNumMacro]|
+_|SF=50||num_laborer=[GenNumMacro]|
+_|SF=3000||num_doctor=[GenNumMacro]|
+_|SF=2000||num_locksmith=[GenNumMacro]|
+_|SF=20000||num_magicshop=[GenNumMacro]|
+_|SF=3000||num_medium=[GenNumMacro]|
+_|SF=1500||num_mechanic=[GenNumMacro]|
+_|SF=1000||num_mill=[GenNumMacro]|
+_|SF=1500||num_entertainer=[GenNumMacro]|
+_|SF=2000||num_musicshop=[GenNumMacro]|
+_|SF=2000||num_navigator_guide=[GenNumMacro]|
+_|SF=10000||num_papermaker=[GenNumMacro]|
+_|SF=5000||num_pharm=[GenNumMacro]|
+_|SF=1500||num_porter=[GenNumMacro]|
+_|SF=1000||num_potter=[GenNumMacro]|
+_|SF=1000||num_provisioner=[GenNumMacro]|
+_|SF=1900||num_ropemaker=[GenNumMacro]|
+_|SF=2000||num_rugmaker=[GenNumMacro]|
+_|SF=8000||num_instructor=[GenNumMacro]|
+_|SF=5000||num_clerk=[GenNumMacro]|
+_|SF=500||num_seamstress_tailor=[GenNumMacro]|
+_|SF=10000||num_shipdealer=[GenNumMacro]|
+_|SF=3000||num_silversmith=[GenNumMacro]|
+_|SF=500000||num_spicemerchant=[GenNumMacro]|
+_|SF=500||num_speedershop=[GenNumMacro]|
+_|SF=1500||num_textiles=[GenNumMacro]|
+_|SF=300 ||num_tavern=[GenNumMacro]|
+_|SF=20000||num_theater=[GenNumMacro]|
+_|SF=10000||num_track=[GenNumMacro]|
+_|SF=2500||num_vintner=[GenNumMacro]|
+_|SF=500||num_warehouse=[GenNumMacro]|
+_|SF=50000||num_weaponsmith=[GenNumMacro]|
+_|SF=1000||num_weaver=[GenNumMacro]|
+_|SF=2000||num_wheelwright=[GenNumMacro]|
+
+:NameGood
+1,Fine
+2,Excellent
+3,Wonderful
+4,Magnificent
+5,Superb
+
+:Quality
+1-2,*
+3-6,**
+7-8,***
+
+:BuySellFactors
+1,|BuyF=50||SellF=100|
+_|FMod={Dice~3d4-8}||FMod*5|
+_|BuyF+%FMod%|
+_|FMod={Dice~3d4-7}||FMod*5|
+_|SellF+%FMod%|
+_{If~%BuyF% >= %SellF% ? [AdjustEcon]}
+_|BuyF/100||SellF/100|%BuyF% / %SellF%
+
+:AdjustEcon
+1,|SellF=%BuyF%||SellF+25|
+
+:GenNumMacro
+1,|temp=%population%|
+_|temp\%SF%|
+_|CalcVal=%SF%||CalcVal*%temp%|
+_|temp2=%population%||temp2-%CalcVal%|
+# Changed Round~ for TSv5. Was {Round~%temp2%,2}
+_|temp2/ %SF%||temp2={Round~2,%temp2%}||temp2*100|
+_|temp+{If~{Dice~1d100} <= %temp2% ? 1 / 0}|
+_%temp%

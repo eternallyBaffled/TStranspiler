@@ -1,0 +1,107 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder Jan 03, 2006.
+# ---------------------------------------------------
+#
+# Githyanki Names
+#
+# Male Githyanki Names & Dieties: Githximoi, Arith, Torish, Chaknar, Ketemok,
+#                                 Chelemok, Kelnar
+# Female Githyanki Names & Dieties: Vlaakith, Ka’cha, Kalmach, Cacophonica,
+#                                   Av'razy, Vis'tha
+#
+# Modified by Valminder, Jan 2006.
+#    Renamed "Bugbear Names".
+#    Added to "Names Generator.tab".
+#
+
+%Gender%,0
+
+@Gender,3,Please choose a Gender,Male,Female,Random
+
+:Start
+1,{If~%Gender%=3? |Gender={Dice~1d2}|}[PickGender=%Gender%]
+
+:PickGender
+1,[Male]
+2,[Female]
+
+:Male
+1,{Cap~[Cons]}[Vowel][Cons][Vowel][Cons][More]
+2,{Cap~[Vowel]}[Cons][Vowel][Cons][More]
+3-6,[MalePrefix][Vowel][MaleSuffix]
+7-10,[MalePrefix][Vowel][Cons][Vowel][MaleSuffix]
+
+:Female
+1,{Cap~[Cons]}[Vowel][Cons][Vowel][Cons][More]
+2,{Cap~[Vowel]}[Cons][Vowel][Cons][More]
+3-6,[FemalePrefix][Vowel][FemaleSuffix]
+7-10,[FemalePrefix][Vowel][Cons][Vowel][FemaleSuffix]
+
+:More
+1-4,[Vowel][Cons]
+5-8,
+
+;MalePrefix
+1,Arith
+1,Chak
+1,Chel
+1,Al
+1,Gith
+1,Ket
+1,Kel
+1,Kith
+1,Quas
+1,Maal
+1,Xith
+1,Tor
+
+;FemalePrefix
+1,Av'
+1,Ka'
+1,Kal
+1,Cac
+1,Xalli
+1,X'all
+1,Vla
+1,Vli
+1,Vis'
+
+;Cons
+1,ch
+1,g
+1,r
+1,ll
+1,l
+1,s
+1,k
+1,tr
+1,sh
+1,th
+1,m
+1,v
+
+;Vowel
+1,a
+1,oi
+1,u
+1,e
+2,i
+1,o
+
+;MaleSuffix
+1,ximoi
+1,ish
+1,nar
+1,mok
+1,moi
+1,roth
+
+;FemaleSuffix
+1,cha
+1,ach
+1,nar
+1,nica
+1,tha
+1,kith
+1,ith
+1,gith

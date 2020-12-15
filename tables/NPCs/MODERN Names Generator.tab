@@ -1,0 +1,282 @@
+# ------------------------------------------------------
+# Last Update: modified by Valminder September 07, 2007.
+# ------------------------------------------------------
+#
+# This Name Generator uses only tables with "Modern" kind of names
+# found in the ~Names directory.
+#
+# -------------------------------------------------------------------------
+#
+# To call this table from another one:
+#    [MODERN Names Generator.RandomName(%Gender1%)
+#
+#    Gender1:      1= Male
+#                  2= Female
+#                  3= Random
+#
+# -------------------------------------------------------------------------
+#
+# There are no "Medieval" or Fantastic souding names, for now.
+#
+# Made by Valminder, Oct 2003
+#    -I added "French Names" and "English Names".
+#    -Linked to "Modern Names".
+# Modified by Valminder, Nov 2003:
+#    -Linked to "Modern Last Names MAIN"
+#    -Linked to "Modern Normal Female/Male Names"
+#    -Added "English Sounding Family Names" from "Modern Names.Tab".
+# Modified by Valminder, Nov 2005:
+#    -Linked with a lot of "Real world" names tables.
+# Modified by Valminder, Feb 2006.
+#    Added link to "Street Cred.Generate"
+# Modified by Valminder, August  2006.
+#    Added link to:
+#       Arab.tab
+#       Cornish.tab
+#       French.tab
+#       Germanic.tab
+#       Greek.tab
+#       Spanish.tab
+# Modified by Valminder, Septemer 2007.
+#    Added subtable:
+#       Japanese_Name_M
+#       Japanese_Name_F
+#    Added link to:
+#       NamesModernJapanese.tab
+#
+
+/OverrideRolls 1
+# Gender : 1= Male / 2= Female.
+%Gender1%,0
+
+:Start
+1,{Status~By Valminder, 2003, 2005.}
+_<b><u>MODERN NAME GENERATOR</u>:</b><br><br>
+_<b><u>Random</u>:</b> [NAME Male] (M) / [NAME Female] (F)<br><br>
+_<b>Arab:</b> [Arab.Start(1)] (M) / [Arab.Start(2)] (F)<br>
+_<b>British:</b> [English Male] [Modern Names.British] (M) / [English Female] [Modern Names.British] (F)<br>
+_<u>
+_<b>Cornish:</b> [Cornish.Start(1)] (M) / [Cornish.Start(2)] (F)<br>
+_</u>
+_<b>English:</b> [English Male] [English Family Name] (M) / [English Female] [English Family Name] (F)<br>
+_<b>Danish:</b> [Real Danish.Male First Name] [Danish Family Name] (M) / [Real Danish.Female First Name] [Danish Family Name] (F)<br>
+_<u>
+_<b>Dutch:</b> [Real Dutch.Male First Name] [Dutch Family Name] (M) / [Real Dutch.Female First Name] [Dutch Family Name] (F)<br>
+_</u>
+_<b>French:</b> [French_Male] (M) / [French_Female] (F)<br>
+_<b>German:</b> [German_Male] (M) / [German_Female] (F)<br>
+_<u>
+_<b>Greek:</b> [Greek_Male] (M) / [Greek_Female] (F)<br>
+_</u>
+_<b>Hungarian:</b> [Hungarian Names.Male] (M) / [Hungarian Names.Female] (F)<br>
+_<b>Irish:</b> [Real Irish.Male First Name] [Real Irish.Last Name] (M) / [Real Irish.Female First Name] [Real Irish.Last Name] (F)<br>
+_<u>
+_<b>Italian:</b> [Real Italian.Male First Name] [Real Italian.Last Name] (M) / [Real Italian.Female First Name] [Real Italian.Last Name] (F)<br>
+_</u>
+_<b>Japanese:</b> [Japanese_Name_M] (M) / [Japanese_Name_F] (F)<br>
+_<b>Polish:</b> [Real Polish.Male First Name] [Real Polish.Last Name] (M) / [Real Polish.Female First Name] [Real Polish.Last Name] (F)<br>
+_<u>
+_<b>Portuguese:</b> [Real Portuguese.Male First Name] [Real Portuguese.Last Name] (M) / [Real Portuguese.Female First Name] [Real Portuguese.Last Name] (F)<br>
+_</u>
+_<b>Russian:</b> [Real Russian.Male First Name] [Real Russian.Last Name] (M) / [Real Russian.Female First Name] [Real Russian.Last Name] (F)<br>
+_<b>Scottish:</b> [Real Scottish.Male First Name] [Real Scottish.Last Name] (M) / [Real Scottish.Female First Name] [Real Scottish.Last Name] (F)<br>
+_<u>
+_<b>Spanish:</b> [Spanish_Male] (M) / [Spanish_Female] (F)<br>
+_</u>
+_<b>Swedish:</b> [Real Swedish.Male First Name] [Real Swedish.Last Name] (M) / [Real Swedish.Female First Name] [Real Swedish.Last Name] (F)<br>
+_<b>Turkish:</b> [Real Turkish.Male First Name] [Real Turkish.Last Name] (M) / [Real Turkish.Female First Name] [Real Turkish.Last Name] (F)<br>
+#
+_<br><u><b>First Name Only</u>:</b><br>
+_<b>Hebrew:</b> [Modern Names.Hebrew]<br>
+_<b>Latin:</b> [Modern Names.Latin]<br>
+_<b>Swahli:</b> [Real Swahli.Male Name] (M) / [Real Swahli.Female Name] (F)<br>
+#
+_<br><u><b>Miscellaneous</u>:</b><br>
+_<b>Street Name:</b> [Street Cred.Generate]<br>
+
+;Danish Family Name
+1,[Modern Names.Danish]
+1,[Real Danish.Last Name]
+
+;Dutch Family Name
+1,[Modern Names.Dutch]
+1,[Real Dutch.Last Name]
+
+;English Female
+1,[English Names.Random Female]
+1,[Modern Normal Female Names.Start]
+1,[Modern Names.Female]
+1,[Real English.Female First Name]
+1,[Real Scottish.Female First Name]
+
+;English Male
+1,[English Names.Random Male]
+1,[Modern Normal Male Names.Start]
+1,[Modern Names.Male]
+1,[Real English.Male First Name]
+1,[Real Scottish.Male First Name]
+
+;English Family Name
+2,[Modern Names.Last Name] [Modern Names.Suffix]
+1,[Modern Names.Celtic]
+1,[Modern Names.Latin]
+1,[Modern Names.Saxon]
+2,[Modern Last Names MAIN.Start] [Modern Names.Suffix]
+2,[Real English.Last Name Gen]
+1,[Real Irish.Last Name]
+1,[Real Scottish.Last Name]
+
+;French_Female
+19,[French Names.Random Female] [French Family Name]
+1,[French.Start(2)]
+
+;French_Male
+19,[French Names.Random Male] [French Family Name]
+1,[French.Start(1)]
+
+;French Family Name
+1,[Modern Names.French]
+1,[Real French.Last Name]
+
+;German_Female
+1,[Real German.Female First Name] [German Family Name]
+1,[Germanic.Start(2)]
+
+;German_Male
+1,[Real German.Male First Name] [German Family Name]
+1,[Germanic.Start(1)]
+
+;German Family Name
+1,[Modern Names.German]
+1,[Real German.Last Name]
+
+;Greek_Female
+1,[Real Greek.Female First Name] [Greek Family Name]
+1,[Greek.Start(2)]
+
+;Greek_Male
+1,[Real Greek.Male First Name] [Greek Family Name]
+1,[Greek.Start(1)]
+
+;Greek Family Name
+1,[Modern Names.Greek]
+1,[Real Greek.Last Name]
+
+;Japanese_Name_M
+1,[NamesModernJapanese.GenMale]
+1,[Real Japanese.male]
+
+;Japanese_Name_F
+1,[NamesModernJapanese.GenFemale]
+1,[Real Japanese.female]
+
+;Spanish_Female
+1,[Real Spanish.Female First Name] [Real Spanish.Last Name]
+1,[Spanish.Start(2)]
+
+;Spanish_Male
+1,[Real Spanish.Male First Name] [Real Spanish.Last Name]
+1,[Spanish.Start(1)]
+
+;NAME For All
+# Nothing yet
+
+# ---------------------------------------------------------------------------
+
+:RandomName
+1,[NAME Male]
+2,[NAME Female]
+3,[RandomName={Dice~1d2}]
+
+;NAME Female
+1,[Random Female First Name] [Random Family Name]
+
+;NAME Male
+1,[Random Male First Name] [Random Family Name]
+
+;Random Female First Name
+1,[Arab.Arab_F_FN]
+1,[Cornish.Cornish_F_FN]
+1,[English Names.Random Female]
+1,[French Names.Random Female]
+1,{Cap~[Germanic.Germanic_F_FN]}
+1,[Greek.Greek_F_FN]
+1,[Hungarian Names.Hungarian_Female_First]
+1,[Modern Normal Female Names.Start]
+1,[Modern Names.Female]
+1,[Real Danish.Female First Name]
+1,[Real Dutch.Female First Name]
+1,[Real English.Female First Name]
+1,[Real German.Female First Name]
+1,[Real Greek.Female First Name]
+1,[Real Irish.Female First Name]
+1,[Real Polish.Female First Name]
+1,[Real Portuguese.Female First Name]
+1,[Real Russian.Female First Name]
+1,[Real Scottish.Female First Name]
+1,[Real Spanish.Female First Name]
+1,[Real Swahli.Female Name]
+1,[Real Swedish.Female First Name]
+1,[Real Turkish.Female First Name]
+1,[Spanish.Spanish_F_FN]
+
+;Random Male First Name
+1,[Arab.Arab_M_FN]
+1,[Cornish.Cornish_M_FN]
+1,[English Names.Random Male]
+1,[French Names.Random Male]
+1,{Cap~[Germanic.Germanic_M_FN]}
+1,[Greek.Greek_M_FN]
+1,[Hungarian Names.Hungarian_Male_First]
+1,[Modern Normal Male Names.Start]
+1,[Modern Names.Male]
+1,[Real Danish.Male First Name]
+1,[Real Dutch.Male First Name]
+1,[Real English.Male First Name]
+1,[Real German.Male First Name]
+1,[Real Greek.Male First Name]
+1,[Real Irish.Male First Name]
+1,[Real Polish.Male First Name]
+1,[Real Portuguese.Male First Name]
+1,[Real Russian.Male First Name]
+1,[Real Scottish.Male First Name]
+1,[Real Spanish.Male First Name]
+1,[Real Swahli.Male Name]
+1,[Real Swedish.Male First Name]
+1,[Real Turkish.Male First Name]
+1,[Spanish.Spanish_M_FN]
+
+;Random Family Name
+1,[Arab.Arab_L]
+1,[Cornish.Cornish_L]
+1,{Cap~[Germanic.Germanic_L]}
+1,[Greek.Greek_L]
+1,[Hungarian Names.Hungarian_Surnames]
+1,[Modern Last Names MAIN.Start] [Modern Names.Suffix]
+1,[Modern Names.British]
+1,[Modern Names.Celtic]
+1,[Modern Names.Danish]
+1,[Modern Names.Dutch]
+1,[Modern Names.European]
+1,[Modern Names.French]
+1,[Modern Names.German]
+1,[Modern Names.Greek]
+1,[Modern Names.Hebrew]
+1,[Modern Names.Last Name] [Modern Names.Suffix]
+1,[Modern Names.Saxon]
+1,[Real Danish.Last Name]
+1,[Real Dutch.Last Name]
+1,[Real English.Last Name Gen]
+1,[Real French.Last Name]
+1,[Real German.Last Name]
+1,[Real Greek.Last Name]
+1,[Real Irish.Last Name]
+1,[Real Polish.Last Name]
+1,[Real Portuguese.Last Name]
+1,[Real Russian.Last Name]
+1,[Real Scottish.Last Name]
+1,[Real Spanish.Last Name]
+1,[Real Swedish.Last Name]
+1,[Real Turkish.Last Name]
+1,[Spanish.Spanish_L]
+

@@ -1,0 +1,754 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder Jan 20, 2006.
+# ---------------------------------------------------
+#
+# Hodax Weapon Generator
+# Randomly selects a weapon or armor from RCRB or A&E, with stats.
+#
+# Created by Patrick Hodak
+#
+# Used by: Star Wars NPC Generator
+#
+# Updated: 10-14-05
+#
+# Modified by Valminder, Jan 2006.
+#    Renamed table "SW Weapon Gen.tab" instead of  "SW Weapon Gen2.tab"
+#    Adapted for TSv5.
+#
+
+%temp%,0
+%A%,0
+%B%,0
+%C%,0
+%D%,0
+%E%,0
+
+:Start
+1,[ClearVar][simple]{If~%temp%=0? [End1] / [Next1]}
+2,[ClearVar][primative]{If~%temp%=0? [End1] / [Next1]}
+3,[ClearVar][vibro]{If~%temp%=0? [End1] / [Next1]}
+4,[ClearVar][exotic]{If~%temp%=0? [End1] / [Next1]}
+5,[ClearVar][BP]{If~%temp%=0? [End1] / [Next1]}
+6,[ClearVar][BR]{If~%temp%=0? [End1] / [Next1]}
+7,[ClearVar][slug]{If~%temp%=0? [End1] / [Next1]}
+8,[ClearVar][Lite Armor]{Split~temp,",",A,B,C,D,E}{If~%A%=0? [End2] / [Next2]}
+9,[ClearVar][Med Armor]{Split~temp,",",A,B,C,D,E}{If~%A%=0? [End2] / [Next2]}
+10,[ClearVar][Hvy Armor]{Split~temp,",",A,B,C,D,E}{If~%A%=0? [End2] / [Next2]}
+11,[ClearVar][Pwr Armor]{Split~temp,",",A,B,C,D,E}{If~%A%=0? [End2] / [Next2]}
+
+# Due to some errors on Windows Vista, lines 8-11 were modified. Below are the original lines, and the ones that should be there.
+# 8,[ClearVar][Lite Armor]{If~%temp%=0? [End2] / [Next2]}
+# 9,[ClearVar][Med Armor]{If~%temp%=0? [End2] / [Next2]}
+# 10,[ClearVar][Hvy Armor]{If~%temp%=0? [End2] / [Next2]}
+# 11,[ClearVar][Pwr Armor]{If~%temp%=0? [End2] / [Next2]}
+
+:NPC
+# StormTrooper Armor
+1,|temp=23,5,2,2,8000|[Next2]
+2,[melee]{If~%temp%=0? [End1] / [Next1]}
+
+;melee
+5,[simple]
+2,[primative]
+10,[vibro]
+1,[exotic]
+
+:Classes
+1,[ClearVar][Soldier Primary]{If~%temp%=0? [End1] / [Next1]}
+2,[ClearVar][Soldier Secondary]{If~%temp%=0? [End1] / [Next1]}
+3,[ClearVar][Soldier Armor]{Split~temp,",",A,B,C,D,E}{If~%A%=0? [End2] / [Next2]}
+4,[ClearVar][Fringer Primary]{If~%temp%=0? [End1] / [Next1]}
+5,[ClearVar][Fringer Secondary]{If~%temp%=0? [End1] / [Next1]}
+6,[ClearVar][Fringer Armor]{Split~temp,",",A,B,C,D,E}{If~%A%=0? [End2] / [Next2]}
+7,[ClearVar][Noble Primary]{If~%temp%=0? [End1] / [Next1]}
+8,[ClearVar][Noble Armor]{Split~temp,",",A,B,C,D,E}{If~%A%=0? [End2] / [Next2]}
+9,[ClearVar][Scoundrel Primary]{If~%temp%=0? [End1] / [Next1]}
+10,[ClearVar][Scoundrel Secondary]{If~%temp%=0? [End1] / [Next1]}
+11,[ClearVar][Scoundrel Armor]{Split~temp,",",A,B,C,D,E}{If~%A%=0? [End2] / [Next2]}
+12,[ClearVar][Scout Primary]{If~%temp%=0? [End1] / [Next1]}
+13,[ClearVar][Scout Secondary]{If~%temp%=0? [End1] / [Next1]}
+14,[ClearVar][Scout Armor]{Split~temp,",",A,B,C,D,E}{If~%A%=0? [End2] / [Next2]}
+15,[ClearVar][Force Adept Primary]{If~%temp%=0? [End1] / [Next1]}
+16,[ClearVar][Tech Spec Primary]{If~%temp%=0? [End1] / [Next1]}
+17,[ClearVar][Tech Spec Armor]{Split~temp,",",A,B,C,D,E}{If~%A%=0? [End2] / [Next2]}
+
+# Due to some errors on Windows Vista, lines 3,6,8,11,14,17 were modified. Below are the original lines, and the ones that should be there.
+# 3,[Soldier Armor]{If~%temp%=0? [End2] / [Next2]}
+# 6,[Fringer Armor]{If~%temp%=0? [End2] / [Next2]}
+# 8,[Noble Armor]{If~%temp%=0? [End2] / [Next2]}
+# 11,[Scoundrel Armor]{If~%temp%=0? [End2] / [Next2]}
+# 14,[Scout Armor]{If~%temp%=0? [End2] / [Next2]}
+# 17,[Tech Spec Armor]{If~%temp%=0? [End2] / [Next2]}
+
+;Cargo1
+10,[simple]%temp%
+4,[primative]%temp%
+6,[vibro]%temp%
+1,[exotic]%temp%
+10,[BP]%temp%
+6,[BR]%temp%
+4,[slug]%temp%
+
+;Cargo2
+5,[Lite Armor]%temp%
+3,[Med Armor]%temp%
+2,[Hvy Armor]%temp%
+1,[Pwr Armor]%temp%
+
+:Next1
+1,{Split~temp,",",A,B,C,D,E}
+_ [Names=%A%]</br>
+_<b>Damage: </b>%B% {If~%C%!=0? [Range]}
+_{If~%B%=stun? [Fort] / [Critical]}
+
+:Range
+1,<b>Range:</b> %C%m
+
+:Fort
+1,<b>Fort DC:</b> %D%
+
+:Critical
+1,<b>Critical:</b> %D%{If~%D%<20?-20}
+
+:End1
+1, None
+
+:ClearVar
+1,|temp=0||A=0||B=0||C=0||D=0||E=0|
+
+:Next2
+# Due to some errors on Windows Vista, line 1 was modified. Below is the original line, and the one that should be there.
+# The Split function was moved in the above tables.
+# 1,{Split~temp,",",A,B,C,D,E}
+1,[Namez=%A%]</br>
+_<b>Damage Reduction: </b>%B% <b>Maximum Dex Bonus: </b>+%C% 
+_<b>Armor Check Penalty: </b>-%D%
+
+:End2
+1, None
+
+:Class1
+1,[Soldier Primary]
+2,[Soldier Secondary]
+3,[Noble Primary]
+4,[Scoundrel Primary]
+5,[Scoundrel Secondary]
+6,[Fringer Primary]
+7,[Fringer Secondary]
+8,[Scout Primary]
+9,[Scout Secondary]
+10,[Force Adept Primary]
+
+:Class2
+1,[Soldier Armor]
+2,[Noble Armor]
+3,[Scoundrel Armor]
+4,[Fringer Armor]
+5,[Scout Armor]
+
+#:Wlist
+#,[grenade]
+
+:Names
+1,Merr-Sonn Snap Baton
+2,Xana Exotic Arms MSW-8 Molecular Stiletto
+3,Merr-Sonn Stun Baton
+4,Palandrix Personal Stun Gauntlets
+5,SoroSuub CS-12 Stun Master
+6,Force Pike
+7,Stun Baton
+8,Club
+9,Combat Gloves
+10,Spear
+11,Knife
+12,Tribal Longspear
+13,Vibroblade (SI)
+14,Vibrodagger (SI)
+15,Vibro-axe (SI)
+16,Czerka Great Force Pike
+17,Czerka Vibroknucklers
+18,LaserHone Duelist Vibrorapier
+19,Merr-Sonn Vibrobayonet
+20,Drolan Plasteel Sword
+21,Ryyk Blade
+22,Golan Arms FC11 Flechette Launcher (4m radius)
+23,Malaxan Firepower Inc. FWG-5 Flechette Smart Pistol (2m radius)
+24,Salus DF-D1 Flechette Launcher (4m radius)
+25,Drolan Plasteel Repeating Crossbow
+26,Frohard's Galactic Firearms Magna Caster-100
+27,Drolan Plasteel Quickshot Wrist-Caster
+28,Golan Arms Vac Attack Mk-127
+29,[rocket]Locris Syndicated Securities Type-12A Explosive Antipersonnel Rocket (4m radius)
+30,[rocket]Merr-Sonn K26 Explosive Antivehicle Rocket (2m Radius)
+31,[rocket]Locris Syndicated Securities Type-12B Hollow-tip Rocket (empty)
+32,[rocket]Merr-Sonn DEMP Ionization Blast Rocket
+33,[rocket]Kelvarek Dumb Energy Quarrel
+34,BlasTech DH-17 Blaster Pistol
+35,BlasTech DH-23 "Outback" Blaster Pistol
+36,BlasTech DL-18 Blaster Pistol
+37,BlasTech DL-22 Blaster Pistol
+38,Elmainin Armaments SBP-200 Blaster Pistol
+39,Greff-Timms Industrial ATA Pulse-Wave Blaster
+40,Imperial Munitions/BlasTech KK-5 Blaster Pistol
+41,Imperial Munitions/SoroSuub SC-4 Blaster Pistol
+42,Merr-Sonn Model 44 Blaster Pistol
+43,Merr-Sonn Model 434 "DeathHammer" Blaster Pistol
+44,Merr-Sonn IR-5 "Intimidator" Blaster Pistol
+45,SoroSuub ELG-3A "Diplomat's Blaster" Blaster Pistol
+46,BlasTech DL-44/Merr-Sonn "Flash" 4 Heavy Blaster Pistol
+47,BlasTech DT-12 Heavy Blaster Pistol
+48,BlasTech DY-225 Heavy Blaster Pistol
+49,BlasTech T-6 "Thunderer" Heavy Blaster Pistol
+50,Caliban Model X Heavy Blaster Pistol
+51,Merr-Sonn "Power" 5 Heavy Blaster Pistol
+52,SoroSuub Model Kylan-3 Heavy Blaster Pistol
+53,SoroSuub "Renegade" Heavy Blaster Pistol
+54,SoroSuub Security S-5 Heavy Blaster Pistol
+55,BlasTech HSB-200 Hold-out Blaster
+56,Czerka 411 Hold-out Blaster
+57,Gee-Tech 12 Defender Microblaster
+58,Imperial Munitions Model 22T4 Hold-out Blaster
+59,Merr-Sonn Model B22 "Imperial" Hold-out Blaster
+60,Merr-Sonn Model J1 "Happy Surprise" Palm Blaster
+61,Merr-Sonn Model Q2 Hold-out Blaster
+62,Merr-Sonn Model Q4 "Quickfire" Hold-out Blaster
+63,Drearian Defense Conglomerate Defender Sporting Blaster Pistol
+64,Luxan Penetrator MB-450 Sporting Blaster Pistol
+65,Merr-Sonn Model 6 "Quick-6" Sporting Blaster Pistol
+66,SoroSuub X-30 "Lancer" Target Blaster Pistol
+67,Felebreck Electrical Defense Systems Droid Disabler
+68,Homemade Ion Pistol
+69,Merr-Sonn DEMP Ion Pistol
+70,Merr-Sonn Model MSD-32 Disruptor Pistol
+71,Tenloss DX-2 Disruptor Pistol
+72,Tenloss DXR-6 Disruptor Rifle
+73,Baktoid Armor Workshop E-5 Droid Blaster Carbine
+74,BlasTech 500 "ESPO" Riot Gun
+75,BlasTech DLT-20A Blaster Rifle
+76,BlasTech A280 Blaster Rifle
+77,BlasTech E-11 "Freedom One" Blaster Rifle
+78,BlasTech Firespray DL-87 Stun Rifle (Stun Setting)
+79,Core World Arms Pulse-Blast Rifle
+80,Greff-Timms Industrial Type A Pulse-Wave Rifle
+81,Imperial Munitions StarAnvil Heavy Blaster Rifle
+82,Merr-Sonn Deck Sweeper Stun Blaster (Stun Setting)
+83,Merr-Sonn Model G8 Blaster Rifle
+84,N'Gant-Zarvel 9118 Heavy Blaster Carbine
+85,SoroSuub Firelance Blaster Rifle
+86,SoroSuub Heavy Tracker Blaster Rifle
+87,Czerka FS-1 Farshot Sporting Blaster Rifle
+88,Drearian Defense Conglomerate "Light Sport" Sporting Blaster Rifle
+89,Herloss HBt-4 Hunting Blaster Rifle
+90,Merr-Sonn LD-1 Target Blaster Rifle
+91,SoroSuub X-45 Sniper Rifle (Single Shot)
+92,Xerrol Nightstinger Sniper Rifle
+93,BlasTech T-21 Light Repeating Blaster
+94,Merr-Sonn Underslung Rotary Blaster Carbine
+95,Czerka Adjucator Projectile Pistol
+96,Field Sports Air Pistol
+97,Oriolanis Defense Systems Striker Projectile Pistol
+98,Morellian Weapons Conglomerate Enforcer Projectile Pistol
+99,Yctor Arms Black Powder Pistol
+100,Czerka Adventurer Projectile Rifle
+101,Dresselian Projectile Rifle
+102,Prax Arms Protector PRP-502 Hold-out Dart Shooter
+103,Prax Arms Stealth-2VX Palm Dart Shooter
+104,Lightsaber
+105,Blaster Pistol
+106,Heavy Blaster Pistol
+107,Hold-Out Blaster Pistol
+108,Sporting Blaster Pistol
+109,Ion Pistol
+110,Blaster Carbine
+111,Blaster Rifle
+112,Sporting Blaster Rifle
+113,Light Repeating Blaster Rifle
+114,Ion Rifle
+115,Bow
+116,Projectile Pistol
+117,Projectile Rifle
+118,Bowcaster
+119,Blaster Cannon
+120,Heavy Repeating Blaster Rifle
+
+:rocket
+1,Kelvarek Consolidated Arms MM9 Rocket System </br> Ammo Type: 
+
+:Namez
+1,Ayelixe-Krongbing Textiles Climbsuit
+2,Ayelixe-Krongbing Textiles Shadowsuit
+3,Ayelixe-Krongbing Textiles Tracker Utility Vest
+4,Ayelixe-Krongbing Textiles Tuff Combat Suit
+5,Kamperdine Clothing Specialists Leather Jerkin
+6,Kerflo Corporation Thinsuit
+7,Creshaldyne Industries Blast-Dampening Armor
+8,Creshaldyne Industires Camo Scout Armor
+9,VargeCorp Polarizing Field Insulator Suit
+10,GTU AV-1A Assault Armor
+11,GTU AV-1C Combat Armor
+12,GTA AV-1S Scout Armor
+13,Regalis Engineering EVA Vacuum Pod
+14,Blast Helmet and Vest
+15,Combat Jumpsuit
+16,Padded Flight Suit
+17,Armored Flight Suit
+18,Padded Battle Armor
+19,Medium Battle Armor
+20,Armored Spacesuit
+21,Heavy Battle Armor
+22,Corellian Powersuit
+23,Stormtrooper Armor
+24,Battleframe
+
+#Format: Name,Damage,Range Increment(0 if Melee),Crit Range/Fort DC,Cost
+;simple
+#Stun Baton
+1,|temp=7,stun,0,12,500|
+#Merr-sonn Snap Baton
+2,|temp=1,1d6+1,0,20,100|
+#Xana Exotic Arms MSW-8 Molecular Stiletto
+1,|temp=2,1d6,0,19,700|
+#Merr-Sonn Stun Baton
+1,|temp=3,stun,0,15,50|
+#Palandrix Personal Stun Guantlets
+2,|temp=4,stun,0,12,500|
+#SoroSuub CS-12 Stun Master
+1,|temp=5,stun,0,18,700|
+#Combat Gloves
+5,|temp=9,1d4,0,20,200|
+#Knife
+10,|temp=11,1d4,0,20,25|
+
+;primative
+#Club
+1,|temp=8,1d6,0,20,15|
+#Spear
+1,|temp=10,1d8,0,20,60|
+#Tribal Longspear
+1,|temp=12,1d8,0,20,80|
+#Bow
+1,|temp=115,1d8,12,20,300|
+
+;vibro
+#Force Pike
+2,|temp=6,2d8,0,20,500|
+#vibroblade
+5,|temp=13,2d6,0,20,250|
+#vibrodagger
+10,|temp=14,2d4,0,20,200|
+#vibro-axe
+2,|temp=15,2d10,0,20,500|
+#Czerka Great Force Pike
+1,|temp=16,3d8,0,20,1000|
+#Czerka Vibroknucklers
+5,|temp=17,1d6+1,0,20,200|
+#LaserHone Duelist Vibrorapier
+2,|temp=18,2d6+2,0,20,500|
+#Merr-Sonn Vibrobayonet
+3,|temp=19,2d4+2,0,20,200|
+
+;exotic
+#Drolan Plasteel Sword
+1,|temp=20,1d8,0,20,150|
+#Ryyk Blade
+1,|temp=21,3d4,0,20,500|
+#Golan Arms FC11 Flechette Launcher (4m radius)
+1,|temp=22,3d8,20,20,2000|
+#Malaxan Firepower Inc. FWG-5 Flechette Smart Pistol (2m radius)
+1,|temp=23,3d8,10,20,800|
+#Salus DF-D1 Flechette Launcher (4m radius)
+1,|temp=24,5d8,12,20,1200|
+#Drolan Plasteel Repeating Crossbow
+1,|temp=25,1d8,16,20,400|
+#Frohard's Galactic Firearms Magna Caster-100
+1,|temp=26,3d8,20,20,2000|
+#Drolan Plasteel Quickshot Wrist-Caster
+1,|temp=27,1d4,4,20,500|
+#Golan Arms Vac Attack Mk-127
+1,|temp=28,3d8,4,20,700|
+#Kelverek Consolidated Arms MM9 Rocket System
+#Locris Syndicated Securities Type-12A Explosive Antipersonnel Rocket (4m radius)
+1,|temp=29,3d8,6,20,2500|
+#Merr-Sonn K26
+1,|temp=30,4d8,10,20,2500|
+#Locris Type-12B
+1,|temp=31,2d6,6,20,2500|
+#Merr-Sonn DEMP
+1,|temp=32,3d6,6,20,2500|
+#Kelvarek Energy Quarrel
+1,|temp=33,2d6,6,20,2500|
+#Lightsaber
+1,|temp=104,2d8,0,19,3000|
+#Bowcaster
+1,|temp=118,3d10,10,19,1500|
+
+;BP
+15,[Bpistol]
+6,[HBpistol]
+9,[HOblast]
+12,[SprtPist]
+3,[Ion]
+1,[Disrupt]
+
+;Bpistol
+#BlasTech DH-17
+1,|temp=34,3d6-1,12,20,550|
+#BlasTech DH-23 "Outback"
+1,|temp=35,3d6,8,20,500|
+#BlasTech DL-18
+1,|temp=36,3d6,10,20,500|
+#BlasTech DL-22
+1,|temp=37,3d6+1,10,20,550|
+#Elmainin Arms. SBP-200
+1,|temp=38,2d6,10,20,300|
+#Greff-Timms Ind. ATA Pulse-Wave
+1,|temp=39,3d6,6,20,600|
+#Imperial Munitions/BlasTech KK-5
+1,|temp=40,3d6+1,12,20,600|
+#Imperial Munitions/SoroSuub SC-4
+1,|temp=41,3d6,12,20,500|
+#Merr-Sonn Model 44
+5,|temp=42,3d6,10,20,500|
+#Merr-Sonn Model 434 "DeathHammer"
+1,|temp=43,3d6+2,8,20,650|
+#Merr-Sonn IR-5 "Intimidator"
+1,|temp=44,3d6,8,20,750|
+#SoroSuub ELG-3A "Diplomat's Blaster"
+1,|temp=45,3d6,10,20,500|
+#Blaster Pistol
+#1,|temp=105,3d6,10,20,500|
+
+;HBpistol
+#BlasTech DL-44/Merr-Sonn "Flash" 4
+5,|temp=46,3d8,8,20,750|
+#BlasTech DT-12
+1,|temp=47,3d8+2,6,20,900|
+#BlasTech DY-225
+1,|temp=48,3d8-1,10,20,900|
+#BlasTech T-6 "Thunderer"
+1,|temp=49,3d8+3,8,19,900|
+#Caliban Model X
+1,|temp=50,3d8+3,6,20,975|
+#Merr-Sonn "Power" 5
+2,|temp=51,3d8,8,20,825|
+#SoroSuub Model Kylan-3
+1,|temp=52,3d8+1,8,20,825|
+#SoroSuub "Renegade"
+1,|temp=53,3d8+2,8,20,840|
+#SoroSuub Security S-5
+1,|temp=54,3d8-3,8,20,900|
+#Heavy Blaster Pistol
+1,|temp=106,3d8,8,20,750|
+
+;HOblast
+#Hold-Out Blaster Pistol
+1,|temp=107,3d4,4,20,300|
+#BlasTech HSB-200
+1,|temp=55,3d4+1,4,20,360|
+#Czerka 411
+1,|temp=56,3d4-1,6,20,300|
+#Gee-Tech 12 Defender
+1,|temp=57,2d4,4,20,400|
+#Imperial Munitions Model 22T4
+1,|temp=58,3d4+1,4,20,360|
+#Merr-Sonn Model B22 "Imperial"
+1,|temp=59,3d4+1,4,20,300|
+#Merr-Sonn Model J1 "Happy Surprise"
+1,|temp=60,3d4-1,4,20,360|
+#Merr-Sonn Model Q2
+1,|temp=61,3d4,4,20,300|
+#Merr-Sonn Model Q4 "Quickfire"
+1,|temp=62,3d4+2,2,20,400|
+
+;SprtPist
+#Sporting Blaster Pistol
+1,|temp=108,3d4,8,20,300|
+#Drearian Defense Con. Defender
+4,|temp=63,3d4,8,20,300|
+#Luxan Penetrator MB-450
+1,|temp=64,3d4+3,6,20,550|
+#Merr-Sonn Model 6 "Quick-6"
+1,|temp=65,3d4-1,8,20,360|
+#SoroSuub X-30 "Lancer"
+1,|temp=66,3d4,10,20,330|
+
+;Ion
+#Ion Pistol
+1,|temp=109,3d6,8,20,?|
+#Felebreck Elec. Def. Sys. Droid Disabler
+1,|temp=67,3d6+2,4,20,250|
+#Homemade Ion Pistol
+1,|temp=68,3d6-1,10,20,300|
+#Merr-Sonn DEMP Ion Pistol
+3,|temp=69,3d6,8,20,250|
+
+;Disrupt
+#Merr-Sonn Model MSD-32
+1,|temp=70,2d10,2,20,4000|
+#Tenloss DX-2
+1,|temp=71,2d8,2,20,2250|
+#Tenloss DXR-6 Rifle
+1,|temp=72,2d10,2,20,3500|
+
+;BR
+10,[Brifle]
+8,[SportRif]
+1,[LtRptRif]
+
+;Brifle
+#Blaster Carbine
+1,|temp=110,3d8,20,19,900|
+#Blaster Rifle
+1,|temp=111,3d8,40,19,1000|
+#Baktoid E-5 Droid Blaster
+5,|temp=73,3d8,20,19,900|
+#BlasTech 500 "ESPO" Riot Gun
+1,|temp=74,3d8+1,30,19,1000|
+#BlasTech DLT-20A
+5,|temp=75,3d8+3,30,20,1300|
+#BlasTech A280
+5,|temp=76,3d8+3,30,19,1300|
+#BlasTech E-11 "Freedom One"
+5,|temp=77,3d8,30,19,1000|
+#BlasTech Firespray DL-87 Stun Setting
+10,|temp=78,stun,20,15,1000|
+#Core World Arms Pulse-Blast
+1,|temp=79,3d8+2,20,19,2000|
+#Greff-Timms Ind. Type A Pulse-Wave
+1,|temp=80,3d8+3,10,19,1200|
+#Imperial Munitions StarAnvil
+1,|temp=81,3d8,30,18,2000|
+#Merr-Sonn Deck Sweeper Stun Setting
+10,|temp=82,stun,15,18,2000|
+#Merr-Sonn Model G8
+5,|temp=83,3d8,40,19,1100|
+#N'Gant-Zarvel 9118
+10,|temp=84,3d8+1,20,19,990|
+#SoroSuub Firelance
+10,|temp=85,3d8+1,30,20,1200|
+#SoroSuub Heavy Tracker 16
+5,|temp=86,3d8+1,30,19,1100|
+
+;SportRif
+#Sporting Blaster Rifle
+1,|temp=112,3d6,40,19,?|
+#Czerka FS-1 Farshot
+10,|temp=87,3d6-2,50,1,880|
+#Drearian Defense "Light Sport"
+15,|temp=88,3d6,40,19,800|
+#Herloss HBt-4 Hunting Rifle
+10,|temp=89,3d6+2,30,19,880|
+#Merr-Sonn LD-1
+10,|temp=90,3d6+3,40,19,1100|
+#SoroSuub X-45 Sniper Rifle (Single Shot)
+1,|temp=91,3d6+1,50,18,1000|
+#Xerrol Nightstinger
+1,|temp=92,3d6,40,19,1500|
+
+;LtRptRif
+#Light Repeating Blaster Rifle
+10,|temp=113,3d8,40,19,?|
+#BlasTech T-21
+10,|temp=93,3d8,40,19,2000|
+#Merr-Sonn Rotary Blaster
+3,|temp=94,3d8+3,30,19,2400|
+#Ion Rifle
+5,|temp=114,3d8,30,19,800|
+#Blaster Cannon
+1,|temp=119,4d8,40,19,3000|
+#Hvy Blaster Rifle
+1,|temp=120,4d8,30,19,4000|
+
+;slug
+#Slugthrower Pistol
+1,|temp=116,2d6,10,20,?|
+#Slugthrower Rifle
+1,|temp=117,2d8,20,20,?|
+#Czerka Adjucator
+1,|temp=95,2d6-3,10,20,325|
+#Field Sports Air Pistol
+1,|temp=96,2d6,4,20,200|
+#Oriolanis Striker
+5,|temp=97,2d6,10,20,275|
+#Morellian Enforcer
+1,|temp=98,2d6+4,10,20,400|
+#Yctor Arms Black Powder
+1,|temp=99,2d6-2,4,20,200|
+#Czerka Adventurer
+1,|temp=100,2d8+1,30,20,360|
+#Dresselian Projectile Rifle
+5,|temp=101,2d8,20,20,300|
+#Prax Arms Protector PRP-502
+1,|temp=102,1d4,4,20,300|
+#Prax Arms Stealth-2VX
+1,|temp=103,1d4-1,2,20,360|
+
+# Format: Name,DR,Max Dex,Armor Check Penalty, Cost
+;Lite Armor
+#Ayelixe Climbsuit
+1,|temp=1,0,5,0,600|
+#Ayelixe Shadowsuit
+1,|temp=2,0,6,1,600|
+#Ayelixe Tracker Util. Vest
+1,|temp=3,1,6,1,300|
+#Ayelixe Tuff1 Combat Suit
+2,|temp=4,1,6,1,500|
+#Kamperdine Clothing Leather Jerkin
+5,|temp=5,1,6,1,300|
+#Karflo Crp. Thinsuit
+2,|temp=6,1,6,1,900|
+#Blast Helmet, Vest
+1,|temp=14,2,5,1,500|
+#Combat Jumpsuit
+1,|temp=15,3,4,3,1500|
+#Padded Flight Suit
+1,|temp=16,2,4,2,800|
+
+;Med Armor
+#Creshaldyne Blast-Dampening Armor (vs. Blasters)
+1,|temp=7,5,2,2,6000|
+#Creshaldyne Camo Scout Armor
+1,|temp=8,4,3,3,6000|
+#Armored flight suit
+1,|temp=17,4,3,4,4000|
+#Battle Armor, padded
+1,|temp=18,4,3,4,2000|
+#Battle Armor, medium
+1,|temp=19,5,2,5,6000|
+
+;Hvy Armor
+#VargeCorp Field Insulator Suit
+1,|temp=9,2,1,6,3000|
+#Armored Spacesuit
+1,|temp=20,6,1,6,10000|
+#Heavy Battle Armor
+1,|temp=21,7,0,7,12000|
+
+;Pwr Armor
+#GTU AV-1A Assault Armor
+1,|temp=10,8,0,7,50000|
+#GTU AV-1C Combat Armor
+1,|temp=11,6,0,6,25000|
+#GTU AV-1S Scout Armor
+1,|temp=12,4,1,3,15000|
+#Regalis EVA Vac Pod
+#1,|temp=13,3,0,6,15000|
+#Corellian powersuit
+1,|temp=22,4,0,4,10000|
+#Stormtrooper Armor
+1,|temp=23,5,2,2,8000|
+#Battleframe
+1,|temp=24,3,0,8,12000|
+
+;Soldier Primary
+3,[simple]
+1,[primative]
+1,[exotic]
+5,[vibro]
+15,[BP]
+10,[BR]
+4,[slug]
+
+;Soldier Secondary
+5,[simple]
+2,[primative]
+1,[exotic]
+8,[vibro]
+8,[BP]
+6,[BR]
+4,[slug]
+4,|temp=0|
+#,[grenades]
+
+;Noble Primary
+6,[Bpistol]
+2,[HOblast]
+1,[HBpistol]
+10,[SprtPist]
+
+;Scoundrel Primary
+1,[BP]
+
+;Scoundrel Secondary
+10,[HOblast]
+4,[Bpistol]
+1,[HBpistol]
+4,|temp=0|
+
+;Fringer Primary
+2,[simple]
+3,[primative]
+1,[exotic]
+4,[vibro]
+6,[BP]
+2,[BR]
+6,[slug]
+
+;Fringer Secondary
+8,[simple]
+5,[primative]
+2,[vibro]
+1,[BP]
+5,[slug]
+8,|temp=0|
+
+;Scout Primary
+4,[simple]
+3,[primative]
+1,[exotic]
+4,[vibro]
+8,[BP]
+2,[BR]
+6,[slug]
+
+;Scout Secondary
+8,[simple]
+4,[primative]
+4,[vibro]
+2,[BP]
+4,[slug]
+6,|temp=0|
+
+;Force Adept Primary
+8,[simple]
+4,[primative]
+4,[vibro]
+2,[BP]
+4,[slug]
+
+;Soldier Armor
+10,[Lite Armor]
+2,[Med Armor]
+1,[Pwr Armor]
+25,|temp=0|
+
+;Noble Armor
+2,[Lite Armor]
+10,|temp=0|
+
+;Scoundrel Armor
+4,[Lite Armor]
+10,|temp=0|
+
+;Fringer Armor
+3,[Lite Armor]
+10,|temp=0|
+
+;Scout Armor
+8,[Lite Armor]
+1,[Med Armor]
+20,|temp=0|
+
+;Tech Spec Primary
+4,[simple]
+3,[primative]
+1,[exotic]
+4,[vibro]
+8,[BP]
+2,[BR]
+6,[slug]
+
+;Tech Spec Armor
+8,[Lite Armor]
+1,[Med Armor]
+20,|temp=0|

@@ -1,0 +1,129 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder Oct 30, 2003.
+# ---------------------------------------------------
+#
+# SMS
+# 06/25/03
+# Forgotten Realms Table 50: Southern Barren/Badlands (EL 3-9) random encounter tables
+#
+# Corrected by Valminder, Oct 2003
+#   -{If~} and {Dice~}
+#
+#Variables
+
+%Time%,0
+%Temp%,0
+
+#Parameters
+
+@Time,3,Select a time of day,Day,Night,_
+
+#
+#  Starts by putting up the instructions
+#
+
+:Start
+1,{If~%Time% = 3 ? [Instructions]/[Southern Barren %Time%]}
+
+;Instructions
+1,<b>Forgotten Realms Table 50: Southern Barren/Badlands (EL 3-9)</b></br></br><h3>Instructions:</h3>
+_<b>Determine whether an encounter should occur before using this table. The chance of an encounter is based on terrain type and travel (chance per hour):</b><br>
+_<table border=1><tr><th>Terrain</th><th>Normal Travel</th><th>Cautious Travel</th><th>Hiding</th></tr>
+_<tr><td>Desolate/wasteland</td><td>5/%</td><td>2/%</td><td>1/%</td></tr>
+_<tr><td>Frontier/wilderness</td><td>8/%</td><td>4/%</td><td>2/%</td></tr>
+_<tr><td>Verdant/civilized area</td><td>10/%</td><td>5/%</td><td>2/%</td></tr>
+_<tr><td>Heavily traveled</td><td>12/%</td><td>6/%</td><td>3/%</td></tr>
+_</table>
+_<ol><li>Use the Parameter Box (below) to indicate whether it is day or night. Selecting "_" displays these instructions</li>
+_<li>This table applies to all Southern Barrens/Badlands so there is no region to set.</li></ul><br>
+
+# 1 corresponds to time="Day"
+:Southern Barren 1
+01,Androsphinx
+02-04,{Dice~1d2} Ankheg
+05,Annis (hag)
+06-08,{Dice~1d4*10} Animal: Baboon
+09-10,Basilisk
+11-12,Barghest Pack: {Dice~1d2} barghest and {Dice~1d4+4} goblins
+13-15,{Dice~1d4+6} Blink dog
+16-17,{Dice~1d3+2} Animal: Cheetah
+18-19,{Dice~1d2} Dire lion
+20,{Dice~1d10+10} Dire rat
+21-23,{Dice~1d4+4} Dire wolf
+24-31,Dragon: [SB_Dragon]
+32-35,{Dice~1d3+1} Gargoyle
+36-38,Giant Ant Crew: {Dice~1d6+5} workers and 1 soldier
+39-43,Gnoll hunters: {Dice~1d4+1} gnolls led by a level {Dice~1d3+1} gnoll ranger
+44-45,Gnoll war party: {Dice~1d6+1} gnolls, led by a level {Dice~1d6+2} gnoll ranger, accompanied by {Dice~1d3} tigers
+46-47,Goblin patrol: {Dice~1d6+3} goblins, led by level {Dice~1d3} goblin fighter
+48-49,Goblin raiders: {Dice~1d3+2} goblins, led by level {Dice~1d3} goblin fighter, all mounted on worgs
+50,Greenhag
+51,Gynosphinx
+52-53,{Dice~1d3+1} Hell hound
+54-57,Hobgoblin war party: {Dice~1d10+5} hobgoblins, {Dice~1d3+1} dire apes, {Dice~1d2} level {Dice~1d3} fighters, led by level {Dice~1d6+2} [FR_Misc.Hobgoblin_Class]
+58,Ibrandlin (MoF)
+59-63,{Dice~1d3+1} Animal: Lion
+64-71,<b>NPCs:</b><br>{Loop~{Dice~1d3+2},[FR_Random_NPC.FR_SM_NPC]}
+72-77,Nomads (human Nar tribesmen, barbarians from the Ride, Shaar horsemen, or Tuigan bands): {Dice~1d4+2} 1st level warriors led by [FR_Misc.Nomad_Leader], all mounted on light warhorses
+78-79,{Dice~1d4+4} Ogre
+80-85,Orc Patrol: {Dice~1d4+4} orcs, {Dice~1d2} level {Dice~1d3} orc barbarians, led by level {Dice~1d4+2} [FR_Misc.Orc_Class]
+86-87,{Dice~1d2} Snake, huge viper
+88-90,Troll
+91-95,{Dice~1d8+8} Wemic (MoF)
+96-100,{Dice~1d6+3} Animal: wolf
+
+# 2 corresponds to time="Night"
+:Southern Barren 2
+01,Allip
+02,Androsphinx
+03,{Dice~1d2} Ankheg
+04,Annis (hag)
+05,{Dice~1d4*10} Animal: Baboon
+06,Baneguard (MoF)
+07-08,Barghest Pack: {Dice~1d2} barghest and {Dice~1d4+4} goblins
+09-10,{Dice~1d4+6} Blink dog
+11-12,{Dice~1d3} Darkenbeast
+13-15,{Dice~1d4+4} Dire bat
+16-17,{Dice~1d2} Dire lion
+18,{Dice~1d10+10} Dire rat
+19-20,{Dice~1d4+4} Dire wolf
+21-28,Dragon: [SB_Dragon]
+29,Dread warrior (MoF)
+30-31,{Dice~1d3+1} Gargoyle
+32,{Dice~1d3+1} Ghast
+33,{Dice~1d3+3} Ghoul
+34-35,Gnoll hunters: {Dice~1d4+1} gnolls led by a level {Dice~1d3+1} gnoll ranger
+36,Gnoll war party: {Dice~1d6+1} gnolls, led by a level {Dice~1d6+2} gnoll ranger, accompanied by {Dice~1d3} tigers
+37-39,Goblin patrol: {Dice~1d6+3} goblins, led by level {Dice~1d3} goblin fighter
+40-41,Goblin raiders: {Dice~1d3+2} goblins, led by level {Dice~1d3} goblin fighter, all mounted on worgs
+42,Greenhag
+43,Gynosphinx
+44-46,{Dice~1d3+1} Hell hound
+47-50,Hobgoblin war party: {Dice~1d10+5} hobgoblins, {Dice~1d3+1} dire apes, {Dice~1d2} level {Dice~1d3} fighters, led by level {Dice~1d6+2} [FR_Misc.Hobgoblin_Class]
+51,{Dice~1d2} Hound archon (celestial)
+58,Ibrandlin (MoF)
+53-54,{Dice~1d3+1} Animal: Lion
+55-72,<b>NPCs:</b><br>{Loop~{Dice~1d3+2},[FR_Random_NPC.FR_SM_NPC]}
+73-74,Nomads (human Nar tribesmen, barbarians from the Ride, Shaar horsemen, or Tuigan bands): {Dice~1d4+2} 1st level warriors led by [FR_Misc.Nomad_Leader], all mounted on light warhorses
+75,Nightmare
+76-78,{Dice~1d4+4} Ogre
+79-85,Orc Patrol: {Dice~1d4+4} orcs, {Dice~1d2} level {Dice~1d3} orc barbarians, led by level {Dice~1d4+2} [FR_Misc.Orc_Class]
+86,{Dice~1d6} Shadow
+87,Shadow mastiff
+88,Spectral panther (MoF)
+89-91,Troll
+92,{Dice~1d3+1} Vampire spawn
+93,{Dice~1d4+1} Vargouille
+94-95,{Dice~1d8+8} Wemic (MoF)
+96,{Dice~1d6} Wight
+97-98,{Dice~1d6+3} Animal: wolf
+99,{Dice~1d3} Wraith
+100,{Dice~1d4+6} Zombie, medium
+
+:SB_Dragon
+01-30,Blue, young
+31-45,Brass, young adult
+46,Dracolich: Brown, juvenile
+47-71,Brown, young adult (MoF)
+72-91,Copper, young adult
+92-100,Gold, juvenile

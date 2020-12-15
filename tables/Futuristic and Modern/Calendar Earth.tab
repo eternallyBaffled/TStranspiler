@@ -1,0 +1,711 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder Jan 08, 2012.
+# ---------------------------------------------------
+#
+# Calendar generator for Earth
+#
+# Original Table by Bruce Gulke
+# Table created - 2002
+#
+# --------------------------------------------------
+# Modified by Darren Hill, September 2003
+# --------------------------------------------------
+# Removed several parameters:
+# Day of Week, Phase of Moon, Days in Phase
+# Day of week and Phase of moon are now calculated automatically, as is a Leap Year
+# 
+# Added CalType and TempType parameters
+# Temperature can be returned in Celsius or Fahrenheit
+# Can select Date in Gregorian or Julian Calendar
+# 
+# Latitude parameter is now entered as a number from 90 to -90
+# Negative equals south of equator 
+#   (though this actually makes no difference)
+#
+# Dates of Movable Feasts (Easter, Advent) are calculated
+# As are Eclipse Dates (should be at most 1 day out)
+#
+# --------------------------------------------------
+# Notes on Graphics (Valminder Jan 2004)
+# --------------------------------------------------
+# The Graphics go in the folder "Tablesmith\Graphics\Calendar".
+# However, you can put them in whatever directory you want.
+# If you change the directory, make sure you change the variable
+# "GraphDir" to point to where you put the files. You'll find
+# the variable below, in the section labelled "Constants".
+#
+# Substitute the path to where you put the files. The default is 
+# %GraphDir%,Graphics\Calendar
+#
+# it can also be something like
+# %GraphDir%,C:\TableSmith\Graphics\Calendar
+#
+# Modified by Valminder, Jan 2006.
+#    Adapted for TSv5
+#    Renamed table "~CalendarCalc.tab" to "CalendarCalc.tab"
+#       and moved it to the "~Reference Misc" folder.
+#
+# Modified by Valminder, Jan 2012.
+#    I fixed an error which generated snow in summer when Celsius was chosen.
+#
+
+/OverrideRolls 1
+
+# --------------------------------------------------
+# 	Constants
+# --------------------------------------------------
+%MonthsInYear%,12
+%DaysInWeek%,7
+%GraphDir%,Graphics\Calendar\
+
+# --------------------------------------------------
+# 	Variables
+# --------------------------------------------------
+%Year%,0
+%LeapYear%,0
+%FebDays%,28
+# Julian or Gregorian Calendar!
+%CalType%,1
+
+%CurrDOW%,3
+%CntrD%,0
+%CntrM%,0
+%Temp%,0
+%Temp2%,0
+
+%UseZodiac%,0
+%MonthsToGen%,0
+
+%Moon_Phase%,1
+%Moon_Days%,1
+
+%Sky%,0
+%LowTemp%,0
+%HighTemp%,0
+%IsPrecip%,0
+
+%PrecipType%,0
+%WindSpd%,0
+%Amount%,0
+%Duration%,0
+%MinTemp%,0
+%MaxTemp%,0
+%TempType%,1
+
+%Terrain%,0
+%MtElev%,0
+%SeaCurr%,0
+%Latitude%,0
+
+%Instruct%,0
+
+%Hours%,0
+%Minutes%,0
+%North%,0
+
+%PageBreak%,0
+
+%EclipseCheck%,2
+%EclipseL%,0
+%EclipseS%,0
+# --------------------------------------------------
+# 	Parameters
+# --------------------------------------------------
+@Instruct,1,Display instructions?,Yes,No
+@CalType,1,Calendar System?,Gregorian Calendar,Julian Calendar
+@TempType,2,Temperature Scale?,Fahrenheit,Celsius
+@Year,2012,What year does the calendar start in?
+@UseZodiac,1,Display zodiac?,Yes,No
+@CntrM,1,Which month should the calendar start on?,January,February,March,April,May,June,July,August,September,October,November,December
+@MonthsToGen,12,How many months should be generated?
+@Terrain,5,Generate for which type of terrain?,Rough terrain or hills,Forest,Jungle,Swamp or marsh,Plains,Desert,Mountains,Seacoast,At sea
+@MtElev,0,If the terrain is "Mountains" - how many 1000 feet of elevation?
+@SeaCurr,1,If terrain is "Seacoast" or "At sea" - what type of current?,Cold,Warm
+# Latitude assumes an Earth-sized world; 1 degree equals 70 miles
+@Latitude,40,Degrees Latitude (negative for south of equator)?
+@EclipseCheck,1,Check for Eclipse Dates?,Yes,No
+@PageBreak,1,Insert page-break for printing (may not be 100 percent reliable)?,Yes,No
+@CurrDOW,8,Do not modify unless you need to change the days of the month,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday,N/A
+
+# --------------------------------------------------
+# 	Start
+# --------------------------------------------------
+:Start
+1,{If~%Instruct%=1?[DisplayInstructions]/[GenCalendar]}
+
+:DisplayInstructions
+1,<b><u>Calendar Generator</u></b> (Created by Bruce Gulke 2002, modified by Darren Hill September 2003, Valminder Jan 2012.)<br><br>
+_The calendar generator is fairly self-explanatory. Fill in the parameters and click 'roll'. Note that the baseline weather information is for a location on an Earth-sized world at about 40 degrees north latitude. A distance of 70 miles in a north/south direction equals 1 degree.<br><br>
+_<b>Changes from the Original Table include:</b><br>
+_Several Parameters (Moon Phases, Day of week) have been removed, as these are now calculated automatically.<br><br>
+_The Latitude Parameter now asks for the absolute latitude (90 to -90), rather than asking you to offset the input from 40.<br><br>
+_<b>New Parameters:</b><br>
+_Temperature Type: can select Fahrenheit or Celsius<br>
+_Calendar: can select between Julian and Gregorian calendars<br>
+_Eclipse Option (see below) <br><br>
+_<b>New Automatic Features:</b><br>
+_Day of Week<br>
+_Phases of the Moon<br>
+_Medieval Holy days and Saints days, including Easter's correct date.<br>
+_Option to show when eclipses occur (accurate to less than a day). Lunar Eclipses occur at Midnight local time, and Solar Eclipses at Noon. The time listed allows you to determine where on the planet it occurs: it starts 6 hours earlier and ends 6 hours later; the locality experiencing Midnight or Noon local time within this area will observe the eclipse (if visible). <br>
+_Note: Solar Eclipses are only visible in an area about 100 miles wide (though about 10,000 miles long).
+
+:GenCalendar
+1,<font face="Verdana" size="-1">
+_<p align="center"><font size="+1"><b>[GenYears]</b></font>
+_<br>Terrain: {Param~Terrain,%Terrain%}{If~%Terrain%=7?
+_ ({Calc~%MtElev%*1000}' elevation)}{If~%Terrain%>7? ({Param~SeaCurr,%SeaCurr%} current)}
+
+# ---------------------------------------------------------------------------
+# altered code so that latitude is entered as a number ranging from 90 to -90
+_<br>Latitude: {If~%Latitude% < 0 ?%Latitude%° S/{Abs~%Latitude%}° N}
+_|Latitude={Abs~%Latitude%}|
+_|Latitude={Calc~40-%Latitude%}|
+# ---------------------------------------------------------------------------
+_</p>
+_<hr>
+# -------------added dayofweek call below
+# ---------------------------------------------------------------------------
+# also changed order of days of week slightly.
+_|CurrDOW=[CalendarCalc.CallDayOfWeek(2,%CalType%,%Year%,%CntrM%,1,0)]|
+_|Moon_Phase=
+_[CalendarCalc.PhaseOfMoon(2,%CalType%,%Year%,%CntrM%,%CntrD%,0)]|
+_{If~%EclipseCheck% = 1 ? 
+_|EclipseL=[CalendarCalc.GetLunarEclipse(2,%CalType%,%Year%,%CntrM%,1,0)]|
+_|EclipseS=[CalendarCalc.GetSolarEclipse(2,%CalType%,%Year%,%CntrM%,1,0)]|
+_}
+# ---------------------------------------------------------------------------
+# -------------added dayofweek call above
+_[GenMonthLinks]
+_<hr><br>
+_{Loop~%MonthsToGen%,{Status~Generating [Month_Name=%CntrM%]}
+_[GenMonth]|CntrM+1|{If~%CntrM% > %MonthsInYear% ? |CntrM=1||Year+1|}}
+_[DisplayNextValues]
+_{Status~By Bruce Gulke 2002, modified by Darren Hill 2003, Valminder Jan 2012}
+
+:DisplayNextValues
+1,<font size="-2"><i><b>
+_For next timeframe:</b>
+_ {If~%CntrM% = %MonthsInYear% ? {Param~CntrM,1} / {Param~CntrM,%CntrM%}}
+# Removed this line since no CurrDOW parameter (Valminder Jan 2006)
+#_ {If~%CurrDOW% = %DaysInWeek% ? {Param~CurrDOW,1} / {Param~CurrDOW,%CurrDOW%}}
+_</i></font>
+
+:GenYears
+1,|Temp=%CntrM%||Temp2=0|
+# ------------ added leap year modifier here
+_|FebDays=28|
+_|LeapYear=[CalendarCalc.ReturnLeapYear(2,%CalType%,%Year%,%CntrM%,1,0)]|
+_|FebDays+%LeapYear%|
+# ----------- finish leap year block
+_{Loop~%MonthsToGen%,{If~%Temp% > %MonthsInYear% ? |Temp2+1||Temp=1| / |Temp+1|}}
+_{If~%Temp2% = 0 ? The Year %Year% A.D. / The Years %Year% - {Calc~%Year% + %Temp2%} A.D.}
+
+:GenMonthLinks
+1,<center>
+_|Temp=%CntrM%||Temp2=1|
+_{Loop~%MonthsToGen%,<a href="#[Month_Name=%Temp%]">[Month_Name=%Temp%]</a>
+_{If~%Temp2% < %MonthsToGen% ? • }|Temp2+1||Temp+1|{If~%Temp% > %MonthsInYear% ? |Temp=1|}
+_}</center>
+
+:GenMonth
+1,|CntrD=1|
+_<table border=4 width=100&#037; bordercolor="#007777">
+_[MonthHeader]
+_<tr>
+_|Temp=1|
+_{Loop~%DaysInWeek%,<td align="center" width=14&#037; bgcolor="#007777">
+_<font size="-1" color="#FFFFFF"><b>[Weekdays=%Temp%]</b></font></td>|Temp+1|}
+_</tr>
+_<tr>
+_{If~%CurrDOW% > 1 ? {Loop~{Calc~%CurrDOW%-1},<td>&nbsp;</td>}}
+_|Temp2=[Month_Days=%CntrM%]|{Loop~[Month_Days=%CntrM%],
+_{Status~Generating [Month_Name=%CntrM%] %CntrD%}
+_[GenDays]}
+_{If~%CurrDOW% > 1 ? {Loop~{Calc~(%DaysInWeek%-%CurrDOW%)+1},<td>&nbsp;</td>}}
+_</tr>
+_</table>
+_{If~%PageBreak%=1?<br style="page-break-before: always">/<br>}
+
+:MonthHeader
+1,<tr>
+_<td width="100&#037;" colspan="%DaysInWeek%" align="center">
+_<table border="0" width="100&#037;" align="center">
+_<tr>
+_<td valign="center" align="left" width="20&#037;">[Month_Season=%CntrM%]</td>
+_<td valign="center" align="center" width="60&#037;">
+_<a name="[Month_Name=%CntrM%]" style="color:black">
+_<font size="+1"><b>[Month_Name=%CntrM%]</b></a>
+_{If~%UseZodiac%=1? <br><font size="-1">[Month_Sign=%CntrM%]}</font></td>
+_<td valign="center" align="right" width="20&#037;">
+_<font size="-2"><img src="%GraphDir%\Sun.gif" 
+_width="16" height="16" align="top"> 
+_|Temp=[Month_Sunrise=%CntrM%]|[AdjustTime]%Temp% AM
+_<img src="%GraphDir%\Moon.gif" width="16" height="16" 
+_align="top"> |Temp=[Month_Sunset=%CntrM%]|[AdjustTime]%Temp% PM
+_</td>
+_</tr>
+_</table>
+_</td>
+_</tr>
+
+:GenDays
+1,<td valign="top">[DisplayDayInfo]</td>|Temp=0|
+_{If~%CurrDOW%=%DaysInWeek%? |Temp+1||CurrDOW=0|}
+_{If~%CntrD%!=%Temp2%? |Temp+1|}
+_{If~%Temp%!=2? / </tr><tr>}
+_|CntrD+1||CurrDOW+1|
+
+:DisplayDayInfo
+1,<table border=0 width="100&#037;"><tr><td align="center"
+_ width="20" bgcolor="#DDDDDD"><font size="-1">
+_<b>%CntrD%</b></font></td>
+_<td align="center">[DisplayMoonPhases]</td>
+_</tr></table><hr>
+_<font size="-2">
+_[DisplayWeather]
+_[DisplayHolidays]
+_</font>
+
+# Note: This group assumes that sunrise will always be after 12:00 AM
+# and sunset will always be before 12:00 AM
+:AdjustTime
+1,{Split~Temp,":",Hours,Minutes}
+_{If~%Latitude% > 0 ?|North=0|/|North=1|}
+_|Temp2={Abs~%Latitude%}|
+_{Loop~%Temp2%,
+_{If~%North%=0?|Minutes-2|/|Minutes+2|}
+_{If~%Minutes% >= 60 ?|Minutes-60||Hours+1|}
+_{If~%Minutes% < 0 ?|Minutes+60||Hours-1|}
+_}
+_{If~%Minutes% = 0 ?|Minutes=00|}
+_|Temp=%Hours%:%Minutes%|
+
+# ---------------------------------------------------------------------------
+#	Moons
+# ---------------------------------------------------------------------------
+:MoonPhaseCalc
+1,|Moon_Phase=[CalendarCalc.PhaseOfMoon(2,%CalType%,%Year%,%CntrM%,%CntrD%,0)]|
+_{If~%EclipseCheck% = 1 ? 
+_{If~%EclipseL% < 24 ? |Moon_Phase=9|}
+_{If~%EclipseS% < 24 ? |Moon_Phase=10|}
+_}
+
+:DisplayMoonPhases
+1,<table border=0 align="center">
+_<tr><td align="center"><font size="-2">
+_[MoonPhaseCalc]
+_[DisplayMoon]</font></td>
+_</table>
+
+:DisplayMoon
+1,|Temp={CapEachWord~[Phases_Names=%Moon_Phase%]}|
+_<img src="%GraphDir%\Moon_%Temp%.gif" width="16" height="16" alt="Moon - %Temp%">
+
+:Phases_Names
+1,new moon
+2,waxing crescent
+3,first quarter
+4,waxing gibbous
+5,full moon
+6,waning gibbous
+7,third quarter
+8,waning crescent
+9,lunar eclipse
+10,solar eclipse
+
+
+# ---------------------------------------------------------------------------
+#	Weekdays
+# ---------------------------------------------------------------------------
+:Weekdays
+1,Monday
+2,Tuesday
+3,Wednesday
+4,Thursday
+5,Friday
+6,Saturday
+7,Sunday
+
+# ---------------------------------------------------------------------------
+#	Months
+# ---------------------------------------------------------------------------
+:Month_Name
+1,January
+2,February
+3,March
+4,April
+5,May
+6,June
+7,July
+8,August
+9,September
+10,October
+11,November
+12,December
+
+:Month_Days
+1,31
+2,%FebDays%
+3,31
+4,30
+5,31
+6,30
+7,31
+8,31
+9,30
+10,31
+11,30
+12,31
+
+:Month_Sunrise
+1,7:00
+2,6:45
+3,6:30
+4,6:15
+5,6:00
+6,5:30
+7,6:00
+8,6:15
+9,6:30
+10,6:45
+11,7:00
+12,7:15
+
+:Month_Sunset
+1,6:00
+2,6:30
+3,7:00
+4,7:30
+5,8:00
+6,8:15
+7,8:00
+8,7:30
+9,7:00
+10,6:30
+11,6:00
+12,5:30
+
+:Month_Season
+1-2,<font color="#00C0C0" size="-1"><b>WINTER</b></font>
+3-5,<font color="#008000" size="-1"><b>SPRING</b></font>
+6-8,<font color="#FF8000" size="-1"><b>SUMMER</b></font>
+9-11,<font color="#804020" size="-1"><b>AUTUMN</b></font>
+12,<font color="#00C0C0" size="-1"><b>WINTER</b></font>
+
+:Month_Sign
+1,Aquarius
+2,Pisces
+3,Aries
+4,Taurus
+5,Gemini
+6,Cancer
+7,Leo
+8,Virgo
+9,Libra
+10,Scorpio
+11,Sagittarius
+12,Capricorn
+
+# ---------------------------------------------------------------------------
+#	Holidays
+# ---------------------------------------------------------------------------
+:DisplayHolidays
+1,|Temp=[CalendarCalc.Holiday_String(2,%CalType%,%Year%,%CntrM%,%CntrD%,0)]|
+#|Temp=[Holidays_[Month_Name=%CntrM%]=%CntrD%]|
+_{If~%Temp% = NOTHING ? / <br><br><font color="#C000C0">%Temp%</font>}
+_{If~%EclipseCheck% = 1 ? [DisplayEclipse]}
+
+:DisplayEclipse
+1,{If~%EclipseL% > 24 ? |EclipseL-24| / 
+_|Temp={Trunc~%EclipseL%}|
+_|Temp2={Calc~(%EclipseL%-%Temp%)*60+.5}|
+_|Temp2={Trunc~%Temp2%}|
+_<br><font color="#C000C0"><b>L.Eclipse %Temp%:%Temp2%</b></font>
+_|EclipseL=
+_[CalendarCalc.GetNextLunarEclipsePlusOne(2,%CalType%,%Year%,%CntrM%,%CntrD%,0)]|
+_|EclipseL-24|
+_}
+_{If~%EclipseS% > 24 ? |EclipseS-24| / 
+_|Temp={Trunc~%EclipseS%}|
+_|Temp2={Calc~(%EclipseS%-%Temp%)*60+.5}|
+_|Temp2={Trunc~%Temp2%}|
+_<br><font color="#C000C0"><b>S.Eclipse %Temp%:%Temp2%</b></font>
+_|EclipseS=
+_[CalendarCalc.GetNextSolarEclipsePlusOne(2,%CalType%,%Year%,%CntrM%,%CntrD%,0)]|
+_|EclipseS-24|
+_}
+
+
+# ---------------------------------------------------------------------------
+#	Weather
+# ---------------------------------------------------------------------------
+:DisplayWeather
+1,[GenSkyConditions] [GenTemps]<br>
+_|IsPrecip=no|{If~%Sky% = cloudy ? [CheckForPrecip]}
+_{If~%IsPrecip% = yes ? [GenPrecip] / [GenWind]}<br>
+_Wind: [AdjustWindSpd=%Terrain%] {If~%WindSpd% < 0 ? |WindSpd=0|} %WindSpd% [WindDir]
+
+:AdjustWindSpd
+1,{If~{Dice~1d2}=1?|WindSpd+5|/|WindSpd-5|}
+2,|WindSpd-5|
+3,|WindSpd-10|
+4,|WindSpd-5|
+5-6,|WindSpd+5|
+7,|WindSpd+{Calc~%MtElev%*5}|
+8,|WindSpd+5|
+9,|WindSpd+10|
+
+:GenSkyConditions
+1,|Sky=[Weather_Sky_[Month_Name=%CntrM%]]|
+_<img src="%GraphDir%\Sky_{CapEachWord~%Sky%}.gif" 
+_width="24" height="24" border="0" alt="{CapEachWord~%Sky%}" align="middle">
+
+:GenTemps
+1,<font size="-2">
+_|Temp=[Weather_LowTemp=%CntrM%]||Temp+%Latitude%|
+_[TerrainTempAdjLow=%Terrain%]|LowTemp=%Temp%|
+_|Temp=[Weather_HighTemp=%CntrM%]||Temp+%Latitude%|
+_[TerrainTempAdjHigh=%Terrain%]|HighTemp=%Temp%|
+_{If~%TempType% = 2 ? 
+_|HighTemp={Calc~(%HighTemp%-32)*5/9+.5}||LowTemp={Calc~(%LowTemp%-32)*5/9+.5}|
+_|HighTemp={Trunc~%HighTemp%}||LowTemp={Trunc~%LowTemp%}|}
+_<font color="#800000">%HighTemp%°{If~%TempType%=2 ?C /F}</font> / 
+_<font color="#000080">%LowTemp%°{If~%TempType%=2 ?C /F}</font>
+_</font>
+
+:TerrainTempAdjLow
+1,
+2,|Temp-5|
+3-4,|Temp+5|
+5,
+6,|Temp-10|
+7,|Temp-{Calc~%MtElev%*3}|
+8,{If~%SeaCurr%=1 ?|Temp-5|/|Temp+5|}
+9,{If~%SeaCurr%=1 ?|Temp-10|/|Temp+5|}
+
+:TerrainTempAdjHigh
+1,
+2,|Temp-5|
+3-4,|Temp+5|
+5,
+6,|Temp+10|
+7,|Temp-{Calc~%MtElev%*3}|
+8,{If~%SeaCurr%=1 ?|Temp-5|/|Temp+5|}
+9,{If~%SeaCurr%=1 ?|Temp-10|/|Temp+5|}
+
+:CheckForPrecip
+1,|Temp=[Weather_Precip_Chance=%CntrM%]|[AdjustPrecipChance=%Terrain%]
+_{If~%Temp% > {Dice~1d100} ? |IsPrecip=yes| / |IsPrecip=no|}
+
+:AdjustPrecipChance
+1-2,
+3,|Temp+10|
+4,|Temp+5|
+5,
+6,|Temp-30|
+7,
+8,|Temp+5|
+9,|Temp+15|
+
+:GenWind
+1,|WindSpd=[Weather_Windspeed=%CntrM%]|
+
+:GenPrecip
+1,[GenPrecipVars]
+_<br>{CapEachWord~%PrecipType%}
+_{If~%Amount% != na ? [ShowAmount]}<br>
+_Starts at {Dice~1d12} [AMPM]; lasts [DurationAdjust=%Terrain%]%Duration% hrs.
+
+:DurationAdjust
+1-7,
+8-9,{If~%PrecipType%=heavy fog?|Duration*2|}
+_{If~%PrecipType%=light fog?|Duration*2|}
+_{If~%PrecipType%=mist?|Duration*2|}
+
+:ShowAmount
+1, (%Amount%")
+
+:AMPM
+1,am
+2,pm
+
+:GenPrecipVars
+1,|Temp2=1|
+_{While~%Temp2%,{If~%TempType%=1? [PrecipLoop] / [PrecipLoopCelsius]}}
+
+:PrecipLoop
+1,|Temp=[Weather_Precip]|{Split~Temp,",",
+_PrecipType,MinTemp,MaxTemp,Amount,Duration,WindSpd}
+_|Temp2=0|
+_|Temp2+{If~%LowTemp% >= %MinTemp% ? 0/1}|
+_|Temp2+{If~%HighTemp% <= %MaxTemp% ? 0/1}|
+_|Temp2+{If~%Terrain%=6 ?[CheckDesertWeather]/0}|
+
+:PrecipLoopCelsius
+1,|Temp=[Weather_Precip_Celsius]|{Split~Temp,",",
+_PrecipType,MinTemp,MaxTemp,Amount,Duration,WindSpd}
+_|Temp2=0|
+_|Temp2+{If~%LowTemp% >= %MinTemp% ? 0/1}|
+_|Temp2+{If~%HighTemp% <= %MaxTemp% ? 0/1}|
+_|Temp2+{If~%Terrain%=6 ?[CheckDesertWeather]/0}|
+
+:CheckDesertWeather
+1,{If~%PrecipType%=heavy fog?1/0}
+_{If~%PrecipType%=light fog?1/0}
+_{If~%PrecipType%=heavy blizzard?1/0}
+_{If~%PrecipType%=blizzard?1/0}
+_{If~%PrecipType%=mist?1/0}
+
+# This table should be weighted based on the prevailing wind
+# conditions for your campaign setting
+;WindDir
+1,N
+1,NE
+1,E
+1,SE
+1,S
+1,SW
+1,W
+1,NW
+
+;Weather_Sky_March
+27,clear
+27,partly cloudy
+46,cloudy
+
+;Weather_Sky_April
+20,clear
+35,partly cloudy
+45,cloudy
+
+;Weather_Sky_May
+20,clear
+33,partly cloudy
+47,cloudy
+
+;Weather_Sky_June
+20,clear
+40,partly cloudy
+40,cloudy
+
+;Weather_Sky_July
+22,clear
+40,partly cloudy
+38,cloudy
+
+;Weather_Sky_August
+25,clear
+35,partly cloudy
+40,cloudy
+
+;Weather_Sky_September
+33,clear
+21,partly cloudy
+46,cloudy
+
+;Weather_Sky_October
+35,clear
+25,partly cloudy
+40,cloudy
+
+;Weather_Sky_November
+20,clear
+30,partly cloudy
+50,cloudy
+
+;Weather_Sky_December
+25,clear
+25,partly cloudy
+50,cloudy
+
+;Weather_Sky_January
+23,clear
+27,partly cloudy
+50,cloudy
+
+;Weather_Sky_February
+25,clear
+25,partly cloudy
+50,cloudy
+
+:Weather_Precip_Chance
+1,46
+2,40
+3,44
+4,42
+5,42
+6,36
+7,33
+8,33
+9,33
+10,36
+11,40
+12,43
+
+:Weather_LowTemp
+1,{Dice~1d20+11}
+2,{Dice~1d10+19}
+3,{Dice~1d10+27}
+4,{Dice~1d8+39}
+5,{Dice~1d10+46}
+6,{Dice~1d6+58}
+7,{Dice~1d6+64}
+8,{Dice~1d6+62}
+9,{Dice~1d8+53}
+10,{Dice~1d10+41}
+11,{Dice~1d10+31}
+12,{Dice~1d20+12}
+
+:Weather_HighTemp
+1,{Dice~1d10+32}
+2,{Dice~1d6+38}
+3,{Dice~1d8+46}
+4,{Dice~1d10+58}
+5,{Dice~1d10+69}
+6,{Dice~1d8+79}
+7,{Dice~1d6+81}
+8,{Dice~1d4+81}
+9,{Dice~1d8+74}
+10,{Dice~1d10+62}
+11,{Dice~1d10+52}
+12,{Dice~1d8+38}
+
+# In mph (miles/hour)
+:Weather_Windspeed
+1-12,{Dice~1d20-1}
+
+#
+# Format:
+#
+# Name/Type, minimum temperature, maximum temp., amount (inches), duration, windspeed (mph)
+#
+:Weather_Precip
+1,heavy blizzard,-999,10,{Dice~2d10+10},{Dice~3d8},{Dice~6d8+40}
+2,blizzard,-999,20,{Dice~2d8+8},{Dice~3d10},{Dice~3d8+36}
+3,heavy snowstorm,-999,25,{Dice~2d8+2},{Dice~4d6},{Dice~3d10}
+4,light snowstorm,-999,35,{Dice~1d8},{Dice~2d6},{Dice~4d6}
+5,sleet storm,-999,35,{Dice~1d2},{Dice~1d6},{Dice~3d10}
+6,hailstorm,-999,65,na,{Dice~1d4},{Dice~4d10}
+7,heavy fog,20,60,na,{Dice~1d12},{Dice~1d20}
+8,light fog,30,70,na,{Dice~2d4},{Dice~1d10}
+9,mist,30,999,na,{Dice~2d6},{Dice~1d10}
+10,drizzle,25,999,{Dice~1d2},{Dice~1d10},{Dice~1d20}
+11,light rainstorm,25,999,{Dice~1d3},{Dice~1d12},{Dice~1d20}
+12,heavy rainstorm,25,999,{Dice~1d4+3},{Dice~1d12},{Dice~2d12+10}
+13,thunderstorm,30,999,{Dice~1d8},{Dice~1d4},{Dice~4d10}
+
+:Weather_Precip_Celsius
+1,heavy blizzard,-999,-12,{Dice~2d10+10},{Dice~3d8},{Dice~6d8+40}
+2,blizzard,-999,-7,{Dice~2d8+8},{Dice~3d10},{Dice~3d8+36}
+3,heavy snowstorm,-999,-4,{Dice~2d8+2},{Dice~4d6},{Dice~3d10}
+4,light snowstorm,-999,2,{Dice~1d8},{Dice~2d6},{Dice~4d6}
+5,sleet storm,-999,2,{Dice~1d2},{Dice~1d6},{Dice~3d10}
+6,hailstorm,-999,18,na,{Dice~1d4},{Dice~4d10}
+7,heavy fog,-7,16,na,{Dice~1d12},{Dice~1d20}
+8,light fog,-1,21,na,{Dice~2d4},{Dice~1d10}
+9,mist,-1,999,na,{Dice~2d6},{Dice~1d10}
+10,drizzle,-4,999,{Dice~1d2},{Dice~1d10},{Dice~1d20}
+11,light rainstorm,-4,999,{Dice~1d3},{Dice~1d12},{Dice~1d20}
+12,heavy rainstorm,-4,999,{Dice~1d4+3},{Dice~1d12},{Dice~2d12+10}
+13,thunderstorm,-1,999,{Dice~1d8},{Dice~1d4},{Dice~4d10}

@@ -1,0 +1,574 @@
+# -----------------------------------------------------
+# Last Update: modified by Valminder September 7, 2006.
+# -----------------------------------------------------
+#
+# Jewelry
+#
+# Originally created by Bruce A. Gulke
+#
+# ---------------------------------------------------------------------------
+#
+# To call this table from another one:
+#    Single jewelry: "A silver earring, set with topazes (20 gp)."
+#       [Jewelry.Start(%Value%,%MoneyType%,%Magic%)]
+#
+#    List of jewelry using Loop~or something else or to put in a phrase.
+#       "a silver earring, set with topazes (20 gp)"
+#       [Jewelry.Alternate(%Value%,%MoneyType%)]
+#
+#    Value:     (3)  1=Cheap, 2=Low, 3=Average, 4=High, 5=Expensive
+#    MoneyType: (1)  1=gp, 2=ceramic (cp), 3=dollars, 4=pounds, 5=francs
+#    Magic:     (2)  1= Yes (jewel can generate a magical effect)
+#                    2= No
+#
+# ---------------------------------------------------------------------------
+#
+# Improved by Scott Barrie
+#
+# Modified by Valminder, May 2002.
+#    I added the [~Value] table from "Objects of Art.Tab".
+#
+# Modified by Valminder, Sept 2005, idea of Michael Taylor.
+#    Change %MoneyType% (To add more types of money, modify the parameters
+#                        below "@MoneyType" and modify the "Money"
+#                        subtable found at the end).
+# Modified by Valminder, Dec 2005.
+#     Added "Value" parameter.
+#     Added Alternate subtable.
+# Modified by Valminder, Feb 2006.
+#     Added stuff from Michael Long's table : "FR_misc_apparel.tab".
+#     Added link to:
+#        Miscellaneous.Hardness
+#        Miscellaneous.Height
+# Modified by Valminder, August  2006.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+# Modified by Valminder, August  2006.
+#    Added ideas from "Jewelry Generator.tab" by Ashon (10/05/04)
+# Modified by Valminder, September 2006.
+#    ---It now takes into account the number of gems found
+#       on the item and the value of those gems.
+#       Added link to Gems2.tab
+#       Added %ValueGem% and %NumGem% variables.
+#    Added links to:
+#       Dwarven Battle Cries.Generate
+#       Ethics.Generate
+#       Miscellaneous.Shape
+#       The Oracle.RandomSentence
+# 
+
+%Cost%,0
+%MagicDesc%,0
+%Magic%,2
+%MagicGP%,0
+%MD%,0
+%MoneyType%,1
+%NumGem%,0
+%Value%,3
+%ValueGem%,0
+%ValueMod%,0
+
+@Value,3,Select value of item,Cheap,Low,Average,High,Expensive
+@MoneyType,1,Select Money Type,gp,ceramic (cp),dollars ($),pounds (£),francs
+@Magic,1,Can the jewel have magical effects?,Yes,No
+
+:Start
+1,{Status~By Scott Barie, Michael Taylor, Ashon, Valminder 2002, 2004, 2005, 2006}
+_[SetValue=%Value%][Generate]
+
+;Generate
+6,[~PMetal] [Item] [MagicDesc]([~Value] [Money=%MoneyType%]).
+5,[~PMetal] [Item], set with {AorAn~[Gem]} [MagicDesc]([~Value] [Money=%MoneyType%]).
+4,[~PMetal] [Item], set with |NumGem=[SetNumGem]| %NumGem% {Plural~[Gem]}|ValueGem*%NumGem%| [MagicDesc]([~Value] [Money=%MoneyType%]).
+2,[~PMetal] [Item], [Design] [MagicDesc]([~Value] [Money=%MoneyType%]).
+2,[~PMetal] [Item], set with {AorAn~[Gem]}, [Design] [MagicDesc]([~Value] [Money=%MoneyType%]).
+1,[~PMetal] [Item], set with |NumGem=[SetNumGem]| %NumGem% {Plural~[Gem]}|ValueGem*%NumGem%|, [Design] [MagicDesc]([~Value] [Money=%MoneyType%]).
+5,[~Color] [Richness] [Clothing] [MagicDesc]([~Value] [Money=%MoneyType%]).
+
+;SetNumGem
+50,{Dice~1d3+1}
+30,{Dice~2d4}
+14,{Dice~3d6}
+5,{Dice~3d10}
+1,{Dice~3d20}
+
+:Alternate
+1,[SetValue=%Value%][GenerateAlternate]
+
+;GenerateAlternate
+6,[~PMetal2] [Item] [MagicDesc]([~Value] [Money=%MoneyType%])
+5,[~PMetal2] [Item], set with {AorAn~[Gem]} [MagicDesc]([~Value] [Money=%MoneyType%])
+4,[~PMetal2] [Item], set with |NumGem=[SetNumGem]| %NumGem% {Plural~[Gem]}|ValueGem*%NumGem%| [MagicDesc]([~Value] [Money=%MoneyType%])
+2,[~PMetal2] [Item], [Design] [MagicDesc]([~Value] [Money=%MoneyType%])
+2,[~PMetal2] [Item], set with {AorAn~[Gem]}, [Design] [MagicDesc]([~Value] [Money=%MoneyType%])
+1,[~PMetal2] [Item], set with |NumGem=[SetNumGem]| %NumGem% {Plural~[Gem]}|ValueGem*%NumGem%|, [Design] [MagicDesc]([~Value] [Money=%MoneyType%])
+5,[~Color2] [Richness] [Clothing] [MagicDesc]([~Value] [Money=%MoneyType%])
+
+# ------------------------------------------------------------------------
+
+:Color
+1,{Cap~{AorAn~[Miscellaneous.ColorNoType]}}
+
+:Color2
+1,{AorAn~[Miscellaneous.ColorNoType]}
+
+:PMetal
+1,{Cap~{AorAn~[Miscellaneous.Precious Metal]}}
+
+:PMetal2
+1,{AorAn~[Miscellaneous.Precious Metal]}
+
+;Richness
+6,courtier's|ValueMod+0|
+3,noble's|ValueMod+30|
+1,royalty's|ValueMod+60|
+
+# ------------------------------------------------------------------------
+# 10% chance to have a magical jewelry
+
+:MagicDesc
+1,{If~%Magic%=1?{If~{Dice~1d100}<=10?[ChooseMagic=%MD%][ShowMagicDesc]/|MagicDesc=None|}}
+
+:ChooseMagic
+1,|MagicDesc=[Magic Arm]|
+2,|MagicDesc=[Magic Body]|
+3,|MagicDesc=[Magic Ear]|
+4,|MagicDesc=[Magic Finger]|
+5,|MagicDesc=[Magic Head]|
+6,|MagicDesc=[Magic Leg]|
+7,|MagicDesc=[Magic Neck]|
+8,[ChooseMagic={Dice~1d7}]
+
+:ShowMagicDesc
+1,{If~%MagicDesc%!=None?[Print Magic]}
+
+:Print Magic
+1,<i>(<u>Magic</u>: %MagicDesc%.)</i> 
+
+;Bonus Magical Properties
+1,the item glows softly|ValueMod+10|
+1,the item hums softly|ValueMod+10|
+1,the item glitters in the absence of light|ValueMod+10|
+1,the item glows when in use|ValueMod+10|
+1,the item is sheathed in a [Miscellaneous.ColorNoType] flame|ValueMod+5|
+1,the item is sheathed in a [Miscellaneous.ColorNoType] flame while in use|ValueMod+5|
+
+;Magic Arm
+3,[Bonus Magical Properties]
+1,[Bonus Magical Properties] and [Magic Arm]
+1,the wearer is able to make small globes of light dance above their hands(<i>Dancing Lights</i> Spell)|ValueMod+10|
+1,the wearer's hands move faster (+2 bonus to Dex)|MagicGP=4000|
+1,the Item distracts the eye easier (+2 Sleight of Hands)|MagicGP=400|
+
+;Magic Body
+3,[Bonus Magical Properties]
+1,[Bonus Magical Properties] and [Magic Body]
+1,the wearer is better able to resist magic (+2 save)|MagicGP=4000|
+1,the wearer's skin becomes thicker resisting physical damage (+1 natural armor bonus)|MagicGP=2000|
+1,the wearer is protected against poison (+2 save vs poison)|MagicGP=500|
+1,the wearer does not bleed from wounds (stabilizes automatically)|MagicGP=100|
+1,the wearer feels healthier (+2 Con)|MagicGP=4000|
+1,the wearer feels stronger (+2 Str)|MagicGP=4000|
+1,the wearer is nimbler (+2 Escape Artist)|MagicGP=400|
+1,the wearer can camouflage himself (+2 Hide)|MagicGP=400|
+
+;Magic Ear
+3,[Bonus Magical Properties]
+1,[Bonus Magical Properties] and [Magic Ear]
+1,the wearers hearing is magically Sharpened (+2 Listen)|MagicGP=400|
+1,if someone Lies to the wearer they detect that lie (+2 Sense Motive)|MagicGP=400|
+1,the wearer cannot hear (cursed with Deafness)|MagicGP=1000|
+1,the wearer can understand the language of the [Creatures.All]|MagicGP=200|
+1,the wearer can understand anyone who speaks to them|MagicGP=1000|
+
+;Magic Finger
+3,[Bonus Magical Properties]
+1,[Bonus Magical Properties] and [Magic Finger]
+1,the wearer can climb better (+2 Climb)|MagicGP=400|
+1,the wearer is a better thief (+2 Sleight of Hands)|MagicGP=400|
+1,the Wearer always stays warm|MagicGP=2000|
+1,when the wearer falls, they fall slower taking 1/2 damage|MagicGP=1100|
+1,the wearer can swim better (+2 Swim)|MagicGP=400|
+1,the wearer can breath underwater (<i>Water Breathing</i> spell)|MagicGP=2000|
+
+;Magic Head
+3,[Bonus Magical Properties]
+1,[Bonus Magical Properties] and [Magic Head]
+1,the wearer has clearer thoughts (+2 Int)|MagicGP=4000|
+1,the wearer is protected against psionic attacks (+2 save)|MagicGP=4000|
+1,the wearer becomes more attractive to the opposite sex (+2 all Cha rolls)|MagicGP=1600|
+1,the wearer is better able to think and reason (+2 Wis)|MagicGP=4000|
+1,the wearer seems more sure of himself (+2 Cha)|MagicGP=4000|
+1,the wearer seems trustworthy (+2 Bluff)|MagicGP=400|
+1,the wearer seems trustworthy (+2 Diplomacy)|MagicGP=400|
+
+;Magic Leg
+3,[Bonus Magical Properties]
+1,[Bonus Magical Properties] and [Magic Leg]
+1,the wearer's steps leave no trace (-5 for being Tracked)|MagicGP=1250|
+1,the wearer makes less noise while moving (+2 Move Silently)|MagicGP=400|
+1,the wearer is more sure-footed (+2 Balance)|MagicGP=400|
+1,the wearer is more agile (+2 Dex)|MagicGP=4000|
+1,the wearer can climb better (+2 Climb)|MagicGP=400|
+1,the wearer can jump better (+2 Jump)|MagicGP=400|
+1,the wearer can ride better (+2 Ride)|MagicGP=400|
+
+;Magic Neck
+3,[Bonus Magical Properties]
+1,[Bonus Magical Properties] and [Magic Neck]
+1,the wearer is better protected while wearing this (+2 armor bonus as bracers)|MagicGP=4000|
+1,the wearer is magically protected from taking damage from [Creatures.All] (DR5 vs this creature)|MagicGP=2000|
+1,the wearer is luckier when wearing this item (+1 all saves)|MagicGP=1000|
+1,the wearer's skin becomes thicker resisting physical damage (+1 natural armor bonus)|MagicGP=2000|
+1,the wearer is protected against poison (+2 save vs poison)|MagicGP=500|
+
+# ------------------------------------------------------------------------
+
+;Item
+2,[JHead]
+2,[JNeck]
+2,[JLimbs]
+2,[JBody]
+2,[Misc]
+1,[Rare]|ValueMod-10|
+
+;JHead
+1,crown|ValueMod+15||MD=5|
+1,tiara|ValueMod+5||MD=5|
+5,ear ring|MD=3|
+3,ear ring set|MD=3|
+1,eye patch|MD=5|
+1,comb|MD=5|
+2,headband|MD=5|
+1,nose ring|MD=5|
+1,coronet|MD=5|
+1,diadem|ValueMod+10||MD=5|
+
+;JNeck
+1,choker|MD=7|
+1,collar|MD=7|
+1,locket|MD=7|
+5,necklace|MD=7|
+1,talisman|MD=7|
+1,string of beads|MD=7|
+1,clasp|MD=7|
+1,cloak pin|MD=7|
+1,medal|MD=7|
+1,medallion|MD=7|
+2,pendant|ValueMod+5||MD=7|
+
+;JLimbs
+1,scepter|ValueMod+5||MD=4|
+3,seal|MD=4|
+10,bracelet|MD=1|
+10,ring|MD=4|
+2,anklet|MD=6|
+2,armband|MD=1|
+1,orb|MD=4|
+
+;JBody
+1,medal|MD=2|
+2,medallion|MD=7|
+2,belt|MD=2|
+2,buckle|MD=2|
+3,chain|MD=7|
+2,clasp|MD=|
+3,pendant|MD=7|
+2,pin|MD=2|
+2,amulet|MD=7|
+1,brooch|MD=2|
+1,circlet|MD=5|
+
+;Misc
+1,small box|MD=8|
+1,candlestick|MD=8|
+2,chalice|ValueMod+5||MD=8|
+2,coffer|ValueMod+5||MD=8|
+5,comb|MD=5|
+2,cup|MD=8|
+1,dagger|MD=8|
+5,goblet|MD=8|
+1,Jewelry box|MD=8|
+4,locket|MD=2|
+5,pin|MD=2|
+1,statuette|MD=8|
+
+;Rare
+1,ankh|MD=8|
+1,anklechain|MD=6|
+2,artificial eye|MD=5|
+1,artificial nose|MD=5|
+1,ball|MD=8|
+1,band|MD=1|
+2,bell|MD=8|
+1,blade|MD=8|
+4,book bindings|MD=8|
+1,boot heel|MD=8|
+4,bowl|MD=8|
+2,brazier|MD=8|
+1,bust|MD=8|
+1,cage|MD=8|
+5,candelabra|MD=8|
+1,candle snuffer|MD=8|
+1,casket|MD=8|
+1,ceremonical mask|MD=5|
+3,chain|MD=8|
+1,chamber pot|MD=8|
+1,chest|MD=8|
+2,choker|MD=7|
+1,censer|MD=8|
+5,circlet|MD=5|
+8,cloak pin|MD=7|
+1,corkscrew|MD=8|
+1,costume mask|MD=5|
+1,cube|MD=8|
+3,decanter|MD=8|
+1,dice set|MD=8|
+2,dice|MD=8|
+1,disc|MD=8|
+1,doll (eyes, etc.)|MD=8|
+2,door knocker|MD=8|
+1,door latch|MD=8|
+1,eating utensils (set)|MD=8|
+1,ewer|MD=8|
+1,eyepatch|MD=5|
+1,false hand|MD=1|
+1,fan|MD=8|
+3,flagon|MD=8|
+1,fork|MD=8|
+4,frame (painting, etc.)|MD=8|
+1,handcuffs|MD=8|
+10,holy symbol of [~Religion.Deities(2)]|MD=7|
+1,hook (fishing)|MD=8|
+1,hook (other)|MD=8|
+1,hourglass|MD=8|
+1,icon|MD=8|
+3,idol|MD=8|
+1,incense burner|MD=8|
+1,inkpot|MD=8|
+1,kettle|MD=8|
+3,key|MD=8|
+4,knife|MD=8|
+1,knife handle|MD=8|
+1,knuckles|MD=8|
+1,lamp|MD=8|
+1,lock and key|MD=8|
+1,magnifying glass (rim)|MD=8|
+1,military insignia|MD=8|
+1,mirror|MD=8|
+1,monocle (rim)|MD=5|
+1,mousetrap|MD=8|
+5,music box|MD=8|
+1,nose ring|MD=5|
+1,orb|MD=8|
+1,paperweight|MD=8|
+1,peg-leg|MD=6|
+1,pen/quill set|MD=8|
+1,phylactery|MD=8|
+3,pipe|MD=8|
+3,platter|MD=8|
+1,pot|MD=8|
+1,pyramid|MD=8|
+1,razor|MD=8|
+1,rod|MD=8|
+1,scabbard|MD=8|
+2,scarab|MD=8|
+1,scale|MD=8|
+2,scroll tube|MD=8|
+1,seal|MD=8|
+1,set of thieves' picks|MD=8|
+1,sickle|MD=8|
+1,skull|MD=8|
+1,spearhead|MD=8|
+1,sphere|MD=8|
+1,spyglass|MD=8|
+7,statue|MD=8|
+1,stick|MD=8|
+3,sword|MD=8|
+2,sword hilt|MD=8|
+8,talisman|MD=8|
+3,tankard|MD=8|
+1,tea set|MD=8|
+4,thimble|MD=8|
+1,tooth|MD=5|
+4,torc|MD=8|
+3,tray|MD=8|
+1,tribal symbol|MD=7|
+1,urn|MD=8|
+2,vase|MD=8|
+1,water pipe|MD=8|
+2,whistle|MD=8|
+1,wire|MD=8|
+3,[~Miscellaneous.Weapons]|MD=8|
+2,[~Equipment.Musical Instruments]|MD=8|
+2,[~Miscellaneous.Armors]|MD=8|
+
+# ---------------------------------------------------------------------
+
+;Clothing
+1,[CHead]
+1,[CNeckShoulder]
+1,[CHands]
+1,[CFeet]
+1,[CLegs]
+1,[CLowerBody]
+1,[CUpperBody]
+
+;CHead
+1,helm|MD=5|
+1,hat|ValueMod-10||MD=5|
+1,cap|ValueMod-10||MD=5|
+1,habit|MD=2|
+1,hood|ValueMod-30||MD=5|
+1,veil|ValueMod-10||MD=5|
+1,mask|MD=5|
+
+;CNeckShoulder
+1,kerchief|ValueMod-30||MD=4|
+1,coif|MD=5|
+1,mantle|MD=2|
+1,scarf|ValueMod-10||MD=7|
+1,shawl|ValueMod-10||MD=2|
+1,smock|ValueMod-10||MD=2|
+1,cloak|MD=2|
+1,robe|MD=2|
+1,gown|MD=2|
+1,cape|MD=2|
+1,coat|MD=2|
+
+;CHands
+1,gloves|MD=4|
+1,bracers|MD=1|
+1,gauntlets|MD=4|
+1,mittens|ValueMod-10||MD=4|
+
+;CFeet
+2,[Miscellaneous.Height] [Miscellaneous.Hardness] boots|ValueMod-30||MD=6|
+2,[Miscellaneous.Height] [Miscellaneous.Hardness] riding boots|ValueMod-30||MD=6|
+1,shoes|ValueMod-10||MD=6|
+1,slippers|MD=6|
+1,[Miscellaneous.Height] moccasins|ValueMod-50||MD=6|
+1,[Miscellaneous.Height] sandals|ValueMod-30||MD=6|
+
+;CLegs
+1,hose|ValueMod-10||MD=6|
+1,leggings|ValueMod-10||MD=6|
+1,petticoat|MD=6|
+1,stockings|ValueMod-10||MD=6|
+1,trousers|MD=6|
+1,breeches|ValueMod-30||MD=6|
+
+;CLowerBody
+1,girdle|MD=2|
+1,apron|ValueMod-30||MD=2|
+1,belt|MD=2|
+1,skirt|MD=2|
+1,buckskins|ValueMod-10||MD=2|
+1,baldric|MD=2|
+
+;CUpperBody
+1,blouse|ValueMod-10||MD=2|
+1,doublet|MD=2|
+1,dress|MD=2|
+1,frock|ValueMod-10||MD=2|
+1,gown|MD=2|
+1,jerkin|MD=2|
+1,undershirt|ValueMod-30||MD=2|
+1,surcoat|MD=2|
+1,toga|MD=2|
+1,tunic|ValueMod-10||MD=2|
+1,vest|MD=2|
+1,tabard|ValueMod-10||MD=2|
+
+# ---------------------------------------------------------------------
+
+;Design
+1,engraved with strange symbols
+1,engraved with concentric circles
+1,carved with a twisting, vine-like pattern
+1,enlaid with a pattern of gold
+1,enlaid with a pattern of silver
+3,engraved with a war-like phrase ([~Dwarven Battle Cries.Generate])
+5,engraved with an ancient proverb ([~Ethics.Generate])
+1,engraved with a prophecy-like phrase ([~The Oracle.RandomSentence])
+1,engraved with a dragon-like shape
+5,engraved with a [Miscellaneous.Shape]-like shape
+1,engraved with the likeness of an ancient king
+1,covered in a web-like pattern of lines
+1,engraved with an image of the sun
+1,engraved with an image of the moon
+20,engraved with [~Rune Generator.GenRune]
+10,engraved with the symbol of [~Religion.Deities(2)]
+
+;GemOLD
+2,amber|ValueMod+0|
+1,amethyst|ValueMod+0|
+1,diamond|ValueMod+0|
+3,emerald|ValueMod+0|
+3,garnet|ValueMod+0|
+3,jade|ValueMod+0|
+3,onyx|ValueMod+0|
+1,opal|ValueMod+0|
+1,pearl|ValueMod+0|
+3,rose quartz|ValueMod+0|
+3,ruby|ValueMod+0|
+3,sapphire|ValueMod+0|
+1,topaz|ValueMod+0|
+3,turquoise|ValueMod+0|
+
+;Gem
+# Ornamental
+25,[Gems2.Gem1]|ValueGem=10|
+# Semi-Precious
+25,[Gems2.Gem2]|ValueGem=50|
+# Fancy
+15,[Gems2.Gem3]|ValueGem=100|
+# Precious
+15,[Gems2.Gem4]|ValueGem=500|
+# Not Gems
+15,[Gems2.Gem5]|ValueGem=1000|
+# Jewels
+5,[Gems2.Gem6]|ValueGem=5000|
+
+# ------------------------------------------------------------------------
+
+:SetValue
+1,|ValueMod=-77|
+2,|ValueMod=-47|
+3,|ValueMod=-12|
+4,|ValueMod=30|
+5,|ValueMod=60|
+
+:Value
+1,|Cost=[ValueShow+%ValueMod%]|
+_|Cost+%ValueGem%|
+_{If~%Magic%=1?|Cost+%MagicGP%|}
+_[AddComma.Start(%Cost%)]
+
+;ValueShow
+# Cheap
+15,{Dice~1d10*10}
+15,{Dice~3d6*10}
+# Low (Average Min)
+15,{Dice~1d6*100}
+15,{Dice~1d8*100}
+12,{Dice~2d6*100}
+# High
+9,{Dice~3d6*100}
+7,{Dice~4d6*100}
+5,{Dice~5d6*100}
+# Expensive (Average Max)
+4,{Dice~1d4*1000}
+3,{Dice~1d6*1000}
+2,{Dice~2d6*1000}
+2,{Dice~3d6*1000}
+1,{Dice~4d6*1000}
+1,{Dice~6d6*1000}
+1,{Dice~10d6*1000}
+
+:Money
+1,gp
+2,cp
+3,$
+4,£
+5,francs

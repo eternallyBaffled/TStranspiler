@@ -1,0 +1,2036 @@
+# ------------------------------------------------------
+# Last Update: modified by Valminder September 15, 2006.
+# ------------------------------------------------------
+#
+# Sharn District Generator for TableSmith
+#
+# Originally based off the system in the Dungeon Master's Guide
+# Copyright 2000 Wizards of the Coast and 2004 Sharn: City of Towers
+#
+# This table is meant to serve as a gaming aid for individuals
+# already possessing the D&D Dungeon Master's Guide. It is
+# not intended to replace that product, nor is it a challenge
+# in any way to copyrights of Wizards of the Coast.
+#
+# CUSTOMIZING THIS TABLE
+# Feel free to customize and change all you want
+# s.shippy@mchsi.com
+#
+# Modified by Valminder, August/December 2006.
+#    Adapted for TSv5.
+#    Added credits.
+#    Added horizontal lines to divide the types of shops.
+#    Fixed some minor errors.
+#    Modified a few links to other subtables, mainly the "EQ" ones.
+#
+
+/OverrideRolls 1
+
+# ---------------------------------------------------------------------------------------------------------
+# Variables
+%type%,0
+%typename%,0
+%WardType%,0
+%councilor%,0
+%population%,0
+%GPLimit%,0
+%SizeMod%,0
+%LvlMod%,0
+%NumDie%,0
+%DieNum%,0
+%NumRolls%,0
+%CurrRolls%,0
+%Add10%,0
+%BuySellFactorType%,1
+%NumItems%,8
+
+%indent%,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+# *****
+# The variables below designate how many clerics of a particular
+# religion are necessary for maintaining a shrine, a temple, or a
+# "great temple" (a bigger version of a temple). Modify these as
+# you see fit.
+%NumClericsShrine%,1
+%NumClericsTemple%,5
+%NumClericsGTemple%,15
+
+%TownName%,0
+
+%HighFtr%,0
+%HighWar%,0
+%2ndHighWar%,0
+%NumGuards%,0
+%NumMilitia%,0
+
+%CurrHigh%,0
+%CurrNum%,0
+%ClassTotal%,0
+%PopRemaining%,0
+
+%NumLevel20%,0
+%NumLevel19%,0
+%NumLevel18%,0
+%NumLevel17%,0
+%NumLevel16%,0
+%NumLevel15%,0
+%NumLevel14%,0
+%NumLevel13%,0
+%NumLevel12%,0
+%NumLevel11%,0
+%NumLevel10%,0
+%NumLevel9%,0
+%NumLevel8%,0
+%NumLevel7%,0
+%NumLevel6%,0
+%NumLevel5%,0
+%NumLevel4%,0
+%NumLevel3%,0
+%NumLevel2%,0
+%NumLevel1%,0
+
+%temp%,0
+%temp2%,0
+%CalcVal%,0
+
+%SF%,0
+%BuyF%,0
+%SellF%,0
+%FMod%,0
+%MaxShow%,10
+
+%num_clerics%,0
+%num_druids%,0
+%num_fighters%,0
+%num_monks%,0
+%num_paladins%,0
+%num_rangers%,0
+%num_rogues%,0
+%num_wizards%,0
+%num_rogues%,0
+%num_warriors%,0
+
+# *****
+# The variables below are used for the various deities
+# of the World of Eberron (Not All, but most)
+# Modify these as you desire to reflect the religions of your
+# own world.
+%num_SilverFlame%,0
+%num_SovereignHost_Arawai%,0
+%num_SovereignHost_Aureon%,0
+%num_SovereignHost_Balinor%,0
+%num_SovereignHost_Boldrei%,0
+%num_SovereignHost_DolArrah%,0
+%num_SovereignHost_DolDorn%,0
+%num_SovereignHost_DolKolKorran%,0
+%num_SovereignHost_Olladra%,0
+%num_SovereignHost_Onatar%,0
+%num_DarkSix_Devourer%,0
+%num_DarkSix_Fury%,0
+%num_DarkSix_Keeper%,0
+%num_DarkSix_Mockery%,0
+%num_DarkSix_TheShadow%,0
+%num_DarkSix_Traveler%,0
+%num_BloodofVol%,0
+%num_CultsofDragonBelow%,0
+%num_PathofLight%,0
+
+%Skill1%,0
+%Skill2%,0
+%Skill3%,0
+%SkillCost%,0
+
+%num_advocate%,0
+%num_alchemist%,0
+%num_armorer%,0
+%num_artist%,0
+%num_assassin%,0
+%num_baker%,0
+%num_barber%,0
+%num_basketmaker%,0
+%num_blacksmith%,0
+%num_bookbinder%,0
+%num_bookseller%,0
+%num_inquisitive%,0
+%num_bowyer_fletcher%,0
+%num_brewer%,0
+%num_butcher%,0
+%num_carpenter%,0
+%num_carter_teamster%,0
+%num_cartographer%,0
+%num_cartwright%,0
+%num_chandler%,0
+%num_cheesemaker%,0
+%num_clockmaker%,0
+%num_cobbler%,0
+%num_cooper%,0
+%num_coppersmith%,0
+%num_dragonmarkedservices%,0
+%num_dyer%,0
+%num_engineer%,0
+%num_exchequer%,0
+%num_criminalpurpose%,0
+%num_fishmonger%,0
+%num_furrier%,0
+%num_glassblower_glazier%,0
+%num_goldsmith%,0
+%num_greengrocer%,0
+%num_harnessmaker%,0
+%num_herbalist%,0
+%num_inn%,0
+%num_jeweler%,0
+%num_laborer%,0
+%num_healing%,0
+%num_locksmith%,0
+%num_magicshop%,0
+%num_Communication%,0
+%num_mercer%,0
+%num_mill%,0
+%num_minstrel_entertainer%,0
+%num_musicshop%,0
+%num_navigator_guide%,0
+%num_papermaker%,0
+%num_porter%,0
+%num_potter%,0
+%num_provisioner%,0
+%num_ropemaker%,0
+%num_rugmaker%,0
+%num_sage%,0
+%num_scribe_clerk%,0
+%num_seamstress_tailor%,0
+%num_shipwright%,0
+%num_silversmith%,0
+%num_spellcaster%,0
+%num_spicemerchant%,0
+%num_stable%,0
+%num_tanner%,0
+%num_tavern%,0
+%num_theater%,0
+%num_vintner%,0
+%num_warehouse%,0
+%num_weaponsmith%,0
+%num_weaver%,0
+%num_wheelwright%,0
+
+%Instructions%,1
+
+# ---------------------------------------------------------------------------------------------------------
+
+# ---------------------------------------------------------------------------------------------------------
+# Parameters
+@type,17,Select District:,Upper Central Plateau,Middle Central Plateau,Lower Central Plateau,Upper Dura,Middle Dura,Lower Dura,Upper Menthis Plateau,Middle Menthis Plateau,Lower Menthis Plateau,Upper Northedge,Middle Northedge,Lower Northedge,Skyway,Upper Tavicks Landing,Middle Tavicks Landing,Lower Tavicks Landing,Random
+@Instructions,2,Do you want to see the instructions?,Yes,No
+# ---------------------------------------------------------------------------------------------------------
+
+:Start
+1,{If~%Instructions%=1?[Instructions]/[Generate]}
+
+:Instructions
+1,<b>Sharn Generator 1.1</b>
+_<p>
+_Welcome to the Sharn District Generator! This table uses the Town Generation rules in the
+_ <i>Dungeon Master's Guide</i> as well as Sharn: City of Towers
+_</p>
+_<p>
+_The parameter for this table is the Ward selection detailed below. If you wish to customize the table
+_ for your campaign, refer to the instructions within the table file itself (accessible by
+_ the "open book" button to the left, or "Edit Table" on the menu bar above).
+_<ul>
+_<li><b>Size of District:</b> Select the district.</li>
+_</ul>
+_</p>
+_<p>
+_Most of what is generated is self-explantory. A few elements of a generated town that may be unclear
+_ are explained below.
+_<ul>
+_<li><b>Personality:</b> Most of the business owners and other individuals listed will have a
+_ personality displayed. This is for DMs, to help them roleplay the merchant (or whoever) when dealing
+_ with PCs. This can be ignored if the group doesn't care about such things.</li>
+_<li><b>Quality:</b> This is a rating from "Very Poor" to "Skilled" (very poor, poor, fair, good, very good, skilled).
+_ This is a general characteristic that the DM can apply however he sees fit. In mechanical terms,
+_ this might mean that masterwork weapons or armor are only available from a "Very Good" business, and
+_ items from a "Very Poor" business might have a chance of breaking when used. The DM must decide how
+_ he wishes to apply this value.
+_</ul>
+_</p>
+_<p>
+_Many of the generated items can be changed by clicking on them. If you see text in blue, click on it and
+_ a new value will be generated (use this to change the names of businesses, their quality, their owner's
+_ personality, etc.).
+_</p>
+
+
+# ---------------------------------------------------------------------------------------------------------
+
+:Generate
+1,{If~%type%=17?|type={Dice~1d16}|}[SetTownVariables=%type%][GenTown]
+_{Status~By unknown and Valminder 2006}
+
+:GenTown
+1,<h3>%typename%</h3>
+_<hr>
+_<table width="100&#37;" border=0 cellpadding=5>
+_<tr valign="top"><td width="50&#37;">
+_{Status~Generating Basics}[GenBasics=%type%]<br>
+_</td><td width="50&#37;">
+_{Status~Generating Authorities}[GenAuthorities]<br>
+_</td></tr>
+_</table>
+_<hr>
+_{Status~Generating Class Breakdown}[GenClasses]
+_{Status~Generating Businesses}[GenBusinesses]
+_{Status~}
+_<hr>
+
+:GenBasics
+1,<b>Ward:</b> %WardType%<br>
+_<b>Population:</b> %population%<br>|PopRemaining=%population%|
+_<b>GP Limit:</b> %GPLimit%<br>
+
+:GenAuthorities
+1,<b>Community Structure</b><br>
+_<b>Councilor:</b> %councilor%<br>
+_<b>Watch Detail:</b> [WatchDetail=%type%]<br>
+
+:GenClasses
+1,[GenPCClasses][GenNPCClasses]
+
+:GenPCClasses
+1,|ClassTotal=0||DieNum=4||Add10=0||CurrRolls=%NumRolls%|[ResetTally][GenLvl]<i>Barbarians (%ClassTotal%) </i>
+_|ClassTotal=0||DieNum=6||Add10=0||CurrRolls=%NumRolls%|[ResetTally][GenLvl]<i>Bards (%ClassTotal%) </i>
+_|ClassTotal=0||DieNum=6||Add10=0||CurrRolls=%NumRolls%|[ResetTally][GenLvl]|num_clerics=%ClassTotal%|<i>Clerics (%ClassTotal%) </i>
+_|ClassTotal=0||DieNum=6||Add10=1||CurrRolls=%NumRolls%|[ResetTally][GenLvl]|num_druids=%ClassTotal%|<i>Druids (%ClassTotal%) </i>
+_|ClassTotal=0||DieNum=8||Add10=0||CurrRolls=%NumRolls%|[ResetTally][GenLvl]|num_fighters=%ClassTotal%|<i>Fighters (%ClassTotal%) </i>
+_|ClassTotal=0||DieNum=4||Add10=0||CurrRolls=%NumRolls%|[ResetTally][GenLvl]|num_monks=%ClassTotal%|<i>Monks (%ClassTotal%) </i>
+_|ClassTotal=0||DieNum=3||Add10=0||CurrRolls=%NumRolls%|[ResetTally][GenLvl]|num_paladins=%ClassTotal%|<i>Paladins (%ClassTotal%) </i>
+_|ClassTotal=0||DieNum=3||Add10=1||CurrRolls=%NumRolls%|[ResetTally][GenLvl]<i>Rangers (%ClassTotal%) </i>
+_|ClassTotal=0||DieNum=8||Add10=0||CurrRolls=%NumRolls%|[ResetTally][GenLvl]|num_rogues=%ClassTotal%|<i>Rogues (%ClassTotal%) </i>
+_|ClassTotal=0||DieNum=4||Add10=0||CurrRolls=%NumRolls%|[ResetTally][GenLvl]<i>Sorcerers (%ClassTotal%) </i>
+_|ClassTotal=0||DieNum=4||Add10=0||CurrRolls=%NumRolls%|[ResetTally][GenLvl]|num_wizards=%ClassTotal%|<i>Wizards (%ClassTotal%) </i>
+
+:GenNPCClasses
+1,|ClassTotal=0||DieNum=6||NumDie=1||CurrRolls=%NumRolls%|[ResetTally][GenLvl]<i>Adepts (%ClassTotal%) </i>
+_|ClassTotal=0||DieNum=4||NumDie=3||CurrRolls=%NumRolls%|[ResetTally][GenLvl]<i>Experts (%ClassTotal%) </i>
+_|ClassTotal=0||DieNum=4||NumDie=1||CurrRolls=%NumRolls%|[ResetTally][GenLvl]<i>Nobles (%ClassTotal%) </i>
+_|ClassTotal=0||DieNum=4||NumDie=2||CurrRolls=%NumRolls%|[ResetTally][GenLvl]|num_warriors=%ClassTotal%|<i>Warriors (%ClassTotal%) </i>
+_|ClassTotal=0||DieNum=4||NumDie=4||CurrRolls=%NumRolls%|[ResetTally][GenLvl]<i>Commoners [RollUpCommoners](%ClassTotal%) </i>
+
+# Commoners are special, so we take the
+# remaining populace and make them 1st Level
+:RollUpCommoners
+1,|ClassTotal+%PopRemaining%||NumLevel1+%PopRemaining%|
+
+:GenLvl
+1,[GenHighLevel]
+_|CurrNum=1|
+_{If~%CurrHigh%>0?[GenLocals]}
+_|CurrRolls-1|
+_{If~%CurrRolls%>0?[GenLvl]}
+
+:GenHighLevel
+1,|CurrHigh={%NumDie%d%DieNum%}|
+_|CurrHigh+%LvlMod%|
+_{IF~%Add10%=1?[BonusCheck]}
+_{IF~%CurrHigh%>20?[SetHighTo20]}
+
+:SetHighTo20
+1,|CurrHigh=20|
+
+# For thorps and hamlets, there is a 5% chance
+# of adding 10 to the highest-level druid's or ranger's level
+:BonusCheck
+1,{IF~%type%<=2?[CheckForAdd]}
+
+:CheckForAdd
+1-19,
+20,|CurrHigh+10|
+
+:GenLocals
+1,|PopRemaining-%CurrNum%|
+_|ClassTotal+%CurrNum%|
+_[IncreaseLvlTally=%CurrHigh%]
+_|CurrHigh\2||CurrNum*2|{If~%CurrHigh%>=1?[GenLocals]}
+
+;!Guild
+1,merchant guild
+1,craft guild
+1,thieves guild
+1,mercenary guild
+1,healers guild
+1,alchemist guild
+
+:SetTownVariables
+1,[SetUpperCentralDistrict]|population=8400||GPLimit=100000||NumRolls=0||WardType=Upper Central District||councilor=Javan Tomollan|
+2,[SetMiddleCentralDistrict]|population=8400||GPLimit=100000||NumRolls=3||WardType=Middle Central District||councilor=Sorik Sensos|
+3,[SetLowerCentralDistrict]|population=8400||GPLimit=100000||NumRolls=1||WardType=Lower Central District||councilor=Sava Kharisa|
+4,[SetUpperDuraDistrict]|population=17400||GPLimit=40000||NumRolls=0||WardType=Upper Dura District||councilor=Borian Haldorak|
+5,[SetMiddleDuraDistrict]|population=17400||GPLimit=40000||NumRolls=3||WardType=Middle Dura District||councilor=Hruit|
+6,[SetLowerDuraDistrict]|population=17400||GPLimit=40000||NumRolls=1||WardType=Lower Dura District||councilor=Bestan ir Tonn|
+7,[SetUpperMenthisDistrict]|population=7800||GPLimit=70000||NumRolls=0||WardType=Upper Menthis District||councilor=Thurik Davandi|
+8,[SetMiddleMenthisDistrict]|population=7800||GPLimit=70000||NumRolls=3||WardType=Middle Menthis District||councilor=Caskar Halavik|
+9,[SetLowerMenthisDistrict]|population=7800||GPLimit=70000||NumRolls=1||WardType=Lower Menthis District||councilor=Savia Potellas|
+10,[SetUpperNorthedgeDistrict]|population=4200||GPLimit=100000||NumRolls=0||WardType=Upper Northedge District||councilor=Maza Thadian|
+11,[SetMiddleNorthedgeDistrict]|population=4200||GPLimit=100000||NumRolls=3||WardType=Middle Northedge District||councilor=Doran Cantar|
+12,[SetLowerNorthedgeDistrict]|population=4200||GPLimit=100000||NumRolls=1||WardType=Lower Northedge District||councilor=Shassa Tarr|
+13,[SetSkywayDistrict]|population= 1200||GPLimit=100000||NumRolls=1||WardType=Skyway District||councilor=Evix ir Marasha|
+14,[SetUpperTavicksLandingDistrict]|population=4200||GPLimit=100000||NumRolls=0||WardType=Tavicks Landing District||councilor=Bestan ir Tonn|
+15,[SetMiddleTavicksLandingDistrict]|population=4200||GPLimit=100000||NumRolls=3||WardType=Middle Tavicks Landing District||councilor=Dalaina Orien|
+16,[SetLowerTavicksLandingDistrict]|population=4200||GPLimit=100000||NumRolls=1||WardType=Lower Tavicks Landing District||councilor=Kilk|
+
+:Abbrev
+1,st
+2,nd
+3,rd
+4-1000,th
+
+:GenBusinesses
+1,
+_[GenNumBiz]
+_<hr>
+_<table width="100&#37;" border=1 cellpadding=5>
+_<tr valign="top"><td width="50&#37;">
+_[ShowNumBiz]
+_</td><td width="50&#37;">
+_{Status~Generating labor and facilties...}[ShowNumLabor]{Status~}
+_<br>[ShowServices]
+_<br>[GenSpecialBiz]
+_</td></tr>
+_</table>
+_
+
+# ------------------------ SERVICES ------------------------ 
+:ShowServices
+1,<b>Services and Specialists</b> (max displayed: %MaxShow%)<br>
+_<i>{If~%num_advocate%>0? <br>Advocates (%num_advocate%)<br>}</i>|temp=%num_advocate%||temp<%MaxShow%||temp2=advocate|{If~%temp%>0?[GenEachServiceLoop]}
+_<i>{If~%num_artist%>0? <br>Artists (%num_artist%)<br>}</i>|temp=%num_artist%||temp<%MaxShow%||temp2=artist|{If~%temp%>0?[GenEachServiceLoop]}
+_<i>{If~%num_assassin%>0? <br>Assassins (%num_assassin%)<br>}</i>|temp=%num_assassin%||temp<%MaxShow%||temp2=assassin|{If~%temp%>0?[GenEachServiceLoop]}
+_<i>{If~%num_inquisitive%>0? <br>Inquisitives (%num_inquisitive%)<br>}</i>|temp=%num_inquisitive%||temp<%MaxShow%||temp2=inquisitive|{If~%temp%>0?[GenEachServiceLoop]}
+_<i>{If~%num_engineer%>0? <br>Engineers (%num_engineer%)<br>}</i>|temp=%num_engineer%||temp<%MaxShow%||temp2=engineer|{If~%temp%>0?[GenEachServiceLoop]}
+_<i>{If~%num_criminalpurpose%>0? <br>Criminal Purposes (%num_criminalpurpose%)<br>}</i>|temp=%num_criminalpurpose%||temp<%MaxShow%||temp2=criminalpurpose|{If~%temp%>0?[GenEachServiceLoop]}
+_<i>{If~%num_dragonmarkedservices%>0? <br>Dragonmarked House Services (%num_dragonmarkedservices%)<br>}</i>|temp=%num_dragonmarkedservices%||temp<%MaxShow%||temp2=dragonmarkedservices|{If~%temp%>0?[GenEachServiceLoop]}
+_<i>{If~%num_healing%>0? <br>House Jorasco Healing (%num_healing%)<br>}</i>|temp=%num_healing%||temp<%MaxShow%||temp2=healing|{If~%temp%>0?[GenEachServiceLoop]}
+_<i>{If~%num_Communication%>0? <br>Communications (%num_Communication%)<br>}</i>|temp=%num_Communication%||temp<%MaxShow%||temp2=Communication|{If~%temp%>0?[GenEachServiceLoop]}
+_<i>{If~%num_minstrel_entertainer%>0? <br>Minstrels & Entertainers (%num_minstrel_entertainer%)<br>}</i>|temp=%num_minstrel_entertainer%||temp<%MaxShow%||temp2=minstrel_entertainer|{If~%temp%>0?[GenEachServiceLoop]}
+_<i>{If~%num_navigator_guide%>0? <br>Navigators & Guides (%num_navigator_guide%)<br>}</i>|temp=%num_navigator_guide%||temp<%MaxShow%||temp2=navigator_guide|{If~%temp%>0?[GenEachServiceLoop]}
+_<i>{If~%num_sage%>0? <br>Sages (%num_sage%)<br>}</i>|temp=%num_sage%||temp<%MaxShow%||temp2=sage|{If~%temp%>0?[GenEachServiceLoop]}
+_<i>{If~%num_scribe_clerk%>0? <br>Scribes & Clerks (%num_scribe_clerk%)<br>}</i>|temp=%num_scribe_clerk%||temp<%MaxShow%||temp2=scribe_clerk|{If~%temp%>0?[GenEachServiceLoop]}
+_<i>{If~%num_spellcaster%>0? <br>Spell Casting (%num_spellcaster%)<br>}</i>|temp=%num_spellcaster%||temp<%MaxShow%||temp2=spellcaster|{If~%temp%>0?[GenEachServiceLoop]}
+
+:GenEachServiceLoop
+1,{Status~Generating %temp2%s...}{If~%temp%>0?[GenService]}|temp-1|{If~%temp%>0?[GenEachServiceLoop]/<hr>}
+
+:GenService
+1,[ServiceCommon][~Skills_%temp2%][ServiceClose]
+
+:Skills_advocate
+1-5,[GenSkills=1]Knowledge (Local - Law): %Skill1% [Cost_advocate]
+6-7,[GenSkills=2]Knowledge (Local - Law): %Skill1%%indent%%indent%Gather Information: %Skill2% [Cost_advocate]
+8,[GenSkills=3]Knowledge (Local - Law): %Skill1%%indent%%indent%Gather Information: %Skill2%%indent%%indent%Bluff: %Skill3% [Cost_advocate]
+
+:Cost_advocate
+1,[CostCalc]|SkillCost/10|%SkillCost% gp/day<br>
+
+:Skills_artist
+1-3,[GenSkills=1]Craft (Painting): %Skill1% [Cost_artist]
+4-6,[GenSkills=1]Craft (Sculpture): %Skill1% [Cost_artist]
+7-9,[GenSkills=1]Craft (Calligraphy): %Skill1% [Cost_artist]
+10,<br>[GenSkills=2]Craft (Calligraphy): %Skill1%<br>Forgery: %Skill2% [Cost_artist]
+
+:Cost_artist
+1,[CostCalc]|SkillCost\5|%SkillCost% sp/item {If~%Skill2%>0? (|CalcVal=%SkillCost%||CalcVal*3|%CalcVal% for forged items)}<br>
+
+:Skills_assassin
+1, 300 gp per level of target*
+
+;Skills_dragonmarkedservices
+70,<br><b><FONT COLOR="#FF8040">House Deneith</FONT></b><br><i>Blademarks</i><br>[Blademark]<br><i>Defender's Guild</i><br>[Defenders] 
+50,<br><b><FONT COLOR="#FF8040">House Kundarak</FONT></b><br>[Seals]
+30,<br><b><FONT COLOR="#FF8040">House Cannith</FONT></b><br>[Repair]
+
+:Blademark
+1,%indent%<FONT COLOR="#800000">Blackblade (1st lvl War):</FONT> 25cp/day
+_<br>%indent%<FONT COLOR="#800000">Greyblade (2nd lvl War or 1st lvl Ftr):</FONT> 4sp/day
+_<br>%indent%<FONT COLOR="#800000">Whiteblade (3nd lvl War or 2nd lvl Ftr):</FONT> 6sp/day
+_<br>%indent%<FONT COLOR="#800000">Goldblade (4th lvl War or 3rd lvl Ftr):</FONT> 1gp/day<br>
+
+:Defenders
+1,%indent%<FONT COLOR="#800000">Dragonmark (none):</FONT> 1gp/day
+_<br>%indent%<FONT COLOR="#800000">Dragonmark (least):</FONT> 3gp/day
+_<br>%indent%<FONT COLOR="#800000">Dragonmark (lesser):</FONT> 120gp/day
+_<br>%indent%<FONT COLOR="#800000">Dragonmark (Greater of Siberys):</FONT> 650gp/day<br>
+
+:Seals
+1,%indent%<i><FONT COLOR="#800000">arcane lock:</FONT></i> 50gp
+_<br>%indent%<i><FONT COLOR="#800000">arcane seal:</FONT></i> 50gp
+_<br>%indent%<i><FONT COLOR="#800000">explosive runes:</FONT></i> 150gp<br>
+
+:Repair
+1,%indent%<i><FONT COLOR="#800000">make whole:</FONT></i> 50g
+_<br>%indent%<i><FONT COLOR="#800000">mending:</FONT></i> 5gp
+_<br>%indent%<i><FONT COLOR="#800000">repair light damage:</FONT></i> 10gp<br>
+
+;!Skills_inquisitive
+30,<FONT COLOR="#FF8040"><i>Clairaudience/clairvoyance: </i></FONT> 60 gp 
+30,<FONT COLOR="#FF8040"><i>Locate object: </i></FONT> 60 gp
+20,<FONT COLOR="#FF8040"><i>Scrying: </i></FONT> 280 gp
+20,<FONT COLOR="#FF8040">(House Tharashk) Locate creature or humanoid: </FONT> 280 gp
+10,<FONT COLOR="#FF8040"><i>Discern location: </i></FONT> 1200 gp
+5,<FONT COLOR="#FF8040">Globe Information Agency: </FONT>Special 
+5,<FONT COLOR="#FF8040">Karr'Aashta's Investigations: </FONT>Special 
+
+:Skills_engineer
+1-3,[GenSkills=1]Knowledge (Architecture & Engineering): %Skill1% [Cost_engineer]
+4,<br>[GenSkills=2]Knowledge (Architecture & Engineering): %Skill1% <br>Knowledge (Geography): %Skill2% [Cost_engineer]
+
+:Cost_engineer
+1,[CostCalc]|SkillCost\5|%SkillCost% gp/day<br>
+
+;Skills_criminalpurpose
+30,[GenSkills]Appraise: %Skill1%[Cost_criminalpurpose]<br>%indent%%indent%<FONT COLOR="#FF8040">Specialization</FONT> : Stolen Items<br>
+25,[GenSkills]Appraise: %Skill1%[Cost_criminalpurpose]<br>%indent%%indent%<FONT COLOR="#FF8040">Specialization</FONT> : Burglary<br>
+20,[GenSkills]Appraise: %Skill1%[Cost_criminalpurpose]<br>%indent%%indent%<FONT COLOR="#FF8040">Specialization</FONT> : Purchased Forged Documents<br>%indent%%indent%Ex: Letter of Identifications, Letter of Marque, etc<br>
+10,[GenSkills]Appraise: %Skill1%[Cost_criminalpurpose]<br>%indent%%indent%<FONT COLOR="#FF8040">Specialization</FONT> : Spellcasting no questions asked </b>Special 
+
+:Cost_criminalpurpose
+1,<br><U><FONT COLOR="#000000">Buys at: </FONT></U>{Dice~2d2}0&#37; <br><U><FONT COLOR="#000000">Sells at: </FONT></U> x{Dice~2d2} standard
+
+:Skills_healing
+1-11,<br>[GenSkills]<FONT COLOR="#FF8040"><i>cure light wounds</i></FONT>: 8 gp
+_<br>[GenSkills=1]<FONT COLOR="#FF8040"><i>cure serious wounds</i></FONT>: 125 gp
+_<br>[GenSkills=1]<FONT COLOR="#FF8040">heal check</FONT>: 3 sp
+_<br>[GenSkills=1]<FONT COLOR="#FF8040">long term care</FONT>: 7 sp/day<br>
+12-19,<br>[GenSkills]<FONT COLOR="#FF8040"><i>cure light wounds</i></FONT>: 8 gp
+_<br>[GenSkills=1]<FONT COLOR="#FF8040"><i>cure serious wounds</i></FONT>: 125 gp
+_<br>[GenSkills=1]<FONT COLOR="#FF8040">heal check</FONT>: 3 sp
+_<br>[GenSkills=1]<FONT COLOR="#FF8040"><i>lesser restoration</i></FONT>: 50 gp
+_<br>[GenSkills=1]<FONT COLOR="#FF8040">long term care</FONT>: 7 sp/day
+_<br>[GenSkills=1]<FONT COLOR="#FF8040"><i>neutralize poison</i></FONT>: 250 gp
+_<br>[GenSkills=1]<FONT COLOR="#FF8040"><i>remove blindness</i></FONT>: 125 gp
+_<br>[GenSkills=1]<FONT COLOR="#FF8040"><i>remove deafness</i></FONT>: 125 gp
+_<br>[GenSkills=1]<FONT COLOR="#FF8040"><i>remove disease</i></FONT>: 250 gp<br>
+20,<br>[GenSkills]<FONT COLOR="#FF8040"><i>cure light wounds</i></FONT>: 8 gp
+_<br>[GenSkills=1]<FONT COLOR="#FF8040"><i>cure serious wounds</i></FONT>: 125 gp
+_<br>[GenSkills=1]<FONT COLOR="#FF8040"><i>heal</i></FONT>: 600 gp
+_<br>[GenSkills=1]<FONT COLOR="#FF8040">heal check</FONT>: 3 sp
+_<br>[GenSkills=1]<FONT COLOR="#FF8040"><i>lesser restoration</i></FONT>: 50 gp
+_<br>[GenSkills=1]<FONT COLOR="#FF8040">long term care</FONT>: 7 sp/day
+_<br>[GenSkills=1]<FONT COLOR="#FF8040"><i>neutralize poison</i></FONT>: 250 gp
+_<br>[GenSkills=1]<FONT COLOR="#FF8040"><i>remove blindness</i></FONT>: 125 gp
+_<br>[GenSkills=1]<FONT COLOR="#FF8040"><i>remove deafness</i></FONT>: 125 gp
+_<br>[GenSkills=1]<FONT COLOR="#FF8040"><i>remove disease</i></FONT>: 250 gp<br>
+
+:Cost_healing
+1,[CostCalc]|SkillCost\10|%SkillCost% gp/service<br>
+
+:Skills_Communication
+1-10,<br>[GenSkills]<FONT COLOR="#FF8040">House Sivis message station</FONT>: 5 gp/page
+_<br>%indent%<FONT COLOR="#FF8040">including courier service</FONT>: +15 sp
+_<br><FONT COLOR="#FF8040">House Orien: unmarked courier</FONT>: 5 cp
+_<br><FONT COLOR="#FF8040">House Orien: Least marked courier</FONT>: 1 gp
+_<br><FONT COLOR="#FF8040">House Orien: mail service</FONT>: 1 cp per mile<br>
+11-18,<br>[GenSkills]<FONT COLOR="#FF8040">House Sivis message station</FONT>: 5 gp per page
+_<br>%indent%<FONT COLOR="#FF8040">including courier service</FONT>: +15 sp
+_<br><FONT COLOR="#FF8040">House Sivis <i>whispering wind</i></FONT>: 50 gp
+_<br><FONT COLOR="#FF8040">House Sivis <i>sending</i></FONT>: 250 gp
+_<br><FONT COLOR="#FF8040">House Orien: unmarked courier</FONT>: 5 cp
+_<br><FONT COLOR="#FF8040">House Orien: Least marked courier</FONT>: 1 gp
+_<br><FONT COLOR="#FF8040">House Orien: Lesser marked courier</FONT>: 25 gp (+1 per addl mile)
+_<br><FONT COLOR="#FF8040">House Orien: mail service</FONT>: 1 cp per mile<br>
+19-20,<br>[GenSkills]<FONT COLOR="#FF8040">House Sivis message station</FONT>: 5 gp per page
+_<br>%indent%<FONT COLOR="#FF8040">including courier service</FONT>: +15 sp
+_<br><FONT COLOR="#FF8040">House Sivis <i>whispering wind</i></FONT>: 50 gp
+_<br><FONT COLOR="#FF8040">House Sivis <i>sending</i></FONT>: 250 gp
+_<br><FONT COLOR="#FF8040">House Orien: unmarked courier</FONT>: 5 cp
+_<br><FONT COLOR="#FF8040">House Orien: Least marked courier</FONT>: 1 gp
+_<br><FONT COLOR="#FF8040">House Orien: Lesser marked courier</FONT>: 25 gp (+1 per addl mile)
+_<br><FONT COLOR="#FF8040">House Orien: <i>teleport</i></FONT>: 10 gp per mile (300 gp min)
+_<br><FONT COLOR="#FF8040">House Orien: mail service</FONT>: 1 cp per mile
+_<br><FONT COLOR="#FF8040">House Vadalis: gargoyle courier</FONT>: 5 gp (+1 gp per mile)<br>
+
+:Cost_Communication
+1,[CostCalc]|SkillCost\2|%SkillCost% cp/reading<br>
+
+:Communication_Spec
+1,Astrologer
+2,Cartomancer
+3,Palm Reader
+4,Runecaster
+
+:Skills_minstrel_entertainer
+1-3,{Reset~Minstrel_Spec}[GenSkills=1]Perform (favored: {Cap~[Minstrel_Spec]}): %Skill1% [Cost_minstrel_entertainer]
+4,<br>{Reset~Minstrel_Spec}{Reset~Knowledge}[GenSkills=2]Perform (favored: {Cap~[Minstrel_Spec]}): %Skill1%<br>Knowledge ({Cap~[Knowledge]}): %Skill2% [Cost_minstrel_entertainer]
+
+:Cost_minstrel_entertainer
+1,[CostCalc]|SkillCost\2|%SkillCost% sp/performance<br>
+
+;!Minstrel_Spec
+1,lute
+1,juggling
+1,comedy
+1,harp
+1,mime
+1,pan pipes
+1,recorder
+1,storytelling
+1,flute
+1,dance
+
+:Skills_navigator_guide
+1-5,<br>[GenSkills]<FONT COLOR="#FF8040">Knowledge(Local - District Only)</FONT>: 1 sp/day<br>
+6-8,<br>[GenSkills]<FONT COLOR="#FF8040">Knowledge(Local - District Only)</FONT>: 1 sp/day
+_<br><FONT COLOR="#FF8040">Knowledge(City)</FONT>: 25 sp/day<br>
+9-10,<br>[GenSkills]<FONT COLOR="#FF8040">Knowledge(Local District Only)</FONT>: 1 sp/day
+_<br><FONT COLOR="#FF8040">Knowledge(Local - City)</FONT>: 25 sp/day
+_<br><FONT COLOR="#FF8040">House Tharashk: Guide to Xen'drik (Unmarked)</FONT>: 1 gp/day
+_<br><FONT COLOR="#FF8040">House Tharashk: Guide to Xen'drik (Dragonmarked)</FONT>: 3 gp/day<br>
+
+:Cost_navigator_guide
+1,[CostCalc]|SkillCost\2|%SkillCost% sp/day<br>
+
+:Skills_sage
+1-5,{Reset~Knowledge}[GenSkills]Knowledge([Knowledge]): %Skill1% [Cost_sage]<br>
+6-7,<br>{Reset~Knowledge}[GenSkills=2]Knowledge([Knowledge]): %Skill1%<br>Knowledge ([Knowledge]): %Skill2% [Cost_sage]<br>
+8,<br>{Reset~Knowledge}[GenSkills=3]Knowledge([Knowledge]): %Skill1%<br>Knowledge ([Knowledge]): %Skill2%<br>Knowledge ([Knowledge]): %Skill3% [Cost_sage]
+
+:Cost_sage
+1,[CostCalc]|SkillCost\2|%SkillCost% gp/query<br>
+
+:!Knowledge
+1,arcana 
+2,architecture & engineering
+3,geography
+4,history
+5,local
+6,nature
+7,nobility, government, & royalty
+8,planes
+9,religion
+10,local - languages
+11,local - art
+12,arcana - artifacts
+13,history - Dragonmark houses
+14,local - Sharn
+15,Dungeoneering
+
+:Skills_scribe_clerk
+1-5,[GenSkills=1]Craft (Calligraphy): %Skill1% [Cost_scribe_clerk]
+6-7,[GenSkills=2]Craft (Calligraphy): %Skill1% [Cost_scribe_clerk]<br>Decipher Script: %Skill2% [Cost_scribe_clerk]
+8,[GenSkills=3]Craft (Calligraphy): %Skill1% [Cost_scribe_clerk]<br>
+_Decipher Script: %Skill2% [Cost_scribe_clerk]<br>
+_Forgery: %Skill3% [Cost_scribe_clerk]
+
+:Cost_scribe_clerk
+1,[CostCalc]|SkillCost\5|%SkillCost% sp/item {If~%Skill3%>0? (|CalcVal=%SkillCost%||CalcVal*3|%CalcVal% for forged items)}<br>
+
+:Skills_spellcaster
+1-5,<br>[GenSkills]<FONT COLOR="#FF8040"><b>Druid and Wizard</b></FONT>
+_<br>%indent%%indent%<FONT COLOR="#FF8040"><i>Level 0 </i></FONT>: 5 gp
+_<br>%indent%%indent%<FONT COLOR="#FF8040"><i>Level 1 </i></FONT>: 10 gp
+_<br>%indent%%indent%<FONT COLOR="#FF8040"><i>Level 2 </i></FONT>: 60 gp
+_<br>%indent%%indent%<FONT COLOR="#FF8040"><i>Level 3 </i></FONT>: 150 gp
+_<br>%indent%%indent%<FONT COLOR="#FF8040"><i>Level 4 </i></FONT>: 280 gp
+_<br>%indent%%indent%<FONT COLOR="#FF8040"><i>Level 5 </i></FONT>: 450 gp
+6-10,<br>[GenSkills]<FONT COLOR="#FF8040"><b>Sorcerer</b></FONT>
+_<br>%indent%%indent%<FONT COLOR="#FF8040"><i>Level 0 </i></FONT>: 5 gp
+_<br>%indent%%indent%<FONT COLOR="#FF8040"><i>Level 1 </i></FONT>: 10 gp
+_<br>%indent%%indent%<FONT COLOR="#FF8040"><i>Level 2 </i></FONT>: 80 gp
+_<br>%indent%%indent%<FONT COLOR="#FF8040"><i>Level 3 </i></FONT>: 180 gp
+_<br>%indent%%indent%<FONT COLOR="#FF8040"><i>Level 4 </i></FONT>: 320 gp
+_<br>%indent%%indent%<FONT COLOR="#FF8040"><i>Level 5 </i></FONT>: 500 gp
+11-15,<br>[GenSkills]<FONT COLOR="#FF8040"><b>Artificer and Bard</b></FONT>
+_<br>%indent%%indent%<FONT COLOR="#FF8040"><i>Level 0 </i></FONT>: 5 gp
+_<br>%indent%%indent%<FONT COLOR="#FF8040"><i>Level 1 </i></FONT>: 20 gp
+_<br>%indent%%indent%<FONT COLOR="#FF8040"><i>Level 2 </i></FONT>: 80 gp
+_<br>%indent%%indent%<FONT COLOR="#FF8040"><i>Level 3 </i></FONT>: 210 gp
+_<br>%indent%%indent%<FONT COLOR="#FF8040"><i>Level 4 </i></FONT>: 400 gp
+_<br>%indent%%indent%<FONT COLOR="#FF8040"><i>Level 5 </i></FONT>: 650 gp
+16-18,<br>[GenSkills]<FONT COLOR="#FF8040"><b>Paladin and Ranger</b></FONT>
+_<br>%indent%%indent%<FONT COLOR="#FF8040"><i>Not applicable </i></FONT>
+_<br>%indent%%indent%<FONT COLOR="#FF8040"><i>Level 1 </i></FONT>: 20 gp
+_<br>%indent%%indent%<FONT COLOR="#FF8040"><i>Level 2 </i></FONT>: 80 gp
+_<br>%indent%%indent%<FONT COLOR="#FF8040"><i>Level 3 </i></FONT>: 150 gp
+_<br>%indent%%indent%<FONT COLOR="#FF8040"><i>Level 4 </i></FONT>: 280 gp
+_<br>%indent%%indent%<FONT COLOR="#FF8040"><i>Not applicable </i></FONT>
+19-85,<br>[GenSkills]<FONT COLOR="#FF8040"><b>Adept and Magewright</b></FONT>
+_<br>%indent%%indent%<FONT COLOR="#FF8040"><i>Level 0 </i></FONT>: 5 gp
+_<br>%indent%%indent%<FONT COLOR="#FF8040"><i>Level 1 </i></FONT>: 10 gp
+_<br>%indent%%indent%<FONT COLOR="#FF8040"><i>Level 2 </i></FONT>: 80 gp
+_<br>%indent%%indent%<FONT COLOR="#FF8040"><i>Level 3 </i></FONT>: 240 gp
+_<br>%indent%%indent%<FONT COLOR="#FF8040"><i>Not applicable</i></FONT>
+_<br>%indent%%indent%<FONT COLOR="#FF8040"><i>Not applicable</i></FONT>
+86-93,<br>[GenSkills]<FONT COLOR="#FF8040"><b>Adept and Magewright</b></FONT>
+_<br>%indent%%indent%<FONT COLOR="#FF8040"><i>Level 0 </i></FONT>: 5 gp
+_<br>%indent%%indent%<FONT COLOR="#FF8040"><i>Level 1 </i></FONT>: 10 gp
+_<br>%indent%%indent%<FONT COLOR="#FF8040"><i>Level 2 </i></FONT>: 80 gp
+_<br>%indent%%indent%<FONT COLOR="#FF8040"><i>Level 3 </i></FONT>: 240 gp
+_<br>%indent%%indent%<FONT COLOR="#FF8040"><i>Level 4 </i></FONT>: 480 gp
+_<br>%indent%%indent%<FONT COLOR="#FF8040"><i>Not applicable</i></FONT>
+94-100,<br>[GenSkills]<FONT COLOR="#FF8040"><b>Adept and Magewright</b></FONT>
+_<br>%indent%%indent%<FONT COLOR="#FF8040"><i>Level 0 </i></FONT>: 5 gp
+_<br>%indent%%indent%<FONT COLOR="#FF8040"><i>Level 1 </i></FONT>: 10 gp
+_<br>%indent%%indent%<FONT COLOR="#FF8040"><i>Level 2 </i></FONT>: 80 gp
+_<br>%indent%%indent%<FONT COLOR="#FF8040"><i>Level 3 </i></FONT>: 240 gp
+_<br>%indent%%indent%<FONT COLOR="#FF8040"><i>Level 4 </i></FONT>: 480 gp
+_<br>%indent%%indent%<FONT COLOR="#FF8040"><i>Level 5 </i></FONT>: 800 gp
+
+:ServiceCommon
+1,[~OwnerName]<br>
+_<FONT size="-1">[ServicePersonality]<br>
+_<U>Skills/Cost:</U> 
+
+:SkillIndent
+1,<br>%indent%%indent%%indent%%indent%%indent%%indent%
+
+:ServiceClose
+1,<br></Font>
+
+:CostCalc
+1,<br><U><FONT COLOR="#000000">Cost of Service:</FONT></U>|SkillCost=%Skill1%||SkillCost+%Skill2%||SkillCost+%Skill3%|
+
+:GenSkills
+1,|Skill1={Dice~2d6+10}||Skill2=0||Skill3=0|
+2,|Skill1={Dice~3d6+10}||Skill2={Dice~2d6+10}||Skill3=0|
+3,|Skill1={Dice~4d6+10}||Skill2={Dice~3d6+10}||Skill3={Dice~3d6+5}|
+
+:ServicePersonality
+1,<U>Personality:</U> [~Personality]
+
+# ------------------------ LABOR ------------------------ 
+:ShowNumLabor
+1,<b>Laborers and Facilities Available</b><br>
+_%indent%Carters/Teamsters: %num_carter_teamster% <FONT size="-1">(3 sp/day)</FONT><br>
+_%indent%Dyers: %num_dyer% <FONT size="-1">(1 sp/day)</FONT><br>
+_%indent%Laborers: %num_laborer% <FONT size="-1">(1 sp/day)</FONT><br>
+_%indent%Porters: %num_porter% <FONT size="-1">(1 sp/day)</FONT><br>
+_%indent%Warehouses: %num_warehouse% <FONT size="-1">(1 sp/day per 10' area)</FONT><br>
+
+# -------------------------- SHOPS --------------------------
+:ShowNumBiz
+1,<b>Businesses and Shops</b> (max displayed: %MaxShow%)<br>
+_<i>{If~%num_alchemist%>0? Alchemists (%num_alchemist%)}</i>|temp=%num_alchemist%||temp<%MaxShow%||temp2=alchemist|{If~%temp%>0?[GenEachBizLoop]}
+_<i>{If~%num_armorer%>0? Armorers (%num_armorer%)}</i>|temp=%num_armorer%||temp<%MaxShow%||temp2=armorer|{If~%temp%>0?[GenEachBizLoop]}
+_<i>{If~%num_baker%>0? Bakers (%num_baker%)}</i>|temp=%num_baker%||temp<%MaxShow%||temp2=baker|{If~%temp%>0?[GenEachBizLoop]}
+_<i>{If~%num_barber%>0? Barbers (%num_barber%)}</i>|temp=%num_barber%||temp<%MaxShow%||temp2=barber|{If~%temp%>0?[GenEachBizLoop]}
+_<i>{If~%num_basketmaker%>0? Basketmakers (%num_basketmaker%)}</i>|temp=%num_basketmaker%||temp<%MaxShow%||temp2=basketmaker|{If~%temp%>0?[GenEachBizLoop]}
+_<I>{If~%num_blacksmith%>0? Blacksmiths (%num_blacksmith%)}</I>|temp=%num_blacksmith%||temp<%MaxShow%||temp2=blacksmith|{If~%temp%>0?[GenEachBizLoop]}
+_<I>{If~%num_bookbinder%>0? Bookbinders (%num_bookbinder%)}</I>|temp=%num_bookbinder%||temp<%MaxShow%||temp2=bookbinder|{If~%temp%>0?[GenEachBizLoop]}
+_<I>{If~%num_bookseller%>0? Booksellers (%num_bookseller%)}</I>|temp=%num_bookseller%||temp<%MaxShow%||temp2=bookseller|{If~%temp%>0?[GenEachBizLoop]}
+_<I>{If~%num_bowyer_fletcher%>0? Bowyers, Fletchers (%num_bowyer_fletcher%)}</I>|temp=%num_bowyer_fletcher%||temp<%MaxShow%||temp2=bowyer_fletcher|{If~%temp%>0?[GenEachBizLoop]}
+_<I>{If~%num_brewer%>0? Brewers (%num_brewer%)}</I>|temp=%num_brewer%||temp<%MaxShow%||temp2=brewer|{If~%temp%>0?[GenEachBizLoop]}
+_<I>{If~%num_butcher%>0? Butchers (%num_butcher%)}</I>|temp=%num_butcher%||temp<%MaxShow%||temp2=butcher|{If~%temp%>0?[GenEachBizLoop]}
+_<I>{If~%num_carpenter%>0? Carpenters (%num_carpenter%)}</I>|temp=%num_carpenter%||temp<%MaxShow%||temp2=carpenter|{If~%temp%>0?[GenEachBizLoop]}
+_<I>{If~%num_cartographer%>0? Cartographers (%num_cartographer%)}</I>|temp=%num_cartographer%||temp<%MaxShow%||temp2=cartographer|{If~%temp%>0?[GenEachBizLoop]}
+_<I>{If~%num_cartwright%>0? Cartwrights (%num_cartwright%)}</I>|temp=%num_cartwright%||temp<%MaxShow%||temp2=cartwright|{If~%temp%>0?[GenEachBizLoop]}
+_<I>{If~%num_chandler%>0? Chandlers (%num_chandler%)}</I>|temp=%num_chandler%||temp<%MaxShow%||temp2=chandler|{If~%temp%>0?[GenEachBizLoop]}
+_<I>{If~%num_cheesemaker%>0? Cheesemakers (%num_cheesemaker%)}</I>|temp=%num_cheesemaker%||temp<%MaxShow%||temp2=cheesemaker|{If~%temp%>0?[GenEachBizLoop]}
+_<I>{If~%num_clockmaker%>0? Clockmakers (%num_clockmaker%)}</I>|temp=%num_clockmaker%||temp<%MaxShow%||temp2=clockmaker|{If~%temp%>0?[GenEachBizLoop]}
+_<I>{If~%num_cobbler%>0? Cobblers (%num_cobbler%)}</I>|temp=%num_cobbler%||temp<%MaxShow%||temp2=cobbler|{If~%temp%>0?[GenEachBizLoop]}
+_<I>{If~%num_cooper%>0? Coopers (%num_cooper%)}</I>|temp=%num_cooper%||temp<%MaxShow%||temp2=cooper|{If~%temp%>0?[GenEachBizLoop]}
+_<I>{If~%num_coppersmith%>0? Coppersmiths (%num_coppersmith%)}</I>|temp=%num_coppersmith%||temp<%MaxShow%||temp2=coppersmith|{If~%temp%>0?[GenEachBizLoop]}
+_<I>{If~%num_exchequer%>0? Exchequers (%num_exchequer%)}</I>|temp=%num_exchequer%||temp<%MaxShow%||temp2=exchequer|{If~%temp%>0?[GenEachBizLoop]}
+_<I>{If~%num_fishmonger%>0? Fishmongers (%num_fishmonger%)}</I>|temp=%num_fishmonger%||temp<%MaxShow%||temp2=fishmonger|{If~%temp%>0?[GenEachBizLoop]}
+_<I>{If~%num_furrier%>0? Furriers (%num_furrier%)}</I>|temp=%num_furrier%||temp<%MaxShow%||temp2=furrier|{If~%temp%>0?[GenEachBizLoop]}
+_<I>{If~%num_glassblower_glazier%>0? Glassblowers, Glaziers (%num_glassblower_glazier%)}</I>|temp=%num_glassblower_glazier%||temp<%MaxShow%||temp2=glassblower_glazier|{If~%temp%>0?[GenEachBizLoop]}
+_<I>{If~%num_goldsmith%>0? Goldsmiths (%num_goldsmith%)}</I>|temp=%num_goldsmith%||temp<%MaxShow%||temp2=goldsmith|{If~%temp%>0?[GenEachBizLoop]}
+_<I>{If~%num_greengrocer%>0? Greengrocers (%num_greengrocer%)}</I>|temp=%num_greengrocer%||temp<%MaxShow%||temp2=greengrocer|{If~%temp%>0?[GenEachBizLoop]}
+_<I>{If~%num_harnessmaker%>0? Harnessmakers (%num_harnessmaker%)}</I>|temp=%num_harnessmaker%||temp<%MaxShow%||temp2=harnessmaker|{If~%temp%>0?[GenEachBizLoop]}
+_<I>{If~%num_herbalist%>0? Herbalists (%num_herbalist%)}</I>|temp=%num_herbalist%||temp<%MaxShow%||temp2=herbalist|{If~%temp%>0?[GenEachBizLoop]}
+_<I>{If~%num_inn%>0? Inns (%num_inn%)}</I>|temp=%num_inn%||temp<%MaxShow%||temp2=inn|{If~%temp%>0?[GenEachBizLoop]}
+_<I>{If~%num_jeweler%>0? Jewelers (%num_jeweler%)}</I>|temp=%num_jeweler%||temp<%MaxShow%||temp2=jeweler|{If~%temp%>0?[GenEachBizLoop]}
+_<I>{If~%num_locksmith%>0? Locksmiths (%num_locksmith%)}</I>|temp=%num_locksmith%||temp<%MaxShow%||temp2=locksmith|{If~%temp%>0?[GenEachBizLoop]}
+_<I>{If~%num_magicshop%>0? Magicshops (%num_magicshop%)}</I>|temp=%num_magicshop%||temp<%MaxShow%||temp2=magicshop|{If~%temp%>0?[GenEachBizLoop]}
+_<I>{If~%num_mercer%>0? Mercers (%num_mercer%)}</I>|temp=%num_mercer%||temp<%MaxShow%||temp2=mercer|{If~%temp%>0?[GenEachBizLoop]}
+_<I>{If~%num_mill%>0? Mills (%num_mill%)}</I>|temp=%num_mill%||temp<%MaxShow%||temp2=mill|{If~%temp%>0?[GenEachBizLoop]}
+_<I>{If~%num_musicshop%>0? Musicshops (%num_musicshop%)}</I>|temp=%num_musicshop%||temp<%MaxShow%||temp2=musicshop|{If~%temp%>0?[GenEachBizLoop]}
+_<I>{If~%num_papermaker%>0? Papermakers (%num_papermaker%)}</I>|temp=%num_papermaker%||temp<%MaxShow%||temp2=papermaker|{If~%temp%>0?[GenEachBizLoop]}
+_<I>{If~%num_potter%>0? Potters (%num_potter%)}</I>|temp=%num_potter%||temp<%MaxShow%||temp2=potter|{If~%temp%>0?[GenEachBizLoop]}
+_<I>{If~%num_provisioner%>0? Provisioners (%num_provisioner%)}</I>|temp=%num_provisioner%||temp<%MaxShow%||temp2=provisioner|{If~%temp%>0?[GenEachBizLoop]}
+_<I>{If~%num_ropemaker%>0? Ropemakers (%num_ropemaker%)}</I>|temp=%num_ropemaker%||temp<%MaxShow%||temp2=ropemaker|{If~%temp%>0?[GenEachBizLoop]}
+_<I>{If~%num_rugmaker%>0? Rugmakers (%num_rugmaker%)}</I>|temp=%num_rugmaker%||temp<%MaxShow%||temp2=rugmaker|{If~%temp%>0?[GenEachBizLoop]}
+_<I>{If~%num_seamstress_tailor%>0? Seamstresses, Tailors (%num_seamstress_tailor%)}</I>|temp=%num_seamstress_tailor%||temp<%MaxShow%||temp2=seamstress_tailor|{If~%temp%>0?[GenEachBizLoop]}
+_<I>{If~%num_shipwright%>0? Shipwrights (%num_shipwright%)}</I>|temp=%num_shipwright%||temp<%MaxShow%||temp2=shipwright|{If~%temp%>0?[GenEachBizLoop]}
+_<I>{If~%num_silversmith%>0? Silversmiths (%num_silversmith%)}</I>|temp=%num_silversmith%||temp<%MaxShow%||temp2=silversmith|{If~%temp%>0?[GenEachBizLoop]}
+_<I>{If~%num_spicemerchant%>0? Spice Merchants (%num_spicemerchant%)}</I>|temp=%num_spicemerchant%||temp<%MaxShow%||temp2=spicemerchant|{If~%temp%>0?[GenEachBizLoop]}
+_<I>{If~%num_stable%>0? Stables (%num_stable%)}</I>|temp=%num_stable%||temp<%MaxShow%||temp2=stable|{If~%temp%>0?[GenEachBizLoop]}
+_<I>{If~%num_tanner%>0? Tanners (%num_tanner%)}</I>|temp=%num_tanner%||temp<%MaxShow%||temp2=tanner|{If~%temp%>0?[GenEachBizLoop]}
+_<I>{If~%num_tavern%>0? Taverns (%num_tavern%)}</I>|temp=%num_tavern%||temp<%MaxShow%||temp2=tavern|{If~%temp%>0?[GenEachBizLoop]}
+_<I>{If~%num_vintner%>0? Vintners (%num_vintner%)}</I>|temp=%num_vintner%||temp<%MaxShow%||temp2=vintner|{If~%temp%>0?[GenEachBizLoop]}
+_<I>{If~%num_weaponsmith%>0? Weaponsmiths (%num_weaponsmith%)}</I>|temp=%num_weaponsmith%||temp<%MaxShow%||temp2=weaponsmith|{If~%temp%>0?[GenEachBizLoop]}
+_<I>{If~%num_weaver%>0? Weavers (%num_weaver%)}</I>|temp=%num_weaver%||temp<%MaxShow%||temp2=weaver|{If~%temp%>0?[GenEachBizLoop]}
+_<I>{If~%num_wheelwright%>0? Wheelwrights (%num_wheelwright%)}</I>|temp=%num_wheelwright%||temp<%MaxShow%||temp2=wheelwright|{If~%temp%>0?[GenEachBizLoop]}
+
+:GenEachBizLoop
+1,{Status~Generating %temp2%s...}{If~%temp%>0?[Gen_%temp2%]}|temp-1|{If~%temp%>0?[GenEachBizLoop]/<hr>}
+
+:Shop_Details
+1,<FONT size="-1"><U>Personality:</U> [~Personality]</FONT><br>
+_<FONT size="-1"><U>Quality:</U> [~Quality]</FONT><br>
+
+:Shop_Details1
+1,<FONT size="-1"><U>Personality:</U> [~Personality]</FONT><br>
+_<FONT size="-1"><U>Quality:</U> [~Quality1]</FONT><br>
+
+:Shop_Details2
+1,<FONT size="-1"><U>Personality:</U> [~Personality]</FONT><br>
+_<FONT size="-1"><U>Quality:</U> [~Quality2]</FONT><br>
+
+:Shop_Details3
+1,<FONT size="-1"><U>Personality:</U> [~Personality]</FONT><br>
+_<FONT size="-1"><U>Quality:</U> [~Quality3]</FONT><br>
+
+:Shop_Details4
+1,<FONT size="-1"><U>Personality:</U> [~Personality]</FONT><br>
+_<FONT size="-1"><U>Quality:</U> [~Quality4]</FONT><br>
+
+:Shop_Details5
+1,<FONT size="-1"><U>Personality:</U> [~Personality]</FONT><br>
+_<FONT size="-1"><U>Quality:</U> [~Quality5]</FONT><br>
+
+:Shop_Details6
+1,<FONT size="-1"><U>Personality:</U> [~Personality]</FONT><br>
+_<FONT size="-1"><U>Quality:</U> [~Quality6]</FONT><br>
+
+:Shop_Details7
+1,<FONT size="-1"><U>Personality:</U> [~Personality]</FONT><br>
+_<FONT size="-1"><U>Quality:</U> [~Quality7]</FONT><br>
+
+:Shop_Details8
+1,<FONT size="-1"><U>Personality:</U> [~Personality]</FONT><br>
+_<FONT size="-1"><U>Quality:</U> [~Quality8]</FONT><br>
+
+:Shop_Details9
+1,<FONT size="-1"><U>Personality:</U> [~Personality]</FONT><br>
+_<FONT size="-1"><U>Quality:</U> [~Quality9]</FONT><br>
+
+:Shop_Details10
+1,<FONT size="-1"><U>Personality:</U> [~Personality]</FONT><br>
+_<FONT size="-1"><U>Quality:</U> [~Quality10]</FONT><br>
+
+:Shop_Details11
+1,<FONT size="-1"><U>Personality:</U> [~Personality]</FONT><br>
+_<FONT size="-1"><U>Quality:</U> [~Quality11]</FONT><br>
+
+:Shop_Details12
+1,<FONT size="-1"><U>Personality:</U> [~Personality]</FONT><br>
+_<FONT size="-1"><U>Quality:</U> [~Quality12]</FONT><br>
+
+:Shop_Details13
+1,<FONT size="-1"><U>Personality:</U> [~Personality]</FONT><br>
+_<FONT size="-1"><U>Quality:</U> [~Quality13]</FONT><br>
+
+:Gen_alchemist
+1,<br>[~Name_alchemist]<br>[Shop_Details]<FONT size="-1">{Generate~0,Click to Generate Inventory,SHOP Alchemical.Start}</FONT>
+_<br>
+
+:Gen_armorer
+1,<br>[~Name_armorer]<br>[Shop_Details1]
+
+:Gen_baker
+1,<br>[~Name_baker]<br>[Shop_Details]<br>
+
+:Gen_barber
+1,<br>[~Name_barber]<br>[Shop_Details]<br>
+
+:Gen_basketmaker
+1,<br>[~Name_basketmaker]<br>[Shop_Details]<br>
+
+:Gen_blacksmith
+1,<br>[~Name_blacksmith]<br>[Shop_Details2]
+
+:Gen_bookbinder
+1,<br>[~Name_bookbinder]<br>[Shop_Details]<br>
+
+:Gen_bookseller
+1,<br>[~Name_bookseller]<br>[Shop_Details3]
+
+:Gen_bowyer_fletcher
+1,<br>[~Name_bowyer_fletcher]<br>[Shop_Details4]
+
+:Gen_brewer
+1,<br>[~Name_brewer]<br>[Shop_Details]<br>
+
+:Gen_butcher
+1,<br>[~Name_butcher]<br>[Shop_Details]<br>
+
+:Gen_carpenter
+1,<br>[~Name_carpenter]<br>[Shop_Details]<br>
+
+:Gen_cartographer
+1,<br>[~Name_cartographer]<br>[Shop_Details]<br>
+
+:Gen_cartwright
+1,<br>[~Name_cartwright]<br>[Shop_Details]<br>
+
+:Gen_chandler
+1,<br>[~Name_chandler]<br>[Shop_Details]<br>
+
+:Gen_cheesemaker
+1,<br>[~Name_cheesemaker]<br>[Shop_Details]<br>
+
+:Gen_clockmaker
+1,<br>[~Name_clockmaker]<br>[Shop_Details]<br>
+
+:Gen_cobbler
+1,<br>[~Name_cobbler]<br>[Shop_Details]<br>
+
+:Gen_cooper
+1,<br>[~Name_cooper]<br>[Shop_Details]<br>
+
+:Gen_coppersmith
+1,<br>[~Name_coppersmith]<br>[Shop_Details]<br>
+
+:Gen_exchequer
+1,<br>[~Name_exchequer]<br>[Shop_Details]<br>
+
+:Gen_fishmonger
+1,<br>[~Name_fishmonger]<br>[Shop_Details]<br>
+
+:Gen_furrier
+1,<br>[~Name_furrier]<br>[Shop_Details5]
+
+:Gen_glassblower_glazier
+1,<br>[~Name_glassblower_glazier]<br>[Shop_Details]<br>
+
+:Gen_goldsmith
+1,<br>[~Name_goldsmith]<br>[Shop_Details]<br>
+
+:Gen_greengrocer
+1,<br>[~Name_greengrocer]<br>[Shop_Details]<br>
+
+:Gen_harnessmaker
+1,<br>[~Name_harnessmaker]<br>[Shop_Details]<br>
+
+:Gen_herbalist
+1-7,<br>[~Name_herbalist]<br>[Shop_Details]
+_<FONT size="-1">{Generate~0,Click to Generate Inventory,EQ Herb Shop.Start}</FONT>
+_<br>
+8-1000,<br>[~Name_herbalist]<br>[Shop_Details]
+_<FONT size="-1">{Generate~0,Click to Generate Inventory,EQ Herbalist.Generate(20,2)}</FONT>
+_<br>
+
+:Gen_inn
+1,<br>[~Name_inn]<br>[Shop_Details][InnTavern]
+
+:Gen_jeweler
+1,<br>[~Name_jeweler]<br>[Shop_Details6]
+
+:Gen_locksmith
+1,<br>[~Name_locksmith]<br>[Shop_Details7]
+
+:Gen_magicshop
+1,<br>[~Name_magicshop]<br>[Shop_Details8]
+
+:Gen_mercer
+1,<br>[~Name_mercer]<br>[Shop_Details]<br>
+
+:Gen_mill
+1,<br>[~Name_mill]<br>[Shop_Details]<br>
+
+:Gen_musicshop
+1,<br>[~Name_musicshop]<br>[Shop_Details10]
+
+:Gen_papermaker
+1,<br>[~Name_papermaker]<br>[Shop_Details]<br>
+
+:Gen_potter
+1,<br>[~Name_potter]<br>[Shop_Details]<br>
+
+:Gen_provisioner
+1,<br>[~Name_provisioner]<br>[Shop_Details11]
+
+:Gen_ropemaker
+1,<br>[~Name_ropemaker]<br>[Shop_Details]<br>
+
+:Gen_rugmaker
+1,<br>[~Name_rugmaker]<br>[Shop_Details]<br>
+
+:Gen_seamstress_tailor
+1,<br>[~Name_seamstress_tailor]<br>[Shop_Details12]<br>
+
+:Gen_shipwright
+1,<br>[~Name_shipwright]<br>[Shop_Details]<br>
+
+:Gen_silversmith
+1,<br>[~Name_silversmith]<br>[Shop_Details]<br>
+
+:Gen_spicemerchant
+1,<br>[~Name_spicemerchant]<br>[Shop_Details]<br>
+
+:Gen_stable
+1,<br>[~Name_stable]<br>[Shop_Details9]
+
+:Gen_tanner
+1,<br>[~Name_tanner]<br>[Shop_Details]<br>
+
+:Gen_tavern
+1,<br>[~Name_tavern]<br>[Shop_Details][TavernInn]
+
+:Gen_vintner
+1,<br>[~Name_vintner]<br>[Shop_Details]<br>
+
+:Gen_weaponsmith
+1,<br>[~Name_weaponsmith]<br>[Shop_Details13]
+
+:Gen_weaver
+1,<br>[~Name_weaver]<br>[Shop_Details]<br>
+
+:Gen_wheelwright
+1,<br>[~Name_wheelwright]<br>[Shop_Details]<br>
+
+:TavernInn
+1-7,<FONT size="-1">{Generate~0,Click to Generate Inventory,Tavern Generator.Start}</FONT>
+_<br>
+8-10,<FONT size="-1">{Generate~0,Click to Generate Inventory,Tavern Generator.Start}</FONT>
+_<br>
+
+:InnTavern
+1-7,<FONT size="-1">{Generate~0,Click to Generate Inventory,Inn Generator.Start}</FONT>
+_<br>
+8-10,<FONT size="-1">{Generate~0,Click to Generate Inventory,Inn Generator.Start}</FONT>
+_<br>
+
+# -------------------------- NAMES --------------------------
+# *****
+# The "Shop Names" table is one used by the table's author;
+# if you don't have a table like this, simply remove any lines
+# containing calls to that table (or substitute the name of your
+# own "Shop Names" table).
+
+;Name_alchemist
+2,[OwnerName], <FONT COLOR="#FF0000">Alchemist</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Potions & Powders</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Shop of Alchemical Wonders</FONT>
+
+;Name_armorer
+1,[OwnerName], <FONT COLOR="#FF0000">Armorer</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s [NameGood] Armor</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Armory</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Armor & Shields</FONT>
+
+;Name_baker
+1,[OwnerName], <FONT COLOR="#FF0000">Baker</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Bakery</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s [NameGood] Baked Goods</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Breads & Cakes</FONT>
+
+;Name_barber
+3,[OwnerName], <FONT COLOR="#FF0000">Barber</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Barbershop</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Grooming & healinging</FONT>
+
+;Name_basketmaker
+3,[OwnerName]<FONT COLOR="#FF0000">'s [NameGood] Baskets</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Basket Shop</FONT>
+1,<FONT COLOR="#FF0000">Baskets by [OwnerName]</FONT>
+
+;Name_blacksmith
+1,[OwnerName],<FONT COLOR="#FF0000"> Blacksmith</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Forge</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Smithy</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Ironworks</FONT>
+
+;Name_bookbinder
+1,[OwnerName], <FONT COLOR="#FF0000">Bookbinder</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Bindery</FONT>
+
+;Name_bookseller
+1,[OwnerName], <FONT COLOR="#FF0000">Bookseller</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Rare Books & Tomes</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s [NameGood] Books</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Books & Scrolls</FONT>
+
+;Name_bowyer_fletcher
+1,[OwnerName], <FONT COLOR="#FF0000">Bowyer</FONT>
+1,[OwnerName], <FONT COLOR="#FF0000">Fletcher</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Archery Shop</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s [NameGood] Bows</FONT>
+
+;Name_brewer
+1,[OwnerName], <FONT COLOR="#FF0000">Brewer</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s [NameGood] Ale Shop</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Brewery</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s [NameGood] Spirits</FONT>
+1,[OwnerName], <FONT COLOR="#FF0000">Purveyor of [NameGood] Ale</FONT>
+
+;Name_butcher
+1,[OwnerName], <FONT COLOR="#FF0000">Butcher</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s [NameGood] Meats</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Slaughterhouse</FONT>
+
+;Name_carpenter
+1,[OwnerName], <FONT COLOR="#FF0000">Carpenter</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Carpentry Shop</FONT>
+
+;Name_cartographer
+1,[OwnerName], <FONT COLOR="#FF0000">Cartographer</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Map Shop</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s [NameGood] Maps & Charts</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s House of Maps</FONT>
+
+;Name_cartwright
+1,[OwnerName], <FONT COLOR="#FF0000">Cartwright</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Carts & Wagons</FONT>
+1,<FONT COLOR="#FF0000">Carts by [OwnerName]</FONT>
+
+;Name_chandler
+1,[OwnerName], <FONT COLOR="#FF0000">Chandler</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s [NameGood] Candles</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Candle Shop</FONT>
+
+;Name_cheesemaker
+1,[OwnerName], <FONT COLOR="#FF0000">Cheesemaker</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s [NameGood] Cheese</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Cheese Shop</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Cheese Castle</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s House of Cheese</FONT>
+1,[OwnerName], <FONT COLOR="#FF0000">Cheesemaker Extraordinaire</FONT>
+1,[OwnerName], <FONT COLOR="#FF0000">Purveyor of Fine Cheese</FONT>
+
+;Name_clockmaker
+1,[OwnerName], <FONT COLOR="#FF0000">Clockmaker</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Clockworks</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Clock Shop</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s [NameGood] Clocks</FONT>
+
+;Name_cobbler
+1,[OwnerName], <FONT COLOR="#FF0000">Cobbler</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Shoes & Sandals</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s [NameGood] Shoe Shop</FONT>
+
+;Name_cooper
+1,[OwnerName], <FONT COLOR="#FF0000">Cooper</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Barrels</FONT>
+
+;Name_coppersmith
+1,[OwnerName], <FONT COLOR="#FF0000">Coppersmith</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Copper Shop</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Copper Smithing</FONT>
+
+;Name_exchequer
+1,[OwnerName], <FONT COLOR="#FF0000">Exchequer</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Coinage Exchange</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Money-lending</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Currency Center</FONT>
+
+;Name_fishmonger
+1,[OwnerName], <FONT COLOR="#FF0000">Fishmonger</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Fishery</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Fresh Fish</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s [NameGood] Fish</FONT>
+
+;Name_furrier
+1,[OwnerName], <FONT COLOR="#FF0000">Furrier</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Furs & Hides</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s [NameGood] Furs</FONT>
+
+;Name_glassblower_glazier
+1,[OwnerName], <FONT COLOR="#FF0000">Glassblower</FONT>
+1,[OwnerName], <FONT COLOR="#FF0000">Glazier</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Glass Shop</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s [NameGood] Glass</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Glass House</FONT>
+
+;Name_goldsmith
+1,[OwnerName], <FONT COLOR="#FF0000">Goldsmith</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Gold Shop</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Gold Smithing</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Goldenworks</FONT>
+
+;Name_greengrocer
+1,[OwnerName], <FONT COLOR="#FF0000">Greengrocer</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s [NameGood] Greens</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Fresh Foods</FONT>
+
+;Name_harnessmaker
+1,[OwnerName], <FONT COLOR="#FF0000">Harnessmaker</FONT>
+1,[OwnerName], <FONT COLOR="#FF0000">Saddler</FONT>
+1,[OwnerName], <FONT COLOR="#FF0000">Harness Shop</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s [NameGood] Saddlery</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Saddles and Harnesses</FONT>
+
+;Name_herbalist
+1,[OwnerName], <FONT COLOR="#FF0000">Herbalist</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s [NameGood] Herbs & Plant</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s [NameGood] Herbals</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Remedy Shop</FONT>
+
+;Name_inn
+1,<FONT COLOR="#FF0000">([OwnerName], proprietor)</FONT>
+
+;Name_jeweler
+1,[OwnerName], <FONT COLOR="#FF0000">Jeweler</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s [NameGood] Jewelry</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Gems & Jewels</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s [NameGood] Jewelry Shop</FONT>
+
+;Name_locksmith
+1,[OwnerName], <FONT COLOR="#FF0000">Locksmith</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Lock Works</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Locks & Latches</FONT>
+
+;Name_magicshop
+1,[OwnerName]<FONT COLOR="#FF0000">'s Emporium of Wonderous Goods</FONT>
+
+;Name_mercer
+1,[OwnerName], <FONT COLOR="#FF0000">Mercer</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s [NameGood] Textiles</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Cloth & Material Shop</FONT>
+
+;Name_mill
+1,[OwnerName]<FONT COLOR="#FF0000">'s Mill</FONT>
+1,<FONT COLOR="#FF0000">Mill ([OwnerName], proprietor)</FONT>
+
+;Name_musicshop
+1,[OwnerName]<FONT COLOR="#FF0000">'s House of Music</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Lutes & Lyres</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s [NameGood] Instruments</FONT>
+
+;Name_papermaker
+1,[OwnerName], <FONT COLOR="#FF0000">Papermaker</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s [NameGood] Parchment</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Scroll & Parchment Shop</FONT>
+1,[OwnerName]'s Quills & Inks
+
+;Name_potter
+1,[OwnerName], <FONT COLOR="#FF0000">Potter</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Pottery Shop</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s [NameGood] Pottery</FONT>
+
+;Name_provisioner
+1,[OwnerName]<FONT COLOR="#FF0000">'s Dry Goods</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Traveler's Supplies</FONT>
+1,<FONT COLOR="#FF0000">Outfitter ([OwnerName], proprietor)</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s General Goods</FONT>
+
+;Name_ropemaker
+1,[OwnerName], <FONT COLOR="#FF0000">Ropemaker</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Ropes & Cords</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s [NameGood] Ropes</FONT>
+
+;Name_rugmaker
+1,[OwnerName], <FONT COLOR="#FF0000">Rugmaker</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s [NameGood] Carpets</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Rugs & Carpets</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Carpet Shop</FONT>
+
+;Name_seamstress_tailor
+1,[OwnerName], <FONT COLOR="#FF0000">Seamstress</FONT>
+1,[OwnerName], <FONT COLOR="#FF0000">Tailor</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Tailoring</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Sewing Shop</FONT>
+
+;Name_shipwright
+1,[OwnerName], <FONT COLOR="#FF0000">Shipwright</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Shipyard</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Ships & Boats</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s [NameGood] Boats</FONT>
+
+;Name_silversmith
+1,[OwnerName], <FONT COLOR="#FF0000">Silversmith</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Silver Shop</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Silver Smithing</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Silverworks</FONT>
+
+;Name_spicemerchant
+1,[OwnerName], <FONT COLOR="#FF0000">Spice Merchant</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s [NameGood] Spices</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Exotic Flavorings</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s House of Spices</FONT>
+
+;Name_stable
+1,[OwnerName]<FONT COLOR="#FF0000">'s Stables</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s [NameGood] Stables</FONT>
+
+;Name_tanner
+1,[OwnerName], <FONT COLOR="#FF0000">Tanner</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Tannery</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Leather Goods</FONT>
+
+;Name_tavern
+1,<FONT COLOR="#FF0000">[~Tavern Names.NAME]<br>([OwnerName], proprietor)</FONT>
+
+;Name_vintner
+1,[OwnerName], <FONT COLOR="#FF0000">Vintner</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s [NameGood] Wines</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s House of Wines</FONT>
+
+;Name_weaponsmith
+1,[OwnerName], <FONT COLOR="#FF0000">Weaponsmith</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s [NameGood] Blades</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Swords & Spears</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s [NameGood] Weapons</FONT>
+
+;Name_weaver
+1,[OwnerName], <FONT COLOR="#FF0000">Weaver</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Weaving</FONT>
+
+;Name_wheelwright
+1,[OwnerName], <FONT COLOR="#FF0000">Wheelwright</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s [NameGood] Wheels</FONT>
+1,[OwnerName]<FONT COLOR="#FF0000">'s Wheelworks</FONT>
+
+# *****
+# Fill in whatever name table (or tables) you want to call
+:OwnerName
+1,<FONT COLOR="#FF0000">[Fantasy Names.Start] [Fantasy Names.Start]</FONT>
+
+# ------------------------ SPECIAL ------------------------ 
+# *****
+# See farther below for modifications for religions and temples. 
+
+:GenSpecialBiz
+1,<b>Other Places</b><br>
+_{If~%num_wizards%>12?[ShowMageGuild]}
+_|temp=%num_fighters%||temp+%num_warriors%|{If~%temp%>40?[ShowMercGuild]}
+_{If~%num_monks%>15?[ShowMonastery]}
+_{If~%num_theater%>0?[ShowTheaters]}
+_{If~%num_rogues%>20?[ShowThievesGuild]}
+_[OtherClerics]
+
+:ShowMageGuild
+1,%indent%%indent%Mages Guild |temp=%num_wizards%||temp*0.8||temp+{Dice~1d3-2}|
+_({Trunc~%temp%} members)<br>
+
+:ShowMercGuild
+1,%indent%%indent%Mercenaries Guild |temp*0.8||temp+{Dice~1d3-2}|
+_({Trunc~%temp%} members)<br>
+
+:ShowMonastery
+1,%indent%%indent%Monastery |temp=%num_monks%||temp*0.9||temp+{Dice~1d3-2}|
+_({Trunc~%temp%} members, outside of town)<br>
+
+:ShowTheaters
+1,%indent%%indent%Theaters: {If~%num_theater% > 1 ? 2 / 1}<br>
+
+:ShowThievesGuild
+1,%indent%%indent%Thieves Guild |temp=%num_rogues%||temp*0.7||temp+{Dice~1d3-2}|
+_({Trunc~%temp%} members)<br>
+
+# *****
+# Note: Re-rolling will not work with archived
+# files for re-allocating clergy. This will work
+# with "freshly" generated towns.
+# *****
+# The deities listed below are for the World of Eberron
+# Change them to whatever you want for your world. Each of these groups work pretty
+# much the same regardless of which gods you use; only the "Religions" group (far
+# below) is an issue. The probabilities used there should reflect how common different
+# types of priests are in your world.
+
+:OtherClerics
+1,|temp=%num_clerics%|
+_[ClericPriesthoods]
+_<U>{If~%temp%>0?Shrines & Temples:<br>}</U>
+_<FONT COLOR="#FF8040">{If~%temp%>0?[GenEachPriesthood]}
+_[DisplayTemples]</FONT>
+
+:DisplayTemples
+1,{If~%num_SilverFlame%>=%NumClericsShrine%?[Shrines=1]}
+_{If~%num_SovereignHost_Arawai%>=%NumClericsShrine%?[Shrines=2]}
+_{If~%num_SovereignHost_Aureon%>=%NumClericsShrine%?[Shrines=3]}
+_{If~%num_SovereignHost_Balinor%>=%NumClericsShrine%?[Shrines=4]}
+_{If~%num_SovereignHost_Boldrei%>=%NumClericsShrine%?[Shrines=5]}
+_{If~%num_SovereignHost_DolArrah%>=%NumClericsShrine%?[Shrines=6]}
+_{If~%num_SovereignHost_DolDorn%>=%NumClericsShrine%?[Shrines=7]}
+_{If~%num_SovereignHost_DolKolKorran%>=%NumClericsShrine%?[Shrines=8]}
+_{If~%num_SovereignHost_Olladra%>=%NumClericsShrine%?[Shrines=9]}
+_{If~%num_SovereignHost_Onatar%>=%NumClericsShrine%?[Shrines=10]}
+_{If~%num_DarkSix_Devourer%>=%NumClericsShrine%?[Shrines=11]}
+_{If~%num_DarkSix_Fury%>=%NumClericsShrine%?[Shrines=12]}
+_{If~%num_DarkSix_Keeper%>=%NumClericsShrine%?[Shrines=13]}
+_{If~%num_DarkSix_Mockery%>=%NumClericsShrine%?[Shrines=14]}
+_{If~%num_DarkSix_TheShadow%>=%NumClericsShrine%?[Shrines=15]}
+_{If~%num_DarkSix_Traveler%>=%NumClericsShrine%?[Shrines=16]}
+_{If~%num_BloodofVol%>=%NumClericsShrine%?[Shrines=17]}
+_{If~%num_CultsofDragonBelow%>=%NumClericsShrine%?[Shrines=18]}
+_{If~%num_PathofLight%>=%NumClericsShrine%?[Shrines=19]}
+
+:Shrines
+1,{If~%num_SilverFlame% >= %NumClericsTemple% ? [Temples=1] / Silver Flame Shrine<br>}
+_%indent%{Generate~0,Click to Generate Inventory,EQ Clerics & Temples Items.Generate(10)}<br>
+2,{If~%num_SovereignHost_Arawai% >= %NumClericsTemple% ? [Temples=2] / Sovereign Host_Arawai Shrine<br>}
+_%indent%{Generate~0,Click to Generate Inventory,EQ Clerics & Temples Items.Generate(5)}<br>
+3,{If~%num_SovereignHost_Aureon% >= %NumClericsTemple% ? [Temples=3] / Sovereign Host_Aureon Shrine<br>}
+_%indent%{Generate~0,Click to Generate Inventory,EQ Clerics & Temples Items.Generate(5)}<br>
+4,{If~%num_SovereignHost_Balinor% >= %NumClericsTemple% ? [Temples=4] / Sovereign Host_Balinor Shrine<br>}
+_%indent%{Generate~0,Click to Generate Inventory,EQ Clerics & Temples Items.Generate(5)}<br>
+5,{If~%num_SovereignHost_Boldrei% >= %NumClericsTemple% ? [Temples=5] / Sovereign Host_Boldrei Shrine<br>}
+_%indent%{Generate~0,Click to Generate Inventory,EQ Clerics & Temples Items.Generate(5)}<br>
+6,{If~%num_SovereignHost_DolArrah% >= %NumClericsTemple% ? [Temples=6] / Sovereign Host_DolArrah Shrine<br>}
+_%indent%{Generate~0,Click to Generate Inventory,EQ Clerics & Temples Items.Generate(5)}<br>
+7,{If~%num_SovereignHost_DolDorn% >= %NumClericsTemple% ? [Temples=7] / Sovereign Host_DolDorn Shrine<br>}
+_%indent%{Generate~0,Click to Generate Inventory,EQ Clerics & Temples Items.Generate(5)}<br>
+8,{If~%num_SovereignHost_DolKolKorran% >= %NumClericsTemple% ? [Temples=8] / Sovereign Host_DolKolKorran Shrine<br>}
+_%indent%{Generate~0,Click to Generate Inventory,EQ Clerics & Temples Items.Generate(5)}<br>
+9,{If~%num_SovereignHost_Olladra% >= %NumClericsTemple% ? [Temples=9] / Sovereign Host_Olladra Shrine<br>}
+_%indent%{Generate~0,Click to Generate Inventory,EQ Clerics & Temples Items.Generate(5)}<br>
+10,{If~%num_SovereignHost_Onatar% >= %NumClericsTemple% ? [Temples=10] / Sovereign Host_Onatar Shrine<br>}
+_%indent%{Generate~0,Click to Generate Inventory,EQ Clerics & Temples Items.Generate(5)}<br>
+11,{If~%num_DarkSix_Devourer% >= %NumClericsTemple% ? [Temples=11] / Dark Six_Devourer Shrine (hidden)<br>}
+12,{If~%num_DarkSix_Fury% >= %NumClericsTemple% ? [Temples=12] / Dark Six_Fury Shrine (hidden)<br>}
+13,{If~%num_DarkSix_Keeper% >= %NumClericsTemple% ? [Temples=13] / Dark Six_Keeper Shrine (hidden)<br>}
+14,{If~%num_DarkSix_Mockery% >= %NumClericsTemple% ? [Temples=14] / Dark Six_Mockery Shrine (hidden)<br>}
+15,{If~%num_DarkSix_TheShadow% >= %NumClericsTemple% ? [Temples=15] / Dark Six_The Shadow Shrine (hidden)<br>}
+16,{If~%num_DarkSix_Traveler% >= %NumClericsTemple% ? [Temples=16] / Dark Six_Traveler Shrine (hidden)<br>}
+17,{If~%num_BloodofVol% >= %NumClericsTemple% ? [Temples=17] / Blood of Vol Shrine (hidden)<br>}
+18,{If~%num_CultsofDragonBelow% >= %NumClericsTemple% ? [Temples=18] / Cults of Dragon Below Shrine (hidden)<br>}
+19,{If~%num_PathofLight% >= %NumClericsTemple% ? [Temples=19] / Path of Light Shrine (special)<br>}
+
+:Temples
+1,{If~%num_SilverFlame% >= %NumClericsGTemple% ? [GreatTemples=1] / Silver Flame Temple<br>}
+_%indent%{Generate~0,Click to Generate Inventory,EQ Clerics & Temples Items.Generate(30)}<br>
+2,{If~%num_SovereignHost_Arawai% >= %NumClericsGTemple% ? [GreatTemples=2] / Sovereign Host_Arawai Temple<br>}
+_%indent%{Generate~0,Click to Generate Inventory,EQ Clerics & Temples Items.Generate(15)}<br>
+3,{If~%num_SovereignHost_Aureon% >= %NumClericsGTemple% ? [GreatTemples=3] / Sovereign Host_Aureon Temple<br>}
+_%indent%{Generate~0,Click to Generate Inventory,EQ Clerics & Temples Items.Generate(15)}<br>
+4,{If~%num_SovereignHost_Balinor% >= %NumClericsGTemple% ? [GreatTemples=4] / Sovereign Host_Balinor Temple<br>}
+_%indent%{Generate~0,Click to Generate Inventory,EQ Clerics & Temples Items.Generate(15)}<br>
+5,{If~%num_SovereignHost_Boldrei% >= %NumClericsGTemple% ? [GreatTemples=5] / Sovereign Host_Boldrei Temple<br>}
+_%indent%{Generate~0,Click to Generate Inventory,EQ Clerics & Temples Items.Generate(15)}<br>
+6,{If~%num_SovereignHost_DolArrah% >= %NumClericsGTemple% ? [GreatTemples=6] /Sovereign Host_DolArrah Temple<br>}
+_%indent%{Generate~0,Click to Generate Inventory,EQ Clerics & Temples Items.Generate(15)}<br>
+7,{If~%num_SovereignHost_DolDorn% >= %NumClericsGTemple% ? [GreatTemples=7] / Sovereign Host_DolDorn Temple<br>}
+_%indent%{Generate~0,Click to Generate Inventory,EQ Clerics & Temples Items.Generate(15)}<br>
+8,{If~%num_SovereignHost_DolKolKorran% >= %NumClericsGTemple% ? [GreatTemples=8] / Sovereign Host_DolKolKorran Temple<br>}
+_%indent%{Generate~0,Click to Generate Inventory,EQ Clerics & Temples Items.Generate(15)}<br>
+9,{If~%num_SovereignHost_Olladra% >= %NumClericsGTemple% ? [GreatTemples=9] / Sovereign Host_Olladra Temple<br>}
+_%indent%{Generate~0,Click to Generate Inventory,EQ Clerics & Temples Items.Generate(15)}<br>
+10,{If~%num_SovereignHost_Onatar% >= %NumClericsGTemple% ? [GreatTemples=10] / Sovereign Host_Onatar Temple<br>}
+_%indent%{Generate~0,Click to Generate Inventory,EQ Clerics & Temples Items.Generate(15)}<br>
+11,{If~%num_DarkSix_Devourer% >= %NumClericsGTemple% ? [GreatTemples=11] / Dark Six_Devourer Temple (hidden)<br>}
+12,{If~%num_DarkSix_Fury% >= %NumClericsGTemple% ? [GreatTemples=12] / Dark Six_Fury Temple (hidden)<br>}
+13,{If~%num_DarkSix_Keeper% >= %NumClericsGTemple% ? [GreatTemples=13] / Dark Six_Keeper Temple (hidden)<br>}
+14,{If~%num_DarkSix_Mockery% >= %NumClericsGTemple% ? [GreatTemples=14] / Dark Six_Mockery Temple (hidden)<br>}
+15,{If~%num_DarkSix_TheShadow% >= %NumClericsGTemple% ? [GreatTemples=15] / Dark Six_The Shadow Temple (hidden)<br>}
+16,{If~%num_DarkSix_Travler% >= %NumClericsGTemple% ? [GreatTemples=16] / Dark Six_Traveler Temple (hidden)<br>}
+17,{If~%num_BloodofVol% >= %NumClericsGTemple% ? [GreatTemples=17] / Blood of Vol Temple (hidden)<br>}
+18,{If~%num_CultsofDragonBelow% >= %NumClericsGTemple% ? [GreatTemples=18] / Cults of Dragon Below Temple (hidden)<br>}
+19,{If~%num_DarkSix_PathofLight% >= %NumClericsGTemple% ? [GreatTemples=19] / Path of Light Temple (special)<br>}
+
+:GreatTemples
+1,Silver Flame Great Temple<br>
+2,Sovereign Host_Arawai Great Temple<br>
+3,Sovereign Host_Aureon Great Temple<br>
+4,Sovereign Host_Balinor Great Temple<br>
+5,Sovereign Host_Boldrei Great Temple<br>
+6,Sovereign Host_DolArrah Great Temple<br>
+7,Sovereign Host_DolDorn Great Temple<br>
+8,Sovereign Host_DolKolKorran Great Temple<br>
+9,Sovereign Host_Olladra Great Temple<br>
+10,Sovereign Host_Onatar Great Temple<br>
+11,Dark Six_Devourer Great Temple (hidden)<br>
+12,Dark Six_Fury Great Temple (hidden)<br>
+13,Dark Six_Keeper Great Temple (hidden)<br>
+14,Dark Six_Mockery Great Temple (hidden)<br>
+15,Dark Six_The Shadow Great Temple (hidden)<br>
+16,Dark Six_Traveler Great Temple (hidden)<br>
+17,Blood of Vol Great Temple (hidden)<br>
+18,Cults of Dragon Below Great Temple (hidden)<br>
+19,Path of Light Great Temple (special)<br>
+
+:ClericPriesthoods
+1,|num_SilverFlame=0|
+_|num_SovereignHost_Arawai=0|
+_|num_SovereignHost_Aureon=0|
+_|num_SovereignHost_Balinor=0|
+_|num_SovereignHost_Boldrei=0|
+_|num_SovereignHost_DolArrah=0|
+_|num_SovereignHost_DolDorn=0|
+_|num_SovereignHost_DolKolKorran=0|
+_|num_SovereignHost_Olladra=0|
+_|num_SovereignHost_Onatar=0|
+_|num_DarkSix_Devourer=0|
+_|num_DarkSix_Fury=0|
+_|num_DarkSix_Keeper=0|
+_|num_DarkSix_TheShadow=0|
+_|num_DarkSix_Traveler=0|
+_|num_BloodofVol=0|
+_|num_CultsofDragonBelow=0|
+_|num_PathofLight=0|
+
+:GenEachPriesthood
+1,[Religions]|temp-1|
+_{If~{Used~Religions,0}=1?|temp=0|}
+_{If~%temp%>0?[GenEachPriesthood]}
+
+:DisplayPriests
+1,Silver Flame: %num_SilverFlame%<br>
+_Sovereign Host_Arawai: %num_SovereignHost_Arawai%<br>
+_Sovereign Host_Aureon: %num_SovereignHost_Aureon%<br>
+_Sovereign Host_Balinor: %num_SovereignHost_Balinor%<br>
+_Sovereign Host_Boldrei: %num_SovereignHost_Boldrei%<br>
+_Sovereign Host_DolArrah: %num_SovereignHost_DolArrah%<br>
+_Sovereign Host_DolDorn: %num_SovereignHost_DolDorn%<br>
+_Sovereign Host_DolKolKorran: %num_SovereignHost_DolKolKorran%<br>
+_Sovereign Host_Olladra: %num_SovereignHost_Olladra%<br>
+_Sovereign Host_Onatar: %num_SovereignHost_Onatar%<br>
+_Dark Six_Devourer: %num_DarkSix_Devourer%<br>
+_Dark Six_Fury: %num_DarkSix_Fury%<br>
+_Dark Six_Keeper: %num_DarkSix_Keeper%<br>
+_Dark Six_The Shadow: %num_DarkSix_TheShadow%<br>
+_Dark Six_Traveler: %num_DarkSix_Traveler%<br>
+_Blood of Vol: %num_BloodofVol%<br>
+_Cults of Dragon Below: %num_CultsofDragonBelow%<br>
+_Cults of Light: %num_PathofLight%<br>
+
+;!Religions
+50,|num_SilverFlame+1|
+15,|num_SovereignHost_Arawai+1|
+15,|num_SovereignHost_DolKolKorran+1|
+15,|num_SovereignHost_Olladra+1|
+15,|num_SovereignHost_Onatar+1|
+15,|num_SovereignHost_Balinor+1|
+15,|num_SovereignHost_Boldrei+1|
+15,|num_SovereignHost_Aureon+1|
+15,|num_SovereignHost_DolDorn+1|
+15,|num_SovereignHost_DolArrah+1|
+3,|num_DarkSix_Devourer+1|
+3,|num_DarkSix_Fury+1|
+3,|num_DarkSix_Keeper+1|
+3,|num_DarkSix_TheShadow+1|
+3,|num_DarkSix_Traveler+1|
+5,|num_BloodofVol+1|
+2,|num_CultsofDragonBelow+1|
+1,|num_PathofLight+1|
+
+# ------------------------ LABOR ------------------------ 
+:ShowNumLabor
+1,<b>Laborers and Facilities Available</b><br>
+_%indent%Carters/Teamsters: %num_carter_teamster% <FONT size="-1">(3 sp/day)</FONT><br>
+_%indent%Dyers: %num_dyer% <FONT size="-1">(1 sp/day)</FONT><br>
+_%indent%Laborers: %num_laborer% <FONT size="-1">(1 sp/day)</FONT><br>
+_%indent%Porters: %num_porter% <FONT size="-1">(1 sp/day)</FONT><br>
+_%indent%Warehouses: %num_warehouse% <FONT size="-1">(1 sp/day per 10' area)</FONT><br>
+
+# -------------------------- GENERAL --------------------------
+
+# *****
+# The meaning of the variables below should be obvious (i.e.; "num_alchemist"
+# is used to stored the number of alchemists in the town/city/village). The
+# use of "SF" is a means to determine how many services or businesses of a
+# given type exist in the town. It is used by the group "GenNumMacro".
+#
+# The "SF" value is the number of people that are needed to support one
+# business/service of the type given. Using the defaults as examples, this
+# means that for every 3000 people in a town, you will find an armorer; for
+# every 700 people, you'll find a cooper, and so forth. The group "GenNumMacro"
+# will divide the population of the town by the "SF" value to determine how many
+# businesses of that type exist. Remainders are divided by the "SF" value to derive
+# a percentage, which are the odds that one more of that business can be found.
+# For instance, in a town of 5000 people, you'll find 2 artists, and possibly 3.
+# 5000/2000 (the SF for artist) is 2.5. This means that you'll definitely have 2 artists
+# (the "2" of 2.5), and a 50% chance (the ".5" of 2.5) of having a third. Another
+# example: A town of 4350 people will have 5 blacksmiths, with a 44% chance of
+# having a 6th (blacksmiths have an SF of 800, so 4350/800 = 5.44).
+#
+# Adjust the "SF" values to increase or decrease the number of business/services
+# that will be generated in your town, villages, and such.
+
+:GenNumBiz
+1,|SF=10000||num_advocate=[GenNumMacro]|
+_|SF=10000||num_alchemist=[GenNumMacro]|
+_|SF=1500||num_armorer=[GenNumMacro]|
+_|SF=2000||num_artist=[GenNumMacro]|
+_|SF=10000||num_assassin=[GenNumMacro]|
+_|SF=800||num_baker=[GenNumMacro]|
+_|SF=500||num_barber=[GenNumMacro]|
+_|SF=1000||num_basketmaker=[GenNumMacro]|
+_|SF=500||num_blacksmith=[GenNumMacro]|
+_|SF=10000||num_bookbinder=[GenNumMacro]|
+_|SF=10000||num_bookseller=[GenNumMacro]|
+_|SF=8000||num_inquisitive=[GenNumMacro]|
+_|SF=1500||num_bowyer_fletcher=[GenNumMacro]|
+_|SF=1200||num_brewer=[GenNumMacro]|
+_|SF=1000||num_butcher=[GenNumMacro]|
+_|SF=1000||num_carpenter=[GenNumMacro]|
+_|SF=500||num_carter_teamster=[GenNumMacro]|
+_|SF=12000||num_cartographer=[GenNumMacro]|
+_|SF=1500||num_cartwright=[GenNumMacro]|
+_|SF=700||num_chandler=[GenNumMacro]|
+_|SF=3000||num_cheesemaker=[GenNumMacro]|
+_|SF=20000||num_clockmaker=[GenNumMacro]|
+_|SF=1000||num_cobbler=[GenNumMacro]|
+_|SF=700||num_cooper=[GenNumMacro]|
+_|SF=3000||num_coppersmith=[GenNumMacro]|
+_|SF=3000||num_dragonmarkedservices=[GenNumMacro]|
+_|SF=3000||num_dyer=[GenNumMacro]|
+_|SF=7500||num_engineer=[GenNumMacro]|
+_|SF=10000||num_exchequer=[GenNumMacro]|
+_|SF=5000||num_criminalpurpose=[GenNumMacro]|
+_|SF=1200||num_fishmonger=[GenNumMacro]|
+_|SF=2000||num_furrier=[GenNumMacro]|
+_|SF=5000||num_glassblower_glazier=[GenNumMacro]|
+_|SF=8000||num_goldsmith=[GenNumMacro]|
+_|SF=800||num_greengrocer=[GenNumMacro]|
+_|SF=2000||num_harnessmaker=[GenNumMacro]|
+_|SF=3000||num_herbalist=[GenNumMacro]|
+_|SF=300||num_inn=[GenNumMacro]|
+_|SF=6400||num_jeweler=[GenNumMacro]|
+_|SF=250||num_laborer=[GenNumMacro]|
+_|SF=6400||num_healing=[GenNumMacro]|
+_|SF=6400||num_locksmith=[GenNumMacro]|
+_|SF=6000||num_magicshop=[GenNumMacro]|
+_|SF=3000||num_Communication=[GenNumMacro]|
+_|SF=1500||num_mercer=[GenNumMacro]|
+_|SF=1000||num_mill=[GenNumMacro]|
+_|SF=1000||num_minstrel_entertainer=[GenNumMacro]|
+_|SF=10000||num_musicshop=[GenNumMacro]|
+_|SF=2000||num_navigator_guide=[GenNumMacro]|
+_|SF=10000||num_papermaker=[GenNumMacro]|
+_|SF=1500||num_porter=[GenNumMacro]|
+_|SF=1000||num_potter=[GenNumMacro]|
+_|SF=500||num_provisioner=[GenNumMacro]|
+_|SF=1900||num_ropemaker=[GenNumMacro]|
+_|SF=2000||num_rugmaker=[GenNumMacro]|
+_|SF=6000||num_sage=[GenNumMacro]|
+_|SF=5000||num_scribe_clerk=[GenNumMacro]|
+_|SF=7500||num_spellcaster=[GenNumMacro]|
+_|SF=500||num_seamstress_tailor=[GenNumMacro]|
+_|SF=3500||num_shipwright=[GenNumMacro]|
+_|SF=3000||num_silversmith=[GenNumMacro]|
+_|SF=20000||num_spicemerchant=[GenNumMacro]|
+_|SF=250||num_stable=[GenNumMacro]|
+_|SF=1500||num_tanner=[GenNumMacro]|
+_|SF=500||num_tavern=[GenNumMacro]|
+_|SF=20000||num_theater=[GenNumMacro]|
+_|SF=2500||num_vintner=[GenNumMacro]|
+_|SF=2500||num_warehouse=[GenNumMacro]|
+_|SF=2500||num_weaponsmith=[GenNumMacro]|
+_|SF=1000||num_weaver=[GenNumMacro]|
+_|SF=2000||num_wheelwright=[GenNumMacro]|
+
+:NameGood
+1,[ExtraGood]Fine
+2,[ExtraGood]Excellent
+3,Wonderful
+4,Magnificent
+5,Superb
+
+:ExtraGood
+1,Most 
+2-4,
+
+:Personality
+1,[Traits]
+
+:Traits
+1,Accusatory and believes the PC's are up to something, and isn't shy about saying so 
+2,Apologetic and desperately seeks the PC's forgiveness for a minor error, real or imagined
+3,Attentive and fixates on one PC, whom he tries to impress at the rest of the party's expense
+4,Authoritarian and sees themself as the PC's superior and expects their head nodding respect
+5,Avuncular and feels he's learned life's lessons and is eager to heap advice on any young person who will listen
+6,Battle ready and seeks advice on upcoming duel with an old enemy
+7,Blinkered and fixes on an idea or course of action and won't abandon it
+8,Boastful and wants the PC's to know how rich, strong, important, famous, or admired they are
+9,Caustious and terrified of making a mistake
+10,Chatty and loves to hear himself talk
+11,Chronicler and an amateur historian seeking information for the book they are writing
+12,Clumsy and keeps dropping things or knocking them over and is too flustered to help the PC's.
+13,Conspiratorial and plotting a crime or rebellion for the Boromar Clan and wonders if the PC's are likely recruits
+14,Contratrian and eager to show his independence from conventional wisdom
+15,Cowed and won't do anything that might arouse the wrath of an itimidating superior
+16,Cranky and has dealt with idiots all day and is sure they are looking at another bunch of them
+17,Deluded and convinced he is a grand hero trapped in an ordinary persons body, and wants the PC's to help him recover his real identity
+18,Despises locals and treats outsiders well and locals badly
+19,Drunkard and completely inebriated but does not want anyone to catch on
+20,Easily offended and constantly looking out for insults, which they will imagine if necessary
+21,Efficient and wants to cut to the heart of the matter, resolving it as quickly as possible
+22,Egotistical and wants to be flattered
+23,Embittered and recently lost a legal judgement and wants to complain about it at length
+24,Ensorcelled and a grand hero, trapped in an ordinary person's body, who wants the PC's to help him recover his real identity
+25,Exhausted and tired, but just ready to go home
+26,Fashion conscious and interested only in whos got the finest clothing
+27,Fatalistic and willing to help the PC's because nothing really matters
+28,Flirtatious and wants to test their charm on a PC of the opposite sex with a high Charisma
+29,Forbidding and takes pleasures in refusing requests
+30,Giddy and has just received wonderful news and wants the PC's to celebrate his good fortune
+31,Forgetful and wants to help the party, but must overcome a faulty memory
+32,Glutton and wants the PC's to envy the incredible meal they are just about to eat
+33,Gossipy and loves salicious and embarrassing information and happily shares what they know in exchange for other rumors
+34,Greedy and knows adventurers are rich and wonders how to extract the maximum amount of coin from them
+35,Gregarious and wants the PC's to think of them as their new best friend
+36,Grieving and wants to be left alone to mourn a loved one who has just died
+37,Guarded and will do anything to avoid seeming weak or vulnerable
+38,Guilty and has committed a sin or crime unrelated to the plot and is sure the PC's are on to them
+39,Harried and late for an important appointment and wants to get rid of the PC's as quickly as possible
+40,Healthy and swears by a cousin's foul-tasting cure all elixir, urging the PC's to purchase some
+41,Helful and eager to please, perhaps to fault
+42,Hero worshiping and wants to hear all about the biggest, toughest creature the party ever fought
+43,Homesick and comes from Zilargo and wants and wants the PC's to agree her homeland is much better than this place
+44,Idealistic and wishes to enlist the PC's help to stop poverty
+45,Impatient and wants to take action right now
+46,Importunate and tries to win favor from the PC's through blantant begging
+47,Imposter and wants to keep secret the fact that they are a disguised rogue, doppelganger, or other entity posing as the real NPC
+48,Insecure and believes that people think them stupid and wants to prove otherwise
+49,Intimidating and wants others to acknowledge how dreadful and imposing they are
+50,Jaded and has seen and done it all and wants the PC's to know that their problems mean nothing 
+51,Jester and wants the PC's to laugh at their terrible jokes
+52,Jolly, Gregarious, and wants to befriend the PC's and take them home to meet their family
+53,Laconic and tries to use as few words as possible
+54,Lonely and wants the PC's to be their best friend
+55,Loud and very helpful, but speaks in a disconcerting loud voice
+56,Lovelorn and powerfully infatuated and hopes to enlist the PC's in a quest for their true loves heart
+57,Loyal and respects and admires the PC's current adversary or object of inquiry and would sooner die than commit an act of betrayal
+58,Machiavellian and tries to involve the PC's in a scheme to gain power or harm an enemy
+59,Matchmaker and always on the lookout for a suitable spouse for a hapless relative
+60,Melancholy and saddened by the state of the world and wants the PC's to share their gloom
+61,Mocking and sees the PC's as an absurd and wants them to know it
+62,Mopey and feels that their an unrecognized genius and wants the PC's to know it
+63,Nervous and believes all adventurers are murderous scoundrels and wants to get away from the PC's as soon as they can without offending them
+64,Nihilistic and secretly worships the Blood of Vol, and will report the PC's to the local cult
+65,Nosy and wants to know everything there is to know about the PC's, because this is their way of showing friendly interest in them
+66,Oracular and has a premonition about the PC's and wishes to share it
+67,Outlandish and fears they are boring and tries to seem facinatingly crazy
+68,Pacifistic and aids the PC's only toward peaceful ends
+69,Patriotic and wants everyone to love the Brelish kingdom
+70,Patronizing and sees the PC'sas common street rabble and condescends them
+71,Picayune and corrects and minor mistakes or misprunciations the PC's make
+72,Pious and wishes to communicate their great devotion to the Church of the Silver Flame
+73,Prejudiced and irrationally despises one of the PC'son sight due to race, class, or another superficial trait
+74,Public spirited and loves the area, wants to improve it and urges the PC's to do the same
+75,Puckish and seeks amusement, preferably at the PC's expense
+76,Pugnacious and looking for an argument on any topic whatsoever
+77,Quiet and speaks in a barely audible voice and recoils if the PC's don't do the same
+78,Rebellious and wants to enlist the PC's in a plot to rob the local shop next door
+79,Resentful and wants to complain about a stupid or annoying superior
+80,Scattered and wants to help but loses focus unless carefully supervised
+81,Self obssesed and steers and conversation back to their favorite subject of themselves
+82,Servile and considers themselves the PC's inferior and is disquietly dedicated to aiding them
+83,Shift and has done something terrible, and the more innocent they try and appear, the more guilty they seem
+84,Sick and suffers from a chronic malady and anixously shares details of their symptoms
+85,Skeptical and disbelieves anything remotely questionale the PC's say
+86,Smitten and infatuated with a PC of the opposite sex with a high Charisma, and wants to please them
+87,Smug and believes they clearly are the best at what they do
+88,Solemn and responds well to serious talk, but badly to jokes and trivialities
+89,Spiteful and nurses a grudge against the PC's current adversary or object of inquiry and will say anything that harms them
+90,Territorial and doesn't want the PC's getting to close to them or their possesions
+91,Thick and wants to help, but is too dumb to help
+92,Treasure seeking and has found a treasure map and wants the PC's to help them recover it
+93,Trivial and wishes to demonstrate their mastery of irrelevant minor facts
+94,Trusting and believes anything the PC's to them
+95,Unreliable and makes outlandish promises that they have no intention of keeping
+96,Vengeful and was recently robbed and wants the PC's to thrash the assaulter
+97,Violent and looking for a scrap against a safely inferior opponent
+98,Wagerer and bets on anything
+99,Worried and wants to talk about how badly Breland has gone down hill after the last war
+100,Xenophobic and treats the locals well and outsiders badly
+
+:Quality
+1-5, Very Poor
+6-12, Poor
+13-30, Fair
+31-40, Good
+41-48, Very Good
+49-50, Skilled
+
+:Quality1
+1-5, Very Poor<br>{Generate~0,Click to Generate Inventory,EQ Armory.Generate(4,3)}<br>
+6-12, Poor<br>{Generate~0,Click to Generate Inventory,EQ Armory.Generate(8,3)}<br>
+13-30, Fair<br>{Generate~0,Click to Generate Inventory,EQ Armory.Generate(12,3)}<br>
+31-40, Good<br>{Generate~0,Click to Generate Inventory,EQ Armory.Generate(12,9)}<br>
+41-48, Very Good (Magical)<br>{Generate~0,Click to Generate Inventory,EQ Armory.Generate(3,6)}<br>
+49-50, Skilled (Magical)<br>{Generate~0,Click to Generate Inventory,EQ Armory.Generate(8,6)}<br>
+
+:Quality2
+1-5, Very Poor<br>{Generate~0,Click to Generate Inventory,EQ Blacksmith.Generate(6,18)}<br>
+6-12, Poor<br>{Generate~0,Click to Generate Inventory,EQ Blacksmith.Generate(8,18)}<br>
+13-30, Fair<br>{Generate~0,Click to Generate Inventory,EQ Blacksmith.Generate(12,18)}<br>
+31-40, Good<br>{Generate~0,Click to Generate Inventory,EQ Blacksmith.Generate(16,18)}<br>
+41-48, Very Good<br>{Generate~0,Click to Generate Inventory,EQ Blacksmith.Generate(24,18)}<br>
+49-50, Skilled<br>{Generate~0,Click to Generate Inventory,EQ Blacksmith.Generate(30,18)}<br>
+
+:Quality3
+1-5, Very Poor<br>{Generate~0,Click to Generate Inventory,Quality3Books=1}<br>
+6-12, Poor<br>{Generate~0,Click to Generate Inventory,Quality3Books=2}<br>
+13-30, Fair<br>{Generate~0,Click to Generate Inventory,Quality3Books=3}<br>
+31-40, Good<br>{Generate~0,Click to Generate Inventory,Quality3Books=4}<br>
+41-48, Very Good<br>{Generate~0,Click to Generate Inventory,Quality3Books=5}<br>
+49-50, Skilled<br>{Generate~0,Click to Generate Inventory,Quality3Books=6}<br>
+
+:Quality3Books
+1,{Loop~3,[Book Descriptions.Start]<br><br>}
+2,{Loop~6,[Book Descriptions.Start]<br><br>}
+3,{Loop~9,[Book Descriptions.Start]<br><br>}
+4,{Loop~11,[Book Descriptions.Start]<br><br>}
+5,{Loop~12,[Book Descriptions.Start]<br><br>}
+6,{Loop~13,[Book Descriptions.Start]<br><br>}
+
+:Quality4
+1-5, Very Poor<br>{Generate~0,Click to Generate Inventory,EQ Bowyer & Fletcher.Generate(6,4)}<br>
+6-12, Poor<br>{Generate~0,Click to Generate Inventory,EQ Bowyer & Fletcher.Generate(8,4)}<br>
+13-30, Fair<br>{Generate~0,Click to Generate Inventory,EQ Bowyer & Fletcher.Generate(12,4)}<br>
+31-40, Good<br>{Generate~0,Click to Generate Inventory,EQ Bowyer & Fletcher.Generate(16,4)}<br>
+41-48, Very Good<br>{Generate~0,Click to Generate Inventory,EQ Bowyer & Fletcher.Generate(24,4)}<br>
+49-50, Skilled<br>{Generate~0,Click to Generate Inventory,EQ Bowyer & Fletcher.Generates(30,4)}<br>
+
+:Quality5
+1-5, Very Poor<br>{Generate~0,Click to Generate Inventory,EQ Furrier.Generate(6)}<br>
+6-12, Poor<br>{Generate~0,Click to Generate Inventory,EQ Furrier.Generate(8)}<br>
+13-30, Fair<br>{Generate~0,Click to Generate Inventory,EQ Furrier.Generate(12)}<br>
+31-40, Good<br>{Generate~0,Click to Generate Inventory,EQ Furrier.Generate(16)}<br>
+41-48, Very Good<br>{Generate~0,Click to Generate Inventory,EQ Furrier.Generate(24)}<br>
+49-50, Skilled<br>{Generate~0,Click to Generate Inventory,EQ Furrier.Generate(30)}<br>
+
+:Quality6
+1-5, Very Poor<br>{Generate~0,Click to Generate Inventory,Quality6Jewel=1}<br>
+6-12, Poor<br>{Generate~0,Click to Generate Inventory,Quality6Jewel=2}<br>
+13-30, Fair<br>{Generate~0,Click to Generate Inventory,Quality6Jewel=3}<br>
+31-40, Good<br>{Generate~0,Click to Generate Inventory,Quality6Jewel=4}<br>
+41-48, Very Good<br>{Generate~0,Click to Generate Inventory,Quality6Jewel=5}<br>
+49-50, Skilled<br>{Generate~0,Click to Generate Inventory,Quality6Jewel=6}<br>
+
+:Quality6Jewel
+1,<FONT COLOR="#800000">{Loop~3,[Jewelry.Start(1,,1)]<br>}</font>
+2,<FONT COLOR="#800000">{Loop~6,[Jewelry.Start(2,,1)]<br>}</font>
+3,<FONT COLOR="#800000">{Loop~9,[Jewelry.Start(3,,1)]<br>}</font>
+4,<FONT COLOR="#800000">{Loop~11,[Jewelry.Start(3,,1)]<br>}</font>
+5,<FONT COLOR="#800000">{Loop~12,[Jewelry.Start(4,,1)]<br>}</font>
+6,<FONT COLOR="#800000">{Loop~14,[Jewelry.Start(5,,1)]<br>}</font>
+
+:Quality7
+1-5, Very Poor<br>{Generate~0,Click to Generate Inventory,EQ Rogues Items.Generate(6)}
+6-12, Poor<br>{Generate~0,Click to Generate Inventory,EQ Rogues Items.Generate(8)}
+13-30, Fair<br>{Generate~0,Click to Generate Inventory,EQ Rogues Items.Generate(12)}
+31-40, Good<br>{Generate~0,Click to Generate Inventory,EQ Rogues Items.Generate(16)}
+41-48, Very Good<br>{Generate~0,Click to Generate Inventory,EQ Rogues Items.Generate(24)}
+49-50, Skilled<br>{Generate~0,Click to Generate Inventory,EQ Rogues Items.Generate(30)}
+
+:Quality8
+1-5, Very Poor<br>{Generate~0,Click to Generate Inventory,EQ Magic Potions.Generate(6)}
+6-12, Poor<br>{Generate~0,Click to Generate Inventory,EQ Magic Potions.Generate(10)}
+13-30, Fair<br>{Generate~0,Click to Generate Inventory,EQ Magic Scrolls.Generate(6)}
+31-40, Good<br>{Generate~0,Click to Generate Inventory,EQ Magic Scrolls.Generate(10)}
+41-48, Very Good<br>{Generate~0,Click to Generate Inventory,EQ MAGIC ITEMS.Generate(6,1)}
+49-50, Skilled<br>{Generate~0,Click to Generate Inventory,EQ MAGIC ITEMS.Generate(10,1)}
+
+:Quality9
+1-5, Very Poor<br>{Generate~0,Click to Generate Inventory,SHOP Horse Dealer.GenStore(1,2)}
+6-12, Poor<br>{Generate~0,Click to Generate Inventory,SHOP Horse Dealer.GenStore(1,1)}
+13-30, Fair<br>{Generate~0,Click to Generate Inventory,SHOP Horse Dealer.GenStore(2,2)}
+31-40, Good<br>{Generate~0,Click to Generate Inventory,SHOP Horse Dealer.GenStore(2,1)}
+41-48, Very Good<br>{Generate~0,Click to Generate Inventory,SHOP Horse Dealer.GenStore(3,2)}
+49-50, Skilled<br>{Generate~0,Click to Generate Inventory,SHOP Horse Dealer.GenStore(3,1)}
+
+:Quality10
+1-5, Very Poor<br>{Generate~0,Click to Generate Inventory,EQ Bardic Items.Generate(6,3)}
+6-12, Poor<br>{Generate~0,Click to Generate Inventory,EQ Bardic Items.Generate(12,3)}
+13-30, Fair<br>{Generate~0,Click to Generate Inventory,EQ Bardic Items.Generate(15,3)}
+31-40, Good<br>{Generate~0,Click to Generate Inventory,EQ Bardic Items.Generate(20,3)}
+41-48, Very Good<br>{Generate~0,Click to Generate Inventory,EQ Bardic Items.Generate(24,3)}
+49-50, Skilled<br>{Generate~0,Click to Generate Inventory,EQ Bardic Items.Generate(30,3)}
+
+:Quality11
+1-5, Very Poor<br>{Generate~0,Click to Generate Inventory,EQ Outdoor Items.Generate(6)}
+6-12, Poor<br>{Generate~0,Click to Generate Inventory,EQ Outdoor Items.Generate(12)}
+13-30, Fair<br>{Generate~0,Click to Generate Inventory,EQ GENERAL STORE.Generate(15,1)}
+31-40, Good<br>{Generate~0,Click to Generate Inventory,EQ GENERAL STORE.Generate(20,1)}
+41-48, Very Good<br>{Generate~0,Click to Generate Inventory,EQ GENERAL STORE.Generate(24,1)}
+49-50, Skilled<br>{Generate~0,Click to Generate Inventory,EQ GENERAL STORE.Generate(30,1)}
+
+:Quality12
+1-5, Very Poor<br>{Generate~0,Click to Generate Inventory,EQ Clothier.Generate(6)}
+6-12, Poor<br>{Generate~0,Click to Generate Inventory,EQ Clothier.Generate(12)}
+13-30, Fair<br>{Generate~0,Click to Generate Inventory,EQ Clothier.Generate(15)}
+31-40, Good<br>{Generate~0,Click to Generate Inventory,EQ Clothier.Generate(20)}
+41-48, Very Good<br>{Generate~0,Click to Generate Inventory,EQ Clothier.Generate(24)}
+49-50, Skilled<br>{Generate~0,Click to Generate Inventory,EQ Clothier.Generate(30)}
+
+:Quality13
+1-5, Very Poor<br>{Generate~0,Click to Generate Inventory,EQ Blacksmith.Generate(6,4)}
+6-12, Poor<br>{Generate~0,Click to Generate Inventory,EQ Blacksmith.Generate(12,4)}
+13-30, Fair<br>{Generate~0,Click to Generate Inventory,EQ Blacksmith.Generate(15,4)}
+31-40, Good<br>{Generate~0,Click to Generate Inventory,EQ Blacksmith.Generate(20,4)}
+41-48, Very Good<br>{Generate~0,Click to Generate Inventory,EQ Blacksmith.Generate(24,4)}
+49-50, Skilled<br>{Generate~0,Click to Generate Inventory,EQ Blacksmith.Generate(30,4)}
+
+# The buy sell factors here should be selected based on the type
+# of business you are dealing with. Some shops, for instance, may
+# have a higher "buy" factor since they deal in merchandise that is
+# not as commonly available, or is very expensive, and thus have
+# smaller margins but greater overall profits.
+:BuySellFactors
+1,|BuyF=50||SellF=100|[GenBuySellFactors]
+2,|BuyF=70||SellF=100|[GenBuySellFactors]
+3,|BuyF=90||SellF=100|[GenBuySellFactors]
+
+:GenBuySellFactors
+1,|FMod={Dice~3d4-8}||FMod*5|
+_|BuyF+%FMod%|
+_|FMod={Dice~3d4-7}||FMod*5|
+_|SellF+%FMod%|
+_[%BuyF% >= %SellF% ? AdjustEcon]
+_|BuyF/100||SellF/100|%BuyF% / %SellF%
+
+:AdjustEcon
+1,|SellF=%BuyF%||SellF+25|
+
+:GenNumMacro
+1,|temp=%population%|
+_|temp\%SF%|
+_|CalcVal=%SF%||CalcVal*%temp%|
+_|temp2=%population%||temp2-%CalcVal%|
+_|temp2/ %SF%||temp2={Round~2,%temp2%}||temp2*100|
+_|temp+{If~{Dice~1d100}<=%temp2%?1/0}|
+_%temp%
+
+:IncreaseLvlTally
+1,|NumLevel1+%CurrNum%|
+2,|NumLevel2+%CurrNum%|
+3,|NumLevel3+%CurrNum%|
+4,|NumLevel4+%CurrNum%|
+5,|NumLevel5+%CurrNum%|
+6,|NumLevel6+%CurrNum%|
+7,|NumLevel7+%CurrNum%|
+8,|NumLevel8+%CurrNum%|
+9,|NumLevel9+%CurrNum%|
+10,|NumLevel10+%CurrNum%|
+11,|NumLevel11+%CurrNum%|
+12,|NumLevel12+%CurrNum%|
+13,|NumLevel13+%CurrNum%|
+14,|NumLevel14+%CurrNum%|
+15,|NumLevel15+%CurrNum%|
+16,|NumLevel16+%CurrNum%|
+17,|NumLevel17+%CurrNum%|
+18,|NumLevel18+%CurrNum%|
+19,|NumLevel19+%CurrNum%|
+20,|NumLevel20+%CurrNum%|
+
+:ResetTally
+1,|NumLevel1=0|
+_|NumLevel2=0|
+_|NumLevel3=0|
+_|NumLevel4=0|
+_|NumLevel5=0|
+_|NumLevel6=0|
+_|NumLevel7=0|
+_|NumLevel8=0|
+_|NumLevel9=0|
+_|NumLevel10=0|
+_|NumLevel11=0|
+_|NumLevel12=0|
+_|NumLevel13=0|
+_|NumLevel14=0|
+_|NumLevel15=0|
+_|NumLevel16=0|
+_|NumLevel17=0|
+_|NumLevel18=0|
+_|NumLevel19=0|
+_|NumLevel20=0|
+
+#--------------------------------------------------------------------------------------------------
+# Note:  Residential areas within Sharn weren't included since businesses aren't there
+#--------------------------------------------------------------------------------------------------
+
+:SetUpperCentralDistrict
+1,|typename=Highest Towers|
+2,|typename=Korranath|
+3,|typename=Korran Thiven|
+4,|typename=Highest Towers|
+5,|typename=Platinum Heights|
+
+:SetMiddleCentralDistrict
+1,|typename=Ambassador Towers|
+2,|typename=Dava Gate|
+3,|typename=Dragon Towers|
+4,|typename=Soverign Towers|
+5,|typename=Sword Point|
+6,|typename=Tradefair|
+
+:SetLowerCentralDistrict
+1,|typename=Boldreis Hearth|
+2,|typename=Granite Hall|
+3,|typename=North Towers|
+4,|typename=Olladras Kitchen|
+
+:SetUpperDuraDistrict
+1,|typename=CliffTop|
+2,|typename=Daggerwatch|
+3,|typename=Highhold|
+4,|typename=Hopes Peak|
+5,|typename=RedStone|
+
+:SetMiddleDuraDistrict
+1,|typename=The Bazaar|
+2,|typename=Hareths Folly|
+3,|typename=Underlook|
+
+:SetLowerDuraDistrict
+1,|typename=Callestan|
+2,|typename=Fallen|
+3,|typename=Malleons Gate|
+4,|typename=Precarious|
+5,|typename=The Stores|
+
+:SetUpperMenthisDistrict
+1,|typename=Deniyas|
+2,|typename=Seventh Towers|
+3,|typename=University|
+
+:SetMiddleMenthisDistrict
+1,|typename=Cassan Bridge|
+2,|typename=Everbright|
+3,|typename=Little Plains|
+4,|typename=Smoky Towers|
+5,|typename=Warden Towers|
+
+:SetLowerMenthisDistrict
+1,|typename=Downstairs|
+2,|typename=Firelight|
+3,|typename=Torchfire|
+
+:SetUpperNorthedgeDistrict
+1,|typename=ShaeLias|
+
+:SetMiddleNorthedgeDistrict
+1,|typename=Holdfast|
+2,|typename=High Hope|
+
+:SetLowerNorthedgeDistrict
+1,|typename=North Market|
+
+:SetSkywayDistrict
+1,|typename=Azure|
+2,|typename=Brilliant|
+
+:SetUpperTavicksLandingDistrict
+1,|typename=CopperArch|
+2,|typename=Pinnacle|
+3,|typename=Silvergate|
+4,|typename=Twelve Pillars|
+
+:SetMiddleTavicksLandingDistrict
+1,|typename=Cornerstone|
+2,|typename=Dancing Shadows|
+3,|typename=Deathsgate|
+4,|typename=Graywall|
+5,|typename=Tavicks Market|
+
+:SetLowerTavicksLandingDistrict
+1,|typename=Black Arch|
+2,|typename=Cogsgate|
+3,|typename=Dragonseyes|
+4,|typename=High Walls|
+5,|typename=Terminus|
+6,|typename=Wroanns Gate|
+
+:WatchDetail
+1-3,<FONT COLOR="#FF8040"><b>504 guards of the Watch</b></FONT>
+_<br><FONT COLOR="#FF8040"><i>152 on day shift</i></FONT>: 122 patrol and 30 stationed
+_<br><FONT COLOR="#FF8040"><i>176 on evening</i></FONT>: 141 patrol and 35 stationed
+_<br><FONT COLOR="#FF8040"><i>176 on night shift</i></FONT>: 141 patrol and 35 stationed
+4-6,<FONT COLOR="#FF8040"><b>576 guards of the Watch</b></FONT>
+_<br><FONT COLOR="#FF8040"><i>173 on day shift</i></FONT>: 138 patrol and 35 stationed
+_<br><FONT COLOR="#FF8040"><i>202 on evening</i></FONT>: 162 patrol and 40 stationed
+_<br><FONT COLOR="#FF8040"><i>201 on night shift</i></FONT>: 161 patrol and 40 stationed
+7-9,<FONT COLOR="#FF8040"><b>450 guards of the Watch</b></FONT>
+_<br><FONT COLOR="#FF8040"><i>135 on day shift</i></FONT>: 108 patrol and 27 stationed
+_<br><FONT COLOR="#FF8040"><i>158 on evening</i></FONT>: 126 patrol and 32 stationed
+_<br><FONT COLOR="#FF8040"><i>157 on night shift</i></FONT>: 125 patrol and 32 stationed
+10-13,<FONT COLOR="#FF8040"><b>504 guards of the Watch</b></FONT>
+_<br><FONT COLOR="#FF8040"><i>152 on day shift</i></FONT>: 122 patrol and 30 stationed
+_<br><FONT COLOR="#FF8040"><i>176 on evening</i></FONT>: 141 patrol and 35 stationed
+_<br><FONT COLOR="#FF8040"><i>176 on night shift</i></FONT>: 141 patrol and 35 stationed
+14-16,<FONT COLOR="#FF8040"><b>596 guards of the Watch</b></FONT>
+_<br><FONT COLOR="#FF8040"><i>179 on day shift</i></FONT>: 143 patrol and 36 stationed
+_<br><FONT COLOR="#FF8040"><i>209 on evening</i></FONT>: 167 patrol and 42 stationed
+_<br><FONT COLOR="#FF8040"><i>208 on night shift</i></FONT>: 166 patrol and 42 stationed

@@ -1,24 +1,59 @@
 TableSmith52 {
 
   Table
-    = ListOf<group, eol>
+    = #bom? NonemptyListOf<Section, (#eol)+>
+
+  bom = "\uFEFF"
+
+  Section
+    = group
+    | comment
+    | Directive
+    | variableDeclaration
+    | parameter
 
   group
-    = groupheader eol groupbody
+    = groupheader (#eol+ groupbody)?
 
   groupheader
-    = ":" name
-    | ";" name
+    = grouptype exhaustflag? name
+
+  grouptype = ":" | ";"
+
+  exhaustflag = "!"
 
   name  (a name)
-    = "start"
-    | alnum+
+    = "Start" ~template
+    | template
+
+  namechar
+    = alnum
+    | "_"
 
   groupbody
-    = nonemptyListOf<groupline, eol>
+    = nonemptyListOf<groupline, (#eol)+>
 
   groupline
-    = number "," template
+    = groupentry
+    | entrycontinuation
+    | comment
+    | blank+ -- empty
+
+  groupentry
+    = number blank* "," template? -- simple
+    | range blank* "," template? -- range
+    | "?" variable "," template? -- dynamic
+    | "<" template? -- header
+    | ">" template? -- footer
+
+  range
+    = number "-" number
+
+  entrycontinuation
+    = blank* "_" template?
+
+  blank
+    = ~eol space
 
   number
     = digit+
@@ -31,4 +66,23 @@ TableSmith52 {
 
   eol
     = "\r"? "\n"
+    | "\r" "\n"?
+
+  comment
+    = "#" template?
+
+  Directive
+    = #"/" template
+
+  variableDeclaration
+    = #variable #"," template?
+
+  variable
+    = "%" variableChar+ "%"
+
+  variableChar
+    = ~"%" any
+
+  parameter
+    = "@" template
 }

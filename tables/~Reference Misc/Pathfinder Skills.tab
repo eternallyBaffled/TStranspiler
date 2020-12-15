@@ -1,0 +1,4498 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder January 23, 2017.
+# ---------------------------------------------------
+#
+# Pathfinder Skills, by Larry Cormier.
+#
+# For single class characters ... for now (probably for always).
+#
+# -------------------------------------------------------------------------
+#
+# If you add something new, search for:
+#    Class : ### NEW CLASS ###
+#    Race  : ### NEW RACE ###
+#    Skill : ### NEW SKILL ###
+#    Feat  : ### NEW FEATS ###
+#            ### NEW SKILL FEATS ###
+#
+# -------------------------------------------------------------------------
+#
+# To call this table from another one:
+#    [Pathfinder Skills.GenerateSkills(%Race%,%Class%,%CharacterLevel%,
+#     %FamiliarID%,%STR%,%DEX%,%CON%,%INT%,%WIS%,%CHA%,%ChoseRanks%,%FeatsSkill%,%BsK%
+#     %FavClassSP%,%CommonerTypeCode%,%ExpertTypeCode%,%Fly%)
+#
+#                           ### NEW RACE ###
+#    Race:             20   1=Human  2=Dwarf  3=Elf  4=Gnome  5=Half-Elf  6=Half-Orc  7=Halfling
+#                           8=Aasimar  9=Drow  10=Drow Noble  11=Duergar  12=Goblin  13=Hobgoblin  14=Kobold  15=Merfolk  16=Orc  17=Svirfneblin  18=Tengu  19=Tiefling
+#                           20=RANDOM
+#    Subrace:          99   DO NOT MODIFY: Used with "NPC Stat Block Pathfinder"
+#                           ### NEW CLASS ###
+#    Class:            17   1=Fighter  2=Barbarian  3=Bard  4=Cleric
+#                           5=Druid  6=Monk  7=Paladin  8=Ranger  9=Rogue
+#                           10=Sorcerer  11=Wizard  12=Adept  13=Aristocrat
+#                           14=Commoner  15=Expert  16=Warrior 17=Random
+#    CharacterLevel:   99   Enter character level 1-20.
+#    FamiliarID:       13   1=Bat  2=Cat  3=Hawk  4=Lizard  5=Owl  6=Rat
+#                           7=Raven  8=Snake  9=Toad  10=Weasel  11=Monkey
+#                           12=Random  13=None
+#    STR:              99   Input Strength
+#    DEX:              99   Input Dexterity
+#    CON:              99   Input Constitution
+#    INT:              99   Input Intelligence
+#    WIS:              99   Input Wisdom
+#    CHA:              99   Input Charisma
+#    Size:             99   DO NOT MODIFY, must be sent by another table or fixed in this one if 99.
+#    ChooseRanks:       2   How do you want ranks to be chosen?
+#                           1= Random
+#                           2= Choose a number of skills base on "INT+Skill Points" and max the ranks in them.
+#                           3= Buy each rank one at a time.
+#                           4= Buy a few ranks at a time (1-4 based on level).
+#    FeatsSkill:       99   DO NOT MODIFY used with NPC Stat Block Pathfinder to add bonuses to skills.
+#                           (Sends the list of feats chosen for the character)
+#                           (mode of MV of Animal Companion will also be added here) 
+#    BsK:               0   SORCERER: DO NOT MODIFY used with NPC Stat Block Pathfinder to add ONE bonus Class skill.
+#    FavClassSP:        0   Bonus skills points for favored class --- DO NOT MODIFY used with NPC Stat Block Pathfinder to these extra skill points.
+#                           ### NEW CLASS ### Commoner
+#    CommonerTypeCode:  1   Change " CommonerTypeCode " if you add some commoner types. Alsi in Pathfinder Skills + Pathfinder Feats
+#                           1=Random   2=Standard   3=Beggar   4-Prostitute
+#                           ### NEW CLASS ### Expert
+#    ExpertTypeCode:    1   --- DO NOT MODIFY used with NPC Stat Block Pathfinder (from UltNPC1).
+#                           1=Random    2=Standard    3=Blacksmith    4=Courtesan  5=Fence
+#                           6=Jeweller  7=Pawnbroker  8=Sage_Scholar  9=Locksmith 10=Merchant
+#    Fly:               0   Fly speed (to choose the FLY skill) --- DO NOT MODIFY used with NPC Stat Block Pathfinder.
+#    WorldNeeded:       1   WORLD: Creatures from which world?
+#                           If you add some worlds, see NEW WORLD below.
+#                           DO NOT CHANGE the WORLDS CODES ===> Useful for all other tables (Book Titles, Countries, Permanent_Variables, Religion, Travelers, Ultimate NPC).
+#                            1= LOAD permanent variable 2= RANDOM, 3= Blackmoor 4= Conan 5= Dragonlance 6= Dragonlance (Taladas) 7= Dark Sun 
+#                            8= Eberron 9= Forgotten Realms 10= Golarion 11= Greyhawk 12= Kingdoms of Kalamar 13= Lankhmar 14= Modern 15= MYSTARA 
+#                           16= Ravenloft 17= Rokugan 18= Scarred Lands 19= Spelljammer 20= Sovereign Stone
+#
+# -------------------------------------------------------------------------
+# This Table Links to these tables as required:
+#    Countries
+#    Countries.Language
+#    Countries.WorldNeededName
+#    Miscellaneous.Occupations
+#
+# -------------------------------------------------------------------------
+# This table is called by:
+#    Animal Companion Pathfinder.tab
+#    NPC Stat Block Pathfinder.tab
+#
+# -------------------------------------------------------------------------
+#
+# To add a Class with a Familiar:
+#    Search for "# Familiar Updater" and update with the
+#    appropriate class number.
+#
+# Modified by Valminder, March 2006.
+#    This table was taken from the Stats Block generator by Larry Cormier.
+#    Adapted for TSv5.
+#    Greatly modified.
+#    99% chances for Ranger to have Survival, and Bard to have Perform.
+#    Sets starting languages.
+#    Languages: When you select the Speak Language skill, you now have a
+#       number of languages depending on the ranks (3+Character Level or 1/2
+#       if Speak Language is a cross-class skill). Before, the table
+#       generated only 1 language for the cost of a lot of ranks.
+#
+# Modified by Larry Cormier, January 2013.
+#    Adapted to Pathfinder Skills sets
+#    Adapted Familiar Skill Adjustments to Pathfinder Skill Sets
+#
+# Modified by Valminder , Jan 2017
+#    Added Monkey, corrected "Bat" error.
+#    Modified number of skill points (not x4 at 1st level)
+#    Modified Human skill points
+#    Fixed languages known/starting for high Intelligence
+#    Fixed Perception error where a 20th level PC had +50 Perception.
+#    Added "FeatsSkill" variable to add modifier from feats.
+#    Added a way to generate skills by rank instead of maxing the ranks for a few skills.
+#    Added Concentration
+#    With some feats chosen, the related skill will be taken at 3/4 max level, minimum 10 ranks at level 10+.
+#       -Dazzling Display, Mounted Combat.
+#       -All +2/+2 feats (like Athletic or Persuasive).
+#    Added Bard special:
+#       -Added the possibility to have more Perform skill for the Bard.
+#       -Prevent rolling certain skills when the versatile performance is chosen.
+#       -Added the Knowledge skill bonus for Knowledge with ranks (the bonus note added to final output).
+#       -Jack of All Trades level 16th: all skills are class-skills (for the +3 bonus)
+#       -Perform: added racial performances (created by Valminder) to prevent some errors.
+#    Fixed Craft-Profession when linked to Master Craftman feat.
+#    Added Animal Companion (99)
+#    Added WIZEncSmile for Enchanter skill bonuses.
+#
+
+# To ERASE after
+%TestLog%,0
+
+%BSk%,0
+%CharacterLevel%,0
+%ChooseRanks%,0
+%Class%,0
+%CommaFlag%,0
+%CommaFlagLang%,0
+%CommonerTypeCode%,0
+%Concentration%,0
+%CrossClassRanks%,0
+%Edu%,0
+%ExpertTypeCode%,0
+%ExpertTypeKnowledge%,0
+%ExpSk1%,0
+%ExpSk2%,0
+%ExpSk3%,0
+%ExpSk4%,0
+%ExpSk5%,0
+%ExpSk6%,0
+%ExpSk7%,0
+%ExpSk8%,0
+%ExpSk9%,0
+%ExpSk10%,0
+%ExpSkString%,0
+%ExtraLanguages%,0
+%FamiliarID%,13
+%FamiliarSkillsAdjustments%,0
+%FamSkillBonus%,0
+%FamSkillID%,0
+%FamHPBonus%,0
+%FamFortBonus%,0
+%FamReflBonus%,0
+%FamWillBonus%,0
+%FavClassSP%,0
+%Fly%,0
+%Language%,0
+%LangLook%,0
+%LanguageString%,0
+%MasterCraftsman%,0
+%MaxRanks%,0
+%Meaning%,0
+%Profession%,0
+%Race%,0
+%RanksApplied%,0
+%ReqSkRanks%,0
+%Rule%,0
+%SetFam%,0
+%Size%,0
+%Skill%,0
+%SkillCount%,0
+%SkillCountClass%,0
+%SkillCountAtMaxRanks%,0
+%SkillID%,0
+%SkillsString%,0
+# Skill Ranks
+%SkR1%,0
+%SkR2%,0
+%SkR3%,0
+%SkR4%,0
+%SkR5%,0
+%SkR6%,0
+%SkR7%,0
+%SkR8%,0
+%SkR9%,0
+%SkR10%,0
+%SkR11%,0
+%SkR12%,0
+%SkR13%,0
+%SkR14%,0
+%SkR15%,0
+%SkR16%,0
+%SkR17%,0
+%SkR18%,0
+%SkR19%,0
+%SkR20%,0
+%SkR21%,0
+%SkR22%,0
+%SkR23%,0
+%SkR24%,0
+%SkR25%,0
+%SkR26%,0
+%SkR27%,0
+%SkR28%,0
+%SkR29%,0
+%SkR30%,0
+%SkR31%,0
+%SkR32%,0
+%SkR33%,0
+%SkR34%,0
+%SkR35%,0
+# Extra Perform for Bards
+%SkR36%,0
+%SkR37%,0
+%SkR38%,0
+%SkR39%,0
+# Extra Craft for Expert (Blacksmith, Jeweller)
+%SkR40%,0
+# Extra Profession for Expert (Fence)
+%SkR41%,0
+### NEW SKILL ### add SkR+1
+# Skill Modifiers from feats and other sources
+%SkM1%,0
+%SkM2%,0
+%SkM3%,0
+%SkM4%,0
+%SkM5%,0
+%SkM6%,0
+%SkM7%,0
+%SkM8%,0
+%SkM9%,0
+%SkM10%,0
+%SkM11%,0
+%SkM12%,0
+%SkM13%,0
+%SkM14%,0
+%SkM15%,0
+%SkM16%,0
+%SkM17%,0
+%SkM18%,0
+%SkM19%,0
+%SkM20%,0
+%SkM21%,0
+%SkM22%,0
+%SkM23%,0
+%SkM24%,0
+%SkM25%,0
+%SkM26%,0
+%SkM27%,0
+%SkM28%,0
+%SkM29%,0
+%SkM30%,0
+%SkM31%,0
+%SkM32%,0
+%SkM33%,0
+%SkM34%,0
+%SkM35%,0
+# Extra Perform for Bards
+%SkM36%,0
+%SkM37%,0
+%SkM38%,0
+%SkM39%,0
+# Extra Craft for Expert (Blacksmith, Jeweller)
+%SkM40%,0
+# Extra Profession for Expert (Fence)
+%SkM41%,0
+### NEW SKILL ### add SkM+1
+%Subrace%,0
+%Temp%,0
+%TempR%,0
+%TempString%,0
+%TotalSkillPoints%,0
+%VAcr%,0
+%VApp%,0
+%VBlu%,0
+%VCli%,0
+%VCra%,0
+%VDev%,0
+%VDip%,0
+%VDis%,0
+%VEsc%,0
+%VFly%,0
+%VHan%,0
+%VHea%,0
+%VInt%,0
+%VSen%,0
+%VSte%,0
+%VSur%,0
+%VSwi%,0
+%VUse%,0
+%WildEmpathy%,0
+%WIZEncSmile%,0
+
+%ACFly%,No
+%STR%,0
+%DEX%,0
+%CON%,0
+%INT%,0
+%WIS%,0
+%CHA%,0
+%FeatsSkill%,99
+%STRBonus%,0
+%DEXBonus%,0
+%CONBonus%,0
+%INTBonus%,0
+%WISBonus%,0
+%CHABonus%,0
+%ParamClass%,0
+%ParamRace%,0
+%Perception%,0
+%PerceptionFlag%,0
+%WorldNeeded%,0
+%WorldNeededName%,0
+
+# PFCore: 1=Human  2=Dwarf  3=Elf  4=Gnome  5=Half-Elf  6=Half-Orc  7=Halfling
+# PFB1:   8=Aasimar  9=Drow  10=Drow Noble  11=Duergar  12=Goblin  13=Hobgoblin  14=Kobold  15=Merfolk  16=Orc  17=Svirfneblin  18=Tengu  19=Tiefling
+# 20=RANDOM
+### NEW RACE ###
+@Race,20,Choose a Race,Human,Dwarf,Elf,Gnome,Half Elf,Half Orc,Halfling,Aasimar,Drow,Drow Noble,Duergar,Goblin,Hobgoblin,Kobold,Merfolk,Orc,Svirfneblin,Tengu,Tiefling,Random
+@Subrace,99,DO NOT MODIFY: Used with "NPC Stat Block Pathfinder"
+### NEW CLASS ### Set at random
+@Class,17,Choose a Class,Fighter,Barbarian,Bard,Cleric,Druid,Monk,Paladin,Ranger,Rogue,Sorcerer,Wizard,Adept,Aristocrat,Commoner,Expert,Warrior,Random
+@CharacterLevel,99,Enter the Character Level.
+### NEW FAMILIAR ###
+@FamiliarID,13,Choose Familiar,Bat,Cat,Hawk,Lizard,Owl,Rat,Raven,Viper,Toad,Weasel,Monkey,Random,None
+@STR,99,Input Strength
+@DEX,99,Input Dexterity
+@CON,99,Input Constitution
+@INT,10,Input Intelligence
+@WIS,99,Input Wisdom
+@CHA,99,Input Charisma
+@Size,99,DO NOT MODIFY will be modified by another table,Fine,Diminutive,Tiny,Small,Medium-size,Large,Huge,Gargantuan,Colossal
+@ChooseRanks,2,How do you want ranks to be chosen?,Random,Choose a number of skills base on "INT+Skill Points" and max the ranks in them.,Buy each rank one at a time.,Buy a few ranks at a time (1-4 based on level).
+@FeatsSkill,99,DO NOT MODIFY used with NPC Stat Block Pathfinder to add bonuses to skills.
+@BSk,0,SORCERER: DO NOT MODIFY used with NPC Stat Block Pathfinder to add ONE bonus Class skill.
+@FavClassSP,0,Bonus skills points for favored class --- DO NOT MODIFY used with NPC Stat Block Pathfinder to these extra skill points.
+### NEW CLASS ### Commoner. Change " CommonerTypeCode " if you add some commoner types. Alsi in Pathfinder Skills + Pathfinder Feats
+### 1=Random   2=Standard   3=Beggar   4-Prostitute
+@CommonerTypeCode,1,Choose Commoner's type,Random,Standard,Beggar,Prostitute
+### NEW CLASS ### Expert (New Type)
+# 1=Random    2=Standard    3=Blacksmith    4=Courtesan  5=Fence
+# 6=Jeweller  7=Pawnbroker  8=Sage_Scholar  9=Locksmith 10=Merchant
+@ExpertTypeCode,0,Expert type --- DO NOT MODIFY used with NPC Stat Block Pathfinder (from UltNPC1).,Random,Standard,Blacksmith,Courtesan,Fence,Jeweller,Pawnbroker,Sage_Scholar,Locksmith,Merchant
+@Fly,0,Fly speed (to choose the FLY skill) --- DO NOT MODIFY used with NPC Stat Block Pathfinder.
+### NEW WORLD ###
+# If you add some worlds, see NEW WORLD below.
+# DO NOT CHANGE the WORLDS CODES ===> Useful for all other tables (Book Titles, Countries, Permanent_Variables, Religion, Travelers, Ultimate NPC).
+# 1= LOAD permanent variable 2= RANDOM, 3= Blackmoor 4= Conan 5= Dragonlance 6= Dragonlance (Taladas) 7= Dark Sun 
+# 8= Eberron 9= Forgotten Realms 10= Golarion 11= Greyhawk 12= Kingdoms of Kalamar 13= Lankhmar 14= Modern 15= MYSTARA 
+# 16= Ravenloft 17= Rokugan 18= Scarred Lands 19= Spelljammer 20= Sovereign Stone
+@WorldNeeded,1,WORLD: Creatures from which world?,LOAD from Permanent_Variables,Random World,Blackmoor,Conan,Dragonlance,Dragonlance (Taladas),Dark Sun,Eberron,Forgotten Realms,Golarion,Greyhawk,Kingdoms of Kalamar,Lankhmar,Modern,Mystara,Ravenloft,Rokugan,Scarred Lands,Spelljammer,Sovereign Stone
+
+:Start
+### NEW RACE ###
+1,[WorldNeeded]|Profession=0||ExtraLanguages=0|
+_{If~{Param~Race,%Race%}=Random?|Race={Dice~1d19}|}
+### NEW CLASS ###
+_{If~{Param~Class,%Class%}=Random?|Class={Dice~1d16}|}
+### NEW CLASS ### Expert
+_|ExpSkString=||ExpSk1=0||ExpSk2=0||ExpSk3=0||ExpSk4=0||ExpSk5=0||ExpSk6=0||ExpSk7=0||ExpSk8=0||ExpSk9=0||ExpSk10=0|
+_{If~{And~{Param~Class,%Class%}=Expert,%ExpertTypeCode%<2}=1?|ExpertTypeCode={Dice~1d9+1}|}
+_{If~{And~{Param~Class,%Class%}=Commoner,%CommonerTypeCode%<2}=1?|CommonerTypeCode=[CommonerTypeCode]|}
+### NEW SKILL ### If you modify the order of the knowledge skills, change the dice roll below.
+_{If~%TestLog%=1?{Log~E:\log.txt,????? Class= {Param~Class,%Class%}   {If~%ExpertTypeCode%!=0?ExpertCode= {Param~ExpertTypeCode,%ExpertTypeCode%}}}}
+_{If~{And~{Param~Class,%Class%}=Expert,{Param~ExpertTypeCode,%ExpertTypeCode%}=Fence}=1?|ExpertTypeKnowledge={Dice~1d10+13}|
+_/{If~{And~{Param~Class,%Class%}=Expert,{Param~ExpertTypeCode,%ExpertTypeCode%}=Locksmith}=1?|ExpertTypeKnowledge={Dice~1d10+13}|
+_/{If~{And~{Param~Class,%Class%}=Expert,{Param~ExpertTypeCode,%ExpertTypeCode%}=Sage_Scholar}=1?[SetExpert_8_Sage_Skills]
+_/{If~{And~{Param~Class,%Class%}=Expert,{Param~ExpertTypeCode,%ExpertTypeCode%}=Standard}=1?[SetExpert_2_Standard_Skills]
+_}}}}
+#
+_{If~%CharacterLevel%=99?|CharacterLevel={Dice~1d20}|}
+_{If~{Param~FamiliarID,%FamiliarID%}=Random?|FamiliarID={Dice~1d11}|}
+_{If~%STR%=99?|STR={Dice~3d6}|}{If~%DEX%=99?|DEX={Dice~3d6}|}
+_{If~%CON%=99?|CON={Dice~3d6}|}{If~%INT%=99?|INT={Dice~3d6}|}
+_{If~%WIS%=99?|WIS={Dice~3d6}|}{If~%CHA%=99?|CHA={Dice~3d6}|}
+_{If~%ChooseRanks%=1?|ChooseRanks={Dice~1d3+1}|}
+_[GenerateSkills]
+
+:GenerateSkills
+1,|ParamClass={Param~Class,%Class%}||ParamRace={Param~Race,%Race%}|
+_{If~{Find~1,WizEnchanter,%FeatsSkill%}!=0?[WIZEncSmile]}
+_[GenerateSkillsContinue]
+
+# If you add another special class like Animal Companion, maybe for creature types like Aberration, Outsider,Vermin, etc, 
+# you can create nes "GenerateSkillsXXX" where XXX can be Aberration, Outsider, Vermin, etc.
+:GenerateSkillsAnimalCompanion
+1,[WorldNeeded]|ParamRace=AnimalCompanion||ParamClass=AnimalCompanion||WIZEncSmile=0||ExtraLanguages=0||Profession=0|
+_{If~%TestLog%=1?{Log~E:\log.txt,????? Class= {Param~Class,%Class%}   ExpertCode= {Param~ExpertTypeCode,%ExpertTypeCode%}}}
+_{If~{Find~1,FLYING,%FeatsSkill%}!=0?|ACFly=Yes|/|ACFly=No|}
+_[GenerateSkillsContinue]
+
+:GenerateSkillsContinue
+1,{If~%Size%=99?[SetSize=%Race%]}
+_{Reset~DeterminePerformanceType}{Reset~DetermineSurvivalType}{Reset~TerrainType}
+### NEW SKILL ### NEW CLASS ### (Expert)
+_{Reset~ExpRndKnowledge}{Reset~ExpRndSkill}{Reset~SetEduBonus2}
+_{Reset~DetermineCraftRandom}{Reset~DetermineCraftExpert_3}{Reset~DetermineCraftExpert_6}
+_{Reset~DetermineCraftMCRandom}{Reset~DetermineCraftMCExpert_3}{Reset~DetermineCraftMCExpert_6}
+#
+_{Reset~SpecialClassLanguages}
+### NEW RACE ### Add Reset~
+_{Reset~HumanLanguages}{Reset~AasimarLanguages}{Reset~DrowLanguages}{Reset~Drow NobleLanguages}{Reset~DuergarLanguages}
+_{Reset~DwarfLanguages}{Reset~ElfLanguages}{Reset~GoblinLanguages}{Reset~GnomeLanguages}{Reset~Half ElfLanguages}
+_{Reset~Half OrcLanguages}{Reset~HalflingLanguages}{Reset~HobgoblinLanguages}{Reset~KoboldLanguages}
+_{Reset~MerfolkLanguages}{Reset~OrcLanguages}{Reset~SvirfneblinLanguages}{Reset~TieflingLanguages}
+#
+_{Reset~SetRequiredSkills}{Reset~SetRequiredSkills_Acrobatic}{Reset~SetRequiredSkills_Agile Athlete}{Reset~SetRequiredSkills_Alertness}{Reset~SetRequiredSkills_Animal Affinity}
+_{Reset~SetRequiredSkills_Artist}{Reset~SetRequiredSkills_Athletic}{Reset~SetRequiredSkills_Brewmaster}
+_{Reset~SetRequiredSkills_Deceitful}{Reset~SetRequiredSkills_Deft Hands}{Reset~SetRequiredSkills_EyeforDetail}
+_{Reset~SetRequiredSkills_Hunter}{Reset~SetRequiredSkills_Magical Aptitude}{Reset~SetRequiredSkills_Nimbus}{Reset~SetRequiredSkills_Oath of Uwe}
+_{Reset~SetRequiredSkills_Persuasive}{Reset~SetRequiredSkills_Peak Hopper}{Reset~SetRequiredSkills_Sage Wisdom}{Reset~SetRequiredSkills_SelfSufficient}
+_{Reset~SetRequiredSkills_Shadow}{Reset~SetRequiredSkills_Stealthy}{Reset~SetRequiredSkills_Street Smart}
+_{Reset~SetRequiredSkills_Treefriend}{Reset~SetRequiredSkills_Treetopper}{Reset~SetRequiredSkills_Vermin Trainer}
+#
+_[DetermineSkillCount=%Class%][SetAbilityBonus][CalculateTotalSkillPoints]
+_{If~{Find~1,Education,%FeatsSkill%}!=0?|Edu=1|/|Edu=0|}
+_{If~%TestLog%=1?{Log~E:\log.txt,----- 3 ----- SkillCount=%SkillCount%, TotalSP= %TotalSkillPoints%}}
+### NEW CLASS ###
+# Familiar Updater
+_{If~{And~%ParamClass%=Sorcerer,{Param~FamiliarID,%FamiliarID%}!=None}=1?[FamiliarSkillsAdjustments=%FamiliarID%]
+_/{If~{And~%ParamClass%=Wizard,{Param~FamiliarID,%FamiliarID%}!=None}=1?[FamiliarSkillsAdjustments=%FamiliarID%]
+_/{If~{And~%ParamClass%=Adept,{Param~FamiliarID,%FamiliarID%}!=None}=1?[FamiliarSkillsAdjustments=%FamiliarID%]
+_}}}
+_
+### XXX _|Perception=0|{If~%ParamRace%!=AnimalCompanion?[PerceptionModifier=%Race%]}
+_|Perception=0|{If~{Find~1,KEENSENSES,%FeatsSkill%}>0?|Perception+2|}
+_
+_|SkillsString=|
+### NEW SKILL ### SkR+1
+_|SkR1=0||SkR2=0||SkR3=0||SkR4=0||SkR5=0||SkR6=0||SkR7=0||SkR8=0||SkR9=0||SkR10=0||SkR11=0||SkR12=0||SkR13=0||SkR14=0||SkR15=0||SkR16=0||SkR17=0||SkR18=0||SkR19=0||SkR20=0||SkR21=0||SkR22=0||SkR23=0||SkR24=0||SkR25=0||SkR26=0||SkR27=0||SkR28=0||SkR29=0||SkR30=0||SkR31=0||SkR32=0||SkR33=0||SkR34=0||SkR35=0||SkR36=0||SkR37=0||SkR38=0||SkR39=0||SkR40=0||SkR41=0|
+### NEW SKILL ### SkM+1
+_|SkM1=0||SkM2=0||SkM3=0||SkM4=0||SkM5=0||SkM6=0||SkM7=0||SkM8=0||SkM9=0||SkM10=0||SkM11=0||SkM12=0||SkM13=0||SkM14=0||SkM15=0||SkM16=0||SkM17=0||SkM18=0||SkM19=0||SkM20=0||SkM21=0||SkM22=0||SkM23=0||SkM24=0||SkM25=0||SkM26=0||SkM27=0||SkM28=0||SkM29=0||SkM30=0||SkM31=0||SkM32=0||SkM33=0||SkM34=0||SkM35=0||SkM36=0||SkM37=0||SkM38=0||SkM39=0||SkM40=0||SkM41=0|
+_|VAcr=0||VBlu=0||VCra=0||VDev=0||VDip=0||VDis=0||VFly=0||VHan=0||VHea=0||VInt=0||VSen=0||VUse=0|
+_|VApp=0||VCli=0||VEsc=0||VSte=0||VSur=0||VSwi=0|
+_
+_|SkillCount=%TotalSkillPoints%|
+_
+_{If~%TestLog%=1?{Log~E:\log.txt,XXXXX Before Length~FeatsSkill XXXXX}}
+_{If~{Length~%FeatsSkill%}>2?
+# Master Craftsman = 1=Craft 2=Profession
+_{If~{Find~1,Master Craftsman,%FeatsSkill%}!=0?|MasterCraftsman={Dice~1d2}|/|MasterCraftsman=0|}
+# Based on some feats (Dazzling Display, Mounted Combat)
+# Randomize which skill is selected first for NPCs with low INT score.
+_|ReqSkRanks=%MaxRanks%||ReqSkRanks*3||ReqSkRanks\4||ReqSkRanks>1|
+#_<hr>%FeatsSkill%<hr>
+_{If~%MasterCraftsman%>0?[SetMasterCraftsman]}
+### NEW FEATS ###
+### NEW SKILL FEATS ###
+_{Loop~53,[SetRequiredSkills]}
+### XXX TEST
+#_<hr>%FeatsSkill% - %ReqSkRanks%<hr>
+_}
+_{If~%TestLog%=1?{Log~E:\log.txt,XXXXX After Length~FeatsSkill XXXXX}}
+_
+_{IIf~%ChooseRanks%=4?|Temp=%CharacterLevel%|{IIf~%Temp%>=12?|Temp\4|:{IIf~%Temp%>=6?|Temp\3|:|Temp\2|}}{If~%Temp%<1?|Temp=1|}
+_:{IIf~%ChooseRanks%=3?|Temp=1|
+_:|Temp=%MaxRanks%|
+_}}
+# 
+# Determines the ranks
+_{If~%TestLog%=1?{Log~E:\log.txt,----- 4 ----- ExpertTypeCode=%ExpertTypeCode%; SkillCount=%SkillCount%}}
+_{While~%SkillCount%,{If~%Temp%>%SkillCount%?|Temp=%SkillCount%|}
+_{If~%TestLog%=1?{Log~E:\log.txt,%SkillCount%}}
+_[%ParamClass%Skills]
+_|SkillCount-%Temp%|
+_}
+_{If~%TestLog%=1?{Log~E:\log.txt,Final= %SkillCount%}}
+### NEW SKILL ### Chanmge all " SkillCount= "
+# SkillCount: Set " SkillCountClass "
+#    35   Standard PF Value for 35 skills.
+#    39   Bards: for more Perform types.
+#    40   Expert: 2x Craft skills.
+#    41   Expert: 2x Profession skills.
+### NEW CLASS ###
+# Set FeatsSkill modifiers (SkM = 2 or 4 (if 10+ ranks))
+_{If~%ParamClass%=Bard?|SkillCountClass=39|
+_/{If~{And~%ParamClass%=Expert,{Param~ExpertTypeCode,%ExpertTypeCode%}=Fence}=1?|SkillCountClass=41|
+_/{If~{And~%ParamClass%=Expert,{Param~ExpertTypeCode,%ExpertTypeCode%}=Blacksmith}=1?|SkillCountClass=40|
+_/{If~{And~%ParamClass%=Expert,{Param~ExpertTypeCode,%ExpertTypeCode%}=Jeweller}=1?|SkillCountClass=40|
+_/|SkillCountClass=35|
+_}}}}
+_|SkillCount=%SkillCountClass%|
+_{If~%TestLog%=1?{Log~E:\log.txt,----- 5 ----- SkillCountClass= %SkillCountClass%}}
+# Apply feats to skill value.
+_{While~%SkillCount%,
+_[FeatsSkill=%SkillCount%]
+_|SkillCount-1|
+_}
+_{If~%TestLog%=1?{Log~E:\log.txt,XXXXX After applying feats to skills XXXXX}}
+# Add Knowledge bonus for Bards (SkM +1/2 level min 1)
+_{If~%ParamClass%=Bard?[BardKnowledge]}
+_
+# +3 for a Class Skill (SkM+3)
+_|SkillCount=%SkillCountClass%|
+_{While~%SkillCount%,
+_{If~%ParamClass%=Expert?[%ParamClass%ClassSkill_%ExpertTypeCode%=%SkillCount%]
+_/{If~%ParamClass%=Commoner?[%ParamClass%ClassSkill_%CommonerTypeCode%=%SkillCount%]
+_/[%ParamClass%ClassSkill=%SkillCount%]
+_}}
+_|SkillCount-1|
+_}
+_{If~%Edu%=1?|Edu={Dice~1d2}|[SetEduBonus=%Edu%]}
+# Finalize skills by making SkillsString
+#_|STRBonus=0||DEXBonus=0||CONBonus=0||INTBonus=0||WISBonus=0||CHABonus=0|
+_|SkillCount=%SkillCountClass%|
+_|CommaFlag=0|
+_{While~%SkillCount%,
+_|Temp=[SkillValue2=%SkillCount%]|{If~%Temp%!=NONE?|SkillsString&{If~%CommaFlag%=1?;}%Temp%||CommaFlag=1|}
+_|SkillCount-1|
+_}
+_
+_{If~%TestLog%=1?{Log~E:\log.txt,XXXXX Before Reset Languages XXXXX (ParamRace=%ParamRace%  INTBonus=%INTBonus%   {If~%ExtraLanguages%>0?ExtraLanguages=%ExtraLanguages% (Linguistics Final Modifier= %SkR24%)}   LanguageString=%LanguageString% (should be 0 for AC)   WorldNeededName=%WorldNeededName%)}}
+_{Reset~Countries.Language Common %WorldNeededName%}{Reset~Countries.Language Dialect %WorldNeededName%}{Reset~Countries.Language Ancient %WorldNeededName%}
+_{Reset~Countries.Language Old Tongues %WorldNeededName%}{Reset~Countries.Language Prehistoric %WorldNeededName%}{Reset~Countries.LanguageGen}
+_{If~%ParamRace%!=AnimalCompanion?|LanguageString=[SetLanguages=%Race%]|}
+_{If~%INTBonus%>0?|ExtraLanguages+%INTBonus%|}
+_{If~%ExtraLanguages%>0?{Loop~%ExtraLanguages%,[LoopLanguage]}}
+_
+_{If~%PerceptionFlag%=0?|Perception+%WISBonus%||SkillsString&;{Bold~Perception}||SkillsString& {Bold~{If~%Perception%>=0?+}%Perception%}|}
+_
+_{If~%TestLog%=1?{Log~E:\log.txt,XXXXX Before Concentration XXXXX}}
+_|Concentration=%CharacterLevel%|
+_{If~{Find~1,Discipline,%FeatsSkill%}!=0?|Concentration+2|}
+# NEW CLASS --- Arcane
+_{If~{And~%ParamRace%=Dwarf,%Subrace%=Elder}=1?
+_   {If~%ParamClass%=Bard?|Concentration-2|
+_    /{If~%ParamClass%=Sorcerer?|Concentration-2|
+_    /{If~%ParamClass%=Wizard?|Concentration-2|
+_   }}}
+_}
+_{If~{And~%ParamRace%=Kobold,%Subrace%=Sigrun's Clan}=1?|Concentration+2|}
+_[Concentration=%Class%]
+_{If~{Or~%ParamClass%=Paladin,%ParamClass%=Ranger}=1?
+_   {If~%CharacterLevel%<4?|Concentration=0|/|Concentration-3|}
+_}
+_{If~%Concentration%!=0?|SkillsString&;{Color~Purple,Concentration {If~%Concentration%>=0?+}%Concentration%}|}
+_
+_{If~%TestLog%=1?{Log~E:\log.txt,XXXXX Before Wild Empathy XXXXX}}
+_|WildEmpathy=%CharacterLevel%||WildEmpathy+%CHABonus%|
+_{If~{Find~1,Burrow Friend,%FeatsSkill%}!=0?|WildEmpathy+2|{If~%CharacterLevel%>=10?|WildEmpathy+2|}}
+_[Wild Empathy=%Class%]
+_{If~%WildEmpathy%!=0?|SkillsString&;{Color~Purple,WildEmpathy {If~%WildEmpathy%>=0?+}%WildEmpathy%}|}
+_
+_|LanguageString={OrderAsc~";",%LanguageString%}|
+_|LanguageString={Replace~;,; ,%LanguageString%}|
+_|LanguageString={CommaReplace~1,;,%LanguageString%}|
+_
+_|SkillsString={OrderAsc~";",%SkillsString%}|
+_|SkillsString={Replace~;,; ,%SkillsString%}|
+_|SkillsString={CommaReplace~1,;,%SkillsString%}|
+_
+#_{If~%PerceptionFlag%=0?|Temp={Length~%SkillsString%}||Temp-2||TempString={Right~%Temp%,%SkillsString%}||SkillsString=%TempString%|}
+_
+# CapEachWord should be replaced with TitleCap when available.
+_%SkillsString%!%TotalSkillPoints%!{If~%FamSkillID%=0?0/+%FamSkillBonus% [SkillsList=%FamSkillID%]}!{CapEachWord~%LanguageString%}!%Profession%
+_{If~%TestLog%=1?{Log~E:\log.txt,%SkillsString%}
+_{Log~E:\log.txt,TotalSP= %TotalSkillPoints%}
+_{Log~E:\log.txt,Familiar= {If~%FamSkillID%=0?0/+%FamSkillBonus% [SkillsList=%FamSkillID%]}}
+_{Log~E:\log.txt,Languages= {CapEachWord~%LanguageString%}}
+_{Log~E:\log.txt,Profession= %Profession%}
+_}
+#_[TestTable]
+
+# -----------------------------------------------------------------------
+# To test this table, activate [TestTable] above by removing the #
+# and put a # in the beginning of the line above [TestTable]
+
+:TestTable
+1,<hr><b>Race:</b> %ParamRace%<br>
+_<b>Class:</b> %ParamClass% %CharacterLevel%<br><br>
+_<b>Familiar:</b> {Param~FamiliarID,%FamiliarID%}<br>
+_<b>Familiar Skill Bonus:</b> {If~%FamSkillID%=0?None/+%FamSkillBonus% [SkillsList=%FamSkillID%]}<br><br>
+_<b>Stats:</b> Str %STR% (%STRBonus%), Dex %DEX% (%DEXBonus%), Con %CON% (%CONBonus%), Int %INT% (%INTBonus%), Wis %WIS% (%WISBonus%), Cha %CHA% (%CHABonus%)<br><br>
+_<b>Skills: (%SkillCountAtMaxRanks% skills / %TotalSkillPoints% SP)</b> %SkillsString%<br><br>
+# CapEachWord should be replaced with TitleCap when available.
+_<b>Languages:</b> {CapEachWord~%LanguageString%}
+_<hr>
+
+:WorldNeeded
+1,{If~%WorldNeeded%=1?|WorldNeeded=[Permanent_Variables.WorldNeeded]|
+_     /{If~%WorldNeeded%=2?|WorldNeeded=[Countries.RandomWorld]|/
+_}}
+_|WorldNeededName=[Countries.WorldNeededName=%WorldNeeded%]|
+
+# -----------------------------------------------------------------------
+
+:FamiliarSkillsAdjustments
+# Bat (Fly)
+1,|FamSkillID=10||FamSkillBonus=3|
+# Cat (Stealth)
+2,|FamSkillID=32||FamSkillBonus=3|
+# Hawk (Perception (Sight) - Bright Light)
+3,|FamSkillID=25||FamSkillBonus=3|
+# Lizard (Climb)
+4,|FamSkillID=4||FamSkillBonus=3|
+# Owl (Perception (Sight) - Shadows)
+5,|FamSkillID=25||FamSkillBonus=3|
+# Rat (+2 Fortitude)
+6,|FamFortBonus=2|
+# Raven (Appraise)
+7,|FamSkillID=2||FamSkillBonus=3|
+# Viper (Bluff)
+8,|FamSkillID=3||FamSkillBonus=3|
+# Toad (+3 hp)
+9,|FamHPBonus=3|
+# Weasel (+2 Reflex)
+10,|FamReflBonus=2|
+# Monkey (Acrobatics)
+11,|FamSkillID=1||FamSkillBonus=3|
+
+# -----------------------------------------------------------------------
+
+:SetExpert_2_Standard_Skills
+1,|ExpSkString=05!!||ExpSk1=5||ExpSk2=[ExpRndSkill]||ExpSk3=[ExpRndSkill]||ExpSk4=[ExpRndSkill]||ExpSk5=[ExpRndSkill]|
+_|ExpSk6=[ExpRndSkill]||ExpSk7=[ExpRndSkill]||ExpSk8=[ExpRndSkill]||ExpSk9=[ExpRndSkill]||ExpSk10=[ExpRndSkill]|
+_{If~%TestLog%=1?{Log~E:\log.txt,YYYYYYYY %ExpSkString%}}
+
+### XXX Maybe add a way to show the selected class skills.
+;!ExpRndSkill
+1,1|ExpSkString&01!!|
+1,2|ExpSkString&02!!|
+1,3|ExpSkString&03!!|
+1,4|ExpSkString&04!!|
+1,6|ExpSkString&06!!|
+1,7|ExpSkString&07!!|
+1,8|ExpSkString&08!!|
+1,9|ExpSkString&09!!|
+1,{If~%Fly%>0?10|ExpSkString&10!!|/[ExpRndSkill]}
+1,11|ExpSkString&11!!|
+1,12|ExpSkString&12!!|
+1,13|ExpSkString&13!!|
+1,14|ExpSkString&14!!|
+1,15|ExpSkString&15!!|
+1,16|ExpSkString&16!!|
+1,17|ExpSkString&17!!|
+1,18|ExpSkString&18!!|
+1,19|ExpSkString&19!!|
+1,20|ExpSkString&20!!|
+1,21|ExpSkString&21!!|
+1,22|ExpSkString&22!!|
+1,23|ExpSkString&23!!|
+1,24|ExpSkString&24!!|
+1,25|ExpSkString&25!!|
+1,26|ExpSkString&26!!|
+1,27|ExpSkString&27!!|
+1,28|ExpSkString&28!!|
+1,29|ExpSkString&29!!|
+1,30|ExpSkString&30!!|
+1,31|ExpSkString&31!!|
+1,32|ExpSkString&32!!|
+1,33|ExpSkString&33!!|
+1,34|ExpSkString&34!!|
+1,35|ExpSkString&35!!|
+
+:SetExpert_8_Sage_Skills
+1,|ExpSk1=[ExpRndKnowledge]||ExpSk2=[ExpRndKnowledge]||ExpSk3=[ExpRndKnowledge]|
+
+;!ExpRndKnowledge
+1,14|ExpSkString&14!!|
+1,15|ExpSkString&15!!|
+1,16|ExpSkString&16!!|
+1,17|ExpSkString&17!!|
+1,18|ExpSkString&18!!|
+1,19|ExpSkString&19!!|
+1,20|ExpSkString&20!!|
+1,21|ExpSkString&21!!|
+1,22|ExpSkString&22!!|
+1,23|ExpSkString&23!!|
+
+# -----------------------------------------------------------------------
+
+# XXX Ok verified with PF XXX Erase after update
+### NEW CLASS ###
+# Sets the number of skill points (Ex: Fighter has 2+Int).
+:DetermineSkillCount
+# Fighter
+1,|SkillCount=2|
+# Barbarian
+2,|SkillCount=4|
+# Bard
+3,|SkillCount=6|
+# Cleric
+4,|SkillCount=2|
+# Druid, Monk
+5-6,|SkillCount=4|
+# Paladin
+7,|SkillCount=2|
+# Ranger
+8,|SkillCount=6|
+# Rogue
+9,|SkillCount=8|
+# Sorcerer, Wizard, Adept
+10-12,|SkillCount=2|
+# Aristocrat
+13,|SkillCount=4|
+# Commoner
+14,|SkillCount=2|
+# Expert
+15,|SkillCount=6|
+# Warrior
+16,|SkillCount=2|
+### NEW CLASS ###
+# Future classes
+17-98,
+# Animal Companion
+99,|SkillCount=2|
+
+:SetAbilityBonus
+1,|STRBonus={If~%STR%>=10?{Trunc~{Calc~(%STR%-10)/2}}/{Floor~{Calc~(%STR%-10)/2}}}|
+_|DEXBonus={If~%DEX%>=10?{Trunc~{Calc~(%DEX%-10)/2}}/{Floor~{Calc~(%DEX%-10)/2}}}|
+_|CONBonus={If~%CON%>=10?{Trunc~{Calc~(%CON%-10)/2}}/{Floor~{Calc~(%CON%-10)/2}}}|
+_|INTBonus={If~%INT%>=10?{Trunc~{Calc~(%INT%-10)/2}}/{Floor~{Calc~(%INT%-10)/2}}}|
+_|WISBonus={If~%WIS%>=10?{Trunc~{Calc~(%WIS%-10)/2}}/{Floor~{Calc~(%WIS%-10)/2}}}|
+_|CHABonus={If~%CHA%>=10?{Trunc~{Calc~(%CHA%-10)/2}}/{Floor~{Calc~(%CHA%-10)/2}}}|
+
+:CalculateTotalSkillPoints
+1,|Temp={Calc~(%SkillCount%+%INTBonus%)}|{If~%Temp%<1?|Temp=1|}
+#3E _|TotalSkillPoints={Calc~(((%SkillCount%+%INTBonus%)*4)+((%SkillCount%+%INTBonus%)*(%CharacterLevel%-1)))}|
+#3E _|TotalSkillPoints={Calc~((%Temp%*4)+(%Temp%*(%CharacterLevel%-1)))}|
+_|TotalSkillPoints={Calc~(%Temp%*%CharacterLevel%)}|
+# Humans +1 SP/level
+#3E _{If~%Race%=1?|TotalSkillPoints={Calc~(%TotalSkillPoints%+(4+(%CharacterLevel%-1)))}|} 
+_{If~{And~%ParamRace%=Half Orc,%Subrace%=Arena-Bred}=1?|TotalSkillPoints+%CharacterLevel%|
+_   /{If~%ParamRace%=Human?
+_      {If~%Subrace%=Cosmopolitain?/{If~%Subrace%=Country Folk?/{If~%Subrace%=Gutter Rat?/{If~%Subrace%=Imperious?/{If~%Subrace%=Trailblazer?/|TotalSkillPoints+%CharacterLevel%|}}}}}
+_}}
+_{If~{Find~1,Human Spirit,%FeatsSkill%}!=0?|Temp=%CharacterLevel%||Temp<4||TotalSkillPoints+%Temp%|}
+_|TotalSkillPoints+%FavClassSP%|
+_{If~{Find~1,Open Minded,%FeatsSkill%}!=0?|TotalSkillPoints+5|}
+#3E _|MaxRanks={Calc~(%CharacterLevel%+3)}|
+_|MaxRanks=%CharacterLevel%|
+#3E _|CrossClassRanks={Trunc~{Calc~(%MaxRanks% / 2)}}|
+_|CrossClassRanks=%CharacterLevel%|
+#_|SkillCountAtMaxRanks={Ceil~{Calc~(%TotalSkillPoints% / %MaxRanks%)}}|<
+# XXX SkillCountAtMaxRanks is not used anywhere.
+_|SkillCountAtMaxRanks={Ceil~{Calc~(%TotalSkillPoints% / %MaxRanks%)}}|
+
+# -----------------------------------------------------------------------
+# For each skills subtable, the name of the Class must be identical
+# to the name found in the parameters.
+# 99 = AnimalCompanion
+
+### NEW SKILL ###
+### NEW CLASS ### See " :SkillsList "
+#1,Acrobatics  4,Climb  10,Fly  25,Perception  32,Stealth  34,Swim
+#9,Escape Artist  13,Intimidate  33,Survival
+:AnimalCompanionSkills
+1,{If~%INT%<=2?[AnimalCompanionCLASS]/[AnimalCompanionALL]}
+
+;AnimalCompanionCLASS
+1,[SkillClass=1]
+1,[SkillClass=4]
+10,{If~%ACFly%=Yes?[SkillClass=10]/[AnimalCompanionCLASS]}
+1,[SkillClass=25]
+1,[SkillClass=32]
+1,[SkillClass=34]
+3,[AnimalCompanionCROSS]
+
+;AnimalCompanionCROSS
+1,[SkillCrossClass=9]
+1,[SkillCrossClass=13]
+1,[SkillCrossClass=33]
+
+;AnimalCompanionALL
+90,[AnimalCompanionCLASS]
+10,[AnimalCompanionCROSSALL]
+
+;AnimalCompanionCROSSALL
+1,[SkillCrossClass=2]
+1,[SkillCrossClass=3]
+1,[SkillCrossClass=5]
+1,[SkillCrossClass=6]
+1,[SkillCrossClass=7]
+1,[SkillCrossClass=8]
+1,[SkillCrossClass=11]
+1,[SkillCrossClass=12]
+1,{If~%Edu%=0?[SkillCrossClass=14]/[SkillClass=14]}
+1,{If~%Edu%=0?[SkillCrossClass=15]/[SkillClass=15]}
+1,{If~%Edu%=0?[SkillCrossClass=16]/[SkillClass=16]}
+1,{If~%Edu%=0?[SkillCrossClass=17]/[SkillClass=17]}
+1,{If~%Edu%=0?[SkillCrossClass=18]/[SkillClass=18]}
+1,{If~%Edu%=0?[SkillCrossClass=19]/[SkillClass=19]}
+1,{If~%Edu%=0?[SkillCrossClass=20]/[SkillClass=20]}
+1,{If~%Edu%=0?[SkillCrossClass=21]/[SkillClass=21]}
+1,{If~%Edu%=0?[SkillCrossClass=22]/[SkillClass=22]}
+1,{If~%Edu%=0?[SkillCrossClass=23]/[SkillClass=23]}
+1,[SkillCrossClass=24]
+1,[SkillCrossClass=26]
+1,[SkillCrossClass=27]
+1,[SkillCrossClass=28]
+1,[SkillCrossClass=29]
+1,[SkillCrossClass=30]
+1,[SkillCrossClass=31]
+1,[SkillCrossClass=33]
+1,[SkillCrossClass=35]
+
+;AdeptSkills
+90,[AdeptSkillsCLASS]
+10,[AdeptSkillsCROSS]
+
+;AdeptSkillsCLASS
+1,[SkillClass=5]
+1,[SkillClass=11]
+1,[SkillClass=12]
+1,[SkillClass=14]
+1,[SkillClass=15]
+1,[SkillClass=16]
+1,[SkillClass=17]
+1,[SkillClass=18]
+1,[SkillClass=19]
+1,[SkillClass=20]
+1,[SkillClass=21]
+1,[SkillClass=22]
+1,[SkillClass=23]
+1,[SkillClass=27]
+1,[SkillClass=31]
+1,[SkillClass=33]
+1,{If~%ParamRace%=Kobold?[SkillClass=5]/[%ParamClass%SkillsCLASS]}
+1,{If~%ParamRace%=Kobold?[SkillClass=32]/[%ParamClass%SkillsCLASS]}
+1,{If~{And~%ParamRace%=Halfling,%Subrace%=Nomadic}=1?[SkillClass=24]/[%ParamClass%SkillsCLASS]}
+1,{If~{And~%ParamRace%=Halfling,%Subrace%=Slave Born}=1?[SkillClass=26]/[%ParamClass%SkillsCLASS]}
+
+;AdeptSkillsCROSS
+1,[SkillCrossClass=1]
+1,[SkillCrossClass=2]
+1,[SkillCrossClass=3]
+1,[SkillCrossClass=4]
+1,[SkillCrossClass=6]
+1,[SkillCrossClass=7]
+1,[SkillCrossClass=8]
+1,[SkillCrossClass=9]
+1,{If~%Fly%>0?[SkillCrossClass=10]/[AdeptSkillsCROSS]}
+1,[SkillCrossClass=13]
+1,[SkillCrossClass=24]
+1,[SkillCrossClass=25]
+1,[SkillCrossClass=26]
+1,[SkillCrossClass=28]
+1,[SkillCrossClass=29]
+1,[SkillCrossClass=30]
+1,[SkillCrossClass=32]
+1,[SkillCrossClass=34]
+1,[SkillCrossClass=35]
+
+;AristocratSkills
+90,[AristocratSkillsCLASS]
+10,[AristocratSkillsCROSS]
+
+;AristocratSkillsCLASS
+1,[SkillClass=3]
+1,[SkillClass=5]
+1,[SkillClass=6]
+1,[SkillClass=8]
+1,[SkillClass=11]
+1,[SkillClass=13]
+1,[SkillClass=14]
+1,[SkillClass=15]
+1,[SkillClass=16]
+1,[SkillClass=17]
+1,[SkillClass=18]
+1,[SkillClass=19]
+1,[SkillClass=20]
+1,[SkillClass=21]
+1,[SkillClass=22]
+1,[SkillClass=23]
+1,[SkillClass=24]
+1,[SkillClass=25]
+1,[SkillClass=26]
+1,[SkillClass=27]
+1,[SkillClass=28]
+1,[SkillClass=29]
+1,[SkillClass=33]
+1,[SkillClass=34]
+1,{If~%ParamRace%=Kobold?[SkillClass=5]/[%ParamClass%SkillsCLASS]}
+1,{If~%ParamRace%=Kobold?[SkillClass=32]/[%ParamClass%SkillsCLASS]}
+
+;AristocratSkillsCROSS
+1,[SkillCrossClass=1]
+1,[SkillCrossClass=2]
+1,[SkillCrossClass=4]
+1,[SkillCrossClass=7]
+1,[SkillCrossClass=9]
+1,{If~%Fly%>0?[SkillCrossClass=10]/[AristocratSkillsCROSS]}
+1,[SkillCrossClass=12]
+1,[SkillCrossClass=30]
+1,[SkillCrossClass=31]
+1,[SkillCrossClass=32]
+1,[SkillCrossClass=35]
+
+;BarbarianSkills
+90,[BarbarianSkillsCLASS]
+10,[BarbarianSkillsCROSS]
+
+;BarbarianSkillsCLASS
+5,[SkillClass=1]
+5,[SkillClass=4]
+1,[SkillClass=5]
+5,[SkillClass=11]
+5,[SkillClass=13]
+5,[SkillClass=20]
+5,[SkillClass=25]
+5,[SkillClass=28]
+10,[SkillClass=33]
+5,[SkillClass=34]
+1,{If~%ParamRace%=Kobold?[SkillClass=5]/[%ParamClass%SkillsCLASS]}
+5,{If~%ParamRace%=Kobold?[SkillClass=32]/[%ParamClass%SkillsCLASS]}
+5,{If~{And~%ParamRace%=Halfling,%Subrace%=Nomadic}=1?[SkillClass=24]/[%ParamClass%SkillsCLASS]}
+1,{If~{And~%ParamRace%=Halfling,%Subrace%=Slave Born}=1?[SkillClass=26]/[%ParamClass%SkillsCLASS]}
+
+;BarbarianSkillsCROSS
+1,[SkillCrossClass=2]
+1,[SkillCrossClass=3]
+1,[SkillCrossClass=6]
+1,[SkillCrossClass=7]
+1,[SkillCrossClass=8]
+1,[SkillCrossClass=9]
+1,{If~%Fly%>0?[SkillCrossClass=10]/[BarbarianSkillsCROSS]}
+1,[SkillCrossClass=12]
+1,{If~%Edu%=0?[SkillCrossClass=14]/[SkillClass=14]}
+1,{If~%Edu%=0?[SkillCrossClass=15]/[SkillClass=15]}
+1,{If~%Edu%=0?[SkillCrossClass=16]/[SkillClass=16]}
+1,{If~%Edu%=0?[SkillCrossClass=17]/[SkillClass=17]}
+1,{If~%Edu%=0?[SkillCrossClass=18]/[SkillClass=18]}
+1,{If~%Edu%=0?[SkillCrossClass=19]/[SkillClass=19]}
+1,{If~%Edu%=0?[SkillCrossClass=21]/[SkillClass=21]}
+1,{If~%Edu%=0?[SkillCrossClass=22]/[SkillClass=22]}
+1,{If~%Edu%=0?[SkillCrossClass=23]/[SkillClass=23]}
+1,[SkillCrossClass=24]
+1,[SkillCrossClass=26]
+1,[SkillCrossClass=27]
+1,[SkillCrossClass=29]
+1,[SkillCrossClass=30]
+1,[SkillCrossClass=31]
+1,[SkillCrossClass=32]
+1,[SkillCrossClass=35]
+
+;BardSkills
+98,[BardSkillsCLASS]
+2,[BardSkillsCROSS]
+
+;BardSkillsCLASS
+1000,[SkillClass=26]
+800,{If~%CharacterLevel%>=6?[SkillClass=36]/[BardSkills]}
+600,{If~%CharacterLevel%>=10?[SkillClass=37]/[BardSkills]}
+400,{If~%CharacterLevel%>=14?[SkillClass=38]/[BardSkills]}
+200,{If~%CharacterLevel%>=16?[SkillClass=39]/[BardSkills]}
+5,{If~%VAcr%=0?[SkillClass=1]/[BardSkills]}
+5,{If~%VApp%=0?[SkillClass=2]/[BardSkills]}
+5,{If~%VBlu%=0?[SkillClass=3]/[BardSkills]}
+5,{If~%VCli%=0?[SkillClass=4]/[BardSkills]}
+1,{If~%VCra%=0?[SkillClass=5]/[BardSkills]}
+5,{If~%VDip%=0?[SkillClass=6]/[BardSkills]}
+5,{If~%VDis%=0?[SkillClass=8]/[BardSkills]}
+5,{If~%VEsc%=0?[SkillClass=9]/[BardSkills]}
+5,{If~%VInt%=0?[SkillClass=13]/[BardSkills]}
+5,[SkillClass=14]
+5,[SkillClass=15]
+5,[SkillClass=16]
+5,[SkillClass=17]
+5,[SkillClass=18]
+5,[SkillClass=19]
+5,[SkillClass=20]
+5,[SkillClass=21]
+5,[SkillClass=22]
+5,[SkillClass=23]
+5,[SkillClass=24]
+5,[SkillClass=25]
+1,[SkillClass=27]
+5,{If~%VSen%=0?[SkillClass=29]/[BardSkills]}
+5,[SkillClass=30]
+5,[SkillClass=31]
+5,{If~%VSte%=0?[SkillClass=32]/[BardSkills]}
+5,{If~%VUse%=0?[SkillClass=35]/[BardSkills]}
+5,{If~%ParamRace%=Kobold?[SkillClass=5]/[%ParamClass%SkillsCLASS]}
+5,{If~%ParamRace%=Kobold?[SkillClass=32]/[%ParamClass%SkillsCLASS]}
+
+;BardSkillsCROSS
+1,{If~%VDev%=0?[SkillCrossClass=7]/[BardSkills]}
+1,{If~{Or~%VFly%=0,%Fly%>0}=1?[SkillCrossClass=10]/[BardSkills]}
+1,{If~%VHan%=0?[SkillCrossClass=11]/[BardSkills]}
+1,{If~%VHea%=0?[SkillCrossClass=12]/[BardSkills]}
+1,[SkillCrossClass=28]
+1,{If~%VSur%=0?[SkillCrossClass=33]/[BardSkills]}
+1,{If~%VSwi%=0?[SkillCrossClass=34]/[BardSkills]}
+
+;ClericSkills
+80,[ClericSkillsCLASS]
+20,[ClericSkillsCROSS]
+
+;ClericSkillsCLASS
+5,[SkillClass=2]
+1,[SkillClass=5]
+5,[SkillClass=6]
+10,[SkillClass=12]
+5,[SkillClass=14]
+5,[SkillClass=18]
+5,[SkillClass=21]
+5,[SkillClass=22]
+50,[SkillClass=23]
+5,[SkillClass=24]
+1,[SkillClass=27]
+5,[SkillClass=29]
+5,[SkillClass=31]
+1,{If~%ParamRace%=Kobold?[SkillClass=5]/[%ParamClass%SkillsCLASS]}
+5,{If~%ParamRace%=Kobold?[SkillClass=32]/[%ParamClass%SkillsCLASS]}
+1,{If~{And~%ParamRace%=Halfling,%Subrace%=Slave Born}=1?[SkillClass=26]/[%ParamClass%SkillsCLASS]}
+
+;ClericSkillsCROSS
+1,[SkillCrossClass=1]
+1,[SkillCrossClass=3]
+1,[SkillCrossClass=4]
+1,[SkillCrossClass=7]
+1,[SkillCrossClass=8]
+1,[SkillCrossClass=9]
+1,{If~%Fly%>0?[SkillCrossClass=10]/[ClericSkillsCROSS]}
+1,[SkillCrossClass=11]
+1,[SkillCrossClass=13]
+1,{If~%Edu%=0?[SkillCrossClass=15]/[SkillClass=15]}
+1,{If~%Edu%=0?[SkillCrossClass=16]/[SkillClass=16]}
+1,{If~%Edu%=0?[SkillCrossClass=17]/[SkillClass=17]}
+1,{If~%Edu%=0?[SkillCrossClass=19]/[SkillClass=19]}
+1,{If~%Edu%=0?[SkillCrossClass=20]/[SkillClass=20]}
+1,[SkillCrossClass=25]
+1,[SkillCrossClass=26]
+1,[SkillCrossClass=28]
+1,[SkillCrossClass=30]
+1,[SkillCrossClass=32]
+1,[SkillCrossClass=33]
+1,[SkillCrossClass=34]
+1,[SkillCrossClass=35]
+
+### NEW CLASS ### New commoner type
+### 1=Random   2=Standard   3=Beggar   4-Prostitute
+;CommonerSkills
+90,[CommonerSkillsCLASS_%CommonerTypeCode%]
+10,[CommonerSkillsCROSS_%CommonerTypeCode%]
+
+# Standard
+;CommonerSkillsCLASS_2
+1,[SkillClass=4]
+1,[SkillClass=5]
+1,[SkillClass=11]
+1,[SkillClass=25]
+1,[SkillClass=27]
+1,[SkillClass=28]
+1,[SkillClass=34]
+1,{If~%ParamRace%=Kobold?[SkillClass=5]/[%ParamClass%SkillsCLASS_2]}
+1,{If~%ParamRace%=Kobold?[SkillClass=32]/[%ParamClass%SkillsCLASS_2]}
+1,{If~{And~%ParamRace%=Halfling,%Subrace%=Nomadic}=1?[SkillClass=24]/[%ParamClass%SkillsCLASS_2]}
+1,{If~{And~%ParamRace%=Halfling,%Subrace%=Slave Born}=1?[SkillClass=26]/[%ParamClass%SkillsCLASS_2]}
+
+;CommonerSkillsCROSS_2
+1,[SkillCrossClass=1]
+1,[SkillCrossClass=2]
+1,[SkillCrossClass=3]
+1,[SkillCrossClass=6]
+1,[SkillCrossClass=7]
+1,[SkillCrossClass=8]
+1,[SkillCrossClass=9]
+1,{If~%Fly%>0?[SkillCrossClass=10]/[CommonerSkillsCROSS_2]}
+1,[SkillCrossClass=12]
+1,[SkillCrossClass=13]
+1,{If~%Edu%=0?[SkillCrossClass=14]/[SkillClass=14]}
+1,{If~%Edu%=0?[SkillCrossClass=15]/[SkillClass=15]}
+1,{If~%Edu%=0?[SkillCrossClass=16]/[SkillClass=16]}
+1,{If~%Edu%=0?[SkillCrossClass=17]/[SkillClass=17]}
+1,{If~%Edu%=0?[SkillCrossClass=18]/[SkillClass=18]}
+1,{If~%Edu%=0?[SkillCrossClass=19]/[SkillClass=19]}
+1,{If~%Edu%=0?[SkillCrossClass=20]/[SkillClass=20]}
+1,{If~%Edu%=0?[SkillCrossClass=21]/[SkillClass=21]}
+1,{If~%Edu%=0?[SkillCrossClass=22]/[SkillClass=22]}
+1,{If~%Edu%=0?[SkillCrossClass=23]/[SkillClass=23]}
+1,[SkillCrossClass=24]
+1,[SkillCrossClass=26]
+1,[SkillCrossClass=29]
+1,[SkillCrossClass=30]
+1,[SkillCrossClass=31]
+1,[SkillCrossClass=32]
+1,[SkillCrossClass=33]
+1,[SkillCrossClass=35]
+
+# Beggar
+;CommonerSkillsCLASS_3
+5,[SkillClass=8]
+5,[SkillClass=19]
+5,[SkillClass=25]
+1,[SkillClass=26]
+5,[SkillClass=27]
+5,[SkillClass=29]
+5,[SkillClass=32]
+1,{If~%ParamRace%=Kobold?[SkillClass=5]/[%ParamClass%SkillsCLASS_3]}
+1,{If~{And~%ParamRace%=Halfling,%Subrace%=Nomadic}=1?[SkillClass=24]/[%ParamClass%SkillsCLASS_3]}
+
+;CommonerSkillsCROSS_3
+1,[SkillCrossClass=1]
+1,[SkillCrossClass=2]
+1,[SkillCrossClass=3]
+1,[SkillCrossClass=4]
+1,[SkillCrossClass=5]
+1,[SkillCrossClass=6]
+1,[SkillCrossClass=7]
+1,[SkillCrossClass=9]
+1,{If~%Fly%>0?[SkillCrossClass=10]/[CommonerSkillsCROSS_3]}
+1,[SkillCrossClass=11]
+1,[SkillCrossClass=12]
+1,[SkillCrossClass=13]
+1,{If~%Edu%=0?[SkillCrossClass=14]/[SkillClass=14]}
+1,{If~%Edu%=0?[SkillCrossClass=15]/[SkillClass=15]}
+1,{If~%Edu%=0?[SkillCrossClass=16]/[SkillClass=16]}
+1,{If~%Edu%=0?[SkillCrossClass=17]/[SkillClass=17]}
+1,{If~%Edu%=0?[SkillCrossClass=18]/[SkillClass=18]}
+1,{If~%Edu%=0?[SkillCrossClass=20]/[SkillClass=20]}
+1,{If~%Edu%=0?[SkillCrossClass=21]/[SkillClass=21]}
+1,{If~%Edu%=0?[SkillCrossClass=22]/[SkillClass=22]}
+1,{If~%Edu%=0?[SkillCrossClass=23]/[SkillClass=23]}
+1,[SkillCrossClass=24]
+1,[SkillCrossClass=28]
+1,[SkillCrossClass=30]
+1,[SkillCrossClass=31]
+1,[SkillCrossClass=33]
+1,[SkillCrossClass=34]
+1,[SkillCrossClass=35]
+
+# Prostitute
+;CommonerSkillsCLASS_4
+1,[SkillClass=3]
+1,[SkillClass=6]
+1,[SkillClass=8]
+1,[SkillClass=19]
+1,[SkillClass=25]
+1,[SkillClass=27]
+1,[SkillClass=30]
+1,[SkillClass=32]
+1,{If~%ParamRace%=Kobold?[SkillClass=5]/[%ParamClass%SkillsCLASS_4]}
+1,{If~{And~%ParamRace%=Halfling,%Subrace%=Nomadic}=1?[SkillClass=24]/[%ParamClass%SkillsCLASS_4]}
+1,{If~{And~%ParamRace%=Halfling,%Subrace%=Slave Born}=1?[SkillClass=26]/[%ParamClass%SkillsCLASS_4]}
+
+;CommonerSkillsCROSS_4
+1,[SkillCrossClass=1]
+1,[SkillCrossClass=2]
+1,[SkillCrossClass=4]
+1,[SkillCrossClass=5]
+1,[SkillCrossClass=7]
+1,[SkillCrossClass=9]
+1,{If~%Fly%>0?[SkillCrossClass=10]/[CommonerSkillsCROSS_4]}
+1,[SkillCrossClass=11]
+1,[SkillCrossClass=12]
+1,[SkillCrossClass=13]
+1,{If~%Edu%=0?[SkillCrossClass=14]/[SkillClass=14]}
+1,{If~%Edu%=0?[SkillCrossClass=15]/[SkillClass=15]}
+1,{If~%Edu%=0?[SkillCrossClass=16]/[SkillClass=16]}
+1,{If~%Edu%=0?[SkillCrossClass=17]/[SkillClass=17]}
+1,{If~%Edu%=0?[SkillCrossClass=18]/[SkillClass=18]}
+1,{If~%Edu%=0?[SkillCrossClass=20]/[SkillClass=20]}
+1,{If~%Edu%=0?[SkillCrossClass=21]/[SkillClass=21]}
+1,{If~%Edu%=0?[SkillCrossClass=22]/[SkillClass=22]}
+1,{If~%Edu%=0?[SkillCrossClass=23]/[SkillClass=23]}
+1,[SkillCrossClass=24]
+1,[SkillCrossClass=26]
+1,[SkillCrossClass=28]
+1,[SkillCrossClass=29]
+1,[SkillCrossClass=31]
+1,[SkillCrossClass=33]
+1,[SkillCrossClass=34]
+1,[SkillCrossClass=35]
+
+;DruidSkills
+80,[DruidSkillsCLASS]
+20,[DruidSkillsCROSS]
+
+;DruidSkillsCLASS
+5,[SkillClass=4]
+1,[SkillClass=5]
+10,{If~{Or~%Fly%>0,%CharacterLevel%>=4}=1?[SkillClass=10]/[DruidSkillsCLASS]}
+10,[SkillClass=11]
+5,[SkillClass=12]
+5,[SkillClass=17]
+20,[SkillClass=20]
+5,[SkillClass=25]
+1,[SkillClass=27]
+5,[SkillClass=28]
+5,[SkillClass=31]
+20,[SkillClass=33]
+5,[SkillClass=34]
+5,{If~%ParamRace%=Kobold?[SkillClass=5]/[%ParamClass%SkillsCLASS]}
+5,{If~%ParamRace%=Kobold?[SkillClass=32]/[%ParamClass%SkillsCLASS]}
+5,{If~{And~%ParamRace%=Halfling,%Subrace%=Nomadic}=1?[SkillClass=24]/[%ParamClass%SkillsCLASS]}
+1,{If~{And~%ParamRace%=Halfling,%Subrace%=Slave Born}=1?[SkillClass=26]/[%ParamClass%SkillsCLASS]}
+
+;DruidSkillsCROSS
+1,[SkillCrossClass=1]
+1,[SkillCrossClass=2]
+1,[SkillCrossClass=3]
+1,[SkillCrossClass=6]
+1,[SkillCrossClass=7]
+1,[SkillCrossClass=8]
+1,[SkillCrossClass=9]
+1,[SkillCrossClass=13]
+1,{If~%Edu%=0?[SkillCrossClass=14]/[SkillClass=14]}
+1,{If~%Edu%=0?[SkillCrossClass=15]/[SkillClass=15]}
+1,{If~%Edu%=0?[SkillCrossClass=16]/[SkillClass=16]}
+1,{If~%Edu%=0?[SkillCrossClass=18]/[SkillClass=18]}
+1,{If~%Edu%=0?[SkillCrossClass=19]/[SkillClass=19]}
+1,{If~%Edu%=0?[SkillCrossClass=21]/[SkillClass=21]}
+1,{If~%Edu%=0?[SkillCrossClass=22]/[SkillClass=22]}
+1,{If~%Edu%=0?[SkillCrossClass=23]/[SkillClass=23]}
+1,[SkillCrossClass=24]
+1,[SkillCrossClass=26]
+1,[SkillCrossClass=29]
+1,[SkillCrossClass=30]
+1,[SkillCrossClass=32]
+1,[SkillCrossClass=35]
+
+;ExpertSkills
+90,[ExpertSkillsCLASS_%ExpertTypeCode%]
+### XXX_{If~%TestLog%=1?{Log~E:\log.txt,Exp CLASS}}
+10,[ExpertSkillsCROSS_%ExpertTypeCode%]
+### XXX_{If~%TestLog%=1?{Log~E:\log.txt,Exp CROSS}}
+
+# When entering a new Expert, look for " ExpertTypeCode " (for Craft, Profession and Perform)
+# ExpertTypeCode
+#  2= Standard      3= Blacksmith    4= Courtesan     5= Fence
+#  6= Jeweller      7= Pawnbroker    8= Sage_Scholar  9=Locksmith 
+# 10=Merchant
+
+# Standard
+;ExpertSkillsCLASS_2
+1,{If~{Find~1,01!!,%ExpSkString%}>=1?[SkillClass=1]/[ExpertSkillsCLASS_2]}
+1,{If~{Find~1,02!!,%ExpSkString%}>=1?[SkillClass=2]/[ExpertSkillsCLASS_2]}
+1,{If~{Find~1,03!!,%ExpSkString%}>=1?[SkillClass=3]/[ExpertSkillsCLASS_2]}
+1,{If~{Find~1,04!!,%ExpSkString%}>=1?[SkillClass=4]/[ExpertSkillsCLASS_2]}
+1,{If~{Or~{Find~1,05!!,%ExpSkString%}>=1,%ParamRace%=Kobold}=1?[SkillClass=5]/[ExpertSkillsCLASS_2]}
+1,{If~{Find~1,06!!,%ExpSkString%}>=1?[SkillClass=6]/[ExpertSkillsCLASS_2]}
+1,{If~{Find~1,07!!,%ExpSkString%}>=1?[SkillClass=7]/[ExpertSkillsCLASS_2]}
+1,{If~{Find~1,08!!,%ExpSkString%}>=1?[SkillClass=8]/[ExpertSkillsCLASS_2]}
+1,{If~{Find~1,09!!,%ExpSkString%}>=1?[SkillClass=9]/[ExpertSkillsCLASS_2]}
+1,{If~{Find~1,10!!,%ExpSkString%}>=1?[SkillClass=10]/[ExpertSkillsCLASS_2]}
+1,{If~{Find~1,11!!,%ExpSkString%}>=1?[SkillClass=11]/[ExpertSkillsCLASS_2]}
+1,{If~{Find~1,12!!,%ExpSkString%}>=1?[SkillClass=12]/[ExpertSkillsCLASS_2]}
+1,{If~{Find~1,13!!,%ExpSkString%}>=1?[SkillClass=13]/[ExpertSkillsCLASS_2]}
+1,{If~{Or~%Edu%=1,{Find~1,14!!,%ExpSkString%}>=1}=1?[SkillClass=14]/[ExpertSkillsCLASS_2]}
+1,{If~{Or~%Edu%=1,{Find~1,15!!,%ExpSkString%}>=1}=1?[SkillClass=15]/[ExpertSkillsCLASS_2]}
+1,{If~{Or~%Edu%=1,{Find~1,16!!,%ExpSkString%}>=1}=1?[SkillClass=16]/[ExpertSkillsCLASS_2]}
+1,{If~{Or~%Edu%=1,{Find~1,17!!,%ExpSkString%}>=1}=1?[SkillClass=17]/[ExpertSkillsCLASS_2]}
+1,{If~{Or~%Edu%=1,{Find~1,18!!,%ExpSkString%}>=1}=1?[SkillClass=18]/[ExpertSkillsCLASS_2]}
+1,{If~{Or~%Edu%=1,{Find~1,19!!,%ExpSkString%}>=1}=1?[SkillClass=19]/[ExpertSkillsCLASS_2]}
+1,{If~{Or~%Edu%=1,{Find~1,20!!,%ExpSkString%}>=1}=1?[SkillClass=20]/[ExpertSkillsCLASS_2]}
+1,{If~{Or~%Edu%=1,{Find~1,21!!,%ExpSkString%}>=1}=1?[SkillClass=21]/[ExpertSkillsCLASS_2]}
+1,{If~{Or~%Edu%=1,{Find~1,22!!,%ExpSkString%}>=1}=1?[SkillClass=22]/[ExpertSkillsCLASS_2]}
+1,{If~{Or~%Edu%=1,{Find~1,23!!,%ExpSkString%}>=1}=1?[SkillClass=23]/[ExpertSkillsCLASS_2]}
+1,{If~{Or~{Find~1,24!!,%ExpSkString%}>=1,{And~%ParamRace%=Halfling,%Subrace%=Nomadic}=1}=1?[SkillClass=24]/[ExpertSkillsCLASS_2]}
+1,{If~{Find~1,25!!,%ExpSkString%}>=1?[SkillClass=25]/[ExpertSkillsCLASS_2]}
+1,{If~{Or~{Find~1,26!!,%ExpSkString%}>=1,{And~%ParamRace%=Halfling,%Subrace%=Slave Born}=1}=1?[SkillClass=26]/[ExpertSkillsCLASS_2]}
+1,{If~{Find~1,27!!,%ExpSkString%}>=1?[SkillClass=27]/[ExpertSkillsCLASS_2]}
+1,{If~{Find~1,28!!,%ExpSkString%}>=1?[SkillClass=28]/[ExpertSkillsCLASS_2]}
+1,{If~{Find~1,29!!,%ExpSkString%}>=1?[SkillClass=29]/[ExpertSkillsCLASS_2]}
+1,{If~{Find~1,30!!,%ExpSkString%}>=1?[SkillClass=30]/[ExpertSkillsCLASS_2]}
+1,{If~{Find~1,31!!,%ExpSkString%}>=1?[SkillClass=31]/[ExpertSkillsCLASS_2]}
+1,{If~{Or~{Find~1,32!!,%ExpSkString%}>=1,%ParamRace%=Kobold}=1?[SkillClass=32]/[ExpertSkillsCLASS_2]}
+1,{If~{Find~1,33!!,%ExpSkString%}>=1?[SkillClass=33]/[ExpertSkillsCLASS_2]}
+1,{If~{Find~1,34!!,%ExpSkString%}>=1?[SkillClass=34]/[ExpertSkillsCLASS_2]}
+1,{If~{Find~1,35!!,%ExpSkString%}>=1?[SkillClass=35]/[ExpertSkillsCLASS_2]}
+
+;ExpertSkillsCROSS_2
+1,{If~{Find~1,01!!,%ExpSkString%}=0?[SkillCrossClass=1]/[ExpertSkillsCROSS_2]}
+1,{If~{Find~1,02!!,%ExpSkString%}=0?[SkillCrossClass=2]/[ExpertSkillsCROSS_2]}
+1,{If~{Find~1,03!!,%ExpSkString%}=0?[SkillCrossClass=3]/[ExpertSkillsCROSS_2]}
+1,{If~{Find~1,04!!,%ExpSkString%}=0?[SkillCrossClass=4]/[ExpertSkillsCROSS_2]}
+1,{If~{Find~1,05!!,%ExpSkString%}=0?[SkillCrossClass=5]/[ExpertSkillsCROSS_2]}
+1,{If~{Find~1,06!!,%ExpSkString%}=0?[SkillCrossClass=6]/[ExpertSkillsCROSS_2]}
+1,{If~{Find~1,07!!,%ExpSkString%}=0?[SkillCrossClass=7]/[ExpertSkillsCROSS_2]}
+1,{If~{Find~1,08!!,%ExpSkString%}=0?[SkillCrossClass=8]/[ExpertSkillsCROSS_2]}
+1,{If~{Find~1,09!!,%ExpSkString%}=0?[SkillCrossClass=9]/[ExpertSkillsCROSS_2]}
+1,{If~{And~{Find~1,10!!,%ExpSkString%}=0,%Fly%>0}=1?[SkillCrossClass=10]/[ExpertSkillsCROSS_2]}
+1,{If~{Find~1,11!!,%ExpSkString%}=0?[SkillCrossClass=11]/[ExpertSkillsCROSS_2]}
+1,{If~{Find~1,12!!,%ExpSkString%}=0?[SkillCrossClass=12]/[ExpertSkillsCROSS_2]}
+1,{If~{Find~1,13!!,%ExpSkString%}=0?[SkillCrossClass=13]/[ExpertSkillsCROSS_2]}
+1,{If~{And~%Edu%=0,{Find~1,14!!,%ExpSkString%}=0}=1?[SkillCrossClass=14]/[ExpertSkillsCROSS_2]}
+1,{If~{And~%Edu%=0,{Find~1,15!!,%ExpSkString%}=0}=1?[SkillCrossClass=15]/[ExpertSkillsCROSS_2]}
+1,{If~{And~%Edu%=0,{Find~1,16!!,%ExpSkString%}=0}=1?[SkillCrossClass=16]/[ExpertSkillsCROSS_2]}
+1,{If~{And~%Edu%=0,{Find~1,17!!,%ExpSkString%}=0}=1?[SkillCrossClass=17]/[ExpertSkillsCROSS_2]}
+1,{If~{And~%Edu%=0,{Find~1,18!!,%ExpSkString%}=0}=1?[SkillCrossClass=18]/[ExpertSkillsCROSS_2]}
+1,{If~{And~%Edu%=0,{Find~1,19!!,%ExpSkString%}=0}=1?[SkillCrossClass=19]/[ExpertSkillsCROSS_2]}
+1,{If~{And~%Edu%=0,{Find~1,20!!,%ExpSkString%}=0}=1?[SkillCrossClass=20]/[ExpertSkillsCROSS_2]}
+1,{If~{And~%Edu%=0,{Find~1,21!!,%ExpSkString%}=0}=1?[SkillCrossClass=21]/[ExpertSkillsCROSS_2]}
+1,{If~{And~%Edu%=0,{Find~1,22!!,%ExpSkString%}=0}=1?[SkillCrossClass=22]/[ExpertSkillsCROSS_2]}
+1,{If~{And~%Edu%=0,{Find~1,23!!,%ExpSkString%}=0}=1?[SkillCrossClass=23]/[ExpertSkillsCROSS_2]}
+1,{If~{Find~1,24!!,%ExpSkString%}=0?[SkillCrossClass=24]/[ExpertSkillsCROSS_2]}
+1,{If~{Find~1,25!!,%ExpSkString%}=0?[SkillCrossClass=25]/[ExpertSkillsCROSS_2]}
+1,{If~{Find~1,26!!,%ExpSkString%}=0?[SkillCrossClass=26]/[ExpertSkillsCROSS_2]}
+1,{If~{Find~1,27!!,%ExpSkString%}=0?[SkillCrossClass=27]/[ExpertSkillsCROSS_2]}
+1,{If~{Find~1,28!!,%ExpSkString%}=0?[SkillCrossClass=28]/[ExpertSkillsCROSS_2]}
+1,{If~{Find~1,29!!,%ExpSkString%}=0?[SkillCrossClass=29]/[ExpertSkillsCROSS_2]}
+1,{If~{Find~1,30!!,%ExpSkString%}=0?[SkillCrossClass=30]/[ExpertSkillsCROSS_2]}
+1,{If~{Find~1,31!!,%ExpSkString%}=0?[SkillCrossClass=31]/[ExpertSkillsCROSS_2]}
+1,{If~{Find~1,32!!,%ExpSkString%}=0?[SkillCrossClass=32]/[ExpertSkillsCROSS_2]}
+1,{If~{Find~1,33!!,%ExpSkString%}=0?[SkillCrossClass=33]/[ExpertSkillsCROSS_2]}
+1,{If~{Find~1,34!!,%ExpSkString%}=0?[SkillCrossClass=34]/[ExpertSkillsCROSS_2]}
+1,{If~{Find~1,35!!,%ExpSkString%}=0?[SkillCrossClass=35]/[ExpertSkillsCROSS_2]}
+
+# Blacksmith (UltNPC1)
+;ExpertSkillsCLASS_3
+1,[SkillClass=1]
+1,[SkillClass=2]
+1,[SkillClass=3]
+1,[SkillClass=4]
+100,[SkillClass=5]
+1,[SkillClass=11]
+1,[SkillClass=13]
+1,[SkillClass=16]
+1,[SkillClass=28]
+1,[SkillClass=40]
+5,{If~%ParamRace%=Kobold?[SkillClass=32]/[%ParamClass%SkillsCLASS_3]}
+1,{If~{And~%ParamRace%=Halfling,%Subrace%=Nomadic}=1?[SkillClass=24]/[%ParamClass%SkillsCLASS_3]}
+1,{If~{And~%ParamRace%=Halfling,%Subrace%=Slave Born}=1?[SkillClass=26]/[%ParamClass%SkillsCLASS_3]}
+
+;ExpertSkillsCROSS_3
+1,[SkillCrossClass=6]
+1,[SkillCrossClass=7]
+1,[SkillCrossClass=8]
+1,[SkillCrossClass=9]
+1,{If~%Fly%>0?[SkillCrossClass=10]/[ExpertSkillsCROSS_3]}
+1,[SkillCrossClass=12]
+1,{If~%Edu%=0?[SkillCrossClass=14]/[SkillClass=14]}
+1,{If~%Edu%=0?[SkillCrossClass=15]/[SkillClass=15]}
+1,{If~%Edu%=0?[SkillCrossClass=17]/[SkillClass=17]}
+1,{If~%Edu%=0?[SkillCrossClass=18]/[SkillClass=18]}
+1,{If~%Edu%=0?[SkillCrossClass=19]/[SkillClass=19]}
+1,{If~%Edu%=0?[SkillCrossClass=20]/[SkillClass=20]}
+1,{If~%Edu%=0?[SkillCrossClass=21]/[SkillClass=21]}
+1,{If~%Edu%=0?[SkillCrossClass=22]/[SkillClass=22]}
+1,{If~%Edu%=0?[SkillCrossClass=23]/[SkillClass=23]}
+1,[SkillCrossClass=24]
+1,[SkillCrossClass=25]
+1,[SkillCrossClass=26]
+1,[SkillCrossClass=27]
+1,[SkillCrossClass=29]
+1,[SkillCrossClass=30]
+1,[SkillCrossClass=31]
+1,[SkillCrossClass=32]
+1,[SkillCrossClass=34]
+1,[SkillCrossClass=35]
+
+# Courtesan (UltNPC1)
+;ExpertSkillsCLASS_4
+1,[SkillClass=3]
+1,[SkillClass=5]
+2,[SkillClass=6]
+1,[SkillClass=8]
+1,[SkillClass=25]
+1,[SkillClass=26]
+2,[SkillClass=27]
+1,[SkillClass=29]
+1,[SkillClass=30]
+1,[SkillClass=32]
+1,{If~%ParamRace%=Kobold?[SkillClass=5]/[%ParamClass%SkillsCLASS_4]}
+1,{If~%ParamRace%=Kobold?[SkillClass=32]/[%ParamClass%SkillsCLASS_4]}
+1,{If~{And~%ParamRace%=Halfling,%Subrace%=Nomadic}=1?[SkillClass=24]/[%ParamClass%SkillsCLASS_4]}
+
+;ExpertSkillsCROSS_4
+1,[SkillCrossClass=1]
+1,[SkillCrossClass=2]
+1,[SkillCrossClass=4]
+1,[SkillCrossClass=7]
+1,[SkillCrossClass=9]
+1,{If~%Fly%>0?[SkillCrossClass=10]/[ExpertSkillsCROSS_4]}
+1,[SkillCrossClass=11]
+1,[SkillCrossClass=12]
+1,[SkillCrossClass=13]
+1,{If~%Edu%=0?[SkillCrossClass=14]/[SkillClass=14]}
+1,{If~%Edu%=0?[SkillCrossClass=15]/[SkillClass=15]}
+1,{If~%Edu%=0?[SkillCrossClass=16]/[SkillClass=16]}
+1,{If~%Edu%=0?[SkillCrossClass=17]/[SkillClass=17]}
+1,{If~%Edu%=0?[SkillCrossClass=18]/[SkillClass=18]}
+1,{If~%Edu%=0?[SkillCrossClass=19]/[SkillClass=19]}
+1,{If~%Edu%=0?[SkillCrossClass=20]/[SkillClass=20]}
+1,{If~%Edu%=0?[SkillCrossClass=21]/[SkillClass=21]}
+1,{If~%Edu%=0?[SkillCrossClass=22]/[SkillClass=22]}
+1,{If~%Edu%=0?[SkillCrossClass=23]/[SkillClass=23]}
+1,[SkillCrossClass=24]
+1,[SkillCrossClass=28]
+1,[SkillCrossClass=31]
+1,[SkillCrossClass=33]
+1,[SkillCrossClass=34]
+1,[SkillCrossClass=35]
+
+# Fence (UltNPC1)
+;ExpertSkillsCLASS_5
+100,[SkillClass=2]
+1,[SkillClass=3]
+2,[SkillClass=6]
+1,[SkillClass=13]
+1,[SkillClass=%ExpertTypeKnowledge%]
+1,[SkillClass=24]
+100,[SkillClass=27]
+1,[SkillClass=29]
+1,[SkillClass=30]
+100,[SkillClass=41]
+5,{If~%ParamRace%=Kobold?[SkillClass=5]/[%ParamClass%SkillsCLASS_5]}
+5,{If~%ParamRace%=Kobold?[SkillClass=32]/[%ParamClass%SkillsCLASS_5]}
+1,{If~{And~%ParamRace%=Halfling,%Subrace%=Nomadic}=1?[SkillClass=24]/[%ParamClass%SkillsCLASS_5]}
+1,{If~{And~%ParamRace%=Halfling,%Subrace%=Slave Born}=1?[SkillClass=26]/[%ParamClass%SkillsCLASS_5]}
+
+;ExpertSkillsCROSS_5
+1,[SkillCrossClass=1]
+1,[SkillCrossClass=4]
+1,[SkillCrossClass=5]
+1,[SkillCrossClass=7]
+1,[SkillCrossClass=8]
+1,[SkillCrossClass=9]
+1,{If~%Fly%>0?[SkillCrossClass=10]/[ExpertSkillsCROSS_5]}
+1,[SkillCrossClass=11]
+1,[SkillCrossClass=12]
+1,{If~%ExpertTypeKnowledge%!=14?{If~%Edu%=0?[SkillCrossClass=14]/[SkillClass=14]}/[ExpertSkillsCROSS_5]}
+1,{If~%ExpertTypeKnowledge%!=15?{If~%Edu%=0?[SkillCrossClass=15]/[SkillClass=15]}/[ExpertSkillsCROSS_5]}
+1,{If~%ExpertTypeKnowledge%!=16?{If~%Edu%=0?[SkillCrossClass=16]/[SkillClass=16]}/[ExpertSkillsCROSS_5]}
+1,{If~%ExpertTypeKnowledge%!=17?{If~%Edu%=0?[SkillCrossClass=17]/[SkillClass=17]}/[ExpertSkillsCROSS_5]}
+1,{If~%ExpertTypeKnowledge%!=18?{If~%Edu%=0?[SkillCrossClass=18]/[SkillClass=18]}/[ExpertSkillsCROSS_5]}
+1,{If~%ExpertTypeKnowledge%!=19?{If~%Edu%=0?[SkillCrossClass=19]/[SkillClass=19]}/[ExpertSkillsCROSS_5]}
+1,{If~%ExpertTypeKnowledge%!=20?{If~%Edu%=0?[SkillCrossClass=20]/[SkillClass=20]}/[ExpertSkillsCROSS_5]}
+1,{If~%ExpertTypeKnowledge%!=21?{If~%Edu%=0?[SkillCrossClass=21]/[SkillClass=21]}/[ExpertSkillsCROSS_5]}
+1,{If~%ExpertTypeKnowledge%!=22?{If~%Edu%=0?[SkillCrossClass=22]/[SkillClass=22]}/[ExpertSkillsCROSS_5]}
+1,{If~%ExpertTypeKnowledge%!=23?{If~%Edu%=0?[SkillCrossClass=23]/[SkillClass=23]}/[ExpertSkillsCROSS_5]}
+1,[SkillCrossClass=25]
+1,[SkillCrossClass=26]
+1,[SkillCrossClass=28]
+1,[SkillCrossClass=31]
+1,[SkillCrossClass=32]
+1,[SkillCrossClass=33]
+1,[SkillCrossClass=34]
+1,[SkillCrossClass=35]
+
+# Jeweller (UltNPC1)
+;ExpertSkillsCLASS_6
+100,[SkillClass=2]
+1,[SkillClass=3]
+100,[SkillClass=5]
+1,[SkillClass=6]
+1,[SkillClass=14]
+1,[SkillClass=15]
+1,[SkillClass=25]
+20,[SkillClass=27]
+1,[SkillClass=30]
+100,[SkillClass=40]
+5,{If~%ParamRace%=Kobold?[SkillClass=32]/[%ParamClass%SkillsCLASS_6]}
+1,{If~{And~%ParamRace%=Halfling,%Subrace%=Nomadic}=1?[SkillClass=24]/[%ParamClass%SkillsCLASS_6]}
+1,{If~{And~%ParamRace%=Halfling,%Subrace%=Slave Born}=1?[SkillClass=26]/[%ParamClass%SkillsCLASS_6]}
+
+;ExpertSkillsCROSS_6
+1,[SkillCrossClass=1]
+1,[SkillCrossClass=4]
+1,[SkillCrossClass=7]
+1,[SkillCrossClass=8]
+1,[SkillCrossClass=9]
+1,{If~%Fly%>0?[SkillCrossClass=10]/[ExpertSkillsCROSS_6]}
+1,[SkillCrossClass=11]
+1,[SkillCrossClass=12]
+1,[SkillCrossClass=13]
+1,{If~%Edu%=0?[SkillCrossClass=16]/[SkillClass=16]}
+1,{If~%Edu%=0?[SkillCrossClass=17]/[SkillClass=17]}
+1,{If~%Edu%=0?[SkillCrossClass=18]/[SkillClass=18]}
+1,{If~%Edu%=0?[SkillCrossClass=19]/[SkillClass=19]}
+1,{If~%Edu%=0?[SkillCrossClass=20]/[SkillClass=20]}
+1,{If~%Edu%=0?[SkillCrossClass=21]/[SkillClass=21]}
+1,{If~%Edu%=0?[SkillCrossClass=22]/[SkillClass=22]}
+1,{If~%Edu%=0?[SkillCrossClass=23]/[SkillClass=23]}
+1,[SkillCrossClass=24]
+1,[SkillCrossClass=26]
+1,[SkillCrossClass=28]
+1,[SkillCrossClass=29]
+1,[SkillCrossClass=31]
+1,[SkillCrossClass=32]
+1,[SkillCrossClass=33]
+1,[SkillCrossClass=34]
+1,[SkillCrossClass=35]
+
+# Pawnbroker (UltNPC1)
+;ExpertSkillsCLASS_7
+100,[SkillClass=2]
+1,[SkillClass=3]
+2,[SkillClass=6]
+1,[SkillClass=24]
+1,[SkillClass=25]
+1,[SkillClass=26]
+100,[SkillClass=27]
+1,[SkillClass=29]
+1,[SkillClass=30]
+1,[SkillClass=32]
+5,{If~%ParamRace%=Kobold?[SkillClass=5]/[%ParamClass%SkillsCLASS_7]}
+
+;ExpertSkillsCROSS_7
+1,[SkillCrossClass=1]
+1,[SkillCrossClass=4]
+1,[SkillCrossClass=5]
+1,[SkillCrossClass=7]
+1,[SkillCrossClass=8]
+1,[SkillCrossClass=9]
+1,{If~%Fly%>0?[SkillCrossClass=10]/[ExpertSkillsCROSS_7]}
+1,[SkillCrossClass=11]
+1,[SkillCrossClass=12]
+1,[SkillCrossClass=13]
+1,{If~%Edu%=0?[SkillCrossClass=14]/[SkillClass=14]}
+1,{If~%Edu%=0?[SkillCrossClass=15]/[SkillClass=15]}
+1,{If~%Edu%=0?[SkillCrossClass=16]/[SkillClass=16]}
+1,{If~%Edu%=0?[SkillCrossClass=17]/[SkillClass=17]}
+1,{If~%Edu%=0?[SkillCrossClass=18]/[SkillClass=18]}
+1,{If~%Edu%=0?[SkillCrossClass=19]/[SkillClass=19]}
+1,{If~%Edu%=0?[SkillCrossClass=20]/[SkillClass=20]}
+1,{If~%Edu%=0?[SkillCrossClass=21]/[SkillClass=21]}
+1,{If~%Edu%=0?[SkillCrossClass=22]/[SkillClass=22]}
+1,{If~%Edu%=0?[SkillCrossClass=23]/[SkillClass=23]}
+1,[SkillCrossClass=28]
+1,[SkillCrossClass=31]
+1,[SkillCrossClass=33]
+1,[SkillCrossClass=34]
+1,[SkillCrossClass=35]
+
+# Sage_Scholar (UltNPC1)
+;ExpertSkillsCLASS_8
+1,[SkillClass=2]
+1,[SkillClass=5]
+1,[SkillClass=6]
+1,{If~{Or~%Edu%=1,{Find~1,14!!,%ExpSkString%}>=1}=1?[SkillClass=14]/[ExpertSkillsCLASS_8]}
+1,{If~{Or~%Edu%=1,{Find~1,15!!,%ExpSkString%}>=1}=1?[SkillClass=15]/[ExpertSkillsCLASS_8]}
+1,{If~{Or~%Edu%=1,{Find~1,16!!,%ExpSkString%}>=1}=1?[SkillClass=16]/[ExpertSkillsCLASS_8]}
+1,{If~{Or~%Edu%=1,{Find~1,17!!,%ExpSkString%}>=1}=1?[SkillClass=17]/[ExpertSkillsCLASS_8]}
+1,{If~{Or~%Edu%=1,{Find~1,18!!,%ExpSkString%}>=1}=1?[SkillClass=18]/[ExpertSkillsCLASS_8]}
+1,{If~{Or~%Edu%=1,{Find~1,19!!,%ExpSkString%}>=1}=1?[SkillClass=19]/[ExpertSkillsCLASS_8]}
+1,{If~{Or~%Edu%=1,{Find~1,20!!,%ExpSkString%}>=1}=1?[SkillClass=20]/[ExpertSkillsCLASS_8]}
+1,{If~{Or~%Edu%=1,{Find~1,21!!,%ExpSkString%}>=1}=1?[SkillClass=21]/[ExpertSkillsCLASS_8]}
+1,{If~{Or~%Edu%=1,{Find~1,22!!,%ExpSkString%}>=1}=1?[SkillClass=22]/[ExpertSkillsCLASS_8]}
+1,{If~{Or~%Edu%=1,{Find~1,23!!,%ExpSkString%}>=1}=1?[SkillClass=23]/[ExpertSkillsCLASS_8]}
+1,[SkillClass=24]
+1,[SkillClass=27]
+1,[SkillClass=31]
+1,[SkillClass=35]
+1,{If~%ParamRace%=Kobold?[SkillClass=32]/[%ParamClass%SkillsCLASS_8]}
+1,{If~{And~%ParamRace%=Halfling,%Subrace%=Slave Born}=1?[SkillClass=26]/[%ParamClass%SkillsCLASS_8]}
+
+;ExpertSkillsCROSS_8
+1,[SkillCrossClass=1]
+1,[SkillCrossClass=3]
+1,[SkillCrossClass=4]
+1,[SkillCrossClass=7]
+1,[SkillCrossClass=8]
+1,[SkillCrossClass=9]
+1,{If~%Fly%>0?[SkillCrossClass=10]/[ExpertSkillsCROSS_8]}
+1,[SkillCrossClass=11]
+1,[SkillCrossClass=12]
+1,[SkillCrossClass=13]
+1,{If~{Find~1,14!!,%ExpSkString%}=0?{If~%Edu%=0?[SkillCrossClass=14]/[SkillClass=14]}/[ExpertSkillsCROSS_8]}
+1,{If~{Find~1,15!!,%ExpSkString%}=0?{If~%Edu%=0?[SkillCrossClass=15]/[SkillClass=15]}/[ExpertSkillsCROSS_8]}
+1,{If~{Find~1,16!!,%ExpSkString%}=0?{If~%Edu%=0?[SkillCrossClass=16]/[SkillClass=16]}/[ExpertSkillsCROSS_8]}
+1,{If~{Find~1,17!!,%ExpSkString%}=0?{If~%Edu%=0?[SkillCrossClass=17]/[SkillClass=17]}/[ExpertSkillsCROSS_8]}
+1,{If~{Find~1,18!!,%ExpSkString%}=0?{If~%Edu%=0?[SkillCrossClass=18]/[SkillClass=18]}/[ExpertSkillsCROSS_8]}
+1,{If~{Find~1,19!!,%ExpSkString%}=0?{If~%Edu%=0?[SkillCrossClass=19]/[SkillClass=19]}/[ExpertSkillsCROSS_8]}
+1,{If~{Find~1,20!!,%ExpSkString%}=0?{If~%Edu%=0?[SkillCrossClass=20]/[SkillClass=20]}/[ExpertSkillsCROSS_8]}
+1,{If~{Find~1,21!!,%ExpSkString%}=0?{If~%Edu%=0?[SkillCrossClass=21]/[SkillClass=21]}/[ExpertSkillsCROSS_8]}
+1,{If~{Find~1,22!!,%ExpSkString%}=0?{If~%Edu%=0?[SkillCrossClass=22]/[SkillClass=22]}/[ExpertSkillsCROSS_8]}
+1,{If~{Find~1,23!!,%ExpSkString%}=0?{If~%Edu%=0?[SkillCrossClass=23]/[SkillClass=23]}/[ExpertSkillsCROSS_8]}
+1,[SkillCrossClass=25]
+1,[SkillCrossClass=26]
+1,[SkillCrossClass=28]
+1,[SkillCrossClass=29]
+1,[SkillCrossClass=30]
+1,[SkillCrossClass=32]
+1,[SkillCrossClass=33]
+1,[SkillCrossClass=34]
+
+# Locksmith
+;ExpertSkillsCLASS_9
+1,[SkillClass=2]
+100,[SkillClass=5]
+1,[SkillClass=6]
+50,[SkillClass=7]
+1,[SkillClass=9]
+1,[SkillClass=%ExpertTypeKnowledge%]
+1,[SkillClass=25]
+100,[SkillClass=27]
+1,[SkillClass=29]
+1,[SkillClass=30]
+1,{If~%ParamRace%=Kobold?[SkillClass=32]/[%ParamClass%SkillsCLASS_9]}
+1,{If~{And~%ParamRace%=Halfling,%Subrace%=Nomadic}=1?[SkillClass=24]/[%ParamClass%SkillsCLASS_9]}
+1,{If~{And~%ParamRace%=Halfling,%Subrace%=Slave Born}=1?[SkillClass=26]/[%ParamClass%SkillsCLASS_9]}
+
+;ExpertSkillsCROSS_9
+1,[SkillCrossClass=1]
+1,[SkillCrossClass=3]
+1,[SkillCrossClass=4]
+1,[SkillCrossClass=8]
+1,{If~%Fly%>0?[SkillCrossClass=10]/[ExpertSkillsCROSS_9]}
+1,[SkillCrossClass=11]
+1,[SkillCrossClass=12]
+1,[SkillCrossClass=13]
+1,{If~%ExpertTypeKnowledge%!=14?{If~%Edu%=0?[SkillCrossClass=14]/[SkillClass=14]}/[ExpertSkillsCROSS_5]}
+1,{If~%ExpertTypeKnowledge%!=15?{If~%Edu%=0?[SkillCrossClass=15]/[SkillClass=15]}/[ExpertSkillsCROSS_5]}
+1,{If~%ExpertTypeKnowledge%!=16?{If~%Edu%=0?[SkillCrossClass=16]/[SkillClass=16]}/[ExpertSkillsCROSS_5]}
+1,{If~%ExpertTypeKnowledge%!=17?{If~%Edu%=0?[SkillCrossClass=17]/[SkillClass=17]}/[ExpertSkillsCROSS_5]}
+1,{If~%ExpertTypeKnowledge%!=18?{If~%Edu%=0?[SkillCrossClass=18]/[SkillClass=18]}/[ExpertSkillsCROSS_5]}
+1,{If~%ExpertTypeKnowledge%!=19?{If~%Edu%=0?[SkillCrossClass=19]/[SkillClass=19]}/[ExpertSkillsCROSS_5]}
+1,{If~%ExpertTypeKnowledge%!=20?{If~%Edu%=0?[SkillCrossClass=20]/[SkillClass=20]}/[ExpertSkillsCROSS_5]}
+1,{If~%ExpertTypeKnowledge%!=21?{If~%Edu%=0?[SkillCrossClass=21]/[SkillClass=21]}/[ExpertSkillsCROSS_5]}
+1,{If~%ExpertTypeKnowledge%!=22?{If~%Edu%=0?[SkillCrossClass=22]/[SkillClass=22]}/[ExpertSkillsCROSS_5]}
+1,{If~%ExpertTypeKnowledge%!=23?{If~%Edu%=0?[SkillCrossClass=23]/[SkillClass=23]}/[ExpertSkillsCROSS_5]}
+1,[SkillCrossClass=24]
+1,[SkillCrossClass=26]
+1,[SkillCrossClass=28]
+1,[SkillCrossClass=31]
+1,[SkillCrossClass=32]
+1,[SkillCrossClass=33]
+1,[SkillCrossClass=34]
+1,[SkillCrossClass=35]
+
+# Merchant
+;ExpertSkillsCLASS_10
+100,[SkillClass=2]
+1,[SkillClass=3]
+10,[SkillClass=6]
+1,[SkillClass=11]
+1,[SkillClass=17]
+1,[SkillClass=19]
+1,[SkillClass=21]
+1,[SkillClass=24]
+100,[SkillClass=27]
+1,[SkillClass=29]
+1,{If~%ParamRace%=Kobold?[SkillClass=5]/[%ParamClass%SkillsCLASS_10]}
+1,{If~%ParamRace%=Kobold?[SkillClass=32]/[%ParamClass%SkillsCLASS_10]}
+1,{If~{And~%ParamRace%=Halfling,%Subrace%=Slave Born}=1?[SkillClass=26]/[%ParamClass%SkillsCLASS_10]}
+
+;ExpertSkillsCROSS_10
+1,[SkillCrossClass=1]
+1,[SkillCrossClass=4]
+1,[SkillCrossClass=5]
+1,[SkillCrossClass=7]
+1,[SkillCrossClass=8]
+1,[SkillCrossClass=9]
+1,{If~%Fly%>0?[SkillCrossClass=10]/[ExpertSkillsCROSS_10]}
+1,[SkillCrossClass=12]
+1,[SkillCrossClass=13]
+1,{If~%Edu%=0?[SkillCrossClass=14]/[SkillClass=14]}
+1,{If~%Edu%=0?[SkillCrossClass=15]/[SkillClass=15]}
+1,{If~%Edu%=0?[SkillCrossClass=16]/[SkillClass=16]}
+1,{If~%Edu%=0?[SkillCrossClass=18]/[SkillClass=18]}
+1,{If~%Edu%=0?[SkillCrossClass=20]/[SkillClass=20]}
+1,{If~%Edu%=0?[SkillCrossClass=22]/[SkillClass=22]}
+1,{If~%Edu%=0?[SkillCrossClass=23]/[SkillClass=23]}
+1,[SkillCrossClass=25]
+1,[SkillCrossClass=26]
+1,[SkillCrossClass=28]
+1,[SkillCrossClass=30]
+1,[SkillCrossClass=31]
+1,[SkillCrossClass=33]
+1,[SkillCrossClass=34]
+1,[SkillCrossClass=35]
+
+;FighterSkills
+80,[FighterSkillsCLASS]
+20,[FighterSkillsCROSS]
+
+;FighterSkillsCLASS
+5,[SkillClass=4]
+1,[SkillClass=5]
+5,[SkillClass=11]
+5,[SkillClass=13]
+5,[SkillClass=15]
+5,[SkillClass=16]
+1,[SkillClass=27]
+5,[SkillClass=28]
+5,[SkillClass=33]
+5,[SkillClass=34]
+1,{If~%ParamRace%=Kobold?[SkillClass=5]/[%ParamClass%SkillsCLASS]}
+5,{If~%ParamRace%=Kobold?[SkillClass=32]/[%ParamClass%SkillsCLASS]}
+5,{If~{And~%ParamRace%=Halfling,%Subrace%=Nomadic}=1?[SkillClass=24]/[%ParamClass%SkillsCLASS]}
+1,{If~{And~%ParamRace%=Halfling,%Subrace%=Slave Born}=1?[SkillClass=26]/[%ParamClass%SkillsCLASS]}
+
+;FighterSkillsCROSS
+1,[SkillCrossClass=1]
+1,[SkillCrossClass=2]
+1,[SkillCrossClass=3]
+1,[SkillCrossClass=6]
+1,[SkillCrossClass=7]
+1,[SkillCrossClass=8]
+1,[SkillCrossClass=9]
+1,{If~%Fly%>0?[SkillCrossClass=10]/[FighterSkillsCROSS]}
+1,[SkillCrossClass=12]
+1,{If~%Edu%=0?[SkillCrossClass=14]/[SkillClass=14]}
+1,{If~%Edu%=0?[SkillCrossClass=17]/[SkillClass=17]}
+1,{If~%Edu%=0?[SkillCrossClass=18]/[SkillClass=18]}
+1,{If~%Edu%=0?[SkillCrossClass=19]/[SkillClass=19]}
+1,{If~%Edu%=0?[SkillCrossClass=20]/[SkillClass=20]}
+1,{If~%Edu%=0?[SkillCrossClass=21]/[SkillClass=21]}
+1,{If~%Edu%=0?[SkillCrossClass=22]/[SkillClass=22]}
+1,{If~%Edu%=0?[SkillCrossClass=23]/[SkillClass=23]}
+1,[SkillCrossClass=24]
+#1,[SkillCrossClass=25]|Perception+%RanksApplied%||PerceptionFlag=1|
+1,[SkillCrossClass=25]
+1,[SkillCrossClass=26]
+1,[SkillCrossClass=29]
+1,[SkillCrossClass=30]
+1,[SkillCrossClass=31]
+1,[SkillCrossClass=32]
+1,[SkillCrossClass=35]
+
+;MonkSkills
+80,[MonkSkillsCLASS]
+20,[MonkSkillsCROSS]
+
+;MonkSkillsCLASS
+10,[SkillClass=1]
+5,[SkillClass=4]
+1,[SkillClass=5]
+5,[SkillClass=9]
+5,[SkillClass=13]
+5,[SkillClass=18]
+5,[SkillClass=23]
+5,[SkillClass=25]
+1,[SkillClass=26]
+1,[SkillClass=27]
+5,[SkillClass=28]
+5,[SkillClass=29]
+10,[SkillClass=32]
+5,[SkillClass=34]
+1,{If~%ParamRace%=Kobold?[SkillClass=5]/[%ParamClass%SkillsCLASS]}
+5,{If~{And~%ParamRace%=Halfling,%Subrace%=Nomadic}=1?[SkillClass=24]/[%ParamClass%SkillsCLASS]}
+
+;MonkSkillsCROSS
+1,[SkillCrossClass=2]
+1,[SkillCrossClass=3]
+1,[SkillCrossClass=6]
+1,[SkillCrossClass=7]
+1,[SkillCrossClass=8]
+1,{If~%Fly%>0?[SkillCrossClass=10]/[MonkSkillsCROSS]}
+1,[SkillCrossClass=11]
+1,[SkillCrossClass=12]
+1,{If~%Edu%=0?[SkillCrossClass=14]/[SkillClass=14]}
+1,{If~%Edu%=0?[SkillCrossClass=15]/[SkillClass=15]}
+1,{If~%Edu%=0?[SkillCrossClass=16]/[SkillClass=16]}
+1,{If~%Edu%=0?[SkillCrossClass=17]/[SkillClass=17]}
+1,{If~%Edu%=0?[SkillCrossClass=19]/[SkillClass=19]}
+1,{If~%Edu%=0?[SkillCrossClass=20]/[SkillClass=20]}
+1,{If~%Edu%=0?[SkillCrossClass=21]/[SkillClass=21]}
+1,{If~%Edu%=0?[SkillCrossClass=22]/[SkillClass=22]}
+1,[SkillCrossClass=24]
+1,[SkillCrossClass=30]
+1,[SkillCrossClass=31]
+1,[SkillCrossClass=33]
+1,[SkillCrossClass=35]
+
+;PaladinSkills
+80,[PaladinSkillsCLASS]
+20,[PaladinSkillsCROSS]
+
+;PaladinSkillsCLASS
+1,[SkillClass=5]
+5,[SkillClass=6]
+5,[SkillClass=11]
+5,[SkillClass=12]
+5,[SkillClass=21]
+20,[SkillClass=23]
+1,[SkillClass=27]
+5,[SkillClass=28]
+5,[SkillClass=29]
+5,[SkillClass=31]
+1,{If~%ParamRace%=Kobold?[SkillClass=5]/[%ParamClass%SkillsCLASS]}
+5,{If~%ParamRace%=Kobold?[SkillClass=32]/[%ParamClass%SkillsCLASS]}
+5,{If~{And~%ParamRace%=Halfling,%Subrace%=Nomadic}=1?[SkillClass=24]/[%ParamClass%SkillsCLASS]}
+1,{If~{And~%ParamRace%=Halfling,%Subrace%=Slave Born}=1?[SkillClass=26]/[%ParamClass%SkillsCLASS]}
+
+;PaladinSkillsCROSS
+1,[SkillCrossClass=1]
+1,[SkillCrossClass=2]
+1,[SkillCrossClass=3]
+1,[SkillCrossClass=4]
+1,[SkillCrossClass=7]
+1,[SkillCrossClass=8]
+1,[SkillCrossClass=9]
+1,{If~%Fly%>0?[SkillCrossClass=10]/[PaladinSkillsCROSS]}
+1,[SkillCrossClass=13]
+1,{If~%Edu%=0?[SkillCrossClass=14]/[SkillClass=14]}
+1,{If~%Edu%=0?[SkillCrossClass=15]/[SkillClass=15]}
+1,{If~%Edu%=0?[SkillCrossClass=16]/[SkillClass=16]}
+1,{If~%Edu%=0?[SkillCrossClass=17]/[SkillClass=17]}
+1,{If~%Edu%=0?[SkillCrossClass=18]/[SkillClass=18]}
+1,{If~%Edu%=0?[SkillCrossClass=19]/[SkillClass=19]}
+1,{If~%Edu%=0?[SkillCrossClass=20]/[SkillClass=20]}
+1,{If~%Edu%=0?[SkillCrossClass=22]/[SkillClass=22]}
+1,[SkillCrossClass=24]
+1,[SkillCrossClass=25]
+1,[SkillCrossClass=26]
+1,[SkillCrossClass=30]
+1,[SkillCrossClass=32]
+1,[SkillCrossClass=33]
+1,[SkillCrossClass=34]
+1,[SkillCrossClass=35]
+
+;RangerSkills
+80,[RangerSkillsCLASS]
+20,[RangerSkillsCROSS]
+
+;RangerSkillsCLASS
+100,[SkillClass=33]
+5,[SkillClass=4]
+1,[SkillClass=5]
+5,[SkillClass=11]
+5,[SkillClass=12]
+5,[SkillClass=13]
+5,[SkillClass=15]
+5,[SkillClass=17]
+20,[SkillClass=20]
+5,[SkillClass=25]
+1,[SkillClass=27]
+5,[SkillClass=28]
+5,[SkillClass=31]
+5,[SkillClass=32]
+5,[SkillClass=34]
+5,{If~{And~%ParamRace%=Halfling,%Subrace%=Nomadic}=1?[SkillClass=24]/[%ParamClass%SkillsCLASS]}
+1,{If~{And~%ParamRace%=Halfling,%Subrace%=Slave Born}=1?[SkillClass=26]/[%ParamClass%SkillsCLASS]}
+
+;RangerSkillsCROSS
+1,[SkillCrossClass=1]
+1,[SkillCrossClass=2]
+1,[SkillCrossClass=3]
+1,[SkillCrossClass=6]
+1,[SkillCrossClass=7]
+1,[SkillCrossClass=8]
+1,[SkillCrossClass=9]
+1,{If~%Fly%>0?[SkillCrossClass=10]/[RangerSkillsCROSS]}
+1,{If~%Edu%=0?[SkillCrossClass=14]/[SkillClass=14]}
+1,{If~%Edu%=0?[SkillCrossClass=16]/[SkillClass=16]}
+1,{If~%Edu%=0?[SkillCrossClass=18]/[SkillClass=18]}
+1,{If~%Edu%=0?[SkillCrossClass=19]/[SkillClass=19]}
+1,{If~%Edu%=0?[SkillCrossClass=21]/[SkillClass=21]}
+1,{If~%Edu%=0?[SkillCrossClass=22]/[SkillClass=22]}
+1,{If~%Edu%=0?[SkillCrossClass=23]/[SkillClass=23]}
+1,[SkillCrossClass=24]
+1,[SkillCrossClass=26]
+1,[SkillCrossClass=29]
+1,[SkillCrossClass=30]
+1,[SkillCrossClass=35]
+
+;RogueSkills
+80,[RogueSkillsCLASS]
+20,[RogueSkillsCROSS]
+
+;RogueSkillsCLASS
+5,[SkillClass=1]
+5,[SkillClass=2]
+5,[SkillClass=3]
+5,[SkillClass=4]
+1,[SkillClass=5]
+5,[SkillClass=6]
+10,[SkillClass=7]
+5,[SkillClass=8]
+5,[SkillClass=9]
+5,[SkillClass=13]
+5,[SkillClass=15]
+5,[SkillClass=19]
+5,[SkillClass=24]
+10,[SkillClass=25]
+1,[SkillClass=26]
+1,[SkillClass=27]
+5,[SkillClass=29]
+5,[SkillClass=30]
+20,[SkillClass=32]
+5,[SkillClass=34]
+5,[SkillClass=35]
+
+;RogueSkillsCROSS
+1,{If~%Fly%>0?[SkillCrossClass=10]/[RogueSkillsCROSS]}
+1,[SkillCrossClass=11]
+1,[SkillCrossClass=12]
+1,{If~%Edu%=0?[SkillCrossClass=14]/[SkillClass=14]}
+1,{If~%Edu%=0?[SkillCrossClass=16]/[SkillClass=16]}
+1,{If~%Edu%=0?[SkillCrossClass=17]/[SkillClass=17]}
+1,{If~%Edu%=0?[SkillCrossClass=18]/[SkillClass=18]}
+1,{If~%Edu%=0?[SkillCrossClass=20]/[SkillClass=20]}
+1,{If~%Edu%=0?[SkillCrossClass=21]/[SkillClass=21]}
+1,{If~%Edu%=0?[SkillCrossClass=22]/[SkillClass=22]}
+1,{If~%Edu%=0?[SkillCrossClass=23]/[SkillClass=23]}
+1,[SkillCrossClass=28]
+1,[SkillCrossClass=31]
+1,[SkillCrossClass=33]
+
+;SorcererSkills
+80,[SorcererSkillsCLASS]
+20,[SorcererSkillsCROSS]
+
+;SorcererSkillsCLASS
+5,[SkillClass=2]
+5,[SkillClass=3]
+1,[SkillClass=5]
+5,{If~{Or~%Fly%>0,%CharacterLevel%>=6}=1?[SkillClass=10]/[SorcererSkillsCLASS]}
+5,[SkillClass=13]
+10,[SkillClass=14]
+1,[SkillClass=27]
+10,[SkillClass=31]
+5,[SkillClass=35]
+10,{If~%BSk%!=0?[SkillClass=%BSk%]/[SorcererSkillsCLASS]}
+5,{If~%ParamRace%=Kobold?[SkillClass=32]/[%ParamClass%SkillsCLASS]}
+5,{If~{And~%ParamRace%=Halfling,%Subrace%=Nomadic}=1?[SkillClass=24]/[%ParamClass%SkillsCLASS]}
+1,{If~{And~%ParamRace%=Halfling,%Subrace%=Slave Born}=1?[SkillClass=26]/[%ParamClass%SkillsCLASS]}
+
+;SorcererSkillsCROSS
+1,[SkillCrossClass=1]
+1,[SkillCrossClass=4]
+1,[SkillCrossClass=5]
+1,[SkillCrossClass=6]
+1,[SkillCrossClass=7]
+1,[SkillCrossClass=8]
+1,[SkillCrossClass=9]
+1,[SkillCrossClass=11]
+1,[SkillCrossClass=12]
+1,{If~%Edu%=0?[SkillCrossClass=15]/[SkillClass=15]}
+1,{If~%Edu%=0?[SkillCrossClass=16]/[SkillClass=16]}
+1,{If~%Edu%=0?[SkillCrossClass=17]/[SkillClass=17]}
+1,{If~%Edu%=0?[SkillCrossClass=18]/[SkillClass=18]}
+1,{If~%Edu%=0?[SkillCrossClass=19]/[SkillClass=19]}
+1,{If~%Edu%=0?[SkillCrossClass=20]/[SkillClass=20]}
+1,{If~%Edu%=0?[SkillCrossClass=21]/[SkillClass=21]}
+1,{If~%Edu%=0?[SkillCrossClass=22]/[SkillClass=22]}
+1,{If~%Edu%=0?[SkillCrossClass=23]/[SkillClass=23]}
+1,[SkillCrossClass=24]
+1,[SkillCrossClass=25]
+1,[SkillCrossClass=26]
+1,[SkillCrossClass=28]
+1,[SkillCrossClass=29]
+1,[SkillCrossClass=30]
+1,[SkillCrossClass=32]
+1,[SkillCrossClass=33]
+1,[SkillCrossClass=34]
+
+;WarriorSkills
+90,[WarriorSkillsCLASS]
+10,[WarriorSkillsCROSS]
+
+;WarriorSkillsCLASS
+5,[SkillClass=4]
+1,[SkillClass=5]
+5,[SkillClass=11]
+5,[SkillClass=13]
+5,[SkillClass=27]
+5,[SkillClass=28]
+5,[SkillClass=34]
+#1,{If~%ParamRace%=Kobold?[SkillClass=5]/[%ParamClass%SkillsCLASS]}
+5,{If~%ParamRace%=Kobold?[SkillClass=32]/[%ParamClass%SkillsCLASS]}
+5,{If~{And~%ParamRace%=Halfling,%Subrace%=Nomadic}=1?[SkillClass=24]/[%ParamClass%SkillsCLASS]}
+1,{If~{And~%ParamRace%=Halfling,%Subrace%=Slave Born}=1?[SkillClass=26]/[%ParamClass%SkillsCLASS]}
+
+;WarriorSkillsCROSS
+1,[SkillCrossClass=1]
+1,[SkillCrossClass=2]
+1,[SkillCrossClass=3]
+1,[SkillCrossClass=6]
+1,[SkillCrossClass=7]
+1,[SkillCrossClass=8]
+1,[SkillCrossClass=9]
+1,{If~%Fly%>0?[SkillCrossClass=10]/[WarriorSkillsCROSS]}
+1,[SkillCrossClass=12]
+1,{If~%Edu%=0?[SkillCrossClass=14]/[SkillClass=14]}
+1,{If~%Edu%=0?[SkillCrossClass=15]/[SkillClass=15]}
+1,{If~%Edu%=0?[SkillCrossClass=16]/[SkillClass=16]}
+1,{If~%Edu%=0?[SkillCrossClass=17]/[SkillClass=17]}
+1,{If~%Edu%=0?[SkillCrossClass=18]/[SkillClass=18]}
+1,{If~%Edu%=0?[SkillCrossClass=19]/[SkillClass=19]}
+1,{If~%Edu%=0?[SkillCrossClass=20]/[SkillClass=20]}
+1,{If~%Edu%=0?[SkillCrossClass=21]/[SkillClass=21]}
+1,{If~%Edu%=0?[SkillCrossClass=22]/[SkillClass=22]}
+1,{If~%Edu%=0?[SkillCrossClass=23]/[SkillClass=23]}
+1,[SkillCrossClass=24]
+#1,[SkillCrossClass=25]|Perception+%RanksApplied%||PerceptionFlag=1|
+1,[SkillCrossClass=25]
+1,[SkillCrossClass=26]
+1,[SkillCrossClass=29]
+1,[SkillCrossClass=30]
+1,[SkillCrossClass=31]
+1,[SkillCrossClass=32]
+1,[SkillCrossClass=33]
+1,[SkillCrossClass=35]
+
+;WizardSkills
+70,[WizardSkillsCLASS]
+10,{If~%WIZEncSmile%>0?[WizardSkillsEnchanter]/[WizardSkillsCLASS]}
+20,[WizardSkillsCROSS]
+
+;WizardSkillsCLASS
+5,[SkillClass=2]
+1,[SkillClass=5]
+5,{If~{Or~%Fly%>0,%CharacterLevel%>=5}=1?[SkillClass=10]/[WizardSkillsCLASS]}
+20,[SkillClass=14]
+5,[SkillClass=15]
+5,[SkillClass=16]
+5,[SkillClass=17]
+5,[SkillClass=18]
+5,[SkillClass=19]
+5,[SkillClass=20]
+5,[SkillClass=21]
+5,[SkillClass=22]
+5,[SkillClass=23]
+5,[SkillClass=24]
+1,[SkillClass=27]
+20,[SkillClass=31]
+1,{If~%ParamRace%=Kobold?[SkillClass=5]/[%ParamClass%SkillsCLASS]}
+5,{If~%ParamRace%=Kobold?[SkillClass=32]/[%ParamClass%SkillsCLASS]}
+1,{If~{And~%ParamRace%=Halfling,%Subrace%=Slave Born}=1?[SkillClass=26]/[%ParamClass%SkillsCLASS]}
+
+;WizardSkillsCROSS
+1,[SkillCrossClass=1]
+1,[SkillCrossClass=3]
+1,[SkillCrossClass=4]
+1,[SkillCrossClass=5]
+1,[SkillCrossClass=6]
+1,[SkillCrossClass=7]
+1,[SkillCrossClass=8]
+1,[SkillCrossClass=9]
+1,[SkillCrossClass=11]
+1,[SkillCrossClass=12]
+1,[SkillCrossClass=13]
+1,[SkillCrossClass=25]
+1,[SkillCrossClass=26]
+1,[SkillCrossClass=27]
+1,[SkillCrossClass=28]
+1,[SkillCrossClass=29]
+1,[SkillCrossClass=30]
+1,[SkillCrossClass=32]
+1,[SkillCrossClass=33]
+1,[SkillCrossClass=34]
+1,[SkillCrossClass=35]
+
+;WizardSkillsEnchanter
+1,[SkillCrossClass=3]
+1,[SkillCrossClass=6]
+1,[SkillCrossClass=13]
+
+### NEW SKILL ###
+:SkillClass
+1,|TempR=%SkR1%||TempR+%Temp%|{If~%TempR%<=%MaxRanks%?|SkR1+%Temp%|/[%ParamClass%Skills]}
+2,|TempR=%SkR2%||TempR+%Temp%|{If~%TempR%<=%MaxRanks%?|SkR2+%Temp%|/[%ParamClass%Skills]}
+3,|TempR=%SkR3%||TempR+%Temp%|{If~%TempR%<=%MaxRanks%?|SkR3+%Temp%|/[%ParamClass%Skills]}
+4,|TempR=%SkR4%||TempR+%Temp%|{If~%TempR%<=%MaxRanks%?|SkR4+%Temp%|/[%ParamClass%Skills]}
+5,|TempR=%SkR5%||TempR+%Temp%|{If~%TempR%<=%MaxRanks%?|SkR5+%Temp%|/[%ParamClass%Skills]}
+6,|TempR=%SkR6%||TempR+%Temp%|{If~%TempR%<=%MaxRanks%?|SkR6+%Temp%|/[%ParamClass%Skills]}
+7,|TempR=%SkR7%||TempR+%Temp%|{If~%TempR%<=%MaxRanks%?|SkR7+%Temp%|/[%ParamClass%Skills]}
+8,|TempR=%SkR8%||TempR+%Temp%|{If~%TempR%<=%MaxRanks%?|SkR8+%Temp%|/[%ParamClass%Skills]}
+9,|TempR=%SkR9%||TempR+%Temp%|{If~%TempR%<=%MaxRanks%?|SkR9+%Temp%|/[%ParamClass%Skills]}
+10,|TempR=%SkR10%||TempR+%Temp%|{If~%TempR%<=%MaxRanks%?|SkR10+%Temp%|/[%ParamClass%Skills]}
+11,|TempR=%SkR11%||TempR+%Temp%|{If~%TempR%<=%MaxRanks%?|SkR11+%Temp%|/[%ParamClass%Skills]}
+12,|TempR=%SkR12%||TempR+%Temp%|{If~%TempR%<=%MaxRanks%?|SkR12+%Temp%|/[%ParamClass%Skills]}
+13,|TempR=%SkR13%||TempR+%Temp%|{If~%TempR%<=%MaxRanks%?|SkR13+%Temp%|/[%ParamClass%Skills]}
+14,|TempR=%SkR14%||TempR+%Temp%|{If~%TempR%<=%MaxRanks%?|SkR14+%Temp%|/[%ParamClass%Skills]}
+15,|TempR=%SkR15%||TempR+%Temp%|{If~%TempR%<=%MaxRanks%?|SkR15+%Temp%|/[%ParamClass%Skills]}
+16,|TempR=%SkR16%||TempR+%Temp%|{If~%TempR%<=%MaxRanks%?|SkR16+%Temp%|/[%ParamClass%Skills]}
+17,|TempR=%SkR17%||TempR+%Temp%|{If~%TempR%<=%MaxRanks%?|SkR17+%Temp%|/[%ParamClass%Skills]}
+18,|TempR=%SkR18%||TempR+%Temp%|{If~%TempR%<=%MaxRanks%?|SkR18+%Temp%|/[%ParamClass%Skills]}
+19,|TempR=%SkR19%||TempR+%Temp%|{If~%TempR%<=%MaxRanks%?|SkR19+%Temp%|/[%ParamClass%Skills]}
+20,|TempR=%SkR20%||TempR+%Temp%|{If~%TempR%<=%MaxRanks%?|SkR20+%Temp%|/[%ParamClass%Skills]}
+21,|TempR=%SkR21%||TempR+%Temp%|{If~%TempR%<=%MaxRanks%?|SkR21+%Temp%|/[%ParamClass%Skills]}
+22,|TempR=%SkR22%||TempR+%Temp%|{If~%TempR%<=%MaxRanks%?|SkR22+%Temp%|/[%ParamClass%Skills]}
+23,|TempR=%SkR23%||TempR+%Temp%|{If~%TempR%<=%MaxRanks%?|SkR23+%Temp%|/[%ParamClass%Skills]}
+24,|TempR=%SkR24%||TempR+%Temp%|{If~%TempR%<=%MaxRanks%?|SkR24+%Temp%||ExtraLanguages+%Temp%|{If~%ParamRace%=Tengu?|ExtraLanguages+%Temp%|}/[%ParamClass%Skills]}
+25,|TempR=%SkR25%||TempR+%Temp%|{If~%TempR%<=%MaxRanks%?|SkR25+%Temp%||PerceptionFlag=1|/[%ParamClass%Skills]}
+26,|TempR=%SkR26%||TempR+%Temp%|{If~%TempR%<=%MaxRanks%?|SkR26+%Temp%|/[%ParamClass%Skills]}
+27,|TempR=%SkR27%||TempR+%Temp%|{If~%TempR%<=%MaxRanks%?|SkR27+%Temp%|/[%ParamClass%Skills]}
+28,|TempR=%SkR28%||TempR+%Temp%|{If~%TempR%<=%MaxRanks%?|SkR28+%Temp%|/[%ParamClass%Skills]}
+29,|TempR=%SkR29%||TempR+%Temp%|{If~%TempR%<=%MaxRanks%?|SkR29+%Temp%|/[%ParamClass%Skills]}
+30,|TempR=%SkR30%||TempR+%Temp%|{If~%TempR%<=%MaxRanks%?|SkR30+%Temp%|/[%ParamClass%Skills]}
+31,|TempR=%SkR31%||TempR+%Temp%|{If~%TempR%<=%MaxRanks%?|SkR31+%Temp%|/[%ParamClass%Skills]}
+32,|TempR=%SkR32%||TempR+%Temp%|{If~%TempR%<=%MaxRanks%?|SkR32+%Temp%|/[%ParamClass%Skills]}
+33,|TempR=%SkR33%||TempR+%Temp%|{If~%TempR%<=%MaxRanks%?|SkR33+%Temp%|/[%ParamClass%Skills]}
+34,|TempR=%SkR34%||TempR+%Temp%|{If~%TempR%<=%MaxRanks%?|SkR34+%Temp%|/[%ParamClass%Skills]}
+35,|TempR=%SkR35%||TempR+%Temp%|{If~%TempR%<=%MaxRanks%?|SkR35+%Temp%|/[%ParamClass%Skills]}
+# Extra Perform for Bards
+36,|TempR=%SkR36%||TempR+%Temp%|{If~%TempR%<=%MaxRanks%?|SkR36+%Temp%|/[%ParamClass%Skills]}
+37,|TempR=%SkR37%||TempR+%Temp%|{If~%TempR%<=%MaxRanks%?|SkR37+%Temp%|/[%ParamClass%Skills]}
+38,|TempR=%SkR38%||TempR+%Temp%|{If~%TempR%<=%MaxRanks%?|SkR38+%Temp%|/[%ParamClass%Skills]}
+39,|TempR=%SkR39%||TempR+%Temp%|{If~%TempR%<=%MaxRanks%?|SkR39+%Temp%|/[%ParamClass%Skills]}
+# Extra Craft for Expert (Blacksmith)
+40,|TempR=%SkR40%||TempR+%Temp%|{If~%TempR%<=%MaxRanks%?|SkR40+%Temp%|/[%ParamClass%Skills]}
+# Extra Profession for Expert (Fence)
+41,|TempR=%SkR41%||TempR+%Temp%|{If~%TempR%<=%MaxRanks%?|SkR41+%Temp%|/[%ParamClass%Skills]}
+
+### NEW SKILL ###
+:SkillCrossClass
+1,|TempR=%SkR1%||TempR+%Temp%|{If~%TempR%<=%CrossClassRanks%?|SkR1+%Temp%|/[%ParamClass%Skills]}
+2,|TempR=%SkR2%||TempR+%Temp%|{If~%TempR%<=%CrossClassRanks%?|SkR2+%Temp%|/[%ParamClass%Skills]}
+3,|TempR=%SkR3%||TempR+%Temp%|{If~%TempR%<=%CrossClassRanks%?|SkR3+%Temp%|/[%ParamClass%Skills]}
+4,|TempR=%SkR4%||TempR+%Temp%|{If~%TempR%<=%CrossClassRanks%?|SkR4+%Temp%|/[%ParamClass%Skills]}
+5,|TempR=%SkR5%||TempR+%Temp%|{If~%TempR%<=%CrossClassRanks%?|SkR5+%Temp%|/[%ParamClass%Skills]}
+6,|TempR=%SkR6%||TempR+%Temp%|{If~%TempR%<=%CrossClassRanks%?|SkR6+%Temp%|/[%ParamClass%Skills]}
+7,|TempR=%SkR7%||TempR+%Temp%|{If~%TempR%<=%CrossClassRanks%?|SkR7+%Temp%|/[%ParamClass%Skills]}
+8,|TempR=%SkR8%||TempR+%Temp%|{If~%TempR%<=%CrossClassRanks%?|SkR8+%Temp%|/[%ParamClass%Skills]}
+9,|TempR=%SkR9%||TempR+%Temp%|{If~%TempR%<=%CrossClassRanks%?|SkR9+%Temp%|/[%ParamClass%Skills]}
+10,|TempR=%SkR10%||TempR+%Temp%|{If~%TempR%<=%CrossClassRanks%?|SkR10+%Temp%|/[%ParamClass%Skills]}
+11,|TempR=%SkR11%||TempR+%Temp%|{If~%TempR%<=%CrossClassRanks%?|SkR11+%Temp%|/[%ParamClass%Skills]}
+12,|TempR=%SkR12%||TempR+%Temp%|{If~%TempR%<=%CrossClassRanks%?|SkR12+%Temp%|/[%ParamClass%Skills]}
+13,|TempR=%SkR13%||TempR+%Temp%|{If~%TempR%<=%CrossClassRanks%?|SkR13+%Temp%|/[%ParamClass%Skills]}
+14,|TempR=%SkR14%||TempR+%Temp%|{If~%TempR%<=%CrossClassRanks%?|SkR14+%Temp%|/[%ParamClass%Skills]}
+15,|TempR=%SkR15%||TempR+%Temp%|{If~%TempR%<=%CrossClassRanks%?|SkR15+%Temp%|/[%ParamClass%Skills]}
+16,|TempR=%SkR16%||TempR+%Temp%|{If~%TempR%<=%CrossClassRanks%?|SkR16+%Temp%|/[%ParamClass%Skills]}
+17,|TempR=%SkR17%||TempR+%Temp%|{If~%TempR%<=%CrossClassRanks%?|SkR17+%Temp%|/[%ParamClass%Skills]}
+18,|TempR=%SkR18%||TempR+%Temp%|{If~%TempR%<=%CrossClassRanks%?|SkR18+%Temp%|/[%ParamClass%Skills]}
+19,|TempR=%SkR19%||TempR+%Temp%|{If~%TempR%<=%CrossClassRanks%?|SkR19+%Temp%|/[%ParamClass%Skills]}
+20,|TempR=%SkR20%||TempR+%Temp%|{If~%TempR%<=%CrossClassRanks%?|SkR20+%Temp%|/[%ParamClass%Skills]}
+21,|TempR=%SkR21%||TempR+%Temp%|{If~%TempR%<=%CrossClassRanks%?|SkR21+%Temp%|/[%ParamClass%Skills]}
+22,|TempR=%SkR22%||TempR+%Temp%|{If~%TempR%<=%CrossClassRanks%?|SkR22+%Temp%|/[%ParamClass%Skills]}
+23,|TempR=%SkR23%||TempR+%Temp%|{If~%TempR%<=%CrossClassRanks%?|SkR23+%Temp%|/[%ParamClass%Skills]}
+24,|TempR=%SkR24%||TempR+%Temp%|{If~%TempR%<=%CrossClassRanks%?|SkR24+%Temp%||ExtraLanguages+%Temp%|{If~%ParamRace%=Tengu?|ExtraLanguages+%Temp%|}/[%ParamClass%Skills]}
+25,|TempR=%SkR25%||TempR+%Temp%|{If~%TempR%<=%CrossClassRanks%?|SkR25+%Temp%||PerceptionFlag=1|/[%ParamClass%Skills]}
+26,|TempR=%SkR26%||TempR+%Temp%|{If~%TempR%<=%CrossClassRanks%?|SkR26+%Temp%|/[%ParamClass%Skills]}
+27,|TempR=%SkR27%||TempR+%Temp%|{If~%TempR%<=%CrossClassRanks%?|SkR27+%Temp%|/[%ParamClass%Skills]}
+28,|TempR=%SkR28%||TempR+%Temp%|{If~%TempR%<=%CrossClassRanks%?|SkR28+%Temp%|/[%ParamClass%Skills]}
+29,|TempR=%SkR29%||TempR+%Temp%|{If~%TempR%<=%CrossClassRanks%?|SkR29+%Temp%|/[%ParamClass%Skills]}
+30,|TempR=%SkR30%||TempR+%Temp%|{If~%TempR%<=%CrossClassRanks%?|SkR30+%Temp%|/[%ParamClass%Skills]}
+31,|TempR=%SkR31%||TempR+%Temp%|{If~%TempR%<=%CrossClassRanks%?|SkR31+%Temp%|/[%ParamClass%Skills]}
+32,|TempR=%SkR32%||TempR+%Temp%|{If~%TempR%<=%CrossClassRanks%?|SkR32+%Temp%|/[%ParamClass%Skills]}
+33,|TempR=%SkR33%||TempR+%Temp%|{If~%TempR%<=%CrossClassRanks%?|SkR33+%Temp%|/[%ParamClass%Skills]}
+34,|TempR=%SkR34%||TempR+%Temp%|{If~%TempR%<=%CrossClassRanks%?|SkR34+%Temp%|/[%ParamClass%Skills]}
+35,|TempR=%SkR35%||TempR+%Temp%|{If~%TempR%<=%CrossClassRanks%?|SkR35+%Temp%|/[%ParamClass%Skills]}
+
+# ------------------------------
+
+### NEW FEATS ###
+### NEW SKILL FEATS ###
+### NEW SKILL ###
+# If you add feats here, modify the Loop~X,[SetRequiredSkills] function above. Search for: [SetRequiredSkills]
+:!SetRequiredSkills
+1,{If~{And~%SkR13%=0,{Find~1,Dazzling Display,%FeatsSkill%}!=0}=1?|Temp=%ReqSkRanks%|{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR13=%Temp%|}
+2,{If~{And~%SkR28%=0,{Find~1,Mounted Combat,%FeatsSkill%}!=0}=1?|Temp=%ReqSkRanks%|{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR28=%Temp%|}
+3,{If~{Find~1,Agile Athlete,%FeatsSkill%}!=0?{Loop~2,[SetRequiredSkills_Agile Athlete]}}
+4,{If~{Find~1,Acrobatic,%FeatsSkill%}!=0?{Loop~2,[SetRequiredSkills_Acrobatic]}}
+5,{If~{Find~1,Alertness,%FeatsSkill%}!=0?{Loop~2,[SetRequiredSkills_Alertness]}}
+6,{If~{Find~1,Animal Affinity,%FeatsSkill%}!=0?{Loop~2,[SetRequiredSkills_Animal Affinity]}}
+7,{If~{Find~1,Athletic,%FeatsSkill%}!=0?{Loop~2,[SetRequiredSkills_Athletic]}}
+8,{If~{Find~1,Deceitful,%FeatsSkill%}!=0?{Loop~2,[SetRequiredSkills_Deceitful]}}
+9,{If~{Find~1,Deft Hands,%FeatsSkill%}!=0?{Loop~2,[SetRequiredSkills_Deft Hands]}}
+10,{If~{Find~1,Magical Aptitude,%FeatsSkill%}!=0?{Loop~2,[SetRequiredSkills_Magical Aptitude]}}
+11,{If~{Or~{Find~1,Persuasive,%FeatsSkill%}!=0,{Find~1,Evil Brand,%FeatsSkill%}!=0}=1?{Loop~2,[SetRequiredSkills_Persuasive]}}
+12,{If~{Find~1,Bullheaded,%FeatsSkill%}!=0?{If~%SkR13%=0?|Temp=%ReqSkRanks%|{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR13=%Temp%|}}
+13,{If~{Find~1,Self-Sufficient,%FeatsSkill%}!=0?{Loop~2,[SetRequiredSkills_SelfSufficient]}}
+14,{If~{Find~1,Stealthy,%FeatsSkill%}!=0?{Loop~2,[SetRequiredSkills_Stealthy]}}
+15,{If~{And~%SkR5%=0,{Find~1,Master Trapmaker,%FeatsSkill%}!=0}=1?|Temp=%ReqSkRanks%||Temp>4|{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR5=%Temp%|}
+16,{If~{Find~1,Peak Hopper,%FeatsSkill%}!=0?{Loop~2,[SetRequiredSkills_Peak Hopper]}}
+17,{If~{And~%SkR5%=0,{Find~1,SFCRAFTSKILL,%FeatsSkill%}!=0}=1?|Temp=%ReqSkRanks%|{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR5=%Temp%|}
+18,{If~{Find~1,SFKNOWDUNGEON,%FeatsSkill%}!=0?|Temp=%ReqSkRanks%|{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR15=%Temp%|}
+19,{If~{Find~1,Magic of the Land,%FeatsSkill%}!=0?
+_{If~%SkR20%=0?|Temp=%ReqSkRanks%||Temp>3|{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR20=%Temp%|}
+_{If~%SkR31%=0?|Temp=%ReqSkRanks%||Temp>3|{If~%Temp%>3?|Temp=3|}{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR31=%Temp%|}
+_}
+20,{If~{Find~1,Treefriend,%FeatsSkill%}!=0?{Loop~2,[SetRequiredSkills_Treefriend]}}
+21,{If~{Find~1,Treetopper,%FeatsSkill%}!=0?{Loop~2,[SetRequiredSkills_Treetopper]}}
+22,{If~{Find~1,Artist,%FeatsSkill%}!=0?{Loop~2,[SetRequiredSkills_Artist]}}
+23,{If~{And~%SkR11%=0,{Find~1,Burrow Friend,%FeatsSkill%}!=0}=1?{If~{Dice~1d3}>1?|Temp=%ReqSkRanks%|{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR11=%Temp%|}}
+24,{If~{And~%SkR32%=0,{Find~1,Seen and Unseen,%FeatsSkill%}!=0}=1?{If~{Dice~1d3}=1?|Temp=%ReqSkRanks%|{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR32=%Temp%|}}
+25,{If~{And~%SkR33%=0,{Find~1,Survivor,%FeatsSkill%}!=0}=1?|Temp=%ReqSkRanks%|{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR33=%Temp%|}
+26,{If~{Find~1,HUNTER,%FeatsSkill%}!=0?{Loop~2,[SetRequiredSkills_Hunter]}}
+27,{If~{And~%SkR13%=0,{Find~1,Menacing Demeanor,%FeatsSkill%}!=0}=1?|Temp=%ReqSkRanks%|{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR13=%Temp%|}
+28,{If~{And~%SkR13%=0,{Find~1,Thug,%FeatsSkill%}!=0}=1?|Temp=%ReqSkRanks%|{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR13=%Temp%|}
+29,{If~{And~%SkR25%=0,{Find~1,Quick Reconnoiter,%FeatsSkill%}!=0}=1?|Temp=%ReqSkRanks%|{If~%CharacterLevel%>=10?|Temp>10|}{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR25=%Temp%|}
+30,{If~{And~%SkR6%=0,{Find~1,Sacred Vow,%FeatsSkill%}!=0}=1?|Temp=%ReqSkRanks%|{If~%CharacterLevel%>=10?|Temp>10|}{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR6=%Temp%|}
+31,{If~{Find~1,Nimbus of Light,%FeatsSkill%}!=0?{Loop~2,[SetRequiredSkills_Nimbus]}}
+32,{If~{And~%SkR32%=0,{Find~1,Swift and Silent,%FeatsSkill%}!=0}=1?{If~{Dice~1d4}>1?|Temp=%ReqSkRanks%|{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR32=%Temp%|}}
+33,{If~{Find~1,Vermin Trainer,%FeatsSkill%}!=0?{Loop~2,[SetRequiredSkills_Vermin Trainer]}}
+34,{If~{And~%SkR6%=0,{Find~1,Stonelord,%FeatsSkill%}!=0}=1?{If~{Dice~1d3}=1?|Temp=%ReqSkRanks%|{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR6=%Temp%|}}
+35,{If~{And~%SkR25%=0,{Find~1,Blooded,%FeatsSkill%}!=0}=1?|Temp=%ReqSkRanks%|{If~%CharacterLevel%>=10?|Temp>10|}{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR25=%Temp%|}
+36,{If~{And~%SkR11%=0,{Find~1,Dog Killer Horse Hunter,%FeatsSkill%}!=0}=1?|Temp=1||SkillCount-%Temp%||SkR11=%Temp%|}
+37,{If~{And~%SkR13%=0,{Find~1,Willing Deformity,%FeatsSkill%}!=0}=1?{If~{Dice~1d3}>1?|Temp=%ReqSkRanks%|{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR13=%Temp%|}}
+38,{If~{And~%SkR6%=0,{Find~1,Wolf Master,%FeatsSkill%}!=0}=1?|Temp=1||SkillCount-%Temp%||SkR6=%Temp%|}
+39,{If~{Find~1,Eye for Detail,%FeatsSkill%}!=0?{Loop~2,[SetRequiredSkills_EyeforDetail]}}
+40,{If~{And~%SkR25%=0,{Find~1,Keen Vision,%FeatsSkill%}!=0}=1?|Temp=%ReqSkRanks%|{If~%CharacterLevel%>=10?|Temp>10|}{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR25=%Temp%|}
+41,{If~{Find~1,Sage Wisdom,%FeatsSkill%}!=0?{Loop~2,[SetRequiredSkills_Sage Wisdom]}}
+42,{If~{And~%SkR32%=0,{Find~1,Lightning Stealth,%FeatsSkill%}!=0}=1?|Temp=3|{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR32=%Temp%|}
+43,{If~{And~%SkR4%=0,{Find~1,Dexterous Climb,%FeatsSkill%}!=0}=1?|Temp=%ReqSkRanks%|{If~%CharacterLevel%>=10?|Temp>10|}{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR4=%Temp%|}
+44,{If~{Find~1,Shadow,%FeatsSkill%}!=0?{Loop~2,[SetRequiredSkills_Shadow]}}
+45,{If~{And~%SkR6%=0,{Find~1,Urban Tracking,%FeatsSkill%}!=0}=1?|Temp=%ReqSkRanks%|{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR6=%Temp%|}
+46,{If~{And~%SkR6%=0,{Find~1,Otherworldly,%FeatsSkill%}!=0}=1?{If~{Dice~1d3}=1?|Temp=%ReqSkRanks%|{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR6=%Temp%|}}
+47,{If~{Find~1,Street Smart,%FeatsSkill%}!=0?{Loop~2,[SetRequiredSkills_Street Smart]}}
+48,{If~{Find~1,Oath of Uwe,%FeatsSkill%}!=0?{Loop~2,[SetRequiredSkills_Oath of Uwe]}}
+49,{If~{And~%SkR31%=0,{Find~1,Selective Spell,%FeatsSkill%}!=0}=1?|Temp=%ReqSkRanks%||Temp>10|{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR31=%Temp%|}
+50,{If~{And~{Find~1,Intimidating Prowess,%FeatsSkill%}!=0,{Dice~1d3}=1}=1?{If~%SkR13%=0?|Temp=%ReqSkRanks%|{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR13=%Temp%|}}
+51,{If~{Find~1,Brewmaster,%FeatsSkill%}!=0?{Loop~2,[SetRequiredSkills_Brewmaster]}}
+52,{If~{And~%SkR7%=0,{Find~1,Burn Burn Burn,%FeatsSkill%}!=0}=1?|Temp=1|{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR7=%Temp%|}
+53,{If~{And~%SkR13%=0,{Find~1,Bullying Blow,%FeatsSkill%}!=0}=1?|Temp=1|{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR13=%Temp%|}
+
+# Master Craftsman needs at least 5 ranks
+:SetMasterCraftsman
+1,{If~{And~%SkR5%=0,%MasterCraftsman%=1}=1?|Temp=%ReqSkRanks%||Temp>5|{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR5=%Temp%|
+_/{If~{And~%SkR27%=0,%MasterCraftsman%=2}=1?|Temp=%ReqSkRanks%||Temp>5|{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR27=%Temp%|
+_}}
+
+# At level 10+, minimal ranks will be 10 to benefit from the +4 modifier.
+;!SetRequiredSkills_Acrobatic
+1,{If~%SkR1%=0?|Temp=%ReqSkRanks%|{If~%CharacterLevel%>=10?|Temp>10|}{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR1=%Temp%|}
+1,{If~%SkR10%=0?|Temp=%ReqSkRanks%|{If~%CharacterLevel%>=10?|Temp>10|}{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR10=%Temp%|}
+
+;!SetRequiredSkills_Agile Athlete
+1,{If~%SkR4%=0?|Temp=%ReqSkRanks%||Temp\2||Temp>1|{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR4=%Temp%|}
+1,{If~%SkR34%=0?|Temp=%ReqSkRanks%||Temp\2||Temp>1|{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR34=%Temp%|}
+
+;!SetRequiredSkills_Alertness
+1,{If~%SkR25%=0?|Temp=%ReqSkRanks%|{If~%CharacterLevel%>=10?|Temp>10|}{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR25=%Temp%|}
+1,{If~%SkR29%=0?|Temp=%ReqSkRanks%|{If~%CharacterLevel%>=10?|Temp>10|}{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR29=%Temp%|}
+
+;!SetRequiredSkills_Animal Affinity
+1,{If~%SkR11%=0?|Temp=%ReqSkRanks%|{If~%CharacterLevel%>=10?|Temp>10|}{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR11=%Temp%|}
+1,{If~%SkR28%=0?|Temp=%ReqSkRanks%|{If~%CharacterLevel%>=10?|Temp>10|}{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR28=%Temp%|}
+
+;!SetRequiredSkills_Artist
+1,{If~%SkR5%=0?|Temp=%ReqSkRanks%|{If~%CharacterLevel%>=10?|Temp>10|}{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR5=%Temp%|}
+1,{If~%SkR26%=0?|Temp=%ReqSkRanks%|{If~%CharacterLevel%>=10?|Temp>10|}{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR26=%Temp%|}
+
+;!SetRequiredSkills_Athletic
+1,{If~%SkR4%=0?|Temp=%ReqSkRanks%|{If~%CharacterLevel%>=10?|Temp>10|}{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR4=%Temp%|}
+1,{If~%SkR34%=0?|Temp=%ReqSkRanks%|{If~%CharacterLevel%>=10?|Temp>10|}{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR34=%Temp%|}
+
+;!SetRequiredSkills_Brewmaster
+1,{If~%SkR5%=0?|Temp=1|{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR5=%Temp%|}
+1,{If~%SkR27%=0?|Temp=1|{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR27=%Temp%|}
+
+;!SetRequiredSkills_Deceitful
+1,{If~%SkR3%=0?|Temp=%ReqSkRanks%|{If~%CharacterLevel%>=10?|Temp>10|}{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR3=%Temp%|}
+1,{If~%SkR8%=0?|Temp=%ReqSkRanks%|{If~%CharacterLevel%>=10?|Temp>10|}{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR8=%Temp%|}
+
+;!SetRequiredSkills_Deft Hands
+1,{If~%SkR7%=0?|Temp=%ReqSkRanks%|{If~%CharacterLevel%>=10?|Temp>10|}{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR7=%Temp%|}
+1,{If~%SkR30%=0?|Temp=%ReqSkRanks%|{If~%CharacterLevel%>=10?|Temp>10|}{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR30=%Temp%|}
+
+;!SetRequiredSkills_EyeforDetail
+1,{If~%SkR2%=0?|Temp=%ReqSkRanks%|{If~%CharacterLevel%>=10?|Temp>10|}{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR2=%Temp%|}
+1,{If~%SkR25%=0?|Temp=%ReqSkRanks%|{If~%CharacterLevel%>=10?|Temp>10|}{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR25=%Temp%|}
+
+;!SetRequiredSkills_Hunter
+1,{If~%SkR27%=0?|Temp=%ReqSkRanks%|{If~%CharacterLevel%>=10?|Temp>10|}{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR27=%Temp%|}
+1,{If~%SkR33%=0?|Temp=%ReqSkRanks%|{If~%CharacterLevel%>=10?|Temp>10|}{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR33=%Temp%|}
+
+;!SetRequiredSkills_Magical Aptitude
+1,{If~%SkR31%=0?|Temp=%ReqSkRanks%|{If~%CharacterLevel%>=10?|Temp>10|}{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR31=%Temp%|}
+1,{If~%SkR35%=0?|Temp=%ReqSkRanks%|{If~%CharacterLevel%>=10?|Temp>10|}{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR35=%Temp%|}
+
+;!SetRequiredSkills_Nimbus
+1,{If~%SkR6%=0?|Temp=%ReqSkRanks%|{If~%CharacterLevel%>=10?|Temp>10|}{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR6=%Temp%|}
+1,{If~%SkR29%=0?|Temp=%ReqSkRanks%|{If~%CharacterLevel%>=10?|Temp>10|}{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR29=%Temp%|}
+
+;!SetRequiredSkills_Oath of Uwe
+1,{If~%SkR6%=0?|Temp=%ReqSkRanks%|{If~%CharacterLevel%>=10?|Temp>10|}{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR6=%Temp%|}
+1,{If~%SkR29%=0?|Temp=%ReqSkRanks%|{If~%CharacterLevel%>=10?|Temp>10|}{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR29=%Temp%|}
+
+;!SetRequiredSkills_Persuasive
+1,{If~%SkR6%=0?|Temp=%ReqSkRanks%|{If~%CharacterLevel%>=10?|Temp>10|}{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR6=%Temp%|}
+1,{If~%SkR13%=0?|Temp=%ReqSkRanks%|{If~%CharacterLevel%>=10?|Temp>10|}{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR13=%Temp%|}
+
+;!SetRequiredSkills_Peak Hopper
+1,{If~%SkR1%=0?|Temp=%ReqSkRanks%|{If~%CharacterLevel%>=10?|Temp>10|}{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR1=%Temp%|}
+1,{If~%SkR4%=0?|Temp=%ReqSkRanks%|{If~%CharacterLevel%>=10?|Temp>10|}{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR4=%Temp%|}
+
+;!SetRequiredSkills_Sage Wisdom
+1,{If~%SkR23%=0?|Temp=%ReqSkRanks%|{If~%CharacterLevel%>=10?|Temp>10|}{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR23=%Temp%|}
+1,{If~%SkR29%=0?|Temp=%ReqSkRanks%|{If~%CharacterLevel%>=10?|Temp>10|}{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR29=%Temp%|}
+
+;!SetRequiredSkills_SelfSufficient
+1,{If~%SkR12%=0?|Temp=%ReqSkRanks%|{If~%CharacterLevel%>=10?|Temp>10|}{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR12=%Temp%|}
+1,{If~%SkR33%=0?|Temp=%ReqSkRanks%|{If~%CharacterLevel%>=10?|Temp>10|}{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR33=%Temp%|}
+
+;!SetRequiredSkills_Shadow
+1,{If~%SkR25%=0?|Temp=%ReqSkRanks%|{If~%CharacterLevel%>=10?|Temp>10|}{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR25=%Temp%|}
+1,{If~%SkR32%=0?|Temp=%ReqSkRanks%|{If~%CharacterLevel%>=10?|Temp>10|}{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR32=%Temp%|}
+
+;!SetRequiredSkills_Stealthy
+1,{If~%SkR9%=0?|Temp=%ReqSkRanks%|{If~%CharacterLevel%>=10?|Temp>10|}{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR9=%Temp%|}
+1,{If~%SkR32%=0?|Temp=%ReqSkRanks%|{If~%CharacterLevel%>=10?|Temp>10|}{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR32=%Temp%|}
+
+;!SetRequiredSkills_Street Smart
+1,{If~%SkR13%=0?|Temp=%ReqSkRanks%|{If~%CharacterLevel%>=10?|Temp>10|}{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR13=%Temp%|}
+1,{If~%SkR29%=0?|Temp=%ReqSkRanks%|{If~%CharacterLevel%>=10?|Temp>10|}{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR29=%Temp%|}
+
+;!SetRequiredSkills_Treefriend
+1,{If~%SkR4%=0?|Temp=%ReqSkRanks%|{If~%CharacterLevel%>=10?|Temp>10|}{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR4=%Temp%|}
+1,{If~%SkR33%=0?|Temp=%ReqSkRanks%|{If~%CharacterLevel%>=10?|Temp>10|}{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR33=%Temp%|}
+
+;!SetRequiredSkills_Treetopper
+1,{If~%SkR1%=0?|Temp=%ReqSkRanks%||Temp\2||Temp>1|{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR1=%Temp%|}
+1,{If~%SkR4%=0?|Temp=%ReqSkRanks%||Temp\2||Temp>1|{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR4=%Temp%|}
+
+;!SetRequiredSkills_Vermin Trainer
+1,{If~%SkR11%=0?|Temp=%ReqSkRanks%|{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR11=%Temp%|}
+1,{If~{And~%SkR23%=0,{Dice~1d5}=1}=1?|Temp=%ReqSkRanks%|{If~%Temp%<=%SkillCount%?|SkillCount-%Temp%| / |Temp=%SkillCount%||SkillCount-%Temp%|}|SkR23=%Temp%|
+_/{If~%SkR23%=0?|Temp=1||SkillCount-%Temp%||SkR23=%Temp%|}
+_}
+
+### NEW FEATS ###
+### NEW SKILL FEATS ###
+### NEW SKILL ###
+### NEW RACE ### {If~%ParamRace%=XXX?|SkMX+2|}
+# XXX Skill Focus - Skill Mastery - Skill Perfection to do XXX but not in the near future and maybe never
+:FeatsSkill
+# Acrobatics
+1,{If~{Find~1,Acrobatic,%FeatsSkill%}!=0?{If~%SkR1%>=10?|SkM1+4|/|SkM1+2|}}
+_{If~{Find~1,Peak Hopper,%FeatsSkill%}!=0?{If~%SkR1%>=10?|SkM1+4|/|SkM1+2|}}
+_{If~{Find~1,Treetopper,%FeatsSkill%}!=0?|SkM1+2|}
+_{If~{And~%ParamRace%=Half Orc,%Subrace%=Mountain Clan}=1?|SkM1+1|
+_   /{If~{And~%ParamRace%=Half Orc,%Subrace%=Jungle}=1?|SkM1+2|
+_   /{If~{And~%ParamRace%=Goblin,%Subrace%=Jungle}=1?|SkM1+4|
+_   /{If~%ParamRace%=Halfling?
+_       {If~%Subrace%=Avenging?/{If~%Subrace%=Deep?/{If~%Subrace%=Desert?/{If~%Subrace%=Nomadic?/{If~%Subrace%=Slave Born?/{If~%Subrace%=Tallfellow?/|SkM1+2|}}}}}}
+_}}}}
+_{If~{Find~1,greater nimble,%FeatsSkill%}!=0?|SkM1+15|
+_   /{If~{Find~1,improved nimble,%FeatsSkill%}!=0?|SkM1+10|
+_   /{If~{Find~1,nimble,%FeatsSkill%}!=0?|SkM1+5|
+_}}}
+# Appraise
+2,{If~{Find~1,Eye for Detail,%FeatsSkill%}!=0?{If~%SkR2%>=10?|SkM2+4|/|SkM2+2|}}
+_{If~{Find~1,Scavenger's Eye,%FeatsSkill%}!=0?|SkM4+2|}
+# Bluff
+3,{If~{Find~1,Deceitful,%FeatsSkill%}!=0?{If~%SkR3%>=10?|SkM3+4|/|SkM3+2|}}
+_{If~%WIZEncSmile%>0?|SkM3+%WIZEncSmile%|}
+_{If~%ParamRace%=Tiefling?|SkM3+2|}
+_{If~{And~%ParamRace%=Half Elf,%Subrace%=Human-Raised}=1?|SkM3+2|
+_   /{If~{And~%ParamRace%=Half Elf,%Subrace%=Jungle}=1?|SkM3+2|
+_   /{If~{And~%ParamRace%=Human,%Subrace%=Imperious}=1?|SkM3+2|
+_   /{If~{And~%ParamRace%=Goblin,%Subrace%=Arctic}=1?|SkM3+2|
+_   /{If~{And~%ParamRace%=Gnome,%Subrace%=Desert}=1?|SkM3+2|
+_}}}}}
+# Climb
+4,{If~{Find~1,Athletic,%FeatsSkill%}!=0?{If~%SkR4%>=10?|SkM4+4|/|SkM4+2|}}
+_{If~{Find~1,Peak Hopper,%FeatsSkill%}!=0?{If~%SkR4%>=10?|SkM4+4|/|SkM4+2|}}
+_{If~{Find~1,Treefriend,%FeatsSkill%}!=0?{If~%SkR4%>=10?|SkM4+4|/|SkM4+2|}}
+_{If~{Find~1,Treetopper,%FeatsSkill%}!=0?|SkM4+2|}
+_{If~{And~%ParamRace%=Gnome,%Subrace%=Jungle}=1?|SkM4+2|
+_   /{If~{And~%ParamRace%=Gnome,%Subrace%=Traveler}=1?|SkM4+2|
+_   /{If~{And~%ParamRace%=Half Orc,%Subrace%=Feral}=1?|SkM4+2|
+_   /{If~{And~%ParamRace%=Half Orc,%Subrace%=Mountain Clan}=1?|SkM4+1|
+_   /{If~{And~%ParamRace%=Half Orc,%Subrace%=Jungle}=1?|SkM4+2|
+_   /{If~{And~%ParamRace%=Kobold,%Subrace%=Jungle}=1?|SkM4+2|
+_   /{If~%ParamRace%=Halfling?
+_       {If~%Subrace%=Arctic?/{If~%Subrace%=Avenging?/{If~%Subrace%=Deep?/{If~%Subrace%=Desert?/{If~%Subrace%=Nomadic?/{If~%Subrace%=Slave Born?/{If~%Subrace%=Tallfellow?/|SkM4+2|}}}}}}}
+_}}}}}}}
+_{If~{Find~1,greater climbing,%FeatsSkill%}!=0?|SkM4+15|
+_   /{If~{Find~1,improved climbing,%FeatsSkill%}!=0?|SkM4+10|
+_   /{If~{Find~1,climbing,%FeatsSkill%}!=0?|SkM4+5|
+_}}}
+_{If~{Find~1,CLIMBING,%FeatsSkill%}!=0?|SkM4+8|}
+# Craft
+5,{If~%MasterCraftsman%=1?|SkM5+2|}
+_{If~{Find~1,Artist,%FeatsSkill%}!=0?{If~%SkR5%>=10?|SkM5+4|/|SkM5+2|}}
+_{If~{Find~1,Brewmaster,%FeatsSkill%}!=0?|SkM5+2|}
+_{If~{Find~1,GnomeObsessiveCraft,%FeatsSkill%}!=0?
+_   {If~%ParamRace%=Gnome?|SkM5+2|
+_   /{If~{And~%ParamRace%=Human,%Subrace%=Country Folk}=1?|Temp={Calc~%CharacterLevel%\2}||Temp>1||SkM5+%Temp%|
+_   }}
+_}
+_{If~{Find~1,Master Trapmaker,%FeatsSkill%}!=0?|SkM5+3|}
+_{If~{And~%ParamRace%=Kobold,%Subrace%!=Jungle}=1?|SkM5+2|
+_   /{If~%ParamRace%=Svirfneblin?|SkM5+2|
+_   /{If~{And~%ParamRace%=Halfling,%Subrace%=Slave Born}=1?|SkM5+2|
+_   /{If~{And~%ParamRace%=Gnome,%Subrace%=Jungle}=1?|SkM5+2|
+_}}}}
+# Diplomacy
+6,{If~{Find~1,Persuasive,%FeatsSkill%}!=0?{If~%SkR6%>=10?|SkM6+4|/|SkM6+2|}}
+_{If~{Find~1,Sacred Vow,%FeatsSkill%}!=0?{If~%SkR6%>=10?|SkM6+6|/|SkM6+3|}}
+_{If~{Find~1,Oath of Uwe,%FeatsSkill%}!=0?{If~%SkR6%>=10?|SkM6+6|/|SkM6+3|}}
+_{If~{Find~1,Otherworldly,%FeatsSkill%}!=0?|SkM6+2|}
+_{If~%ParamRace%=Aasimar?|SkM6+2|
+_   /{If~{And~%ParamRace%=Gnome,%Subrace%=Aquatic}=1?|SkM6+2|
+_   /{If~{And~%ParamRace%=Gnome,%Subrace%=Desert}=1?|SkM6+2|
+_   /{If~{And~%ParamRace%=Human,%Subrace%=Imperious}=1?|SkM6+2|
+_   /{If~{And~%ParamRace%=Half Orc,%Subrace%=Aquatic}=1?|SkM6+2|
+_   /{If~{And~%ParamRace%=Half Orc,%Subrace%=Arctic}=1?|SkM6+2|
+_}}}}}}
+_{If~%WIZEncSmile%>0?|SkM6+%WIZEncSmile%|}
+# Disable Device
+7,{If~{Find~1,Deft Hands,%FeatsSkill%}!=0?{If~%SkR7%>=10?|SkM7+4|/|SkM7+2|}}
+_{If~{And~%ParamRace%=Gnome,%Subrace%=Gear}=1?|SkM7+1|
+_   /{If~{And~%ParamRace%=Goblin,%Subrace%=Aquatic}=1?|SkM7+2|
+_}}
+# Disguise
+8,{If~{Find~1,Deceitful,%FeatsSkill%}!=0?{If~%SkR8%>=10?|SkM8+4|/|SkM8+2|}}
+_{If~{And~%ParamRace%=Half Elf,%Subrace%=Human-Raised}=1?|SkM8+1|}
+# Escape Artist
+9,{If~{Find~1,Stealthy,%FeatsSkill%}!=0?{If~%SkR9%>=10?|SkM9+4|/|SkM9+2|}}
+_{If~{Find~1,greater slick,%FeatsSkill%}!=0?|SkM9+15|
+_   /{If~{Find~1,improved slick,%FeatsSkill%}!=0?|SkM9+10|
+_   /{If~{Find~1,slick,%FeatsSkill%}!=0?|SkM9+5|
+_}}}
+# Fly
+10,{If~{Find~1,Acrobatic,%FeatsSkill%}!=0?{If~%SkR10%>=10?|SkM10+4|/|SkM10+2|}}
+_[SetFlySize=%Size%]
+# Handle Animal
+11,{If~{Find~1,Animal Affinity,%FeatsSkill%}!=0?{If~%SkR11%>=10?|SkM11+4|/|SkM11+2|}}
+_{If~{Find~1,Burrow Friend,%FeatsSkill%}!=0?{If~%SkR11%>=10?|SkM11+4|/|SkM11+2|}}
+_{If~{And~%ParamRace%=Orc,%Subrace%=Arctic}=1?|SkM11+2|
+_   /{If~{And~%ParamRace%=Elf,%Subrace%=Desert}=1?|SkM11+2|
+_}}
+# Heal
+12,{If~{Find~1,Self-Sufficient,%FeatsSkill%}!=0?{If~%SkR12%>=10?|SkM12+4|/|SkM12+2|}}
+_{If~{And~%ParamRace%=Dwarf,%Subrace%=Jungle}=1?|SkM12+2|}
+# Intimidate
+13,{If~{Find~1,Persuasive,%FeatsSkill%}!=0?{If~%SkR13%>=10?|SkM13+4|/|SkM13+2|}}
+_{If~{Find~1,Bullheaded,%FeatsSkill%}!=0?{If~%SkR13%>=10?|SkM13+4|/|SkM13+2|}}
+_{If~{Find~1,Menacing Demeanor,%FeatsSkill%}!=0?{If~%SkR13%>=10?|SkM13+8|/|SkM13+4|}}
+_{If~{Find~1,Thug,%FeatsSkill%}!=0?{If~%SkR13%>=10?|SkM13+4|/|SkM13+2|}}
+_{If~{Find~1,Street Smart,%FeatsSkill%}!=0?{If~%SkR13%>=10?|SkM13+4|/|SkM13+2|}}
+_{If~{Find~1,Intimidating Prowess,%FeatsSkill%}!=0?|SkM13+%STRBonus%|}
+_{If~{Find~1,ORCINTIMIDATING,%FeatsSkill%}!=0?|SkM13+2|}
+_{If~{Find~1,Willing Deformity,%FeatsSkill%}!=0?|SkM13+4|}
+_{If~%WIZEncSmile%>0?|SkM13+%WIZEncSmile%|}
+#
+_{If~{Find~1,greater fear,%FeatsSkill%}!=0?|SkM13+15|
+_   /{If~{Find~1,improved fear,%FeatsSkill%}!=0?|SkM13+10|
+_   /{If~{Find~1,fear,%FeatsSkill%}!=0?|SkM13+5|
+_}}}
+# Knowledge (Arcana)
+14,{If~{And~%SkM14%>0,{Find~1,Wisdom of Ages,%FeatsSkill%}!=0}=1?|SkM14+1|}
+_{If~{Find~1,GnomeAcademicanArcana,%FeatsSkill%}!=0?|SkM14+2|}
+# Knowledge (Dungeoneering)
+15,{If~{And~%SkM15%>0,{Find~1,Wisdom of Ages,%FeatsSkill%}!=0}=1?|SkM15+1|}
+_{If~{Find~1,GnomeAcademicanDungeoneering,%FeatsSkill%}!=0?|SkM15+2|}
+_{If~{And~%ParamRace%=Half Orc,%Subrace%=Deep Kin}=1?|SkM15+1|
+_   /{If~{And~%ParamRace%=Dwarf,%Subrace%=Desert}=1?|SkM15+2|
+_}}
+# Knowledge (Engineering)
+16,{If~{And~%SkM16%>0,{Find~1,Wisdom of Ages,%FeatsSkill%}!=0}=1?|SkM16+1|}
+_{If~{Find~1,GnomeAcademicanEngineering,%FeatsSkill%}!=0?|SkM16+2|}
+_{If~{And~%ParamRace%=Gnome,%Subrace%=Gear}=1?|SkM16+1|
+_   /{If~{And~%ParamRace%=Dwarf,%Subrace%=Desert}=1?|SkM16+2|
+_}}
+# Knowledge (Geography)
+17,{If~{And~%SkM17%>0,{Find~1,Wisdom of Ages,%FeatsSkill%}!=0}=1?|SkM17+1|}
+_{If~{Find~1,GnomeAcademicanGeography,%FeatsSkill%}!=0?|SkM17+2|}
+_{If~{And~%ParamRace%=Halfling,%Subrace%=Nomadic}=1?|SkM17+2|}
+# Knowledge (History)
+18,{If~{And~%SkM18%>0,{Find~1,Wisdom of Ages,%FeatsSkill%}!=0}=1?|SkM18+1|}
+_{If~{Find~1,GnomeAcademicanHistory,%FeatsSkill%}!=0?|SkM18+2|}
+_{If~{And~%ParamRace%=Elf,%Subrace%=Jungle}=1?|SkM18+2|}
+# Knowledge (Local)
+19,{If~{And~%SkM19%>0,{Find~1,Wisdom of Ages,%FeatsSkill%}!=0}=1?|SkM19+1|}
+_{If~{Find~1,GnomeAcademicanLocal,%FeatsSkill%}!=0?|SkM19+2|}
+_{If~{And~%ParamRace%=Half Elf,%Subrace%=Human-Raised}=1?|SkM19+1|
+_   /{If~{And~%ParamRace%=Half Orc,%Subrace%=Arena-Bred}=1?|SkM19+2|
+_}}
+# Knowledge (Nature)
+20,{If~{And~%SkM20%>0,{Find~1,Wisdom of Ages,%FeatsSkill%}!=0}=1?|SkM20+1|}
+_{If~{Find~1,GnomeAcademicanNature,%FeatsSkill%}!=0?|SkM20+2|}
+_{If~{And~%ParamRace%=Dwarf,%Subrace%=Jungle}=1?|SkM20+2|}
+# Knowledge (Nobility)
+21,{If~{And~%SkM21%>0,{Find~1,Wisdom of Ages,%FeatsSkill%}!=0}=1?|SkM21+1|}
+_{If~{Find~1,GnomeAcademicanNobility,%FeatsSkill%}!=0?|SkM21+2|}
+# Knowledge (Planes)
+22,{If~{And~%SkM22%>0,{Find~1,Wisdom of Ages,%FeatsSkill%}!=0}=1?|SkM22+1|}
+_{If~{Find~1,GnomeAcademicanPlanes,%FeatsSkill%}!=0?|SkM22+2|}
+# Knowledge (Religion)
+23,{If~{And~%SkM23%>0,{Find~1,Wisdom of Ages,%FeatsSkill%}!=0}=1?|SkM23+1|}
+_{If~{Find~1,GnomeAcademicanReligion,%FeatsSkill%}!=0?|SkM23+2|}
+_{If~{Find~1,Sage Wisdom,%FeatsSkill%}!=0?{If~%SkR23%>=10?|SkM23+4|/|SkM23+2|}}
+# Linguistics
+24,{If~%ParamRace%=Tengu?|SkM24+4|
+_   /{If~{And~%ParamRace%=Halfling,%Subrace%=Nomadic}=1?|SkM24+2|
+_}}
+# Perception
+25,{If~{Find~1,Alertness,%FeatsSkill%}!=0?{If~%SkR25%>=10?|SkM25+4|/|SkM25+2|}}
+_{If~{Find~1,Quick Reconnoiter,%FeatsSkill%}!=0?{If~%SkR25%>=10?|SkM25+4|/|SkM25+2|}}
+_{If~{Find~1,Blooded,%FeatsSkill%}!=0?{If~%SkR25%>=10?|SkM25+4|/|SkM25+2|}}
+_{If~{Find~1,Eye for Detail,%FeatsSkill%}!=0?{If~%SkR25%>=10?|SkM25+4|/|SkM25+2|}}
+_{If~{Find~1,Keen Vision,%FeatsSkill%}!=0?{If~%SkR25%>=10?|SkM25+4|/|SkM25+2|}}
+_{If~{Find~1,Shadow,%FeatsSkill%}!=0?{If~%SkR25%>=10?|SkM25+4|/|SkM25+2|}}
+# Perform
+26,{If~{Find~1,Artist,%FeatsSkill%}!=0?{If~%SkR26%>=10?|SkM26+4|/|SkM26+2|}}
+_{If~{And~%ParamRace%=Halfling,%Subrace%=Slave Born}=1?|SkM26+2|}
+# Profession
+27,{If~%MasterCraftsman%=2?|SkM27+2|}
+_{If~{Find~1,Brewmaster,%FeatsSkill%}!=0?|SkM27+2|}
+_{If~{Find~1,HUNTER,%FeatsSkill%}!=0?{If~%SkR27%>=10?|SkM27+4|/|SkM27+2|}}
+_{If~{Find~1,GnomeObsessiveProfession,%FeatsSkill%}!=0?
+_   {If~%ParamRace%=Gnome?|SkM27+2|
+_   /{If~{And~%ParamRace%=Human,%Subrace%=Country Folk}=1?|Temp={Calc~%CharacterLevel%\2}||Temp>1||SkM27+%Temp%|
+_   }}
+_}
+_{If~%ParamRace%=Kobold?{If~%Subrace%=Sigrun's Clan?/{If~%Subrace%=Desert?/{If~%Subrace%=Jungle?/|SkM27+2|}}}
+_   /{If~{And~%ParamRace%=Halfling,%Subrace%=Slave Born}=1?|SkM27+2|
+_   /{If~{And~%ParamRace%=Dwarf,%Subrace%=Desert}=1?|SkM27+2|
+_}}}
+# Ride
+28,{If~{Find~1,Animal Affinity,%FeatsSkill%}!=0?{If~%SkR28%>=10?|SkM28+4|/|SkM28+2|}}
+_{If~%ParamRace%=Goblin?
+_   {If~%Subrace%=Jungle?/{If~%Subrace%=Aquatic?|SkM28+2|/|SkM28+4|}}
+_}
+_{If~{And~%ParamRace%=Elf,%Subrace%=Desert}=1?|SkM28+2|}
+_{If~{Find~1,greater horseman,%FeatsSkill%}!=0?|SkM28+15|
+_   /{If~{Find~1,improved horseman,%FeatsSkill%}!=0?|SkM28+10|
+_   /{If~{Find~1,horseman,%FeatsSkill%}!=0?|SkM28+5|
+_}}}
+# Sense Motive
+29,{If~{Find~1,Alertness,%FeatsSkill%}!=0?{If~%SkR29%>=10?|SkM29+4|/|SkM29+2|}}
+_{If~{Find~1,Oath of Uwe,%FeatsSkill%}!=0?{If~%SkR29%>=10?|SkM29+4|/|SkM29+2|}}
+_{If~{Find~1,Sage Wisdom,%FeatsSkill%}!=0?{If~%SkR29%>=10?|SkM29+4|/|SkM29+2|}}
+_{If~{Find~1,Street Smart,%FeatsSkill%}!=0?{If~%SkR29%>=10?|SkM29+4|/|SkM29+2|}}
+_{If~{And~%ParamRace%=Half Elf,%Subrace%=Human-Raised}=1?|SkM29+1|
+_   /{If~{And~%ParamRace%=Half Elf,%Subrace%=Desert}=1?|SkM29+2|
+_   /{If~{And~%ParamRace%=Half Elf,%Subrace%=Jungle}=1?|SkM29+2|
+_   /{If~{And~%ParamRace%=Gnome,%Subrace%=Aquatic}=1?|SkM29+2|
+_   /{If~{And~%ParamRace%=Gnome,%Subrace%=Arctic}=1?|SkM29+2|
+_   /{If~{And~%ParamRace%=Gnome,%Subrace%=Desert}=1?|SkM29+2|
+_   /{If~{And~%ParamRace%=Human,%Subrace%=Imperious}=1?|SkM29+2|
+_}}}}}}}
+# Sleight of Hand
+30,{If~{Find~1,Deft Hands,%FeatsSkill%}!=0?{If~%SkR30%>=10?|SkM30+4|/|SkM30+2|}}
+_{If~{And~%ParamRace%=Human,%Subrace%=Gutter Rat}=1?|SkM30+2|
+_   /{If~{And~%ParamRace%=Halfling,%Subrace%=Desert}=1?|SkM30+2|
+_   /{If~{And~%ParamRace%=Goblin,%Subrace%=Aquatic}=1?|SkM30+2|
+_   /{If~{And~%ParamRace%=Goblin,%Subrace%=Arctic}=1?|SkM30+2|
+_}}}}
+31,{If~{Find~1,Magical Aptitude,%FeatsSkill%}!=0?{If~%SkR31%>=10?|SkM31+4|/|SkM31+2|}}
+# Stealth
+32,{If~{Find~1,Stealthy,%FeatsSkill%}!=0?{If~%SkR32%>=10?|SkM32+4|/|SkM32+2|}}
+_{If~{Find~1,Seen and Unseen,%FeatsSkill%}!=0?|SkM32+2|}
+_{If~{Find~1,Shadow,%FeatsSkill%}!=0?{If~%SkR32%>=10?|SkM32+4|/|SkM32+2|}}
+_{If~%ParamRace%=Goblin?{If~%Subrace%=Aquatic?|SkM32+2|/{If~%Subrace%=Arctic?/|SkM32+4|}}
+_   /{If~{And~%ParamRace%=Gnome,%Subrace%=Forest}=1?|SkM32+4|
+_   /{If~{And~%ParamRace%=Halfling,%Subrace%=Desert}=1?|SkM32+2|
+_   /{If~%ParamRace%=Hobgoblin?|SkM32+4|
+_   /{If~%ParamRace%=Svirfneblin?|SkM32+2|
+_   /{If~%ParamRace%=Tengu?|SkM32+2|
+_   /{If~%ParamRace%=Tiefling?|SkM32+2|
+_   /{If~{And~%ParamRace%=Human,%Subrace%=Gutter Rat}=1?|SkM32+2|
+_}}}}}}}}
+#
+_{If~{Find~1,greater shadow,%FeatsSkill%}!=0?|SkM32+15|
+_   /{If~{Find~1,improved shadow,%FeatsSkill%}!=0?|SkM32+10|
+_   /{If~{Find~1,shadow,%FeatsSkill%}!=0?|SkM32+5|
+_}}}
+_[SetStealthSize=%Size%]
+# Survival
+33,{If~{Find~1,Self-Sufficient,%FeatsSkill%}!=0?{If~%SkR33%>=10?|SkM33+4|/|SkM33+2|}}
+_{If~{Find~1,HUNTER,%FeatsSkill%}!=0?{If~%SkR33%>=10?|SkM33+4|/|SkM33+2|}}
+_{If~{Find~1,Survivor,%FeatsSkill%}!=0?|SkM33+2|}
+_{If~{Find~1,Treefriend,%FeatsSkill%}!=0?{If~%SkR33%>=10?|SkM33+4|/|SkM33+2|}}
+_{If~{And~%ParamRace%=Dwarf,%Subrace%=Jungle}=1?|SkM33+2|
+_   /{If~{And~%ParamRace%=Half Orc,%Subrace%=Deep Kin}=1?|SkM33+1|
+_   /{If~{And~%ParamRace%=Half Elf,%Subrace%=Aquatic}=1?|SkM33+2|
+_   /{If~{And~%ParamRace%=Half Elf,%Subrace%=Arctic}=1?|SkM33+2|
+_   /{If~{And~%ParamRace%=Halfling,%Subrace%=Nomadic}=1?|SkM33+2|
+_   /{If~{And~%ParamRace%=Human,%Subrace%=Gutter Rat}=1?|SkM33+4|
+_   /{If~{And~%ParamRace%=Human,%Subrace%=Trailblazer}=1?|Temp={Calc~%CharacterLevel%\2}||Temp>1||SkM33+%Temp%|
+_   /{If~{And~%ParamRace%=Kobold,%Subrace%=Desert}=1?|SkM33+2|
+_}}}}}}}}
+# Swim
+34,{If~{Find~1,Athletic,%FeatsSkill%}!=0?{If~%SkR34%>=10?|SkM34+4|/|SkM34+2|}}
+_{If~{Find~1,greater wave,%FeatsSkill%}!=0?|SkM34+15|
+_   /{If~{Find~1,improved wave,%FeatsSkill%}!=0?|SkM34+10|
+_   /{If~{Find~1,wave,%FeatsSkill%}!=0?|SkM34+5|
+_}}}
+_{If~{Find~1,SWIMMING,%FeatsSkill%}!=0?|SkM34+8|}
+_{If~{And~%ParamRace%=Gnome,%Subrace%=Jungle}=1?|SkM34+2|
+_   /{If~{And~%ParamRace%=Halfling,%Subrace%=Arctic}=1?|SkM34+2|
+_}}
+# Use Magic Device
+35,{If~{Find~1,Magical Aptitude,%FeatsSkill%}!=0?{If~%SkR35%>=10?|SkM35+4|/|SkM35+2|}}
+36-41,
+
+:SetFlySize
+1,|SkM10+8|
+2,|SkM10+6|
+3,|SkM10+4|
+4,|SkM10+2|
+5,|SkM10+0|
+6,|SkM10-2|
+7,|SkM10-4|
+8,|SkM10-6|
+9,|SkM10-8|
+
+:SetStealthSize
+1,|SkM32+16|
+2,|SkM32+12|
+3,|SkM32+8|
+4,|SkM32+4|
+5,|SkM32+0|
+6,|SkM32-4|
+7,|SkM32-8|
+8,|SkM32-12|
+9,|SkM32-16|
+
+:AnimalCompanionClassSkill
+1,{If~%SkR1%>0?|SkM1+3|}
+2-3,
+4,{If~%SkR4%>0?|SkM4+3|}
+5-9,
+10,{If~%SkR10%>0?|SkM10+3|}
+11-13,
+14,{If~{And~%Edu%=1,%SkR14%>0}=1?|SkM14+3|}
+15,{If~{And~%Edu%=1,%SkR15%>0}=1?|SkM15+3|}
+16,{If~{And~%Edu%=1,%SkR16%>0}=1?|SkM16+3|}
+17,{If~{And~%Edu%=1,%SkR17%>0}=1?|SkM17+3|}
+18,{If~{And~%Edu%=1,%SkR18%>0}=1?|SkM18+3|}
+19,{If~{And~%Edu%=1,%SkR19%>0}=1?|SkM19+3|}
+20,{If~{And~%Edu%=1,%SkR20%>0}=1?|SkM20+3|}
+21,{If~{And~%Edu%=1,%SkR21%>0}=1?|SkM21+3|}
+22,{If~{And~%Edu%=1,%SkR22%>0}=1?|SkM22+3|}
+23,{If~{And~%Edu%=1,%SkR23%>0}=1?|SkM23+3|}
+24,
+25,{If~%SkR25%>0?|SkM25+3|}
+26-31,
+32,{If~%SkR32%>0?|SkM32+3|}
+33,
+34,{If~%SkR34%>0?|SkM34+3|}
+35-100,
+
+:AdeptClassSkill
+1-4,
+5,{If~%SkR5%>0?|SkM5+3|}
+6-10,
+11,{If~%SkR11%>0?|SkM11+3|}
+12,{If~%SkR12%>0?|SkM12+3|}
+13,
+14,{If~%SkR14%>0?|SkM14+3|}
+15,{If~%SkR15%>0?|SkM15+3|}
+16,{If~%SkR16%>0?|SkM16+3|}
+17,{If~%SkR17%>0?|SkM17+3|}
+18,{If~%SkR18%>0?|SkM18+3|}
+19,{If~%SkR19%>0?|SkM19+3|}
+20,{If~%SkR20%>0?|SkM20+3|}
+21,{If~%SkR21%>0?|SkM21+3|}
+22,{If~%SkR22%>0?|SkM22+3|}
+23,{If~%SkR23%>0?|SkM23+3|}
+24,{If~{And~%SkR24%>0,{And~%ParamRace%=Halfling,%Subrace%=Nomadic}=1}=1?|SkM24+3|}
+25,
+26,{If~{And~%SkR26%>0,{And~%ParamRace%=Halfling,%Subrace%=Slave Born}=1}=1?|SkM26+3|}
+27,{If~%SkR27%>0?|SkM27+3|}
+28-30,
+31,{If~%SkR31%>0?|SkM31+3|}
+32,{If~{And~%SkR32%>0,%ParamRace%=Kobold}=1?|SkM32+3|}
+33,{If~%SkR33%>0?|SkM33+3|}
+34,{If~{And~%SkR34%>0,{Find~1,AQUATIC,%FeatsSkill%}!=0}=1?|SkM34+3|}
+35-100,
+
+:AristocratClassSkill
+1,
+2,{If~%SkR2%>0?|SkM2+3|}
+3,{If~%SkR3%>0?|SkM3+3|}
+4,
+5,{If~%SkR5%>0?|SkM5+3|}
+6,{If~%SkR6%>0?|SkM6+3|}
+7,
+8,{If~%SkR8%>0?|SkM8+3|}
+9-10,
+11,{If~%SkR11%>0?|SkM11+3|}
+12,
+13,{If~%SkR13%>0?|SkM13+3|}
+14,{If~%SkR14%>0?|SkM14+3|}
+15,{If~%SkR15%>0?|SkM15+3|}
+16,{If~%SkR16%>0?|SkM16+3|}
+17,{If~%SkR17%>0?|SkM17+3|}
+18,{If~%SkR18%>0?|SkM18+3|}
+19,{If~%SkR19%>0?|SkM19+3|}
+20,{If~%SkR20%>0?|SkM20+3|}
+21,{If~%SkR21%>0?|SkM21+3|}
+22,{If~%SkR22%>0?|SkM22+3|}
+23,{If~%SkR23%>0?|SkM23+3|}
+24,{If~%SkR24%>0?|SkM24+3|}
+25,{If~%SkR25%>0?|SkM25+3|}
+26,{If~%SkR26%>0?|SkM26+3|}
+27,{If~%SkR27%>0?|SkM27+3|}
+28,{If~%SkR28%>0?|SkM28+3|}
+29,{If~%SkR29%>0?|SkM29+3|}
+30-31,
+32,{If~{And~%SkR32%>0,%ParamRace%=Kobold}=1?|SkM32+3|}
+33,{If~%SkR33%>0?|SkM33+3|}
+34,{If~%SkR34%>0?|SkM34+3|}
+35-100,
+
+:BarbarianClassSkill
+1,{If~%SkR1%>0?|SkM1+3|}
+2-3,
+4,{If~%SkR4%>0?|SkM4+3|}
+5,{If~%SkR5%>0?|SkM5+3|}
+6-10,
+11,{If~%SkR11%>0?|SkM11+3|}
+12,
+13,{If~%SkR13%>0?|SkM13+3|}
+14,{If~{And~%Edu%=1,%SkR14%>0}=1?|SkM14+3|}
+15,{If~{And~%Edu%=1,%SkR15%>0}=1?|SkM15+3|}
+16,{If~{And~%Edu%=1,%SkR16%>0}=1?|SkM16+3|}
+17,{If~{And~%Edu%=1,%SkR17%>0}=1?|SkM17+3|}
+18,{If~{And~%Edu%=1,%SkR18%>0}=1?|SkM18+3|}
+19,{If~{And~%Edu%=1,%SkR19%>0}=1?|SkM19+3|}
+20,{If~%SkR20%>0?|SkM20+3|}
+21,{If~{And~%Edu%=1,%SkR21%>0}=1?|SkM21+3|}
+22,{If~{And~%Edu%=1,%SkR22%>0}=1?|SkM22+3|}
+23,{If~{And~%Edu%=1,%SkR23%>0}=1?|SkM23+3|}
+24,{If~{And~%SkR24%>0,{And~%ParamRace%=Halfling,%Subrace%=Nomadic}=1}=1?|SkM24+3|}
+25,{If~%SkR25%>0?|SkM25+3|}
+26,{If~{And~%SkR26%>0,{And~%ParamRace%=Halfling,%Subrace%=Slave Born}=1}=1?|SkM26+3|}
+27,
+28,{If~%SkR28%>0?|SkM28+3|}
+29-31,
+32,{If~{And~%SkR32%>0,%ParamRace%=Kobold}=1?|SkM32+3|}
+33,{If~%SkR33%>0?|SkM33+3|}
+34,{If~%SkR34%>0?|SkM34+3|}
+35-100,
+
+:BardClassSkill
+1,{If~%SkR1%>0?|SkM1+3|}
+2,{If~%SkR2%>0?|SkM2+3|}
+3,{If~%SkR3%>0?|SkM3+3|}
+4,{If~%SkR4%>0?|SkM4+3|}
+5,{If~%SkR5%>0?|SkM5+3|}
+6,{If~%SkR6%>0?|SkM6+3|}
+7,{If~%CharacterLevel%>=16?{If~%SkR7%>0?|SkM7+3|}}
+8,{If~%SkR8%>0?|SkM8+3|}
+9,{If~%SkR9%>0?|SkM9+3|}
+10,{If~%CharacterLevel%>=16?{If~%SkR10%>0?|SkM10+3|}}
+11,{If~%CharacterLevel%>=16?{If~%SkR11%>0?|SkM11+3|}}
+12,{If~%CharacterLevel%>=16?{If~%SkR12%>0?|SkM12+3|}}
+13,{If~%SkR13%>0?|SkM13+3|}
+14,{If~%SkR14%>0?|SkM14+3|}
+15,{If~%SkR15%>0?|SkM15+3|}
+16,{If~%SkR16%>0?|SkM16+3|}
+17,{If~%SkR17%>0?|SkM17+3|}
+18,{If~%SkR18%>0?|SkM18+3|}
+19,{If~%SkR19%>0?|SkM19+3|}
+20,{If~%SkR20%>0?|SkM20+3|}
+21,{If~%SkR21%>0?|SkM21+3|}
+22,{If~%SkR22%>0?|SkM22+3|}
+23,{If~%SkR23%>0?|SkM23+3|}
+24,{If~%SkR24%>0?|SkM24+3|}
+25,{If~%SkR25%>0?|SkM25+3|}
+26,{If~%SkR26%>0?|SkM26+3|}
+27,{If~%SkR27%>0?|SkM27+3|}
+28,{If~%CharacterLevel%>=16?{If~%SkR28%>0?|SkM28+3|}}
+29,{If~%SkR29%>0?|SkM29+3|}
+30,{If~%SkR30%>0?|SkM30+3|}
+31,{If~%SkR31%>0?|SkM31+3|}
+32,{If~%SkR32%>0?|SkM32+3|}
+33,{If~%CharacterLevel%>=16?{If~%SkR33%>0?|SkM33+3|}}
+34,{If~{Or~%CharacterLevel%>=16,{Find~1,AQUATIC,%FeatsSkill%}!=0}=1?{If~%SkR34%>0?|SkM34+3|}}
+35,{If~%SkR35%>0?|SkM35+3|}
+36,{If~%SkR36%>0?|SkM36+3|}
+37,{If~%SkR37%>0?|SkM37+3|}
+38,{If~%SkR38%>0?|SkM38+3|}
+39,{If~%SkR39%>0?|SkM39+3|}
+40-100,
+
+:BardKnowledge
+1,|Temp=%CharacterLevel%||Temp\2||Temp>1|
+_{If~%SkR14%>0?|SkM14+%Temp%|}{If~%SkR15%>0?|SkM15+%Temp%|}{If~%SkR16%>0?|SkM16+%Temp%|}{If~%SkR17%>0?|SkM17+%Temp%|}{If~%SkR18%>0?|SkM18+%Temp%|}{If~%SkR19%>0?|SkM19+%Temp%|}{If~%SkR20%>0?|SkM20+%Temp%|}{If~%SkR21%>0?|SkM21+%Temp%|}{If~%SkR22%>0?|SkM22+%Temp%|}{If~%SkR23%>0?|SkM23+%Temp%|}
+
+:ClericClassSkill
+1,
+2,{If~%SkR2%>0?|SkM2+3|}
+3,
+4,
+5,{If~%SkR5%>0?|SkM5+3|}
+6,{If~%SkR6%>0?|SkM6+3|}
+7-11,
+12,{If~%SkR12%>0?|SkM12+3|}
+13,
+14,{If~%SkR14%>0?|SkM14+3|}
+15,{If~{And~%Edu%=1,%SkR15%>0}=1?|SkM15+3|}
+16,{If~{And~%Edu%=1,%SkR16%>0}=1?|SkM16+3|}
+17,{If~{And~%Edu%=1,%SkR17%>0}=1?|SkM17+3|}
+18,{If~%SkR18%>0?|SkM18+3|}
+19,{If~{And~%Edu%=1,%SkR19%>0}=1?|SkM19+3|}
+20,{If~{And~%Edu%=1,%SkR20%>0}=1?|SkM20+3|}
+21,{If~%SkR21%>0?|SkM21+3|}
+22,{If~%SkR22%>0?|SkM22+3|}
+23,{If~%SkR23%>0?|SkM23+3|}
+24,{If~%SkR24%>0?|SkM24+3|}
+25,
+26,{If~{And~%SkR26%>0,{And~%ParamRace%=Halfling,%Subrace%=Slave Born}=1}=1?|SkM26+3|}
+27,{If~%SkR27%>0?|SkM27+3|}
+28,
+29,{If~%SkR29%>0?|SkM29+3|}
+30,
+31,{If~%SkR31%>0?|SkM31+3|}
+32,{If~{And~%SkR32%>0,%ParamRace%=Kobold}=1?|SkM32+3|}
+33,
+34,{If~{And~%SkR34%>0,{Find~1,AQUATIC,%FeatsSkill%}!=0}=1?|SkM34+3|}
+35-100,
+
+# Standard
+:CommonerClassSkill_2
+1-3,
+4,
+5,{If~%SkR5%>0?|SkM5+3|}
+6-10,
+11,{If~%SkR11%>0?|SkM11+3|}
+12-13,
+14,{If~{And~%Edu%=1,%SkR14%>0}=1?|SkM14+3|}
+15,{If~{And~%Edu%=1,%SkR15%>0}=1?|SkM15+3|}
+16,{If~{And~%Edu%=1,%SkR16%>0}=1?|SkM16+3|}
+17,{If~{And~%Edu%=1,%SkR17%>0}=1?|SkM17+3|}
+18,{If~{And~%Edu%=1,%SkR18%>0}=1?|SkM18+3|}
+19,{If~{And~%Edu%=1,%SkR19%>0}=1?|SkM19+3|}
+20,{If~{And~%Edu%=1,%SkR20%>0}=1?|SkM20+3|}
+21,{If~{And~%Edu%=1,%SkR21%>0}=1?|SkM21+3|}
+22,{If~{And~%Edu%=1,%SkR22%>0}=1?|SkM22+3|}
+23,{If~{And~%Edu%=1,%SkR23%>0}=1?|SkM23+3|}
+24,{If~{And~%SkR24%>0,{And~%ParamRace%=Halfling,%Subrace%=Nomadic}=1}=1?|SkM24+3|}
+25,{If~%SkR25%>0?|SkM25+3|}
+26,{If~{And~%SkR26%>0,{And~%ParamRace%=Halfling,%Subrace%=Slave Born}=1}=1?|SkM26+3|}
+27,{If~%SkR27%>0?|SkM27+3|}
+28,{If~%SkR28%>0?|SkM28+3|}
+29-31,
+32,{If~{And~%SkR32%>0,%ParamRace%=Kobold}=1?|SkM32+3|}
+33,
+34,{If~%SkR34%>0?|SkM34+3|}
+35-100,
+
+# Beggar
+:CommonerClassSkill_3
+1-4,
+5,{If~{And~%SkR5%>0,%ParamRace%=Kobold}=1?|SkM5+3|}
+6-7,
+8,{If~%SkR8%>0?|SkM8+3|}
+9-13,
+14,{If~{And~%Edu%=1,%SkR14%>0}=1?|SkM14+3|}
+15,{If~{And~%Edu%=1,%SkR15%>0}=1?|SkM15+3|}
+16,{If~{And~%Edu%=1,%SkR16%>0}=1?|SkM16+3|}
+17,{If~{And~%Edu%=1,%SkR17%>0}=1?|SkM17+3|}
+18,{If~{And~%Edu%=1,%SkR18%>0}=1?|SkM18+3|}
+19,{If~%SkR19%>0?|SkM19+3|}
+19,{If~{And~%Edu%=1,%SkR19%>0}=1?|SkM19+3|}
+20,{If~{And~%Edu%=1,%SkR20%>0}=1?|SkM20+3|}
+21,{If~{And~%Edu%=1,%SkR21%>0}=1?|SkM21+3|}
+22,{If~{And~%Edu%=1,%SkR22%>0}=1?|SkM22+3|}
+23,{If~{And~%Edu%=1,%SkR23%>0}=1?|SkM23+3|}
+24,{If~{And~%SkR24%>0,{And~%ParamRace%=Halfling,%Subrace%=Nomadic}=1}=1?|SkM24+3|}
+25,{If~%SkR25%>0?|SkM25+3|}
+26,{If~%SkR26%>0?|SkM26+3|}
+27,{If~%SkR27%>0?|SkM27+3|}
+28-29,
+30,{If~%SkR30%>0?|SkM30+3|}
+31,
+32,{If~%SkR32%>0?|SkM32+3|}
+33,
+34,{If~{And~%SkR34%>0,{Find~1,AQUATIC,%FeatsSkill%}!=0}=1?|SkM34+3|}
+35-100,
+
+# Prostitute
+:CommonerClassSkill_4
+1-2,
+3,{If~%SkR3%>0?|SkM3+3|}
+4,
+5,{If~{And~%SkR5%>0,%ParamRace%=Kobold}=1?|SkM5+3|}
+6,{If~%SkR6%>0?|SkM6+3|}
+7,
+8,{If~%SkR8%>0?|SkM8+3|}
+9-13,
+14,{If~{And~%Edu%=1,%SkR14%>0}=1?|SkM14+3|}
+15,{If~{And~%Edu%=1,%SkR15%>0}=1?|SkM15+3|}
+16,{If~{And~%Edu%=1,%SkR16%>0}=1?|SkM16+3|}
+17,{If~{And~%Edu%=1,%SkR17%>0}=1?|SkM17+3|}
+18,{If~{And~%Edu%=1,%SkR18%>0}=1?|SkM18+3|}
+19,{If~{And~%Edu%=1,%SkR19%>0}=1?|SkM19+3|}
+20,{If~{And~%Edu%=1,%SkR20%>0}=1?|SkM20+3|}
+21,{If~{And~%Edu%=1,%SkR21%>0}=1?|SkM21+3|}
+22,{If~{And~%Edu%=1,%SkR22%>0}=1?|SkM22+3|}
+23,{If~{And~%Edu%=1,%SkR23%>0}=1?|SkM23+3|}
+24,{If~{And~%SkR24%>0,{And~%ParamRace%=Halfling,%Subrace%=Nomadic}=1}=1?|SkM24+3|}
+25,{If~%SkR25%>0?|SkM25+3|}
+26,{If~{And~%SkR26%>0,{And~%ParamRace%=Halfling,%Subrace%=Slave Born}=1}=1?|SkM26+3|}
+27,{If~%SkR27%>0?|SkM27+3|}
+28-29,
+30,{If~%SkR30%>0?|SkM30+3|}
+31,
+32,{If~%SkR32%>0?|SkM32+3|}
+33,
+34,{If~{And~%SkR34%>0,{Find~1,AQUATIC,%FeatsSkill%}!=0}=1?|SkM34+3|}
+35-100,
+
+# Nature Sense added.
+:DruidClassSkill
+1-3,
+4,{If~%SkR4%>0?|SkM4+3|}
+5,{If~%SkR5%>0?|SkM5+3|}
+6-9,
+10,{If~%SkR10%>0?|SkM10+3|}
+11,{If~%SkR11%>0?|SkM11+3|}
+12,{If~%SkR12%>0?|SkM12+3|}
+13,
+14,{If~{And~%Edu%=1,%SkR14%>0}=1?|SkM14+3|}
+15,{If~{And~%Edu%=1,%SkR15%>0}=1?|SkM15+3|}
+16,{If~{And~%Edu%=1,%SkR16%>0}=1?|SkM16+3|}
+17,{If~%SkR17%>0?|SkM17+3|}
+18,{If~{And~%Edu%=1,%SkR18%>0}=1?|SkM18+3|}
+19,{If~{And~%Edu%=1,%SkR19%>0}=1?|SkM19+3|}
+20,{If~%SkR20%>0?|SkM20+3|}|SkM20+2|
+21,{If~{And~%Edu%=1,%SkR21%>0}=1?|SkM21+3|}
+22,{If~{And~%Edu%=1,%SkR22%>0}=1?|SkM22+3|}
+23,{If~{And~%Edu%=1,%SkR23%>0}=1?|SkM23+3|}
+24,{If~{And~%SkR24%>0,{And~%ParamRace%=Halfling,%Subrace%=Nomadic}=1}=1?|SkM24+3|}
+25,{If~%SkR25%>0?|SkM25+3|}
+26,{If~{And~%SkR26%>0,{And~%ParamRace%=Halfling,%Subrace%=Slave Born}=1}=1?|SkM26+3|}
+27,{If~%SkR27%>0?|SkM27+3|}
+28,{If~%SkR28%>0?|SkM28+3|}
+29-30,
+31,{If~%SkR31%>0?|SkM31+3|}
+32,{If~{And~%SkR32%>0,%ParamRace%=Kobold}=1?|SkM32+3|}
+33,{If~%SkR33%>0?|SkM33+3|}|SkM33+2|
+34,{If~%SkR34%>0?|SkM34+3|}
+35-100,
+
+# Standard
+:ExpertClassSkill_2
+1,{If~{Find~1,01!!,%ExpSkString%}>=1?{If~%SkR1%>0?|SkM1+3|}}
+2,{If~{Find~1,02!!,%ExpSkString%}>=1?{If~%SkR2%>0?|SkM2+3|}}
+3,{If~{Find~1,03!!,%ExpSkString%}>=1?{If~%SkR3%>0?|SkM3+3|}}
+4,{If~{Find~1,04!!,%ExpSkString%}>=1?{If~%SkR4%>0?|SkM4+3|}}
+5,{If~{Find~1,05!!,%ExpSkString%}>=1?{If~%SkR5%>0?|SkM5+3|}
+_   /{If~{And~%SkR5%>0,%ParamRace%=Kobold}=1?|SkM5+3|
+_}}
+6,{If~{Find~1,06!!,%ExpSkString%}>=1?{If~%SkR6%>0?|SkM6+3|}}
+7,{If~{Find~1,07!!,%ExpSkString%}>=1?{If~%SkR7%>0?|SkM7+3|}}
+8,{If~{Find~1,08!!,%ExpSkString%}>=1?{If~%SkR8%>0?|SkM8+3|}}
+9,{If~{Find~1,09!!,%ExpSkString%}>=1?{If~%SkR9%>0?|SkM9+3|}}
+10,{If~{Find~1,10!!,%ExpSkString%}>=1?{If~%SkR10%>0?|SkM10+3|}}
+11,{If~{Find~1,11!!,%ExpSkString%}>=1?{If~%SkR11%>0?|SkM11+3|}}
+12,{If~{Find~1,12!!,%ExpSkString%}>=1?{If~%SkR12%>0?|SkM12+3|}}
+13,{If~{Find~1,13!!,%ExpSkString%}>=1?{If~%SkR13%>0?|SkM13+3|}}
+14,{If~{Or~%Edu%=1,{Find~1,14!!,%ExpSkString%}>=1}=1?{If~%SkR14%>0?|SkM14+3|}}
+15,{If~{Or~%Edu%=1,{Find~1,15!!,%ExpSkString%}>=1}=1?{If~%SkR15%>0?|SkM15+3|}}
+16,{If~{Or~%Edu%=1,{Find~1,16!!,%ExpSkString%}>=1}=1?{If~%SkR16%>0?|SkM16+3|}}
+17,{If~{Or~%Edu%=1,{Find~1,17!!,%ExpSkString%}>=1}=1?{If~%SkR17%>0?|SkM17+3|}}
+18,{If~{Or~%Edu%=1,{Find~1,18!!,%ExpSkString%}>=1}=1?{If~%SkR18%>0?|SkM18+3|}}
+19,{If~{Or~%Edu%=1,{Find~1,19!!,%ExpSkString%}>=1}=1?{If~%SkR19%>0?|SkM19+3|}}
+20,{If~{Or~%Edu%=1,{Find~1,20!!,%ExpSkString%}>=1}=1?{If~%SkR20%>0?|SkM20+3|}}
+21,{If~{Or~%Edu%=1,{Find~1,21!!,%ExpSkString%}>=1}=1?{If~%SkR21%>0?|SkM21+3|}}
+22,{If~{Or~%Edu%=1,{Find~1,22!!,%ExpSkString%}>=1}=1?{If~%SkR22%>0?|SkM22+3|}}
+23,{If~{Or~%Edu%=1,{Find~1,23!!,%ExpSkString%}>=1}=1?{If~%SkR23%>0?|SkM23+3|}}
+24,{If~{Find~1,24!!,%ExpSkString%}>=1?{If~%SkR24%>0?|SkM24+3|}
+_   /{If~{And~%SkR24%>0,{And~%ParamRace%=Halfling,%Subrace%=Nomadic}=1}=1?|SkM24+3|
+_}}
+25,{If~{Find~1,25!!,%ExpSkString%}>=1?{If~%SkR25%>0?|SkM25+3|}}
+26,{If~{Find~1,26!!,%ExpSkString%}>=1?{If~%SkR26%>0?|SkM26+3|}
+_   /{If~{And~%SkR26%>0,{And~%ParamRace%=Halfling,%Subrace%=Slave Born}=1}=1?|SkM26+3|
+_}}
+27,{If~{Find~1,27!!,%ExpSkString%}>=1?{If~%SkR27%>0?|SkM27+3|}}
+28,{If~{Find~1,28!!,%ExpSkString%}>=1?{If~%SkR28%>0?|SkM28+3|}}
+29,{If~{Find~1,29!!,%ExpSkString%}>=1?{If~%SkR29%>0?|SkM29+3|}}
+30,{If~{Find~1,30!!,%ExpSkString%}>=1?{If~%SkR30%>0?|SkM30+3|}}
+31,{If~{Find~1,31!!,%ExpSkString%}>=1?{If~%SkR31%>0?|SkM31+3|}}
+32,{If~{Find~1,32!!,%ExpSkString%}>=1?{If~%SkR32%>0?|SkM32+3|}
+_   /{If~{And~%SkR32%>0,%ParamRace%=Kobold}=1?|SkM32+3|
+_}}
+33,{If~{Find~1,33!!,%ExpSkString%}>=1?{If~%SkR33%>0?|SkM33+3|}}
+34,{If~{Or~{Find~1,34!!,%ExpSkString%}>=1,{Find~1,AQUATIC,%FeatsSkill%}!=0}=1?{If~%SkR34%>0?|SkM34+3|}}
+35-100,{If~{Find~1,35!!,%ExpSkString%}>=1?{If~%SkR35%>0?|SkM35+3|}}
+
+# Blacksmith
+:ExpertClassSkill_3
+1,{If~%SkR1%>0?|SkM1+3|}
+2,{If~%SkR2%>0?|SkM2+3|}
+3,{If~%SkR3%>0?|SkM3+3|}
+4,{If~%SkR4%>0?|SkM4+3|}
+5,{If~%SkR5%>0?|SkM5+3|}
+6-10,
+11,{If~%SkR11%>0?|SkM11+3|}
+12,
+13,{If~%SkR13%>0?|SkM13+3|}
+14,{If~{And~%Edu%=1,%SkR14%>0}=1?|SkM14+3|}
+15,{If~{And~%Edu%=1,%SkR15%>0}=1?|SkM15+3|}
+16,{If~%SkR16%>0?|SkM16+3|}
+17,{If~{And~%Edu%=1,%SkR17%>0}=1?|SkM17+3|}
+18,{If~{And~%Edu%=1,%SkR18%>0}=1?|SkM18+3|}
+19,{If~{And~%Edu%=1,%SkR19%>0}=1?|SkM19+3|}
+20,{If~{And~%Edu%=1,%SkR20%>0}=1?|SkM20+3|}
+21,{If~{And~%Edu%=1,%SkR21%>0}=1?|SkM21+3|}
+22,{If~{And~%Edu%=1,%SkR22%>0}=1?|SkM22+3|}
+23,{If~{And~%Edu%=1,%SkR23%>0}=1?|SkM23+3|}
+24,{If~{And~%SkR24%>0,{And~%ParamRace%=Halfling,%Subrace%=Nomadic}=1}=1?|SkM24+3|}
+25-27,
+28,{If~%SkR28%>0?|SkM28+3|}
+29-31,
+32,{If~{And~%SkR32%>0,%ParamRace%=Kobold}=1?|SkM32+3|}
+33,
+34,{If~{And~%SkR34%>0,{Find~1,AQUATIC,%FeatsSkill%}!=0}=1?|SkM34+3|}
+35-39,
+# Extra Craft for Expert (Blacksmith)
+40,{If~%SkR40%>0?|SkM40+3|}
+41-100,
+
+# Courtesan
+:ExpertClassSkill_4
+1-2,
+3,{If~%SkR3%>0?|SkM3+3|}
+4,
+5,{If~%SkR5%>0?|SkM5+3|}
+6,{If~%SkR6%>0?|SkM6+3|}
+7,
+8,{If~%SkR8%>0?|SkM8+3|}
+9-13,
+14,{If~{And~%Edu%=1,%SkR14%>0}=1?|SkM14+3|}
+15,{If~{And~%Edu%=1,%SkR15%>0}=1?|SkM15+3|}
+16,{If~{And~%Edu%=1,%SkR16%>0}=1?|SkM16+3|}
+17,{If~{And~%Edu%=1,%SkR17%>0}=1?|SkM17+3|}
+18,{If~{And~%Edu%=1,%SkR18%>0}=1?|SkM18+3|}
+19,{If~{And~%Edu%=1,%SkR19%>0}=1?|SkM19+3|}
+20,{If~{And~%Edu%=1,%SkR20%>0}=1?|SkM20+3|}
+21,{If~{And~%Edu%=1,%SkR21%>0}=1?|SkM21+3|}
+22,{If~{And~%Edu%=1,%SkR22%>0}=1?|SkM22+3|}
+23,{If~{And~%Edu%=1,%SkR23%>0}=1?|SkM23+3|}
+24,{If~{And~%SkR24%>0,{And~%ParamRace%=Halfling,%Subrace%=Nomadic}=1}=1?|SkM24+3|}
+25,{If~%SkR25%>0?|SkM25+3|}
+26,{If~%SkR26%>0?|SkM26+3|}
+27,{If~%SkR27%>0?|SkM27+3|}
+28,
+29,{If~%SkR29%>0?|SkM29+3|}
+30,{If~%SkR30%>0?|SkM30+3|}
+31,
+32,{If~%SkR32%>0?|SkM32+3|}
+33,
+34,{If~{And~%SkR34%>0,{Find~1,AQUATIC,%FeatsSkill%}!=0}=1?|SkM34+3|}
+35-100,
+
+# Fence
+:ExpertClassSkill_5
+1,
+2,{If~%SkR2%>0?|SkM2+3|}
+3,{If~%SkR3%>0?|SkM3+3|}
+4,
+5,{If~{And~%SkR5%>0,%ParamRace%=Kobold}=1?|SkM5+3|}
+6,{If~%SkR6%>0?|SkM6+3|}
+7-12,
+13,{If~%SkR13%>0?|SkM13+3|}
+14,{If~{Or~%Edu%=1,%ExpertTypeKnowledge%=14}=1?{If~%SkR14%>0?|SkM14+3|}}
+15,{If~{Or~%Edu%=1,%ExpertTypeKnowledge%=15}=1?{If~%SkR15%>0?|SkM15+3|}}
+16,{If~{Or~%Edu%=1,%ExpertTypeKnowledge%=16}=1?{If~%SkR16%>0?|SkM16+3|}}
+17,{If~{Or~%Edu%=1,%ExpertTypeKnowledge%=17}=1?{If~%SkR17%>0?|SkM17+3|}}
+18,{If~{Or~%Edu%=1,%ExpertTypeKnowledge%=18}=1?{If~%SkR18%>0?|SkM18+3|}}
+19,{If~{Or~%Edu%=1,%ExpertTypeKnowledge%=19}=1?{If~%SkR19%>0?|SkM19+3|}}
+20,{If~{Or~%Edu%=1,%ExpertTypeKnowledge%=20}=1?{If~%SkR20%>0?|SkM20+3|}}
+21,{If~{Or~%Edu%=1,%ExpertTypeKnowledge%=21}=1?{If~%SkR21%>0?|SkM21+3|}}
+22,{If~{Or~%Edu%=1,%ExpertTypeKnowledge%=22}=1?{If~%SkR22%>0?|SkM22+3|}}
+23,{If~{Or~%Edu%=1,%ExpertTypeKnowledge%=23}=1?{If~%SkR23%>0?|SkM23+3|}}
+24,{If~%SkR24%>0?|SkM24+3|}
+25,
+26,{If~{And~%SkR26%>0,{And~%ParamRace%=Halfling,%Subrace%=Slave Born}=1}=1?|SkM26+3|}
+27,{If~%SkR27%>0?|SkM27+3|}
+28,
+29,{If~%SkR29%>0?|SkM29+3|}
+30,{If~%SkR30%>0?|SkM30+3|}
+31,
+32,{If~{And~%SkR32%>0,%ParamRace%=Kobold}=1?|SkM32+3|}
+33,
+34,{If~{And~%SkR34%>0,{Find~1,AQUATIC,%FeatsSkill%}!=0}=1?|SkM34+3|}
+35-40,
+# Extra Profession for Expert (Fence)
+41,{If~%SkR41%>0?|SkM41+3|}
+42-100,
+
+# Jeweller
+:ExpertClassSkill_6
+1,
+2,{If~%SkR2%>0?|SkM2+3|}
+3,{If~%SkR3%>0?|SkM3+3|}
+4,
+5,{If~%SkR5%>0?|SkM5+3|}
+6,{If~%SkR6%>0?|SkM6+3|}
+7-13,
+14,{If~%SkR14%>0?|SkM14+3|}
+15,{If~%SkR15%>0?|SkM15+3|}
+16,{If~{And~%Edu%=1,%SkR16%>0}=1?|SkM16+3|}
+17,{If~{And~%Edu%=1,%SkR17%>0}=1?|SkM17+3|}
+18,{If~{And~%Edu%=1,%SkR18%>0}=1?|SkM18+3|}
+19,{If~{And~%Edu%=1,%SkR19%>0}=1?|SkM19+3|}
+20,{If~{And~%Edu%=1,%SkR20%>0}=1?|SkM20+3|}
+21,{If~{And~%Edu%=1,%SkR21%>0}=1?|SkM21+3|}
+22,{If~{And~%Edu%=1,%SkR22%>0}=1?|SkM22+3|}
+23,{If~{And~%Edu%=1,%SkR23%>0}=1?|SkM23+3|}
+24,{If~{And~%SkR24%>0,{And~%ParamRace%=Halfling,%Subrace%=Nomadic}=1}=1?|SkM24+3|}
+25,{If~%SkR25%>0?|SkM25+3|}
+26,{If~{And~%SkR26%>0,{And~%ParamRace%=Halfling,%Subrace%=Slave Born}=1}=1?|SkM26+3|}
+27,{If~%SkR27%>0?|SkM27+3|}
+28-29,
+30,{If~%SkR30%>0?|SkM30+3|}
+31,
+32,{If~{And~%SkR32%>0,%ParamRace%=Kobold}=1?|SkM32+3|}
+33,
+34,{If~{And~%SkR34%>0,{Find~1,AQUATIC,%FeatsSkill%}!=0}=1?|SkM34+3|}
+35-39,
+# Extra Craft for Expert (Blacksmith, Jeweller)
+40,{If~%SkR40%>0?|SkM40+3|}
+# Extra Profession for Expert (Fence)
+41-100,
+
+# Pawnbroker
+:ExpertClassSkill_7
+1,
+2,{If~%SkR2%>0?|SkM2+3|}
+3,{If~%SkR3%>0?|SkM3+3|}
+4,
+5,{If~{And~%SkR5%>0,%ParamRace%=Kobold}=1?|SkM5+3|}
+6,{If~%SkR6%>0?|SkM6+3|}
+7-13,
+14,{If~{And~%Edu%=1,%SkR14%>0}=1?|SkM14+3|}
+15,{If~{And~%Edu%=1,%SkR15%>0}=1?|SkM15+3|}
+16,{If~{And~%Edu%=1,%SkR16%>0}=1?|SkM16+3|}
+17,{If~{And~%Edu%=1,%SkR17%>0}=1?|SkM17+3|}
+18,{If~{And~%Edu%=1,%SkR18%>0}=1?|SkM18+3|}
+19,{If~{And~%Edu%=1,%SkR19%>0}=1?|SkM19+3|}
+20,{If~{And~%Edu%=1,%SkR20%>0}=1?|SkM20+3|}
+21,{If~{And~%Edu%=1,%SkR21%>0}=1?|SkM21+3|}
+22,{If~{And~%Edu%=1,%SkR22%>0}=1?|SkM22+3|}
+23,{If~{And~%Edu%=1,%SkR23%>0}=1?|SkM23+3|}
+24,{If~%SkR24%>0?|SkM24+3|}
+25,{If~%SkR25%>0?|SkM25+3|}
+26,{If~%SkR26%>0?|SkM26+3|}
+27,{If~%SkR27%>0?|SkM27+3|}
+28,
+29,{If~%SkR29%>0?|SkM29+3|}
+30,{If~%SkR30%>0?|SkM30+3|}
+31,
+32,{If~%SkR32%>0?|SkM32+3|}
+33,
+34,{If~{And~%SkR34%>0,{Find~1,AQUATIC,%FeatsSkill%}!=0}=1?|SkM34+3|}
+35-100,
+
+# Sage_Scholar
+:ExpertClassSkill_8
+1,
+2,{If~%SkR2%>0?|SkM2+3|}
+3-4,
+5,{If~%SkR5%>0?|SkM5+3|}
+6,{If~%SkR6%>0?|SkM6+3|}
+7-13,
+14,{If~{Or~%Edu%=1,{Find~1,14!!,%ExpSkString%}>=1}=1?{If~%SkR14%>0?|SkM14+3|}}
+15,{If~{Or~%Edu%=1,{Find~1,15!!,%ExpSkString%}>=1}=1?{If~%SkR15%>0?|SkM15+3|}}
+16,{If~{Or~%Edu%=1,{Find~1,16!!,%ExpSkString%}>=1}=1?{If~%SkR16%>0?|SkM16+3|}}
+17,{If~{Or~%Edu%=1,{Find~1,17!!,%ExpSkString%}>=1}=1?{If~%SkR17%>0?|SkM17+3|}}
+18,{If~{Or~%Edu%=1,{Find~1,18!!,%ExpSkString%}>=1}=1?{If~%SkR18%>0?|SkM18+3|}}
+19,{If~{Or~%Edu%=1,{Find~1,19!!,%ExpSkString%}>=1}=1?{If~%SkR19%>0?|SkM19+3|}}
+20,{If~{Or~%Edu%=1,{Find~1,20!!,%ExpSkString%}>=1}=1?{If~%SkR20%>0?|SkM20+3|}}
+21,{If~{Or~%Edu%=1,{Find~1,21!!,%ExpSkString%}>=1}=1?{If~%SkR21%>0?|SkM21+3|}}
+22,{If~{Or~%Edu%=1,{Find~1,22!!,%ExpSkString%}>=1}=1?{If~%SkR22%>0?|SkM22+3|}}
+23,{If~{Or~%Edu%=1,{Find~1,23!!,%ExpSkString%}>=1}=1?{If~%SkR23%>0?|SkM23+3|}}
+24,{If~%SkR24%>0?|SkM24+3|}
+25,
+26,{If~{And~%SkR26%>0,{And~%ParamRace%=Halfling,%Subrace%=Slave Born}=1}=1?|SkM26+3|}
+27,{If~%SkR27%>0?|SkM27+3|}
+28-30,
+31,{If~%SkR31%>0?|SkM31+3|}
+32,{If~{And~%SkR32%>0,%ParamRace%=Kobold}=1?|SkM32+3|}
+33,
+34,{If~{And~%SkR34%>0,{Find~1,AQUATIC,%FeatsSkill%}!=0}=1?|SkM34+3|}
+35,{If~%SkR35%>0?|SkM35+3|}
+36-100,
+
+# Locksmith
+:ExpertClassSkill_9
+1,
+2,{If~%SkR2%>0?|SkM2+3|}
+3-4,
+5,{If~%SkR5%>0?|SkM5+3|}
+6,{If~%SkR6%>0?|SkM6+3|}
+7,{If~%SkR7%>0?|SkM7+3|}
+8,
+9,{If~%SkR9%>0?|SkM9+3|}
+10-13,
+14,{If~{Or~%Edu%=1,%ExpertTypeKnowledge%=14}=1?{If~%SkR14%>0?|SkM14+3|}}
+15,{If~{Or~%Edu%=1,%ExpertTypeKnowledge%=15}=1?{If~%SkR15%>0?|SkM15+3|}}
+16,{If~{Or~%Edu%=1,%ExpertTypeKnowledge%=16}=1?{If~%SkR16%>0?|SkM16+3|}}
+17,{If~{Or~%Edu%=1,%ExpertTypeKnowledge%=17}=1?{If~%SkR17%>0?|SkM17+3|}}
+18,{If~{Or~%Edu%=1,%ExpertTypeKnowledge%=18}=1?{If~%SkR18%>0?|SkM18+3|}}
+19,{If~{Or~%Edu%=1,%ExpertTypeKnowledge%=19}=1?{If~%SkR19%>0?|SkM19+3|}}
+20,{If~{Or~%Edu%=1,%ExpertTypeKnowledge%=20}=1?{If~%SkR20%>0?|SkM20+3|}}
+21,{If~{Or~%Edu%=1,%ExpertTypeKnowledge%=21}=1?{If~%SkR21%>0?|SkM21+3|}}
+22,{If~{Or~%Edu%=1,%ExpertTypeKnowledge%=22}=1?{If~%SkR22%>0?|SkM22+3|}}
+23,{If~{Or~%Edu%=1,%ExpertTypeKnowledge%=23}=1?{If~%SkR23%>0?|SkM23+3|}}
+24,{If~{And~%SkR24%>0,{And~%ParamRace%=Halfling,%Subrace%=Nomadic}=1}=1?|SkM24+3|}
+25,{If~%SkR25%>0?|SkM25+3|}
+26,{If~{And~%SkR26%>0,{And~%ParamRace%=Halfling,%Subrace%=Slave Born}=1}=1?|SkM26+3|}
+27,{If~%SkR27%>0?|SkM27+3|}
+28,
+29,{If~%SkR29%>0?|SkM29+3|}
+30,{If~%SkR30%>0?|SkM30+3|}
+31,
+32,{If~{And~%SkR32%>0,%ParamRace%=Kobold}=1?|SkM32+3|}
+33,
+34,{If~{And~%SkR34%>0,{Find~1,AQUATIC,%FeatsSkill%}!=0}=1?|SkM34+3|}
+35,
+
+# Merchant
+:ExpertClassSkill_10
+1,
+2,{If~%SkR2%>0?|SkM2+3|}
+3,{If~%SkR3%>0?|SkM3+3|}
+4,
+5,{If~{And~%SkR5%>0,%ParamRace%=Kobold}=1?|SkM5+3|}
+6,{If~%SkR6%>0?|SkM6+3|}
+7-10,
+11,{If~%SkR11%>0?|SkM11+3|}
+12-13,
+14,{If~{And~%Edu%=1,%SkR14%>0}=1?|SkM14+3|}
+15,{If~{And~%Edu%=1,%SkR15%>0}=1?|SkM15+3|}
+16,{If~{And~%Edu%=1,%SkR16%>0}=1?|SkM16+3|}
+17,{If~%SkR17%>0?|SkM17+3|}
+18,{If~{And~%Edu%=1,%SkR18%>0}=1?|SkM18+3|}
+19,{If~%SkR19%>0?|SkM19+3|}
+20,{If~{And~%Edu%=1,%SkR20%>0}=1?|SkM20+3|}
+21,{If~%SkR21%>0?|SkM21+3|}
+22,{If~{And~%Edu%=1,%SkR22%>0}=1?|SkM22+3|}
+23,{If~{And~%Edu%=1,%SkR23%>0}=1?|SkM23+3|}
+24,{If~%SkR24%>0?|SkM24+3|}
+25,
+26,{If~{And~%SkR26%>0,{And~%ParamRace%=Halfling,%Subrace%=Slave Born}=1}=1?|SkM26+3|}
+27,{If~%SkR27%>0?|SkM27+3|}
+28,
+29,{If~%SkR29%>0?|SkM29+3|}
+30-31,
+32,{If~{And~%SkR32%>0,%ParamRace%=Kobold}=1?|SkM32+3|}
+33,
+34,{If~{And~%SkR34%>0,{Find~1,AQUATIC,%FeatsSkill%}!=0}=1?|SkM34+3|}
+35,
+
+:FighterClassSkill
+1-3,
+4,{If~%SkR4%>0?|SkM4+3|}
+5,{If~%SkR5%>0?|SkM5+3|}
+6-10,
+11,{If~%SkR11%>0?|SkM11+3|}
+12,
+13,{If~%SkR13%>0?|SkM13+3|}
+14,{If~{And~%Edu%=1,%SkR14%>0}=1?|SkM14+3|}
+15,{If~%SkR15%>0?|SkM15+3|}
+16,{If~%SkR16%>0?|SkM16+3|}
+17,{If~{And~%Edu%=1,%SkR17%>0}=1?|SkM17+3|}
+18,{If~{And~%Edu%=1,%SkR18%>0}=1?|SkM18+3|}
+19,{If~{And~%Edu%=1,%SkR19%>0}=1?|SkM19+3|}
+20,{If~{And~%Edu%=1,%SkR20%>0}=1?|SkM20+3|}
+21,{If~{And~%Edu%=1,%SkR21%>0}=1?|SkM21+3|}
+22,{If~{And~%Edu%=1,%SkR22%>0}=1?|SkM22+3|}
+23,{If~{And~%Edu%=1,%SkR23%>0}=1?|SkM23+3|}
+24,{If~{And~%SkR24%>0,{And~%ParamRace%=Halfling,%Subrace%=Nomadic}=1}=1?|SkM24+3|}
+25,
+26,{If~{And~%SkR26%>0,{And~%ParamRace%=Halfling,%Subrace%=Slave Born}=1}=1?|SkM26+3|}
+27,{If~%SkR27%>0?|SkM27+3|}
+28,{If~%SkR28%>0?|SkM28+3|}
+29-31,
+32,{If~{And~%SkR32%>0,%ParamRace%=Kobold}=1?|SkM32+3|}
+33,{If~%SkR33%>0?|SkM33+3|}
+34,{If~%SkR34%>0?|SkM34+3|}
+35-100,
+
+:MonkClassSkill
+1,{If~%SkR1%>0?|SkM1+3|}
+2-3,
+4,{If~%SkR4%>0?|SkM4+3|}
+5,{If~%SkR5%>0?|SkM5+3|}
+6-8,
+9,{If~%SkR9%>0?|SkM9+3|}
+10-12,
+13,{If~%SkR13%>0?|SkM13+3|}
+14,{If~{And~%Edu%=1,%SkR14%>0}=1?|SkM14+3|}
+15,{If~{And~%Edu%=1,%SkR15%>0}=1?|SkM15+3|}
+16,{If~{And~%Edu%=1,%SkR16%>0}=1?|SkM16+3|}
+17,{If~{And~%Edu%=1,%SkR17%>0}=1?|SkM17+3|}
+18,{If~%SkR18%>0?|SkM18+3|}
+19,{If~{And~%Edu%=1,%SkR19%>0}=1?|SkM19+3|}
+20,{If~{And~%Edu%=1,%SkR20%>0}=1?|SkM20+3|}
+21,{If~{And~%Edu%=1,%SkR21%>0}=1?|SkM21+3|}
+22,{If~{And~%Edu%=1,%SkR22%>0}=1?|SkM22+3|}
+23,{If~%SkR23%>0?|SkM23+3|}
+24,{If~{And~%SkR24%>0,{And~%ParamRace%=Halfling,%Subrace%=Nomadic}=1}=1?|SkM24+3|}
+25,{If~%SkR25%>0?|SkM25+3|}
+26,{If~%SkR26%>0?|SkM26+3|}
+27,{If~%SkR27%>0?|SkM27+3|}
+28,{If~%SkR28%>0?|SkM28+3|}
+29,{If~%SkR29%>0?|SkM29+3|}
+30-31,
+32,{If~%SkR32%>0?|SkM32+3|}
+33,
+34,{If~%SkR34%>0?|SkM34+3|}
+35-100,
+
+:PaladinClassSkill
+1-4,
+5,{If~%SkR5%>0?|SkM5+3|}
+6,{If~%SkR6%>0?|SkM6+3|}
+7-10,
+11,{If~%SkR11%>0?|SkM11+3|}
+12,{If~%SkR12%>0?|SkM12+3|}
+13,
+14,{If~{And~%Edu%=1,%SkR14%>0}=1?|SkM14+3|}
+15,{If~{And~%Edu%=1,%SkR15%>0}=1?|SkM15+3|}
+16,{If~{And~%Edu%=1,%SkR16%>0}=1?|SkM16+3|}
+17,{If~{And~%Edu%=1,%SkR17%>0}=1?|SkM17+3|}
+18,{If~{And~%Edu%=1,%SkR18%>0}=1?|SkM18+3|}
+19,{If~{And~%Edu%=1,%SkR19%>0}=1?|SkM19+3|}
+20,{If~{And~%Edu%=1,%SkR20%>0}=1?|SkM20+3|}
+21,{If~%SkR21%>0?|SkM21+3|}
+22,{If~{And~%Edu%=1,%SkR22%>0}=1?|SkM22+3|}
+23,{If~%SkR23%>0?|SkM23+3|}
+24,{If~{And~%SkR24%>0,{And~%ParamRace%=Halfling,%Subrace%=Nomadic}=1}=1?|SkM24+3|}
+25,
+26,{If~{And~%SkR26%>0,{And~%ParamRace%=Halfling,%Subrace%=Slave Born}=1}=1?|SkM26+3|}
+27,{If~%SkR27%>0?|SkM27+3|}
+28,{If~%SkR28%>0?|SkM28+3|}
+29,{If~%SkR29%>0?|SkM29+3|}
+30,
+31,{If~%SkR31%>0?|SkM31+3|}
+32,{If~{And~%SkR32%>0,%ParamRace%=Kobold}=1?|SkM32+3|}
+33,
+34,{If~{And~%SkR34%>0,{Find~1,AQUATIC,%FeatsSkill%}!=0}=1?|SkM34+3|}
+35-100,
+
+:RangerClassSkill
+1-3,
+4,{If~%SkR4%>0?|SkM4+3|}
+5,{If~%SkR5%>0?|SkM5+3|}
+6-10,
+11,{If~%SkR11%>0?|SkM11+3|}
+12,{If~%SkR12%>0?|SkM12+3|}
+13,{If~%SkR13%>0?|SkM13+3|}
+14,{If~{And~%Edu%=1,%SkR14%>0}=1?|SkM14+3|}
+15,{If~%SkR15%>0?|SkM15+3|}
+16,{If~{And~%Edu%=1,%SkR16%>0}=1?|SkM16+3|}
+17,{If~%SkR17%>0?|SkM17+3|}
+18,{If~{And~%Edu%=1,%SkR18%>0}=1?|SkM18+3|}
+19,{If~{And~%Edu%=1,%SkR19%>0}=1?|SkM19+3|}
+20,{If~%SkR20%>0?|SkM20+3|}
+21,{If~{And~%Edu%=1,%SkR21%>0}=1?|SkM21+3|}
+22,{If~{And~%Edu%=1,%SkR22%>0}=1?|SkM22+3|}
+23,{If~{And~%Edu%=1,%SkR23%>0}=1?|SkM23+3|}
+24,{If~{And~%SkR24%>0,{And~%ParamRace%=Halfling,%Subrace%=Nomadic}=1}=1?|SkM24+3|}
+25,{If~%SkR25%>0?|SkM25+3|}
+26,{If~{And~%SkR26%>0,{And~%ParamRace%=Halfling,%Subrace%=Slave Born}=1}=1?|SkM26+3|}
+27,{If~%SkR27%>0?|SkM27+3|}
+28,{If~%SkR28%>0?|SkM28+3|}
+29-30,
+31,{If~%SkR31%>0?|SkM31+3|}
+32,{If~%SkR32%>0?|SkM32+3|}
+33,{If~%SkR33%>0?|SkM33+3|}
+34,{If~%SkR34%>0?|SkM34+3|}
+35-100,
+
+:RogueClassSkill
+1,{If~%SkR1%>0?|SkM1+3|}
+2,{If~%SkR2%>0?|SkM2+3|}
+3,{If~%SkR3%>0?|SkM3+3|}
+4,{If~%SkR4%>0?|SkM4+3|}
+5,{If~%SkR5%>0?|SkM5+3|}
+6,{If~%SkR6%>0?|SkM6+3|}
+7,{If~%SkR7%>0?|SkM7+3|}
+8,{If~%SkR8%>0?|SkM8+3|}
+9,{If~%SkR9%>0?|SkM9+3|}
+10-12,
+13,{If~%SkR13%>0?|SkM13+3|}
+14,{If~{And~%Edu%=1,%SkR14%>0}=1?|SkM14+3|}
+15,{If~%SkR15%>0?|SkM15+3|}
+16,{If~{And~%Edu%=1,%SkR16%>0}=1?|SkM16+3|}
+17,{If~{And~%Edu%=1,%SkR17%>0}=1?|SkM17+3|}
+18,{If~{And~%Edu%=1,%SkR18%>0}=1?|SkM18+3|}
+19,{If~%SkR19%>0?|SkM19+3|}
+20,{If~{And~%Edu%=1,%SkR20%>0}=1?|SkM20+3|}
+21,{If~{And~%Edu%=1,%SkR21%>0}=1?|SkM21+3|}
+22,{If~{And~%Edu%=1,%SkR22%>0}=1?|SkM22+3|}
+23,{If~{And~%Edu%=1,%SkR23%>0}=1?|SkM23+3|}
+24,{If~%SkR24%>0?|SkM24+3|}
+25,{If~%SkR25%>0?|SkM25+3|}
+26,{If~%SkR26%>0?|SkM26+3|}
+27,{If~%SkR27%>0?|SkM27+3|}
+28,
+29,{If~%SkR29%>0?|SkM29+3|}
+30,{If~%SkR30%>0?|SkM30+3|}
+31,
+32,{If~%SkR32%>0?|SkM32+3|}
+33,
+34,{If~%SkR34%>0?|SkM34+3|}
+35,{If~%SkR35%>0?|SkM35+3|}
+36-100,
+
+:SorcererClassSkill
+1,
+2,{If~%SkR2%>0?|SkM2+3|}
+3,{If~%SkR3%>0?|SkM3+3|}
+4,
+5,{If~%SkR5%>0?|SkM5+3|}
+6-9,
+10,{If~%SkR10%>0?|SkM10+3|}
+11-12,
+13,{If~%SkR13%>0?|SkM13+3|}
+14,{If~%SkR14%>0?|SkM14+3|}
+15,{If~{Or~%BSk%=15,%Edu%=1}=1?{If~%SkR15%>0?|SkM15+3|}}
+16,{If~{Or~%BSk%=16,%Edu%=1}=1?{If~%SkR16%>0?|SkM16+3|}}
+17,{If~{Or~%BSk%=17,%Edu%=1}=1?{If~%SkR17%>0?|SkM17+3|}}
+18,{If~{Or~%BSk%=18,%Edu%=1}=1?{If~%SkR18%>0?|SkM18+3|}}
+19,{If~{Or~%BSk%=19,%Edu%=1}=1?{If~%SkR19%>0?|SkM19+3|}}
+20,{If~{Or~%BSk%=20,%Edu%=1}=1?{If~%SkR20%>0?|SkM20+3|}}
+21,{If~{Or~%BSk%=21,%Edu%=1}=1?{If~%SkR21%>0?|SkM21+3|}}
+22,{If~{Or~%BSk%=22,%Edu%=1}=1?{If~%SkR22%>0?|SkM22+3|}}
+23,{If~{Or~%BSk%=23,%Edu%=1}=1?{If~%SkR23%>0?|SkM23+3|}}
+24,{If~{And~%SkR24%>0,{And~%ParamRace%=Halfling,%Subrace%=Nomadic}=1}=1?|SkM24+3|}
+25,
+26,{If~{And~%SkR26%>0,{And~%ParamRace%=Halfling,%Subrace%=Slave Born}=1}=1?|SkM26+3|}
+27,{If~%SkR27%>0?|SkM27+3|}
+28-30,
+31,{If~%SkR31%>0?|SkM31+3|}
+32,{If~{And~%SkR32%>0,%ParamRace%=Kobold}=1?|SkM32+3|}
+33,
+34,{If~{And~%SkR34%>0,{Find~1,AQUATIC,%FeatsSkill%}!=0}=1?|SkM34+3|}
+35,{If~%SkR35%>0?|SkM35+3|}
+36-100,
+
+:WarriorClassSkill
+1-3,
+4,{If~%SkR4%>0?|SkM4+3|}
+5,{If~%SkR5%>0?|SkM5+3|}
+6-10,
+11,{If~%SkR11%>0?|SkM11+3|}
+12,
+13,{If~%SkR13%>0?|SkM13+3|}
+14,{If~{And~%Edu%=1,%SkR14%>0}=1?|SkM14+3|}
+15,{If~{And~%Edu%=1,%SkR15%>0}=1?|SkM15+3|}
+16,{If~{And~%Edu%=1,%SkR16%>0}=1?|SkM16+3|}
+17,{If~{And~%Edu%=1,%SkR17%>0}=1?|SkM17+3|}
+18,{If~{And~%Edu%=1,%SkR18%>0}=1?|SkM18+3|}
+19,{If~{And~%Edu%=1,%SkR19%>0}=1?|SkM19+3|}
+20,{If~{And~%Edu%=1,%SkR20%>0}=1?|SkM20+3|}
+21,{If~{And~%Edu%=1,%SkR21%>0}=1?|SkM21+3|}
+22,{If~{And~%Edu%=1,%SkR22%>0}=1?|SkM22+3|}
+23,{If~{And~%Edu%=1,%SkR23%>0}=1?|SkM23+3|}
+24,{If~{And~%SkR24%>0,{And~%ParamRace%=Halfling,%Subrace%=Nomadic}=1}=1?|SkM24+3|}
+25,
+26,{If~{And~%SkR26%>0,{And~%ParamRace%=Halfling,%Subrace%=Slave Born}=1}=1?|SkM26+3|}
+27,{If~%SkR27%>0?|SkM27+3|}
+28,{If~%SkR28%>0?|SkM28+3|}
+29-31,
+32,{If~{And~%SkR32%>0,%ParamRace%=Kobold}=1?|SkM32+3|}
+33,
+34,{If~%SkR34%>0?|SkM34+3|}
+35-100,
+
+:WizardClassSkill
+1,
+2,{If~%SkR2%>0?|SkM2+3|}
+3-4,
+5,{If~%SkR5%>0?|SkM5+3|}
+6-9,
+10,{If~%SkR10%>0?|SkM10+3|}
+11-13,
+14,{If~%SkR14%>0?|SkM14+3|}
+15,{If~%SkR15%>0?|SkM15+3|}
+16,{If~%SkR16%>0?|SkM16+3|}
+17,{If~%SkR17%>0?|SkM17+3|}
+18,{If~%SkR18%>0?|SkM18+3|}
+19,{If~%SkR19%>0?|SkM19+3|}
+20,{If~%SkR20%>0?|SkM20+3|}
+21,{If~%SkR21%>0?|SkM21+3|}
+22,{If~%SkR22%>0?|SkM22+3|}
+23,{If~%SkR23%>0?|SkM23+3|}
+24,{If~%SkR24%>0?|SkM24+3|}
+25,
+26,{If~{And~%SkR26%>0,{And~%ParamRace%=Halfling,%Subrace%=Slave Born}=1}=1?|SkM26+3|}
+27,{If~%SkR27%>0?|SkM27+3|}
+28-30,
+31,{If~%SkR31%>0?|SkM31+3|}
+32,{If~{And~%SkR32%>0,%ParamRace%=Kobold}=1?|SkM32+3|}
+33,
+34,{If~{And~%SkR34%>0,{Find~1,AQUATIC,%FeatsSkill%}!=0}=1?|SkM34+3|}
+35-100,
+
+### NEW SKILL ### (modify above and below)
+### NEW CLASS ### Look Bard 1-35 (removing the If CL>=16)
+:XXXClassSkill
+1,{If~%SkR1%>0?|SkM1+3|}
+2,{If~%SkR2%>0?|SkM2+3|}
+3,{If~%SkR3%>0?|SkM3+3|}
+4,{If~%SkR4%>0?|SkM4+3|}
+5,{If~%SkR5%>0?|SkM5+3|}
+_ OR
+_{If~{And~%SkR5%>0,%ParamRace%=Kobold}=1?|SkM5+3|}
+6,{If~%SkR6%>0?|SkM6+3|}
+7,{If~%SkR7%>0?|SkM7+3|}
+8,{If~%SkR8%>0?|SkM8+3|}
+9,{If~%SkR9%>0?|SkM9+3|}
+10,{If~%SkR10%>0?|SkM10+3|}
+11,{If~%SkR11%>0?|SkM11+3|}
+12,{If~%SkR12%>0?|SkM12+3|}
+13,{If~%SkR13%>0?|SkM13+3|}
+# Knowledge
+14,{If~%SkR14%>0?|SkM14+3|}
+14,{If~%Edu%=1?{If~%SkR14%>0?|SkM14+3|}}
+15,{If~%SkR15%>0?|SkM15+3|}
+15,{If~%Edu%=1?{If~%SkR15%>0?|SkM15+3|}}
+16,{If~%SkR16%>0?|SkM16+3|}
+16,{If~%Edu%=1?{If~%SkR16%>0?|SkM16+3|}}
+17,{If~%SkR17%>0?|SkM17+3|}
+17,{If~%Edu%=1?{If~%SkR17%>0?|SkM17+3|}}
+18,{If~%SkR18%>0?|SkM18+3|}
+18,{If~%Edu%=1?{If~%SkR18%>0?|SkM18+3|}}
+19,{If~%SkR19%>0?|SkM19+3|}
+19,{If~%Edu%=1?{If~%SkR19%>0?|SkM19+3|}}
+20,{If~%SkR20%>0?|SkM20+3|}
+20,{If~%Edu%=1?{If~%SkR20%>0?|SkM20+3|}}
+21,{If~%SkR21%>0?|SkM21+3|}
+21,{If~%Edu%=1?{If~%SkR21%>0?|SkM21+3|}}
+22,{If~%SkR22%>0?|SkM22+3|}
+22,{If~%Edu%=1?{If~%SkR22%>0?|SkM22+3|}}
+23,{If~%SkR23%>0?|SkM23+3|}
+23,{If~%Edu%=1?{If~%SkR23%>0?|SkM23+3|}}
+24,{If~%SkR24%>0?|SkM24+3|}
+_OR
+_{If~{And~%SkR24%>0,{And~%ParamRace%=Halfling,%Subrace%=Nomadic}=1}=1?|SkM24+3|}
+25,{If~%SkR25%>0?|SkM25+3|}
+26,{If~%SkR26%>0?|SkM26+3|}
+_OR
+_{If~{And~%SkR26%>0,{And~%ParamRace%=Halfling,%Subrace%=Slave Born}=1}=1?|SkM26+3|}
+27,{If~%SkR27%>0?|SkM27+3|}
+28,{If~%SkR28%>0?|SkM28+3|}
+29,{If~%SkR29%>0?|SkM29+3|}
+30,{If~%SkR30%>0?|SkM30+3|}
+31,{If~%SkR31%>0?|SkM31+3|}
+32,{If~%SkR32%>0?|SkM32+3|}
+_ OR
+_{If~{And~%SkR32%>0,%ParamRace%=Kobold}=1?|SkM32+3|}
+33,{If~%SkR33%>0?|SkM33+3|}
+34,{If~%SkR34%>0?|SkM34+3|}
+_ OR
+_{If~{And~%SkR34%>0,{Find~1,AQUATIC,%FeatsSkill%}!=0}=1?|SkM34+3|}
+35,{If~%SkR35%>0?|SkM35+3|}
+# Bard extra Performance
+36,{If~%SkR36%>0?|SkM36+3|}
+37,{If~%SkR37%>0?|SkM37+3|}
+38,{If~%SkR38%>0?|SkM38+3|}
+39,{If~%SkR39%>0?|SkM39+3|}
+# Extra Craft for Expert (Blacksmith, Jeweller)
+40,{If~%SkR40%>0?|SkM40+3|}
+# Extra Profession for Expert (Fence)
+41,{If~%SkR41%>0?|SkM41+3|}
+42-100,
+
+### NEW FEATS ###
+# If you change the numbers, you must verify the "Pathfinder Feats" table.
+:SkillsList
+1,Acrobatics
+2,Appraise
+3,Bluff
+4,Climb
+# Craft
+5,Craft (
+_{If~{Find~1,Master Trapmaker,%FeatsSkill%}!=0?trapmaking
+_/{If~{Or~{And~%ParamClass%=Expert,{Param~ExpertTypeCode,%ExpertTypeCode%}=Sage_Scholar}=1,{Find~1,Brewmaster,%FeatsSkill%}!=0}=1?alchemy
+_/{If~{And~%ParamClass%=Expert,{Param~ExpertTypeCode,%ExpertTypeCode%}=Locksmith}=1?locksmithing
+_/{If~%ParamRace%=Kobold?trapmaking
+_/{If~{And~%ParamRace%=Gnome,%Subrace%=Dread}=1?alchemy
+_/{If~{And~%ParamRace%=Gnome,%Subrace%=Jungle}=1?shipbuilding
+_/{If~%ParamRace%=Svirfneblin?alchemy
+_/{If~%MasterCraftsman%=1?[DetermineCraftMC]/[DetermineCraft]}
+_}}}}}}}
+_)
+6,Diplomacy
+7,Disable Device
+8,Disguise
+9,Escape Artist
+10,Fly
+11,Handle Animal
+12,Heal
+13,Intimidate
+14,Knowledge (Arcana)
+15,Knowledge (Dungeoneering)
+16,Knowledge (Engineering)
+17,Knowledge (Geography)
+18,Knowledge (History)
+19,Knowledge (Local)
+20,Knowledge (Nature)
+21,Knowledge (Nobility)
+22,Knowledge (Planes)
+23,Knowledge (Religion)
+24,Linguistics
+25,Perception
+26,Perform (
+_{If~{And~%ParamClass%=Expert,{Param~ExpertTypeCode,%ExpertTypeCode%}=Courtesan}=1?love making
+_/{If~{And~%ParamClass%=Expert,{Param~ExpertTypeCode,%ExpertTypeCode%}=Pawnbroker}=1?[DeterminePerformanceType=46]
+_/[DeterminePerformanceType]
+_}}
+_)
+# Profession
+27,Profession (
+_{If~{Find~1,HUNTER,%FeatsSkill%}!=0?hunter
+_/{If~{And~%ParamRace%=Kobold,%Subrace%=Matthias' Clan}=1?locksmith
+_/{If~{And~%ParamRace%=Kobold,{And~%Subrace%!=Sigrun's Clan,%Subrace%!=Desert}=1}=1?miner
+_/{If~{And~%ParamRace%=Dwarf,%Subrace%=Desert}=1?miner
+_/{If~{And~%ParamClass%=Expert,{Param~ExpertTypeCode,%ExpertTypeCode%}=Courtesan}=1?courtesan
+_/{If~{And~%ParamClass%=Expert,{Param~ExpertTypeCode,%ExpertTypeCode%}=Fence}=1?fence
+_/{If~{And~%ParamClass%=Expert,{Param~ExpertTypeCode,%ExpertTypeCode%}=Jeweller}=1?merchant
+_/{If~{And~%ParamClass%=Expert,{Param~ExpertTypeCode,%ExpertTypeCode%}=Pawnbroker}=1?pawnbroker
+_/{If~{And~%ParamClass%=Expert,{Param~ExpertTypeCode,%ExpertTypeCode%}=Sage_Scholar}=1?sage
+_/{If~{And~%ParamClass%=Expert,{Param~ExpertTypeCode,%ExpertTypeCode%}=Locksmith}=1?locksmith
+_/{If~{And~%ParamClass%=Expert,{Param~ExpertTypeCode,%ExpertTypeCode%}=Merchant}=1?merchant
+_/{If~{And~%ParamClass%=Commoner,{Param~CommonerTypeCode,%CommonerTypeCode%}=Beggar}=1?beggar
+_/{If~{And~%ParamClass%=Commoner,{Param~CommonerTypeCode,%CommonerTypeCode%}=Prostitute}=1?prostitute
+_/{If~%MasterCraftsman%=2?[~ProfessionMC]
+_/{If~{Find~1,Brewmaster,%FeatsSkill%}!=0?brewer
+_/[~Miscellaneous.Occupations]
+_}}}}}}}}}}}}}}}
+_)
+28,Ride
+29,Sense Motive
+30,Sleight of Hand
+31,Spellcraft
+32,Stealth
+# Survival
+33,Survival 
+_{IIf~{And~%ParamRace%=Half Orc,%Subrace%=Deep Kin}=1? (underground)
+_   :{IIf~{And~%ParamRace%=Human,%Subrace%=Gutter Rat}=1? (urban/underground)
+_   :{IIf~{And~%ParamRace%=Kobold,%Subrace%=Desert}=1? (desert)
+_   :{IIf~{And~%ParamRace%=Dwarf,%Subrace%=Jungle}=1? (jungle)
+_   :{IIf~{And~%ParamRace%=Orc,%Subrace%=Jungle}=1? (jungle)
+_   :([~DetermineSurvivalType])
+_}}}}}
+34,Swim
+35,Use Magic Device
+# Extra Perform for Bards
+36,Perform ([DeterminePerformanceType])
+37,Perform ([DeterminePerformanceType])
+38,Perform ([DeterminePerformanceType])
+39,Perform ([DeterminePerformanceType])
+# Extra Craft for Expert (Blacksmith, Jeweller)
+40,Craft ({If~%MasterCraftsman%=1?[DetermineCraftMC]/[DetermineCraft]})
+# Extra Profession for Expert (Fence)
+41,Profession (cover profession: [~Miscellaneous.Occupations])
+
+### NEW SKILL ### KNOWLEDGE
+;!KnowledgeList
+1,Arcana
+1,Dungeoneering
+1,Engineering
+1,Geography
+1,History
+1,Local
+1,Nature
+1,Nobility
+1,Planes
+1,Religion
+
+;ProfessionMC
+2,alchemist|Meaning=0|
+2,apothecary|Meaning=makes and sells drugs and medicines|
+2,archer|Meaning=0|
+2,architect|Meaning=designs buildings|
+1,armorer|Meaning=0|
+1,armorist|Meaning=armorer|
+2,artist|Meaning=0|
+2,blacksmith|Meaning=works with iron to form metal implements|
+2,bonecarver|Meaning=artist carving bones|
+2,bookbinder|Meaning=binds books with covers|
+2,bowyer|Meaning=makes or sells bows for archery|
+1,brass worker|Meaning=0|
+2,brewer|Meaning=makes beer, ale, etc. by steeping, boiling, and fermenting malt and hops|
+2,bronzefounder|Meaning=0|
+2,broom maker|Meaning=0|
+2,builder|Meaning=one that builds, especially a person who contracts for and supervises the construction of a building|
+2,cabinetmaker|Meaning=makes fine furniture and other woodwork|
+2,candle maker|Meaning=0|
+2,carpenter|Meaning=builds or repairs wooden structures, as houses, scaffolds, or shelving|
+2,carpet maker|Meaning=0|
+2,cartwright|Meaning=makes wheels/carts/wagons|
+2,carver|Meaning=carves statues or designs|
+2,chainmaker|Meaning=0|
+2,clockmaker|Meaning=0|
+1,clothier|Meaning=dealer in cloth/clothing|
+1,clothing maker|Meaning=0|
+2,cobbler|Meaning=makes/mends shoes|
+2,coppersmith|Meaning=0|
+2,drycooper|Meaning=makes wooden barrels, buckets, etc.|
+2,embroiderer|Meaning=embroiders cloth, produces or forms in needlework|
+2,engineer|Meaning=operates/supervises the operation of technical equipment|
+2,feltmaker|Meaning=makes felt from wool/fur/cotton/hair by using pressure|
+2,fletcher|Meaning=makes arrows|
+2,founder|Meaning=works in a foundry|
+2,furniture maker|Meaning=aka cabinetmaker|
+2,gemcutter|Meaning=cuts gems, usually uncut ones, to increase their value|
+2,girdler|Meaning=makes girdles/belts of leather|
+2,glassblower|Meaning=0|
+2,glover|Meaning=glovemaker|
+2,goldbeater|Meaning=makes gold leaf|
+2,goldsmith|Meaning=makes/repairs/sells items made of gold, (formerly) such a person also acting as a banker, moneylender, etc|
+2,government official|Meaning=0|
+2,grain merchant|Meaning=merchant who deals in food grains|
+2,gunsmith|Meaning=makes/repairs arquebuses|
+2,hatmaker|Meaning=0|
+2,hatter|Meaning=makes/repairs hats|
+2,herbalist|Meaning=collects or deals in herbs, esp. medicinal herbs|
+2,horner|Meaning=works with horns to craft spoons/combs/musical instruments|
+1,illuminator|Meaning=crafts lamps and light fixtures|
+1,illuminator|Meaning=paints manuscripts, books, etc., with designs in color, gold, or the like|
+2,jeweler|Meaning=makes jewelry|
+2,joiner|Meaning=skilled carpenter who constructs doors, window sashes, paneling, and other permanent woodwork|
+2,knifesmith|Meaning=makes knives|
+2,lacemaker|Meaning=makes lace from cloth/thread|
+2,lanternmaker|Meaning=0|
+2,leadworker|Meaning=makes lead objects|
+2,leatherworker|Meaning=0|
+2,linenspinner|Meaning=makes linen cloth|
+2,locksmith|Meaning=makes or repairs locks and keys|
+2,lutemaker|Meaning=0|
+2,mason|Meaning=building with units of various natural or artificial mineral products, as stones, bricks, cinder blocks, or tiles, usually with the use of mortar or cement as a bonding agent|
+2,metalsmith|Meaning=skilled in making articles of metal|
+2,mirrorer|Meaning=makes mirrors|
+2,netmaker|Meaning=0|
+2,oilmaker|Meaning=0|
+2,papermaker|Meaning=makes paper|
+2,parchmenter|Meaning=makes parchments|
+2,perfumer|Meaning=maker or seller of perfumes|
+2,pewterer|Meaning=maker of pewter utensils or containers|
+2,pirate|Meaning=robs or commits illegal violence at sea or on the shores of the sea|
+2,potter|Meaning=makes pottery|
+2,purse maker|Meaning=0|
+2,roofer|Meaning=makes/repairs roofs|
+2,ropemaker|Meaning=makes ropes/nets|
+2,rugmaker|Meaning=0|
+2,saddler|Meaning=maker of saddles|
+2,sailmaker|Meaning=0|
+2,scabbard maker|Meaning=0|
+2,sculptor|Meaning=0|
+2,scythesmith|Meaning=0|
+2,seamstress|Meaning=woman whose occupation is sewing|
+2,siege engineer|Meaning=crafter of siege equipment (catapults and ballistae)|
+2,shipwright|Meaning=0|
+2,shoe maker|Meaning=0|
+2,silversmith|Meaning=making and repairing articles of silver|
+2,soap maker|Meaning=0|
+2,spectaclesmaker|Meaning=0|
+2,spurrer|Meaning=makes spurs|
+2,stainer|Meaning=dyer|
+2,stonecarver|Meaning=cuts or carves stone|
+2,stonecutter|Meaning=cuts or carves stone|
+2,stonemason|Meaning=builds with or dresses stone|
+2,swordsmith|Meaning=0|
+2,tailor|Meaning=makes/repairs clothings|
+2,tanner|Meaning=preparer of leather|
+2,tapestrymaker|Meaning=0|
+2,taxidermist|Meaning=preparing and preserving the skins of animals and of stuffing and mounting them in lifelike form|
+2,tentsman|Meaning=makes/repairs/sets tents|
+2,thonger|Meaning=makes leather straps/laces|
+2,threadmaker|Meaning=0|
+2,tool maker|Meaning=0|
+2,vintner|Meaning=makes wine or sells wines|
+2,wainwright|Meaning=wagon maker|
+2,weaponsmith|Meaning=0|
+2,weaver|Meaning=weaver of cloth|
+2,wheelwright|Meaning=0|
+2,woodcarver|Meaning=0|
+
+### XXX UNUSED
+### NEW SKILL ###
+:SkillValue
+# Acrobatics
+#1,+{Calc~%RanksApplied%+%DEXBonus%{If~{Find~1,Acrobatic,%FeatsSkill%}!=0?+2}}{If~%FamSkillID%=1? (+%FamSkillBonus% with Familiar)}
+1,+{Calc~%RanksApplied%+%DEXBonus%}{If~%FamSkillID%=1? (+%FamSkillBonus% with Familiar)}
+# Appraise
+2,+{Calc~%RanksApplied%+%INTBonus%}{If~%FamSkillID%=2? (+%FamSkillBonus% with Familiar)}
+# Bluff
+3,+{Calc~%RanksApplied%+%CHABonus%}{If~%FamSkillID%=3? (+%FamSkillBonus% with Familiar)}
+# Climb
+4,+{Calc~%RanksApplied%+%STRBonus%}{If~%FamSkillID%=4? (+%FamSkillBonus% with Familiar)}
+# Craft
+5,+{Calc~%RanksApplied%+%INTBonus%}{If~%FamSkillID%=5? (+%FamSkillBonus% with Familiar)}
+# Diplomacy
+6,+{Calc~%RanksApplied%+%CHABonus%}{If~%FamSkillID%=6? (+%FamSkillBonus% with Familiar)}
+# Disable Device
+7,+{Calc~%RanksApplied%+%DEXBonus%}{If~%FamSkillID%=7? (+%FamSkillBonus% with Familiar)}
+# Disguise
+8,+{Calc~%RanksApplied%+%CHABonus%}{If~%FamSkillID%=8? (+%FamSkillBonus% with Familiar)}
+# Escape Artist
+9,+{Calc~%RanksApplied%+%DEXBonus%}{If~%FamSkillID%=9? (+%FamSkillBonus% with Familiar)}
+# Fly
+10,+{Calc~%RanksApplied%+%DEXBonus%}{If~%FamSkillID%=10? (+%FamSkillBonus% with Familiar)}
+# Handle Animal
+11,+{Calc~%RanksApplied%+%CHABonus%}{If~%FamSkillID%=11? (+%FamSkillBonus% with Familiar)}
+# Heal
+12,+{Calc~%RanksApplied%+%WISBonus%}{If~%FamSkillID%=12? (+%FamSkillBonus% with Familiar)}
+# Intimidate
+13,+{Calc~%RanksApplied%+%CHABonus%}{If~%FamSkillID%=13? (+%FamSkillBonus% with Familiar)}
+# Knowledge (Arcana)
+14,+{Calc~%RanksApplied%+%INTBonus%}{If~%FamSkillID%=14? (+%FamSkillBonus% with Familiar)}
+# Knowledge (Dungeoneering)
+15,+{Calc~%RanksApplied%+%INTBonus%}{If~%FamSkillID%=15? (+%FamSkillBonus% with Familiar)}
+# Knowledge (Engineering)
+16,+{Calc~%RanksApplied%+%INTBonus%}{If~%FamSkillID%=16? (+%FamSkillBonus% with Familiar)}
+# Knowledge (Geography)
+17,+{Calc~%RanksApplied%+%INTBonus%}{If~%FamSkillID%=17? (+%FamSkillBonus% with Familiar)}
+# Knowledge (History)
+18,+{Calc~%RanksApplied%+%INTBonus%}{If~%FamSkillID%=18? (+%FamSkillBonus% with Familiar)}
+# Knowledge (Local)
+19,+{Calc~%RanksApplied%+%INTBonus%}{If~%FamSkillID%=19? (+%FamSkillBonus% with Familiar)}
+# Knowledge (Nature)
+20,+{Calc~%RanksApplied%+%INTBonus%}{If~%FamSkillID%=20? (+%FamSkillBonus% with Familiar)}
+# Knowledge (Nobility)
+21,+{Calc~%RanksApplied%+%INTBonus%}{If~%FamSkillID%=21? (+%FamSkillBonus% with Familiar)}
+# Knowledge (The Planes)
+22,+{Calc~%RanksApplied%+%INTBonus%}{If~%FamSkillID%=22? (+%FamSkillBonus% with Familiar)}
+# Knowledge (Religion)
+23,+{Calc~%RanksApplied%+%INTBonus%}{If~%FamSkillID%=23? (+%FamSkillBonus% with Familiar)}
+# Linguistics
+24,+{Calc~%RanksApplied%+%INTBonus%}{If~%FamSkillID%=24? (+%FamSkillBonus% with Familiar)}
+# Perception
+25,+{Calc~%RanksApplied%+%WISBonus%+%Perception%}{If~%FamSkillID%=25? (+%FamSkillBonus% with Familiar)}|PerceptionFlag=1|
+# Perform
+26,+{Calc~%RanksApplied%+%CHABonus%}{If~%FamSkillID%=26? (+%FamSkillBonus% with Familiar)}
+# Profession
+27,+{Calc~%RanksApplied%+%WISBonus%}{If~%FamSkillID%=27? (+%FamSkillBonus% with Familiar)}
+# Ride
+28,+{Calc~%RanksApplied%+%DEXBonus%}{If~%FamSkillID%=28? (+%FamSkillBonus% with Familiar)}
+# Sense Motive
+29,+{Calc~%RanksApplied%+%WISBonus%}{If~%FamSkillID%=29? (+%FamSkillBonus% with Familiar)}
+# Sleight of Hand
+30,+{Calc~%RanksApplied%+%DEXBonus%}{If~%FamSkillID%=30? (+%FamSkillBonus% with Familiar)}
+# Spellcraft
+31,+{Calc~%RanksApplied%+%INTBonus%}{If~%FamSkillID%=31? (+%FamSkillBonus% with Familiar)}
+# Stealth
+32,+{Calc~%RanksApplied%+%DEXBonus%}{If~%FamSkillID%=32? (+%FamSkillBonus% with Familiar)}
+# Survival ([~DetermineSurvivalType])
+33,+{Calc~%RanksApplied%+%WISBonus%}{If~%FamSkillID%=33? (+%FamSkillBonus% with Familiar)}
+# Swim
+34,+{Calc~%RanksApplied%+%STRBonus%}{If~%FamSkillID%=34? (+%FamSkillBonus% with Familiar)}
+# Use Magic Device
+35,+{Calc~%RanksApplied%+%CHABonus%}{If~%FamSkillID%=35? (+%FamSkillBonus% with Familiar)}
+
+### If you add a Knowledge, modify "AllKnowledge" subtable in "Pathfinder Feats.tab"
+### NEW SKILL ### KNOWLEDGE
+# Education feat bonus: 1= +1 to all knowledge
+:SetEduBonus
+1,|SkM14+1||SkM15+1||SkM16+1||SkM17+1||SkM18+1||SkM19+1||SkM20+1||SkM21+1||SkM22+1||SkM23+1|
+2,{Reset~SetEduBonus2}{Loop~2,[SetEduBonus2]}
+
+### KNOWLEDGE ###
+;!SetEduBonus2
+1,|SkM14+2|
+1,|SkM15+2|
+1,|SkM16+2|
+1,|SkM17+2|
+1,|SkM18+2|
+1,|SkM19+2|
+1,|SkM20+2|
+1,|SkM21+2|
+1,|SkM22+2|
+1,|SkM23+2|
+
+### NEW FEATS ### FAMILIAR
+### NEW SKILL ###
+:SkillValue2
+# Acrobatics
+1,|SkR1+%SkM1%|{If~{Or~%SkR1%>0,%FamSkillID%=1}=1?|SkR1+%DEXBonus%|[SkillsList=1] {If~%SkR1%>=0?+}%SkR1%{If~%FamSkillID%=1? (+%FamSkillBonus% with Familiar)}/NONE}
+# Appraise
+2,|SkR2+%SkM2%|{If~{Or~%SkR2%>0,%FamSkillID%=2}=1?|SkR2+%INTBonus%|[SkillsList=2] {If~%SkR2%>=0?+}%SkR2%{If~%FamSkillID%=2? (+%FamSkillBonus% with Familiar)}/NONE}
+# Bluff
+3,|SkR3+%SkM3%|{If~{Or~%SkR3%>0,%FamSkillID%=3}=1?|SkR3+%CHABonus%|[SkillsList=3] {If~%SkR3%>=0?+}%SkR3%{If~%FamSkillID%=3? (+%FamSkillBonus% with Familiar)}/NONE}
+# Climb
+4,|SkR4+%SkM4%|{If~{Or~%SkR4%>0,%FamSkillID%=4}=1?{If~{Or~{Find~1,Agile Athlete,%FeatsSkill%}!=0,{Find~1,Dexterous Climb,%FeatsSkill%}!=0}=1?|SkR4+%DEXBonus%|/|SkR4+%STRBonus%|}[SkillsList=4] {If~%SkR4%>=0?+}%SkR4%{If~%FamSkillID%=4? (+%FamSkillBonus% with Familiar)}/NONE}
+# Craft
+5,|SkR5+%SkM5%|{If~{Or~%SkR5%>0,%FamSkillID%=5}=1?|SkR5+%INTBonus%|[SkillsList=5] {If~%SkR5%>=0?+}%SkR5%{If~%FamSkillID%=5? (+%FamSkillBonus% with Familiar)}/NONE}
+# Diplomacy
+6,|SkR6+%SkM6%|{If~{Or~%SkR6%>0,%FamSkillID%=6}=1?|SkR6+%CHABonus%|[SkillsList=6] {If~%SkR6%>=0?+}%SkR6%{If~%FamSkillID%=6? (+%FamSkillBonus% with Familiar)}/NONE}
+# Disable Device
+7,|SkR7+%SkM7%|{If~{Or~%SkR7%>0,%FamSkillID%=7}=1?|SkR7+%DEXBonus%|[SkillsList=7] {If~%SkR7%>=0?+}%SkR7%{If~%FamSkillID%=7? (+%FamSkillBonus% with Familiar)}/NONE}
+# Disguise
+8,|SkR8+%SkM8%|{If~{Or~%SkR8%>0,%FamSkillID%=8}=1?|SkR8+%CHABonus%|[SkillsList=8] {If~%SkR8%>=0?+}%SkR8%{If~%FamSkillID%=8? (+%FamSkillBonus% with Familiar)}/NONE}
+# Escape Artist
+9,|SkR9+%SkM9%|{If~{Or~%SkR9%>0,%FamSkillID%=9}=1?|SkR9+%DEXBonus%|[SkillsList=9] {If~%SkR9%>=0?+}%SkR9%{If~%FamSkillID%=9? (+%FamSkillBonus% with Familiar)}/NONE}
+# Fly
+10,|SkR10+%SkM10%|{If~{Or~%SkR10%!=0,%FamSkillID%=10}=1?|SkR10+%DEXBonus%|[SkillsList=10] {If~%SkR10%>=0?+}%SkR10%{If~%FamSkillID%=10? (+%FamSkillBonus% with Familiar)}/NONE}
+# Handle Animal
+11,|SkR11+%SkM11%|{If~{Or~%SkR11%>0,%FamSkillID%=11}=1?|SkR11+%CHABonus%|[SkillsList=11] {If~%SkR11%>=0?+}%SkR11%{If~%FamSkillID%=11? (+%FamSkillBonus% with Familiar)}/NONE}
+# Heal
+12,|SkR12+%SkM12%|{If~{Or~%SkR12%>0,%FamSkillID%=12}=1?|SkR12+%WISBonus%|[SkillsList=12] {If~%SkR12%>=0?+}%SkR12%{If~%FamSkillID%=12? (+%FamSkillBonus% with Familiar)}/NONE}
+# Intimidate
+13,|SkR13+%SkM13%|{If~{Or~%SkR13%>0,%FamSkillID%=13}=1?|SkR13+%CHABonus%|[SkillsList=13] {If~%SkR13%>=0?+}%SkR13%{If~%FamSkillID%=13? (+%FamSkillBonus% with Familiar)}/NONE}
+# Knowledge (Arcana)
+14,|SkR14+%SkM14%|{If~{Or~%SkR14%>0,%FamSkillID%=14}=1?|SkR14+%INTBonus%|[SkillsList=14] {If~%SkR14%>=0?+}%SkR14%{If~%FamSkillID%=14? (+%FamSkillBonus% with Familiar)}/NONE}
+# Knowledge (Dungeoneering)
+15,|SkR15+%SkM15%|{If~{Or~%SkR15%>0,%FamSkillID%=15}=1?|SkR15+%INTBonus%|[SkillsList=15] {If~%SkR15%>=0?+}%SkR15%{If~%FamSkillID%=15? (+%FamSkillBonus% with Familiar)}/NONE}
+# Knowledge (Engineering)
+16,|SkR16+%SkM16%|{If~{Or~%SkR16%>0,%FamSkillID%=16}=1?|SkR16+%INTBonus%|[SkillsList=16] {If~%SkR16%>=0?+}%SkR16%{If~%FamSkillID%=16? (+%FamSkillBonus% with Familiar)}/NONE}
+# Knowledge (Geography)
+17,|SkR17+%SkM17%|{If~{Or~%SkR17%>0,%FamSkillID%=17}=1?|SkR17+%INTBonus%|[SkillsList=17] {If~%SkR17%>=0?+}%SkR17%{If~%FamSkillID%=17? (+%FamSkillBonus% with Familiar)}/NONE}
+# Knowledge (History)
+18,|SkR18+%SkM18%|{If~{Or~%SkR18%>0,%FamSkillID%=18}=1?|SkR18+%INTBonus%|[SkillsList=18] {If~%SkR18%>=0?+}%SkR18%{If~%FamSkillID%=18? (+%FamSkillBonus% with Familiar)}/NONE}
+# Knowledge (Local)
+19,|SkR19+%SkM19%|{If~{Or~%SkR19%>0,%FamSkillID%=19}=1?|SkR19+%INTBonus%|[SkillsList=19] {If~%SkR19%>=0?+}%SkR19%{If~%FamSkillID%=19? (+%FamSkillBonus% with Familiar)}/NONE}
+# Knowledge (Nature)
+20,|SkR20+%SkM20%|{If~{Or~%SkR20%>0,%FamSkillID%=20}=1?|SkR20+%INTBonus%|[SkillsList=20] {If~%SkR20%>=0?+}%SkR20%{If~%FamSkillID%=20? (+%FamSkillBonus% with Familiar)}/NONE}
+# Knowledge (Nobility)
+21,|SkR21+%SkM21%|{If~{Or~%SkR21%>0,%FamSkillID%=21}=1?|SkR21+%INTBonus%|[SkillsList=21] {If~%SkR21%>=0?+}%SkR21%{If~%FamSkillID%=21? (+%FamSkillBonus% with Familiar)}/NONE}
+# Knowledge (The Planes)
+22,|SkR22+%SkM22%|{If~{Or~%SkR22%>0,%FamSkillID%=22}=1?|SkR22+%INTBonus%|[SkillsList=22] {If~%SkR22%>=0?+}%SkR22%{If~%FamSkillID%=22? (+%FamSkillBonus% with Familiar)}/NONE}
+# Knowledge (Religion)
+23,|SkR23+%SkM23%|{If~{Or~%SkR23%>0,%FamSkillID%=23}=1?|SkR23+%INTBonus%|[SkillsList=23] {If~%SkR23%>=0?+}%SkR23%{If~%FamSkillID%=23? (+%FamSkillBonus% with Familiar)}/NONE}
+# Linguistics
+24,|SkR24+%SkM24%|{If~{Or~%SkR24%>0,%FamSkillID%=24}=1?|SkR24+%INTBonus%|[SkillsList=24] {If~%SkR24%>=0?+}%SkR24%{If~%FamSkillID%=24? (+%FamSkillBonus% with Familiar)}/NONE}
+# Perception
+25,|SkR25+%SkM25%|{If~{Or~%SkR25%>0,%FamSkillID%=25}=1?|SkR25+%WISBonus%||SkR25+%Perception%|{Bold~[SkillsList=25] {If~%SkR25%>=0?+}%SkR25%}{If~%FamSkillID%=25? (+%FamSkillBonus% with Familiar)}|PerceptionFlag=1|/NONE}
+# Perform
+26,|SkR26+%SkM26%|{If~{Or~%SkR26%>0,%FamSkillID%=26}=1?|SkR26+%CHABonus%|[SkillsList=26] {If~%SkR26%>=0?+}%SkR26%{If~%FamSkillID%=26? (+%FamSkillBonus% with Familiar)}/NONE}
+# Profession
+27,|SkR27+%SkM27%|{If~{Or~%SkR27%>0,%FamSkillID%=27}=1?|SkR27+%WISBonus%||Profession=%SkR27%|[SkillsList=27] {If~%SkR27%>=0?+}%SkR27%{If~%FamSkillID%=27? (+%FamSkillBonus% with Familiar)}/NONE}
+# Ride
+28,|SkR28+%SkM28%|{If~{Or~%SkR28%>0,%FamSkillID%=28}=1?|SkR28+%DEXBonus%|[SkillsList=28] {If~%SkR28%>=0?+}%SkR28%{If~%FamSkillID%=28? (+%FamSkillBonus% with Familiar)}/NONE}
+# Sense Motive
+29,|SkR29+%SkM29%|{If~{Or~%SkR29%>0,%FamSkillID%=29}=1?|SkR29+%WISBonus%|[SkillsList=29] {If~%SkR29%>=0?+}%SkR29%{If~%FamSkillID%=29? (+%FamSkillBonus% with Familiar)}/NONE}
+# Sleight of Hand
+30,|SkR30+%SkM30%|{If~{Or~%SkR30%>0,%FamSkillID%=30}=1?|SkR30+%DEXBonus%|[SkillsList=30] {If~%SkR30%>=0?+}%SkR30%{If~%FamSkillID%=30? (+%FamSkillBonus% with Familiar)}/NONE}
+# Spellcraft
+31,|SkR31+%SkM31%|{If~{Or~%SkR31%>0,%FamSkillID%=31}=1?|SkR31+%INTBonus%|[SkillsList=31] {If~%SkR31%>=0?+}%SkR31%{If~%FamSkillID%=31? (+%FamSkillBonus% with Familiar)}/NONE}
+# Stealth
+32,|SkR32+%SkM32%|{If~{Or~%SkR32%!=0,%FamSkillID%=32}=1?|SkR32+%DEXBonus%|[SkillsList=32] {If~%SkR32%>=0?+}%SkR32%{If~%FamSkillID%=32? (+%FamSkillBonus% with Familiar)}/NONE}
+# Survival ([~DetermineSurvivalType])
+33,|SkR33+%SkM33%|{If~{Or~%SkR33%>0,%FamSkillID%=33}=1?|SkR33+%WISBonus%|[SkillsList=33] {If~%SkR33%>=0?+}%SkR33%{If~%FamSkillID%=33? (+%FamSkillBonus% with Familiar)}/NONE}
+# Swim
+34,|SkR34+%SkM34%|{If~{Or~%SkR34%>0,%FamSkillID%=34}=1?{If~{Find~1,Agile Athlete,%FeatsSkill%}!=0?|SkR34+%DEXBonus%|/|SkR34+%STRBonus%|}[SkillsList=34] {If~%SkR34%>=0?+}%SkR34%{If~%FamSkillID%=34? (+%FamSkillBonus% with Familiar)}/NONE}
+# Use Magic Device
+35,|SkR35+%SkM35%|{If~{Or~%SkR35%>0,%FamSkillID%=35}=1?|SkR35+%CHABonus%|[SkillsList=35] {If~%SkR35%>=0?+}%SkR35%{If~%FamSkillID%=35? (+%FamSkillBonus% with Familiar)}/NONE}
+# Extra Perform for Bards
+36,|SkR36+%SkM36%|{If~{Or~%SkR36%>0,%FamSkillID%=26}=1?|SkR36+%CHABonus%|[SkillsList=36] {If~%SkR36%>=0?+}%SkR36%{If~%FamSkillID%=26? (+%FamSkillBonus% with Familiar)}/NONE}
+37,|SkR37+%SkM37%|{If~{Or~%SkR37%>0,%FamSkillID%=26}=1?|SkR37+%CHABonus%|[SkillsList=37] {If~%SkR37%>=0?+}%SkR37%{If~%FamSkillID%=26? (+%FamSkillBonus% with Familiar)}/NONE}
+38,|SkR38+%SkM38%|{If~{Or~%SkR38%>0,%FamSkillID%=26}=1?|SkR38+%CHABonus%|[SkillsList=38] {If~%SkR38%>=0?+}%SkR38%{If~%FamSkillID%=26? (+%FamSkillBonus% with Familiar)}/NONE}
+39,|SkR39+%SkM39%|{If~{Or~%SkR39%>0,%FamSkillID%=26}=1?|SkR39+%CHABonus%|[SkillsList=39] {If~%SkR39%>=0?+}%SkR39%{If~%FamSkillID%=26? (+%FamSkillBonus% with Familiar)}/NONE}
+# Extra Craft for Expert (Blacksmith, Jeweller)
+40,|SkR40+%SkM40%|{If~{Or~%SkR40%>0,%FamSkillID%=5}=1?|SkR40+%INTBonus%|[SkillsList=40] {If~%SkR40%>=0?+}%SkR40%{If~%FamSkillID%=5? (+%FamSkillBonus% with Familiar)}/NONE}
+# Extra Profession for Expert (Fence)
+41,|SkR41+%SkM41%|{If~{Or~%SkR41%>0,%FamSkillID%=27}=1?|SkR41+%WISBonus%|[SkillsList=41] {If~%SkR41%>=0?+}%SkR41%{If~%FamSkillID%=27? (+%FamSkillBonus% with Familiar)}/NONE}
+
+
+### XXX TO BE REMOVED XXX ### Replaced with "KEENSENSES" in "NPC Statblock Pathfinder"
+# PFCore: 1=Human  2=Dwarf  3=Elf  4=Gnome  5=Half-Elf  6=Half-Orc  7=Halfling
+### NEW RACE ### Keen Senses
+:PerceptionModifier
+1-2,
+3,{If~{And~%Subrace%!=Savage,%Subrace%!=Tower}=1?|Perception+2|}
+4,{If~{And~%Subrace%!=Lava,%Subrace%!=Aquatic}=1?|Perception+2|}
+5,{If~%Subrace%=Human-Raised?
+_   /{If~%Subrace%=Aquatic?
+_   /{If~%Subrace%=Arctic?
+_   /{If~%Subrace%=Desert?
+_   /|Perception+2|
+_}}}}
+6,{If~%Subrace%=Mountain Clan?|Perception+2|}
+7,{If~%Subrace%=Avenging?
+_   /{If~%Subrace%=Nomadic?
+_   /{If~%Subrace%=Slave Born?
+_   /|Perception+2|
+_}}}
+# PFB1:   8=Aasimar  9=Drow  10=Drow Noble  11=Duergar  12=Goblin  13=Hobgoblin  14=Kobold  15=Merfolk  16=Orc  17=Svirfneblin  18=Tengu  19=Tiefling
+8-10,|Perception+2|
+11-13,
+14,|Perception+2|
+15-16,
+17-18,|Perception+2|
+19-1000,
+
+# PFCore: 1=Human  2=Dwarf  3=Elf  4=Gnome  5=Half-Elf  6=Half-Orc  7=Halfling
+### NEW RACE ###
+:SetLanguages
+1,common
+2,{If~%Subrace%=Deep?dwarven;goblin
+_/common;dwarven
+_}
+3,common;elven
+4,{If~%Subrace%=Forest?forest animals;gnome;elven;sylvan
+_/common;gnome;sylvan
+_}
+5,common;elven
+6,common;orc
+7,common;halfling{If~%Subrace%=Nomadic?;[AddNomadicLanguage]}
+# PFB1:   8=Aasimar  9=Drow  10=Drow Noble  11=Duergar  12=Goblin  13=Hobgoblin  14=Kobold  15=Merfolk  16=Orc  17=Svirfneblin  18=Tengu  19=Tiefling
+8,common;celestial
+9-10,elven;undercommon
+11,common;dwarven;undercommon
+12,goblin
+13,common;goblin
+14,draconic
+15,common;aquan
+16,common;orc
+17,gnome;undercommon
+18,common;tengu
+19,common;{If~{Dice~1d2}=1?abyssal/infernal}
+20-1000,none
+
+:AddNomadicLanguage
+1,|Temp=[ChooseMiscLanguage]|
+_{If~{Or~%Temp%=common,%Temp%=halfling}=1?[AddNomadicLanguage]/%Temp%}
+
+# PFCore: 1=Human  2=Dwarf  3=Elf  4=Gnome  5=Half-Elf  6=Half-Orc  7=Halfling
+### NEW RACE ###
+:SetSize
+1-3,|Size=5|
+4,|Size=4|
+5-6,|Size=5|
+7,|Size=4|
+# PFB1:   8=Aasimar  9=Drow  10=Drow Noble  11=Duergar  12=Goblin  13=Hobgoblin  14=Kobold  15=Merfolk  16=Orc  17=Svirfneblin  18=Tengu  19=Tiefling
+8-11,|Size=5|
+12,|Size=4|
+13,|Size=5|
+14,|Size=4|
+15-16,|Size=4|
+17,|Size=4|
+18-19,|Size=5|
+20-1000,|Size=5|
+
+:LoopLanguage
+1,|Language=NOTHING FOUND|
+_{If~{Used~%ParamRace%Languages,0}=1?|Language=[ChooseMiscLanguage]|/
+_|Language=[%ParamRace%Languages]|
+_}
+_{If~%TestLog%=1?{Log~E:\log.txt,>>>>> LoopLanguage; Language= %Language%}}
+_{If~{Find~1,%Language%,%LanguageString%}!=0?[LoopLanguage]/{If~%LanguageString%=0?|LanguageString=%Language%|/|LanguageString&;%Language%|}}
+
+# This is to prevent random choosing of secret languages as found in the Miscellaneous.Language
+# If you add other secret languages, modify this subtable.
+:ChooseMiscLanguage
+1,|LangLook=[Countries.Language(%WorldNeeded%)]|
+_{If~%LangLook%=druidic?[ChooseMiscLanguage]/%LangLook%}
+
+;!SpecialClassLanguages
+1,{If~{Param~Class,%Class%}=Cleric?abyssal/[%ParamRace%Languages]}
+1,{If~{Param~Class,%Class%}=Cleric?celestial/[%ParamRace%Languages]}
+1,{If~{Param~Class,%Class%}=Cleric?infernal/[%ParamRace%Languages]}
+1,{If~{Param~Class,%Class%}=Druid?sylvan/[%ParamRace%Languages]}
+1,{If~{Param~Class,%Class%}=Wizard?draconic/[%ParamRace%Languages]}
+
+# PFCore: 1=Human  2=Dwarf  3=Elf  4=Gnome  5=Half-Elf  6=Half-Orc  7=Halfling
+# PFB1:   8=Aasimar  9=Drow  10=Drow Noble  11=Duergar  12=Goblin  13=Hobgoblin  14=Kobold  15=Merfolk  16=Orc  17=Svirfneblin  18=Tengu  19=Tiefling
+### NEW RACE ###
+;!HumanLanguages
+1,{If~{Used~SpecialClassLanguages,0}=1?[LoopLanguage]/{Unlock~HumanLanguages,1}[SpecialClassLanguages]}
+1,{Unlock~HumanLanguages,2}[ChooseMiscLanguage]
+1,{If~%Subrace%=Aquatic?aquan/[HumanLanguages]}
+
+;AnimalCompanionLanguages
+1,{Unlock~AnimalCompanionLanguages,1}[ChooseMiscLanguage]
+10,common
+10,sylvan
+
+;!AasimarLanguages
+3,{If~{Used~SpecialClassLanguages,0}=1?[LoopLanguage]/{Unlock~AasimarLanguages,1-3}[SpecialClassLanguages]}
+1,draconic
+1,dwarven
+1,elven
+1,gnome
+1,halfling
+1,sylvan
+
+;!DrowLanguages
+3,{If~{Used~SpecialClassLanguages,0}=1?[LoopLanguage]/{Unlock~DrowLanguages,1-3}[SpecialClassLanguages]}
+1,abyssal
+1,aklo
+1,aquan
+1,common
+1,draconic
+1,drow sign language
+1,gnome
+1,goblin
+
+;!Drow NobleLanguages
+3,{If~{Used~SpecialClassLanguages,0}=1?[LoopLanguage]/{Unlock~Drow NobleLanguages,1-3}[SpecialClassLanguages]}
+1,abyssal
+1,aklo
+1,aquan
+1,common
+1,draconic
+1,drow sign language
+1,gnome
+1,goblin
+
+;!DuergarLanguages
+3,{If~{Used~SpecialClassLanguages,0}=1?[LoopLanguage]/{Unlock~DuergarLanguages,1-3}[SpecialClassLanguages]}
+1,aklo
+1,draconic
+1,giant
+1,goblin
+1,orc
+1,terran
+
+;!DwarfLanguages
+3,{If~{Used~SpecialClassLanguages,0}=1?[LoopLanguage]/{Unlock~DwarfLanguages,1-3}[SpecialClassLanguages]}
+1,{If~%Subrace%=Deep?[DwarfLanguages]/giant}
+1,{If~%Subrace%=Deep?common/gnome}
+1,{If~%Subrace%=Deep?draconic/goblin}
+1,{If~%Subrace%=Deep?[DwarfLanguages]/orc}
+1,terran
+1,undercommon
+1,{If~%Subrace%=Aquatic?aquan/[DwarfLanguages]}
+
+;!ElfLanguages
+3,{If~{Used~SpecialClassLanguages,0}=1?[LoopLanguage]/{Unlock~ElfLanguages,1-3}[SpecialClassLanguages]}
+1,celestial
+1,draconic
+1,gnoll
+1,gnome
+1,goblin
+1,orc
+1,sylvan
+1,{If~%Subrace%=Aquatic?aquan/[ElfLanguages]}
+
+;!GoblinLanguages
+3,{If~{Used~SpecialClassLanguages,0}=1?[LoopLanguage]/{Unlock~GoblinLanguages,1-3}[SpecialClassLanguages]}
+1,common
+1,draconic
+1,dwarven
+1,gnoll
+1,gnome
+1,halfling
+1,orc
+1,{If~%Subrace%=Aquatic?aquan/[GoblinLanguages]}
+
+;!GnomeLanguages
+3,{If~{Used~SpecialClassLanguages,0}=1?[LoopLanguage]/{Unlock~GnomeLanguages,1-3}[SpecialClassLanguages]}
+1,draconic
+1,dwarven
+1,{If~%Subrace%=Forest?common/elven}
+1,giant
+1,goblin
+1,orc
+1,{If~%Subrace%=Aquatic?aquan/[GnomeLanguages]}
+
+;!Half ElfLanguages
+1,{If~{Used~SpecialClassLanguages,0}=1?[LoopLanguage]/{Unlock~Half ElfLanguages,1}[SpecialClassLanguages]}
+1,{Unlock~Half ElfLanguages,1}[ChooseMiscLanguage]
+1,{If~%Subrace%=Aquatic?aquan/[Half ElfLanguages]}
+
+;!Half OrcLanguages
+3,{If~{Used~SpecialClassLanguages,0}=1?[LoopLanguage]/{Unlock~Half OrcLanguages,1-3}[SpecialClassLanguages]}
+1,abyssal
+1,draconic
+1,giant
+1,gnoll
+1,goblin
+1,{If~%Subrace%=Aquatic?aquan/[Half OrcLanguages]}
+
+;!HalflingLanguages
+3,{If~{Used~SpecialClassLanguages,0}=1?[LoopLanguage]/{Unlock~HalflingLanguages,1-3}[SpecialClassLanguages]}
+1,dwarven
+1,elven
+1,gnome
+1,goblin
+1,{If~%Subrace%=Aquatic?aquan/[HalflingLanguages]}
+#3E 1,orc
+
+;!HobgoblinLanguages
+3,{If~{Used~SpecialClassLanguages,0}=1?[LoopLanguage]/{Unlock~HobgoblinLanguages,1-3}[SpecialClassLanguages]}
+1,draconic
+1,dwarven
+1,infernal
+1,giant
+1,orc
+
+;!KoboldLanguages
+3,{If~{Used~SpecialClassLanguages,0}=1?[LoopLanguage]/{Unlock~KoboldLanguages,1-3}[SpecialClassLanguages]}
+1,common
+1,dwarven
+1,gnome
+1,undercommon
+1,{If~%Subrace%=Aquatic?aquan/[KoboldLanguages]}
+
+;!MerfolkLanguages
+3,{If~{Used~SpecialClassLanguages,0}=1?[LoopLanguage]/{Unlock~MerfolkLanguages,1-3}[SpecialClassLanguages]}
+1,aboleth
+1,aklo
+1,draconic
+1,elven
+1,sahuagin
+1,sylvan
+
+;!OrcLanguages
+3,{If~{Used~SpecialClassLanguages,0}=1?[LoopLanguage]/{Unlock~OrcLanguages,1-3}[SpecialClassLanguages]}
+1,dwarven
+1,giant
+1,gnoll
+1,goblin
+1,undercommon
+
+;!SvirfneblinLanguages
+3,{If~{Used~SpecialClassLanguages,0}=1?[LoopLanguage]/{Unlock~SvirfneblinLanguages,1-3}[SpecialClassLanguages]}
+1,aklo
+1,common
+1,draconic
+1,dwarven
+1,elven
+1,giant
+1,goblin
+1,orc
+1,terran
+
+;TenguLanguages
+1,{If~{Used~SpecialClassLanguages,0}=1?[LoopLanguage]/{Unlock~TenguLanguages,1-3}[SpecialClassLanguages]}
+5,[Countries.Language(%WorldNeeded%)]
+
+;!TieflingLanguages
+3,{If~{Used~SpecialClassLanguages,0}=1?[LoopLanguage]/{Unlock~TieflingLanguages,1-3}[SpecialClassLanguages]}
+1,abyssal
+1,draconic
+1,dwarven
+1,elven
+1,gnome
+1,goblin
+1,halfling
+1,infernal
+1,orc
+
+:DetermineCraft
+1,{If~{And~%ParamClass%=Expert,{Param~ExpertTypeCode,%ExpertTypeCode%}=Blacksmith}=1?{Unlock~DetermineCraftExpert_3,1}[DetermineCraftExpert_3]
+_/{If~{And~%ParamClass%=Expert,{Param~ExpertTypeCode,%ExpertTypeCode%}=Jeweller}=1?[DetermineCraftExpert_6]
+_/[~DetermineCraftRandom]
+_}}
+
+# If you change the order, change ~Lockout~DetermineCraftRandom
+:!DetermineCraftRandom
+1-10,alchemy
+11-15,animal breeding
+16-20,animal training
+21-30,armorer
+31,basketry
+32,batik
+33,beading
+34,beekeeping
+35-44,blacksmithing
+45,bone carving
+46-55,bowyer/fletcher
+56-60,brewing
+61,candlemaking
+62-66,cartography
+67,ceramics
+68,coiling
+69,cooking
+70,cooper
+71,coppersmithing
+72,crocheting
+73-77,dog breeding
+78,doll making
+79,dye making
+80,embroidery
+81,farrier
+82,flintnapping
+83,genealogy
+84,glass making
+85,glassblowing
+86,goldsmithing
+87-91,heraldry
+92-96,horse breeding
+97,hunting
+98-102,ironsmithing
+103,jewelry making
+104,knitting
+105,knotting
+106,lace making
+107-111,leatherworking
+112-116,locksmithing
+117-121,metalworking
+122,musician
+123,needlecrafting
+124,netmaking
+125,potter
+126,quilting
+127,rope making
+128,scribner
+129,scrimshaw
+130,sculpting
+131,sewing
+132,silversmithing
+133,soapmaking
+134,spinning
+135,stone carving
+136,tanning
+137,thatching
+138,toy making
+139,trapping
+140,trapmaking
+141-150,weaponsmithing
+151,weaving
+152,wood carving
+153,woodworking
+
+# Blacksmith
+;!DetermineCraftExpert_3
+1,[~DetermineCraftRandom]
+1000,{Lockout~DetermineCraftRandom,35-44}blacksmithing
+
+;!DetermineCraftMCExpert_3
+1,[~DetermineCraftMCRandom]
+1000,{Lockout~DetermineCraftMCRandom,26-45}blacksmithing
+
+# Jeweller (experttypecode=6)
+;!DetermineCraftExpert_6
+50,jeweller
+10,goldsmith
+5,silversmith
+1,coppersmith
+
+;!DetermineCraftMCExpert_6
+50,jeweller
+10,goldsmith
+5,silversmith
+1,coppersmith
+
+:DetermineCraftMC
+1,{If~{And~%ParamClass%=Expert,{Param~ExpertTypeCode,%ExpertTypeCode%}=Blacksmith}=1?{Unlock~DetermineCraftMCExpert_3,1}[DetermineCraftMCExpert_3]
+_/{If~{And~%ParamClass%=Expert,{Param~ExpertTypeCode,%ExpertTypeCode%}=Jeweller}=1?[DetermineCraftMCExpert_6]
+_/[DetermineCraftMCRandom]
+_}}
+
+# If you change the order, change ~Lockout~DetermineCraftMCRandom
+:!DetermineCraftMCRandom
+1-5,alchemy
+6-25,armorer
+26-45,blacksmithing
+46-65,bowyer/fletcher
+66,coppersmithing
+67,doll making
+68,dye making
+69,embroidery
+70,glassblowing
+71,goldsmithing
+72-91,ironsmithing
+92,jewelry making
+93,knitting
+94,knotting
+95,lace making
+96-100,leatherworking
+101-105,locksmithing
+106-115,metalworking
+116,netmaking
+117,potter
+118,quilting
+119,rope making
+120,scribner
+121,sculpting
+122,sewing
+123,silversmithing
+124,spinning
+125,stone carving
+126,tanning
+127,toy making
+128-132,trapmaking
+133-152,weaponsmithing
+153,weaving
+154,wood carving
+155,woodworking
+
+#Act (Bluff, Disguise), Comedy (Bluff, Intimidate), Dance
+#(Acrobatics, Fly), Keyboard Instruments (Diplomacy,
+#Intimidate), Oratory (Diplomacy, Sense Motive),
+#Percussion (Handle Animal, Intimidate), Sing (Bluff,
+#Sense Motive), String (Bluff, Diplomacy), and Wind
+#(Diplomacy, Handle Animal).
+# Racial Performances were added (and created by Valminder) to prevent some errors.
+;!DeterminePerformanceType
+#1,{If~{Or~%VXXX%=0,%VXXX%=0}=1?{Color~BlueViolet,Human XXX}|VApp=1||VCli=1||Rule=XXX Linguistics|[PrRule]/[DeterminePerformanceType]}
+#1,{Color~BlueViolet,Human XXX}|Rule=XXX Linguistics|[PrRule]
+# DON'T CHANGE THE ORDER, add at the bottom.
+1,{If~{Or~%VApp%=0,%VCli%=0}=1?{Color~BlueViolet,Dwarven Chants of the Mountains}|VApp=1||VCli=1||Rule=Appraise, Climb|{If~{Param~Class,%Class%}=Bard?[PrRule]}/[DeterminePerformanceType]}
+# 2
+1,{If~{Or~%VHea%=0,%VUse%=0}=1?{Color~BlueViolet,Elven Songs of Life and Magic}|VHea=1||VUse=1||Rule=Heal, Use Magic Device|{If~{Param~Class,%Class%}=Bard?[PrRule]}/[DeterminePerformanceType]}
+# 3
+1,{If~{Or~%VCra%=0,%VDev%=0}=1?{Color~BlueViolet,Gnomish Musical Contraption}|VCra=1||VDev=1||Rule=Craft, Disable Device|{If~{Param~Class,%Class%}=Bard?[PrRule]}/[DeterminePerformanceType]}
+# 4
+1,{If~{Or~%VSur%=0,%VSwi%=0}=1?{Color~BlueViolet,Orcish Poems of Preservation}|VSur=1||VSwi=1||Rule=Survival, Swim|{If~{Param~Class,%Class%}=Bard?[PrRule]}/[DeterminePerformanceType]}
+# 5
+1,{If~{Or~%VSte%=0,%VEsc%=0}=1?{Color~BlueViolet,Halfling Whistling}|VSte=1||VEsc=1||Rule=Escape Artist, Stealth|{If~{Param~Class,%Class%}=Bard?[PrRule]}/[DeterminePerformanceType]}
+# 6-15
+10,{If~{Or~%VBlu%=0,%VDis%=0}=1?acting ([~ActingTypes])|VBlu=1||VDis=1||Rule=Bluff, Disguise|{If~{And~%CharacterLevel%>=2,{Param~Class,%Class%}=Bard}=1?[PrRule]}/[DeterminePerformanceType]}
+# 16-25
+10,{If~{Or~%VBlu%=0,%VInt%=0}=1?comedy ([~ComedyTypes])|VBlu=1||VInt=1||Rule=Bluff, Intimidate|{If~{And~%CharacterLevel%>=2,{Param~Class,%Class%}=Bard}=1?[PrRule]}/[DeterminePerformanceType]}
+# 26-35
+10,{If~{Or~%VAcr%=0,%VFly%=0}=1?dance ([~DanceTypes])|VAcr=1||VFly=1||Rule=Acrobatics, Fly|{If~{And~%CharacterLevel%>=2,{Param~Class,%Class%}=Bard}=1?[PrRule]}/[DeterminePerformanceType]}
+# 36-45
+10,{If~{Or~%VDip%=0,%VInt%=0}=1?keyboard instrument ([~KeyboardInstruments])|VDip=1||VInt=1||Rule=Diplomacy, Intimidate|{If~{And~%CharacterLevel%>=2,{Param~Class,%Class%}=Bard}=1?[PrRule]}/[DeterminePerformanceType]}
+# 46-55
+10,{If~{Or~%VDip%=0,%VSen%=0}=1?oratory ([~OratoryTypes])|VDip=1||VSen=1||Rule=Diplomacy, Sense Motive|{If~{And~%CharacterLevel%>=2,{Param~Class,%Class%}=Bard}=1?[PrRule]}/[DeterminePerformanceType]}
+10,{If~{Or~%VHan%=0,%VInt%=0}=1?percussion instrument ([~PercussionInstruments])|VHan=1||VInt=1||Rule=Handle Animal, Intimidate|{If~{And~%CharacterLevel%>=2,{Param~Class,%Class%}=Bard}=1?[PrRule]}/[DeterminePerformanceType]}
+10,{If~{Or~%VBlu%=0,%VDip%=0}=1?string instrument ([~StringInstruments])|VBlu=1||VDip=1||Rule=Bluff, Diplomacy|{If~{And~%CharacterLevel%>=2,{Param~Class,%Class%}=Bard}=1?[PrRule]}/[DeterminePerformanceType]}
+10,{If~{Or~%VDip%=0,%VHan%=0}=1?wind instrument ([~WindInstruments])|VDip=1||VHan=1||Rule=Diplomacy, Handle Animal|{If~{And~%CharacterLevel%>=2,{Param~Class,%Class%}=Bard}=1?[PrRule]}/[DeterminePerformanceType]}
+10,{If~{Or~%VBlu%=0,%VSen%=0}=1?singing ([~SingingTypes])|VBlu=1||VSen=1||Rule=Bluff, Sense Motive|{If~{And~%CharacterLevel%>=2,{Param~Class,%Class%}=Bard}=1?[PrRule]}/[DeterminePerformanceType]}
+
+:PrRule
+1,<font size=1>{Color~Grey, (%Rule%)}</font>
+
+:ActingTypes
+1,comedy
+2,drama
+3,mime
+4,mummer
+
+:ComedyTypes
+1,buffoonery
+2,limericks
+3,joke-telling
+4,fool
+5,clown
+
+:DanceTypes
+1,ballet
+2,waltz
+3,jig
+4,minuette
+5,ballroom
+
+:KeyboardInstruments
+1,harpsichord
+2,piano
+3,pipe organ
+
+:OratoryTypes
+1,epic
+2,ode
+3,storytelling
+
+:PercussionInstruments
+1,bells
+2,chimes
+3,drums
+4,gong
+5,tamborine
+6,triangle
+
+:StringInstruments
+1,Fiddle
+2,Harp
+3,Lute
+4,Mandolin
+5,Banjo
+6,Guitar
+
+:WindInstruments
+1,flute
+2,pan pipes
+3,recorder
+4,shawm
+5,trumpet
+6,horn
+
+:SingingTypes
+1,ballad
+2,chant
+3,melody
+
+;!DetermineSurvivalType
+10,temperate {Plural~[TerrainType]}
+3,cold {Plural~[TerrainType]}
+10,warm {Plural~[TerrainType]}
+5,tropical {Plural~[TerrainType]}
+1,arctic {Plural~[TerrainType]}
+1,aquatic environments
+1,marine environments
+5,subterranean environments
+5,underground environments
+
+;!TerrainType
+1,desert
+3,plain
+5,forest
+7,hill
+3,marsh
+5,mountain
+2,steppe
+1,swamp
+1,wetland
+1,coast
+1,rainforest
+
+# ----------------------------------------------------------------------
+# 1=Fighter  2=Barbarian  3=Bard  4=Cleric
+# 5=Druid  6=Monk  7=Paladin  8=Ranger  9=Rogue
+# 10=Sorcerer  11=Wizard  12=Adept  13=Aristocrat  14=Commoner
+# 15=Expert 16=Warrior 17=Random
+### NEW CLASS ###
+;CommonerTypeCode
+97,2
+2,3
+1,4
+
+:Concentration
+1-2,|Concentration=0|
+3,|Concentration+%CHABonus%|
+4-5,|Concentration+%WISBonus%|
+6,|Concentration=0|
+7,|Concentration+%CHABonus%|
+8,|Concentration+%WISBonus%|
+9,|Concentration=0|
+10,|Concentration+%CHABonus%|
+11,|Concentration+%INTBonus%|
+12,|Concentration+%WISBonus%|
+13-98,|Concentration=0|
+99-100,|Concentration=0|
+
+:WIZEncSmile
+1,|WIZEncSmile={Find~1,WizEnchanter,%FeatsSkill%}|
+_|WIZEncSmile+12|
+_|WIZEncSmile={Char~%WIZEncSmile%,%FeatsSkill%}|
+
+### NEW CLASS ###
+:Wild Empathy
+1-4,|WildEmpathy=0|
+5,
+6-7,|WildEmpathy=0|
+8,
+9-100,|WildEmpathy=0|

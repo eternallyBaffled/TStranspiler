@@ -1,0 +1,400 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder Ded 10, 2013.
+# ---------------------------------------------------
+#
+# Descriptions of magical and other fine swords
+# Copyright 1995,by Wintertree Software
+#
+# These descriptions are suitable for magical swords, legendary blades, fine
+# swords in general, and dress/court weapons.
+#
+# Valminder, Nov 2005.
+#    Adapted to TSv5
+#    Added links to:
+#       Creatures.All
+#       Dwarven Battle Cries.Generate
+#       Miscellaneous.Color
+#       Miscellaneous.Language
+#       Miscellaneous.Language Ancient
+#       Miscellaneous.Metal
+#       Miscellaneous.Shape
+#       Miscellaneous.Stone
+#       Names Generator.NAME Random
+#       Religion.Deities
+#
+# Modified by Valminder, August  2006.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+#    I added stuff from "Fantastical Swords.tab" by Ashon.
+#    Added link to:
+#       Equipment.Swords
+#       Ethics.Generate
+#       Miscellaneous.ColorNoType
+#       Miscellaneous.Material
+#       Miscellaneous.Shape
+#       Names Generator.NAME Random
+#       Rune Generator.GenRune
+#       The Oracle.RandomSentence
+#
+# Modified by Valminder, Dec 2013.
+#    Added link to "Magic Weapon Names.tab"
+#
+
+%HeadCludge%,0
+%Chance%,0
+# Added from Fantastical Swords.tab
+%Theme%,0
+%bladedescribe%,1
+%hiltdescribe%,1
+
+%WpnType%,sword
+
+:Start
+1,{Status~By Wintertree, Ashon, Valminder 1995-2006-2013}[Generate]
+
+:Generate
+1,[Theme]This |WpnType=[Equipment.Swords]|%WpnType% is made of [~BladeMaterial]. [Hilt] [Blade]
+_[Name]
+
+:Alternate
+1,|Theme=0||bladedescribe=1||hiltdescribe=1|[Hilt] [Blade]
+
+:Chanceof
+1,|Chance={Dice~1d100}|
+
+:Name
+1,<br>[Tab]Optional weapon name: [~Magic Weapon Names.GenerateWpnType(%WpnType%)]
+
+;Tab
+1,{Loop~5,&nbsp;}
+
+;Theme
+1,|Theme=[Creatures.Fantastic+10]||bladedescribe=0||hiltdescribe=0|
+3,|Theme=0||bladedescribe=1||hiltdescribe=1|
+
+:Hilt
+1,{If~%hiltdescribe%=1?The hilt [Describe Hilt]./[Themed Hilt Description]}
+
+:Blade
+1,{If~%bladedescribe%=1?[Describe Blade]/[Themed Blade Description]} [Crafted]
+
+:Crafted
+1,It was crafted by [~Names Generator.NAME Random], in the [~Countries.Regions].
+
+;BladeMaterial
+20,[~BladeMetal]
+2,[CrystalColor] crystal
+1,[Chanceof]{If~%Chance%<50?[~Miscellaneous.ColorNoType]/[CrystalColor]} glass
+
+;BladeMetal
+2,iron
+1,meteoric iron
+30,steel
+5,brass
+3,Damascus steel
+4,bronze
+3,silver
+2,mithril
+1,adamantium
+1,gold
+10,[Miscellaneous.Metal]
+
+;CrystalColor
+1,clear
+1,smoky
+1,bluish
+1,greenish
+1,purplish
+1,reddish
+1,pinkish
+1,yellowish
+1,black
+
+# --------------------------------------------------------------
+# Hilt, Pommel and Guard
+
+;Describe Hilt
+1,has three pieces to it, [Describe Upper Guard], [Describe Pommel], and [Describe Grip]
+1,has two pieces to it, [Describe Upper Guard] and [Describe Grip]
+1,has two pieces to it, [Describe Pommel] and [Describe Grip]
+1,has no guards and only has [Describe Grip]
+1,has [Describe Basket Guard] and [Describe Grip]
+1,has [Describe Basket Guard], [Describe Grip], and [Describe Pommel]
+
+;Describe Upper Guard
+1,a straight upper guard
+1,a curved upper guard
+1,{Dice~2d3} curved rods
+1,two sharp flanges
+1,a simple crosspiece
+1,a knobbed crosspiece
+1,a fluted crosspiece with {AorAn~[Creature]}'s head at each end
+
+;Describe Pommel
+1,a ball pommel [Describe Pommel Jewel]
+1,a square "scent stopper" pommel [Describe Pommel Jewel]
+1,a cocked hat pommel [Describe Pommel Jewel]
+1,a guard pommel [Describe Pommel Jewel]
+1,a pommel with the head of {AorAn~[Describe Pommel Flyer]}[Chanceof]{If~%Chance%<30? set with [Describe Pommel Gem] eyes} (the guard is its wings and its body merges into the blade)
+1,a pommel as the tail of {AorAn~[Describe Pommel Flyer]} (the guard is its wings and its head[Chanceof]{If~%Chance%<30?, set with [Describe Pommel Gem] eyes,} holds the blade in its mouth)
+2,a pommel as {AorAn~[Describe Pommel Claw]}[Chanceof]{If~%Chance%<60? clutching {AorAn~[Describe Pommel Stone]} sphere}
+2,{AorAn~[Describe Pommel Stone]} cabochon
+3,|HeadCludge=1|{AorAn~[Creature]}'s head[Chanceof]{If~%Chance%<30? set with [Describe Pommel Gem] eyes}
+
+;Creature
+30,[~Creatures.All]
+1,dragon
+1,eagle
+1,roc
+1,griffon
+1,falcon
+1,demon
+1,gargoyle
+1,phoenix
+1,harpy
+1,eagle
+1,roc
+1,griffon
+1,falcon
+1,chimera
+1,firedrake
+1,wyvern
+1,basilisk
+1,bulette
+1,catoblepas
+1,amphisbaena
+1,gargoyle
+1,hydra
+1,leucrota
+1,manticore
+1,sea-monster
+1,wolf
+1,lion
+1,jackal
+1,snake
+1,lizard
+1,bull
+1,horse
+1,stag
+1,boar
+1,goat
+
+;Describe Pommel Claw
+2,dragon's claw
+2,eagle's claw
+2,skeletal hand
+1,lion's paw
+1,wolf's paw
+2,clenched fist
+1,demon's claw
+2,angel's wing
+1,demon's wing
+
+;Describe Pommel Gem
+1,ruby
+1,diamond
+1,garnet
+1,emerald
+1,topaz
+1,sapphire
+1,crystal
+1,[Describe Pommel Stone]
+10,[~Miscellaneous.Stone]
+
+;Describe Pommel Flyer
+1,dragon
+1,eagle
+1,roc
+1,griffon
+1,hippogriff
+1,falcon
+1,hawk
+1,winged serpent
+1,demon
+1,gargoyle
+1,phoenix
+1,harpy
+1,raven
+1,arrowhawk
+1,wyvern
+
+;Describe Pommel Stone
+1,bloodstone
+1,turquoise
+1,moonstone
+1,crystal
+1,smoky quartz
+1,amethyst
+1,agate
+1,lapis
+1,tourmaline
+1,amber
+1,[Describe Pommel Gem]
+10,[~Miscellaneous.Stone]
+
+;Describe Pommel Jewel
+3,
+1,with a [~Miscellaneous.Stone] set in it
+1,with {Dice~1d10} [~Miscellaneous.Stone]s set in it
+1,made from a large [~Miscellaneous.Stone]
+
+;Describe Grip
+1,the grip which is made from [~Miscellaneous.Other Material]
+1,a [GripDecoration] grip made of [~Grip Decoration WoodType]
+1,a [GripDecoration] grip made of [CrystalColor] crystal
+1,a grip wrapped in [Grip Decoration WrapType] and wound with [Grip Decoration Wire] wire
+
+;GripDecoration
+1,smooth
+1,ribbed
+1,spiral-turned
+1,[Grip Decoration Wire]-wound
+1,carved
+1,fluted
+
+;Grip Decoration Wire
+6,copper
+8,steel
+8,brass
+4,silver
+2,gold
+1,platinum
+1,mithril
+20,[Miscellaneous.Metal]
+
+;Grip Decoration WoodType
+1,oak wood
+1,cherry wood
+1,maple wood
+1,ebony
+1,black walnut
+1,ironwood
+1,rosewood
+1,ivory
+1,bone ([~Creatures.All])
+8,[Miscellaneous.Wood] wood
+
+;Grip Decoration WrapType
+1,[~Miscellaneous.ColorNoType] [NormalLeather]
+1,[~Miscellaneous.ColorNoType] dragonskin
+1,[LeatherMonster] hide
+
+;NormalLeather
+12,leather
+2,pigskin
+1,horsehide
+2,calfskin
+3,deerskin
+2,lizard skin
+3,snakeskin
+
+;LeatherMonster
+1,chimera
+1,firedrake
+1,wyvern
+1,basilisk
+1,catoblepas
+1,amphisbaena
+1,gargoyle
+1,hydra
+1,leucrota
+1,landshark
+1,manticore
+1,sea-monster
+
+;Describe Basket Guard
+1,a woven full basket guard
+1,a woven half basket guard
+1,a full basket guard
+1,a half basket guard
+1,a fold down half guard
+
+# --------------------------------------------------------------
+# Blade
+
+;Describe Blade
+1,[Describe Blade Runes]. [Describe Blade Shape].
+1,[Describe Blade Etchings]. [Describe Blade Shape].
+1,[Describe Blade Shape].
+
+;Describe Blade Runes
+1,Strange runes ([~Rune]) run the length of its spine
+1,Strange runes ([~Rune]) run the length of its blade
+1,Strange runes ([~Rune]) run the length of its back
+1,A set of strange runes ([~Rune]) are carved into the blade near the hilt 
+1,A set of strange runes ([~Rune]) are carved into the blade near the spine 
+1,A set of strange runes ([~Rune]) are carved into the blade near the back
+1,A single rune ([~Rune]) is carved into the blade near the hilt
+1,A single rune ([~Rune]) is carved into the middle of its spine
+1,A single rune ([~Rune]) is carved into the middle of its back
+
+;Rune
+1,[Rune Generator.GenRune]
+1,[Miscellaneous.Shape]-shaped
+
+;Describe Blade Etchings
+1,
+1,The image of a [~Creatures.Fantastic] is carved into the blade
+1,A map of [Countries.Regions] is carved into the blade
+1,[CoatsOfArms.Generate] is carved into the blade
+1,{Cap~[Rune Generator.GenRune]} is carved into the blade
+1,Scenes of battle are carved into the blade
+5,[Describle Etchings Words] in [RuneLanguage] is carved into the blade
+1,Abstract patterns are carved along the blade
+1,A floral design sneaks along the blade
+1,Some [~Miscellaneous.Shape] patterns are etched into the blade
+
+;Describle Etchings Words
+1,The weapon's name ([~Sword Name])
+1,A curse
+1,A battle-cry ([~Dwarven Battle Cries.Generate])
+1,A religious exhortation ([~Religion.Deities2(2)])
+1,A motto
+1,Its first bearer's name ([~Names Generator.NAME Random])
+1,Its crafter's name ([~Names Generator.NAME Random])
+1,A weird phrase ([~The Oracle.RandomSentence])
+1,A philosophical phrase ([~Ethics.Generate])
+
+;Sword Name
+8,[Names Generator.NAME Random]
+1,[Orc Tribes.Generate]
+
+;RuneLanguage
+1,dwarven runes
+1,elven runes
+1,ancient runes ([~Miscellaneous.Language Ancient])
+10,ornate writing ([~Miscellaneous.Language])
+10,[~Miscellaneous.Language]
+
+;Describe Blade Shape
+15,The blade is in excellent shape
+10,The blade appears brand new
+2,The blade has some nicks and dings
+2,The blade has been chipped and scratched
+1,The blade has some moderate damage
+1,The blade has begun to rust
+1,The blade is rusty
+1,The blade is pitted
+1,The blade is in no shape to be used
+1,The blade has been broken in half
+
+# --------------------------------------------------------------
+# Theme swords
+
+;Themed Hilt Description
+1,The guard, hilt and pommel are carved to look like the head of {AorAn~%Theme%}. [~Themed Pommel Jewel]
+1,The hilt and pommel are carved to look like the head of {AorAn~%Theme%}. [~Themed Pommel Jewel]
+1,The hilt appears to be the head of {AorAn~%Theme%}. [~Themed Pommel Jewel]
+
+;Themed Pommel Jewel
+1,{Cap~[Miscellaneous.Stone]}s are set as the eyes.
+1,{Cap~[Miscellaneous.Stone]}s are set as the teeth.
+
+;Themed Blade Description
+1,Interwined %Theme%s have been carved into the blade. [Describe Blade Shape].
+1,A single %Theme% has been carved into the blade. [Describe Blade Shape].
+1,A %Theme% has been inset into the blade with [~Miscellaneous.Metal]. [Describe Blade Shape].
+1,The blade has been carved to look like the bottom half of a %Theme%. [Describe Blade Shape].
+
+# --------------------------------------------------------------
+

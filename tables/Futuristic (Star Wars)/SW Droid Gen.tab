@@ -1,0 +1,370 @@
+# ------------------------------------------------------
+# Last Update: re-verified by Valminder Jan 10, 2012.
+# ------------------------------------------------------
+# ---------------------------------------------------
+# Last Update: modified by Valminder Jan 20, 2006.
+# ---------------------------------------------------
+#
+# Star Wars Droid Generator
+# Randomly selects a droid from either the RCRB or A&E
+#
+# Created by Patrick Hodak
+# Last Updated: 10-14-05
+#
+# Randomly selects a Droid from the RCRB or A&E and displays stats.
+#
+# Note: Some droids are missing stats including:
+# AS-M12 (VP), MARK VII (DEF), RMD-20 (DEF), CLL-8 (DEF)
+# Scrubber Droid (DEF), EV Series (DEF), U2-C1 (DEF), 11-17 (DEF)
+# Mark X (VP,DEF), M38 (DEF), Gyrowheel (DEF)
+#
+# Modified by Valminder, Jan 2006.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+#
+
+/OverrideRolls 1
+
+%Type%,0
+%Class%,0
+%Level%,0
+%Make%,0
+%Size%,0
+%X%,0
+
+%VP%,0
+%Def%,0
+%Melee%,0
+%Ranged%,0
+%Wpn%,0
+%Armor%,0
+
+%Stats%,0
+%STR%,0
+%DEX%,0
+%CON%,0
+%INT%,0
+%WIS%,0
+%CHA%,0
+
+%Saves%,0
+%Fort%,0
+%Ref%,0
+%Will%,0
+
+@Type,56,Choose Droid Type,P2 Astromech,R1,R2,R3,R4,R5,R6,R7,LE Repair Droid,LIN Demomech,NR-5 Repair Droid,MSE-6 Repair Droid,3PO Protocol Droid,RA-7 Protocol Droid,PD "Lurrian" Protocol Droid,3D-4X Adm Droid,LOM Protocol Droid,SE4 Protocol Droid,TTS-15 Tutorial Droid,CZ Comm Droid,MD Medical Droid,FX Medical Droid,OOM Command Officer,SD Infantry Droid,Eradicator Battle Droid,M-3PO Protocol Droid,DZ Tracker Droid,G-2RD Guard Droid,GV-3 Guard Droid,TT-8L "Tattletale",501-Z "Zed" Police Droid,DRK-1 "Dark Eye" Probe Droid,Mark VII "Inquisitor",RMD-20 Monitoring Droid,AS-M12 Messenger Droid,M4 Messenger Droid,B1 Series Worker Droid,CLL-8 Binary Load Lifter,Scrubber Droid,EV Supervisor,U2-C1 Housekeeping Droid,11-17 Mining Droid,Mark X Executioner,M38 Explorer Droid,Gyrowheel Recycling Droid,2-1B Medical Droid,IT-0 Interrogation Droid,M-TD Translator Droid,B1 Battle Droid,B2 Battle Droid,Droideka Destroyer Droid,Viper Probe Droid,ASP Labor Droid,J9 Worker Drone,EG-6 Power Droid,Random
+
+:Start
+1,{Status~By Patrick Hodak 2005, Valminder 2006}
+_<b><u>Droid Generator</u></b></br>
+_<b>Type: </b>{If~%Type%=56? [RandomType] / [Type=%Type%]}</br>
+_<b>Manufacturer: </b>[Make=%Make%]</br>
+_<b>Size: </b>%Size%</br>
+_<b>Class: </b>%Class%</br>
+_<b>Level: </b>%Level%</br> 
+_[Stats=%Type%]{Split~Stats,",",STR,DEX,CON,INT,WIS,CHA}{Split~Saves,",",Fort,Ref,Will}
+_[DisplayCharacter]</br>
+_<b>Vitality Points: </b>%VP%
+_<b> Wound Points: </b>%CON%</br>
+_<hr>
+_<b>Melee Bonus: </b> +%Melee%</br>
+_<b>Ranged Bonus: </b> +%Ranged%</br>
+_<b>Weapons: </b>[Weapon=%Wpn%]</br>
+_<hr>
+_<b>Defense </b> %Def%</br>
+_<b>Armor: </b>[Armor=%Armor%]</br>
+_<hr>
+#_<b>Saving Throws</b></br>
+_<b>Fortitude: </b> %Fort%</br>
+_<b>Reflex: </b> %Ref%</br>
+_<b>Will: </b> %Will%</br>
+
+#Randomizes Droids
+;RandomType
+10,[Type=1]
+10,[Type=2]
+20,[Type=3]
+6,[Type=4]
+20,[Type=5]
+20,[Type=6]
+20,[Type=7]
+3,[Type=8]
+10,[Type=9]
+10,[Type=10]
+20,[Type=11]
+20,[Type=12]
+20,[Type=13]
+20,[Type=14]
+20,[Type=15]
+20,[Type=16]
+20,[Type=17]
+20,[Type=18]
+20,[Type=19]
+20,[Type=20]
+20,[Type=21]
+20,[Type=22]
+10,[Type=23]
+1,[Type=24]
+5,[Type=25]
+5,[Type=26]
+10,[Type=27]
+10,[Type=28]
+20,[Type=29]
+20,[Type=30]
+3,[Type=31]
+2,[Type=32]
+5,[Type=33]
+10,[Type=34]
+20,[Type=35]
+20,[Type=36]
+20,[Type=37]
+20,[Type=38]
+20,[Type=39]
+20,[Type=40]
+20,[Type=41]
+20,[Type=42]
+5,[Type=43]
+10,[Type=44]
+10,[Type=45]
+20,[Type=46]
+2,[Type=47]
+20,[Type=48]
+10,[Type=49]
+10,[Type=50]
+5,[Type=51]
+2,[Type=52]
+20,[Type=53]
+20,[Type=54]
+20,[Type=55]
+
+#Prints type based on selection/randomization
+:Type
+1,P2 Series Astromech Droid |Type=1||Class=Expert||Level=1||VP=0||Melee=2||Ranged=0||Def=10||Size=Large||Make=1||Wpn=1||Armor=1|
+2,R1 Series Astromech Droid |Type=2||Class=Expert||Level=3||VP=0||Melee=5||Ranged=2||Def=10||Size=Large||Make=1||Wpn=1||Armor=1|
+3,R2 Series Astromech Droid |Type=3||Class=Expert||Level=4||VP=0||Melee=5||Ranged=5||Def=14||Size=Small||Make=1||Wpn=1||Armor=1|
+4,R3 Series Astromech Droid |Type=4||Class=Expert||Level=6||VP=0||Melee=7||Ranged=8||Def=16||Size=Small||Make=1||Wpn=1||Armor=1|
+5,R4 Series Astromech Droid |Type=5||Class=Expert||Level=3||VP=0||Melee=4||Ranged=4||Def=14||Size=Small||Make=1||Wpn=1||Armor=1|
+6,R5 Series Astromech Droid |Type=6||Class=Expert||Level=3||VP=0||Melee=4||Ranged=2||Def=12||Size=Small||Make=1||Wpn=1||Armor=1|
+7,R6 Series Astromech Droid |Type=7||Class=Expert||Level=6||VP=0||Melee=7||Ranged=8||Def=16||Size=Small||Make=1||Wpn=1||Armor=1|
+8,R7 Series Astromech Droid |Type=8||Class=Expert/Starship Ace||Level=8/1||VP=6||Melee=9/+4||Ranged=10/+5||Def=17||Size=Small||Make=1||Wpn=1||Armor=1|
+9,LE Series Repair Droid |Type=9||Class=Expert/Tech Specialist||Level=1/2||VP=9||Melee=2||Ranged=0||Def=12||Size=Medium||Make=2||Wpn=2||Armor=2|
+10,LIN Demolitionmech Series Industrial Droid |Type=10||Class=Expert/Tech Specialist||Level=1/2||VP=17||Melee=4||Ranged=1||Def=13||Size=Medium||Make=2||Wpn=3||Armor=3|
+11,NR-5 Series Repair Droid |Type=11||Class=Expert||Level=4||VP=0||Melee=4||Ranged=3||Def=12||Size=Small||Make=3||Wpn=3||Armor=1|
+12,MSE-6 Series Repair Droid |Type=12||Class=Expert||Level=1||VP=0||Melee=1||Ranged=7||Def=17||Size=Small||Make=4||Wpn=4||Armor=1|
+13,3PO Series Protocol Droid |Type=13||Class=Diplomat||Level=1||VP=0||Melee=0||Ranged=0||Def=10||Size=Medium||Make=2||Wpn=2||Armor=1|
+14,RA-7 Series Protocol Droid |Type=14||Class=Diplomat||Level=4||VP=0||Melee=2||Ranged=2||Def=11||Size=Medium||Make=5||Wpn=2||Armor=1|
+15,PD Series "Lurrian" Protocol Droid |Type=15||Class=Diplomat||Level=1||VP=0||Melee=1||Ranged=1||Def=11||Size=Medium||Make=2||Wpn=2||Armor=1|
+16,3D-4X Series Administrative Droid |Type=16||Class=Diplomat||Level=1||VP=0||Melee=-1||Ranged=1||Def=10||Size=Medium||Make=6||Wpn=2||Armor=1|
+17,LOM Series Protocol Droid |Type=17||Class=Diplomat||Level=2||VP=0||Melee=1||Ranged=2||Def=11||Size=Medium||Make=1||Wpn=2||Armor=1|
+18,SE4 Series Protocol Droid |Type=18||Class=Diplomat||Level=2||VP=0||Melee=2||Ranged=1||Def=10||Size=Medium||Make=1||Wpn=2||Armor=1|
+19,TTS-15 Series Tutorial Droid |Type=19||Class=Expert||Level=3||VP=0||Melee=1||Ranged=2||Def=11||Size=Medium||Make=1||Wpn=2||Armor=1|
+20,CZ Series Communications Droid |Type=20||Class=Diplomat||Level=4||VP=0||Melee=2||Ranged=2||Def=11||Size=Medium||Make=7||Wpn=2||Armor=2|
+21,MD Series Medical Droid |Type=21||Class=Expert||Level=1||VP=0||Melee=-2||Ranged=1||Def=11||Size=Medium||Make=1||Wpn=5||Armor=1|
+22,FX Series Medical Droid |Type=22||Class=Expert||Level=1||VP=0||Melee=2||Ranged=0||Def=10||Size=Medium||Make=8||Wpn=5||Armor=1|
+23,OOM Command Officer Series Combat Droid |Type=23||Class=Thug||Level=3||VP=0||Melee=4||Ranged=3||Def=11||Size=Medium||Make=9||Wpn=6||Armor=2|
+24,SD Series Infantry Droid |Type=24||Class=Thug/Soldier||Level=3/3||VP=25||Melee=10/+5||Ranged=5/+0||Def=14||Size=Large||Make=10||Wpn=7||Armor=4|
+25,Eradicator Series Battle Droid |Type=25||Class=Thug||Level=8||VP=0||Melee=11/+6||Ranged=10/+5||Def=14||Size=Large||Make=11||Wpn=8||Armor=5|
+26,M-3PO Series Protocol Droid |Type=26||Class=Diplomat/Thug||Level=1/1||VP=0||Melee=1||Ranged=3||Def=13||Size=Medium||Make=2||Wpn=2||Armor=2|
+27,DZ Series Tracker Droid |Type=27||Class=Scout||Level=5||VP=26||Melee=4||Ranged=5||Def=16||Size=Small||Make=5||Wpn=9||Armor=1|
+28,G-2RD Series Guard Droid |Type=28||Class=Thug||Level=3||VP=0||Melee=5||Ranged=6||Def=14||Size=Small||Make=5||Wpn=10||Armor=6|
+29,GV-3 Series Guardian Droid |Type=29||Class=Thug||Level=4||VP=0||Melee=5||Ranged=3||Def=11||Size=Medium||Make=2||Wpn=11||Armor=1|
+30,TT-8L "Tattletale" Series Guard Droid |Type=30||Class=Diplomat||Level=1||VP=0||Melee=0||Ranged=0||Def=10||Size=Medium||Make=7||Wpn=4||Armor=1|
+31,501-Z "Zed" Police Droid |Type=31||Class=Soldier||Level=5||VP=57||Melee=10||Ranged=7||Def=17||Size=Medium||Make=12||Wpn=12||Armor=2|
+32,DRK-1 "Dark Eye" Series Probe Droid |Type=32||Class=Thug||Level=4||VP=0||Melee=7||Ranged=13||Def=21||Size=Diminutive||Make=5||Wpn=13||Armor=1|
+33,Mark VII "Inquisitor" Series Seeker Droid |Type=33||Class=Thug||Level=8||VP=0||Melee=10/+5||Ranged=17/+12||Def=22||Size=Diminutive||Make=5||Wpn=14||Armor=1|
+34,RMD-20 "Eye in the Sky" Series Monitoring Droid |Type=34||Class=Expert||Level=1||VP=0||Melee=1||Ranged=6||Def=16||Size=Diminutive||Make=13||Wpn=15||Armor=1|
+35,AS-M12 Series Messanger Droid |Type=35||Class=Scout||Level=5||VP=26||Melee=1||Ranged=6||Def=19||Size=Tiny||Make=5||Wpn=4||Armor=1|
+36,M4 Series Messanger Droid |Type=36||Class=Thug||Level=4||VP=0||Melee=8||Ranged=12||Def=20||Size=Diminutive||Make=2||Wpn=16||Armor=1|
+37,B1 Series Worker Droid |Type=37||Class=Commoner||Level=0||VP=0||Melee=10||Ranged=0||Def=10||Size=Medium||Make=14||Wpn=3||Armor=1|
+38,CLL-8 Binary Load Lifter Worker Droid |Type=38||Class=Commoner||Level=0||VP=0||Melee=10||Ranged=0||Def=9||Size=Large||Make=2||Wpn=5||Armor=1|
+39,Scrubber Droid |Type=39||Class=Expert||Level=1||VP=0||Melee=0||Ranged=3||Size=Small||Make=1||Def=13||Wpn=17||Armor=1|
+40,EV Series Supervisor/Interrogator Droid |Type=40||Class=Expert/Thug||Level=1/1||VP=0||Melee=2||Ranged=1||Def=11||Size=Medium||Make=15||Wpn=2||Armor=1|
+41,U2-C1 Series Housekeeping Droid |Type=41||Class=Expert||Level=1||VP=0||Melee=1||Ranged=0||Size=Small||Def=10||Make=16||Wpn=18||Armor=1|
+42,11-17 Series Mining Droid |Type=42||Class=Expert||Level=3||VP=0||Melee=7||Ranged=7||Size=Small||Def=15||Make=17||Wpn=19||Armor=2|
+43,Mark X Executioner Series Gladitorial Droid |Type=43||Class=Soldier||Level=7||VP=32||Melee=10||Ranged=7||Def=17||Size=Medium||Make=5||Wpn=20||Armor=3|
+44,M38 Series Explorer Droid |Type=44||Class=Expert||Level=3||VP=0||Melee=5||Ranged=2||Def=11||Size=Medium||Make=18||Wpn=2||Armor=2|
+45,Gyrowheel 1.42.08 Series Recycling Droid |Type=45||Class=Expert||Level=1||VP=0||Melee=4||Ranged=6||Def=16||Size=Small||Make=19||Wpn=3||Armor=1|
+46,2-1B Series Medical Droid |Type=46||Class=Expert||Level=2||VP=0||Melee=1||Ranged=5||Def=14||Size=Medium||Make=1||Wpn=3||Armor=1|
+47,IT-0 Series Interrogation Droid |Type=47||Class=Expert||Level=3||VP=0||Melee=1||Ranged=2||Def=11||Size=Small||Make=2||Wpn=21||Armor=1|
+48,M-TD Series Translator Droid |Type=48||Class=Diplomat||Level=1||VP=0||Melee=2||Ranged=2||Def=12||Size=Tiny||Make=2||Wpn=4||Armor=1|
+49,B1 Series Battle Droid |Type=49||Class=Thug||Level=1||VP=0||Melee=2||Ranged=0||Def=9||Size=Medium||Make=9||Wpn=6||Armor=1|
+50,B2 Series Battle Droid |Type=50||Class=Soldier||Level=1||VP=10||Melee=2||Ranged=2||Def=12||Size=Medium||Make=9||Wpn=6||Armor=2|
+51,Droideka Series Destroyer Droid |Type=51||Class=Thug||Level=12||VP=0||Melee=13/+8/+3||Ranged=13/+8/+3||Def=15||Size=Medium||Make=21||Wpn=22||Armor=6|
+52,Viper Series Probe Droid |Type=52||Class=Scout||Level=2||VP=16||Melee=1||Ranged=1||Def=14||Size=Medium||Make=5||Wpn=23||Armor=2|
+53,ASP Series Labor Droid |Type=53||Class=Expert||Level=1||VP=0||Melee=4||Ranged=0||Def=10||Size=Medium||Make=2||Wpn=3||Armor=1|
+54,J9 Series Worker Drone |Type=54||Class=Expert||Level=1||VP=0||Melee=0||Ranged=1||Def=11||Size=Medium||Make=14||Wpn=3||Armor=1|
+55,EG-6 Series Power Droid |Type=55||Class=Expert||Level=1||VP=0||Melee=3||Ranged=0||Def=10||Size=Small||Make=19||Wpn=6||Armor=5|
+
+#Format: Stats=STR,DEX,CON,INT,WIS,CHA / Saves=Fort,Ref,Will
+:Stats
+1,|Stats=16,12,14,14,8,10||Saves=2,1,1|
+2,|Stats=16,10,16,14,8,6||Saves=4,1,2|
+3,|Stats=14,14,14,18,12,11||Saves=3,3,5|
+4,|Stats=14,16,14,18,12,10||Saves=4,5,6|
+5,|Stats=14,14,16,16,10,11||Saves=4,3,3|
+6,|Stats=14,10,12,12,10,8||Saves=2,1,3|
+7,|Stats=14,16,14,20,12,12||Saves=4,5,6|
+8,|Stats=14,16,14,20,12,12||Saves=5,7,8|
+9,|Stats=12,8,12,18,13,14||Saves=1,0,4|
+10,|Stats=16,10,20,18,16,10||Saves=5,1,6|
+11,|Stats=12,10,10,18,14,6||Saves=1,1,6|
+12,|Stats=4,16,10,10,10,6||Saves=0,3,2|
+13,|Stats=10,10,10,10,10,10||Saves=0,0,0|
+14,|Stats=10,10,10,10,10,10||Saves=1,1,4|
+15,|Stats=12,12,12,16,10,10||Saves=3,1,2|
+16,|Stats=8,10,13,16,13,16||Saves=1,0,3|
+17,|Stats=10,12,11,15,10,12||Saves=0,1,3|
+18,|Stats=12,10,10,16,12,12||Saves=0,0,4|
+19,|Stats=8,10,10,18,10,6||Saves=1,1,3|
+20,|Stats=8,11,9,12,10,12||Saves=0,1,4|
+21,|Stats=6,12,10,10,12,10||Saves=0,1,3|
+22,|Stats=12,10,10,10,12,6||Saves=0,0,3|
+23,|Stats=12,10,8,10,10,6||Saves=2,1,1|
+24,|Stats=20,10,16,10,9,10||Saves=9,2,1|
+25,|Stats=18,14,16,10,8,6||Saves=9,4,1|
+26,|Stats=10,14,12,16,10,9||Saves=3,2,2|
+27,|Stats=10,12,10,10,16,8||Saves=3,4,6|
+28,|Stats=12,14,19,10,12,6||Saves=6,3,2|
+29,|Stats=14,11,14,10,10,10||Saves=6,1,1|
+30,|Stats=10,10,12,20,16,14||Saves=1,0,5|
+31,|Stats=20,14,20,12,14,12||Saves=9,3,3|
+32,|Stats=8,20,14,16,14,8||Saves=6,6,3|
+33,|Stats=6,20,14,16,16,14||Saves=8,7,5|
+34,|Stats=4,14,6,8,10,8||Saves=-2,2,2|
+35,|Stats=6,16,10,12,12,8||Saves=3,6,4|
+36,|Stats=10,18,14,14,12,8||Saves=6,5,2|
+37,|Stats=30,10,10,6,10,6||Saves=0,0,0|
+38,|Stats=32,10,20,10,10,6||Saves=5,0,0|
+39,|Stats=8,14,20,8,8,6||Saves=5,2,1|
+40,|Stats=12,10,12,18,8,12||Saves=3,0,1|
+41,|Stats=10,8,12,8,8,8||Saves=1,-1,1|
+42,|Stats=18,16,18,12,8,12||Saves=5,4,2|
+43,|Stats=20,14,11,10,9,12||Saves=4,3,0|
+44,|Stats=16,10,20,10,14,10||Saves=6,1,5|
+45,|Stats=16,20,20,8,8,6||Saves=5,5,1|
+46,|Stats=10,18,10,14,18,8||Saves=0,4,7|
+47,|Stats=6,8,8,10,14,14||Saves=0,0,5|
+48,|Stats=4,10,6,16,10,6||Saves=-3,0,2|
+49,|Stats=12,8,8,6,8,6||Saves=1,-1,-1|
+50,|Stats=12,10,10,8,8,6||Saves=2,0,-1|
+51,|Stats=13,13,15,6,8,6||Saves=10,5,3|
+52,|Stats=10,10,14,10,14,10||Saves=4,2,4|
+53,|Stats=18,10,12,6,8,10||Saves=3,0,1|
+54,|Stats=10,12,12,16,10,9||Saves=1,1,2|
+55,|Stats=14,8,12,4,8,4||Saves=1,-1,1|
+
+:Make
+1,Industrial Automaton
+2,Cybot Galactica
+3,Kalibac Industries
+4,Rebaxan Columni
+5,Arakyd Industries
+6,Genetech
+7,Serv-O-Droid
+8,Meditech Industries
+9,Baktoid Combat Automata
+10,Balmorran Arms
+11,Colicoid
+12,SoroSuub
+13,Kystallio Detection
+14,AccuTronics
+15,MerenData
+16,Publictechnic
+17,Roche
+18,Les Tech
+19,Veril Line Systems
+20,Genetech/Colicoid
+
+:Weapon
+1,Claw ( 1d4+[GetStatBonus=%STR%]), Saw ( 1d2+[GetStatBonus=%STR%]), Arc Wielder ( 2d6+[GetStatBonus=%STR%])
+2,Hand ( {If~%STR% > 9 ? 1d3+[GetStatBonus=%STR%] / 1d3[GetStatBonus=%STR%]})
+3,Claw ( 1d4+[GetStatBonus=%STR%])
+4,None
+5,Tool ( {If~%STR% > 9 ? 1d3+[GetStatBonus=%STR%] / 1d3[GetStatBonus=%STR%]})
+6,Hand ( 1d3+[GetStatBonus=%STR%]), Blaster Carbine ( 3d8 )
+7,Tool ( 1d6+[GetStatBonus=%STR%]), Heavy Repeating Blaster ( 4d8 ), Plasma Burst Cannon ( 5d10 )
+8,Tool ( 1d6+[GetStatBonus=%STR%]), Light Repeating Blaster x 2 ( 3d8 )
+9,Electroshock Probe ( 2d6 or DC 10 stun ), Blaster Pistol ( 3d6 )
+10,Stun Baton ( DC 15 stun ), Blaster Pistol ( 3d6 ) 
+11,Vibrodagger bite ( 2d4+2 ), Blaster Pistol ( 3d6 )
+12,Force Pike (2d8+5 or DC 15 stun)
+13,Slam (1d6-1), Frag Microgrenade (2d6 - DC 13)
+14,Slam (1d4-2), Blaster Pistol (3d6)
+15,Slam (1d6-3)
+16,Slam (1d4), Sporting Blaster Pistol (3d4)
+17,Slam (1d4-1)
+18,Slam (1d4)
+19,Slam (1d4+4), Saw (1d4+4), Blowtorch (2d6), Heavy Plasma Jet (3d10)
+20,Vibro-ax (2d10+5), Vibroblade (2d6+5), Force Pike (2d8+5), Spiked Club (2d6+5), Blaster Rifle (3d8), Flamethrower (3d6), Ion Rifle (3d6), Frag Grenade (4d6+1)
+21,Claw (1d4-2), Power shears (2d6-2), Laser scalpel (2d4), Syringe (1d2 + toxin), Electoshock probe (2d6)
+22,Appendage (1d4+10), Heavy Repeating Blaster X 2 (4d8)
+23,Claw (1d6), Blaster Pistol (3d6|
+
+:Armor
+1,None
+2,Light Armor (DR: 3)
+3,Heavy Armor (DR: 7)
+4,Heavy Armor (DR: 7), Shield (DR: 6)
+5,Medium Armor (DR: 5)
+6,Light Armor (DR: 3), Shield (DR: 9)
+
+#Prints Stats in table format
+:DisplayCharacter
+1,
+_<table border=2>
+_<tr> 
+_<td width=150 align="right"><b><u>Ability</u></b></td>
+_<td width=50 align="center"><b><u>Score</u></b></td>
+_<td width=50 align="center"><b><u>Modifier</u></b></td>
+_</tr>
+_<tr>
+_<td width=150 align="right"><b>Strength:</b></td>
+_<td width=50 align="center">%STR%</td>
+_<td width=50 align="center">[GetStatBonus=%STR%]</td>
+_</tr>
+_<tr>
+_<td width=150 align="right"><b>Intelligence:</b></td>
+_<td width=50 align="center">%INT%</td>
+_<td width=50 align="center">[GetStatBonus=%INT%]</td>
+_</tr>
+_<tr>
+_<td width=150 align="right"><b>Wisdom:</b></td>
+_<td width=50 align="center">%WIS%</td>
+_<td width=50 align="center">[GetStatBonus=%WIS%]</td>
+_</tr>
+_<tr>
+_<td width=150 align="right"><b>Dexterity:</b></td>
+_<td width=50 align="center">%DEX%</td>
+_<td width=50 align="center">[GetStatBonus=%DEX%]</td>
+_</tr>
+_<tr>
+_<td width=150 align="right"><b>Constitution:</b></td>
+_<td width=50 align="center">%CON%</td>
+_<td width=50 align="center">[GetStatBonus=%CON%]</td>
+_</tr>
+_<tr>
+_<td width=150 align="right"><b>Charisma:</b></td>
+_<td width=50 align="center">%CHA%</td>
+_<td width=50 align="center">[GetStatBonus=%CHA%]</td>
+_</tr>
+_</table>
+
+#Reference Table
+:GetStatBonus
+1,-5 |X=-5|
+2-3,-4 |X=-4|
+4-5,-3 |X=-3|
+6-7,-2 |X=-2|
+8-9,-1 |X=-1|
+10-11,0 |X=0|
+12-13,1 |X=1|
+14-15,2 |X=2|
+16-17,3 |X=3|
+18-19,4 |X=4|
+20-21,5 |X=5|
+22-23,6 |X=6|
+23-24,7 |X=7|
+25-26,8 |X=8|
+27-28,9 |X=9|
+29-30,10 |X=10|
+31-32,11 |X=11|

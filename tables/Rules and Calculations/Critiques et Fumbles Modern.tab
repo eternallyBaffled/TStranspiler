@@ -1,0 +1,349 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder August 4, 2006.
+# ---------------------------------------------------
+#
+# Criticals and Fumbles
+#
+# by Valminder, March 2002, modified for 3rd Edition D&D
+# Modified, August 2005. 
+#    -Halved the duration of stun effects.
+#    -Added some alternate fumbles.
+# Modified, Jan 2006.
+#    -Added fumbles: Disease, fatigue.
+#    -Reworked the fumble table and removed the Fumble2 table.
+#    -Fumble: removed the stunned condition on the first fumble.
+#    -piercing: added punctured artery.
+# Modified, Dec 2010.
+#    -Using Blood & Guts Modern Military: Combat Procedures (RPGObjects)
+#    -Critical on Vehicles: Modern Dispatch 96.
+#    -Criticals and Fumbles for magic.
+#
+
+/OverrideRolls 1
+
+:Start
+1,
+#_<i>Bite:</i> tranchant, contondant et perçant (choisir un des 3 effets).<br>
+#_<i>Claw / Rake:</i> contondant et perçant (choisir un des 2 effets).<br>
+#_<i>Gore:</i> perçant.<br>
+#_<i>Slap / Slam:</i> contondant.<br>
+#_<i>Sting:</i> perçant.<br>
+#_<i>Tentacule:</i> contondant (quelques fois tranchant).<br><br>
+#_<hr><br><b>Tranchant / Slashing:</b> [~Slashing]
+#_<br><b>Contondant / Blunt:</b> [~Blunt]
+#_<br><b>Perçant / Piercing:</b> [~Piercing]
+_<br><b>Véhicules:</b> [~Vehicles]
+_<br><b>Magique:</b> [~Magic]
+_<br><br><b><i>Fumble Gun:</b></i> [~FumbleGun]
+_<br><b><i>Fumble Mêlée:</b></i> [~Fumble]
+_<br><b><i>Fumble Magique:</b></i> [~FumbleMagic]
+_<br><br><hr><u>Au sol</u>: -4 CA vs attaques de mêlée, +4 CA vs attaques de distance.
+_<br><u>Au sol et <i>Stunned</i></u>: (Voir ci-dessus) Échappe ce qu'il tient, aucune action, -2 CA (total: -6 vs mêlée; +2 vs distance), et perd bonus de Dextérité de CA.
+_<br>*<u>Bouclier/Casque détruit</u>: l'objet est détruit, mais tu ne reçois pas l'effet du coup critique.
+_<br><hr><br>
+_<b><u>Misfire</u>:</b> {Color~Blue,Concentration DC 15}.
+_<br>This check represents how carefully you loaded your firearm and how methodically you have cleaned, repaired, and maintained the weapon over time.
+_<br><u>Repair 5+ ranks</u>: {Color~Green,+2 Concentration vs Misfire}.
+_<br>DC Modifier
+_<br>{Color~Red,+2}[Tab]Percussion firearm / Flintlock firearm
+_<br>{Color~Red,+2}[Tab]Unreliable firearm <i>(poorly maintained firearm, poorly designed firearm, firearm older than 20 years, cheap knock-off)</i>
+_<br>{Color~Red,+4}[Tab]Notoriously unreliable firearm <i>(abysmally maintained, dangerously designed, firearm older than 50 years, shoddily made knock-off)</i>
+_<br>{Color~Red,+2}[Tab]Damaged firearm <i>(more than half hp remaining</i>
+_<br>{Color~Red,+4}[Tab]Heavily damaged firearm <i>(less than half hp remaining)</i>
+_<br>{Color~Red,+2}[Tab]Inclement weather <i>(rain, snow, fog, etc.)</i>
+_<br>{Color~Red,var}[Tab]Unfamiliar firearm <i>(For firearms not loaded or maintained by the firing character, the GM should feel free to set the DC.)</i>
+_<br><br>{Color~Green,<u>Success</u>:} <b>Dud.</b> The primer either doesn't fire or fails to ignite the main charge of powder.
+_<br>[Tab]-Percussion or Flintlock: The percussion cap or priming-powder fails to ignite the main charge. Although the weapon remains loaded, the cap or priming-powder needs to be replaced before the ammunition may be discharged. This requires a move action to accomplish by itself, or occurs automatically during reloading.
+_<br>[Tab]-Metallic Cartridge: The primer fails and the bullet must be completely replaced. Removing the dud round is no trickier than removing a spent casing, happening automatically during reloading or whenever a spent casing would be ejected normally by the lever or pump action of the weapon.
+_<br><br>{Color~Red,<u>Failure by 1-4</u>:} <b>Jam.</b> The ammunition not only fails to fire, but becomes jammed in the barrel or breech. Clearing the jam requires a Repair or DEX check.
+_<br>[Tab]<u>Percussion or Flintlock</u>: Revolving breech (DC15;4 FULL); Breechloader (DC15;4 FULL); Muzzleloader (DC20;1 hour).
+_<br>[Tab]<u>Metallic Cartridge</u>: Revolving breech (DC10;2 FULL); Breechloader (DC10;2 FULL); Repeating longarm (DC10;2 FULL); Gatling gun (DC10;4 FULL).
+_<br>[Tab]Removing jammed ammunition from a percussion revolver or breechloader typically involves boring into the ammunition and pulling it out using special tools. Muzzleloaders must be disassembled to remove a jam. When metallic cartridge ammunition becomes jammed due to swelling relative to the barrel, the shell must be pried or bored free.
+_<br>[Tab]The continued functionality of a jammed weapon also depends on the type of firearm, as indicated by the following:
+_<br>[Tab][Tab]-<u>Pepperbox (pistol or longarm) or Revolver</u>: Only the chamber with the dud cannot be reloaded until the jam is cleared. The remaining chambers can still be reloaded and fired normally; however, each time the jammed ammunition comes up in the firing sequence, the shooter must advance the cylinder or firing pin to the next chamber. For a pepperbox this requires a move action; for a revolver it requires the expenditure of one of the character's available attacks.
+_<br>[Tab][Tab]-<u>Single-barrel One-Shot Firearm</u>: For a single-barreled muzzleloader or breechloader, the jam must be cleared before the weapon can be used again.
+_<br>[Tab][Tab]-<u>Double-barrel Firearm</u>: For a muzzleloader or breechloader, the jammed barrel cannot be used again until the jam is cleared. The remaining barrel can still be loaded and fired as normal.
+_<br>[Tab][Tab]-<u>Repeating Rifle or Shotgun</u>: The breech must be cleared before the weapon may be fired again. 
+_<br>[Tab][Tab]-<u>Gatling Gun</u>: The jam must be cleared before the weapon can be fired again.
+_<br><br>{Color~Red,<u>Failure by 5+</u>:} <b>Minor Mishap.</b> Weapon fails to fire and is damaged in the process. (1d4 or GM's choice).
+_<br>[Tab]<b>Damage to weapon:</b> x2 the normal weapon's damage. The weapon cannot be used again until repaired. Even if the weapon didn't suffer damage (due to its hardness), repairing the weapon is considered a complex task.
+_<br>[Tab]1- <i>Mechanical Failure:</i> A spring, pin, roller, or other critical component breaks. The ammunition is unspent, but the weapon is no longer functional.
+_<br>[Tab]2- <i>Misaligned Cylinder:</i> The cylinder doesn't lock into place correctly and the bullet doesn't enter the barrel cleanly.
+_<br>[Tab]3- <i>Over fire:</i> The charge of powder exploded with a force too large for the breech or barrel to hold and the weapon is damaged.
+_<br>[Tab]4- <i>Under fire:</i> The bullet fails to escape the barrel and becomes lodged.
+_<br><br>{Color~Red,<u>Failure by 10+</u>:} <b>Major Mishap.</b> Weapon doesn't fire and a catastrophic failure ensues. (1d2 or GM's choice).
+_<br>[Tab]<b>Damage to weapon:</b> weapon destroyed. Characters and unattended objects (5' radius) take ballistic damage (x2 normal weapon's damage; Reflex ½ DC12).
+_<br>[Tab]1- <i>Chainfire:</i> If the weapon is a percussion weapon with a revolving breech (or a percussion multi-barreled breechloader or muzzleloader) the ignition of one chamber sparks the other chambers as well, leading to the uncontrolled simultaneous firing of all remaining ammunition.
+_<br>[Tab]2- <i>Explosion:</i> A metallurgical failure occurs and the chamber blows out, launching shrapnel in an area around the shooter. 
+_<br><br><b><u>Coup Critique</u>:</b> Une menace (de coup critique) est obtenue selon les règles normales du Manuel des Joueurs. Si l'attaquant touche sa cible il obtient un coup critique et il doit rouler un d100 dans la table correspondante à l'arme utilisée. Si, sur un coup critique, il obtient encore une menace, il doit rouler de nouveau. S'il touche encore, son coup critique est encore meilleur et est augmenté de +1x les dégâts. Il continue ainsi tant qu'il obtient une menace.<br><br>
+_<b><u>Coups Critiques: Effets Spéciaux</b></u> (pénalité de -2)<br>
+_<b>Bras:</b> Climb et Swim; lancés pour toucher et FOR.<br>
+_<b>Main:</b> Alchemy, Climb, Craft, Disable Device, Escape Artist, Forgery, Heal, Open Lock, Pick Pocket, et Use Rope; lancés pour toucher.<br>
+_<b>Oeil (1):</b> Appraise, Alchemy, Craft, Decipher Script, Disable Device, Forgery, Open Lock, Read Lips, Scry, Search, Sense Motive, Spellcraft, Spot, Wilderness Lore (pister seulement); initiative; lancés de DEX; SAVE Réflexes. Les 2 yeux rend aveugle.<br>
+_<b>Oreille (1):</b> Listen; initiative. Les 2 oreilles rend sourd.<br>
+_<b>Pied/Jambe:</b> Balance, Climb, Jump, Move Silently, Ride, Swim, Tumble; lancés de DEX, SAVE Réflexes.<br>
+_<b>Tête:</b> Lancés pour toucher, SAVE, tout les autres lancés.<br><br>
+_Jusqu'à guérison: tout les dmg reçus de cette blessure doivent être guéris pour guérir les effets spéciaux de cette blessure critique.<br><br>
+_<b><u>Fumble:</b></u><br>
+_Un <i>fumble</i> est obtenu lorsqu'un "1" naturel est roulé sur un lancé d'attaque. Ce résultat a 2 effets:<br>
+_1- Toutes les attaques survenants après le "1", dans le même chiffre d'initiative, sont annulées. Donc un "1" sur une AO annule seulement cette AO.<br>
+_2- Le joueur roule aussitôt un d100 dans la table des Fumbles et il subit le résultat approprié.<br><br>
+_Note: si le coup critique ou le <i>fumble</i> roulé ne s'applique pas, oublier ce qui est inscrit et faire le critique normal ou seulement l'effet 1 du <i>fumble</i> (i.e. annuler les attaques).<br>
+
+;Tab
+1,{Loop~5,&nbsp;}
+
+:Slashing
+1-45,Coup critique normal.
+46-60,Coup critique +1x.
+61-62,Bouclier détruit.
+63,Casque détruit (ou autre objet sur la tête).
+64,Casque enlevé (perd 1 oreille et <i>stun</i> <b>{Dice~1d4}</b> rounds).
+65,Cordes vocales sectionnées (muet) ou casque détruit*.
+66,Oreille tranchée ou casque détruit*.
+67,Oreille tranchée (pas effet si a un casque).
+68,Oeil crevé ou casque détruit*.
+69,Oeil crevé.
+70,Genou endommagé (½ MV).
+71,Genou fracturé (pas de MV).
+72,{Dice~1d3} Doigts coupés.
+73,Jambe coupée à la cheville (pas de MV).
+74,Jambe coupée au genou (pas de MV).
+75,Jampe coupée à la hanche (pas de MV).
+76,Bras du bouclier coupé au poignet ou bouclier détruit*.
+77,Bras du bouclier coupé au coude ou bouclier détruit*.
+78,Bras du bouclier coupé à l'épaule ou bouclier détruit*.
+79,Bras du bouclier coupé au poignet.
+80,Bras du bouclier coupé au coude.
+81,Bras du bouclier coupé à l'épaule.
+82,Bras primaire (arme) coupé au poignet.
+83,Bras primaire (arme) coupé au coude.
+84,Bras primaire (arme) coupé au à l'épaule.	
+85,Blessures abdominales (½ poids transporté).
+86,Blessures à la poitrine (½ poids transporté).
+87,Blessures abdominales (mort dans <b>{Dice~1d6}</b> jours).
+88,Blessures à la poitrine (mort dans <b>{Dice~1d4}</b> jours).
+89,Blessures abdominales (mort dans <b>{Dice~2d6}</b> rounds).
+90,Blessures à la poitrine (mort dans <b>{Dice~2d4}</b> rounds).
+91,Blessures abdominales (mort dans 1 round).
+92,Blessures à la poitrine (mort dans 1 round).
+93,Gorge tranchée (mort dans 1 round) ou casque détruit*.
+94,Gorge tranchée (mort dans 1 round).
+95,Décapité (mort immédiate) ou casque détruit*.
+96,Décapité (mort immédiate).
+97-100,Coup critique +2x.
+
+:Blunt
+1-45,Coup critique normal.
+46-60,Coup critique +1x.
+61-62,Bouclier détruit.
+63,Casque détruit (ou autre objet sur la tête).
+64-65,Bras du bouclier frappé dûrement (pas de bouclier <b>{Dice~1d6}</b> rounds).
+66-67,Bras du bouclier brisé ou bouclier détruit*.
+68-69,Bras primaire (de l'arme) frappé.
+70-71,Bras primaire (de l'arme) frappé (effets à -4).
+72-73,Bras primaire (de l'arme) fracturé (inutilisable).
+74-75,Main primaire frappée dûrement.
+76-77,Main primaire fracassée (inutilisable).
+78-80,Poitrine frappée dûrement (<i>stun</i> <b>{Dice~1d4}</b> rounds).
+81-82,Côtes brisées, poumon crevé (pas MV, -2 tout).
+83,Côtes brisées, coeur crevé (mort dans 1 round).
+84-86,Jambe frappée; tombe.
+87-88,Jambe frappée dûrement; tombe (½ MV).
+89-90,Jambe fracturée; tombe (pas de MV).
+91-92,Tête frappée (perd <b>{Dice~1d3}</b> INT) ou casque détruit*.
+93-94,Tête frappée (perd <b>{Dice~1d3}</b> INT).
+95,Crâne fracassé (mort immédiate) ou casque détruit*.
+96,Crâne fracassé (mort immédiate).
+97-100,Coup critique +2x.
+
+:Piercing
+1-45,Coup critique normal.
+46-60,Coup critique +1x.
+61,Casque enlevé (ou autre objet sur la tête).
+62-63,Bras du bouclier inutilisable (pas bouclier <b>{Dice~1d6}</b> rounds).
+64-65,Bras primaire (de l'arme) frappé.
+66-67,Bras primaire (de l'arme) frappé (effets à -4).
+68-69,Bras primaire (de l'arme) endommagé (inutilisable).
+70-71,Poumon transpercé (pas MV, -4 tout).
+72-73,Artère transpercée (-1 pv/round).
+74,Coeur transpercé (mort dans 1 round).
+75-76,Blessures abdominales (mort dans <b>{Dice~1d6}</b> jours).
+77-78,Blessures à la poitrine (mort dans <b>{Dice~1d4}</b> jours).
+79-80,Blessures abdominales (mort dans <b>{Dice~2d6}</b> rounds).
+81-82,Blessures à la poitrine (mort dans <b>{Dice~2d4}</b> rounds).
+83,Blessures abdominales (mort dans 1 round).
+84,Blessures à la poitrine (mort dans 1 round).
+85-86,Oeil crevé ou casque détruit*.
+87-88,Oeil crevé.
+89-90,Larynx percé (muet) ou casque détruit*.
+91-92,Larynx percé (muet).
+93,Gorge transpercée (mort dans 1 round) ou casque détruit*.
+94,Gorge transpercée (mort dans 1 round).
+95,Frappé à la tête (mort immédiate) ou casque détruit*.
+96,Frappé à la tête (mort immédiate).
+97-100,Coup critique +2x.
+
+:!Vehicles
+01-50,No critical.
+51-75,<u>Normal Critical</u>: The effect of the critical is normal, increased damage, as if the vehicle were a character.
+76-80,<u>Crew Hit</u>: Roll randomly to determine affected crewmember. The attack inflicts damage to the vehicle and 25 <b>pourcent</b> of the rolled damage amount (roll down) against the randomly selected crewmember.
+81-85,<u>System</u>: One communications or electrical system – rolled randomly – is completely destroyed by the attack.
+86-90,<u>Engine hit (minor)</u>: The vehicle’s top speed is decreased by 25 <b>pourcent</b>. Repair (DC 20) and two hours of time is required to repair this damage.
+91-95,<u>Engine hit (major)</u>: The engine is destroyed. The vehicle’s speed decreases by one category each round until it comes to a stop. The engine cannot be repaired and must be completely replaced.
+96-99,<u>Fuel Tank</u>: x2 damage.
+100,<u>Fuel Tank</u>: The tank explodes: 5d10 (<b>{Dice~5d10}</b>) damage to the vehicle and 3d10 (<b>{Dice~3d10}</b>) damage to each crewmember.
+
+:Magic
+01-45,Coup critique x2.
+46-60,Coup critique x3.
+61-64,Crit x2. Sort plus difficile à dissiper (DC13 + niveau du jeteur).
+65-68,Crit x2. Save: +2 DC.
+69-72,Crit x2. +2 Caster Level check vs SR.
+73-76,Crit x2. La cible qui rate sa sauvegarde tombe au sol (aucun effet si pas de sauvegarde).
+77-79,Crit x2. La cible qui rate sa sauvegarde est <i>staggered</i> jusqu'à ta prochaine action (1 action MV ou standard seulement) (aucun effet si pas de sauvegarde).
+80,Crit x2. La cible qui rate sa sauvegarde est <i>stunned</i> jusqu'à ta prochaine action (échappe tout,pas d'action,-2 CA,perd DEX CA) (aucun effet si pas de sauvegarde).
+81-84,Crit x2. +1d6 dmg d'énergie par niveau du sort. Énergie au hasard ([~MagicEnergy]) ou selon l'énergie du sort.
+85-86,Crit x2. Le sort tente de dissiper (voir <i>dispel magic</i>) <b>UN</b> sort sur la cible. Le sort actif du plus haut niveau est toujours le sort a être "arraché".
+_<br>[Tab]Caster level check (max 1d20+10) vs DC 11+niveau du jeteur. 
+_<br>[Tab]Ceci n'affecte que les sorts jetés sur une créature ou objet.
+_<br>[Tab]Les sorts indépendents ou qui affectent un lieu (<i>wall of fire, antimagic field,</i> illusion ou créature conjurée) ne peuvent pas être dissipés, même s'ils empêchent le sort, affecté par ce don, d'affecter la cible.
+87-90,Crit x2. Le sort tente de contrer tout effet de sort sur la cible qui interfère directement avec lui.
+_<br>[Tab]Caster level check (max 1d20+10) vs DC 11+niveau du jeteur. 
+_<br>[Tab]Ex: <i>fireball vs protection from elements (fire)</i> déjà actif. Si le jet réussi, le sort est "annulé" avant que <i>fireball</i> ne prenne effet. Mais immédiatement après les effets du sort, le sort <i>protection from elements (fire)</i> se "reforme" et continue à affecter la cible.
+_<br>[Tab]Cet effet affecte seulement les sorts jetés sur les créatures ou objets, mais pas les sorts indépendents ni ceux qui affectent les lieux (<i>wall of fire, antimagic field,</i> illusion ou créature conjurée) même s'ils empêchent le sort d'affecter sa cible.
+_<br>[Tab]Ça ne peut "annuler" temporairement que les effets spécifiques qui tentent de contrer ce sort (<i>spell immunity, shield</i> contre les <i>magic missiles</i>, etc) et les sorts qui offrent une protection générale contre les sorts (<i>protection from evil, spell resistance</i>, etc).
+91-96,Crit x2.Effet spécial:
+_<br>-Acide: un objet est affecté par l'acide (comme si "1" sur sauvegarde). Save ou objet détruit.
+_<br>-Électricité: cible en armure de métal reçoit 1d6 dmg/niveau du sort.
+_<br>-Énergie Négative: cible reçoit un niveau négatif (save dans 24 heures = au DC du sort qui a fait le critique).
+_<br>-Énergie Positive: tu es guéri du même nombre de points de vie que les dégâts faits (avant critique).
+_<br>-Feu: cible prend en feu automatiquement.
+_<br>[Tab]1d6 (<b>{Dice~1d6}</b>) Feu immédiatement.
+_<br>[Tab]<u>Éteindre les Flammes</u>: Full-round, DC15 Reflex.
+_<br>[Tab]<u>Rouler sur le sol ou étouffer</u>: +4 save.
+_<br>[Tab]<u>Sauter dans l'eau</u>: SAVE automatique. 
+_<br>[Tab][Tab]<u>Réussite</u>: flammes éteintes.
+_<br>[Tab][Tab]<u>Échec</u>: 1d6 (<b>{Dice~1d6}</b>) Feu.
+_<br>-Froid: cible reçoit 1d4 (<b>{Dice~1d4}</b>) dmg de DEX.
+_<br>-Sonique: cible 1d4 (<b>{Dice~1d4}</b>) dmg de INT ou SAG (<b>[~MagicIntWis]</b>).
+97-100,Coup critique x4.
+
+;MagicEnergy
+1,Acide
+2,Électricité
+3,Feu
+4,Froid
+
+;MagicIntWis
+1,INT
+2,WIS
+
+:!Fumble
+1-20,<u>Glisse</u>: Balance (DC 10) ou tombe.
+21-30,<u>S'enfarge</u>: Balance (DC 10) ou tombe et <i>stun</i> <b>{Dice~1d4}</b> rounds.
+31-35,<u>Tombe</u>: <i>stun</i> <b>{Dice~1d3}</b> rounds.
+36-37,<u>Cheville foulée</u>: 1 dmg, ½ MV, Balance (DC10) ou tombe.
+38-39,<u>Débalancé</u>: Balance (DC 10) ou aucune action round suivant.
+40-41,<u>Infection</u>: Tu es exposé à la maladie <i>Filth Fever</i> (Vigueur DC12). Incubation: 1d3 <b>({Dice~1d3})</b> jours, Dmg: 1d3 Dex/Con.
+42-45,<u>Fatigue</u>: CON (DC10) or tu deviens fatigué. Si déjà fatigué, tu deviens épuisé. +4 au jet si tu as le don Edurance.
+46-48,<u>Arme glisse</u>: DEX (DC 10) ou pas d'attaque round suivant.{Lockout~Fumble,49-53}
+49-51,<u>Arme glisse</u>: DEX (DC 10) ou échappe une arme.{Lockout~Fumble,46-53}
+52-53,<u>Perd l'arme</u>: échappe automatiquement l'arme. Direction au hasard, <b>{Dice~1d3}</b> case(s) de 5'.{Lockout~Fumble,46-51}
+54-55,<u>Perd objet</u>: échappe un objet utile (probablement magique) autre qu'une arme (ex: casque, cape, bouclier).
+56-57,<u>Armure endommagée</u>: -1 CA à ton armure ou bouclier (choix joueur). Craft (armorsmithing) DC 10 pour réparer.
+58-61,<u>Casque ou capuchon glisse</u>: DEX (DC 10) pour corriger (Action Partielle), sinon ½ <i>concealment</i> (<b>20 poutcent</b> de rater).{Lockout~Fumble,58-63}
+62-63,<u>Casque ou capuchon glisse</u>: DEX (DC 10) pour corriger (Action Partielle), sinon <i>concealment total</i> (<b>50 pourcent</b> de rater).{Lockout~Fumble,58-63}
+64-65,<u>Bouclier emmêlé avec adversaire</u>: le prochain round, enlève bouclier ou aucune action (perd bonus de DEX de CA, pas effet si pas de bouclier).
+66-67,<u>Emmêlé avec adversaire</u>: toi et l'adversaire n'avez aucun action jusqu'à ton prochain round (perd bonus DEX de CA).
+68-69,<u>Arme emmêlée avec adversaire</u>: le prochain round, tu dois échapper l'arme ou perdre tes actions (perd bonus DEX CA).
+70-71,<u>Distrait</u>: tu perds ton bonus de DEX de CA (1 round).
+72-75,<u>Arme émoussée</u>: réduire les dégâts de l'arme de une catégorie (ex: 1d6 à 1d4). Craft (mechanical) DC10 pour affuter.
+76-78,<u>L'arme brise</u>: 100 <b>pourcent</b> (pas effet pour une arme magique).{Lockout~Fumble,76-79}
+79,<u>L'arme brise</u>: 100 <b>pourcent</b> (-10 par "+" de l'arme ou par pouvoir).{Lockout~Fumble,76-79}
+80-81,<u>Ouverture</u>: l'adversaire que tu attaques peut te faire une attaque d'opportunité.
+82-84,<u>Tu te blesses (sur adversaire?)</u>: ½ dmg de ton arme.{Lockout~Fumble,82-87}
+85-86,<u>Tu te blesses (sur adversaire?)</u>: dmg de ton arme.{Lockout~Fumble,82-87}
+87,<u>Tu te blesses (sur adversaire?)</u>: 2x dmg de ton arme.{Lockout~Fumble,82-87}
+88-90,<u>Tu blesses un allié à portée</u>: ½ dmg de ton arme.{Lockout~Fumble,88-93}
+91-92,<u>Tu blesses un allié à portée</u>: dmg de ton arme.{Lockout~Fumble,88-93}
+93,<u>Tu blesses un allié à portée</u>: 2x dmg de ton arme.{Lockout~Fumble,88-93}
+94-95,<u>Critique, tu te blesses (sur adversaire?)</u>: voir ci-dessus selon ton arme.
+96-97,<u>Critique, tu blesses un allié à portée</u>: voir ci-dessus selon ton arme.
+98-99,<u>Rouler 2 fois</u>:{Lockout~Fumble,98-100}<br> [Fumble]<br>[Fumble]
+100,<u>Rouler 3 fois</u>:{Lockout~Fumble,98-100}<br> [Fumble]<br>[Fumble]<br>[Fumble]
+
+:!FumbleGun
+1-50,<u>Misfire</u>: 
+51-60,<u>Glisse</u>: Balance (DC 10) ou tombe.
+61-65,<u>S'enfarge</u>: Balance (DC 10) ou tombe et <i>stun</i> <b>{Dice~1d4}</b> rounds.
+66-67,<u>Tombe</u>: <i>stun</i> <b>{Dice~1d3}</b> rounds.
+68,<u>Cheville foulée</u>: 1 dmg, ½ MV, Balance (DC10) ou tombe.
+69-70,<u>Débalancé</u>: Balance (DC 10) ou aucune action round suivant.
+71,<u>Fatigue</u>: CON (DC10) or tu deviens fatigué. Si déjà fatigué, tu deviens épuisé. +4 au jet si tu as le don Edurance.
+72-74,<u>Arme glisse</u>: DEX (DC 10) ou pas d'attaque round suivant.{Lockout~FumbleGun,75-76}
+75,<u>Arme glisse</u>: DEX (DC 10) ou échappe une arme.{Lockout~FumbleGun,72-76}
+76,<u>Perd l'arme</u>: échappe automatiquement l'arme. Direction au hasard, <b>{Dice~1d3}</b> case(s) de 5'.{Lockout~FumbleGun,72-75}
+77-78,<u>Perd objet</u>: échappe un objet utile (probablement magique) autre qu'une arme (ex: casque, cape, bouclier).
+79,<u>Armure endommagée</u>: -1 DEF à ton armure ou bouclier (choix joueur). Craft (mechanical) DC 10 pour réparer.
+80-81,<u>Casque ou capuchon glisse</u>: DEX (DC 10) pour corriger (Action Partielle), sinon ½ <i>concealment</i> (<b>20 pourcent</b> de rater).{Lockout~FumbleGun,80-82}
+82,<u>Casque ou capuchon glisse</u>: DEX (DC 10) pour corriger (Action Partielle), sinon <i>concealment total</i> (<b>50 pourcent</b> de rater).{Lockout~FumbleGun,80-82}
+83,<u>Distrait</u>: tu perds ton bonus de DEX de CA (1 round).
+84-86,<u>Tu te blesses (sur adversaire?)</u>: ½ dmg de ton arme.{Lockout~FumbleGun,84-89}
+87-88,<u>Tu te blesses (sur adversaire?)</u>: dmg de ton arme.{Lockout~FumbleGun,84-89}
+89,<u>Tu te blesses (sur adversaire?)</u>: 2x dmg de ton arme.{Lockout~FumbleGun,84-89}
+90-92,<u>Tu blesses un allié à portée</u>: ½ dmg de ton arme.{Lockout~FumbleGun,90-95}
+93-94,<u>Tu blesses un allié à portée</u>: dmg de ton arme.{Lockout~FumbleGun,90-95}
+95,<u>Tu blesses un allié à portée</u>: 2x dmg de ton arme.{Lockout~FumbleGun,90-95}
+96,<u>Critique, tu te blesses (sur adversaire?)</u>: voir ci-dessus selon ton arme.
+97,<u>Critique, tu blesses un allié à portée</u>: voir ci-dessus selon ton arme.
+98-99,<u>Rouler 2 fois</u>:{Lockout~FumbleGun,98-100}<br> [FumbleGun]<br>[FumbleGun]
+100,<u>Rouler 3 fois</u>:{Lockout~FumbleGun,98-100}<br> [FumbleGun]<br>[FumbleGun]<br>[FumbleGun]
+
+:!FumbleMagic
+01-20,<u>Glisse</u>: Balance (DC 10) ou tombe.
+21-30,<u>S'enfarge</u>: Balance (DC 10) ou tombe et <i>stun</i> <b>{Dice~1d4}</b> rounds.
+31-35,<u>Tombe</u>: <i>stun</i> <b>{Dice~1d3}</b> rounds.
+36-38,<u>Retour d'énergie magique</u>: 1 dmg, ½ MV, Balance (DC10) ou tombe.
+39-40,<u>Retour d'énergie magique Supérieur</u>: tu reçois 1d6 dmg d'énergie par niveau du sort. Énergie au hasard ([~MagicEnergy]) ou selon l'énergie du sort. Balance (DC10) ou tombe.
+41,<u>Annulation Éblouissante</u>: tu es aveuglé jusqu'à prochaine action (-2 CA, pas DEX de CA, ½ MV, -4 Search/STR-DEX checks, 50 <b>pourcent</b> concealment pour adversaires).
+42-43,<u>Magie débalancée</u>: Balance (DC 10) ou pas d'action round suivant.
+44-47,<u>Fatigue</u>: CON (DC10) or tu deviens fatigué. Si déjà fatigué, tu deviens épuisé. +4 au jet si tu as le don Edurance.
+48-57,<u>Destruction de Composante, Mineure</u>: toutes les composantes M "gratuites" de ce sort sont utilisées (ou l'ont déjà été). Ce sort ne peut plus être jeté avant que d'autres composantes soient trouvées (poche magique: 1 heure avant de se renouveler).
+58,<u>Destruction de Composante, Majeure</u>: toutes les composantes utilisées pour ce sort sont détruites (incluant Focus et Focus Divin).
+59-63,<u>Fatique Magique</u>: tu ne peux pas faire de sort le round suivant.
+64-65,<u>Dommage Magique</u>: 1d3 (<b>{Dice~1d3}</b>) dmg INT-SAG-CHA (selon ta classe de jeteur de sort).
+66-69,<u>Drain Magique</u>: INT-SAG-CHA (DC 10 + niveau du sort) ou tu perds un sort de même niveau ou plus (hasard).
+70-71,<u>Drain Magique Supérieur</u>: INT-SAG-CHA (DC 15 + niveau du sort) ou tu perds un sort de chaque niveau inférieur au sort jeté.
+72,<u>Drain Magique Environnant</u>: En commençant par toi, le sort draine un nombre de charges aux objets magiques égal au niveau du sort jeté (en commençant par les wands, ensuite staff et les autres par la suite, 1 charge par objet et ensuite on recommence par le premier objet drainé s'il en reste à drainer).
+73-74,<u>Distrait</u>: tu perds ton bonus de DEX de CA (1 round).
+75-76,<u>Ouverture</u>: l'adversaire que tu attaques peut te faire une attaque d'opportunité (ou adv en mêlée sinon).
+77-81,<u>Wild Magic</u>: ton sort a un effet inusité:<br>[Tab][Tab]<i>[~FumbleWild]</i>
+82-84,<u>Ton sort t'affecte</u>: ½ l'effet du sort.{Lockout~FumbleMagic,82-87}
+85-86,<u>Ton sort t'affecte</u>: effet du sort.{Lockout~FumbleMagic,82-87}
+87,<u>Ton sort t'affecte</u>: 2x l'effet du sort.{Lockout~FumbleMagic,82-87}
+88-90,<u>Tu blesses un allié à portée</u>: ½ effet de ton sort.{Lockout~FumbleMagic,88-93}
+91-92,<u>Ton sort affecte un allié à portée</u>: effet du sort.{Lockout~FumbleMagic,88-93}
+93,<u>Ton sort affecte un allié à portée</u>: 2x effet.{Lockout~FumbleMagic,88-93}
+94-95,<u>Critique, ton sort t'affecte</u>: [~Magic].
+96-97,<u>Critique, ton sort affecte un allié à portée</u>: [~Magic].
+98-99,Rouler 2 fois.{Lockout~FumbleMagic,98-100}<br> [FumbleMagic]<br>[FumbleMagic]
+100,Rouler 3 fois.{Lockout~FumbleMagic,98-100}<br> [FumbleMagic]<br>[FumbleMagic]<br>[FumbleMagic]
+
+:!FumbleWild
+01-19,Spell rebounds on caster with normal effect. If the spell cannot affect the caster, it fails.
+20-23,A circular pit 15' wide opens under caster's feet; it is 10' deep/level of the caster.
+24-27,Spell fails, but target(s) of the spell are pelted with a rain of small objects (anything from flowers to rotten fruit), which disappear upon striking. The barrage continues for 1 round. During this time the targets are blinded and must make Concentration checks (DC 15 + spell level) to cast spells.
+28-31,Spell affects random target/area. Randomly choose a different target from among those in range of the spell or center the spell at a random place within range of the spell. 
+_<br>[Tab]<u>Direction</u>: roll 1d8 (<b>{Dice~1d8}</b>) and count clockwise around the compass, starting with south.
+_<br>[Tab]<u>Range</u>: 3d6 (<b>{Dice~3d6}</b>) x5' (close range), x20' (medium), x80' (long).	
+32-35,Spell functions normally. Material components are not consumed. The spell is not expended from the caster's mind. Item does not lose charges, and the effect does not count gainst an item's or SP ability's use limit. 
+36-39,Spell does not function. Everyone (friend or foe) within 30' of the caster receives the effect of a heal spell.
+40-43,Spell does not function. Deeper darkness and silence effect cover a 30' radius around the caster for 2d4 (<b>{Dice~2d4}</b>) rounds.
+44-47,Spell does not function. Reverse gravity effect covers a 30' radius around caster for 1 round.
+48-51,Spell functions, but shimmering colors swirl around the caster for 1d4 (<b>{Dice~1d4}</b>) rounds. Treat this a glitterdust effect with a save DC of 10 + the level of the spell that generated this result.
+52-59,Nothing happens. Spell does not function. Any material components are used up. The spell or spell slot is used up, and charges or uses from an item are used up.
+60-71,Nothing happens. Spell does not function. Any material components are not consumed.Spell is not expended from the caster's mind. An item does not lose charges, and the effect does not count against an item's or spell-like ability's use limit.
+72-98,The spell functions normally.
+99-100,The spell functions strongly. Saving throws against the spell incur a -2 penalty. The spell has the maximum possible effect, as if it were cast with the Maximize Spell feat. If the spell is already maximized with the feat, there is no further effect. 	
+

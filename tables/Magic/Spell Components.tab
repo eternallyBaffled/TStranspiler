@@ -1,0 +1,784 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder Sept 21, 2015.
+# ---------------------------------------------------
+#
+# Random list of Spell Components
+# Based on information in Core Rules CD-Rom
+# Scott Kinsey (smkinsey@redrose.net)
+#
+# Modified by Valminder July 2003
+#    Changed the start line to generate the content of a randomly found
+#       spell component pouch.
+#    Changed the tables from ":" to ";" if other components need to be added.
+#    Put all in lower case to facilitate the calling from another table. 
+#
+# Jan 2004: -Fixed the names to be more readable.
+#           -Added links to:
+#               Inn Menu.Fruit
+#               Miscellaneous.Color
+#               Miscellaneous.Material
+#               Miscellaneous.Metal
+#
+# Modified by Valminder, Jan 2006.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+# Modified by Valminder, Sep 2015.
+#    Added "Alternate" subtable.
+#    Ordered output.
+#    Added Components from PH3.5 
+#    Added Components from Spell Compendium 
+#    Added Components from 101 Spellbooks
+#
+
+%Number%,0
+%Output%,line
+%ShowSpell%,0
+%Spell%,0
+%Temp%,0
+%Temp2%,0
+
+@ShowSpell,1,Show the spell related to the component,Yes,No
+@Number,99,Number of items (99 = 1d20+5)
+
+:Start
+1,<b><u>Spell Components Pouch Contents</u>:</b>
+_{Status~From Core Rules CD-Rom.}<br><br>
+#_{Loop~{Dice~1d20+5},{Cap~[Generate]}{If~{And~%ShowSpell%=1,%Spell%!=0}=1?[ShowSpell]}.<br>}
+_|Output=list|[Alternate]
+
+;Alternate
+101,{If~%Number%=99?|Temp={Dice~1d20+5}|/|Temp=%Number%|}
+_|Temp-1||Temp2={Cap~[Generate]}!|
+_{While~%Temp%,|Temp-1||Temp2&{Cap~[Generate]}|{If~{And~%ShowSpell%=1,%Spell%!=0}=1?|Temp2&[ShowSpell]|}|Temp2&{If~%Temp%>0?!}|}
+_|Temp2={OrderAsc~"!",%Temp2%}|
+#_|Temp2={Replace~!,! ,%Temp2%}|
+_{If~%Output%=list?|Temp2={Replace~!,!{CarRet~},%Temp2%}|/|Temp2={Replace~!,! ,%Temp2%}|}
+_|Temp2={CommaReplace~1,!,%Temp2%}|
+_{If~%Output%=list?|Temp2={CommaReplace~0,,%Temp2%}|}
+_|Temp2={CommaReplace~1,;,%Temp2%}|
+_%Temp2%.
+1,<i>Everful Component Pouch</i> (CL3, Wondrous Item, 2000 gp).
+
+:AlternateOLD
+1,|Temp={Dice~1d20+5}|
+_|Temp-1|{Cap~[Generate]}; 
+_{While~%Temp%,|Temp-1|{Cap~[Generate]}{If~{And~%ShowSpell%=1,%Spell%!=0}=1?[ShowSpell]}{If~%Temp%>0?; /.}}
+
+;Generate
+6,[Common]
+3,[Uncommon]
+1,[Rare]
+
+:ShowSpell
+1,<font size=2> <i>{Color~Chocolate,(%Spell%)}</i></font>
+
+;!Common
+10,feather/fur/scale/skin of a [~Creatures.Familiar Common]|Spell=lightning bolt|
+1,A [~Creatures.Humanoid] finger bone|Spell=awaken undead (SC1); burrowing bony digits (101Sp); skeletal guard (SC1)|
+2,acorn|Spell=fire seeds|
+2,alcohol|Spell=false life|
+1,apple blossom|Spell=0|
+2,archery target replica|Spell=true strike FOCUS|
+1,arrowhead flint|Spell=arrow mind (SC1)|
+1,ash form burnt plant|Spell=junglerazer (SC1)|
+1,aster seed|Spell=0|
+1,balsa-wood bird carving|Spell=downdraft (SC1)|
+1,bark chips|Spell=0|
+1,bark from an oak|Spell=0|
+2,bar of iron (pair)|Spell=repulsion FOCUS|
+2,bar of [~Miscellaneous.Metal]|Spell=hold monster|
+2,bead of glass|Spell=chain lightning FOCUS; globe of invulnerability; moonspray (101Sp)|
+1,bear fur|Spell=bite of the werebear (SC1); lightning ring (SC1)|
+1,bell (iron)|Spell=call undead (101Sp); great thunderclap FOCUS (SC1); shatter floor FOCUS (SC1)|
+1,bell x{Dice~1d4+2} (brass)|Spell=portal alarm FOCUS (SC1); shatter floor FOCUS (SC1)|
+2,blade of iron|Spell=move earth|
+1,blade from a knife|Spell=0|
+1,{If~{Dice~1d2}=1?dagger/knife} buried with a corpse for 1+ year|Spell=bleeding wound (101Sp)|
+2,blood of a [~Creatures.Start2]|Spell=blood knife (101Sp); burning blood (SC1); guards and wards; stone to flesh|
+1,blood of a [~Creatures.Animal]|Spell=blood knife (101Sp); curse of lycanthropy (SC1)|
+1,boar bristles|Spell=bite of the wereboar (SC1)|
+1,bone of a [~Creatures.Humanoid2] slain in the last 7 days (rib)|Spell=bone armor (101Sp)|
+1,bone of a [~Creatures.Humanoid2] (carved)|Spell=summon undead FOCUS (SC1)|
+1,bone of a [~Creatures.Humanoid2] (small)|Spell=fleshshiver (SC1)|
+2,bone of a [~Creatures.Humanoid2] (splinter)|Spell=command undead; control undead; mordenkainen's faithful hound|
+1,bone (paste; [~Creatures.Start2])|Spell=death armor (SC1)|
+15,bone of a [~Creatures.Start2]|Spell=command undead; control undead; mordenkainen's faithful hound|
+2,brakish water|Spell=create undead; slime wave (SC1)|
+2,brimstone|Spell=flaming sphere; guards and wards; vile death (SC1)|
+2,butter|Spell=grease|
+2,candle (small; [~Miscellaneous.Color])|Spell=flame dagger (SC1); low-light vision (SC1); summon monster FOCUS|
+1,candy made with wintergreen oil|Spell=moon blade (SC1)|
+1,carved ram's horn|Spell=battering ram FOCUS (SC1)|
+1,chalk|Spell=0|
+1,child's spinning top|Spell=cyclonic blast FOCUS (SC1); ray of dizziness FOCUS (SC1)|
+1,claw of a cat|Spell=claws of the demon (101Sp)|
+1,claw of {If~{Dice~1d2}=1?an eagle/a falcon}|Spell=beast claws (SC1); claws of the demon (101Sp)|
+1,claw of a [~Creatures.Animal]|Spell=claws of the demon (101Sp); force claw (SC1)|
+1,claw of a burrowing creature (as badger; wolverine; ankheg)|Spell=burrow FOCUS (SC1); claws of the demon (101Sp)|
+2,clay|Spell=stone shape; transmute rock to mud|
+2,clay pot|Spell=create undead|
+2,{Dice~2d10} clay spheres|Spell=feeblemind|
+1,clear rock crystal (piece)|Spell=ice claw FOCUS (SC1)|
+2,cloth (cotton)|Spell=mordenkainen's private sanctum|
+1,cloth (fine)|Spell=familiar pocket (SC1)|
+1,cloth (lace)|Spell=shroud of flame (SC1)|
+1,cloth (quilted)|Spell=magic miasma (SC1)|
+1,cloth from a corpse|Spell=0|
+2,cloth (red)|Spell=summon swarm|
+1,cloth ([~Miscellaneous.Color])|Spell=0|
+2,coal|Spell=animate fire (SC1); blacklight (SC1); darkness; neutralize poison|
+1,coal dust|Spell=0|
+1,cockroach (dead)|Spell=accelerated movement (SC1)|
+2,cocoon (empty)|Spell=polymorph|
+2,{Dice~1d12} coin (copper piece)|Spell=candle (101Sp); detect thoughts FOCUS; gentle repose; listening coin FOCUS (SC1); miser's envy (SC1)|
+1,{Dice~1d3} coin (gold piece)|Spell=listening coin FOCUS (SC1)|
+1,{Dice~1d6} coin (silver piece)|Spell=listening coin FOCUS (SC1)|
+1,copper dust|Spell=make manifest (SC1)|
+1,copper and iron pellets ({Dice~2d10})|Spell=ball lightning (SC1)|
+1,corn (kernel)|Spell=0|
+2,corn (powdered)|Spell=rope trick|
+1,crab's leg|Spell=crabwalk (SC1)|
+2,crystal {If~{Dice~1d2}=1?spheres/marbles} (x{Dice~2d10})|Spell=feeblemind; prying eyes; otiluke's freezing sphere FOCUS|
+1,dead spider|Spell=brain spider (SC1)|
+1,dice (pair)|Spell=improvisation (SC1)|
+2,dirt or earth|Spell=excavate (SC1); flesh to stone; longstrider; stone to flesh|
+2,dirt or earth from grave|Spell=create undead; detect undead; shadow blast (SC1); sudden grave (101Sp); zone of revelation|
+1,diluted poison (4 kinds)|Spell=ironguts (SC1)|
+2,doll of caster (small; [~Creatures.Humanoid2])|Spell=programmed image|
+2,dried carrot|Spell=darkvision|
+1,dried glue|Spell=stick (SC1)|
+2,droppings of an eagle|Spell=eagle's splendor|
+2,droppings of an owl|Spell=owl's wisdom|
+1,drum (small)|Spell=lively step FOCUS (SC1)|
+2,dung of a fox|Spell=fox's cunning|
+2,dung of an ox-bull|Spell=bull's strength|
+2,dust|Spell=control water (lower); disintegrate; ice storm; sleet storm|
+2,egg (rotten)|Spell=cloud of bewilderment (SC1); stinking cloud|
+2,egg shell|Spell=bigby's crushing hand; interplanar telepathic bond (SC1); rary's telepathic bond|
+1,egg yolk|Spell=0|
+1,eye of a [~Creatures.Humanoid]|Spell=dead man's eye (101Sp); energy transformation field (SC1)|
+1,eyeball (dried; [~Creatures.Start2])|Spell= (SC1)|
+2,eyelash of a [~Creatures.Humanoid] encased in a bit of gum arabic|Spell=invisibility|
+2,eyelash of {If~{Dice~1d2}=1?an ogre mage/a rakshasa}|Spell=contingency|
+1,eyelash from a [~Creatures.Humanoid2] corpse|Spell=0|
+1,fat|Spell=ghoul light (SC1)|
+2,fan (tiny)|Spell=wind wall|
+1,fang of a reptile|Spell=gutsnake FOCUS (SC1)|
+2,feather|Spell=fire wings (SC1); fly FOCUS; master air FOCUS (SC1); suspended silence (SC1); tasha's hideous laughter|
+2,feather of a chicken|Spell=fly FOCUS; master air FOCUS (SC1); suspended silence (SC1); tasha's hideous laughter|
+2,feather of an eagle|Spell=allegro (SC1); eagle's splendor; fly FOCUS; keen eyes of the hunter (101Sp); master air FOCUS (SC1); suspended silence (SC1); tasha's hideous laughter|
+2,feather of an owl|Spell=fly FOCUS; master air FOCUS (SC1); owl's wisdom; suspended silence (SC1); tasha's hideous laughter|
+2,feather of a hawk|Spell=allegro (SC1); fly FOCUS; keen eyes of the hunter (101Sp); master air FOCUS (SC1); suspended silence (SC1); tasha's hideous laughter|
+1,finger of a zombie|Spell=veil of undeath (SC1)|
+1,fire-blackened {If~{Dice~1d2}=1?ivory/bone} carved in the shape of a segmented worm|Spell=spirit worm (SC1)|
+1,fire ants ({If~{Dice~1d2}=1?alive/dead})|Spell=acid breath (SC1); acid sheath (SC1)|
+2,firefly; live|Spell=fire shield (chill); light|
+1,firefly ({If~{Dice~1d2}=1?}living/dead)|Spell=undead torch (SC1)|
+1,fish piece (smelly)|Spell=mauseating breath (SC1)|
+1,fish tooth|Spell=vortex of teeth (SC1)|
+2,fleece|Spell=permanent image; persistent image; programmed image; silent image FOCUS|
+1,fleece from a black sheep|Spell=wall of gloom (SC1)|
+1,flies (dried)|Spell=infestation of maggots (SC1)|
+1,fly wings (dried)|Spell=distract assailant (SC1)|
+2,flint|Spell=combust (SC1); flame arrow|
+1,flour|Spell=0|
+1,[~Inn Menu.Fruit] (rotten)|Spell=0|
+1,food (spolied)|Spell=starvation (SC1)|
+2,forked metal rod (from [~Countries.Planes])|Spell=plane shift FOCUS|
+2,forked twig|Spell=locate object FOCUS|
+1,frog leg (dried)|Spell=0|
+2,fur of a [~Creatures.Animal]|Spell=lightning bolt; chain lightning FOCUS; lightning ring (SC1)|
+2,fur of a cat|Spell=cat's grace|
+2,fur of a fox|Spell=fox's cunning|
+2,garlic
+2,garlic (powdered)|Spell=halt undead|
+1,goblin's {If~{Dice~1d2}=1?finger/ear}|Spell=goblin stench (101Sp)|
+2,glass eye|Spell=clairvoyance FOCUS|
+1,glass (shard)|Spell=ice axe (SC1); shard storm (SC1)|
+2,{Dice~2d10} glass spheres|Spell=feeblemind|
+2,glove (soft)|Spell=bigby's interposing hand FOCUS|
+2,grasshopper hind leg|Spell=jump|
+2,green plant|Spell=hallucinatory terrain|
+1,gound peach pit|Spell=animate wood (SC1)|
+2,hair of a horse|Spell=mount|
+2,hair of a [~Creatures.Humanoid2]|Spell=countermoon (SC1); demand; marked object FOCUS (SC1); simulacrum|
+1,hair of an infant ([~Creatures.Humanoid2])|Spell=0|
+2,hair of an ox-bull|Spell=bull's strength|
+1,handkerchief (red)|Spell=mindless rage FOCUS (SC1)|
+1,handkerchief (soiled)|Spell=contagious fog (SC1)|
+1,handkerchief (white)|Spell=moon path (SC1)|
+2,heart of a hen|Spell=fear|
+2,holly berry|Spell=fire seeds|
+1,holly leaf|Spell=0|
+1,hoof (powdered)|Spell=0|
+2,horn of {If~{Dice~1d2}=1?ivory/[~Miscellaneous.Metal]} (small)|Spell=clairaudience FOCUS; greater shout FOCUS|
+1,horseshoe|Spell=0|
+1,human bone (piece)|Spell=shatter bone (101Sp)|
+1,humus|Spell=0|
+1,ink|Spell=discolor pool (SC1)|
+1,ink of a {If~{Dice~1d2}=1?squid/octopus}|Spell=inky cloud (SC1)|
+1,iron chain (a few links)|Spell=shadow binding (SC1)|
+2,iron filings|Spell=antimagic field; reverse gravity|
+2,iron nail|Spell=hold person FOCUS; statue|
+1,iron nail through a piece of leather|Spell=curse of impending blades (SC1)|
+2,iron piece from {If~{Dice~1d3}=1?an iron golem/{If~{Dice~1d2}=1?a hero's armor/a war machine}}|Spell=iron body|
+2,iron pyrite|Spell=leomund's tiny hut|
+2,iron spike|Spell=hold person FOCUS; statue|
+2,iron (small sheet)|Spell=wall of iron|
+1,ivy leaves|Spell=0|
+1,ivy leaves (crown)|Spell=vine mine (SC1)|
+1,jawbone with teeth ([~Creatures.Start2])|Spell=maw of chaos (SC1)|
+2,key made of bras|Spell=open/close FOCUS|
+1,lead|Spell=0|
+1,lead ball|Spell=0|
+1,leaf (dry)|Spell=0|
+2,leather piece (cured)|Spell=mage armor FOCUS|
+1,leather pouch|Spell=portal alarm FOCUS (SC1)|
+2,leather glove|Spell=bigby's clenched fist FOCUS; bigby's forceful hand FOCUS; bigby's grasping hand FOCUS; slapping hand FOCUS (SC1)|
+1,leather glove (white)|Spell=ice claw FOCUS (SC1); slapping hand FOCUS (SC1)|
+2,leather loop|Spell=feather fall FOCUS|
+1,leather pouch|Spell=0|
+2,leather thong|Spell=freedom of movement|
+1,leek (crushed)|Spell=0|
+2,lime|Spell=flesh to stone; leomund's secure shelter; statue; transmute mud to rock|
+2,lime (crushed)|Spell=leomund's secure shelter|
+2,lime (powdered)|Spell=greater magic weapon|
+1,live butterfly|Spell=0|
+1,live caterpillar|Spell=enveloping cocoon (SC1)|
+2,live cricket|Spell=sleep|
+2,live spider|Spell=spider climb|
+1,lotus flower|Spell=discern shapechanger (SC1)|
+1,marble (black glass)|Spell=0|
+1,marble ([~Miscellaneous.Color] glass)|Spell=energy spheres (SC1); scintillating sphere (SC1)|
+1,marigold leaves (crushed)|Spell=protection from pests (101Sp)|
+1,mask of black cloth|Spell=shadow mask (SC1)|
+1,meat of a [~Creatures.Start2] (chewed)|Spell=tunnel swallow (SC1)|
+1,meat of a [~Creatures.Start2] (dried)|Spell=0|
+2,meat of a [~Creatures.Humanoid2] (raw)|Spell=command undead; control undead|
+1,meat of a [~Creatures.Humanoid2] (rotten)|Spell=horrible taste (SC1); rot flesh (101Sp)|
+1,milk fat|Spell=0|
+2,miniature cloak|Spell=resistance|
+1,miniature {If~{Dice~1d2}=1?propeller/windmill}|Spell=updraft (SC1)|
+1,miniature granite skull|Spell=stone bones FOCUS (SC1)|
+1,miniature skull of {If~{Dice~1d2}=1?iron/steel}|Spell=iron bones FOCUS (SC1)|
+1,mint leaf|Spell=healing lorecall (SC1)|
+2,mixture of soil (clay; loam; sand) in a small bag|Spell=move earth|
+1,mummified mouse|Spell=0|
+2,musical instrument ([~Equipment.Musical Instruments])|Spell=sound burst FOCUS|
+1,mustard|Spell=scent (SC1)|
+2,nail of a [~Creatures.Humanoid2]|Spell=countermoon (SC1); demand; marked object FOCUS (SC1); simulacrum|
+1,needle|Spell=0|
+2,nut shell|Spell=confusion|
+2,oil|Spell=combust (SC1); flame arrow; guards and wards|
+1,onion|Spell=flensing (SC1)l uncontrollable weeping (101Sp)|
+1,page from a calendar|Spell=0|
+1,paint in a small pot|Spell=0|
+1,paintbrush|Spell=0|
+1,peas (dried and split)|Spell=0|
+1,pebble|Spell=fist of stone (SC1); giant's wrath (SC1)|
+1,pine cone|Spell=0|
+1,pine sprig|Spell=0|
+2,pitch|Spell=darkness|
+1,poisonous spider ({If~{Dice~1d2}=1?dead/alive})|Spell=spider poison (SC1)|
+1,polished gray stones x{Dice~2d4}|Spell=malevolent miasma FOCUS (SC1)|
+2,pork rind|Spell=grease|
+2,prayer beads (500 gp; [~Religion.Deities])|Spell=atonement|
+2,quartz (clear)|Spell=wall of ice|
+2,quartz (smoky)|Spell=wall of ice|
+1,rainwater from a thunderstorm|Spell=0|
+2,[~Inn Menu.Fruit] leaves|Spell=0|
+1,rat's tail|Spell=bite of the wererat (SC1)|
+2,red; yellow and blue powder|Spell=color spray|
+2,red; yellow and blue sand|Spell=color spray|
+2,reed|Spell=air breathing (SC1); water breathing|
+1,rhubarb leaf (whole)|Spell=0|
+2,rhubarb leaf (powdered)|Spell=melf's acid arrow|
+1,ribbon; black|Spell=shadow spray (SC1)|
+1,rod of black crystal|Spell=black lightning (101Sp)|
+2,rod of iron|Spell=arc of lightning (SC1); hold monster; hold person FOCUS|
+2,rod of [~Miscellaneous.Metal]|Spell=hold monster|
+2,rose petal|Spell=sleep|
+2,salt|Spell=comprehend languages; gentle repose|
+1,saltpeter|Spell=burning blood (SC1); shroud of flame (SC1); unbinding (SC1)|
+1,sap ([~Miscellaneous.Wood] tree)|Spell=climb walls (SC1); reverse arrows FOCUS (SC1); transfix (SC1)|
+1,scale of  fish|Spell=swim (SC1)|
+2,scale of a snake|Spell=sepia snake sigil; snake's speed (101Sp); snake's swiftness (SC1)|
+1,scalp of a [~Creatures.Humanoid]|Spell=black lightning (101Sp)|
+1,seaweed (dried)|Spell=kelpstrand (SC1)|
+2,sesame seeds|Spell=passwall|
+2,set of divination counters {If~{Dice~1d3}=1?sticks/{If~{Dice~1d2}=1?bones/carved runes}}|Spell=find the path|
+2,set of small {If~{Dice~1d3}=1?sticks/{If~{Dice~1d2}=1?bones/carved runes}} (25 gp)|Spell=augury|
+2,shell of a turtle|Spell=protection from arrow FOCUS; reverse arrows FOCUS (SC1)|
+2,silver dust (powdered; <1 gp)|Spell=magic circle; protection from C/E/G/L; see invisibility|
+1,sinew ({If~{Dice~1d2}=1?horse/ox})|Spell=0|
+1,skull of a [~Creatures.Humanoid]|Spell=graymantle (SC1); skull watch FOCUS (SC1)|
+1,skull of a fiendish {If~{Dice~1d2}=1?[~Creatures.All]/[~Creatures.Animal]}|Spell=shadow aura (101Sp)|
+2,skunk cabbage leaves|Spell=stinking cloud|
+1,slate|Spell=transcribe symbol FOCUS (SC1)|
+1,small {If~{Dice~1d2}=1?bag/bladder} filled with air|Spell=desiccating bubble (SC1)|
+1,small stick with many length of knotted thread|Spell=servant horde (SC1)|
+2,small white ceramic {If~{Dice~1d2}=1?cone/prism}|Spell=polar ray FOCUS|
+1,small white rock chip|Spell=snowball swarm (SC1)|
+2,smoke (vial)|Spell=belker claws (SC1); gaseous form; polymorph any object|
+2,snakeskin glove|Spell=bigby's cruching hand FOCUS|
+2,snake's tongue|Spell=acid shield (101Sp); suggestion|
+2,soot|Spell=balor nimbus (SC1); comprehend languages|
+1,spear of [~Miscellaneous.Metal]|Spell=thunderlance (SC1)|
+1,sphere of clay|Spell=0|
+1,spider leg|Spell=spider bite (101Sp); spiderskin (SC1)|
+2,spider web|Spell=shroud of flame (SC1); web|
+1,stick (1' long)|Spell=rebuke FOCUS (SC1)|
+1,stomach of acidic toad|Spell=acidic vapors (101Sp)|
+2,stone|Spell=eradicate earth (SC1); hallucinatory terrain|
+2,stone chip (square)|Spell=leomund's secure shelter|
+2,stone marble (polished; 5 gp)|Spell=mordenkainen's magnificient mansion FOCUS; stone sphere (SC1)|
+1,stopered glass vial|Spell=stolen breath FOCUS (SC1)|
+2,straw|Spell=air breathing (SC1); water breathing|
+2,string|Spell=forcewave FOCUS (SC1); rary's mnemonic enhancer; unseen servant|
+2,string (knotted)|Spell=guards and wards|
+2,sweat (small vial; [~Creatures.Humanoid2])|Spell=ray of exhaustion; touch of fatigue|
+2,tallow|Spell=flaming sphere|
+1,tentacle of {If~{Dice~1d2}=1?an octopus/a squid} (dried)|Spell=shadowy grappler (SC1)|
+1,tiny shield made of resin|Spell=ghost touch armor (SC1)|
+1,tiny shield made of {If~{Dice~1d2}=1?glass/[~Miscellaneous.Wood]}|Spell=ironguard (SC1)|
+1,toadstool|Spell=mind poison (SC1)|
+2,tooth of a [~Creatures.Humanoid2]|Spell=demand; manyjaws (SC1); simulacrum|
+1,thistledown|Spell=0|
+2,thorns (sharp)|Spell=brambles; thronskin (SC1)|
+2,thread|Spell=mordenkainen's faithful hound|
+1,thread spool; green|Spell=phantasmal thief (SC1)|
+2,tiny bag|Spell=summon monster FOCUS; summon undead FOCUS (SC1)|
+2,tiny bell|Spell=alarm FOCUS; portal alarm (SC1)|
+1,tiny dried animal skull ([~Creatures.Familiar Common])|Spell=echo skull FOCUS (SC1)|
+1,trail rations|Spell=illusory feast (SC1)|
+1,tube of {If~{Dice~1d2}=1?stone/[~Miscellaneous.Metal]}|Spell=targeting ray FOCUS (SC1)|
+2,twig|Spell=hallucinatory terrain|
+2,vinegar|Spell=antipathy; protection from pests (101Sp)|
+1,wasp x{Dice~1d3*5} (dried)|Spell=healing sting (SC1); sting ray (SC1)|
+2,water|Spell=control water (raise); flesh to stone; frost breath (SC1); ice knife (SC1); ice storm; leomund's secure shelter; sleet storm; statue; transmute mud to rock; transmute rock to mud; wings of the sea (SC1)|
+1,water (pure)|Spell=animate water (SC1)|
+1,water (from melted ice)|Spell=ice dagger (SC1)|
+2,wax|Spell=ghost sound|
+1,whisker of a mouse|Spell=0|
+1,whisker of a rat|Spell=0|
+2,white feather|Spell=fear; fly FOCUS; master air FOCUS (SC1); suspended silence (SC1); tasha's hideous laughter|
+1,white powder|Spell=moon beam (SC1)|
+1,wick soaked in oil|Spell=blast of flame (SC1)|
+1,wine|Spell=0|
+1,wolf's tooth|Spell=bite of the werewolf (SC1); manyjaws (SC1)|
+1,wolf whisker|Spell=aspect of the wolf (SC1)|
+2,wood; [~Miscellaneous.Wood] (splinter)|Spell=leomund's secure shelter; splinter bolt (SC1); unseen servant|
+2,wood; [~Miscellaneous.Wood] (charred)|Spell=0|
+1,wood; [~Miscellaneous.Wood] (ash)|Spell=animate fire (SC1)|
+2,wool|Spell=daze; ghost sound|
+
+;!Uncommon
+10,feather/fur/scale/skin of a [~Creatures.Familiar Uncommon]|Spell=lightning bolt|
+1,acid flask (10 gp)|Spell=acid storm (SC1)|
+2,agate|Spell=darkvision|
+1,aqua regia (tiny vial)|Spell=vitriolic sphere (SC1)|
+1,alchemist's fire (20 gp)|Spell=firebrand (SC1)|
+1,amaryllis stalk|Spell=0|
+2,amber|Spell=chain lightning FOCUS|
+1,balloon|Spell=0|
+2,bar of magnetized iron (pair)|Spell=otiluke's telekinetic sphere|
+2,bat guano|Spell=explosive cascade (SC1); fireball|
+2,bead of crystal|Spell=globe of invulnerability; leomund's tiny hut|
+2,beeswax|Spell=ghost sound; inferno (SC1)|
+1,bell (golden)|Spell=0|
+2,bitumen|Spell=spider climb|
+1,black lotus flower|Spell=poisoned goblet (101Sp)|
+2,black onyx ({Dice~1d3*25} gp)|Spell=animate dead; create undead; kiss of the vampide (SC1)|
+1,black onyx (50gp)|Spell=animate dead; death armor FOCUS (SC1)|
+1,black rose (dried)|Spell=poison thorns (SC1)|
+1,bone (powdered; [~Creatures.Start2])|Spell=0|
+1,bone from a dinosaur's jaw|Spell=spiritjaws (SC1)|
+1,box (small)|Spell=0|
+1,branch from a cemetery|Spell=0|
+1,bulette armored shell (small piece)|Spell=aspect of the earth hunter (SC1)|
+1,candle with black wax|Spell=0|
+1,candle with [~Miscellaneous.Color] wax|Spell=flame dagger (SC1); summon undead FOCUS (SC1)|
+2,carbon|Spell=greater magic weapon|
+1,carvings of worgs x{Dice~2d4}|Spell=jaws of the wolf FOCUS (SC1)|
+2,chest replica (50 gp)|Spell=leomund's secret chest FOCUS|
+1,cinnabar (powdered)|Spell=animate wood (SC1)|
+1,circle of brass|Spell=0|
+1,circle of gold|Spell=0|
+2,circle of [~Miscellaneous.Metal]|Spell=0|
+2,circle of [~Miscellaneous.Material]|Spell=0|
+1,cloth from priest's robe|Spell=0|
+1,cocoon of a caterpillar|Spell=0|
+1,cocoon of a death's head moth|Spell=disguise undead FOCUS (SC1)|
+1,cocoon of a butterfly|Spell=rejuvenation cocoon (SC1)|
+1,cocoon of a silkworm|Spell=cocoon (SC1)|
+1,coffee bean|Spell=0|
+1,cone made form a {If~{Dice~1d2}=1?bull/ram} horn|Spell=0|
+2,copper|Spell=scrying|
+1,cork|Spell=0|
+1,corked bottle (ornate; 50gp)|Spell=bottle of smoke FOCUS (SC1)|
+1,corpse of a [~Creatures.Humanoid2] (piece)|Spell=corpse candle (SC1)|
+1,corpse of a [~Creatures.Humanoid2] (whole)|Spell=absorb dead flesh (101Sp)|
+2,cotton (wad)|Spell=mordenkainen's private sanctum|
+1,crystal globes|Spell=hailstones (SC1)|
+1,crystal (shard)|Spell=ice axe (SC1); shard storm (SC1)|
+1,cube made of cast iron|Spell=0|
+1,cylinder (brass)|Spell=0|
+1,cylinder (copper)|Spell=0|
+1,cylinder ([~Miscellaneous.Metal])|Spell=0|
+1,cylinder ([~Miscellaneous.Material])|Spell=0|
+1,diamond chip embedded in a piece of charcoal|Spell=earth lock (SC1)|
+1,die|Spell=0|
+1,disc of bronze|Spell=0|
+2,dried; powdered peas combined with powdered animal hoof|Spell=acid fog; solid fog|
+1,dried gizzard|Spell=hungry gizzard (SC1)|
+2,dust of gold (25gp)|Spell=arcane lock; fire trap|
+2,dust of gold (50gp)|Spell=arcane lock; fire trap; wall of iron|
+2,dust of granite|Spell=stoneskin|
+1,dust of steel|Spell=0|
+1,dust of [~Miscellaneous.Material]|Spell=0|
+1,eye of an outsider|Spell=radiant assault FOCUS (SC1)|
+1,feather of a canary|Spell=blessing of bahamut (SC1); master air FOCUS (SC1); suspended silence (SC1)|
+2,feather of a hummingbird|Spell=fly FOCUS; foresight; master air FOCUS (SC1); suspended silence (SC1); tasha's hideous laughter|
+1,feldspar moonstone|Spell=moonbow (SC1)|
+1,fingernail of a [~Creatures.Giant]|Spell=fell the greatest foe (SC1)|
+1,flask of anarchic water (25 gp; [~Religion.Deities])|Spell=anarchic storm (SC1)|
+1,flask of axiomatic water (25 gp; [~Religion.Deities])|Spell=axiomatic storm (SC1)|
+2,flask of holy water (25 gp; [~Religion.Deities])|Spell=commune; consecrate; forbiddance; holy storm (SC1); true resurrection|
+2,flask of unholy water (25 gp; [~Religion.Deities])|Spell=commune; desecrate; unholy storm (SC1)|
+1,fossil|Spell=dinosaur stampede (SC1); master earth FOCUS (SC1)|
+1,fragment of a sarcophagus|Spell=sarcophagus of stone (SC1)|
+2,fur of a bat|Spell=arcane eye; darkness; eye of power (SC1)|
+2,fur of a bloodhound (dog)|Spell=locate creature|
+2,gauze|Spell=gaseous form|
+1,gear (small)|Spell=wall of gears (SC1)|
+2,gelatin|Spell=amorphous form (SC1)|
+1,gem ([~Miscellaneous.Color])|Spell=gembomb (SC1); spirit wall (SC1)|
+1,glass cube (2")|Spell=force chest (SC1)|
+1,glass ring|Spell=lightning ring (SC1)|
+1,glass sculpture of a [~Creatures.Humanoid]|Spell=acid sheath (SC1)|
+1,glass sheet|Spell=0|
+1,glass tube|Spell=0|
+1,glass prism|Spell=ray of deflection FOCUS (SC1)|
+2,glass (opaque)|Spell=mordenkainen's private sanctum|
+1,glowworm ({If~{Dice~1d2}=1?}living/dead)|Spell=undead torch (SC1)|
+1,goat intestine (dried)|Spell=sign (SC1)|
+1,golden needle|Spell=familiar pocket (SC1)|
+1,graphite (powdered)|Spell=0|
+1,gray pearl (100 gp)|Spell=defenestrating sphere FOCUS (SC1)|
+2,gum arabic|Spell=polymorph any object; sequester|
+2,gum arabic (hemispherical piece)|Spell=otiluke's resilient sphere; otiluke's telekinetic sphere|
+1,hair of a skunk|Spell=0|
+1,hair from a lion's mane|Spell=lionheart (SC1)|
+1,head of a poisonous snake|Spell=arcane poison (101Sp)|
+2,hemispherical piece of clear crystal|Spell=otiluke's resilient sphere; otiluke's telekinetic sphere|
+2,herring scale (powdered)|Spell=secret page|
+1,hickory nut oil|Spell=0|
+1,hollow cone of brass and gold (50gp)|Spell=sonic rumble FOCUS (SC1)|
+2,honey|Spell=buzzing bee (SC1); discern shapechanger (SC1); sympathy|
+1,honey (royal jelly)|Spell=0|
+2,honeycomb|Spell=magic mouth; suggestion|
+2,incense|Spell=atonement; augury; commune; divination; guards and wards; hypnotic pattern; weather eye (SC1)|
+2,iron (powdered)|Spell=anarchic water (SC1); axiomatic water (SC1); antimagic field; enlarge person; flaming sphere; reduce person|
+2,jade dust (10 gp)|Spell=magic mouth|
+2,jade dust (25 gp)|Spell=magic mouth; programmed image|
+1,jade piece (5 gp)|Spell=hail of stones (SC1)|
+1,legs of a millipede|Spell=0|
+1,lens of crystal|Spell=analyze portal (SC1)|
+2,live glowworm|Spell=fire shield (chill)|
+1,loaded dice (pair)|Spell=sword of deception FOCUS (SC1)|
+1,magnet (small pair)|Spell=false gravity (SC1)|
+1,magnifying glass lens|Spell=sniper's eye FOCUS (SC1)|
+1,mesh of thread|Spell=0|
+1,metal tube packed with bat guano; sulfur; and copper|Spell=explosive cascade (SC1)|
+2,mica (chip)|Spell=shatter|
+2,mica (ground)|Spell=glitterdust|
+1,miniature bronze armor|Spell=body of war (SC1)|
+1,miniature cone-shaped hat|Spell=ray of stupidity (SC1)|
+1,miniature hammer (5gp)|Spell=shatter floor FOCUS (SC1)|
+1,miniature silk glove|Spell=duelward (SC1)|
+1,miniature silk whip|Spell=sonic whip (SC1); wrathful castigation FOCUS (SC1)|
+1,miniature sword|Spell=sword of deception FOCUS (SC1)|
+1,minotaur's horn (powdered)|Spell=minotaur's might (101Sp)|
+2,mirror fragment|Spell=detect scrying; glass strike FOCUS (SC1); sirine's grace (SC1); unluck (SC1)|
+2,molasses|Spell=slow|
+1,moonseed seed|Spell=0|
+1,mummified toad|Spell=0|
+1,needle (magnetized)|Spell=0|
+1,oil (cinnabar)|Spell=animate water (SC1)|
+2,oil (sweet)|Spell=suggestion|
+1,oyster shell|Spell=contingency energy resistance (SC1)|
+1,paper|Spell=0|
+1,parchment|Spell=weapon shift (SC1)|
+2,parchment rolled into a small cone|Spell=ventriloquism FOCUS|
+2,parchment with holy text ([~Religion.Deities])|Spell=conviction (SC1); recitation FOCUS (SC1); shield of faith|
+2,parchment (twisted loop)|Spell=rope trick|
+2,pearl (100 gp)|Spell=identify|
+1,pepper|Spell=scent (SC1)|
+1,pewter figure of a warrior (tiny; 10gp)|Spell=phantom foe FOCUS (SC1)|
+1,piece of a rust monster|Spell=rust ray (SC1)|
+1,piece of stone from {If~{Dice~1d3}=1?a stone golem/{If~{Dice~1d2}=1?an earth elemental/a castle's outer wall}}|Spell=stone body (SC1)|
+2,pin of silver|Spell=chain lightning FOCUS|
+2,pin of [~Miscellaneous.Material]|Spell=0|
+1,pin of [~Miscellaneous.Metal]|Spell=0|
+1,plate mail piece|Spell=0|
+1,platinum (chumk; 25gp)|Spell=antidragon aura (SC1)|
+1,poison oak leaf|Spell=0|
+1,poison sumac leaf|Spell=0|
+1,polished rainbow-hued abalone shell|Spell=prismatic eye FOCUS (SC1)|
+1,porcupine quill|Spell=quill blast (SC1)|
+1,quartz (powdered)|Spell=0|
+1,quartz gemstone (clear; 50gp)|Spell=icelance FOCUS (SC1)|
+2,root of licorice|Spell=haste|
+1,ruby (30gp)|Spell=bloodstar FOCUS (SC1)|
+1,rust particles|Spell=rust ray (SC1)|
+2,sand ([~Miscellaneous.Color])|Spell=leomund's secure shelter; persistent image; sleep; statue; transmute mud to rock; wall of sand (SC1)|
+1,sand from an hourgalss|Spell=prolong life (101Sp)|
+1,sapphire dust (10gp)|Spell=mantle of the icy soul (SC1)|
+1,scale of a herring|Spell=0|
+2,seashell|Spell=0|
+1,set of marked {If~{Dice~1d2}=1?sticks/bones} (25gp)|Spell=omen of peril FOCUS (SC1)|
+2,sheat of elad (thin)|Spell=mordenkainen's private sanctum|
+1,shuriken coated with pine sap and sulfur|Spell=fire shuriken (SC1)|
+2,silk|Spell=nystul's magic aura FOCUS|
+1,silk (black)|Spell=sensory deprivation (SC1)|
+2,silk ([~Miscellaneous.Color])|Spell=nystul's magic aura FOCUS|
+1,silk glove|Spell=spontaneous search (SC1)|
+2,silver bar (5 gp)|Spell=astral projection|
+1,silver fiddle (miniature; 30gp)|Spell=bonefiddle FOCUS (SC1)|
+1,silver dagger (10gp)|Spell=persistent blade FOCUS (SC1)|
+1,silver ingot (5gp)|Spell=moon lust FOCUS (SC1)|
+1,silver ladder (miniature)|Spell=force ladder FOCUS (SC1)|
+1,silver shuriken shaped like a snowflake (50gp)|Spell=field of icy razors FOCUS (SC1)|
+2,skin of a chameleon|Spell=obscure object|
+1,skin of an eel|Spell=0|
+1,skin of a snake|Spell=scale weakening (SC1); vipergout (SC1)|
+1,skin of {AorAn~{If~{Dice~1d2}=1?{If~{Dice~1d2}=1?ankheg/bulette}/{If~{Dice~1d2}=1?purple worm/remorhaz}}}|Spell=tremorsense FOCUS (SC1)|
+1,small {If~{Dice~1d2}=1?pottery/glass} vessel filled with ice/snow/water|Spell=creeping cold FOCUS (SC1)|
+1,small piece of black cloth from a funeral shroud|Spell=shadow form (SC1)|
+2,small leather strip of a displacer beast|Spell=displacement|
+2,small silver mirror|Spell=analyze portal (SC1); groom (101Sp); spell turning|
+1,sphere of transparent glass|Spell=ethereal chamber (SC1)|
+2,sphere of [~Miscellaneous.Color] glass (50gp)|Spell=glowing orb FOCUS (SC1)|
+2,sponge|Spell=horrid wilting; wall of water (SC1)|
+2,spoon of silver (tiny; 5gp)|Spell=mordenkainen's magnificient mansion FOCUS|
+2,spoon of [~Miscellaneous.Material]|Spell=0|
+2,spores of mushrooms|Spell=sepia snake sigil|
+1,stalactites (small)|Spell=0|
+1,stinging nettle (crushed)|Spell=0|
+1,sugar|Spell=0|
+2,sulfur|Spell=animate fire (SC1); explosive cascade (SC1); fireball; fireburst (SC1); fire spiders (SC1); flame bolt (101Sp); flashburst (SC1); halt undead|
+2,tail portions of {Dice~4d6} dead glowworms|Spell=fire shield (chill)|
+2,talc|Spell=see invisibility|
+1,tattoo needles|Spell=create magic tattoo FOCUS (SC1)|
+1,tea leaves|Spell=sign (SC1)|
+1,three small interlocked silver loops|Spell=bands of steel (SC1)|
+1,tiger's claw|Spell=bite of the weretiger (SC1); claws of the demon (101Sp)|
+1,teeth; carnivore (pair)|Spell=manyjaws (SC1)|
+1,termite (live)|Spell=woodrot (SC1)|
+1,toy soldier|Spell=tactical precision (SC1)|
+2,trumpet of hearing (brass; small)|Spell=detect scrying|
+1,vermilion|Spell=0|
+2,vial of tears ([~Creatures.Humanoid])|Spell=crushing despair; wave of grief (SC1)|
+1,war hammer|Spell=0|
+2,wax (white)|Spell=ghost sound|
+2,wax ([~Miscellaneous.Color])|Spell=ghost sound; remove scent (SC1)|
+2,whitewash|Spell=hunter of hades (SC1); sequester|
+2,wire (copper)|Spell=demand; electric loop (SC1); message FOCUS; reciprocal gyre (SC1); sending; stun ray (SC1); thunderhead (SC1)|
+2,wire (golden)|Spell=feather fall FOCUS|
+1,wire loop (golden)|Spell=reality maelstrom (SC1)|
+2,wire (silver)|Spell=alarm FOCUS|
+1,wire ([~Miscellaneous.Metal])|Spell=0|
+
+;!Rare
+10,feather/fur/scale/skin of a [~Creatures.Familiar Rare]|Spell=lightning bolt|
+1,adamantine nugget (small; 100gp)|Spell=ironguard FOCUS (SC1)|
+2,amber (powdered; 500 gp)|Spell=sepia snake sigil|
+1,amber piece (500gp)|Spell=lesser spell matrix FOCUS (SC1)|
+1,ashes from a destrachan|Spell=dirge of discord (SC1)|
+1,babau slime|Spell=babau slime (SC1)|
+1,balance (golden)|Spell=0|
+1,barb from a hamatula|Spell=hamatula barbs (SC1)|
+1,bell of carved crystal (100 gp)|Spell= greater alarm FOCUS (SC1)|
+1,bit of {If~{Dice~1d2}=1?armor/weapon} used in combat by a 15+ level fighter|Spell=heroics (SC1)|
+1,black {If~{Dice~1d2}=1?whip/riding crop}|Spell=scourge FOCUS (SC1)|
+1,black gem (powdered)|Spell=ebon eyes (SC1)|
+2,black onyx ({Dice~1d10*25} gp)|Spell=animate dead; create undead|
+1,black onyx (500gp)|Spell=bodak's glare FOCUS (SC1)|
+1,blood of a doppleganger|Spell=0|
+1,blood of a gorgon|Spell=zone of respite (SC1)|
+1,blood of an umber hulk|Spell=0|
+1,bloodstone (500 gp)|Spell=vile death (SC1)|
+1,bone of a {If~{Dice~1d2}=1?demon/devil}|Spell=fiendform (SC1)|
+2,bone from an undead ([~Creatures.Undead_Physical])|Spell=scare; shroud of undeath (SC1)|
+1,book (numerological)|Spell=0|
+1,bust of caster (tiny)|Spell=0|
+1,cage made of silver wire|Spell=0|
+1,caltrop (golden)|Spell=0|
+1,candelabra (silver)|Spell=0|
+1,candelabra ([~Miscellaneous.Metal])|Spell=0|
+2,chrysolite (powdered)|Spell=mordenkainen's private sanctum|
+1,claw of a displacer beast|Spell=claws of the demon (101Sp); displacer form (SC1)|
+1,claw of a [~Creatures.Dragon]|Spell=claws of the demon (101Sp); fell the greatest foe (SC1)|
+1,wing claw of a [~Creatures.Dragon]|Spell=flight of the dragon (SC1)|
+1,claw of an umber hulk|Spell=claws of the demon (101Sp)|
+2,clear gem (powdered)|Spell=wall of force|
+1,clear gem (10gp)|Spell=rainbow beam FOCUS (SC1)|
+1,clear gem (50gp)|Spell=rainbow blast FOCUS (SC1)|
+2,cloth from a ghoul|Spell=ghoul gesture (SC1); ghoul's touch|
+2,cloth (linen) with gold thread|Spell=0|
+2,cone of crystal|Spell=cone of cold|
+2,cone of glass|Spell=cone of cold|
+2,crushed black pearl (500 gp)|Spell=circle of death|
+1,crystal water-filled goblet (500gp)|Spell=body harmonic FOCUS (SC1)|
+1,dagger (small)|Spell=backbiter FOCUS (SC1); spirit knife FOCUS (101Sp); ring of blades (SC1)|
+1,dagger (pair)|Spell=daggerspell stance FOCUS (SC1)|
+2,dart (tiny)|Spell=melf's acid arrow FOCUS|
+1,deep blue spinel (50 gp)|Spell=undermaster (SC1)|
+2,diamond (crushed; 500 gp)|Spell=protection from spells; undead to death|
+1,diamond (hemispherical)|Spell=0|
+1,dice of human bones (pair)|Spell=cheat FOCUS (SC1)|
+1,die of silver|Spell=0|
+2,dirt from a [~Creatures.Dragon] footprint|Spell=0|
+2,dirt from a ghoul's lair|Spell=ghoul gesture (SC1); ghoul glyph (SC1); ghoul's touch|
+1,disk of polished bone ([~Creatures.Start2])|Spell=spell engine (SC1)|
+1,dust from a disintegrated [~Creatures.Start2]|Spell=sphere of ultimate destruction (SC1)|
+1,dung of an ape|Spell=0|
+1,dust of a vampire destroyed by sunlight|Spell=blackfire (SC1)|
+2,dust of diamond (50 gp)|Spell=diamondsteel (SC1); nondetection|
+2,dust of diamond (100 gp)|Spell=nondetection; restoration|
+2,dust of diamond (200 gp)|Spell=glyph of warding; nondetection; restoration|
+2,dust of diamond (250 gp)|Spell=glyph of warding; nondetection; restoration; stoneskin|
+1,dust from a wizard's tomb|Spell=refusal (SC1)|
+1,dust from a spectre|Spell=0|
+1,dust from a vampire|Spell=0|
+1,emerald (powdered; 100gp)|Spell=sign of sealing (SC1)|
+2,essence of a [~Creatures.Start2]|Spell=0|
+2,eye of a {If~{Dice~1d10}=1?roc/{If~{Dice~1d2}=1?eagle/hawk}}|Spell=scrying|
+1,eye of a [~Creatures.Dragon]|Spell=dragonsight FOCUS (SC1)|
+2,eyelash of a basilisk|Spell=sequester|
+1,eyelash of a kirin|Spell=0|
+1,eyelash of an ogre mage|Spell=0|
+2,exotic feather|Spell=wind wall|
+2,feldspar (sunstone)|Spell=sunburst|
+1,feldspar (sunstone; powdered)|Spell=wall of light (SC1)|
+1,foxfire|Spell=0|
+1,girallon hair|Spell=girallon's blessing (SC1)|
+1,golden amulet shaped like a phoenix (150gp)|Spell=firewings FOCUS (SC1)|
+2,granite (black)|Spell=earthen grace (SC1); stoneskin; wall of stone|
+1,hair of an ape|Spell=0|
+1,hair from an evil female elf|Spell=0|
+1,hair from a ghoul|Spell=0|
+1,hair from a lycanthrope|Spell=0|
+1,hand of clay (miniature)|Spell=earthen grasp (SC1)|
+1,hand of stone|Spell=stony grasp (SC1)|
+1,hand of [~Miscellaneous.Material]|Spell=0|
+2,holy symbol of silver marked with verses of anathema (500 gp; [~Religion.Deities])|Spell=destruction|
+1,hourglass filled oith oil|Spell=slow burn (SC1)|
+1,hourglass of platinum and crystal (500 gp)|Spell=anticipate teleportation FOCUS (SC1)|
+2,ice|Spell=frost breath (SC1); ice knife (SC1); ray of ice (SC1); simulacrum; snowball swarm (SC1)|
+1,ice (shard)|Spell=ice axe (SC1)|
+2,ink (lead-based; 50 gp)|Spell=illusory script|
+1,inks (various colors; 100gp)|Spell=create magic tattoo (SC1)|
+2,ink of a giant squid|Spell=rary's mnemonic enhancer|
+2,ink of a giant squid mixed with black dragon's blood|Spell=rary's mnemonic enhancer|
+2,ivory plaque (50 gp)|Spell=rary's mnemonic enhancer FOCUS|
+2,{Dice~1d4+4} ivory strips (50 gp each)|Spell=legend lore FOCUS|
+2,jacinth (1000 gp) and {Dice~1d6} silver bar(s) (5 gp)|Spell=astral projection|
+2,jade dust (100 gp)|Spell=magic mouth; permanent image; programmed image|
+2,jade dust (250 gp)|Spell=false vision; magic mouth; permanent image|
+1,key made of silver|Spell=0|
+1,key made of [~Miscellaneous.Metal]|Spell=0|
+1,leather scrap (blessed)|Spell=0|
+2,lens (small)|Spell=blistering radiance (SC1); focus of the magical mind FOCUS (101Sp); ray of flame FOCUS (SC1)|
+1,links of gold|Spell=0|
+2,lodestone|Spell=disintegrate; lay of the land FOCUS (SC1); reverse gravity; unbinding (SC1)|
+2,lump of alum soaked in vinegar|Spell=antipathy|
+2,mercury (quicksilver)|Spell=contingency; metal melt (SC1); polymorph any object; symbol; tenser's floating disk|
+1,metal cube (perfect)|Spell=0|
+1,mirror (cracked)|Spell=scramble portal (SC1)|
+2,miniature sword of platinum with a grip and pommel of copper and zinc|Spell=mordenkainen's sword FOCUS|
+1,miniature violin bow made of platinum (250gp)|Spell=fugue FOCUS (SC1)|
+2,moonstone (polished)|Spell=moonbow (SC1)|
+2,nitric acid|Spell=scrying|
+1,nixie's hair|Spell=nixie's grace FOCUS (SC1)|
+2,ointment made from mushroom powder; saffron; and fat|Spell=true seeing|
+1,ointment of diamond dust ({Dice~1d10*50} gp)|Spell=hardening (SC1)|
+2,pair of platinum rings (50gp each)|Spell=shield other FOCUS|
+2,pendant; metal ([~Rune Generator.GenRune])|Spell=0|
+2,phosphorescent moss|Spell=light|
+2,phosphorus|Spell=fire shield (warm); flame of faith (SC1); flashburst (SC1); rainbow pattern; symbol; shroud of flame (SC1); wall of fire|
+1,pineal gland|Spell=0|
+1,platinum chain (small length; 500 gp)|Spell=howling chain FOCUS (SC1)|
+2,portal made of ivory (5 gp)|Spell=mordenkainen's magnificient mansion FOCUS|
+2,prism made of crystal|Spell=rainbow pattern FOCUS; read magic FOCUS; scintillating pattern|
+1,prism made of crystal (10gp)|Spell=rainbow beam FOCUS (SC1)|
+1,prism made of crystal (50gp)|Spell=rainbow blast FOCUS (SC1)|
+1,quartz crystal embedded in rock|Spell=bombardment FOCUS (SC1)|
+1,quartz gemstone engraved with the image of an exquisite tiny castle (100gp)|Spell=nature's rampart FOCUS (SC1)|
+2,rare incense (250 gp)|Spell=legend lore; stalking brand (SC1)|
+2,reliquary (tiny; [~Religion.Deities]; 500 gp; {If~{Dice~1d2}=1?scrap of cloth from a saint's robe/piece of parchment with holy text})|Spell=cloak of chaos FOCUS; holy aura FOCUS; shield of law FOCUS; unholy aura FOCUS|
+1,resin of camphor|Spell=0|
+2,rod of amber|Spell=lightning bolt; chain lightning FOCUS|
+2,rod of crystal|Spell=chain lightning FOCUS; hypnotic pattern; lightning bolt; lucent lance FOCUS (SC1)|
+2,rod of crystal filled with phosphorescent material|Spell=hypnotic pattern|
+2,rod of glass|Spell=chain lightning FOCUS; lightning bolt; lucent lance FOCUS (SC1)|
+2,rod of silver|Spell=guards and wards FOCUS|
+1,rod of [~Miscellaneous.Material]|Spell=0|
+2,ruby dust (powdered; <1gp)|Spell=continual flame|
+1,ruby (500gp)|Spell=ruby ray of reversal FOCUS (SC1)|
+2,ruby dust (powdered; 1500 gp)|Spell=forcecage|
+1,saffron|Spell=0|
+1,salts (alkaline)|Spell=0|
+2,sapphire (1000 gp)|Spell=drawmij's instant summons|
+1,scale of a [~Creatures.Dragon]|Spell=dragon breath (SC1); dragonskin (SC1-101Sp); hide from dragons (SC1)|
+1,scale of a red dragon|Spell=scorch FOCUS (SC1)|
+1,scale of a xorn|Spell=xorn movement FOCUS (SC1)|
+2,scrap from a map 100 years old|Spell=0|
+1,set of small crystal lenses set in gold loops (500 gp)|Spell=programmed amnesia (SC1)|
+1,sheet of fine lead crystal|Spell=dispelling screen (SC1)|
+1,sheet of gold|Spell=0|
+1,sheet of platinum|Spell=0|
+1,sheet of silver|Spell=0|
+1,sheet of [~Miscellaneous.Metal]|Spell=0|
+1,shroud from a 100-year old corpse|Spell=0|
+1,siege engine|Spell=0|
+1,silk streamer|Spell=0|
+1,silk (black)|Spell=0|
+1,silk ([~Miscellaneous.Color])|Spell=0|
+1,silk  (tiny ball of spider silk)|Spell=viscid globe (SC1)|
+1,silver bar (50 gp)|Spell=seal portal (SC1)|
+2,silver dust (powdered; 25 gp)|Spell=anarchic water (SC1); bless water; curse water; consecrate; desecrate; planar bubble (SC1); wall of good (SC1)|
+1,silver wheel (500 gp)|Spell=spell engine (SC1)|
+1,sinew of an ape|Spell=0|
+1,skin from a spell-resistant creature|Spell=0|
+2,skin of a [~Creatures.Humanoid2]|Spell=clone|
+2,snow|Spell=simulacrum|
+1,snow (melter; mountain)|Spell=ray of ice (SC1)|
+1,sphere of obsidian|Spell=0|
+1,spinner of brass|Spell=0|
+1,spittle from a giant slug|Spell=0|
+1,standard miniature|Spell=0|
+2,statue of a canine (ebony; 25gp)|Spell=repulsion FOCUS|
+2,statue of a canine (ivory; 25gp)|Spell=repulsion FOCUS|
+2,statue of a canine ([~Miscellaneous.Material])|Spell=0|
+2,statuette of the caster (ivory; [~Creatures.Humanoid2]; 1500 gp)|Spell=contingency FOCUS|
+2,stomach of an adder|Spell=melf's acid arrow|
+2,tarts (tiny)|Spell=tasha's hideous laughter|
+2,tentacle of a giant {If~{Dice~1d2}=1?octopus/squid}|Spell=evard's black tentacles|
+1,tiny golden needle|Spell=0|
+2,tiny lens of {If~{Dice~1d2}=1?ruby/sapphire} set in a small golden loop (1500 gp)|Spell=analyze dweomer FOCUS|
+1,topaz (500 gp)|Spell=renewal pact (SC1)|
+2,tuning fork ([~Miscellaneous.Metal])|Spell=harmonic chorus FOCUS (SC1); sympathetic vibration FOCUS|
+1,tuning fork of cold iron|Spell=subvert planar essence (SC1)|
+1,veil of silk|Spell=0|
+1,volcanic ash|Spell=0|
+1,walnut oil|Spell=0|
+1,whistle of bone|Spell=0|
+2,whistle of silver (tiny)|Spell=mordenkainen's faithful hound|
+1,whistle of vulture-bone|Spell=0|
+2,will o' wisp's essence|Spell=secret page|
+1,wire of platinum|Spell=0|
+1,wire of [~Miscellaneous.Metal]|Spell=0|
+1,wychwood|Spell=0|
+2,ziggurat of clay|Spell=tongue|
+2,zinc|Spell=scrying|

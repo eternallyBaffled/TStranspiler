@@ -1,0 +1,299 @@
+# ------------------------------------------------------
+# Last Update: re-verified by Valminder Jan 10, 2012.
+# ------------------------------------------------------
+#
+# I am officially dubing this as Ver 1.  11/2001
+# 
+# The environment tables that has been developed is provided free of charge.
+#
+# Michael Long
+#
+# The following files are included.
+# Weather.tab   -   Main program for generating random Weather
+# Foraging.tab   - Main program for foraging results
+# z_fauna_z1.tab - Referenced Table for wildlife in the Artic zone.
+# z_fauna_z2.tab - Referenced Table for wildlife in the Sub-artic zone.
+# z_fauna_z3.tab - Referenced Table for wildlife in the Temperate zone.
+# z_fauna_z4.tab - Referenced Table for wildlife in the Sub-Tropical zone.
+# z_fauna_z5.tab - Referenced Table for wildlife in the Tropical zone.
+# z_flora_z1.tab - Referenced Table for plants in the Artic zone.
+# z_flora_z2.tab - Referenced Table for plants in the Sub-artic zone.
+# z_flora_z3.tab - Referenced Table for plants in the Temperate zone.
+# z_flora_z4.tab - Referenced Table for plants in the Sub-Tropical zone.
+# z_flora_z5.tab - Referenced Table for plants in the Tropical zone.
+# z_herbs_z1.tab - Referenced Table for herbs in the Artic zone.
+# z_herbs_z2.tab - Referenced Table for herbs in the Sub-artic zone.
+# z_herbs_z3.tab - Referenced Table for herbs in the Temperate zone.
+# z_herbs_z4.tab - Referenced Table for herbs in the Sub-Tropical zone.
+# z_herbs_z5.tab - Referenced Table for herbs in the Tropical zone.
+#
+# REFERENCES:
+# The Weather table is based on the following resources.
+#   1) WEATHER IN THE WORLD OF GREYHAWK by David Axler (Dragon Mag # 68).
+#   2) THE OFFICIAL AD&D WILDERNESS SURVIVAL GUIDE By Kim Mohn
+# The foraging tables have been developed with heavy reference on the 
+# following documents.
+#   1) THE GUIDE TO PLANTS FOR RPGS 1st Edition By Michael Long 2001. 
+#   2) THE GUIDE TO HERBS FOR RPGS 5th Edition by Shaun Hately (c) 1997.
+#   3) THE NET BOOK OF POISONS revised and expanded by Adrienne Mills.
+
+# %C = Climate Zone, %L = Location type %S = Season %D =  Days
+#
+# Referenced Climate Zone Tables 
+#   z_*_Z1.tab  1-Artic(Polar)
+#   z_*_Z2.tab  2-Sub-artic(Cold)
+#   z_*_Z3.tab  3-Temperate
+#   z_*_Z4.tab  4-Sub-Tropical
+#   z_*_Z5.tab  5-Tropical
+#
+#   Where the * is
+#   Fauna    Edible & useful wildlife
+#   Flora    Edible & useful plants
+#   Herbs    Herbalism tables reference the Netbook of Herbs
+
+##### VARIABLE SETTINGS
+# %SETTINGS = Display variable settings
+#
+# %C% = Climates 
+# 1-Artic(Polar) 2-Sub-artic(Cold) 3-Temperate 4-Sub-Tropical 5-Tropical
+#
+# %L% = Location
+# 1-Sea 2-Coast 3-Desert 4-Forest 5-Plains(Grassland)
+# 6-Hills 7-Jungle 8-Mountains 9-Swamp 10-River
+# 11-Rural 12-Underworld 13-Wasteland
+#
+# %S% = Seasons
+# 1-Winter 2-Spring 3-Summer 4-Autumn
+#
+# %Table% = String of table name to be called.
+# %Space% = used to generate table name
+#    Due to permutations of tables a quantity of 260 can exist.
+#    For ease of naming, I used the following method.
+#   %Table% = %C%&%Space%&%S%&%Space%%L%
+#   Thus the table for Temperate_Spring_Jungle is named 3_2_7 
+#
+# The following are variable used to generate various quantities
+#  to be rolled on the table. %DIE%,%HDIE%,%PDIE%,%ADIE%,%TDIE%
+#  Where %DIE% = base number to be used.
+#  Where %HDIE% = Herb die to be used.
+#  Where %PDIE% = Plant die to be used.
+#  Where %ADIE% = Animal die to be used.
+#  Where %TDIE% = Table die to be used.
+#
+# %D% = Number of days to be rolled
+# %TD% = Current day
+#
+# Modified by Valminder, Jan 2004
+#   Fixed some unsupported functions.
+#
+
+/OverrideRolls 1
+
+%SETTINGS%,2
+
+%C%,0
+%L%,0
+%S%,0
+
+%D%,0
+%TD%,0
+
+%DIE%,1
+%HDIE%,1
+%PDIE%,1
+%ADIE%,1
+%TDIE%,1
+
+%Table%,x
+%Space%,_
+
+# from other table or chosen for this one
+@SETTINGS,2,Run Table,Yes,No
+@C,3,Select Climate,Artic(Polar),Sub-artic(Cold),Temperate,Sub-Tropical,Tropical
+@L,4,Select Location,Sea,Coast,Desert,Forest,Plains(Grassland),Hills,Jungle,Mountains,Swamp,River,Rural,Underworld,Wasteland
+@S,2,Select Season,Winter,Spring,Summer,Autumn
+@D,1,Quantity of Days
+
+:Start
+1,{If~%SETTINGS%=2? [DISPLAY]/ [Generate]}
+
+:DISPLAY
+1,<b><u>Foraging Table</u>:</b> by Michael Long (modified by Valminder).<br>
+_<TABLE BORDER="0" CELLPADDING="5" CELLSPACING="5">
+_<br><B><U>VARIABLE SETTINGS</B></U>
+_<br><i>To activate this table, change the parameters</i><BR>
+_<TD><B>Climates</B>
+_<br>1) Artic(Polar)<br>2) Sub-artic(Cold)<br>3) Temperate<br>4) Sub-Tropical<br>5) Tropical
+_</TD>
+_<TD><B>Location</B>
+_<br>1) Sea<br>2) Coast<br>3) Desert<br>4) Forest<br>5) Plains(Grassland)<br>6) Hills<br>7) Jungle
+_<br>8) Mountains<br>9) Swamp<br>10) River<br>11) Rural<br>12) Underworld<br>13) Wasteland
+_</TD>
+_<TD><B>Seasons</B>
+_<br>1) Winter<br>2) Spring<br>3) Summer<br>4) Autumn
+_</TD>
+_</TABLE>
+
+# ---------------------------------------------------------------------------
+
+:Generate
+1,<b><u>Foraging</u>:</b> You are searching in a <b>[Climate=%C%] [Location=%L%]</b>. The season is <b>[Season=%S%]</b>.
+_[TableDef]
+_|TD=1|[Day]
+
+:Gen_ENC_URE
+1,[Climate_ENC_URE=%C%][Location_ENC_URE=%L%][Season_ENC_URE=%S%][TableDef]
+_<b><u>Foraging</u>:</b> You are searching in a <b>[Climate=%C%] [Location=%L%]</b>. The season is <b>[Season=%S%]</b>.
+_[Searching]
+
+:Gen_ENC_URE_Fauna
+1,[Climate_ENC_URE=%C%][Location_ENC_URE=%L%][Season_ENC_URE=%S%][TableDef]
+_<CENTER><TABLE BORDER="1" CELLPADDING="5" CELLSPACING="0">
+_<TR>[Fauna_Display]</TR>
+_</TABLE></CENTER>
+
+:Gen_ENC_URE_Flora
+1,[Climate_ENC_URE=%C%][Location_ENC_URE=%L%][Season_ENC_URE=%S%][TableDef]
+_<CENTER><TABLE BORDER="1" CELLPADDING="5" CELLSPACING="0">
+_<CAPTION>PLANTS</CAPTION><TR>[Flora_Display]</TR>
+_</TABLE>
+_<TABLE BORDER="1" CELLPADDING="5" CELLSPACING="0">
+_<CAPTION>HERBS</CAPTION><TR>[Herbs_Display]</TR>
+_</TABLE></CENTER>
+
+:TableDef
+1,|Table=%C%||Table&%Space%||Table&%S%||Table&%Space%||Table&%L%|
+
+:Day
+1,<br><br><b><u>Day %TD%</u></b>, if searching the following may be found:<br>
+_|D-1||TD+1|[Searching]
+_{If~%D%>0? [Day]}
+
+:Searching
+1,<CENTER><TABLE BORDER="1" CELLPADDING="5" CELLSPACING="0">
+_<CAPTION>WILDLIFE</CAPTION><TR>[Fauna_Display]</TR>
+_</TABLE>
+_<TABLE BORDER="1" CELLPADDING="5" CELLSPACING="0">
+_<CAPTION>PLANTS</CAPTION><TR>[Flora_Display]</TR>
+_</TABLE>
+_<TABLE BORDER="1" CELLPADDING="5" CELLSPACING="0">
+_<CAPTION>HERBS</CAPTION><TR>[Herbs_Display]</TR>
+_</TABLE></CENTER>
+
+# ------------------------------------------------------------------------
+
+:Fauna_Display
+1,|ADIE=%DIE%||ADIE\7|
+_<TD><CENTER><b>Morning</b></CENTER>
+_|TDIE=%ADIE%||TDIE+1|{Loop~{Dice~1d%TDIE%},[Fauna=%C%]}</TD>
+_<TD><CENTER><b>Day</b></CENTER>
+_|TDIE=%ADIE%||TDIE+0|{Loop~{Dice~1d%TDIE%},[Fauna=%C%]}</TD>
+_<TD><CENTER><b>Evening</b></CENTER>
+_|TDIE=%ADIE%||TDIE+1|{Loop~{Dice~1d%TDIE%},[Fauna=%C%]}</TD>
+_<TD><CENTER><b>Night</b></CENTER>
+_|TDIE=%ADIE%||TDIE+0|{Loop~{Dice~1d%TDIE%},[Fauna=%C%]}</TD>
+
+:Flora_Display
+1,|PDIE=%DIE%||PDIE\3|
+_<TD><CENTER><b>Morning</b></CENTER>
+_|TDIE=%PDIE%||TDIE+2|{Loop~{Dice~1d%TDIE%},[Flora=%C%]}</TD>
+_<TD><CENTER><b>Day</b></CENTER>
+_|TDIE=%PDIE%||TDIE+1|{Loop~{Dice~1d%TDIE%},[Flora=%C%]}</TD>
+_<TD><CENTER><b>Evening</b></CENTER>
+_|TDIE=%PDIE%||TDIE+2|{Loop~{Dice~1d%TDIE%},[Flora=%C%]}</TD>
+_<TD><CENTER><b>Night</b></CENTER>
+_|TDIE=%PDIE%||TDIE+0|{Loop~{Dice~1d%TDIE%},[Flora=%C%]}</TD>
+
+:Herbs_Display
+1,|HDIE=%DIE%||HDIE\8|
+_<TD><CENTER><b>Morning</b></CENTER>
+_|TDIE=%HDIE%||TDIE+1|{Loop~{Dice~1d%TDIE%},[Herbs=%C%]}</TD>
+_<TD><CENTER><b>Day</b></CENTER>
+_|TDIE=%HDIE%||TDIE+1|{Loop~{Dice~1d%TDIE%},[Herbs=%C%]}</TD>
+_<TD><CENTER><b>Evening</b></CENTER>
+_|TDIE=%HDIE%||TDIE+1|{Loop~{Dice~1d%TDIE%},[Herbs=%C%]}</TD>
+_<TD><CENTER><b>Night</b></CENTER>
+_|TDIE=%HDIE%||TDIE+0|{Loop~{Dice~1d%TDIE%},[Herbs=%C%]}</TD>
+
+# -----------------------------------------------------------------------
+# Roll on appropriate Tables 
+
+:Herbs
+1,<li>[z_herbs_z1.%Table%]
+2,<li>[z_herbs_z2.%Table%]
+3,<li>[z_herbs_z3.%Table%]
+4,<li>[z_herbs_z4.%Table%]
+5,<li>[z_herbs_z5.%Table%]
+
+:Fauna
+1,<li>[z_fauna_z1.%Table%]
+2,<li>[z_fauna_z2.%Table%]
+3,<li>[z_fauna_z3.%Table%]
+4,<li>[z_fauna_z4.%Table%]
+5,<li>[z_fauna_z5.%Table%]
+
+:Flora
+1,<li>[z_flora_z1.%Table%]
+2,<li>[z_flora_z2.%Table%]
+3,<li>[z_flora_z3.%Table%]
+4,<li>[z_flora_z4.%Table%]
+5,<li>[z_flora_z5.%Table%]
+
+# --------------------------------------------------------------------------
+# Tables for Climate, Season, Location
+
+:Location
+1,|DIE+1|sea
+2,|DIE+2|coast
+3,|DIE+0|desert
+4,|DIE+4|forest
+5,|DIE+3|plains
+6,|DIE+2|hills
+7,|DIE+4|jungle
+8,|DIE+1|mountains
+9,|DIE+3|swamp
+10,|DIE+2|river
+11,|DIE+2|rural
+12,|DIE+1|underworld
+13,|DIE+1|wasteland
+
+:Climate
+1,|DIE*1|artic
+2,|DIE*2|sub-artic
+3,|DIE*3|temperate 
+4,|DIE*3|sub-tropical
+5,|DIE*3|tropical
+
+:Season
+1,|DIE*1|Winter
+2,|DIE*2|Spring
+3,|DIE*2|Summer
+4,|DIE*1|Autumn
+
+:Location_ENC_URE
+1,|DIE+1|
+2,|DIE+2|
+3,|DIE+0|
+4,|DIE+4|
+5,|DIE+3|
+6,|DIE+2|
+7,|DIE+4|
+8,|DIE+1|
+9,|DIE+3|
+10,|DIE+2|
+11,|DIE+2|
+12,|DIE+1|
+13,|DIE+1|
+
+:Climate_ENC_URE
+1,|DIE*1|
+2,|DIE*2|
+3,|DIE*3| 
+4,|DIE*3|
+5,|DIE*3|
+
+:Season_ENC_URE
+1,|DIE*1|
+2,|DIE*2|
+3,|DIE*2|
+4,|DIE*1|

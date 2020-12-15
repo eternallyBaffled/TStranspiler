@@ -1,0 +1,189 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder Oct 30, 2003.
+# ---------------------------------------------------
+#
+# SMS
+# 06/20/03
+# Forgotten Realms Table 38: Northern Forest (EL 5-12) random encounter tables
+#
+# Corrected by Valminder, Oct 2003
+#   -{If~} and {Dice~}
+#
+#Variables
+
+%Region%,0
+%Time%,0
+%Temp%,0
+
+#Parameters
+
+@Time,1,Select a time of day,Day,Night
+@Region,0,Select a value for region (1-5 see instructions for details)
+
+#
+#  Starts by putting up the instructions
+#
+
+:Start
+1,{If~%Region% = 0 ? [Instructions]/[Northern Forest %Time%]}
+
+;Instructions
+1,<b>Forgotten Realms Table 38: Northern Forest (EL 5-12)</b></br></br><h3>Instructions:</h3>
+_<b>Determine whether an encounter should occur before using this table. The chance of an encounter is based on terrain type and travel (chance per hour):</b><br>
+_<table border=1><tr><th>Terrain</th><th>Normal Travel</th><th>Cautious Travel</th><th>Hiding</th></tr>
+_<tr><td>Desolate/wasteland</td><td>5/%</td><td>2/%</td><td>1/%</td></tr>
+_<tr><td>Frontier/wilderness</td><td>8/%</td><td>4/%</td><td>2/%</td></tr>
+_<tr><td>Verdant/civilized area</td><td>10/%</td><td>5/%</td><td>2/%</td></tr>
+_<tr><td>Heavily traveled</td><td>12/%</td><td>6/%</td><td>3/%</td></tr>
+_</table>
+_<ul><li>Use the Parameter Box (below) to indicate whether it is day or night.</li>
+_<li>Then indicate whether the region is<font color=blue><ol><li>Border Forest</li><li>Cold Wood</li><li>High Forest</li>
+_<li>Lurkwood</li><li>Moonwood</li></ol></li></ul><br></font>
+
+# 1 corresponds to time="Day"
+:Northern Forest 1
+01,{Dice~1d4} Barghest, greater
+02-03,{Dice~1d2} Behir
+04,{Dice~4d6} Crawling Claw (MoF)
+05-06,{Dice~1d10+10} Dire rat
+07-15,Dragon: [NF_Dragon]
+16-17,{Dice~1d6+6} Dragonkin (MoF)
+18-21,Drow squad: {Dice~1d6+6} 1st level warriors, 1 level {Dice~1d3+1} wizard, 1 level {Dice~1d4+1} cleric, led by a level {Dice~1d4+3} [FR_Misc.Drow_Class]
+22-25,Wood Elf Squad: {Dice~1d6+6} 1st level warriors, {Dice~1d3} level {Dice~1d3+1} wizards, led by level {Dice~1d4+1} [FR_Misc.Elf_Class]
+26-27,{Dice~1d3+1} Gargoyle
+28,Gray Render
+29,Greenhag (hag)
+30,Gulguthydra (MoF)
+31,{Dice~1d8+4} Hell hound
+32,2 Hellcat (devil)
+33,Ibrandlin (MoF)
+34-38,Kobold Warband: {Dice~1d4+8} kobolds, {Dice~1d2} dire weasels, led by level {Dice~1d4} [FR_Misc.Kobold_Class]
+39-50,[NF_Local]
+51-52,Medusa
+53-55,Nymph
+56-58,{Dice~1d4+4} Ogre
+59-60,{Dice~1d3} Ogre mage
+61,Ogre Mage Raiders: {Dice~1d2} ogre mages and {Dice~1d3+1} ogres
+62-65,Orc Patrol: {Dice~1d4+4} orcs, {Dice~1d2} level {Dice~1d3} orc barbarians, led by level {Dice~1d4+2} [FR_Misc.Orc_Class]
+66,{Dice~1d4} Phase spider
+67,{Dice~1d3+2} Tall Mouther (MoF)
+68,{Dice~1d2} Treant
+69-70,{Dice~1d3+1} Troll
+71-72,{Dice~1d4+1} Unicorn
+73,{Dice~1d4+1} Unicorn, black (MoF)
+74,{Dice~1d3} Werebat
+75-76,Werebear Troupe: {Dice~1d3+1} werebears and {Dice~1d4} brown bears
+77-80,Wererat Troupe: {Dice~1d4+1} Wererats and {Dice~1d4+4} dire rats
+81-82,{Dice~1d4} Weretiger
+83-85,Werewolf Troupe: {Dice~1d4+1} Werewolves and {Dice~1d4+4} wolves
+86-89,{Dice~1d4} Winter wolf
+90-95,{Dice~1d10+6} Animal: wolf
+96-100,{Dice~1d6+5} Worg
+
+# 2 corresponds to time="Night"
+:Northern Forest 2
+01,{Dice~1d4} Abishai, green
+02,Avoral guardian (celestial)
+03,{Dice~1d6+6} Banedead
+04,{Dice~1d4} Barghest, greater
+05,{Dice~1d2} Behir
+06,{Dice~4d6} Crawling Claw (MoF)
+07-08,{Dice~1d2+2} Darkenbeast (MoF)
+09-10,{Dice~1d10+10} Dire rat
+11-17,Dragon: [NF_Dragon]
+18-19,{Dice~1d6+6} Dragonkin (MoF)
+20,{Dice~1d10+5} Dread warrior (MoF)
+21-26,Drow squad: {Dice~1d6+6} 1st level warriors, 1 level {Dice~1d3+1} wizard, 1 level {Dice~1d4+1} cleric, led by a level {Dice~1d4+3} [FR_Misc.Drow_Class]
+27-29,Wood Elf Squad: {Dice~1d6+6} 1st level warriors, {Dice~1d3} level {Dice~1d3+1} wizards, led by level {Dice~1d4+1} [FR_Misc.Elf_Class]
+30,{Dice~1d6+3} Erinyes (devil)
+31,{Dice~1d3+1} Gargoyle
+32,{Dice~1d3+1} Ghast
+33,Ghast pack: {Dice~1d3+1} ghasts and {Dice~1d6+6} ghouls
+34,Ghoul
+35,Gray Render
+36,Greenhag (hag)
+37,Gulguthydra (MoF)
+38,{Dice~1d8+4} Hell hound
+39,2 Hellcat (devil)
+40,{Dice~1d3+2} Hound archon (celestial)
+41,Ibrandlin (MoF)
+42-45,Kobold Warband: {Dice~1d4+8} kobolds, {Dice~1d2} dire weasels, led by level {Dice~1d4} [FR_Misc.Kobold_Class]
+46-55,[NF_Local]
+56-57,{Dice~2d6} Night hunter bat (MoF)
+58,Nymph
+59-60,{Dice~1d4+4} Ogre
+61,{Dice~1d3} Ogre mage
+62,Ogre Mage Raiders: {Dice~1d2} ogre mages and {Dice~1d3+1} ogres
+63-65,Orc Patrol: {Dice~1d4+4} orcs, {Dice~1d2} level {Dice~1d3} orc barbarians, led by level {Dice~1d4+2} [FR_Misc.Orc_Class]
+66,{Dice~1d4} Phase spider
+67,{Dice~1d4+1} Shadow
+68,{Dice~1d6+3} Sinister bat (MoF)
+69,{Dice~1d4} Spectre
+70,Succubus (demon)
+71,{Dice~1d3+2} Tall Mouther (MoF)
+72,{Dice~1d2} Treant
+73-74,{Dice~1d3+1} Troll
+75,{Dice~1d4+1} Unicorn
+76-77,{Dice~1d4+1} Unicorn, black (MoF)
+78,{Dice~1d2} Vampire
+79,{Dice~1d4+1} Vampire spawn
+80,Vampire Troupe: {Dice~1d2} vampires and {Dice~1d4+1} vampire spawn
+81-82,{Dice~1d6+5} Vargouille
+83,{Dice~1d3} Werebat
+84,Werebear Troupe: {Dice~1d3+1} werebears and {Dice~1d4} brown bears
+85,Wererat Troupe: {Dice~1d4+1} Wererats and {Dice~1d4+4} dire rats
+86,{Dice~1d4} Weretiger
+87,Werewolf Troupe: {Dice~1d4+1} Werewolves and {Dice~1d4+4} wolves
+88,{Dice~1d6+5} Wight
+89,{Dice~1d4} Winter wolf
+90-93,{Dice~1d10+6} Animal: wolf
+94-98,{Dice~1d6+5} Worg
+99,{Dice~1d4+1} Wraith
+100,{Dice~1d6+5} Zombie
+
+:NF_Local
+01-50,Local creatures: [NF_Local%Region%]
+51-100,<b>NPCs:</b><br>{Loop~{Dice~1d3+2},[FR_Random_NPC.FR_SM_NPC]}
+
+#Border Forest
+:NF_Local1
+01-25,{Dice~1d4+3} Dryad
+25-60,{Dice~1d6+5} Pixie
+61-100,{Dice~1d4+1} Satyr
+
+#Cold Wood
+:NF_Local2
+01-25,{Dice~1d3+1} Orc
+26-40,Orc Raiders: {Dice~1d10+5} orcs and {Dice~1d2} level {Dice~1d3} barbarians
+41-100,Uthgardt Barbarians (any good or neutral alignment): {Dice~1d3+1} 1st level fighters and {Dice~1d2} level {Dice~1d3+2} barbarians
+
+#High Forest
+:NF_Local3
+01-35,{Dice~1d4+4} Centaur
+36-45,{Dice~2d4} Planetouched Fey'ri (MoF)
+46-55,{Dice~1d6+1} Planetouched Tanarukk (MoF)
+56-90,Wood Elf Squad: {Dice~1d6+6} 1st level warriors, {Dice~1d3} level {Dice~1d3+1} wizards, led by level {Dice~1d4+1} [FR_Misc.Elf_Class]
+91-100,Treant
+
+#Lurkwood
+:NF_Local4
+01-35,{Dice~1d3+1} Orc
+36-80,Orc Raiders: {Dice~1d10+5} orcs and {Dice~1d2} level {Dice~1d3} barbarians
+81-100,Orc Patrol: {Dice~1d4+4} orcs, {Dice~1d2} level {Dice~1d3} orc barbarians, led by level {Dice~1d4+2} [FR_Misc.Orc_Class]
+
+#Moonwood
+:NF_Local5
+01-10,{Dice~1d2} Werebat
+11-35,{Dice~1d3+1} Werebear
+36-40,Werebear Troupe: {Dice~1d3+1} werebears and {Dice~1d4} brown bears
+41-55,Wererat Troupe: {Dice~1d4+1} Wererats and {Dice~1d4+4} dire rats
+56-85,Werewolf Troupe: {Dice~1d4+1} Werewolves and {Dice~1d4+4} wolves
+86-100,{Dice~1d2} Weretiger
+
+:NF_Dragon
+01-30,White, adult
+31-39,Gold, juvenile
+40-85,Green, young adult
+86-98,Song, young adult (MoF)
+99,Dracolich: White, young adult
+100,Dracolich: Green, juvenile

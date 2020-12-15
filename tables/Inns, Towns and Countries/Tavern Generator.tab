@@ -1,0 +1,120 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder Sep 15, 2006.
+# ---------------------------------------------------
+#
+# Tavern Generator
+#
+# Modified by Valminder Sep 2006
+#    Created from "Inn Generator.tab"
+#    Idea by Sean A. Hlousek
+#
+
+/OverrideRolls 1
+
+%Accommodations%,0
+
+%Cntr%,0
+%Chance%,0
+%Check%,0
+
+%Cost%,0
+%GenCost%,0
+
+%Breakfast1%,0
+%Breakfast2%,0
+%Breakfast3%,0
+%Breakfast4%,0
+%Breakfast5%,0
+%Lunch1%,0
+%Lunch2%,0
+%Lunch3%,0
+%Lunch4%,0
+%Supper1%,0
+%Supper2%,0
+%Supper3%,0
+%Supper4%,0
+%Supper5%,0
+%Snack1%,0
+%Snack2%,0
+%Snack3%,0
+
+%A%,1
+%mod price%,1
+%piece%,gp
+%Staff%,0
+%Temp%,0
+
+%Rooms%,0
+
+@Accommodations,5,What sort of accommodations?,Poor,Common,Good,Noble,Random
+
+:Start
+1,{Status~By Valminder, Sean A. Hlousek 2006}<b><u>Tavern's Name</u>: </b>[~TavernName].<br><br>
+_<b><u>Taverner</u>: </b>[Inn Generator.Bartender]. (Look at the bottom)<br>
+_<b><u>Taverner's Alignment</u>:</b> [~Miscellaneous.Alignment2]<br>
+_<b><u>Taverner's Personality</u>:</b> [~Miscellaneous.Personality].<br>
+_<b><u>Taverner Quirks</u>:</b> [~Miscellaneous.Quirks].<br>
+_<b><u>Taverner's Initial Reaction</u>:</b> [~Miscellaneous.Reaction-1]<br><br>
+_<b><u>Layout</u>: </b>[~Inn Desc.Alternate]<br>
+_<b><u>Accommodations</u>:</b> {If~{Dice~1d10}=1?[GenAccomodations]|Rooms=1|/None}<br>
+_<b><u>Services</u>:</b> {If~{Dice~1d3}=1?[Inn Generator.Stable=3]/
+_|Temp={Dice~1d6+%Accommodations%}|[Inn Generator.Messenger=%Temp%]}<br>
+_<b><u>Staff</u>:</b> [StaffCalc][Staff=%Temp%].<br>
+_<b><u>Staff's Initial Reaction</u>:</b> [~Miscellaneous.Reaction-1]<br>
+_<br><b><u>Interesting Clientele</u>:</b> [Crowd] (|Temp={Dice~2d8+2}||Temp+%Staff%|%Temp% Tables)<br> [Tavern Patrons.Inn Generator]
+_<br><b><u>Things Overheard</u>: </b><br>{Loop~{Dice~1d3},-[Rumors.Generate]<br>}<br><br>
+_{If~%Rooms%=1?[MENU]/{If~{Dice~1d6}=1?|Rooms=1|[MENU]/[DRINK_MENU]}}
+_</p>
+_[NPC Appearance.Bartender]
+
+:GenAccomodations
+1,{If~%Accommodations%=5?[GenAccoNumber]}
+_|Staff=0|[~Inn Generator.GenAccommodations(%Accommodations%)]. (Look at the bottom)
+
+;GenAccoNumber
+13,|Accommodations=1|
+18,|Accommodations=2|
+8,|Accommodations=3|
+1,|Accommodations=4|
+
+;TavernName
+1,The [Inn Generator.Adjective] [Inn Generator.Root]
+4,[Tavern Names.NAME]
+4,[Inn and Tavern Names.Names]
+
+:StaffCalc
+1,|Temp={Dice~1d16}||Temp+%Staff%|{If~%Temp%<1? |Temp=1|}{If~%Temp%>16? |Temp=16|}
+
+# Note: if you add stuff in Staff subtable, modify the StaffCalc subtable.
+;Staff
+5,The owner is alone
+5,The owner is assisted by 1 serving girl ([~Names Generator.NAME Human Female])
+3,The owner is assisted by |A={Dice~1d4}|<b>%A%</b> serving girl(s).<br>{Space~5}<u>Serving Wenches</u>: {Loop~%A%, [Wenches]}
+2,The owner is assisted by a barkeep ([Name]) and |A={Dice~1d5+1}|<b>%A%</b> serving girls.<br>{Space~5}<u>Serving Wenches</u>: {Loop~%A%, [Wenches] }
+1,The owner is assisted by a cook ([Name])|Rooms=1|, a barkeep ([Name]) and |A={Dice~2d5}|<b>%A%</b> serving girls.<br>{Space~5}<u>Serving Wenches</u>: {Loop~%A%, [Wenches] }
+
+:MENU
+1,<hr><p align="center"><b>TODAY'S MENU</b><br><br>
+_{If~{Dice~1d3}=1? [Inn Generator.GenMenuA] / [Inn Menu.GenerateInn]}
+
+:DRINK_MENU
+1,<hr><p align="center">[Inn Menu.DrinksTavern]
+
+;Gender
+1,Male
+2,Female
+
+:Name
+1,[~Names Generator.NAME Random], [~Gender] [~Creatures.Humanoid2]
+
+:Wenches
+1,[Names Generator.NAME Human Female],
+
+# ---------------------------------------------------------------------------
+# Crowd
+
+;Crowd
+1,The tavern is full, with mostly <b>{Plural~[Creatures.Humanoid2]}</b> and <b>{Plural~[Creatures.Humanoid2]}</b>.
+2,The tavern is quite empty, only {Dice~1d3} <b>{Plural~[Creatures.Humanoid2]}</b>.
+4,The tavern as a few customers ({Dice~1d6+4}), mostly <b>{Plural~[Creatures.Humanoid2]}</b>.
+

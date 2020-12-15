@@ -1,0 +1,226 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder Feb 28, 2006.
+# ---------------------------------------------------
+#
+# Sample showing how various functions work
+#
+# Modified by Valminder, Jan 2006.
+#    Adapted for TSv5.
+#       Changed {Round~}
+#
+
+%A%,0
+%B%,0
+%C%,0
+%Value%,0
+%StringVar%,Welcome to TableSmith!
+
+%TempSort%,0
+
+%Temp%,0
+
+# -----------------------------------------------------------------
+:Start
+1,<font face="Verdana" size="2">
+_{Status~Demonstrating various functions...}
+_[DEMO_Math]<hr>
+_[DEMO_String]<hr>
+_[DEMO_Sorting]<hr>
+_[DEMO_If]<hr>
+_[DEMO_CapEach]<hr>
+_[DEMO_Loop]<hr>
+_[DEMO_MinMax]<hr>
+_[DEMO_Split]<hr>
+_[DEMO_Used]<hr>
+_[DEMO_Plural]<hr>
+_[DEMO_Lockout]<hr>
+_[DEMO_Format]<hr>
+_[DEMO_Logic]
+_</font>
+
+# -----------------------------------------------------------------
+:DEMO_Math
+
+1,<b>SAMPLE - Math Functions</b><br>
+_|Value={Dice~1d10-5}|Absolute value of %Value% is {Abs~%Value%}<br>
+_|Value={Dice~1d100}|Square root of %Value% is {Sqrt~%Value%}<br>
+_|Value={Sqrt~{Dice~1d100}}||Value*{Dice~1d3-2}|%Value% truncated looks like {Trunc~%Value%}<br>
+_|Value={Sqrt~{Dice~1d100}}||Value*{Dice~1d3-2}|%Value% rounded:<br>
+_ 3 decimal places: {Round~3,%Value%}<br>
+_ 2 decimal places: {Round~2,%Value%}<br>
+_ 1 decimal places: {Round~1,%Value%}<br>
+_ 0 decimal places: {Round~0,%Value%}<br>
+_ Ordinal values: {Ordinal~1}, {Ordinal~2}, {Ordinal~3}, {Ordinal~4}<br>
+_ Calculation: |A={Dice~1d10}||B={Dice~1d10}||C={Dice~1d10}|(%A%+%B%) X %C% equals {Calc~(%A%+%B%)*%C%}<br>
+_ Ceiling of 5.4: {Ceil~5.4}<br>
+_ Floor of 5.4: {Floor~5.4}
+
+# -----------------------------------------------------------------
+:DEMO_String
+1,<b>SAMPLE - String Functions</b><br>
+_|Value= Test |Before trim: (%Value%) / After trim: ({Trim~%Value%})<br><br>
+_For the string "%StringVar%":<br>
+_<ul>
+_<li>Leftmost |Value={Dice~1d10}|%Value% characters: {Left~%Value%,%StringVar%}</li>
+_<li>Rightmost |Value={Dice~1d10}|%Value% characters: {Right~%Value%,%StringVar%}</li>
+_<li>Four middle characters starting at |Value={Dice~1d10}|%Value%: {Mid~4,%Value%,%StringVar%}</li>
+_<li>Length: {Length~%StringVar%}</li>
+_<li>Replacing 'm' with 'X': {Replace~m,X,%StringVar%}</li>
+_<li>The string "gon" is Found at place {Find~1,gon,dragon} in the word "dragon"</li>
+_</ul>
+_TABLESMITH in all lowercase: {LCase~TABLESMITH}<br>
+_tablesmith in all uppercase: {UCase~tablesmith}<br>
+_The word "lemon" {If~{VowelStart~lemon}=0?doesn't start/starts} with a vowel. 
+_The word "apple" {If~{VowelStart~apple}=0?doesn't start/starts} with a vowel.
+
+# -----------------------------------------------------------------
+:DEMO_Sorting
+1,<b>SAMPLE - Sorting</b><br>
+_|A=Sword||B=Spear||C=Dagger||TempSort=%A%;%B%;%C%|
+_Before sorting (ascending):<br>[DisplayVars]<br>
+_|TempSort={OrderAsc~";",%TempSort%}|
+_{Split~TempSort,";",A,B,C}
+_After sorting:<br>[DisplayVars]<br>
+_|A=5||B=10||C=7||TempSort=%A%;%B%;%C%|
+_Before sorting (descending):<br>[DisplayVars]<br>
+_|TempSort={OrderDesc~";",%TempSort%}|
+_{Split~TempSort,";",A,B,C}
+_After sorting:<br>[DisplayVars]<br>
+_<br>
+_Ordering (ascending): "orc,troll,skeleton" becomes "{OrderAsc~",",orc,troll,skeleton}"<br>
+_Ordering (descending): "orc, troll, skeleton" becomes "{OrderDesc~",",orc,troll,skeleton}"<br>
+_Ordering (ascending): "5,4,11,3,9,1" becomes "{OrderAsc~",",5,4,11,3,9,1}"<br>
+_Ordering (descending): "5,4,11,3,9,1" becomes "{OrderDesc~",",5,4,11,3,9,1}"
+
+# This is the OLD version with SortAsc and SortDesc; TSv4.
+:DEMO_Sorting_OLD
+1,<b>SAMPLE - Sorting</b><br>
+_|A=Sword||B=Spear||C=Dagger|
+_Before sorting (ascending):<br>[DisplayVars]<br>
+_{SortAsc~A,B,C}
+_After sorting:<br>[DisplayVars]<br>
+_|A=5||B=10||C=7|
+_Before sorting (descending):<br>[DisplayVars]<br>
+_{SortDesc~A,B,C}
+_After sorting:<br>[DisplayVars]<br>
+_<br>
+_Ordering (ascending): "orc,troll,skeleton" becomes "{OrderAsc~",",orc,troll,skeleton}"<br>
+_Ordering (descending): "5,4,11,3,9,1" becomes "{OrderDesc~",",5,4,11,3,9,1}"
+
+# -----------------------------------------------------------------
+:DEMO_If
+1,<b>SAMPLE - If Function</b><br>
+_|Temp={Dice~1d10}|
+_If the die roll of %Temp% is 1-5, "low" is displayed; "high" otherwise<br>
+_{If~%Temp% < 6 ? Low / High}<br>
+
+# -----------------------------------------------------------------
+:DEMO_CapEach
+1,<b>SAMPLE - CapEach Function</b><br>
+_|Temp=realm of mythosa|
+_Before: %Temp%<br>
+_|Temp={CapEachWord~%Temp%}|
+_After: %Temp%<br>
+
+# -----------------------------------------------------------------
+:DEMO_MinMax
+1,[ClearVars]
+_<b>SAMPLE - Min/Max Functions</b><br>
+_|A=18||B=12||C=15|
+_[DisplayVars]
+_|Temp={Min~%A%,%B%,%C%}|
+_Minimum: %Temp%<br>
+_|Temp={Max~%A%,%B%,%C%}|
+_Maximum: %Temp%
+
+# -----------------------------------------------------------------
+:DEMO_Split
+1,[ClearVars]
+_<b>SAMPLE - Split Function</b><br>
+_Before:<br>[DisplayVars]
+_|Temp=Bard,Sorcerer,Rogue|
+_Temp = %Temp%<br><br>
+_{Split~Temp,",",A,B,C}
+_After:<br>[DisplayVars]<br>
+
+# -----------------------------------------------------------------
+:DEMO_Used
+1,[ClearVars]
+_<b>SAMPLE - Check If Used Function</b><br>
+_Call to non-repeating table: {Cap~[NonRepeater]}<br>
+_Has '1' been used? |A=1||B={Used~NonRepeater,%A%}|{If~%B% = 1 ? Yes/[Check2]}<br>
+_Has '2' been used? |A=2||B={Used~NonRepeater,%A%}|{If~%B% = 1 ? Yes/[Check2]}<br>
+_Has '3' been used? |A=3||B={Used~NonRepeater,%A%}|{If~%B% = 1 ? Yes/[Check2]}<br>
+_Has '4' been used? |A=4||B={Used~NonRepeater,%A%}|{If~%B% = 1 ? Yes/[Check2]}
+
+;!NonRepeater
+1,one
+1,two
+1,three
+
+:Check2
+1,{If~%B% = 0 ? No/Value not in table's range.}
+
+# -----------------------------------------------------------------
+:DEMO_Plural
+1,<b>SAMPLE - Plural Function</b><br>
+_harpy becomes {Plural~harpy}<br>
+_wolf becomes {Plural~wolf}<br>
+_kiss becomes {Plural~kiss}<br>
+_ax becomes {Plural~ax}<br>
+_hero becomes {Plural~hero}<br>
+_crunch becomes {Plural~crunch}<br>
+_lash becomes {Plural~lash}<br>
+_dagger becomes {Plural~dagger}<br>
+
+# -----------------------------------------------------------------
+:DEMO_Lockout
+1,<b>SAMPLE - Lockout Function</b><br>
+_[LockGroup]<br>[LockGroup]<br>[LockGroup]
+
+:!LockGroup
+1,Entry 1 - don't call 5-7 {Lockout~LockGroup,5-7} after this
+2,Entry 2 - call any other than 2 after this
+3,Entry 3 - don't call 6 {Lockout~LockGroup,6} after this
+4,Entry 4 - don't call 2, 7-8 {Lockout~LockGroup,2,7-8} after this
+5,Entry 5 - don't call 1-2, 3, 7, 9-10 {Lockout~LockGroup,1-2,3,7,9-10} after this
+6-7,Entry 6-7 - call any other than 6 or 7 after this
+8,Entry 8 - call any other than 8 after this
+9,Entry 9 - don't call 1-6 {Lockout~LockGroup,1-6} after this
+10,Entry 10 - call any other than 10 after this
+
+# -----------------------------------------------------------------
+:DEMO_Loop
+1,<b>SAMPLE - Looping</b><br>
+_|A={Dice~1d10}|
+_Display "orc " %A% times: {Loop~%A%,orc }
+
+
+# -----------------------------------------------------------------
+:DEMO_Format
+1,<b>SAMPLE - Formatting Functions</b><br>
+_This is {Bold~bold text}.{CarRet~}
+_This is {Italic~italic text}.{CarRet~}
+_Here are some lines:{Line~left,50}{Line~center,50}{Line~right,50}
+
+# -----------------------------------------------------------------
+:DEMO_Logic
+1,<b>SAMPLE - Logic Functions</b><br>
+_|A={Dice~1d2}||B={Dice~1d2}|
+_A is %A%, B is %B%<br>
+_AND: {If~{And~%A%=1,%B%=1}=1?Both A and B are 1/A and B are not both 1}<br>
+_OR: {If~{Or~%A%=2,%B%=2}=1?Either A or B are 2/Neither A nor B are 2}<br>
+_XOR: {If~{Xor~%A%=2,%B%=2}=1?A or B, but not both, are 2/A and B are either both 1 or both 2}
+
+# -----------------------------------------------------------------
+:ClearVars
+1,|A=0||B=0||C=0|
+
+:DisplayVars
+1,A = %A%<br>B = %B%<br>C = %C%<br>
+
+
+
+
+
+

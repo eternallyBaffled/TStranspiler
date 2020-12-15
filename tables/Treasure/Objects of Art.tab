@@ -1,0 +1,467 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder August 7, 2006.
+# ---------------------------------------------------
+#
+# Random Objects of Art for use as treasure
+# Based on an article in the Dragon
+#
+# Scott Kinsey (Smkinsey@redrose.net)
+#
+# Modified by Valminder, May 2002.
+#    I linked this table with a lot of different others tables. This way
+#    it generates more items. Mostly "Gems2" and "Jewelry".
+#
+# Modified by Valmidner, July 2003
+#    Creatures.Animal
+#    Creatures.Familiar Rare
+#    Creatures.Fantastic
+#    Creatures.Flying
+#    Creatures.Humanoid  (I removed the Humanoid subtable)
+#    Equipment.Musical Instruments (Removed Musical Instruments subtable)
+#    Herb Names.Generate
+#    Miscellaneous.Color
+#    Miscellaneous.Odor
+#    Miscellaneous.Shape
+#    Rune Generator.GenRune
+#
+# Modified by Valminder, Jan 2006, idea of Michael Taylor.
+#    Change %MoneyType% (To add more types of money, modify the parameters
+#                        below "@MoneyType" and modify the "Money"
+#                        subtable found at the end).
+#    Added "Value" parameter.
+#    Added Alternate subtable.
+#
+# Modified by Valminder, August  2006.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+#    Changed link to "Gems2.tab"
+#    Merged content of "LIST_ART.TAB" by Micheal Long 2000.
+#    Added links to:
+#       AddComma.Start
+#       Miscellaneous.Cloth
+#       Miscellaneous.Material
+#       Miscellaneous.Shape
+# Modified by Valminder, Octobre 2016
+#    Modified link "Countries.Start" to "Countries.Countries"
+#
+
+%MoneyType%,1
+%Value%,3
+%ValueMod%,0
+
+@Value,3,Select value of item,Cheap,Low,Average,High,Expensive
+@MoneyType,1,Select Money Type,gp,ceramic (cp),dollars ($),pounds (£),francs
+
+;Start
+1,[SetValue=%Value%]{Cap~[Generate]}
+
+# No Cap~
+:Alternate
+1,[SetValue=%Value%][Generate]
+
+;Generate
+8,[Jewelry.Start]
+2,{AorAn~[Jewelry]} made of [Materials I] ([~Value]).
+4,{AorAn~[Clothing]} made of [~Miscellaneous.Cloth] ([~Value]).
+4,{AorAn~[Container]} made of [Materials II], [Full or Not] ([~Value]).
+4,{AorAn~[Figurine]} [Carving] made of [Materials II] ([~Value]).
+4,{AorAn~[Equipment.Musical Instruments]} made of [Materials II] ([~Value]).
+4,{AorAn~[Crafts Item]} made of [Materials II] ([~Value]).
+1,{AorAn~[Spell Components.Generate]} (spell component).
+2,{AorAn~[Literature]} ([~Value]).
+2,{AorAn~[Drinking Vessel]} made of [Materials II] ([~Value]).
+
+:Alternate
+1,[SetValue=%Value%][GenerateAlternate]
+
+;GenerateAlternate
+8,[Jewelry.Alternate]
+2,{AorAn~[Jewelry]} made of [Materials I] ([~Value])
+4,{AorAn~[Clothing]} made of [~Miscellaneous.Cloth] ([~Value])
+4,{AorAn~[Container]} made of [Materials II], [Full or Not] ([~Value])
+4,{AorAn~[Figurine]} figurine made of [Materials II] ([~Value])
+4,{AorAn~[Equipment.Musical Instruments]} made of [Materials II] ([~Value])
+4,{AorAn~[Crafts Item]} made of [Materials II] ([~Value])
+1,{AorAn~[Spell Components.Generate]} (spell component)
+2,{AorAn~[Literature]} ([~Value])
+2,{AorAn~[Drinking Vessel]} made of [Materials II] ([~Value])
+
+;Jewelry
+2,amulet (engraved with [~Rune Generator.GenRune])
+2,amulet (engraved with [~Rune Generator.GenRune]) set with {AorAn~[Gems]}
+2,anklet
+2,armband
+2,bracelet[Set With]
+2,brooch
+2,brooch set with {AorAn~[Gems]}
+2,buckle (shape: [~Miscellaneous.Shape])
+2,chain
+1,diadem|ValueMod+10|
+2,fine carved [~Miscellaneous.Material] chain
+2,choker
+2,cloak pin
+1,coronet|ValueMod+10|
+1,crown|ValueMod+15|
+1,crown set with {AorAn~[Gems]}|ValueMod+15|
+2,earring[Set With]
+2,[~Creatures.Animal]-shaped earings|ValueMod-10|
+2,[~Miscellaneous.Shape]-shaped earings|ValueMod-10|
+2,eye glasses
+2,headband
+3,holy symbol of [~Religion.Good Gods(2)]
+2,locket (shape: [~Miscellaneous.Shape])
+2,medallion (shape: [~Miscellaneous.Shape])
+1,monocle
+2,necklace[Set With]
+1,nose ring
+2,pendant (engraved with [~Rune Generator.GenRune])|ValueMod+5|
+2,pendant (shape: [~Miscellaneous.Shape])|ValueMod+5|
+2,pin
+3,religious symbol of [~Religion.Neutral Gods(2)]
+2,ring
+2,ring set with {AorAn~[Gems]}
+1,tiara|ValueMod+15|
+2,torc
+3,unholy Symbol of [~Religion.Evil Gods(2)]
+
+:Set With
+1-2, set with a cluster of [Gems] 
+3-4, set with {AorAn~[Gems]}
+5-8,
+
+;Carving
+1,figurine
+1,statuette
+1,statue
+1,idol
+
+;Clothing
+1,belt
+1,boots
+1,buttons
+1,cape
+1,cloak
+1,coverlet
+1,curtain
+1,dress
+1,eyepatch
+1,fan
+1,flag
+1,garter
+1,gloves
+1,gown
+1,handkerchief
+1,hat
+1,[ClothingFigure] mask
+1,pillow
+1,quilt
+1,ribbon
+1,robe
+1,sandals
+1,sash
+1,scarf
+1,shawl
+1,shirt
+1,slippers
+1,trim
+1,trousers
+1,tunic
+1,veil
+1,vest
+1,vestments
+
+;ClothingFigure
+1,unicorn
+1,pegasus
+1,elf hero
+1,goddess
+1,god's
+1,orc hero
+1,dwarf hero
+1,human hero
+1,halfling hero
+1,figure on a horse
+1,cat
+1,dog
+1,bear
+1,lion
+5,dragon
+1,woman's face
+
+;Container
+2,[Equipment.Musical Instruments]
+2,basket
+2,bowl
+2,case
+1,large cauldron
+2,small cauldron
+2,chest
+2,coffer|ValueMod+5|
+2,decanter
+2,ewer
+2,flask
+2,jar
+2,ox
+2,pot
+2,serving tray
+2,urn
+2,vase
+2,vial
+2,jewelry box|ValueMod+5|
+
+;Drinking Vessel
+3,cup
+5,drinking horn
+3,mug
+1,decanter|ValueMod+5|
+
+;Figurine
+5,natural animal ([~Creatures.Animal])
+5,magical animal ([~Creatures.Familiar Rare])
+5,flying creature ([~Creatures.Flying])
+5,fantastic creature ([~Creatures.Fantastic])
+5,[Creatures.Humanoid]
+3,[Building]
+3,[Elemental]
+5,[~Religion.Deities(2)]
+3,[Nature]
+3,[Travel]
+1,magical item replica
+1,artifact replica
+
+;Crafts Item
+1,loom
+1,pottery wheel
+1,key
+1,thimble
+1,mortar and pestle
+1,stylus
+1,scissors
+1,quill
+1,map case
+1,scroll case
+1,clasp
+5,large well-done wool tapestry depicting [~Scene]
+5,[~Miscellaneous.Cloth] tapestry depicting [~Scene]
+2,scene [Decorate] on [~Miscellaneous.Cloth] depicting [~Scene]{If~{Dice~1d2}=1? in a [~Miscellaneous.Wood]-wood frame}
+2,figure [Decorate] on [~Miscellaneous.Cloth] depicting {AorAn~[ClothingFigure]}{If~{Dice~1d2}=1? in a [~Miscellaneous.Wood]-wood frame}
+
+:Decorate
+1,painted
+2,embroidered
+3,sewn
+
+:Scene
+1,a battle
+2,a city
+3,a forest
+4,a man
+5,a bridge
+6,a mountain
+7,{AorAn~[ClothingFigure]}
+8,a river
+9,a sea
+10,a ship
+11,a harbor
+12,a tree
+13,a castle
+14,a hunt
+15,a woman
+16,a lake
+17,a fountain
+18,a well
+
+;Literature
+5,spellbook cover made of [Materials III]
+5,religious edicts of [~Religion.Deities(2)]
+1,recipe
+3,poem (written by [Formal Names.Start])
+3,alchemical formula
+3,family tree of the [~Names Generator.NAME Random] ([~Creatures.Humanoid2] family)
+1,ink formula
+5,will and testament of [~Names Generator.NAME Random] ([~Creatures.Humanoid2])
+5,property deed of [~Places.Generate]
+3,travel diary of [~Names Generator.NAME Random] to the [~Countries.Countries]
+1,art lexicon
+5,letter of credit made to the name of [~Names Generator.NAME Random]. The amount is [~Value] from a bank of [~Countries.Land]
+3,letter of credit made to the holder. The amount is [~Value] from a bank of [~Countries.Land]
+1,letter of pardon made to the name of [~Names Generator.NAME Random], from the [~Countries.Countries]
+1,letter with directions (toward the [~Countries.Countries]) 
+1,shopping list
+1,herbal remedy
+1,song (written by [Formal Names.Start])
+1,map
+1,letter to [~Names Generator.NAME Random] (<b>[Countries.Land]</b>) from [~Names Generator.NAME Random] (<b>[Countries.Land]</b>) saying this: <i>[~Rumors.Alternate]</i>
+
+;Nature
+1,pine cone(s)
+1,fruit
+1,vegetable(s)
+1,leaf/leaves
+1,flower(s)
+1,egg(s)
+1,snowflake(s)
+1,butterfly
+1,mushroom(s)
+1,bee(s)
+1,spider(s)
+1,bird(s)
+1,squirrel(s)
+1,mouse
+
+;Travel
+5,ship
+1,cart
+1,wagon
+1,carriage
+1,saddle
+1,sled
+5,boat
+1,chariot
+
+;Building
+1,pyramid
+1,lighthouse
+3,mage tower
+5,temple of [~Religion.Deities(2)]
+5,shrine to [~Religion.Deities(2)]
+1,fountain
+1,gazebo
+1,bridge
+5,castle
+
+;Full or Not
+1,empty
+1,filled with [Contents]
+
+;Contents
+1,perfume
+1,wick and beeswax
+1,marbles (<b>{Dice~1d20+4}</b>)
+1,plants and water
+1,plants and soil
+1,smoke
+1,holy water
+1,unholy water
+1,honey
+1,nuts
+1,raisins
+1,sand
+1,[~Spell Components.Generate]
+1,spices
+1,wine
+1,glue
+1,a potion
+1,a potion component
+1,ink ([~Miscellaneous.Color])
+1,a magical scroll ink component
+1,a rare dried herb ([~Herb Names.Generate])
+1,cosmetics
+1,exotic tea leaves
+1,healing liquid (heals 1-3 hp)
+1,embalming fluid
+1,oil (with {AorAn~[Miscellaneous.Odor]})
+1,acid
+1,poison antidote
+1,drugs
+1,a fragrant oil
+1,liquid soap
+1,paint ([~Miscellaneous.Color])
+1,burn salve (heals 1d3 hp of fire damage)
+1,animal blood ([~Creatures.Animal])
+1,humanoid blood ([~Creatures.Fantastic])
+1,monster blood ([~Creatures.Humanoid])
+1,jelly
+1,monster plant seeds
+1,monster plant spores
+1,monster fish eggs
+
+:Materials I
+1-4,[~Miscellaneous.Metal]
+5-7,[Substance]
+8,[~Miscellaneous.Wood] wood
+
+:Materials II
+1-2,[~Miscellaneous.Metal]
+3-4,[Substance]
+5-6,[~Miscellaneous.Wood] wood
+
+:Substance
+5,[~Miscellaneous.Other Material]
+1,[~Miscellaneous.Stone]
+
+:Materials III
+1,[~Miscellaneous.Metal]
+2,[Substance]
+3,[~Miscellaneous.Cloth]
+4,[~Miscellaneous.Wood] wood
+
+:Elemental
+1-5,fire elemental
+6-10,hell hound
+11-15,invisible stalker
+16-20,salamander
+21-25,earth elemental
+26-30,air elemental
+31-35,crysmal
+36-40,azer
+41-45,elemental vern
+46-50,nishruu
+51-55,phantom stalker
+56-60,terithran
+61-65,xill
+66-70,sylph
+71-75,aerial servant
+76-80,water elemental
+81-85,sandling
+86-90,fire snake
+91-95,nereid
+96-100,water weird
+
+# ------------------------------------------------------------------------
+
+:SetValue
+1,|ValueMod=-77|
+2,|ValueMod=-47|
+3,|ValueMod=-12|
+4,|ValueMod=30|
+5,|ValueMod=60|
+
+;Value
+1,[ValueShow+%ValueMod%]
+
+;ValueShow
+# Cheap
+15,[AddComma.Start({Dice~1d10*10})] [Money=%MoneyType%]
+15,[AddComma.Start({Dice~3d6*10})] [Money=%MoneyType%]
+# Low (Average Min)
+15,[AddComma.Start({Dice~1d6*100})] [Money=%MoneyType%]
+15,[AddComma.Start({Dice~1d8*100})] [Money=%MoneyType%]
+12,[AddComma.Start({Dice~2d6*100})] [Money=%MoneyType%]
+# High
+9,[AddComma.Start({Dice~3d6*100})] [Money=%MoneyType%]
+7,[AddComma.Start({Dice~4d6*100})] [Money=%MoneyType%]
+5,[AddComma.Start({Dice~5d6*100})] [Money=%MoneyType%]
+# Expensive (Average Max)
+4,[AddComma.Start({Dice~1d4*1000})] [Money=%MoneyType%]
+3,[AddComma.Start({Dice~1d6*1000})] [Money=%MoneyType%]
+2,[AddComma.Start({Dice~2d6*1000})] [Money=%MoneyType%]
+2,[AddComma.Start({Dice~3d6*1000})] [Money=%MoneyType%]
+1,[AddComma.Start({Dice~4d6*1000})] [Money=%MoneyType%]
+1,[AddComma.Start({Dice~6d6*1000})] [Money=%MoneyType%]
+1,[AddComma.Start({Dice~10d6*1000})] [Money=%MoneyType%]
+
+:Money
+1,gp
+2,cp
+3,$
+4,£
+5,francs
+
+# ------------------------------------------------------------------------
+
+:Spell Component
+1,Spell Component ([~Spell Components.Generate])
+
+:Gems
+4,[Gems2.Alternate(2,1)],

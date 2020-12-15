@@ -1,0 +1,386 @@
+# ------------------------------------------------------
+# Last Update: re-verified by Valminder Jan 10, 2012.
+# ------------------------------------------------------
+# ---------------------------------------------------
+# Last Update: modified by Valminder August 8, 2006.
+# ---------------------------------------------------
+#
+# Instant Adventure Namer
+#
+# This is a fun little table intended to generate names of
+# adventure modules (it's possible to see some familiar names
+# with this one). Nothing earth-shattering here, but some
+# of the results might inspire you!
+#
+# By Bruce A. Gulke, 2001
+#
+# -------------------------------------------------------------------------
+# This Table Links to these tables as required:
+#    Creatures
+#    Miscellaneous
+#    Names Generator
+#    Religion
+#
+# -------------------------------------------------------------------------
+# This table is called by: (can be called by other tables also)
+#    NPC Stat Block Pathfinder
+#
+# -------------------------------------------------------------------------
+# Modified by Valminder April 2002
+#    I modified the "START" line.
+#    I added some links to these other tables:
+#        Creatures.Animal
+#        Creatures.Fantastic
+#        Miscellaneous.Color
+#        Names Generator.NAME Random
+#        Religion.Deities
+#
+# Modified by Valminder July 2003, with KS_AdventureNamer table
+#        Creatures.Monsters
+#        Miscellaneous.Ruler
+#
+# Modified by Valminder July 2003, with KS_AdventureNamer table
+#    Removed header from [Start]
+# Modified by Valminder August 2006
+#    Added link to: Notable Event Names.tab
+#    Added Deity parameter.
+#
+
+%Deity%,0
+
+@Deity,2,Choose the deity you want to use,Core Gods of PHB,Religion.Deities
+
+:Start
+1,{Status~Bruce A. Gulke 2001, Valminder 2006}[Generate].
+
+;Generate
+1,{Cap~[Action]} of the {Cap~[Monster]} {Cap~[Ruler]}
+1,{Cap~[Action]} of the {Cap~[Creatures.Humanoid]} {Cap~[Ruler]}
+1,{Cap~[Adjective]} {Cap~[Thing]} of [ChooseDeities=%Deity%]
+1,{Cap~[Adjective]} {Cap~[Thing]} of [Names Generator.NAME Random]
+1,{Cap~[Building]} on {Cap~[Creature=2]} {Cap~[Geography]}
+1,{Cap~[Building]} on the {Cap~[Region]}
+1,{Cap~{Plural~[Building]}} of the {Cap~[Monster]} {Plural~[Ruler]}
+1,{Cap~[Miscellaneous.Color]} {Cap~[Item]} {Cap~[Geography]}
+1,{Cap~[Deed]} of the {Cap~[Person]}'s {Cap~[Item]}
+1,{Cap~[Escape]} from [Names Generator.NAME Random]'s {Cap~[Building]}
+1,{Cap~[Escape]} from the [Names Generator.NAME Random] {Cap~[Building]}
+1,{Cap~[Geography]} of {Cap~[Element]}
+1,{Cap~[Geography]} of the {Cap~[Monster]} {Cap~[Ruler]}
+1,{Cap~[Item]} of [ChooseDeities=%Deity%]
+1,{Cap~[Item]} of {Cap~[Element]}
+1,{Cap~[Journey]} the {Cap~[Region]}
+1,{Cap~[Journey]} the [Names Generator.NAME Random] {Cap~[Place]}
+1,{Cap~[Monster]} {Cap~[Place]} of [Names Generator.NAME Random]
+1,[Names Generator.NAME Random] {Cap~[Building]}
+1,{Cap~[People]} of the {Cap~[Adjective]} {Cap~[Place]}
+1,{Cap~[People]} of {Cap~[Element]}
+1,{CapEachWord~[Person]} of [Names Generator.NAME Random] {Cap~[Geography]}
+1,{Cap~[Place]} of [Names Generator.NAME Random]
+1,{Cap~[Place]} of the {Cap~[Miscellaneous.Color]} {Cap~[Item]}
+1,{Cap~[Place]} of the {Cap~[Monster]}
+1,{Cap~[Person]} {Cap~[Place]} of the {Cap~[Place]}
+1,{Cap~[Quest]} {Cap~[Adjective]} {Cap~[Item]}
+1,{Cap~[Quest]} {Cap~[Adjective]} {Cap~[Place]}
+1,{Cap~[Quest]} [Names Generator.NAME Random]'s {Cap~[Item]}
+1,{Cap~[Ruler]} of the {Cap~[Monster]} {Cap~[Place]}
+1,{Cap~[Secret]} of the {Cap~[People]} {Cap~[Building]}
+1,{Cap~[Secret]} of the {Cap~[Adjective]} {Cap~[Item]}
+1,{Cap~[Secret]} of {Cap~[Item]} {Cap~[Geography]}
+1,{Cap~[Thing]} of {Cap~[Adjective]} {Cap~[Element]}
+1,{Cap~[Thing]} of {Cap~[Element]}
+1,{Cap~[Thing]} of [Names Generator.NAME Random]
+1,{Cap~[Thing]} of the {Cap~[Creature]} {Cap~[Ruler]}
+1,{Cap~[Thing]} of the {Cap~[Miscellaneous.Color]} {Cap~[Ruler]}
+1,{Cap~[Thing]} of the {Cap~[Monster]}
+1,{Cap~[Thing]} of the {Cap~[Monster]} {Cap~[Ruler]}
+1,[Notable Event Names.Generate(%Deity%)]
+
+;Action
+1,assault
+2,attack
+2,fight
+2,flight
+2,fury
+2,might
+1,pillage
+1,raid
+1,razing
+2,revenge
+2,vengeance
+
+;Adjective
+1,[Miscellaneous.Color]
+1,arcane
+1,cursed
+1,damned
+1,dark
+1,divine
+1,elemental
+1,evil
+1,forbidden
+1,forgotten
+1,forsaken
+1,foul
+1,ghostly
+1,hallowed
+1,hidden
+1,horrid
+1,lost
+1,nightmare
+1,sinister
+1,unknown
+1,sunless
+1,wonderful
+
+;Building
+1,abbey
+1,cave
+1,citadel
+1,college
+1,forge
+1,fort
+1,fortress
+1,hall
+1,keep
+1,manor
+1,mansion
+1,maze
+1,palace
+1,shrine
+1,steading
+1,stockade
+1,temple
+1,tomb
+1,tower
+1,vault
+
+;Creature
+1,[Creatures.Animal]
+1,[Creatures.Fantastic]
+
+;Deed
+1,destruction
+1,recovery
+1,imprisonment
+1,eradication
+1,theft
+1,replacement
+1,escorting
+
+;Element
+1,air
+1,blood
+1,chaos
+1,darkness
+1,death
+1,desolation
+1,doom
+1,earth
+1,evil
+1,fire
+1,fury
+1,good
+1,horrors
+1,law
+1,light
+1,madness
+1,order
+1,power
+1,time
+1,water
+
+;Escape
+1,escape
+1,exodus
+1,flight
+1,rout
+
+;Geography
+1,canyon
+1,dale
+1,desert
+1,forest
+1,glacial rift
+1,hill
+1,island
+1,lake
+1,marsh
+1,mountain
+1,river
+1,sea
+1,swamp
+1,vale
+1,valley
+1,volcano
+
+;Item
+1,bones
+1,cloak
+1,crown
+1,crucible
+1,flagon
+1,gem
+1,gold
+1,grimoire
+1,helm
+1,orb
+1,palm
+1,pearl
+1,plume
+1,rod
+1,scepter
+1,seal
+1,shield
+1,skull
+1,spear
+1,staff
+1,stone
+1,sword
+1,tome
+
+;Journey
+1,[Quest]
+1,descent into
+1,expedition to
+1,journey into
+1,quest for
+1,search for
+1,voyage to
+
+;Monster
+1,[Creatures.Monsters]
+
+;People
+1,bandits
+1,cultists
+1,defenders
+1,druids
+1,dwellers
+1,followers
+1,hunters
+1,masters
+1,mercenaries
+1,merchants
+1,monks
+1,pilgrims
+1,rogues
+1,seekers
+1,slavers
+1,wanderers
+1,warriors
+1,wizards
+
+;Person
+2,[PersonPowerful]
+1,[PersonWeak]
+1,[Superlatives] [PersonPowerful]
+
+;PersonPowerful
+1,[Ruler]
+1,archmage
+1,assassin
+1,death Merchant
+1,headhunter
+1,hunter
+1,mage
+1,magus
+1,necromancer
+1,paragon
+1,slaver
+1,slayer
+1,sorcerer
+1,thrall
+1,warlock
+1,witch
+
+;PersonWeak
+1,apprentice
+1,cobbler
+1,cook
+1,cutthroat
+1,fence
+1,fool
+1,jester
+1,journeyman
+1,maid
+1,smith
+1,tailor
+
+;Place
+1,caverns
+1,caves
+1,city
+1,haven
+1,lair
+1,mazes
+1,metropolis
+1,mines
+1,monastery
+1,oasis
+1,pits
+1,sewers
+1,undercity
+1,wastes
+
+;Quest
+1,In Search of
+1,Quest for the
+1,Search for the
+
+;Region
+1,[Countries.Regions]
+
+;Ruler
+1,[Miscellaneous.Ruler]
+
+;Secret
+1,conspiracy
+1,enigma
+1,intrigue
+1,mystery
+1,plot
+1,riddle
+1,secret
+1,unknown Horrors
+
+;Superlatives
+1,unstoppable
+1,relentless
+1,mad
+1,killer
+1,masterful
+1,mighty
+1,horrible
+1,fiendish
+1,celestial
+1,superb
+1,pious
+1,wise
+1,learned
+1,educated
+1,unmatched
+1,undefeated
+1,invincible
+1,invulnerable
+1,murderous
+1,curious
+1,lazy
+1,greedy
+1,zealous
+1,skullfaced
+1,[Creatures.Fantastic]bane
+1,[Creatures.Fantastic]slayer
+1,[Creatures.Bird of Prey]
+1,[Creatures.Bird of Prey]-Eyed
+1,[Creatures.Animal]slayer
+
+;Thing
+1,[Building]
+1,[Geography]
+1,[Place]
+1,[Item]
+
+:ChooseDeities
+1,[~Religion.CoreGods]
+2,[~Religion.Deities(2)]

@@ -1,0 +1,138 @@
+# -----------------------------------------------------
+# Last Update: modified by Valminder Nov 16, 2015.
+# -----------------------------------------------------
+#
+# Random Planned Encounters
+#
+# By Robert Maxwell (wht_knght@yahoo.com)
+#
+# Who, what, when, where, why, how
+#
+# Modified by Valminder, Nov 2003.
+#    Changed name from "Random Planned Encounters" to "City Encounters 2"
+#    Linked this table to: "City Encounters"
+#    Linked to: Creatures.Animal2 (removed CityAnimal subtable)
+#               Creatures.Humanoid
+#               Creatures.Humanoid2
+#               Miscellaneous.ClassPC (removed Class subtable)
+#               Miscellaneous.Gender (removes Sex subtable)
+#               Miscellaneous.OccupationsMeanings
+#               Miscellanoeus.Personality (Removed Traits subtable)
+#               NPC Appearance.NPC
+# Modified by Valminder, Nov 2015.
+#    Modified Link to create NPC.
+#
+
+%GenMeanings%,2
+%GenNPC%,1
+%TheSubject%,0
+
+@GenNPC,3,Do you want to generate a random NPC?,Yes,No,Link
+@GenMeanings,2,Do you want to see the meanings of occupations?,Yes,No
+
+:Start
+1,Someone [Motivation].<br>
+_{If~%GenNPC%!=2?[GenNPC=%GenNPC%]}
+
+:Alternate1
+1,A [~Race] [Occupation] [Motivation].<br>
+_{If~%GenNPC%!=2?[GenNPC=%GenNPC%]}
+
+:Alternate2
+1,A [~Race] [Occupation] (<b>[Names Generator.NAME Random]</b>) [Motivation]
+
+:GenNPC
+1,<br>[NPC Appearance.Generate_ENC_URE]<br>
+2,
+3,{Generate~0,INFORMATIONS: Click to generate the NPC's appearance and informations.,GenNPC=1}
+
+:Occupation
+1,{If~%GenMeanings%=1 ? [~Miscellaneous.OccupationsMeanings]/[~Miscellaneous.Occupations]}
+
+;Race
+1,[Creatures.Humanoid]
+4,[Creatures.Humanoid2]
+
+:Motivation
+1,asks a party member [ForWhat]
+2,is curious about the party
+3,wants to hire the party [ForWhat]
+4,wants to buy something from the party
+5,is trying to calm a jealous spouse [Spouse]
+6,is delivering a message
+7,is lost and asks for directions. If the party tells them the way, the person is pleased with the information, but fears that is a "bad part" of town and wishes the party to escort him if they might.
+8,needs information [ForWhat]
+9,is pursuing [~Someone]
+10,is looking for a lost relative [ForWhat]
+11,is looking for a lost friend [ForWhat]
+12,mistakes the a party member for [~Someone]
+13,wants to steal something
+14,is drinking
+15,is drunk
+16,is sleeping in an inappropriate place
+17,splashes mud on a party member
+18,has an unexplained interest in the party
+19,is involved in a fight (with {AorAn~[Race]})
+20,attacks the party for no apparent reason
+21,is repairing a broken cart wheel
+22,wants the party to settle a dispute (about something)
+23,compliments a party member (for some reason)
+24,is being chased by dogs
+25,is chasing a spooked [~Creatures.Animal2]
+26,is cursing profusely
+27,hates [~Race]
+28,is looking for someone who reads
+29,is knocked over by [~Someone]
+30,is being mugged
+31,makes rude comments about [~Miscellaneous.ClassPC]
+32,is having a loud arguement with {AorAn~[Race][Occupation]}
+33,accidently bumps into a party member
+34,is practicing their occupation or skills
+35,is looking for a fight
+36,is begging for food
+37,is begging for money
+38,is begging for water
+39,is having their pocket picked
+40,is cleaning the area in front of a shop
+41,is curious about a specific party member
+42,is looking for the party [ForWhat]
+43,is picking [~Someone] pocket
+44,is throwing small stones at a [~Creatures.Animal2]
+45,hates [~Miscellaneous.ClassPC]
+46,makes rude comments about [~Race]
+
+:Someone
+1,a relative ([~Race] [Occupation])
+2,a love interest ([~Race] [Occupation])
+3,an enemy ([~Race] [Occupation])
+4,{AorAn~[Race]} [Occupation]
+5,a local commoner ([~Race] [Occupation])
+6,a local merchant ([~Race] [Occupation])
+7,a local [Occupation]
+8,a local noble
+5,a neighboring city commoner ([~Race] [Occupation])
+6,a neighboring city merchant ([~Race] [Occupation])
+7,a neighboring city [Occupation]}
+8,a neighboring city noble
+9,a town guardsman
+10,a captain of the town guard
+11,themself! (Crazy time!)
+
+:Spouse
+1,who caught them staring at [SpouseWho]
+2,who caught them having a romantic encounter with [SpouseWho]
+3,who "thinks" they are having an affair with [SpouseWho]
+
+;SpouseWho
+1,a member of the opposite sex
+9,a member of the same sex
+
+:ForWhat
+1,to return a lost item of [~Someone]
+2,to steal an item from [~Someone]
+3,to find [~Someone] lost item
+4,to perform some mundane task like lifting a heavy crate, etc.
+5,to kill [~Someone].  (Maybe they are just angry at them and need someone to talk to about it...)
+6,to rescue [~Someone] from a person, place, or situation.
+7,to take them with the party on an adventure
+8,to return a stolen item to [~Someone]

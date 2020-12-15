@@ -1,0 +1,381 @@
+# ------------------------------------------------------
+# Last Update: Modified by Valminder Jan 10, 2012.
+# ------------------------------------------------------
+#
+# This file is a Tablesmith implementation
+# of the file "RIDDLES.TXT" which accompanies
+# this table. Credits, sources, etc. for the
+# riddles can be found in that file; this table
+# just covered the riddles from that net.book.
+#
+# I placed the "Riddle.TXT" file in the same folder.
+#
+# Modified by Valmidner, Nov 2005
+#      RIDDLE.TXT was moved to [~Reference Misc]
+# Modified by Valminder, Jan 2012
+#      Added OverRideRolls
+#
+
+/OverRideRolls 1
+
+%Counter%,0
+%ConcealAnswer%,0
+
+@ConcealAnswer,1,Hide answer (display in white)?,Yes,No
+
+:Start
+1,|Counter={Dice~1d171}|
+_<b>Q:</b> [Question=%Counter%]<br><br>
+_<b>A:</b> {If~%ConcealAnswer%=1?[DisplayAnswer=1]/[DisplayAnswer=2]}
+
+:DisplayAnswer
+1,<font color="white">[Answer=%Counter%]</font><br>
+_<font size="-1"><i>Use the cursor to highlight the area above and reveal the answer</i></font>
+2,[Answer=%Counter%]
+
+:Question
+1,You eat something you neither plant nor plow.<br>It is the son of water, but if water touches it, it dies.
+2,A serpent swam in a silver urn.<br>A golden bird did in its mouth abide<br>The serpent drank the water, this in turn<br>Killed the serpent. Then the gold bird died.
+3,Teacher, open thy book.
+4,My tines are long.<br>My tines are short.<br>My tines end ere<br>My first report.
+5,Turn us on our backs<br>And open up our stomachs<br>You will be the wisest of men<br>Though at start a lummox.
+6,The hungry dog howls<br>For crust of bread.<br>His cry goes unheard<br>It's far overhead.
+7,Bury deep,<br>Pile on stones,<br>Yet I will<br>Dig up the bones.
+8,A cloth poorly dyed<br>And an early morning sky<br>How are they the same?
+9,It occurs once in every minute<br>Twice in every moment<br>And yet never in one hundred thousand years.
+10,My first wears my second; my third might be<br>What my first would acquire if he went to the sea.<br>Put together my one, two, three<br>And the belle of New York is the girl for me.
+11,Never ahead, ever behind,<br>Yet flying swiftly past;<br>For a child I last forever,<br>For adults I'm gone too fast.
+12,Two horses, swiftest travelling,<br>Harnessed in a pair, and<br>Grazing ever in places<br>Distant from them.
+13,It can be said:<br>To be gold is to be good;<br>To be stone is to be nothing;<br>To be glass is to be fragile;<br>To be cold is to be cruel.<br>Unmetaphored, what am I?
+14,round she is,<br>yet flat as a board<br>altar of the Lupine Lord<br>Pearl on black velvet<br>Jewel in the sea<br>Unchanged yet e'er changing<br>Eternally.
+15,Twice four and twenty blackbirds<br>sitting in the rain<br>I shot and killed a quarter of them<br>How many do remain?
+16,first will be last<br>last will be first<br>and all inbetween will also be cursed<br>open the door and the thing will be there<br>so be carefull and beware!
+17,It has a golden head<br>It has a golden tail<br>but it hasn't got a body.
+18,A leathery snake,<br>With a stinging bite,<br>I'll stay coiled up,<br>Unless I must fight.
+19,My life can be measured in hours,<br>I serve by being devoured.<br>Thin, I am quick<br>Fat, I am slow<br>Wind is my foe.
+20,What has roots as nobody sees,<br>Is taller than trees,<br>Up, up it goes,<br>And yet never grows?
+21,Thirty white horses on a red hill,<br>First they champ,<br>Then they stamp,<br>Then they stand still.
+22,Voiceless it cries,<br>Wingless it flutters,<br>Toothless bites,<br>Mouthless mutters.
+23,An eye in a blue face<br>Saw an eye in a green face.<br>"That eye is like to this eye"<br>Said the first eye,<br>"But in low place,<br>Not in high place."
+24,It cannot be seen, cannot be felt,<br>Cannot be heard, cannot be smelt.<br>It lies behind stars and under hills,<br>And empty holes it fills.<br>It comes first and follows after,<br>Ends life, kills laughter.
+25,A box without hinges, key, or lid,<br>Yet golden treasure inside is hid.
+26,Alive without breath,<br>As cold as death;<br>Never thirsty, ever drinking,<br>All in mail never clinking.
+27,This thing all things devours:<br>Birds, beast,trees, flowers;<br>Gnaws iron, bites steel;<br>Grinds hard stones to meal;<br>Slays king, ruins town,<br>And beats high mountain down.
+28,You feel it, but never see it and never will.
+29,You must keep it after giving it.
+30,As light as a feather, but you can't hold it for ten minutes.
+31,Has a mouth but does not speak, has a bed but never sleeps.
+32,Runs smoother than any rhyme, loves to fall but cannot climb!
+33,You break it even if you name it!
+34,It passes before the sun and makes no shadow.
+35,You feed it, it lives, you give it something to drink, it dies.
+36,A red drum which sounds<br>Without being touched,<br>And grows silent,<br>When it is touched.
+37,A harvest sown and reaped on the same day<br>In an unplowed field,<br>Which increases without growing,<br>Remains whole though it is eaten<br>Within and without,<br>Is useless and yet<br>The staple of nations.
+38,If you break me<br>I do not stop working,<br>If you touch me<br>I may be snared,<br>If you lose me<br>Nothing will matter.
+39,All about, but cannot be seen,<br>Can be captured, cannot be held<br>No throat, but can be heard.
+40,I go around in circles,<br>But always straight ahead<br>Never complain,<br>No matter where I am led.
+41,Lighter than what<br>I am made of,<br>More of me is hidden<br>Than is seen.
+42,If a man carried my burden,<br>He would break his back.<br>I am not rich,<br>But leave silver in my track.
+43,My life can be measured in hours,<br>I serve by being devoured.<br>Thin, I am quick<br>Fat, I am slow<br>Wind is my foe.
+44,Weight in my belly,<br>Trees on my back,<br>Nails in my ribs,<br>Feet I do lack.
+45,You can see nothing else<br>When you look in my face<br>I will look you in the eye<br>And I will never lie.
+46,I am always hungry,<br>I must always be fed,<br>The finger I lick<br>Will soon turn red.
+47,Three lives have I.<br>Gentle enough to soothe the skin,<br>Light enough to caress the sky<br>Hard enough to crack rocks.
+48,Glittering points<br>That downward thrust,<br>Sparkling spears<br>That never rust.
+49,Each morning I appear<br>To lie at your feet,<br>All day I follow<br>No matter how fast you run,<br>Yet I nearly perish<br>In the midday sun.
+50,Keys without locks<br>Yet I unlock the soul.
+51,Something wholly unreal, yet seems real to I<br>Think my friend, tell me where does it lie?
+52,I am so simple,<br>That I can only point<br>Yet I guide men<br>All over the world.
+53,A beggar's brother went out to sea and drowned.<br>But the man who drowned had no brother.<br>What was the relationship between the man who drowned and the beggar?
+54,For our ambrosia we were blessed,<br>by Jupiter, with a sting of death.<br>Though our might, to some is jest,<br>we have quelled the dragon's breath.<br>Who are we?
+55,Colored as a maiden tweaked,<br>time was naught when I began;<br>through the garden I was sneaked,<br>I alone am the fall of man.<br>What am I?
+56,Early ages the iron boot tread,<br>with Europe at her command.<br>Through time power slipped and fled,<br>'til the creation of new holy land.<br>Who am I?
+57,One thin, one bold,<br>one sick, one cold.<br>The earth we span,<br>to prey upon man.<br>Who are we?
+58,One where none should be,<br>or maybe where two should be,<br>seeking out purity,<br>in the kings trees.<br>What am I?
+59,He who makes it does not keep it.<br>He who takes it does not know it.<br>He who knows it does not want it.<br>He who gathers it must destroy it.<br>What is it?
+60,One tooth to bite,<br>he's the forests foe.<br>One tooth to fight,<br>as all Norse know.<br>What is it?
+61,This creature, part man and part tree,<br>hates the termite as much as the flea.<br>His tracks do not match,<br>and his limbs may detach,<br>but he's not a strange creature to see.<br>What is it?
+62,The part of the bird<br>that is not in the sky,<br>which can swim in the ocean<br>and always stay dry.<br>What is it?
+63,Dead and bound,<br>what once was free.<br>What made no sound,<br>now sings with glee.<br>What is it?
+64,The root tops the trunk<br>on this backward thing,<br>that grows in the winter<br>and dies in the spring.<br>What is it?
+65,Touching one, yet holding two,<br>it is a one link chain<br>binding those who keep words true,<br>'til death rent it in twain.<br>What is it?
+66,The man who made it didn't need it.<br>The man who bought it didn't use it.<br>The man who used it didn't want it.
+67,A Statue with the Inscription : All ye who Enter here, weep, for my Story<br>is a sorrowfull one. (Or something similar)
+68,The wise and knowledgeable man is sure of it.<br>Even the fool knows it.<br>The rich man wants it.<br>The greatest of heroes fears it.<br>Yet the lowliest of cowards would die for it.<br>What is this upon which I ponder?
+69,I am and yet can not<br>am an Idea, yet can rot<br>am two but none<br>am on land, but on sea.<br>What am I?
+70,all in white<br>Fossil, fresh snow, a loan, the sky,<br>Just what am I?
+71,I am better than sex,<br>I am worse than MS-DOS,<br>Dead men eat me,<br>If you eat me you'll die.
+72,Two horses, swiftest travelling,<br>Harnessed in a pair, and<br>Grazing ever in places<br>Distant from them.
+73,What is greater than God,<br>Worse than the Devil,<br>Dead man eat it,<br>If you eat it you'll die.
+74,I am a wonderful help to women,<br>The hope of something to come. I harm<br>No citizen except my slayer.<br>Rooted I stand on a high bed.<br>I am shaggy below. Sometimes the beautiful<br>Peasant's daughter, an eager-armed,<br>Proud woman grabs my body,<br>Rushes my red skin, holds me hard,<br>Claims my head. The curly-haired<br>Woman who catches me fast will feel<br>Our meeting. Her eye will be wet.
+75,I saw a swift one shoot out on the road:<br>SSIP<br>I saw a woman sitting alone.
+76,Power and treasure for a prince to hold,<br>Hard and steep-cheeked, wrapped in red<br>Gold and garnet, ripped from a plain<br>Of bright flowers, wrought - a remnant<br>Of fire and file, bound in stark beauty<br>With delicate wire, my grip makes<br>Warriors weep, my sting threatens<br>The hand that grasps gold. Studded<br>With a ring, I ravage heir and heirloom.<br>To my lord and foes always lovely<br>And deadly, altering face and form.
+77,As I was going to St. Ives,<br>I met a man with seven wives;<br>Every wife had seven sacks,<br>Every sack had seven cats,<br>Every cat had seven kits:<br>Kits, cats, sacks, and wives,<br>How many were there going to St. Ives?
+78,Thirty white horses upon a red hill,<br>Now they stamp,<br>Now they champ,<br>Now they stand still.
+79,Dawns away,<br>The day's turned grey,<br>And I must travel far away.<br>But I'll be back,<br>And then we'll track,<br>The light of yet another day.
+80,Deep, dark, underground,<br>That is the place where I'll be found.<br>Yet brought into the light of day,<br>I sprinkle sunlight every-which-a-way.<br>Though dulled with oil I will be found,<br>I am remarkably well and throughly sound.<br>Cut me quick and it will be seen,<br>That I instantly have a marvelous sheen.
+81,Long legs, crooked thighs,<br>Little head, and no eyes.
+82,What has six eyes,<br>Six arms,<br>Six legs,<br>Three heads,<br>And a very short life?
+83,What is it that speaks without any words?<br>And can be loudly, and distinctly heard?<br>Will drive away friend, and foe alike.<br>And is enough to make a stolid man's face alight?
+84,What must be in the oven yet can not be baked?<br>Grows in the heat yet shuns the light of day?<br>What sinks in water but rises with air?<br>Looks like skin, but is fine as hair?
+85,Little Johnny Walker,<br>My, but he was a talker!<br>Yet nary a word did he say!<br>When I took him out,<br>Then they would all point and shout!<br>And ask that I put him away.<br>(This is NOT a dirty riddle.<br>So get your mind out of the gutter!)
+86,Two legs sat upon three legs with one leg in his lap.<br>In comes four legs, grabs one leg, and runs off with him.<br>Up jumps two legs, grabs up three legs, throws it after four legs,<br>and makes him bring back one leg.<br>Who are we?
+87,They are many and one,<br>They wave and they drum,<br>Used to cover a stare,<br>They go with you everywhere.
+88,Stomp, stomp,<br>Chomp, chomp,<br>Romp, romp.<br>Standing still,<br>all in gear.
+89,Sweet tooth,<br>Ah shoot,<br>All gone,<br>We all long,<br>For another piece of it.
+90,It comes in on little cat's feet,<br>Is neither sour, nor sweet.<br>Hovers in the air,<br>And then is not there.
+91,A laugh,<br>A cry,<br>A moan,<br>A sigh.
+92,What is it you have to answer?<br>But to answer you have to ask?<br>And to ask you have to speak?<br>And to speak you have to know,<br>The answer.
+93,I can hit you in the eye,<br>Yet twinkle in the sky,<br>Expanding when I die,<br>What do you think am I?
+94,Squishes,<br>Squashes,<br>Wishes I washes,<br>Can get it in my hair,<br>Makes me not look too fair.
+95,White on black,<br>And black on white.<br>Helps you to know things,<br>By using your sight.
+96,Up a hill,<br>Down a hill,<br>Over them I may roam,<br>But after all my walking,<br>There's no place like my own.
+97,This thing is a most amazing thing.<br>For it can be both as sharp as a knife,<br>Or as flat as a floor.<br>And yet, for all that it can be,<br>It is as natural as a bee.
+98,Deep, deep, do they go.<br>Spreading out as they go.<br>Never needing any air.<br>They are sometimes as fine as hair.
+99,Oh Lord!  I am not worthy!<br>I bend my limbs to the ground.<br>I cry, yet without a sound.<br>Let me drink of waters deep.<br>And in silence I will weep.
+100,Shifting, Shifting, Drifting deep.<br>Below me great and mighty cities sleep.<br>Swirling, Scurlling, All around.<br>I'm only where no water will be found.
+101,I bubble and laugh<br>And spit water in your face.<br>I am no lady,<br>And I don't wear lace.
+102,What has wings,<br>But can not fly.<br>Is enclosed,<br>But can outside also lie.<br>Can open itself up,<br>Or close itself away.<br>Is the place of kings and queens,<br>And doggerel of every means.<br>What is it upon which I stand?<br>Which can lead us to different lands.
+103,Do not begrude this,<br>For it is the fate of every man.<br>Yet it is feared,<br>And shunned in many lands.<br>Causes problems, and sometimes gaps,<br>Can hobble the strongest, and make memory laps.<br>What is this danger we all face?<br>For being a part - of the human race.
+104,Woe to Norman,<br>That craggy man.<br>Who's known such horrors,<br>As to exceed the grief of man.<br>And as it was written,A daughter was lost.<br>When the seas came a coming,<br>With a shout, and hoar frost.<br>Oh, where can he be?<br>This man of cruel fate.<br>Whose teeth are gnashing,<br>And a face full of hate.
+105,His eyes were raging,<br>That scraggly beast.<br>His lips were bursting,<br>With rows of angry teeth.<br>Upon his back a razor was found,<br>And in his thoughts - my death abound.<br>It was a fearsome battle we fought,<br>My life - or his, one would be bought.<br>And when we were through, and death chilled the air,<br>We cut out his heart, and ate it with flair.<br>Who was he?
+106,I travelled inwards,<br>To that heart where no one else roamed.<br>Where only the birds and animals found a home.<br>Where the pixies flew with an audible air,<br>And tangles twigs and leaves within my hair.<br>Ah.  I love this place, this paradise,<br>Where everything is so beautiful,<br>So still, and so nice.<br>Where did he go?
+107,Of these things - I have two.<br>One for me - and one for you.<br>And when you ask about the price,<br>I simply smile and nod twice.
+108,I am a strange creature,<br>Hovering in the air,<br>Moving from here to there,<br>With a brilliant flare.<br>Some say I sing,<br>But others say I have no voice.<br>So I just hum - as a matter of choice.<br>What am I?
+109,Sleeping during the day,<br>I hide away.<br>Watchful through the night,<br>I open at dawn's light.<br>But only for the briefest time,<br>Do I shine.<br>And then I hide away,<br>And sleep through the day.
+110,Looks like water,<br>But it's heat.<br>Sits on sand,<br>Lays on concrete.<br>People have been known,<br>To follow it everywhere.<br>But it gets them no place,<br>And all they can do is stare.
+111,A part of heaven,<br>Though it touches the earth.<br>Some say it's valuable,<br>Others - no worth.
+112,I stand,<br>And look across the sea,<br>With its waves, crests, troughs, and valleys.<br>I stride,<br>Across this water, my horse following after,<br>And while it laps against his withers,<br>And brushes against my thighs,<br>I fill the emptiness with laughter.<br>And he - with his sighs.<br>Whether do we go?<br>Or do we go at all?<br>Or are we simply out here wading,<br>To the next port of call.<br>Where the sea ends,<br>Where the loam lays firm beneath my feet,<br>And I can mount my steed again,<br>And continue til next we meet.<br>What is really being talked about?
+113,It roars its challenge,<br>And I respond.<br>It takes my abuse,<br>And goes beyond.<br>Filled with liquid,<br>In my hurried haste,<br>I wield my staff,<br>In this turgid race.<br>But once I have vanquished,<br>The mighty foe,<br>I float like a thistle,<br>While moving ever so slow.<br>What are we talking about really?
+114,I was born blind,<br>And could not see,<br>Until it was a quarter of three.<br>I could not smile,<br>Til half past six,<br>And all of my arms and legs<br>Were made of sticks.
+115,Ah!  My breath doth shake,<br>My limbs are thin,<br>My belly aches.<br>Whiteness doth crown my head,<br>And the tracks I leave,<br>Are unsteady where I've led.<br>I look out through rheumy eyes,<br>And seem to say my last goodbyes.<br>The darkness doth draw me near,<br>I lean towards it - the better to hear.
+116,A riddle given by two people to a third:<br><br>(1st person, 2nd person)<br><br>Tis not, tis is.<br>Tis good, tis bad.<br>Tis left, tis right.<br>Tis day, tis night.
+117,Hick-a-more, Hack-a-more,<br>On the King's kitchen door.<br>All the King's horses,<br>And all the King's men,<br>Couldn't get Hick-a-more, Hack-a-more,<br>Off the King's kitchen door.
+118,It was once upon a time,<br>and nursery rhymes.<br>When genii's stood all in a row.<br>When Little Jack Horner,<br>Sat in his corner,<br>And all the King's men said "Aye!  Aye!" today.<br>So Heigh-Diddle-diddle,<br>Eat crumpets and play the fiddle,<br>While a cow makes curry and whey.<br>And we'll all laugh,<br>To see such fun,<br>And maybe we'll come again - to play.
+119,It is a tolling of the night.<br>When all is still.<br>And the wind whispers near the mill.<br>Twas struck twelve times!<br>And his voice rang out!<br>And then, it was stilled.
+120,What mysteries are in its creation?<br>Who's hand did bend its ore?<br>Where did the knowledge come from?<br>And could he have made any more?<br>On his finger it did lie,<br>Yet on his soul the more.<br>For the fire it would bring,<br>Would make his heart ring,<br>And death, would come knocking at his door.
+121,It was asked of me what I could be made,<br>And so people were fed from me.<br>It was asked of me what I could be made,<br>And so houses were built.<br>It was asked of me what I could be made,<br>And so things were written.<br>It was asked of me what I could be made,<br>And so I fertilized the ground.<br>But when asked more of what I could be made,<br>There was nothing to be found.
+122,With this you can do wonderous things.<br>Look at things close, or far away,<br>You can see things big,<br>Or you can see things small.<br>Or maybe you don't see things at all.<br>I come in many colors and hues,<br>Sometimes green and sometimes blue.<br>And when I'm red - it's not from shame,<br>But from something with a different name.
+123,Oh how I love my dancing feet!<br>They stay together - oh so neat.<br>And when I want to walk a line,<br>They all stay together and do double time.<br>I count them up, ten times or more,<br>And race on-off, across the floor.
+124,They were made for a fairy queen's feet.<br>To cover them and keep them tidy, and neat.<br>A flower, of various sizes and hues,<br>Their name is the opposite of a grown man's shoes.
+125,Part pickle, part crazy,<br>You can't call this flower lazy.<br>It perks its head up with a snout<br>And if it had a voice - I'm sure it'd shout.
+126,Bound by age, comfort and zest,<br>The inquiring hand could not rest.<br>But given to her heart's desire,<br>She gave to us - our worst quagmires.<br>And so now we wallow in our grief,<br>And seeking to close the box we weep.<br>While famine, plague, and other woes,<br>Beset ourselves - and our foes.
+127,Nestled among a thorny embrace,<br>What should I see but a small, plump, face.<br>With cheeks rosey red,<br>And neck way too long.<br>He'll be ripe for plucking,<br>Before too long.
+128,A muttered rumble was heard from the pen,<br>And I, in my walking, stopped to look in.<br>What was this I saw?<br>A massive beast, hooved, and jawed.<br>With spikes upon its mighty brow,<br>I watched as he struck the turf and prowled.<br>And yet for all of his magnificience,<br>He couldn't get out of that wooden fence.
+129,There once was a man who sang this song:<br>Hey! Dilly, dill, dang, dang!<br>He'd sit around and sing this song:<br>Hey! Dilly, dill, dang, dang!<br>"Hi! Ho!" away he'd go,<br>Singing all night long!<br>Hey dilly, dill, dang, dang, do-reeee!<br>He'd stay up til it was three!<br><br>On his knee he'd keep a jug!<br>Hey! Dilly, dill, dang, dang!<br>And with it he'd keep a mug!<br>Hey! Dilly, dill, dang, dang!<br>"Hi! Ho!" away he'd go!<br>Off to see the girls.<br>To laugh and sing and play his games,<br>Until he went insane!<br><br>Oh what can it be that's this much fun?<br>Hey! Dilly, dill, dang, dang!<br>Seems its liked by everyone.<br>Hey! Dilly, dill, dang, dang!<br>"Hi! Ho!" off we go!<br>Off to have some fun!<br>To have a taste, a bit of fun,<br>And be like everyone!<br><br>Tell me now, all about this row!<br>Hey! Dilly, dill, dang, dang!<br>Oh, what's this now, I feel like a sow?<br>Hey! Dilly, dill, dang, dang!<br>Up is down and down is up,<br>I feel so sick inside.<br>Guess I'll have to drink some more,<br>Or cover my head and hide!<br><br>"Hi! Ho!" away we go!<br>Off into the night!<br>And if you can tell me what this is,<br>I'll tell you that you're right!<br>"Hi! Ho!" away we go!<br>Off into the night!<br>So tell me quick, I've got an itch,<br>To have some more tonight!<br>YEAH!
+130,Twas the night of the day<br>in which I must relay<br>that in which I took part in.<br>For the sun was out<br>and without so much as a shout<br>he quietly went in.<br>Twas ever so queer<br>I thought he would leer<br>but never a word did I get in.<br>For without another word<br>(at least that's what I heard)<br>He was back to the place he'd been in.
+131,Twas the giantess who told me what to do.<br>Twas she who opened the doors,<br>And close the windows.  Not I.<br>Twas her who decided the chair did well on the lawn.<br>And the table should be in the basement.<br>I have done naught to deserve punishment,<br>For I did not place the dog on the lamp,<br>Nor the cat in the chimney.<br>Twas the giantess.
+132,A lazy day looked down upon her,<br>And with eyes barely slitted, she saw me.<br>I wondered if I should wander.<br>But drew back when her eyes grew the bigger.<br>Satisfied of my cowering, she stretched,<br>Yawned, and spread her fingers langorously.<br>And I, with my petite fingers rubbed my nose as I watched.<br>She knew I had to eat and that soon I would emerge.<br>Drawing my darkness forth with me to escape notice.<br>It would not matter, for in the end we would<br>Perform our pagan dance.  With its rituals of sunlight,<br>And shadow.  Of words, softly spoken - or sprayed upon the wall.<br>If I am lucky, oh so lucky, I will whisk away<br>Upon a squeal of delight - or is it pain?<br>And ponder the world once more, from within<br>The hovel, the crawl space, the cracks.<br>Where I live.<br>
+133,From sun up to sun down I stare out across the sea.<br>From sun down to sun up I stare out across the sea.<br>But while with sun up I can only blink in the brightness.<br>With the sun down I can blink out the brightness.
+134,(Talked with a definite beat.)<br><br>A lot of bark,<br>But no one notices.<br>A lot to bite,<br>And everyone cares.<br>I'm not a dog,<br>If anyone notices.<br>And there's a lot to me,<br>But I don't have hair.<br>I stand up straight,<br>If you've noticed me.<br>I've got lots of limbs,<br>If anyone cares.<br>I can give you shade,<br>If you've noticed it.<br>And I do even more,<br>I give you air.
+135,Twas in December or June,<br>When my lady did swoon.<br>When her hair did fall off,<br>And her glasses were lost.<br>When she did scream,<br>In a manner most obscene.<br>While pointing at me,<br>And saying "Eeeeee!  Eeeeee!"<br>I must say it was all a bit much,<br>Since no one did I touch.<br>But it was quite apparent,<br>That something was errant.<br>So I decided to come back another day,<br>When, mayhap, she was away.
+136,This thing is many things.<br>It is joyful,<br>It is quiet,<br>It is bubbling,<br>It is roaring,<br>It can jump,<br>And it can sit.<br>It can whisper,<br>And it can drip.<br>What is it of which I speak?<br>What is it which can be both shallow and deep?
+137,I drift,<br>As slowly as a lazy river.<br>I dance,<br>Upon as little as a puff of air.<br>I tumble,<br>Better than the greatest acrobat.<br>Swirling,<br>Twirling,<br>Down to the ground.<br>Where I lie,<br>Til I get my second wind.<br>So I can begin again.
+138,A riddle, easily solved.<br>Red breasted.<br>Only one in a field of many.<br>Born in an egg.<br>Inspired to sing.<br>Now gather the letters and tell me what I mean.
+139,I have four of these,<br>With matching extremities.<br>They can do many things,<br>And hardly ever bring me pain.<br>Unless I stick them with a pin,<br>Or burn them sometimes when...<br>What is it that I can wiggle at will?<br>And use in other means still?
+140,What are all your fingers for?<br>One's to point, of that I'm sure.<br>One's for the doctor - whereever he may roam,<br>One's for the accuser - to point out what is known.<br>One's for the ear, without which we can not hear.<br>And one get's us a ride, so we can rest our back side.<br>What are all your finger for?<br>Tell me which is which, and I'll even our score.
+141,I am a box,<br>Full of that which is most rare.<br>But it isn't a flute,<br>And it isn't some hair.<br>Though soft be my bed,<br>I am as hard as a rock.<br>And though dull in the darkness,<br>I glisten once unlocked.<br>What am I, this box so strange?<br>To hold such a treasure,<br>Which is not so plain.
+142,The giant slept upon the rocks,<br>His bones, sealed tight against them.<br>A hoary hand, outstruck against fate's decree,<br>That he should thus be kept from his purpose in life.<br>Not knowing that his time has passed,<br>And that that, which gave him his reason for living,<br>His roots,<br>Were no longer his own.<br>But blackened stumps,<br>Against which no living being could hope to live.<br>yet...<br>In his passing, life found purchase.<br>For other creatures, making use of that which would remain,<br>Would, in of themselves, find life.<br>While the giant slept,<br>Upon the rocks.
+143,I dreamed I saw a fairy's dance,<br>Upon the midnight sky.<br>Where lights, like lantern's grew,<br>Without a whim, or a why.<br>Amid their joy,<br>Amid their dance,<br>I came running into their midst.<br>But with nar'ry a sound,<br>They drew away,<br>And fell into the mist.<br>Oh, I saw them again,<br>But only from very far.<br>Dancing in the air at night,<br>Like tiny lanterns, or tiny stars.
+144,When I looked upon the flames of his passion,<br>And the coolness of her touch,<br>I knew tragedy could only come from their union.<br>And indeed, when they came together,<br>Darkness reigned upon the land.<br>And although they were soon separated,<br>Learning as they did that they were not for each other,<br>Still, their passing regards for each other,<br>Left it's impression upon all who had witnessed it.<br>And would be talked about for ages still to come.
+145,Oh woe is me!  Woe is me!<br>To have lost that which I can never buy back!<br>To be unable to recall that which has transpired!<br>Let my breath be returned!<br>Let time recoil!<br>Let this not be so!<br>Oh woe is me!  Woe is me!
+146,What has a coat?<br>Hugs you not in sympathy?<br>Whose smile you'd rather not see?<br>Whose stance is a terrible thing to see?<br>Who is it that brave men run away from?<br>Whose fingers are clawed?<br>Whose sleep lasts for months?<br>And who's company we shunt?
+147,You can tumble in it,<br>Roll in it,<br>Burn it,<br>Animals eat it,<br>Used to cover floors,<br>Still used beyond stall doors.<br>Freshens whatever it is placed on,<br>Absorbs whatever is poured into it.<br>What is it?
+148,Within passion's fruit they will be found,<br>And more of them in the pomegranate's crown.<br>Rowed they are within an apple core,<br>Yet other fruits have them more.<br>And though the nectarine has but one,<br>Still, this is all just in fun.<br>Playing hide and seek - a children's game.<br>Finding out each player is just the same.
+149,'Twas whispered in Heaven, 'twas muttered in hell,<br>And echo caught faintly the sound as it fell;<br>On the confines of earth 'twas permitted to rest,<br>And in the depths of the ocean its presence confes'd;<br>'Twill be found in the sphere when 'tis riven asunder,<br>Be seen in the lightning and heard in the thunder;<br>'Twas allotted to man with his earliest breath,<br>Attends him at birth and awaits him at death,<br>Presides o'er his happiness, honor and health,<br>Is the prop of his house, and the end of his wealth.<br>In the heaps of the miser 'tis hoarded with care,<br>But is sure to be lost on his prodigal heir;<br>It begins every hope, every wish it must bound,<br>With the husbandman toils, and with monarchs is crowned;<br>Without it the soldier and seaman may roam,<br>But woe to the wretch who expels it from home!<br>In the whispers of conscience its voice will be found,<br>Nor e'er in the whirlwind of passion be drowned;<br>'Twill soften the heart; but though deaf be the ear,<br>It will make him acutely and instantly hear.<br>Set in shade, let it rest like a delicate flower;<br>Ah!  Breathe on it softly, it dies in an hour
+150,We are little airy creatures,<br>All of different voice and features;<br>One of us in glass is set,<br>One of us you'll find in jet,<br>T'other you may see in tin,<br>And the fourth a box within;<br>If the fifth you should pursue,<br>It can never fly from you.
+151,I'm a strange contradiction; I'm new, and I'm old,<br>I'm often in tatters, and oft decked with gold.<br>Though I never could read, yet lettered I'm found;<br>Though blind, I enlighten; though loose, I am bound,<br>I'm always in black, and I'm always in white;<br>I'm grave and I'm gay, I am heavey and light-<br>In form too I differ - I'm thick and I'm thin,<br>I've no flesh and bones, yet I'm covered with skin;<br>I've more points than the compass, more stops than the flute;<br>I sing without voice, without speaking confute.<br>I'm English, I'm German, I'm French, and I'm Dutch;<br>Some love me too fondly, some slight me too much;<br>I often die soon, though I sometimes live ages,<br>And no monarch alive has so many pages.
+152,As I went through the garden gap,<br>Who should I meet but Disk Red-cap!<br>A stick in his hand, a stone in his throat,<br>If you'll tell me this riddle, I'll give you a groat.
+153,Arthur O'Bower has broken his band,<br>He comes roaring up the land --<br>The King of Scots, with all his power,<br>Cannot turn Arthur of the Bower!
+154,Flour of England, fruit of Spain,<br>Met together in a shower of rain;<br>Put in a bag tied round with a string,<br>If you'll tell me this riddle, I'll give you a ring.
+155,Little Nancy Etticote,<br>In a white petticoat,<br>With a red nose;<br>The longer she stands<br>The shorter she grows.
+156,I have a little sister, they call her Peep, Peep;<br>She wades the waters deep, deep, deep;<br>She climbs the mountains high, high, high;<br>Poor little creature she has but one eye.
+157,They can be harbored, but few hold water,<br>You can nurse them, but only by holding them against someone else,<br>You can carry them, but not with your arms,<br>You can bury them, but not in the earth.
+158,Deep as a bowl, round as a cup,<br>Yet all the world's oceans can't fill it up.
+159,Though desert men once called me God,<br>Today men call me mad,<br>For I wag my tail when I am angry,<br>And growl when I am glad.
+160,Fat Man at Dead Man's Journey.
+161,What answer is blowing in the wind?
+162,I heard of an invading, vanquishing army<br>sweeping across the land, liquid-quick;<br>conquering everything, quelling resistance.<br>With it came darkness, dimming the light.<br>Humans hid in their houses, while outside<br>spears pierced, shattering stone walls.<br>Uncountable soldiers smashed into the ground,<br>but each elicited life as he died;<br>when the army had vanished, advancing northward,<br>the land was green and growing, refreshed.
+163,I saw a strange creature:<br>Long, hard, and straight,<br>Thrusting into a round, dark opening,<br>Preparing to discharge its load of lives.<br>Puffing and squealing noises accompanied it,<br>Then a final screech as it slowed and stopped.<br>Say what I mean.
+164,I can find a thing I cannot see and see a thing I cannot find.<br>The first is time, the second is a spot before my eyes.
+165,I can feel a thing I cannot touch and touch a thing I cannot feel.<br>The first is sad and sorry, the second is your heart.
+166,Never ahead, ever behind,<br>Yet flying swiftly past,<br>For a child, I last forever,<br>For adults, I'm gone too fast.
+167,Tall she is, and round as a cup,<br>Yet all the king's horses<br>Can't draw her up.
+168,There more of it there is,<br>The less you see.
+169,What is not enough for one,<br>Just right for two,<br>Too much for three?
+170,What gets wetter the more it dries?
+171,H I J K L M N O<br>What word does this represent?
+
+# Answers are listed in order of preference
+:Answer
+1,Salt, ice
+2,A silver dish of some kind floating in an oil lamp with the flame above it.
+3,A butterfly
+4,Lightning, Lightning Bolt
+5,A book
+6,A dog baying at the cresent moon.
+7,Memories
+8,Their color changes easily
+9,The letter "M"
+10,Unknown
+11,Childhood
+12,Your eyes, The Sun and the Moon
+13,A Heart.
+14,The Moon
+15,Since, after shooting 1/4 of the birds, the rest will fly off, the answer should be either (2*(4+20))/4=12 or ((2*4)+20)/4=7.
+16,Unknown.  Thought to be: Post.  As in the post on a door.
+17,A golden coin
+18,A whip
+19,A candle
+20,A mountain
+21,Your teeth
+22,The wind
+23,A daisy in field of grass, big eye is sun (stupid one.)
+24,The darkness
+25,Eggssesss,Orange
+26,A fish
+27,Time
+28,Your heart
+29,Your word
+30,Your breath
+31,A river
+32,Water
+33,Silence
+34,The air?
+35,A fire
+36,Your heart
+37,A war
+38,Hope
+39,Sounds or Noises
+40,A wheel
+41,An iceberg or a piece of ice
+42,A snail
+43,A candle
+44,A boat, A cave
+45,A mirror
+46,A fire
+47,Water
+48,Icicles, teeth, stalactites
+49,A shadow
+50,A piano, A harpsichord
+51,In the mind
+52,A compass.
+53,The beggar was his sister, Two priests
+54,Bees
+55,An Apple
+56,Italy (Rome)
+57,The Four Horsemen of Apocolypse
+58,A Unicorn
+59,Counterfiet Money
+60,An Axe
+61,A Man With A Wooden Leg
+62,A Shadow
+63,A Wooden, Stringed Instrument
+64,An Icicle
+65,A Wedding Ring
+66,A coffin
+67,Weeping<br>The correct response was to weep in front of the statue, which opened a secret<br>door behind It. I used a slightly harder version of that on my Group, and it<br>stumped them for quite a while :-)
+68,Nothing. 'Something' is better than 'Nothing'
+69,Paradox  (and a pair of docks)
+70,A bride  (something old, something new, something borrowed something blue)
+71,Nothing
+72,
+73,Nothing
+74,An onion
+75,Piss (yes, really...)
+76,A sword.
+77,One
+78,Teeth
+79,The Sun, A Shadow
+80,A Diamond, A gem
+81,A pair of tongs
+82,Three peasants about to be eaten by a dragon., The Monkees about to be eaten by a dragon.
+83,Passing Gas
+84,Yeast
+85,Your opinions
+86,One leg is a leg of mutton.<br>Two legs is a person.<br>Three legs is a stool.<br>Four legs is a dog.
+87,Your hands
+88,Horses
+89,Candy
+90,Fog, Mist
+91,Emotions
+92,A Riddle
+93,A star
+94,Mud (Your mom wishes you'd wash it off)
+95,A monitor (More of a Traveller riddle)
+96,Your home
+97,Music
+98,Roots
+99,A Weeping Willow
+100,The desert
+101,A fountain
+102,A stage
+103,Growing Old
+104,The Wreck of the Hesperus by Henry Wadsworth Longfellow (The reef of Norman's Woe)
+105,A wild boar (Razor back)
+106,The heart of the forest
+107,Sharing
+108,A Hummingbird
+109,A Morning Glory
+110,A mirage
+111,A rainbow
+112,The open plains
+113,Going down a river with rapids in a boat.
+114,A doll
+115,Old age
+116,Paradox/Opposites
+117,Sunlight
+118,Childhood, Childhood's Fairy Tales
+119,A bell ringing out at midnight.
+120,A ring of fire.
+121,A tree  (A BIT obscure, I'd say!)
+122,Your eyes
+123,A centipede or millipede
+124,Lady Slippers
+125,Daffodil
+126,Pandora's Box
+127,Prickly Pear or other thorny, fruit bearing plant.
+128,A bull
+129,Liquor
+130,An eclipse
+131,A child playing with her doll house.
+132,A cat and mouse.
+133,A lighthouse
+134,A tree
+135,A mouse
+136,Water, river, stream, etc...
+137,A leaf
+138,A robin
+139,Fingers
+140,Thumb: Hitchhike<br>1st Finger:Accusing finger<br>2nd Finger:Doctor's finger<br>3rd Finger:Pointing finger<br>4th Finger:Ear finger
+141,A jewelry box
+142,A tree frozen/caught in a stream
+143,Lightening Bugs
+144,A solar eclipse
+145,He broke his word
+146,A bear
+147,Hay
+148,Seeds
+149,The letter H
+150,The Vowels
+151,A Book
+152,A cherry
+153,A storm of wind
+154,A plum pudding
+155,A candle
+156,A star
+157,A grudge
+158,A sieve/collander(Sphere of Annihilation  ;-)
+159,A cat
+160,The Trinity A-bomb test at La Jornada del Muerto, Alamogordo, New Mexico
+161,Forty-two. (How many roads must a man walk down ...)
+162,A rainstorm.
+163,Train/Subway
+164,Time
+165,Your Heart
+166,Youth
+167,A Well
+168,Darkness
+169,A Secret
+170,A Towel
+171,Water (H to O ... H2O)

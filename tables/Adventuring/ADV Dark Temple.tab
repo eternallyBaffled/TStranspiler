@@ -1,0 +1,250 @@
+# ------------------------------------------------------
+# Last Update: re-verified by Valminder Jan 10, 2012.
+# ------------------------------------------------------
+# ---------------------------------------------------
+# Last Update: modified by Valminder July 12, 2006.
+# ---------------------------------------------------
+#
+# 11/05/03
+# Random Adventure Generator - DARK TEMPLES (EL 1-8)
+#            by KHEFEREN, Oct 2003
+#
+# based on the WotC random module ASSAULT THE DARK TEMPLE
+#
+# Verified by Valminder, Jan 2004.
+# Modified by Valminder, July 2006.
+#    Added "OverRideRolls"
+#
+
+/OverRideRolls 1
+
+#Variables
+
+%Level%,0
+%Abandoned%,0
+%Background%,0
+%Mission%,0
+%Outskits%,0
+%Building%,0
+%Minions%,0
+%Master%,0
+
+#Parameters
+@Level,1,Select a Level range for the Adventure,SELECT A LEVEL RANGE,LOW (1-3),LOW/MID (3-5),MID (5-7),MID/HIGH (7-8)
+
+:Start
+1,{If~%Level%=1? [Dark_Temple %Level%]/[Header]}
+
+:Header
+1,<b><center>Random Adventure Generator</b></center>
+_<br><font color=#990000 face="Arial" ><h2><center>Mystery of the Dark Temple</center></h2></font>
+_<hr>
+_<h4>Adventure:</h4>
+_<p>This is a [Adventure Level=%Level%] level adventure pitting the players against an evil cult.<br>
+_The party of adventurers must [Dark_Temple %Level%]
+_<hr>
+_<h4>Minions:</h4>
+_[Minions=%Level%]
+
+;Dark_Temple 1
+1,<b><center><font color=#990000>Random Adventure Generator - Mystery of the Dark Temple</b></center></font>
+_
+_<h3>Introduction:</h3>
+_These tables expand on a random adventure by WotC called <A href="http://www.wizards.com/default.asp?x=dnd/ms/20031016a">Assault the Dark Temple!</A> made for their <A href="http://www.wizards.com/default.asp?x=dnd/minis">D&D Miniatures</A> line. The original tables were use to generate opponents for a 5th level party. I've added level scalability as well as background tables for the adventure.
+
+_<p> Mystery of the Dark Temple lets you randomly generate an adventure for good players to adventure against an evil sect. This is a scalable adventure suitable for a party of 1st thru 8th level. Before play, generate the random components of the dark temple and make any adjustments you need to make in order to fit your campaign. A dark temple site can stand alone as a destination or it can be part of a larger dungeon complex.
+
+_<p>Because an adventure site is semi-random, the PCs can be run through a few sites of the same type. Each adventure will be similar without being predictable. You could, for example, have a series of these dark temples spread across the countryside or springing up in large cities. In order to wipe out the cult, adventurers must destroy each of the temples individually. All of the temples are similar in theme because they're dedicated to the same evil deity, but there's enough variation to keep the raids interesting and challenging.
+
+_<p>An easy way to personalize the dark temple is to determine who the master is. Mid to high level temples will have a Master, while lower levels will have a Champion or Guards. Higher level temples will have multiple champions, haunts, or guard contingents.
+
+_<p>The dark temple is designed to be assaulted as a single adventure. The temple's defenders are likely to attack, or be attacked, in stages. This is challenging for the PCs because it gives them little time to recover between battles. On the other hand, this also helps the PCs because their ongoing spells (such as protection from evil) are likely to last through the entire assault.
+
+_<p>If the PCs attack the dark temple and retreat before it's defeated, one of two things is likely to happen. Either the temple forces will increase in anticipation of the PCs' return, or the temple will be abandoned (with glyphs of warding left behind to threaten those who explore the temple). If the master abandons the temple, you can be sure that it will seek out the PCs in the future to exact revenge.
+_<br>
+_<ul><li><b>Use the Parameter Box (below) to indicate a Level range for this Adventure</li></b>
+_<font color=blue><ol><li>LOW (1-3)</li>
+_<li>LOW/MID (3-5)</li>
+_<li>MID (5-7)</li>
+_<li>MID/HIGH (7-8)</li></font>
+
+:Dark_Temple 2
+1, [Mission-5] [Outskirts-8] outside of town.
+2, [Mission-5] in the basement of a [Building-6]
+3, [Mission-5] in the secret room of a [Building-6]
+4, [Mission-5] in [Abandoned_Opening][Abandoned_Middle-8][Abandoned_Ending]
+
+:Dark_Temple 3
+1, [Mission-3] [Outskirts-6] outside of town.
+2, [Mission-3] in the basement of a [Building-4]
+3, [Mission-3] in the secret room of a [Building-4]
+4, [Mission-3] in [Abandoned_Opening][Abandoned_Middle-6][Abandoned_Ending]
+
+:Dark_Temple 4
+1, [Mission={Dice~1d4+2}] [Outskirts={Dice~2d4+4}] outside of town.
+2, [Mission={Dice~1d4+2}] in the basement of a [Building-2]
+3, [Mission={Dice~1d4+2}] in the secret room of a [Building-2]
+4, [Mission={Dice~1d4+2}] in [Abandoned_Opening][Abandoned_Middle={Dice~1d4+3}][Abandoned_Ending]
+
+:Dark_Temple 5
+1, [Mission={Dice~1d4+4}] [Outskirts+8] outside of town.
+2, [Mission={Dice~1d4+4}] in the basement of a [Building+7]
+3, [Mission={Dice~1d4+4}] in the secret room of a [Building+7]
+4, [Mission={Dice~1d4+4}] in [Abandoned_Opening][Abandoned_Middle={Dice~2d4+5}][Abandoned_Ending]
+
+:Adventure Level
+1, -
+2, LOW (1-3)
+3, LOW/MID (3-5)
+4, MID (5-7)
+5, MID/HIGH (7-8)
+
+
+:Mission
+1, destroy an altar |Mission=altar|
+2, destroy a shrine |Mission=shrine|
+3, rescue a kidnapped [Person] from cultist |Mission=kidnap victim|
+4, kill a cultist |Mission=cultist|
+5, destroy a chapel |Mission=chapel|
+6, retrive an Unholy Artifact |Mission=artifact|
+7, assault a temple |Mission=temple|
+8, assault a temple complex |Mission=temple|
+
+:Outskirts
+1, inside a small cave |Building=cave|
+2, in a forested clearing |Building=clearing|
+3, hidden behind a water fall |Building=grotto|
+4, hidden in a farmstead |Building=farmstead|
+5, hidden in a mill |Building=mill|
+6, hidden in a small tower |Building=tower|
+7, in a monastary |Building=monastary|
+8, in a church |Building=church|
+9, hidden in a large tower |Building=tower|
+10, hidden in a manor house |Building=manor|
+11, in a temple |Building=temple|
+12, hidden in a keep |Building=keep|
+13, in a large underground complex |Building=complex|
+
+:Building
+1, tavern |Building=tavern|
+2, inn |Building=inn|
+3, butcher shop |Building=shop|
+4, warehouse |Building=warehouse|
+5, merchant's home |Building=residence|
+6, money collector's home |Building=residence|
+7, tax collector's home |Building=residence|
+8, city official's home |Building=residence|
+9, diplomat's home |Building=residence|
+10, nobleman's home |Building=residence|
+
+:Person
+1, cousin
+2, brother
+3, sister
+4, official
+5, child
+6, merchant
+7, cleric
+8, apprentice
+9, princess
+10, prince
+11, squire
+12, accolite
+13, knight
+
+:Abandoned_Opening
+1, the ruins of
+2, the remnants of
+3, the crumbling remains of
+4, what remains of
+
+:Abandoned_Middle
+1, an orc village.|Abandoned=village||Building=village|
+2, a forgotten farmstead.|Abandoned=farmstead||Building=farmstead|
+3, a wayside inn.|Abandoned=inn||Building=inn|
+4, a small tower.|Abandoned=tower||Building=tower|
+5, a forgotten monastery.|Abandoned=monastery||Building=monastery|
+6, a chapel.|Abandoned=chapel||Building=chapel|
+7, a large tower.|Abandoned=tower||Building=tower|
+8, a manor house.|Abandoned=manor house||Building=manor house|
+9, a temple.|Abandoned=temple||Building=temple|
+10, a walled keep.|Abandoned=walled keep||Building=keep|
+11, a walled castle.|Abandoned=walled castle||Building=castle|
+12, a large underground complex.|Abandoned=complex||Building=complex|
+
+:Abandoned_Ending
+1-2, The %Abandoned% is quiet; though signs of recent acctivity are present.
+3-7, The %Abandoned% is overgrown and choked with creepers and weeds.
+8-10, The %Abandoned% is choked with rubble.
+11, The %Abandoned% looks recently deserted.
+12, The %Abandoned% shows signs of repair.
+
+###-------------------------------------------------------
+#                 Evil Minions
+###-------------------------------------------------------
+# The MASTER runs the dark temple. Most likely, the master is gathering guards and allies in an attempt to establish a power center that will be key in implementing its evil plans. The master may be a zealot ready to die in battle for the temple's defense, or it may be a craven schemer ready to bolt through a secret escape passage as soon as the PCs' attack threatens its hide.
+
+# The master's CHAMPION protects the master and the temple. While a cautious master might hang back to gauge the tide of battle, the champion presses the attack.
+
+# The HAUNT is an undead creature that resides at the dark temple. It is an ally of the master, though it may be a distant and reclusive creature. Sometimes a haunt prowls the temple grounds and may be encountered early on. More often, the haunt lurks in the temple's inner sanctum, effectively guarding the shrine and the treasure. A haunt might be drawn into battle by the sounds of combat, but not usually.
+
+# GUARDS patrol the dark temple grounds. They are usually spread out rather than concentrated in one area. The master expects the guards to raise the alarm and slow down intruders. Guards may go out on wide perimeter checks, in which case the PCs might encounter some of them outside the dark temple itself.
+
+# PROWLERS are creatures that lurk on the outskirts of the dark temple. They are scavenging for food and may have been drawn by the scent of corpses (the remains of human sacrifices). The PCs might encounter prowlers as they approach or spy on the dark temple. A fight with prowlers might alert the temple's guards to the PCs' presence.
+
+:Minions
+1,<b>Introduction:</b>
+_<p>These tables lets you randomly generate an adventure for good players to play against
+_an evil sect using the D&D Harbinger minis. This is a scalable adventure suitable for a party of 1st thru 12th level. 
+_Before play, generate the random components of the dark temple and make any adjustments 
+_you need to make in order to fit your campaign. A dark temple site can stand alone as a 
+_destination or it can be part of a larger dungeon complex
+
+2,The %Mission% is guarded by a[Champion] and [Guards]. [Prowlers] may be encountered nearby. The players will also have to contend with [Trap]. Possible treasure may include [Treasure]
+
+3,The %Mission% is guarded by a [Master-25] and a [Champion-60]. On patrol are [Guards]. [Prowlers] may be encountered nearby. The players will also have to contend with [Trap]. Possible treasure may include [Treasure]
+
+4,The %Mission% is guarded by a [Master][Companion=%Master%]. A [Champion] protects both the master and %Building%, and [Guards] roam the area. [Prowlers] may be encountered nearby. In the inner sanctum a [Haunt] lurks. The players will also have to contend with [Trap]. Possible treasure may include [Treasure]
+
+5,The leader of the cult is a [Master={Dice~1d2+2}][Companion=%Master%]. A [Champion],[Champion] and [Champion], protect both the master and the %Building%. [Guards] roam the area. [Prowlers] and [Prowlers] lurk on the outskirts of the %Building%.  They have been drawn to the area by the scent of death and decay. In the inner sanctum a [Haunt] lurks while a [Haunt] protects the treasure. Throughout the %Building% are also [Trap]
+
+:!Master
+1, cleric of Gruumsh (CR 4) |Master=1|
+2, bearded devil (CR 5) |Master=2|
+3, half-orc assassin (CR 6) |Master=3|
+4, drow cleric of Lolth (CR 7) |Master=4|
+
+:!Companion
+1, with a half-orc monk (CR 4)
+2, with a hell hound (CR 3)
+3, with a half-orc fighter (CR 2)
+4, with a drow archer (CR 2)
+
+:!Champion
+1, ogre (CR 3)
+2, troll (CR 5)
+3, barghest (CR 4)
+4, drow fighter (CR 4)
+5, minotaur (CR 4)
+
+:!Haunt
+01-40, mummy (CR 5)
+41-80, wraith (CR 5)
+81-100, wight (CR 3)
+
+:!Guards
+01-25, {Dice~1d3+%Level%} Skeletons, {Dice~1d2+%Level%} Zombies, and {Dice~1d2+%Level%} Wolf Skeletons (CR 1/3, 1/2, and 1)
+26-50, {Dice~1d4+2} Half-Orc Fighters, {Dice~1d2+%Level%} Orc Spearfighters, {Dice~1d2+%Level%} Orc Berserkers, {Dice~1d2+%Level%} Orc Archers, and {Dice~1d2+%Level%} Orc Warriors (CR 2, 2, 1, 1, and 1/2)
+51-75, {Dice~1d3+1} Kuo-Toas (CR 2)
+76-100, {Dice~1d3} Hell Hounds (CR 3)
+
+:!Prowlers
+01-40, {Dice~1d3} Ghouls (CR 1)
+41-70, {Dice~1d3} Wolves (CR 1)
+71-100, {Dice~1d3} Hyenas (CR 1)
+
+:Trap
+1, {Dice~1d3} glyphs of warding, such as the entrance to the inner sanctum or guarding the treasure. See the CR 4 glyph of warding trap on p. 72 of the DMG.
+
+:Treasure
+1, Nothing yet

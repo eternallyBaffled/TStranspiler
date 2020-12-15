@@ -1,0 +1,243 @@
+# ------------------------------------------------------
+# Last Update: modified by Valminder Sept 23 2015.
+# ------------------------------------------------------
+#
+# Modified by Valminder Sept 2015
+#   Added Output modifier fonr "ENC Ultimate Random Encounter" table.
+#   Added "Max" items of certain categories.
+#
+
+/OverrideRolls 1
+
+%maxVal%,1000
+%type%,0
+%rolls%,10
+%itemTypes%,0
+
+%remaining%,0
+%itemList%,0
+
+%genArmor%,0
+%genPotions%,0
+%genRings%,0
+%genRods%,0
+%genScrollsA%,0
+%genScrollsD%,0
+%genStaves%,0
+%genWands%,0
+%genWeapons%,0
+%genWondrous%,0
+
+%scrollType%,0
+
+%triesPerTable%,50
+
+%ctr%,0
+%continue%,0
+%numItems%,0
+%currCat%,0
+
+%item%,0
+%value%,0
+%weight%,0
+%aura%,0
+%desc%,0
+%cat%,0
+
+%temp%,0
+%temp2%,0
+%Output%,0
+%MaxArmor%,1
+%MaxArmorRolled%,0
+%MaxPotion%,10
+%MaxPotionRolled%,0
+%MaxRing%,2
+%MaxRingRolled%,0
+%MaxRod%,2
+%MaxRodRolled%,0
+%MaxScroll%,10
+%MaxScrollRolled%,0
+%MaxShield%,1
+%MaxShieldRolled%,0
+%MaxStaff%,2
+%MaxStaffRolled%,0
+%MaxWand%,5
+%MaxWandRolled%,0
+%MaxWeapon%,2
+%MaxWeaponRolled%,0
+%ShowDesc%,0
+
+@maxVal,0,Enter amount to generate (in gp):
+@type,1,Degree of Power:,Minor,Medium,Major
+@rolls,50,Number of re-rolls before putting all remaining treasure into coins:
+@*itemTypes,1111111111,Items to generate:,Armor,Potions,Rings,Rods,Scrolls (Arcane),Scrolls (Divine),Staves,Wands,Weapons,Wondrous Items
+@Output,1,Choose Output,Regular,ENC_URE
+@ShowDesc,1,Show a description of the item?,Yes,No
+
+:Instructions
+1,{Bold~Using this Table}{CarRet~}
+_Enter the amount (in gp) in magic you want to generate, as well 
+_as the degree of power (minor, medium, or major). The number of re-rolls is the number of 
+_times to try to re-roll if a roll comes up bad.
+_{CarRet~}
+_{CarRet~}
+_By default, all types of magic items (armor, wondrous items, potions, etc.) are 
+_generated. However, if you want to exclude something (say, you don't want to 
+_generate wands for a character who isn't a spellcaster), you may specify the 
+_types of magic items you want to exclude in your parameters as well.
+
+:Start
+1,{If~%maxVal%=0?[Instructions]/[Proceed]}
+
+:Proceed
+1,|remaining=%maxVal%|
+_{DSCreate~itemList,cat,xxx,name,xxx,value,0,weight,0,desc,0}
+_[DetermineItems]
+_|ctr=0||continue=1|
+_[GenLoop]
+_{DSSort~itemList,cat,0,name,0}
+_|numItems={DSCount~itemList}||ctr=1||currCat=|
+_[DisplayItems]
+_{Status~}
+
+# Looks at parameter "itemTypes" to determine if you want to generate a type of item or not
+:DetermineItems
+1,|genArmor={Char~1,%itemTypes%}||genPotions={Char~2,%itemTypes%}|
+_|genRings={Char~3,%itemTypes%}||genRods={Char~4,%itemTypes%}|
+_|genScrollsA={Char~5,%itemTypes%}||genScrollsD={Char~6,%itemTypes%}|
+_|genStaves={Char~7,%itemTypes%}||genWands={Char~8,%itemTypes%}|
+_|genWeapons={Char~9,%itemTypes%}||genWondrous={Char~10,%itemTypes%}|
+# scrollType: 1= Arcane only   2= Divine only   3= Both
+_{If~{Calc~%genScrollsA%+%genScrollsD%}=2?|scrollType=3|}
+_{If~{And~%genScrollsA%=1,%genScrollsD%=0}=1?|scrollType=1|}
+_{If~{And~%genScrollsA%=0,%genScrollsD%=1}=1?|scrollType=2|}
+
+:DisplayItems
+1,{If~%Output%=1?{Bold~Total Value:} [AddComma.Start(%maxVal%)] gp ({Param~type,%type%}){CR~}}
+_{While~%ctr%<=%numItems%,
+_{If~{DSGet~itemList,%ctr%,cat}!=%currCat%?|currCat={DSGet~itemList,%ctr%,cat}|{CR~}{Bold~{Cap~%currCat%}}{If~%Output%=1?{CR~}/: }}
+_<i>{CommaReplace~1,XXXcommaXXX,{DSGet~itemList,%ctr%,name}}</i> [DisplayValue=%Output%]
+#_{If~%Output%=1?{CR~}/,{Space~3}}
+_{If~{And~{DSGet~itemList,%ctr%,desc}!=0,%Output%=1}=1?{If~%ShowDesc%=1? [DisplayDesc]}{CR~}/{If~{And~{DSGet~itemList,%ctr%,desc}!=0,%ShowDesc%=1}=1? [DisplayDesc]},{Space~2}}
+_|ctr+1|}
+_{CR~}
+#_{If~%Output%=2?{Space~5}{Bold~Total Value:} [AddComma.Start(%maxVal%)] gp ({Param~type,%type%}){CR~}}
+_{If~%Output%=2?{Space~5}}{Italic~{Bold~Remaining:} [AddComma.Start(%remaining%)] gp}
+
+:DisplayDesc
+1,<font size=2>{Color~Brown,({CommaReplace~1,XXXcommaXXX,{DSGet~itemList,%ctr%,desc}})}</font>
+
+:DisplayValue
+1,([AddComma.Start({DSGet~itemList,%ctr%,value})] gp)
+2,<font size=2>{Color~Chocolate,([AddComma.Start({DSGet~itemList,%ctr%,value})] gp)}</font>
+
+:GenLoop
+1,{While~%continue%,[GenItem]}
+
+:GenItem
+1,{Status~Roll #%ctr% of %rolls%}
+# This will roll either Minor/Medium/Major items (as per DMG)
+_|temp=[{Param~type,%type%}]|
+_{If~{Find~1,ERR00,%temp%}=0?[AddItem]}
+_|ctr+1|
+_{If~%remaining%=0?|continue=0|}
+_{If~%ctr%>=%rolls%?|continue=0|}
+
+:AddItem
+1,{Split~temp,"!",item,value,weight,aura,desc,cat}
+_|item={CommaReplace~0,XXXcommaXXX,%item%}|
+_|desc={CommaReplace~0,XXXcommaXXX,%desc%}|
+_{If~%cat%=weapons?{If~%MaxWeaponRolled%<%MaxWeapon%?[AddItem2]}
+_   /{If~%cat%=armor?|temp2={LCase~%item%}|{If~{Or~{Find~1,shield,%temp2%}>0,{Find~1,buckler,%temp2%}>0}=1?{If~%MaxShieldRolled%<%MaxShield%?[AddItem2]}/{If~%MaxArmorRolled%<%MaxArmor%?[AddItem2]}}
+_   /{If~%cat%=staves?{If~%MaxStaffRolled%<%MaxStaff%?[AddItem2]}
+_   /{If~%cat%=potions?{If~%MaxPotionRolled%<%MaxPotion%?[AddItem2]}
+_   /{If~%cat%=rings?{If~%MaxRingRolled%<%MaxRing%?[AddItem2]}
+_   /{If~%cat%=rods?{If~%MaxRodRolled%<%MaxRod%?[AddItem2]}
+_   /{If~%cat%=scrolls?{If~%MaxScrollRolled%<%MaxScroll%?[AddItem2]}
+_   /{If~%cat%=wands?{If~%MaxWandRolled%<%MaxWand%?[AddItem2]}
+_   /[AddItem2]
+_}}}}}}}}
+
+# potions rings rods scrolls wands
+
+:AddItem2
+1,{If~%value%<=%remaining%?
+_{DSSet~itemList,{DSAdd~itemList},cat,%cat%,name,%item%,value,%value%,weight,%weight%,desc,%desc%}
+_|remaining-%value%|
+_{If~%cat%=weapons?|MaxWeaponRolled+1|
+_   /{If~%cat%=armor?|temp2={LCase~%item%}|{If~{Or~{Find~1,shield,%temp2%}>0,{Find~1,buckler,%temp2%}>0}=1?|MaxShieldRolled+1|/|MaxArmorRolled+1|}
+_   /{If~%cat%=staves?|MaxStaffRolled+1|
+_   /{If~%cat%=potions?|MaxPotionRolled+1|
+_   /{If~%cat%=rings?|MaxRingRolled+1|
+_   /{If~%cat%=rods?|MaxRodRolled+1|
+_   /{If~%cat%=scrolls?|MaxScrollRolled+1|
+_   /{If~%cat%=wands?|MaxWandRolled+1|
+_}}}}}}}}
+_}
+
+:GenerateItem
+1,[TP Magic Armor.Start(0,%remaining%,%type%,2,%triesPerTable%)]!armor
+2,[TP Magic Weapons.Start(0,%remaining%,%type%,2,%triesPerTable%)]!weapons
+3,[TP Potions.Start(0,%remaining%,%type%,2,%triesPerTable%)]!potions
+4,[TP Magic Rings.Start(0,%remaining%,%type%,2,%triesPerTable%)]!rings
+5,[TP Rods.Start(0,%remaining%,%type%,2,%triesPerTable%)]!rods
+6,[TP Scrolls.Start(0,%remaining%,%type%,%scrollType%,2,%triesPerTable%)]!scrolls
+7,[TP Staves.Start(0,%remaining%,%type%,2,2,%triesPerTable%)]!staves
+8,[TP Wands.Start(0,%remaining%,%type%,2,2,%triesPerTable%)]!wands
+9,[TP Wondrous Items.Start(0,%remaining%,%type%,2,%triesPerTable%)]!wondrous items
+
+# The text below this point is Open Game Content
+# NO Rods/Staves for Minor
+;Minor
+#4,{If~%genArmor%=1? [GenerateItem=1]/ERR00}
+#5,{If~%genWeapons%=1? [GenerateItem=2]/ERR00}
+#5,{If~%genPotions%=1? [GenerateItem=3]/ERR00}
+#2,{If~%genRings%=1? [GenerateItem=4]/ERR00}
+#35,{If~{Calc~%genScrollsA%+%genScrollsD%}>0? [GenerateItem=6]/ERR00}
+#10,{If~%genWands%=1? [GenerateItem=8]/ERR00}
+4,{If~{Or~%MaxArmorRolled%<%MaxArmor%,%MaxShieldRolled%<%MaxShield%}=1?{If~%genArmor%=1? [GenerateItem=1]/ERR00}/[Minor]}
+5,{If~%MaxWeaponRolled%<%MaxWeapon%?{If~%genWeapons%=1? [GenerateItem=2]/ERR00}/[Minor]}
+5,{If~%MaxPotionRolled%<%MaxPotion%?{If~%genPotions%=1? [GenerateItem=3]/ERR00}/[Minor]}
+2,{If~%MaxRingRolled%<%MaxRing%?{If~%genRings%=1? [GenerateItem=4]/ERR00}/[Minor]}
+35,{If~%MaxScrollRolled%<%MaxScroll%?{If~{Calc~%genScrollsA%+%genScrollsD%}>0? [GenerateItem=6]/ERR00}/[Minor]}
+10,{If~%MaxWandRolled%<%MaxWand%?{If~%genWands%=1? [GenerateItem=8]/ERR00}/[Minor]}
+9,{If~%genWondrous%=1? [GenerateItem=9]/ERR00}
+
+;Medium
+#10,{If~%genArmor%=1? [GenerateItem=1]/ERR00}
+#10,{If~%genWeapons%=1? [GenerateItem=2]/ERR00}
+#10,{If~%genPotions%=1? [GenerateItem=3]/ERR00}
+#10,{If~%genRings%=1? [GenerateItem=4]/ERR00}
+#10,{If~%genRods%=1? [GenerateItem=5]/ERR00}
+#15,{If~{Calc~%genScrollsA%+%genScrollsD%}>0? [GenerateItem=6]/ERR00}
+#3,{If~%genStaves%=1? [GenerateItem=7]/ERR00}
+#15,{If~%genWands%=1? [GenerateItem=8]/ERR00}
+10,{If~{Or~%MaxArmorRolled%<%MaxArmor%,%MaxShieldRolled%<%MaxShield%}=1?{If~%genArmor%=1? [GenerateItem=1]/ERR00}/[Medium]}
+10,{If~%MaxWeaponRolled%<%MaxWeapon%?{If~%genWeapons%=1? [GenerateItem=2]/ERR00}/[Medium]}
+10,{If~%MaxPotionRolled%<%MaxPotion%?{If~%genPotions%=1? [GenerateItem=3]/ERR00}/[Medium]}
+10,{If~%MaxRingRolled%<%MaxRing%?{If~%genRings%=1? [GenerateItem=4]/ERR00}/[Medium]}
+10,{If~%MaxRodRolled%<%MaxRod%?{If~%genRods%=1? [GenerateItem=5]/ERR00}/[Medium]}
+15,{If~%MaxScrollRolled%<%MaxScroll%?{If~{Calc~%genScrollsA%+%genScrollsD%}>0? [GenerateItem=6]/ERR00}/[Medium]}
+3,{If~%MaxStaffRolled%<%MaxStaff%?{If~%genStaves%=1? [GenerateItem=7]/ERR00}/[Medium]}
+15,{If~%MaxWandRolled%<%MaxWand%?{If~%genWands%=1? [GenerateItem=8]/ERR00}/[Medium]}
+17,{If~%genWondrous%=1? [GenerateItem=9]/ERR00}
+
+;Major
+#10,{If~%genArmor%=1? [GenerateItem=1]/ERR00}
+#10,{If~%genWeapons%=1? [GenerateItem=2]/ERR00}
+#5,{If~%genPotions%=1? [GenerateItem=3]/ERR00}
+#10,{If~%genRings%=1? [GenerateItem=4]/ERR00}
+#10,{If~%genRods%=1? [GenerateItem=5]/ERR00}
+#10,{If~{Calc~%genScrollsA%+%genScrollsD%}>0? [GenerateItem=6]/ERR00}
+#20,{If~%genStaves%=1? [GenerateItem=7]/ERR00}
+#5,{If~%genWands%=1? [GenerateItem=8]/ERR00}
+#
+10,{If~{Or~%MaxArmorRolled%<%MaxArmor%,%MaxShieldRolled%<%MaxShield%}=1?{If~%genArmor%=1? [GenerateItem=1]/ERR00}/[Major]}
+100,{If~{And~%MaxWeaponRolled%<%MaxWeapon%,%remaining%>10301}=1?{If~%genWeapons%=1? [GenerateItem=2]/ERR00}/[Major]}
+5,{If~%MaxPotionRolled%<%MaxPotion%?{If~%genPotions%=1? [GenerateItem=3]/ERR00}/[Major]}
+10,{If~%MaxRingRolled%<%MaxRing%?{If~%genRings%=1? [GenerateItem=4]/ERR00}/[Major]}
+10,{If~%MaxRodRolled%<%MaxRod%?{If~%genRods%=1? [GenerateItem=5]/ERR00}/[Major]}
+10,{If~%MaxScrollRolled%<%MaxScroll%?{If~{Calc~%genScrollsA%+%genScrollsD%}>0? [GenerateItem=6]/ERR00}/[Major]}
+20,{If~%MaxStaffRolled%<%MaxStaff%?{If~%genStaves%=1? [GenerateItem=7]/ERR00}/[Major]}
+5,{If~%MaxWandRolled%<%MaxWand%?{If~%genWands%=1? [GenerateItem=8]/ERR00}/[Major]}
+20,{If~%genWondrous%=1? [GenerateItem=9]/ERR00}

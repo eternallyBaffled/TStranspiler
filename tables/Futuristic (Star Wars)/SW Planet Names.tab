@@ -1,0 +1,741 @@
+# ------------------------------------------------------
+# Last Update: re-verified by Valminder Jan 10, 2012.
+# ------------------------------------------------------
+# ---------------------------------------------------
+# Last Update: modified by Valminder August 10, 2006.
+# ---------------------------------------------------
+#
+# Planet Names
+#
+# -------------------------------------------------------------------------
+#
+# To call this table from another one:
+#    [SW Planet Names.Start(%Planet%,%ShowRegion%)
+#
+#    Parameters: (%Planet%,%ShowRegion%)
+#
+#    Planet:       1= Random planet name
+#                  2= Existing planet name
+#                  3= Both (Random and Existing)
+#    ShowRegion:   1= Yes (ex: (Outer Rim)). Not for random planet names.
+#                  2= No.
+#
+# -------------------------------------------------------------------------
+#
+# Modified by Valminder, August  2006.
+#    Added known planets (from NAV-COMPUTER.COM).
+#    Added Region for the known planets (ex: Outer Rim).
+#    Added parameters.
+#    Added apostrophes instead of only hyphens.
+#    Existing planet names are generated with an *
+#
+
+%Planet%,0
+%Region%,0
+%ShowRegion%,0
+
+@Planet,3,Choose how to generate a planet name,Random planet name,Existing planet,Both (more chance for existing planets),Random planet name or planet number,Random planet number
+@ShowRegion,1,Do you want to show the region of the planet (ex: Outer Rim),Yes,No
+
+:Start
+1,[Planet Name=%Planet%]
+
+:Planet Name
+1,[Generate]{If~%ShowRegion%=1?[ShowRegionGen] (%Region%)}
+2,[Existing Planet]*[Show Region]
+3,[Planet Name Gen]
+4,{If~{Dice~1d2}=1?[Planet Name=1]/[PlanetNum]}
+5,[PlanetNum]
+
+:PlanetNum
+1,[GenPlanetNum]{If~%ShowRegion%=1?[ShowRegionGen] (%Region%)}
+
+;Planet Name Gen
+1,[Planet Name=1]
+2,[Planet Name=2]
+
+;Generate
+1,[Prefix] [Syllablesx]
+19,[Syllablesx]
+
+;Prefix
+5,Ord
+1,New
+1,Nal
+1,Nam
+2,Nar
+
+;Syllablesx
+1,{Cap~[Syllables]}[Suffixx][Numberx]
+2,{Cap~[Syllables]}[Hyp][Syllables][Suffixx][Numberx]
+2,{Cap~[Syllables]}[Hyp1][Syllables][Hyp2][Syllables][Suffixx][Numberx]
+1,{Cap~[Syllables]}[Hyp3][Syllables][Hyp4][Syllables][Hyp5][Syllables][Suffixx][Numberx]
+
+;HypApo
+1,-
+1,'
+
+;Hyp
+3,[HypApo]
+17,
+
+;Hyp1
+2,[HypApo]
+18,
+
+;Hyp2
+2,[HypApo]
+18,
+
+;Hyp3
+1,[HypApo]
+19,
+
+;Hyp4
+1,[HypApo]
+19,
+
+;Hyp5
+1,[HypApo]
+19,
+
+;Suffixx
+4,[Suffix]
+16,
+
+;Numberx
+3, [Number]
+17,
+
+;Syllables
+1,ad
+1,al
+1,alm
+1,am
+1,an
+1,ant
+1,arb
+1,as
+1,bk
+1,ban
+1,bar
+1,bal
+1,bes
+1,bil
+1,bin
+1,bon
+1,bor
+1,bril
+1,ber
+1,bom
+1,bor
+1,bron
+1,dag
+1,dan
+1,dar
+1,dor
+1,dur
+1,en
+1,end
+1,er
+1,fed
+1,fir
+1,gal
+1,gam
+1,gan
+1,gess
+1,gli
+1,glo
+1,goh
+1,gul
+1,hon
+1,i
+1,jum
+1,kal
+1,kam
+1,kar
+1,kes
+1,kom
+1,kur
+1,lan
+1,les
+1,lid
+1,lor
+1,lus
+1,mel
+1,mer
+1,mim
+1,myr
+1,nab
+1,nal
+1,nat
+1,nik
+1,nog
+1,nub
+1,om
+1,on
+1,ond
+1,phin
+1,pin
+1,rax
+1,rer
+1,rif
+1,rin
+1,ris
+1,rish
+1,ron
+1,rum
+1,rur
+1,rut
+1,ryl
+1,sav
+1,sel
+1,sen
+1,sern
+1,sul
+1,sum
+1,tal
+1,tan
+1,tel
+1,tis
+1,top
+1,tros
+1,val
+1,var
+1,ver
+1,wat
+1,yin
+1,zel
+1,zoc
+
+;Number
+7,[NumberRoman]
+1,[NumberNumerical]
+2,[Name]
+
+;NumberRoman
+1,I
+1,II
+1,III
+1,IV
+1,V
+1,VI
+1,VII
+1,VIII
+1,IX
+1,X
+
+;NumberNumerical
+1,1
+1,2
+1,3
+1,4
+1,5
+1,6
+1,7
+1,8
+1,9
+1,10
+
+;Name
+1,Prime
+1,Moon
+1,Med
+1,Minor
+1,Major
+1,Asteroids
+1,Station
+
+;Suffix
+1,a
+1,aan
+1,ar
+1,as
+1,ea
+1,eer
+1,i
+1,ia
+1,in
+1,ine
+1,ior
+1,ir
+1,is
+1,oo
+1,os
+1,oth
+1,u
+1,uk
+1,yi
+1,yn
+
+# --------------------------------------------------
+
+# If you modify the numbers below, also modify in "ShowRegionGen".
+;Existing Planet
+10,[Deep Core]|Region=Deep Core|
+39,[Core]|Region=Core|
+27,[Colonies]|Region=Colonies|
+28,[Inner Rim]|Region=Inner Rim|
+27,[Expansion Region]|Region=Expansion Region|
+67,[Mid Rim]|Region=Mid Rim|
+175,[Outer Rim]|Region=Outer Rim|
+4,[Wild Space]|Region=Wild Space|
+4,[Unknown Regions]|Region=Unknown Regions|
+
+;Deep Core
+1,Byss
+1,Dalla's Nexus Station
+1,Ebaq
+1,Eclipse
+1,Empress Teta
+1,Khomm
+1,Ojom
+1,Ruan
+1,Tarkin's Fang
+1,Vulpter
+
+;Core
+1,Aargau
+1,Abregado-rae
+1,Alderaan
+1,Anaxes
+1,Belgaroth
+1,Brentaal
+1,Caamas
+1,Chandrila
+1,Cinnagar
+1,Corellia
+1,Corulag
+1,Coruscant
+1,Drall
+1,Drooturoo
+1,Duro
+1,Esseles
+1,Fresia
+1,Froz
+1,Galantos
+1,J't'p'tan
+1,Jumus
+1,Kuat
+1,Leria Kersil
+1,Metellos
+1,New Plympto
+1,Nubia
+1,N'zoth
+1,Ralltiir
+1,Recopia
+1,Rhinnal
+1,Ruan
+1,Sacorria
+1,Sarapin
+1,Selonia
+1,Talfaglio
+1,Talus
+1,Tralus
+1,Velusia
+1,Widek
+
+;Colonies
+1,Antar
+1,Arkania
+1,Balmorra
+1,Bassadro
+1,Borleias
+1,Carida
+1,Cato Neimodia
+1,Commenor
+1,Devaron
+1,Fondor
+1,Gania
+1,Garobi
+1,Ghorman
+1,Giju
+1,Hok
+1,Jagga-Two
+1,Mrlsst
+1,Nak Shimor
+1,Neimoidia
+1,Onderon
+1,Ord Mirit
+1,Phu
+1,Shulstine V
+1,Talasea
+1,Tapani Sector
+1,Teyr
+1,Vulvarch
+
+;Inner Rim
+1,Aleen
+1,Ambria
+1,Antar
+1,Aphran
+1,Atzerri
+1,Bestine
+1,Bilbringi
+1,Bogden
+1,Carratos
+1,Champala
+1,Colla IV
+1,Denon
+1,Hapes
+1,Kiffex
+1,Kifu
+1,Moorja
+1,Myrkr
+1,Obroa-skai
+1,Onderon
+1,Pengalan IV
+1,Reecee
+1,Selvaris
+1,Taanab
+1,Telti
+1,Thyferra
+1,Tirahnn
+1,Yag'Dhul
+1,Zeltros
+
+;Expansion Region
+1,Aquaris
+1,Aridus
+1,Cartao
+1,Contruum
+1,Cularin
+1,Donovia
+1,Dorin
+1,Gyndine
+1,Iktotch
+1,Kira
+1,M'haeli
+1,Mimban
+1,Nkllon
+1,Osarian
+1,Ploo II
+1,Ploo IV
+1,Rhommamool
+1,Shili
+1,Taboon
+1,Tarhassan
+1,Thisspias
+1,Tynna
+1,Umbara
+1,Vandelhelm
+1,Vena
+1,Vendaxa
+1,Yinchorr
+
+;Mid Rim
+1,Aargonar
+1,Ando
+1,Ankus
+1,Anobis
+1,Ansion
+1,Anzat
+1,Belsavis
+1,Bimmisaari
+1,Blenjeel
+1,Bothawui
+1,Centares
+1,Cerea
+1,Chalacta
+1,Chommel Minor
+1,Cona
+1,Cularin
+1,Cyphar
+1,Dargul
+1,Doldur
+1,Druckenwell
+1,Garos IV
+1,Falleen
+1,Ganath
+1,Geddes (Hanoon)
+1,Glee Anselm
+1,Haruun Kal
+1,Ilum
+1,Iridonia
+1,Ithor
+1,Kalarba
+1,Karfeddion
+1,Kashyyyk
+1,Kothlis
+1,Krant
+1,Kril'Dor
+1,Lannik
+1,Lashbane
+1,Leritor
+1,Malastare
+1,Metalorn
+1,Monor II
+1,Moonus Mandell
+1,Naboo
+1,New Holstice
+1,Nimban
+1,Null
+1,Ord Mantell
+1,Ottega
+1,Riflor
+1,Roche Asteroids
+1,Rodia
+1,Ruusan
+1,Silver Station
+1,Sneeve
+1,Sundari
+1,Thaere
+1,The Wheel
+1,Tholatin
+1,Togoria
+1,Toydaria
+1,Trandosha
+1,Triffis
+1,Umgul
+1,Velmar
+1,Vortex
+1,Ylix
+1,Zolan
+
+;Outer Rim
+1,Adarlon
+1,Aduba III
+1,Adumar
+1,Agamar
+1,Almania
+1,Alzoc III
+1,Ammuud
+1,Annaj
+1,Anoat
+1,Anoth
+1,Arbra
+1,Asmeru
+1,Bakura
+1,Bandomeer
+1,Barab I
+1,Bastion
+1,Belderon
+1,Belkadan
+1,Bespin
+1,Bimmiel
+1,Bonadan
+1,Borosk
+1,Bpfassh
+1,Brigia
+1,Cadomai Prime
+1,Caluula
+1,Chad
+1,Chandaar
+1,Cholganna
+1,Clak'dor VII
+1,Codian Moon
+1,Cron Drift
+1,Daan
+1,Dagobah
+1,Dantooine
+1,Da Soocha V
+1,Dathomir
+1,Dellalt
+1,Dorvalla
+1,Dosuun
+1,Drongar
+1,Dubrillion
+1,Elom
+1,Elshandruu Pica
+1,Endor
+1,Eredenn
+1,Eriadu
+1,Erilnar
+1,Er'Kit
+1,Esfandia
+1,Etti IV
+1,Excarga
+1,Exocron
+1,Firrerre
+1,Formos
+1,Fwillsving
+1,Gala
+1,Gamorr
+1,Gand
+1,Garqi
+1,Gelgelar
+1,Generis
+1,Gentes
+1,Geonosis
+1,Gravlex Med
+1,G'rho
+1,Handooine
+1,Helska
+1,Honoghr
+1,Hoth
+1,Hypori
+1,Isis
+1,Ison
+1,Jabiim
+1,Jaminere
+1,Junction
+1,Kal'Shebbol
+1,Kamar
+1,Kamino
+1,Karfeddion
+1,Karideph
+1,Kegan
+1,Kerest
+1,Kessel
+1,Korriban
+1,Kowak
+1,Ku'bakai
+1,Kubindi
+1,Kulthis
+1,Lamaredd
+1,Lianna
+1,Lok
+1,Lwhekk
+1,Melida
+1,Mirial
+1,Mon Calamari
+1,Munto Crodu
+1,Morishim
+1,Muunilinst
+1,Muskree
+1,Mytus VII
+1,Nal Hutta
+1,Nam Chorios
+1,Nar Kreeta
+1,Nar Shaddaa
+1,Nespiss VIII
+1,Nirauan
+1,Nyrvona
+1,Omwat
+1,Ord Biniir
+1,Ord Canfre
+1,Ord Janon
+1,Ord Radama
+1,Ossus
+1,Pakuuni
+1,Pergitor
+1,Phaeda
+1,Phindar
+1,Pii System
+1,Praesitlyn
+1,Pzob
+1,Quermia
+1,Queyla
+1,Rattatak
+1,Raxus
+1,Rhen Var
+1,Rinn
+1,Rishi
+1,Roon
+1,Rothana
+1,Rudrig
+1,Rutan
+1,Ruuria
+1,Ryloth
+1,Saki
+1,Senali
+1,Serenno
+1,Sernpidal
+1,Shusugaunt
+1,Silken Asteroids
+1,Sinsang
+1,Siskeen
+1,Sluis Van
+1,Suarbi 7
+1,Sullust
+1,Sump
+1,Tammar
+1,Tatooine
+1,Telos
+1,Teth
+1,Thule
+1,Toola
+1,Toong'l
+1,Toprawa
+1,Troiken
+1,Tund
+1,Ukio
+1,Valc VII
+1,Varonat
+1,Vaynai
+1,Vergesso Asteroids
+1,Virmeude
+1,Vorzyd IV
+1,Vorzyd V
+1,Wayland
+1,Xagobah
+1,Xal 3
+1,Yaga Minor
+1,Yalara
+1,Yavin
+1,Ylesia
+1,Zhar
+1,Ziost
+1,Zonama Sekot
+1,Zonju V
+
+;Wild Space
+1,Adumar
+1,Almania
+1,Nirauan
+1,Ssi-Ruuk Star Cluster
+
+;Unknown Regions
+1,Csilla
+1,Mobus
+1,Nagi
+1,Yuuzhan Vong worlds or colonies
+
+# -------------------------------------------------------------
+
+:Show Region
+1,{If~{And~%ShowRegion%=1,%Region%!=0}=1? (%Region%)}
+
+;ShowRegionGen
+10,|Region=Deep Core|
+39,|Region=Core|
+27,|Region=Colonies|
+28,|Region=Inner Rim|
+27,|Region=Expansion Region|
+67,|Region=Mid Rim|
+175,|Region=Outer Rim|
+4,|Region=Wild Space|
+4,|Region=Unknown Regions|
+
+# --------------------------------------------------------------
+
+:GenPlanetNum
+1,{Loop~{Dice~1d4},{Cap~[Lett]}}{Loop~{Dice~1d6},{Dice~1d10-1}}
+2,{Loop~{Dice~1d6},{Dice~1d10-1}}{Loop~{Dice~1d4},{Cap~[Lett]}}
+3,[GenPlanetNum=1]-{Loop~{Dice~1d2},{Cap~[Lett]}}{Loop~{Dice~1d4},{Dice~1d10-1}}
+4,[GenPlanetNum=1]-{Loop~{Dice~1d4},{Dice~1d10-1}}{Loop~{Dice~1d2},{Cap~[Lett]}}
+5,[GenPlanetNum=1]-[GenPlanetNum=1]
+6,[GenPlanetNum=1]-[GenPlanetNum=2]
+7,[GenPlanetNum=2]-[GenPlanetNum=1]
+8,[GenPlanetNum=2]-[GenPlanetNum=2]
+9,[GenPlanetNum=2]-{Loop~{Dice~1d2},{Cap~[Lett]}}{Loop~{Dice~1d4},{Dice~1d10-1}}
+10,[GenPlanetNum=2]-{Loop~{Dice~1d4},{Dice~1d10-1}}{Loop~{Dice~1d2},{Cap~[Lett]}}
+11-15,[GenPlanetNum={Dice~1d2}]-[GenPlanetNum={Dice~1d2}]-[GenPlanetNum={Dice~1d2}]
+
+;Lett
+1,a
+1,b
+1,c
+1,d
+1,e
+1,f
+1,g
+1,h
+1,i
+1,j
+1,k
+1,l
+1,m
+1,n
+1,o
+1,p
+1,q
+1,r
+1,s
+1,t
+1,u
+1,v
+1,w
+1,x
+1,y
+1,z

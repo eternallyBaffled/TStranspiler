@@ -1,0 +1,207 @@
+# ------------------------------------------------------
+# Last Update: re-verified by Valminder Jan 10, 2012.
+# ------------------------------------------------------
+# ---------------------------------------------------
+# Last Update: Larry Cormier Jan 15, 2006.
+# ---------------------------------------------------
+#
+# Contents of ruined medieval/fantasy cities
+#
+# Converted from TableMaster; Copyright 1994, by Wintertree Software
+#
+# Modified by Valminder, Dec 2005.
+#    Added link to:
+#       Inn and Tavern Names.Names
+#       Religion.Deities2
+#       Shop Names.XXX (a lot of subtables)
+#       Tavern Names.NAME
+#    Added [Occupation] subtable.
+#
+# Modified by Larry Cormier Jan 2006
+#    Added Variables, and relevant code & Links to:
+#        MAP Ruins.tab
+#
+# Modified by Valminder Jan 2006
+#    Added "GenerateNoMap" subtable.
+#
+
+%Buildings%,0
+%BusinessFactor%,0
+%Type%,0
+%Chance%,0
+%Wd%,0
+%Ht%,0
+%OpenArea%,0
+%Size%,0
+
+:Start
+1,{Status~by Larry Cormier and Valminder}These Ruins appear to be [Generate]
+
+:Chanceof
+1,|Chance={Dice~1d100}|
+
+:GenerateNoMap
+1,|BusinessFactor={Dice~2d11+28}|[Condition]. [Occupation]<br>
+
+:GenerateOLD
+1,|BusinessFactor={Dice~2d11+28}|[Condition]. [Occupation]<br><br><b>Map of Ruins:</b><br><br>[~GenRandomMap]
+
+:Generate
+1,|BusinessFactor={Dice~2d11+28}|[Condition]. [Occupation]{Generate~0, (Click to show map),PrintMap}
+
+:PrintMap
+1,<br><br>[~GenRandomMap]
+
+
+:DetailBuilding
+1,[HouseType]
+2,[BusinessType]}
+
+;Condition
+2,[Ruined] rubble, [Barely] identifiable as [Chanceof]{If~%Chance%<20? {AorAn~[BusinessType]}/ {AorAn~[HouseType]}}
+3,the [Partly] [Ruined] remains of [Chanceof]{If~%Chance%<20? {AorAn~[BusinessType]}/ {AorAn~[HouseType]}}
+1,the [Decent] remains of [Chanceof]{If~%Chance%<20? {AorAn~[BusinessType]}/ {AorAn~[HouseType]}}
+
+;Ruined
+1,crumbling|OpenArea=60|
+1,collapsed|OpenArea=30|
+1,decayed|OpenArea=60|
+1,shattered|OpenArea=20|
+1,fallen|OpenArea=30|
+1,destroyed|OpenArea=50|
+1,burned-out|OpenArea=30|
+
+;Partly
+1,partly|OpenArea=30|
+1,somewhat|OpenArea=50|
+1,badly|OpenArea=20|
+1,partially|OpenArea=50|
+1,extensively|OpenArea=70|
+
+;Decent
+1,minimally [Ruined]
+1,slightly [Ruined]
+1,still-recognizable|OpenArea=10|
+1,mostly standing|OpenArea=30|
+
+;Barely
+2,barely
+1,no longer
+
+;HouseType
+2,{Dice~1d3}-story house|Size=1|
+1,{Dice~1d4+1}-story apartment|Size=2|
+
+:BusinessType
+1,[Chanceof]{If~%Chance%<4? inn ([~Inn and Tavern Names.Names])/ [~TownBusinesses]}
+_ |Wd={Dice~2d4+2}||Ht={Dice~1d4+2}|
+
+;TownBusinesses
+1,advocate's office ([~Shop Names.Generic])
+1,alchemist's shop ([~Shop Names.Alchemists])
+1,architect's office ([~Shop Names.Generic])
+2,armorer's shop ([~Shop Names.Smithies])
+1,artist's studio ([~Shop Names.Generic])
+2,bakery ([~Shop Names.Merchants])
+3,smithy ([~Shop Names.Smithies])
+2,blade shop ([~Shop Names.Smithies])
+1,boatwright's workyard ([~Shop Names.Generic])
+2,bow shop ([~Shop Names.Generic])
+1,brewery ([~Shop Names.Merchants])
+3,butcher shop ([~Shop Names.Merchants])
+1,cabinetmaker's workshop ([~Shop Names.Generic])
+2,candle shop ([~Shop Names.Generic])
+1,carpet maker's workshop ([~Shop Names.Generic])
+1,cartographer's office ([~Shop Names.Generic])
+3,cartwright's workshop ([~Shop Names.Smithies])
+1,cheese shop ([~Shop Names.Markets])
+1,clock shop ([~Shop Names.Generic])
+3,cobbler shop ([~Shop Names.Generic])
+2,cooper's workshop ([~Shop Names.Generic])
+1,coppersmith's workshop ([~Shop Names.Smithies])
+1,distillery ([~Shop Names.Merchants])
+2,drayage/storage building ([~Shop Names.Generic])
+3,dry goods store ([~Shop Names.Merchants])
+1,dyer ([~Shop Names.Generic])
+2,fishmonger's shop ([~Shop Names.Merchants])
+2,arrow shop ([~Shop Names.Generic])
+2,fortuneteller's parlor ([~Shop Names.Alchemists])
+2,general store ([~Shop Names.Merchants])
+1,glassblower's workshop ([~Shop Names.Generic])
+1,goldsmith's workshop ([~Shop Names.Smithies])
+3,greengrocery ([~Shop Names.Markets])
+1,guild hall ([~Shop Names.Generic])
+1,harness shop ([~Shop Names.Merchants])
+2,herbwife's house ([~Shop Names.Merchants])
+1,horse trainer's stable ([~Shop Names.Generic])
+2,horsetrader's stable ([~Shop Names.Generic])
+1,housepainter's headquarters ([~Shop Names.Generic])
+1,illuminator's workshop ([~Shop Names.Merchants])
+3,inn ([~Inn and Tavern Names.Names])
+1,jeweler's workshop ([~Shop Names.Generic])
+1,lamp shop ([~Shop Names.Merchants])
+1,library ([~Shop Names.Libraries])
+1,livery stable ([~Shop Names.Markets])
+1,magic supply store ([~Shop Names.Libraries])
+1,market building ([~Shop Names.Generic])
+2,mason's office ([~Shop Names.Generic])
+1,money-changer's office ([~Shop Names.Generic])
+2,money-lender's office ([~Shop Names.Generic])
+1,music shop ([~Shop Names.Generic])
+1,outfitter ([~Shop Names.Merchants])
+1,paper/ink shop ([~Shop Names.Alchemists])
+3,pawnshop ([~Shop Names.Generic])
+2,pottery ([~Shop Names.Generic])
+1,public bath ([~Shop Names.Generic])
+1,ropewalk ([~Shop Names.Generic])
+2,saddlery ([~Shop Names.Merchants])
+1,sage's home ([~Shop Names.Alchemists])
+2,scribe's office ([~Shop Names.Alchemists])
+1,sharpener ([~Shop Names.Smithies])
+2,shrine ([~Religion.Deities2])
+1,sign painter's studio ([~Shop Names.Generic])
+1,silversmith's workshop ([~Shop Names.Smithies])
+1,stonecutter's headquarters ([~Shop Names.Generic])
+2,tailor shop ([~Shop Names.Generic])
+2,tannery ([~Shop Names.Generic])
+3,tavern ([~Tavern Names.NAME])
+3,temple ([~Religion.Deities2])
+1,theater ([~Shop Names.Generic])
+2,tinsmith's workshop ([~Shop Names.Smithies])
+2,used clothing store ([~Shop Names.Generic])
+2,warehouse ([~Shop Names.Generic])
+2,weaver's workshop ([~Shop Names.Generic])
+2,wheelwright's workshop ([~Shop Names.Smithies])
+2,wineshop ([~Shop Names.Merchants])
+1,woodcarver's workshop ([~Shop Names.Generic])
+
+;Occupation
+3,
+1,It is currently inhabited by [Inhabitants].
+
+;Inhabitants
+10,rodents, insects, and spiders
+5,a [~Creatures.Humanoid] [~Miscellaneous.Class2] hermit named [~Names Generator.NAME Random]
+5,a small group of <b>{Dice~1d10+2} {Plural~[Creatures.Humanoid]}</b>
+5,<b>{Dice~2d6}</b> [~Creatures.Humanoid2] refugees
+5,<b>{Dice~1d4+1}</b> [~Creatures.Humanoid2] orphans
+3,<b>{Dice~1d20+5}</b> cultists of a dark god <b>([Religion.Evil Gods])</b>, attempting to operate in secret
+1,<b>[~Noble Household Names.Start]</b>, who are searching for something within
+3,a horde of <b>{Dice~1d20+10}</b> undeads ([~Creatures.Undead])
+3,a group of <b>{Dice~2d6+2}</b> [~Creatures.Humanoid2] brigands lead by <b>[Names Generator.NAME Random]</b> ({AorAn~[Miscellaneous.Class]})
+3,a wandering group of <b>{Dice~2d6+2} {Plural~[Creatures.Humanoid]}</b>
+1,a [Miscellaneous.Size C] <b>[Creatures.Dragon]</b>
+1,a powerful demon or devil, bound within the ruins by magic
+
+:BuildingSize
+# Width: 4-10 Height: 3-6, with 20-80% Open Space
+1,|Wd={Dice~2d4+2}||Ht={Dice~1d4+2}||OpenArea={Dice~2d4*10}|
+# Width: 8-14 Height: 7-10, with 20-80% Open Space
+2,|Wd={Dice~2d4+6}||Ht={Dice~1d4+6}||OpenArea={Dice~2d4*10}|
+
+:GenRandomMap
+1,[BuildingSize=%Size%][RuinsMap]
+
+:RuinsMap
+1,[MAP Ruins.GenMap(%Wd%,%Ht%,%OpenArea%)]
+

@@ -1,0 +1,133 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder Oct 30, 2003.
+# ---------------------------------------------------
+#
+# SMS
+# 06/20/03
+# Forgotten Realms Table 23: Northern Hills (EL 4-9) random encounter tables
+#
+# Corrected by Valminder, Oct 2003
+#   -{If~} and {Dice~}
+#
+#Variables
+
+%Region%,0
+%Time%,0
+%Temp%,0
+
+#Parameters
+
+@Time,1,Select a time of day,Day,Night
+@Region,0,Select a value for region (1=Anauroch 2=Graycloak Hills)
+
+#
+#  Starts by putting up the instructions
+#
+
+:Start
+1,{If~%Region% = 0 ? [Instructions]/[Northern Hills %Time%]}
+
+;Instructions
+1,<b>Forgotten Realms Table 23: Northern Hills (EL 4-9)</b></br></br><h3>Instructions:</h3>
+_<b>Determine whether an encounter should occur before using this table. The chance of an encounter is based on terrain type and travel (chance per hour):</b><br>
+_<table border=1><tr><th>Terrain</th><th>Normal Travel</th><th>Cautious Travel</th><th>Hiding</th></tr>
+_<tr><td>Desolate/wasteland</td><td>5/%</td><td>2/%</td><td>1/%</td></tr>
+_<tr><td>Frontier/wilderness</td><td>8/%</td><td>4/%</td><td>2/%</td></tr>
+_<tr><td>Verdant/civilized area</td><td>10/%</td><td>5/%</td><td>2/%</td></tr>
+_<tr><td>Heavily traveled</td><td>12/%</td><td>6/%</td><td>3/%</td></tr>
+_</table>
+_<ol><li>Use the Parameter Box (below) to indicate whether it is day or night.</li>
+_<li>Then indicate whether the region is <font color=blue><b>1)</b> Anauroch or <b>2)</b> the Graycloak Hills</li></ul><br></font>
+
+# 1 corresponds to time="Day"
+:Northern Hills 1
+01-05,{Dice~1d2} Animal: Bear, Brown
+06-07,Dire bear
+08-11,{Dice~1d2} Dire lion
+12-13,Dire tiger
+14-15,{Dice~1d2} Dire wolverine
+16-19,{Dice~1d4+4} Dire wolf
+20-29,Dragon: [NH_Dragon]
+30-34,{Dice~1d4} Ettin
+35-40,Hill Giant
+41-42,{Dice~1d2} Lamia
+43-53,[NH_Local]
+54-59,{Dice~1d4+4} Ogre
+60-67,Orc Patrol: {Dice~1d4+4} orcs, {Dice~1d2} level {Dice~1d3} orc barbarians, led by level {Dice~1d4+2} [FR_Misc.Orc_Class]
+68-73,Shield Dwarf Patrol: {Dice~1d4+4} 1st level fighters, {Dice~1d2} level {Dice~1d3} cleric of [Religion.Dwarf Gods], led by a level {Dice~1d4+2} [FR_Misc.Dwarf_Class]
+74-79,{Dice~1d10+10} Surface rothe (FRCS)
+80-81,Animal: Tiger
+82-83,{Dice~1d4} Werebear
+84,{Dice~1d2} Weretiger
+85,Werewolf Troupe: {Dice~1d4+1} Werewolves and {Dice~1d4+4} wolves
+86-88,{Dice~1d4+1} Winter wolf
+89-96,{Dice~1d10+6} Animal: wolf
+97-98,Animal: Wolverine
+99-100,{Dice~1d6+5} Worg
+
+# 2 corresponds to time="Night"
+:Northern Hills 2
+01-02,{Dice~1d8+2} Baneguard (MoF)
+03-04,{Dice~1d2} Animal: Bear, Brown
+05-07,Dire bear
+08-10,{Dice~1d2} Dire lion
+11-13,Dire tiger
+14-15,{Dice~1d2} Dire wolverine
+16-18,{Dice~1d4+4} Dire wolf
+19-28,Dragon: [NH_Dragon]
+29-30,{Dice~2d6} Dread warrior (MoF)
+31-33,{Dice~1d4} Demon: Dretch
+34-36,{Dice~1d4} Ettin
+37-39,Ghast pack: {Dice~1d3+1} ghasts and {Dice~1d6+6} ghouls
+40-46,Hill Giant
+47-48,{Dice~1d2} Lamia
+49,{Dice~1d3+2} Lantern Archon (celestial)
+50-60,[NH_Local]
+61-65,{Dice~1d4+4} Ogre
+66-72,Orc Patrol: {Dice~1d4+4} orcs, {Dice~1d2} level {Dice~1d3} orc barbarians, led by level {Dice~1d4+2} [FR_Misc.Orc_Class]
+73-75,{Dice~1d4+1} Shadow
+76-78,Shield Dwarf Patrol: {Dice~1d4+4} 1st level fighters, {Dice~1d2} level {Dice~1d3} cleric of [Religion.Dwarf Gods], led by a level {Dice~1d4+2} [FR_Misc.Dwarf_Class]
+79-80,Animal: Tiger
+81-82,{Dice~1d4} Werebear
+83-84,{Dice~1d2} Weretiger
+85-87,Werewolf Troupe: {Dice~1d4+1} Werewolves and {Dice~1d4+4} wolves
+88-89,{Dice~1d3} White abishai (MoF)
+90-92,{Dice~1d4+1} Winter wolf
+93-94,{Dice~1d10+6} Animal: wolf
+95,Animal: Wolverine
+96-100,{Dice~1d6+5} Worg
+
+:NH_Local
+01-50,Local creatures: [NH_Local%Region%]
+51-100,<b>NPCs:</b><br>{Loop~{Dice~1d3+2},[FR_Random_NPC.FR_SM_NPC]}
+
+#Anauroch local creatures when Region = 1
+:NH_Local1
+01-45,{Dice~1d4+1} Asabi (MoF)
+46-85,Bedine Band (usually Chaotic Good): scouting group of {Dice~1d3+1} 1st level warriors, {Dice~1d2} level {Dice~1d3+2} rangers, led by level {Dice~1d3+1} [FR_Misc.Bedine_Class], mounted on camels
+86-100,Shadovar Patrol (usually Neutral Evil): {Dice~1d4+4} 1st level human fighters, {Dice~1d2} level {Dice~1d4} human fighters, {Dice~1d2} level {Dice~1d6} human sorcerer, led by [FR_Misc.Shade_Leader]
+_{If~{Dice~1d100} < 26 ? mounted on dire bats/}
+
+#Graycloak Hills local creatures when Region = 2
+:NH_Local2
+01-80,Evereskan Patrol: {Dice~1d6+6} 1st level moon elf warriors, {Dice~1d2} level {Dice~1d4} sun elf wizards, led by level {Dice~1d4+4} sun elf [Evereskan_Leader]
+81-100,{Dice~1d2} Griffon
+
+:Evereskan_Leader
+01-10,cleric of [Religion.Elf Gods]
+11-15,druid
+16-35,fighter
+36-60,ranger
+61-65,rogue
+66-75,sorcerer
+76-100,wizard
+
+:NH_Dragon
+01-10,Fang, juvenile (MoF)
+11-20,Gold, young
+21,Dracolich, Red, very young (FRCS)
+22-33,Red, young
+34-44,Shadow, young (MoF)
+45-54,Song, young (MoF)
+55-99,White, juvenile
+100,Dracolich, White, juvenile (FRCS)

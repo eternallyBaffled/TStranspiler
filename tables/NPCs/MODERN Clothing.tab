@@ -1,0 +1,471 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder Feb 28, 2006.
+# ---------------------------------------------------
+#
+# Modern Clothing
+# by Joey Joe Joe
+# September 2005
+#
+# This table will give a first impression description of what a person is wearing.
+# The parameters will allow you to choose the gender and also a basic style of clothing,
+# or you can choose to have the computer select randomly.
+#
+# -------------------------------------------------------------------------
+#
+# To call this table from another one:
+#    [MODERN Clothing.Start(%Style1%,%Gender1%,2)
+#
+#    Style1:       7  Enter the style of clothing.
+#                     1= Rags, 2= Casual, 3= Business, 4= Event,
+#                     5= Uniform, 6=Shocking, 7=Random
+#    Gender1:      3  1= Male, 2= Female, 3= Random
+#    Instructions: 3  1= Shows instructions (if called from .Start)
+#                     2= To activate the table (if called from .Start)
+#
+# -------------------------------------------------------------------------
+#
+# Modified by Valminder, Feb 2006.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+#
+
+# 1=View instructions again, 2=Roll
+%Instructions%,1
+
+# Gender - 1=male, 2=female
+%Gender%,0
+%Gender1%,3
+
+# Style 1=rags 2=casual 3=business 4=dress up 5=uniform 6=LOOK AT ME 7=random
+%Style%,7
+%Style1%,1
+
+@Style1,7,What style of clothing is the person wearing?,Rags,Casual,Business,Event,Uniform,Shocking,Random
+@Gender1,3,Choose the gender of the person you wish to generate clothing for?,Male,Female,Random
+@Instructions,2,View these instructions again?,Yes,No
+
+:Start
+1,{If~%Instructions%=1? [Intro] /
+_|Gender=[RandomGender=%Gender1%]|
+_|Style=[SetStyle=%Style1%]|[Generate]}
+
+;Intro
+1,<h1>Modern Clothing</h1>
+_This table will give a first impression description of what a person is wearing.<br><br>
+_The parameters will allow you to choose the gender and also a basic style of clothing, or you can choose to have the computer select randomly.<br><br>
+_Click the parameter button, in the upper left corner, answer the questions and then click the ROLL Button.<br><br><br><br><br><br>
+
+;SetStyle
+1,Rags
+1,Casual
+1,Business
+1,Event
+1,Uniform
+1,LOOKATME
+1,[RandomStyle]
+
+;Generate
+1,{If~%Gender%=Male? He/ She} is wearing a [%Gender%%Style%] [AdditionalDescript].
+
+:RandomGender
+1,Male
+2,Female
+3,[RandomGender]
+
+;RandomStyle
+2,Rags
+10,Casual
+5,Business
+1,Event
+2,Uniform
+1,LOOKATME
+
+# --------------------------------------------------------------------------
+# These two groups allow a simple method for other tables to call this data.
+
+:Male
+1,|Gender=Male||Style=[RandomStyle]| [Generate]
+:Female
+1,|Gender=Female||Style=[RandomStyle]| [Generate]
+
+# --------------------------------------------------------------------------
+
+;!ClothingColors
+5,
+10,[Miscellaneous.ColorNoType] patterned
+1,[Miscellaneous.ColorNoType] and [ClothingColorPallet] striped
+3,[Miscellaneous.ColorNoType]
+3,[ClothingColorPallet]
+2,[Miscellaneous.ColorNoType] with [ClothingColorPallet] accents
+1,[MutedColor]
+
+;ClothingColorPallet
+1,pink
+1,maroon
+1,baby blue
+1,tan
+1,navy
+1,off white
+1,olive
+
+;MutedColor
+1,black
+1,navy
+1,grey
+1,brown
+1,pinstriped
+
+;DressShirtDescription
+3,
+1,white
+1,striped
+1,light blue
+
+# --------------------------------------------------------------------------
+# Those tables are general tables used by anyother table.
+
+;Length
+1,
+1,short
+1,long
+
+;Malesomething
+1,men's suit and tie
+1,men's shirt and pants
+1,[ClothingColors] men's sweater
+3,{Lockout~clothing item,1-2} men's [clothing item]
+
+;Femalesomething
+1,dress
+1,pair of slacks
+1,blouse
+1,nylons or hose
+1,[Length] skirt
+1,woman's sweater
+1,pair of  capri pants
+3,{Lockout~clothing item,1-2}women's  [clothing item]
+
+;clothing item
+1,harness
+1,chaps
+1,jacket
+1,hat
+1,pair of pants
+1,vest
+
+;!FemaleAccessories
+1,[Accessories]{Unlock~FemaleAccessories,1}
+1,purse
+1,shoes
+1,scarf
+
+;!MaleAccessories
+1,[Accessories]{Unlock~MaleAccessories,1}
+1,wedding ring
+1,watch
+
+;Accessories
+1,cell phone
+1,brief case
+1,belt
+1,[Miscellaneous.ColorNoType] umbrella
+1,hat
+1,i-pod
+1,glasses
+1,backpack
+
+:!AdditionalDescript
+1,that reflects the latest fashion trend
+2,that is typical of the latest fashion trend, with a matching [%Gender%Accessories]
+3,of the highest quality
+4,in a classic style
+5,that was popular [time] ago
+6,that just seems "thrown on"
+7,and has a highly manicured appearance
+8,that is highly flattering
+9,that {If~%Gender%=Male? he / she} seems uncomfortable wearing
+10,that was probably purchased at Wal-Mart
+11,that looks as if it were tailor-made
+12-13,[FABRIC] 
+14-16,and [SHOES]
+17,that looks as if it has been slept in
+18,that is crisply pressed
+19,that doesn't quite match
+20,in a casual manner
+21,that doesn't fit well
+22,that fits the occasion
+23-40,with {AorAn~[%Gender%Accessories]}
+# If you add choices to AdditionalDescript, a ratio of about 2 choices to 3 blank responses is my prefered ratio
+# Keeping the blank responses at the end of the group can make {Lockout~} easier to script
+41-75,
+
+;FABRIC
+1,which is made of polyester
+1,that is lined with fur
+1,which is made of linen
+1,which is made of cotton
+1,which is made of silk
+
+;SHOES
+1,tennis shoes
+1,dress shoes
+1,sandles
+1,combat boots
+1,galoshes
+1,calf high boots
+1,cowboy boots
+1,{If~%Gender%=Female? heels / slip ons}
+1,slippers
+
+;time
+1,5 years
+1,10 years
+1,20 years
+
+# --------------------------------------------------------------------------
+
+;MaleRags
+1,[RagsDescription] [Malesomething]
+;FemaleRags
+1,[RagsDescription] [Femalesomething]
+
+;!RagsDescription
+1,wrinkled
+1,stained
+1,dirty
+1,torn
+1,worn-out
+1,too small
+1,too large
+1,inappropriate season
+1,ragged
+1,sweat stained
+1,[RagsDescription], [RagsDescription]
+
+# --------------------------------------------------------------------------
+
+;FemaleCasual
+1,[Femalesomething]
+5,pair of [JEANS] jeans
+5,pair of [SHORTS] shorts
+1,[Length] [ClothingColors] skirt
+1,[Length] [ClothingColors] dress
+1,[ClothingColors] t-shirt [TSHIRT]
+1,[ClothingColors] sweater
+1,[ClothingColors] sweatshirt
+1,halter top
+1,{Generate~0,type of clothing identified with a particular trend or subculture (click for possible example),TRENDSUBCULTURE}
+1,{Generate~0,non-western style of attire (click for possible example),NONWESTERNFEMALE}
+5,[COAT]
+1,halter top
+1,[ClothingColors] blouse and pair of slacks
+1,blouse and pair of [ClothingColors] slacks
+
+;MaleCasual
+5,pair of [JEANS] jeans
+5,pair of [SHORTS] shorts
+1,pair of khakis
+1,pair of [Miscellaneous.ColorNoType] sweat-pants
+1,[Malesomething]
+1,[ClothingColors] sweater
+3,[ClothingColors] t-shirt [TSHIRT]
+1,[ClothingColors] golf shirt
+1,[Miscellaneous.ColorNoType] sweatshirt
+1,professional sport team shirt 
+1,{Generate~0,type of clothing identified with a particular trend or subculture (click for possible example),TRENDSUBCULTURE}
+1,{Generate~0,non-western syle of attire (click for possible example),NONWESTERNMALE}
+1,casual shirt with [Length] sleeves
+5,[COAT]
+1,muscle shirt
+1,[ClothingColors] turtle neck
+
+;NONWESTERNMALE
+1,[Miscellaneous.ColorNoType] robe and turban
+1,[Miscellaneous.ColorNoType] and [Miscellaneous.ColorNoType] kilt
+1,[ClothingColors] kimono
+1,orthadox jewish clothing
+1,mexican style poncho
+
+;NONWESTERNFEMALE
+1,[MutedColor] robe and headscarf
+1,amish style of clothing
+1,[ClothingColors] kimono
+1,[Miscellaneous.ColorNoType] and [Miscellaneous.ColorNoType] polka skirt
+1,mexican style poncho
+1,dress of [ClothingColors] kente cloth
+
+;TRENDSUBCULTURE
+1,[ClothingColors] skaterz gear
+1,black goth costume
+1,[ClothingColors] clothing of a type that a retiree would wear
+1,[ClothingColors] clothing marking {If~%Gender%=Female? her/ him} as a tourist 
+1,[ClothingColors] themed hippie outfit
+1,[ClothingColors] hip-hop get-up
+
+;COAT
+1,[Miscellaneous.ColorNoType] jacket
+1,[Length] coat
+1,heavy coat
+1,light coat
+1,vest
+1,[ClothingColors] {If~%Gender%=Female? shawl or wrap / coat}
+1,[Miscellaneous.ColorNoType] "hoodie"
+1,trenchcoat
+1,[ClothingColors] windbreaker
+1,denim jacket
+1,letterman's jacket
+1,fur coat
+1,tweed jacket
+
+;JEANS
+5,
+1,blue
+1,black
+1,faded
+1,low riding
+1,retro {Generate~0,(click for possible example),RETROJEAN} 
+1,cordouroy
+
+;RETROJEAN
+1,bell-bottom
+1,acid wash
+1,'distressed'
+
+;SHORTS
+5,
+1,cargo
+1,knee length
+1,short
+1,tight
+1,loose
+1,athletic
+1,[ClothingColors] 
+1,cut-off
+
+;TSHIRT
+7,
+1, that is tie dyed with light [Miscellaneous.ColorNoType] and [ClothingColorPallet]
+1, for a band 
+1, with a political statement
+1, with a retro-logo
+1, with a brand name logo
+1, commemorating a fund-raising event (like a walk-a-thon)
+1, with a pocket
+1, with a decal relating to a hobbie or interest
+1, over a long sleeved shirt
+1, that says 'Vote for Pedro' and moonboots
+
+# --------------------------------------------------------------------------
+
+;MaleBusiness
+1,[MutedColor] suit with [DressShirtDescription] shirt and [ClothingColors] tie 
+1,[Miscellaneous.ColorNoType] oxford shirt
+1,[Miscellaneous.ColorNoType] sports coat
+1,type of clothing that identifies his occupation
+
+;FemaleBusiness
+1,business suit with [ClothingColors] skirt
+1,[ClothingColors] suit with slacks
+1,[ClothingColors] dress with a [FemaleAccessories]
+1,type of clothing that identifies her occupation
+
+# --------------------------------------------------------------------------
+
+;MaleUniform
+1,[Uniform]
+
+;FemaleUniform
+1,[Uniform]
+
+;Uniform
+1,soldier's uniform
+1,sailor's uniform
+1,military dress uniform
+1,police officer's uniform
+1,fire fighter's uniform
+1,UPS delivery uniform
+1,hospital scrubs
+1,[Length] lab coat
+1,[Miscellaneous.ColorNoType] [athletic] uniform
+1,mechanic's jump suit
+1,bus or taxi driver uniform
+1,uniform identifiable as an escaped convict
+1,uniform for a fast food restaurant 
+1,religious leader's vestments
+1,chef's apron and hat
+
+;athletic
+1,basketball
+1,soccer
+1,football
+1,baseball or softball
+1,spandex workout gear
+1,jogging suit
+1,swim team
+1,tennis
+
+# --------------------------------------------------------------------------
+
+;MaleLOOKATME
+1,[ClothingColors] [Femalesomething]
+1,[LOOKATME]
+1,shiney [Miscellaneous.ColorNoType] speedo
+1,pair of pants so low that his [ClothingColors] boxers show{Lockout~AdditionalDescript,1-22}
+1,[MaleCasual={Dice~1d12}], but wears no shirt
+
+;FemaleLOOKATME
+1,[Malesomething]
+1,[LOOKATME]
+1,shiney [Miscellaneous.ColorNoType] thong bikini
+1,[Femalesomething] that bares her mid-riff
+1,clothing that makes her look like a hooker
+
+;LOOKATME
+1,clown suit
+1,leather [clothing item]
+1,visible body piercing {Lockout~AdditionalDescript,1-22}
+1,elaborate set of tattoos {Lockout~AdditionalDescript,1-22}
+1,long flowing [Miscellaneous.ColorNoType] cloak
+1,pajamas
+1,nightgown
+1,[Miscellaneous.ColorNoType] feather boa
+1,mascot uniform [mascot]
+4,[HAT]
+
+;HAT
+1,baseball cap
+1,baseball cap worn backwards
+1,cowboy hat
+1,stocking cap
+1,ear muffs
+1,safari pith helmet
+1,tam
+1,pillbox hat
+1,{If~%Gender%=Female? bonnet/russian fur hat}
+1,straw hat
+1,hunter's hat
+
+;mascot
+1,for a professional sports team
+1,of a famous cartoon character
+1,to advertise for a fast food restaurant
+1,as a promotion for a new movie or TV show
+
+# --------------------------------------------------------------------------
+
+;MaleEvent
+1,tuxedo
+1,white tux
+1,[ClothingColors] style of clothing fit for a night on the town
+
+;FemaleEvent
+1,[ClothingColors] evening gown [doodads]
+1,short, short [ClothingColors] dress [doodads]
+
+;doodads
+1,
+1,covered with sequins
+1,with taffeta sleaves
+1,that is strapless
+1,with lace trim
+

@@ -1,0 +1,330 @@
+# ------------------------------------------------------
+# Last Update: re-verified by Valminder Jan 10, 2012.
+# ------------------------------------------------------
+# ---------------------------------------------------
+# Last Update: modified by Valminder Sep 14, 2006.
+# ---------------------------------------------------
+#
+# Castle Hauntings
+#
+# If the DM wishes to determine randomly the frequency at which the
+# haunting occurs, roll 1d6: 
+#  1 Nightly appearances; 
+# 2-4 = Appearances every night of the full moon;
+# 5-6 = Annual appearances.
+#
+# To determine how many hauntings a castle should have, roll 1d6:
+# 1-4 = One haunting; 
+#  5  = Two hauntings;
+#  6  = 1d4+1 hauntings.
+#
+# Courtesy of Dragon Magazine - Adapted for the screen by JB Willers
+# Jaybee@Icon.co.za
+#
+# Modified by Valminder, Jan 2006.
+#    Modified entries and added some more.
+#    Added some Ravenloft cross-reference.
+#    Added links to:
+#       Jewelry.Alternate
+#       Monster Stats.DetermineRandomMonster
+#       NPC Appearance.GenCreature
+#       NPC Appearance.GenDemon
+#       NPC Appearance.Generate3
+#       NPC Appearance.GenerateQuick
+#       Pockets.PocketContentsOR
+#       Religion.Evil Gods
+# Modified by Valminder, Sep 2006.
+#    Modified the output with Start2 by adding som tabulations.
+# Modified by Valminder, July 2010.
+#    Added "Start3" and "Generate3" for the modified "Castles" table.
+#
+
+/OverrideRolls 1
+
+%Creature%,0
+%Bonus0Level%,2
+%MonsterID%,0
+%NoH%,1
+%Counter%,0
+%X%,0
+%Space%,0
+
+@Bonus0Level,1,OPTIONAL: Bonus 0-level spells based on Prime Attribute? (same as 1st-level spells),Yes,No
+
+:Start
+1,<b><u>Castle Hauntings</u>:</b>{Status~from Dragon Magazine} Number of Hauntings: [Number of Hauntings]%NoH%<br><br>
+_[Generate]
+
+:Number of Hauntings
+1-6,|NoH=1|
+7-9,|NoH=2|
+10,|NoH={Dice~1d4+1}|
+
+# ------------------------------------------------------------------------
+# This alternate start is for random castles where the DM does not necessary
+# want a haunting. There is a 10% chances to have hauntings in a given
+# castle.
+
+:Start2
+1,{Space~5}<u>Castle Hauntings</u>: ([Number of Hauntings2]%NoH%)<br>|Space=1|[Generate]
+
+:Start3
+1,[Number of Hauntings2]{If~%NoH%>0?[Start3Continue]/{Space~1}}
+
+:Start3Continue
+1,<br>{Space~5}<u>Castle Hauntings</u>: (%NoH%)<br>[Generate3]
+
+:Number of Hauntings2
+1-6,|NoH=1|
+7-9,|NoH=2|
+10,|NoH={Dice~1d4+1}|
+11-100,|NoH=0|
+
+# ------------------------------------------------------------------------
+
+:Generate
+1,|Counter=0|{Loop~%NoH%,|Counter+1|{IIf~%NoH%>1? {If~%Space%=1?{Space~5}}<u>{Color~Orange,Haunting %Counter%}</u><br>}{If~%Space%=1?{Space~5}}[Kind][GenTime]{If~%NoH%>1?<hr>}}
+#1,{If~%Counter%<%NoH%? [Kind]<br><br>|Counter+1|[Generate]}
+
+:Generate3
+1,|Counter=0|{Loop~%NoH%,|Counter+1|{IIf~%NoH%>1? {Space~5}<u>{Color~Orange,Haunting %Counter%}</u>}{Space~2}[Kind][GenTime]{If~%NoH%>1?<hr>}}
+
+;Kind
+4,[Undead]
+4,[Curse]
+2,[Phantom shifts]
+
+:GenTime
+1,<br>{If~%Space%=1?{Space~5}}<u>Time of Haunting</u>: [Time]
+
+;Time
+1,Each night.
+1,Every day [Phenomenon={Dice~1d15}].
+3,Every night [Phenomenon].
+2,{Dice~1d4+1} annual appearances.
+
+;Phenomenon
+5,when there is a [Phenemenon2]
+1,of summer
+1,of winter
+1,of spring
+1,of fall
+5,of [~Calendar.Months]
+1,of this date: [~Calendar.Months and Days]
+5,on this day: [~Calendar.Weekdays]
+5,when Lunitari is full
+1,when Solinari is full
+10,when Nuitari is full
+1,where a new person sleeps in the castle
+
+;Phenemenon2
+5,storm
+1,party
+1,wedding
+1,funeral
+
+:Line
+1,-------------------------------------
+
+;!Undead
+1,A coach appears in the castle's courtyard. If any character (PC or NPC) gets in the coach, it heads off down the road at breakneck speed. The driver and its two passengers (not including any characters) slowly turn into skeletons as the coach rumbles toward the cliff it plunged over years before. The skeletons do not attack their living passengers, though the fall off the cliff may kill anyone who remains in the coach.
+1,This haunting appears to a random PC in a dream, taking him for a walk through the castle that ends at a spot on the wall or in the courtyard. If the character later digs at this spot, a murder victim's body ([NPC Appearance.GenerateQuick] <b>{IIf~{Dice~1d100}<50? without any treasure</b>:with a hidden treasure</b> ([~Pockets.PocketContentsOR] and [~Jewelry.Alternate])}) is found. Giving the body proper burial and seeking out its murderer ends this haunting. Treasures may be kept if vengeance is completed; otherwise, a new haunting begins, focused on the "thief".
+1,A ghostly watchdog howls in the kennels whenever a member of the castle owner's family faces death. It is still carrying out its guard duties as it did in life. It cannot be seen or exorcised while any members of the lord's family live. If all members of the family die, the ghostly canine is never heard again. 
+1,An invisible drum sounds from the battlements whenever the castle is about to be attacked. This is caused by the spirit of a long-dead <b>[Creatures.Humanoid2]</b> guard.
+1,An ancestor's ghost ([NPC Appearance.GenerateQuick]) guards the building it died in. Any undead attempting to enter must first battle this protective spirit. It is a ghost, as per the ghost template. It does not reappear if defeated in combat. 
+1,Footsteps are heard in the night, and doors creak and slam, but nothing is ever seen. This area is haunted by a weak poltergeist that does not attack. It might have some connection with an ancient crime, its actions revealing something about the events that took place. 
+1,The ghost of a dead sergeant ([NPC Appearance.GenerateQuick]) walks the battlements. Any guards who carouse, sleep, or drink on duty are beaten in reprimand by this protective spirit. It is a ghost, as per the ghost template.
+1,The eyes of a portrait seem to follow a character The painting can speak to him or her if it chooses.{If~{Dice~1d100}<50? This is a harmless spirit that may have useful information for a character.<br>[Line]<br>[NPC Appearance.GenCreature]/It is a vengeful haunt that slowly takes possession of the character in order to harm some enemy.<br>[Line]<br>[NPC Appearance.GenDemon]}<br>[Line]
+1,One room of the castle contains a skull hidden in the stonework. Another room contains a headless skeleton, similarly hidden. If the skull and its body are reunited, the skeleton returns to life as a lich (it can do nothing in its current form. The original owner of the castle (if not a PC) defeated the lich and had its remains so buried to prevent it from returning; the bones cannot be destroyed by any non-magical means.<br>[Line]<br>Lich's [NPC Appearance.Generate3]<br>[Line]<br>[Monster Stats.DetermineRandomMonster(229,%Bonus0Level%,,99)]
+1,A forgotten prisoner ([NPC Appearance.GenerateQuick]) died in chains in the castle dungeon. The sound of rattling chains can still be heard there. Exorcism lets this spirit rest in peace.
+1,A bricked-up room contains an emaciated vampire, too weak to do anything but scratch at the walls. Breaking into the room frees it. Any type of vampire (including Ravenloft setting varieties) could be used.<br>[Line]<br>Vampire's [NPC Appearance.Generate3]<br>[Line]
+1,A small child ([~Creatures.Humanoid2] [~Miscellaneous.Gender] named [~Names Generator.NAME Random]) is frequently seen playing in the halls of the castle. If the child is spoken to, the apparition vanishes. This harmless spirit considers the castle safe. An exorcism removes it.
+1,A number of rusted suits of plate mail stand in a display hall in the castle. At times, clanking noises and the sounds of movement can he heard from this hall. This is caused by a poltergeist that resides in one of the suits of armor and periodically takes it for a walk. In a Ravenloft campaign, this is a Doomguard, left by a long-dead owner, going on a patrol. It does not attack unless it is attacked first.
+1,The ghost of a dead paladin ([~Creatures.Humanoid2] [~Miscellaneous.Gender] named [~Names Generator.NAME Random]) stands before the castle's treasure vault. It fights anyone not a member of his order who approaches the vault. It uses the ghost template. If all the treasure is removed by one of its order, it vanishes forever 
+1,A powerful sorcerer ([~Creatures.Humanoid2] [~Miscellaneous.Gender] named [~Names Generator.NAME Random]) was buried near the castle after his hands were cut off for his many magical crimes. One still-living hand prowls the estate, looking for a way to uncover and reanimate the rest of the body .
+1,A headless horseman ([~Creatures.Humanoid2] [~Miscellaneous.Gender] named [~Names Generator.NAME Random]) rides the road outside the castle, seeking to take other people's heads. Treat this haunting as a ghost with a <i>ghost touch</i> sword. Anyone slain by the horseman is found later without a head. This ghost always returns, even if defeated, unless someone can locate and return its original head to it.<br><u>Note</u>: If you use the Ravenloft setting, this can be the "Headless Horseman" encounter from the Darklords RR1 Accessory 1991 TSR.
+1,A poet ([~Creatures.Humanoid2] [~Miscellaneous.Gender] named [~Names Generator.NAME Random]) is buried in the castle graveyard. A ghostly figure leaves flowers here from time to time. This is the harmless spirit of a long-dead admirer who does nothing more dangerous than steal flowers from the castle flower beds.<br>[Line]<br>Admirer's [NPC Appearance.Generate]<br>[Line] 
+1,Each time the family vault is opened, it is found that the stone coffins within have been moved and rearranged. {If~{Dice~1d100}<50? This is caused by a harmless poltergeist.<br>[Line]<br>Poltergeist's [NPC Appearance.GenCreature]<br>[Line]/[VaultUndead]Some {Plural~[Monster Stats.MonsterNames=%MonsterID%]} are using this vault as a gathering place.
+_<br><br>[Monster Stats.DetermineRandomMonster(%MonsterID%,%Bonus0Level%,,)]}
+1,Evil PCs are awakened by chained spirits who take them on an astral journey to their own futures, to show them what fate awaits them if they do not change their ways.  
+1,The castle library contains relics brought from an Egyptian-like area by a now-deceased collector, including a mummy and a scroll with hieroglyphs. Legend has it that this mummy has been seen to walk the castle hallways. Reading the scroll aloud in front of the mummy may (10 <b>percent</b> chance per level of the reader) actually activate the mummy. The reader then has the same 10 <b>percent</b> chance per level to control the mummy. An uncontrolled mummy attacks all living beings.<br><u>Note</u>: If you use the Ravenloft setting, killing the mummy might bring the Mist, transporting the PCs to the Ravenloft domain called <i>the Desert of Har'Akir</i>, as seen in the "Darklords" Ravenloft RR1 Accessory 1991 TSR or the Touch of Death RA3 adventure 1991 TSR.
+_{If~{Dice~1d100}<25?|MonsterID=260|/|MonsterID=259|}
+_<br><br>[Monster Stats.DetermineRandomMonster(%MonsterID%,%Bonus0Level%,,99)]
+
+;VaultUndead
+# Bodak
+1,|MonsterID=54|
+# Ghast
+1,|MonsterID=145|
+# Ghoul
+1,|MonsterID=147|
+# Mohrg
+1,|MonsterID=251|
+# Vampire
+1,|MonsterID=368|
+# Wight
+1,|MonsterID=387|
+# Zombie
+1,|MonsterID=404|
+
+;!Curse
+1,A former castle occupant who was an inveterate gambler made one last bet on his deathbed. He lost, and [GamblerChoose]{AorAn~%Creature%} still appears from time to time to see if there are any new wagerers. It appears in a character's room and challenges him or her to a game of <b>[GamblerGame]</b>. If the character refuses to play, it vanishes. If the character plays and wins, the %Creature% vanishes and the character's natural lifespan is increased by <b>{Dice~1d5}</b> years, <u>or</u> he or she gets one special chance to avoid death at some point in the future. If the character plays and loses, the %Creature% attacks to kill.<br>
+_{If~%MonsterID%!=0?<br>[Monster Stats.DetermineRandomMonster(%MonsterID%,%Bonus0Level%,,99)]<br>}<br>
+_<u>Note</u>: No one else will be able to see or attack the %Creature%.<br>
+_<u>Note</u>: In a Ravenloft game, treat this spirit as a <i>grim reaper</i> and the character can be brought by the mist if he loses.
+1,A group of murder victims are buried in the castle cellar, put there by some past villainous occupant. Any living being who goes down there is pelted with flagstones (1d6 hp damage) hurled by <b>{Dice~3d10}</b> skeletons who rise through the floor to attack. If the victim flees, the room again resumes its normal appearance. The skeletons reappear if destroyed, but reburying them in consecrated ground ends this curse.
+1,Three skeletons ([~Creatures.Humanoid2]) stand around an empty grave in the castle graveyard, waiting for the return of the one who murdered them. The grave is for the murderer They are not interested in attacking anyone else. Destroying the skeletons cannot end this haunting; they will just return. Their murderer must be found, executed, and buried in this grave to end this haunting.
+1,A noose hangs in an empty cell in the castle dungeon. Any evil character who remains in the cell for more than one day must make a DC<b>{Dice~1d10+10}</b> Will save every day thereafter or die from the oppressive atmosphere of death present. This is a very powerful curse and requires exorcism to end it, followed by burning the rope with magical fire. 
+1,The castle chapel contains the powerful spirit of a past priest ([~Creatures.Humanoid2] [~Miscellaneous.Gender] named [~Names Generator.NAME Random]). Anyone who attempts to defile the chapel is touched by the flaming hand of this haunting. If a Will save (DC{Dice~1d10+10}) is not made, the victim's flesh catches fire from this touch and slowly burns, until the victim is reduced to ashes. Damage is 1 hp the first hour, 2 hp the second hour 3 hp the third hour, etc., until the victim dies or receives a <i>remove curse</i> spell. This haunting can be exorcised or allowed to remain as a guardian.<br>
+_<u>Note</u>: In a Ravenloft campaign, the guardian is a mummy lord with this same special attack. 
+1,The former owner's favorite room has the owner's shadow on the wall. Anyone who dies in the castle has his or her shadow appear there as well. The shadows do nothing unless attempts are made to remove them, at which lime they attack as real shadows. They can be exorcised. 
+1,The stuffed animal heads in the trophy room occasionally return to life, inflicting bite damage on anyone they can reach. Moving the trophies to another room ends this haunting.<br>The animals are:{Loop~{Dice~1d3+1},[AnimalChoose]<br><br>[Monster Stats.DetermineRandomMonster(%MonsterID%,%Bonus0Level%,,99)]}
+1,A passage links the castle to a ruined evil underground temple of [~Religion.Evil Gods]. Anyone who spends more than a few hours down there must make a Will save (DC{Dice~1d10+10}) or gradually become evil over the next <b>{Dice~1d4+1}</b> weeks. Nothing can remove the evil of this accursed place, and sealing it off is advised. Atonement removes the effect it had on any characters.
+1,The castle was built on the site of an ancient graveyard, causing the entire castle to become attuned to the spirit world. Any spell used in the castle that involves speaking with or animating dead has double effectiveness. Efforts to turn undead have only half normal effectiveness (1/2 the turn damage).
+1,The area is an unhallowed area, as the spell.
+1,Any dead buried in the castle graveyard return as [GraveyardChoose]{If~%MonsterID%!=0?{AorAn~[Monster Stats.MonsterNames=%MonsterID%]}}. This effect is caused by a strange meteorite buried in the graveyard. If this is found and removed, the effect ceases, and the meteorite can be forged into <b>{Dice~1d3}</b> evil magical swords of +3 power.<br>
+_{If~%MonsterID%!=0?<br>[Monster Stats.DetermineRandomMonster(%MonsterID%,%Bonus0Level%,,99)]}
+1,The castle stands on an ancient elven holy spot. Elves who discover this may wish to protect the site (50 <b>percent</b> chance) or level the castle to return the place to its prehuman appearance (50 <b>percent</b> chance). Efforts to turn undead here have double normal effectiveness. 
+1,The castle itself is alive by some magical means and can operate all the gates, doors, and artillery unassisted. <b>{If~{Dice~1d100}<50? The castle is friendly to its current occupants./The castle is hostile to its current occupants.}</b> It is controlled by a spirit whose body was buried under one of the castle gates as a guardian. Removing this body to consecrated ground ends this haunting.
+1,A huge hell hound appears outside the castle walls from time to time, seeking to devour members of the castle owner's family as punishment for some long-hidden crime. The hound ceases to return only if the crime is made known and justice is done. 
+1,A beautiful black horse approaches the castle gates. If it is approached, it turns into a nightmare. The horse appears because the castle was built on an ancient evil unholy spot. Exorcism may (50 <b>percent</b> chance) stop its appearances.
+1,If anyone is murdered in the castle, the victim's ghost follows the killer around, though no one but the killer can see the haunting. Bringing the killer to justice allows this spirit to depart. It has no powers or abilities.
+1,[HagChoose]The castle has no mirrors, because every time a person in the castle looks in a mirror, the face of a hag is reflected in place of his own. This is the result of a curse by a still-living haglike monster who was once insulted by one of the people in the castle. It is necessary to find the hag in order to compel her to lift this curse.<br>
+_{If~%MonsterID%!=0?<br>[Monster Stats.DetermineRandomMonster(%MonsterID%,%Bonus0Level%,,99)]}
+1,A statue in the castle weeps or bleeds from its wounds. If the tears or blood are collected, they act as holy water
+1,Blood or slime drips down the castle wall for no discernible reason. This blood or slime, if collected, acts as unholy water 
+1,One of the trees on the estate is planted on the grave of a murdered man. At times the tree takes on the form of a hangman's tree. If it is cut down and burned, it does not regrow.
+1,The spirit of a woman who froze to death outside the castle attempts to entice characters outside in winter to share her fate ([~Creatures.Humanoid2] [~Miscellaneous.Gender] named [~Names Generator.NAME Random]). Those who follow her out have a 5 <b>percent</b> chance per round of becoming lost in the snow. This is the result of a curse placed on the castle by an aggrieved relative who was a wizard. It is necessary to track down this wizard in order to break this spell.
+1,The mist is really active and has a 10 <b>percent</b> chance to appear each night, thus bringing one or more occupants of the castle to a random domain of the Ravenloft setting. 
+
+;!AnimalChoose
+# Ape
+1,|MonsterID=14|
+# Baboon
+1,|MonsterID=26|
+# Badger
+1,|MonsterID=27|
+# Black Bear
+1,|MonsterID=37|
+# Brown Bear
+1,|MonsterID=38|
+# Polar Bear
+1,|MonsterID=40|
+# Bison
+1,|MonsterID=46|
+# Boar
+1,|MonsterID=52|
+# Cheetah
+1,|MonsterID=71|
+# Crocodile
+1,|MonsterID=83|
+# Giant Crocodile
+1,|MonsterID=153|
+# Elephant
+1,|MonsterID=122|
+# Hyena
+1,|MonsterID=211|
+# Leopard
+1,|MonsterID=228|
+# Lion
+1,|MonsterID=231|
+# Monitor Lizard
+1,|MonsterID=252|
+# Rhinocerous
+1,|MonsterID=310|
+# Shark
+1,|MonsterID=323|
+# Tiger
+1,|MonsterID=352|
+# Wolf
+1,|MonsterID=391|
+# Wolverine
+1,|MonsterID=393|
+
+;GamblerChoose
+# Dread Wraith
+5,|MonsterID=106||Creature=[Monster Stats.MonsterNames=%MonsterID%]|
+# Ghost
+1,|MonsterID=146||Creature=[Monster Stats.MonsterNames=%MonsterID%]|
+# Spectre
+1,|MonsterID=334||Creature=[Monster Stats.MonsterNames=%MonsterID%]|
+# Wraith
+1,|MonsterID=397||Creature=[Monster Stats.MonsterNames=%MonsterID%]|
+
+;GamblerGame
+1,cards
+1,chess
+1,dart
+1,dice
+
+;GraveyardChoose
+# Ghast
+1,|MonsterID=145|
+# Ghoul
+1,|MonsterID=147|
+# Mohrg
+1,|MonsterID=251|
+# Shadow
+1,|MonsterID=320|
+# Spectre
+1,|MonsterID=334|
+# Wight
+1,|MonsterID=387|
+# Wraith
+1,|MonsterID=397|
+# Zombie
+1,|MonsterID=404|
+
+;HagChoose
+# Annis Hag
+1,|MonsterID=13|
+# Green Hag
+1,|MonsterID=179|
+# Sea Hag
+1,|MonsterID=319|
+# Night Hag
+1,|MonsterID=264|
+
+;!Phantom shifts
+1,Upon entering a room, a character finds himself in the castle's past during some chilling event, such as a murder or a battle. When the character leaves the room, it returns to normal, but any items the character may have picked up and any damage he received remains. This is a powerful form of a poltergeist's phantom shift
+1,A character finds he can step into a large wall tapestry's scene. This function as a <b>{IIf~{Dice~1d100}<50? <i>teleport</i> spell.:</i>plane shift</i>.}</b>.<br>
+_<u>Note</u>: In the Ravenloft setting, the tapestry features a frightening landscape scene that leads to the Domains of Dread. 
+1,The castle has a gallery of waxwork statues of famous people of the past, including famous criminals. When the phantom shift begins, these statues {If~{Dice~1d100}<50? are replaced by the living people they represent./cause the viewer to appear with them in their time.} This effect wears off after one night. 
+1,An old, covered well in the castle cellar is sealed with a large stone cap. The bodies of several murder victims were bidden here in the years when this place was used as the headquarters of a cult of a god of death ([~Religion.Evil Gods]). A phantom shift occasionally takes place here that allows spirits to escape from the underworld into our world. The seal was put here to prevent their escape. If the seal is broken, one spirit may escape each day. Treat the escaping spirit as a: [WellChoose]<br><br>
+_[Monster Stats.DetermineRandomMonster(%MonsterID%,%Bonus0Level%,,99)]
+1,One tower room that belonged to a long-dead wizard ([~Creatures.Humanoid2] [~Miscellaneous.Gender] named [~Names Generator.NAME Random]) has a strange stained glass window. Staring at it triggers a phantom shift that causes a portal to open to a random dimension. There is a 50 <b>percent</b> chance that something will step through. Undead guardians, perhaps the wizard himself, are likely to be present, along with traps.<br>
+_<u>Note</u>: If the Ravenloft setting is used, treat this as a one-way portal leading to the demiplane.
+1,A door has been painted on one of the walls. On a 10 <b>percent</b> chance per day, a phantom shift causes it to open to a random dimension; something will come through.<br>
+_<u>Note</u>: If the Ravenloft setting is used, this door opens to another door there.
+1,[WereChoose]{If~%MonsterID%!=0?|Creature=[Monster Stats.MonsterNames=%MonsterID%]|}A dead %Creature% is buried in the castle graveyard. Every morning, fresh claw marks appear on the headstone. If the grave is left alone, nothing more happens. If the grave is opened, the gravediggers trigger a phantom shift that takes them back to the time when the %Creature% terrorized the area. They must find and slay the %Creature%, then bury it in this grave to return to their own time.
+_{If~%MonsterID%!=0?<br><br>[Monster Stats.DetermineRandomMonster(%MonsterID%,%Bonus0Level%,,99)]}}
+1,A hidden desk drawer contains a long-lost letter from a dead castle occupant. If another letter is placed in the drawer, it is delivered to the dead person in his or her own time. Limited communication between the centuries is thus possible.<br>[Line]<br>[NPC Appearance.Generate]<br>[Line]
+1,A room in the castle was home to a long-dead wizard ([~Creatures.Humanoid2] [~Miscellaneous.Gender] named [~Names Generator.NAME Random]) who was fascinated by dinosaurs; strange roars sometimes come from this chamber. The wizard's spirit still haunts this room in poltergeist form, {If~{Dice~1d100}<50? causing phantom shifts that animate the dinosaur skeletons in the room./causing a large mirror in the room to act as a portal to a land or age of dinosaurs.}
+1,The castle has an extensive library, with some otherplanar books if the DM wishes. If a character removes one particular book from the library, the poltergeist's phantom shift takes place, causing the character to vanish and become a character in the pages of that book, The vanished character can return to our world only by completing the challenges in the book. If he cannot do this or is killed in the attempt, he remains permanently in the book. The castle has a reputation for having its guests disappear after a night of reading in the library. A close examination results in many of the missing being found as storybook characters.
+
+;WellChoose
+# Allip
+1,|MonsterID=9|
+# Shadow
+1,|MonsterID=320|
+# Spectre
+1,|MonsterID=334|
+# Wraith
+1,|MonsterID=397|
+
+;WereChoose
+# Werebear
+2,|MonsterID=379|
+# Wereboar
+2,|MonsterID=380|
+# Wererat
+2,|MonsterID=381|
+# Weretiger
+2,|MonsterID=382|
+# Werewolf
+2,|MonsterID=383|
+# Werewolf Lord
+1,|MonsterID=384|
+# Hill Giant Dire Wereboar
+1,|MonsterID=202|
+

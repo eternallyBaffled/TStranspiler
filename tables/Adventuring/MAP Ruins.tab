@@ -1,0 +1,171 @@
+# ------------------------------------------------------
+# Last Update: modified by Valminder Aug 22, 2015.
+# ------------------------------------------------------
+# ---------------------------------------------------
+# Initial File: Created by Larry Cormier Jan 3, 2006.
+# ---------------------------------------------------
+#
+# Ruins Map
+# by Larry Cormier
+#
+# Derived from Dungeon Map:
+# Copyright 2001 by Bruce A. Gulke
+#
+#
+# Demonstrates the use of variables, parameters, and 
+# graphics in a TableSmith file.
+#
+# The Dungeon Map table is intended to show off some of the more
+# advanced abilities of TableSmith tables, as well as utilizing
+# its inherent HTML-tag abilities (in particular, the use of graphics).
+# The Dungeon Map program uses "geomorphs" - tiles that can be placed
+# together to generate a virtual plethora of maps. 
+#
+# This table is primarily intended as a concept piece. Feel free to 
+# use it to make something much better (believe me, it won't take
+# much :)
+#
+# Thanks to Tony Marker (www.breminor.com) for the idea for the 
+# instructions method.
+#
+#
+# ----------------------------------------------------------------
+#
+# To call this table from another one:
+#    Use either the default dungeon:
+#       [MAP Ruins.GenRandomMap] / [MAP Ruins.GenRandomMapSmall]
+#       
+#
+#    Or input parameters if you need a particular width/height/OpenArea.
+#       [MAP Ruins.GenMap(%Wd%,%Ht%,%OpenArea%)]
+#
+#    Wd= Width
+#    Ht= Height
+#    OpenArea= Percentage of 'Open' area desired in final Map
+#
+# ----------------------------------------------------------------
+#
+# Modified by Valminder, Aug 2015
+#    Added "GenRandomMapSmall" subtable.
+#
+
+
+/OverrideRolls 1
+
+%Path1%,<IMG SRC="Graphics\Ruins Map\
+%Path2%," WIDTH="50" HEIGHT="50" BORDER="0">
+%Wd%,0
+%Ht%,0
+%X%,0
+%Y%,0
+%TileID%,0
+%OpenArea%,0
+%Chance%,0
+
+@Wd,0,Enter width:
+@Ht,0,Enter height:
+@OpenArea,70,Enter Percentage of Open Area Desired (10-90):
+
+:Start
+1,{Status~by Larry Cormier}{If~%Wd%=0 ? [Instructions]/[~GenMap]}
+
+:Instructions
+1,This table generates random Ruins maps. To use it, change the
+_ parameters (click the parameter button) to enter the height, width,
+_ and percentage of 'Open' space in the map that you want,
+_ then click the 'Roll' button.
+
+:Chanceof
+1,|Chance={Dice~1d100}|
+
+:GenMap
+1,|Y=%Ht%||Y-3|[GenTopRow][GenMiddleRows][GenBottomRow]
+
+:GenTopRow
+1,|X=%Wd%||X-3|[ULCorner][UpperEdge][URCorner]<br>
+
+:GenMiddleRows
+1,|X=%Wd%||X-3|[LeftEdge][Middle][RightEdge]<br>|Y-1|{If~%Y% >= 0 ?[GenMiddleRows]}
+
+:GenBottomRow
+1,|X=%Wd%||X-3|[LLCorner][BottomEdge][LRCorner]<br>
+
+:ULCorner
+1,[CornerOpenArea]
+_%Path1%ULCorner%TileID%.jpg%Path2%
+
+:URCorner
+1,[CornerOpenArea]
+_%Path1%URCorner%TileID%.jpg%Path2%
+
+:LLCorner
+1,[CornerOpenArea]
+_%Path1%LLCorner%TileID%.jpg%Path2%
+
+:LRCorner
+1,[CornerOpenArea]
+_%Path1%LRCorner%TileID%.jpg%Path2%
+
+:UpperEdge
+1,[EdgeOpenArea]
+_%Path1%UEdge%TileID%.jpg%Path2%|X-1|{If~%X% >= 0 ?[UpperEdge]}
+
+:BottomEdge
+1,[EdgeOpenArea]
+_%Path1%BEdge%TileID%.jpg%Path2%|X-1|{If~%X% >= 0?[BottomEdge]}
+
+:LeftEdge
+1,[EdgeOpenArea]
+_%Path1%LEdge%TileID%.jpg%Path2%
+
+:RightEdge
+1,[EdgeOpenArea]
+_%Path1%REdge%TileID%.jpg%Path2%
+
+:Middle
+1,[MiddleOpenArea]
+_%Path1%Middle%TileID%.jpg%Path2%|X-1|{If~%X% >= 0?[Middle]}
+
+# ------------------------------------------------------------------------
+# Determine Map Element Parameters by %OpenArea% Selected
+
+:CornerOpenArea
+1,[Chanceof]{If~%Chance%<%OpenArea%?|TileID=1|/[DetermineCornerID]}
+
+:EdgeOpenArea
+1,[Chanceof]{If~%Chance%<%OpenArea%?|TileID=1|/[DetermineEdgeID]}
+
+:MiddleOpenArea
+1,[Chanceof]{If~%Chance%<%OpenArea%?|TileID=1|/[DetermineMiddleID]}
+
+# ------------------------------------------------------------------------
+# Determine Weighted Map Elements by %TileID%
+
+;DetermineCornerID
+4,|TileID=2|
+1,|TileID={Dice~1d5+2}|
+
+;DetermineEdgeID
+5,|TileID=2|
+5,|TileID=3|
+3,|TileID=4|
+3,|TileID=5|
+3,|TileID=6|
+1,|TileID={Dice~1d8+6}|
+
+;DetermineMiddleID
+3,|TileID=2|
+5,|TileID={Dice~1d10+2}|
+2,|TileID={Dice~1d63+12}|
+
+# ------------------------------------------------------------------------
+# I added this to generate a random map when called from other Tables.
+#
+
+:GenRandomMap
+# Width: 3-21, Height: 3-17, Open Space: 10-90%
+1,|Wd={Dice~2d10+1}||Ht={Dice~2d8+1}||OpenArea={Dice~1d9*10}|[GenMap]
+
+:GenRandomMapSmall
+# Width: 3-6, Height: 3-6, Open Space: 30-90%
+1,|Wd={Dice~2d4+1}||Ht={Dice~2d4+1}||OpenArea={Calc~{Dice~1d7*10}+20}|[GenMap]

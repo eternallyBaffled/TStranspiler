@@ -1,0 +1,62 @@
+# ------------------------------------------------------
+# Last Update: modified by Valminder Jul 12, 2018.
+# ------------------------------------------------------
+#
+# To call this table from another one:
+#    [Smells.Generate(%DCAdd%,%Smell%,%OdorType%)
+#
+# -------------------------------------------------------------------------
+# This Table Links to these tables as required:
+#    None
+#
+# -------------------------------------------------------------------------
+# This table is called by: (can be called by other tables also)
+#    None
+#
+# -------------------------------------------------------------------------
+# 
+
+:Start
+1,{Status~Valminder 2018}[Generate]
+
+;Generate
+1,[~Miscellaneous.Color]-colored [~Item1][Smell]
+2,[~Miscellaneous.ColorNoType]-colored [~Item1][Smell]
+2,[~Miscellaneous.Material] [~Item1][Smell]
+1,[~Item2] representing [~Occupations]
+1,[~Item2] with [~Shape]
+2,[~Miscellaneous.ShapeNoCreature] in [~Shape]
+1,[~Item1] in [~Shape]
+2,[~Miscellaneous.Shape] in [~Shape]
+2,[~Miscellaneous.ShapeNoCreature] in [~Shape] surrounded by [~Shape]
+1,[~Item1] in [~Shape] surrounded by [~Shape]
+1,[~Rune Generator.GenRune]
+
+;Item1
+1,[Miscellaneous.Shape]-shape
+1,[Equipment.MiscItems]-shape
+1,[Equipment.WeaponsNoSizeNoMW]-shape
+
+;Item2
+3,pendant
+3,brooch
+3,ring
+3,amulet
+1,earring
+1,tiara
+
+:Occupations
+1,{AorAn~[Miscellaneous.Occupations]}
+
+:Shape
+1,{AorAn~[Miscellaneous.ShapeNoCreature]}
+
+;Smell
+99,
+1,with {AorAn~[Smell2]}
+
+;Smell2
+1,[Miscellaneous.Odor2] smell
+1,[Smells.GenerateFaint(1,1,{Select~{Dice~1d10},7,3,8,4,2})]
+
+

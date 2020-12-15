@@ -1,0 +1,372 @@
+# ------------------------------------------------------
+# Last Update: re-verified by Valminder Jan 10, 2012.
+# ------------------------------------------------------
+# ---------------------------------------------------
+# Last Update: modified by Valminder Jan 30, 2006.
+# ---------------------------------------------------
+#
+# Bets Down
+# By Larry Cormier
+#
+# This Table Generates Random Bets for excursions into your Favorite Dungeon
+# This Table Has Links to:
+#      Objects of Art.tab
+#      Sword Descriptions.tab
+#      Names Generator.tab
+#
+# Modified by Valminder, Nov 2005.
+#      Adapted to TSv5
+#      Changed link [Objects of Art.Start] to [Objects of Art.Generate]
+#         (there was an error with these functions when used together
+#          LN~ Cap~ and LCase)
+#
+# Modified by Larry Cormier December, 2005
+#      Modified to allow full Random Monster Generation when requested
+#      Added Name Generation Capability
+#
+# Modified by Valminder, Jan 2006.
+#      Changed link [Objects of Art.Generate] to [Objects of Art.Alternate]
+#      Changed group call [Name] to [NamesBranch]
+#      Modified "GenerateMonsterStats" subtable. It was generating errors.
+#
+# Modified by Valminder, Sep 2009.
+#      Added OverRideRolls
+#
+
+/OverRideRolls 1
+
+# Define Variables
+%RaceID%,0
+%Gender%,0
+%Chance%,0
+%Popularity%,0
+%MonsterFrequency%,0
+%LevelOfMonster%,0
+%Payoff%,0
+%InitialBet%,0
+%TotalPayoff%,0
+%Players%,0
+%Odds%,0
+%NextBet%,0
+%SelectionID%,0
+%Count%,0
+%SpellType%,0
+%BaseBet%,0
+%BetVariant%,0
+%TempNumber%,0
+%MonsterID%,0
+%MonsterFlag%,0
+%Bonus0Level%,1
+
+@Bonus0Level,1,OPTIONAL: Bonus 0-level spells based on Prime Attribute? (same as 1st-level spells),Yes,No
+
+:Start
+1,{Status~by Larry Cormier and Valminder}[MainBets]
+
+:Chanceof
+1,|Chance={Dice~1d100}|
+
+:MainBets
+1,{Cap~{AorAn~[Degree]}} [NPCCondition] [GenderChoice] [BettorDescription] of [RaceDetermination] Heritage
+_ by the name of [NamesBranch=%RaceID%] [BetChoices]
+_ [Chanceof]{If~%Chance%<20? (a Random Player) / the Party}
+_ [Chanceof]{If~%Chance%<75? will not be able to / will be able to }[BetBranch] [BetTerms]
+_ [Chanceof]{If~%Chance%<30? {If~%SelectionID%>0 ?[Bonus=%SelectionID%]}}
+_ {If~%SelectionID%=1? <br><br> The item was originally located [OriginalLocation]. It is [CurrentLocation].}
+_ <br><br>{If~%MonsterFlag%=1? [Chanceof]
+_ {If~%Chance%<25? This bet is actually a Red Herring. {Plural~[Monster Stats.MonsterNames=%MonsterID%]} can not be found here./
+_ {Plural~[Monster Stats.MonsterNames=%MonsterID%]} do indeed, inhabit this area. Here are the Stats should they elect to take the bet:
+_ [GenerateMonsterStats]}}
+
+:GenerateMonsterStats
+1,<br><br>[Monster Stats.DetermineRandomMonster(%MonsterID%,%Bonus0Level%,2,)]
+
+:BetBranch
+1-50,recover [Recoverable]
+51-75,find [Findable]
+76-100,return alive.
+
+;Recoverable
+2,[SpecificItem]|SelectionID=1|
+1,[Objects of Art.Alternate] [TimeFrame]. {Cap~[WhyImportant]}|SelectionID=1|
+6,part of {AorAn~<b>[MonsterBranch]</b>.} [TimeFrame].|SelectionID=3||MonsterFlag=1|
+1,[NamesBranch] [TimeFrame].|SelectionID=4|
+
+;Findable
+5,[SpecificItem]|SelectionID=1|
+3,[Objects of Art.Alternate] [TimeFrame]. {Cap~[WhyImportant]}|SelectionID=1|
+10,and return with {AorAn~<b>[MonsterBranch]</b>}[Chanceof]{If~%Chance% < 75 ?, alive,}[TimeFrame].|SelectionID=2||MonsterFlag=1|
+1,[NamesBranch] [TimeFrame].|SelectionID=4|
+1,and map a route to Room {Dice~1d70} [TimeFrame].|SelectionID=5|
+
+;OriginalLocation
+65,on Level 1, in room #{Dice~1d42}
+25,on Level 2, in room #{Dice~1d17+42}
+10,on Level 3, in room #{Dice~1d11+59}
+
+:CurrentLocation
+60,currently located on Level 1, in room #{Dice~1d42}
+20,currently located on Level 2, in room #{Dice~1d17+42}
+15,currently located on Level 3, in room #{Dice~1d11+59}
+5,no longer located in th Dungeon.
+
+:TimeFrame
+1,[Chanceof]{If~%Chance% < 75 ? within {Dice~1d5*8} hours}
+
+:SpecificItem
+1,the [GenderID]'s [Chanceof]{If~%Chance%<75 ? [OtherRelatives]} Sword [TimeFrame].<br><br>[Sword Descriptions.Start]
+2,a particular book [TimeFrame]. The name of the book is: [Book Titles.Start]. [Book Descriptions.Description]
+3,[Objects of Art.Alternate]. {Cap~[WhyImportant]}
+
+;OtherRelatives
+35,[Chanceof]{If~%Chance% < 10 ? Step} Father's
+35,[Chanceof]{If~%Chance% < 5 ? Step} Mother's
+15,[Chanceof]{If~%Chance% < 10 ? Step} Son's
+2,Wife's
+5,[Chanceof]{If~%Chance% < 10 ? Step} Daughter's
+6,Foster Father's
+4,Foster Son's
+2,Foster Daughter's
+15,[Chanceof]{If~%Chance% < 50 ? Maternal/ Paternal} Grandfather's
+3,[Chanceof]{If~%Chance% < 50 ? Maternal/ Paternal} Grandmother's
+5,Uncle's
+2,Aunt's
+2,Cousin's
+
+:Bonus
+1,If the object is returned intact, the [GenderID] is willing to pay an additional {Dice~1d10*10} Gold Piece Bonus.
+2,If the required creature is returned alive and well, the [GenderID] is willing to pay an additional {Dice~1d100*10} Gold Piece Bonus.
+3,If the specified part is returned intact, the [GenderID] is willing to pay an additional {Dice~1d100*10} Gold Piece Bonus.
+4,If the person sought is returned alive and well, the [GenderID] is willing to pay an additional {Dice~1d100*10} Gold Piece Bonus Reward.
+5,If a valid map is provided to the room in question, the [GenderID] is willing to pay an additional {Dice~1d100*10} Gold Piece Bonus.
+
+;GenderChoice
+# Male
+85,|Gender=1|
+# Female
+15,|Gender=2|
+
+:GenderType
+1,Male
+2,Female
+
+:GenderID
+1,{If~%Gender%=1 ? man/ woman}
+
+:HeShe
+1,{If~%Gender%=1 ? he/ she}
+
+:HisHer
+1,{If~%Gender%=1 ? his/ her}
+
+:ManWoman
+1,{If~%Gender%=1 ? man/woman}
+
+:BetTerms
+1,<br><br>The [GenderID] is willing to lay
+_ [Chanceof]{If~%Chance%<15 ? |BaseBet={Dice~10d10*10}||BetVariant={Dice~1d100}||Payoff={Calc~(%BaseBet%+%BetVariant%)}|/ |Payoff={Dice~10d10}|}
+_ %Payoff% Gold Pieces against the terms of the bet at [Odds].
+_ |InitialBet=%Payoff%||TempNumber={Dice~1d10}|
+_ {If~%TempNumber%=1 ? There are no Other takers|TotalPayoff={Calc~(%InitialBet%*%Odds%)}|/|Players={Dice~1d5}|
+_ {If~%Players%=1 ? There is 1 other taker at|NextBet={Dice~1d%Payoff%}| %NextBet% GP,|InitialBet={Calc~(%InitialBet%+%NextBet%)}|/
+_ There are %Players% other takers at [NextBetLoop]}}
+_ |TotalPayoff={Calc~(%InitialBet%*%Odds%)}|
+_ so the Total Buy-In for this particular Wager is %InitialBet% Gold Pieces.
+_ The Payoff for this Wager is %TotalPayoff% Gold Pieces if the Terms of the bet are met.
+
+:NextBetLoop
+1,{Loop~%Players%,|Count+1||NextBet={Dice~1d%Payoff%}|
+_ {If~%Count%=%Players% ? and %NextBet% GP respectively,/ %NextBet% GP,}
+_ |InitialBet={Calc~(%InitialBet%+%NextBet%)}|}
+
+;Odds
+50,1/1 Odds|Odds=2||InitialBet={Calc~(%Payoff%*%Odds%)}|
+35,2/1 Odds|Odds=3||InitialBet={Calc~(%Payoff%*%Odds%)}|
+10,3/1 Odds|Odds=4||InitialBet={Calc~(%Payoff%*%Odds%)}|
+5,4/1 Odds|Odds=5||InitialBet={Calc~(%Payoff%*%Odds%)}|
+
+:BetChoices
+1,has offered a bet that
+2,is betting that
+3,is wagering that
+4,is taking bets that
+
+;Degree
+1,slightly
+1,blatantly
+1,obviously
+1,somewhat
+1,blustering,
+
+;NPCCondition
+3,inebriated
+5,drunk
+10,tipsy
+5,bleary-eyed
+25,[GeneralTraits]
+
+;BettorDescription
+10,[Chanceof]{If~%Chance%<75? Minor} Noble
+12,Sellsword
+15,Mercenary
+5,Soldier
+10,Patron
+3,Member of the City Guard
+3,Member of the City Watch
+3,Teenager
+4,Merchant
+1,Gang member
+3,Prostitute
+2,Cleric
+5,Fighter
+2,Priest
+3,Thief
+2,Craftsman
+1,{If~%Gender%=1? Mage/ Witch}
+1,{If~%Gender%=1? Wizard/ Wizardess}
+1,{If~%Gender%=1? Sorcerer/ Sorceress}
+1,Illusionist
+
+;RaceDetermination
+37,Human|RaceID=1|
+5,Dwarven|RaceID=2|
+12,Elven|RaceID=3|
+13,Gnomish|RaceID=4|
+25,Half Elven|RaceID=5|
+5,Half Orcan|RaceID=6|
+6,Halfling|RaceID=7|
+8,indeterminant Racial|RaceID={Dice~1d7}|
+
+;GeneralTraits
+1,abrasive
+1,aesthetic
+1,altruistic
+1,amoral
+1,argumentative
+1,arrogant
+1,brilliant
+1,callous
+1,capricious
+1,careless
+1,condescending
+1,contrary
+1,courageous
+1,cowardly
+1,curious
+1,cunning
+1,depraved
+1,exacting
+1,egotistical
+1,fanatical
+1,forceful
+1,friendly
+1,greedy
+1,generous
+1,helpful
+1,hedonistic
+1,honorable
+1,hostile
+1,iconoclastic
+1,impious
+1,inquisitive
+1,irreligious
+1,intellectualistic
+1,kindly
+1,loquacious
+1,malevolent
+1,modest
+1,moody
+1,naive
+1,obsessive
+1,opinionated
+1,optimistic
+1,overbearing
+1,pessimistic
+1,perverted
+1,precise
+1,perceptive
+1,pious
+1,quiet
+1,sadistic
+1,saintly
+1,scrupulous
+1,servile
+1,sober
+1,studious
+1,suspicious
+1,trusting
+1,uncivilized
+1,violent
+1,virtuous
+1,well-spoken
+1,zealot
+
+:NamesBranch
+1,{If~%Gender%=1?[Names Generator.NAME Human Male]/[Names Generator.NAME Human Female]}
+2,{If~%Gender%=1?[Names Generator.NAME Dwarf Male]/[Names Generator.NAME Dwarf Female]}
+3,[Names Generator.NAME Elf]
+4,{If~%Gender%=1?{Cap~[Names Generator.NAME Gnome Male]}/[Names Generator.NAME Gnome Female]}
+5,|TempNumber={Dice~1d100}|{If~%TempNumber%=75?{If~%Gender%=1?[Names Generator.NAME Human Male]/
+_ [Names Generator.NAME Human Female]}/[Names Generator.NAME Elf]}
+6,|TempNumber={Dice~1d100}|{If~%TempNumber%=75?{If~%Gender%=1?[Names Generator.NAME Human Male]/
+_ [Names Generator.NAME Human Female]}/[Names Generator.NAME Orc]}
+7,{If~%Gender%=1?[Names Generator.NAME Halfling Male]/[Names Generator.NAME Halfling Female]}
+
+:WhyImportant
+1,It was a Family Heirloom.
+2,It had sentimental value.
+3,It had been lost in the Dungeon, and the [GenderID] just wants it back.
+4,It had been stolen, and someone else had seen it there. The [GenderID] wants it back.
+5,The [GenderID]'s [FamilyMember] has always wanted one, and [HeShe] had heard that one had been seen in the Dungeon.
+6,It has some unspecified Magical Properties.
+7,The [GenderID] had seen it in [HisHer] own excursions into the Dungeon, and nearly lost [HisHer] Life because of it.
+_ {Cap~[HeShe]} just wants it for memory's sake.
+8,It had been seen in the Dungeon once before, and it just seemed like a good goal to bet on.
+9,It is cursed, and the [GenderID] wants it destroyed.
+10,It's just something to prove that the PCs have actually honored the terms of the bet.
+
+:FamilyMember
+1,Mother
+2,Father
+3,Brother
+4,Sister
+5,Grandmother
+6,Grandfather
+7,Uncle
+8,Aunt
+
+;MonsterBranch
+1,Aboleth|MonsterID=2|
+2,Black pudding|MonsterID=48|
+3,Carrion crawler|MonsterID=63|
+4,Choker|MonsterID=73|
+5,Cloaker|MonsterID=77|
+6,Darkmantle|MonsterID=87|
+7,Delver|MonsterID=92|
+8,Derro Dwarf|MonsterID=93|
+9,Destrachan|MonsterID=94|
+10,Drider|MonsterID=108|
+11,Drow elf|MonsterID=109|
+12,Duergar Dwarf|MonsterID=111|
+13,Ethereal filcher|MonsterID=125|
+14,Gelatinous cube|MonsterID=142|
+15,Gibbering mouther|MonsterID=162|
+16,Grick|MonsterID=181|
+17,Grimlock|MonsterID=184|
+18,Mimic|MonsterID=247|
+19,Mind Flayer|MonsterID=248|
+20,Minotaur|MonsterID=250|
+21,Monstrous centipede|MonsterID=254|
+22,Otyugh|MonsterID=281|
+23,Phantom fungus|MonsterID=287|
+24,Phasm|MonsterID=289|
+25,Purple worm|MonsterID=297|
+26,Roper|MonsterID=312|
+27,Rust monster|MonsterID=313|
+28,Shrieker|MonsterID=327|
+29,Skum|MonsterID=330|
+30,Spectre|MonsterID=334|
+31,Svirfneblin Gnome|MonsterID=345|
+32,Troglodyte|MonsterID=360|
+33,Umber hulk|MonsterID=366|
+34,Violet fungus|MonsterID=371|

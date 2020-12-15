@@ -1,0 +1,77 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder Feb 28, 2006.
+# ---------------------------------------------------
+#
+# Based mostly on the Playful Phoenix Fist Four Scholar Boxing 
+# randomizer in Dragon 289
+#
+# I altered it where I saw fit and did'nt include all of the patterns
+# as I didnt care for their returns.
+#
+# All of the referenced Files are stored in the ~KS_KungFuTheater reference
+# folder.
+# 
+# I tweaked a few of the lists and altered the behavior of the Placement
+# and Fighting groups to produce more readable results.
+#
+# This could be extended further with a Province file and/or a Name 
+# generator to produce specific returns, but that would increase the file
+# dependency so I decided not to do so
+#
+# Ed Hastings October 17, 2001
+#    ehasting@san.rr.com
+#    www.nestofthorns.com
+#
+# Modified by Valminder, Oct 2003.
+#    -I removed the "CC~" and replaced with {Cap~} in the other files.
+#    -I changed the Start Line.
+#
+# Modified by Valminder, Feb 2006.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+#
+
+%A%,1
+%B%,2
+
+:Start
+1,{Status~Based on Dragon 289, by Ed Hastings 2001}{Cap~[Generate]}.
+
+;Generate
+100,The [~KS_KFT_Adjective.Super] [~KS_KFT_Adjective.Start] [~KS_KFT_Fighting.DescriptiveFighting]
+1,[~KS_KFT_Adjective.Start] [~KS_KFT_Noun.Start]'s [~KS_KFT_Adjective.Start] [~KS_KFT_Fighting.DescriptiveFighting]
+1000,[~KS_KFT_Adjective.Start] [~KS_KFT_Noun.Start] [~KS_KFT_Fighting.DescriptiveFighting]
+1,[~KS_KFT_Adjective.Start] [~KS_KFT_Noun.Start]'s [~KS_KFT_Number.Start] [~KS_KFT_Noun.Start] [~KS_KFT_Fighting.DescriptiveFighting]
+1,[~KS_KFT_Adjective.Start] [~KS_KFT_Noun.Start] [~KS_KFT_Placement.Start] [~KS_KFT_Noun.Start]s [~KS_KFT_Fighting.DescriptiveFighting]
+1,[~KS_KFT_Adjective.Start] [~KS_KFT_Noun.Start] of [~KS_KFT_Verb.Start]ing [~KS_KFT_Noun.Start] [~KS_KFT_Fighting.DescriptiveFighting]
+1,[~KS_KFT_Adjective.Start] [~KS_KFT_Noun.Start] of the [~KS_KFT_Verb.Start]ing [~KS_KFT_Noun.Start] [~KS_KFT_Fighting.DescriptiveFighting]
+1,[~KS_KFT_Adjective.Start] [~KS_KFT_Noun.Start] of [~KS_KFT_Verb.Start]s with [~KS_KFT_Adjective.Start] [~KS_KFT_Noun.Start] [~KS_KFT_Fighting.DescriptiveFighting]
+100,The [~KS_KFT_Adjective.Start] [~KS_KFT_Noun.Start] [~KS_KFT_Fighting.DescriptiveFighting]
+100,[~KS_KFT_Adjective.Start] [~KS_KFT_Noun.Start] [~KS_KFT_Fighting.DescriptiveFighting]
+1,[~KS_KFT_Fighting.DescriptiveFighting] of [~KS_KFT_Adjective.Start] [~KS_KFT_Noun.Start]
+1,[~KS_KFT_Fighting.DescriptiveFighting] of [~KS_KFT_Verb.Start]ing [~KS_KFT_Noun.Start]
+100,[~KS_KFT_Fighting.DescriptiveFighting] of the [~KS_KFT_Direction.Direct=%B%] [~KS_KFT_Noun.People]s 
+100,[~KS_KFT_Fighting.DescriptiveFighting] of the [~KS_KFT_Number.Start] [~KS_KFT_Verb.Start]ing [~KS_KFT_Noun.Start]s and the [~KS_KFT_Adjective.Start] [~KS_KFT_Noun.Start]s
+100,[~KS_KFT_Fighting.DescriptiveFighting] of the [~KS_KFT_Number.Start] [~KS_KFT_Verb.Start]ing [~KS_KFT_Noun.Start]s
+100,[~KS_KFT_Fighting.DescriptiveFighting] of the [~KS_KFT_Adjective.Start] [~KS_KFT_Noun.Start]
+1,[~KS_KFT_Noun.Start] [~KS_KFT_Fighting.DescriptiveFighting] [~KS_KFT_Placement.Start] the [~KS_KFT_Noun.Start] [~KS_KFT_Fighting.DescriptiveFighting]
+1,[~KS_KFT_Noun.Start] of the [~KS_KFT_Verb.Start]ing [~KS_KFT_Noun.Start] [~KS_KFT_Fighting.DescriptiveFighting]
+1,[~KS_KFT_Noun.Start] [~KS_KFT_Placement.Start] [~KS_KFT_Adjective.Start] [~KS_KFT_Noun.Start] [~KS_KFT_Fighting.DescriptiveFighting]
+1,[~KS_KFT_Noun.Start] [~KS_KFT_Placement.Start] the [~KS_KFT_Noun.Start] [~KS_KFT_Fighting.DescriptiveFighting]
+1,[~KS_KFT_Noun.Start] [~KS_KFT_Verb.Start]s with [~KS_KFT_Noun.Start] [~KS_KFT_Fighting.DescriptiveFighting]
+100,[~KS_KFT_Noun.Start]s [~KS_KFT_Noun.Start] [~KS_KFT_Verb.Start]ing [~KS_KFT_Fighting.Defenses] of the [~KS_KFT_Direction.Direct=%A%] 
+1,The [~KS_KFT_Noun.Start] [~KS_KFT_Verb.Start]s when [~KS_KFT_Number.Start] [~KS_KFT_Noun.Start]s [~KS_KFT_Verb.Start] [~KS_KFT_Fighting.DescriptiveFighting]
+1,[~KS_KFT_Number.Start] [~KS_KFT_Adjective.Start] [~KS_KFT_Noun.Start]s [~KS_KFT_Fighting.DescriptiveFighting]
+1,[~KS_KFT_Number.Start] [~KS_KFT_Placement.Start] [~KS_KFT_Noun.Start]s [~KS_KFT_Fighting.DescriptiveFighting]
+300,[~KS_KFT_Number.Start] [~KS_KFT_Noun.Start] [~KS_KFT_Fighting.Defenses]
+100,[~KS_KFT_Number.Start] [~KS_KFT_Noun.Start]s [~KS_KFT_Fighting.DescriptiveFighting]
+100,[~KS_KFT_Number.Start] [~KS_KFT_Noun.Start]s [~KS_KFT_Fighting.DescriptiveFighting]s
+1,[~KS_KFT_Number.Start] [~KS_KFT_Verb.Start] [~KS_KFT_Noun.Start]s [~KS_KFT_Fighting.DescriptiveFighting]
+100,[~KS_KFT_Number.Start] [~KS_KFT_Noun.Start]s [~KS_KFT_TableB.Start] [~KS_KFT_Fighting.Defenses]
+100,[~KS_KFT_Placement.Start] the [~KS_KFT_Noun.Start]s [~KS_KFT_Fighting.DescriptiveFighting]
+1,[~KS_KFT_Placement.Start] [~KS_KFT_Noun.Start]s [~KS_KFT_Noun.Start]s [~KS_KFT_Verb.Start] [~KS_KFT_Fighting.DescriptiveFighting]
+1,[~KS_KFT_Placement.Start] [~KS_KFT_Noun.Start]s [~KS_KFT_Verb.Start] [~KS_KFT_Number.Start] [~KS_KFT_Noun.Start] [~KS_KFT_Fighting.DescriptiveFighting]
+1,[~KS_KFT_Placement.Start] the [~KS_KFT_Placement.Start] [~KS_KFT_Noun.Start]s [~KS_KFT_Noun.Start] [~KS_KFT_Verb.Start] [~KS_KFT_Fighting.DescriptiveFighting]
+100,[~KS_KFT_Verb.Start]ing [~KS_KFT_Direction.Direct=%B%] [~KS_KFT_Fighting.DescriptiveFighting]
+100,[~KS_KFT_Direction.Direct=%B%] [~KS_KFT_Noun.Start]s [~KS_KFT_Verb.Start]ing [~KS_KFT_Fighting.DescriptiveFighting]
+100,[~KS_KFT_SpecificStyles.Start] (Specific Style)

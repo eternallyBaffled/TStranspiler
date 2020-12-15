@@ -1,0 +1,1137 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder March 31, 2006.
+# ---------------------------------------------------
+#
+# Random Skills, by Larry Cormier.
+#
+# For single class characters ... for now.
+#
+#
+# This table is called by "NPC Stat Block v3_5"
+#
+# -------------------------------------------------------------------------
+#
+# To call this table from another one:
+#    [Random Skills.GenerateSkills(%Race%,%Class%,%CharacterLevel%,
+#     %FamiliarID%,%STR%,%DEX%,%CON%,%INT%,%WIS%,%CHA%)
+#
+#    Race:           8   1=Human  2=Dwarf  3=Elf  4=Gnome
+#                        5=Half Elf  6=Half Orc  7=Halfling  8=Random
+#    Class:         12   1=Fighter  2=Barbarian  3=Bard  4=Cleric
+#                        5=Druid  6=Monk  7=Paladin  8=Ranger  9=Rogue
+#                        10=Sorcerer  11=Wizard  12=Random
+#    CharacterLevel:99   Enter character level 1-20.
+#    FamiliarID:    12   1=Bat  2=Cat  3=Hawk  4=Lizard  5=Owl  6=Rat
+#                        7=Raven  8=Snake  9=Toad  10=Weasel
+#                        11=Random  12=None
+#    STR:           99   Input Strength
+#    DEX:           99   Input Dexterity
+#    CON:           99   Input Constitution
+#    INT:           99   Input Intelligence
+#    WIS:           99   Input Wisdom
+#    CHA:           99   Input Charisma
+#
+# -------------------------------------------------------------------------
+#
+# To add a Class with a Familiar:
+#    Search for "# Familiar Updater" and update with the
+#    appropriate class number.
+# 
+#
+#
+# Modified by Valminder, March 2006.
+#    This table was taken from the Stats Block generator by Larry Cormier.
+#    Adapted for TSv5.
+#    Greatly modified.
+#    99% chances for Ranger to have Survival, and Bard to have Perform.
+#    Sets starting languages.
+#    Languages: When you select the Speak Language skill, you now have a
+#       number of languages depending on the ranks (3+Character Level or 1/2
+#       if Speak Language is a cross-class skill). Before, the table
+#       generated only 1 language for the cost of a lot of ranks.
+#
+
+%CharacterLevel%,0
+%Class%,0
+%CommaFlag%,0
+%CommaFlagLang%,0
+%CrossClassRanks%,0
+%FamiliarID%,12
+%FamiliarSkillsAdjustments%,0
+%FamSkillBonus%,0
+%FamSkillID%,0
+%FamHPBonus%,0
+%FamFortBonus%,0
+%FamReflBonus%,0
+%FamWillBonus%,0
+%Language%,0
+%LangLook%,0
+%LanguageString%,0
+%MaxRanks%,0
+%Profession%,0
+%Race%,0
+%RanksApplied%,0
+%SetFam%,0
+%Skill%,0
+%SkillCount%,0
+%SkillCountAtMaxRanks%,0
+%SkillID%,0
+%SkillsString%,0
+%Temp%,0
+%TotalSkillPoints%,0
+
+%STR%,0
+%DEX%,0
+%CON%,0
+%INT%,0
+%WIS%,0
+%CHA%,0
+%STRBonus%,0
+%DEXBonus%,0
+%CONBonus%,0
+%INTBonus%,0
+%WISBonus%,0
+%CHABonus%,0
+
+@Race,8,Choose a Race,Human,Dwarf,Elf,Gnome,Half Elf,Half Orc,Halfling,Random
+@Class,11,Choose a Class,Fighter,Barbarian,Bard,Cleric,Druid,Monk,Paladin,Ranger,Rogue,Sorcerer,Wizard,Random
+@CharacterLevel,99,Enter the Character Level.
+@FamiliarID,11,Choose Familiar,Bat,Cat,Hawk,Lizard,Owl,Rat,Raven,Snake,Toad,Weasel,Random,None
+@STR,99,Input Strength
+@DEX,99,Input Dexterity
+@CON,99,Input Constitution
+@INT,10,Input Intelligence
+@WIS,99,Input Wisdom
+@CHA,99,Input Charisma
+
+:Start
+1,{If~{Param~Race,%Race%}=Random?|Race={Dice~1d7}|}
+_{If~{Param~Class,%Class%}=Random?|Class={Dice~1d11}|}
+_{If~%CharacterLevel%=99?|CharacterLevel={Dice~1d20}|}
+_{If~{Param~FamiliarID,%FamiliarID%}=Random?|FamiliarID={Dice~1d10}|}
+_{If~%STR%=99?|STR={Dice~3d6}|}{If~%DEX%=99?|DEX={Dice~3d6}|}
+_{If~%CON%=99?|CON={Dice~3d6}|}{If~%INT%=99?|INT={Dice~3d6}|}
+_{If~%WIS%=99?|WIS={Dice~3d6}|}{If~%CHA%=99?|CHA={Dice~3d6}|}
+_[GenerateSkills]
+
+:GenerateSkills
+1,[DetermineSkillCount=%Class%][SetAbilityBonus][CalculateTotalSkillPoints]
+# Familiar Updater
+_{If~{And~{Param~Class,%Class%}=Sorcerer,{Param~FamiliarID,%FamiliarID%}!=None}=1?[FamiliarSkillsAdjustments=%FamiliarID%]}
+_{If~{And~{Param~Class,%Class%}=Wizard,{Param~FamiliarID,%FamiliarID%}!=None}=1?[FamiliarSkillsAdjustments=%FamiliarID%]}
+_
+_|LanguageString=[SetLanguages=%Race%]|
+_{If~%INTBonus%>0?{Loop~%INTBonus%,[LoopLanguage]}}
+_
+_|SkillsString=|
+_|SkillCount=%SkillCountAtMaxRanks%|
+_
+_{While~%SkillCount%,
+_|Skill=[ClassSkillsBranch]|
+_|SkillsString&{If~%CommaFlag%=1?;}%Skill%|
+_|CommaFlag=1||SkillCount-1|
+_}
+_
+_|LanguageString={OrderAsc~";",%LanguageString%}|
+_|LanguageString={Replace~;,; ,%LanguageString%}|
+_|LanguageString={CommaReplace~1,;,%LanguageString%}|
+_
+_|SkillsString={OrderAsc~";",%SkillsString%}|
+#_|Pos={Find~1,%SkillString%,","}|
+#_|SkillsString={Right~{Calc~{Length~%SkillsString%}-%Pos%-1},%SkillsString%}|
+_|SkillsString={Replace~;,; ,%SkillsString%}|
+_|SkillsString={CommaReplace~1,;,%SkillsString%}|
+# CapEachWord should be replaced with TitleCap when available.
+_%SkillsString%!%TotalSkillPoints%!{If~%FamSkillID%=0?0/+%FamSkillBonus% [SkillsList=%FamSkillID%]}!{CapEachWord~%LanguageString%}
+#_[TestTable]
+
+# -----------------------------------------------------------------------
+# To test this table, activate [TestTable] above by removing the #
+# and put a # in the beginning of the line above [TestTable]
+
+:TestTable
+1,<b>Race:</b> {Param~Race,%Race%}<br>
+_<b>Class:</b> {Param~Class,%Class%} %CharacterLevel%<br><br>
+_<b>Familiar:</b> {Param~FamiliarID,%FamiliarID%}<br>
+_<b>Familiar Skill Bonus:</b> {If~%FamSkillID%=0?None/+%FamSkillBonus% [SkillsList=%FamSkillID%]}<br><br>
+_<b>Stats:</b> Str %STR% (%STRBonus%), Dex %DEX% (%DEXBonus%), Con %CON% (%CONBonus%), Int %INT% (%INTBonus%), Wis %WIS% (%WISBonus%), Cha %CHA% (%CHABonus%)<br><br>
+_<b>Skills: (%SkillCountAtMaxRanks% skills / %TotalSkillPoints% SP)</b> %SkillsString%<br><br>
+# CapEachWord should be replaced with TitleCap when available.
+_<b>Languages:</b> {CapEachWord~%LanguageString%}
+
+# -----------------------------------------------------------------------
+
+:FamiliarSkillsAdjustments
+# Bat (Listen)
+1,|FamSkillID=29||FamSkillBonus=3|
+# Cat (Move Silently)
+2,|FamSkillID=30||FamSkillBonus=3|
+# Hawk (Spot - Bright Light)
+3,|FamSkillID=40||FamSkillBonus=3|
+# Lizard (Climb)
+4,|FamSkillID=4||FamSkillBonus=3|
+# Owl (Spot - Shadows)
+5,|FamSkillID=40||FamSkillBonus=3|
+# Rat (+2 Fortitude)
+6,|FamFortBonus=2|
+# Raven (Appraise)
+7,|FamSkillID=1||FamSkillBonus=3|
+# Snake (Bluff)
+8,|FamSkillID=3||FamSkillBonus=3|
+# Toad (+3 hp)
+9,|FamHPBonus=3|
+# Weasel (+2 Reflex)
+10,|FamReflBonus=2|
+
+# -----------------------------------------------------------------------
+
+# Sets the number of skill points (Ex: Fighter has 2+Int).
+:DetermineSkillCount
+# Fighter
+1,|SkillCount=2|
+# Barbarian
+2,|SkillCount=4|
+# Bard
+3,|SkillCount=6|
+# Cleric
+4,|SkillCount=2|
+# Druid, Monk
+5-6,|SkillCount=4|
+# Paladin
+7,|SkillCount=2|
+# Ranger
+8,|SkillCount=6|
+# Rogue
+9,|SkillCount=8|
+# Sorcerer, Wizard
+10-11,|SkillCount=2|
+
+:SetAbilityBonus
+1,|STRBonus={If~%STR%>=10?{Trunc~{Calc~(%STR%-10)/2}}/{Floor~{Calc~(%STR%-10)/2}}}|
+_|DEXBonus={If~%DEX%>=10?{Trunc~{Calc~(%DEX%-10)/2}}/{Floor~{Calc~(%DEX%-10)/2}}}|
+_|CONBonus={If~%CON%>=10?{Trunc~{Calc~(%CON%-10)/2}}/{Floor~{Calc~(%CON%-10)/2}}}|
+_|INTBonus={If~%INT%>=10?{Trunc~{Calc~(%INT%-10)/2}}/{Floor~{Calc~(%INT%-10)/2}}}|
+_|WISBonus={If~%WIS%>=10?{Trunc~{Calc~(%WIS%-10)/2}}/{Floor~{Calc~(%WIS%-10)/2}}}|
+_|CHABonus={If~%CHA%>=10?{Trunc~{Calc~(%CHA%-10)/2}}/{Floor~{Calc~(%CHA%-10)/2}}}|
+
+# Temp1 and Temp2 each calculates a minimum value of 1.
+:CalculateTotalSkillPoints
+1,|Temp={Calc~(%SkillCount%+%INTBonus%)}|{If~%Temp%<1?|Temp=1|}
+#_|TotalSkillPoints={Calc~(((%SkillCount%+%INTBonus%)*4)+((%SkillCount%+%INTBonus%)*(%CharacterLevel%-1)))}|
+_|TotalSkillPoints={Calc~((%Temp%*4)+(%Temp%*(%CharacterLevel%-1)))}|
+_{If~%Race%=1?|TotalSkillPoints={Calc~(%TotalSkillPoints%+(4+(%CharacterLevel%-1)))}|}
+_|MaxRanks={Calc~(%CharacterLevel%+3)}|
+_|CrossClassRanks={Trunc~{Calc~(%MaxRanks% / 2)}}|
+_|SkillCountAtMaxRanks={Ceil~{Calc~(%TotalSkillPoints% / %MaxRanks%)}}|
+
+# -----------------------------------------------------------------------
+
+# The name of the Class must be identical to the one found in parameters.
+:ClassSkillsBranch
+1,[{Param~Class,%Class%}Skills][SkillsList=%SkillID%] [SkillValue=%SkillID%]
+
+# -----------------------------------------------------------------------
+# For each skills subtable, the name of the Class must be identical
+# to the name found in the parameters.
+# Now, you only have 5% chance to have a cross-class skill.
+
+;!BarbarianSkills
+#Class Skills
+76,|SkillID=4||RanksApplied=%MaxRanks%|
+38,|SkillID=6||RanksApplied=%MaxRanks%|
+76,|SkillID=14||RanksApplied=%MaxRanks%|
+76,|SkillID=17||RanksApplied=%MaxRanks%|
+76,|SkillID=18||RanksApplied=%MaxRanks%|
+76,|SkillID=29||RanksApplied=%MaxRanks%|
+76,|SkillID=34||RanksApplied=%MaxRanks%|
+114,|SkillID=41||RanksApplied=%MaxRanks%|
+76,|SkillID=42||RanksApplied=%MaxRanks%|
+#Cross-Class Skills
+1,|SkillID=1||RanksApplied=%CrossClassRanks%|
+1,|SkillID=2||RanksApplied=%CrossClassRanks%|
+1,|SkillID=3||RanksApplied=%CrossClassRanks%|
+1,|SkillID=5||RanksApplied=%CrossClassRanks%|
+1,|SkillID=7||RanksApplied=%CrossClassRanks%|
+1,|SkillID=8||RanksApplied=%CrossClassRanks%|
+1,|SkillID=9||RanksApplied=%CrossClassRanks%|
+1,|SkillID=10||RanksApplied=%CrossClassRanks%|
+1,|SkillID=11||RanksApplied=%CrossClassRanks%|
+1,|SkillID=12||RanksApplied=%CrossClassRanks%|
+1,|SkillID=13||RanksApplied=%CrossClassRanks%|
+1,|SkillID=15||RanksApplied=%CrossClassRanks%|
+1,|SkillID=16||RanksApplied=%CrossClassRanks%|
+1,|SkillID=19||RanksApplied=%CrossClassRanks%|
+1,|SkillID=20||RanksApplied=%CrossClassRanks%|
+1,|SkillID=21||RanksApplied=%CrossClassRanks%|
+1,|SkillID=22||RanksApplied=%CrossClassRanks%|
+1,|SkillID=23||RanksApplied=%CrossClassRanks%|
+1,|SkillID=24||RanksApplied=%CrossClassRanks%|
+1,|SkillID=25||RanksApplied=%CrossClassRanks%|
+1,|SkillID=26||RanksApplied=%CrossClassRanks%|
+1,|SkillID=27||RanksApplied=%CrossClassRanks%|
+1,|SkillID=28||RanksApplied=%CrossClassRanks%|
+1,|SkillID=30||RanksApplied=%CrossClassRanks%|
+1,|SkillID=31||RanksApplied=%CrossClassRanks%|
+1,|SkillID=32||RanksApplied=%CrossClassRanks%|
+1,|SkillID=33||RanksApplied=%CrossClassRanks%|
+1,|SkillID=35||RanksApplied=%CrossClassRanks%|
+1,|SkillID=36||RanksApplied=%CrossClassRanks%|
+1,|SkillID=37||RanksApplied=%CrossClassRanks%|
+1,|SkillID=38||RanksApplied=%CrossClassRanks%|
+1,|SkillID=39||RanksApplied=%CrossClassRanks%|
+1,|SkillID=40||RanksApplied=%CrossClassRanks%|
+1,|SkillID=43||RanksApplied=%CrossClassRanks%|
+1,|SkillID=44||RanksApplied=%CrossClassRanks%|
+1,|SkillID=45||RanksApplied=%CrossClassRanks%|
+
+;!BardSkills
+#Class Skills
+# Perform Skill
+1000,|SkillID=32||RanksApplied=%MaxRanks%|
+6,|SkillID=1||RanksApplied=%MaxRanks%|
+6,|SkillID=3||RanksApplied=%MaxRanks%|
+6,|SkillID=4||RanksApplied=%MaxRanks%|
+6,|SkillID=5||RanksApplied=%MaxRanks%|
+6,|SkillID=6||RanksApplied=%MaxRanks%|
+6,|SkillID=7||RanksApplied=%MaxRanks%|
+6,|SkillID=8||RanksApplied=%MaxRanks%|
+6,|SkillID=10||RanksApplied=%MaxRanks%|
+6,|SkillID=11||RanksApplied=%MaxRanks%|
+6,|SkillID=13||RanksApplied=%MaxRanks%|
+6,|SkillID=16||RanksApplied=%MaxRanks%|
+6,|SkillID=18||RanksApplied=%MaxRanks%|
+6,|SkillID=19||RanksApplied=%MaxRanks%|
+6,|SkillID=20||RanksApplied=%MaxRanks%|
+6,|SkillID=21||RanksApplied=%MaxRanks%|
+6,|SkillID=22||RanksApplied=%MaxRanks%|
+6,|SkillID=23||RanksApplied=%MaxRanks%|
+6,|SkillID=24||RanksApplied=%MaxRanks%|
+6,|SkillID=25||RanksApplied=%MaxRanks%|
+6,|SkillID=26||RanksApplied=%MaxRanks%|
+6,|SkillID=27||RanksApplied=%MaxRanks%|
+6,|SkillID=28||RanksApplied=%MaxRanks%|
+6,|SkillID=29||RanksApplied=%MaxRanks%|
+6,|SkillID=30||RanksApplied=%MaxRanks%|
+6,|SkillID=33||RanksApplied=%MaxRanks%|
+6,|SkillID=36||RanksApplied=%MaxRanks%|
+6,|SkillID=37||RanksApplied=%MaxRanks%|
+100,|SkillID=38||RanksApplied=%MaxRanks%|
+6,|SkillID=39||RanksApplied=%MaxRanks%|
+6,|SkillID=40||RanksApplied=%MaxRanks%|
+6,|SkillID=42||RanksApplied=%MaxRanks%|
+6,|SkillID=43||RanksApplied=%MaxRanks%|
+6,|SkillID=44||RanksApplied=%MaxRanks%|
+#Cross-Class Skills
+1,|SkillID=9||RanksApplied=%CrossClassRanks%|
+1,|SkillID=12||RanksApplied=%CrossClassRanks%|
+1,|SkillID=14||RanksApplied=%CrossClassRanks%|
+1,|SkillID=15||RanksApplied=%CrossClassRanks%|
+1,|SkillID=17||RanksApplied=%CrossClassRanks%|
+1,|SkillID=31||RanksApplied=%CrossClassRanks%|
+1,|SkillID=34||RanksApplied=%CrossClassRanks%|
+1,|SkillID=35||RanksApplied=%CrossClassRanks%|
+1,|SkillID=40||RanksApplied=%CrossClassRanks%|
+1,|SkillID=41||RanksApplied=%CrossClassRanks%|
+1,|SkillID=45||RanksApplied=%CrossClassRanks%|
+
+;!ClericSkills
+#Class Skills
+65,|SkillID=5||RanksApplied=%MaxRanks%|
+133,|SkillID=8||RanksApplied=%MaxRanks%|
+65,|SkillID=15||RanksApplied=%MaxRanks%|
+65,|SkillID=19||RanksApplied=%MaxRanks%|
+65,|SkillID=23||RanksApplied=%MaxRanks%|
+133,|SkillID=27||RanksApplied=%MaxRanks%|
+65,|SkillID=28||RanksApplied=%MaxRanks%|
+28,|SkillID=33||RanksApplied=%MaxRanks%|
+65,|SkillID=39||RanksApplied=%MaxRanks%|
+#Cross-Class Skills
+1,|SkillID=1||RanksApplied=%CrossClassRanks%|
+1,|SkillID=2||RanksApplied=%CrossClassRanks%|
+1,|SkillID=3||RanksApplied=%CrossClassRanks%|
+1,|SkillID=4||RanksApplied=%CrossClassRanks%|
+1,|SkillID=6||RanksApplied=%CrossClassRanks%|
+1,|SkillID=7||RanksApplied=%CrossClassRanks%|
+1,|SkillID=9||RanksApplied=%CrossClassRanks%|
+1,|SkillID=10||RanksApplied=%CrossClassRanks%|
+1,|SkillID=11||RanksApplied=%CrossClassRanks%|
+1,|SkillID=12||RanksApplied=%CrossClassRanks%|
+1,|SkillID=13||RanksApplied=%CrossClassRanks%|
+1,|SkillID=14||RanksApplied=%CrossClassRanks%|
+1,|SkillID=16||RanksApplied=%CrossClassRanks%|
+1,|SkillID=17||RanksApplied=%CrossClassRanks%|
+1,|SkillID=18||RanksApplied=%CrossClassRanks%|
+1,|SkillID=20||RanksApplied=%CrossClassRanks%|
+1,|SkillID=21||RanksApplied=%CrossClassRanks%|
+1,|SkillID=22||RanksApplied=%CrossClassRanks%|
+1,|SkillID=24||RanksApplied=%CrossClassRanks%|
+1,|SkillID=25||RanksApplied=%CrossClassRanks%|
+1,|SkillID=26||RanksApplied=%CrossClassRanks%|
+1,|SkillID=29||RanksApplied=%CrossClassRanks%|
+1,|SkillID=30||RanksApplied=%CrossClassRanks%|
+1,|SkillID=31||RanksApplied=%CrossClassRanks%|
+1,|SkillID=32||RanksApplied=%CrossClassRanks%|
+1,|SkillID=34||RanksApplied=%CrossClassRanks%|
+1,|SkillID=35||RanksApplied=%CrossClassRanks%|
+1,|SkillID=36||RanksApplied=%CrossClassRanks%|
+1,|SkillID=37||RanksApplied=%CrossClassRanks%|
+1,|SkillID=38||RanksApplied=%CrossClassRanks%|
+1,|SkillID=40||RanksApplied=%CrossClassRanks%|
+1,|SkillID=41||RanksApplied=%CrossClassRanks%|
+1,|SkillID=42||RanksApplied=%CrossClassRanks%|
+1,|SkillID=43||RanksApplied=%CrossClassRanks%|
+1,|SkillID=44||RanksApplied=%CrossClassRanks%|
+1,|SkillID=45||RanksApplied=%CrossClassRanks%|
+
+;!DruidSkills
+#Class Skills
+46,|SkillID=5||RanksApplied=%MaxRanks%|
+23,|SkillID=6||RanksApplied=%MaxRanks%|
+46,|SkillID=8||RanksApplied=%MaxRanks%|
+46,|SkillID=14||RanksApplied=%MaxRanks%|
+46,|SkillID=15||RanksApplied=%MaxRanks%|
+79,|SkillID=25||RanksApplied=%MaxRanks%|
+46,|SkillID=29||RanksApplied=%MaxRanks%|
+23,|SkillID=33||RanksApplied=%MaxRanks%|
+46,|SkillID=34||RanksApplied=%MaxRanks%|
+46,|SkillID=39||RanksApplied=%MaxRanks%|
+46,|SkillID=40||RanksApplied=%MaxRanks%|
+79,|SkillID=41||RanksApplied=%MaxRanks%|
+46,|SkillID=42||RanksApplied=%MaxRanks%|
+#Cross-Class Skills
+1,|SkillID=1||RanksApplied=%CrossClassRanks%|
+1,|SkillID=2||RanksApplied=%CrossClassRanks%|
+1,|SkillID=3||RanksApplied=%CrossClassRanks%|
+1,|SkillID=4||RanksApplied=%CrossClassRanks%|
+1,|SkillID=7||RanksApplied=%CrossClassRanks%|
+1,|SkillID=9||RanksApplied=%CrossClassRanks%|
+1,|SkillID=10||RanksApplied=%CrossClassRanks%|
+1,|SkillID=11||RanksApplied=%CrossClassRanks%|
+1,|SkillID=12||RanksApplied=%CrossClassRanks%|
+1,|SkillID=13||RanksApplied=%CrossClassRanks%|
+1,|SkillID=16||RanksApplied=%CrossClassRanks%|
+1,|SkillID=17||RanksApplied=%CrossClassRanks%|
+1,|SkillID=18||RanksApplied=%CrossClassRanks%|
+1,|SkillID=19||RanksApplied=%CrossClassRanks%|
+1,|SkillID=20||RanksApplied=%CrossClassRanks%|
+1,|SkillID=21||RanksApplied=%CrossClassRanks%|
+1,|SkillID=22||RanksApplied=%CrossClassRanks%|
+1,|SkillID=23||RanksApplied=%CrossClassRanks%|
+1,|SkillID=24||RanksApplied=%CrossClassRanks%|
+1,|SkillID=26||RanksApplied=%CrossClassRanks%|
+1,|SkillID=27||RanksApplied=%CrossClassRanks%|
+1,|SkillID=28||RanksApplied=%CrossClassRanks%|
+1,|SkillID=30||RanksApplied=%CrossClassRanks%|
+1,|SkillID=31||RanksApplied=%CrossClassRanks%|
+1,|SkillID=32||RanksApplied=%CrossClassRanks%|
+1,|SkillID=35||RanksApplied=%CrossClassRanks%|
+1,|SkillID=36||RanksApplied=%CrossClassRanks%|
+1,|SkillID=37||RanksApplied=%CrossClassRanks%|
+1,|SkillID=38||RanksApplied=%CrossClassRanks%|
+1,|SkillID=43||RanksApplied=%CrossClassRanks%|
+1,|SkillID=44||RanksApplied=%CrossClassRanks%|
+1,|SkillID=45||RanksApplied=%CrossClassRanks%|
+
+;!FighterSkills
+#ClassSkills
+103,|SkillID=4||RanksApplied=%MaxRanks%|
+103,|SkillID=6||RanksApplied=%MaxRanks%|
+103,|SkillID=14||RanksApplied=%MaxRanks%|
+103,|SkillID=17||RanksApplied=%MaxRanks%|
+103,|SkillID=18||RanksApplied=%MaxRanks%|
+103,|SkillID=34||RanksApplied=%MaxRanks%|
+103,|SkillID=42||RanksApplied=%MaxRanks%|
+#Cross-Class Skills
+1,|SkillID=1||RanksApplied=%CrossClassRanks%|
+1,|SkillID=2||RanksApplied=%CrossClassRanks%|
+1,|SkillID=3||RanksApplied=%CrossClassRanks%|
+1,|SkillID=5||RanksApplied=%CrossClassRanks%|
+1,|SkillID=7||RanksApplied=%CrossClassRanks%|
+1,|SkillID=8||RanksApplied=%CrossClassRanks%|
+1,|SkillID=9||RanksApplied=%CrossClassRanks%|
+1,|SkillID=10||RanksApplied=%CrossClassRanks%|
+1,|SkillID=11||RanksApplied=%CrossClassRanks%|
+1,|SkillID=12||RanksApplied=%CrossClassRanks%|
+1,|SkillID=13||RanksApplied=%CrossClassRanks%|
+1,|SkillID=15||RanksApplied=%CrossClassRanks%|
+1,|SkillID=16||RanksApplied=%CrossClassRanks%|
+1,|SkillID=19||RanksApplied=%CrossClassRanks%|
+1,|SkillID=20||RanksApplied=%CrossClassRanks%|
+1,|SkillID=21||RanksApplied=%CrossClassRanks%|
+1,|SkillID=22||RanksApplied=%CrossClassRanks%|
+1,|SkillID=23||RanksApplied=%CrossClassRanks%|
+1,|SkillID=24||RanksApplied=%CrossClassRanks%|
+1,|SkillID=25||RanksApplied=%CrossClassRanks%|
+1,|SkillID=26||RanksApplied=%CrossClassRanks%|
+1,|SkillID=27||RanksApplied=%CrossClassRanks%|
+1,|SkillID=28||RanksApplied=%CrossClassRanks%|
+1,|SkillID=29||RanksApplied=%CrossClassRanks%|
+1,|SkillID=30||RanksApplied=%CrossClassRanks%|
+1,|SkillID=31||RanksApplied=%CrossClassRanks%|
+1,|SkillID=32||RanksApplied=%CrossClassRanks%|
+1,|SkillID=33||RanksApplied=%CrossClassRanks%|
+1,|SkillID=35||RanksApplied=%CrossClassRanks%|
+1,|SkillID=36||RanksApplied=%CrossClassRanks%|
+1,|SkillID=37||RanksApplied=%CrossClassRanks%|
+1,|SkillID=38||RanksApplied=%CrossClassRanks%|
+1,|SkillID=39||RanksApplied=%CrossClassRanks%|
+1,|SkillID=40||RanksApplied=%CrossClassRanks%|
+1,|SkillID=41||RanksApplied=%CrossClassRanks%|
+1,|SkillID=43||RanksApplied=%CrossClassRanks%|
+1,|SkillID=44||RanksApplied=%CrossClassRanks%|
+1,|SkillID=45||RanksApplied=%CrossClassRanks%|
+
+;!MonkSkills
+#Class Skills
+26,|SkillID=2||RanksApplied=%MaxRanks%|
+26,|SkillID=4||RanksApplied=%MaxRanks%|
+26,|SkillID=5||RanksApplied=%MaxRanks%|
+13,|SkillID=6||RanksApplied=%MaxRanks%|
+26,|SkillID=7||RanksApplied=%MaxRanks%|
+26,|SkillID=9||RanksApplied=%MaxRanks%|
+26,|SkillID=11||RanksApplied=%MaxRanks%|
+26,|SkillID=16||RanksApplied=%MaxRanks%|
+26,|SkillID=18||RanksApplied=%MaxRanks%|
+26,|SkillID=19||RanksApplied=%MaxRanks%|
+26,|SkillID=27||RanksApplied=%MaxRanks%|
+26,|SkillID=29||RanksApplied=%MaxRanks%|
+26,|SkillID=30||RanksApplied=%MaxRanks%|
+26,|SkillID=32||RanksApplied=%MaxRanks%|
+13,|SkillID=33||RanksApplied=%MaxRanks%|
+26,|SkillID=36||RanksApplied=%MaxRanks%|
+26,|SkillID=40||RanksApplied=%MaxRanks%|
+26,|SkillID=42||RanksApplied=%MaxRanks%|
+52,|SkillID=43||RanksApplied=%MaxRanks%|
+#Cross-Class Skills
+1,|SkillID=1||RanksApplied=%CrossClassRanks%|
+1,|SkillID=3||RanksApplied=%CrossClassRanks%|
+1,|SkillID=8||RanksApplied=%CrossClassRanks%|
+1,|SkillID=10||RanksApplied=%CrossClassRanks%|
+1,|SkillID=12||RanksApplied=%CrossClassRanks%|
+1,|SkillID=13||RanksApplied=%CrossClassRanks%|
+1,|SkillID=14||RanksApplied=%CrossClassRanks%|
+1,|SkillID=15||RanksApplied=%CrossClassRanks%|
+1,|SkillID=17||RanksApplied=%CrossClassRanks%|
+1,|SkillID=20||RanksApplied=%CrossClassRanks%|
+1,|SkillID=21||RanksApplied=%CrossClassRanks%|
+1,|SkillID=22||RanksApplied=%CrossClassRanks%|
+1,|SkillID=23||RanksApplied=%CrossClassRanks%|
+1,|SkillID=24||RanksApplied=%CrossClassRanks%|
+1,|SkillID=25||RanksApplied=%CrossClassRanks%|
+1,|SkillID=26||RanksApplied=%CrossClassRanks%|
+1,|SkillID=28||RanksApplied=%CrossClassRanks%|
+1,|SkillID=31||RanksApplied=%CrossClassRanks%|
+1,|SkillID=34||RanksApplied=%CrossClassRanks%|
+1,|SkillID=35||RanksApplied=%CrossClassRanks%|
+1,|SkillID=37||RanksApplied=%CrossClassRanks%|
+1,|SkillID=38||RanksApplied=%CrossClassRanks%|
+1,|SkillID=39||RanksApplied=%CrossClassRanks%|
+1,|SkillID=41||RanksApplied=%CrossClassRanks%|
+1,|SkillID=44||RanksApplied=%CrossClassRanks%|
+1,|SkillID=45||RanksApplied=%CrossClassRanks%|
+
+;!PaladinSkills
+#Class Skills
+66,|SkillID=5||RanksApplied=%MaxRanks%|
+33,|SkillID=6||RanksApplied=%MaxRanks%|
+99,|SkillID=8||RanksApplied=%MaxRanks%|
+66,|SkillID=14||RanksApplied=%MaxRanks%|
+66,|SkillID=15||RanksApplied=%MaxRanks%|
+66,|SkillID=26||RanksApplied=%MaxRanks%|
+66,|SkillID=27||RanksApplied=%MaxRanks%|
+33,|SkillID=33||RanksApplied=%MaxRanks%|
+99,|SkillID=34||RanksApplied=%MaxRanks%|
+66,|SkillID=36||RanksApplied=%MaxRanks%|
+#Cross-Class Skills
+1,|SkillID=1||RanksApplied=%CrossClassRanks%|
+1,|SkillID=2||RanksApplied=%CrossClassRanks%|
+1,|SkillID=3||RanksApplied=%CrossClassRanks%|
+1,|SkillID=4||RanksApplied=%CrossClassRanks%|
+1,|SkillID=7||RanksApplied=%CrossClassRanks%|
+1,|SkillID=9||RanksApplied=%CrossClassRanks%|
+1,|SkillID=10||RanksApplied=%CrossClassRanks%|
+1,|SkillID=11||RanksApplied=%CrossClassRanks%|
+1,|SkillID=12||RanksApplied=%CrossClassRanks%|
+1,|SkillID=13||RanksApplied=%CrossClassRanks%|
+1,|SkillID=16||RanksApplied=%CrossClassRanks%|
+1,|SkillID=17||RanksApplied=%CrossClassRanks%|
+1,|SkillID=18||RanksApplied=%CrossClassRanks%|
+1,|SkillID=19||RanksApplied=%CrossClassRanks%|
+1,|SkillID=20||RanksApplied=%CrossClassRanks%|
+1,|SkillID=21||RanksApplied=%CrossClassRanks%|
+1,|SkillID=22||RanksApplied=%CrossClassRanks%|
+1,|SkillID=23||RanksApplied=%CrossClassRanks%|
+1,|SkillID=24||RanksApplied=%CrossClassRanks%|
+1,|SkillID=25||RanksApplied=%CrossClassRanks%|
+1,|SkillID=28||RanksApplied=%CrossClassRanks%|
+1,|SkillID=29||RanksApplied=%CrossClassRanks%|
+1,|SkillID=30||RanksApplied=%CrossClassRanks%|
+1,|SkillID=31||RanksApplied=%CrossClassRanks%|
+1,|SkillID=32||RanksApplied=%CrossClassRanks%|
+1,|SkillID=35||RanksApplied=%CrossClassRanks%|
+1,|SkillID=37||RanksApplied=%CrossClassRanks%|
+1,|SkillID=38||RanksApplied=%CrossClassRanks%|
+1,|SkillID=39||RanksApplied=%CrossClassRanks%|
+1,|SkillID=40||RanksApplied=%CrossClassRanks%|
+1,|SkillID=41||RanksApplied=%CrossClassRanks%|
+1,|SkillID=42||RanksApplied=%CrossClassRanks%|
+1,|SkillID=43||RanksApplied=%CrossClassRanks%|
+1,|SkillID=44||RanksApplied=%CrossClassRanks%|
+1,|SkillID=45||RanksApplied=%CrossClassRanks%|
+
+;!RangerSkills
+#Class Skills
+# Survival
+1000,|SkillID=41||RanksApplied=%MaxRanks%|
+39,|SkillID=4||RanksApplied=%MaxRanks%|
+39,|SkillID=5||RanksApplied=%MaxRanks%|
+19,|SkillID=6||RanksApplied=%MaxRanks%|
+39,|SkillID=14||RanksApplied=%MaxRanks%|
+39,|SkillID=15||RanksApplied=%MaxRanks%|
+39,|SkillID=16||RanksApplied=%MaxRanks%|
+39,|SkillID=18||RanksApplied=%MaxRanks%|
+39,|SkillID=21||RanksApplied=%MaxRanks%|
+39,|SkillID=22||RanksApplied=%MaxRanks%|
+39,|SkillID=25||RanksApplied=%MaxRanks%|
+19,|SkillID=29||RanksApplied=%MaxRanks%|
+39,|SkillID=30||RanksApplied=%MaxRanks%|
+19,|SkillID=33||RanksApplied=%MaxRanks%|
+39,|SkillID=34||RanksApplied=%MaxRanks%|
+39,|SkillID=35||RanksApplied=%MaxRanks%|
+19,|SkillID=40||RanksApplied=%MaxRanks%|
+39,|SkillID=42||RanksApplied=%MaxRanks%|
+#Cross-Class Skills
+1,|SkillID=1||RanksApplied=%CrossClassRanks%|
+1,|SkillID=2||RanksApplied=%CrossClassRanks%|
+1,|SkillID=3||RanksApplied=%CrossClassRanks%|
+1,|SkillID=7||RanksApplied=%CrossClassRanks%|
+1,|SkillID=8||RanksApplied=%CrossClassRanks%|
+1,|SkillID=9||RanksApplied=%CrossClassRanks%|
+1,|SkillID=10||RanksApplied=%CrossClassRanks%|
+1,|SkillID=11||RanksApplied=%CrossClassRanks%|
+1,|SkillID=12||RanksApplied=%CrossClassRanks%|
+1,|SkillID=13||RanksApplied=%CrossClassRanks%|
+1,|SkillID=17||RanksApplied=%CrossClassRanks%|
+1,|SkillID=19||RanksApplied=%CrossClassRanks%|
+1,|SkillID=20||RanksApplied=%CrossClassRanks%|
+1,|SkillID=23||RanksApplied=%CrossClassRanks%|
+1,|SkillID=24||RanksApplied=%CrossClassRanks%|
+1,|SkillID=26||RanksApplied=%CrossClassRanks%|
+1,|SkillID=27||RanksApplied=%CrossClassRanks%|
+1,|SkillID=28||RanksApplied=%CrossClassRanks%|
+1,|SkillID=31||RanksApplied=%CrossClassRanks%|
+1,|SkillID=32||RanksApplied=%CrossClassRanks%|
+1,|SkillID=36||RanksApplied=%CrossClassRanks%|
+1,|SkillID=37||RanksApplied=%CrossClassRanks%|
+1,|SkillID=38||RanksApplied=%CrossClassRanks%|
+1,|SkillID=39||RanksApplied=%CrossClassRanks%|
+1,|SkillID=43||RanksApplied=%CrossClassRanks%|
+1,|SkillID=44||RanksApplied=%CrossClassRanks%|
+1,|SkillID=45||RanksApplied=%CrossClassRanks%|
+
+;!RogueSkills
+#Class Skills
+10,|SkillID=1||RanksApplied=%MaxRanks%|
+10,|SkillID=2||RanksApplied=%MaxRanks%|
+10,|SkillID=3||RanksApplied=%MaxRanks%|
+10,|SkillID=4||RanksApplied=%MaxRanks%|
+10,|SkillID=6||RanksApplied=%MaxRanks%|
+10,|SkillID=7||RanksApplied=%MaxRanks%|
+10,|SkillID=8||RanksApplied=%MaxRanks%|
+10,|SkillID=9||RanksApplied=%MaxRanks%|
+10,|SkillID=10||RanksApplied=%MaxRanks%|
+10,|SkillID=11||RanksApplied=%MaxRanks%|
+10,|SkillID=12||RanksApplied=%MaxRanks%|
+10,|SkillID=13||RanksApplied=%MaxRanks%|
+10,|SkillID=16||RanksApplied=%MaxRanks%|
+10,|SkillID=17||RanksApplied=%MaxRanks%|
+10,|SkillID=18||RanksApplied=%MaxRanks%|
+10,|SkillID=24||RanksApplied=%MaxRanks%|
+10,|SkillID=29||RanksApplied=%MaxRanks%|
+10,|SkillID=30||RanksApplied=%MaxRanks%|
+10,|SkillID=31||RanksApplied=%MaxRanks%|
+10,|SkillID=32||RanksApplied=%MaxRanks%|
+10,|SkillID=33||RanksApplied=%MaxRanks%|
+10,|SkillID=35||RanksApplied=%MaxRanks%|
+10,|SkillID=36||RanksApplied=%MaxRanks%|
+10,|SkillID=37||RanksApplied=%MaxRanks%|
+10,|SkillID=40||RanksApplied=%MaxRanks%|
+10,|SkillID=42||RanksApplied=%MaxRanks%|
+10,|SkillID=43||RanksApplied=%MaxRanks%|
+10,|SkillID=44||RanksApplied=%MaxRanks%|
+10,|SkillID=45||RanksApplied=%MaxRanks%|
+#Cross-Class Skills
+1,|SkillID=5||RanksApplied=%CrossClassRanks%|
+1,|SkillID=14||RanksApplied=%CrossClassRanks%|
+1,|SkillID=15||RanksApplied=%CrossClassRanks%|
+1,|SkillID=19||RanksApplied=%CrossClassRanks%|
+1,|SkillID=20||RanksApplied=%CrossClassRanks%|
+1,|SkillID=21||RanksApplied=%CrossClassRanks%|
+1,|SkillID=22||RanksApplied=%CrossClassRanks%|
+1,|SkillID=23||RanksApplied=%CrossClassRanks%|
+1,|SkillID=25||RanksApplied=%CrossClassRanks%|
+1,|SkillID=26||RanksApplied=%CrossClassRanks%|
+1,|SkillID=27||RanksApplied=%CrossClassRanks%|
+1,|SkillID=28||RanksApplied=%CrossClassRanks%|
+1,|SkillID=34||RanksApplied=%CrossClassRanks%|
+1,|SkillID=38||RanksApplied=%CrossClassRanks%|
+1,|SkillID=39||RanksApplied=%CrossClassRanks%|
+1,|SkillID=41||RanksApplied=%CrossClassRanks%|
+
+;!SorcererSkills
+#Class Skills
+154,|SkillID=3||RanksApplied=%MaxRanks%|
+154,|SkillID=5||RanksApplied=%MaxRanks%|
+61,|SkillID=6||RanksApplied=%MaxRanks%|
+154,|SkillID=19||RanksApplied=%MaxRanks%|
+61,|SkillID=33||RanksApplied=%MaxRanks%|
+154,|SkillID=39||RanksApplied=%MaxRanks%|
+#Cross-Class Skills
+1,|SkillID=1||RanksApplied=%CrossClassRanks%|
+1,|SkillID=2||RanksApplied=%CrossClassRanks%|
+1,|SkillID=4||RanksApplied=%CrossClassRanks%|
+1,|SkillID=7||RanksApplied=%CrossClassRanks%|
+1,|SkillID=8||RanksApplied=%CrossClassRanks%|
+1,|SkillID=9||RanksApplied=%CrossClassRanks%|
+1,|SkillID=10||RanksApplied=%CrossClassRanks%|
+1,|SkillID=11||RanksApplied=%CrossClassRanks%|
+1,|SkillID=12||RanksApplied=%CrossClassRanks%|
+1,|SkillID=13||RanksApplied=%CrossClassRanks%|
+1,|SkillID=14||RanksApplied=%CrossClassRanks%|
+1,|SkillID=15||RanksApplied=%CrossClassRanks%|
+1,|SkillID=16||RanksApplied=%CrossClassRanks%|
+1,|SkillID=17||RanksApplied=%CrossClassRanks%|
+1,|SkillID=18||RanksApplied=%CrossClassRanks%|
+1,|SkillID=20||RanksApplied=%CrossClassRanks%|
+1,|SkillID=21||RanksApplied=%CrossClassRanks%|
+1,|SkillID=22||RanksApplied=%CrossClassRanks%|
+1,|SkillID=23||RanksApplied=%CrossClassRanks%|
+1,|SkillID=24||RanksApplied=%CrossClassRanks%|
+1,|SkillID=25||RanksApplied=%CrossClassRanks%|
+1,|SkillID=26||RanksApplied=%CrossClassRanks%|
+1,|SkillID=27||RanksApplied=%CrossClassRanks%|
+1,|SkillID=28||RanksApplied=%CrossClassRanks%|
+1,|SkillID=29||RanksApplied=%CrossClassRanks%|
+1,|SkillID=30||RanksApplied=%CrossClassRanks%|
+1,|SkillID=31||RanksApplied=%CrossClassRanks%|
+1,|SkillID=32||RanksApplied=%CrossClassRanks%|
+1,|SkillID=34||RanksApplied=%CrossClassRanks%|
+1,|SkillID=35||RanksApplied=%CrossClassRanks%|
+1,|SkillID=36||RanksApplied=%CrossClassRanks%|
+1,|SkillID=37||RanksApplied=%CrossClassRanks%|
+1,|SkillID=38||RanksApplied=%CrossClassRanks%|
+1,|SkillID=40||RanksApplied=%CrossClassRanks%|
+1,|SkillID=41||RanksApplied=%CrossClassRanks%|
+1,|SkillID=42||RanksApplied=%CrossClassRanks%|
+1,|SkillID=43||RanksApplied=%CrossClassRanks%|
+1,|SkillID=44||RanksApplied=%CrossClassRanks%|
+1,|SkillID=45||RanksApplied=%CrossClassRanks%|
+
+;!WizardSkills
+#Class Skills
+32,|SkillID=5||RanksApplied=%MaxRanks%|
+15,|SkillID=6||RanksApplied=%MaxRanks%|
+32,|SkillID=7||RanksApplied=%MaxRanks%|
+94,|SkillID=19||RanksApplied=%MaxRanks%|
+32,|SkillID=20||RanksApplied=%MaxRanks%|
+32,|SkillID=21||RanksApplied=%MaxRanks%|
+32,|SkillID=22||RanksApplied=%MaxRanks%|
+32,|SkillID=23||RanksApplied=%MaxRanks%|
+32,|SkillID=24||RanksApplied=%MaxRanks%|
+32,|SkillID=25||RanksApplied=%MaxRanks%|
+32,|SkillID=26||RanksApplied=%MaxRanks%|
+32,|SkillID=27||RanksApplied=%MaxRanks%|
+32,|SkillID=28||RanksApplied=%MaxRanks%|
+15,|SkillID=33||RanksApplied=%MaxRanks%|
+94,|SkillID=39||RanksApplied=%MaxRanks%|
+#Cross-Class Skills
+1,|SkillID=1||RanksApplied=%CrossClassRanks%|
+1,|SkillID=2||RanksApplied=%CrossClassRanks%|
+1,|SkillID=3||RanksApplied=%CrossClassRanks%|
+1,|SkillID=4||RanksApplied=%CrossClassRanks%|
+1,|SkillID=8||RanksApplied=%CrossClassRanks%|
+1,|SkillID=9||RanksApplied=%CrossClassRanks%|
+1,|SkillID=10||RanksApplied=%CrossClassRanks%|
+1,|SkillID=11||RanksApplied=%CrossClassRanks%|
+1,|SkillID=12||RanksApplied=%CrossClassRanks%|
+1,|SkillID=13||RanksApplied=%CrossClassRanks%|
+1,|SkillID=14||RanksApplied=%CrossClassRanks%|
+1,|SkillID=15||RanksApplied=%CrossClassRanks%|
+1,|SkillID=16||RanksApplied=%CrossClassRanks%|
+1,|SkillID=17||RanksApplied=%CrossClassRanks%|
+1,|SkillID=18||RanksApplied=%CrossClassRanks%|
+1,|SkillID=29||RanksApplied=%CrossClassRanks%|
+1,|SkillID=30||RanksApplied=%CrossClassRanks%|
+1,|SkillID=31||RanksApplied=%CrossClassRanks%|
+1,|SkillID=32||RanksApplied=%CrossClassRanks%|
+1,|SkillID=34||RanksApplied=%CrossClassRanks%|
+1,|SkillID=35||RanksApplied=%CrossClassRanks%|
+1,|SkillID=36||RanksApplied=%CrossClassRanks%|
+1,|SkillID=37||RanksApplied=%CrossClassRanks%|
+1,|SkillID=38||RanksApplied=%CrossClassRanks%|
+1,|SkillID=40||RanksApplied=%CrossClassRanks%|
+1,|SkillID=41||RanksApplied=%CrossClassRanks%|
+1,|SkillID=42||RanksApplied=%CrossClassRanks%|
+1,|SkillID=43||RanksApplied=%CrossClassRanks%|
+1,|SkillID=44||RanksApplied=%CrossClassRanks%|
+1,|SkillID=45||RanksApplied=%CrossClassRanks%|
+
+:SkillsList
+1,Appraise
+2,Balance
+3,Bluff
+4,Climb
+5,Concentration
+6,Craft ([~DetermineCraft])
+7,Decipher Script
+8,Diplomacy
+9,Disable Device
+10,Disguise
+11,Escape Artist
+12,Forgery
+13,Gather Information
+14,Handle Animal
+15,Heal
+16,Hide
+17,Intimidate
+18,Jump
+19,Knowledge (Arcana)
+20,Knowledge (Architecture and Engineering)
+21,Knowledge (Dungeoneering)
+22,Knowledge (Geography)
+23,Knowledge (History)
+24,Knowledge (Local)
+25,Knowledge (Nature)
+26,Knowledge (Nobility and Royalty)
+27,Knowledge (Religion)
+28,Knowledge (The Planes)
+29,Listen
+30,Move Silently
+31,Open Lock
+32,Perform ([~DeterminePerformanceType])
+33,Profession ([~Miscellaneous.Occupations])
+34,Ride
+35,Search
+36,Sense Motive
+37,Sleight of Hand
+38,Speak Language
+39,Spellcraft
+40,Spot
+41,Survival ([~DetermineSurvivalType])
+42,Swim
+43,Tumble
+44,Use Magic Device
+45,Use Rope
+
+1,|FamSkillID=29|
+# Cat (Move Silently)
+2,|FamSkillID=30|
+# Hawk (Spot - Bright Light)
+3,|FamSkillID=40|
+# Lizard (Climb)
+4,|FamSkillID=4|
+# Owl (Spot - Shadows)
+5,|FamSkillID=40|
+# Rat (+2 Fortitude)
+6,|FamFortBonus=2|
+# Raven (Appraise)
+7,|FamSkillID=1|
+# Snake (Bluff)
+8,|FamSkillID=3|
+
+
+:SkillValue
+1,+{Calc~%RanksApplied%+%INTBonus%}{If~%FamSkillID%=1? (+%FamSkillBonus% with Familiar)}
+2,+{Calc~%RanksApplied%+%DEXBonus%}{If~%FamSkillID%=2? (+%FamSkillBonus% with Familiar)}
+3,+{Calc~%RanksApplied%+%CHABonus%}{If~%FamSkillID%=3? (+%FamSkillBonus% with Familiar)}
+4,+{Calc~%RanksApplied%+%STRBonus%}{If~%FamSkillID%=4? (+%FamSkillBonus% with Familiar)}
+5,+{Calc~%RanksApplied%+%CONBonus%}{If~%FamSkillID%=5? (+%FamSkillBonus% with Familiar)}
+6,+{Calc~%RanksApplied%+%INTBonus%}{If~%FamSkillID%=6? (+%FamSkillBonus% with Familiar)}
+7,+{Calc~%RanksApplied%+%INTBonus%}{If~%FamSkillID%=7? (+%FamSkillBonus% with Familiar)}
+8,+{Calc~%RanksApplied%+%CHABonus%}{If~%FamSkillID%=8? (+%FamSkillBonus% with Familiar)}
+9,+{Calc~%RanksApplied%+%INTBonus%}{If~%FamSkillID%=9? (+%FamSkillBonus% with Familiar)}
+10,+{Calc~%RanksApplied%+%CHABonus%}{If~%FamSkillID%=10? (+%FamSkillBonus% with Familiar)}
+11,+{Calc~%RanksApplied%+%DEXBonus%}{If~%FamSkillID%=11? (+%FamSkillBonus% with Familiar)}
+12,+{Calc~%RanksApplied%+%INTBonus%}{If~%FamSkillID%=12? (+%FamSkillBonus% with Familiar)}
+13,+{Calc~%RanksApplied%+%CHABonus%}{If~%FamSkillID%=13? (+%FamSkillBonus% with Familiar)}
+14,+{Calc~%RanksApplied%+%CHABonus%}{If~%FamSkillID%=14? (+%FamSkillBonus% with Familiar)}
+15,+{Calc~%RanksApplied%+%WISBonus%}{If~%FamSkillID%=15? (+%FamSkillBonus% with Familiar)}
+16,+{Calc~%RanksApplied%+%DEXBonus%}{If~%FamSkillID%=16? (+%FamSkillBonus% with Familiar)}
+17,+{Calc~%RanksApplied%+%CHABonus%}{If~%FamSkillID%=17? (+%FamSkillBonus% with Familiar)}
+18,+{Calc~%RanksApplied%+%STRBonus%}{If~%FamSkillID%=18? (+%FamSkillBonus% with Familiar)}
+19,+{Calc~%RanksApplied%+%INTBonus%}{If~%FamSkillID%=19? (+%FamSkillBonus% with Familiar)}
+20,+{Calc~%RanksApplied%+%INTBonus%}{If~%FamSkillID%=20? (+%FamSkillBonus% with Familiar)}
+21,+{Calc~%RanksApplied%+%INTBonus%}{If~%FamSkillID%=21? (+%FamSkillBonus% with Familiar)}
+22,+{Calc~%RanksApplied%+%INTBonus%}{If~%FamSkillID%=22? (+%FamSkillBonus% with Familiar)}
+23,+{Calc~%RanksApplied%+%INTBonus%}{If~%FamSkillID%=23? (+%FamSkillBonus% with Familiar)}
+24,+{Calc~%RanksApplied%+%INTBonus%}{If~%FamSkillID%=24? (+%FamSkillBonus% with Familiar)}
+25,+{Calc~%RanksApplied%+%INTBonus%}{If~%FamSkillID%=25? (+%FamSkillBonus% with Familiar)}
+26,+{Calc~%RanksApplied%+%INTBonus%}{If~%FamSkillID%=26? (+%FamSkillBonus% with Familiar)}
+27,+{Calc~%RanksApplied%+%INTBonus%}{If~%FamSkillID%=27? (+%FamSkillBonus% with Familiar)}
+28,+{Calc~%RanksApplied%+%INTBonus%}{If~%FamSkillID%=28? (+%FamSkillBonus% with Familiar)}
+29,+{Calc~%RanksApplied%+%WISBonus%}{If~%FamSkillID%=29? (+%FamSkillBonus% with Familiar)}
+30,+{Calc~%RanksApplied%+%DEXBonus%}{If~%FamSkillID%=30? (+%FamSkillBonus% with Familiar)}
+31,+{Calc~%RanksApplied%+%DEXBonus%}{If~%FamSkillID%=31? (+%FamSkillBonus% with Familiar)}
+32,+{Calc~%RanksApplied%+%CHABonus%}{If~%FamSkillID%=32? (+%FamSkillBonus% with Familiar)}
+33,+{Calc~%RanksApplied%+%WISBonus%}{If~%FamSkillID%=33? (+%FamSkillBonus% with Familiar)}
+34,+{Calc~%RanksApplied%+%DEXBonus%}{If~%FamSkillID%=34? (+%FamSkillBonus% with Familiar)}
+35,+{Calc~%RanksApplied%+%INTBonus%}{If~%FamSkillID%=35? (+%FamSkillBonus% with Familiar)}
+36,+{Calc~%RanksApplied%+%WISBonus%}{If~%FamSkillID%=36? (+%FamSkillBonus% with Familiar)}
+37,+{Calc~%RanksApplied%+%DEXBonus%}{If~%FamSkillID%=37? (+%FamSkillBonus% with Familiar)}
+38,(<font color=green>
+_{Loop~%RanksApplied%,{If~%CommaFlagLang%=1?, }[LoopLanguage]{Cap~%Language%}|CommaFlagLang=1|}
+_</font>)
+39,+{Calc~%RanksApplied%+%INTBonus%}{If~%FamSkillID%=39? (+%FamSkillBonus% with Familiar)}
+40,+{Calc~%RanksApplied%+%WISBonus%}{If~%FamSkillID%=40? (+%FamSkillBonus% with Familiar)}
+41,+{Calc~%RanksApplied%+%WISBonus%}{If~%FamSkillID%=41? (+%FamSkillBonus% with Familiar)}
+42,+{Calc~%RanksApplied%+%STRBonus%}{If~%FamSkillID%=42? (+%FamSkillBonus% with Familiar)}
+43,+{Calc~%RanksApplied%+%DEXBonus%}{If~%FamSkillID%=43? (+%FamSkillBonus% with Familiar)}
+44,+{Calc~%RanksApplied%+%CHABonus%}{If~%FamSkillID%=44? (+%FamSkillBonus% with Familiar)}
+45,+{Calc~%RanksApplied%+%DEXBonus%}{If~%FamSkillID%=45? (+%FamSkillBonus% with Familiar)}
+
+:SetLanguages
+# Human
+1,common
+# Dwarf
+2,common;dwarven
+# Elf
+3,common;elven
+# Gnome
+4,common;gnome
+# Half Elf
+5,common;elven
+# Half Orc
+6,common;orc
+# Halfling
+7,common;halfling
+
+:LoopLanguage
+1,|Language=NOTHING FOUND|
+_{If~{Used~{Param~Race,%Race%}Languages,0}=1?|Language=[ChooseMiscLanguage]|/
+_|Language=[{Param~Race,%Race%}Languages]|}
+_{If~{Find~1,%Language%,%LanguageString%}!=0?[LoopLanguage]/|LanguageString&;%Language%|}
+#1,|Language=[{Param~Race,%Race%}Languages]||LanguageString&;%Language%|
+
+# This is to prevent random choosing of secret languages
+# as found in the Miscellaneous.Language
+# If you add other secret languages, modify this subtable.
+:ChooseMiscLanguage
+1,|LangLook=[Miscellaneous.Language]|
+_{If~%LangLook%=druidic?[ChooseMiscLanguage]/%LangLook%}
+
+;!SpecialClassLanguages
+1,{If~%Class%=4?abyssal/[{Param~Race,%Race%}Languages]}
+1,{If~%Class%=4?celestial/[{Param~Race,%Race%}Languages]}
+1,{If~%Class%=4?infernal/[{Param~Race,%Race%}Languages]}
+1,{If~%Class%=5?sylvan/[{Param~Race,%Race%}Languages]}
+1,{If~%Class%=11?draconic/[{Param~Race,%Race%}Languages]}
+
+;!HumanLanguages
+1,{If~{Used~SpecialClassLanguages,0}=1?[LoopLanguage]/{Unlock~HumanLanguages,1}[SpecialClassLanguages]}
+1,{Unlock~HumanLanguages,2}[ChooseMiscLanguage]
+
+;!DwarfLanguages
+3,{If~{Used~SpecialClassLanguages,0}=1?[LoopLanguage]/{Unlock~DwarfLanguages,1-3}[SpecialClassLanguages]}
+1,giant
+1,gnome
+1,goblin
+1,orc
+1,terran
+1,undercommon
+
+;!ElfLanguages
+3,{If~{Used~SpecialClassLanguages,0}=1?[LoopLanguage]/{Unlock~ElfLanguages,1-3}[SpecialClassLanguages]}
+1,draconic
+1,gnoll
+1,gnome
+1,goblin
+1,orc
+1,sylvan
+
+;!GnomeLanguages
+3,{If~{Used~SpecialClassLanguages,0}=1?[LoopLanguage]/{Unlock~GnomeLanguages,1-3}[SpecialClassLanguages]}
+1,draconic
+1,dwarven
+1,elven
+1,giant
+1,goblin
+1,orc
+
+;!Half ElfLanguages
+1,{If~{Used~SpecialClassLanguages,0}=1?[LoopLanguage]/{Unlock~Half ElfLanguages,1}[SpecialClassLanguages]}
+1,{Unlock~Half ElfLanguages,1}[ChooseMiscLanguage]
+
+;!Half OrcLanguages
+3,{If~{Used~SpecialClassLanguages,0}=1?[LoopLanguage]/{Unlock~Half OrcLanguages,1-3}[SpecialClassLanguages]}
+1,abyssal
+1,draconic
+1,giant
+1,gnoll
+1,goblin
+
+;!HalflingLanguages
+3,{If~{Used~SpecialClassLanguages,0}=1?[LoopLanguage]/{Unlock~HalflingLanguages,1-3}[SpecialClassLanguages]}
+1,dwarven
+1,elven
+1,gnome
+1,goblin
+1,orc
+
+;DetermineCraft
+5,Animal Breeding
+5,Animal Training
+10,Armorer
+1,Basketry
+1,Batik
+1,Beading
+1,Beekeeping
+10,Blacksmithing
+1,Bone Carving
+10,Bowyer/Fletcher
+5,Brewing
+1,Candlemaking
+5,Cartography
+1,Ceramics
+1,Coiling
+1,Cooking
+1,Cooper
+1,Coppersmithing
+1,Crocheting
+5,Dog Breeding
+1,Doll Making
+1,Dye Making
+1,Embroidery
+1,Farrier
+1,Flintnapping
+1,Genealogy
+1,Glass Making
+1,Glassblowing
+1,Goldsmithing
+5,Heraldry
+5,Horse Breeding
+1,Hunting
+5,Ironsmithing
+1,Jewelry Making
+1,Knitting
+1,Knotting
+1,Lace Making
+5,Leatherworking
+5,Locksmithing
+5,Metalworking
+1,Musician
+1,Needlecrafting
+1,Netmaking
+1,Potter
+1,Quilting
+1,Rope Making
+1,Scribner
+1,Scrimshaw
+1,Sculpting
+1,Sewing
+1,Silversmithing
+1,Soapmaking
+1,Spinning
+1,Stone Carving
+1,Tanning
+1,Thatching
+1,Toy Making
+1,Trapping
+10,Weaponsmithing
+1,Weaving
+1,Wood Carving
+1,Woodworking
+
+:DeterminePerformanceType
+1,Acting [ActingTypes]
+2,Comedy [ComedyTypes]
+3,Dance [DanceTypes]
+4,Keyboard instrument [KeyboardInstruments]
+5,Oratory [OratoryTypes]
+6,Percussion instrument [PercussionInstruments]
+7,String instrument [StringInstruments]
+8,Wind instrument [WindInstruments]
+9,Singing [SingingTypes]
+
+:ActingTypes
+1,Comedy
+2,Drama
+3,Mime
+4,Mummer
+
+:ComedyTypes
+1,Buffoonery
+2,Limericks
+3,Joke-telling
+4,Fool
+5,Clown
+
+:DanceTypes
+1,Ballet
+2,Waltz
+3,Jig
+4,Minuette
+5,Ballroom
+
+:KeyboardInstruments
+1,Harpsichord
+2,Piano
+3,Pipe organ
+
+:OratoryTypes
+1,Epic
+2,Ode
+3,Storytelling
+
+:PercussionInstruments
+1,Bells
+2,Chimes
+3,Drums
+4,Gong
+5,Tamborine
+6,Triangle
+
+:StringInstruments
+1,Fiddle
+2,Harp
+3,Lute
+4,Mandolin
+5,Banjo
+6,Guitar
+
+:WindInstruments
+1,Flute
+2,Pan pipes
+3,Recorder
+4,Shawm
+5,Trumpet
+6,Horn
+
+:SingingTypes
+1,Ballad
+2,Chant
+3,Melody
+
+;DetermineSurvivalType
+10,Temperate [TerrainType]
+3,Cold [TerrainType]
+10,Warm [TerrainType]
+5,Tropical [TerrainType]
+1,Arctic [TerrainType]
+1,Aquatic Environments
+1,Marine Environments
+5,Subterranean Environments
+5,Underground Environments
+
+;TerrainType
+1,Deserts
+3,Plains
+5,Forests
+7,Hills
+3,Marshes
+5,Mountains
+2,Steppes
+1,Swamps
+1,Wetlands
+1,Coasts
+1,Rainforests
+

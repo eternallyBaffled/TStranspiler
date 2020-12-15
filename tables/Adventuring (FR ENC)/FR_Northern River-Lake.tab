@@ -1,0 +1,74 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder Oct 30, 2003.
+# ---------------------------------------------------
+#
+# SMS
+# 06/26/03
+# Forgotten Realms Table 55: Northern River/Lake (EL 3-10) random encounter tables
+#
+# Corrected by Valminder, Oct 2003
+#   -{If~} and {Dice~}
+#
+#Variables
+
+%Time%,0
+%Temp%,0
+
+#Parameters
+
+@Time,3,Select a time of day,Day,Night,_
+
+#
+#  Starts by putting up the instructions
+#
+
+:Start
+1,{If~%Time% = 3 ? [Instructions]/[Northern River %Time%]}
+
+;Instructions
+1,<b>Forgotten Realms Table 55: Northern River/Lake (EL 3-10)</b></br></br><h3>Instructions:</h3>
+_<b>Determine whether an encounter should occur before using this table. The chance of an encounter is based on terrain type and travel (chance per hour):</b><br>
+_<table border=1><tr><th>Terrain</th><th>Normal Travel</th><th>Cautious Travel</th><th>Hiding</th></tr>
+_<tr><td>Desolate/wasteland</td><td>5/%</td><td>2/%</td><td>1/%</td></tr>
+_<tr><td>Frontier/wilderness</td><td>8/%</td><td>4/%</td><td>2/%</td></tr>
+_<tr><td>Verdant/civilized area</td><td>10/%</td><td>5/%</td><td>2/%</td></tr>
+_<tr><td>Heavily traveled</td><td>12/%</td><td>6/%</td><td>3/%</td></tr>
+_</table>
+_<ol><li>Use the Parameter Box (below) to indicate whether it is day or night. Selecting "_" displays these instructions</li>
+_<li>This table applies to all Northern River/Lake areas so there is no region to set.</li></ul><br>
+
+# 1 corresponds to time="Day"
+:Northern River 1
+01-03,Aballin (MoF)
+04-06,Gelatinous cube (ooze)
+07-08,Greenhag (hag)
+09-19,Keelboat carrying merchants: [FR_Misc.Merchant_Race] Merchants: {Dice~2d4} 1st level commoners, {Dice~2d4} 1st level warriors, led by [FR_Misc.Merchant_Leader]
+20-27,<b>NPCs:</b><br>{Loop~{Dice~1d3+2},[FR_Random_NPC.FR_SM_NPC]}
+28-34,{Dice~1d4+4} Merrow (ogre)
+35-39,River Bandits ([FR_Misc.Bandit_Race]): {Dice~1d6+6} 1st level warriors and {Loop~{Dice~1d3+2}, Level {Dice~1d4} [FR_Random_NPC.FR_Evil_Class]<br> }
+40-42,{Dice~1d3+1} Scrag
+43-44,{Dice~1d3} Sea hag (hag)
+45-46,{Dice~1d3+1} Tojanida, juvenile
+47-48,{Dice~1d3+1} Tojanida, adult
+49,Tojanida, elder
+50,Vodyanoi (aquatic umber hulk with swim 20 instead of burrow, 60' blindsight instead of tremorsense)
+51-69,Rolled on Table 41: Northern Marsh: [FR_Northern Marsh.Northern Marsh 1]
+70-100,Roll on encounter table corresponding to surrounding terrain
+
+# 2 corresponds to time="Night"
+:Northern River 2
+01-03,Aballin (MoF)
+04-06,Gelatinous cube (ooze)
+07-09,Greenhag (hag)
+10-12,Keelboat carrying merchants: [FR_Misc.Merchant_Race] Merchants: {Dice~2d4} 1st level commoners, {Dice~2d4} 1st level warriors, led by [FR_Misc.Merchant_Leader]
+13-20,<b>NPCs:</b><br>{Loop~{Dice~1d3+2},[FR_Random_NPC.FR_SM_NPC]}
+21-28,{Dice~1d4+4} Merrow (ogre)
+29-32,River Bandits ([FR_Misc.Bandit_Race]): {Dice~1d6+6} 1st level warriors and {Loop~{Dice~1d3+2}, Level {Dice~1d4} [FR_Random_NPC.FR_Evil_Class]<br> }
+33-40,{Dice~1d3+1} Scrag
+41-44,{Dice~1d3} Sea hag (hag)
+45-46,{Dice~1d3+1} Tojanida, juvenile
+47-48,{Dice~1d3+1} Tojanida, adult
+49,Tojanida, elder
+50,Vodyanoi (aquatic umber hulk with swim 20 instead of burrow, 60' blindsight instead of tremorsense)
+51-69,Rolled on Table 41: Northern Marsh: [FR_Northern Marsh.Northern Marsh 2]
+70-100,Roll on encounter table corresponding to surrounding terrain

@@ -1,0 +1,150 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder Jan 30, 2006.
+# ---------------------------------------------------
+#
+# Crate and Wagons Contents
+# 
+# from Dragon Magazine 275 
+#
+# Created and Modified by Valminder May 2003
+#    I added some links to these other tables:
+#        Creatures.Humanoid2
+#        Creatures.Start
+#        Miscellaneous.Armors
+#        Miscellaneous.Color
+#        Miscellaneous.Gender
+#        Miscellaneous.Weapons
+#        Miscellaneous.Wood
+#        Names Generator.NAME Random
+#        Religion.Deities
+#        Rune Generator.GenRune
+#
+# Modified by Valminder, Jan 2006.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+#    Added ~ and "Monster Eggs" subtable.
+#    Added link to:
+#       Countries.Regions
+#       NPC Appearance.GenerateQuick4
+#
+
+:Start
+1,{Status~From Dragon Magazine 275}
+_<b><u>Crate and Wagons Contents</u>:</b>
+_{Loop~{Dice~1d6},<br>-{Cap~[Generate]}.}
+
+;Generate
+1,Manure
+5,Wood ([~Miscellaneous.Wood])
+1,Rare wood ([~Miscellaneous.Wood])
+3,Nuts
+5,Grain
+5,Skins ([~Creatures.Start])
+5,Tabards Plain ([~Miscellaneous.Color])
+5,Tabards ([~Miscellaneous.Color]) with this symbol: [~Rune Generator.GenRune]
+1,Tabards ([~Miscellaneous.Color]) with the symbol of [~Religion.Deities]
+1,Tabards ([~Miscellaneous.Color]) with the symbol of [~Countries.Regions]
+5,Pots and pans
+5,Wool blankets
+5,Coal
+1,Dried leaves
+3,Weapons ([~Miscellaneous.Weapons])
+1,Weapons ([~Miscellaneous.Weapons] and [~Miscellaneous.Weapons])
+3,Armors ([~Miscellaneous.Armors])
+1,Armors ([~Miscellaneous.Armors] and [~Miscellaneous.Armors])
+1,Iron sheets
+1,Backpacks, leather
+1,Religious Robes ({If~{Dice~1d2}=1?plain/[~Religion.Deities]})
+5,Fresh vegetable
+3,Rotten vegetables
+1,Horse barding ([~Miscellaneous.Armors])
+1,Hound barding ([~Miscellaneous.Armors])
+1,Steel strips
+5,Arrows
+5,Arrowheads
+1,Rope ladder
+3,Map or scroll cases
+1,Mason tools
+5,Bricks
+3,Shale
+3,Granite blocks
+5,Shovels and Picks
+5,Rakes and pitchforks
+5,Spikes
+5,Grain
+5,Blocks of salt
+5,Plow blades
+5,Wagon wheels
+5,Beans
+5,Roots
+3,Tree bark ([~Miscellaneous.Wood])
+3,Chain
+5,Reed baskets
+1,Moss
+1,Bustles
+1,Paint pots
+3,Mushrooms
+1,Wood dowels
+5,Firewood cords
+1,Dried peas assorted
+3,Nails and hammers
+5,Corn
+5,Yarn
+5,Saws
+3,Dried carrots
+1,Belt pouches
+1,Hinges
+3,Dried seaweed
+3,Pitons
+3,Hand mirrors
+5,Potatoes
+1,Belts
+1,Wigs
+1,Ginger roots
+3,Scarves and sashes
+3,Raw wool
+1,Dried wolfsbane
+3,Boots and shoes
+1,Scissors
+5,Turnips
+3,Hardtack
+1,Crowbars
+1,String skeins
+1,Snowshoes
+1,Bones
+1,Seashells
+1,Harnesses
+1,Silver cutlery
+5,Candles
+5,Torches mixed
+1,Musical instruments ([~Equipment.Musical Instruments])
+1,Wineskins (empty)
+1,Dirt
+3,Ropes
+5,Wooden buckets
+5,Stowaway ([~NPC Appearance.GenerateQuick4])
+3,Steel hunting traps
+3,Leather straps
+1,Jars of dye
+1,Bars of soap
+1,Bandages
+1,Monster eggs ([~Monster Eggs])
+3,Oil skins
+3,Tents
+1,Mannequins
+5,Brooms and mops
+3,Tent poles
+1,Live plants in pots
+1,Washboards
+1,Stakes
+3,Mixed dishes
+1,Skulls
+
+;Monster Eggs
+4,giant eagle (2,500 gp)
+4,giant owl (2,500 gp)
+3,griffon (3,500 gp)
+5,hippogriff (2,000 gp)
+5,pegasus (2,000 gp)
+1,pseudodragon (10,000 gp)
+1,roc (10,000 gp)

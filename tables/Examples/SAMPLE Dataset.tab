@@ -1,0 +1,188 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder Jan 30, 2006.
+# ---------------------------------------------------
+#
+# Sample table to show basic use of data set functions
+#
+# Modified by Valminder, Jan 2006
+#    Adapted for TSv5
+#
+
+# Declare your variables.
+# You must declare the variable you wish to use as the name for your data set.
+%Character%,1
+%Max%,4
+%Temp%,1
+%Counter%,1
+%Recall%,1
+
+:Start
+1,<font face="Verdana" size="2"><b>SAMPLE DATA SET SCRIPTING<br></b>{Line~center,100}
+_[BasicDataSetGeneration]<br>{Line~center,100}
+_[SampleDataSetSort]<br>{Line~center,100}
+_[SampleDataSetFind]<br>{Line~center,100}
+_[SampleDataSetRemove]<br>{Line~center,100}
+_[SampleDataSetCount]<br>{Line~center,100}
+_[SampleDataSetRandomize]<br>{Line~center,100}
+_[SampleDataSetWrite]<br>{Line~center,100}
+_[SampleDataSetRead]<br>{Line~center,100}
+_[PotentialUses]<br>{Line~center,100}
+
+#--------------------------------------------------------------------
+
+:BasicDataSetGeneration
+# Create your data set with the function {DSCreate~ 
+# This data set will be called 'Character' and will have 4 fields
+#    'ClassType' 'Wealth' 'WealthType' and 'Arms'
+# You must also define the default value for each field, in this case,
+# FIGHTER NONE NONE and DAGGER, respectively
+
+1,This will <b>Create</b> a basic Data Set assigned to the variable 'Character' that will be used for the rest of the Samples.<br>
+_For each index value, the 4 fields  'ClassType' 'Wealth' 'WealthType' and 'Arms' will be assigned (using <b>Set</b>) and displayed (using <b>Get</b>)<br><br>
+_{DSCreate~Character,ClassType,FIGHTER,Wealth,NONE,WealthType,NONE,Arms,DAGGER}
+_[Generate1]  [DisplayAll] 
+
+;Generate1
+# This section will loop through MAX times. Each time it will add a new index
+# to the data set and then assign new values to each of the fields.
+#
+1,{IIf~%Counter%<{Calc~%Max%+1}? 
+#
+# Use the {DSAdd~ function to create a new index each time we loop through
+# to create a character.
+# Place the function {DSAdd~DataSetName} between |'s or TableSMith will
+# display a number each time it creates a new index
+#
+_{DSAdd~Character}
+#
+# You MUST use the {DSAdd~ scripting to add items to the data set. Our data
+# set 'Character' now has an item at 'index' 1 consisting of the default
+# values for each of the fields.
+# The next line replaces the default value for 3 of the fields we created for
+# the data set 'Character'  
+#
+_{DSSet~Character,%Counter%,ClassType,[Getclass],WealthType,[GetWealthType],Arms,[GetArms]}
+#
+# The next line assigns a value for the final field of the data set
+# 'Character' with the 'index' equal to the counter
+#
+_{DSSet~Character,%Counter%,Wealth,[GetWealth]} 
+_|Counter+1|
+_[Generate1]:|Counter=1|}
+
+:DisplayAll
+# This section will loop through MAX times.
+# Each time it will display each of the fields stored at the index that
+# is equal to the counter.
+#
+1,{IIf~%Counter%<{Calc~%Max%+1}? 
+_The {DSGet~Character,%Counter%,ClassType} carries {DSGet~Character,%Counter%,Wealth} {DSGet~Character,%Counter%,WealthType} and is armed with {DSGet~Character,%Counter%,Arms}.
+_<br>|Counter+1|[DisplayAll]:}
+
+;!Getclass
+# Note: when creating a data set in this manner, you cannot use commas in the
+# text you wish to place in a field, or TableSmith will mis-read
+1,Ranger
+1,Begger
+1,Goblin
+1,Princess
+
+;!GetWealthType
+1,Silver
+1,Copper
+1,Gold
+1,Gems
+
+;!GetArms
+1,a sword
+1,a staff
+1,a spear
+1,+10 Flaming Intelligent Vorpal Sword 
+
+;!GetWealth
+1,5
+1,10
+1,20
+1,100
+
+#--------------------------------------------------------------------
+
+:SampleDataSetSort
+1,This will <b>Sort</b> the Data Set 'Character' by the <i>number</i> of coins or gems they carry.<br><br>
+_{DSSort~Character,Wealth,0}
+#
+# The final 0 in the line above means we are sorting in ascending
+# alpha/numberic order
+#
+_|Counter=1|[DisplayAll]
+
+#--------------------------------------------------------------------
+
+:SampleDataSetFind
+1,You can <b>Find</b> items in your data set.  <br>We will find out who is carrying the gems.<br><br>
+_|Temp={DSFind~Character,1,WealthType=Gems}
+#
+# The 1 in the line above means we are searching the field WealthType
+# beginning at the first index
+#
+_|The {DSGet~Character,%Temp%,ClassType} is carrying the gems.<br>
+
+#--------------------------------------------------------------------
+
+:SampleDataSetRemove
+1,You can <b>Remove</b> an item from the data set.<br> We will remove the character carrying the sword.<br><br>
+_|Temp={DSFind~Character,1,Arms=a sword}|
+#
+# We use the {DSFind~ to locate the index of the string we are searching for.
+#
+_The {DSGet~Character,%Temp%,ClassType} had the sword and will be removed from the data set.
+_{DSRemove~Character,%Temp%}
+
+#--------------------------------------------------------------------
+
+:SampleDataSetCount
+1,This will <b>Count</b> the number of index values for the data set.<br><br>
+_There are currently {DSCount~Character} index values assigned to the data set 'Character'.
+_|Max={DSCount~Character}|
+#
+# We assign the value to %Max% in the line above so that we can use it later.
+
+#--------------------------------------------------------------------
+
+:SampleDataSetRandomize
+1,This will <b>Randomize</b> the order of the remaining items in the data set.<br><br>
+_{DSRandomize~Character}
+_|Counter=1|[DisplayAll]
+
+#--------------------------------------------------------------------
+
+:SampleDataSetWrite
+1,This will <b>Write</b> the items from the Data Set 'Character' into an electronic file called CharacterSample.tsd for storage and later access.<br><br>
+_{DSWrite~Character,CharacterSample}
+#
+# These files are stored in a folder called "Data" within TableSmith.
+#
+
+#--------------------------------------------------------------------
+
+:SampleDataSetRead
+1,This will <b>Read</b> the information from the first data set that we stored in the file 'CharacterSample' into a new data set 'Recall'<br><br>
+_{DSRead~Recall,CharacterSample}
+#
+# The file we read from must be stored in the 'Data' folder of TableSmith.
+#
+_|Max={DSCount~Recall}||Counter=1|
+_[DisplayRecall]
+
+:DisplayRecall
+1,{IIf~%Counter%<{Calc~%Max%+1}? 
+_The {DSGet~Recall,%Counter%,ClassType} carries {DSGet~Recall,%Counter%,Wealth} {DSGet~Recall,%Counter%,WealthType} and is armed with {DSGet~Recall,%Counter%,Arms}.
+_<br>|Counter+1|[DisplayRecall]:}
+
+#--------------------------------------------------------------------
+
+:PotentialUses
+1,You might create a table that uses a data set to handle vital statistics randomly generated for cities in your campaign. 
+_Each index representing a city: with fields for the city name, ruler name, population, percentage of non-humans, most popular dieties, economic goods produced, etc. 
+_You could save the information with DSWrite~ You could set up the table to DSAdd~ cities that you generate later. You could access the stored data from another table that generates merchant caravans, linking the caravan's merchandise to the city of origin. 
+_You could link to and modify the stored data from a table that generates calendar events for locations of earthquakes, rulers replaced by coups, populations devestated by the plague.

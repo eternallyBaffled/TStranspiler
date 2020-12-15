@@ -1,0 +1,466 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder Feb 28, 2006.
+# ---------------------------------------------------
+#
+# Library Contents
+#
+# Table copyright of JB Willers
+# GM Notebook Copyright of Bruce Gulke
+# Original Idea - Colleen Bishop
+# 
+# M N O P are variables regarding the Tome Security
+# 
+# W L S are variables regarding the Library description
+# 
+# A is a variable regarding the Spell List Content 
+# 
+# Start by describing the Room itself
+#
+# Modified by Valminder April 2002
+#    I changed the "START" line.
+# Modified by Valminder, Octobre 2016
+#    Modified link "Countries.Start" to "Countries.Countries"
+#
+
+/OverrideRolls 1
+
+%L%,1
+%W%,1
+%S%,1
+%A%,XXX
+%N%,1
+
+:Start
+1,<b><u>Library Contents</u>:</b><br><br>[Generate]
+
+:Generate
+1,The library seems [Description].  The room is [Size].  <br><Br>On examination of one of the shelves closer to you, you find that it contains about [ShelfContent].  <br><Br>On the opposite shelf you find [ShelfContent]. <br><Br>Further on in the section you find [ShelfContent].<br><BR>[Special]
+
+;Description
+1,old and mouldy with an almost sickening smell that you can't really discribe...almost as if it smells of death
+1,ancient beyond anything anyone in the party has ever seen and a thick layer of dust covers every inch of it
+3,clean and neat and although whisps of dust can be detected with the slightest movement, it seems that the shelves are somehow protected from the dust and never settles on any of the shelves
+1,as if it was spring cleaned yesterday and smells of fresh leather - the room, shelves and furniture are in immaculate condition and seems almost too clean
+
+;Size
+2,rather small, <b>{Dice~1d10*10}</b> feet long by <b>{Dice~1d10*10}</b> feet wide and cramped with <b>{Dice~1d5*5}</b> shelves squeezed into the room
+3,rather small, <b>{Dice~1d10*10}</b> feet long by <b>{Dice~1d10*10}</b> feet wide but has a spacious lay-out with <b>{Dice~1d3*3}</b> shelves
+2,rather big, <b>{Dice~2d10*10}</b> feet long by <b>{Dice~2d10*10}</b> feet wide and cramped with <b>{Dice~1d10*10}</b> shelves squeezed into the room
+1,rather large, <b>{Dice~2d10*10}</b> feet long by <b>{Dice~2d10*10}</b> feet wide but has a spacious lay-out with <b>{Dice~1d5*5}</b> shelves
+
+# ------------------------------------------------------
+# Now describe the individual shelves and their contents
+
+;ShelfContent
+3,<b>{Dice~1d10*10}</b> Scrolls.  The scrolls in this section of the shelf seem to [ScrollContent] and the scroll[ScrollCondition]
+2,<b>{Dice~2d6}</b> Books.  Selecting one of these [BookDesc] books from random on the shelf it seem to deal with [BookContent]
+1,a set of <b>{Dice~1d6+1}</b> [TomeDesc] tomes.  Found under the [TomeSection] section, its outer cover is made from [BookDescCover] and it seems to be in [Miscellaneous.General Quality] condition.  The [BookDescPages] pages are [BookDescBinding] and on close examination the tome has the following protection.  [TomeSecure].  [TomeContent].
+
+;ScrollContent
+20,deal mainly with [~Creatures.Humanoid2] poetry, is written in [~Language]
+2,cover Dwarvish armor making.  It seems extremely technical only truly understandible by armorers that can read dwarvish
+10,be diary entries
+5,be a collection of love letters, written mainly in [~Language] and varying in degrees of explicitness
+20,historical records
+2,cover Gnomish inventions.  It seems extremely technical only truly understandible by inventors or tinkers that can read gnomish.  There is a <b>{Dice~1d100}</b> percent chance that if the parties decide to build the "[Contraption]", the contraption will [Buildresult]
+1,be magical [ScrollMagic]
+
+;Language
+5,elvish
+5,common tongue
+5,a foreign language that the parties have only heard of ([~Countries.Countries])
+1,an unknown language
+5,[Miscellaneous.Language]
+
+;ScrollCondition
+1,s crumble to dust when touched
+3,'s writings are faded
+2,'s writings are blotched, almost illegible - it seems that the scroll sustained some water damage at some stage
+1,s seem brand new as if they were written yesterday
+1,'s paper is indelible.  These type of scrolls are generally favored by their owners and thus magically enchanted so as never to rot or suffer faded ink
+
+;Contraption
+1,flying machine
+1,teleportation device
+1,monster summoning machine
+1,wagon-that-moves-without-horses-or-oxen
+1,catapult
+1,battering ram
+1,cooking machine
+1,cleaning machine
+1,water collector machine
+1,ready-to-use-all-in-one-tool
+1,automatic moat digger
+1,gnome flinger
+1,useful-cutting-tool-and-slashing-weapons-blade-sharpener
+1,never-ending ladder
+1,air conditioner
+1,heating-implement-without-any-danger-of-being-burned-or-almost-without-danger
+1,foldable house
+1,foldable cart and horses
+1,all-terrain-vehicule-for-land-water-air
+1,vision tool
+1,cloth cleaning machine
+1,cake machine
+1,apple masher
+1,automatic corkscrew for 10 bottles
+1,everfull inkwell
+1,bird feeder
+1,grass cutter
+1,digging machine
+1,planar messenger
+1,instant messenger
+
+;Buildresult
+6,break appart within <b>{Dice~1d6}</b> rounds
+3,explode - <b>{Dice~2d6}</b> damage to anyone near the contraption
+1,work perfectly (really!)
+
+;ScrollMagic
+3,and contains the first level spell <i>[First]</i>
+4,and contains the second level spell <i>[Second]</i>
+2,and contains the third level spell <i>[Third]</i>
+1,and contains the fourth level spell <i>[Fourth]</i>
+
+:First
+1, Affect Normal Fire
+2, Alarm
+3, Armor
+4, Audible Glamer
+5, Burning Hands
+6, Cantrip
+7, Change Self
+8, Charm Person
+9, Chill Touch
+10, Color Spray
+11, Comprehend Languages
+12, Dancing Lighte
+13, Detect Magic
+14, Detect Undead
+15, Enlarge
+16, Erase
+17, Feather Fall
+18, Find Familiar
+19, Friends
+20, Gaze Reflection
+21, Grease
+22, Hold Portal
+23, Hypnotism
+24, Identify
+25, Jump
+26, Light
+27, Magic Missile
+28, Mending
+29, Message
+30, Mount
+31, Nystul's Magical Aura
+32, Phantasmal Force
+33, Protection from Evil
+34, Read Magic
+35, Shield
+36, Shocking Grasp
+37, Sleep
+38, Spider Climb
+39, Spook
+40, Taunt
+41, Tenser's Floating disk
+42, Unseen Servant
+43, Ventriloquism
+44, Wall of Fog
+45, Wizard Mark
+
+:Second
+1, Alter Self
+2, Bind
+3, Blindness
+4, Blur
+5, Continual Light
+6, Darkness, 15' Radius
+7, Deafness
+8, Deeppockets
+9, Detect Evil
+10, Detect Invisibility
+11, ESP
+12, Flaming Sphere
+13, Fog Cloud
+14, Fool's Gold
+15, Forget
+16, Glitterdust
+17, Hypnotic Pattern
+18, Improved Phantasmal Force
+19, Invisibility
+20, Irritation
+21, Knock
+22, Know Alignment
+23, Leomund's Trap
+24, Levitate
+25, Locate Object
+26, Magic Mouth
+27, Melf's Acid Arrow
+28, Mirror Image
+29, Misdirection
+30, Protection from Cantrips
+31, Pyrotechnics
+32, Ray of Enfeeblement
+33, Rope Trick
+34, Scare
+35, Shatter
+36, Spectral Hand
+37, Stinking Cloud
+38, Strength
+39, Summon Swarm
+40, Tasha's Uncontrollable Hideous Laughter
+41, Web
+42, Whispering Wind
+43, Wizard Lock
+
+:Third
+1, Blink
+2, Clairaudience
+3, Clairoyance
+4, Delude
+5, Dispel Magic
+6, Explosive Runes
+7, Feign Death
+8, Fireball
+9, Flame Arrow
+10, Fly
+11, Gust of Wind
+12, Haste
+13, Hold Person
+14, Hold Undead
+15, Illusionary Script
+16, Infrravision
+17, Invisibility. 10' Radius
+18, Item
+19, Leomund's Tiny Hut
+20, Lightning Bolt
+21, Melf's Minute Meteors
+22, Monster Summoning I
+23, Non-Detection
+24, Phantom Steed
+25, Protection from Evil, 10' Radius
+26, Protection from Normal Missiles
+27, Secret Page
+28, Sepia Snake Sigil
+29, Slow
+30, Spectral Force
+31, Suggestion
+32, Tongues
+33, Vampiric Touch
+34, Water Breathing
+35, Wind Wall
+36, Wraithform
+
+:Fourth
+1, Charm Monster
+2, Confusion
+3, Contagion
+4, Detect Scrying
+5, Dig
+6, Dimension Door
+7, Emotion
+8, Enchanted Weapon
+9, Enervation
+10, Evard's Black Tentacles
+11, Extension I
+12, Fear
+13, Fire Charm
+14, Fire Shield
+15, Fire Trap
+16, Fumble
+17, Hallucinatory Terrain
+18, Ice Storm
+19, Illusionary Wall
+20, Improved Invisibility
+21, Leomund's Secure Shelter
+22, Magic Mirror
+23, Massmorp
+24, Minor Creation
+25, Minor Globe of Invulnerability
+26, Monster Summoning II
+27, Otiluke's Resilient Sphere
+28, Phantasmal Killer
+29, Plant Growth
+30, Polymorp Self
+31, Rainbow Pattern
+32, Rary's Mnemonic Enhancer
+33, Remove Curse
+34, Shadow Monsters
+35, Shout
+36, Solid Fog
+37, Stoneskin
+38, Vacancy
+39, Wall of Fire
+40, Wall of Ice
+41, Wizard Eye
+
+;BookContent
+2,Alchemy, but this notebook[BookDescAlch]
+5,History of [~Countries.Land]
+5,History of [~Town Names.Generate]
+4,Religion and contains several simple prayers to [~Religion.Deities(2)]
+2,a diary of [~Formal Names.Start]
+2,a diary of [NPC Appearance.GenerateQuick2]
+3,local plants and their supposed uses
+3,local creatures and monsters, their description, habits and dangers
+3,the [~Creatures.Fantastic], its description, habits and dangers
+2,a treatise on being an excellent [~Miscellaneous.Class]
+1,a book on [~Miscellaneous.Cloth]
+1,a book to learn [~Miscellaneous.Language]
+2,a book on how to work with [~Miscellaneous.Material]
+1,a book on how to work with [~Miscellaneous.Precious Material]
+3,a book on being a good [~Miscellaneous.Occupations]
+1,a book on how to hold a shop ([~Miscellaneous.Shop])
+1,a book on weapons, mainly [~Miscellaneous.Weapons]
+1,a book on armors, mainly [~Miscellaneous.Armors]
+1,Elvish poetry
+1,a humanitarian's report on the inferiority of [~Creatures.Humanoid] to [~Creatures.Humanoid2]
+1,a humanitarian's report on the superitoiry of [~Creatures.Humanoid2] to [~Creatures.Humanoid]
+2,magic [ScrollMagic]
+
+;BookDescAlch
+3,'s handwriting is too difficult to read and therefore useless
+1,'s experiments are all marked failure in big red letters
+2,'s directions for the experiments seem incomplete and continiously refers to book <b>{Dice~1d6+4}</b> of the set that doesn't seem to be part of the collection on this shelf
+2,'s formulas are almost entirely written in chemical symbols
+1,'s formulas are almost entirely written in chemical symbols.  Fortunately a looseleaf page in the back of the book has translations for all these chemical symbols.  Instructions may be usable if the materials are available.  (Most materials are very rare and very expensive)
+
+;BookDesc
+2,ancient looking
+1,freshly bound
+3,dust covered
+1,mouldy
+
+;Clue
+3,
+1, This book might give the party some clue as to what they are looking for.
+
+;BookDescStart
+6,This [BookDescSize] [BookDescTitle]. The [BookDescPages] pages are [BookDescBinding].  [BookDescValue]. [Clue]
+1,This [BookDescSize] [BookDescTitle]. The [BookDescPages] pages are [BookDescBinding]. In addition, [BookDescSpecial] and [BookDescSpecial].  [BookDescValue]. [Clue]
+3,This [BookDescSize] [BookDescTitle]. The [BookDescPages] pages are [BookDescBinding]. In addition, [BookDescSpecial].  [BookDescValue].  [Clue]
+
+;BookDescTitle
+3,is aptly titled "[~Book Titles.Start]" with covers of [BookDescCover] and is in [~Miscellaneous.General Quality] condition
+2,has the words "[~Book Titles.Start]" engraved in its cover of [BookDescCover] and is in [~Miscellaneous.General Quality] condition
+1,has the name "[~Book Titles.Start]" magically enscribed with covers of [BookDescCover] and is in [~Miscellaneous.General Quality] condition
+
+;BookDescSize
+2,hefty tome
+2,thick work
+1,thin volume
+5,average sized book
+
+;BookDescCover
+25,deerhide
+3,[~Creatures.Humanoid2] skin stretched over thin wood
+40,leather
+5,polished metal ([~Miscellaneous.Metal])
+1,[~Miscellaneous.Color] scales stretched over thin wood
+1,thin wood ([~Miscellaneous.Wood])
+
+;BookDescPages
+1,dried [~Miscellaneous.Humanoid2] skin
+20,parchment
+5,stamped metal ([~Miscellaneous.Metal])
+10,vellum
+
+;BookDescBinding
+2,bound with metal rings
+4,loose
+4,sewn into the spine
+5,unbound, but wrapped with a hemp cord
+5,unbound, but wrapped with a leather cord
+
+;BookDescSpecial
+1,the book bears a small metal lock
+1,the book is in a case of stained wood ([~Miscellaneous.Wood])
+1,the book is in a locked case
+1,the book is wrapped in a dirty cloth ([~Miscellaneous.Cloth])
+1,the book is wrapped in a velvet cloth ([~Miscellaneous.Cloth])
+1,the covers are capped with metal corner pieces
+1,the covers have runes carved around their edges
+1,there is a picture of a castle on the cover
+1,there is a picture of a skull on the cover
+1,there is an odd, geometric pattern on the cover
+5,there is {AorAn~[~Rune Generator.GenRune]} on the cover
+
+;BookDescValue
+1,Anybody could guess the book's worth to be about <b>{Dice~2d8*50}</b> gold crowns
+1,Somebody with the appropriate skill would vaulue it at around <b>{Dice~2d8*50}</b> gold crowns
+1,Any thief would tell you that it'll be worth <b>{Dice~2d8*50}</b> gold crowns in your hands
+1,A bard can tell you that this book was looking for an owner and the owner would pay a handsome <b>{Dice~2d8*50}</b> gold crowns for it!
+
+;TomeDesc
+2,dust covered
+2,ancient looking
+1,roach ridden
+1,mouldy
+
+;TomeSection
+1,Magic Specialization |A=[MagicSpec]|
+1,Demonology  |A=[Demons]|
+1,Religion & Worshipping |A=[Religion]|
+1,Nature |A=[Nature]|
+1,General Magic |A=[MagicGen]|
+
+;TomeSecure
+2,The tome is secured by <b>{Dice~1d4+1}</b> locks.  When a successful check is made by the party it will reveal that it consists of [Locktype]
+2,The tome is protected by <b>{Dice~1d4+1}</b> spells.  When <i>detect magic</i> and <i>identify</i> spells are cast on the tome it will reveal that [Lockspell] has been casted on it.
+1,The tome is protected by <b>{Dice~1d3+1}</b> locks and <b>{Dice~1d3+1}</b> spells.  When a successful check is made by the party it will reveal that the locks consists of [Locktype] and when <i>detect magic</i> and <i>identify</i> spells are cast on the tome it will reveal that [Lockspell] has been casted on it.
+
+;Locktype
+5,a simple key lock 
+3,a hidden lock, where part of the design on the front of the cover must first be pressed to release the catch 
+3,a combination dial lock 
+2,a hidden combination lock, that requires spots on the cover design to be pressed in sequence to release the catch 
+2,a hidden combination lock, that requires spots on the cover design to be pressed in sequence to reveal a key hole 
+1,a word lock, that required the name of the tome or some other word to be spoken to realease the catch 
+
+;Lockspell
+1,delayed fireballs 
+1,vampiric touch spells
+1,ghoul touch spells
+1,chill touch spells
+1,lightning spells
+1,cone of cold spells
+
+;TomeContent
+1,The book contains a host of spells relating to %A%.
+
+;MagicSpec
+1,Invocation and includes <i>Flaming Sphere (2nd), Fireball (3rd), Melf's Minute Meteors (3rd), Fire Shield (4th), Fire Trap (4th), Wall of Fire (4th), Delayed Blast Fireball (7th), Incendiary Cloud (8th) and Meteor Swarm (9th)</i>
+1,Invocation and includes <i>Shield (1st), Otiluke's Resilient Sphere (4th), Bigby's Interposing Hand (5th), Wall of Force (5th), Bigby's Forceful Hand (6th), Guards and Wards (6th) and Forcecage (7th)</i>
+1,Necromancy and includes <i>Chill Touch (1st), Detect Undead (1st), Spectral Hand (2nd), Feign Death (3rd), Hold Undead (3rd), Vampiric Touch (3rd), Contagion (4th), Enervation (4th), Animate Dead (5th), Magic Jar (5th), Summon Shadow (5th), Death Spell (6th), Reincarnation (6th), Control Undead (7th), Finger of Death (7th), Clone (8th) and Energy Drain (9th)</i>
+1,Illusions and includes <i>Change Self (1st), Blur (2nd), Invisibility (2nd), Illusionary Script (3rd), Invisibility, 10-foot Radius (3rd), Hallucinatory Terrain (4th), Illusionary Wall (4th), Improved Invisibility (4th), Minor Creation (4th), Advanced Illusion (5th), Mirage Arcana (6th), Mislead (6th), Permanent Illusion (6th), Programmed Illusion (6th), Project Image (6th) and Mass Invisibility (7th)</i>
+
+;Religion
+1,Divination and includes <i>Detect Magic (1st), Detect Poison (1st), Detect Snares & Pits (1st), Locate Animals or Plants (1st), Augury (2nd), Detect Charm (2nd), Find Traps (2nd), Know Alignment (2nd), Speak With Animals (2nd), Locate Object (3rd), Speak With Dead (3rd), Detect Lie (4th), Divination (4th), Reflecting Pool (4th), Tongues (4th), Commune (5th), Commune With Nature (5th), Magic Font (5th), True Seeing (5th), Find the Path (6th) and Speak With Monsters (6th)</i>
+1,Necromacy and includes <i>Invisibility to Undead (1st), Aid (2nd), Animate Dead (3rd), Cure Blindness or Deafness (3rd), Cure Disease (3rd), Feign Death (3rd), Negative Plane Protection (3rd), Raise Dead (5th), Regenerate (7th), Reincarnate (7th), Restoration (7th) and Resurrection (7th)</i>
+1,Protection and includes <i>Endure Cold/Endure Heat (1st), Protection From Evil (1st), Sanctuary (1st), Resist Fire/Resist Cold (2nd), Withdraw (2nd), Dispel Magic (3rd), Magical Vestment (3rd), Negative Plane Protection (3rd), Protection From Fire (3rd), Protection From Evil, 10-foot Radius (4th), Protection From Lightning (4th), Spell Immunity (4th) and Dispel Evil (5th)</i>
+1,Healing and includes <i>Cure Light Wounds (1st), Slow Poison (2nd), Cure Serious Wounds (4th), Neutralize Poison (4th), Cure Critical Wounds (5th) and Heal (6th)</i>
+
+;Nature
+1,Plants and includes <i>Entangle (1st), Pass Without Trace (1st), Shillelagh (1st), Barkskin (2nd), Goodberry (2nd), Trip (2nd), Warp Wood (2nd), Plant Growth (3rd), Snare (3rd), Spike Growth (3rd), Tree (3rd), Hallucinatory Forest (4th), Hold Plant (4th), Plant Door (4th), Speak With Plants (4th), Sticks to Snakes (4th), Anti-Plant Shell (5th), Pass Plant (5th), Liveoak (6th), Transport Via Plants (6th), Turn Wood (6th), Wall of Thorns (6th) and Changestaff (7th)</i>
+1,Animals and includes <i>Animal Friendship (1st), Invisibility to Animals (1st), Locate Animals or Plants (1st), Charm Person or Mammal (2nd), Messenger (2nd), Snake Charm (2nd), Speak With Animals (2nd), Hold Person (2nd), Hold Animals (3rd), Summon Insects (3rd), Animal Summoning I (4th), Call Woodland Beings (4th), Giant Insect (4th), Repel Insects (4th), Animal Growth (5th), Animal Summoning II (5th),Animal Summoning III (6th), Anti-Animal Shell (6th) and Creeping Doom (7th)</i>
+1,Elements and includes <i>Create Water (1st), Dust Devil (2nd), Heat Metal (2nd), Produce Flame (2nd), Meld Into Stone (3rd), Protections From Fire (3rd), Pyrotechnics (3rd), Stone Shape (3rd), Water Breathing (3rd), Water Walk (3rd), Lower Water (4th), Produce Fire (4th), Air Walk (5th), Commune with Nature (5th), Spike Stones (5th), Transmute Rock to Mud (5th), Wall of Fire (5th), Conjure Fire Elemental (6th), Fire Seeds (6th), Part Water (6th), Stone Tell (6th), Transmute Water to Dust (6th), Animate Rock (7th), Chariot of Sustarre (7th), Conjure Earth Elemental (7th), Earthquake (7th), Fire Storm (7th), Transmute Metal to Wood (7th) and Wind Walk (7th)</i>
+
+;MagicGen
+1,spells of the famous Bigby and includes <i>Bigby's Interposing Hand (5th), Bigby's Forceful Hand (6th), Bigby's Grasping Hand (7th), Bigby's Clenched Fist (8th) and Bigby's Crushing Hand (9th)</i>
+1,spells of the famous Leomund that includes <i>Leomund's Tiny Hut (3rd), Leomund's Secure Shelter (4th),Leomund's Secret Chest (5th) and Leomund's Lamentable Belaborment (5th)</i>
+1,spells of the famous Mordenkainen that includes <i>Mordenkainen's Lucubration (6th), Mordenkainen's Magnificent Mansion (7th), Mordenkainen's Sword (7th) and Mordenkainen's Disjunction (9th)</i>
+1,spells of the famous Tenser, Melf and Otiluke that includes <i>Tenser's Floating Disc (1st), Tenser's Transformation (6th), Melf's Minute Meteors (3rd), Otiluke's Resilient Sphere (4th), Otiluke's Freezing Sphere (6th) and Otiluke's Telekinetic Sphere (8th)</i>
+1,spells of some famous wizards that include <i>Nystul's Magical Aura (1st), Rary's Mnemonic Enhancer (4th), Drawmij's Instant Summons (7th), Tasha's Uncontrollable Hideous Laughter (2nd) and Otto's Irresistible Dance (8th)</i>
+
+;Demons
+1,clerical spells regarding Summoning and includes <i>Abjure (4th), Animal Summoning I (4th), Call Woodland Beings (4th), Animal Summonings II (5th), Dispel Evil (5th), Aerial Servant (6th), Animal Summoning III (6th), Animate Object (6th), Conjure Animals (6th), Wall of Thorns (6th), Weather Summoning (6th), Word of Recall (6th), Conjure Earth Elemental (7th), Creeping Doom (7th), Exaction (7th), Gate (7th) and Succor (7th)</i>
+1,magical spells regarding Summoning and includes <i>Find Familiar (1st), Mount (1st), Unseen Servant (1st), Summon Swarm (2nd), Monster Summoning I (3rd), Phantom Steed (3rd), Evard's Black Tentacles (4th), Monster Summoning III (5th), Mordenkainen's Faithful Hound (5th), Summon Shadow (5th), Conjure Animals (6th), Invisible Stalker (6th), Monster Summoning IV (6th), Drawmij's Instant Summons (7th), Monster Summoning V (7th), Monster Summoning VI (8th), Trap the Soul (8th), Gate (9th) and Monster Summoning VII (9th)</i>
+
+;Special
+2,In the one corner of the library, you find a dimly lit desk hidden under scores of books.
+2,In the one corner of the library, you find a dimly lit desk with nothing on it.
+2,In the one corner of the library, you find a dimly lit desk hidden under scores of books.  One of these catches you attention and you examine it more closely.  [BookDescStart]
+4,In the corner of the library you find a lectern with this openend book on it: <br>[Book Descriptions.Start]
+1,After extensive poking and prodding, someone in the party released a catch that activates a secret door to another room further into the library.
+

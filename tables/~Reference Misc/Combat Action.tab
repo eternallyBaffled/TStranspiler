@@ -1,0 +1,215 @@
+# ------------------------------------------------------
+# Last Update: modified by Valminder August 28, 2017.
+# ------------------------------------------------------
+#
+# GM Tools: Combat Actions
+#
+# http://www.d20zines.com/v7/node/1524
+# Submitted by Ghostwind on Fri, 2005-05-13 16:03. GM's Perspective 
+# By Connors<
+#
+# Alternative Combat Actions
+#
+# This table simply keeps track of the many options available in a combat.
+# Often the GM is handling several NPCs/monsters at once and has little time
+# to check the actions available to each of them. By having a copy of this
+# table handy a GM can roll randomly and see what comes up. If the creature
+# cannot perform the action rolled or the result just does not make sense,
+# then fall back to the normal attack methods of the creature (which is#
+# described below and is NOT included in the table).
+#
+# Normal attack: 
+#    Just attack using the creatures normal attack mode. This may involve
+#    casting a spell or making use of an important feat, but generally means
+#    an attack using the creature's favoured weapon.
+#
+# Also keep in mind, this table cannot possibly cover all of the options
+# available to all creatures, and when it makes sense for a creature to use
+# its special abilities, feats and magical capabilities then just choose the
+# best option available and/or most likely power. This is just for a DM who
+# wishes to add a little spice to combats on the fly (or needs a quick
+# reference reminder of what alternative actions are available).
+# The alternative actions are summarized below in the table and the third
+# column indicates whether this action alone promotes an attack of
+# opportunity from any threatening creatures. This is for the action only,
+# not any movement that accompanies the action. There are also feats and
+# class powers that eliminate several chances for attacks of opportunity.
+#
+# ---------------------------------------------------------------------------
+# Created by Valminder, September 2007.
+#    Added links to:
+#       Dwarven Battle Cries.tab
+#       INSULTS Dwarven.tab
+#       INSULTS Shakespearean.tab
+# Modified by Valminder, Jan 2008.
+#    Added some variant combat options.
+# Modified by Valminder, Aug 2017.
+#    Added "Show" and "Version" variables/Parameters.
+#
+
+%Rule3E%,0
+%RulePF%,0
+%Show%,0
+%Version%,0
+
+# Parameter Choices:
+@Show,1,Show rule,Yes,No,Add a link
+@Version,1,What version of d20 do you use?,LOAD from Permanent Variables,3.5,Pathfinder
+
+:Start
+1,{Status~Original idea by Connors 2005, Valminder 2007}
+_[Generate]
+
+;Tab
+1,{Loop~5,&nbsp;}
+
+:VersionNeeded
+1,{If~%Version%=1?|Version=[Permanent_Variables.Version]|}
+
+# ---------------------------------------------------------------------------
+
+:Generate
+1,[VersionNeeded]|Rule3E=NO||RulePF=NO|[Generate2]
+#_{If~%Show%=1?{If~%Version%=2?{If~{Length~%Rule3E%}>5?[Rule3E]/}/{If~{Length~%RulePR%}>5?[RulePF]/}}
+_{If~%Show%=1?{If~%Version%=2?{If~%Rule3E%!=NO?[Rule3E]}/{If~%RulePF%!=NO??[RulePF]}}
+#_/{If~%Show%=3?[Tab]{If~%Version%=2?{If~{Length~%Rule3E%}>5?{Generate~0,Click to show rule,Rule3E}}/{If~{Length~%RulePR%}>5?{Generate~0,Click to show rule,RulePF}}}}
+_/{If~%Show%=3?[Tab]{If~%Version%=2?{If~%Rule3E%!=NO?{Generate~0,Click to show 3E rule,Rule3E}}/{If~%RulePF%!=NO?{Generate~0,Click to show PF rule,RulePF}}}}
+_}
+
+:Rule3E
+1,<br><br>%Rule3E%
+
+:RulePF
+1,<br><br>%RulePF%
+
+;Generate2
+50,<b>Normal attack or Full Attack, Cast a spell, Use a feat or special ability</b>
+#
+4,<b>Aid Another (Attack)</b>
+_|Rule3E=The creature targets an enemy in combat with an ally. Roll vs DC 10, if successful, ally gains a +2 attack bonus vs that opponent for the next attack._<br>[Tab]<b>AoO:</b>  NO (But YES if aiding an action that promotes AoO)|
+_|RulePF=%Rule3E%|
+#
+4,<b>Aid Another (Defense)</b>
+_|Rule3E=The creature targets an enemy in combat with an ally. Roll vs DC 10, if successful, ally gains a +2 AC bonus vs that opponent's next attack.<br>[Tab]<b>AoO:</b>  NO (But YES if aiding an action that promotes AoO)|
+_|RulePF=%Rule3E%|
+#
+2,<b>Bullrush</b> 
+_|Rule3E=NPC tries to push opponent back. Move into foe's square. Opposed Strength checks (+4 per size larger than medium, -4 for each size below). Defender also gets +4 if has several legs or is stable. Attacker +2 for charge.<br><u>Success</u> =</font> push back 5ft. (+5ft for every 5 points that attacker won opposed roll, but attacker has to follow).<br><u>Fail</u> =</font>  attacker 5ft back; if this is occupied then fall prone.<br>[Tab]<b>AoO:</b>  YES (+ from others. Though 25/% of targeting wrong target)|
+# /%
+_|RulePF=Attempt to push opponent straight back without doing harm.<br>STANDARD (CMB, +2 on charge), max 1 size larger, cannot bullrush into object.<br>Success: pushed back 5' + 5'/additional 5 DC. Can move if MV available. Target(s) don't provoke AO.<br>Failure: your MV ends in front of the target.<br>Push target in another creature: bull rush at -4 / creature beyond the first). Can continue pushing for a total distance equal to the lower result.<br>House Rule: +4 with a tower shield, +2 with a heavy shield, +0 with a small shield.<br>[Tab]<b>AoO:</b>  YES|
+# /%
+8,<b>Charge</b> 
+_|Rule3E=The creature lines up the best possible foe for a charge. Must move at least 2 squares in a straight line, can move up to double speed. Single attack +2, but suffer -2 AC until next turn. This is likely to become an Overrun attack if mounted.<br>[Tab]<b>AoO:</b>  NO|
+_|RulePF=%Rule3E%|
+#
+2,<b>Cry/Insult</b><br>
+_[Tab][~CryInsult]<br>followed by [Generate]
+#
+2,<b>Delay</b> 
+_|Rule3E=The NPC simply waits for something else to happen and acts at a later time determined by the DM. Perhaps it awaits for an opening in opponent's defense or for allies to join, or even for a better route of escape.<br>[Tab]<b>AoO:</b>  NO|
+_|RulePF=%Rule3E%|
+#
+# RENDU ICI
+2,<b>Demoralize Opponent</b> 
+_|Rule3E=Using Intimidate skill NPC tries to dent opponent's resolve. Must be threatening this opponent. Intimidate check vs opponent's resolve (d20 + level or HD + Wis bonus + any save bonus vs fear effects).<br><u>Success</u> =</font> opponent is shaken (-2 att, ability checks & saves) for 1 round. This is a standard action.<br>[Tab]<b>AoO:</b>  NO|
+_|RulePF=%Rule3E%|
+#
+3,<b>Disarm</b> 
+_|Rule3E=Opposed attacks rolls. (+4 for two-handed weapons, -4 for light weapons. +4 per size difference to larger creature. -4 for to defender if targeted item isn't melee weapon).<br><u>Success</u> =</font> item falls to ground (or in attackers hand if they were unarmed).<br><u>Fail</u> =</font>  opponent may immediately make disarm attack on initiator - no AoO.<br>[Tab]<b>AoO:</b>  YES (& if AoO successful, ends disarm attempt)|
+_|RulePF=%Rule3E%|
+#
+2,<b>Feint</b> 
+_|Rule3E=Using the Bluff skill the NPC tries to eliminate its opponents dodging ability. NPC's Bluff check must beat targets Sense Motive skill check + Base Attack.<br><u>Success</u> =</font> opponent loses Dexterity bonus to AC for NPC's next attack (if within a round of feint).<br>Feinting is a standard action and is harder vs nonhumanoids (-4) and even more so vs animals of Intelligence 1 or 2 (-8).<br>[Tab]<b>AoO:</b>  NO|
+_|RulePF=%Rule3E%|
+#
+3,<b>Fight Defensively</b> 
+_|Rule3E=-4 on all attacks, +2 dodge bonus to AC for round (+3 if 5+ ranks of Tumble).<br>[Tab]<b>AoO:</b>  NO|
+_|RulePF=%Rule3E%|
+#
+2,<b>Forfeit Attack for Extra Attacks of Opportunity</b> 
+_|Rule3E=This requires the use of a Cellworld House Rule. Any NPC who takes this action is considered readied and at any time later in the round may make up to twice the number of attacks forfeited in normal attacks as attacks of opportunity. This is a full attack action and no other action can take place, including a 5ft step, as the character is simply awaiting the enemy to come to or pass them. Any action, including a 5ft movement nullifies all benefits of this rule.<br>[Tab]<b>AoO:</b>  NO|
+_|RulePF=%Rule3E%|
+#
+2,<b>Grab item off foe</b> 
+_|Rule3E=As disarm (below) though attacker ends up with item, and opponent cannot disarm back if attempt fails. +4 to attackers opposed roll if item is loosely attached or poorly secured. Cannot take well-secured items, such as a ring.<br>[Tab]<b>AoO:</b>  YES (& if AoO successful, ends grab attempt)<br><br><b>Disarm:</b> Opposed attacks rolls. (+4 for two-handed weapons, -4 for light weapons. +4 per size difference to larger creature. -4 for to defender if targeted item isn't melee weapon).<br><u>Success</u> =</font> item falls to ground (or in attackers hand if they were unarmed).<br><u>Fail</u> =</font>  opponent may immediately make disarm attack on initiator - no AoO.|
+_|RulePF=%Rule3E%|
+#
+4,<b>Grapple</b> 
+_|Rule3E=First must make melee touch attack to grab. Then opposed grapple checks to establish hold. Deals damage and other actions possible. Note that other allies are likely to join in a grapple if someone initiates it.<br>[Tab]<b>AoO:</b>  YES (& if AoO successful, ends grab attempt)|
+_|RulePF=%Rule3E%|
+#
+3,<b>Help/Heal an ally</b> 
+_|Rule3E=The NPC takes time to move to an ally and heal them or help them in some other way (possibly with the Aid Another action below, if no allies are yet hurt). If ally is hurt they use magical healing if possible or a first aid Heal check, DC15.<br>[Tab]<b>AoO:</b>  Possibly (Heal checks = Yes)<br><br><b>Aid Another (Attack):</b> Targets an enemy in combat with an ally. Roll vs DC 10, if successful, ally gains a +2 attack bonus vs that opponent for the round.<br><b>Aid Another (Defense):</b> Targets an enemy in combat with an ally. Roll vs DC 10, if successful, ally gains a +2 AC bonus vs that opponent for the round.<br>[Tab]<b>AoO:</b>  NO (But YES if aiding an action that promotes AoO)|
+_|RulePF=%Rule3E%|
+#
+6,<b>Inventive attack/use environment</b> 
+_|Rule3E=With a little cinematic action the creature performs a non-standard action. They may interact with the environment, such as jumping up, grabbing a branch and then kicking opponent with both feet. They may kick a barrel or chair at opponents. Kick or throw sand or liquid into foe's eyes. Use whatever is available to the creature, or they may even throw their weapon, even if it is not suited for ranged attacks (-4 att).<br>[Tab]<b>AoO:</b>  NO|
+_|RulePF=%Rule3E%|
+#
+2,<b>Look for Enemy's Weakness</b> (This option uses a couple of Cellworld House Rules).
+_|Rule3E=The NPC either studies their opponent's fighting method or its anatomy and looks for a weak spot. The first involves the NPC to observe their opponent in combat for 3 rounds. (The NPC can only observe a direct opponent by using the Total Defense action for three rounds - ie the observer cannot make attacks in this time, but they may make a move action if not involved in combat). At the end of three rounds they make a Knowledge (fighting styles) check vs opponent's level check (d20 + level or HD). <br><u>Success</u> =</font> +4 attack or dodge AC bonus vs that opponent for the first attack against target. The second option requires a Heal check DC 25 to select a weak spot in an enemy's anatomy and current position. This is a standard action and <br><u>Success</u> =</font> +1 dmg, +1 dmg per 5 points over 25, if the attack is made upon the target within 1 round.<br>[Tab]<b>AoO:</b>  NO|
+_|RulePF=%Rule3E%|
+#
+5,<b>Move/Run/Tumble into better <u>defensive</u> position</b> 
+_|Rule3E=The NPC moves into an advantageous <u>defensive</u> position (possibly after attacking), such as to cover, placing something between them and enemy, or just taking a 5ft step backwards. As the creature is thinking of defence it will likely move in a manner to avoid attacks of opportunity and may even use the Withdraw action. Don't forget to use the Tumble skill if the creature has ranks in it. (Move half-speed through threatened squares DC15, through occupied square DC25, to avoid attacks of opportunity).<br>[Tab]<b>AoO:</b>  Possibly|
+_|RulePF=%Rule3E%|
+#
+5,<b>Move/Run/Tumble into better <u>offensive</u> position</b> 
+_|Rule3E=The NPC moves into an advantageous <u>attacking</u> position, such as flanking. If intelligent it may avoid attacks of opportunity, otherwise it simply gets there the quickest way it can. Don't forget to use the Tumble skill if the creature has ranks in it. (Move half-speed through threatened squares DC15, through occupied square DC25 to avoid attacks of opportunity).<br>[Tab]<b>AoO:</b>  Possibly|
+_|RulePF=%Rule3E%|
+#
+3,<b>Negotiate</b> 
+_|Rule3E=The NPC tries to negotiate with its opponents. Use Diplomacy if this is a genuine attempt at peace, or Bluff if the NPC is merely looking for extra time or the chance to strike later on when opponents are off-guard. (Bluff checks generally take 1 round and a Diplomacy check can be made as a full round action at -10). The NPC can also offer clues or boast about its "glorious" deeds.<br>[Tab]<b>AoO:</b>  NO|
+_|RulePF=%Rule3E%|
+#
+3,<b>Non-lethal damage</b> 
+_|Rule3E=For some reason the NPC attempts to knock its foe out rather than kill it outright. This usually involves a -4 penalty to attack, and all damage is non-lethal.<br>[Tab]<b>AoO:</b>  NO|
+_|RulePF=%Rule3E%|
+#
+2,<b>Overrun</b> 
+_|Rule3E=Opponent may wish to avoid. If they don't attacker must make a Strength check vs defender's Strength OR Dexterity. (+4 per size above medium, -4 per size below. Attacker +2 if part of a charge, defender +4 for extra legs or stability).<br><u>Success</u> =</font> defender is prone & can continue movement.<br><u>Fail</u> =</font>  defender gets chance to knock attacker prone, as above (though no AoO).<br>If mounted mount makes the check and can do extra damage with the Trample feat.<br>[Tab]<b>AoO:</b>  YES|
+_|RulePF=%Rule3E%|
+#
+3,<b>Ready Action</b> 
+_|Rule3E=This is a common action used by player's characters, but can easily be forgotten by GM's in a large battle. The NPC readies an action such as: attack opponent that enters threatened square, sets piercing weapon vs charging opponents, readies ranged or regular attack to distract a spell caster, or even readies a counterspell if a spell caster.<br>[Tab]<b>AoO:</b>  NO|
+_|RulePF=%Rule3E%|
+#
+2,<b>Smash</b> 
+_|Rule3E=-4 on all melee attacks, +2 all melee damage for one round.<br>[Tab]<b>AoO:</b>  NO|
+_|RulePF=%Rule3E%|
+#
+3,<b>Sunder item</b> 
+_|Rule3E=The NPC tries to destroy a valuable item held/carried by its foe. (If there is no obvious choice then it targets its foes shield or armor). Item's AC = 10 + size mod + Dex mod of character carrying/wearing item.<br>[Tab]<b>AoO:</b>  YES|
+_|RulePF=%Rule3E%|
+#
+3,<b>Sunder weapon</b> 
+_|Rule3E=The NPC tries to destroy its foe's weapon. Opposed attack rolls. +4 bonus per size difference & +4 if using two-handed weapon. (-4 of light).<br>[Tab]<b>AoO:</b>  YES|
+_|RulePF=%Rule3E%|
+#
+3,<b>Total Defense</b> 
+_|Rule3E=NPC focuses solely on defense, gaining +4 dodge bonus to AC for 1 round (+6 if 5+ ranks of Tumble). Standard action. Cannot make attacks of opportunity for the round.<br>[Tab]<b>AoO:</b> NO|
+_|RulePF=%Rule3E%|
+#
+5,<b>Trip/Takedown</b> 
+_|Rule3E=Creature attempts to put its foe on the ground. Melee touch attack, then Strength check vs defender's Strength OR Dexterity check. (+4 per size category above medium, -4 per size below. Defender gains +4 for extra legs or stability).<br><u>Success</u> =</font> opponent prone.<br><u>Fail</u> =</font>  opponent gains a trip attack back on attacker (as outlined above, but no AoO).<br>Note: if an appropriate weapon was used for attack opponent does not receive attack of opportunity and weapon may be dropped in place of going prone should the defender succeed in tripping the attacker.<br>[Tab]<b>AoO:</b> YES (NO with appropriate weapon)|
+_|RulePF=%Rule3E%|
+#
+2,<b>Two-weapon fighting</b> 
+_|Rule3E=If possible the NPC draws a second weapon and tries to fight with both. Normal penalties to attack; -6 primary hand, -10 off hand. These are reduced by 2 if off hand weapon is light, or further with appropriate feats.<br>[Tab]<b>AoO:</b> NO|
+_|RulePF=%Rule3E%|
+#
+3,<b>Unarmed attack</b> 
+_|Rule3E=Creature may punch or even kick opponent. (50/% chance combined with two-weapon fighting). Damage is non-lethal (unless attacker has special feats or powers).<br>[Tab]<b>AoO:</b> YES|
+# /%
+_|RulePF=%Rule3E%|
+#
+2,<b>Withdraw</b> 
+_|Rule3E=As a full-rond action, the creature may move up to twice its base movement and does not draw attacks of opportunities from the 1st square it left. Cannot work if blinded, not against invisible targets.<br>[Tab]<b>AoO:</b> Maybe.|
+_|RulePF=%Rule3E%|
+
+# ---------------------------------------------------------------------------
+
+;CryInsult
+1,[Dwarven Battle Cries.Generate]
+1,[INSULTS Dwarven.Generate]
+1,[INSULTS Shakespearean.Generate]

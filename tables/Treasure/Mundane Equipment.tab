@@ -1,0 +1,964 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder May 23, 2018.
+# ---------------------------------------------------
+#
+# 3rd Edition D&D Mundane Equipment Generator
+# by Larry Cormier
+#
+# -------------------------------------------------------------------------
+#
+# To call this table from another one:
+#    [Mundane Equipment.Start(%Class%,2,%ENC_URE% usually 2,%Race%,%CharacterLevel%,%MountedCombat%,%ExpertTypeCode%)
+#
+# -------------------------------------------------------------------------
+#
+# If you add something new, search for:
+#    Class : ### NEW CLASS ###
+#    Race  : ### NEW RACE ###
+#
+# -------------------------------------------------------------------------
+#
+#    Class : ### NEW CLASS ###
+#    Class:              17   1=Fighter  2=Barbarian  3=Bard  4=Cleric
+#                             5=Druid  6=Monk  7=Paladin  8=Ranger  9=Rogue
+#                             10=Sorcerer  11=Wizard  12=Adept  13=Aristocrat
+#                             14=Commoner  15=Expert  16=Warrior  17=Random
+#    Instructions:        2   1=Yes, 2=No
+#    ENC_URE              2   --- DO NOT MODIFY ---- Used with ENC Ultimate Random Encounters
+#                             1=ENC_URE   2=Normal   3=NPC Stat Block Pathfinder
+#    Race  : ### NEW RACE ###
+##   Race:               20   Please choose a Race (Groups are usually random, unless RaceGroup parameter is modified)
+#                             1=Human  2=Dwarf  3=Elf  4=Gnome  5=Half-Elf  6=Half-Orc  7=Halfling
+#                             8=Aasimar  9=Drow  10=Drow Noble  11=Duergar  12=Goblin  13=Hobgoblin  14=Kobold  15=Merfolk  16=Orc  17=Svirfneblin  18=Tengu  19=Tiefling
+#                             20=RANDOM
+#    CharacterLevel:     99   ---- DO NOT MODIFY ---- Used with NPC Stat Block Pathfinder and ENC URE
+#    MountedCombat:      No   ---- DO NOT MODIFY ---- Used with NPC Stat Block Pathfinder and ENC URE
+#    ### NEW CLASS ### Expert (New Type)
+#    ExpertTypeCode:      1   ---- DO NOT MODIFY used with NPC Stat Block Pathfinder (from UltNPC1)
+#                             1=Random    2=Standard    3=Blacksmith    4=Courtesan  5=Fence
+#                             6=Jeweller  7=Pawnbroker  8=Sage_Scholar  9=Locksmith 10=Merchant
+#    Subrace:            99   DO NOT MODIFY: Used with "NPC Stat Block Pathfinder"
+#
+# -------------------------------------------------------------------------
+# This table is called by:
+#    "NPC Stat Block v3_5"
+#    NPC Stat Block Pathfinder.tab
+#
+# -------------------------------------------------------------------------
+#
+# This Table Links to these tables as required:
+#    Creatures.Familiar Rare
+#    Equipment.MiscItems Output
+#    Equipment.Musical Instruments Output
+#    Horse Generator.Alternate_ENC_URE
+#    Miscellaneous.Color
+#    Miscellaneous.ColorCommonNoType
+#    Miscellaneous.ColorNoType
+#    Miscellaneous.Size
+#    NPC Appearance.ClothingClean
+#    NPC Appearance.Clothing Meaning
+#    Religion.Deities2
+#    Riding Dog Generator.Alternate_ENC_URE
+# 
+# -------------------------------------------------------------------------
+# Modified by Valminder, July  2006.
+#    Adapted for TSv5.
+#    Fixed so the right class name appears using {Param~}.
+#    Added link to:
+#       Equipment.MiscItems
+#       Equipment.Musical Instruments
+# Modified by Valminder, July  2006.
+#    Added "Alternate" subtable for "ENC Ultimate Random Encounters" tables.
+#    Added new parameter "ENC_URE" for use with the above table.
+#    Added a way to generate a mount
+# Modified by Valminder, Jan 2017.
+#    Added a way to generate a mount for NPCs with Mounted Combat (NPC Stat Block Pathfinder).
+#    Added CharacterLevel + Race parameter
+# Modified by Valminder, Mar 2018.
+#    Modified links to generate mounts.
+#
+
+### TEST ###
+%Test%,0
+
+# Declare Variables
+%Instructions%,1
+%CharacterLevel%,99
+%Class%,12
+%Cost%,0
+%ExpertTypeCode%,0
+%Race%,8
+%TempNumber%,0
+%EquipmentString%,0
+%ENC_URE%,0
+%Item%,0
+%Mount%,0
+%MountCost%,0
+%MountSize%,5
+%MountedCombat%,0
+%ShowWt%,0
+%Size%,0
+%Subrace%,0
+%Transportation%,0
+%Temp%,0
+%Temp1%,0
+%Temp2%,0
+%TempEQ%,0
+%TotalCost%,0
+%TotalWeight%,0
+%TotalMountWeight%,0
+%Wt%,0
+
+# Parameter Display Lists:
+### NEW CLASS ### Change for Random
+@Class,17,Please choose a Class,Fighter,Barbarian,Bard,Cleric,Druid,Monk,Paladin,Ranger,Rogue,Sorcerer,Wizard,Adept,Aristocrat,Commoner,Expert,Warrior,Random
+@Instructions,2,Would you like to re-show the Instructions?,Yes,No
+@ENC_URE,2,---- DO NOT MODIFY ---- Used with ENC Ultimate Random Encounters (1=ENC_URE 2=Normal 3=NPC Stat Block Pathfinder),ENC_URE,Normal,NPC Stat Block Pathfinder
+# PFCore: 1=Human  2=Dwarf  3=Elf  4=Gnome   5=Half Elf  6=Half Orc   7=Halfling  
+# PFB1:   8=Aasimar  9=Drow  10=Drow Noble  11=Duergar  12=Goblin  13=Hobgoblin  14=Kobold  15=Merfolk  16=Orc  17=Svirfneblin  18=Tengu  19=Tiefling
+# 20=RANDOM
+@Race,8,Please choose a Race (Groups are Random),Human,Dwarf,Elf,Gnome,Half Elf,Half Orc,Halfling,Aasimar,Drow,Drow Noble,Duergar,Goblin,Hobgoblin,Kobold,Merfolk,Orc,Svirfneblin,Tengu,Tiefling,Random
+@CharacterLevel,99,---- DO NOT MODIFY ---- Used with NPC Stat Block Pathfinder and ENC URE
+@MountedCombat,No,---- DO NOT MODIFY ---- Used with NPC Stat Block Pathfinder and ENC URE
+### NEW CLASS ### Expert (New Type)
+# 1=Random    2=Standard    3=Blacksmith    4=Courtesan  5=Fence
+# 6=Jeweller  7=Pawnbroker  8=Sage_Scholar  9=Locksmith 10=Merchant
+@ExpertTypeCode,1,Expert type --- DO NOT MODIFY used with NPC Stat Block Pathfinder (from UltNPC1).,Random,Standard,Blacksmith,Courtesan,Fence,Jeweller,Pawnbroker,Sage_Scholar,Locksmith,Merchant
+@ShowWt,1,Show item's weight in output?,Yes,No
+@Subrace,99,DO NOT MODIFY: Used with "NPC Stat Block Pathfinder"
+
+:Start
+1,{If~%Instructions%=1?[Instructions]/[Variables][Start2=%ENC_URE%]}
+
+:Start2
+1,[GenEQ]
+2,<b>{Param~Class,%Class%} Mundane Equipment and Clothing:</b> [GenEQ]
+3,[GenEQ]!!!%TotalWeight%!!!%TotalCost%!!!%TotalMountWeight%!!!%Mount%
+
+:Instructions
+1,This table generates a Random Equipment List for 3rd Edition D&D Characters. <br><br>
+_Use the Change Button located in the upper Left-hand corner of the screen to select your initial Class to get started.
+
+:Test
+1,<br>+%Wt% (%TotalWeight% lbs) +%Cost% (%TotalCost%) = %EquipmentString%
+
+:Test2
+1,<br>+%Wt% (%TotalWeight% lbs) +%Cost% (%TotalCost%)
+
+:Variables
+### NEW CLASS ###
+1,{If~%Class%=17?|Class={Dice~1d16}|}
+### NEW RACE ###
+_{If~{Param~Race,%Race%}=Random?|Race={Dice~1d19}|}
+_{If~%CharacterLevel%=99?|CharacterLevel={Dice~1d20}|}
+### NEW RACE ###
+_[Size=%Race%]
+
+### NEW RACE ### (Look same table in "Pathfinder Skills" to copy/paste)
+:Size
+1-3,|Size=5|
+4,|Size=4|
+5-6,|Size=5|
+7,|Size=4|
+# PFB1:   8=Aasimar  9=Drow  10=Drow Noble  11=Duergar  12=Goblin  13=Hobgoblin  14=Kobold  15=Merfolk  16=Orc  17=Svirfneblin  18=Tengu  19=Tiefling
+8-11,|Size=5|
+12,|Size=4|
+13,|Size=5|
+14,|Size=4|
+15-16,|Size=4|
+17,|Size=4|
+18-19,|Size=5|
+20-1000,|Size=5|
+
+# |TempEQ=%Cost%|[SetEQSizeCost=%Size%]|Cost=%TempEQ%|
+# |TempEQ=%Wt%|[SetEQSizeWeight=%Size%]|Wt=%TempEQ%|
+
+:SetEQSizeCost
+1,|TempEQ\2|
+2,|TempEQ\2|
+3,|TempEQ\2|
+4,|TempEQ*1|
+5,|TempEQ*1|
+6,|TempEQ*2|
+7,|TempEQ*4|
+8,|TempEQ*8|
+9,|TempEQ*16|
+
+:SetEQSizeWeight
+1,|TempEQ={Round~1,{Calc~%TempEQ%/16}}|
+2,|TempEQ={Round~1,{Calc~%TempEQ%/8}}|
+3,|TempEQ={Round~1,{Calc~%TempEQ%/4}}|
+4,|TempEQ={Round~1,{Calc~%TempEQ%/2}}|
+5,|TempEQ*1|
+6,|TempEQ*2|
+7,|TempEQ*4|
+8,|TempEQ*8|
+9,|TempEQ*16|
+
+:SetWt
+1,|TempEQ=%Wt%|[SetEQSizeWeight=%Size%]|Wt=%TempEQ%|
+
+:AddWtCost
+1,|TotalWeight+%Wt%||TotalCost+%Cost%|{If~{And~%ShowWt%=1,%Wt%>0}=1?|EquipmentString& [FontB=2](%Wt% lbs)[FontE]|}
+_{If~%Test%=1?[Test]}
+
+:AddWtCostClothing
+1,|TotalWeight+%Wt%||TotalCost+%Cost%|{If~{And~%ShowWt%=1,%Wt%>0}=1? [FontB=2](%Wt% lbs)[FontE]}
+_{If~%Test%=1?[Test]}
+
+:FontB
+1,<font size=1>
+2,<font size=2>
+3,<font size=3>
+4,<font size=4>
+
+:FontE
+1,</font>
+
+:GenEQ
+1,|TotalWeight=0||TotalCost=0|
+_{If~{Or~%ENC_URE%=1,%ENC_URE%=3}=1?<br>{Space~5}{Italic~Clothing:} }
+_[~NPC Appearance.ClothingClean], [~ClothingChoice=%Class%][SetWt][AddWtCostClothing]
+_[DetermineStandardEquipment=%Class%]
+_{Loop~{Dice~1d10+1d%CharacterLevel%},|EquipmentString&![WeightedMundaneEquipment]|[AddWtCost]}
+_|EquipmentString={OrderAsc~"!",%EquipmentString%}|
+_|EquipmentString={Replace~!,! ,%EquipmentString%}|
+_|EquipmentString={CommaReplace~1,!,%EquipmentString%}|
+#_{If~%ENC_URE%=1?.{CR~}{Space~5}{Italic~Equipment:} /, }
+_.{CR~}{Space~5}{Italic~Equipment:} 
+_%EquipmentString%.
+_{If~%ENC_URE%!=1?<br>{Space~5}[DeterminePersonalMoney]}
+_|TotalMountWeight=0|
+_{If~{Dice~1d100}<=25?<br>{Space~5}{Italic~Companion(s):} |Cost=0||Wt=0|[~Companion].}
+_|Mount=0||Cost=0||Wt=0|{If~%MountedCombat%=No?[DetermineMountedCombat=1]/[DetermineMountedCombat=2]}
+_{If~%Mount%!=0?<br>[GenMount=%Mount%]}
+
+# -------------------------------------------------------------------
+### NEW CLASS ###
+#  1=Fighter  2=Barbarian  3=Bard  4=Cleric
+#  5=Druid  6=Monk  7=Paladin  8=Ranger  9=Rogue
+# 10=Sorcerer  11=Wizard  12=Adept  13=Aristocrat
+# 14=Commoner  15=Expert  16=Warrior  17=Random
+:ClothingChoice
+1,[Clothing={Dice~1d150}]
+2,[Clothing={Dice~1d150}]
+3,[Clothing={Dice~1d140}]
+4,{If~{Dice~1d100}=1?[Clothing=151]/[Clothing={Dice~1d154}]}
+5,[Clothing={Dice~1d115+35}]
+6,{If~{Dice~1d100}=1?[Clothing={Dice~1d155}]/[Clothing=150]}
+7,[Clothing={Dice~1d43+17}]
+8,[Clothing={Dice~1d115+35}]
+9,[Clothing={Dice~1d140}]
+10,{If~{Dice~1d8}=1?[Clothing=153]/[Clothing={Dice~1d65}]}
+11,{If~{Dice~1d4}=1?[Clothing=153]/[Clothing={Dice~1d45}]}
+12,{If~{Dice~1d10}=1?[Clothing=151]/[Clothing={Dice~1d140}]}
+13,[ClothingChoiceAristocrat]
+14,{If~{Dice~1d20}=1?[Clothing={Dice~1d155}]/[Clothing=111]}
+15,{If~{Param~ExpertTypeCode,%ExpertTypeCode%}=Sage_Scholar?{If~{Dice~1d6}=1?[ClothingChoiceExpert]/[Clothing=153]}
+_/{If~{Param~ExpertTypeCode,%ExpertTypeCode%}=Courtesan?[ClothingChoiceExpert_Courtesan]
+_/[ClothingChoiceExpert]
+_}}
+16,[ClothingChoice=1]
+
+;ClothingChoiceAristocrat
+25,[Clothing={Dice~1d150}]
+50,[Clothing=9]
+24,[Clothing=18]
+1,[Clothing=26]
+
+;ClothingChoiceExpert
+25,[Clothing={Dice~1d150}]
+50,[Clothing=1]
+10,[Clothing=35]
+10,[Clothing=61]
+4,[Clothing=111]
+1,[Clothing=141]
+
+;ClothingChoiceExpert_Courtesan
+10,[Clothing={Dice~1d150}]
+20,[Clothing=13]
+70,[Clothing=9]
+10,[Clothing=18]
+
+:Clothing
+1-8,artisan's outfit <font size=2>{Color~Brown,([NPC Appearance.Clothing Meaning=1])}</font>|Wt=4||Cost=1|
+9-12,courtier's outfit <font size=2>{Color~Brown,([NPC Appearance.Clothing Meaning=4])}</font>|Wt=6||Cost=30|
+13-17,entertainer's outfit <font size=2>{Color~Brown,([NPC Appearance.Clothing Meaning=5])}</font>|Wt=4||Cost=3|
+18-25,noble's outfit <font size=2>{Color~Brown,([NPC Appearance.Clothing Meaning=8])}</font>|Wt=10||Cost=75|
+26-35,royal outfit <font size=2>{Color~Brown,([NPC Appearance.Clothing Meaning=10])}</font>|Wt=15||Cost=200|
+35-60,explorer's outfit <font size=2>{Color~Brown,([NPC Appearance.Clothing Meaning=6])}</font>|Wt=8||Cost=10|
+61-110,traveler's outfit <font size=2>{Color~Brown,([NPC Appearance.Clothing Meaning=12])}</font>|Wt=5||Cost=1|
+111-140,peasant's outfit <font size=2>{Color~Brown,([NPC Appearance.Clothing Meaning=9])}</font>|Wt=2||Cost=0.1|
+141-150,cold weather outfit <font size=2>{Color~Brown,([NPC Appearance.Clothing Meaning=3])}</font>|Wt=7||Cost=8|
+151-152,clerical vestments <font size=2>{Color~Brown,([NPC Appearance.Clothing Meaning=2])}</font>|Wt=6||Cost=5|
+153-154,scholar’s outfit <font size=2>{Color~Brown,([NPC Appearance.Clothing Meaning=11])}</font>|Wt=6||Cost=5|
+155,monk's outfit <font size=2>{Color~Brown,([NPC Appearance.Clothing Meaning=7])}</font>|Wt=2||Cost=5|
+
+# -------------------------------------------------------------------
+### NEW CLASS ###
+#  1=Fighter  2=Barbarian  3=Bard  4=Cleric
+#  5=Druid  6=Monk  7=Paladin  8=Ranger  9=Rogue
+# 10=Sorcerer  11=Wizard  12=Adept  13=Aristocrat
+# 14=Commoner  15=Expert  16=Warrior  17=Random
+:DetermineStandardEquipment
+#Fighter, Barbarian (Any Clothing)
+1,|EquipmentString=[EquipmentList=58]|[AddWtCost]
+# Whetstone
+_{If~{Dice~1d100}<=90?|EquipmentString&![EquipmentList=81]|[AddWtCost]}
+# Holy Symbol
+_{If~{Dice~1d100}<=66?|EquipmentString&![EquipmentList=32]|[AddWtCost]}
+_{If~{Dice~1d100}<=50?[StandardAdventuringEquipment]}
+2,|EquipmentString=[EquipmentList=58]|[AddWtCost]
+# Holy Symbol
+_{If~{Dice~1d100}<=66?|EquipmentString&![EquipmentList=32]|[AddWtCost]}
+# Whetstone
+_{If~{Dice~1d100}<=90?|EquipmentString&![EquipmentList=81]|[AddWtCost]}
+_{If~{Dice~1d100}<=50?[StandardAdventuringEquipment]}
+#Bard (Clothing: Artisan through Peasant)
+3,|EquipmentString=[EquipmentList=58]|[AddWtCost]
+_|EquipmentString&!{Bold~Musical Instrument:} {If~%CharacterLevel%>2?[EquipmentList={Dice~1d2+49}]/[EquipmentList=50]}|[AddWtCost]
+# Spell Component Pouch
+_{If~{Dice~1d100}<=99?|EquipmentString&![EquipmentList=60]|[AddWtCost]}
+# Thieves Tools (MW / normal)
+_{If~{Dice~1d100}<=90?{If~{Dice~1d30}<=%CharacterLevel%?|EquipmentString&![EquipmentList=77]|/|EquipmentString&![EquipmentList=76]|}[AddWtCost]}
+# Holy Symbol
+_{If~{Dice~1d100}<=66?|EquipmentString&![EquipmentList=32]|[AddWtCost]}
+# Whetstone
+_{If~{Dice~1d100}<=75?|EquipmentString&![EquipmentList=81]|[AddWtCost]}
+_{If~{Dice~1d100}<=50?[StandardAdventuringEquipment]}
+#Cleric (Clerical Vestments)
+4,|EquipmentString=[EquipmentList=58]|[AddWtCost]
+# Holy Symbol (Silver / Wooden)
+_{If~{Dice~1d30}<=%CharacterLevel%?|EquipmentString&![EquipmentList=31]|/|EquipmentString&![EquipmentList=32]|}[AddWtCost]
+# Holy Water
+_{If~{Dice~1d100}<=66?|EquipmentString&![EquipmentList=84]|[AddWtCost]}
+# Healer's Kit
+_{If~{Dice~1d100}<=75?|EquipmentString&![EquipmentList=30]|[AddWtCost]}
+_{If~{Dice~1d100}<=50?[StandardAdventuringEquipment]}
+#Druid (Clothing: Explorer through Cold Weather)
+5,|EquipmentString=[EquipmentList=58]|[AddWtCost]
+# Holly and mistletoe
+_{If~{Dice~1d100}<=95?|EquipmentString&![EquipmentList=109]|[AddWtCost]}
+# Healer's Kit
+_{If~{Dice~1d100}<=50?|EquipmentString&![EquipmentList=30]|[AddWtCost]}
+_{If~{Dice~1d100}<=50?[StandardAdventuringEquipment]}
+#Monk (Monk’s Outfit)
+6,|EquipmentString=[EquipmentList=58]|[AddWtCost]
+# Holy Symbol
+_{If~{Dice~1d100}<=50?|EquipmentString&![EquipmentList=32]|[AddWtCost]}
+_{If~{Dice~1d100}<=50?[StandardAdventuringEquipment]}
+#Paladin (Clothing: Noble through Explorer)
+7,|EquipmentString=[EquipmentList=58]|[AddWtCost]
+# Holy Symbol (Silver / Wooden)
+_{If~{Dice~1d30}<=%CharacterLevel%?|EquipmentString&![EquipmentList=31]|/|EquipmentString&![EquipmentList=32]|}[AddWtCost]
+# Whetstone
+_{If~{Dice~1d100}<=90?|EquipmentString&![EquipmentList=81]|[AddWtCost]}
+# Healer's Kit
+_{If~{Dice~1d100}<=50?|EquipmentString&![EquipmentList=30]|[AddWtCost]}
+_{If~{Dice~1d100}<=50?[StandardAdventuringEquipment]}
+#Ranger (Clothing: Explorer through Cold Weather)
+8,|EquipmentString=[EquipmentList=58]|[AddWtCost]
+# Holy Symbol
+_{If~{Dice~1d100}<=66?|EquipmentString&![EquipmentList=32]|[AddWtCost]}
+# Whetstone
+_{If~{Dice~1d100}<=90?|EquipmentString&![EquipmentList=81]|[AddWtCost]}
+_{If~{Dice~1d100}<=50?[StandardAdventuringEquipment]}
+#Rogue (Clothing: Artisan through Peasant)
+9,|EquipmentString=[EquipmentList=58]|[AddWtCost]
+# Thieves Tools (MW / normal)
+_{If~{Dice~1d100}<=99?{If~{Dice~1d30}<=%CharacterLevel%?|EquipmentString&![EquipmentList=77]|/|EquipmentString&![EquipmentList=76]|}[AddWtCost]}
+# Holy Symbol
+_{If~{Dice~1d100}<=66?|EquipmentString&![EquipmentList=32]|[AddWtCost]}
+# Whetstone
+_{If~{Dice~1d100}<=90?|EquipmentString&![EquipmentList=81]|[AddWtCost]}
+# Climber's Kit
+_{If~{Dice~1d100}<=33?|EquipmentString&![EquipmentList=20]|[AddWtCost]}
+# Disguise Kit
+_{If~{Dice~1d100}<=33?|EquipmentString&![EquipmentList=23]|[AddWtCost]}
+# Crowbar
+_{If~{Dice~1d100}<=33?|EquipmentString&![EquipmentList=22]|[AddWtCost]}
+# Magnifying glass
+_{If~{Dice~1d100}<=33?|EquipmentString&![EquipmentList=43]|[AddWtCost]}
+# Silk rope
+_{If~{Dice~1d100}<=33?|EquipmentString&![EquipmentList=64]|[AddWtCost]}
+_{If~{Dice~1d100}<=50?[StandardAdventuringEquipment]}
+#Sorcerer (Clothing: Artisan through Cold Weather)
+10,|EquipmentString=[EquipmentList=58]|[AddWtCost]
+# Holy Symbol
+_{If~{Dice~1d100}<=50?|EquipmentString&![EquipmentList=32]|[AddWtCost]}
+# Spell Component Pouch
+_{If~{Dice~1d100}<=99?|EquipmentString&![EquipmentList=60]|[AddWtCost]}
+_{If~{Dice~1d100}<=50?[StandardAdventuringEquipment]}
+#Wizard (Clothing: Artisan through Explorer)
+11,|EquipmentString=[EquipmentList=58]|[AddWtCost]
+# Spell Component Pouch
+_{If~{Dice~1d100}<=99?|EquipmentString&![EquipmentList=60]|[AddWtCost]}
+# Spellbook
+_{If~{Dice~1d100}<=99?|EquipmentString&![EquipmentList=110]|[AddWtCost]}
+_[WritingEquipment]
+# Holy Symbol
+_{If~{Dice~1d100}<=50?|EquipmentString&![EquipmentList=32]|[AddWtCost]}
+_{If~{Dice~1d100}<=50?[StandardAdventuringEquipment]}
+# Adept
+12,{If~{Dice~1d100}<=50?|EquipmentString=[EquipmentList=58]|[AddWtCost]}
+# Spell Component Pouch
+_{If~{Dice~1d100}<=99?|EquipmentString&![EquipmentList=60]|[AddWtCost]}
+# Holy Symbol (Silver / Wooden)
+_{If~{Dice~1d30}<=%CharacterLevel%?|EquipmentString&![EquipmentList=31]|/|EquipmentString&![EquipmentList=32]|}[AddWtCost]
+_{If~{Dice~1d100}<=50?[StandardAdventuringEquipment]}
+# Aristocrat
+13,|EquipmentString=[EquipmentList=58]|[AddWtCost]
+# Signet Ring
+_{If~{Dice~1d30}<=%CharacterLevel%?|EquipmentString&![EquipmentList=69]|[AddWtCost]}
+# Holy Symbol
+_{If~{Dice~1d100}<=50?|EquipmentString&![EquipmentList=32]|[AddWtCost]}
+_{If~{Dice~1d100}<=50?[StandardAdventuringEquipment]}
+# Commoner
+14,{If~{Dice~1d100}<=50?|EquipmentString=[EquipmentList=58]|[AddWtCost]}
+# Holy Symbol
+_{If~{Dice~1d100}<=50?|EquipmentString&![EquipmentList=32]|[AddWtCost]}
+_{If~{Dice~1d100}<=5?[StandardAdventuringEquipment]}
+# Expert
+15,{If~{Dice~1d100}<=99?|EquipmentString=[EquipmentList=58]|[AddWtCost]}
+# Tools (MW / normal)
+_{If~{Dice~1d100}<=99?{If~{Dice~1d30}<=%CharacterLevel%?|EquipmentString&![EquipmentList=3]|/|EquipmentString&![EquipmentList=2]|}[AddWtCost]}
+# Holy Symbol
+_{If~{Dice~1d100}<=50?|EquipmentString&![EquipmentList=32]|[AddWtCost]}
+_{If~{Dice~1d100}<=25?[StandardAdventuringEquipment]}
+# Hammer
+_{If~{Param~ExpertTypeCode,%ExpertTypeCode%}=Blacksmith?{If~{Dice~1d100}<=90?|EquipmentString&![EquipmentList=29]|[AddWtCost]}}
+# Magnifying glass
+_{If~{Param~ExpertTypeCode,%ExpertTypeCode%}=Jeweller?{If~{Dice~1d100}<=90?|EquipmentString&![EquipmentList=43]|[AddWtCost]}}
+_{If~{Param~ExpertTypeCode,%ExpertTypeCode%}=Pawnbroker?{If~{Dice~1d100}<=90?|EquipmentString&![EquipmentList=43]|[AddWtCost]}}
+# Writing equipment
+_{If~{Or~{Param~ExpertTypeCode,%ExpertTypeCode%}=Pawnbroker,{Param~ExpertTypeCode,%ExpertTypeCode%}=Sage_Scholar}=1?[WritingEquipment]}
+_{If~{Param~ExpertTypeCode,%ExpertTypeCode%}=Merchant?[WritingEquipment]}
+# Merchant's Scale
+_{If~{Param~ExpertTypeCode,%ExpertTypeCode%}=Merchant?{If~{Dice~1d100}<=90?|EquipmentString&![EquipmentList=47]|[AddWtCost]}}
+# Thieves Tools (MW / normal)
+_{If~{And~{Dice~1d100}<=99,{Param~ExpertTypeCode,%ExpertTypeCode%}=Locksmith}=1?{If~{Dice~1d30}<=%CharacterLevel%?|EquipmentString&![EquipmentList=77]|/|EquipmentString&![EquipmentList=76]|}[AddWtCost]}
+# Locks
+_{If~{Param~ExpertTypeCode,%ExpertTypeCode%}=Locksmith?{If~{Dice~1d100}<=90?|EquipmentString&![EquipmentList={1d4+38}]|[AddWtCost]}}
+# Warrior
+16,[DetermineStandardEquipment=1]
+
+:WritingEquipment
+# Scrollcase
+1,{If~{Dice~1d100}<=75?|EquipmentString&![EquipmentList=16]|[AddWtCost]}
+# Parchment pages
+_{If~{Dice~1d100}<=90?|EquipmentString&![EquipmentList=54]|[AddWtCost]}
+# Ink
+_{If~{Dice~1d100}<=90?|EquipmentString&![EquipmentList=111]|[AddWtCost]}
+# Inkpen
+_{If~{Dice~1d100}<=90?|EquipmentString&![EquipmentList=112]|[AddWtCost]}
+
+:StandardAdventuringEquipment
+# Backpack
+1,{If~{Dice~1d100}<=80?|EquipmentString&![EquipmentList=4]|[AddWtCost]}
+# Waterskin
+_{If~{Dice~1d100}<=80?|EquipmentString&![EquipmentList=80]|[AddWtCost]}
+# Rations (Normal / Trail)
+_{If~{Dice~1d100}<=75?{If~{Dice~1d2}=1?|EquipmentString&![EquipmentList=107]|/|EquipmentString&![EquipmentList=108]|}[AddWtCost]}
+# Bedroll (Bedroll / Blanket)
+_{If~{Dice~1d100}<=75?{If~{Dice~1d2}=1?|EquipmentString&![EquipmentList=7]|/|EquipmentString&![EquipmentList=9]|}[AddWtCost]}
+# Sack
+_{If~{Dice~1d100}<=66?|EquipmentString&![EquipmentList=65]|[AddWtCost]}
+# Flint & Steel
+_{If~{Dice~1d100}<=66?|EquipmentString&![EquipmentList=26]|[AddWtCost]}
+# Torch / Lantern
+_{If~{Dice~1d100}<=75?{If~{Dice~1d2}=1?|EquipmentString&![EquipmentList=79]|[AddWtCost]/|EquipmentString&![EquipmentList=38]|[AddWtCost]|EquipmentString&![EquipmentList=52]|[AddWtCost]}}
+
+# -------------------------------------------------------------------
+;!WeightedMundaneEquipment
+# 900 gives about 50% chances to roll in Equipment.tab
+900,|Temp=[Equipment.MiscItems Output(,,,%Size%)]|{Split~Temp,"!",Item,Book,Cost,Wt}
+_%Item%
+_{Unlock~WeightedMundaneEquipment,1-900}
+1,[EquipmentList=1]
+1,[EquipmentList=2]
+1,[EquipmentList=3]
+50,[EquipmentList=4]
+3,[EquipmentList=5]
+3,[EquipmentList=6]
+6,[EquipmentList=7]
+1,[EquipmentList=8]
+10,[EquipmentList=9]
+5,[EquipmentList=10]
+3,[EquipmentList=11]
+10,[EquipmentList=12]
+10,[EquipmentList=13]
+2,[EquipmentList=14]
+3,[EquipmentList=15]
+5,[EquipmentList=16]
+4,[EquipmentList=17]
+10,[EquipmentList=18]
+1,[EquipmentList=19]
+1,[EquipmentList=20]
+25,[EquipmentList=21]
+3,[EquipmentList=22]
+1,[EquipmentList=23]
+2,[EquipmentList=24]
+10,[EquipmentList=25]
+50,[EquipmentList=26]
+10,[EquipmentList=27]
+5,[EquipmentList=28]
+3,[EquipmentList=29]
+1,[EquipmentList=30]
+1,[EquipmentList=31]
+1,[EquipmentList=32]
+1,[EquipmentList=33]
+5,[EquipmentList=34]
+5,[EquipmentList=35]
+10,[EquipmentList=36]
+5,[EquipmentList=37]
+5,[EquipmentList=38]
+1,[EquipmentList=39]
+1,[EquipmentList=40]
+1,[EquipmentList=41]
+1,[EquipmentList=42]
+1,[EquipmentList=43]
+1,[EquipmentList=44]
+1,[EquipmentList=45]
+50,[EquipmentList=46]
+1,[EquipmentList=47]
+10,[EquipmentList=48]
+20,[EquipmentList=49]
+5,[EquipmentList=50]
+2,[EquipmentList=51]
+20,[EquipmentList=52]
+10,[EquipmentList=53]
+5,[EquipmentList=54]
+2,[EquipmentList=55]
+2,[EquipmentList=56]
+1,[EquipmentList=57]
+50,[EquipmentList=58]
+25,[EquipmentList=59]
+10,[EquipmentList=60]
+1,[EquipmentList=61]
+20,[EquipmentList=62]
+50,[EquipmentList=63]
+20,[EquipmentList=64]
+50,[EquipmentList=65]
+10,[EquipmentList=66]
+10,[EquipmentList=67]
+1,[EquipmentList=68]
+1,[EquipmentList=69]
+10,[EquipmentList=70]
+5,[EquipmentList=71]
+5,[EquipmentList=72]
+1,[EquipmentList=73]
+1,[EquipmentList=74]
+1,[EquipmentList=75]
+1,[EquipmentList=76]
+1,[EquipmentList=77]
+50,[EquipmentList=78]
+25,[EquipmentList=79]
+50,[EquipmentList=80]
+50,[EquipmentList=81]
+1,[EquipmentList=82]
+1,[EquipmentList=83]
+10,[EquipmentList=84]
+1,[EquipmentList=85]
+1,[EquipmentList=86]
+1,[EquipmentList=87]
+1,[EquipmentList=88]
+1,[EquipmentList=89]
+1,[EquipmentList=90]
+1,[EquipmentList=91]
+1,[EquipmentList=92]
+1,[EquipmentList=93]
+1,[EquipmentList=94]
+1,[EquipmentList=95]
+1,[EquipmentList=96]
+1,[EquipmentList=97]
+1,[EquipmentList=98]
+1,[EquipmentList=99]
+1,[EquipmentList=100]
+1,[EquipmentList=101]
+1,[EquipmentList=102]
+1,[EquipmentList=103]
+1,[EquipmentList=104]
+1,[EquipmentList=105]
+1,[EquipmentList=106]
+1,[EquipmentList=109]
+1,[EquipmentList=110]
+5,[EquipmentList=113]
+
+:EquipmentList
+1,alchemist lab|Cost=200||Wt=40|
+2,common artisan's tools|Cost=5||Wt=5|
+3,masterwork artisan's tools|Cost=55||Wt=5|
+4,[Miscellaneous.Size=%Size%] backpack|Cost=2||Wt=2|[SetWt]
+5,barrel|Cost=2||Wt=30|
+6,basket|Cost=4||Wt=1|
+7,[Miscellaneous.Size=%Size%] bedroll|Cost=1||Wt=5|[SetWt]
+8,bell|Cost=1||Wt=0|
+9,[Miscellaneous.Size=%Size%] winter blanket|Cost=0.5||Wt=3|[SetWt]
+10,block and tackle|Cost=5||Wt=5|
+11,bucket|Cost=0.5||Wt=2|
+12,|Temp={Dice~1d3}|%Temp% bags of caltrops|Cost=1||Wt=2||Cost*%Temp%||Wt*%Temp%|
+13,|Temp={Dice~2d5}|%Temp% candles|Cost=0.01||Wt=0||Wt=2||Cost*%Temp%|
+14,|Temp={Dice~2d5}|%Temp% sq yds of canvas|Cost=0.1||Wt=1||Cost*%Temp%||Wt*%Temp%|
+15,map case|Cost=1||Wt=0.5|
+16,scroll case|Cost=1||Wt=0.5|
+17,|Temp={Dice~1d3*5}|%Temp%' of chain|Cost=3||Wt=0.2||Cost*%Temp%||Wt*%Temp%|
+18,|Temp={Dice~2d5}|%Temp% pieces of chalk|Cost=0.01||Cost*%Temp%|
+19,chest|Cost=2||Wt=25|
+20,[Miscellaneous.Size=%Size%] climber's kit|Cost=80||Wt=5|[SetWt]
+21,{Dice~5d20} yds of thin silk cord|Cost=10||Wt=0|
+22,crowbar|Cost=2||Wt=5|
+23,[Miscellaneous.Size=%Size%] disguise kit|Cost=50||Wt=8|[SetWt]
+24,25 sq ft fishing net|Cost=4||Wt=5|
+25,|Temp={Dice~1d4}|%Temp% fishhooks|Cost=0.1||Wt=0||Cost*%Temp%|
+26,flint and steel|Cost=1||Wt=0|
+27,|Temp={Dice~2d3}|%Temp% glass bottles|Cost=2||Wt=2||Cost*%Temp%||Wt*%Temp%|
+28,grappling hook|Cost=1||Wt=4|
+29,hammer|Cost=0.5||Wt=2|
+30,healer's kit|Cost=50||Wt=1|
+31,silver holy symbol|Cost=25||Wt=1|
+#32,wooden holy symbol|Cost=1||Wt=0|
+32,wooden holy symbol of [~Religion.Deities2(4)]|Cost=1||Wt=0|
+33,small hourglass|Cost=25||Wt=1|
+34,|Temp={Dice~1d3+1}|%Temp% vials of ink|Cost=8||Wt=0||Cost*%Temp%|
+35,|Temp={Dice~1d3+1}|%Temp% ink pens|Cost=0.1||Wt=0||Cost*%Temp%|
+36,common lamp|Cost=0.1||Wt=1|
+37,bullseye lantern|Cost=12||Wt=3|
+38,hooded lantern|Cost=7||Wt=2|
+39,simple lock|Cost=20||Wt=1|
+40,average lock|Cost=40||Wt=1|
+41,good lock|Cost=80||Wt=1|
+42,superior lock|Cost=150||Wt=1|
+43,magnifying glass|Cost=100||Wt=0|
+44,average manacles|Cost=15||Wt=2|
+45,superior manacles|Cost=50||Wt=2|
+46,|Temp={Dice~10d10}|%Temp% marbles|Cost=0.01||Wt=0||Cost*%Temp%|
+47,merchant's scale|Cost=2||Wt=1|
+48,small steel mirror|Cost=10||Wt=0.5|
+49,small glass mirror|Cost=100||Wt=5|
+50,|Temp=[Equipment.Musical Instruments Output]|{Split~Temp,"!",Item,Book,Cost,Wt}[Miscellaneous.Size=%Size%] %Item%[SetWt]
+51,|Temp=[Equipment.Musical Instruments Output]|{Split~Temp,"!",Item,Book,Cost,Wt}|Cost*20|[Miscellaneous.Size=%Size%] masterwork %Item%[SetWt]
+52,|Temp={Dice~1d6}|%Temp% pints of oil|Cost=0.1||Wt=1||Cost*%Temp%||Wt*%Temp%|
+53,|Temp={Dice~2d5}|%Temp% sheets of paper|Cost=0.4||Wt=0||Cost*%Temp%||Wt*%Temp%|
+54,|Temp={Dice~2d5}|%Temp% sheets of parchment|Cost=0.2||Wt=0||Cost*%Temp%||Wt*%Temp%|
+55,[Miscellaneous.Size=%Size%] miner's pick|Cost=3||Wt=10|[SetWt]
+56,|Temp={Dice~2d6}|%Temp% pitons|Cost=0.1||Wt=0.5||Cost*%Temp%||Wt*%Temp%|
+57,iron pot|Cost=0.8||Wt=4|
+58,[Miscellaneous.Size=%Size%] belt pouch|Cost=1||Wt=0.5|[SetWt]
+59,[Miscellaneous.Size=%Size%] oiled belt pouch|Cost=2||Wt=0.5|[SetWt]
+60,[Miscellaneous.Size=%Size%] spell component pouch|Cost=5||Wt=2|
+61,portable ram|Cost=10||Wt=20|
+62,|Temp={Dice~2d4}|%Temp% days of standard rations ([Miscellaneous.Size=%Size%])|Cost=0.4||Wt=3||Cost*%Temp%||Wt*%Temp%|[SetWt]
+63,|Temp={Dice~5d20}|%Temp%' of hemp rope|Cost=0.02||Wt=0.2||Cost*%Temp%||Wt*%Temp%|
+64,|Temp={Dice~10d10}|%Temp%' of silk rope|Cost=0.2||Wt=0.1||Cost*%Temp%||Wt*%Temp%|
+65,|Temp={Dice~2d3}|%Temp% small sacks|Cost=1||Wt=0.5||Cost*%Temp%||Wt*%Temp%|
+66,1 lb sealing wax|Cost=1||Wt=1|
+67,|Temp={Dice~1d4+1}|%Temp% sewing needles|Cost=0.5||Wt=0||Cost*%Temp%||Wt*%Temp%|
+68,signal whistle|Cost=0.8||Wt=0|
+69,signet ring|Cost=5||Wt=0|
+70,|Temp={Dice~1d3}|%Temp% lbs of soap|Cost=0.5||Wt=1||Cost*%Temp%||Wt*%Temp%|
+71,[Miscellaneous.Size=%Size%] spade|Cost=2||Wt=8|[SetWt]
+72,[Miscellaneous.Size=%Size%] shovel|Cost=2||Wt=8|[SetWt]
+73,[Miscellaneous.Size=%Size%] wizard's spellbook (empty)|Cost=15||Wt=3|[SetWt]
+74,spyglass|Cost=1000||Wt=1|
+75,[Miscellaneous.Size=%Size%] tent|Cost=10||Wt=20|[SetWt]
+76,thieve's tools|Cost=30||Wt=1|
+77,masterwork thieve's tools|Cost=100||Wt=2|
+78,tinderbox|Cost=15||Wt=0.5|
+79,|Temp={Dice~2d3}|%Temp% pitch torches|Cost=0.01||Wt=1||Cost*%Temp%||Wt*%Temp%|
+80,[Miscellaneous.Size=%Size%] half gallon waterskin|Cost=1||Wt=4|
+81,whetstone|Cost=0.02||Wt=1|
+82,|Temp={Dice~1d3+1}|%Temp% vials of acid|Cost=10||Wt=1||Cost*%Temp%||Wt*%Temp%|
+83,|Temp={Dice~1d3+1}|%Temp% vials of alchemist's fire|Cost=20||Wt=1||Cost*%Temp%||Wt*%Temp%|
+84,|Temp={Dice~1d5+1}|%Temp% vials of holy water|Cost=25||Wt=1||Cost*%Temp%||Wt*%Temp%|
+85,|Temp={Dice~1d3}|%Temp% tanglefoot bag|Cost=50||Wt=4||Cost*%Temp%||Wt*%Temp%|
+86,|Temp={Dice~1d6}|%Temp% thunderstone|Cost=30||Wt=1||Cost*%Temp%||Wt*%Temp%|
+87,|Temp={Dice~2d2}|%Temp% sprigs of belladona|Cost=0.01||Wt=0||Cost*%Temp%||Wt*%Temp%|
+88,|Temp={Dice~2d2}|%Temp% cloves of garlic|Cost=0.03||Wt=0||Cost*%Temp%||Wt*%Temp%|
+89,wolfsbane|Cost=0.3||Wt=0|
+90,|Temp={Dice~1d3}|%Temp% quart of ale|Cost=0.2||Wt=8||Cost*%Temp%||Wt*%Temp%|
+91,|Temp={Dice~1d3}|%Temp% quart of |TempNumber={Dice~1d100}|{If~%TempNumber% > 50 ? small} beer|Cost=0.2||Wt=8||Cost*%Temp%||Wt*%Temp%|
+92,|Temp={Dice~1d6}|%Temp% hunk of bread|Cost=0.02||Wt=0.5||Cost*%Temp%||Wt*%Temp%|
+93,|Temp={Dice~1d4}|%Temp% hunk of cheese|Cost=0.1||Wt=0.5||Cost*%Temp%||Wt*%Temp%|
+94,|Temp={Dice~1d3}|%Temp% pound of figs|Cost=20||Wt=1||Cost*%Temp%||Wt*%Temp%|
+95,|Temp={Dice~1d4}|%Temp% pint of honey|Cost=0.1||Wt=1||Cost*%Temp%||Wt*%Temp%|
+96,|Temp={Dice~1d4}|%Temp% chunk of meat|Cost=0.3||Wt=2||Cost*%Temp%||Wt*%Temp%|
+97,|Temp={Dice~2d3}|%Temp% days of trail (iron) rations ([Miscellaneous.Size=%Size%])|Cost=0.5||Wt=1||Cost*%Temp%||Wt*%Temp%|
+98,|Temp={Dice~2d3}|%Temp% pounds of rice|Cost=2||Wt=1||Cost*%Temp%||Wt*%Temp%|
+99,|Temp={Dice~2d3}|%Temp% pound of salt|Cost=0.5||Wt=1||Cost*%Temp%||Wt*%Temp%|
+100,|Temp={Dice~2d3}|%Temp% salted fish|Cost=0.5||Wt=1||Cost*%Temp%||Wt*%Temp%|
+101,|Temp={Dice~2d3}|%Temp% pound of sugar|Cost=10||Wt=1||Cost*%Temp%||Wt*%Temp%|
+102,|Temp={Dice~1d3}|%Temp% sacks of pepper|Cost=30||Wt=0||Cost*%Temp%||Wt*%Temp%|
+103,|Temp={Dice~2d3}|%Temp% pounds of tea|Cost=20||Wt=1||Cost*%Temp%||Wt*%Temp%|
+104,|Temp={Dice~1d3}|%Temp% pouches of tobacco|Cost=100||Wt=1||Cost*%Temp%||Wt*%Temp%|
+105,|Temp={Dice~1d3}|%Temp% bottles of fine wine|Cost=10||Wt=1.5||Cost*%Temp%||Wt*%Temp%|
+106,|Temp={Dice~1d6}|%Temp% quarts of common wine|Cost=0.2||Wt=6||Cost*%Temp%||Wt*%Temp%|
+107,1 day of standard rations ([Miscellaneous.Size=%Size%])|Cost=0.4||Wt=3|[SetWt]
+108,1 day of trail (iron) rations ([Miscellaneous.Size=%Size%])|Cost=0.5||Wt=1|
+109,holly and mistletoe|Cost=0||Wt=0|
+110,[Miscellaneous.Size=%Size%] wizard's spellbook|Cost=15||Wt=3|[SetWt]
+111,1 vial of ink|Cost=8||Wt=0|
+112,1 ink pen|Cost=0.1||Wt=0|
+113,wooden holy symbol of [~Religion.Deities2(1)]|Cost=1||Wt=0|
+
+# -------------------------------------------------------------------
+# Mounted Combat feat: 1= No (20+CL% to have a mount), 2= Yes (80+CL% to have a mount)
+:DetermineMountedCombat
+1,{If~{Dice~1d100}<={Calc~20+%CharacterLevel%}?|Transportation=[~DetermineMount]|<br>{Space~5}{Italic~Mount and Transportation:} %Transportation%.}
+2,{If~{Dice~1d100}<={Calc~80+%CharacterLevel%}?|Transportation=[~DetermineMountedCombat2]|{If~%Test%=1?[Test2]}|Transportation& [DetermineMountedCombatArmor={Dice~1d20+%CharacterLevel%}]|{If~%Test%=1?[Test2]}|Transportation&[DetermineMountedCombatWeapon={Dice~1d20+%CharacterLevel%}]|{If~%Test%=1?[Test2]}<br>{Space~5}{Italic~Combat Mount:} %Transportation%.}
+
+### NEW MOUNT ###
+:GenMount
+1,{Generate~0,Click to generate MOUNT,GenerateHorse1}
+2,{Generate~0,Click to generate MOUNT,GenerateHorse2}
+3,{Generate~0,Click to generate MOUNT,GenerateHorse3}
+4,{Generate~0,Click to generate MOUNT,GenerateHorse4}
+5,{Generate~0,Click to generate MOUNT,GenerateHorse5}
+6,{Generate~0,Click to generate MOUNT,GenerateHorse6}
+7,{Generate~0,Click to generate MOUNT,GenerateHorse7}
+8,{Generate~0,Click to generate MOUNT,GenerateHorse8}
+9,{Generate~0,Click to generate MOUNT,GenerateHorse9}
+10,{Generate~0,Click to generate RIDING DOG,GenerateRidingDog}
+
+### NEW MOUNT ###
+:GenerateHorse1
+1,<br>[Horse Generator.Alternate_ENC_URE(1)]{Generate~0,Click to generate another Pony,GenerateHorse1}
+
+:GenerateHorse2
+1,<br>[Horse Generator.Alternate_ENC_URE(2)]{Generate~0,Click to generate another Warpony,GenerateHorse2}
+
+:GenerateHorse3
+1,<br>[Horse Generator.Alternate_ENC_URE(3)]{Generate~0,Click to generate another Light Horse,GenerateHorse3}
+
+:GenerateHorse4
+1,<br>[Horse Generator.Alternate_ENC_URE(4)]{Generate~0,Click to generate another Light Warhorse,GenerateHorse4}
+
+:GenerateHorse5
+1,<br>[Horse Generator.Alternate_ENC_URE(5)]{Generate~0,Click to generate another Heavy Horse,GenerateHorse5}
+
+:GenerateHorse6
+1,<br>[Horse Generator.Alternate_ENC_URE(6)]{Generate~0,Click to generate another Heavy Warhorse,GenerateHorse6}
+
+:GenerateHorse7
+1,<br>[Horse Generator.Alternate_ENC_URE(7)]{Generate~0,Click to generate another Donkey,GenerateHorse7}
+
+:GenerateHorse8
+1,<br>[Horse Generator.Alternate_ENC_URE(8)]{Generate~0,Click to generate another Mule,GenerateHorse8}
+
+:GenerateHorse9
+1,<br>[Horse Generator.Alternate_ENC_URE(9)]{Generate~0,Click to generate another Stonebred Pony,GenerateHorse9}
+
+:GenerateRidingDog
+1,<br>[Riding Dog Generator.Alternate_ENC_URE(15)]{Generate~0,Click to generate another RIDING DOG,GenerateRidingDog}
+
+;Companion
+67,[Companion_Common]{If~%Test%=1?[Test2]}
+20,[Companion_Uncommon]{If~%Test%=1?[Test2]}
+3,[Companion_Rare]{If~%Test%=1?[Test2]}
+10,[Companion_Many]
+
+;Companion_Many
+70,[Companion={Dice~1d90}] and [Companion={Dice~1d90}]
+25,[Companion={Dice~1d90}], [Companion={Dice~1d90}], and [Companion={Dice~1d90}]
+5,[Companion={Dice~1d90}], [Companion={Dice~1d90}], [Companion={Dice~1d90}], and [Companion={Dice~1d90}]
+
+;Companion_Common
+3,small {Reset~Miscellaneous.ColorCommonNoType}[Miscellaneous.ColorCommonNoType] dog|TotalCost+25|
+6,medium {Reset~Miscellaneous.ColorCommonNoType}[Miscellaneous.ColorCommonNoType] dog|TotalCost+150|
+1,hawk|TotalCost+40|
+1,common [Miscellaneous.ColorNoType] bird|TotalCost+0.02|
+
+;Companion_Uncommon
+6,{Reset~Miscellaneous.ColorCommonNoType}[Miscellaneous.ColorCommonNoType] cat|TotalCost+0.1|
+1,falcon|TotalCost+18|
+2,ferret|TotalCost+0.1|
+3,[Miscellaneous.Color] lizard|TotalCost+0.3|
+1,mouse|TotalCost+0.01|
+1,owl|TotalCost+40|
+4,rat|TotalCost+0.02|
+2,raven|TotalCost+10|
+1,wolf|TotalCost+100|
+1,fancy [Miscellaneous.Color] bird|TotalCost+0.2|
+
+;Companion_Rare
+1,squirrel|TotalCost+0.5|
+1,tiny [Miscellaneous.ColorNoType] snake|TotalCost+0.5|
+1,vulture|TotalCost+60|
+1,weasel|TotalCost+1|
+1,monkey|TotalCost+5|
+1,pocket rat|TotalCost+250|
+1,chameleon|TotalCost+1|
+1,[Creatures.Familiar Rare]|TotalCost+1000|
+1,rare [Miscellaneous.Color] bird|TotalCost+5|
+1,elven hawk|TotalCost+5000|
+
+:DeterminePersonalMoney
+1,{Italic~Loose coins:} 
+_{If~{Dice~1d100}<={Calc~10+(2*%CharacterLevel%)}? |TempNumber={Dice~1d10}|%TempNumber% pp,|TotalCost+{Calc~10*%TempNumber%}| }
+_{If~{Dice~1d100}<={Calc~50+(2*%CharacterLevel%)}? |TempNumber={Dice~1d10}|%TempNumber% gp,|TotalCost+%TempNumber%| }
+_{If~{Dice~1d100}<=75? |TempNumber={Dice~2d10}|%TempNumber% sp,|TotalCost+{Calc~%TempNumber%/10}| }
+_|TempNumber={Dice~3d10}|%TempNumber% cp.|TotalCost+{Calc~%TempNumber%/100}|
+_{If~%Test%=1?[Test2]}
+
+;DetermineMount
+80,[DetermineMount2]{If~%Test%=1?[Test2]}[Horseshoes=%Mount%]{If~%Test%=1?[Test2]}[Transportation=%Mount%]{If~%Test%=1?[Test2]}
+5,a [OxSizeWagon] wagon pulled by %Temp% oxes[OxYokes]|TotalCost+{Calc~15*%Temp%}|{If~%Test%=1?[Test2]}
+15,a [OxSizeCart] cart pulled by an ox[OxYoke]|TotalCost+15|{If~%Test%=1?[Test2]}
+
+;OxSizeCart
+2,small|TotalCost+10||TotalMountWeight+100|
+6,medium|TotalCost+15||TotalMountWeight+200|
+2,large|TotalCost+20||TotalMountWeight+300|
+
+;OxSizeWagon
+2,small|Temp=2||TotalCost+20||TotalMountWeight+250|
+6,medium|Temp={If~{Dice~1d10}=1?6/{If~{Dice~1d9}>=7?4/2}}||TotalCost+35||TotalMountWeight+400|
+2,large|Temp={If~{Dice~1d10}>=3?6/{If~{Dice~1d7}>=3?4/2}}||TotalCost+50||TotalMountWeight+700|
+
+;OxYoke
+4, (with a yoke)|TotalCost+8||TotalMountWeight+20|
+1, (with a no strangulation yoke)|TotalCost+15||TotalMountWeight+20|
+
+;OxYokes
+4, (with yokes)|TotalCost+{Calc~%Temp%/2*11}||TotalMountWeight+{Calc~35*%Temp%/2}|
+1, (with no strangulation yokes)|TotalCost+{Calc~%Temp%/2*20}||TotalMountWeight+{Calc~35*%Temp%/2}|
+
+### NEW MOUNT ###
+;DetermineMount2
+18,pony|Mount=1||TotalCost+30||MountCost=30||MountSize=5|
+1,warpony|Mount=2||TotalCost+45||MountCost=45||MountSize=5|
+40,light horse|Mount=3||TotalCost+75||MountCost=75||MountSize=6|
+5,light warhorse|Mount=4||TotalCost+110||MountCost=110||MountSize=6|
+10,heavy horse|Mount=5||TotalCost+200||MountCost=200||MountSize=6|
+1,heavy warhorse|Mount=6||TotalCost+300||MountCost=300||MountSize=6|
+7,donkey|Mount=7||TotalCost+8||MountCost=8||MountSize=5|
+7,mule|Mount=8||TotalCost+8||MountCost=8||MountSize=6|
+1,stonebred pony|Mount=9||TotalCost+130||MountCost=130||MountSize=5|
+10,riding dog|Mount=10||TotalCost+150||MountCost=150||MountSize=5|
+
+### NEW MOUNT ###
+# MountedCombat = size (4-small, 5-Medium) from NPC Stat Block Pathfinder
+;DetermineMountedCombat2
+1,{If~%MountedCombat%=4?pony|Mount=1||MountSize=5||TotalCost+30|/[DetermineMountedCombat2]}
+25,{If~%MountedCombat%=4?warpony|Mount=2||MountSize=5||TotalCost+45|/[DetermineMountedCombat2]}
+10,light horse|Mount=3||MountSize=6||TotalCost+75|
+30,{If~%MountedCombat%=5?light warhorse|Mount=4||MountSize=6||TotalCost+110|/[DetermineMountedCombat2]}
+5,{If~%MountedCombat%=5?heavy horse|Mount=5||MountSize=6||TotalCost+200|/[DetermineMountedCombat2]}
+30,{If~%MountedCombat%=5?heavy warhorse|Mount=6||MountSize=6||TotalCost+300|/[DetermineMountedCombat2]}
+1,donkey|Mount=7||MountSize=5||TotalCost+8|
+1,mule|Mount=8||MountSize=6||TotalCost+8|
+5,{If~%MountedCombat%=4?stonebred pony|Mount=9||MountSize=5||TotalCost+130|/[DetermineMountedCombat2]}
+30,{If~%MountedCombat%=4?riding dog|Mount=10||MountSize=5||TotalCost+150|/[DetermineMountedCombat2]}
+
+:DetermineMountedCombatArmor
+1-5,withtout saddle
+6-8,with [Saddle][Blanket] and [Bridle]
+9-10,with [Saddle][Blanket], [Bridle], and [Saddlebags]
+11-15,with [Saddle][Blanket], [Bridle], [Saddlebags], and {If~{Dice~1d20+%CharacterLevel%}>=15?masterwork|TotalCost+150| }leather armor|Temp1=10||Temp2=15|[DetermineMountedCombatArmorCostWeight=%MountSize%]
+16-20,with [Saddle][Blanket], [Bridle], [Saddlebags], and {If~{Dice~1d20+%CharacterLevel%}>=15?masterwork|TotalCost+150| }chain armor|Temp1=150||Temp2=40|[DetermineMountedCombatArmorCostWeight=%MountSize%]
+21-25,with [Saddle][Blanket], [Bridle], [Saddlebags], and {If~{Dice~1d20+%CharacterLevel%}>=15?masterwork|TotalCost+150| }half-plate armor|Temp1=600||Temp2=50|[DetermineMountedCombatArmorCostWeight=%MountSize%]
+26-30,with [Saddle][Blanket], [Bridle], [Saddlebags], and |TotalCost+150|{Italic~+[DetermineMagicPlussesArmor={Dice~1d20+%CharacterLevel%}] leather armor}|Temp1=10||Temp2=15|[DetermineMountedCombatArmorCostWeight=%MountSize%]
+31-35,with [Saddle][Blanket], [Bridle], [Saddlebags], and |TotalCost+150|{Italic~+[DetermineMagicPlussesArmor={Dice~1d20+%CharacterLevel%}] chain armor}|Temp1=150||Temp2=40|[DetermineMountedCombatArmorCostWeight=%MountSize%]
+36-100,with [Saddle][Blanket], [Bridle], [Saddlebags], and |TotalCost+150|{Italic~+[DetermineMagicPlussesArmor={Dice~1d20+%CharacterLevel%}] half-plate armor}|Temp1=600||Temp2=50|[DetermineMountedCombatArmorCostWeight=%MountSize%]
+
+:DetermineMountedCombatArmorCostWeight
+1-4,|Temp1*1||Temp2/2||TotalCost+%Temp1%||TotalMountWeight+%Temp2%|
+5,|Temp1*2||Temp2*1||TotalCost+%Temp1%||TotalMountWeight+%Temp2%|
+6-9,|Temp1*4||Temp2*2||TotalCost+%Temp1%||TotalMountWeight+%Temp2%|
+
+:DetermineMountedCombatWeapon
+1-5,
+6-10, with {If~{Dice~1d20+%CharacterLevel%}>=12?masterwork|TotalCost+300| }short spear|TotalCost+1||TotalMountWeight+3|
+11-15, with {If~{Dice~1d20+%CharacterLevel%}>=12?masterwork|TotalCost+300| }light lance|TotalCost+5||TotalMountWeight+5|
+16-20, with {If~{Dice~1d20+%CharacterLevel%}>=12?masterwork|TotalCost+300| }heavy lance|TotalCost+10||TotalMountWeight+10|
+21-25, with |TotalCost+300|{Italic~+[DetermineMagicPlussesWeapon={Dice~1d20+%CharacterLevel%}] short spear}|TotalCost+1||TotalMountWeight+3|
+26-30, with |TotalCost+300|{Italic~+[DetermineMagicPlussesWeapon={Dice~1d20+%CharacterLevel%}] light lance}|TotalCost+5||TotalMountWeight+5|
+31-100, with |TotalCost+300|{Italic~+[DetermineMagicPlussesWeapon={Dice~1d20+%CharacterLevel%}] heavy lance}|TotalCost+10||TotalMountWeight+10|
+
+:DetermineMagicPlussesArmor
+1-10,1|TotalCost+1000|
+11-20,2|TotalCost+4000|
+21-25,3|TotalCost+9000|
+26-30,4|TotalCost+16000|
+31-100,5|TotalCost+25000|
+
+:DetermineMagicPlussesWeapon
+1-10,1|TotalCost+2000|
+11-20,2|TotalCost+8000|
+21-25,3|TotalCost+18000|
+26-30,4|TotalCost+32000|
+31-100,5|TotalCost+50000|
+
+### NEW MOUNT ###
+:Transportation
+# Pony
+1,{If~{Dice~1d100}<=15? pulling a {If~{Dice~1d3}=1?medium|TotalCost+15||TotalMountWeight+200|/small|TotalCost+10||TotalMountWeight+100|} cart/ [Transportation3]}
+# Warpony
+2,{If~{Dice~1d100}<=5? pulling a {If~{Dice~1d3}=1?medium|TotalCost+15||TotalMountWeight+200|/small|TotalCost+10||TotalMountWeight+100|} cart/{If~{Dice~1d30}<=%CharacterLevel%? [DetermineMountedCombatArmor={Dice~1d20+%CharacterLevel%}]/ [Transportation3]}}
+# Light Horse
+3,{If~{Dice~1d100}<=75?[Transportation2]/ [Transportation3]}
+# Light warhorse
+4,{If~{Dice~1d100}<=25?[Transportation2]/{If~{Dice~1d30}<=%CharacterLevel%? [DetermineMountedCombatArmor={Dice~1d20+%CharacterLevel%}]/ [Transportation3]}}
+# Heavy Horse
+5,{If~{Dice~1d100}<=50?[Transportation2]/ [Transportation3]}
+# Heavy warhorse
+6,{If~{Dice~1d100}<=5?[Transportation2]/{If~{Dice~1d30}<=%CharacterLevel%? [DetermineMountedCombatArmor={Dice~1d20+%CharacterLevel%}]/ [Transportation3]}}
+# Donkey
+7,{If~{Dice~1d100}<=15? pulling a {If~{Dice~1d3}=1?medium|TotalCost+15||TotalMountWeight+200|/small|TotalCost+10||TotalMountWeight+100|} cart/ [Transportation3]}
+# Mule
+8,{If~{Dice~1d100}<=15? pulling a {If~{Dice~1d3}=1?medium|TotalCost+15||TotalMountWeight+200|/small|TotalCost+10||TotalMountWeight+100|} cart/ [Transportation3]}
+# Stonebred pony
+9,{If~{Dice~1d100}<=15? pulling a {If~{Dice~1d3}=1?medium|TotalCost+15||TotalMountWeight+200|/small|TotalCost+10||TotalMountWeight+100|} cart/ [Transportation3]}
+# Riding dog
+10,{If~{Dice~1d100}<=10? pulling a small one-person cart|TotalCost+10||TotalMountWeight+100|/ [Transportation4]}
+
+;Transportation2
+9, x2,|TotalCost+%MountCost%| pulling a common carriage|TotalCost+100||TotalMountWeight+600|
+1, x2,|TotalCost+%MountCost%| pulling an ornamented carriage|TotalCost+7000||TotalMountWeight+750|
+6, x2,|TotalCost+%MountCost%| pulling a small wagon|TotalCost+20||TotalMountWeight+250|
+3, x2,|TotalCost+%MountCost%| pulling a medium wagon|TotalCost+35||TotalMountWeight+400|
+1, x2,|TotalCost+%MountCost%| pulling a large wagon|TotalCost+50||TotalMountWeight+700|
+6,, pulling a small cart|TotalCost+10||TotalMountWeight+100|
+3,, pulling a medium cart|TotalCost+15||TotalMountWeight+200|
+1,, pulling a large cart|TotalCost+20||TotalMountWeight+300|
+
+;Transportation3
+5,withtout saddle
+10,with pack saddle[Blanket]|TotalCost+5||TotalMountWeight+15|{If~{Dice~1d2}=1? and bridle only|TotalCost+1||TotalMountWeight+0.5|/ no bridle}
+20,with [Saddle][Blanket] and [Bridle]
+65,with [Saddle][Blanket], [Bridle], and [Saddlebags]
+
+;Transportation4
+1,withtout saddle
+30,with pack saddle[Blanket]|TotalCost+5||TotalMountWeight+15|{If~{Dice~1d2}=1? and bridle only|TotalCost+1||TotalMountWeight+0.5|/ no bridle}
+2,with [Saddle][Blanket] and [Bridle]
+3,with [Saddle][Blanket], [Bridle], and [Saddlebags]
+64,with [Saddlebags]
+
+;Bridle
+1,bridle only[Blinder]|TotalCost+1||TotalMountWeight+0.5|
+4,bit and bridle[Blinder]|TotalCost+2||TotalMountWeight+1|
+
+;Blinder
+4,
+1, with blinder|TotalCost+0.3|
+
+### NEW MOUNT ###
+:Horseshoes
+1-9,[Horseshoes2]
+10,
+
+;Horseshoes2
+1, (with horseshoes)|TotalCost+2.4||TotalMountWeight+4||MountCost+2.4|
+1, (no horseshoes)
+
+;Saddle
+9,riding saddle|TotalCost+10||TotalMountWeight+25|
+1,military saddle|TotalCost+20||TotalMountWeight+30|
+
+;Blanket
+1,
+4,, saddle blanket|TotalCost+0.2||TotalMountWeight+4|
+
+;Saddlebags
+1,small saddlebags|TotalCost+2||TotalMountWeight+5|
+2,large saddlebags|TotalCost+4||TotalMountWeight+8|

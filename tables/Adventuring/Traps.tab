@@ -1,0 +1,997 @@
+# ------------------------------------------------------
+# Last Update: modified by Valminder Nov 15, 2018.
+# ------------------------------------------------------
+#
+# Trap Generator
+#
+# by Valminder, april 2002.
+# Source: DMG 3rd edition.
+#
+# Modified by Valminder, Jan 2004
+# from "Door Too" by Lawrence H. Cormier, 1996.
+#    The Registered Version of TableMaster(tm) is required to use this table.
+#    Linked to:
+#       Equipment.PoisonsChecker (added variables to use this table)
+# Modified by Valminder, Nov 2005
+#    Added parameters for strength of trap (Beginner's, Low, Low Average,
+#                                           Average, High, Deadly, Hellish)
+#    Added a link to "SRD Traps.tab" to generate the stats of a trap.
+#    Added parameters to show the statistics of SRD traps.
+# Modified by Valminder, Feb 2006
+#    Added "Tab"
+# Modified by Valminder, Sept 2015
+#    Modified for "ENC Unlimate Random Encounter.tab"
+# Modified by Valminder, July 2018
+#    Added version for "Pathfinder".
+#    Added Pathfinder traps in "SRD Traps.tab"
+# Modified by Valminder, Nov 2018
+#    Moved Larry Cormier's traps to "Random Traps.tab" to be able add a CR.
+#
+
+/OverrideRolls 1
+
+%TRAP_MAX_LEVEL%,20
+# ALSO Modify in "ENC Ultimate Random Encounters"
+
+%AttBonus%,0
+%Book%,0
+%Book2%,0
+%Book3%,0
+%Book4%,0
+%Book5%,0
+%Cost%,0
+%CR%,0
+%CRMod%,0
+%Crit%,20x2
+%CurrentCount%,0
+%Damage%,0
+%DamagePoints%,0
+%d20%,1
+%d20Result%,0
+%DisplaySRDTrap%,2
+%EQTable%,0
+%Item%,0
+%MagEffect%,0
+%Mult%,2
+%NumAttacks%,1
+%piece%,0
+%Temp%,0
+%Temp2%,0
+%Temp3%,0
+%Total%,0
+%Trap%,0
+%TrapLevel%,0
+%TrapStat%,0
+%Type%,0
+%TrapLevelMod%,0
+%TypePoison%,0
+%Version%,0
+
+%Chance%,0
+%OtherDamage%,0
+%Projectiles%,0
+
+# Type of traps / 0 = not applicable   1 = applicable 
+# Add those variables in the "Trap X" subtables only when they are
+# applicable. For example, if it's a ceiling trap, add |Ceiling=1|.
+# If not applicable, they are automatically set to "0" in the
+# "Generate" subtable.
+
+%Ceiling%,0
+%Door%,0
+# Outside : 1= can be used outside; 2= can ONLY be used outside
+%Outside%,0
+%Pit%,0
+%Room%,0
+
+# This is for the poisons.
+%PCon%,0
+%PInh%,0
+%PIng%,0
+%PInj%,0
+%Poison%,0
+%PoisonLevel%,0
+%Count%,0
+%CRNeeded%,0
+%CRVal%,0
+%CRValLook%,0
+%TrapLevelWithPoison%,0
+%TypeNeeded%,0
+
+# ENC_URE
+%CR_ENC_URE%,0
+%OriginalCR%,0
+%Restart%,No
+%TestTable%,0
+%VerifyBook%,0
+
+@TrapLevel,4,Choose Trap Level Required,Beginner's (1-3),Low (4-6),Low Average (7-9),Average (10-12),High (13-15),Deadly (16-18),Hellish (19+)
+@DisplaySRDTrap,1,Do you want to display the statistics of SRD Traps?,Yes,No
+@CR_ENC_URE,0,(CR_ENC_URE) DO NOT MODIFY ---- Used for "ENC Ultimate Random Encounters" (0 Don't use; 99=Random)
+@VerifyBook,2,BOOK: Do you want to verify if you own the appropriate book (Need to modify "Permanent_Variables.tab"),Yes,No
+@Version,1,What version of d20 do you use?,LOAD from Permanent Variables,3.5,Pathfinder
+@TestTable,2,(Test Table) DO NOT MODIFY ---- Used for "ENC Ultimate Random Encounters",Yes,No
+
+:Start
+1,[VersionNeeded]
+_[TrapLevelMod=%TrapLevel%]<b><u>Trap Generator</u>:</b>
+#_DC to Find/Disable 20+dungeon level.
+_<br><br>[RollTrap]
+
+:Alternate_ENC_URE
+1,[VersionNeeded]
+_[Alternate_ENC_URE_2]
+_[RollTrap]
+
+:Alternate_ENC_URE_2
+1,[VersionNeeded]
+_|OriginalCR=%CR_ENC_URE%|
+_{If~%CR_ENC_URE%=99?|CR_ENC_URE={Dice~1d%TRAP_MAX_LEVEL%}|
+_      /{If~%CR_ENC_URE%>%TRAP_MAX_LEVEL%?|CR_ENC_URE=%TRAP_MAX_LEVEL%|
+_}}
+_|TrapLevel=%CR_ENC_URE%|
+
+:Alternate_ENC_URE_NOTOutdoor
+1,[Alternate_ENC_URE_2]
+_<u>Random Trap</u>: [Generate]<br><br><hr><br>
+_<u>Ceiling Trap</u>: [CeilingTraps]<br><br>
+_<u>Door Trap</u>: [DoorTraps]<br><br>
+_<u>Pit Trap</u>: [PitTraps]<br><br>
+_<u>Room Trap</u>: [RoomTraps]<br><br>
+_{Italic~{Color~Red,WARNING:} If you reroll the poison, it will reroll a poison of the last CR shown in a trap (probably CR {Color~Red,%CRNeeded%}).}
+
+:Alternate_ENC_URE_Outdoor
+1,[Alternate_ENC_URE_2]
+_<u>Outdoor Trap</u>: [OutsideTraps]<br><br>
+
+:TrapLevelMod
+1,|TrapLevelMod=-100|
+2,|TrapLevelMod=-60|
+3,|TrapLevelMod=-30|
+4,|TrapLevelMod=0|
+5,|TrapLevelMod=50|
+6,|TrapLevelMod=100|
+7,|TrapLevelMod=150|
+
+:RollTrap
+1,<u>Random Trap</u>: [Generate]<br><br><hr><br>
+_<u>Ceiling Trap</u>: [CeilingTraps]<br><br>
+_<u>Door Trap</u>: [DoorTraps]<br><br>
+_<u>Outdoor Trap</u>: [OutsideTraps]<br><br>
+_<u>Pit Trap</u>: [PitTraps]<br><br>
+_<u>Room Trap</u>: [RoomTraps]<br><br>
+_{Italic~{Color~Red,WARNING:} If you reroll the poison, it will reroll a poison of the last CR shown in a trap (probably CR {Color~Red,%CRNeeded%}).}
+_<br>{Italic~{Color~Red,WARNING:} If you roll the attack, it will probably be based on the last trap generated.}
+
+:VerifyBook
+1,|Restart=No|
+#_{If~%Book%!=1?|Temp=[Permanent_Variables.%Book%]|/Temp=1}
+_{If~{And~%Book%!=0,%Book%!=1}=1?|Temp=[Permanent_Variables.%Book%]|/|Temp=1|}
+_{If~%Temp%!=1?|Restart=Yes|{If~%TestTable%=1?{Color~Red, Book (%Book%)}}}
+#_{If~%Book2%!=0?|Temp=[Permanent_Variables.%Book2%]|{If~%Temp%!=1?|Restart=Yes|{If~%TestTable%=1?{Color~Red, Book2 (%Book2%)}}}}
+_{If~{And~%Book2%!=0,%Book2%!=1}=1?|Temp=[Permanent_Variables.%Book2%]|{If~%Temp%!=1?|Restart=Yes|{If~%TestTable%=1?{Color~Red, Book2 (%Book2%)}}}}
+#_{If~%Book3%!=0?|Temp=[Permanent_Variables.%Book3%]|{If~%Temp%!=1?|Restart=Yes|{If~%TestTable%=1?{Color~Red, Book3 (%Book3%)}}}}
+#_{If~%Book4%!=0?|Temp=[Permanent_Variables.%Book4%]|{If~%Temp%!=1?|Restart=Yes|{If~%TestTable%=1?{Color~Red, Book4 (%Book4%)}}}}
+#_{If~%Book5%!=0?|Temp=[Permanent_Variables.%Book5%]|{If~%Temp%!=1?|Restart=Yes|{If~%TestTable%=1?{Color~Red, Book5 (%Book5%)}}}}
+_{If~{And~%Book3%!=0,%Book3%!=1}=1?|Temp=[Permanent_Variables.%Book3%]|{If~%Temp%!=1?|Restart=Yes|{If~%TestTable%=1?{Color~Red, Book3 (%Book3%)}}}}
+_{If~{And~%Book4%!=0,%Book4%!=1}=1?|Temp=[Permanent_Variables.%Book4%]|{If~%Temp%!=1?|Restart=Yes|{If~%TestTable%=1?{Color~Red, Book4 (%Book4%)}}}}
+_{If~{And~%Book5%!=0,%Book5%!=1}=1?|Temp=[Permanent_Variables.%Book5%]|{If~%Temp%!=1?|Restart=Yes|{If~%TestTable%=1?{Color~Red, Book5 (%Book5%)}}}}
+
+:VersionNeeded
+1,{If~%Version%=1?|Version=[Permanent_Variables.Version]|}
+
+;Generate
+4,[TrapReset]
+_{If~%CR_ENC_URE%=0?|Trap=[GetTrap+%TrapLevelMod%]|/|Trap=[Trap %CR_ENC_URE%]|}
+_{If~%VerifyBook%=1?[VerifyBook]/|Restart=No|}
+_{If~%VerifyBook%=1?{If~%Restart%=Yes?[Generate]
+_                                    /[PrintTrap]}
+_                   /[PrintTrap]
+_}
+1,[Random Traps.Start(%TrapLevel%,%VerifyBook%,%Version%,1)]
+
+:Generate_AddPoisonLowerCR
+1,|Trap=[Trap %TrapLevelWithPoison% Main]|
+_{If~%Poison%=0?[Generate_AddPoisonLowerCR_2]
+_              /[Trap %TrapLevel% AddPoisonLowerCR]{If~%TestTable%=1?<br>{Color~Red,Trap cannot have Poison}}
+_}
+
+:Generate_AddPoisonLowerCR_2
+1,|TypePoison={Dice~1d10}|
+_{If~%TestTable%=1?{Color~Orange, Poison Trap (TrapLevel=%TrapLevel% - TrapLevelWithPoison=%TrapLevelWithPoison% - PoisonLevel=%PoisonLevel% - TypePoison=%TypePoison%{If~%PCon%>0? PCon=%PCon%+}{If~%PIng%>0? PIng=%PIng%+}{If~%PInh%>0? PInh=%PInh%+}{If~%PInj%>0? PInj=%PInj%+}) ===>>> }}
+_{If~{And~%PInj%!=0,%TypePoison%>=%PInj%}=1?|TypePoison=[~ChooseInjuryCR]|{If~%TestTable%=1?{Color~Orange, Injury chosen<br>}}
+_     /{If~{And~%PIng%!=0,%TypePoison%>=%PIng%}=1?|TypePoison=[~ChooseIngestedCR]|{If~%TestTable%=1?{Color~Orange, Ingested chosen<br>}}
+_     /{If~{And~%PInh%!=0,%TypePoison%>=%PInh%}=1?|TypePoison=[~ChooseInhaledCR]|{If~%TestTable%=1?{Color~Orange, Inhaled chosen<br>}}
+_     /{If~{And~%PCon%!=0,%TypePoison%>=%PContact%}=1?|TypePoison=[~ChooseContactCR]|{If~%TestTable%=1?{Color~Orange, Contact chosen<br>}}
+_}}}}
+_{Cap~%Trap%}
+
+;GenerateTomb
+4,[TrapReset]
+_{If~%CR_ENC_URE%=0?|Trap=[GetTrap+%TrapLevelMod%]|/|Trap=[Trap %CR_ENC_URE%]|}
+_{If~%VerifyBook%=1?[VerifyBook]/|Restart=No|}
+_{If~%VerifyBook%=1?{If~%Restart%=Yes?[Generate]
+_                                    /[PrintTrap]}
+_                   /[PrintTrap]
+_}
+1,[Random Traps.Start(%TrapLevel%,%VerifyBook%,%Version%,1)]
+
+# 210
+;GetTrap
+20,[Trap 1]|TrapLevel=1|
+19,[Trap 2]|TrapLevel=2|
+18,[Trap 3]|TrapLevel=3|
+17,[Trap 4]|TrapLevel=4|
+16,[Trap 5]|TrapLevel=5|
+15,[Trap 6]|TrapLevel=6|
+14,[Trap 7]|TrapLevel=7|
+13,[Trap 8]|TrapLevel=8|
+12,[Trap 9]|TrapLevel=9|
+11,[Trap 10]|TrapLevel=10|
+10,[Trap 11]|TrapLevel=11|
+9,[Trap 12]|TrapLevel=12|
+8,[Trap 13]|TrapLevel=13|
+7,[Trap 14]|TrapLevel=14|
+6,[Trap 15]|TrapLevel=15|
+5,[Trap 16]|TrapLevel=16|
+4,[Trap 17]|TrapLevel=17|
+3,[Trap 18]|TrapLevel=18|
+2,[Trap 19]|TrapLevel=19|
+1,[Trap 20]|TrapLevel=20|
+
+;GetTrapLevel
+20,1
+19,2
+18,3
+17,4
+16,5
+15,6
+14,7
+13,8
+12,9
+11,10
+10,11
+9,12
+8,13
+7,14
+6,15
+5,16
+4,17
+3,18
+2,19
+1,20
+
+;Tab
+1,{Loop~5,&nbsp;}
+
+;PrintTrap
+1,{If~%TestTable%=1?{Color~Orange,Trap Level= %TrapLevel%}<br>}
+_{Cap~%Trap%} {If~{Length~%TypePoison%}>10?{Color~Brown,{Italic~with poison}} {Bold~(CR%TrapLevel%)}/{Bold~(CR%CR%)}}[Tab]
+_{Bold~Book:} {If~{And~%Book%!=0?,%Book%!=1}=1? %Book%/---}{If~{And~%Book2%!=0,%Book2%!=1}=1?, %Book2%}{If~{And~%Book3%!=0,%Book3%!=1}=1?, %Book3%}{If~{And~%Book4%!=0,%Book4%!=1}=1?, %Book4%}{If~{And~%Book5%!=0,%Book5%!=1}=1?, %Book5%}
+_{If~{Length~%TypePoison%}>10?<br>[Tab]{Bold~{Italic~Poisoned Trap:}} %TypePoison%}
+_{If~{And~%DisplaySRDTrap%!=2,%TrapStat%!=0}=1?<br>[Tab][SRD Traps.%TrapStat%(,,%Version%)]}
+
+# ---------------------------------------------------------------------------
+
+:TrapReset
+1,|Ceiling=0||Door=0||Outside=0||Pit=0||Restart=No||Temp=0|
+_|Book=0||Book2=0||Book3=0||Book4=0||Book5=0||Poison=0||PoisonLevel=0||TrapLevelWithPoison=0||TrapStat=0||TypePoison=0|
+
+# Rare traps - don't find at CR 4-7-8-10-12
+;CeilingTraps
+4,[TrapReset]
+_{If~%CR_ENC_URE%=0?|Trap=[GetTrap+%TrapLevelMod%]|/|Trap=[Trap %CR_ENC_URE%]|}
+_{If~%VerifyBook%=1?[VerifyBook]/|Restart=No|}
+_{If~%Ceiling%=1?{If~%Restart%=Yes?[CeilingTraps]/[PrintTrap]}
+_               /[CeilingTraps]
+_}
+1,[Random Traps.Start(%TrapLevel%,%VerifyBook%,%Version%,2)]
+
+# OK, many present at every CR --- NOT at CR 11
+;DoorTraps
+4,[TrapReset]
+_{If~%CR_ENC_URE%=0?|Trap=[GetTrap+%TrapLevelMod%]|/|Trap=[Trap %CR_ENC_URE%]|}
+_{If~%VerifyBook%=1?[VerifyBook]/|Restart=No|}
+_{If~%Door%=1?{If~%Restart%=Yes?[DoorTraps]/[PrintTrap]}
+_            /[DoorTraps]
+_}
+1,[Random Traps.Start(%TrapLevel%,%VerifyBook%,%Version%,4)]
+
+# Outside : 1= can be used outside; 2= can ONLY be used outside
+# OK, many present at every CR
+;OutsideTraps
+1,[TrapReset]
+_{If~%CR_ENC_URE%=0?|Trap=[GetTrap+%TrapLevelMod%]|/|Trap=[Trap %CR_ENC_URE%]|}
+_{If~%VerifyBook%=1?[VerifyBook]/|Restart=No|}
+_{If~%Outside%!=0?{If~%Restart%=Yes?[OutsideTraps]/[PrintTrap]}
+_                /[OutsideTraps]
+_}
+
+# OK, present at every CR, more rare at high level
+;PitTraps
+4,[TrapReset]
+_{If~%CR_ENC_URE%=0?|Trap=[GetTrap+%TrapLevelMod%]|/|Trap=[Trap %CR_ENC_URE%]|}
+_{If~%VerifyBook%=1?[VerifyBook]/|Restart=No|}
+_{If~%Pit%=1?{If~%Restart%=Yes?[PitTraps]/[PrintTrap]}
+_           /[PitTraps]
+_}
+1,[Random Traps.Start(%TrapLevel%,%VerifyBook%,%Version%,5)].
+
+;RoomTraps
+16,[TrapReset]
+_{If~%CR_ENC_URE%=0?|Trap=[GetTrap+%TrapLevelMod%]|/|Trap=[Trap %CR_ENC_URE%]|}
+_{If~%VerifyBook%=1?[VerifyBook]/|Restart=No|}
+_{If~%Outside%!=2?{If~%Restart%=Yes?[RoomTraps]/[PrintTrap]}
+_                /[RoomTraps]
+_}
+1,{Cap~[Random Traps.Start(%TrapLevel%,%VerifyBook%,%Version%,6)]}.
+1,{Cap~[Random Traps.Start(%TrapLevel%,%VerifyBook%,%Version%,8)]}.
+1,{Cap~[Random Traps.Start(%TrapLevel%,%VerifyBook%,%Version%,7)]}.
+1,{Cap~[Random Traps.Start(%TrapLevel%,%VerifyBook%,%Version%,3)]}.
+
+# --------------------------------------------------------------------------
+
+# Outside : 1= can be used outside; 2= can ONLY be used outside
+
+# Enter the chances on 10 to generate each type of poison:
+# The highest number should go toward the end (PInj), for example: |PCon=1||PInh=2||PIng=0||PInj=3|
+# Example below: Contact (PCon) = 1/10  (so 1)
+#                Inhaled (PInh) = 1/10  (so 2)
+#                Ingested(PInh) = 0     (so 0)
+#                Injury  (PInj) = 8/10  (so 3)
+#    |PCon=1||PInh=2||PIng=0||PInj=3|
+# Example below: Contact (PCon) = 10/10 (so 1)
+#                Inhaled (PInh) = 0     (so 0)
+#                Ingested(PInh) = 0     (so 0)
+#                Injury  (PInj) = 0     (so 0)
+#    |PCon=1||PInh=0||PIng=0||PInj=0|
+# Example below: Contact (PCon) = 5/10  (so 1) = 1-5
+#                Inhaled (PInh) = 5/10  (so 6) = 6-10
+#                Ingested(PInh) = 0     (so 0)
+#                Injury  (PInj) = 0     (so 0)
+#    |PCon=1||PInh=6||PIng=0||PInj=0|
+
+;Trap 1
+1,[VersionNeeded][Trap 1 Main]
+
+;Trap 1 Main
+1,{If~%Version%=2?basic arrow trap|Book=SRD||CR=1||TrapStat=CR1Trap=1||Poison=0||PCon=0||PInh=0||PIng=0||PInj=1|
+_/arrow trap|Book=PFCore||CR=1||TrapStat=CR1Trap=1||Poison=0||PCon=0||PInh=0||PIng=0||PInj=1|}
+1,camouflaged pit trap (10')|Book=SRD||CR=1||Outside=1||Pit=1||TrapStat=CR1Trap=2||Poison=0||PCon=1||PInh=6||PIng=0||PInj=0|
+1,{If~%Version%=2?deeper pit trap (20')|Book=SRD||CR=1||Outside=1||Pit=1||TrapStat=CR1Trap=3||Poison=0||PCon=1||PInh=6||PIng=0||PInj=0|
+_/pit trap (20')|Book=PFCore||CR=1||Outside=1||Pit=1||TrapStat=CR1Trap=3||Poison=0||PCon=1||PInh=6||PIng=0||PInj=0|}
+1,doorknob smeared with contact poison (|CRNeeded=1|[~ChooseContactCR])|Book=SRD||CR=1||Door=1||TrapStat=CR5Trap=2||Poison=1|
+1,fusillade of darts|Book=SRD||CR=1||TrapStat=CR1Trap=4||Poison=0||PCon=0||PInh=1||PIng=0||PInj=2|
+1,poison dart trap (|CRNeeded=1|[~ChooseInjuryCR])|Book=SRD||CR=1||TrapStat=CR1Trap=5||Poison=1|
+1,{If~%Version%=2?poison needle trap (|CRNeeded=1|[~ChooseInjuryCR])|Book=SRD||CR=1||Door=1||TrapStat=CR1Trap=6||Poison=1|
+_/poison dart trap (|CRNeeded=1|[~ChooseInjuryCR])|Book=PFCore||CR=1||Door=1||TrapStat=CR1Trap=6||Poison=1|}
+1,portcullis trap|Book=SRD||CR=1||Ceiling=1||TrapStat=CR1Trap=7||Poison=0||PCon=1||PInh=2||PIng=0||PInj=3|
+1,razor-wire across hallway|Book=SRD||CR=1||TrapStat=CR1Trap=8||Poison=0||PCon=1||PInh=2||PIng=0||PInj=3|
+1,rolling rock trap|Book=SRD||CR=1||TrapStat=CR1Trap=9||Poison=0||PCon=1||PInh=0||PIng=0||PInj=0|
+1,{If~%Version%=2?scything blade trap|Book=SRD||CR=1||Outside=1||TrapStat=CR1Trap=10||Poison=0||PCon=0||PInh=0||PIng=0||PInj=1|
+_/swinging axe trap|Book=PFCore||CR=1||Outside=1||TrapStat=CR1Trap=10||Poison=0||PCon=0||PInh=0||PIng=0||PInj=1|}
+1,spear trap|Book=SRD||CR=1||TrapStat=CR1Trap=11||Poison=0||PCon=0||PInh=0||PIng=0||PInj=1|
+1,swinging block trap|Book=SRD||CR=1||Outside=1||TrapStat=CR1Trap=12||Poison=0||PCon=1||PInh=0||PIng=0||PInj=0|
+1,wall blade trap|Book=SRD||CR=1||TrapStat=CR1Trap=13||Poison=0||PCon=0||PInh=0||PIng=0||PInj=1|
+
+;Trap 1 AddPoisonLowerCR
+1,|TrapLevelWithPoison=1||PoisonLevel=1|[Generate_AddPoisonLowerCR]
+
+;Trap 2
+9,[VersionNeeded][Trap 2 Main]
+1,[VersionNeeded][Trap 2 AddPoisonLowerCR]
+
+;Trap 2 Main
+1,box of brown mold|Book=SRD||CR=2||Door=1||TrapStat=CR2Trap=1||Poison=1|
+1,bricks from ceiling|Book=SRD||CR=2||Ceiling=1||TrapStat=CR2Trap=2||Poison=0||PCon=1||PInh=6||PIng=0||PInj=0|
+1,{If~%Version%=2?{Italic~Burning Hands} trap (1d4)|Book=SRD||CR=2||Door=1||Outside=1||TrapStat=CR2Trap=3||Poison=0||PCon=0||PInh=1||PIng=0||PInj=0|
+_/{Italic~Burning Hands} trap (2d4)|Book=PFCore||CR=2||Door=1||Outside=1||TrapStat=CR2Trap=3||Poison=0||PCon=0||PInh=1||PIng=0||PInj=0|}
+1,camouflaged pit trap (20')|Book=SRD||CR=2||Outside=1||Pit=1||TrapStat=CR2Trap=4||Poison=0||PCon=1||PInh=6||PIng=0||PInj=0|
+1,{Italic~Inflict Light Wounds} trap|Book=SRD||CR=2||Door=1||Outside=1||TrapStat=CR2Trap=5||Poison=0||PCon=0||PInh=1||PIng=0||PInj=0|
+1,inhaled gas trap (|CRNeeded=1|[~ChooseInhaledCR]) (see Burnt Othur Vapor trap CR7)|Book=SRD||CR=2||TrapStat=CR7Trap=3||Poison=1|
+1,{If~%Version%=2?javelin trap|Book=SRD||CR=2||Outside=1||TrapStat=CR2Trap=6||Poison=0||PCon=0||PInh=0||PIng=0||PInj=1|
+_/javelin trap|Book=PFCore||CR=2||Outside=1||TrapStat=CR2Trap=6||Poison=0||PCon=0||PInh=0||PIng=0||PInj=1|}
+1,large net trap|Book=SRD||CR=2||Ceiling=1||Outside=1||TrapStat=CR2Trap=7||Poison=0||PCon=1||PInh=6||PIng=0||PInj=0|
+1,lock covered in poison (|CRNeeded=1|[~ChooseContactCR]) (see CR7 Trap in DMG)|Book=SRD||CR=2||Door=1||TrapStat=CR7Trap=7||Poison=1|
+1,pit trap (40')|Book=SRD||CR=2||Outside=1||Pit=1||TrapStat=CR2Trap=8||Poison=0||PCon=1||PInh=6||PIng=0||PInj=0|
+1,poison dart trap (|CRNeeded=2|[~ChooseInjuryCR]) (see CR1 Trap in DMG)|Book=SRD||CR=2||TrapStat=CR1Trap=5||Poison=1|
+1,poison needle trap (|CRNeeded=2|[~ChooseInjuryCR])|Book=SRD||CR=2||Door=1||TrapStat=CR2Trap=9||Poison=1|
+1,{If~%Version%=2?spiked pit trap (20')|Book=SRD||CR=2||Outside=1||Pit=1||TrapStat=CR2Trap=10||Poison=0||PCon=1||PInh=2||PIng=0||PInj=3|
+_/spiked pit trap (10')|Book=PFCore||CR=2||Outside=1||Pit=1||TrapStat=CR2Trap=10||Poison=0||PCon=1||PInh=2||PIng=0||PInj=3|}
+1,tripping chain|Book=SRD||CR=2||TrapStat=CR2Trap=11||Poison=0||PCon=1||PInh=6||PIng=0||PInj=0|
+1,well-camouflaged pit trap (10')|Book=SRD||CR=2||Outside=1||TrapStat=CR2Trap=12||Poison=0||PCon=1||PInh=6||PIng=0||PInj=0|
+# New
+1,{Italic~Summon Monster I} trap{If~%Version%=2?|Book=SRD|/|Book=PFCore|}|CR=2||Outside=1||TrapStat=CR2Trap=13||Poison=0||PCon=0||PInh=1||PIng=0||PInj=0|
+
+;Trap 2 AddPoisonLowerCR
+1,|TrapLevelWithPoison=1||PoisonLevel=1|[Generate_AddPoisonLowerCR]
+
+;Trap 3
+9,[VersionNeeded][Trap 3 Main]
+1,[VersionNeeded][Trap 3 AddPoisonLowerCR]
+
+;Trap 3 Main
+1,{Italic~Burning Hands} trap (5d4)|Book=SRD||CR=3||Door=1||Outside=1||TrapStat=CR3Trap=1||Poison=0||PCon=0||PInh=1||PIng=0||PInj=0|
+1,{If~%Version%=2?camouflaged pit trap (30')|Book=SRD||CR=3||Outside=1||Pit=1||TrapStat=CR3Trap=2||Poison=0||PCon=1||PInh=6||PIng=0||PInj=0|
+_/camouflaged pit trap (30')|Book=PFCore||CR=3||Outside=1||Pit=1||TrapStat=CR3Trap=2||Poison=0||PCon=1||PInh=6||PIng=0||PInj=0|}
+1,ceiling pendulum|Book=SRD||CR=3||TrapStat=CR3Trap=3||Poison=0||PCon=0||PInh=0||PIng=0||PInj=1|
+1,doorknob smeared with contact poison (|CRNeeded=3|[~ChooseContactCR]) (see CR1 Trap in DMG)|Book=SRD||CR=3||Door=1||TrapStat=CR5Trap=2||Poison=1|
+1,{Italic~Fire Trap}|Book=SRD||CR=3||Door=1||Outside=1||TrapStat=CR3Trap=4||Poison=0||PCon=0||PInh=1||PIng=0||PInj=0|
+1,extended {Italic~bane} trap|Book=SRD||CR=3||TrapStat=CR3Trap=5||Poison=0||PCon=0||PInh=1||PIng=0||PInj=0|
+1,{Italic~Ghoul Touch} trap|Book=SRD||CR=3||Door=1||Outside=1||TrapStat=CR3Trap=6||Poison=0||PCon=0||PInh=1||PIng=0||PInj=0|
+1,hail of needles|Book=SRD||CR=3||Door=1||TrapStat=CR3Trap=7||Poison=0||PCon=0||PInh=0||PIng=0||PInj=1|
+1,inhaled gas trap (|CRNeeded=2|[~ChooseInhaledCR]) (see Burnt Othur Vapor trap CR7)|Book=SRD||CR=3||TrapStat=CR7Trap=3||Poison=1|
+1,lock covered in poison (|CRNeeded=2|[~ChooseContactCR]) (see CR7 Trap in DMG)|Book=SRD||CR=3||Door=1||TrapStat=CR7Trap=7||Poison=1|
+1,{If~%Version%=2?{Italic~Acid Arrow} trap|Book=SRD||CR=3||Door=1||Outside=1||TrapStat=CR3Trap=8||Poison=0||PCon=0||PInh=1||PIng=0||PInj=0|
+_/{Italic~Acid Arrow} trap|Book=PFCore||CR=3||Door=1||Outside=1||TrapStat=CR3Trap=8||Poison=0||PCon=0||PInh=1||PIng=0||PInj=0|}
+1,pit trap (60')|Book=SRD||CR=3||Outside=1||Pit=1||TrapStat=CR3Trap=9||Poison=0||PCon=1||PInh=6||PIng=0||PInj=0|
+1,poisoned arrow trap (|CRNeeded=3|[~ChooseInjuryCR])|Book=SRD||CR=3||TrapStat=CR3Trap=10||Poison=1|
+1,poison dart trap (|CRNeeded=3|[~ChooseInjuryCR]) (see CR1 Trap in DMG)|Book=SRD||CR=3||TrapStat=CR1Trap=5||Poison=1|
+1,poison needle trap (|CRNeeded=3|[~ChooseInjuryCR]) (see CR2 Trap in DMG)|Book=SRD||CR=3||Door=1||TrapStat=CR1Trap=6||Poison=1|
+1,spiked pit trap (40')|Book=SRD||CR=3||Outside=1||Pit=1||TrapStat=CR3Trap=11||Poison=0||PCon=1||PInh=2||PIng=0||PInj=3|
+1,stone blocks from ceiling|Book=SRD||CR=3||Ceiling=1||TrapStat=CR3Trap=12||Poison=0||PCon=1||PInh=6||PIng=0||PInj=0|
+# New
+1,{Italic~Summon Monster II} trap{If~%Version%=2?|Book=SRD|/|Book=PFCore|}|CR=3||Outside=1||TrapStat=CR3Trap=13||Poison=0||PCon=0||PInh=1||PIng=0||PInj=0|
+
+;Trap 3 AddPoisonLowerCR
+1,|TrapLevelWithPoison=1||PoisonLevel=2|[Generate_AddPoisonLowerCR]
+1,|TrapLevelWithPoison=2||PoisonLevel=1|[Generate_AddPoisonLowerCR]
+
+;Trap 4
+9,[VersionNeeded][Trap 4 Main]
+1,[VersionNeeded][Trap 4 AddPoisonLowerCR]
+
+;Trap 4 Main
+1,{Italic~Bestow Curse} trap|Book=SRD||CR=4||Door=1||Outside=1||TrapStat=CR4Trap=1||Poison=0||PCon=0||PInh=1||PIng=0||PInj=0|
+1,camouflaged pit trap (40')|Book=SRD||CR=4||Outside=1||Pit=1||TrapStat=CR4Trap=2||Poison=0||PCon=1||PInh=6||PIng=0||PInj=0|
+1,collapsing column|Book=SRD||CR=4||TrapStat=CR4Trap=3||Poison=0||PCon=1||PInh=6||PIng=0||PInj=0|
+1,doorknob smeared with contact poison (|CRNeeded=4|[~ChooseContactCR]) (see CR1 Trap in DMG)|Book=SRD||CR=4||Door=1||TrapStat=CR5Trap=2||Poison=1|
+1,{Italic~Fireball} trap (5d6)|Book=SRD||CR=4||Outside=1||TrapStat=1||TrapStat=CR5Trap=5||Poison=0||PCon=0||PInh=1||PIng=0||PInj=0|
+1,{Italic~Glyph of Warding} (blast) trap (2d8)|Book=SRD||CR=4||Door=1||Outside=1||TrapStat=CR4Trap=4||Poison=0||PCon=0||PInh=1||PIng=0||PInj=0|
+1,inhaled gas trap (|CRNeeded=3|[~ChooseInhaledCR]) (see Burnt Othur Vapor trap CR7)|Book=SRD||CR=4||TrapStat=CR7Trap=3||Poison=1|
+1,{Italic~Lightning Bolt} trap (5d6)|Book=SRD||CR=4||Outside=1||TrapStat=CR4Trap=5||Poison=0||PCon=0||PInh=1||PIng=0||PInj=0|
+1,lock covered in poison (|CRNeeded=3|[~ChooseContactCR]) (see CR7 Trap in DMG)|Book=SRD||CR=4||Door=1||TrapStat=CR7Trap=7||Poison=1|
+1,pit trap (80')|Book=SRD||CR=4||Outside=1||Pit=1||TrapStat=CR4Trap=6||Poison=0||PCon=1||PInh=6||PIng=0||PInj=0|
+1,poisoned arrow trap (|CRNeeded=4|[~ChooseInjuryCR]) (see CR3 Trap in DMG)|Book=SRD||CR=4||TrapStat=CR3Trap=10||Poison=1|
+1,poison dart trap (|CRNeeded=4|[~ChooseInjuryCR]) (see CR1 Trap in DMG)|Book=SRD||CR=4||TrapStat=CR1Trap=5||Poison=1|
+1,poisoned dart trap (|CRNeeded=1|[~ChooseInjuryCR])|Book=SRD||CR=4||TrapStat=CR4Trap=7||Poison=1|
+1,poison needle trap (|CRNeeded=4|[~ChooseInjuryCR]) (see CR2 Trap in DMG)|Book=SRD||CR=4||Door=1||TrapStat=CR1Trap=6||Poison=1|
+1,poison wall spikes (|CRNeeded=1|[~ChooseInjuryCR]) (see CR5 Trap in DMG)|Book=SRD||CR=4||TrapStat=CR5Trap=11||Poison=1|
+1,{Italic~Sepia Snake Sigil} trap|Book=SRD||CR=4||Door=1||Outside=1||TrapStat=CR4Trap=8||Poison=0||PCon=0||PInh=1||PIng=0||PInj=0|
+1,spiked pit trap (60')|Book=SRD||CR=4||Outside=1||Pit=1||TrapStat=CR4Trap=9||Poison=0||PCon=1||PInh=2||PIng=0||PInj=3|
+1,{If~%Version%=2?wall scythe trap|Book=SRD||CR=4||TrapStat=CR4Trap=10||Poison=0||PCon=0||PInh=0||PIng=0||PInj=1|
+_/wall scythe trap|Book=PFCore||CR=4||TrapStat=CR4Trap=10||Poison=0||PCon=0||PInh=0||PIng=0||PInj=1|}
+1,water-filled room trap|Book=SRD||CR=4||Door=1||TrapStat=CR4Trap=11||Poison=0||PCon=1||PInh=0||PIng=6||PInj=0|
+1,wide-mouthed spiked pit trap (20')|Book=SRD||CR=4||Outside=1||Pit=1||TrapStat=CR4Trap=12||Poison=0||PCon=1||PInh=2||PIng=0||PInj=3|
+# New
+1,{Italic~Summon Monster III} trap{If~%Version%=2?|Book=SRD|/|Book=PFCore|}|CR=4||Outside=1||TrapStat=CR4Trap=14||Poison=0||PCon=0||PInh=1||PIng=0||PInj=0|
+# New PF
+1,electricity arc|Book=PFCore||CR=4||Outside=0||Pit=0||TrapStat=CR4Trap=13||Poison=0||PCon=0||PInh=0||PIng=0||PInj=0|
+
+;Trap 4 AddPoisonLowerCR
+1,|TrapLevelWithPoison=1||PoisonLevel=3|[Generate_AddPoisonLowerCR]
+1,|TrapLevelWithPoison=2||PoisonLevel=2|[Generate_AddPoisonLowerCR]
+1,|TrapLevelWithPoison=3||PoisonLevel=1|[Generate_AddPoisonLowerCR]
+
+;Trap 5
+9,[VersionNeeded][Trap 5 Main]
+1,[VersionNeeded][Trap 5 AddPoisonLowerCR]
+
+;Trap 5 Main
+1,camouflaged pit trap (50')|Book=SRD||CR=5||Outside=1||Pit=1||TrapStat=CR5Trap=1||Poison=0||PCon=1||PInh=6||PIng=0||PInj=0|
+1,doorknob smeared with contact poison (|CRNeeded=1|[~ChooseContactCR])|Book=SRD||CR=5||Door=1||TrapStat=CR5Trap=2||Poison=1|
+1,{If~%Version%=2?falling block trap|Book=SRD||CR=5||Ceiling=1||TrapStat=CR5Trap=3||Poison=0||PCon=1||PInh=6||PIng=0||PInj=0|
+_/falling block trap|Book=PFCore||CR=5||Ceiling=1||TrapStat=CR5Trap=3||Poison=0||PCon=1||PInh=6||PIng=0||PInj=0|}
+1,{Italic~Fire Trap} trap|Book=SRD||CR=5||Door=1||Outside=1||TrapStat=CR5Trap=4||Poison=0||PCon=0||PInh=1||PIng=0||PInj=0|
+1,{If~%Version%=2?{Italic~Fireball} trap (8d6)|Book=SRD||CR=5||Outside=1||TrapStat=CR5Trap=5||Poison=0||PCon=0||PInh=1||PIng=0||PInj=0|
+_/{Italic~Fireball} trap (6d6)|Book=PFCore||CR=5||Outside=1||TrapStat=CR5Trap=5||Poison=0||PCon=0||PInh=1||PIng=0||PInj=0|}
+1,flooding room trap|Book=SRD||CR=5||Door=1||TrapStat=CR5Trap=6||Poison=0||PCon=1||PInh=0||PIng=6||PInj=0|
+1,fusillade of darts|Book=SRD||CR=5||TrapStat=CR5Trap=7||Poison=0||PCon=0||PInh=1||PIng=0||PInj=2|
+1,inhaled gas trap (|CRNeeded=4|[~ChooseInhaledCR]) (see Burnt Othur Vapor trap CR7)|Book=SRD||CR=5||TrapStat=CR7Trap=3||Poison=1|
+1,{Italic~Lightning Bolt} trap (8d6)|Book=SRD||CR=5||Outside=1||TrapStat=CR4Trap=5||Poison=0||PCon=0||PInh=1||PIng=0||PInj=0|
+1,lock covered in poison (|CRNeeded=4|[~ChooseContactCR]) (see CR7 Trap in DMG)|Book=SRD||CR=5||Door=1||TrapStat=CR7Trap=7||Poison=1|
+1,moving executioner statue|Book=SRD||CR=5||TrapStat=CR5Trap=8||Poison=0||PCon=0||PInh=0||PIng=0||PInj=1|
+1,{Italic~Phantasmal Killer} trap|Book=SRD||CR=5||Door=1||Outside=1||TrapStat=CR5Trap=9||Poison=0||PCon=0||PInh=1||PIng=0||PInj=0|
+1,pit trap (100')|Book=SRD||CR=5||Outside=1||Pit=1||TrapStat=CR5Trap=10||Poison=0||PCon=1||PInh=6||PIng=0||PInj=0|
+1,poisoned arrow trap (|CRNeeded=5|[~ChooseInjuryCR]) (see CR3 Trap in DMG)|Book=SRD||CR=5||TrapStat=CR3Trap=10||Poison=1|
+1,poison dart trap (|CRNeeded=5|[~ChooseInjuryCR]) (see CR1 Trap in DMG)|Book=SRD||CR=5||TrapStat=CR1Trap=5||Poison=1|
+1,poisoned dart trap (|CRNeeded=2|[~ChooseInjuryCR]) (see CR4 Trap in DMG)|Book=SRD||CR=5||TrapStat=CR4Trap=7||Poison=1|
+1,poison needle trap (|CRNeeded=5|[~ChooseInjuryCR]) (see CR2 Trap in DMG)|Book=SRD||CR=5||Door=1||TrapStat=CR1Trap=6||Poison=1|
+1,poison wall spikes (|CRNeeded=2|[~ChooseInjuryCR])|Book=SRD||CR=5||TrapStat=CR5Trap=11||Poison=1|
+1,spiked pit trap (80')|Book=SRD||CR=5||Outside=1||Pit=1||TrapStat=CR5Trap=13||Poison=0||PCon=1||PInh=2||PIng=0||PInj=3|
+1,wide-mouthed spiked pit trap (40')|Book=SRD||CR=5||Outside=1||Pit=1||TrapStat=CR5Trap=12||Poison=0||PCon=1||PInh=2||PIng=0||PInj=3|
+1,ungol dust vapor trap|Book=SRD||CR=5||Door=1||TrapStat=CR5Trap=14||Poison=1|
+# New
+1,{Italic~Symbol of Pain}|Book=1||CR=5||Outside=1||TrapStat=CR5Trap=15||Poison=0||PCon=0||PInh=1||PIng=0||PInj=0|
+1,{Italic~Summon Monster IV} trap{If~%Version%=2?|Book=SRD|/|Book=PFCore|}|CR=5||Outside=1||TrapStat=CR5Trap=16||Poison=0||PCon=0||PInh=1||PIng=0||PInj=0|
+
+;Trap 5 AddPoisonLowerCR
+1,|TrapLevelWithPoison=1||PoisonLevel=4|[Generate_AddPoisonLowerCR]
+1,|TrapLevelWithPoison=2||PoisonLevel={Dice~1d2+2}|[Generate_AddPoisonLowerCR]
+1,|TrapLevelWithPoison=3||PoisonLevel={Dice~1d2+1}|[Generate_AddPoisonLowerCR]
+1,|TrapLevelWithPoison=4||PoisonLevel={Dice~1d2}|[Generate_AddPoisonLowerCR]
+
+;Trap 6
+9,[VersionNeeded][Trap 6 Main]
+1,[VersionNeeded][Trap 6 AddPoisonLowerCR]
+
+;Trap 6 Main
+1,built-to-collapse wall|Book=SRD||CR=6||TrapStat=CR6Trap=1||Poison=0||PCon=1||PInh=6||PIng=0||PInj=0|
+1,compacting room|Book=SRD||CR=6||Door=1||TrapStat=CR6Trap=2||Poison=0||PCon=1||PInh=6||PIng=0||PInj=0|
+1,doorknob smeared with contact poison (|CRNeeded=6|[~ChooseContactCR]) (see CR5 Trap in DMG)|Book=SRD||CR=6||Door=1||TrapStat=CR5Trap=2||Poison=1|
+1,{Italic~Fireball} trap (10d6)|Book=SRD||CR=6||Outside=1||TrapStat=CR5Trap=5||Poison=0||PCon=0||PInh=1||PIng=0||PInj=0|
+1,{If~%Version%=2?{Italic~Flame Strike} trap (9d6)|Book=SRD||CR=6||Ceiling=1||Outside=1||TrapStat=CR6Trap=3||Poison=0||PCon=0||PInh=1||PIng=0||PInj=0|
+_/{Italic~Flame Strike} trap (8d6)|Book=PFCore||CR=6||Ceiling=1||Outside=1||TrapStat=CR6Trap=3||Poison=0||PCon=0||PInh=1||PIng=0||PInj=0|}
+1,fusillade of spears|Book=SRD||CR=6||Outside=1||TrapStat=CR6Trap=4||Poison=0||PCon=0||PInh=0||PIng=0||PInj=1|
+1,{Italic~Glyph of Warding} (blast) trap (8d8)|Book=SRD||CR=6||Door=1||Outside=1||TrapStat=CR6Trap=5||Poison=0||PCon=0||PInh=1||PIng=0||PInj=0|
+1,inhaled gas trap (|CRNeeded=5|[~ChooseInhaledCR]) (see Burnt Othur Vapor trap CR7)|Book=SRD||CR=6||TrapStat=CR7Trap=3||Poison=1|
+1,{Italic~Lightning Bolt} trap (10d6)|Book=SRD||CR=6||Outside=1||TrapStat=CR6Trap=6||Poison=0||PCon=0||PInh=1||PIng=0||PInj=0|
+1,lock covered in poison (|CRNeeded=5|[~ChooseContactCR]) (see CR7 Trap in DMG)|Book=SRD||CR=6||Door=1||TrapStat=CR7Trap=7||Poison=0||PCon=0||PInh=0||PIng=0||PInj=0|
+1,poisoned dart trap (|CRNeeded=3|[~ChooseInjuryCR]) (see CR4 Trap in DMG)|Book=SRD||CR=6||TrapStat=CR4Trap=7||Poison=1|
+1,poison wall spikes (|CRNeeded=3|[~ChooseInjuryCR]) (see CR5 Trap in DMG)|Book=SRD||CR=6||TrapStat=CR5Trap=11||Poison=1|
+1,spiked blocks from ceiling|Book=SRD||CR=6||Ceiling=1||TrapStat=CR6Trap=7||Poison=0||PCon=1||PInh=4||PIng=0||PInj=7|
+1,spiked pit trap (100')|Book=SRD||CR=6||Outside=1||Pit=1||TrapStat=CR6Trap=8||Poison=0||PCon=1||PInh=2||PIng=0||PInj=3|
+1,whirling poison blades (|CRNeeded=4|[~ChooseInjuryCR])|Book=SRD||CR=6||TrapStat=CR6Trap=9||Poison=1|
+1,wide-mouthed pit trap (40')|Book=SRD||CR=6||Outside=1||Pit=1||TrapStat=CR6Trap=10||Poison=0||PCon=1||PInh=6||PIng=0||PInj=0|
+1,{If~%Version%=2?wyvern poison arrow trap|Book=SRD||CR=6||TrapStat=CR6Trap=11||Poison=1|
+_/wyvern arrow trap|Book=PFCore||CR=6||TrapStat=CR6Trap=11||Poison=1|}
+# New
+1,{Italic~Summon Monster V} trap{If~%Version%=2?|Book=SRD|/|Book=PFCore|}|CR=6||Outside=1||TrapStat=CR6Trap=12||Poison=0||PCon=0||PInh=1||PIng=0||PInj=0|
+
+;Trap 6 AddPoisonLowerCR
+1,|TrapLevelWithPoison=1||PoisonLevel={Dice~1d2+4}|[Generate_AddPoisonLowerCR]
+1,|TrapLevelWithPoison=2||PoisonLevel=5|[Generate_AddPoisonLowerCR]
+1,|TrapLevelWithPoison=3||PoisonLevel={Dice~1d2+3}|[Generate_AddPoisonLowerCR]
+1,|TrapLevelWithPoison=4||PoisonLevel={Dice~1d2+2}|[Generate_AddPoisonLowerCR]
+1,|TrapLevelWithPoison=5||PoisonLevel={Dice~1d3}|[Generate_AddPoisonLowerCR]
+1,|TrapLevelWithPoison=6||PoisonLevel=1|[Generate_AddPoisonLowerCR]
+
+;Trap 7
+9,[VersionNeeded][Trap 7 Main]
+1,[VersionNeeded][Trap 7 AddPoisonLowerCR]
+
+;Trap 7 Main
+1,{Italic~Acid Fog} trap|Book=SRD||CR=7||Outside=1||TrapStat=CR7Trap=1||Poison=0||PCon=0||PInh=1||PIng=0||PInj=0|
+1,{Italic~Blade Barrier} trap|Book=SRD||CR=7||Outside=1||TrapStat=CR7Trap=2||Poison=0||PCon=0||PInh=1||PIng=0||PInj=0|
+1,burnt othur vapor trap|Book=SRD||CR=7||Door=1||TrapStat=CR7Trap=3||Poison=1|
+1,{Italic~Chain Lightning} trap (11d6)|Book=SRD||CR=7||Outside=1||TrapStat=CR7Trap=4||Poison=0||PCon=0||PInh=1||PIng=0||PInj=0|
+1,{Italic~Black Tentacles} trap|Book=SRD||CR=7||Outside=1||TrapStat=CR7Trap=5||Poison=0||PCon=0||PInh=1||PIng=0||PInj=0|
+1,fusillade of poisoned oil darts (|CRNeeded=1|[~ChooseInjuryCR])|Book=SRD||CR=7||TrapStat=CR7Trap=6||Poison=1|
+1,inhaled gas trap (|CRNeeded=6|[~ChooseInhaledCR]) (see Burnt Othur Vapor trap CR7)|Book=SRD||CR=7||TrapStat=CR7Trap=3||Poison=1|
+1,lock covered in poison (|CRNeeded=6|[~ChooseContactCR])|Book=SRD||CR=7||Door=1||TrapStat=CR7Trap=7||Poison=1|
+1,poisoned dart trap (|CRNeeded=4|[~ChooseInjuryCR]) (see CR4 Trap in DMG)|Book=SRD||CR=7||TrapStat=CR4Trap=7||Poison=1|
+1,poisoned spiked pit trap (50'; |CRNeeded=1|[~ChooseInjuryCR]) (see CR10 Trap in DMG)|Book=SRD||CR=7||Outside=1||Pit=1||TrapStat=CR10Trap=5||Poison=1|
+1,poison wall spikes (|CRNeeded=4|[~ChooseInjuryCR]) (see CR5 Trap in DMG)|Book=SRD||CR=7||TrapStat=CR5Trap=11||Poison=1|
+1,{If~%Version%=2?{Italic~Summon Monster VI} trap|Book=SRD||CR=7||Outside=1||TrapStat=CR7Trap=8||Poison=0||PCon=0||PInh=1||PIng=0||PInj=0|
+_/{Italic~Summon Monster VI} trap|Book=PFCore||CR=7||Outside=1||TrapStat=CR7Trap=8||Poison=0||PCon=0||PInh=1||PIng=0||PInj=0|}
+1,water-filled room|Book=SRD||CR=7||Door=1||TrapStat=CR7Trap=9||Poison=0||PCon=1||PInh=0||PIng=6||PInj=0|
+1,well-camouflaged pit trap (70')|Book=SRD||CR=7||Outside=1||Pit=1||TrapStat=CR7Trap=10||Poison=0||PCon=1||PInh=6||PIng=0||PInj=0|
+1,whirling poison blades (|CRNeeded=5|[~ChooseInjuryCR])|Book=SRD||CR=7||TrapStat=CR6Trap=9||Poison=1|
+1,wide-mouthed spiked pit trap with poisoned spikes (70'; |CRNeeded=1|[~ChooseInjuryCR]) (see CR7 Trap in DMG)|Book=SRD||CR=7||Outside=1||Pit=1||TrapStat=CR9Trap=5||Poison=1|
+# New
+1,Control Winds Trap|Book=1||CR=7||Ceiling=1||TrapStat=CR7Trap=11||Poison=1|
+1,{Italic~Symbol of Weakness}|Book=1||CR=7||Outside=1||TrapStat=CR7Trap=12||Poison=0||PCon=0||PInh=1||PIng=0||PInj=0|
+# New PF
+1,frost fangs trap|Book=PFCore||CR=7||Outside=0||TrapStat=CR7Trap=13||Poison=0||PCon=1||PInh=0||PIng=0||PInj=0|
+
+;Trap 7 AddPoisonLowerCR
+1,|TrapLevelWithPoison=1||PoisonLevel=7|[Generate_AddPoisonLowerCR]
+1,|TrapLevelWithPoison=2||PoisonLevel=6|[Generate_AddPoisonLowerCR]
+1,|TrapLevelWithPoison=3||PoisonLevel=6|[Generate_AddPoisonLowerCR]
+1,|TrapLevelWithPoison=4||PoisonLevel={Dice~1d2+4}|[Generate_AddPoisonLowerCR]
+1,|TrapLevelWithPoison=5||PoisonLevel={Dice~1d2+3}|[Generate_AddPoisonLowerCR]
+1,|TrapLevelWithPoison=6||PoisonLevel={Dice~1d3+1}|[Generate_AddPoisonLowerCR]
+1,|TrapLevelWithPoison=7||PoisonLevel=1|[Generate_AddPoisonLowerCR]
+
+;Trap 8
+9,[VersionNeeded][Trap 8 Main]
+1,[VersionNeeded][Trap 8 AddPoisonLowerCR]
+
+;Trap 8 Main
+1,deathblade poison wall scythe|Book=SRD||CR=8||TrapStat=CR8Trap=1||Poison=1|
+1,{Italic~Destruction} trap (10d6)|Book=SRD||CR=8||Outside=1||TrapStat=CR8Trap=2||Poison=0||PCon=0||PInh=1||PIng=0||PInj=0|
+1,doorknob smeared with contact poison (|CRNeeded=8|[~ChooseContactCR]) (see CR5 Trap in DMG)|Book=SRD||CR=8||Door=1||TrapStat=CR5Trap=2||Poison=1|
+1,{Italic~Earthquake} trap|Book=SRD||CR=8||Outside=1||TrapStat=CR8Trap=3||Poison=0||PCon=0||PInh=1||PIng=0||PInj=0|
+1,fusillade of poisoned oil darts (|CRNeeded=2|[~ChooseInjuryCR]) (see CR7 Trap in DMG)|Book=SRD||CR=8||TrapStat=CR7Trap=6||Poison=1|
+1,inhaled gas trap (|CRNeeded=7|[~ChooseInhaledCR]) (see Burnt Othur Vapor trap CR7)|Book=SRD||CR=8||TrapStat=CR7Trap=3||Poison=1|
+1,{If~%Version%=2?insanity mist vapor trap|Book=SRD||CR=8||Door=1||TrapStat=CR8Trap=4||Poison=1|
+_/insanity mist trap|Book=PFCore||CR=8||Door=1||TrapStat=CR8Trap=4||Poison=1|}
+1,lock covered in poison (|CRNeeded=7|[~ChooseContactCR]) (see CR7 Trap in DMG)|Book=SRD||CR=8||Door=1||TrapStat=CR7Trap=7||Poison=1|
+1,{Italic~Acid Arrow} trap|Book=SRD||CR=8||Door=1||Outside=1||TrapStat=CR8Trap=5||Poison=0||PCon=0||PInh=1||PIng=0||PInj=0|
+1,poisoned dart trap (|CRNeeded=5|[~ChooseInjuryCR]) (see CR4 Trap in DMG)|Book=SRD||CR=8||TrapStat=CR4Trap=7||Poison=1|
+1,poisoned spiked pit trap (50'; |CRNeeded=2|[~ChooseInjuryCR]) (see CR10 Trap in DMG)|Book=SRD||CR=8||Outside=1||Pit=1||TrapStat=CR10Trap=5||Poison=1|
+1,poison wall spikes (|CRNeeded=5|[~ChooseInjuryCR]) (see CR5 Trap in DMG)|Book=SRD||CR=8||TrapStat=CR5Trap=11||Poison=1|
+1,{Italic~Power Word Stun} trap|Book=SRD||CR=8||Door=1||Outside=1||TrapStat=CR8Trap=6||Poison=0||PCon=0||PInh=1||PIng=0||PInj=0|
+1,{Italic~Prismatic Spray} trap|Book=SRD||CR=8||Outside=1||TrapStat=CR8Trap=7||Poison=0||PCon=0||PInh=1||PIng=0||PInj=0|
+1,{Italic~Reverse Gravity} trap|Book=SRD||CR=8||Outside=1||TrapStat=CR8Trap=8||Poison=0||PCon=0||PInh=1||PIng=0||PInj=0|
+1,well-camouflaged pit trap (100')|Book=SRD||CR=8||Outside=1||Pit=1||TrapStat=CR8Trap=9||Poison=0||PCon=1||PInh=6||PIng=0||PInj=0|
+1,wide-mouthed spiked pit trap with poisoned spikes (70'; |CRNeeded=2|[~ChooseInjuryCR]) (see CR9 Trap in DMG)|Book=SRD||CR=8||Outside=1||Pit=1||TrapStat=CR9Trap=5||Poison=1|
+1,whirling poison blades (|CRNeeded=6|[~ChooseInjuryCR])|Book=SRD||CR=8||TrapStat=CR6Trap=9||Poison=1|
+1,{Italic~Word of Chaos} trap|Book=SRD||CR=8||Door=1||Outside=1||TrapStat=CR8Trap=10||Poison=0||PCon=0||PInh=1||PIng=0||PInj=0|
+# New
+1,{Italic~Summon Monster VII} trap{If~%Version%=2?|Book=SRD|/|Book=PFCore|}|CR=8||Outside=1||TrapStat=CR8Trap=12||Poison=0||PCon=0||PInh=1||PIng=0||PInj=0|
+# New PF
+1,camouflaged spiked pit trap|Book=PFCore||CR=8||Door=0||Outside=1||TrapStat=CR8Trap=11||Poison=0||PCon=1||PInh=4||PIng=0||PInj=5|
+
+
+;Trap 8 AddPoisonLowerCR
+1,|TrapLevelWithPoison=1||PoisonLevel=8|[Generate_AddPoisonLowerCR]
+1,|TrapLevelWithPoison=2||PoisonLevel={Dice~1d2+6}|[Generate_AddPoisonLowerCR]
+1,|TrapLevelWithPoison=3||PoisonLevel=7|[Generate_AddPoisonLowerCR]
+1,|TrapLevelWithPoison=4||PoisonLevel=7|[Generate_AddPoisonLowerCR]
+1,|TrapLevelWithPoison=5||PoisonLevel={Dice~1d2+5}|[Generate_AddPoisonLowerCR]
+1,|TrapLevelWithPoison=6||PoisonLevel={Dice~1d2+4}|[Generate_AddPoisonLowerCR]
+1,|TrapLevelWithPoison=7||PoisonLevel={Dice~1d4+1}|[Generate_AddPoisonLowerCR]
+1,|TrapLevelWithPoison=8||PoisonLevel={Dice~1d2}|[Generate_AddPoisonLowerCR]
+
+;Trap 9
+9,[VersionNeeded][Trap 9 Main]
+1,[VersionNeeded][Trap 9 AddPoisonLowerCR]
+
+;Trap 9 Main
+1,drawer handle smeared with contact poison (|CRNeeded=9|[~ChooseContactCR])|Book=SRD||CR=9||Door=1||TrapStat=CR9Trap=1||Poison=1|
+1,dropping ceiling|Book=SRD||CR=9||Ceiling=1||TrapStat=CR9Trap=2||Poison=0||PCon=1||PInh=6||PIng=0||PInj=0|
+1,fusillade of poisoned oil darts (|CRNeeded=3|[~ChooseInjuryCR]) (see CR7 Trap in DMG)|Book=SRD||CR=9||TrapStat=CR7Trap=6||Poison=1|
+1,{Italic~Incendiary Cloud} trap|Book=SRD||CR=9||Outside=1||TrapStat=CR9Trap=3||Poison=0||PCon=0||PInh=1||PIng=0||PInj=0|
+1,inhaled gas trap (|CRNeeded=8|[~ChooseInhaledCR]) (see Burnt Othur Vapor trap CR7)|Book=SRD||CR=9||TrapStat=CR7Trap=3||Poison=1|
+1,lock covered in poison (|CRNeeded=8|[~ChooseContactCR]) (see CR7 Trap in DMG)|Book=SRD||CR=9||Door=1||TrapStat=CR7Trap=7||Poison=1|
+1,poison wall spikes (|CRNeeded=6|[~ChooseInjuryCR]) (see CR5 Trap in DMG)|Book=SRD||CR=9||TrapStat=CR5Trap=11||Poison=1|
+1,poisoned dart trap (|CRNeeded=6|[~ChooseInjuryCR]) (see CR4 Trap in DMG)|Book=SRD||CR=9||TrapStat=CR4Trap=7||Poison=1|
+1,poisoned spiked pit trap (50'; |CRNeeded=3|[~ChooseInjuryCR]) (see CR10 Trap in DMG)|Book=SRD||CR=9||Outside=1||Pit=1||TrapStat=CR10Trap=5||Poison=1|
+1,whirling poison blades (|CRNeeded=7|[~ChooseInjuryCR])|Book=SRD||CR=9||TrapStat=CR6Trap=9||Poison=1|
+1,wide-mouthed pit trap (100')|Book=SRD||CR=9||Outside=1||Pit=1||TrapStat=CR9Trap=4||Poison=0||PCon=1||PInh=6||PIng=0||PInj=0|
+1,wide-mouthed spiked pit trap with poisoned spikes (70'; |CRNeeded=3|[~ChooseInjuryCR])|Book=SRD||CR=9||Outside=1||Pit=1||TrapStat=CR9Trap=5||Poison=1|
+# New
+1,{Italic~Summon Monster VIII} trap{If~%Version%=2?|Book=SRD|/|Book=PFCore|}|CR=9||Outside=1||TrapStat=CR9Trap=8||Poison=0||PCon=0||PInh=1||PIng=0||PInj=0|
+
+;Trap 9 AddPoisonLowerCR
+1,|TrapLevelWithPoison=1||PoisonLevel=9|[Generate_AddPoisonLowerCR]
+1,|TrapLevelWithPoison=2||PoisonLevel=9|[Generate_AddPoisonLowerCR]
+1,|TrapLevelWithPoison=3||PoisonLevel={Dice~1d2+7}|[Generate_AddPoisonLowerCR]
+1,|TrapLevelWithPoison=4||PoisonLevel=8|[Generate_AddPoisonLowerCR]
+1,|TrapLevelWithPoison=5||PoisonLevel=8|[Generate_AddPoisonLowerCR]
+1,|TrapLevelWithPoison=6||PoisonLevel={Dice~1d2+6}|[Generate_AddPoisonLowerCR]
+1,|TrapLevelWithPoison=7||PoisonLevel={Dice~1d2+5}|[Generate_AddPoisonLowerCR]
+1,|TrapLevelWithPoison=8||PoisonLevel={Dice~1d4+2}|[Generate_AddPoisonLowerCR]
+1,|TrapLevelWithPoison=9||PoisonLevel={Dice~1d3}|[Generate_AddPoisonLowerCR]
+
+;Trap 10
+9,[VersionNeeded][Trap 10 Main]
+1,[VersionNeeded][Trap 10 AddPoisonLowerCR]
+
+;Trap 10 Main
+1,crushing room|Book=SRD||CR=10||Door=1||TrapStat=CR10Trap=1||Poison=0||PCon=1||PInh=6||PIng=0||PInj=0|
+1,crushing wall trap|Book=SRD||CR=10||TrapStat=CR10Trap=2||Poison=0||PCon=1||PInh=6||PIng=0||PInj=0|
+1,doorknob smeared with contact poison (|CRNeeded=10|[~ChooseContactCR]) (see CR5 Trap in DMG)|Book=SRD||CR=10||Door=1||TrapStat=CR5Trap=2||Poison=1|
+1,{Italic~Energy Drain} trap|Book=SRD||CR=10||Door=1||Outside=1||TrapStat=CR10Trap=3||Poison=0||PCon=0||PInh=1||PIng=0||PInj=0|
+1,{Italic~Force Cage} and {Italic~summon monster VII} trap|Book=SRD||CR=10||Door=1||Outside=1||TrapStat=CR10Trap=4||Poison=0||PCon=0||PInh=1||PIng=0||PInj=0|
+1,fusillade of poisoned oil darts (|CRNeeded=4|[~ChooseInjuryCR]) (see CR7 Trap in DMG)|Book=SRD||CR=10||TrapStat=CR7Trap=6||Poison=1|
+1,inhaled gas trap (|CRNeeded=9|[~ChooseInhaledCR]) (see Burnt Othur Vapor trap CR7)|Book=SRD||CR=10||TrapStat=CR7Trap=3||Poison=1|
+1,lock covered in poison (|CRNeeded=9|[~ChooseContactCR]) (see CR7 Trap in DMG)|Book=SRD||CR=10||Door=1||TrapStat=CR7Trap=7||Poison=1|
+1,poisoned dart trap (|CRNeeded=7|[~ChooseInjuryCR]) (see CR4 Trap in DMG)|Book=SRD||CR=10||TrapStat=CR4Trap=7||Poison=1|
+1,poison wall spikes (|CRNeeded=7|[~ChooseInjuryCR]) (see CR5 Trap in DMG)|Book=SRD||CR=10||TrapStat=CR5Trap=11||Poison=1|
+1,poisoned spiked pit trap (50'; |CRNeeded=4|[~ChooseInjuryCR])|Book=SRD||CR=10||Outside=1||Pit=1||TrapStat=CR10Trap=5||Poison=1|
+1,{Italic~Wail of the Banshee} trap|Book=SRD||CR=10||Door=1||Outside=1||TrapStat=CR10Trap=6||Poison=0||PCon=0||PInh=1||PIng=0||PInj=0|
+1,whirling poison blades (|CRNeeded=8|[~ChooseInjuryCR])|Book=SRD||CR=10||TrapStat=CR6Trap=9||Poison=1|
+1,wide-mouthed spiked pit trap with poisoned spikes (70'; |CRNeeded=4|[~ChooseInjuryCR]) (see CR9 Trap in DMG)|Book=SRD||CR=10||Outside=1||Pit=1||TrapStat=CR9Trap=5||Poison=1|
+# New
+1,{Italic~Prismatic Wall} trap|Book=1||CR=10||Door=1||TrapStat=CR10Trap=7||Poison=0||PCon=0||PInh=1||PIng=0||PInj=0|
+1,{Italic~Summon Monster IX} trap{If~%Version%=2?|Book=SRD|/|Book=PFCore|}|CR=10||Outside=1||TrapStat=CR10Trap=9||Poison=0||PCon=0||PInh=1||PIng=0||PInj=0|
+# New PF
+1,chamber of blades trap|Book=PFCore||CR=10||TrapStat=CR10Trap=8||Poison=0||PCon=1||PInh=3||PIng=0||PInj=4|
+
+;Trap 10 AddPoisonLowerCR
+1,|TrapLevelWithPoison=1||PoisonLevel=10|[Generate_AddPoisonLowerCR]
+1,|TrapLevelWithPoison=2||PoisonLevel=10|[Generate_AddPoisonLowerCR]
+1,|TrapLevelWithPoison=3||PoisonLevel=10|[Generate_AddPoisonLowerCR]
+1,|TrapLevelWithPoison=4||PoisonLevel={Dice~1d2+8}|[Generate_AddPoisonLowerCR]
+1,|TrapLevelWithPoison=5||PoisonLevel=9|[Generate_AddPoisonLowerCR]
+1,|TrapLevelWithPoison=6||PoisonLevel=9|[Generate_AddPoisonLowerCR]
+1,|TrapLevelWithPoison=7||PoisonLevel={Dice~1d2+7}|[Generate_AddPoisonLowerCR]
+1,|TrapLevelWithPoison=8||PoisonLevel={Dice~1d2+6}|[Generate_AddPoisonLowerCR]
+1,|TrapLevelWithPoison=9||PoisonLevel={Dice~1d4+3}|[Generate_AddPoisonLowerCR]
+1,|TrapLevelWithPoison=10||PoisonLevel={Dice~1d4}|[Generate_AddPoisonLowerCR]
+
+;Trap 11
+9,[VersionNeeded][Trap 11 Main]
+1,[VersionNeeded][Trap 11 AddPoisonLowerCR]
+
+;Trap 11 Main
+1,Open-Air Pit Trap|Book=1||CR=11||Ceiling=1||TrapStat=CR11Trap=1||Poison=0||PCon=0||PInh=1||PIng=0||PInj=0|
+## Remove these 3 if you add real CR11 traps
+#1,dropping ceiling {Italic~with poison} (|CRNeeded=9|{If~{Dice~1d2}=1?[~ChooseInjuryCR]/[~ChooseInhaledCR]})|Book=SRD||CR=11||Ceiling=1||TrapStat=CR9Trap=2||Poison=1|
+#1,{Italic~Incendiary Cloud} trap {Italic~with poison} (|CRNeeded=9|[~ChooseInhaledCR])|Book=SRD||CR=11||Outside=1||TrapStat=CR9Trap=3||Poison=1|
+#1,wide-mouthed pit trap (100') {Italic~with poison} (|CRNeeded=9|{If~{Dice~1d2}=1?[~ChooseContactCR]/[~ChooseInhaledCR]})|Book=SRD||CR=11||Outside=1||Pit=1||TrapStat=CR9Trap=4||Poison=1|
+# NEW PF
+1,{Italic~Cone of Cold} trap|Book=PFCore||CR=11||Door=1||Outside=1||TrapStat=CR11Trap=2||Poison=0||PCon=0||PInh=1||PIng=0||PInj=0|
+
+;Trap 11 AddPoisonLowerCR
+1,|TrapLevelWithPoison=5||PoisonLevel=10|[Generate_AddPoisonLowerCR]
+1,|TrapLevelWithPoison=6||PoisonLevel=10|[Generate_AddPoisonLowerCR]
+1,|TrapLevelWithPoison=7||PoisonLevel=10}|[Generate_AddPoisonLowerCR]
+1,|TrapLevelWithPoison=8||PoisonLevel={Dice~1d2+8}|[Generate_AddPoisonLowerCR]
+1,|TrapLevelWithPoison=9||PoisonLevel={Dice~1d2+7}|[Generate_AddPoisonLowerCR]
+1,|TrapLevelWithPoison=10||PoisonLevel={Dice~1d4+4}|[Generate_AddPoisonLowerCR]
+1,|TrapLevelWithPoison=11||PoisonLevel={Dice~1d5}|[Generate_AddPoisonLowerCR]
+
+;Trap 12
+9,[VersionNeeded][Trap 12 Main]
+1,[VersionNeeded][Trap 12 AddPoisonLowerCR]
+
+;Trap 12 Main
+## Remove these 5 if you add real CR12 traps
+#1,crushing room {Italic~with poison} (|CRNeeded=10|{If~{Dice~1d2}=1?[~ChooseContactCR]/[~ChooseInhaledCR]})|Book=SRD||CR=12||Door=1||TrapStat=CR10Trap=1||Poison=1|
+#1,crushing wall trap {Italic~with poison} (|CRNeeded=10|{If~{Dice~1d2}=1?[~ChooseContactCR]/[~ChooseInhaledCR]})|Book=SRD||CR=12||TrapStat=CR10Trap=2||Poison=1|
+#1,{Italic~Energy Drain} trap {Italic~with poison} (|CRNeeded=10|[~ChooseInhaledCR])|Book=SRD||CR=12||Door=1||Outside=1||TrapStat=CR10Trap=3||Poison=1|
+#1,{Italic~Force Cage} and {Italic~summon monster VII} trap {Italic~with poison} (|CRNeeded=10|[~ChooseInhaledCR])|Book=SRD||CR=12||Door=1||Outside=1||TrapStat=CR10Trap=4||Poison=1|
+#1,{Italic~Wail of the Banshee} trap {Italic~with poison} (|CRNeeded=10|[~ChooseInhaledCR])|Book=SRD||CR=12||Door=1||Outside=1||TrapStat=CR10Trap=6||Poison=1|
+# NEW PF
+1,poisoned spiked pit trap (50') |CRNeeded=3|[~ChooseInjuryCR])|Book=PFCore||CR=12||Outside=1||Pit=1||TrapStat=CR12Trap=1||Poison=1|
+
+;Trap 12 AddPoisonLowerCR
+1,|TrapLevelWithPoison=9||PoisonLevel=10|[Generate_AddPoisonLowerCR]
+1,|TrapLevelWithPoison=10||PoisonLevel={Dice~1d2+8}|[Generate_AddPoisonLowerCR]
+1,|TrapLevelWithPoison=11||PoisonLevel={Dice~1d4+5}|[Generate_AddPoisonLowerCR]
+# Add the following lines if you add regular CR12 spells without poison
+#1,|TrapLevelWithPoison=12||PoisonLevel={Dice~1d6}|[Generate_AddPoisonLowerCR]
+
+;Trap 13
+9,[Trap 13 Main]
+1,[Trap 13 AddPoisonLowerCR]
+
+;Trap 13 Main
+# New PF
+1,maximized fireball trap|Book=PFCore||CR=13||Door=1||Outside=1||TrapStat=CR13Trap=1||Poison=0||PCon=1||PInh=6||PIng=0||PInj=0|
+
+;Trap 13 AddPoisonLowerCR
+1,|TrapLevelWithPoison=13||PoisonLevel={Dice~1d7}|[Generate_AddPoisonLowerCR]
+# Add the following lines if you add regular CR12 spells without poison
+#1,|TrapLevelWithPoison=12||PoisonLevel={Dice~1d2+8}|[Generate_AddPoisonLowerCR]
+
+;Trap 14
+9,[Trap 14 Main]
+1,[Trap 14 AddPoisonLowerCR]
+
+;Trap 14 Main
+# New PF
+1,harm trap|Book=PFCore||CR=14||Door=1||Outside=1||TrapStat=CR14Trap=1||Poison=0||PCon=1||PInh=9||PIng=0||PInj=0|
+
+;Trap 14 AddPoisonLowerCR
+1,|TrapLevelWithPoison=13||PoisonLevel=10|[Generate_AddPoisonLowerCR]
+1,|TrapLevelWithPoison=14||PoisonLevel={Dice~1d10}|[Generate_AddPoisonLowerCR]
+
+;Trap 15
+9,[Trap 15 Main]
+1,[Trap 15 AddPoisonLowerCR]
+
+;Trap 15 Main
+# New PF
+1,crushing stone trap|Book=PFCore||CR=15||Door=1||Outside=0||TrapStat=CR15Trap=1||Poison=0||PCon=1||PInh=7||PIng=0||PInj=0|
+
+;Trap 15 AddPoisonLowerCR
+1,|TrapLevelWithPoison=15||PoisonLevel={Dice~1d10}|[Generate_AddPoisonLowerCR]
+
+;Trap 16
+9,[Trap 16 Main]
+1,[Trap 16 AddPoisonLowerCR]
+
+;Trap 16 Main
+# New PF
+1,empowered disintegrate trap|Book=PFCore||CR=16||Door=1||Outside=1||TrapStat=CR16Trap=1||Poison=0||PCon=1||PInh=6||PIng=0||PInj=0|
+
+;Trap 16 AddPoisonLowerCR
+1,|TrapLevelWithPoison=16||PoisonLevel={Dice~1d10}|[Generate_AddPoisonLowerCR]
+
+;Trap 17
+9,[Trap 17 Main]
+1,[Trap 17 AddPoisonLowerCR]
+
+;Trap 17 Main
+# New PF
+1,lightning bolt gallery trap|Book=PFCore||CR=17||Door=1||Outside=1||TrapStat=CR17Trap=1||Poison=0||PCon=1||PInh=6||PIng=0||PInj=0|
+
+;Trap 17 AddPoisonLowerCR
+1,|TrapLevelWithPoison=17||PoisonLevel={Dice~1d10}|[Generate_AddPoisonLowerCR]
+
+;Trap 18
+9,[Trap 18 Main]
+# Add the following line if you add a regular CR18 trap without poison.
+#1,[Trap 18 AddPoisonLowerCR]
+
+;Trap 18 Main
+# New PF
+1,deadly spear trap |CRNeeded=8|[~ChooseInjuryCR])|Book=PFCore||CR=18||Outside=1||TrapStat=CR18Trap=1||Poison=1|
+
+;Trap 18 AddPoisonLowerCR
+1,|TrapLevelWithPoison=18||PoisonLevel={Dice~1d10}|[Generate_AddPoisonLowerCR]
+
+;Trap 19
+9,[Trap 19 Main]
+1,[Trap 19 AddPoisonLowerCR]
+
+;Trap 19 Main
+# New PF
+1,meteor swarm trap|Book=PFCore||CR=19||Outside=1||TrapStat=CR19Trap=1||Poison=0||PCon=1||PInh=6||PIng=0||PInj=0|
+
+;Trap 19 AddPoisonLowerCR
+1,|TrapLevelWithPoison=19||PoisonLevel={Dice~1d10}|[Generate_AddPoisonLowerCR]
+
+;Trap 20
+9,[Trap 20 Main]
+1,[Trap 20 AddPoisonLowerCR]
+
+;Trap 20 Main
+# New PF
+1,heightened destruction trap|Book=PFCore||CR=20||Outside=1||TrapStat=CR20Trap=1||Poison=0||PCon=0||PInh=1||PIng=0||PInj=0|
+
+;Trap 20 AddPoisonLowerCR
+1,|TrapLevelWithPoison=20||PoisonLevel={Dice~1d10}|[Generate_AddPoisonLowerCR]
+
+# ---------------------------------------------------------------------------
+# Choose any type of poison of any CR
+
+:ChoosePoisonAny
+1,([EQCallPoisonAny]%Item% (%Type%; %Damage%.{If~%MagEffect%!=0? [PrintMag]})
+
+:PrintMag
+1,<u>Magical Poison</u>: %MagEffect%.
+
+:EQCallPoisonAny
+1,|Item=ERROR||Cost=0||Book2=1||MagEffect=0|
+_|Temp=[Equipment.PoisonsChecker(,,%VerifyBook%,,%Version%)]|
+_{Split~Temp,",",Item,Cost,Book2,Type,Damage,MagEffect}
+#_{If~%Book%=0 ? [EQCallPoisonAny]/{If~%Type%=Ingested? [EQCallPoisonAny]}}
+_{If~%VerifyBook%=1?[VerifyBook]/|Restart=No|}
+_{If~%Restart%=Yes?[EQCallPoisonAny]/{If~%Type%=Ingested?[EQCallPoisonAny]}}
+
+
+
+# XXXXXXXXX UNUSED by this table XXXXXXXXXXXXX
+# Choose poison by CR
+:ChoosePoisonCR
+1,[EQCallPoisonCR]%Item% (<u>Type</u>: %Type%. <u>Damage</u>: %Damage%. {If~%MagEffect%!=0? [PrintMag]})
+
+# To find any type of poison by CR (1-10)
+:EQCallPoisonCR
+1,|Item=ERROR||Cost=0||Book2=1||MagEffect=0|
+_|Temp=[Equipment.PoisonsCheckerCRVal(%CRMod%,,%VerifyBook%,,%Version%)]|
+_{Split~Temp,",",Item,CRValLook,Cost,Book2,Type,Damage,MagEffect}
+#_{If~%Book%=0? [EQCallPoisonCR] / {If~%CRNeeded%!=%CRValLook%?[EQCallPoisonCR]}}
+_{If~%VerifyBook%=1?[VerifyBook]/|Restart=No|}
+_{If~%Restart%=Yes?[EQCallPoisonCR]/{If~%CRNeeded%!=%CRValLook%?[EQCallPoisonCR]}}
+
+
+
+# XXXXXXXXX UNUSED by this table XXXXXXXXXXXXX
+# Choose poison by Type (no CR)
+:ChooseContact
+1,|TypeNeeded=Contact|[ChoosePoisonType]
+
+:ChooseIngested
+1,|TypeNeeded=Ingested|[ChoosePoisonType]
+
+:ChooseInhaled
+1,|TypeNeeded=Inhaled|[ChoosePoisonType]
+
+:ChooseInjury
+1,|TypeNeeded=Injury|[ChoosePoisonType]
+
+:ChoosePoisonType
+1,{If~%CRNeeded%>10? |CRNeeded=10|}
+_[EQCallPoisonType]
+_[Print Poisons]
+
+:EQCallPoisonType
+1,|Item=ERROR||Cost=0||Book2=1||MagEffect=0|
+_|Temp=[Equipment.PoisonsCheckerType(0,%TypeNeeded%,%VerifyBook%,,%Version%)]|
+_{Split~Temp,",",Item,CRValLook,Cost,Book2,Type,Damage,MagEffect}
+#_%Count%..
+#_{If~%Book%=0 ? [EQCallPoisonType]}
+_[VerifyPoison]
+_{If~%Restart%=Yes?[EQCallPoisonType]}
+
+
+
+
+# Choose poison by Type and CR
+:ChooseContactCR
+1,|TypeNeeded=Contact|[ChoosePoisonTypeCR]
+
+:ChooseIngestedCR
+1,|TypeNeeded=Ingested|[ChoosePoisonTypeCR]
+
+:ChooseInhaledCR
+1,|TypeNeeded=Inhaled|[ChoosePoisonTypeCR]
+
+:ChooseInjuryCR
+1,|TypeNeeded=Injury|[ChoosePoisonTypeCR]
+
+:ChoosePoisonTypeCR
+1,|Count=0|
+_{If~%PoisonLevel%>0?|CRNeeded=%PoisonLevel%|}
+_{If~%CRNeeded%>10?|CRNeeded=10|}
+_|CRMod={Round~0,%CRMod%}|{If~%CRNeeded%>8?|CRMod+3|}
+_{If~%TestTable%=1?{Color~Orange,CRMod=%CRMod%; CRNeeded=%CRNeeded%<br>}}
+_[EQCallPoisonCRType]
+_[Print Poisons]
+
+:Print Poisons
+1,%Item% (<u>Type</u>: %Type%. <u>Damage</u>: %Damage%. {If~%MagEffect%!=0? [PrintMag]} CR%CRValLook%)
+
+:EQCallPoisonCRType
+1,|Item=ERROR||Cost=0||Book2=1||MagEffect=0||Count+1|
+_|Temp=[Equipment.PoisonsCheckerTypeCRVal(%CRMod%,%TypeNeeded%,%VerifyBook%,,%Version%)]|
+_{Split~Temp,",",Item,CRValLook,Cost,Book2,Type,Damage,MagEffect}
+_{If~%TestTable%=1?{Color~Orange,%Count%: %Item% ({Color~Green,%CRValLook%; %Type%}) - }}
+#_%Count%..
+#_{If~%Count%=31? [Rerouting]/ {If~%Book%=0? [EQCallPoisonCRType]/ {If~%CRNeeded%!=%CRValLook%? [EQCallPoisonCRType]}}}
+_{If~%VerifyBook%=1?[VerifyBook]/|Restart=No|}
+_{If~%Count%=31?[Rerouting]/{If~%Restart%=Yes?[EQCallPoisonCRType]/{If~%CRNeeded%!=%CRValLook%?{If~%TestTable%=1?{Color~Red, CR...}}[EQCallPoisonCRType]}}}
+
+# Sends the CR and type to prevent error in TS.
+:Rerouting
+1,|Count=0||Item=ERROR||Cost=0||Book2=1||MagEffect=0|
+_{If~%TestTable%=1?{Color~Red,Rerouting<br>}}
+_|Temp=[Equipment.PoisonsDefaultChecker(%CRNeeded%,%TypeNeeded%,%VerifyBook%,,%Version%)]|
+_{Split~Temp,",",Item,CRValLook,Cost,Book2,Type,Damage,MagEffect}
+_{If~%VerifyBook%=1?[VerifyBook]/|Restart=No|}
+_{If~%Restart%=Yes?[Rerouting]}
+
+# ---------------------------------------------------------------------------
+# Attack Sequence
+#
+# Weapons must use those variables: (1d6 dmg, 20/x3)
+# |OtherDamage=1d6||Crit=20||Mult=3|
+#
+# %d20%         - d20 roll.
+# %d20Result%   - to determine if it's 1, 20 or Threat
+# %AttBonus%    - The attack roll modifer to the d20.
+# %Crit%        - The threat range (ex: 19 for 19-20, 18 for 18-20)
+# %Mult%        - Damage multiplier on a critical hit.
+# %NumAttacks%  - Number of attacks to roll
+# %OtherDamage% - Damage of the weapon
+#
+# If you do not want to roll the damage, enter "0" as the "OtherDamage".
+#
+
+:Attack
+1,<dd>ATTACKS:{Loop~%NumAttacks%,|d20={Dice~1d20}|<br><dd>[AttackRoll]}
+
+:AttackRoll
+1,|d20Result=0| <font color=green>AC {Calc~(%d20%+%AttBonus%)}</font>[Threat]
+_ {If~%OtherDamage%!=0? for [DamageRoll]}
+_{If~%d20Result%=Threat? [RollThreat]}
+
+:DamageRoll
+1, <font color=red>{Dice~%OtherDamage%} dmg</font>
+
+:Threat
+1,{If~%d20%>=20? (Rolled a 20)}
+_{If~%d20%>=%Crit%? |d20Result=Threat| (%d20Result%)}
+_{If~%d20%=1? |d20Result=0| (Rolled a 1)}
+
+:RollThreat
+1,|d20={Dice~1d20}|<br><dd>--> <u>Critical Roll (x2)</u> <font color=orange>AC {Calc~(%d20%+%AttBonus%)}</font>
+_ {If~%OtherDamage%!=0? for [DamageRoll]}
+_{If~{And~%Mult%=3,%OtherDamage%!=0}=1? [RollThreatx3]}
+_{If~{And~%Mult%=4,%OtherDamage%!=0}=1? [RollThreatx3][RollThreatx4]}
+
+:RollThreatx3
+1,<br><dd>--> <u>Critical Roll (x3)</u> <font color=red>{Dice~%OtherDamage%} dmg</font>
+
+:RollThreatx4
+1,<br><dd>--> <u>Critical Roll (x4)</u> <font color=red>{Dice~%OtherDamage%} dmg</font>
+
+:RollDice
+1,{Dice~%Temp%}
+
+# ---------------------------------------------------------------------------
+# New traps by Larry Cormier
+# Removed and placed in "Random Traps.tab" to be able to add a CR.
+# ;!DoorTrapsMain
+# :FrontBeyond
+# ;Projectiles
+# ;DoorMonsters (actually is was only a Mimic so only a Mimic was added in Random Traps.tab)
+# ;!Mold
+# ;!TrapdoorAbove (added in "DumpTrap" in Random Traps.tab)
+# ;!TrapdoorBelow

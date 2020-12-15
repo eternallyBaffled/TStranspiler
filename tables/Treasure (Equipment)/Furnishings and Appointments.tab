@@ -1,0 +1,326 @@
+# ------------------------------------------------------
+# Last Update: modified by Valminder June 28, 2014.
+# ------------------------------------------------------
+#
+#  XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+#
+#  Put EQ in Equipment.tab
+#
+#  XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+#
+# -----------------------------------------------------------------------------------------------
+# Last Updated: by Larry Cormier, July 05, 2007.
+# -----------------------------------------------------------------------------------------------
+#
+# Furnishings and Appointments
+# by Larry Cormier
+#
+# Note: This Table Links to these other tables as required:
+#	Miscellaneous.tab
+#
+# Modified by Valminder, June 2014.
+#    Added link to: Notable Event Names.tab
+#       Creatures.All
+#       Creatures.Animal
+#       Equipment.container solid
+#       Equipment.container liquid
+#       Miscellaneous.Taste
+#       Religion.Deities
+# Modified by Valminder, Sept 2014.
+#    All Equipment is now in Equipment.tab
+#    Add links to:
+#       Equipment.Clothing
+#       Equipment.FoodAndDrink
+#       Equipment.Furnishing_General
+#       Equipment.Furnishing_Religious
+#       Equipment.Furnishing_Wizard
+#       Equipment.TypicallyBejeweledItems
+#       Equipment.UtensilsAndPersonalItems
+#
+
+/OverRideRolls 1
+
+# Define Variables
+%Choice%,0
+%NumberOfItems%,0
+%ItemCount%,0
+%Instructions%,0
+%Chance%,0
+%Selection%,0
+
+# Parameter Choices:
+@Choice,11,What would you like to generate?,General Furnishings,Utensils and Personal Items,Clothing and Footwear,Typically Bejewelled Items,Religious Articles and Furnishings,Magic User Furnishings,Torture Chamber Furnishings,Rooms or Other Spaces,Filled Containers,Container of Unknown Substance,Random
+@NumberOfItems,0,How Many Total Items in the desired Output list? (0=Random)
+@Instructions,2,Continue showing Instructions?,Yes,No
+
+# Parameter Choices:
+:Start
+1,{Status~by Larry Cormier 2007, Valminder 2014}
+_{If~%NumberOfItems%=0? |NumberOfItems={Dice~1d50}|}
+_{If~%Instructions%=1? [Instructions]/{If~%Choice%=11?[BoldOn][UnderlineOn]Random Generation |Choice={Dice~1d10}|([OptionIdentifier=%Choice%])[UnderlineOff][BoldOff]<br>/
+_[BoldOn][UnderlineOn][OptionIdentifier=%Choice%]:[UnderlineOff][BoldOff]<br>}
+#_{If~%Choice%=10?[UnknownSubstance]/[ItemCountQuery]}
+_{If~%Choice%=10?|NumberOfItems=0|[UnknownSubstance]}
+_{If~%Choice%=9?[Chanceof][FilledContainers]/[ItemCountLoop]}
+_}
+
+:Instructions
+1,This table generates Miscellaneous Furnishings and Other Objects based on your Selection Choice.<br><br>
+_ Use the Parameter Button located in the Upper Left-hand corner of the screen to choose what Option you would prefer.
+
+:ItemCountQuery
+1,{Input~NumberOfItems,How Many Total Items in the desired Output list? (0=Random),25}
+
+:BoldOn
+1,<b>
+
+:BoldOff
+1,</b>
+
+:ItalicsOn
+1,<i>
+
+:ItalicsOff
+1,</i>
+
+:UnderlineOn
+1,<u>
+
+:UnderlineOff
+1,</u>
+
+:Chanceof
+1,|Chance={Dice~1d100}|
+
+:ItemCountLoop
+1,{While~%NumberOfItems%,
+_|ItemCount={Dice~1d%NumberOfItems%}|
+_{If~%Choice%=2?%ItemCount% |Selection={Dice~1d94}|
+_{If~%Selection%<16?[UtensilsAndPersonalItems=%Selection%]/
+_{If~%ItemCount%=1?[UtensilsAndPersonalItems=%Selection%]/{Plural~[UtensilsAndPersonalItems=%Selection%]}}}/
+_{If~%ItemCount%=1?%ItemCount% [Generate=%Choice%]/%ItemCount% {Plural~[Generate=%Choice%]}}}
+_|NumberOfItems-%ItemCount%|
+_{If~%NumberOfItems%=0?/<br>}}
+
+:ContainerLoop
+1,|Choice={Dice~1d3+1}|
+_{While~%NumberOfItems%,
+_|ItemCount={Dice~1d%NumberOfItems%}|
+_{If~%ItemCount%=1?%ItemCount% [Generate=%Choice%]/%ItemCount% {Plural~[Generate=%Choice%]}}
+_|NumberOfItems-%ItemCount%|
+_{If~%NumberOfItems%=0?/<br>}}
+
+:OptionIdentifier
+1,General Furnishings
+2,Utensils and Personal Items
+3,Clothing and Footwear
+4,Typically Bejeweled Items
+5,Religious Articles and Furnishings
+6,Magic User Furnishings
+7,Torture Chamber Furnishings
+8,Rooms or Other Spaces
+9,Random Filled Container
+10,Unknown Substance
+11,Randomly Selected
+
+:Generate
+1,[GeneralFurnishings]
+2,[UtensilsAndPersonalItems]
+3,[ClothingAndFootwear]
+4,[TypicallyBejeweledItems]
+5,[ReligiousArticlesFurnishings]
+6,[MagicUserFurnishings]
+7,[TortureChamberFurnishings]
+8,[RoomsOrOtherSpaces]
+9,[FilledContainers]
+10,[UnknownSubstance]
+
+;FilledContainers
+5,<i>(A [~SmallMediumLarge] [~ContainerType] filled with these %NumberOfItems% items:)</i><br>[ContainerLoop]
+5000,[FoodAndDrink]
+1,[Generate=10]
+
+:UnknownSubstance
+1,A [~SmallMediumLarge] [~ContainerType] of [Chanceof]{If~%Chance%<20?[Transparency]/[AppearanceOrConsistency], [Colors]-colored} [GeneralContainerContents].<br>
+_ The contents have [~Taste] taste and [~Odor] if the substance is inspected closely.
+
+;ContainerType
+22,[Equipment.container solid]
+19,[Equipment.container liquid]
+
+;GeneralFurnishings
+1,|Equipment!ItemCount=%ItemCount%|[Equipment.Furnishing_General]
+
+;UtensilsAndPersonalItems
+1,|Equipment!ItemCount=%ItemCount%|[Equipment.UtensilsAndPersonalItems]
+
+;ClothingAndFootwear
+1,|Equipment!ItemCount=%ItemCount%|[Equipment.Clothing]
+
+;TypicallyBejeweledItems
+1,|Equipment!ItemCount=%ItemCount%|[Equipment.TypicallyBejeweledItems]
+
+;ReligiousArticlesFurnishings
+1,|Equipment!ItemCount=%ItemCount%|[Equipment.Furnishing_Religious]
+
+;MagicUserFurnishings
+1,|Equipment!ItemCount=%ItemCount%|[Equipment.Furnishing_Wizard]
+
+;TortureChamberFurnishings
+1,|Equipment!ItemCount=%ItemCount%|[Equipment.Furnishing_Torture]
+
+;!RoomsOrOtherSpaces
+1,antechamber
+1,armory
+1,audience room
+1,aviary
+1,banquet room
+1,barrack
+1,bathroom
+1,bedroom
+1,bestiary
+1,boudoir
+1,cell
+1,chantry
+1,chapel
+1,cistern
+1,classroom
+1,closet
+1,conjuring room
+1,corridor
+1,courtroom
+1,crypt
+1,dining room
+1,divination room
+1,dormitory
+1,dressing room
+1,entry
+1,exercise room
+1,gallery
+1,game room
+1,guard room
+1,hall
+1,great hall
+1,hallway
+1,harem
+1,kennel
+1,kitchen
+1,laboratory
+1,library
+1,lounge
+1,meditation room
+1,observatory
+1,office
+1,pantry
+1,pen
+1,prison
+1,privy
+1,reception room
+1,refectory
+1,robing room
+1,salon
+1,secret
+1,seraglio
+1,shrine
+1,sitting room
+1,smithy
+1,solar
+1,stable
+1,storageroom
+1,strongroom
+1,study
+1,temple
+1,throne room
+1,toilet
+1,torture chamber
+1,training room
+1,trophy room
+1,museum
+1,vault
+1,vestibule
+1,waiting room
+1,water closet
+1,wellroom
+1,workroom
+1,workshop
+
+;FoodAndDrink
+1,|Equipment!ItemCount=%ItemCount%|[Equipment.FoodAndDrink]
+
+;CondimentsAndSeasonings
+1,bag{If~%ItemCount%=1?/s} of garlic
+1,bag{If~%ItemCount%=1?/s} of herbs
+1,jar{If~%ItemCount%=1?/s} of mustard
+1,bag{If~%ItemCount%=1?/s} of pepper
+1,bag{If~%ItemCount%=1?/s} of salt
+1,bottle{If~%ItemCount%=1?/s} of vinegar
+
+;!GeneralContainerContents
+1,ash
+1,bark
+1,bone
+1,chunks
+1,cinders
+1,crystals
+1,dust
+1,fibers
+1,gelatin
+1,globes
+1,grains
+1,husks
+1,leaves
+1,liquid
+1,lumps
+1,oil
+1,paste
+1,pellets
+1,skins
+1,hides
+1,splinters
+1,stalks
+1,strands
+1,strips
+
+;!AppearanceOrConsistency
+1,bubbling
+1,cloudy
+1,crystalline
+1,effervescent
+1,fiberous
+1,fuming
+1,greasy
+1,oily
+1,pastey
+1,powdery
+1,semi-liquid
+1,smoky
+1,syrupy
+1,vaporous
+1,viscous
+1,watery
+
+;Odor
+1,{AorAn~[Miscellaneous.Odor]}
+
+;!Taste
+1,{AorAn~[Miscellaneous.Taste]}
+
+;!Transparency
+1,clear, [Transparency]
+1,flecked, [Transparency], [Colors]
+1,layered[Chanceof]{If~%Chance%>50? [Colors] and [Colors]/, [Transparency]}
+1,luminous, [Transparency]
+1,glowing opaline [Colors]
+1,phosphorescent, [Transparency]
+1,rainbowed, [Transparency]
+1,ribboned[Chanceof]{If~%Chance%>50? [Colors] and [Colors]/, [Transparency]}
+1,translucent [Colors]
+1,variegated [Colors] and [Colors]
+
+:Colors
+1,[Miscellaneous.ColorNoType+3]
+
+:SmallMediumLarge
+1,small
+2,large
+3,medium

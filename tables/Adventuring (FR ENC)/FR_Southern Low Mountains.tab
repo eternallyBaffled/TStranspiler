@@ -1,0 +1,132 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder Oct 30, 2003.
+# ---------------------------------------------------
+#
+# SMS
+# 06/22/03
+# Forgotten Realms Table 28: Southern Low Mountains (EL 6-12) random encounter tables
+#
+# Corrected by Valminder, Oct 2003
+#   -{If~} and {Dice~}
+#
+#Variables
+
+%Region%,0
+%Time%,0
+%Temp%,0
+
+#Parameters
+
+@Time,1,Select a time of day,Day,Night
+@Region,0,Select a value for region (1-3 see instructions for details)
+
+#
+#  Starts by putting up the instructions
+#
+
+:Start
+1,{If~%Region% = 0 ? [Instructions]/[Southern Low Mountains %Time%]}
+
+;Instructions
+1,<b>Forgotten Realms Table 28: Southern Low Mountains (EL 6-12)</b></br></br><h3>Instructions:</h3>
+_<b>Determine whether an encounter should occur before using this table. The chance of an encounter is based on terrain type and travel (chance per hour):</b><br>
+_<table border=1><tr><th>Terrain</th><th>Normal Travel</th><th>Cautious Travel</th><th>Hiding</th></tr>
+_<tr><td>Desolate/wasteland</td><td>5/%</td><td>2/%</td><td>1/%</td></tr>
+_<tr><td>Frontier/wilderness</td><td>8/%</td><td>4/%</td><td>2/%</td></tr>
+_<tr><td>Verdant/civilized area</td><td>10/%</td><td>5/%</td><td>2/%</td></tr>
+_<tr><td>Heavily traveled</td><td>12/%</td><td>6/%</td><td>3/%</td></tr>
+_</table>
+_<ul><li>Use the Parameter Box (below) to indicate whether it is day or night.</li>
+_<li>Then indicate whether the region is<font color=blue><ol><li>Chult</li><li>Gnollwatch Mtns</li><li>Hazuk Mtns</li></ol></li></ul><br></font>
+
+# 1 corresponds to time="Day"
+:Southern Low Mountains 1
+01-04,Aarakocra Patrol: {Dice~1d4+4} aarakocra and {Dice~1d2} level {Dice~1d4+1} rangers
+05-06,Androsphinx
+07-08,Azer Squad: {Dice~1d10+10} azers, {Dice~1d2} level {Dice~1d4+1} fighters, led by {Dice~1d4+2} [FR_Misc.Azer_Class]
+09-10,Bugbear Band: {Dice~1d10+10} bugbears, {Dice~1d3} level {Dice~1d3} fighters, led by a level {Dice~1d4+2} fighter
+11-13,Cloud giant
+14-16,{Dice~1d6+6} Giant strider (MoF)
+17-25,Dragon: [SLM_Dragon]
+26-28,{Dice~1d6+2} Girallon
+29-31,{Dice~1d3+1} Ettin
+32-34,{Dice~1d6+6} Firenewt (MoF)
+35,Firenewt Marauders (MoF): {Dice~1d6+4} firenewts, {Dice~1d2} level {Dice~1d4} firenewt clerics, led by a level {Dice~1d6+1} firenewt, all mounted on giant striders
+36-38,Goblin war party: {Dice~1d10+5} goblins, {Dice~1d2+1} worgs, {Dice~1d2+1} level {Dice~1d3} fighters, {Dice~1d2+1} level {Dice~1d3+1} adepts, led by a level {Dice~1d4+2} [FR_Misc.Goblin_Class]
+39-43,Gold Dwarf Patrol: {Dice~1d4+4} 1st level fighters, {Dice~1d2} level {Dice~1d4} cleric of [Religion.Dwarf Gods],  {Dice~1d2} level {Dice~1d4} sorcerers, led by a level {Dice~1d4+2} [FR_Misc.GoldDwarf_Class]
+44,Gray render
+45-46,{Dice~2d4+2} Griffon
+47-48,Gynosphinx
+49-52,{Dice~1d4+1} Hill Giant
+53-55,{Dice~1d6+6} Hippogriff
+56-58,Hobgoblin war party: {Dice~1d10+5} hobgoblins, {Dice~1d3+1} dire apes, {Dice~1d2} level {Dice~1d3} fighters, led by level {Dice~1d6+2} [FR_Misc.Hobgoblin_Class]
+59-70,[SLM_Local]
+71-75,{Dice~1d4+4} Ogre
+76-81,Orc Raiders: {Dice~1d10+5} orcs and {Dice~1d2} level {Dice~1d3} barbarians
+82-83,{Dice~1d2} Roc
+84-87,{Dice~1d8} Stinger (MoF)
+88-92,{Dice~1d3+2} Stone Giant
+93-97,{Dice~1d10+6} Animal: wolf
+98-100,{Dice~1d2} Wyvern
+
+# 2 corresponds to time="Night"
+:Southern Low Mountains 2
+01-03,{Dice~1d3+1} Abishai, red
+04-05,Androsphinx
+06-08,Bugbear Band: {Dice~1d10+10} bugbears, {Dice~1d3} level {Dice~1d3} fighters, led by a level {Dice~1d4+2} fighter
+09-11,Cloud giant
+12-13,{Dice~1d6+6} Giant strider (MoF)
+14-23,Dragon: [SLM_Dragon]
+24-25,{Dice~1d6+2} Girallon
+26-28,{Dice~1d3+1} Ettin
+29-30,{Dice~1d6+6} Firenewt (MoF)
+31,Firenewt Marauders (MoF): {Dice~1d6+4} firenewts, {Dice~1d2} level {Dice~1d4} firenewt clerics, led by a level {Dice~1d6+1} firenewt, all mounted on giant striders
+32-36,Goblin war party: {Dice~1d10+5} goblins, {Dice~1d2+1} worgs, {Dice~1d2+1} level {Dice~1d3} fighters, {Dice~1d2+1} level {Dice~1d3+1} adepts, led by a level {Dice~1d4+2} [FR_Misc.Goblin_Class]
+37-39,Gold Dwarf Patrol: {Dice~1d4+4} 1st level fighters, {Dice~1d2} level {Dice~1d4} cleric of [Religion.Dwarf Gods],  {Dice~1d2} level {Dice~1d4} sorcerers, led by a level {Dice~1d4+2} [FR_Misc.GoldDwarf_Class]
+40,Gray render
+41-42,Gynosphinx
+43-47,Hill Giant Raiders: {Dice~1d6+5} Hill giants and {Dice~1d3+1} dire wolves
+48,{Dice~1d4+1} Hill Giant
+49-51,Hobgoblin war party: {Dice~1d10+5} hobgoblins, {Dice~1d3+1} dire apes, {Dice~1d2} level {Dice~1d3} fighters, led by level {Dice~1d6+2} [FR_Misc.Hobgoblin_Class]
+52-66,[SLM_Local]
+67-69,{Dice~1d4+4} Ogre
+70-74,Orc Raiders: {Dice~1d10+5} orcs and {Dice~1d2} level {Dice~1d3} barbarians
+75-78,{Dice~1d8} Stinger (MoF)
+79-82,{Dice~1d3+2} Stone Giant
+83-84,{Dice~1d2} Vampire
+85-86,{Dice~1d4+1} Vampire spawn
+87-89,Vampire Troupe: {Dice~1d2} vampires and {Dice~1d4+1} vampire spawn
+90-96,{Dice~1d10+6} Animal: wolf
+97-100,{Dice~1d2} Wyvern
+
+:SLM_Local
+01-50,Local creatures: [SLM_Local%Region%]
+51-100,<b>NPCs:</b><br>{Loop~{Dice~1d3+2},[FR_Random_NPC.FR_SM_NPC]}
+
+#Chult
+:SLM_Local1
+01-25,Aarakocra Patrol: {Dice~1d4+4} aarakocra and {Dice~1d2} level {Dice~1d4+1} rangers
+26-55,{Dice~1d3} Pterafolk (MoF)
+56-65,{Dice~1d6+4} headed Pyrohydra
+66-100,Troglodyte clutch: {Dice~1d6+5} troglodytes and {Dice~1d2} giant lizards
+
+#Gnollwatch Mtns
+:SLM_Local2
+01-60,Gnoll hunters: {Dice~1d4+1} gnolls led by a level {Dice~1d3+1} gnoll ranger
+61-85,Gnoll war party: {Dice~1d6+1} gnolls, led by a level {Dice~1d6+2} gnoll ranger, accompanied by {Dice~1d3} tigers
+85-100,{Dice~2d4} Dragonkin (MoF)
+
+#Hazuk Mtns
+:SLM_Local3
+01-70,{Dice~1d3+1} Stone giant
+71-100,{Dice~1d3+2} Salamander, average
+
+:SLM_Dragon
+01-20,Copper, adult
+21-35,Fang, mature adult (MoF)
+36-42,Gold, young adult
+43,Dracolich, Red, juvenile (FRCS)
+44-78,Red, young adult
+79-85,Shadow, adult (MoF)
+86-94,Silver, young
+95-100,Song, adult (MoF)

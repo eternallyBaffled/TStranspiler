@@ -1,0 +1,435 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder August 7, 2006.
+# ---------------------------------------------------
+#
+# Pocket contents, for picking
+# Converted from TableMaster Copyright 1995 by Wintertree Software
+#
+# Modified by Valminder, Jan 2004.
+#    Changed the start line.
+#    Added variables : Cost, Book, Item, piece, Temp
+#    Added link to: 
+#       Book Titles.Start
+#       CoatsOfArms.Start
+#       Equipment.AlchemicalChecker
+#       Equipment.PoisonsChecker
+#       Countries.Land
+#       Creatures.Humanoid2
+#       Formal Names.Start
+#       Inn Menu.Alcoholic Drinks
+#       Miscellaneous.Metal
+#       Miscellaneous.Odor
+#       Miscellaneous.Shape
+#       Names Generator.NAME Human Female
+#       Names Generator.NAME Random
+#       Religion.Deities
+#       Riddles.Start
+#       Rune Generator.GenRune
+#       Spell Components.Generate
+#
+# Modified by Valminder, August  2006.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+#
+
+#Declare variables
+%TempNumber%,0
+%Chance%,0
+%Count%,0
+
+%Book%,0
+%Cost%,0
+%EQTable%,0
+%Item%,0
+%piece%,0
+%Temp%,0
+
+:Start
+1,[Generate]
+
+;Generate
+19,The pouch contains[PocketContents].
+1,{Bold~This is a spell component pouch containing:} [Spell Components.Alternate]
+
+:Chanceof
+1,|Chance={Dice~1d100}|
+
+;PocketContentsOR
+1,[Empty]
+1,[SomeChange]
+1,[SomeThing]
+2,[SomeChange] and [SomeThing]
+1,|Count={Dice~1d3}|{Loop~%Count%, [Things]} and [SomeThing]
+1,[SomeChange],|Count={Dice~1d3-1}|{Loop~%Count%, [Things]} and [SomeThing]
+
+;PocketContents
+1, [Empty]
+1, [SomeChange]
+1, [SomeThing]
+1,:<br>   -[SomeChange]<br>   -[SomeThing]
+1,:<br>|Count={Dice~1d3}|{Loop~%Count%,   -[Things]<br>}-[SomeThing]
+1,:<br>-[SomeChange]<br>|Count={Dice~1d3-1}|{Loop~%Count%,   -[Things]<br>}-[SomeThing]
+
+# ---------------------------------------------------------------------------
+# To use "Equipment.tab"
+
+:EQCall
+1,|Item=ERROR||Cost=0||Book=1||Temp=[Equipment.%EQTable%Checker]|
+_{Split~Temp,",",Item,Cost,Book}{If~%Book%=0?[EQCall]}[PieceChecker]
+
+:PieceChecker
+1,|piece=gp|{If~%Cost%<1?|Cost*10||piece=sp|{If~%Cost%<1?|Cost*10||piece=cp|{If~%Cost%=0?|piece=gp|}}}
+
+# ---------------------------------------------------------------------------
+;Empty
+1,absolutely nothing
+1,a large hole [Chanceof]{If~%Chance%<50? (and the victim feels you in there!)}
+
+# ---------------------------------------------------------------------------
+;TypeCoin
+1,platinum
+2,gold
+3,silver
+4,copper
+
+:Country
+1,[Chanceof]{If~%Chance%<11? (the coins are from [~Countries.Land])}
+
+;SomeChange
+1,1 bent [TypeCoin] piece[Country]
+1,one half of a [TypeCoin] piece[Country]
+1,1 [TypeCoin] piece with a hole in the middle[Country]
+6,<b>{Dice~2d6}</b> copper coins[Country]
+5,some coins (<b>{Dice~4d6}</b> copper and <b>{Dice~2d6}</b> silver)[Country]
+4,some coins (<b>{Dice~5d6}</b> copper, <b>{Dice~3d6}</b> silver, and <b>{Dice~1d6}</b> gold)[Country]
+3,some coins (<b>{Dice~4d6}</b> copper, <b>{Dice~3d6}</b> silver, and <b>{Dice~2d6}</b> gold)[Country]
+2,some coins (<b>{Dice~4d6}</b> copper, <b>{Dice~5d6}</b> silver, and <b>{Dice~5d10}</b> gold)[Country]
+1,some coins (<b>{Dice~2d6}</b> copper, <b>{Dice~3d6}</b> silver, <b>{Dice~3d10}</b> gold and <b>{Dice~1d10}</b> platinum)[Country]
+
+# ---------------------------------------------------------------------------
+;SomeThing
+4,{AorAn~[Junk]}
+5,{AorAn~[Personal]}
+5,{AorAn~[Misc]}
+1,{AorAn~[Valuables]}
+
+:Things
+1,[SomeThing],
+
+;!Junk
+1,small nonmagical flask full of a liquid with {AorAn~[Miscellaneous.Odor]}
+1,scrap of parchment
+1,broken necklace chain
+1,mouse-trap[Chanceof]{If~%Chance%<30? (set)/(not set)}
+1,broken leather strap
+1,buckle with a broken tongue
+1,flock of fleas (they're yours now...)
+1,greasy rag
+1,bloody rag
+1,counterfeit platinum piece[Chanceof]{If~%Chance%<50? (not very good DC{Dice~2d6+2})/(very good DC{Dice~1d10+15})}
+1,grocery list
+1,scrap of wax
+1,large dead beetle
+
+;!Personal
+1,bag of sweet-smelling pot pori
+1,[Miscellaneous.ColorNoType] bandana
+1,{If~{Dice~1d20}=1?fine silver comb/bone comb}
+1,{If~{Dice~1d20}=1?ivory }hair brush
+1,bottle of scented oil
+1,[Miscellaneous.ColorNoType] spare button
+1,fan
+1,hair/moustache wax
+1,lace
+1,[Miscellaneous.ColorNoType] linen handkerchief
+1,[Miscellaneous.ColorNoType] lipstick
+1,hair pin
+1,[Miscellaneous.ColorNoType] silk handkerchief
+1,nail file
+1,plain silver ring
+1,plain [Miscellaneous.Metal] ring
+1,simple copper ring with non-magical runes ([~Rune Generator.GenRune])
+1,make-up kit
+1,monocle
+1,pair of [Miscellaneous.ColorNoType] gloves
+1,pair of spectacles
+1,penknife
+1,pipe and a pouch of pipeweed
+1,[Miscellaneous.ColorNoType] scarf
+1,tinderbox
+1,small {If~{Dice~1d20}=1?silver/metal} mirror
+1,lucky [Charm]
+1,religious symbol of [~Religion.Deities]
+1,small flask of <b>[Inn Menu.Alcoholic Drinks]</b>
+1,snuffbox
+1,[Miscellaneous.ColorNoType] sock
+1,soap
+1,[Miscellaneous.ColorNoType] underwear
+1,vial of perfume
+
+;!Charm
+1,copper piece
+1,silver piece
+1,gold piece
+1,pebble
+1,charm (Shape: [Miscellaneous.Shape])
+1,talisman
+1,dice
+
+;Misc
+4,scribbled note reading "[Note]"
+1,piece of chalk
+1,pair of dice [Chanceof]{If~%Chance%<30? (loaded)}
+1,worn deck of [Chanceof]{If~%Chance%<35? marked }playing cards
+1,vial of ink[Chanceof]{If~%Chance%<50? (stopper is loose, ink stains pickpocket's fingers)}
+1,paper of pins
+1,key
+1,ring of {Dice~2d6} keys
+1,piece of cheese in a breadroll
+1,cold mutton sandwich on thick black bread
+1,[Chanceof]{If~%Chance%<20? rotten} onion
+1,packet of {Dice~1d6} candle(s)
+1,small whetstone
+1,packet of {Dice~3d6} nails
+1,ball of twine ({Dice~1d5*10+50}')
+1,leather thong ({Calc~{Dice~1d3}+{Dice~1d2-1}}' long)
+1,[Gem] worth <b>{Dice~5d10}</b> gp
+1,spool of thread
+1,live [Critter]
+1,bag of {Dice~2d6} glass marbles
+1,phrasebook of the local language
+1,phrasebook of a special language ([~Miscellaneous.Language])
+1,wooden kazoo
+1,brass thimble
+1,small rubber ball
+1,small rag doll
+5,[Spell Components.Generate]
+1,small bag of herbs ([~Herb Names.Generate])
+1,|EQTable=Alchemical|[EQCall]Alchemical Item (%Item% %Cost% %piece%)
+1,|EQTable=Poisons|[EQCall]vial of Poison (%Item% %Cost% %piece%)
+1,note with a rumor. {Generate~0,Click to generate the rumor,Rumors.Alternate}
+1,small coat of arms ([~CoatsOfArms.Start])
+1,metal flask
+1,glass flask
+1,miniature wooden chest
+1,tiny metal box
+1,hollow bone
+1,egg in straw
+1,eggshell snuffbox
+1,dried foot/claw
+1,[~Creatures.Humanoid] finger
+1,[~Creatures.All] eye
+1,left [~Creatures.Humanoid] ears on a string
+1,animal horn
+1,bird feathers ([~Creatures.Bird of Prey])
+1,lock of [~Creatures.Humanoid] hair
+1,animal dung ([~Creatures.Animal])
+1,shell
+1,[~Creatures.All] tusk/teeth
+1,[~Creatures.All] brain
+1,[~Creatures.All] heart
+1,[~Creatures.All] hand
+1,[~Creatures.All] tongue
+1,[~Creatures.All] tail
+1,patch of fur/skin ([~Creatures.All])
+1,[~Creatures.All] claw/nail
+1,bag of sand
+1,jar of grave dirt (with bone shards)
+1,charcoal
+1,ash
+1,cheese
+1,cookies
+1,hard candy
+1,bread buns
+1,dried meat/jerky
+1,smoked meat
+1,smoked fish
+1,sausage
+1,fruit (apple, orange, banana, pear or other local)
+1,bud of garlic
+1,beetle{If~{Dice~1d2}=1? in a jar}
+1,centipede{If~{Dice~1d2}=1? in a jar}
+1,scorpion{If~{Dice~1d2}=1? in a jar}
+1,grasshopper{If~{Dice~1d2}=1? in a jar}
+1,spider{If~{Dice~1d2}=1? in a jar}
+1,butterfly{If~{Dice~1d2}=1? in a jar}
+1,cricket{If~{Dice~1d2}=1? in a jar}
+1,whistle
+1,small flute
+1,rattle
+1,tiny bell
+1,miniature drum
+1,tiny cymbals
+1,nails
+1,bells
+1,flint & steel
+1,whetstone
+1,key
+1,ball of string
+1,copper wire
+1,leather twine
+1,candle
+1,hinge
+1,caltrops
+1,2ft of chain
+1,inkpen/quill
+1,pitons
+1,sealing wax
+1,thin rope 5-10ft
+1,earplugs
+1,finger blade
+1,magnet
+1,hand lamp
+1,sealing wax stick
+1,small tray of wax
+1,bandage
+1,blank sheet of parchment
+1,poem1
+1,portrait of a [~Creatures.Humanoid2]
+1,dried flower wrapped in velum
+1,packet of tea leaves
+1,handful of nuts
+1,freshly picked flower(s)
+1,lump of sap
+1,packet of seeds
+1,lump of moss or lichen
+1,pinecones
+1,acorns
+1,salt
+1,prayerbook of [~Religion.Deities(2)]
+1,wooden holy symbol of [~Religion.Deities(2)]
+1,metal holy symbol of [~Religion.Deities(2)]
+1,incense
+1,soft stone statuette of [~Religion.Deities(2)]
+1,wooden carving of [~Religion.Deities(2)]
+1,book of hymns ([~Religion.Deities(2)])
+1,smooth stones
+1,{Dice~1d10} sling bullets
+1,bag of {Dice~2d10} marbles
+1,[Miscellaneous.ColorNoType] chalk
+1,{Dice~1d10} gravel/small stones
+1,ball of wool
+1,spool of string ({Dice~1d10}ft)
+1,thin leather cord
+1,thin wire (garrotte/tripwire/lute string)
+1,spare leather strap
+1,cotton thread and needle
+1,bow string
+1,crossbow string
+1,fish hooks
+1,hammer
+1,chisel
+1,needle & thread
+1,miniature weapon
+1,paint brush
+1,hook
+1,{Dice~1d3} dice
+1,{Dice~1d2} odd-shaped dice
+1,deck of cards
+1,doll
+1,stuffed creature toy
+1,carved animal
+1,fork
+1,wooden spoon
+1,tiny sickle
+1,carrots
+1,beans
+1,onions
+1,mushrooms
+1,celery
+1,spinach
+1,corn
+1,{Dice~1d6+1} arrow heads
+1,{Dice~1d6+1}bolt heads
+1,{Dice~1d10+2} flights for arrows
+1,piece of blade
+1,dart
+1,{Dice~1d5+1} spikes
+1,spear head
+
+;!Valuables
+1,explicit love letter from a prominent (married) person ([~Formal Names.Start]) to his mistress ([~Names Generator.NAME Human Female])
+1,promissory note issued by the local moneychanger ([~Creatures.Humanoid2] named [~Names Generator.NAME Random]): "Pay to bearer on demand the sum of <b>{Dice~1d10*5}</b> gold sovereigns"
+1,small bag of an illegal substance
+1,diary of the [~Creatures.Humanoid2] named [~Formal Names.Start] from [~Countries.Land]
+1,folder containing diplomatic identity papers of the [~Creatures.Humanoid2] named [~Formal Names.Start] from [~Countries.Land]
+1,ornate silver key to an exclusive club
+1,pair of invitations to the Lord Mayor's Ball[Chanceof]{If~%Chance%<60? (for [~NamesBranch] and date)}
+1,silver ring with {AorAn~[Gem]}[Chanceof]{If~%Chance%<40?  (setting is loose)}
+1,map [Map]
+1,book ([Book Titles.Start])
+1,note with a riddle.<br>{Generate~0,Click to generate riddle,Riddles.Start}
+
+;Gem
+1,turquoise
+1,moonstone
+1,pearl
+1,topaz
+1,bloodstone
+1,azurite
+
+;Critter
+4,mouse
+2,frog
+2,snake
+2,ferret
+1,cockroach
+
+;Map
+4,of the surrounding countryside
+2,of the known world
+6,of the city
+2,of the city, with several buildings marked in red
+3,of another city in [~Countries.Land]
+2,of {AorAn~[KindOf]} [Goodie] (torn in half)
+2,to {AorAn~[Goodie]}[Chanceof]{If~%Chance%<50? in an unknown location/ (water-stained and smeared)}
+1,of a foreign country
+1,of an unknown land
+
+;KindOf
+1,lost
+1,ancient
+4,nearby
+2,distant
+1,hidden
+1,legendary
+
+;Goodie
+1,lair
+1,treasure
+1,dungeon
+1,tomb
+1,catacomb
+
+:Note
+1,[Verbs] [Nouns][Chanceof]{If~%Chance%<30? about [Nouns]}[Chanceof]{If~%Chance%<30? [When1]}
+
+:Verbs
+1,get
+2,ask
+3,see
+4,find
+
+;Nouns
+3,[~NamesBranch]
+1,the loot
+1,the other one
+1,anybody
+1,it
+1,the problem
+
+:When1
+1,tonight
+2,later
+3,today
+4,after dinner
+5,soon
+
+;NamesBranch
+10,|TempNumber={Dice~1d100}|{If~%TempNumber%>25? [Names Generator.NAME Human Male]/[Names Generator.NAME Human Female]}
+4,|TempNumber={Dice~1d100}|{If~%TempNumber%>25? [Names Generator.NAME Dwarf Male]/[Names Generator.NAME Dwarf Female]}
+6,[Names Generator.NAME Elf]
+3,|TempNumber={Dice~1d100}|{If~%TempNumber%>25? {Cap~[Names Generator.NAME Gnome Male]}/[Names Generator.NAME Gnome Female]}
+2,[Names Generator.NAME Elf]
+2,[Names Generator.NAME Orc]
+1,|TempNumber={Dice~1d100}|{If~%TempNumber%>25? [Names Generator.NAME Halfling Male]/[Names Generator.NAME Halfling Female]}

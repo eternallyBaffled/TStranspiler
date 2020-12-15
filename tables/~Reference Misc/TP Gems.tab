@@ -1,0 +1,117 @@
+# ------------------------------------------------------
+# Last Update: verified by Valminder Jan 01, 2014.
+# ------------------------------------------------------
+#
+# RSRD Gems table
+#
+# Originally compiled by Anthony Marker
+# www.Breminor.com
+#
+# Slightly edited by Bruce Gulke
+
+%format%,0
+%gem%,0
+%name%,0
+%value%,0
+%appraisalDC%,0
+
+@format,1,Select format:,Human-readable,Delimited for other table
+
+;Start
+1,|gem=[GenItem]|
+_{Split~gem,"!",name,value,appraisalDC}
+_[DisplayItem=%format%]
+
+:DisplayItem
+1,{Bold~{Cap~%name%}}
+_{CR~}Value: %value% gp
+_{CR~}Appraisal DC: %appraisalDC%
+2,%name%!%value%!%appraisalDC%
+
+;GenItem
+25,[Gem1]!{Dice~4d4}!12
+25,[Gem2]!{Dice~2d4*10}!12
+20,[Gem3]!{Dice~4d4*10}!15
+20,[Gem4]!{Dice~2d4*100}!15
+9,[Gem5]!{Dice~4d4*100}!20
+1,[Gem6]!{Dice~2d4*1000}!25
+
+;Gem1
+1,banded agate
+1,moss agate
+1,eye agate
+1,azurite
+1,blue quartz
+1,hematite
+1,lapis lazuli
+1,malachite
+1,obsidian
+1,rhodochrosite
+1,tiger eye turquoise
+1,freshwater (irregular) pearl
+
+;Gem2
+1,bloodstone
+1,carnelian
+1,chalcedony
+1,chysoprase
+1,citrine
+1,iolite
+1,jasper
+1,moonstone
+1,onyx
+1,peridot
+1,clear quartz
+1,sard
+1,sardonyx
+1,rose quartz
+1,smokey quartz
+1,star rose quartz
+1,zircon
+
+;Gem3
+1,amber
+1,amethyst
+1,chrysoberyl
+1,coral
+1,red garnet
+1,brown-green garnet
+1,jade
+1,jet
+1,white pearl
+1,golden pearl
+1,pink pearl
+1,silver pearl
+1,red spinel
+1,red-brown spinel
+1,deep-green spinel
+1,tourmaline
+
+;Gem4
+1,alexandrite
+1,aquamarine
+1,violet garnet
+1,black pearl
+1,deep-blue spinel
+1,golden yellow topaz
+
+;Gem5
+1,emerald
+1,white opal
+1,black opal
+1,fire opal
+1,blue sapphire
+1,fiery yellow corundum
+1,rich purple corundum
+1,blue star sapphire
+1,black star sapphire
+1,star ruby
+
+;Gem6
+1,clearest bright green emerald
+1,blue-white diamond
+1,canary diamond
+1,pink diamond
+1,brown diamond
+1,blue diamond
+1,jacinth

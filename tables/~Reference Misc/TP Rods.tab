@@ -1,0 +1,119 @@
+# ------------------------------------------------------
+# Last Update: modified by Valminder Jan 02, 2014.
+# ------------------------------------------------------
+#
+# Note for customizing: Each table assumes that
+# the items are listed in order of value.
+#
+# Modified by Valminder, January 2014.
+#    Added link to: 
+#        Miscellaneous.Precious Metal
+#        Miscellaneous.Shape
+#        Rune Generator.GenRune
+#
+
+%minVal%,0
+%maxVal%,99999999
+%power%,0
+%format%,0
+%tries%,0
+%maxTries%,0
+%temp%,0
+%inRange%,0
+%group%,0
+%item%,0
+%name%,0
+%value%,0
+%desc%,0
+%aura%,0
+%valMinItem%,0
+%valMaxItem%,0
+%itemsDS%,0
+%index%,0
+%weight%,0
+
+@minVal,0,Enter minimum value (in gp):
+@maxVal,99999999,Enter maximum value (in gp):
+@power,4,Degree of Power:,Minor,Medium,Major,Random
+@format,1,Select format:,Human-readable,Delimited for other table
+@maxTries,10,Number of attempts:
+
+:Start
+1,{DSRead~itemsDS,TP Rods}
+_|temp=[CheckParams]|{If~%temp%=OK?[Continue]/ %temp%}
+_{Status~}
+
+:Continue
+1,|tries=0|{While~%tries%<%maxTries%,[GenItem][CheckValueInRange]{If~%inRange%=yes?|tries=maxTries|/|tries+1|}}
+_{If~%inRange%=no?[Error=4]/ [DisplayItem=%format%]}
+
+:GenItem
+1,|group={Iif~%power%=4?{Param~power,{Dice~1d3}}:{Param~power,%power%}}|
+_{Status~Attempt ROD #{Calc~%tries%+1} of %maxTries%}
+_|index={DSRoll~itemsDS,{LCase~%group%}roll}|
+_|name={DSGet~itemsDS,%index%,name}|{If~%name%!=immovable?|name=rod of %name%|/|name=%name% rod|}
+_|value={DSGet~itemsDS,%index%,value}|
+_|aura={DSGet~itemsDS,%index%,aura}|
+_|weight={DSGet~itemsDS,%index%,weight}|
+_|desc=[GenDesc]|
+
+:DisplayItem
+1,{Bold~{Cap~%name%}}
+_{CR~}Description: {Cap~%desc%}{CR~}Value: %value% gp
+_{CR~}Aura: {Italic~%aura%}
+2,%name%!%value%!%weight%!%aura%!%desc%
+
+# ----------------------------------------------------
+# Initialization and parameter validation
+:CheckParams
+1,{If~%minVal%<=%maxVal%?OK/ [Error=1]}
+
+:CheckValueInRange
+1,|inRange={If~{And~%minVal%<=%value%,%value%<=%maxVal%}=1?yes/no}|
+
+:Error
+1,ERR001: Invalid min and/or max values
+2,ERR002: Minimum value given greater than maximum value for selected group
+3,ERR003: Maximum value given less than minimum value for selected group
+4,ERR005: Couldn't generate item in %tries% tries
+# ----------------------------------------------------
+
+:GenDesc
+1,[RodLength] [RodMetal] rod[Clue]
+
+:RodLength
+1,2' long
+2,2.5' long
+3,3' long
+
+;RodMetal
+17,iron
+2,steel
+1,bronze
+20,[~Miscellaneous.Precious Metal]
+
+#
+# Note: No provision is currently made for intelligent rods
+#
+;Clue
+3,; {AorAn~[ClueType]} provides some clue as to the rod's function
+7,
+
+;ClueType
+1,glyph[ClueGlyph] [ClueMethod]
+1,rune[ClueGlyph] [ClueMethod]
+1,symbol[ClueGlyph] [ClueMethod]
+
+;ClueGlyph
+1, ([~Rune Generator.GenRune])
+1, ([~Miscellaneous.Shape])
+
+;ClueMethod
+1,carved into [ClueLocation]
+1,scratched into [ClueLocation]
+1,painted on [ClueLocation]
+1,engraved in [ClueLocation]
+
+;ClueLocation
+1,the side
+1,one end

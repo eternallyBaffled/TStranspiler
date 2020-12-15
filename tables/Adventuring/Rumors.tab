@@ -1,0 +1,860 @@
+# ------------------------------------------------------
+# Last Update: re-verified by Valminder Jan 10, 2012.
+# ------------------------------------------------------
+# ---------------------------------------------------
+# Last Update: modified by Valminder August 20, 2006.
+# ---------------------------------------------------
+#
+# Rumors Generator
+#
+# Made by Valminder, May 2002
+#
+# I took the rumors from the Inn Generator and added some new ones.
+#
+# June 2003: Added 101 Wondrous Whereabouts from Dragon 281, under Legend.
+#            I also triple the chances for the other "Rumors" to generate
+#            less of those legends.
+# July 2003: Added link to [Riddles.Start] in rumor.
+# Jan. 2004: Added ideas of Erik C. Mattsen.
+# Nov. 2005: Removed header from [Start]
+#            Added credits: also by Larry Cormier
+#               The first 100 Rumors on this table were derived from the
+#               Dungeonmaster's Guide(r) and 'Gramatically' altered
+#               to fit the 'Rumor Concept' of this table. They are
+#               essentially the 'One Hundred Adventure Ideas' listed in
+#               the 'Adventures' section of the DMG, and fit well as
+#               Adventure Hooks that may be heard as rumors.
+# Dec. 2005: Added link to: The Oracle.tab
+#
+# Modified by Valminder, August  2006.
+#    Added link to: Notable Event Names.tab
+#    Added contents of "Current Events1.tab" to this one.
+#    Added contents of "InnEvents1.tab" by odell_williams@hotmail.com
+# Modified by Valminder, Octobre 2016
+#    Modified link "Countries.Start" to "Countries.Countries"
+#
+
+%Rumor%,1
+%Sex%,His
+
+@Rumor,1,Choose the kind of rumor,Random,Bounty,Employment,Rumor,Legend
+
+:Start
+1,{Status~Valminder, 2002, 2003, 2004, 2005}[ChooseRumor=%Rumor%]
+
+:ChooseRumor
+1,[Generate]
+2,<u>Bounty</u>: [Bounty]
+3,<u>Employment</u>: [Job]
+4,<u>Rumor</u>: [Rumor]
+5,<u>Legend</u>: [Legend]
+
+;Generate
+3,<u>Bounty</u>: [Bounty]
+3,<u>Employment</u>: [Job]
+13,<u>Rumor</u>: [Rumor]
+1,<u>Legend</u>: [Legend]
+
+;Alternate
+3,[Bounty]
+3,[Job]
+13,[Rumor]
+1,[Legend]
+
+# ---------------------------------------------------------------------------
+#A bounty might be something posted in an inn or tavern, told by a town cryer or simply a short encounter.
+
+;Bounty
+5,{Cap~[~Magic Weapon Names.Generate]} has to be found. [Magic Item History.Generate]<br>[Reward]
+5,An alchemist needs a particularly rare herb named [~Herb Names.Generate]. [Reward]
+5,{AorAn~[Leader]} is looking for his/her lost jewel, [~Jewelry.Start]. [Reward] 
+5,A sage or scholar wants a particular book.<br>[Book Descriptions.Start]<br>[Reward]
+5,A wizard needs a particularly rare spell component found only in the deep jungle. [Reward]
+1,A wronged [~Creatures.Humanoid2] needs a champion to fight for her in a gladiatorial trial. [Reward]
+1,The holy symbol of the high priest of [~Religion.Good Gods] is missing. [Reward]
+1,The holy symbol of the high priest of [~Religion.Neutral Gods] is missing. [Reward]
+3,Wanted Alive: The crew of the pirate ship [~Ship Name Generator.Generate] is wanted for piracy. [Reward]
+10,Wanted Alive: The [~Creatures.Humanoid2] [~Miscellaneous.ClassPC] named [~Names Generator.NAME Random] is wanted for [Crime]. [Who] [Reward]
+10,Wanted Dead or Alive: The [~Creatures.Humanoid2] [~Miscellaneous.ClassPC] named [~Names Generator.NAME Random] is wanted for [Crime]. [Who] [Reward]
+1,The Mage Guild is looking for someone to find and [Capture] a renegade wizard who [Guild]. Local law enforcement is not involved because the Guild likes to solve its problems internally. [Reward]
+1,{AorAn~[Leader]} wants to retrieve a family heirloom which was stolen from the family <b>{Dice~1d10+2}</b> years ago. [Reward]
+1,A [~Miscellaneous.Occupations] is looking to hire someone to recover a shipment of supplies that was hijacked enroute. [Reward]
+
+;Crime
+2,felony
+1,grand theft
+1,high treason
+2,murder
+2,rape
+3,theft
+2,treason
+
+;Capture
+1,kill
+1,capture
+
+;Guild
+1,is selling magic items to criminals
+1,murderd the previous Guildmaster
+1,is attempting to assassinate the current Guildmaster
+
+;Leader
+1,[Noble]
+1,senior guild member
+1,elder cleric ([~Religion.Deities2])
+1,rich merchant
+1,mysterious stranger
+1,foreign noble
+
+:Noble
+1-25,Lord
+26-47,Baron
+48-64,Count
+65-78,Duke
+79-86,Prince
+87-90,King
+91,Emperor
+92-100,High Priest
+
+:Reward
+1,The reward is [Reward1]
+
+;Reward1
+1,the eternal gratitude of the patron.
+10,some sort of service.
+10,<b>{Dice~2d6*50}</b> gp.
+10,<b>{Dice~2d10*50}</b> gp.
+10,<b>{Dice~1d20*100}</b> gp.
+5,<b>{Dice~5d20*25}</b> gp.
+3,<b>{Dice~5d20*50}</b> gp.
+1,<b>{Dice~5d20*100}</b> gp.
+10,a minor magical item.
+5,a moderate magical item.
+1,a major magical item.
+
+;Sex
+2,He|Sex=His|
+1,She|Sex=Her|
+
+;Sex2
+2,His
+1,Her
+
+;Who
+11,
+1,[Sex] is a dangerous criminal, caution is advised.
+1,[Sex] is a [~Miscellaneous.Class] of great reknown.
+1,[Sex] is a [~Miscellaneous.Class] [~Miscellaneous.Class] of great powers.
+1,[Sex] is never alone. %Sex% cohort, the [~Creatures.Humanoid2] named [~Names Generator.NAME Random] is also wanted for the same reward.
+1,[Sex] has powerful friends.
+1,[Sex] might have fled to [~Countries.Land].
+1,[Sex] is a follower of [~Religion.Evil Gods].
+1,[Sex] is a follower of [~Religion.Neutral Gods].
+1,[Sex] is allied with followers of [~Religion.Evil Gods].
+1,[Sex] is allied with followers of [~Religion.Neutral Gods].
+1,[Sex2] last known location was in [~Countries.Land].
+1,[Sex] was seen a week ago in this establishment.
+1,[Sex] fled toward the [~Miscellaneous.Direction].
+1,[Sex] booked passage on a ship going [~Miscellaneous.Direction].
+1,[Sex] knows someone in [~Countries.Land].
+1,[Sex2] crime partner [~Names Generator.NAME Random] was last seen in [~Countries.Land].
+1,[Sex] is also wanted in [~Countries.Land] for [~Crime].
+1,[Sex] is also wanted in [~Countries.Land] for [~Crime] ([Reward]).
+1,[Sex] was already convicted for [~Crime] and [~Crime].
+1,[Sex] was already convicted for [~Crime].
+1,[Sex] has already been falsely accused of [~Crime].
+
+# ---------------------------------------------------------------------------
+# A job might be an adventure by itself.
+
+;Job
+5,A caravan needs guards to escort it to the next city. [Carts]
+5,A caravan of important goods is about to leave for a trip through a dangerous area. They need guards to protect it. [Carts]
+5,A delivery needs to be made to [~Countries.Land].
+1,A druid needs help defending her grove against goblins.
+1,An antidote to a magic poison must be found before the [~Miscellaneous.Titles] dies.
+5,An emissary named [~Names Generator.NAME Random] is going to [~Countries.Countries] and needs an escort.
+1,An innocent man, about to be hanged, pleads for someone to help him.
+3,{AorAn~[Leader]} needs bodyguards.
+3,{AorAn~[Leader]} needs an escort to go to [~Countries.Land].
+5,Sailors are needed for an ocean voyage on [~Ship Name Generator.Generate] ship.
+1,A [~Creatures.Humanoid2] [~Miscellaneous.ClassPC] has an offer of employment on an expedition to explore a dungeon. [Underworld Expedition]
+5,{AorAn~[Leader]} is in need of retainers to [Miscellaneous expedition]
+1,A local [Person] ([NPC Appearance.GenerateNoClass]) is hiring a group of adventurers to [Verb_hire].
+20,[ADV Plot Ideas.Generate]
+
+;Armor
+1,[~Armor1] [Design] {AorAn~[Descript]} [~Creatures.Start]{If~{Dice~1d2}=1? on the [Location]}
+
+;Armor1
+1,bracers
+1,a helm
+1,a shield
+5,{AorAn~[Equipment.ArmorType]} armor
+
+;Carts
+6,The caravan will have <b>{Dice~1d12}</b> carts and wagons and around <b>{Dice~3d10}</b> other people.
+6,The caravan will have <b>{Dice~2d12}</b> carts and wagons and around <b>{Dice~4d10}</b> other people.
+2,The caravan will have <b>{Dice~3d12}</b> carts and wagons and around <b>{Dice~5d10}</b> other people.
+2,The caravan will have <b>{Dice~4d12}</b> carts and wagons and around <b>{Dice~6d10}</b> other people.
+1,The caravan will have <b>{Dice~6d12}</b> carts and wagons and around <b>{Dice~8d10}</b> other people.
+
+;Design
+1,engraved with strange symbols depicting
+1,engraved with concentric circles forming
+1,carved with a twisting, vine-like pattern forming
+1,enlaid with a pattern of gold depicting
+1,enlaid with a pattern of silver depicting
+1,engraved with an ancient rune depicting
+1,engraved with the image of a vague shape resembling 
+1,engraved with the likeness of an ancient hieroglyphic depicting
+1,covered in a web-like pattern of lines forming
+1,engraved with an image of
+
+;Descript
+1,rampant
+1,enraged
+1,calm
+1,lazy
+1,peaceful
+1,sad
+1,weeping
+1,mourning
+1,happy
+1,playful
+1,confused
+1,frustrated
+1,determined
+1,small
+1,baby
+1,bashful
+1,adult
+1,ancient
+1,dopey
+1,laughing
+
+;For
+1,a [Person] ([NPC Appearance.GenerateNoClass])
+1,a lost relic ([~Relic]). It is not magical just of religous or sentimental value. Though it could be magical if needed
+1,[Special Weapon]
+1,[Armor]
+1,{AorAn~[Item]} [Design] {AorAn~[Descript]} [~Creatures.Start]
+1,[Arm]
+
+;Item
+2,staff
+2,rod
+2,stone
+1,tapestry
+2,vase
+2,urn
+2,box
+1,chest
+1,bag
+1,pouch
+1,backpack
+2,scroll tube
+1,scroll
+1,parchment
+1,robe
+1,cloak
+1,hammer
+1,pick
+1,belt
+1,pair of boots
+1,gloves
+1,glasses
+2,wand
+2,glass orb
+1,chair
+2,throne
+1,table
+
+;Location
+1,[Location_Side] shoulder 
+1,chest
+1,back
+1,[Location_Side] leg
+
+;Location_Side
+1,right
+1,left
+
+;Miscellaneous expedition
+5,travel up to {Dice~1d10} miles distant to meet his betrothed spouse.
+2,travel up to {Dice~2d20} miles distant to gather rare herbs for potion ingredients.
+2,rescue a caravan being besieged by bandits {Dice~1d5} miles away.
+3,accompany him on a wild animal hunt for sport, {Dice~1d6} miles away.
+1,rescue [Relatives] who are overdue and presumed in trouble in the wilderness {Dice~1d20} miles away. [Reward]
+1,rescue of [Relatives] who are overdue and presumed in trouble in an Underworld complex {Dice~1d20} miles away. [Reward]
+1,rescue {AorAn~[Leader]} being held for ransom {Dice~1d12} miles. [Reward]
+1,kidnap someone with whom he holds a grudge. [Reward]
+
+;Person
+2,town elder
+1,village idiot
+1,blacksmith
+1,priest of [~Religion.Deities2]
+2,tavern owner
+3,brothel owner
+2,inn owner
+1,town drunk
+4,captian of the guard
+1,furrier
+1,herbalist
+2,town leader
+10,resident
+1,armorer
+2,general store owner
+5,wench
+2,fighter
+2,wizard
+2,rogue
+20,[~Miscellaneous.Occupations]
+10,[~Miscellaneous.ClassPC]
+
+;Relatives
+1,relatives
+1,friends
+
+;Relic
+1,ring [Design] {AorAn~[Descript]} [~Creatures.Start]
+1,amulet/pendant [Design] {AorAn~[Descript]} [~Creatures.Start]
+1,necklace [Design] {AorAn~[Descript]} [~Creatures.Start]
+1,armband [Design] {AorAn~[Descript]} [~Creatures.Start]
+1,crown/helm [Design] {AorAn~[Descript]} [~Creatures.Start]
+1,earring [Design] {AorAn~[Descript]} [~Creatures.Start]
+
+;Retrieve
+3,retrieve {AorAn~[Thing]}
+1,rescue a friend who is being held captive in the Underworld.
+
+;Special Weapon
+5,a [~Equipment.Swords]. Its blade is [Design] {AorAn~[Descript]} [~Creatures.Start].
+3,a [~Equipment.Bows]. Its wood is [Design] {AorAn~[Descript]} [~Creatures.Start].
+4,a [~Equipment.Axe and Hammers]. Its head is [Design] {AorAn~[Descript]} [~Creatures.Start].
+1,a [~Equipment.Knives]. Its blade is [Design] {AorAn~[Descript]} [~Creatures.Start].
+1,a [~Equipment.Misc]. It is [Design] {AorAn~[Descript]} [~Creatures.Start].
+1,a [~Equipment.Misc Range]. It is [Design] {AorAn~[Descript]} [~Creatures.Start].
+
+;Thing
+1,weapon
+1,item of jewelry
+1,enchanted item
+1,statue
+1,gem
+1,book
+1,scroll
+1,idol
+1,chest
+
+;Underworld Expedition
+3,He tells you that he knows the way and will pay you a percentage of the treasure.	
+1,He tell you that he is on a  quest to [Retrieve]. He say's that you can keep any treasure that you find.
+
+;Verb_hire
+1,investigate [Castles.Generate] 
+1,investigate [SITE Ruins.Generate]
+1,investigate [SITE Temples.Generate]
+1,spy on [Castles.Generate]
+1,spy on [SITE Ruins.Generate]
+1,spy on [SITE Temples.Generate]
+1,search for [For]. The last known location was [Castles.Generate]
+1,search for [For]. The last known location was [SITE Ruins.Generate]
+1,search for [For]. The last known location was [SITE Temples.Generate]
+
+# ---------------------------------------------------------------------------
+
+;Rumor
+1,Thieves have stolen the crown jewels.
+5,A [~Creatures.Dragon] has flown into a town and demanded tribute.
+1,The tomb of an old [~Miscellaneous.Class] has been discovered.
+1,Wealthy merchants are being killed in their homes.
+1,The statue in the town square was found to be a petrified [~Creatures.Humanoid2] [~Miscellaneous.Class] named [~Names Generator.NAME Random]. 
+5,A caravan of important goods left <b>{Dice~1d6+1}</b> days ago for a trip through a dangerous area.
+1,Cultists of [~Religion.Evil Gods] are kidnapping potential sacrifices.
+1,Goblins riding spider eaters have been attacking the outskirts of a town.
+5,Local bandits have joined forces with a tribe of <b>{Plural~[Creatures.Humanoid]}</b>.
+1,{Cap~{AorAn~[Miscellaneous.Class]}} is organizing monsters in an area.
+1,A blackguard is organizing monsters in an area.
+1,A gate to the Lower Planes threatens to bring more demons to the world.
+1,Miners died in a cave-in a few days ago.
+1,Miners have accidentally released something awful that once was buried deep.
+1,A wizard’s guild challenges the ruling council.
+5,Racial tensions between <b>{Plural~[Creatures.Humanoid2]}</b> and <b>{Plural~[Creatures.Humanoid2]}</b> are rising.
+1,A mysterious fog has brought <b>{Plural~[Creatures.Undead]}</b> into town.
+1,The holy symbol of the high priest of [~Religion.Good Gods] is missing.
+1,The holy symbol of the high priest of [~Religion.Neutral Gods] is missing.
+1,An evil wizard has developed a new type of golem.
+1,Someone in town is a werewolf.
+1,Slavers continue to raid the community of [~Town Names.Generate].
+1,A fire elemental has escaped from a wizard’s lab.
+1,<b>{Cap~{Plural~[Creatures.Humanoid]}}</b> are demanding a toll on a well-traveled bridge.
+1,A mirror of opposition has created an evil duplicate of a hero.
+1,Two orc tribes ([~Orc Tribes.Generate] and [~Orc Tribes.Generate]) wage a bloody war.
+1,New construction reveals a previously unknown underground tomb.
+1,A nearby kingdom has launched an invasion.
+1,Two well-known heroes will soon fight a duel.
+1,An ancient sword must be recovered to defeat a ravaging monster.
+5,A prophecy foretells of coming doom unless <i>the artifact of <b>[Names Generator.NAME Random]</b></i> is recovered.
+1,<b>{Cap~{Plural~[Creatures.Humanoid]}}</b> have kidnaped the mayor’s daughter.
+1,The [~Creatures.Humanoid2] [~Miscellaneous.Class] named [~Names Generator.NAME Random] is buried in a trap-filled tomb with her powerful magic items.
+1,An enchanter is compelling others to steal for him.
+1,A shapechanged mind flayer is gathering mentally controlled servitors.
+1,A plague brought by wererats threatens a community.
+1,The keys to disarming all the magic traps in a wizard’s tower have gone missing.
+1,Sahuagin are being driven out of the sea to attack coastal villages.
+1,Gravediggers have discovered a huge, ghoul-filled catacomb under the cemetery.
+1,A map showing the location of an ancient magic forge was discovered.
+1,Various monsters have long preyed upon people from within the sewers of a great city.
+1,Vampires are preying upon a small town [~Miscellaneous.Direction] of here.
+1,A haunted tower is reputed to be filled with treasure.
+1,Barbarians have torn up a village in a violent rage.
+1,<b>{Cap~{Plural~[Creatures.Giant]}}</b> are stealing cattle from local farmers.
+1,Unexplained snowstorms have brought winter wolves into an otherwise peaceful area.
+1,A lonely mountain pass is guarded by a powerful sphinx denying all passage.
+1,Evil [~Creatures.Humanoid2] mercenaries are constructing a fortress not far from the community.
+1,An ancient curse is turning innocent people into evil murderers.
+1,Gargoyles are killing giant eagles in the mountains.
+1,Mysterious merchants sell faulty magic items in town and then attempt to slink away.
+1,A recently recovered artifact causes arcane spellcasters’ powers to go awry.
+1,An evil noble has put a price on a good noble’s head.
+1,Adventurers exploring a dungeon have not returned in a week.
+1,The funeral for a good [~Miscellaneous.Class] was disrupted by enemies he made while alive.
+1,Colossal vermin are straying out of the wilderness to attack settlements.
+1,An evil tyrant has outlawed unsanctioned magic use in a far away country.
+1,A huge dire wolf, apparently immune to magic, is organizing the wolves in the wood.
+1,A community of gnomes has built a flying ship.
+1,An island at the center of the lake is actually the top of a strange, submerged fortress.
+1,Buried below the Tree of the World lies the Master Clock of Time.
+1,A child has wandered into a vast necropolis, never to return.
+1,All the dwarves in an underground city ([~Dwarven Place Names.Generate]) have disappeared.
+1,A strange green smoke billows out of a cave near a mysterious ruin.
+1,Mysterious groaning sounds come from a haunted wood at night.
+1,Thieves stole a great treasure and fled into Mordenkainen’s magnificent mansion.
+1,A sorcerer attempted to travel ethereally but disappeared completely in the process.
+1,A paladin’s quest ([~Names Generator.NAME Random]) for atonement led her to a monster lair too well-defended for her to tackle alone.
+1,A kingdom known for its wizards prepares for war.
+1,The high priest of [~Religion.Deities] is an illusion.
+5,A new noble ([~Formal Names.Start]) seeks to clear a patch of wilderness of all monsters.
+1,A bulette is tearing apart viable farmland.
+1,A infestation of stirges drives some snake-men closer to civilized lands.
+1,Treants in the woods are threatened by a huge fire of mysterious origin.
+1,Clerics who have resurrected a long-dead hero discovered she’s not what they thought.
+1,A sorrowful bard tells a tavern tale of his imprisoned companions.
+1,Evil nobles have created an adventurers’ guild to monitor and control adventurers.
+5,{Cap~{AorAn~[~Creatures.Humanoid2]}} caravan must pass through a monster-infested wilderness.
+1,All the doors in the king’s castle are suddenly arcane locked and fire trapped.
+1,The tomb of a powerful wizard ([~Names Generator.NAME Random]), filled with magic items, has sunk into the swamp.
+1,Someone is sabotaging wagons and carts to come apart when they travel at high speed.
+1,A certain type of frogs, found only in an isolated valley, fell like rain on a major city <b>[Miscellaneous.Direction]</b> of here.
+1,A jealous rival threatens to stop a well-attended wedding.
+1,A woman who mysteriously vanished years ago has been seen walking on the surface of a lake.
+1,An earthquake has uncovered a previously unknown dungeon.
+1,At the eye of the storm that tears across the land lies a floating citadel.
+1,People grow suspicious of [~Creatures.Humanoid2] merchants peddling [~Creatures.Dragon] parts in the market.
+1,An absentminded wizard has let her rod of wonder fall into the wrong hands.
+1,The door into an abandoned house in the middle of town is in fact a magic portal.
+1,Barge pirates have made a deal with a covey of hags and exact a high toll to use the river.
+1,Two parts of a magic item are in the hands of bitter enemies; the third piece is lost.
+1,A clutch of wyverns is preying upon sheep as well as shepherds.
+1,Evil clerics of [~Religion.Evil Gods] gather in secret to summon their monstrous god to the world.
+5,A major city faces a siege by a force of [~Creatures.Humanoid2], [~Creatures.Humanoid], and [~Creatures.Humanoid].
+1,A huge gemstone supposedly lies within an ancient ruined monastery.
+1,Lizardfolk riding dragon turtles sell their services as mercenaries to the highest bidder.
+1,{Cap~[~Creatures.Humanoid]} are doombringers. They brought a plague with them, spreading the disease wherever they go.
+1,The priests of [~Religion.Good Gods] have stopped helping folks around.
+1,The priests of [~Religion.Neutral Gods] are becoming mad, they are turning evil.
+1,The dark priests of [~Religion.Evil Gods] are more common in the city. They want to take control.
+1,Barbarians are coming from the north to establish themselves on our land.
+1,An invasion of barbarians is about to happen. Scouts were seen in the countryside.
+1,Thieves are running the city.
+1,Thieves are getting organized in the city behind a charismatic leader.
+1,The thieve's guild was disbanded by paladins.
+5,The great [~Miscellaneous.Class] [~Names Generator.NAME Random] is coming here.
+1,There will be a great performance of a well known bard in a few days.
+1,A circus will come in town.
+1,A monastery was attacked by [~Creatures.Humanoid] raiders.
+5,The merchant [~Names Generator.NAME Random] had to close his [~Miscellaneous.Shop] business.
+1,{Cap~[~Miscellaneous.Shop]} are so rare these days.
+5,A new [~Miscellaneous.Shop] shop has opened in town.
+5,{Cap~{AorAn~[~Creatures.Humanoid2]}} wants to open {AorAn~[~Miscellaneous.Shop]} shop in town.
+5,{Cap~{AorAn~[~Creatures.Humanoid2]}} has opened {AorAn~[~Miscellaneous.Shop]} shop.
+5,{Cap~{AorAn~[~Miscellaneous.Shop]}} has burnt to the ground.
+5,{Cap~{AorAn~[~Miscellaneous.Shop]}} has been robbed.
+5,All [~Miscellaneous.Shop] shops are closing.
+1,All [~Miscellaneous.Shop] shops are being robbed.
+1,Thieves are active during the night, keep your shutters closed and your doors locked.
+1,Strange sounds are heard during the night. {Cap~{AorAn~[~Creatures.Undead]}} is roaming during the night.
+1,A unicorn was seen in the woods around the town.
+1,A table suddenly animated during a council meeting and exited by the door.
+1,Items are moving by themselves when we are not looking.
+1,Objects are moving around, changing places.
+1,A strange statue of a [~Creatures.Humanoid2] was found. It looks too real to be a real statue.
+1,A lizard was seen in the forest. It even changed a [~Creatures.Animal2] into stone.
+1,A strange dog was seen in the fields. When [~Names Generator.NAME Random] approached it, it disappeared and reappeared <b>{Dice~1d100*10}</b> feet away before running away.
+1,The king has an army of centaurs. His knights will never be dismounted now.
+1,Centaurs are the result of a mad wizard experiment. He mixed a horse with an elf.
+5,I saw a big [~Creatures.Flying] flying over the plain.
+1,Dragons are not real. They are a legend to scare small children.
+1,Dragons have a lot of wealth.
+1,Dragons are actually powerful wizards who wanted too much power.
+1,Dragons are gods.
+1,Dragons are the keepers of the land.
+1,Dragons are immortal, they are older than the gods themselves.
+1,Dragons are born in eggs, just like chickens.
+1,A dragon scale can made into a potion to make someone invincible to everything.
+1,Dragons are strong but dim-witted.
+1,All dragons breath fire.
+1,All dragons can fly, but they cannot swim.
+1,Dragons can swim, and they actually live under the water.
+1,Dragons eat their treasure.
+1,Dragons are everywhere. They want to take control.
+1,A great dragon council exists somewhere far away.
+1,Dragons waged a great war a long long time ago. Only a few dozens survived to this day.
+1,All evil dragons are red.
+1,All good dragons are the color of precious metal.
+1,Gem dragons are evil.
+1,Gem dragons are neither good, nor evil. They don't care about anything.
+1,If you cut the beard of a dwarf, he loses all his strength.
+1,Female dwarves have beard and are really ugly.
+1,Dwarves are afraid of sunlight.
+1,Dwarves are great miners.
+1,Elves are there to help everyone.
+1,Elves are aloof and don't care about the "lesser" races.
+1,Gnomes can smell everything. You cannot hide from them.
+1,Stay clear of gnome inventions, they tend to endanger their users.
+1,Goblins and [~Creatures.Humanoid2] are related.
+1,Halflings aren't afraid of anything.
+1,Halflings love to eat. Apple pie is their favorite.
+1,Halflings are great stone throwers.
+1,Ogres were the favourite race of the gods until they fell out of favor and became the foul brutes they now are.
+1,Orcs ([~Orc Tribes.Generate] tribe) are a real plague. They are all diseased.
+1,Orcs of the [~Orc Tribes.Generate] tribe have been seen around, spying on us.
+1,Orcs of the [~Orc Tribes.Generate] tribe have destroyed a settlement in the [~Miscellaneous.Direction]. They killed everyone.
+1,A pegasus was tamed by {AorAn~[~Creatures.Humanoid2]}.
+1,A treant lives in the forest.
+1,The trees in the forest are moving. One day they are there, and the other not.
+5,The <b>{Plural~[Creatures.Animal2]}</b> are acting strange.
+1,{Cap~{AorAn~[~Creatures.Dragon]}} was killed by a great [~Miscellaneous.Class].
+1,A new kind of dragon was found.<br>{Generate~0,Click to Generate this Dragon,Dragons.Start}
+10,Ruins were found: {Cap~[~SITE Ruins.GenerateNoMap]}.
+10,[Sites of Interest.Generate]
+5,There is a haunted house in town. [Castle Hauntings.Kind]
+5,The castle of the lord is haunted. [Castle Hauntings.Kind]
+1,A new tavern has opened. It is names [~Inn and Tavern Names.Names].
+1,The [~Inn and Tavern Names.Names] tavern has burnt to the ground.
+1,The [~Inn and Tavern Names.Names] tavern is closed.
+1,The [~Inn and Tavern Names.Names] tavern was sold to adventurers.
+1,The [~Inn and Tavern Names.Names] tavern is the hideout of the thieve'S guild.
+1,You can buy anything at the [~Inn and Tavern Names.Names] tavern.
+1,The [~Inn and Tavern Names.Names] inn is the headquarter of a [~Miscellaneous.Class] guild.
+1,The [~Inn and Tavern Names.Names] inn is reputed for his great meals.
+1,A murdered [~Creatures.Humanoid2] was found at the [~Inn and Tavern Names.Names] inn.
+10,[Inn Desc.Generate].
+1,There was a commotion yesterday at [~Shop Names.Markets] (farm or market) when a [~Creatures.Animal2] escaped and wrecked havoc.
+1,There is a strange [~Creatures.Humanoid2] at [~Shop Names.Markets] (farm or market). He makes some strange magic tricks and sells cheap magic elixirs.
+1,Last night, there was a strange [~Miscellaneous.Color] fog.
+1,The <b>{Plural~[Creatures.Humanoid2]}</b> are stealing jobs.
+1,A strange tome was discovered at [~Shop Names.Libraries] library. It flew out of the shelf and opened by itself. It was named [~Book Titles.Start].
+1,There is a secret passage at [~Shop Names.Libraries] library that takes you to a secret room containing some unique books.
+1,The [~Creatures.Humanoid2] scholar at [~Shop Names.Libraries] can answer all questions.
+1,You can find every spell component you can think of at [~Shop Names.Libraries].
+1,The [~Creatures.Humanoid2] owner of [~Shop Names.Smithies] (armory or smithy) can craft magical arms and armors at low costs.
+1,There is a special set of armor for sale at [~Shop Names.Smithies] (armory or smithy).
+1,The [~Shop Names.Smithies] (armory or smithy) exploded when he tried to forge a magical [~Miscellaneous.Metal] weapon.
+1,The [~Shop Names.Merchants] merchant shop burnt to the ground.
+1,The owner of [~Shop Names.Merchants] (merchant shop) is a thief.
+1,Stay clear of [~Shop Names.Merchants] (merchant shop). They deal with strange people.
+1,You can find what you want at [~Shop Names.Merchants] (merchant shop).
+1,To have the best alchemical items, just go to [~Shop Names.Alchemists].
+1,Beware the [~Creatures.Humanoid2] alchemist at [~Shop Names.Alchemists]. He creates faulty substances.
+1,The sage at [~Shop Names.Alchemists] can resolve all your problems.
+1,The sage at [~Shop Names.Alchemists] is actually a disguised dragon.
+1,At [~Shop Names.Alchemists], you can consult the sage to predict ypur future.
+1,{Cap~{AorAn~[~Creatures.Humanoid2]}} wizard can cast spells for you at [~Shop Names.Alchemists].
+1,The sorcerer at [~Shop Names.Alchemists] is cheap but his spells are sometimes unreliable.
+1,At [~Shop Names.Generic] you can meet with [~Names Generator.NAME Random] to have all kinds of informations on the underworld.
+1,If you go at [~Shop Names.Generic], bring some [~Miscellaneous.Precious Metal] or don't even bother to ask questions.
+1,In the town of [~Town Names.Generate] (<b>[Miscellaneous.Direction]</b> from here) they discovered a strange artefact thousands years old.
+1,In the far away town of [~Town Names.Generate] (<b>[Miscellaneous.Direction]</b> from here), people are becoming mindless zombies controlled by the evil mayor.
+1,Cultists of [~Religion.Evil Gods] have taken complete control of the town of [~Town Names.Generate] (<b>[Miscellaneous.Direction]</b> from here).
+1,The town of [~Town Names.Generate] in [~Countries.Land]</b> was razed by barbarians.
+1,The town of [~Town Names.Generate] in [~Countries.Land]</b> vanished without a trace.
+1,The avatar of [~Religion.Deities] appeared in the town of [~Town Names.Generate] in [~Countries.Land]</b>.
+1,The town of [~Town Names.Generate] (<b>[Miscellaneous.Direction]</b> from here) is under a siege that started <b>{Dice~1d8+2}</b> months ago.
+1,{Cap~[~Magic Weapon Names.Generate]} was found in the town of [~Town Names.Generate] (<b>[Miscellaneous.Direction]</b> from here).
+1,{Cap~[~Magic Weapon Names.Generate]} was lost in a great battle near the town of [~Town Names.Generate] (<b>[Miscellaneous.Direction]</b> from here).
+1,{Cap~[~Magic Weapon Names.Generate]} is needed to fight hordes of demons from the abyss.
+1,[~INSULTS Dwarven.Generate] is the worst insult you can give to a dwarf.
+1,The arcane group [~Group Designer.StartArcane] is preparing to summon a powerful creature from the outer planes.
+1,Stay away from [~Group Designer.StartArcane]. It is led by mind flayers.
+1,Dragons own the arcane group [~Group Designer.StartArcane].
+1,Dragons own the mystic group [~Group Designer.StartMystic].
+1,The mystic group [~Group Designer.StartMystic] is actually a hideout for the followers of [~Religion.Evil Gods].
+1,The mystic group [~Group Designer.StartMystic] offers free healing to whoever helps them.
+1,[~Ship Name Generator.Generate] is a pirate ship enroute to raid the coastal town of [~Town Names.Generate].
+1,[~Ship Name Generator.Generate] is a pirate ship that sunked with a hull full of treasures.
+1,[~Ship Name Generator.Generate] is a rich merchant ship that sails on the ocean. It is full of riches from its many travels.
+1,The [~Herb Names.Generate] herb can be used for its curative properties.
+1,The [~Herb Names.Generate] herb can be a powerful poison.
+1,The [~Herb Names.Generate] herb has magical properties. It can even be used to control [~Creatures.Start].
+1,The [~Herb Names.Generate] herb repels [~Creatures.Start].
+1,A [~Creatures.Humanoid2] [~Miscellaneous.ClassPC] was heard asking people this riddle:<br>[Riddles.Start]
+1,A tax expedition that is about to leave the city to collect taxes for the local government.
+1,A tax expedition that is about to leave the city to pay taxes to the local government.
+1,A government-sponsored "posse" is set to track down {AorAn~[Monster Hunt]} which have recently been terrorizing public roads of the region. In the last <b>{Dice~2d4}</b> weeks <b>{Dice~2d6}</b> peasants and defenseless citizens have been found dead and horribly mutilated. 
+5,[Preface Law] a raiding party making plans to [Raiding Party]
+5,A military leader is organizing an expedition with the objective of [Military patrol] 
+5,The local army is conducting a recruitment drive aimed at increasing its number or soldiers. [Recruitment]
+5,There is a plan about an expedition of travel by {AorAn~[Leader]}. The nature of the trip is [Nature]
+1,There is some talk about espionage against the local ruling family, on behalf of a [Group].
+1,There is some talk about infiltration against a [Group], on behalf of the local ruling family.
+1,There is some talk about a quest to recover a fabled magical artifact.
+1,There is some talk about a mission to assassinate a senior priest.
+1,There is some talk about the failed assassination attempt on the ruling monarch.
+1,There is some talk about the possible assassination of {AorAn~[Leader]}.
+1,There is talk of a group's willingness to gain money by force. They are planning on a preferred area of operations within <b>{Dice~1d3}</b> miles of the city, in the woods near the trade route.
+1,The king has been assassinated.
+1,The country is at war with the [~Countries.Countries].
+1,The country will be at war with the [~Countries.Countries].
+1,The cold war with the [~Countries.Countries] has ended.
+1,The country as just recently prevented a war with the [~Countries.Countries].
+5,An oracle was heard: [~The Oracle.Start]
+1,A great {If~{Dice~1d2}=1?feast/party} will be held on [~Notable Event Names.Generate]
+10,A local [Person] ([NPC Appearance.GenerateNoClass]) is [Verb].
+
+;Bandit Groups
+1,group of rural highwaymen
+1,group of rural bandits
+1,group of rural thieves
+1,group of rural assassins
+1,group of rural mercenaries
+1,famous bandit.
+1,political criminal.
+1,religious outlaw.
+
+;Escape
+1,religious
+1,political
+
+;Group
+1,hostile foreign [Group Type]
+1,domestic interest group
+
+;Group Type
+1,group
+1,nation
+
+;Illegal
+1,exotic animals shop
+1,gambling hall
+1,drug smuggling business
+1,slave trade business
+1,magic shop dealing in exotic and dangerous items
+1,herbal shop that deals in all types of poisons
+
+;Military patrol
+5,hunting for a [Bandit Groups].
+2,organizing a routine patrol of the kingdom's borders.
+2,escorting  a visiting ambassador back to his kingdom,
+1,restoring "the King's Law" to a rebellious town.
+1,a secret spying mission of the defenses of a hostile kingdom.
+
+:Monster Hunt
+1-2,single psychopathic killer
+3-4,murderous religious cult
+5,murderous terrorist group
+6,terrorism instigated by agents of a hostile foreign government.
+7-15,bear
+16-17,wild cat
+18-19,wild animal
+20,dragon
+
+;Nature
+5,a social call on [Relatives] {Dice~1d20} miles away.
+5,a business trip up to {Dice~1d20} miles away.
+5,to deliver an urgent message to {AorAn~[Leader]} {Dice~5d10} miles away.
+3,espionage against a foreign kingdom {Dice~10d100} miles away.
+1,an urgent trip to deliver the only known elixir to a disease being suffered by {AorAn~[Noble]} {Dice~3d33} miles away.
+1,to relocate his family {Dice~2d50} miles away, to escape [Escape] persecution in the local area.
+
+;Plans
+1,rape
+1,rob
+1,murder
+1,pillage 
+
+;Preface Law
+1,There is talk of
+1,The local guards are asking questions about
+1,The local law enforsment is asking about
+1,The local guards enter and ask questions about
+1,Two members of the town guard are asking about
+
+;Raiding Party
+3,[Plans] peasants in the surrounding countryside.
+1,engage in armed robbery. 
+1,rob gravesites.
+1,kidnap a wealthy noble and demand ransom.
+1,provoke a war between this kingdom and its nearest rival. 
+
+;Recruitment
+1,All men who appear fit for military duty, regardless of willingness, will be forced to join the army or be beaten or imprisoned. 
+3,
+
+;Verb
+1,organizing [Verb_organ]
+1,operating [Verb_run]
+1,hiding [Verb_hide]
+2,smuggling [Verb_smug]
+1,trading [Verb_trade]
+
+;Verb_hide
+1,from the local law
+1,from a would be assassin
+1,from his/her spouse
+1,from the local [Person] ([NPC Appearance.GenerateNoClass])
+1,from a group of adventurers
+
+;Verb_organ
+1,an illegal gambling hall
+1,an assassins guild
+1,a dark cult dedicated to [~Religion.Evil Gods]
+1,a thieves guild
+1,an illegal slave trading
+1,a drop point for stolen goods
+1,a hide out for those on the run
+1,an exchange point for dangerous and exotic magic items
+1,an illegal slave brothel
+ 
+;Verb_run
+4,an illegal [Illegal]
+1,a separate thieves guild
+1,a dark cult dedicated to [~Religion.Evil Gods]
+
+;Verb_smug
+1,illegal drugs
+1,people on the run from the law local and otherwise
+1,exotic animals
+1,dangerous and exotic magic items
+1,metal
+1,poisons and other various herbs
+1,slaves
+1,stolen artwork and historical items
+
+;Verb_trade
+1,illegal drugs
+1,stolen gems and jewelry
+1,exotic animals
+1,dangerous and exotic magic items
+1,metal
+1,poisons and other various herbs
+1,slaves
+1,stolen artwork and historical items
+1,people's where abouts and family history
+
+# ---------------------------------------------------------------------------
+
+:Legend
+1,The Library of Alexandria is the project of a powerful cosmic force. This entity has built a labyrinthine hall in which is kept a copy of every tome ever written, though many have succumbed to the ravages of time. It is said that the Library of Alexandria touches every other library ever built through strange, extradimensional pathways.
+2,Mimir's Well is a well of knowledge; many great secrets can be learned by those who drink of its waters. But beware those who would attempt this, for their passage is sure to be witnessed by a most curious and vicious beholder, the severed head of a dead god made animate to defend the magic well.
+3,An ancient king had an earth-shattering secret, one that he took to the grave. Before his death, he dug a small hole into which the secret was spoken. From this hole grew a whispering plant that has muttered the king's secret ever since. 
+4,The city of Tollan was once watched over by a heavenly being. Evil gods grew jealous of the city and sought to destroy it. In a great battle, these gods were slain by the city's protector, but their bodies fell to the ground and stuck fast. From these corpses emanated a toxic stench, and the city was abandoned. 
+5,In the Garden of the Hesperides, golden apple trees grow in the shadow of the mighty giant that oversaw their planting. This giant has been turned to stone, though it is thought that he might yet exert influence in the world through some mystical means. Any who would dare steal golden apples from this garden should beware the curse of the petrified giant. 
+6,Many labyrinths have been built through the ages, but none is as insidious as the extradimensional prison, Heroes' Demise. Any who enter the sole door to this magical maze and walk far enough away that they are lost to sight will be un able to find the door again. If any means of escape exists, it remains to be found. 
+7,The blacksmith god is said to own a giant blast furnace, almost a building unto itself. Within this magical structure, anything can be smelted away, even immortality. This is the only known way to strip this quality from a god. Many fell powers would pay dearly to have one day's use of this furnace. 
+8,Before the age of mankind, the god Osiris was dismembered by his brother. The dead god's wife searched for the pieces of her husband, and mummified each where she found it. A tomb was built on the site of each such mummification. These many Tombs of Osiris stand to this day and still house the remains of the god. 
+9,Overlooking a particular harbor is the Witching Stone. This huge boulder, which sits atop a thin pillar of rock, is said to be a focal point for evil magic. Hags and dark forces gather here often. Stories say that standing atop the stone for nine nights will attract the attention of evil spirits looking to make dark pacts. 
+10,Near the entrance to the realm of Hel, there is a cavern known only as Cliff Cave. Within this place is chained the hound, Garm, guardian of the dead. No matter which path one takes to reach the gates of Hel, one always passes Cliff Cave and must deal with its monstrous inhabitant. 
+11,Sitting amidst a sea of ice-flows, the Vale of Eternal Sunlight is kept warm by the sun, which never sets here. On account of the lighting conditions and the isolation of the yale, a truly bizarre ecosystern has developed, one in which many strange materials can be gathered. 
+12,In the crater of an extinct volcano there now exists a lake, at the heart of which is Wizard's Island. This small stone isle was once a sorcerer's ship before a rival turned it and its captain into stone. There's no telling just what magical treasures were trapped within Wizard's Island upon its unusual creation. 
+13,The plain of Vigrid is to be the site of the Last Battle, where the gods and their foes will share mutual annihilation at the end of time. Some have traveled there and since returned, reporting that they saw flashes of things to come. Most of these visions involve the doom of the traveler and those around him. 
+14,There is a cave in a mountain that was once the palace of the earth god. This god planted a marvelous garden that the species of the world could visit in pairs. One by one, the creatures of the world ate the fruit of the earth god's garden, earning exile from his palace. When all the world's species were banned from the palace, the earth god left for heaven; the fate of his garden is unknown. 
+15,Upon seeking the forgiveness of the gods, the fabled King Midas found that the curse upon his person could be washed away in a river that ran through his kingdom. Anyone who can find this river will be rich, for its bottom is lined with gold dust, the last remnant of the Midas curse. 
+16,At the Field of Deeds, the gods meet regularly in council. For the desperate, this could be an ideal place to spy on or seek audience with the gods. Whether such actions will invite divine wrath remains to be seen, for mortals have yet to find this elusive plain. 
+17,There is a place where many a ship has gone to die. This wicked sargasso, which lets no vessel escape, is home to those sailors whose vessels became caught within the sargasso's strangling hold. They reside within the decaying vessels that carried them here and have formed a curious society all their own. 
+18,Atop an unnamed hill sits the Sage Stone, a monolith vaguely resembling a head. Its face looks eternally asleep, but myths speak of the Sage Stone conversing with passers-by. Stories claim that if the Sage Stone opens its mouth wide and allows travelers to climb down the mineshaft of its throat, these travelers enter a mythical, subterranean realm. 
+19,The rock known as the Wheel of Heaven resembles nothing other than a great millstone. It is the sight of many religious ceremonies - weddings in particular - and it is believed that any infant passed through the hole in the wheel is forever protected from disease. 
+20,There is a port built partly upon a particular reef. This reef is the body of a sea monster that washed up onto the shoals in ancient times and transformed into the rocky material that makes up the reef today. The city would be devastated should a means be found to restore the monster to life. 
+21,Atop an unnamed mountain in the wilds, there used to sit Castle Dragonchild, home to an ancient tyrant and sorcerer. Though the fortress has since crumbled away into nothing, local folklore holds that anyone venturing to this mountain amid the thick morning mists will find Castle Dragonchild and learn that its lord is alive and well. 
+22,The gates of heaven are guarded well, and by more than mere angels. Through these massive doors can be seen a barren, empty field, and for the wicked who traverse the gates, this is all they find. Only the righteous who pass through heaven's gates are transported to paradise. 
+23,There is an isle called Naxos where the rowdy wine god Bacchus holds his annual festival. Whoever revels here finds wonders beyond delight, but he might also find doom. Those who linger too long are fated to join the High Carnival of Bacchus forever. 
+24,Law's Table, actually a tablet of titanic proportions, is a remnant of an ancient culture. Scribed in an undecipherable language upon it is the legal code of a long dead civilization. No one knows what these laws are, but sages have deduced some, and everyone within a day's travel who has happened to violate one of them has been found dead within hours of committing the offense. Similar deaths in the area have also been attributed to the Table, although these unfortunates didn't break any of the known laws. 
+25,Where the River Styx enters the land of the dead stands White Rock, a pile of bleached bones that marks the point beyond which no mortal is supposed to venture. Those laying eyes upon White Rock and then sailing past it are guilty of trespass; they might find themselves faced with the wrath of the gods. 
+26,The Seeming Emptiness is the gap between worlds. While this nether void would certainly seem empty of anything worth visiting, a wary traveler can certainly find strange sites within if she knows the secret means of reaching them. 
+27,If one travels far enough west, one finds the Place Where Heaven Stands at the edge of the earth. It is the tallest precipice in the world and marks the place where the earth and sky meet. Between these two surfaces is wedged the blade of a copper axe. No one knows from whence this blade came, nor if it can be removed. Some say that removing it will bring the sky crashing down. 
+28,The Grey Monolith is an ancient structure built to glorify a long forgotten god. It is thought to be abandoned, and few travel here for: any reason. Those who do often find mysterious offerings at the foot of the shrine. They are also likely to report hearing ghostly voices whispering terrible secrets. 
+29,Old men say that Lake Bosomtwe used to reside a day's travel to the north, but one night it moved itself across the land to its present location. The lake is watched over by a goddess, whose power is evidenced by the mysterious will-o'-the-wisps within its new swampy locale. 
+30,The watery realm of Tlalocan is the final resting-place of mortals killed by drowning, storms, and waterborne illnesses. It is widely believed that the souls sent here are eternally happy, but some seers would suggest otherwise. Short of an expedition into this netherworld, the truth about it might never be known. 
+31,There is a sacred grove where the faeries hold worship. Mortals daring to enter this mystical circle are doomed to be struck blind and ill by the sylvan powers that watch over the grove, until such a time that atonement in the eyes of these fickle beings is earned. 
+32,In the underworld realm of Xibalba stand the Houses of Ordeals. These hellish structures were built by the creatures of the netherworld to test those who would venture here. There are tales of great heroes who perished or went mad after just one night in these terrible compounds of unknown horrors. 
+33,When a new king is crowned, he is taken to the Hall of Thrones, in which rests each of the seats used by the kings who reigned before him. As part of the coronation, the new king sits on each of his predecessors' thrones and gains some of their knowledge and power. 
+34,The temple known as the Sanctuary of Baalbek houses a magical idol that can speak. It exists only to answer the questions of the faithful, and each pilgrim is awarded with the answer to any single question she poses once in her lifetime. The answer, though cryptic, is always true. 
+35,The Palace of Din is one of the most desolate fortresses ever built. Constructed in the icy mountains of the north out of materials that capture the coldest breezes, the castle is so unforgiving that the frost giantess who resides here is separated from her divine husband because he finds her home too inhospitable. 
+36,It's said that there exists a giant berry tree that is as tall as the world itself. The berries of this immense tree are the suns that shed their light upon the various worlds. By traversing the inner passages of this hollow tree, a voyager can reach any one of a plethora of places across the planes. 
+37,At all hours, strange, ethereal music fills the Valley of Pan's Whimsy. No one knows just what it is that generates this mystical song. All who go to investigate have been driven mad by the powerful and dangerous melody. 
+38,Stories tell of a land patrolled by a giant called the Stretcher. Anyone caught by this fiend is strapped onto a special table. Those shorter than the table are stretched on the rack until this is no longer true; those longer than the table are instead dismembered until they fit upon it. 
+39,Somewhere in the fabled home of the deities sits the Throne of the Gods, a vantage point from which anything can be seen. Stories say that the throne is sometimes left unattended. It might be possible for a mortal to sit upon it briefly and gain a glimpse of whatever he most desires to see. 
+40,At the edge of the world, where the sun sets, is the Abysmal Gorge, the deepest canyon known. Anyone reaching this gorge can venture into it and access the bowels of the earth - even the palace of the sun god. What wonders exist in either of these locales can only be imagined. 
+41,The Temple of the Earth is not a building; it's a remarkable cave. Upon the walls of this cavern are transcribed a myriad of spiral designs - runes that can be used to tap the unimaginable power residing deep within the earth. 
+42,The Druid Stones at Sitleft were, in the distant past, an army that was turned to stone by an opposing wizard. It is said that a particular spell exists that will restore this army to life in the caster's service. Unfortunately, a bizarre spell has been cast upon the stone army, making its numbers uncountable by any means; the army's exact size is unknown. 
+43,The Mausoleum at Halicamassus is the tomb of a wealthy king. This vain ruler, upon seeing pyramids built for other kings, decided to build an even grander tomb. His mausoleum includes a full-sized pyramid as a roof supported by countless stone columns, all atop a tiered platform. The whole is decorated with golden statues. 
+44,Once upon a time, a chaste goddess fell in love with the herdsman Endymion. Her fellows, not wanting her to forget herself, placed the man in an eternal slumber within a particular cave. To this day, the love-struck goddess tends to the sleeping man's herd, which grazes just outside his cavern. Woe to the fool who disturbs the blessed flock of Endymion's Cave. 
+45,The Isle of the Blest is a blissful place where heroes favored by the gods retire to live forever in peace. Interestingly, this is also the final resting-place of all titans, even those who at one time opposed the gods. 
+46,The divine trickster, Loki, has been imprisoned by the gods within a cave. A serpent forever spits venom at the rogue god's face, but Loki's immortal wife is on hand to divert the poison into an ever-expanding lake of venom outside the cave. If the growth of this lake is not stopped, its poison might soon affect nearby settlements 
+47,Somewhere to the north is an unnamed realm of monsters and perils. Here resides a strange race of men who are able to appear and disappear at will. Some have gone searching for the source of this power, but none have returned. 
+48,Somewhere to the south is a land forever shrouded in the darkest clouds. Here, stunted vegetation and subterranean creatures are found on the surface of the earth. Most who go here are quickly turned into food for the monstrous residents, but some find unusual treasures. 
+49,High above the earth floats the Pirate-King's pleasure-barge: a gently flying monstrosity that is easily the size of a city. The tyrannical ruler has granted asylum to anyone pursued by the law; few lawmen dare to follow their charges to this haven of criminals.
+50,At Franang's Falls, a rogue god once took refuge from his brethren. Here. this god built an invisible house with a thousand rooms that form an invisible maze. The gods would handsomely reward a mortal who found a way to its heart - the god that resides there would not take kindly to such an intrusion. 
+51,Eigabal is a rock that fell from heaven one stormy night. While astrologers might call it a meteorite there exists a budding cult that believes otherwise This cult has constructed a temple at the feet of their god, Elgabal, and vigilantly defend it from the blasphemers who would dare attempt to mine the rock for its heavenly ore. 
+52,A famous bard was murdered and his body was tossed into the river Hebrus. The spirit of the bard now haunts that river, singing sad songs on moonless nights. No one knows what would be necessary to set this poor soul free. 
+53,The Colossus, as tall as the tallest building, currently stands in the middle of a harbor. It was here, many winters ago, that the giant statue was animated by an evil wizard who commanded it to attack the city. The Colossus returned to its inanimate state when the wizard was killed, but the wand the wizard used to bring it to life is rumored to lie at the bottom of the harbor . 
+54,At the dawn of time, a forgotten deity created a horde of divine treasures. When this power was beset by jealous, lesser gods, he hid his horde at the bottom of the Water of Precious Things. At this well, these treasures still wait to be recovered. 
+55,The tomb of the First Emperor is a wondrous place, designed not only as a residence but also as a replica of the empire. Each room of the marvelous tomb is a scale model of one province. The First Emperor's chamber is a larger-scaled model of the Imperial Palace, guarded by row upon row of ceramic soldiers. 
+56,The Rock of Dawn is the sight of the sun's birth. Some tales hold that should the sun somehow be returned to this spot, it could be slain as could a mortal. Others claim that given the performance of certain magical rites, a new sun can be created here. 
+57,Some sages have speculated that all flowing waters, from the mundane to the magical, originate from a single source. Many special powers have been attributed to this Source of All Rivers, and many rare beings are said to reside there. None who have attempted to sail to this fanciful place have ever returned to tell the truth of the matter. 
+58,The Isle of Aegir is a magical place, for it sits near the undersea palace of the sea god. The weather is erratic, strange shapes can be seen traveling beneath the waves, and pilgrims from all across the world gather here. 
+59,Just as all rivers eventually flow into the sea, all seas eventually flow into a subterranean netherworld. Many things lost at sea have found their way to this dark realm. It is here that the race of nagas first came into existence, and they claim this nether region as their homeland. 
+60,The local peasantry can lead visitors to the fabled Giants' Barrow, where two immense rocks mark the graves of some oversized invaders. Builders once sought to cut slabs from these crude headstones, but as they worked, they heard mysterious music coming from beneath the earth. No one has dared approach the barrow since. 
+61,Among the supports said to keep the sky aloft are the Pillars of Heaven, towers found at the edges of the world that are watched over by mighty guardians. At least once, these towers have been attacked not in an attempt to end the world, but as a means of getting the attention of the gods.
+62,The Lake Avernus is a place most foul. Above it floats a stinking cloud of noxious gas so pungent that birds will go out of their way to avoid flying across the waterway. Most agree that this foul vapor is unnatural, but none have yet found a way to remove the curse of Lake Avernus. 
+63,At the gate to the underworld stands a magical rock of entrapment. Anyone touching this towering stone becomes imprisoned within it, unable to escape without magical aid from outside. The exact rites and spells used to free the prisoners of this wicked rock have been lost. 
+64,A particular ruler of a desert kingdom, whose queen hails from a mountainous, jungle-shrouded land, has built for her the famous Hanging Gardens on an artificial mountain range. This paradise contains an elaborate irrigation system used to simulate a rain forest. Rumor has it that there are countless secret passages and vaults hidden within the manufactured mountains. 
+65,A savage tribe of lizardfolk, long since lost to the mists of time, buried its dead at a place called the Dragon Barrow. From high above, this immense burial mound appears to have the shape of a dragon. It's said that anyone who walks around the edge of the Dragon Barrow receives a magical blessing, but it is also said that a dragon's spirit defends the place. 
+66,Within the Temple of Zeus stands a giant statue of that god, fashioned entirely of precious metals. It is perhaps the most expensive sculpture ever constructed. The opening ceremonies of the Sacred Games are held at the feet of this monument, a tradition for which even war itself stops in the nation of the games' founding. 
+67,Somewhere there exists a Floating City built atop a deep, serene lake. The foundation of this city is built of surprisingly sturdy rafts of unknown design. Many builders dream of uncovering the secrets of the Floating City's construction. 
+68,The River Acheron is the River of Woe where Charon the Ferryman carries the dead into the afterworld. Those of the living who are brave enough may sail across this river once, but only once; the return journey is forbidden, upon threat of divine curses. 
+69,The River Phlegeron is the River of Fire, another means to enter the land of the dead. There is no ferryman here, and none have tried to swim it, for the River of Fire burns brighter than any known flame. Anything, even an immortal soul, exposed to this unholy blaze is burned to ash and is forever beyond recovery. 
+70,The River Cocytus is the River of Wailing, and it is the last of the waterways running through the netherworld. Few would dare think of this river as means of travel, for it is a river not of water but of anguished souls who, in their misery, attempt to feast upon those living who come near. 
+71,The Serapeum is a temple to a god said to support the world, just as the arms of his statue support the temple walls. The statue, made of wood, is far from being a symbol of majesty and strength, for it is worm-eaten and rat infested. Nonetheless, stories say that if this statue is torn down, the world will collapse. 
+72,The Impress of the Hands is a rock into which are burned the handprints of a giant god. It is the site of worship for some, but others seek only to exploit the magical residue that the old god inadvertently left behind. Just what can be done with that residual power remains to be seen. 
+73,On a distant shore, a colonial power once established the city of Ronnak. When a supply vessel arrived there a year later, the city of Ronnak was gone. In its place stood only a wooden post into which was carved its name. There was no sign of any sort of calamity, yet the city's residents were never heard from again. 
+74,The Heaven of Fresh Breezes is a realm to which the worthy can go when they die. In this place blows a gentle, healing wind, one that is capable of curing the ailments of any mortal who finds her way there. Anyone seeking such a miracle cure should be warned that those smelling the fragrant breezes find them hard to leave behind. 
+75,Some stories mention the Heaven of Broken Pots, a place where the wicked go for punishment. This land is place of corrosion and decay. Only the souls of the dead can remain here without crumbling to dust. Everything else that finds its way here disintegrates in moments. 
+76,The House of Dust is a place where the souls of the dead sit in total apathy, drinking dust and eating stones. At one end of the house, there is a pile of crowns, each of which belong to long dead and forgotten kings who are servants of the House. 
+77,The Valley of Oblivion is where souls yet to be born drink the waters of the River Lethe to forget their previous lives. To some this place is a mere fancy; but others long to find it so they can rid themselves of the guilt they feel. 
+78,When the gods walked the earth, one such power set up a winter encampment atop the Mountain of Snow, forgetting that his mortal retainers would die of cold. None of these retainers left their patron's side as they froze to death. The god, struck by their loyalty, turned the mountain into a tomb for his servants, who can still be seen encased within its ice. 
+79,Somewhere on the seven seas exist the Clashing Islands, a pair of small rocky isles between which flows a channel. Anything traveling this cliff-lined channel will find the Clashing Islands closing in to destroy them. If a means exists to safely pass this corridor, if is not known. 
+80,All offerings made to the gods ultimately end up in the same place, a cookery pot of gigantic proportions. Here, offerings of solid materials are ground up and mixed with liquid gifts to make the various elixirs of the gods. Any mortal drinking from this great cauldron might become immortal or cease to exist altogether, depending upon what brew is being mixed. 
+81,The Shore of Corpses, at the bottom of the World Tree, Yggdrasil, is a horrid realm where the dead lie rotting upon the ground. These corpses are devoured by the serpents that also gnaw upon the roots of Yggdrasil. Those traveling by means of the great tree should be wary, lest they become lost and end up here. 
+82,The Pharos Lighthouse, in addition to serving as a means of keeping ships from running aground, is also a popular temple to the god of the sea. It is the tallest structure ever built, and the shrine that sits atop its roof is said to be an ideal place for summoning weather.
+83,The Clanging Thrymgyol is a magical gate in a long forgotten castle. Anyone touching or attempting to pass the gate is magically imprisoned within its lock. Only someone who has the key can open the Clanging Thrymgyol, and with it release those entrapped by the gateway's magic. 
+84,Ignorant of a new dispute between his god and the lake goddess, a priest established his shrine on an island in the middle of a local waterway. In retaliation, the lake goddess caused this site to sink beneath the waves, and it has been known as the Lost Island ever since. The treasures lost with the island shrine have never been recovered. 
+85,Yellow is the color of the earth, so the great waterway that sits at the bottom of the world is known as Yellow Springs. The springs are closely con- nected with death, perhaps because the worms that devour the dead are said to drink from these waters. Many miners refuse to dig too deep for fear of the proximity of the Yellow Springs. 
+86,At the rock called Table-mên, the kings of the land once sat, eating their last meal before leading their armies to victory against a powerful invading force. Some say that the presence of so many great leaders has left a psychic afterimage upon the Table-mên, one that can be tapped for power or inspiration. 
+87,The world is flat, not round, and at its center sits the Palace of the Four Winds. This temple has an opening through its massive frame in each of the cardinal directions. Every god associated with each of these directions holds this place to be sacred and would strike down anyone daring to move against the palace and its residents. 
+88,On an island in a forbidding sea, an ancient and simple tribe resides in the shadow of a mountain range, one into which have been carved gargantuan statues of mythological figures by a long dead race of barbarians. No one knows how these statues were carved by so primitive a tribe. 
+89,The Gate of Ishtar is both a city entrance and a shrine to its namesake. It is the most frequently used access point to the city, so many are surprised to learn that it has wondrous magical properties. Only a priestess of Ishtar can unlock this magical potential, and doing so would be impossible without witnesses. 
+90,Visitors to the otherworldly Hall of Gimli find that the chambers within are wholly empty. Prophecy holds that this hall will remain so until the time of the last battle, after which the surviving gods will claim Gimli as their home. The weight of this prophecy has made the hall a focal point of divination magic. 
+91,Who has not heard of the mysterious Cliff City? Once a teeming civilization lived there, or so investigators would claim. But all that remains are the buildings. There are no tools, no pieces of art, and no physical remains. Either the culture that was here vanished long ago, or it never existed in the first place. 
+92,In heaven, the Shelf of the Slain is a place where the greatest warriors of good are held in stasis until the time of the last battle. Anyone who can sneak past the divine guardian of this wonderful place might be able to steal one of the se souls. 
+93,Mount Mashu guards the rising of the sun. Any who would have business with the heavenly orb must first circumvent this treacherous mountain and the giant beasts that reside here. The gargantuan animals can be overcome in combat, but they can also be dissuaded with words, as the se mythical creatures possess the powers of speech and reason. 
+94,The gods themselves fear to enter the Hall of the Giant King, for this powerful creature is the leader of the giants and titans that oppose them. Perhaps a creature as small and insignificant as a mortal could infiltrate this titanic fortress to work the will of the gods or plunder its many treasures. 
+95,The Realm of Day is the land at the edge of the world in which resides the sun. In this luminous garden, plants bear gems that sparkle with eternal sunlight instead of fruit. Many treasure hunters have sought to claim a gem from this realm, and many explorers have looked to see what exists beyond it; none have returned. 
+96,Fables tell of the Seven Caverns from which mankind first emerged at the beginning of time. Many seek this place of legend for it is said to hold within its walls the secrets of life itself. The enemies of mankind also seek this cave, but for another reason: These caverns are also held to be the place where mankind can be utterly destroyed. 
+97,In the Yale of Enna, where the spring goddess lives, there is only one season. The forests are forever in bloom, and the lake is always warm. The resident goddess leaves on occasion to visit her immortal husband. During this time, evil powers conspire to steal the etemal youth that reigns there. 
+98,The Holder of Heat is a magical fortress enshrouded in ever-burning flame. Many have attempted to enter and claim the treasures rumored to be kept within. None have managed, for the magic words that part the flames have long been forgotten. 
+99,Atop a distant mountain, far from arable land, there stands the abandoned ruin of an ancient capital. By all appearances, it was once a thriving metropolis, which leads one to wonder how it could have flourished in such a remote and barren locale. Perhaps the climate was once different, or perhaps there is more to this remote city than meets the eye. 
+100,The giant Temple of Artemis is more than just a place of worship. It is also one of the most cosmopolitan trading posts ever built Within the marble walls and golden columns of this massive compund, pilgrims and merchants from the most distant of lands meet. Most anything can be bought here, and most everything has, at one time, been left as an offering. 
+101,Hoddmimir's Wood has existed since before the beginning of the many worlds, and it will continue to exist long after they are gone. In this eternal forest reside ancient, ageless beasts. These creatures gallivant across the cosmos, for through Hoddmimir's Wood, all forests are mystically connected.

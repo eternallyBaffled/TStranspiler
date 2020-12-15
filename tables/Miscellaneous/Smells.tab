@@ -1,0 +1,341 @@
+﻿# ------------------------------------------------------
+# Last Update: modified by Valminder May 26, 2018.
+# ------------------------------------------------------
+#
+# Created by "Anonymous user"
+#
+# Smells
+#
+# To call this table from another one:
+#    [Smells.Generate(%DCAdd%,%Smell%,%OdorType%)
+#
+#    Parameters: (%DCAdd%,%Smell%,%OdorType%)
+#
+#    DCAdd:    2  Add "DC" to detect smell?
+#                 1= Yes, 2= No
+#    Smell:    2  Add "smell" after description?
+#                 1= Yes, 2= No
+#    OdorType: 1  Choose type of smell
+#                 1= Random, 2= Positive, 3= Negative, 4= Neutral
+#
+# -------------------------------------------------------------------------
+# This Table Links to these tables as required:
+#    Creatures.All
+#    Creatures.Animal
+#    Equipment.Cheese
+#    Equipment.Fruits
+#    Equipment.Wines
+#    Miscellaneous.Fabric
+#    Miscellaneous.Metal
+#    Miscellaneous.Wood
+#
+# -------------------------------------------------------------------------
+# This table is called by: (can be called by other tables also)
+#    ENC Untimate Random Encounter.tab
+#    Miscellaneous.tab
+#
+# -------------------------------------------------------------------------
+#
+# Modified by Valminder, May 2018.
+#    I changed the "START" line.
+#    Added link to the "Strength" subtable (already existing).
+#    Added link to "Miscellaneous.tab"
+#    Added "DC", "smell", "OdorType" parameters.
+#    Added links to some subtables
+#       Creatures.All / Animal
+#       Equipment.Cheese / Fruits / Wines
+#       Miscellaneous.Fabric / Metal / Wood
+#
+
+%DC%,0
+%DCAdd%,no
+%OdorType%,0
+%Smell%,no
+
+@DCAdd,2,Add "DC" to detect smell?,Yes,No
+@Smell,2,Add "smell" after description?,Yes,No
+@OdorType,1,Choose type of smell,Random,Positive,Negative,Neutral
+
+:Start
+1,{Status~Modified by Valminder 2018}[Generate2]
+
+;Generate
+1,[OdorTypeSet][Strength][Modifier] [Odor=%OdorType%]{If~%Smell%=1? smell}[DCAdd] 
+1,[OdorTypeSet][Strength] [Odor=%OdorType%]{If~%Smell%=1? smell}[DCAdd]
+
+;GenerateFaint
+1,[OdorTypeSet][Strength][Modifier] [Odor=%OdorType%]{If~%Smell%=1? smell}[DCAdd={Dice~1d4+9}] 
+1,[OdorTypeSet][Strength] [Odor=%OdorType%]{If~%Smell%=1? smell}[DCAdd={Dice~1d4+9}]
+
+;Generate2
+1,[OdorTypeSet][~Strength][~Modifier] [~Odor=%OdorType%]{If~%Smell%=1? smell}[DCAdd]
+1,[OdorTypeSet][~Strength] [~Odor=%OdorType%]{If~%Smell%=1? smell}[DCAdd]
+
+:Strength
+1,very strong|DC=1|
+2,strong|DC=2|
+3,heavy|DC=2|
+4,penetrating|DC=2|
+5-6,mild|DC=3|
+7-8,slight|DC=4|
+9-10,weak|DC=5|
+11-12,hint of|DC=6|
+13,traces of|DC=7|
+
+:DCAdd
+1,{If~%DCAdd%=1?[DCAdd2]}
+
+:DCAdd2
+1, (Perception DC[DCAdd3=%DC%])
+
+:DCAdd3
+# 0-4
+1,{Dice~1d5-1}
+# 5-9
+2,{Dice~1d5+4}
+# 10-15
+3,{Dice~1d6+9}
+# 16-20
+4,{Dice~1d5+15}
+# 21-25
+5,{Dice~1d5+20}
+# 26-30
+6,{Dice~1d5+25}
+# 31-50
+7,{Dice~1d20+30}
+
+:Modifier
+1,{If~%OdorType%=2? [Modifierp]
+_/{If~%OdorType%=3? [Modifiern]
+_}}
+
+;Modifiern
+1,acidic
+1,acrid
+1,bitter
+1,burnt
+1,dry
+1,earthy
+1,fishy
+1,medicinal
+1,rancid
+1,sharp
+1,sour
+1,sulfurous
+
+;Modifierp
+1,ambrosial
+1,aromatic
+1,baked
+1,bright
+1,citrus
+1,floral
+1,fruity ([Equipment.Fruits])
+1,herbal
+1,minty
+1,spicy
+1,sweet
+1,tropical
+1,woody
+
+:OdorTypeSet
+1,{If~%OdorType%=1?|OdorType={Dice~1d3+1}|}
+
+:Odor
+1,|OdorType={Dice~1d3+1}|[Odor=%OdorType%]
+2,[Positive]
+3,[Negative]
+4,[Neutral]
+
+;Positive
+5,[Equipment.Fruits]
+1,almond
+1,anise
+1,aniseed
+1,apple
+1,apple pie
+1,apricot
+1,banana
+1,basil
+1,bay leaves
+1,biscuit
+1,black currant
+1,blood orange
+1,brandy
+1,bread
+1,brown sugar
+1,butter
+1,butterscotch
+1,camembert
+1,candy
+1,caramel
+1,caraway
+1,carrot
+1,celery
+1,chamomile
+1,cherry
+1,chive
+1,chocolate
+1,cinnamon
+1,cloves
+1,cocoa
+1,coconut
+1,coffee
+1,cologne
+1,cooked potato
+1,coriander
+1,corn
+1,cream
+1,cress
+1,cucumber
+1,dill
+1,elderberry
+1,fennel
+1,geranium
+1,grape
+1,grapefruit
+1,hawthorne
+1,hazelnut
+1,herb
+1,honey
+1,hyacinth
+1,jasmine
+1,lavender
+1,lemon
+1,lettuce
+1,lilac
+1,lily
+1,lime
+1,macadamia
+1,magnolia
+1,mango
+1,maple
+1,marshmallow
+1,melon
+1,mocha
+1,molasses
+1,moss
+1,nuts
+1,nutty
+1,orange
+1,pea
+1,peach
+1,peanut
+1,peanut butter
+1,pear
+1,peppermint
+1,pine
+1,pineapple
+1,plum
+1,popcorn
+1,raspberries
+1,rhubarb
+1,roasted nut
+1,rose
+1,sage
+1,spearmint
+1,strawberry
+1,sweet
+1,tomato
+1,truffle
+1,vanilla
+1,violet
+1,warm
+1,watermelon
+1,wine ([Equipment.Wines])
+
+;Negative
+5,[Creatures.Animal]
+1,ammonia
+1,blue cheese
+1,rubber
+1,cabbage
+1,camphor
+1,cat
+1,chlorine
+1,chokingly repulsive
+1,fart
+1,feces ([Creatures.All])
+1,fermented
+1,fried
+1,garlic
+1,horseradish
+1,manure
+1,medicinal
+1,mothball
+1,musty
+1,paint
+1,pickled
+1,putrid
+1,raw fish
+1,raw onion
+1,rotten eggs
+1,rotten fish
+1,rotting flesh
+1,skunk
+1,solvent
+1,soot
+1,sweat ([Creatures.All])
+1,urine ([Creatures.All])
+1,vinegar
+1,vomit ([Creatures.All])
+
+;Neutral
+1,alcohol
+1,asparagus
+1,bacon
+1,balsamic
+1,beans
+1,beet
+1,bell pepper
+1,broccoli
+1,broth
+1,cardboard
+1,charred paper
+1,cheese ([Equipment.Cheese])
+1,cider
+1,cloth ([Miscellaneous.Fabric])
+1,cooked chicken
+1,cooked onion
+1,cooked turkey
+1,cooked vegetable
+1,curry
+1,dust
+1,earth
+1,ether
+1,grain
+1,grass
+1,hay
+1,hot milk
+1,incense
+1,leather
+1,leaves
+1,leek
+1,licorice
+1,malt
+1,meaty
+1,metal ([Miscellaneous.Metal])
+1,milk
+1,mushroom
+1,mustard
+1,oatmeal
+1,paper
+1,parmesan
+1,pepper
+1,plastic
+1,radish
+1,raw potato
+1,roasted meat
+1,rum
+1,seaweed
+1,smoky
+1,soap
+1,spearmint
+1,spice
+1,straw
+1,tobacco
+1,wax
+1,whiskey
+1,wood ([Miscellaneous.Wood])
+1,yeast
+1,yogurt

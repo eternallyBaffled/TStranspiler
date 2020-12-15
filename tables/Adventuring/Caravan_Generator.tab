@@ -1,0 +1,1181 @@
+# ------------------------------------------------------
+# Last Update: modified by Valminder May 24, 2016.
+# ------------------------------------------------------
+#
+# Caravans, their masters, their cargo, their workers, their guards, and their destinations
+#
+# Adapted by Tony Marker from a Tablemaster table created by Wintertree Software
+# The beginning of the table, and the portion that generates the goods
+# is therefore...
+# Copyright 1995, Wintertree Software 
+#
+# The portion of the table that adds laborers, animal handlers and
+# guards is created by Tony Marker. http://www.breminor.com/id93.htm
+#
+# Caravan Generator v3: joey joe joe
+# The option of a "Mixed" type of caravan, additional types of caravan transporters and goods, 
+# and the elimination of "good" demi-humans working with slaves or half-orcs.
+# Other notes:
+# I am fairly certain that most caravans of "Exotic effelants" would loose money on the feed 
+# for the effelants, but I liked the idea. Chi-Cats are a type of giant lynx/panther creature 
+# that has been domesticated by elves.  Gnomish "Clockwork Wagons" have a nasty habit of exploding,
+# thus limiting their widespread use. (Pray for your soul if you encounter a HUGE clockwork caravan! 
+# The potential chain reaction of explosions would create an immense crater.)
+#
+# Darren Hill provided a correction of coding for Guard selection
+#
+# Updated to TS5.0 By Ashon
+# Added Traveling Events - Ashon
+# Modified [Town Names] to use [Countries]
+#
+# Depreciated:
+# Requires a name generator file and a town name generator like "Townfolk.tab" and "Town Names.tab" (see the "Start" group)
+#
+# Modified by Valminder, February 2016.
+#    Modified some errors on tables
+#    Generate Goods and Others: missing "Dice~"
+#    Modified subtables (mixed up between ; and :)
+#    "Organization.tab" table does not exist ===>>> changed to "Group Designer.RandomGroup"
+#    Added links to Names Generator.NAME Random
+# Modified by Valminder, March-May 2016
+#    Added Caravan Generator from The Mother of All Encounter Tables
+#    Linked MoAET with some results from this program.
+#
+
+%amount%,0
+%gamount%,0
+%num_carriers%,0
+%actual_qty%,0
+%set_size%,5
+%size%,0
+%type%,0
+%animal_type%,0
+%size_factor%,0
+%cargo%,0
+%skill%,0
+%type_name%,0
+%more_rolls%,0
+%temp%,0
+%carry_capacity%,0
+%temp2%,0
+%a_handlers%,0
+%laborers%,0
+%guards%,0
+%value_factor%,0
+%guard_number%,0
+%guard_type%,0
+%mount%,0
+%ac%,10
+%leader_type%,0
+%leader_level%,0
+%guard_race%,0
+%reset%,1
+%Evil%,1
+%LRace%,0
+%Ranger%,0
+
+%ChooseTable%,0
+%MoAET_CaravanValue%,0
+%MoAET_Cargo%,0
+%MoAET_CargoValue%,0
+%MoAET_Crew%,0
+%MoAET_Goods%,0
+%MoAET_LbsCargo%,0
+%MoAET_Size%,0
+%MoAET_Transportation%,0
+%MoAET_TransportationCap%,0
+%MoAET_Worth%,0
+%MoAET_Ld%,0
+%MoAET_Lb%,0
+%MoAET_Gu%,0
+%MoAET_Lt%,0
+%MoAET_LbN%,0
+%MoAET_GuN%,0
+%MoAET_LtN%,0
+%ShowUnits%,0
+%Temp%,0
+
+# Parameters
+@set_size,5,Enter the size of the caravan you want generated,Small,Medium,Large,Huge,Random
+@ShowUnits,2,Show units?,Yes,No
+@ChooseTable,1,Choose the Caravane Generator Table,Random,This program,Mother of All Encouter Tables
+
+:Start
+#Change the #'d lines below to refer to your favorite Name generator and Town Name Generator
+1,{Status~By Tony Marker, Joey Joe Joe, Darren Hill, Ashon, and Valminder}
+_[ChooseTable=%ChooseTable%]
+
+:ChooseTable
+1,[ChooseTable={Dice~1d2+1}]
+2,[ThisProgram]
+3,[MoAET]
+
+:ThisProgram
+1,{Reset~GenerateGoods}{Reset~GenerateGuards}
+# UNUSED XXX
+#|animal_type=0|
+_|LRace=[LRace]||Evil=[EvilCheck]|
+###XXX_{If~%set_size%=5?[Define_Size]/[Define_Size=%set_size%]}[Set_Type]
+_[Define_Size=%set_size%]
+_[Set_Type]
+_A {Bold~[Size=%size%]} caravan (%num_carriers% {Plural~%type_name%})
+#_ led by {If~{Dice~1d3}>1?[~Townfolk.Start(3,{Dice~1d3})]/[~Names Generator.NAME For All]},
+#_ [~Skilled] %LRace% caravan leader,
+_ [ThisProgram_OnTheWay]
+_[NPC Appearance.NPC_Info1=2]<br><br>
+_<b>Caravan Goods:</b>
+_<br>|temp=%num_carriers%|
+_{IIf~%type_name%=transporter?[LoadMixed]:[Load]}
+_{Bold~Value:}[MoAET_SizeChoose=%size%] [AddComma.Start(%MoAET_CaravanValue%)] gp (%MoAET_Worth%)
+_<br><br>
+_[ThisProgram_TravelingEvents]
+_<br><b>Caravan Workers:</b><br>
+_[Laborers]
+_[AnimalHandlers]<br><br>
+_<b>Caravan Guards:</b> [Guards]<hr>
+
+:ThisProgram_OnTheWay
+1,on the way to the {If~{Dice~1d3}>1?[~Countries.Countries]/town of [~Town Names.Generate]}.
+
+:ThisProgram_TravelingEvents
+1,<b>Traveling Events:</b><br>
+_[Events]
+
+# ----------
+# Event Generating Section
+# ----------
+:Events
+1,[Weather]<br>
+_[Violent]<br>
+
+:EventLoop
+1,[Weather]
+2,[Violent]
+3,[Other]
+
+;Weather
+5,No weather conditions impeded the caravan.
+1,A flood on the road delayed the caravan for {Bold~{Dice~3d6}} days.
+1,A blizzard shut down a mountain pass for {Bold~{Dice~3d6}} days.
+1,Rain slowed the caravan by {Bold~{Dice~2d2}} days.
+1,Tornados ripped across the plains and forced the caravan to find shelter for {Bold~{Dice~2d3}} days.
+1,Windstorms slowed the caravan by {Bold~{Dice~3d2}} days.
+
+;Violent
+12,No violent actions beset the caravan.
+1,Attacked by [~ENC URE Hazards.1d100] [~Creatures.Start], [ViolentTime]. [~ViolentOutcome]
+1,A raiding party of [~ENC URE Hazards.4d10] [~Creatures.Humanoid] attacked the caravan, [ViolentTime]. [~ViolentOutcome]
+_[NPC Appearance.NPC_Info1=2]
+1,A roving band of [~Creatures.Monsters] attacked the caravan, [ViolentTime]. [~ViolentOutcome]
+_[NPC Appearance.NPC_Info1=2]
+#1,The [~Organizations.Start] raided the caravan.
+1,An organized group ([~Group Designer.Generate(5)]) raided the caravan, [ViolentTime]. [~ViolentOutcome]
+_[NPC Appearance.NPC_Info1=2]
+
+:ViolentTime
+1,[~ENC URE Hazards.2d4] [~ViolentTime2] ago
+
+;ViolentTime2
+2,weeks
+3,days
+1,hours
+
+;ViolentOutcome
+5, The caravan was protected by its guards and the attackers pushed back.
+2, The caravan's lookouts saw the attackers and prevented the attack.
+2, The caravan was partially robbed but the attackers were pushed back.
+2, The caravan was partially damaged but the attackers were pushed back, stealing nothing.
+2, The caravan was partially damaged but the attackers were pushed back, stealing a few items.
+2, The caravan suffered heavy losses, but the attackers were eventually pushed back.
+2, A group of adventurers saved the caravan.
+2, The local militia saved the caravan.
+1, The caravan was miraculously saved by {Bold~{AorAn~[Creatures.Start]}}.
+
+# ----------
+# This section defines the size and type of the caravan
+# ----------
+
+;Set_Size
+9,|size=1|
+7,|size=2|
+3,|size=3|
+1,|size=4|
+
+:Size
+1,small
+2,medium
+3,large
+4,huge
+
+:Define_Size
+1,[Set_Size=1]
+2,[Set_Size=10]
+3,[Set_Size=17]
+4,[Set_Size=20]
+5,[Set_Size]
+
+;Set_Type
+2,[Type=1][Foot_Size=%size%]
+3,[Type=2][Pack_Size=%size%]
+3,[Type=3][Wagon_Size=%size%]
+3,[Type=4][Mixed_Size=%size%]
+1,[Type=5][Exotic_Size=%size%]
+
+:Foot_Size
+1,|num_carriers={Dice~3d6+2}||size_factor=.75||laborers=0||a_handlers=0||guards=0|
+2,|num_carriers={Dice~3d11+17}||size_factor=1||laborers=1||a_handlers=0||guards=0|
+3,|num_carriers={Dice~2d21+38}||size_factor=1.5||laborers=1||a_handlers=0||guards=1|
+4,|num_carriers={Dice~4d50+66}||size_factor=2||laborers=2||a_handlers=0||guards=1|
+
+:Pack_Size
+1,|num_carriers={Dice~3d6+2}||size_factor=.75||laborers=1||a_handlers=2||guards=1|
+2,|num_carriers={Dice~3d11+17}||size_factor=1||laborers=2||a_handlers=3||guards=2|
+3,|num_carriers={Dice~2d21+28}||size_factor=1.5||laborers=3||a_handlers=4||guards=3|
+4,|num_carriers={Dice~4d50+46}||size_factor=2||laborers=4||a_handlers=5||guards=4|
+
+:Wagon_Size
+1,|num_carriers={Dice~2d4}||size_factor=.75||laborers=%num_carriers%||a_handlers=1||guards=1|
+2,|num_carriers={Dice~3d6+2}||size_factor=1||laborers=%num_carriers%||a_handlers=1||guards=2|
+3,|num_carriers={Dice~3d11+17}||size_factor=1.5||laborers=%num_carriers%||a_handlers=2||guards=3|
+4,|num_carriers={Dice~2d21+28}||size_factor=2||laborers=%num_carriers%||a_handlers=3||guards=4|
+
+:Mixed_Size
+1,|num_carriers={Dice~2d6+2}||size_factor=.75||laborers=1||a_handlers=2||guards=1|
+2,|num_carriers={Dice~2d12+12}||size_factor=1||laborers=2||a_handlers=3||guards=2|
+3,|num_carriers={Dice~2d21+28}||size_factor=1.5||laborers=3||a_handlers=4||guards=3|
+4,|num_carriers={Dice~3d35+50}||size_factor=2||laborers=4||a_handlers=5||guards=3|
+
+:Exotic_Size
+1,|num_carriers={Dice~2d4+2}||size_factor=.75||laborers=%num_carriers%||a_handlers=1||guards=1|
+2,|num_carriers={Dice~3d6+4}||size_factor=1||laborers=%num_carriers%||a_handlers=1||guards=2|
+3,|num_carriers={Dice~3d11+15}||size_factor=1.5||laborers=%num_carriers%||a_handlers=2||guards=3|
+4,|num_carriers={Dice~2d21+38}||size_factor=2||laborers=%num_carriers%||a_handlers=3||guards=4|
+
+:Type
+1,[Set_Bearer_Type]
+2,[Set_Animal_Type]
+3,[Set_Wagon_Type]
+4,|type_name=transporter|
+5,[Set_Exotic_Type]
+
+;Set_Bearer_Type
+4,|type_name=bearer||carry_capacity=8|{Lockout~GenerateGoods,27-45}
+1,{If~%Evil%=1?|type_name=slave|/|type_name=bearer|}
+_|carry_capacity=8|{Lockout~GenerateGoods,27-45}
+
+;Set_Wagon_Type
+4,|type_name=ox drawn wagon||carry_capacity=224|
+2,|type_name=draft-horse drawn wagon||carry_capacity=200|
+1,|type_name=horse drawn wagon||carry_capacity=160|
+2,|type_name=mule drawn wagon||carry_capacity=176|
+
+;Set_Animal_Type
+4,|type_name=mule||carry_capacity=40|{Lockout~GenerateGoods,39-45}
+3,|type_name=horse||carry_capacity=32|{Lockout~GenerateGoods,27-44}
+2,|type_name=donkey||carry_capacity=24|{Lockout~GenerateGoods,39-45}
+1,|type_name=camel||carry_capacity=40|{Lockout~GenerateGoods,39-45}
+1,|type_name=mountain pony||carry_capacity=24|{Lockout~GenerateGoods,39-45}
+
+########################################################################
+#Exotics added by Joey Joe Joe
+
+;Set_Exotic_Type
+1,{IIf~%LRace%=dwarven?[Set_Dwarf_Caravan]:
+_	{IIf~%LRace%=gnome?[Set_Gnome_Caravan]:
+_		{IIf~%LRace%=half-orc?[Set_Half_Orc_Caravan]:
+_			{IIf~%LRace%=half-elven?[Set_Half_Elven_Caravan]:
+_				{IIf~%LRace%=elven?[Set_Elven_Caravan]:
+_					{IIf~%LRace%=halfling?[Set_Halfling_Caravan]:[Set_Human_Caravan]
+_}}}}}}
+1,|type_name=exotic effelant||carry_capacity=80|{Lockout~GenerateGoods,40-45}
+1,|type_name=sledge dog team||carry_capacity=24|{Lockout~GenerateGoods,39-45}
+1,|type_name=giant lizards with pack||carry_capacity=24|{Lockout~GenerateGoods,39-45}
+
+# XXXXXXXXXXXXXXXXXXXXXX Look dwarven animals
+:Set_Dwarf_Caravan
+1,|type_name=goat cart||carry_capacity=24|{Lockout~GenerateGoods,39-45}
+
+:Set_Gnome_Caravan
+1,|type_name=clockwork wagon||carry_capacity=24|{Lockout~GenerateGoods,39-45}
+
+:Set_Half_Orc_Caravan
+1,|type_name=pack boar||carry_capacity=24|{Lockout~GenerateGoods,39-45}
+1,|type_name=worgs with pack||carry_capacity=24|{Lockout~GenerateGoods,39-45}
+
+:Set_Half_Elven_Caravan
+1,|type_name=elven dogs with pack||carry_capacity=24|{Lockout~GenerateGoods,39-45}
+
+:Set_Elven_Caravan
+1,|type_name=Chi-cats with pack||carry_capacity=24|{Lockout~GenerateGoods,39-45}
+
+:Set_Halfling_Caravan
+1,|type_name=pony cart||carry_capacity=32|{Lockout~GenerateGoods,39-45}
+1,|type_name=Halfling dog cart||carry_capacity=24|{Lockout~GenerateGoods,39-45}
+
+:Set_Human_Caravan
+1,|type_name=human drawn cart||carry_capacity=24|{Lockout~GenerateGoods,39-45}
+
+########################################################################
+# ----------
+# A loop used to generate the individual caravan goods for MIXED caravan
+# (Note: this method means that once a lightweight transporter is selected 
+# for the caravan, it limits (via the Lockout function) the load types for 
+# even the heavy duty carriers that that may be chosen after. My brain hurt
+# too much to try and figure out a way to code around that - joey joe joe.)
+# ----------
+
+:LoadMixed
+1,[MixedCarrier]{If~%temp%>0? [LoopMixed] / }
+
+:LoopMixed
+1,[GenerateGoods]
+_|amount*%size_factor%|
+_|amount>1|
+_|amount<%temp%|
+_|actual_qty={Round~0,%amount%}||actual_qty*%carry_capacity%||actual_qty/8|
+_<li>{Round~0,%amount%} %type_name%s carrying [Cargo_X=%cargo%]
+_{If~%ShowUnits%=1? (%actual_qty% units)}
+_.</li><br>
+_|temp-%amount%|[LoadMixed]
+
+;MixedCarrier
+6,[Set_Bearer_Type]
+10,[Set_Wagon_Type]
+10,[Set_Animal_Type]
+1,[Set_Exotic_Type]
+############################################################################
+
+# ----------
+# A loop used to generate the individual caravan goods
+# ----------
+
+:Load
+1,{If~%temp%>0? [Loop] / }
+
+:Loop
+1,[GenerateGoods]
+_|amount*%size_factor%|
+_|amount>1|
+_|amount<%temp%|
+_|actual_qty={Round~0,%amount%}||actual_qty*%carry_capacity%||actual_qty/8|
+_<li>{Round~0,%amount%} %type_name%s carrying [Cargo_X=%cargo%]
+_{If~%ShowUnits%=1?  (%actual_qty% units)}
+_.</li><br>
+_|temp-%amount%|[Load]
+
+# ----------
+# Determines the race and skill level of the caravan leader
+# ----------
+
+;LRace
+5,half-orc
+20,human
+5,half-elven
+1,elven
+1,dwarven
+1,gnome
+1,halfling
+
+:EvilCheck
+# This does not mean that all humans are evil, it is just a flag that will 
+# allow evil humans to exist and use slave caravans or hire half-orc guards 
+1,{Or~%LRace%=half-orc,%LRace%=human}
+
+:Skilled
+1,[Skill_Rating%size%]
+
+;Skill_Rating1
+9,apprentice (level {Dice~1d2} expert)
+8,average (level {Dice~2d2} expert)
+4,skilled (level {Dice~3d4+1} expert)
+1,master (level {Dice~4d4+3} expert)
+
+;Skill_Rating2
+1,apprentice (level {Dice~1d2} expert)
+13,average (level {Dice~2d2} expert)
+4,skilled (level {Dice~3d4+1} expert)
+2,master (level {Dice~4d4+3} expert)
+
+;Skill_Rating3
+10,average (level {Dice~2d2} expert)
+7,skilled (level {Dice~3d4+1} expert)
+3,master (level {Dice~4d4+3} expert)
+
+;Skill_Rating4
+5,average (level {Dice~2d2} expert)
+7,skilled (level {Dice~3d4+1} expert)
+5,master (level {Dice~4d4+3} expert)
+
+# ----------
+# This section generates the specific goods carried by the caravan
+# ----------
+
+:!GenerateGoods
+1,|cargo=1||amount={Dice~2d20+5}|
+2,|cargo=2||amount={Dice~2d20+5}|
+3,|cargo=3||amount={Dice~2d20+5}|
+4,|cargo=4||amount={Dice~2d20}|
+5,|cargo=5||amount={Dice~2d20}|
+6,|cargo=6||amount={Dice~2d20}|
+7,|cargo=7||amount={Dice~2d10}|
+8,|cargo=8||amount={Dice~4d5}|
+9,|cargo=9||amount={Dice~3d5}|
+10,|cargo=10||amount={Dice~3d5}|
+11,|cargo=11||amount={Dice~1d10}|
+12,|cargo=12||amount={Dice~1d10}|
+13,|cargo=13||amount={Dice~2d10}|
+14,|cargo=14||amount={Dice~3d6}|
+15,|cargo=15||amount={Dice~3d5}|
+16,|cargo=16||amount={Dice~3d5}|
+17,|cargo=17||amount={Dice~2d6}|
+18,|cargo=18||amount={Dice~2d6}|
+19,|cargo=19||amount={Dice~2d6}|
+20,|cargo=20||amount={Dice~2d6}|
+21,|cargo=21||amount={Dice~1d8}|
+22,|cargo=22||amount={Dice~2d20}|
+23,|cargo=23||amount={Dice~5d20}|
+24,|cargo=24||amount={Dice~5d20}|
+25,|cargo=25||amount={Dice~5d20}|
+26,|cargo=26||amount={Dice~2d12}|
+27,|cargo=27||amount={Dice~2d8}|
+28,|cargo=28||amount={Dice~2d8}|
+29,|cargo=29||amount={Dice~2d10}|
+30,|cargo=30||amount={Dice~1d10}|
+31,|cargo=31||amount={Dice~2d20}|
+32,|cargo=32||amount={Dice~2d8}|
+#Types of goods added by Joey Joe Joe:
+33,|cargo=33||amount={Dice~2d20+5}|
+34,|cargo=34||amount={Dice~2d20+5}|
+35,|cargo=35||amount={Dice~3d10}|
+36,|cargo=36||amount={Dice~2d6}|
+37,|cargo=37||amount={Dice~1d10}|
+38,|cargo=38||amount={Dice~2d8}|
+39,|cargo=39||amount={Dice~2d4}|
+40,|cargo=40||amount={Dice~1d10}|
+41,|cargo=41||amount={Dice~3d10}|
+42,|cargo=42||amount={Dice~2d6}|
+43,|cargo=43||amount={Dice~1d10}|
+44,|cargo=44||amount={Dice~1d10}|
+45,|cargo=45||amount={Dice~2d20+5}|
+
+:Cargo
+1,wheat
+2,rye
+3,barley
+4,raw wool
+5,raw flax
+6,raw cotton
+7,raw hemp
+8,woolen cloth
+9,linen cloth
+10,cotton cloth
+11,luxury cloth
+12,furs ([~Creatures.Furs])
+13,skins & leather ([~Creatures.Furs])
+14,iron ingots
+15,copper ingots
+16,tin ingots
+17,lead ingots
+18,bronze forge-bars
+19,brass forge-bars
+20,iron forge-bars
+21,steel forge-bars
+22,lumber
+23,marble
+24,limestone
+25,granite
+26,ale
+27,wine ([Inn Menu.Wine Name])
+28,pickled fish
+29,dried fish
+30,salt
+31,pipe weed
+32,spices
+#Types of goods added by Joey Joe Joe:
+33,rice
+34,milled flour
+35,oil
+36,dried and salted meats
+37,exotic foodstuffs
+39,pottery & glassware
+40,armor ([~Equipment.Armors])
+41,weapons ([~Equipment.WeaponsNoSize])
+42,root vegetables
+42,fruit ([~Equipment.Fruits])
+43,pitch
+44,rugs & tapestries
+45,dried peas and beans
+
+
+:Cargo_X
+1,sacks of wheat
+2,sacks of rye
+3,sacks of barley
+4,bales of raw wool
+5,bales of raw flax
+6,bales of raw cotton
+7,bales of raw hemp
+8,bolts of woolen cloth
+9,bolts of linen cloth
+10,bolts of cotton cloth
+11,bolts of luxury cloth
+12,bundles of furs ([~Creatures.Furs])
+13,bundles of skins & leather ([~Creatures.Furs])
+14,iron ingots
+15,copper ingots
+16,tin ingots
+17,lead ingots
+18,bronze forge-bars
+19,brass forge-bars
+20,iron forge-bars
+21,steel forge-bars
+22,lumber
+23,blocks of marble
+24,blocks of limestone
+25,blocks of granite
+26,kegs of ale
+27,casks of wine ([Inn Menu.Wine Name])
+28,barrels of pickled fish
+29,sacks of dried fish
+30,sacks of salt
+31,bales of tobacco
+32,baskets of spices
+#Types of goods added by Joey Joe Joe:
+33,sacks of rice
+34,bags of milled flour
+35,casks of oil
+36,crates of dried and salted meat
+37,crates of exotic foodstuffs
+39,crates of pottery & glassware
+40,crates of armor ([~Equipment.Armors])
+41,crates of weapons ([~Equipment.WeaponsNoSize])
+42,crates of root vegetables
+42,crates of fruit ([~Equipment.Fruits])
+43,barrels of pitch
+44,rugs & tapestries
+45,sacks of dried peas and beans
+
+# ----------
+# This section calculates the number of laborers and animal handlers for the caravan
+# ----------
+
+:Laborers
+1,<li>Laborers: 
+_|laborers*%num_carriers%||laborers\3||laborers\2|
+_|laborers>1|
+_|laborers<%num_carriers%|
+_{Round~0,%laborers%}</li>
+
+:AnimalHandlers
+1,<li>Animal Handlers: 
+_|a_handlers*%num_carriers%||a_handlers\4|
+_|a_handlers>1|
+_|a_handlers<%num_carriers%|
+_{Round~0,%a_handlers%}</li>
+
+# ----------
+# This section generates the guards for the caravan
+# ----------
+
+:Guards
+1,
+#Debug
+#_<u><b>Guard Number: %guards%</b></u><br>
+#_<u><b>Size Factor: %size_factor%</b></u><br>
+_|guard_number={Calc~%guards%+%size_factor%}|
+_|temp2=%num_carriers%|
+_|temp2\5||temp2>1|
+_|guard_number*%temp2%|
+#_|guard_number={Ceil~%guard_number%}|
+_{Round~0,%guard_number%}
+_[WRace]{If~%guard_number% > 8 ? [GuardLeader] / }
+_{Reset~GenerateGuards}[StartGuardLoop]
+
+
+:StartGuardLoop
+1,{If~%guard_number% > 0 ? [GuardLoop]}
+
+:GuardLoop
+1,[GenerateGuards1]
+#_|gamount>1|
+_|gamount<%guard_number%|
+_<li>(<b>{Round~0,%gamount%}</b>)  
+_[WLevel] level [WRace]%guard_race% warriors [WTransport] wearing 
+_{If~%mount% = 0 ? [Armor={Dice~1d58}]/[Armor={Dice~1d64+5}]}
+# (AC=%ac%) 
+_ and carrying {If~%mount% = 0 ? [WeaponTypeF=%guard_type%] /[WeaponTypeM=%guard_type%]}.</li><br>
+_|guard_number-%gamount%|[StartGuardLoop]
+
+:GenerateGuards1
+#Added so Huge caravans do not run out of guard types
+1,{If~{Used~GenerateGuards,0}=1 ? {Reset~GenerateGuards}}
+_[GenerateGuards]
+
+:!GenerateGuards
+1-2,|guard_type=1||gamount={Dice~6d6+4}|
+3-4,|guard_type=2||gamount={Dice~6d6+4}|
+5-6,|guard_type=3||gamount={Dice~6d6+4}|
+7-8,|guard_type=4||gamount={Dice~6d6+4}|
+9-10,|guard_type=5||gamount={Dice~6d6+4}|
+11-12,|guard_type=6||gamount={Dice~6d6+4}|
+13-14,|guard_type=7||gamount={Dice~6d6+4}|
+15-16,|guard_type=8||gamount={Dice~6d6+4}|
+
+:WeaponTypeF
+1,halberds
+2,pikes
+3,spears and shortswords
+4,spears and longswords
+5,shortswords and shortbows
+6,shortswords and crossbows
+7,shortswords and longbows
+8,longswords and crossbows
+
+:WeaponTypeM
+1,light lances and shortswords
+2,light lances and longswords
+3,spears and shortswords
+4,spears and longswords
+5,shortswords and shortbows
+6,shortswords and crossbows
+7,longswords and shortbows
+8,longswords and crossbows
+
+:WeaponTypeL
+1,light lance and shortsword
+2,light lance and longsword
+3,spear and shortsword
+4,spear and longsword
+5,shortsword and shortbow
+6,shortsword and crossbow
+7,longsword and shortbow
+8,longsword and crossbow
+
+;WRace
+#Modified so half-orcs dont work for elves etc.
+4,|guard_race=human|
+1,{If~%LRace%=half-orc ? |guard_race=half-orc|/|guard_race=half-elven|}
+1,{If~%Evil%=1 ? |guard_race=half-orc|/|guard_race=human|}
+1,{If~%LRace%=half-orc ? |guard_race=half-orc|/|guard_race=elven|}
+1,{If~%LRace%=half-orc ? |guard_race=half-orc|/|guard_race=dwarven|}
+
+:WTransport
+1-7,on foot|mount=0|
+8-9,mounted on [WarriorMounts]|mount=1|
+
+:WarriorMounts
+1-7,light war horses
+8,heavy war horses
+9-40,{If~%guard_race%=half-orc ? dire wolves /
+_{If~%guard_race%=half-elven ? chi-cats  /
+_{If~%guard_race%=elven ? trained elven dogs /
+_{If~%guard_race%=dwarven ? war ponies / giant lizards}}}}
+
+#;WLevel
+#400,1st
+#25,2nd
+#5,3rd
+#3,4th
+#1,5th
+
+;WLevel
+# Added by Joey Joe Joe to suit my preferences for guard levels
+# Original table is available above.
+10,{Ordinal~{1d%size%+1}}
+10,1st
+3,2nd
+1,3rd
+
+# ----------
+# This section generates the leader of the guard (if any) for the caravan
+# ----------
+
+:GuardLeader
+1,<li>The guards' leader, [~Names Generator.NAME Random], is a [WLeaderLevelCalc1] %leader_level% level %guard_race% [LeaderType=%leader_type%] 
+_mounted on a [LeaderMount] wearing [Armor={1d64+5}]
+# (AC=%ac%)
+_ and armed with a [WeaponTypeL]</li>
+_[NPC Appearance.NPC_Info1=2]<br>
+_|guard_number-1|
+
+;LeaderType
+9,warrior
+9,fighter
+8,|Ranger=[RangerCheck]|{If~%Ranger%=1 ? |leader_type=nancy-boy|/ |leader_type=ranger|}
+
+:RangerCheck
+1,{Or~%guard_race%=dwarven,%guard_race%=half-orc}
+
+#|Evil=[EvilCheck]|###### 1,{If~%Evil%=1 ? |type_name=slave| / |type_name=bearer| }
+#_|carry_capacity=8|{Lockout~GenerateGoods,27-52}
+#[LeaderType=%leader_type%]
+
+:WLeaderLevelCalc1
+1,{If~%guard_number% < 12 ? [WLeaderLevel=1] / [WLeaderLevelCalc2]}
+
+:WLeaderLevelCalc2
+1,{If~%guard_number% < 20 ? [WLeaderLevel={Dice~1d2}] / [WLeaderLevelCalc3]}
+
+:WLeaderLevelCalc3
+1,{If~%guard_number% < 50 ? [WLeaderLevel={Dice~2d2}] / [WLeaderLevelCalc4]}
+
+:WLeaderLevelCalc4
+1,{If~%guard_number% < 75 ? [WLeaderLevel={Dice~2d2+1}] / [WLeaderLevelCalc5]}
+
+:WLeaderLevelCalc5
+1,{If~%guard_number% < 100 ? [WLeaderLevel={Dice~2d4}] / [WLeaderLevelCalc6]}
+
+:WLeaderLevelCalc6
+1,{If~%guard_number% < 125 ? [WLeaderLevel={Dice~2d4+1}] / [WLeaderLevelCalc7]}
+
+:WLeaderLevelCalc7
+1,{If~%guard_number% >= 125 ? [WLeaderLevel={Dice~3d3+1}]}
+
+:WLeaderLevel
+1,|leader_level=2nd||leader_type=1|
+2,|leader_level=3rd||leader_type={Dice~1d10}|
+3,|leader_level=4th||leader_type={Dice~1d10+1}|
+4,|leader_level=5th||leader_type={Dice~1d10+2}|
+5,|leader_level=6th||leader_type={Dice~1d10+3}|
+6,|leader_level=7th||leader_type={Dice~1d10+4}|
+7,|leader_level=8th||leader_type={Dice~1d10+5}|
+8,|leader_level=9th||leader_type={Dice~1d10+6}|
+9,|leader_level=10th||leader_type={Dice~1d10+7}|
+10,|leader_level=11th||leader_type={Dice~1d10+8}|
+
+;LeaderMount
+66,light war horse
+33,heavy war horse
+1,hippogriff
+1,griffon
+1,pegasus
+4,{If~%guard_race%=half-orc ? dire wolf /
+_	{If~%guard_race%=half-elven ? chi-cat  /
+_		{If~%guard_race%=elven ? trained elven dog /
+_			{If~%guard_race%=dwarven ? war pony / giant lizard}}}}
+
+;Armor
+5,padded armor|ac=11|
+5,leather armor|ac=12|
+7,studded leather armor|ac=13|
+6,hide armor|ac=13|
+5,chain shirts|ac=14|
+4,chainmail|ac=15|
+5,scale mail|ac=14|
+5,breastplates|ac=15|
+7,banded armor|ac=16|
+2,half-plate mail|ac=17|
+1,full-plate mail|ac=18|
+
+# -------------------------------------------------------------------------
+# Mother of All Encounter Table
+# -------------------------------------------------------------------------
+
+:MoAET
+1,[MoAET_SizeChoose=%set_size%]
+_[MoAET_Goods%MoAET_Size%]
+_[MoAET_Sub%MoAET_Goods%_%MoAET_Size%]
+#_|MoAET_LbsCargo=%MoAET_CaravanValue%||MoAET_LbsCargo\%MoAET_CargoValue%|
+_|MoAET_LbsCargo={Calc~%MoAET_CaravanValue% / %MoAET_CargoValue%}|
+_|MoAET_LbsCargo={Round~0,%MoAET_LbsCargo%}|
+_{Bold~<u>Caravan Size</u>:} {Param~set_size,%MoAET_Size%}<br><br>
+_Value: [AddComma.Start(%MoAET_CaravanValue%)] gp (%MoAET_Worth%)<br>
+#_{Space~5}Cargo: %MoAET_Cargo% (%MoAET_CargoValue% gp/lb){Space~5}Cargo Weight: [AddComma.Start(%MoAET_LbsCargo%)] lbs<br>
+_Cargo: %MoAET_Cargo% ({If~%MoAET_CargoValue%<1?0}%MoAET_CargoValue% gp/lb){Space~5}Cargo Weight: [AddComma.Start(%MoAET_LbsCargo%)] lbs<br><br>
+_{Bold~Destination:} {Cap~[ThisProgram_OnTheWay]}<br><br>
+_{Bold~Transportation:} (choose either a land or a water caravan)<br>
+_[MoAET_Transportation1]
+_<u>Land</u>: [MoAET2][MoAET3]
+_<br><br>
+_[MoAET_Transportation2]
+_<u>Water</u>: [MoAET2][MoAET3]<br><br>
+_[ThisProgram_TravelingEvents]
+
+:MoAET2
+1,{If~%Temp%<1?|Temp=1|}{If~{Dice~1d3}=1?{If~{Dice~1d10}=1?|Temp+{Dice~1d4+1}|/|Temp+1|}}
+_%Temp% {If~%Temp%>1?{Plural~%MoAET_Transportation%}/%MoAET_Transportation%}{If~%MoAET_Transportation%=Humanoid? ([~Creatures.Humanoid2])}
+_ (Cap: [AddComma.Start(%MoAET_TransportationCap%)] lbs{If~%Temp%>1? each}
+_{If~%MoAET_LbsCargo%<{Calc~%Temp%*%MoAET_TransportationCap%/2}? {If~%MoAET_LbsCargo%<{Calc~%Temp%*%MoAET_TransportationCap%/4}?{Color~Purple,Almost empty}/{Color~Purple,Underloaded}}}
+_{If~%MoAET_LbsCargo%>{Calc~%Temp%*%MoAET_TransportationCap%}? {Color~Red,Overloaded}}
+_)<br>
+
+:MoAET3
+1,[MoAET_Set_Crew]
+_{Space~5}-Leader: %MoAET_Ld%.<br>
+_{If~{And~%MoAET_LtN%!=None,%MoAET_Lt%!=None}=1?{Space~5}-Lieutenants: %MoAET_LtN%.<br>}
+_{Space~5}-Laborers: %MoAET_LbN%.<br>
+_{If~{And~%MoAET_GuN%!=None,%MoAET_Gu%!=None}=1?{Space~5}-Guards: %MoAET_GuN%.<br>}
+_[NPC Appearance.NPC_Info1=2]
+
+:MoAET_Transportation1
+1,[MoAET_Land]|Temp=%MoAET_LbsCargo%||Temp\%MoAET_TransportationCap%|
+_{If~%Temp%>25?
+#_{Color~Red,%Temp% %MoAET_Transportation% --- }
+_[MoAET_Transportation1]}
+
+:MoAET_Transportation2
+1,[MoAET_Water]|Temp=%MoAET_LbsCargo%||Temp\%MoAET_TransportationCap%|
+_{If~%Temp%>25?
+#_{Color~Red,%Temp% %MoAET_Transportation% --- }
+_[MoAET_Transportation2]}
+
+:MoAET_SizeChoose
+# Small
+1,[MoAET_Size={Dice~1d60}]
+# Medium
+2,[MoAET_Size={Dice~1d60+22}]
+# Large
+3,[MoAET_Size={Dice~1d56+44}]
+# Huge
+4,[MoAET_Size={Dice~1d30+70}]
+# Random
+5,[MoAET_SizeChoose={Dice~1d4}]
+
+:MoAET_Size
+# 0-25 gp
+1-25,|MoAET_Size=1||set_size=1||MoAET_Worth=Poor||MoAET_CaravanValue={Dice~1d25}|
+# 26-250 gp
+26-50,|MoAET_Size=2||set_size=2||MoAET_Worth=Struggling||MoAET_CaravanValue={Dice~1d225+25}|
+# 250-2500 gp
+51-80,|MoAET_Size=3||set_size=3||MoAET_Worth=Average||MoAET_CaravanValue={Dice~1d2250+250}|
+# 2500-25000 gp
+81-96,|MoAET_Size=4||set_size=4||MoAET_Worth=Valuable||MoAET_CaravanValue={Dice~1d22500+2500}|
+# 25000+ gp
+97-100,|MoAET_Size=5||set_size=5||MoAET_Worth=Exotic||MoAET_CaravanValue={Dice~1d225000+25000}|
+
+:MoAET_Goods1
+1-36,|MoAET_Goods=1|
+37-52,|MoAET_Goods=2|
+53-100,|MoAET_Goods=3|
+
+:MoAET_Goods2
+1-30,|MoAET_Goods=1|
+31-65,|MoAET_Goods=2|
+66-100,|MoAET_Goods=3|
+
+:MoAET_Goods3
+1-35,|MoAET_Goods=1|
+36-72,|MoAET_Goods=2|
+73-100,|MoAET_Goods=3|
+
+:MoAET_Goods4
+1-30,|MoAET_Goods=1|
+31-59,|MoAET_Goods=2|
+60-100,|MoAET_Goods=3|
+
+:MoAET_Goods5
+1-59,|MoAET_Goods=1|
+60-63,|MoAET_Goods=2|
+64-100,|MoAET_Goods=3|
+
+:MoAET_Sub1_1
+1-8000,|MoAET_Cargo=Ale ([Inn Menu.Alcoholic Drinks={Dice~1d25}])||MoAET_CargoValue=.5|
+9-23,|MoAET_Cargo=Chalk||MoAET_CargoValue=.13|
+24-48,|MoAET_Cargo=Cheese ([Inn Menu.Cheese])||MoAET_CargoValue=.3|
+49-73,|MoAET_Cargo=Coal||MoAET_CargoValue=.125|
+74-77,|MoAET_Cargo=Coffee||MoAET_CargoValue=.75|
+78-92,|MoAET_Cargo=Cotton||MoAET_CargoValue=.1|
+93-100,|MoAET_Cargo=Fruit ([~Equipment.Fruits])||MoAET_CargoValue=.75|
+
+:MoAET_Sub1_2
+1-10,|MoAET_Cargo=Ale ([Inn Menu.Alcoholic Drinks={Dice~1d25}])||MoAET_CargoValue=.5|
+11-20,|MoAET_Cargo=Chalk||MoAET_CargoValue=.13|
+21-30,|MoAET_Cargo=Cheese ([Inn Menu.Cheese])||MoAET_CargoValue=.3|
+31,|MoAET_Cargo=Cloth ([~Miscellaneous.Fabric])||MoAET_CargoValue=1.25|
+32-49,|MoAET_Cargo=Coal||MoAET_CargoValue=.125|
+50-57,|MoAET_Cargo=Coffee||MoAET_CargoValue=.75|
+58-65,|MoAET_Cargo=Copper||MoAET_CargoValue=.5|
+66-82,|MoAET_Cargo=Cotton||MoAET_CargoValue=.1|
+83-98,|MoAET_Cargo=Fruit ([~Equipment.Fruits])||MoAET_CargoValue=.75|
+99,|MoAET_Cargo=Furs ([~Creatures.Furs])||MoAET_CargoValue=2|
+100,|MoAET_Cargo=Glass||MoAET_CargoValue=.625|
+
+:MoAET_Sub1_3
+1-12,|MoAET_Cargo=Ale ([Inn Menu.Alcoholic Drinks={Dice~1d25}])||MoAET_CargoValue=.5|
+13-14,|MoAET_Cargo=Animals, Wild ([~Creatures.Animal])||MoAET_CargoValue=1.25|
+15-16,|MoAET_Cargo=Armor ([~Equipment.Armors])||MoAET_CargoValue=3.75|
+17-18,|MoAET_Cargo=Books||MoAET_CargoValue=3|
+19-30,|MoAET_Cargo=Bronze||MoAET_CargoValue=2.5|
+31-32,|MoAET_Cargo=Chalk||MoAET_CargoValue=.13|
+33-34,|MoAET_Cargo=Cheese ([Inn Menu.Cheese])||MoAET_CargoValue=.3|
+35-47,|MoAET_Cargo=Cloth ([~Miscellaneous.Fabric])||MoAET_CargoValue=1.25|
+48-60,|MoAET_Cargo=Clothing ([~Equipment.Clothing])||MoAET_CargoValue=2.25|
+61-63,|MoAET_Cargo=Coal||MoAET_CargoValue=.125|
+64-65,|MoAET_Cargo=Coffee||MoAET_CargoValue=.75|
+66-75,|MoAET_Cargo=Copper||MoAET_CargoValue=.5|
+76-78,|MoAET_Cargo=Cotton||MoAET_CargoValue=.1|
+79-88,|MoAET_Cargo=Fruit ([~Equipment.Fruits])||MoAET_CargoValue=.75|
+89-98,|MoAET_Cargo=Furs ([~Creatures.Furs])||MoAET_CargoValue=2|
+99-100,|MoAET_Cargo=Glass||MoAET_CargoValue=.625|
+
+:MoAET_Sub1_4
+1-2,|MoAET_Cargo=Ale ([Inn Menu.Alcoholic Drinks={Dice~1d25}])||MoAET_CargoValue=.5|
+3,|MoAET_Cargo=Amber||MoAET_CargoValue=80|
+4-5,|MoAET_Cargo=Animals, Wild ([~Creatures.Animal])||MoAET_CargoValue=1.25|
+6-15,|MoAET_Cargo=Armor ([~Equipment.Armors])||MoAET_CargoValue=3.75|
+16-17,|MoAET_Cargo=Books||MoAET_CargoValue=3|
+18-19,|MoAET_Cargo=Bronze||MoAET_CargoValue=2.5|
+20-21,|MoAET_Cargo=Cloth ([~Miscellaneous.Fabric])||MoAET_CargoValue=1.25|
+22-70,|MoAET_Cargo=Clothing ([~Equipment.Clothing])||MoAET_CargoValue=2.25|
+71-72,|MoAET_Cargo=Coffee||MoAET_CargoValue=.75|
+73-74,|MoAET_Cargo=Copper||MoAET_CargoValue=.5|
+75,|MoAET_Cargo=Cosmetics||MoAET_CargoValue=150|
+76-77,|MoAET_Cargo=Dyes||MoAET_CargoValue=125|
+78,|MoAET_Cargo=Fruit ([~Equipment.Fruits])||MoAET_CargoValue=.75|
+79-88,|MoAET_Cargo=Furs ([~Creatures.Furs])||MoAET_CargoValue=2|
+89-90,|MoAET_Cargo=Glass||MoAET_CargoValue=.625|
+91-100,|MoAET_Cargo=Gold||MoAET_CargoValue=50|
+
+:MoAET_Sub1_5
+1,|MoAET_Cargo=Adamantine||MoAET_CargoValue=800|
+2-7,|MoAET_Cargo=Amber||MoAET_CargoValue=80|
+8-9,|MoAET_Cargo=Armor ([~Equipment.Armors])||MoAET_CargoValue=3.75|
+10-15,|MoAET_Cargo=Artwork||MoAET_CargoValue=700|
+16,|MoAET_Cargo=Books||MoAET_CargoValue=3|
+17-22,|MoAET_Cargo=Cosmetics||MoAET_CargoValue=150|
+23-58,|MoAET_Cargo=Dyes||MoAET_CargoValue=125|
+59-64,|MoAET_Cargo=Gems||MoAET_CargoValue=7000|
+65-100,|MoAET_Cargo=Gold||MoAET_CargoValue=50|
+
+:MoAET_Sub2_1
+1-35,|MoAET_Cargo=Grain||MoAET_CargoValue=.3|
+36-41,|MoAET_Cargo=Leather||MoAET_CargoValue=.625|
+42-76,|MoAET_Cargo=Livestock ([~MoAET_Livestock])||MoAET_CargoValue=.375|
+77-88,|MoAET_Cargo=Meat Foods||MoAET_CargoValue=.45|
+89-100,|MoAET_Cargo=Nuts ([~Equipment.Nuts])||MoAET_CargoValue=.375|
+
+:MoAET_Sub2_2
+1-17,|MoAET_Cargo=Grain||MoAET_CargoValue=.3|
+18,|MoAET_Cargo=Hardwood||MoAET_CargoValue=1|
+19-25,|MoAET_Cargo=Light Horses||MoAET_CargoValue=75|
+26-28,|MoAET_Cargo=Heavy Horses||MoAET_CargoValue=200|
+29,|MoAET_Cargo=Iron||MoAET_CargoValue=1.25|
+30-33,|MoAET_Cargo=Lead||MoAET_CargoValue=.875|
+34-43,|MoAET_Cargo=Leather||MoAET_CargoValue=.625|
+44-60,|MoAET_Cargo=Livestock ([~MoAET_Livestock])||MoAET_CargoValue=.375|
+61,|MoAET_Cargo=Marble||MoAET_CargoValue=2|
+62-71,|MoAET_Cargo=Meat Foods||MoAET_CargoValue=.45|
+72-75,|MoAET_Cargo=Nuts ([~Equipment.Nuts])||MoAET_CargoValue=.375|
+76-92,|MoAET_Cargo=Oil, Lamp||MoAET_CargoValue=.5|
+93-96,|MoAET_Cargo=Oil, Olive||MoAET_CargoValue=.75|
+97-100,|MoAET_Cargo=Oil, Whale||MoAET_CargoValue=.75|
+
+:MoAET_Sub2_3
+1-8,|MoAET_Cargo=Grain||MoAET_CargoValue=.3|
+9,|MoAET_Cargo=Hardwood||MoAET_CargoValue=1|
+10-22,|MoAET_Cargo=Herbs ([Herb Names.ChooseKind=1])||MoAET_CargoValue=3.25|
+23-30,|MoAET_Cargo=Light Warhorses||MoAET_CargoValue=150|
+31-35,|MoAET_Cargo=Heavy Warhorses||MoAET_CargoValue=400|
+36,|MoAET_Cargo=Incense||MoAET_CargoValue=3.5|
+37-38,|MoAET_Cargo=Ink||MoAET_CargoValue=2.75|
+39-51,|MoAET_Cargo=Iron||MoAET_CargoValue=1.25|
+52,|MoAET_Cargo=Ivory||MoAET_CargoValue=1.75|
+53,|MoAET_Cargo=Jade||MoAET_CargoValue=2.25|
+54-55,|MoAET_Cargo=Lead||MoAET_CargoValue=.875|
+56-68,|MoAET_Cargo=Leather||MoAET_CargoValue=.625|
+69-76,|MoAET_Cargo=Livestock ([~MoAET_Livestock])||MoAET_CargoValue=.375|
+77-78,|MoAET_Cargo=Marble||MoAET_CargoValue=2|
+79-86,|MoAET_Cargo=Meat Foods||MoAET_CargoValue=.45|
+87-88,|MoAET_Cargo=Nuts ([~Equipment.Nuts])||MoAET_CargoValue=.375|
+89,|MoAET_Cargo=Obsidian||MoAET_CargoValue=1.5|
+90-97,|MoAET_Cargo=Oil, Lamp||MoAET_CargoValue=.5|
+98-99,|MoAET_Cargo=Oil, Olive||MoAET_CargoValue=.75|
+100,|MoAET_Cargo=Oil, Whale||MoAET_CargoValue=.75|
+
+:MoAET_Sub2_4
+1-3,|MoAET_Cargo=Hardwood||MoAET_CargoValue=1|
+4-47,|MoAET_Cargo=Herbs ([Herb Names.ChooseKind=1])||MoAET_CargoValue=3.25|
+48-50,|MoAET_Cargo=Etheganrian Horses||MoAET_CargoValue=500|
+51-60,|MoAET_Cargo=Incense||MoAET_CargoValue=3.5|
+61-70,|MoAET_Cargo=Ink||MoAET_CargoValue=2.75|
+71-80,|MoAET_Cargo=Iron||MoAET_CargoValue=1.25|
+81-83,|MoAET_Cargo=Ivory||MoAET_CargoValue=1.75|
+84-86,|MoAET_Cargo=Jade||MoAET_CargoValue=2.25|
+87-89,|MoAET_Cargo=Leather||MoAET_CargoValue=.625|
+90,|MoAET_Cargo=Magic Items (Potions and Scrolls)||MoAET_CargoValue=150|
+91,|MoAET_Cargo=Marble||MoAET_CargoValue=2|
+92,|MoAET_Cargo=Medicine||MoAET_CargoValue=175|
+93,|MoAET_Cargo=Mirrors||MoAET_CargoValue=4|
+94,|MoAET_Cargo=Mithril||MoAET_CargoValue=500|
+95,|MoAET_Cargo=Obsidian||MoAET_CargoValue=1.5|
+96-98,|MoAET_Cargo=Oil, Lamp||MoAET_CargoValue=.5|
+99,|MoAET_Cargo=Oil, Olive||MoAET_CargoValue=.75|
+100,|MoAET_Cargo=Oil, Whale||MoAET_CargoValue=.75|
+
+:MoAET_Sub2_5
+1-72,|MoAET_Cargo=Incense||MoAET_CargoValue=3.5|
+73-76,|MoAET_Cargo=Ivory||MoAET_CargoValue=1.75|
+77-80,|MoAET_Cargo=Jade||MoAET_CargoValue=2.25|
+81-84,|MoAET_Cargo=Jewelry||MoAET_CargoValue=1500|
+85-88,|MoAET_Cargo=Magic Items (Lesser Items)||MoAET_CargoValue=1000|
+89-92,|MoAET_Cargo=Medicine||MoAET_CargoValue=175|
+93-96,|MoAET_Cargo=Mirrors||MoAET_CargoValue=4|
+97-100,|MoAET_Cargo=Mithril||MoAET_CargoValue=500|
+
+:MoAET_Sub3_1
+1-7,|MoAET_Cargo=Rice||MoAET_CargoValue=.325|
+8-38,|MoAET_Cargo=Rope, Hemp||MoAET_CargoValue=.1|
+39-47,|MoAET_Cargo=Salt||MoAET_CargoValue=.35|
+48-54,|MoAET_Cargo=Seafood||MoAET_CargoValue=.4|
+55-62,|MoAET_Cargo=Stone||MoAET_CargoValue=.125|
+63-71,|MoAET_Cargo=Sugar||MoAET_CargoValue=.4|
+72-79,|MoAET_Cargo=Tea||MoAET_CargoValue=.45|
+80-86,|MoAET_Cargo=Timber||MoAET_CargoValue=.15|
+87-93,|MoAET_Cargo=Vegetables ([~Equipment.Vegetables])||MoAET_CargoValue=.25|
+94-100,|MoAET_Cargo=Wool||MoAET_CargoValue=.36|
+
+:MoAET_Sub3_2
+1-5,|MoAET_Cargo=Rice||MoAET_CargoValue=.325|
+6-10,|MoAET_Cargo=Rope, Hemp||MoAET_CargoValue=.1|
+11-13,|MoAET_Cargo=Rope, Silk||MoAET_CargoValue=.5|
+14-18,|MoAET_Cargo=Salt||MoAET_CargoValue=.35|
+19-43,|MoAET_Cargo=Seafood||MoAET_CargoValue=.4|
+44-47,|MoAET_Cargo=Silks||MoAET_CargoValue=.75|
+48-52,|MoAET_Cargo=Stone||MoAET_CargoValue=.125|
+53-56,|MoAET_Cargo=Sugar||MoAET_CargoValue=.4|
+57-59,|MoAET_Cargo=Tea||MoAET_CargoValue=.45|
+60-64,|MoAET_Cargo=Timber||MoAET_CargoValue=.15|
+65-67,|MoAET_Cargo=Tin||MoAET_CargoValue=.5|
+68-92,|MoAET_Cargo=Vegetables ([~Equipment.Vegetables])||MoAET_CargoValue=.25|
+93-95,|MoAET_Cargo=Wax||MoAET_CargoValue=.625|
+96-100,|MoAET_Cargo=Wool||MoAET_CargoValue=.36|
+
+:MoAET_Sub3_3
+1,|MoAET_Cargo=Paper||MoAET_CargoValue=1.125|
+2,|MoAET_Cargo=Pipeweed||MoAET_CargoValue=1.85|
+3,|MoAET_Cargo=Rice||MoAET_CargoValue=.325|
+4,|MoAET_Cargo=Rope, Hemp||MoAET_CargoValue=.1|
+5-14,|MoAET_Cargo=Rope, Silk||MoAET_CargoValue=.5|
+15,|MoAET_Cargo=Salt||MoAET_CargoValue=.35|
+16,|MoAET_Cargo=Seafood||MoAET_CargoValue=.4|
+17,|MoAET_Cargo=Silks||MoAET_CargoValue=.75|
+18,|MoAET_Cargo=Slaves ([~Creatures.Humanoid])||MoAET_CargoValue=.5|
+19-22,|MoAET_Cargo=Stone||MoAET_CargoValue=.125|
+23-24,|MoAET_Cargo=Sugar||MoAET_CargoValue=.4|
+25-34,|MoAET_Cargo=Tea||MoAET_CargoValue=.45|
+35,|MoAET_Cargo=Timber||MoAET_CargoValue=.15|
+36,|MoAET_Cargo=Tin||MoAET_CargoValue=.5|
+37-46,|MoAET_Cargo=Tools ([~Equipment.tools])||MoAET_CargoValue=2|
+47,|MoAET_Cargo=Vegetables ([~Equipment.Vegetables])||MoAET_CargoValue=.25|
+48,|MoAET_Cargo=Wax||MoAET_CargoValue=.625|
+49,|MoAET_Cargo=Weapons ([~Equipment.WeaponsNoSize])||MoAET_CargoValue=3.5|
+50-74,|MoAET_Cargo=Wheat||MoAET_CargoValue=3|
+75-99,|MoAET_Cargo=Wine ([Inn Menu.Wine Name])||MoAET_CargoValue=2.5|
+100,|MoAET_Cargo=Wool||MoAET_CargoValue=.36|
+
+:MoAET_Sub3_4
+1-2,|MoAET_Cargo=Paper||MoAET_CargoValue=1.125|
+3-4,|MoAET_Cargo=Pipeweed||MoAET_CargoValue=1.85|
+5,|MoAET_Cargo=Platinum||MoAET_CargoValue=500|
+6-7,|MoAET_Cargo=Rope, Silk||MoAET_CargoValue=.5|
+8-9,|MoAET_Cargo=Silks||MoAET_CargoValue=.75|
+10-20,|MoAET_Cargo=Silver||MoAET_CargoValue=5|
+21-22,|MoAET_Cargo=Slaves ([~Creatures.Humanoid])||MoAET_CargoValue=.5|
+23-24,|MoAET_Cargo=Spell Components||MoAET_CargoValue=10|
+25-49,|MoAET_Cargo=Spice||MoAET_CargoValue=5|
+50-51,|MoAET_Cargo=Tea||MoAET_CargoValue=.45|
+52,|MoAET_Cargo=Tin||MoAET_CargoValue=.5|
+53-62,|MoAET_Cargo=Tools ([~Equipment.tools])||MoAET_CargoValue=2|
+63,|MoAET_Cargo=Wax||MoAET_CargoValue=.625|
+64-73,|MoAET_Cargo=Weapons ([~Equipment.WeaponsNoSize])||MoAET_CargoValue=3.5|
+74-75,|MoAET_Cargo=Wheat||MoAET_CargoValue=3|
+76-100,|MoAET_Cargo=Wine ([Inn Menu.Wine Name])||MoAET_CargoValue=2.5|
+
+:MoAET_Sub3_5
+1-4,|MoAET_Cargo=Pipeweed||MoAET_CargoValue=1.85|
+5-15,|MoAET_Cargo=Platinum||MoAET_CargoValue=500|
+16-26,|MoAET_Cargo=Silver||MoAET_CargoValue=5|
+27-30,|MoAET_Cargo=Slaves ([~Creatures.Humanoid])||MoAET_CargoValue=.5|
+31-41,|MoAET_Cargo=Spell Components||MoAET_CargoValue=10|
+42-92,|MoAET_Cargo=Spice||MoAET_CargoValue=5|
+93-96,|MoAET_Cargo=Weapons ([~Equipment.WeaponsNoSize])||MoAET_CargoValue=3.5|
+97-100,|MoAET_Cargo=Wine ([Inn Menu.Wine Name])||MoAET_CargoValue=2.5|
+
+;MoAET_Land
+10,|MoAET_Transportation=[MoAET_Land_Pack beast]||MoAET_Crew=1|
+6,|MoAET_Transportation=Small Cart||MoAET_TransportationCap=550||MoAET_Crew=2|
+3,|MoAET_Transportation=Medium Cart||MoAET_TransportationCap=1100||MoAET_Crew=2|
+1,|MoAET_Transportation=Large Cart||MoAET_TransportationCap=1650||MoAET_Crew=3|
+10,|MoAET_Transportation=Sled or Chariot||MoAET_TransportationCap=550||MoAET_Crew=4|
+6,|MoAET_Transportation=Small Wagon||MoAET_TransportationCap=2200||MoAET_Crew=5|
+3,|MoAET_Transportation=Medium Wagon||MoAET_TransportationCap=4400||MoAET_Crew=5|
+1,|MoAET_Transportation=Large Wagon||MoAET_TransportationCap=6600||MoAET_Crew=5|
+
+;MoAET_Land_Pack beast
+2,Humanoid|MoAET_TransportationCap=50|
+1,Riding Dog|MoAET_TransportationCap=100|
+2,Donkey|MoAET_TransportationCap=50|
+2,Heavy Horse|MoAET_TransportationCap=200|
+1,Light Horse|MoAET_TransportationCap=150|
+2,Mule|MoAET_TransportationCap=230|
+2,Ox|MoAET_TransportationCap=400|
+1,Pony|MoAET_TransportationCap=75|
+
+;MoAET_Livestock
+4,chickens (6 lbs)
+1,ducks (2.5 lbs)
+3,goats ({Dice~1d6*50} lbs)
+1,gooses (12 lbs)
+2,hens (6 lbs)
+5,pigs ({Dice~1d6*50} lbs)
+1,pigeons (1 lb)
+4,lambs/sheeps (80 lbs)
+2,turkeys (28 lbs)
+
+;MoAET_Water
+3,|MoAET_Transportation=Riverboat||MoAET_TransportationCap=4000||MoAET_Crew=6|
+2,|MoAET_Transportation=Poled Barge||MoAET_TransportationCap=20000||MoAET_Crew=7|
+2,|MoAET_Transportation=Poled Raft||MoAET_TransportationCap=20000||MoAET_Crew=7|
+5,|MoAET_Transportation=Small Merchant Ship||MoAET_TransportationCap=200000||MoAET_Crew=8|
+3,|MoAET_Transportation=Medium Merchant Ship||MoAET_TransportationCap=300000||MoAET_Crew=9|
+1,|MoAET_Transportation=Large Merchant Ship||MoAET_TransportationCap=550000||MoAET_Crew=10|
+5,|MoAET_Transportation=Rowed Keelboat||MoAET_TransportationCap=99000||MoAET_Crew=11|
+2,|MoAET_Transportation=Rowboat||MoAET_TransportationCap=300||MoAET_Crew=12|
+3,|MoAET_Transportation=Sailing ship||MoAET_TransportationCap=330000||MoAET_Crew=8|
+3,|MoAET_Transportation=Galley||MoAET_TransportationCap=330000||MoAET_Crew=13|
+3,|MoAET_Transportation=Longship||MoAET_TransportationCap=110000||MoAET_Crew=14|
+
+:MoAET_Set_Crew
+1,[MoAET_Crew_Quality=%MoAET_Size%]
+_[MoAET_Crew_Size=%MoAET_Crew%]
+
+:MoAET_Crew_Quality
+1,|MoAET_Ld=Com{Dice~1d3}||MoAET_Lb=Com1||MoAET_Gu=None||MoAET_Lt=None|
+2,|MoAET_Ld=Com{Dice~1d4}||MoAET_Lb=Com1||MoAET_Gu=War1||MoAET_Lt=None|
+3,|MoAET_Ld=Exp{Dice~1d3}||MoAET_Lb=Com{Dice~1d3}||MoAET_Gu=War1||MoAET_Lt=Ftr{Dice~1d3}|
+4,|MoAET_Ld=Exp{Dice~1d3+3}||MoAET_Lb=Com{Dice~1d3+1}||MoAET_Gu=War{Dice~1d3+1}||MoAET_Lt=Ftr{Dice~1d3+3}|
+5,|MoAET_Ld=Exp{Dice~1d4+5}||MoAET_Lb=War{Dice~1d3+1}||MoAET_Gu=Ftr{Dice~1d3+1}||MoAET_Lt=[~Miscellaneous.ClassPC]{Dice~1d5+3}|
+
+:MoAET_Crew_Size
+1,|MoAET_LbN=1x %MoAET_Lb% per {Dice~1d3+2} beasts||MoAET_GuN=None||MoAET_LtN=None|
+2,|MoAET_LbN=1x %MoAET_Lb% per cart||MoAET_GuN=None||MoAET_LtN=None|
+3,|MoAET_LbN=1x %MoAET_Lb% per cart||MoAET_GuN=1x %MoAET_Gu% per cart||MoAET_LtN=1x %MoAET_Lt% per 5 carts|
+4,|MoAET_LbN=1x %MoAET_Lb% per sled||MoAET_GuN=None||MoAET_LtN=None|
+5,|MoAET_LbN=1x %MoAET_Lb% per wagon||MoAET_GuN=1x %MoAET_Gu% per wagon||MoAET_LtN=1x %MoAET_Lt% per 3 wagons|
+6,|MoAET_LbN={Dice~1d3+1}x %MoAET_Lb% per boat||MoAET_GuN=1x %MoAET_Gu% per boat||MoAET_LtN=1x %MoAET_Lt% per 3 boats|
+7,|MoAET_LbN={Dice~1d5+3}x %MoAET_Lb% per barge||MoAET_GuN={Dice~1d3+1}x %MoAET_Gu% per barge||MoAET_LtN=1x %MoAET_Lt% per 2 barges|
+8,|MoAET_LbN=20x %MoAET_Lb% sailors per ship||MoAET_GuN=2x %MoAET_Gu% marines per ship||MoAET_LtN=1x %MoAET_Lt% per ship|
+9,|MoAET_LbN=30x %MoAET_Lb% sailors per ship||MoAET_GuN=4x %MoAET_Gu% marines per ship||MoAET_LtN=2x %MoAET_Lt% per ship|
+10,|MoAET_LbN=90x %MoAET_Lb% sailors per ship||MoAET_GuN=10x %MoAET_Gu% marines per ship||MoAET_LtN=3x %MoAET_Lt% per ship|
+11,|MoAET_LbN={Dice~1d8+7}x %MoAET_Lb% sailors per boat||MoAET_GuN={Dice~1d2}x %MoAET_Gu% marines per boat||MoAET_LtN=1x %MoAET_Lt% per boat|
+12,|MoAET_LbN={Dice~1d3}x %MoAET_Lb% sailors per boat||MoAET_GuN=None||MoAET_LtN=None|
+13,|MoAET_LbN=200x %MoAET_Lb% sailors per galley||MoAET_GuN=20x %MoAET_Gu% marines per galley||MoAET_LtN=6x %MoAET_Lt% per galley|
+14,|MoAET_LbN=50x %MoAET_Lb% sailors per longship||MoAET_GuN=7x %MoAET_Gu% marines per longship||MoAET_LtN=3x %MoAET_Lt% per longship|
+
+#Table 6-2E: Numbers of NPCs
+#                 Leader     Laborers     Guards       Lieutenants
+#1#Beast           1 overall  1/3-5 beasts None        None
+#2#Cart            1 overall  1/cart       None        None
+#3#Cart2           1 overall  1/cart       1/cart      1 per 5 carts
+#4#Sled            1 overall  1/sled       None        None
+#5#Wagon           1 overall  1/wagon      1/wagon     1 per 3 wagons
+#6#Riverboat       1 overall  2-4/boat     1/boat      1 per 3 boats
+#7#Barge           1 overall  4-8/barge    2-4/barge   1 per 2 barges
+#8#Merch. ship, S  1 overall  20 sailors   2 marines   1/ship
+#9#Merch. ship, M  1 overall  30 sailors   4 marines   2/ship
+#10#Merch. ship, L 1 overall  90 sailors   10 marines  3/ship
+#11#Keelboat       1 overall  8-15sailors  1-2 marines 1/ship
+#12#Rowboat        1 overall  1-3sailors   None        None
+#13#Galley         1 overall  200 sailors  20 marines  6/ship
+#14#Longship       1 overall  50 sailors   7 marines   3/ship
+

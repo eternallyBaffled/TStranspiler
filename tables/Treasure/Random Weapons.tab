@@ -1,0 +1,306 @@
+﻿# ------------------------------------------------------
+# Last Update: modified by Valminder Sept 2015.
+# ------------------------------------------------------
+#
+# Random Weapons
+#
+# By Al Pence
+#
+# Modified by Valminder, March 2014.
+#    I changed the "START" line.
+#    Added parameters
+#    I don't need the "Materials.tab" table anymore
+#    Added link to:
+#        Dagger Descriptions.Generate
+#        Equipment.Axes
+#        Equipment.Blunt
+#        Equipemnt.Bows
+#        Equipment.Knives
+#        Equipment.Spears
+#        Equipemnt.Polearms
+#        Equipment.Swords
+#        Magic Weapon Names.GenerateWpnType(%WpnType%)
+#        Miscellaneous.Metal
+#        Miscellaneous.MetalCommonWeapon
+#        Miscellaneous.MetalRare
+#        Miscellaneous.Wood
+#        Sword Descriptions.Generate
+#    Changed Magic Weapon Names.Start >> Magic Weapon Names.Gen2
+#    Added stuff from "Weapons.tab"
+#
+# Modified by Valminder, Sept 2015
+#    Added "Output" parameter for less line break in "ENC Ultimate Random Encounters"
+#
+
+%Output%,0
+%Scab%,0
+%WeaponType%,0
+%WpnType%,XXX
+
+@WeaponType,1,Choose the type of weapon to generate,Random,Ammo,Axe,Blunt (Flail Hammer Pick),Bow and Crossbow,Knife,Polearm (Lance Spear Trident),Sword
+@Output,1,Choose Output,Regular,Less line break
+	
+;Start
+1,{Status~Al Pence, Valminder 2014}[Generate=%WeaponType%].
+
+:Generate
+1,[Generate={Dice~1d7+1}]
+2,[BuildAmmo]
+3,[BuildAxe]
+4,[BuildBlunt]
+5,[BuildBow]
+6,[BuildKnife]
+7,[BuildPolearm]
+8,[BuildSword]
+
+:BR
+1,{CarRet~}
+2, 
+
+:BuildAmmo
+1-95,{Dice~3d6}[~Quality] [Equipment.Ammunition].|Scab=quiver|[Scabbard][BR=%Output%]
+_They are [~Age], and in [~Condition] condition.
+96-100,{Dice~3d6}[~Quality] [Equipment.Ammunition].|Scab=quiver|[Scabbard][BR=%Output%]
+_They are [~Age], and in [~Condition] condition.[BR=%Output%]
+_They are enchanted [Enchantment].
+
+:BuildAxe
+1-75,A[~Quality] [~BuildAxe1] forged of [~Miscellaneous.MetalCommonWeapon], the handle crafted of [~Miscellaneous.WoodWeapon].[DecorationType].[Edge][BR=%Output%]
+_It is [~Age], and in [~Condition] condition.
+76-95,A[~Quality] [~BuildAxe1] forged of [~Rare Metal], the handle crafted of [~Miscellaneous.WoodWeapon].[DecorationType].[Edge][BR=%Output%]
+_It is [~Age], and in [~Condition] condition.
+96-100,A[~Quality] [~BuildAxe1] forged of [~Rare Metal], the handle crafted of [~Miscellaneous.WoodWeapon].[DecorationType].[Edge][BR=%Output%]
+_It is [~Age], and in [~Condition] condition.[BR=%Output%]
+_This axe bears the name, [~Magic Weapon Names.GenerateWpnType(%WpnType%)], and is enchanted [Enchantment].
+
+:BuildAxe1
+1,|WpnType=[Axe]|%WpnType%
+
+:BuildBlunt
+1-75,A[~Quality] [~BuildBlunt1] forged of [~Miscellaneous.MetalCommonWeapon], the handle crafted of [~Miscellaneous.WoodWeapon].[DecorationType].[BR=%Output%]
+_It is [~Age], and in [~Condition] condition.
+76-95,A[~Quality] [~BuildBlunt1] forged of [~Rare Metal], the handle crafted of [~Miscellaneous.WoodWeapon].[DecorationType].[BR=%Output%]
+_It is [~Age], and in [~Condition] condition.
+96-100,A[~Quality] [~BuildBlunt1] forged of [~Rare Metal], the handle crafted of [~Miscellaneous.WoodWeapon].[DecorationType].[BR=%Output%]
+_It is [~Age], and in [~Condition] condition.[BR=%Output%]
+_This weapon bears the name, [~Magic Weapon Names.GenerateWpnType(%WpnType%)], and is enchanted [Enchantment].
+
+:BuildBlunt1
+1,|WpnType=[Blunt]|%WpnType%
+
+:BuildBow
+1-95,A[~Quality] [~BuildBow1] crafted of [~Miscellaneous.WoodBow].[BR=%Output%]
+_It is [~Age], and in [~Condition] condition.
+96-100,A[~Quality] [~BuildBow1] crafted of [~Miscellaneous.WoodBow].[BR=%Output%]
+_It is [~Age], and in [~Condition] condition.[BR=%Output%]
+_This bow bears the name, [~Magic Weapon Names.GenerateWpnType(%WpnType%)], and is enchanted [Enchantment].
+
+:BuildBow1
+1,|WpnType=[Bow]|%WpnType%
+
+:BuildKnife
+1-75,A[~Quality] [~BuildKnife1] forged of [~Miscellaneous.MetalCommonWeapon], the grip crafted of [~Grip].[DecorationType].[Edge]|Scab=sheath|[Scabbard][BR=%Output%]
+_It is [~Age], and in [~Condition] condition.
+76-95,A[~Quality] [~BuildKnife1] forged of [~Rare Metal], the grip crafted of [~Grip].[DecorationType].[Edge]|Scab=sheath|[Scabbard][BR=%Output%]
+_It is [~Age], and in [~Condition] condition.
+96-100,A[~Quality] [~BuildKnife1] forged of [~Rare Metal], the grip crafted of [~Grip].[DecorationType].[Edge]|Scab=sheath|[Scabbard][BR=%Output%]
+_It is [~Age], and in [~Condition] condition.[BR=%Output%]
+_This blade bears the name, [~Magic Weapon Names.GenerateWpnType(%WpnType%)], and is enchanted [Enchantment].
+101-200,[Dagger Descriptions.Generate]
+
+:BuildKnife1
+1,|WpnType=[Knife]|%WpnType%
+
+:BuildPolearm
+1-75,A[~Quality] [~BuildPolearm1] forged of [~Miscellaneous.MetalCommonWeapon], the haft crafted of [~Miscellaneous.WoodWeapon].[DecorationType].[BR=%Output%]
+_It is [~Age], and in [~Condition] condition.
+76-95,A[~Quality] [~BuildPolearm1] forged of [~Rare Metal], the haft crafted of [~Miscellaneous.WoodWeapon].[DecorationType].[BR=%Output%]
+_It is [~Age], and in [~Condition] condition.
+96-100,A[~Quality] [~BuildPolearm1] forged of [~Rare Metal], the haft crafted of [~Miscellaneous.WoodWeapon].[DecorationType].[BR=%Output%]
+_It is [~Age], and in [~Condition] condition.[BR=%Output%]
+_This weapon bears the name, [~Magic Weapon Names.GenerateWpnType(%WpnType%)], and is enchanted [Enchantment].
+
+:BuildPolearm1
+1,|WpnType=[Polearm]|%WpnType%
+
+:BuildSword
+1-75,A[~Quality] [~BuildSword1] forged of [~Miscellaneous.MetalCommonWeapon], the grip crafted of [~Grip].[DecorationType].[Edge]|Scab=scabbard|[Scabbard][BR=%Output%]
+_It is [~Age], and in [~Condition] condition.
+76-95,A[~Quality] [~BuildSword1] forged of [~Rare Metal], the grip crafted of [~Grip].[DecorationType].[Edge]|Scab=scabbard|[Scabbard][BR=%Output%]
+_It is [~Age], and in [~Condition] condition.
+96-100,A[~Quality] [~BuildSword1] forged of [~Rare Metal], the grip crafted of [~Grip].[DecorationType].[Edge]|Scab=scabbard|[Scabbard][BR=%Output%]
+_It is [~Age], and in [~Condition] condition.[BR=%Output%]
+_This blade bears the name, [~Magic Weapon Names.GenerateWpnType(%WpnType%)], and is enchanted [Enchantment].
+101-200,[Sword Descriptions.Generate]
+
+:BuildSword1
+1,|WpnType=[Sword]|%WpnType%
+
+# ---------------------------------------------------------------------------------------------------
+
+;Axe
+1,[Equipment.Axes]
+
+;Blunt
+1,[Equipment.Blunt]
+
+;Bow
+1,[Equipment.Bows]
+
+;Knife
+1,[Equipment.Knives]
+
+;Polearm
+7,[Equipment.Spears]
+9,[Equipment.Polearms]
+
+;Sword
+1,[Equipment.Swords]
+
+# ---------------------------------------------------------------------------------------------------
+
+;Age
+1,ancient
+2,very old
+4,old
+12,recent
+1,recently made
+
+;Condition
+1,poor
+1,fair
+1,good
+1,very good
+1,excellent
+
+;Quality
+70,
+20, masterwork
+8, exceptional
+2, legendary
+
+;Rare Metal
+54,[Miscellaneous.MetalRare]
+1,sterling
+2,britannia silver
+1,celestrium
+1,jeweler's steel
+
+# ---------------------------------------------------------------------------------------------------
+
+;DecorationType
+1,
+1, The weapon is [DecorationType2]
+
+;DecorationType2
+1,wound with twisted wire of [~Miscellaneous.Metal]
+1,wound with twisted wire of [~Miscellaneous.MetalRare]
+1,inlaid with filligree of [~DecorationMaterial]
+1,bound in [~Equipment.Leather]
+2,inlaid with small [~Deco1]
+1,inlaid with small [~Deco2]
+2,covered with a [~Miscellaneous.Shape]
+1,covered with many [~Deco3]
+4,adorned with a [~Rune Generator.GenRune] symbol
+1,adorned with a rampant [~Creatures.Start2]
+1,adorned with a fearsome [~Creatures.Start2]'s face
+1,adorned with a friendly [~Creatures.All]'s face
+1,decorated with a prominent [~Gems2.Gem3]
+1,decorated with a poison knotch
+1,filigreed with [~Rare Metal]
+
+;Deco1
+1,{Plural~[Gems2.Gem1]}
+
+;Deco2
+1,{Plural~[Gems2.Gem2]}
+
+;Deco3
+1,{Plural~[Miscellaneous.Shape]}
+
+;DecorationMaterial
+1,steel
+1,gold
+1,platinum
+1,bronze
+1,copper
+1,[Rare Metal]
+1,[Gems2.Gem{Dice~1d6}]
+
+;Edge
+9,
+1, The blade has a [~EdgeType] edge.
+
+;EdgeType
+1,mithril
+1,adamantium
+1,jagged
+1,rusty
+1,dull
+1,sawtoothed
+1,hooked
+1,razor-sharped
+
+;Grip
+1,[~Miscellaneous.Wood]
+1,[~Miscellaneous.Metal]
+
+;Scabbard
+6,
+1, The %Scab% is a simple one, made of [~Miscellaneous.Wood].
+1, The %Scab% is made of [~Miscellaneous.Other Material].
+1, The [~Miscellaneous.MetalCommonWeapon] %Scab% hangs from a [~Equipment.Leather] baldric.
+1, The %Scab% is primitive and made of [~Equipment.Leather].
+1, The %Scab% is ornately decorated and made of [~ScabbardMaterial].
+
+;ScabbardMaterial
+3,[Equipment.LeatherRare]
+3,[Rare Metal]
+3,[Miscellaneous.Wood]
+1,[Miscellaneous.Other Material]
+
+# ---------------------------------------------------------------------------------------------------
+
+:Enchantment
+1-75,[~Modifier] [~Attribute]
+76-100,[~Modifier] [~Attribute], [~Modifier2] [~Attribute2]
+
+;Modifier
+1,-10
+1,-9
+1,-8
+1,-7
+1,-6
+1,-5
+1,-4
+1,-3
+1,-2
+1,-1
+1,+1
+1,+2
+1,+3
+1,+4
+1,+5
+1,+6
+1,+7
+1,+8
+1,+9
+1,+10
+
+;Modifier2
+1,+1
+1,+2
+1,+3
+1,+4
+1,+5
+
+;Attribute
+1,to hit
+1,damage
+
+;Attribute2
+1,fire
+1,shock
+1,freeze
+1,poison
+

@@ -1,0 +1,470 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder August 24, 2006.
+# ---------------------------------------------------
+#
+# Sean Hlousek
+#
+# -------------------------------------------------------------------------
+#
+# To call this table from another one:
+#    [EQ Fighter Items.Generate(%Rolls%,%GenItem%)
+#
+#    Parameters: (%Rolls%,%GenItem%)
+#
+#    Rolls:    (1) Enter the number of items needed.
+#    Gen Item: (1) 1= ALL
+#                  2= Miscellaneous Fighter Items
+#                  3= Armors and Shields (Mundane and Magical)
+#                  4= Weapons (Mundane and Magical)
+#                  5= Ranged Weapons and Ammo (Mundane and Magical)
+#
+# -------------------------------------------------------------------------
+#
+# Modified by Valminder, August  2006.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+#    I heavily modified this table. I could modify it more by
+#       removing all the variables for the cost, but it would
+#       be too long. For now, it works fine.
+#    The final price need to be adjusted for some items, but it
+#       seems relatively OK.
+#    I diminished the price variation in [Store].
+#    Cost of Items: Put the cost in GP, the output will modify it
+#       for gp, sp, or cp.
+#       1 sp = 0.1 gp
+#       1 cp = 0.01 gp
+#
+
+%AquaticQuiver%,5
+%Bones%,0.05
+%BrilliantOil%,50
+%Builder'sKit%,5
+%BurningOil%,10
+%Cards%,0.02
+%Figurine%,1
+%FoldingBrace%,70
+%FoldingStool%,10
+%HandBore%,1
+%HandRam%,5
+%HardeningOil%,50
+%Jacks%,1
+%MemoryStones%,1
+%Officier'sOutfit%,30
+%PersonalBanner%,1
+%PortableRam%,10
+%PortableShelter%,25
+%Quicklime(perMonth%,100
+%RosinBag%,0.01
+%RustingOil%,20
+%RustproofingOil%,20
+%Sapper'sKit%,5
+%Scabbard%,1
+%ScabbardContainer%,1.2
+%ScabbardDagger%,0.3
+%ScabbardFancy%,120
+%ScabbardSecretCompartment%,1.2
+%ScatterSticks%,0.2
+%SharpeningStonePersonal%,0.02
+%ShapeningStoneWheel%,20
+%SignalBanner%,2.5
+%SleepingDraught%,50
+%SmokePowder%,16
+%SolidersOutfit%,5
+%Spices%,10
+%Standard%,50
+%StickyOil%,150
+%TravelCoins%,1
+%Turtle%,250
+%UmbrellaHat%,0.5
+%WaterproofingOil%,1
+%WeaponHarness%,2.5
+%Pipe%,0.1
+
+### Was %Base%
+%PercentGPMod%,1
+### This is the Store modifier on all its prices 70% to 200% (normal 95% - 105%)
+%STVR%,0
+### How many items to roll
+%Rolls%,0
+#### Was %Base1%
+%MagicalGPMod%,0
+
+# New variables Aug 2006.
+%Item%,0
+# Put Book=2 in the item's description if you do not want books to appear.
+%Book%,0
+%Cost%,0
+%Condition%,0
+%GenItem%,0
+# 1= Mundane Item, 2= Magical Item
+%Magic%,1
+%MWGPMod%,0
+%ArmorSizeMod%,1
+# To be used with "EQ_Main.tab"
+%GetData%,0
+%DataName%,0
+%DataPercentMod%,0
+%SpecialEffect%,0
+%BodySize%,0
+%MoneyType%,gp
+
+@Rolls,10,How many Items are in this Shop?
+@GenItem,1,What do you want to generate,ALL Fighter Items,Miscellaneous Fighter Items,Armors and Shields (Mundane and Magical),Weapons (Mundane and Magical),Ranged Weapons and Ammo (Mundane and Magical)
+
+:Start
+1,{Status~By Sean Hlousek, Valminder 2006}[Generate]
+
+:Generate
+1,|STVR=1|[Store]
+#_[Multiplier]
+_{Loop~%Rolls%,|BodySize=0||PercentGPMod=0||MagicalGPMod=0||Magic=1||MWGPMod=0||ArmorSizeMod=1||SpecialEffect=0|
+_[MasterList=%GenItem%]
+_{If~%Rolls%>1?<br>}}
+
+:Print
+1,<b>Item:</b> <i><font color="Purple">%Item%</font></i>[Print2]
+2,<b>Item:</b> <i><font color="Blue">(Magic) %Item%</font></i>[Print2]
+
+:Print2
+1,{If~%SpecialEffect%!=0? [PrintExtraMW]}
+_{IIf~%Book%!=2?  <font size=1>(%Book%)</font>}
+#If you do not want BodySize for everything put |BodySize=0| above and |BodySize=1| in item's description.
+_{If~%BodySize%=1? ([BodySize] size)}
+_|Cost+%MagicalGPMod%||Cost+%MWGPMod%|{If~%Magic%=1?|Cost*%ArmorSizeMod%|}
+_[Calculate Cost]
+_ (%Condition%, [AddComma.Start(%Cost%)] %MoneyType%)
+
+:PrintExtraMW
+1,<u>Extra MW Effect</u>: %SpecialEffect%.
+
+# This will give a modifier to the cost of the items.
+;Store
+2,|STVR-{Calc~({Dice~1d10+20}/100)}|
+4,|STVR-{Calc~({Dice~1d10+10}/100)}|
+8,|STVR-{Calc~({Dice~1d10+5}/100)}|
+15,|STVR-{Calc~({Dice~1d5}/100)}|
+70,|STVR=1|
+30,|STVR+{Calc~({Dice~1d5}/100)}|
+15,|STVR+{Calc~({Dice~1d10+5}/100)}|
+8,|STVR+{Calc~({Dice~1d10+10}/100)}|
+4,|STVR+{Calc~({Dice~1d15+20}/100)}|
+2,|STVR+{Calc~({Dice~1d25+35}/100)}|
+1,|STVR+{Calc~({Dice~1d50+50}/100)}|
+
+:Multiplier
+1,Price Multiplier: %STVR%<br>
+
+:Calculate Cost
+1,|Cost={Calc~((%STVR%+%PercentGPMod%)*%Cost%)}|
+_{If~%Cost%>=5?|Cost={Trunc~%Cost%}||MoneyType=gp|}
+_{If~{And~%Cost%>=1,%Cost%<5}=1?{If~%Cost%={Trunc~%Cost%}?|MoneyType=gp|/|Cost={Round~1,%Cost%}||Cost*10||MoneyType=sp|}}
+_{If~%Cost%<0.1?|Cost*100||Cost={Trunc~%Cost%}|{If~%Cost%=0?|Cost=1|}|MoneyType=cp|/{If~%Cost%<1?|Cost*10||Cost={Trunc~%Cost%}|{If~%Cost%=0?|Cost=1|}|MoneyType=sp|}}
+
+:MasterList
+1,[MasterList={Dice~1d4+1}]
+2,[FighterItems][Print=%Magic%]
+3,[EQ Armory.Generate(1,9)]
+4,[EQ Blacksmith.Generate(1,4)]
+5,[EQ Blacksmith.Generate(1,16)]
+                                                                         
+# --------------------------------------------------------------------
+;FighterItems
+5,|Item=Aquatic Quiver</font></i>[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%AquaticQuiver%|
+20,|Item=Bones (Dice)</font></i>[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%Bones%|
+5,|Item=Brilliant Oil</font></i>||Book=UEG||Condition=[Condition]||Cost=%BrilliantOil%|
+15,|Item=Builder's Kit</font></i>||Book=UEG||Condition=[Condition]||Cost=%Builder'sKit%|
+5,|Item=Burning Oil</font></i>||Book=UEG||Condition=[Condition]||Cost=%BurningOil%|
+15,|Item=Cards</font></i>||Book=UEG||Condition=[Condition]||Cost=%Cards%|
+15,|Item=Figurine</font></i> made of [Woods]. The figurine is of a [EQ_Main.Carvings].[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%Figurine%|
+2,|Item=Folding Brace</font></i> made of [Woods].||Book=UEG||Condition=[Condition]||Cost=%FoldingBrace%|
+10,|Item=Folding Stool</font></i> made of [Woods] with a seat made of [HiltMaterial].[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%FoldingStool%|
+2,|Item=Hand Bore</font></i>[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%HandBore%|
+10,|Item=Hand Ram</font></i>[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%HandRam%|
+5,|Item=Hardening Oil</font></i>||Book=UEG||Condition=[Condition]||Cost=%HardeningOil%|
+10,|Item=Jacks</font></i>[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%Jacks%|
+5,|Item=Memory Stones</font></i>[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%MemoryStones%|
+10,|Item=Officier's Outfit</font></i>||BodySize=1||Book=UEG||Condition=[Condition]||Cost=%Officier'sOutfit%|
+#|Item=Personal Banner</font></i>||Book=UEG||Condition=[Condition]||Cost=%PersonalBanner%|
+5,|Item=Portable Ram</font></i>[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%PortableRam%|
+15,|Item=Portable Shelter</font></i>[AnyExtrasMundane]||BodySize=1||Book=UEG||Condition=[Condition]||Cost=%PortableShelter%|
+10,|Item=Quicklime (per month)</font></i>||Book=UEG||Condition=[Condition]||Cost=%Quicklime(perMonth%|
+15,|Item=Rosin Bag</font></i>||Book=UEG||Condition=[Condition]||Cost=%RosinBag%|
+5,|Item=Rusting Oil</font></i>||Book=UEG||Condition=[Condition]||Cost=%RustingOil%|
+10,|Item=Rustproofing Oil</font></i>||Book=UEG||Condition=[Condition]||Cost=%RustproofingOil%|
+10,|Item=Sapper's Kit</font></i>||Book=UEG||Condition=[Condition]||Cost=%Sapper'sKit%|
+20,|Item=Scabbard, Sword</font></i> made of [HiltMaterial].[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%Scabbard%|
+20,|Item=Scabbard, Sword</font></i> made of [CommonRingMetal] and [HiltMaterial].[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%Scabbard%|
+5,|Item=Scabbard, Dagger</font></i> made of [CommonRingMetal] and [HiltMaterial].[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%ScabbardDagger%|
+2,|Item=Scabbard, Fancy</font></i> made of [MAHilt].[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%ScabbardFancy%|
+5,|Item=Secret Compartment Scabbard </font></i> made of [HiltMaterial].[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%ScabbardSecretCompartment%|
+15,|Item=Scatter Sticks</font></i>||Book=UEG||Condition=[Condition]||Cost=%ScatterSticks%|
+15,|Item=Sharpening Stone, Personal</font></i>[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%SharpeningStonePersonal%|
+2,|Item=Shapening Stone, Wheel</font></i>[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%ShapeningStoneWheel%|
+#|Item=Signal Banner</font></i>||Book=UEG||Condition=[Condition]||Cost=%SignalBanner%|
+5,|Item=Sleeping Draught</font></i>||Book=UEG||Condition=[Condition]||Cost=%SleepingDraught%|
+10,|Item=Smoke Powder</font></i>||Book=UEG||Condition=[Condition]||Cost=%SmokePowder%|
+15,|Item=Soldiers Outfit</font></i>||BodySize=1||Book=UEG||Condition=[Condition]||Cost=%SolidersOutfit%|
+5,|Item=Spices</font></i>||Book=UEG||Condition=[Condition]||Cost=%Spices%|
+#|Item=Standard</font></i>||Book=UEG||Condition=[Condition]||Cost=%Standard%|
+5,|Item=Sticky Oil</font></i>||Book=UEG||Condition=[Condition]||Cost=%StickyOil%|
+2,|Item=Travel Coins</font></i>||Book=UEG||Condition=[Condition]||Cost=%TravelCoins%|
+#|Item=Turtle</font></i>||Book=UEG||Condition=[Condition]||Cost=%Turtle%|
+10,|Item=Umbrella Hat</font></i>[AnyExtrasMundane]||BodySize=1||Book=UEG||Condition=[Condition]||Cost=%UmbrellaHat%|
+10,|Item=Waterproofing Oil</font></i>||Book=UEG||Condition=[Condition]||Cost=%WaterproofingOil%|
+20,|Item=Weapon Harness</font></i> made of [HiltMaterial].[AnyExtrasMundane]||BodySize=1||Book=UEG||Condition=[Condition]||Cost=%WeaponHarness%|
+20,|Item=Pipe:</font></i> [PipeGen]||Book=UEG||Condition=[Condition]||Cost=%Pipe%|
+
+# -----------------------------------------------------------------------------------
+# Support Tables
+
+# -----------------------------------------------------------------------------------
+# Clothing Colors and Other Colors
+
+;RobeColors
+1,[~Miscellaneous.Color+1]
+
+;RobeColorsMix
+3,[~Miscellaneous.Color+1]
+6,[~Miscellaneous.Color+1] and [~Miscellaneous.Color+1]
+1,[~Miscellaneous.Color+1], [~Miscellaneous.Color+1], and [~Miscellaneous.Color+1]
+
+# For clothes. Embroidery and fur. Calling: [Accents].
+# Complete phrase: There is ... 
+;Accents
+1,|GetData=[EQ_Main.Accents]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# For cold weather clothes which can include extensive use of furs. Calling: [ColdWeatherAccents].
+# Complete phrase: This outfit ... 
+;ColdWeatherAccents
+1,|GetData=[EQ_Main.ColdWeatherAccents]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# To generate only the type of fur.  Calling: [Furs]
+;Furs2
+1,|GetData=[EQ_Main.Furs]!!!%Temp%|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# -----------------------------------------------------------------------------------
+# Conditions
+
+;ArmorCondition
+1,|GetData=[EQ_Main.ArmorCondition]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_{If~%DataName%=Masterwork?|MWGPMod=%DataPercentMod%|/|PercentGPMod+%DataPercentMod%|}
+_%DataName%
+
+;Condition
+1,|GetData=[EQ_Main.Condition]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+;FurCondition
+1,|GetData=[EQ_Main.FurCondition]|
+_{Split~GetData,"!!!",DataName,DataPercentMod,SpecialEffect}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+;InstrumentCondition
+1,|GetData=[EQ_Main.InstrumentCondition]|
+_{Split~GetData,"!!!",DataName,DataPercentMod,SpecialEffect}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+;WeaponCondition
+1,|GetData=[EQ_Main.WeaponCondition]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_{If~%DataName%=Masterwork?|MWGPMod=%DataPercentMod%|/|PercentGPMod+%DataPercentMod%|}
+_%DataName%
+
+# -----------------------------------------------------------------------------------
+# Tables Related to the Extra features of Items - Engravings and the like
+
+# Extras for magical items. Calling: [AnyExtrasMA]
+# Complete phrase: It is ... pattern.
+;AnyExtrasMA
+1,|GetData=[EQ_Main.AnyExtrasMA]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# Extras for mundane items. Calling: [AnyExtrasMundane]
+# Complete phrase: It is ... pattern.
+;AnyExtrasMundane
+1,|GetData=[EQ_Main.AnyExtrasMundane]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# For extras on staves and wood items.  Calling: [ArcaneStaffTrimmings1].
+# There will be 1 or 2 special description.
+;ArcaneStaffTrimmings1
+1,|GetData=[EQ_Main.ArcaneStaffTrimmings1]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# -----------------------------------------------------------------------------------
+# Materials
+
+# 60% woods / 40% metal.  Calling: [WoodOrSteel].
+# Output: made of XXX
+;WoodOrSteel
+1,|GetData=[EQ_Main.WoodOrSteel]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# 30% woods / 70% metal.  Calling: [WoodOrSteel2].
+# Output: made of XXX
+;WoodOrSteel2
+1,|GetData=[EQ_Main.WoodOrSteel2]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# For handles wrapped in something.  Calling: [Wrapping].
+# Output: (20%) The handle is wrapped with XXX
+;Wrapping
+1,|GetData=[EQ_Main.Wrapping]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# For a leathery material. Calling: [HiltMaterial]
+# Output: red leather / stretched bear skin / humanskin / stretched griffon hide
+;HiltMaterial
+1,|GetData=[EQ_Main.HiltMaterial]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# For a leathery material with more special ones. Calling: [MAHilt]
+# Output: humanskin / stretched griffon hide / red leather 
+;MAHilt
+1,|GetData=[EQ_Main.MAHilt]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# MAHilt2 == Removed, call MAHilt instead.
+
+# For studs and small metal or chitin items. Calling: [ChitOrSteel] or [ChitOrSteel].
+# Output: made of XXX 
+#-----------
+;ChitOrSteel
+1,|GetData=[EQ_Main.ChitOrSteel]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod/5||PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# To choose a type of metal. Calling: [WeaponMetals].
+# Output: made of XXX
+;WeaponMetals
+1,|GetData=[EQ_Main.WeaponMetals]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# To choose in what metal a tool is made of. Calling: [ToolMetals].
+# Output: It is made of XXX
+;ToolMetals
+1,|GetData=[EQ_Main.ToolMetals]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# As WeaponMetals but a little more chance for special metal. Calling: [CommonRingMetal].
+# Output: made of XXX
+;CommonRingMetal
+1,|GetData=[EQ_Main.CommonRingMetal]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# Description for special/magical arrows. Calling: [MAArrowExtras].
+# Output: These arrows ...
+;MAArrowExtras
+1,|GetData=[EQ_Main.MAArrowExtras]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# Metal for magical items. Calling: [MAMaterial].
+# Output: made of XXX
+;MAMaterial
+1,|GetData=[EQ_Main.MAMaterial]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# Type of hide/chitin for magical items. Calling: [HideKindMagical].
+# Output: made out of XXX / (20%) made from the plates of XXX
+;HideKindMagical
+1,|GetData=[EQ_Main.HideKindMagical]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# Type of hide/chitin for mundane items. Calling: [HideKindMundane].
+# Output: made out of XXX / (5%) made from teh plates of XXX
+;HideKindMundane
+1,|GetData=[EQ_Main.HideKindMundane]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# Gives a type of chitin. Calling: [Chiton2]
+# Output: giant wasp / crabman / giant beetle
+;Chiton2
+1,|GetData=[EQ_Main.Chiton]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# -----------------------------------------------------------------------------------
+# Size Tables
+
+# To give the size of an item and cost multiplier. Calling: [BodySize] size
+# Output: human / ogre / elvish
+;BodySize
+1,|GetData=[EQ_Main.BodySize]|
+_{Split~GetData,"!!!",DataName,ArmorSizeMod}
+_%DataName%
+
+# To give the size of an item and cost modifer. Calling: [ItemSize]
+# Output: tiny / small / medium / large / huge
+;ItemSize
+1,|GetData=[EQ_Main.ItemSize]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# ----------------------------------------------------------------------------
+# Wood Tables
+
+# Gives a type of wood. Calling: [Woods].
+# Output: apple wood / elm wood / red oak wood
+;Woods
+1,|GetData=[EQ_Main.Woods]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# ---------------------------------------------------------------------
+
+# To generate a pipe. Calling: [PipeGen]
+# Output: A decent pipe with a ... is made of XXX wood.
+;PipeGen
+1,|GetData=[EQ_Main.PipeGen]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+

@@ -1,0 +1,149 @@
+# ------------------------------------------------------
+# Last Update: Created by Valminder Mar, 2016.
+# ------------------------------------------------------
+#
+
+%Temp%,0
+%WorldNeeded%,0
+%WorldNeededName%,0
+
+# If you add some worlds, see YYY below.
+# DO NOT CHANGE the WORLDS CODES ===> Useful for all other tables (Book Titles, Countries, Permanent_Variables, Religion, Travelers, Ultimate NPC).
+# 1= LOAD permanent variable 2= RANDOM, 3= Blackmoor 4= Conan 5= Dragonlance 6= Dragonlance (Taladas) 7= Dark Sun 
+# 8= Eberron 9= Forgotten Realms 10= Golarion 11= Greyhawk 12= Kingdoms of Kalamar 13= Lankhmar 14= Modern 15= MYSTARA 
+# 16= Ravenloft 17= Rokugan 18= Scarred Lands 19= Spelljammer 20= Sovereign Stone
+@WorldNeeded,1,WORLD: Creatures from which world?,LOAD from Permanent_Variables,Random World,Blackmoor,Conan,Dragonlance,Dragonlance (Taladas),Dark Sun,Eberron,Forgotten Realms,Golarion,Greyhawk,Kingdoms of Kalamar,Lankhmar,Modern,Mystara,Ravenloft,Rokugan,Scarred Lands,Spelljammer,Sovereign Stone
+
+:Start
+1,{Status~Valminder 2016}[Generate]
+
+:Generate
+# YYY If you add some worlds, change the Dice below.
+1,[WorldNeeded]
+_Coming from [~DailyENC_Travelers3] and going to [~DailyENC_Travelers3] to [~DailyENC_Travelers4].
+
+:WorldNeeded
+# YYY If you add some worlds, change the Dice below.
+1,{If~%WorldNeeded%=1?|WorldNeeded=[Permanent_Variables.WorldNeeded]|
+_     /{If~%WorldNeeded%=2?|WorldNeeded={Dice~1d18+2}|/
+_}}
+_|WorldNeededName=[Countries.WorldNeededName=%WorldNeeded%]|
+
+# Coming from / Going to
+;DailyENC_Travelers3
+80,[DailyENC_Travelers3_Common]
+18,[DailyENC_Travelers3_Uncommon]
+2,[DailyENC_Travelers3_Rare]
+
+;!DailyENC_Travelers3_Common
+5,the capital
+10,a major city of this country
+8,a close-by farm
+4,a far away farm
+10,the nearest city
+5,a far away city of this country
+20,the nearest village
+10,a far away village of this country
+10,the closest fort
+5,a far away fort of this country
+5,a temple of [~Religion.Deities2(1)]
+5,a shrine of [~Religion.Deities2(1)]
+2,the closest mountain range
+2,the closest forest
+2,the closest marsh
+2,the closest hill
+2,the closest desert
+2,the closest plain
+2,the closest lake
+2,the closest river
+2,the closest coast
+1,the ocean
+1,the farthest mountain range of this country
+1,the farthest forest of this country
+1,the farthest marsh of this country
+1,the farthest hill of this country
+1,the farthest desert of this country
+1,the farthest plain of this country
+1,the farthest lake of this country
+1,the farthest river of this country
+1,the farthest coast of this country
+
+;DailyENC_Travelers3_Uncommon
+1,a major city of another country ([~Countries.Countries(%WorldNeeded%)])
+1,a far away city of another country ([~Countries.Countries(%WorldNeeded%)])
+1,a far away village of another country ([~Countries.Countries(%WorldNeeded%)])
+1,another country ([~Countries.Countries(%WorldNeeded%)])
+2,a far away fort of another country ([~Countries.Countries(%WorldNeeded%)])
+
+;DailyENC_Travelers3_Rare
+1,another plane ([~Countries.Planes])
+1,another crystal sphere ([~Countries.SpelljammerSphere])
+
+# Why going there
+;DailyENC_Travelers4
+5,sell some wares ([DailyENC_Travelers4_Wares])
+5,buy some wares ([DailyENC_Travelers4_Wares])
+3,sell some treasure ([DailyENC_Travelers4_Treasure])
+3,buy some treasure ([DailyENC_Travelers4_Treasure])
+5,search for some information (about {AorAn~[DailyENC_Travelers4_Info]})
+1,sell some information (about {AorAn~[DailyENC_Travelers4_Info]})
+5,find a job ([~Miscellaneous.OccupationsMeanings])
+5,learn a craft ([~Miscellaneous.OccupationsMeanings])
+1,participate in a holiday ([Notable Event Names.Generate])
+3,deliver something ([DailyENC_Travelers4_Wares])
+1,deliver a valuable treasure ([DailyENC_Travelers4_Treasure])
+3,establish his home
+3,visit his lover
+3,visit his parents
+3,visit his long-lost relatives
+3,visit his grand-parents
+3,visit his uncle
+3,visit his mentor
+3,visit an old friend
+3,visit a friend
+1,meet a nemesis
+3,meet a business partner
+1,meet a villain
+1,meet a hero
+5,meet a priest of [~Religion.Deities2(1)]
+5,meet {AorAn~[Miscellaneous.Class]}
+1,find a cure for his disease ([Miscellaneous.DiseaseGen])
+1,learn to speak [Miscellaneous.Language]
+1,meet with a local ruler ([~Miscellaneous.Ruler])
+5,visit a local shop ([~Miscellaneous.Shop])
+1,to open a shop ([~Miscellaneous.Shop])
+1,follow a prophecy ([~The Oracle.RandomSentence])
+
+;DailyENC_Travelers4_Info
+1,artifact
+3,book ([Book Titles.Generate(1,%WorldNeeded%)])
+3,country ([Countries.Countries(%WorldNeeded%)])
+5,[Creatures.All]
+1,event ([Conflict Namer.Generate])
+3,herb ([Herb Names.Start(1,1)])
+1,historical event ([Countries.Historical(%WorldNeeded%)])
+1,important NPC ([Countries.Important NPCs(%WorldNeeded%)])
+5,[Miscellaneous.Class]
+3,[Miscellaneous.Disease]
+3,[Miscellaneous.OccupationsMeanings]
+3,[Miscellaneous.Ruler]
+3,[Miscellaneous.Shop]
+1,mysterious group ([Group Designer.Generate(5)])
+1,orc tribe ([Orc Tribes.Start])
+5,place ([Places.Alternate])
+1,plane ([Countries.Planes])
+3,region ([Countries.Regions(%WorldNeeded%)])
+3,religion ([Religion.Deities2(1)])
+1,sea-going ship ([Ship Name Generator.Generate])
+1,Spelljamming crystal sphere ([Countries.SpelljammerSphere])
+
+;DailyENC_Travelers4_Treasure
+1,[EQ GENERAL STORE.Generate(1,9)]
+5,[Gems2.Generate(1,1)]
+3,[Jewelry.Start({Dice~1d5},1,1)]
+2,[Objects of Art.Alternate({Dice~1d5},1)]
+5,[Random Weapons.Generate(1,2)]
+
+;DailyENC_Travelers4_Wares
+3,|Temp={Dice~1d12+1}|{If~%Temp%=9?[DailyENC_Travelers4_Wares=1]/[EQ GENERAL STORE.Generate(1,%Temp%)]}
+1,[Equipment.StartNoGP]

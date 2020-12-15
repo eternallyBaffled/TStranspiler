@@ -1,0 +1,134 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder August 8, 2006.
+# ---------------------------------------------------
+#
+# Dreams
+#
+# Mostly original, some from TSR's 1981 Dungeon Module X2
+# Send additions to JimmyFlowers@bigfoot.com
+#
+# Modified by Valminder April 2002
+#    I changed the "START" line.
+#    I added some links to these other tables:
+#        Countries.Start
+#
+# Modified by Valminder, Jan 2006.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+#    Added "Tab" subtable.
+#    Added links to:
+#       ADV Plot Ideas.Alternate
+#       Book Titles.Random
+#       Countries.Land
+#       Creatures.Humanoid
+#       DUN Descriptive Caverns.Start
+#       DUN Empty Rooms.Alternate
+#       ENC Desert Crossing.Locations
+#       ENC Desert Crossing.RestQuality
+#       ENC Leisure Time Activities.Alternate
+#       ENC Shoreline Encounters.Generate
+#       Group Designer.StartArcane
+#       Group Designer.StartMystic
+#       Group Namer.BuildGroup
+#       Magical Items.VehicleSpaceAndRace
+#       Miscellaneous.ClassName
+#       Miscellaneous.ColorNoType
+#       NPC Appearance.GenerateNoClass
+#       Riddles.Start
+#       Rune Generator.GenRune
+#       Sword Descriptions.Start
+#       The Oracle.RandomSentence
+# Modified by Valminder, August  2006.
+#    Added link to: Notable Event Names.tab
+# Modified by Valminder, Octobre 2016
+#    Modified link "Countries.Start" to "Countries.Countries"
+#
+
+%Roll%,0
+%Temp%,0
+
+:Start
+1,{Status~By Jimmy Flowers and TSR Module X2, Valminder 2002, 2006}
+_<b>Dream:</b> [Generate]
+
+;Generate
+1,Restless night. No apparent dreams, nor sleep.
+7,You had a dream but can't remember it.
+2,[Dreams]
+
+;Tab
+1,{Loop~5,&nbsp;} 
+
+;Dreams
+1,You dreamt that a winged goddess visited you and decided to give you the gift of flight. In the dream, you sprouted wings and soared among the clouds. (Optional: fail a Fortitude save (DC<b>{Dice~1d10+10}</b>) and the character actually wakes up with wings).
+1,You dreamt that you were captured by strange [~Creatures.Humanoid], who put you on display in an open cage in some unknown city. Fortunately, a passing magic-user took pity on you and teleported you safely home.
+1,You dreamt that you saved the life of an important courtier ([NPC Appearance.GenerateNoClass]). The courtier befriended you as a result, and successfully plotted in your behalf.  Within the dream, you became and honorary Lord or Lady. (Optional: fail a Will save (DC <b>{Dice~1d10+10}</b>) and the character will actually be recognized as a Lord or Lady in a city/region of the DM's choosing ([~Countries.Land])).
+1,You dreamt of endlessly running down a hill away from a boulder which was rolling at you. {If~{Dice~1d100}<90?Fortunately, you woke before the boulder crushed you/Unfortunately, the boulder crushed you and woke you (Optional: fail a Reflex save (DC <b>{Dice~1d10+10}</b>) or receive |Temp={Dice~2d6}| %Temp%d6 damage ({Dice~%Temp%d6}) when waking)}.
+1,You dreamt of a strange land. (Optional: fail a Will save (DC <b>{Dice~1d10+10}</b>) and the character actually wakes up somewhere else ([~Countries.Land]), and at the DM's discretion, is out of the game.)
+1,You dreamt of suddenly being attacked by a [~Creatures.Summonmonster{Dice~1d9}] while walking down some unknown dungeon corridor.
+1,You dreamt of suddenly being attacked by a [~Creatures.Summonnatureally{Dice~1d9}] while walking down some unknown wilderness region.
+1,You dreamt about a glorious, heroic quest filled with dangers that you successfully defeated. (Optional: make a Will save (or Luck check) <b>(DC {Dice~1d15+20}</b>) and the character gains 1 experience level automatically or 100 XPs per level).
+1,You dream that all the plant life in the world suddenly gained demonic intelligence and planned to take over the world. You were the only person who knew the truth. Fortunately, you discovered an ancient artifact which, when destroyed, returned plants to normal.
+1,You dream that your gender changes. (Optional: fail a Fortitude save (DC <b>{Dice~1d10+10}</b>) and the character wakes up as a different gender).
+1,You dream that you are mistaken for the ruler of the [~Countries.Countries]. When the ruler discovers this, the ruler wants to have you killed to avoid treachery.
+_{If~{Dice~1d100}<50?However, the ruler reconsiders when he decides that perhaps you could take his place in the arms of a former lover who mourns the fact that the ruler went through with an arranged marriage. {If~{Dice~1d100}<50?You accepted the proposition, and he spared your life./You refused and {If~{Dice~1d100}<50?you were executed./you escaped.}}/{If~{Dice~1d100}<50?You were caught and executed./You escaped and woke up.}}
+1,You dreamt that after drinking from a sparkling stream, you find that you can now breathe underwater. (Optional: fail a Fortitude save <b>(DC {Dice~1d10+10}</b>) and the character can now breathe underwater).
+1,You dreamt that someone in your family dies leaving you a heretofore unknown inheritance. (Optional: make a Will check (or Luck check) <b>(DC {Dice~1d10+10}</b>) and the dream comes true later in the game).
+1,You dreamt that there would be an eclipse, and that the locals would be frightened.
+1,You dreamt that the ruler of the [~Countries.Countries] will soon die.
+1,You dreamt that one of your party is a {If~{Dice~1d100}<50?thief/traitor} who likes to wear cloaks. Just as you were about to remove the cowl from his/her head, you awakened.
+1,You dreamt that you are not who you think you are. That in fact, your memories have been supressed by a mysterious spellcaster {If~{Dice~1d100}<50?who wears only [~Miscellaneous.ColorNoType]/who is referenced by this symbol: [~Rune Generator.GenRune]}.
+1,You dreamt that you were in love with (random party member). At first you were shocked to discover your feelings, but in time, the two of you decided to be together always.
+1,You dreamt that you were pregnant. (Optional: fail a Will save (DC <b>{Dice~1d10+10}</b>) and the character awakens pregnant. By whom and with what is at the discretion of the DM.).
+1,You dreamt that your future child brings death and destruction upon the world.
+1,You dreamt that a plague will soon strike the [~Countries.Countries].
+1,You dreamt that war will soon visit the [~Countries.Countries].
+1,You dreamt that death was stalking you. And you |Roll={Dice~1d100}|{If~%Roll%<50? you escaped./you woke just before it killed you.}
+1,You dreamt that you had been asleep for <b>{Dice~1d20*50}</b> years
+1,You dreamt that you weren't unable to sleep.
+1,You dreamt that you weren't unable to use magic.
+1,You dreamt that you were unable to wake up.
+1,You dreamt that you were cuddled to death by fluffy bunnies.
+1,You dreamt about your last adventure.{If~{Dice~1d100}<20? The DM can tell you about something you did not discover.}
+1,You dreamt about a prophecy: [~The Oracle.RandomSentence].
+1,You dreamt about [ENC Leisure Time Activities.Alternate].
+1,You dreamt about the [~ADV Instant Adventure Namer.Generate].
+1,You dreamt that [ADV Plot Ideas.Alternate].
+1,You dreamt that you were <b>{If~{Dice~1d10}<5?lost in/exploring}</b> caverns and you were <b>{If~{Dice~1d10}<7?following/running along}</b> this path: |Roll={Dice~1d5+1}|{While~%Roll%,<br>-[~DUN Descriptive Caverns.Start]|Roll-1|{If~%Roll%>0?;}}.
+1,You dreamt that you were <b>{If~{Dice~1d10}<5?trapped in/exploring}</b> this room: [DUN Empty Rooms.Alternate]
+1,You dreamt of the desert and that you were resting [ENC Desert Crossing.Locations] You [ENC Desert Crossing.RestQuality].
+1,You dreamt that you were walking on <b>{If~{Dice~1d10}<5?the shoreline/a beach}</b> when you saw [ENC Shoreline Encounters.Generate]
+1,You dreamt about this riddle:<br>[Riddles.Start]
+1,You had a strange dream. The only thing you remember is [~Rune Generator.GenRune].
+1,You dreamt that you were reading a book ([Book Titles.Random]).
+1,You dreamt about [~GroupType] group of <b>{If~{Dice~1d10}<8?mystics/priests}</b> called [Group Designer.StartMystic].
+1,You dreamt about [~GroupType] group of <b>{If~{Dice~1d10}<6?arcanists/sorcerers}</b> called [Group Designer.StartArcane].
+1,You dreamt about [~GroupType] group of [~Group] called [~Group Namer.BuildGroup].
+1,You dreamt that you were sailing the <b>{If~{Dice~1d10}<6?sea/ocean}</b> on a ship called [~Ship Name Generator.Generate].
+1,You dreamt that you were sailing in <b>{If~{Dice~1d10}<6?the phlogiston/wildspace}</b> on a [~Magical Items.VehicleSpaceAndRace] ship called [~Ship Name Generator.Generate].
+1,You dreamt of this magnificient sword.<br>[Tab][Sword Descriptions.Start]
+1,You dreamt about a {If~{Dice~1d2}=1?feast/murder} which will be held on [~Notable Event Names.Generate]
+
+;GroupType
+1,a greatly feared
+1,a large
+1,a legal
+1,a most honored
+1,an almost extinct
+1,a newly formed
+1,an illegal
+1,an underground
+1,a small
+1,a strange
+1,a well established
+
+;Group
+1,arcanists
+2,cultists
+3,{Plural~[Creatures.Humanoid]}
+3,{Plural~[Miscellaneous.ClassName]}
+1,mystics
+1,planegazers
+1,researchers
+2,sages
+

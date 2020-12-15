@@ -1,0 +1,354 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder August 7, 2006.
+# ---------------------------------------------------
+#
+# Gems
+#
+# Lists the description, base value, name and actual value
+# (using the base value, size, and quality of each individual gem)
+#
+# Based on AD&D Dungeon Masters Guide by TSR
+#
+# HTML-formatted
+#
+# Ray Mason (Daerias@aol.com)
+#
+# -------------------------------------------------------------------------
+# This Table Links to these tables as required:
+#    None
+#
+# -------------------------------------------------------------------------
+# This table is called by: (can be called by other tables also)
+#    NPC Stat Block Pathfinder
+#
+# -------------------------------------------------------------------------
+# Modified by Valminder, August  2006.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+#
+
+%BaseValue%,0
+%C%,0
+%Name%,0
+%Type%,0
+
+:Start
+1,{Status~By Ray Mason, Valminder 2006}
+_<b>Description:</b> [Stone]<br>
+_<b>Base Value:</b> [Type=%Type%], [Base=%BaseValue%]<br>
+_<b>Stone:</b> [Quality] quality [Name=%Name%]<br>
+_<b>Value:</b> [Value=%C%]
+
+# -----------------------------------------------------------
+
+:Stone
+01-25,|BaseValue=1||C=28|[SizeOS] [Ornamental]|Type=1|
+26-50,|BaseValue=2||C=32|[SizeOS] [SemiPrecious]|Type=2|
+51-70,|BaseValue=3||C=36|[SizeFP] [Fancy]|Type=3|
+71-90,|BaseValue=4||C=40|[SizeFP] [Precious]|Type=4|
+91-99,|BaseValue=5||C=44|[SizeGJ] [Gem]|Type=5|
+00,|BaseValue=6||C=48|[SizeGJ] [Jewel]|Type=6|
+
+# Ornamental and Semi-Precious
+:SizeOS
+1,A small|C-4|
+2-5,An average sized|C-1|
+6-11,An above average sized
+12-15,A large|C+1|
+16-17,A very large|C+2|
+18,A huge|C+4|
+
+# Fancy and Precious
+:SizeFP
+1,A very small|C-4|
+2-5,A small|C-1|
+6-11,An average sized
+12-15,An above average sized|C+1|
+16-17,A large|C+2|
+18,A very large|C+4|
+
+# Gem and Jewel
+:SizeGJ
+1,A tiny|C-4|
+2-5,A very small|C-1|
+6-11,A small
+12-15,An average sized|C+1|
+16-17,An above average sized|C+2|
+18,A large|C+4|
+
+:Ornamental
+1,deep blue mottled stone|Name=1|
+2,brown, blue, white, and red striped stone|Name=2| 
+3,pale blue stone|Name=3|
+4,[Color1]|Name=4|
+5,smoky black stone|Name=5|
+6,light and dark blue stone with yellow flecks|Name=6|
+7,stone with alternating light and dark green stripes|Name=7|
+8,[Color2]|Name=8|
+9,black stone|Name=9|
+10,light pink stone|Name=10| 
+11,rich brown stone with a golden center under-hue|Name=11|
+12,light blue-green stone|Name=12|
+
+:Color1
+1,stone with circles of gray, brown and white
+2,stone with circles of white, blue and brown
+3,stone with circles of brown, green and blue
+4,stone with circles of blue, white and green
+
+:Color2
+1,pink stone with grayish "moss markings"
+2,pink stone with greenish "moss markings"
+3,yellowish-white stone with grayish "moss markings"
+4,yellowish-white stone with greenish "moss markings"
+
+:SemiPrecious
+1,green stone with red specks|Name=13|
+2,[Color3]|Name=14|
+3,clear red stone|Name=15|
+4,[Color4]|Name=16|
+5,pale yellowish brown stone|Name=17|
+6,[Color5]|Name=18|
+7,white stone with a pale blue tint|Name=19|
+8,[Color6]|Name=20|
+9,clear stone|Name=21|
+10,[Color7]|Name=22|
+11,[Color8]|Name=23|
+12,translucent rosy stone with a white "star" center|Name=24|
+13,clear pale blue-green stone|Name=25|
+
+:Color3
+1,orange stone
+2,orangish brown stone
+3,redish brown stone
+
+:Color4
+1,apple green stone
+2,medium green stone
+2,emerald green stone
+
+:Color5
+1,dark blue stone
+2,blackish brown stone
+3,dark bluish black stone
+
+:Color6
+1,stone with bands of white and black
+2,black stone
+3,white stone
+
+:Color7
+1,stone with bands of red and white
+2,red stone
+
+:Color8
+1,lightly colored gray stone
+2,pale smoky yellow stone
+3,lightly colored blue stone
+4,jet black stone
+
+:Fancy
+1,[Color9]|Name=26|
+2,dark green stone|Name=27|
+3,deep purple stone|Name=28|
+4,[Color10]|Name=29|
+5,crimson stone|Name=30|
+6,[Color11]|Name=31|
+7,[Color12]|Name=32|
+8,opaque black stone|Name=33|
+9,[Color13]|Name=34|
+10,[Color14]|Name=35|
+11,[Color15]|Name=36|
+
+:Color9
+1,watery gold stone
+2,rich gold stone
+
+:Color10
+1,yellow green stone
+2,green stone
+
+:Color11
+1,red stone
+2,brown-green stone
+
+:Color12
+1,light green stone
+2,deep green stone
+3,green and white stone
+4,white stone
+
+:Color13
+1,lustrous white stone
+2,yellowish white stone
+3,pinkish white stone
+
+:Color14
+1,red stone
+2,red-brown stone
+3,deep green stone
+
+:Color15
+1,green pale stone
+2,blue pale stone
+3,brown pale stone
+4,reddish pale stone
+
+:Precious
+1,pale bluish green stone|Name=37|
+2,violet stone|Name=31|
+3,pure black stone|Name=34|
+4,rich olive green stone|Name=38|
+5,very deep blue stone|Name=35|
+6,golden yellow stone|Name=39|
+
+:Gem
+1,dark green stone with black mottling and golden flecks|Name=40|
+2,bright green stone|Name=41|
+3,fiery red stone|Name=42|
+4,pale blue stone with green and golden mottling|Name=43|
+5,rich purple stone|Name=44|
+6,fiery yellow stone|Name=45|
+7,[Color16]|Name=46|
+8,translucent red stone with a "star" center|Name=47|
+9,translucent blue stone with a "star" center|Name=48|
+
+:Color16
+1,clear blue stone
+2,medium blue stone
+
+:Jewel
+1,lustrous black stone with glowing highlights|Name=49|
+2,clear blue-white stone|Name=50|
+3,fiery orange stone|Name=51|
+4,clear bright green stone|Name=52|
+5,clear red to deep crimson stone|Name=53|
+
+# -----------------------------------------------------------
+
+:Type
+1,Ornamental stone
+2,Semi-precious stone
+3,Fancy stone
+4,Precious stone
+5,Gem
+6,Jewel
+
+# -----------------------------------------------------------
+
+:Name
+1,Azurite
+2,Banded agate
+3,Blue quartz
+4,Eye agate
+5,Hematite
+6,Lapiz lazuli
+7,Malachite
+8,Moss agate
+9,Obsidian
+10,Rhodochrosite
+11,Tiger eye
+12,Turquoise
+13,Bloodstone
+14,Carnelian
+15,Chalcedony
+16,Chrysoprase
+17,Citrine
+18,Jasper
+19,Moonstone
+20,Onyx
+21,Rock Crystal
+22,Sardonyx
+23,Smoky Quartz
+24,Star Rose Quartz
+25,Zircon
+26,Amber
+27,Alexandrite
+28,Amethyst
+29,Chrysoberyl
+30,Coral
+31,Garnet
+32,Jade
+33,Jet
+34,Pearl
+35,Spinel
+36,Tourmaline
+37,Aquamarine
+38,Peridot
+39,Topaz
+40,Black Opal
+41,Emerald
+42,Fire Opal
+43,Opal
+44,Oriental Amethyst
+45,Oriental Topaz
+46,Sapphire
+47,Star Ruby
+48,Star Sapphire
+49,Black Sapphire
+50,Diamond
+51,Jacinth
+52,Oriental Emerald
+53,Ruby
+
+# -----------------------------------------------------------
+
+:Base
+1,10 gold pieces
+2,50 gold pieces
+3,100 gold pieces
+4,500 gold pieces
+5,1000 gold pieces
+6,4000 gold pieces
+
+# -----------------------------------------------------------
+
+:Quality
+1,An excellent|C+8|
+2-3,A good|C+4|
+4-9,An above average|C+1|
+10-25,An average
+26-31,A below average|C-1|
+32,A poor|C-4|
+
+# -----------------------------------------------------------
+
+:Value
+1-22,1 gold piece
+23,{Dice~1d3+1} gold pieces
+24,{Dice~1d3+2} gold pieces
+25,{Dice~1d4+3} gold pieces
+26,{Dice~1d4+4} gold pieces
+27,{Dice~1d5+5} gold pieces
+28,1{Dice~1d6} gold pieces
+29,2{Dice~1d9} gold pieces
+30,3{Dice~1d9} gold pieces
+31,4{Dice~1d9} gold pieces
+32,5{Dice~1d9} gold pieces
+33,6{Dice~1d9} gold pieces
+34,7{Dice~1d9} gold pieces
+35,9{Dice~1d9} gold pieces
+36,1{Dice~1d5}0 gold pieces
+37,2{Dice~1d5}0 gold pieces
+38,3{Dice~1d9}0 gold pieces
+39,4{Dice~1d9}0 gold pieces
+40,5{Dice~1d5}0 gold pieces
+41,6{Dice~1d5}0 gold pieces
+42,7{Dice~1d9}0 gold pieces
+43,9{Dice~1d9}0 gold pieces
+44,1{Dice~1d3}{Dice~1d9}0 gold pieces
+45,2{Dice~1d5}{Dice~1d9}0 gold pieces
+46,2{Dice~1d9}{Dice~1d9}0 gold pieces
+47,3{Dice~1d9}{Dice~1d9}0 gold pieces
+48,4{Dice~1d3}{Dice~1d9}0 gold pieces
+49,5{Dice~1d5}{Dice~1d9}0 gold pieces
+50,6{Dice~1d9}{Dice~1d9}0 gold pieces
+51,7{Dice~1d9}{Dice~1d9}0 gold pieces
+52,8{Dice~1d3}{Dice~1d9}0 gold pieces
+53,9{Dice~1d9}{Dice~1d9}0 gold pieces
+54,11{Dice~1d9}{Dice~1d9}0 gold pieces
+55,13{Dice~1d9}{Dice~1d9}0 gold pieces
+56,15{Dice~1d9}{Dice~1d9}0 gold pieces
+57,16{Dice~1d9}{Dice~1d9}0 gold pieces
+58,17{Dice~1d9}{Dice~1d9}0 gold pieces
+60-100,20{Dice~1d9}{Dice~1d9}0 gold pieces

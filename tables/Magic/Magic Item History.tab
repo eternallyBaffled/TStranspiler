@@ -1,0 +1,375 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder August 8, 2006.
+# ---------------------------------------------------
+#
+# Creates history for Magic Items
+#
+# (C) 2000 Jeff Ibach, ocasek50@hotmail.com
+#
+# Modified by Valminder April 2002
+#    I changed the "START" line.
+#    I replaced [Material] by [Miscellaneous.Precious Material]
+#    I added some "Names" links (including [Names Generator.NAME Random]).
+#
+# Modified by Valminder, Jan 2006.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+#    Added some ~ and links to "Countries.tab"
+# Modified by Valminder, August  2006.
+#    Added link to: Notable Event Names.tab
+#    Added Deity paramater.
+#
+
+%Deity%,0
+
+@Deity,2,Choose the deity you want to use,Core Gods of PHB,Religion.Deities
+
+
+:Start
+1,<b><u>History of a Magical Item</u>:</b><br><br>{Status~By Jeff Ibach, 2000, Valminder 2006}
+_[Generate]
+
+:Generate
+1,The item's age is [Age]. There [There] in its manufacture. The item was forged by [Race] [Area]. [Lorekeepers] say it took part in [Deed]. [Last]. [Special]
+
+:Age
+1-2,difficult to pinpoint
+3-4,not old, about <b>{Dice~10d100}</b> years old
+5-7,old, about <b>{Dice~30d100}</b> years old
+8,ancient, about <b>{Dice~50d100+400}</b> years old
+9-10,impossible to ascertain
+11-12,not old, made about <b>{Dice~10d100}</b> years ago
+13-15,old, probably made <b>{Dice~30d100}</b> years ago
+16,ancient, possibly made even <b>{Dice~50d100+600}</b> years ago
+17-18,hard to tell
+
+:There
+1,seems to be traces of [~Miscellaneous.Precious Material]
+2,might even be traces of [~Miscellaneous.Precious Material]
+3,are traces of [~Miscellaneous.Precious Material]
+4,are slight traces of [~Miscellaneous.Precious Material]
+5,are heavy traces of [~Miscellaneous.Precious Material]
+6-10,does not seem to be any exotic material used
+
+:Last
+1-5,Lore links it with the [~Profession] [~Names Generator.NAME Random]
+6-8,It was last owned by the [~Profession] [~Names Generator.NAME Random]
+9-10,It was to be buried with the [~Profession] [~Names Generator.NAME Random]
+11,It dissapeared because it was stolen by the [~Profession] [~Names Generator.NAME Random]
+12,It is thought to have been destroyed by the [~Profession] [~Names Generator.NAME Random]
+13,It was said to be hidden away by the [~Profession] [~Names Generator.NAME Random]
+14-15,Lore links it with no one in particular
+16,It should have beed destroyed on [~Notable Event Names.Generate]
+17,It's real power will be shown on [~Notable Event Names.Generate]
+
+:Race
+1-5,dwarves, [~Names Generator.NAME Dwarf Male] to be precise,
+6-8,elves, [~Names Generator.NAME Elf] to be precise,
+9-10,humans, [~Names Generator.NAME Random] to be precise,
+4,goblinkin [~Names Generator.NAME Orc] to be precise,
+5,gnomes, [~Names Generator.NAME Gnome Male] to be precise,
+6,halflings, [~Names Generator.NAME Halfling Male] to be precise,
+7,a dragon, [~Names Generator.NAME Dragon] to be precise,
+8-12,dwarves, the exact maker unknown,
+13-15,elves, the exact maker unknown,
+16-17,humans, the exact maker unknown,
+18,goblinkin, the exact maker unknown,
+19,gnomes, the exact maker unknown,
+20,halflings, the exact maker unknown,
+21,a dragon, the exact maker unknown,
+22,demons, [~Names Generator.Demonic Names] to be precise,
+23-24,unknown hands,
+
+:Area
+1,in the vicinity of [~Places.Alternate]
+2,in the vicinity of the town of [~Town Names.Generate]
+3-4,in the vicinity of [~Quais]
+5,near [~Places.Alternate]
+6,near the town of [~Town Names.Generate]
+7-8,near [~Quais]
+9-12,exactly where is unknown
+
+:Deed
+1-5,the [Action] of a great [~Creatures.Fantastic]
+6-10,the [Action] of a powerful [~Creatures.Start]
+11,the [Action] of an ancient barony, [~Places.Alternate]
+12,the [Action] of the hero [~Names Generator.NAME Random]
+13-14,the [Action] of the villian [~Names Generator.NAME Random]
+15-16,the [Action] of the noble [~Names Generator.NAME Formal={Dice~1d13+6}]
+17,the [Action] of the town [~Town Names.Generate]
+18,the [Action] of the elf lord [~Names Generator.NAME Elf]
+19,the [Action] of the dwarven king [~Names Generator.NAME Dwarf Male]
+20,the [Action] of the [~Lovecraft.Start]
+21,the inspiration of the songs of the bard [~MiddleEarth Names.Start]
+22,the [Action] of the greater infernal minion [~Names Generator.Demonic Names]
+23,the [Action] of the hero [~Names Generator.NAME Random] who is remembered in songs to this day
+24-30,no significant events
+
+:Action
+1,slaying
+2,demise
+3,forming
+4,death
+5,destruction
+6,making
+7,downfall
+8,creation
+9,coming
+10,enslavment
+11,freeing
+12,legend
+13,rise
+14,disappearance
+15,return
+16,betrayal
+
+:Profession
+1,hero
+2,villian
+3,warlord
+4,ambassador
+5,explorer
+6,adventurer
+7,ruler
+8,sage
+9,warrior
+10,wizard
+11,rogue
+12,bard
+13,sorcerer
+14,barbarian
+15,druid
+16,cleric of [ChooseDeities=%Deity%],
+17,fighter
+18,paladin
+19,ranger
+20,barbarian
+21,monk
+
+:Special
+1-11,There is nothing else known about the item.
+12,[Lorekeepers] say it was forged during an eclypse.
+13,[Lorekeepers] say it was forged in a lava cave.
+14,[Lorekeepers] has it it was forged during a malestrom.
+15,[Lorekeepers] say it was forged during a meteor shower.
+16,[Lorekeepers] say it has links to the outer planes.
+17,[Lorekeepers] say its maker was insane.
+18,[Lorekeepers] say its maker was a genius.
+19,[Lorekeepers] say its maker was a demon in disguise.
+20,[Lorekeepers] say its maker was a devil in disguise.
+21,[Lorekeepers] say its maker was a celestial in disguise.
+22,[Lorekeepers] say its maker was a dragon in disguise.
+23,[Lorekeepers] say its the only one of it's kind in existence.
+24,[Lorekeepers] say its mentioned in song and story world-wide.
+25,[Lorekeepers] say it was forged under a full moon.
+26,[Lorekeepers] say faeries aided in it's manufacture.
+27,[Lorekeepers] say it was forged within the ribcage of a slain ancient wyrm.
+28,[Lorekeepers] say its finding heralds the coming of a [Creatures.Fantastic].
+29,[Lorekeepers] say its finding heralds the coming of a [Creatures.Start].
+30,Vistani predict it will be used in the demise of a [Creatures.Fantastic].
+31,[Lorekeepers] say each owner has met a bad end at the hands of a trusted friend.
+32,[Lorekeepers] say the owner will be the chosen of [ChooseDeities=%Deity%] and will be favored by his/her followers.
+33,[Lorekeepers] say bad fortune befalls the owner.
+34,[Lorekeepers] say good fortune befalls the owner.
+35,[Lorekeepers] say its creator hated males, and it will not serve them.
+36,[Lorekeepers] say its creator hated females, and its powers won't work for them.
+37,[Lorekeepers] say it sought by the [Lovecraft.Start]
+38,[Lorekeepers] say it was actually made in the underdark and it has special qualities down there near it's place of creation.
+39-44,Whatever other lore this item may hold is not known.
+
+:Lorekeepers
+1,Dwarves
+2,Elves
+3,Gnomes
+4,Halflings
+5,Astrologers
+6,Vistani
+7,Wizards
+8,Sorcerers
+9,Sages
+10,Dragons
+11,Bards
+12,Priests
+13-14,Legends
+15-16,Tales
+17-18,Rumors
+19-20,Songs
+21,Poets
+21,Wise Men
+22,Soothsayers
+23-24,They
+25,Elders
+
+;Quais
+1,[Quais2]
+1,[Countries.Land]
+1,[Countries.Regions]
+
+:Quais2
+1,Acarra
+2,Aron City
+3,the city Barnacus
+4,Baylanka
+5,the Woods
+6,the Desert
+7,the Hills
+8,Bearle
+9,Biloq
+10,Colossiaare
+11,Carrvekk
+12,Ecvanadarr
+13,Halin
+14,Herok
+15,Heronomyus
+16,Freeport city
+17,Jen-Gal
+18,Kad City
+19,Kathandalis
+20,Kartasahshayin
+21,Keystone
+22,Krall
+23,the nation Viridian
+24,lands of Yeor
+25,the Mirthwood
+26,Needom
+27,the city Ornamar
+28,the land of Parradius
+29,the nation of Qualinda
+30,Persean city
+31,Povero city
+32,the Quarterlands
+33,Rithnilsibid
+34,the Turnbull Imperium
+35,the Great Southern Woods
+36,Olman Islands
+37,Deariak Peninsula
+38,the Argon Islands
+39,the Banshee Jungle
+40,the Dagwood
+41,the Dark Forest
+42,the Desert of Desolation
+43,the Dim Forest
+44,the Dire Mountains
+45,the Drachengrab Mountains
+46,Rengarth Abbey
+47,Far Tirith
+48,the Drew Woods
+49,the Drier Woods
+50,the Garlin Hills
+51,Orlane
+52,Hookhill
+53,Dreebel
+54,the Skyeland Lake
+55,the Dim Forest
+56,Hochoch
+57,Honshar
+58,Stakarth
+59,Viridistan city
+60,Grefnel
+61,Brighton
+62,Rittenour
+63,Longbridge
+64,the Thunder Rift
+65,the Valley of Smoke
+66,the Misty Lake
+67,Melinir
+68,Kleine
+69,Torlynn
+70,Lyrkwood
+71,Kraal
+72,Zadreth
+73,Burke's Crossing
+74,Caermor
+75,the Gauntlin Forest
+76,the Garlin Hills
+77,Firien Keep
+78,Kador
+79,Druinland
+80,Druin Downs
+81,the Garlin Mountains
+82,the Great Southern Swamp
+83,the Harchock Mountains
+84,the Herrendar Woods
+85,the Hool Marshes
+86,the Undead Marshes
+87,the Icy Wastes
+88,the Keddswin Mountains
+89,the Keelarin Plains
+90,the Kraad Mountains
+91,the Krad Grasslands
+92,the Tower Hills
+93,the Mondar Hills
+94,Nefegian Woods
+95,the Palin Fields
+96,the Plainlands
+97,the Plains of Parthos
+98,the Plains of Y'Dar
+99,the Qualin Mountains
+100,the Reaf Woods
+101,the Sands of Time
+102,the Seculitose Mountains
+103,the ElfWater
+104,the Hollin Hills
+105,the Mires
+106,the Forest Post
+107,the Black Glades
+108,the Greenpath
+109,Far Dales
+110,the Mistle Vale
+111,the Verendi Vale
+112,Swamp Haamp
+113,the Vargonn Mountains
+114,the Vormarr Crags
+115,Telos
+116,Atlesburg
+117,Kaert
+118,Thunton
+119,Kellorville
+120,Nothenvell
+121,Nardisiam
+122,Lankhmar city
+123,Lake Harn
+124,the Plains of Parthos
+125,the Soocom Valley
+126,Brookhollow
+127,Newkeep
+128,Eltan's Spring
+129,Ascallon
+130,Gamada
+131,Karlsfjord
+132,Kaloria
+133,Starloch
+134,Borderton
+135,Drachael
+136,Gree-Ell
+137,the Haunted Lake
+138,Lake Horak
+139,Minera
+140,Sempskin
+141,Horak
+142,Yllek
+143,Saltmarsh
+144,Aron
+145,Vormus Craggs
+146,Mt. Egral
+147,Kad
+148,Waycomb
+149,Awad
+150,Ashtown
+151,Riverdale
+152,Vaalid
+153,Baylanka
+154,the Keelarin Plains
+155,Fre Ben
+156,Hommlet
+157,KozaKuru
+158,Tara-Gawa
+159,Tamano-Kuni
+160,Ibaro
+161,Thurmaster
+162,Milborne
+163,Harlaton
+
+:ChooseDeities
+1,[~Religion.CoreGods]
+2,[~Religion.Deities(2)]

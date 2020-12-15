@@ -1,0 +1,118 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder Jan 03, 2006.
+# ---------------------------------------------------
+#
+# This is a complete Name Generator using all the NAMES files
+# available from Tablesmith.
+# Monster Name Generator Modified by Kheferen May 2004
+#
+# Based on Name Generator
+# by Valminder in April 2002.
+# Modified by Valminder, Oct 2003/Jan 2004.
+#
+# Modified by Valminder, Jan 2006.
+#    Renamed Monster tables and added links to many NAMES tables.
+#
+
+%Race%,0
+%Gender%,0
+%Translation%,0
+
+@Race,21,Please choose a Race,Bugbear,Centaur,Drow,Duegar,Githyanki,Githzerai,Gnoll,Goblin,Hobgoblin,Kobold,Lizardfolk,Mindflayer,Minotaur,Ogre,Orc,Svirfneblin,Troglodyte,Troll,Yuanti,Random,Instructions
+@Gender,3,Please choose a Gender,Male,Female,Random
+@Translation,1,Display translation-IF AVAILABLE?,Yes,No
+
+:Start
+1,{Status~By Kheferen, 2004, modified by Valminder Jan 2006.}
+_{If~%Gender%=3?|Gender={Dice~1d2}|}
+_{If~%Race%=21? [Information]/[GenName]}
+
+;Tab
+1,{Loop~5,&nbsp;}
+
+:GenName
+1,{If~%Race%=20?|Race={Dice~1d19}|}
+_<u>Name for a {Param~Gender,%Gender%} {Param~Race,%Race%}</u>: [MonsterName=%Race%]
+
+:MonsterName
+#Bugbear
+1,[Bugbear Names.Start(%Gender%)]
+#Centaur
+2,[Centaur Names.Start(%Gender%)]
+#Drow
+3,[Drow Names II.Start(%Gender%,%Translation%)]
+#Duegar
+4,{If~%Translation%=1?[Underdark.Duergar=%Gender%]/[Underdark.DuergarNoMeaning=%Gender%]}
+#Githyanki
+5,[Githyanki Names.Start(%Gender%)]
+#Githzerai
+6,[Githzerai Names.Start(%Gender%)]
+#Gnoll
+7,[Gnoll Names.Start(%Gender%)]
+#Goblin
+8,[Goblin Names.Start(%Gender%)]
+#Hobgoblin
+9,[Hobgoblin Names.Start(%Gender%)]
+#Kobold
+10,[Kobold Names.Start(%Gender%)]
+#Lizardfolk
+11,[Names Generator.NAME Lizardfolk]
+#Mindflayer
+12,{If~%Translation%=1?[Underdark.Illithid]/[Names Generator.NAME Illithid]}
+#Minotaur
+13,[Minotaur Names.Start(%Gender%)]
+#Ogre
+14,[Ogre Names.Start(%Gender%)]
+#Orc
+15,[Names Generator.NAME Orc]
+#Svirfneblin
+16,[SvirfneblinSUB=%Gender%]
+#Troglodyte
+17,[Troglodyte Names.Start]
+#Troll
+18,[Troll Names.Start(%Gender%)]
+#Yuanti
+19,[Yuanti Names.Start]
+
+:SvirfneblinSUB
+1,{If~%Translation%=1?[Underdark.SvifneblinMale]/[Underdark.SvifneblinMaleNoMeaning]}
+2,{If~%Translation%=1?[Underdark.SvifneblinFemale]/[Underdark.SvifneblinFemaleNoMeaning]}
+
+:Information
+1,<b><u>MONSTER NAME GENERATOR version 1.1</u>:</b><br>
+_<br> The Monster Name Generator generates proper names for monsters that could be played as Player Characters. Many sources were used to create the tables. As a general rule the name tables used the names of the gods worshiped by the monsters as a basis for the prefix and suffix's. In some cases examples of creature names from old modules or the internet were used. Other rules applied.<br>
+_<br><b>Bugbear.</b> Languages: goblin, common, draconic, elven, giant, gnoll, orc<br>
+_<b>Centaur.</b> Languages: sylvan, common, gnome, halfling<br>
+_[Tab]Other comments: horse sounding syllables.<br>
+_<b>Drow.</b> Used underdark language tables from Dragon Magazine.<br>
+_<b>Duegar.</b> Used underdark language tables from Dragon Magazine.<br>
+_<b>Githyanki.</b> Languages: githyanki, common, infernal, draconic, undercommon<br>
+_[Tab]Other comments: elven based language.<br>
+_<b>Githzerai.</b> Languages: githzerai, common, slaad, undercommon<br>
+_[Tab]Other comments: elven based language.<br>
+_<b>Gnoll.</b> Languages: gnoll, common, goblin, elven, giant, draconic, orc<br>
+_[Tab]Other comments: dog (yipping) sounding syllables.<br>
+_<b>Goblin.</b> Languages: goblin, common, draconic, elven, giant, gnoll, orc<br>
+_<b>Hobgoblin.</b> Languages: goblin, common, draconic, dwarven, giant, infernal, orc<br>
+_<b>Kobold.</b> Languages: draconic, common, undercommon<br>
+_[Tab]Other comments: dog (yipping) sounding syllables.<br>
+_<b>Lizardfolk.</b> Languages: draconic, common, aquan, goblin, gnoll, orc<br>
+_[Tab]Other comments: reptile sounding syllables.<br>
+_<b>Mindflayer.</b> Used underdark language tables from Dragon Magazine.<br>
+_<b>Minotaur.</b> Languages: giant, common, goblin, terran, orc<br>
+_[Tab]Other comments: bovine sounding syllables.<br>
+_<b>Ogre.</b> Languages: giant, common, dwarven, goblin, terran, orc<br>
+_<b>Orc.</b> Languages: orc, common, draconic, giant, gnoll, goblin, abyssal<br>
+_<b>Svirfneblin.</b> Used underdark language tables from Dragon Magazine.<br>
+_<b>Troglodyte.</b> Languages: draconic, common, giant, goblin, orc<br>
+_[Tab]Other comments: reptile sounding syllables.<br>
+_<b>Troll.</b> Languages: giant, common, orc<br>
+_<b>Yuan-ti.</b> Languages: yuan-ti, common, abyssal, draconic<br>
+_[Tab]Other comments: snake (hissing) sounding syllables.<br>
+
+
+
+
+
+
+

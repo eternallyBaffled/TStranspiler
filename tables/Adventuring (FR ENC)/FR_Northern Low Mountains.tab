@@ -1,0 +1,150 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder Oct 30, 2003.
+# ---------------------------------------------------
+#
+# SMS
+# 06/20/03
+# Forgotten Realms Table 26: Northern Low Mountains (EL 6-12) random encounter tables
+#
+# Corrected by Valminder, Oct 2003
+#   -{If~} and {Dice~}
+#
+#Variables
+
+%Region%,0
+%Time%,0
+%Temp%,0
+
+#Parameters
+
+@Time,1,Select a time of day,Day,Night
+@Region,0,Select a value for region (1-6 see instructions for details)
+
+#
+#  Starts by putting up the instructions
+#
+
+:Start
+1,{If~%Region% = 0 ? [Instructions]/[Northern Low Mountains %Time%]}
+
+;Instructions
+1,<b>Forgotten Realms Table 26: Northern Low Mountains (EL 6-12)</b></br></br><h3>Instructions:</h3>
+_<b>Determine whether an encounter should occur before using this table. The chance of an encounter is based on terrain type and travel (chance per hour):</b><br>
+_<table border=1><tr><th>Terrain</th><th>Normal Travel</th><th>Cautious Travel</th><th>Hiding</th></tr>
+_<tr><td>Desolate/wasteland</td><td>5/%</td><td>2/%</td><td>1/%</td></tr>
+_<tr><td>Frontier/wilderness</td><td>8/%</td><td>4/%</td><td>2/%</td></tr>
+_<tr><td>Verdant/civilized area</td><td>10/%</td><td>5/%</td><td>2/%</td></tr>
+_<tr><td>Heavily traveled</td><td>12/%</td><td>6/%</td><td>3/%</td></tr>
+_</table>
+_<ul><li>Use the Parameter Box (below) to indicate whether it is day or night.</li>
+_<li>Then indicate whether the region is<font color=blue><ol><li>Anauroch</li><li>Dragonspire Mtns</li><li>Giantspire Mtns</li>
+_<li>Graypeak Mtns</li><li>Nether Mtns</li><li>Rauvin Mtns</li></ol></li></ul><br></font>
+
+# 1 corresponds to time="Day"
+:Northern Low Mountains 1
+01-04,Bugbear Band: {Dice~1d10+10} bugbears, {Dice~1d3} level {Dice~1d3} fighters, led by a level {Dice~1d4+2} fighter
+05,Cloud giant
+06-08,{Dice~1d2} Dire bear
+09-11,{Dice~1d6+5} Dire lion
+12-13,{Dice~1d2} Dire tiger
+14-16,{Dice~1d4+4} Dire wolf
+17-23,Dragon: [NLM_Dragon]
+24-26,{Dice~2d8} Dragonkin (MoF)
+27-29,{Dice~1d3+1} Ettin
+30-34,{Dice~1d3+1} Frost giant
+35-38,{Dice~1d10+10} Ghost rothe
+39-43,{Dice~1d12+2} Dekanter goblin (MoF)
+44-48,{Dice~1d4+1} Hill Giant
+49-60,[NLM_Local]
+61-64,{Dice~1d4+4} Ogre
+65-73,Orc Patrol: {Dice~1d4+4} orcs, {Dice~1d2} level {Dice~1d3} orc barbarians, led by level {Dice~1d4+2} [FR_Misc.Orc_Class]
+74-79,Shield Dwarf Patrol: {Dice~1d4+4} 1st level fighters, {Dice~1d2} level {Dice~1d3} cleric of [Religion.Dwarf Gods], led by a level {Dice~1d4+2} [FR_Misc.Dwarf_Class]
+80-81,{Dice~1d3+2} Tall mouther (MoF)
+82,{Dice~1d3} Weretiger
+83-89,{Dice~1d10+6} Animal: wolf
+90-95,{Dice~1d6+5} Worg
+96-100,{Dice~1d3+1} Yrthak
+
+# 2 corresponds to time="Night"
+:Northern Low Mountains 2
+01-03,{Dice~1d3+1} Abishai, red
+04-07,Bugbear Band: {Dice~1d10+10} bugbears, {Dice~1d3} level {Dice~1d3} fighters, led by a level {Dice~1d4+2} fighter
+08-09,Cloud giant
+10-11,{Dice~1d2} Dire bear
+12-14,{Dice~1d6+5} Dire lion
+15-17,{Dice~1d2} Dire tiger
+18-19,{Dice~1d4+4} Dire wolf
+20-27,Dragon: [NLM_Dragon]
+28-29,{Dice~2d8} Dragonkin (MoF)
+30-32,{Dice~1d3+1} Ettin
+33-38,{Dice~1d3+1} Frost giant
+39-42,{Dice~1d12+2} Dekanter goblin (MoF)
+43-45,{Dice~1d2*10} Grimlock
+46-49,Hill Giant Raiders: {Dice~1d6+5} Hill giants and {Dice~1d3+1} dire wolves
+50-53,{Dice~1d4+1} Hill Giant
+54-63,[NLM_Local]
+64-66,{Dice~1d4+4} Ogre
+67-70,Orc Patrol: {Dice~1d4+4} orcs, {Dice~1d2} level {Dice~1d3} orc barbarians, led by level {Dice~1d4+2} [FR_Misc.Orc_Class]
+71-74,Shield Dwarf Patrol: {Dice~1d4+4} 1st level fighters, {Dice~1d2} level {Dice~1d3} cleric of [Religion.Dwarf Gods], led by a level {Dice~1d4+2} [FR_Misc.Dwarf_Class]
+75-76,{Dice~1d3+2} Tall mouther (MoF)
+77,{Dice~1d2} Vampire
+78-79,{Dice~1d4+1} Vampire spawn
+80-82,Vampire Troupe: {Dice~1d2} vampires and {Dice~1d4+1} vampire spawn
+83-84,{Dice~1d3} Weretiger
+85-88,{Dice~1d10+6} Animal: wolf
+89-94,{Dice~1d6+5} Worg
+95-97,{Dice~1d6+5} Wraith
+98-100,{Dice~1d3+1} Yrthak
+
+:NLM_Local
+01-50,Local creatures: [NLM_Local%Region%]
+51-100,<b>NPCs:</b><br>{Loop~{Dice~1d3+2},[FR_Random_NPC.FR_SM_NPC]}
+
+#Anauroch
+:NLM_Local1
+01-50,{Dice~1d4+1} Asabi (MoF)
+51-75,{Dice~1d4+1} Stingtail asabi (MoF)
+76-90,Bedine Band (usually Chaotic Good): scouting group of {Dice~1d3+1} 1st level warriors, {Dice~1d2} level {Dice~1d3+2} rangers, led by level {Dice~1d3+1} [FR_Misc.Bedine_Class], mounted on camels
+91-100,Shadovar Patrol (usually Neutral Evil): {Dice~1d4+4} 1st level human fighters, {Dice~1d2} level {Dice~1d4} human fighters, {Dice~1d2} level {Dice~1d6} human sorcerer, led by [FR_Misc.Shade_Leader] {If~{Dice~1d100} < 26 ? mounted on dire bats/}
+
+#Dragonspire Mtns
+:NLM_Local2
+01-40,[FR_Misc.Dragon]
+41-60,{Dice~1d3+1} Frost giant
+61-85,{Dice~1d4+1} Hill giant
+86-100,{Dice~1d3+1} Stone giant
+
+#Giantspire Mtns
+:NLM_Local3
+01-50,{Dice~1d4+2} Ogre
+51-80,{Dice~1d4} Hill giant
+81-100,{Dice~1d3} Stone giant
+
+#Graypeak Mtns
+:NLM_Local4
+01-75,{Dice~1d3} Stone giant
+76-100,{Dice~1d2} Cloud giant
+
+#Nether Mtns
+:NLM_Local5
+01-15,{Dice~1d2*10} Fey'ri (MoF)
+16-45,Orc Patrol: {Dice~1d4+4} orcs, {Dice~1d2} level {Dice~1d3} orc barbarians, led by level {Dice~1d4+2} [FR_Misc.Orc_Class]
+46-100,{Dice~1d6+5} Tanarukk (MoF)
+
+#Rauvin Mtns
+:NLM_Local6
+01-40,{Dice~1d3+1} Orc
+41-60,Orc Patrol: {Dice~1d4+4} orcs, {Dice~1d2} level {Dice~1d3} orc barbarians, led by level {Dice~1d4+2} [FR_Misc.Orc_Class]
+61-70,Orc Squad: {Dice~1d10+10} orcs, {Dice~1d3} level {Dice~1d4} fighters, led by level {Dice~1d4+2} [FR_Misc.Orc_Class]
+71-85,Goblin raiders: {Dice~1d3+2} goblins, led by level {Dice~1d3} goblin fighter, all mounted on worgs
+86-100,{Dice~1d3+1} Ogre
+
+:NLM_Dragon
+01-12,Copper, adult
+13-24,Fang, mature adult (MoF)
+25-31,Gold, young adult
+32,Dracolich, Red, very young (FRCS)
+33-42,Red, young
+43-49,Shadow, adult (MoF)
+50,Dracolich, White, adult (FRCS)
+51-100,White, old

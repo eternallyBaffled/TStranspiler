@@ -1,0 +1,456 @@
+# ------------------------------------------------------
+# Last Update: re-verified by Valminder Jan 10, 2012.
+# ------------------------------------------------------
+#
+# This Table will create fully described 'Empty' rooms
+#
+# Copyright 2003,by Lawrence H. Cormier
+# 
+# You've just opened the door into another empty room... OK... So now what?
+#
+# Even so-called 'empty' rooms can have a few fascinating things in them.
+# Hopefully this Table will give you some ideas - and it could make those
+# 'empty' rooms a bit more interesting. It might even suggest a few
+# intriguing possibilities... If you're up to it.
+#
+# This Table leans toward empty and abandoned rooms in a forgotten keep, a
+# neglected section of a castle, or the typical dungeon setting. It will
+# probably fall short if you are planning on describing a well tended or
+# fully staffed inhabitation. (But then again - even well ordered
+# establishments can have a few forgotten or neglected rooms!).
+# Try it anyway, you might like it!
+#
+# Modified by Valminder, Jan 2004
+#   Added links to:
+#      Creatures.Humanoid2
+#      Miscellaneous.Class
+#      Miscellaneous.Color
+#      Miscellaneous.Wood
+#      Religion.Deities3
+# Modified by Valminder, Nov 2005
+#      Removed header from [Start]
+# Modified by Valminder, Nov 2005
+#      Added "Tab" and "Alternate" subtable.
+#
+
+%TempNumber%,0
+%Chance%,0
+%Count%,0
+%Features%,0
+%EndCount%,0
+
+:Start
+1,{Status~Larry Cormier and Valminder}[Generate]
+
+:Generate
+1,This room [Lighting]<br><br>
+_The walls [WallCondition].
+_[Chanceof]{If~%Chance%<5? <br><br>There [DUN Graffiti.Generate]}
+_[Chanceof]{If~%Chance%<25? <br><br>While investigating this room[DungeonDressing]}
+_[Chanceof]{If~%Chance%<15? <br><br>Further investigation uncovers [Features]}
+_[Chanceof]{If~%Chance%<5? <br><br>[DeadBodies]}
+_[Chanceof]{If~%Chance%<5? <br><br>There is a trap: [~Traps.RoomTraps].}
+
+:Tab
+1,{Loop~5,&nbsp;} 
+
+# This subtable is added to give a smaller output, but has the same informations as above.
+:Alternate
+1,This room [Lighting]. The walls [WallCondition].
+_[Chanceof]{If~%Chance%<5? <br>[Tab]There [DUN Graffiti.Generate]}
+_[Chanceof]{If~%Chance%<25? <br>[Tab]While investigating this room[DungeonDressing]}
+_[Chanceof]{If~%Chance%<15? <br>[Tab]Further investigation uncovers [Features]}
+_[Chanceof]{If~%Chance%<5? <br>[Tab][DeadBodies]}
+_[Chanceof]{If~%Chance%<5? <br>[Tab]There is a trap: [~Traps.RoomTraps].}
+
+:Chanceof
+1,|Chance ={Dice~1d100}|
+
+# ------------------------------------------------------------------------
+# Misc tables
+
+;CoinType
+10,|TempNumber={Dice~1d8}| %TempNumber% copper 
+8,|TempNumber={Dice~1d6}| %TempNumber% silver
+6,|TempNumber={Dice~1d4}| %TempNumber% electrum
+3,|TempNumber={Dice~1d3}| %TempNumber% gold
+1,|TempNumber={Dice~1d2}| %TempNumber% platinum
+
+:Corners
+1,right-hand corner
+2,left-hand corner
+
+:Location
+1, on the floor
+2, on the ceiling
+3, near the [Chanceof]{If~%Chance%<50? center of the room/ [Corners] of the [RightLeftFrontBack] wall}
+4, in the center of the room
+
+:RightLeftFrontBack
+1,right
+2,left
+3,front
+4,back
+
+# ------------------------------------------------------------------------
+# Lighting
+
+;Lighting
+80,will be dark.<br>Once the room is properly illuminated, you will see that the room itself [GeneralAppearance]
+10,is dimly lit with a [Chanceof]{If~%Chance%<60? thin [LightColor] glow./watery, [LightColor] glow.} (The light is emanating from [LightSource]).<br><br>The room itself [GeneralAppearance]
+5,is lit by a [Chanceof]{If~%Chance%<75? flickering source of light that has a [LightColor] tinge./ wavering source of light that has a [LightColor] tinge.} (The light is emanating from [LightSource]).<br><br>The room itself [GeneralAppearance]
+5,is illuminated by a steady [LightColor] glow. (The light is emanating from [LightSource]).<br><br>The room itself [GeneralAppearance]
+
+:BurnType
+1,steadily
+2,fitfully
+3,brightly
+4,weakly
+
+;LightColor
+1,reddish
+1,bluish
+1,greenish
+1,whiteish
+1,yellowish
+1,violet-colored
+
+;LightSource
+30,|TempNumber={Dice~1d10}|{If~%TempNumber%=1? a patch of [PhosphorescentVeggies] [Location]/ %TempNumber% patches of [PhosphorescentVeggies] [Location]}
+19,a [Chanceof]{If~%Chance%<85? puddle of [Liquids][Location={Dice~1d2+2}]/pool of [Liquids][Location={Dice~1d2+2}]}
+1,a [Chanceof]{If~%Chance%<85? puddle of [Liquids={Dice~1d2+6}] that {If~%TempNumber%=1? is/are} burning [BurnType] [Location={Dice~1d2+2}]/ pool of [Liquids={Dice~1d2+6}] that {If~%TempNumber%=1? is/are} burning [BurnType] [Location={Dice~1d2+2}]}
+10,|TempNumber={Dice~1d4}|{If~%TempNumber%=1? a [PhosphorescentThings][Location={Dice~1d2+2}]/ %TempNumber% [PhosphorescentThings][Location={Dice~1d2+2}]}
+15,|TempNumber={Dice~1d4}|{If~%TempNumber%=1? a [MundaneThings]/ %TempNumber% [MundaneThings]}
+1,|TempNumber={Dice~1d4}|{If~%TempNumber%=1? a Giant Beetle moving [Location]/ %TempNumber% Giant Beetles moving [Location]} (Fire Beetles: HD:1+2, AC:4, Attk:+1, Attks:1, Damage:2d4)
+1,a glowing globe of light floating about 2' from the ceiling
+1,|TempNumber={Dice~1d3}|{If~%TempNumber%=1? a darting, flickering wisp of light moving quickly around the room./ %TempNumber% darting, flickering wisps of light moving quickly around the room.}(Will-O-Wisps: HD:9, AC:18, Attk: +9, Attks: 1, Damage:2d8)}
+7,the walls and ceiling itself. Probably a <i>light</i> spell
+5,|TempNumber={Dice~1d10}|{If~%TempNumber%=1? a lit torch in a sconce on the walls that are burning [BurnType]/ %TempNumber% lit torches in sconces on the walls that are burning [BurnType]}
+5,an abandoned cooking fire that has been set up in a firebox that is still burning [BurnType][Location={Dice~1d2+2}]
+1,|TempNumber={Dice~6d10}|%TempNumber% glow worms that are wandering around the walls and ceiling
+1,veins of phosphorescent minerals embedded in the walls
+1,an infestation of Fireflys flying aimlessly about the room
+1,|TempNumber={Dice~1d6}|{If~%TempNumber%=1? a Light Globe laying on the floor near the [RightLeftFrontBack] wall / %TempNumber% Light Globes laying on the floor near the [RightLeftFrontBack] wall}
+1,a Light-imbued [Chanceof]{If~%Chance%<75? coin laying on the floor near the [RightLeftFrontBack] wall/ stone laying on the floor near the [RightLeftFrontBack] wall}
+
+:MundaneThings
+1,guttering [Chanceof]{If~%Chance%<75? tallow/wax} {If~%Count%=1? candle/candles}[Location={Dice~1d2+2}]
+2,[Chanceof]{If~%Chance%<75? tallow/wax} {If~%Count%=1? candle that is burning [BurnType]/candles that are burning [BurnType]}[Location={Dice~1d2+2}]
+3,discarded torch {If~%Count%=1? stump that is/stumps that are} burning [BurnType][Location={Dice~1d2+2}]
+4,discarded and [Chanceof]{If~%Chance%<75? nearly empty and} apparently abandoned {If~%Count%=1? lantern/lanterns}[Location={Dice~1d2+2}]
+5,{If~%Count%=1? torch in a sconce that is attached to the wall burning [BurnType]/torches in sconces attached to the walls that are burning [BurnType]}
+6,lit {If~%Count%=1? brazier that is burning [BurnType]/braziers that are burning [BurnType]}[Location={Dice~1d2+2}]
+7,small oil {If~%Count%=1? lamp that is burning [BurnType]/lamps that are burning [BurnType]}[Location={Dice~1d2+2}]
+
+:PhosphorescentThings
+1, small {If~%Count%=1? stone/stones}[Chanceof]{If~%Chance%<15? covered with [PhosphorescentVeggies]/ covered with a web of phosphoresent minerals}
+2,{If~%Count%=1? pebble/pebbles} [Chanceof]{If~%Chance%<25? covered with [PhosphorescentVeggies]/covered with a web of phosphoresent minerals}
+3,{If~%Count%=1? area/areas} of rubble [Chanceof]{If~%Chance%<75? covered with [PhosphorescentVeggies]/covered with a web of phosphoresent minerals}
+4,{If~%Count%=1? stone/stones} [Chanceof]{If~%Chance%<25? covered with [PhosphorescentVeggies]/covered with a web of phosphoresent minerals}
+5,wooden {If~%Count%=1? plank/planks} [Chanceof]{If~%Chance%<75? covered with [PhosphorescentVeggies]/covered with a web of phosphoresent minerals}
+6,unidentifiable moldering {If~%Count%=1? item of cloth/items of cloth} [Chanceof]{If~%Chance%<75? covered with [PhosphorescentVeggies]}
+7,[CoinType] {If~%TempNumber%=1? coin/coins} [Chanceof]{If~%Chance%<10? in a small pouch/scattered across the floor}[Location={Dice~1d2+2}]
+8,{If~%Count%=1? mound/mounds} of dung [Chanceof]{If~%Chance%<75? covered with [PhosphorescentVeggies]}
+9,{If~%Count%=1? pile/piles} of soil [Chanceof]{If~%Chance%<75? covered with [PhosphorescentVeggies]}
+10,broken {If~%Count%=1? stick/sticks} [Chanceof]{If~%Chance%<75? covered with [PhosphorescentVeggies]}
+
+;PhosphorescentVeggies
+1,lichen
+1,moss
+1,mold
+1,slime
+1,mushrooms
+1,some gelatinous substance
+
+# -------------------------------------------------------------------------
+# Appearance and Descriptions
+
+;GeneralAppearance
+10,appears to be in good condition, but is otherwise unremarkable.
+5,appears to have fallen into disrepair. [Chanceof]{If~%Chance%<50? A cursory inspection shows [FeaturesDescription=94].}
+5,is rough and unfinished.
+8,is in relatively good condition, but shows signs of neglect.
+5,is dusty, dirty, and appears to have been forgotten. [Chanceof]{If~%Chance% < 10 ? You will discover some unidentifiable tracks or footprints[Location= 3], but the source or destination cannot be determined.}
+4,is damp and musty. [Chanceof]{If~%Chance%<10? You will discover some unidentifiable tracks or footprints[Location= 3], but the source or destination cannot be determined.}
+
+:ArtObject
+1,[Objects of Art.Start]
+
+;Class
+75,Fighter (or possibly a Thief)
+15,Magic user, [Chanceof]{If~%Chance%<70? probably a Wizard or Illusionist./ more than likely a Cleric or Priest.}
+10,[~Miscellaneous.ClassPC]
+
+:DryThings
+1,filled with rubble
+2,filled with sand
+3,filled with dust
+4,covered with cobwebs
+5,completely empty
+6,full of cracked clay
+
+:Fabrics
+1,{If~%Count%>1? {Plural~Arras}/ Arras}
+2,{If~%Count%>1? {Plural~bag}/bag} [FilledWithThings]
+3,{If~%Count%>1? {Plural~blanket}/blanket}
+4,{If~%Count%>1? {Plural~carpet}/carpet}[Chanceof] {If~%Chance%<75? (Medium)/ (Large)}
+5,[Chanceof]{If~%Chance%<75? {Dice~1d6}' x {Dice~1d8}' throw {If~%Count%>1? {Plural~rug}/rug}/ {Dice~3d6}' x {Dice~3d8}' area {If~%Count%>1? {Plural~rug}/rug}}
+6,{If~%Count%>1? {Plural~cushion}/cusion}
+7,{If~%Count%>1? {Plural~hassock}/hassock}
+8,{If~%Count%>1? {Plural~mat}/mat}
+9,{If~%Count%>1? {Plural~mattress}/mattress}
+10,{If~%Count%>1? {Plural~pillow}/pillow}
+11,{If~%Count%>1? {Plural~quilt}/quilt}
+12,{If~%Count%>1? {Plural~sack}/sack} [FilledWithThings]
+13,{If~%Count%>1? {Plural~sheet}/sheet}
+14,{If~%Count%>1? {Plural~tapestry}/tapestry}
+
+:Features
+1,[Chanceof]{If~%Chance%<60? [MultipleFeatures]/ [FeaturesDescription]}.
+
+#:MultipleFeatures
+#1,|Features={Dice~1d2+1}|{Loop~%Features%,|TempNumber={Dice~1d59}|; [FeaturesDescription=%TempNumber%]}
+#
+#:MultipleItems
+#1,|Count=0||EndCount={Dice~1d3+1}|{Loop~%EndCount%,[Items]}
+#
+#:Items
+#1,|Count+1|{If~%Count%<%EndCount%? [Dungeon_Dressing];/ and [Dungeon_Dressing]}
+#
+#:Dungeon_Dressing
+#1, [DUN Dressing.Generate]
+
+:MultipleFeatures
+1,|Features={Dice~1d2+1}||Count=0|{Loop~%Features%,[FeatureItems]}
+
+:FeatureItems
+1,|Count+1||TempNumber={Dice~1d59}|{If~%Count%<%Features%? [FeaturesDescription=%TempNumber%],/ and [FeaturesDescription=%TempNumber%]}
+
+:FeaturesDescription
+1-50,{If~%Count%=1? a [FurnishingsCondition] [Furnishings] [Location={Dice~1d2+2}]/ {AorAn~[FurnishingsCondition]} [Furnishings][Location={Dice~1d2+2}]}
+51-90,{If~%Count%=1? a [NonCrushable] [Fabrics][Location={Dice~1d2+2}]/ {AorAn~[NonCrushable]} [Fabrics][Location={Dice~1d2+2}]}
+91,a small fountain located[Location={Dice~1d2+2}]. [Chanceof]{If~%Chance%<5? It is filled with [Liquids], but otherwise stagnant/It is bone dry, and [DryThings]}
+92-93,a wall basin and font[Location={Dice~1d2+2}]
+94,{If~%Count%=1? a pile of/piles of} |TempNumber={Dice~1d3}|%TempNumber%[Chanceof]{If~%Chance%<75? stone[Location={Dice~1d2+2}]/rubble[Location={Dice~1d2+2}]}
+95,a small Altar of [~Religion.Deities3][Location={Dice~1d2+2}]. [Chanceof]{If~%Chance%<5? There is a secret compartment that holds [ArtObject]/There is nothing of value to be found in, on, or near this Altar}
+96,a raised Dais[Location={Dice~1d2+2}]
+97,a large Idol[Location={Dice~1d2+2}]
+98,a small Shrine of [~Religion.Deities3][Location={Dice~1d2+2}]. [Chanceof]{If~%Chance%<5? There is a secret compartment that holds [ArtObject]/There is nothing of value to be found in, on, or near this Shrine}
+99,[Chanceof]{If~%Chance%<40? a large Statue of a [~Creatures.Humanoid2] [Class={Dice~1d11}][Location={Dice~1d2+2}]/a small Statue of a [~Creatures.Humanoid2] [Class={Dice~1d11}][Location={Dice~1d2+2}]}
+100,[Chanceof]{If~%Chance%<5? a Jeweled Throne (worth {Dice~1d100*1000} gp if looted)[Location={Dice~1d2+2}]/a Throne of fine woods[Location={Dice~1d2+2}]}
+
+:Furnishings
+1-2,{If~%Count%>1? {Plural~armchair}/armchair}
+3,{If~%Count%>1? {Plural~armoire}/armoire}
+4-6,{If~%Count%>1? {Plural~barrel}/barrel} [Chanceof]{If~%Chance%<85? [FilledWithLiquids]/ [FilledWithThings]}
+7-8,{If~%Count%>1? {Plural~bed}/bed}
+9,{If~%Count%>1? {Plural~bench}/bench}
+10-11,{If~%Count%>1? {Plural~box}/box} [FilledWithThings]
+12,{If~%Count%>1? {Plural~brazier}/brazier} [Chanceof]{If~%Chance%<75? with charcoal}
+13,{If~%Count%>1? {Plural~bucket}/bucket} [Chanceof]{If~%Chance%<15? [FilledWithLiquids]/ [FilledWithThings]}
+14,{If~%Count%>1? {Plural~buffet}/buffet}
+15,{If~%Count%>1? {Plural~butt}/butt} [Chanceof]{If~%Chance%<15? [FilledWithLiquids]}
+16,{If~%Count%>1? {Plural~cabinet}/cabinet} [FilledWithThings]}
+17,{If~%Count%>1? {Plural~candelabra}/candelabra}
+18-20,{If~%Count%>1? {Plural~cask}/cask} [Chanceof]{If~%Chance%<95? [FilledWithLiquids]/ [FilledWithThings]}
+21,{If~%Count%>1? {Plural~chandelier}/chandelier}
+22-24,{If~%Count%>1? {Plural~chair}/chair}
+25,{If~%Count%>1? {Plural~padded chair}/padded chair}
+26,{If~%Count%>1? {Plural~padded armchair}/armchair}
+27,{If~%Count%>1? {Plural~large chest}/large chest} [FilledWithThings]
+28,{If~%Count%>1? {Plural~medium chest}/medium chest} [FilledWithThings]
+29,{If~%Count%>1? {Plural~small chest}/small chest} [FilledWithThings]
+30,{If~%Count%>1? {Plural~wardrobe closet}/wardrobe closet}
+31-32,{If~%Count%>1? {Plural~chest}/chest} of drawers
+33,{If~%Count%>1? {Plural~couch}/couch}
+34,{If~%Count%>1? {Plural~crate}/crate} [FilledWithThings]
+35,{If~%Count%>1? {Plural~cresset}/cresset}
+36-37,{If~%Count%>1? {Plural~cupboard}/cupboard}
+38-39,{If~%Count%>1? {Plural~desk}/desk}
+40-43,{If~%Count%>1? {Plural~firkin}/firkin} [FilledWithLiquids]
+44-46,{If~%Count%>1? {Plural~fresco}/fresco}
+47,{If~%Count%>1? {Plural~grindstone}/grindstone}
+48,{If~%Count%>1? {Plural~hamper}/hamper}
+49-50,{If~%Count%>1? {Plural~hogshead}/hogshead} [FilledWithLiquids]
+51-52,{If~%Count%>1? {Plural~keg}/keg} [Chanceof]{If~%Chance%<85? [FilledWithLiquids]/ [FilledWithThings]}
+53,{If~%Count%>1? {Plural~loom}/loom}
+54-55,{If~%Count%>1? {Plural~pail}/pail} [Chanceof]{If~%Chance%<15? [FilledWithLiquids]/ [FilledWithThings]}
+56-57,{If~%Count%>1? {Plural~painting}/painting}
+58,{If~%Count%>1? {Plural~pallet}/pallet}
+59,{If~%Count%>1? {Plural~pedestal}/pedestal}
+60-77,{If~%Count%>1? set of shelves/shelf} [Chanceof]{If~%Chance%<5? with |Count={Dice~1d6}|%Count% {If~%Count%>1? books/book} on the {If~%TempNumber% >1? {Plural~shelf}./shelf.)}}
+78-79,{If~%Count%>1? {Plural~sideboard}/sideboard}
+80,{If~%Count%>1? {Plural~sofa}/sofa}
+81,{If~%Count%>1? {Plural~staff}/staff} (Normal)
+82-83,{If~%Count%>1? {Plural~stand}/stand}
+84,{If~%Count%>1? {Plural~high stool}/high stool}
+85,{If~%Count%>1? {Plural~stool}/stool}
+86,{If~%Count%>1? {Plural~long table}/long table}
+87,{If~%Count%>1? {Plural~large table}/large table}
+88,{If~%Count%>1? {Plural~low table}/low table}
+89,{If~%Count%>1? {Plural~round table}/round table}
+90,{If~%Count%>1? {Plural~small table}/small table}
+91,{If~%Count%>1? {Plural~trestle table}/trestle table}
+92-93,{If~%Count%>1 ? {Plural~trunk}/trunk} [FilledWithThings]
+94,{If~%Count%>1? {Plural~tub}/tub}
+95,{If~%Count%>1? {Plural~tun}/tun} [FilledWithLiquids]
+96,{If~%Count%>1? {Plural~urn}/urn} [Chanceof]{If~%Chance%<85? [FilledWithLiquids]/ [FilledWithThings]}
+97-98,{If~%Count%>1? {Plural~wooden billet}/wood billet}
+99-100,{If~%Count%>1? {Plural~work bench}/work bench}
+
+:FurnishingsCondition
+1,shattered
+2,broken
+3,smashed
+4,discarded
+5,relatively intact
+6,nearly new
+7,useless
+8,crushed
+9,[Chanceof]{If~%Chance%<2?,[FurnishingsCondition]} {If~%Count%>1? piles/pile} of
+10,damaged, but functional
+
+:NonCrushable
+1,torn
+2,crumpled
+3,ripped
+4,filthy
+5,jumbled
+6,rolled-up
+7,folded
+8,{If~%Count%>1? {Plural~heap}/heap} of
+9,dust-covered
+10,partially burned 
+
+# ---------------------------------------------------------------------------
+# Full of something
+
+:FilledWithThings
+1,[Chanceof]{If~%Chance%<70? [DryFilled]/ (Empty)}
+
+:FilledWithLiquids
+1,[Chanceof]{If~%Chance%<30? [LiquidFilled]/ (Empty)}
+
+:!Contents
+1-3,ash
+4-6,bark
+7-9,bone
+10-14,chunks of [Contents]{Lockout~Contents,38-40}{Lockout~Contents,59-61}
+15-17,cinders
+18-22,crystals
+23-26,dust
+27-28,fibers
+29-31,gelatin
+32-33,globes
+34-37,grains of [EdibleGrains]
+38-40,greasy [Contents]
+41-43,husks
+44-48,leaves
+49-56,{If~%Count%>1? {Plural~[PotableLiquids]}/ [PotableLiquids]}
+57-58,{If~%count%>1? {Plural~lump}/lump}
+59-61,oily [Contents]{Lockout~Contents,10-14}{Lockout~Contents,38-40}
+62-65,paste
+66-68,pellets of [Contents]{Lockout~Contents,10-14}{Lockout~Contents,38-40}{Lockout~Contents,59-61}
+69-81,powder
+82-83,skin
+84-85,hide
+86-87,splinters
+88-89,stalks
+90-92,strands
+93-95,strips
+96-100,viscous [Contents]
+
+:DryFilled
+1,that {If~%Count%=1? contains/contain} [Contents]
+
+:EdibleGrains
+1,oats
+2,barley
+3,wheat
+4,rice
+5,corn
+6,millet 
+
+:LiquidFilled
+1,that {If~%Count%=1? contains/contain} [Chanceof]{If~%Chance%<75? [PotableLiquids]/ [Liquids]}
+
+;Liquids
+5,[WaterQuality] water
+1,acid (1d6 Acid damage if touched)
+1,oil
+1,alcohol
+
+:PotableLiquids
+1,wine
+2,ale
+3,beer
+4,grain alchohol
+5,cider
+6,brandy
+7,mead
+8,vinegar 
+
+:WaterQuality
+1-6,clear
+7,muddy
+8,cloudy
+9,milky
+10,rancid
+11,fetid
+
+# --------------------------------------------------------------------------
+# Walls
+
+;WallCondition
+10,appear to be in good condition, but show nothing of interest
+2,show evidence of scorching
+5,look like they have just been painted [~Miscellaneous.Color]
+1,have been gouged and scraped with a sharp instrument
+5,appear to have fallen into disrepair
+5,are rough and unfinished
+8,are in relatively good condition, but show signs of neglect
+2,have been damaged with blows from a blunt instrument
+2,have been resurfaced with some type of plaster that has [Chanceof]{If~%Chance%<75? been textured with a coarse brush/been smoothed and planed}
+1,are paneled in fine woods ([~Miscellaneous.Wood])
+1,have been splattered with [Splatters]
+3,have a few areas of discoloration, as if something has been removed
+
+:Splatters
+1,blood
+2,muddy water
+3,wine
+4,[~Miscellaneous.Color] paint
+5,excrement
+6,ink
+7,some [LightColor] substance
+8,[PotableLiquids]
+9,[Liquids]
+10,mucus
+11,slime
+
+# -------------------------------------------------------------------------
+# Investigating a room
+
+:DungeonDressing
+1,[Chanceof]{If~%Chance%<40? [MultipleItems]/ [Dungeon_Dressing]}.
+
+:MultipleItems
+1,|Count=0||EndCount={Dice~1d3+1}|{Loop~%EndCount%,[Items]}
+
+:Items
+1,|Count+1|{If~%Count%<%EndCount%? [Dungeon_Dressing],/ and [Dungeon_Dressing]}
+
+:Dungeon_Dressing
+1, [DUN Dressing.Generate]
+
+# --------------------------------------------------------------------------
+# Dead Bodies
+
+:DeadBodies
+1,There is the dead body of {AorAn~[Creatures.Humanoid2]} [Class] laying on the floor[Location={Dice~1d2+2}]. [SearchBody]
+
+:Pockets
+1,[Pockets.Generate]
+
+:SearchBody
+1,[Chanceof]{If~%Chance%<5? Searching this body reveals an overlooked pocket. [Pockets]/There is nothing of value left on this body.}

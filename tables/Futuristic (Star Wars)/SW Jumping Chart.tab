@@ -1,0 +1,233 @@
+# ------------------------------------------------------
+# Last Update: re-verified by Valminder Jan 10, 2012.
+# ------------------------------------------------------
+# ---------------------------------------------------
+# Last Update: modified by Valminder August 4, 2006.
+# ---------------------------------------------------
+#
+# *************************************************
+# * This table is to be used with the SW d20 RPG. *
+# *************************************************
+#
+# Jump Computation Table
+#
+# This table will help you determine the distance or height of your
+# character's jump. 
+#
+# Taken from the Revised SW d20 RPG.
+# No challenge is intended against Wizards of the Coast's Copyright.
+#
+# This table is a modified version of the table Compiled by Anthony Marker
+# (www.breminor.com) modified with a few corrections
+#
+# Many thanks to Vance Reed for VASTLY improving this table.
+#
+# 7/17/02 Added variable %Grab% for calculating "Grab height" for high jump
+#
+# Modified by Valminder, August  2006.
+#    Adapted for TSv5 (Round function).
+#    I changed the "START" line.
+#
+
+/OverrideRolls 1
+
+%Name%,Mona
+%JumpDist%,0
+%maxdist%,0
+%mindist%,0
+%height%,0
+%heightcalc%,0
+%temp1%,0
+%temp2%,0
+%temp3%,yes
+%temp4%,No
+%roll%,1
+%min_roll%,1
+%max_roll%,1
+%speed%,0
+%skill%,0
+%magic%,0
+%feet%,0
+%inches%,0
+%unlimited%,1
+%instructions%,1
+%x%,0
+%y%,0
+%runfeat%,2
+%Grab%,0
+
+# ---------------------------------------------------------------
+# Parameters
+
+@Name,Your name,Enter your character's name.
+@height,2,Enter your character's height in meter.
+@skill,0,Enter your jump skill score.
+@speed,10,Enter your character's speed in meter.
+@runfeat,1,Does your character have the feat RUN?,No,Yes
+@magic,0,Enter the Force enhancement to your jump.
+@unlimited,1,Do you have unlimited jump distance?,No,Yes
+@instructions,2,Are you ready to generate your Jump table?,No,Yes
+
+# ---------------------------------------------------------------
+
+:Start
+1,{If~%instructions%=1 ? [Instructions]/[GenerateResults1]}
+
+:Instructions
+1,<h3>Instructions:</h3>
+_There are nine (9) parameters to set with this table in order to calculate your jump. Use the Parameter Box (below) to enter:<br><br>
+_<b>1. Character Name: </b>Your character's name.<br><br>
+_<b>2. Height: </b>Your character's height. Round down to the nearest 2 digits, for example 1.78m. This table will handle any heights.<br><br>
+_<b>3. Skill Points: </b>Your skill points in jump including any modifiers. For example, if your character has a jump skill of 6, you will enter a 6 here. Don't forget that a Tumble skill of 5 or more gives you a +2 synergy bonus on jumps.<br><br>
+_<b>4. Current Speed: </b>Your character's current speed. For example, if your character's speed is 30 feet, you will enter 30.<br><br>
+_<b>5. RUN feat: </b>Enter Yes if your character has the feat RUN<br><br>
+_<b>6. Force Enhancements: </b>If your jump is enhanced by the Force, then enter that enhancement modifier to your jump. The jump won't be maximized by your height.<br><br>
+_<b>7. Unlimited?: </b>Enter Yes if your character is not limited due to other than Force-related reasons.<br><br>
+_<b>8. Instructions?: </b>Choose YES if you are ready to run the program, NO if you want to read the instructions again.<br><br>
+_When you have entered all your parameters, click on the Die icon at the top left of the screen.
+
+# ---------------------------------------------------------------
+
+:GenerateResults1
+1,[Unlimited=1][RunFeat=1]<table border=0>
+_<tr><td><b>Name: </b> %Name%<br></td></tr>
+_<tr><td><b>Height: </b> %height%m<br></td></tr>
+_<tr><td><b>Speed: </b> %speed%m  </td><td><b>Jump Skill: </b> %skill%  </td><td><b>Force?: </b> %magic% bonus<br></td><td><b>Run Feat?: </b> %temp4%  </td><td><b>Unlimited?: </b> %temp3%<br></td></tr>
+_</table><br>
+_<table border=1>
+_<tr><th>Adjusted<br>Die Roll</th><th>Running (Long) Jump*</th><th>Standing (Long) Jump</th><th>Running High Jump* (Grab)**</th><th>Standing High Jump (Grab)**</th><th>Jump Back</th></tr>
+_|min_roll=%skill%||min_roll+1|{If~%min_roll%<10? [MinRoll=1]}|max_roll=20||max_roll+%skill%|
+_|roll=%min_roll%|[Jump Loop2=1]
+_[Jump Loop]
+_</table><br><b>*</b> For a running jump, you must run (straight line) 6m <b>before</b> you jump.<br>
+_ If your jump plus the 6m is less than your normal movement rate, treat as a normal move.<br>
+_ Otherwise, treat as a full-round action (you may complete the distance for a RUN or DOUBLE MOVE action)<br>
+_<b>**</b>Grabbing height is calculated by adding 1.2 times your height (height + stretched arms) to your jump height.<br>
+_(A 2m person can reach another 40cm inches above their head.) This makes it easier to determine jumping up and grabbing something.
+
+:MinRoll
+1,|min_roll=10|
+
+:Unlimited
+1,|temp3=No|{If~%unlimited%=2? [Unlimited=2]}
+2,|temp3=Yes|
+
+:RunFeat
+1,|temp4=No|{If~%runfeat%=2? [RunFeat=2]}
+2,|temp4=Yes|
+
+:Jump Loop
+1,[Jump Loop2=2]{If~%roll%<=%max_roll%? [Jump Loop]}
+
+:Jump Loop2
+1,<tr><td align="center">%min_roll% or less</td>
+_<td>{If~%magic%=0?[GenRunningJumpNormal=2]/[GenRunningJumpMagic]}</td>
+_<td>{If~%magic%=0?[GenStandJumpNormal=2]/[GenStandJumpMagic]}</td>
+_<td>{If~%magic%=0?[GenRunningHighJumpNormal=2]/[GenRunningHighJumpMagic]}</td>
+_<td>{If~%magic%=0?[GenStandHighJumpNormal=2]/[GenStandHighJumpMagic]}</td>
+_<td>{If~%magic%=0?[GenJumpBackwardNormal=2]/[GenJumpBackwardMagic]}</td></tr>|roll+1|
+2,<tr><td align="center">%roll%</td>
+_<td>{If~%magic%=0?[GenRunningJumpNormal=2]/[GenRunningJumpMagic]}</td>
+_<td>{If~%magic%=0?[GenStandJumpNormal=2]/[GenStandJumpMagic]}</td>
+_<td>{If~%magic%=0?[GenRunningHighJumpNormal=2]/[GenRunningHighJumpMagic]}</td>
+_<td>{If~%magic%=0?[GenStandHighJumpNormal=2]/[GenStandHighJumpMagic]}</td>
+_<td>{If~%magic%=0?[GenJumpBackwardNormal=2]/[GenJumpBackwardMagic]}</td></tr>|roll+1|
+
+
+#----------------------------------------------------------------------------
+#                              Their Calculations
+#----------------------------------------------------------------------------
+
+:heightcalc
+1,|Grab=%height%||Grab*1.2|
+
+:GenRunningJumpNormal
+1,[heightcalc]|maxdist=%height%||maxdist*6||mindist=2||mindist*%speed%||mindist/10||mindist={Round~2,%mindist%}|
+#figures out max distance you can jump
+_|temp1=%roll%||temp1-10||temp1/3||temp1+2||JumpDist=%temp1%|
+_|temp2=%speed%||temp2/10||JumpDist*%temp2%|{If~%runfeat%=2?[GenRunningJumpNormal=3]}
+_|JumpDist>%mindist%||JumpDist<%maxdist%|
+_|JumpDist={Round~2,%JumpDist%}|%JumpDist% m
+2,{If~%unlimited%=1 ? [GenRunningJumpNormal=1]/[GenRunningJumpMagic]}
+3,|JumpDist*1.25|
+
+:GenRunningJumpMagic
+1,[heightcalc]|temp1=%roll%||temp1+%magic%||temp1-10||temp1/3||temp1+2||JumpDist=%temp1%|
+_|mindist=2||mindist*%speed%||mindist/10||mindist={Round~2,%mindist%}|
+_|temp2=%speed%||temp2/10||JumpDist*%temp2%|{If~%runfeat%=2?[GenRunningJumpNormal=3]}
+_|JumpDist>%mindist%|
+_|JumpDist={Round~2,%JumpDist%}|%JumpDist% m
+
+# ---------------------------------------------------------------
+
+:GenStandJumpNormal
+1,|maxdist=%height%||maxdist*2||mindist=1||mindist*%speed%||mindist/10||mindist={Round~2,%mindist%}|
+_|temp1=%roll%||temp1-10||temp1/2||temp1/3||temp1+1||JumpDist=%temp1%|
+_|temp2=%speed%||temp2/10||JumpDist*%temp2%|
+_|JumpDist>%mindist%||JumpDist<%maxdist%|
+_|JumpDist={Round~2,%JumpDist%}|%JumpDist% m
+2,{If~%unlimited%=1 ? [GenStandJumpNormal=1]/[GenStandJumpMagic]}
+
+:GenStandJumpMagic
+1,|temp1=%roll%||temp1+%magic%||temp1-10||temp1/2||temp1/3||temp1+1||JumpDist=%temp1%||mindist=1||mindist*%speed%||mindist/10||mindist={Round~2,%mindist%}|
+_|temp2=%speed%||temp2/10||JumpDist*%temp2%|
+_|JumpDist>%mindist%|
+_|JumpDist={Round~2,%JumpDist%}|%JumpDist% m
+
+# ---------------------------------------------------------------
+
+:GenRunningHighJumpNormal
+1,|maxdist=%height%||maxdist*1.5||mindist=1||mindist*%speed%||mindist/10||mindist={Round~2,%mindist%}|
+_|temp1=%roll%||temp1-10||temp1/4||temp1/3||temp1+1||JumpDist=%temp1%|
+_|temp2=%speed%||temp2/10||JumpDist*%temp2%|{If~%runfeat%=2?[GenRunningJumpNormal=3]}
+_|JumpDist>%mindist%||JumpDist<%maxdist%|
+_|JumpDist={Round~2,%JumpDist%}|%JumpDist% m
+_|JumpDist+%Grab%|&nbsp &nbsp &nbsp 
+_(|JumpDist={Round~2,%JumpDist%}|%JumpDist% m)
+2,{If~%unlimited%=1 ? [GenRunningHighJumpNormal=1]/[GenRunningHighJumpMagic]}
+
+:GenRunningHighJumpMagic
+1,|temp1=%roll%||temp1+%magic%||temp1-10||temp1/4||temp1/3||temp1+1||JumpDist=%temp1%|
+_|mindist=1||mindist*%speed%||mindist/10||mindist={Round~2,%mindist%}|
+_|temp2=%speed%||temp2/10||JumpDist*%temp2%|{If~%runfeat%=2?[GenRunningJumpNormal=3]}
+_|JumpDist>%mindist%|
+_|JumpDist={Round~2,%JumpDist%}|%JumpDist% m
+_|JumpDist+%Grab%|&nbsp &nbsp &nbsp (|JumpDist={Round~2,%JumpDist%}|%JumpDist% m)  
+
+# ---------------------------------------------------------------
+
+:GenStandHighJumpNormal
+1,|maxdist=%height%||mindist=1||mindist*%speed%||mindist/10||mindist={Round~2,%mindist%}|
+_|temp1=%roll%||temp1-10||temp1/8||temp1/3||temp1+1||JumpDist=%temp1%|
+_|temp2=%speed%||temp2/10||JumpDist*%temp2%|
+_|JumpDist>%mindist%||JumpDist<%maxdist%|
+_|JumpDist={Round~2,%JumpDist%}|%JumpDist% m
+_|JumpDist+%Grab%|&nbsp &nbsp &nbsp (|JumpDist={Round~2,%JumpDist%}|%JumpDist% m)  
+2,{If~%unlimited%=1 ? [GenStandHighJumpNormal=1]/[GenStandHighJumpMagic]}
+
+:GenStandHighJumpMagic
+1,|temp1=%roll%||temp1+%magic%||temp1-10||temp1/8||temp1/3||temp1+1||JumpDist=%temp1%||mindist=1||mindist*%speed%||mindist/10||mindist={Round~2,%mindist%}|
+_|temp2=%speed%||temp2/10||JumpDist*%temp2%|
+_|JumpDist>%mindist%|
+_|JumpDist={Round~2,%JumpDist%}|%JumpDist% m
+_|JumpDist+%Grab%|&nbsp &nbsp &nbsp (|JumpDist={Round~2,%JumpDist%}|%JumpDist% m)  
+
+# ---------------------------------------------------------------
+
+:GenJumpBackwardNormal
+1,|maxdist=%height%||mindist=0.33||mindist*%speed%||mindist/10||mindist={Round~2,%mindist%}|
+_|temp1=%roll%||temp1-10||temp1/8||temp1/3||temp1+0.33||JumpDist=%temp1%|
+_|temp2=%speed%||temp2/10||JumpDist*%temp2%|
+_|JumpDist>%mindist%||JumpDist<%maxdist%|
+_|JumpDist={Round~2,%JumpDist%}|%JumpDist% m
+2,{If~%unlimited%=1 ? [GenJumpBackwardNormal=1]/[GenJumpBackwardMagic]}
+
+:GenJumpBackwardMagic
+1,|temp1=%roll%||temp1+%magic%||temp1-10||temp1/8||temp1/3||temp1+0.33||JumpDist=%temp1%|
+_|mindist=0.33||mindist*%speed%||mindist/10||mindist={Round~2,%mindist%}|
+_|temp2=%speed%||temp2/10||JumpDist*%temp2%|
+_|JumpDist>%mindist%|
+_|JumpDist={Round~2,%JumpDist%}|%JumpDist% m  
+
+# ---------------------------------------------------------------
+

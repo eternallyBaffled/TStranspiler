@@ -1,0 +1,70 @@
+# ------------------------------------------------------
+# Last Update: verified by Valminder Jan 01, 2014.
+# ------------------------------------------------------
+#
+
+%weight%,0
+%value%,0
+%vmod%,1
+%wmod%,1
+%size%,0
+%masterwork%,0
+
+;Start
+1,[Masterwork][Armor]|size=[Size]|{If~%size%!=medium? (%size%)}
+_|value*%vmod%||weight*%wmod%|{If~%masterwork%=1?|value+150|}!%value%!%weight%
+
+;Masterwork
+4,|masterwork=0|
+1,|masterwork=1|masterwork 
+
+;Armor
+5,[Spikes_Armor][Light]
+5,[Spikes_Armor][Medium]
+5,[Spikes_Armor][Heavy]
+5,[Spikes_Shield][Shield]
+1,[Other]
+
+;Spikes_Armor
+9,
+1,spiked |value+50||weight+10|
+
+;Spikes_Shield
+9,
+1,spiked |value+10||weight+5|
+
+;Other
+1,locked gauntlet|value+8||weight+5|
+
+;Light
+1,padded armor|value+5||weight+10|
+1,leather armor|value+10||weight+15|
+1,studded leather armor|value+25||weight+20|
+1,chain shirt|value+100||weight+25|
+
+;Medium
+1,hide armor|value+15||weight+25|
+1,scale mail|value+50||weight+30|
+1,chainmail|value+150||weight+40|
+1,breastplate|value+200||weight+30|
+
+;Heavy
+1,splint mail|value+200||weight+45|
+1,banded mail|value+250||weight+35|
+1,half-plate|value+600||weight+50|
+1,full plate|value+1500||weight+50|
+
+;Shield
+1,buckler|value+15||weight+5|
+1,light wooden shield|value+3||weight+5|
+1,light steel shield|value+9||weight+6|
+1,heavy wooden shield|value+7||weight+10|
+1,heavy steel shield|value+20||weight+15|
+1,tower shield|value+30||weight+45|
+
+;Size
+1,tiny|vmod=0.5||wmod=0.10|
+4,small|wmod=0.50|
+16,medium
+4,large|vmod=2||wmod=2|
+1,huge|vmod=4||wmod=5|

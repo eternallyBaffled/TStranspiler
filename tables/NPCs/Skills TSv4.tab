@@ -1,0 +1,538 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder Feb 28, 2006.
+# ---------------------------------------------------
+#
+# ------------------------------------------------------------
+# This table does not work with TSv5 and I will not update it.
+# ------------------------------------------------------------
+#
+# D&D 3.5 skills Helper
+# Jonathan Doolin
+# good4usoul@yahoo.com
+#
+# This is the second program in a set that I've got in my head.
+# The first one was the Spells Generator. It was a much less
+# sophisticated program. This one features Two Dimensional arrays,
+# Lots of HTML code generated on the fly, and a race-list that
+# just about anybody should be able to expand.
+#
+# EXPANDING THE TABLE:
+#    You have to add the races to the list at the bottom, and to
+#    the "@Race" parameter list, and you have to spell the skill
+#    abbreviations correctly, or it will give you an error.
+#
+# FEATURES THIS TABLES DOES HAVE:
+# Up to three classes for one character.
+# Primary class, Second class, and third class are designated
+# by BOLD, ITALIC, and UNDERLINE, respectively. This gives a huge
+# amount of information without wasting space with words.
+# I thought it was rather innovative, thank you.
+#
+# Skill Bonuses and Penalties due to Attributes, Race, and Armor
+# are automatically calculated into the score.
+#
+# User Clicks on RANKS entry, just enters RANKS TAKEN.
+# RANKS entry contains hidden information you see when you click on it,
+# including the full name of the skill, and the page number from the 
+# PHB.  Optionally, the user may use the hidden <SUB>subscript</SUB>
+# field in the RANKS entry to add synergy, feat, or miscellaneous bonuses.
+#
+# Skills that are usable untrained are marked with 0 ranks.
+# Skills that are not usable untrained are marked with X
+#
+# Skills are abbreviated to 6 letters to fit more information in small space.  
+# Full Name of skill in hidden text field accessed by clicking on the RANKS entry.
+#
+# Profession, Craft, Knowledge, and Performance Skills divided up
+# into subcategories.
+# CrAlch-Craft(Alchemy), KnArca-Knowledge(Arcana), KnArch-Knowledge
+# (Architecture and Engineering)
+# PrStab-Profession(Stablehand),PeCome-Performance(Comedy) 
+#
+# Skill Abbreviations work with a standard protocol.
+# This is important for adding new races.
+#
+# Skill Points are calculated individully for each class.
+# Intelligence and Human Bonuses are taken into account.
+# Changes in Intelligence at 4,8,12,16, and 20th level are NOT taken
+# into account. In fact, I think that I'm going to disregard the rule
+# against retroactive Intelligence Skill Bonuses.
+#
+# Max Class Ranks is calculated--Which is just 3+the class level.
+# The idea is that if a rogue 4/ranger 5 is only going to be able
+# to spend seven ROGUE skill points on the Disable Device skill.
+# The rest of the points will have to come from the ranger levels
+# at double cost.  It's still complicated, but with all the data
+# in front of you, it starts to make sense.
+#
+# Player's Handbook Skill Description Page Numbers in Hidden Text.
+#
+# Easily expandable Racial Bonus List, including 
+# 1. Skill Abbreviation,
+# 2. Unconditional Bonus,
+# 3. Conditional Bonus,
+# 4. Condition (dwarves stone and metal working) *OR* Special Note (elves auto-Search)|
+#
+# Future Upgrades Might Include:
+#
+# Re-working the skills matrix so that Class Skills works just like the Race Bonuses--i.e. using the 
+# Data Chunker to put the data into an array that will actually be used instead of creating 16 
+# seventy-five entry arrays, (only three of which are used)  Also, if this were done, it would
+# be quite easy to add new classes, prestige classes, etc.
+#
+# Creating a Default Skills List that also works just like the Race Bonuses
+#
+# Entering Racial Bonuses from the D&D 3.5 Monster Manual, if nobody else does it first, (hint, hint)
+#
+#    Skill Bonuses due to Feats and Synergies.
+#    Putting synergy information in hidden text (easy), or generating synergy bonuses automatically, 
+#    (difficult, and somewhat intrusive.)
+#    FEATS:  I am thinking of having all FEAT bonuses come in as a single "/" and "," delimited field
+#    And making it work with the data chunker.  Another FEAT choosing table will provide this input.
+#    This FEAT input will just list the skill bonuses, and not bother with which feat the bonus comes 
+#    from.
+#    
+#
+# Putting in advice to new players for selecting skills.  For instance, if they select the ranger
+# class, they should be told to put as many points as they can in SURVIVAL, and bards PERFORM
+# and Paladins and Clerics Knowledge(Religion), and Wizards and Sorcerers CONCENTRATION, and Sorcerers
+# BLUFF.  Well, the list goes on and on, and some character classes are practically crippled without
+# the right skills.
+#
+# Language list:  Cost 1 skill point for bards, 2 for everybody else
+# 
+# Class specific skills, such as Animal Empathy and Bardic Knowledge.
+#
+# User Definable number of columns in table.
+#
+# Output generated, Including only skills with Rank, Race Bonuses, Feat Bonuses, or Synergy Bonuses.
+
+
+# Pre-generation Directives
+
+/OverrideRolls 1
+
+# Programmer defined Parameters
+%NumClasses%,17
+%NumSkills%,84
+
+#Arrays
+#Class,0
+#Skill,0
+#Bonus,0
+
+#Parameters
+%Class1%,1
+%Class1Level%,1
+%Class2%,17
+%Class2Level%,0
+%Class3%,17
+%Class3Level%,0
+%STR%,10
+%DEX%,10
+%CON%,10
+%INT%,10
+%WIS%,10
+%CHA%,10
+%AChk%,0
+%Race%,Human
+
+#Frequently Used Constants
+%INTBonus%,0
+%WholeMessage%,
+
+#Temp Storage
+%X%,0
+%Points%,0
+%Continue%,0
+%List%,0
+%Delimiter%,0
+#Temp Storage:  Racial Bonus Data -->Skill Array
+%RaceBonus%,0
+%CircBonus%,0
+%CircDesc%,-
+#Temp Storage:  SkillData -->Skill Array
+%SkillData%,0
+%Untrained%,0
+%Stat%,0
+%Bbn%,0
+%Brd%,0
+%Clr%,0
+%Drd%,0
+%Ftr%,0
+%Mnk%,0
+%Pal%,0
+%Rgr%,0
+%Rog%,0
+%Sor%,0
+%Wiz%,0
+%Adp%,0
+%Com%,0
+%Ars%,0
+%War%,0
+%Exp%,0
+%SkillName%,0
+%AbbrevSkill%,0
+%AChkMult%,0
+#Temp Storage:  ClassData -->Class Array
+%ClassData%,xx
+%Abbrev%,xxx
+%Message%,
+#Showing Max Skill Points
+%Ca%,0
+%Cb%,0
+%Cc%,0
+%Fa%,0
+%Fb%,0
+%Fc%,0
+%P1%,0
+%P2%,0
+%P3%,0
+%P4%,0
+%P5%,0
+
+# Parameters
+@Race,7,Choose Race,Half-Elf,Elf,Halfling,Dwarf,Gnome,Half-Orc,Human
+@Class1,15,Choose Primary Class,Barbarian,Bard,Cleric,Druid,Fighter,Monk,Paladin,Ranger,Rogue,Sorcerer,Wizard,Adept,Commoner,Aristocrat,Warrior,Expert
+@Class1Level,1,Level for Primary Class
+@Class2,17,Choose Secondary Class,Barbarian,Bard,Cleric,Druid,Fighter,Monk,Paladin,Ranger,Rogue,Sorcerer,Wizard,Adept,Commoner,Aristocrat,Warrior,Expert,None
+@Class2Level,0,Level for Secondary Class
+@Class3,17,Choose Class 3,Barbarian,Bard,Cleric,Druid,Fighter,Monk,Paladin,Ranger,Rogue,Sorcerer,Wizard,Adept,Commoner,Aristocrat,Warrior,Expert,None
+@Class3Level,0,Level for Third Class
+@STR,13,Strength
+@DEX,12,Dexterity
+@CON,11,Constitution
+@INT,10,Intelligence
+@WIS,10,Wisdom
+@CHA,8,Charisma
+@AChk,1,Armor Check Penalty
+
+;Start
+1,<B>{Param~Race,%Race%}</B>[BuildArray][ShowClasses][RacialBonuses][ShowSkillInfo]%WholeMessage%
+
+;BuildArray
+1,{ArrNew~Skill}
+_|X=0|{Loop~%NumSkills%,[AddSkill]}
+_{ArrNew~Class}
+_|X=0|{Loop~%NumClasses%,[AddClass]}
+_{ArrNew~Bonus}
+_{ArrItem~Bonus,STR,[Bonuses=%STR%]}
+_{ArrItem~Bonus,DEX,[Bonuses=%DEX%]}
+_{ArrItem~Bonus,CON,[Bonuses=%CON%]}
+_{ArrItem~Bonus,INT,[Bonuses=%INT%]}
+_|INTBonus={Calc~[Bonuses=%INT%]+{If~%Race%=7?1/0}}|
+_{ArrItem~Bonus,WIS,[Bonuses=%WIS%]}
+_{ArrItem~Bonus,CHA,[Bonuses=%CHA%]}
+#These lines show the skill advice.
+#_|WholeMessage=%WholeMessage%<BR>{ArrGet~Class,%Class1%:Abbrev}:  {ArrGet~Class,%Class1%:Message}|
+#_|WholeMessage=%WholeMessage%<BR>{ArrGet~Class,%Class2%:Abbrev}:  {ArrGet~Class,%Class2%:Message}|
+#_|WholeMessage=%WholeMessage%<BR>{ArrGet~Class,%Class3%:Abbrev}:  {ArrGet~Class,%Class3%:Message}|
+
+
+:Bonuses
+#Do a |X=STR|[Bonuses] instead of a [Bonuses=%STR%]
+0-1,-5
+2-3,-4
+4-5,-3
+6-7,-2
+8-9,-1
+10-11,0
+12-13,1
+14-15,2
+16-17,3
+18-19,4
+20-21,5
+22-23,6
+24-25,7
+26-27,8
+28-29,9
+30-31,10
+
+
+;ShowClasses
+1,
+_<TABLE cellspacing=10 cellpadding=10><TR><TD>
+_<B>[ShowPointTotals=1]</B><BR>
+_</TD><TD>
+_<I>{If~%Class2%<17?[ShowPointTotals=2]}</I>
+_</TD><TD>
+_<U>{If~%Class3%<17?[ShowPointTotals=3]}</U>
+_</TD></TR></TABLE>
+
+:ShowPointTotals
+1,
+_<B>{Param~Class1,%Class1%} (%Class1Level%)</B><BR>
+_|Points={Max~1,{Calc~({ArrGet~Class,%Class1%:Points}+%INTBonus%)}}|
+_|Points={Calc~%Points%*(3+%Class1Level%)}|
+_Total: %Points%<BR>
+_Remaining:{Note~%Points%}
+_|Ca=%Class1Level%||Fa=B|
+_|Cb=%Class2Level%||Fb=I|
+_|Cc=%Class3Level%||Fc=U|
+_[ShowMaximum]
+2,
+_<I>{Param~Class2,%Class2%} (%Class2Level%)</I><BR>
+_|Points={Max~1,{Calc~({ArrGet~Class,%Class2%:Points}+%INTBonus%)}}|
+_|Points={Calc~%Points%*(%Class2Level%)}|
+_Total: %Points%<BR>
+_Remaining:{Note~%Points%}
+_|Ca=%Class2Level%||Fa=I|
+_|Cb=%Class1Level%||Fb=B|
+_|Cc=%Class3Level%||Fc=U|
+_[ShowMaximum]
+3,
+_<U>{Param~Class3,%Class3%} (%Class3Level%)</U><BR>
+_|Points={Max~1,{Calc~({ArrGet~Class,%Class3%:Points}+%INTBonus%)}}|
+_|Points={Calc~%Points%*(%Class3Level%)}|
+_Total: %Points%<BR>
+_Remaining:{Note~%Points%}
+_|Ca=%Class3Level%||Fa=U|
+_|Cb=%Class1Level%||Fb=B|
+_|Cc=%Class2Level%||Fc=I|
+_[ShowMaximum]
+
+:AddClass
+1,
+_|X+1|
+_|ClassData=[ClassList=%X%]|
+_{Split~ClassData,",",Abbrev,Points,Message}
+_{ArrItem~Class,%X%:Abbrev,%Abbrev%}
+_{ArrItem~Class,%X%:Points,%Points%}
+_{ArrItem~Class,%Abbrev%,%X%}
+_{ArrItem~Class,%X%:Message,%Message%}
+
+
+
+:ShowMaximum
+#Inp Ca,Fa,Cb,Fb,Cc,Fc
+1,
+_|P1={Calc~3+%Ca%}|
+_|P2={Calc~%P1%+%Cb%}|
+_|P3={Calc~%P1%+%Cc%}|
+_|P4={Calc~%P1%+%Cb%+%Cc%}|
+_|P5={Calc~%P4%/2}|
+#_<BR>Max:<BR>%P1% <BR>
+#_<%Fb%>%P2%</ %Fb%><BR>
+#_<%Fc%>%P3%</ %Fc%><BR>
+#_<%Fc%><%Fb%>%P4%</ %Fb%></ %Fc%><BR>
+#_</ %Fa%>%P5%<%Fa%>
+_<BR>Max: %P1% / %P4%.0 <BR> (%P5%.0)
+
+;AddSkill
+1,
+_|X+1|
+_|SkillData=[SkillList=%X%]|
+_{Split~SkillData,",",AbbrevSkill,Untrained,Stat,Bbn,Brd,Clr,Drd,Ftr,Mnk,Pal,Rgr,Rog,Sor,Wiz,Adp,Com,Ars,War,Exp,SkillName,AChkMult}
+_{ArrItem~Skill,%X%:1,%Bbn%}
+_{ArrItem~Skill,%X%:2,%Brd%}
+_{ArrItem~Skill,%X%:3,%Clr%}
+_{ArrItem~Skill,%X%:4,%Drd%}
+_{ArrItem~Skill,%X%:5,%Ftr%}
+_{ArrItem~Skill,%X%:6,%Mnk%}
+_{ArrItem~Skill,%X%:7,%Pal%}
+_{ArrItem~Skill,%X%:8,%Rgr%}
+_{ArrItem~Skill,%X%:9,%Rog%}
+_{ArrItem~Skill,%X%:10,%Sor%}
+_{ArrItem~Skill,%X%:11,%Wiz%}
+_{ArrItem~Skill,%X%:12,%Adp%}
+_{ArrItem~Skill,%X%:13,%Com%}
+_{ArrItem~Skill,%X%:14,%Ars%}
+_{ArrItem~Skill,%X%:15,%War%}
+_{ArrItem~Skill,%X%:16,%Exp%}
+_{ArrItem~Skill,%X%:17,X}
+_{ArrItem~Skill,%X%:Name,%SkillName%}
+_{ArrItem~Skill,%X%:Untrained,%Untrained%}
+_{ArrItem~Skill,%X%:Stat,%Stat%}
+_{ArrItem~Skill,%X%:Abbrev,%AbbrevSkill%}
+_{ArrItem~Skill,%X%:AChkMult,%AChkMult%}
+_{ArrItem~Skill,%X%:RaceBonus,0}
+_{ArrItem~Skill,%AbbrevSkill%,%X%}
+
+;ShowSkillInfo
+#Set up with double-loop for user definable number of columns.
+1,<TABLE BORDER=1><TR><TD>
+_|X=0|
+_{Loop~{Calc~(%NumSkills%)/6},|X+1|[ShowSkill]}
+_</TD><TD>
+_{Loop~{Calc~(%NumSkills%)/6},|X+1|[ShowSkill]}
+_</TD><TD>
+_{Loop~{Calc~(%NumSkills%)/6},|X+1|[ShowSkill]}
+_</TD><TD>
+_{Loop~{Calc~(%NumSkills%)/6},|X+1|[ShowSkill]}
+_</TD><TD>
+_{Loop~{Calc~(%NumSkills%/6)},|X+1|[ShowSkill]}
+_</TD><TD>
+_{Loop~{Calc~(%NumSkills%)/6},|X+1|[ShowSkill]}
+_</TD></TR></TABLE>
+
+
+;ShowSkill
+1,[Boldener=1] {ArrGet~Skill,%X%:Abbrev}  [Boldener=2]
+_<SUB>{Calc~
+_{ArrGet~Bonus,{ArrGet~Skill,%X%:Stat}}
+_-{Calc~{ArrGet~Skill,%X%:AChkMult}*%AChk%}
+_+{ArrGet~Skill,%X%:RaceBonus}
+_}
+_</SUB>
+_{Note~
+_<{ArrGet~Skill,%X%:Name}>
+_<SUB></SUB>
+_{If~{ArrGet~Skill,%X%:Untrained}=0?X/0}}<BR>
+
+
+
+:Boldener
+1,{If~{ArrGet~Skill,%X%:%Class1%}=C ?<B>}
+_{If~{ArrGet~Skill,%X%:%Class2%}=C ?<I>}
+_{If~{ArrGet~Skill,%X%:%Class3%}=C ?<U>}
+2,{IIf~{ArrGet~Skill,%X%:%Class3%}=C ?</U>}
+_{IIf~{ArrGet~Skill,%X%:%Class2%}=C ?</I>}
+_{IIf~{ArrGet~Skill,%X%:%Class1%}=C ?</B>}
+
+
+:ClassList
+#Add Class name to this and split above.
+1,Bbn,4,Climb, Jump, Swim, Tumble.  Just like Barbarians do!
+2,Brd,6,One Language per skill point
+3,Clr,2,Knowledge(Religion) for turning undead
+4,Drd,4,Animal Handling is good
+5,Ftr,2,Skills?  Just hit things!  Hit them hard!
+6,Mnk,4,Tubling is nice
+7,Pal,2,Take healing and convince you DM that a roll of 20 or higher should heal real hit point damage.  Also, Knowledge(Religion) and Ride
+8,Rgr,6,Absolutely get Survival.  Animal Handling is nice, too.
+9,Rog,8,Disable Device and Search are most important.  Use Magic Device, etc.
+10,Sor,2,You'll probably want Bluff.  Most sorcerers I know get by on their wit.
+11,Wiz,2,You'll probably want Concentration and Spellcraft, and maybe Knowledge(Arcana)
+12,Adp,2,You read a lot of books about wicca.  Take Knowledge Arcana.
+13,Com,2,Max out a profession and a craft skill. Give them synergy bonuses to each other and take a skill focus(craft or profession) as a feat.  That's what commoners do.  At least the professionals.
+14,Ars,4,Knowledge Nobility and Royalty, Diplomacy, Bluff?
+15,War,2,Not much of a choice but swim is a pretty rare class skill.
+16,Exp,6,Technically only ten of these skills are class skills (your choice)
+17,Non,0,
+
+:SkillList
+#1,%Key%,%Untrained%,%Stat%,%Bbn%,%Brd%,%Clr%,%Drd%,%Ftr%,%Mnk%,%Pal%,%Rgr%,%Rog%,%Sor%,%Wiz%,%Adp%,%Com%,%Ars%,%War%,%Exp%,%Skill%(p)
+1,Apprai,1,INT,X,C,X,X,X,X,X,X,C,X,X,X,X,C,X,C,Appraise(67),0
+2,Balanc,1,DEX,X,C,X,X,X,C,X,X,C,X,X,X,X,X,X,C,Balance(67),1
+3,Bluff,1,CHA,X,C,X,X,X,X,X,X,C,C,X,X,X,C,X,C,Bluff(67-69),0
+4,Climb,1,STR,C,C,X,X,C,C,X,C,C,X,X,X,C,X,C,C,Climb(69),1
+5,Concen,1,CHA,X,C,C,C,X,C,C,C,X,C,C,C,X,X,X,C,Concentration(69),0
+6,CrAlch,1,INT,C,C,C,C,C,C,C,C,C,C,C,C,C,X,X,C,Craft(Alchemy)(70-71),0
+7,CrArmo,1,INT,C,C,C,C,C,C,C,C,C,C,C,C,C,X,X,C,Craft(Armorsmithing)(70-71),0
+8,CrBowm,1,INT,C,C,C,C,C,C,C,C,C,C,C,C,C,X,X,C,Craft(Bowmaking)(70-71),0
+9,CrCarp,1,INT,C,C,C,C,C,C,C,C,C,C,C,C,C,X,X,C,Craft(Carpentry)(70-71),0
+10,CrLeat,1,INT,C,C,C,C,C,C,C,C,C,C,C,C,C,X,X,C,Craft(Leatherworking)(70-71),0
+11,CrPott,1,INT,C,C,C,C,C,C,C,C,C,C,C,C,C,X,X,C,Craft(Pottery)(70-71),0
+12,CrTrap,1,INT,C,C,C,C,C,C,C,C,C,C,C,C,C,X,X,C,Craft(Trapmaking)(70-71),0
+13,CrWeap,1,INT,C,C,C,C,C,C,C,C,C,C,C,C,C,X,X,C,Craft(Weaponsmithing)(70-71),0
+14,DecScr,0,INT,X,C,X,X,X,X,X,X,C,X,X,X,X,X,X,C,Decipher Script(71),0
+15,Diplom,1,CHA,X,C,C,C,X,C,C,X,C,X,X,X,X,C,X,C,Diplomacy(71-72),0
+16,DisDev,0,INT,X,X,X,X,X,X,X,X,C,X,X,X,X,X,X,C,Disable Device(72),0
+17,Disgui,1,CHA,X,C,X,X,X,X,X,X,C,X,X,X,X,C,X,C,Disguise(72-73),0
+18,EscArt,1,DEX,X,C,X,X,X,C,X,X,C,X,X,X,X,X,X,C,Escape Artist(73),1
+19,Forger,1,INT,X,X,X,X,X,X,X,X,C,X,X,X,X,C,X,C,Forgery(74),0
+20,GatInf,1,CHA,X,C,X,X,X,X,X,X,C,X,X,X,X,C,X,C,Gather Information(74),0
+21,HanAni,0,CHA,C,X,X,C,C,X,C,C,X,X,X,C,C,C,C,C,Handle Animal(74-75),0
+22,Heal,1,WIS,X,X,C,C,X,X,C,C,X,X,X,C,X,X,X,C,Heal(75-76),0
+23,Hide,1,DEX,X,C,X,X,X,C,X,C,C,X,X,X,X,X,X,C,Hide(76),1
+24,Intimi,1,CHA,C,X,X,X,C,X,X,X,C,X,X,X,X,C,C,C,Intimidate(76-77),0
+25,Jump,1,STR,C,C,X,X,C,C,X,C,C,X,X,X,C,X,C,C,Jump(77),1
+26,KnArca,0,INT,C,X,C,X,X,C,X,X,X,C,C,C,X,C,X,C,Knowledge(arcana)(78),0
+27,KnArch,0,INT,X,C,X,X,X,X,X,X,X,X,C,C,X,C,X,C,Knowledge(architecture and engineering)(78),0
+28,KnDung,0,INT,X,C,X,X,X,X,X,C,X,X,C,C,X,C,X,C,Knowledge(dungeoneering)(78),0
+29,KnGeog,0,INT,X,C,X,X,X,X,X,C,X,X,C,C,X,C,X,C,Knowledge(geography)(78),0
+30,KnHist,0,INT,X,C,C,X,X,X,X,X,X,X,C,C,X,C,X,C,Knowledge(history)(78),0
+31,KnLoca,0,INT,X,C,X,X,X,X,X,X,C,X,C,C,X,C,X,C,Knowledge(local)(78),0
+32,KnNatu,0,INT,X,C,X,C,X,X,X,C,X,X,C,C,X,C,X,C,Knowledge(nature)(78),0
+33,KnNobi,0,INT,C,C,X,X,X,X,C,X,X,X,C,C,X,C,X,C,Knowledge(nobility and royalty)(78),0
+34,KnPlan,0,INT,X,C,C,X,X,X,X,X,X,X,C,C,X,C,X,C,Knowledge(the planes)(78),0
+35,KnReli,0,INT,X,C,C,X,X,C,C,X,X,X,C,C,X,C,X,C,Knowledge(religion)(78),0
+36,Listen,1,WIS,C,C,X,C,X,C,X,C,C,X,X,X,C,C,X,C,Listen(79-80),0
+37,MovSil,1,DEX,X,C,X,X,X,C,X,C,C,X,X,X,X,X,X,C,Move Silently(79),1
+38,OpeLoc,0,DEX,X,X,X,X,X,X,X,X,C,X,X,X,X,X,X,C,Open Lock(79),0
+39,PeAct,1,CHA,X,C,X,X,X,C,X,X,C,X,X,X,X,C,X,C,Perform(Act)(79-80),0
+40,PeCome,1,CHA,X,C,X,X,X,C,X,X,C,X,X,X,X,C,X,C,Perform(Comedy)(79-80),0
+41,PeDanc,1,CHA,X,C,X,X,X,C,X,X,C,X,X,X,X,C,X,C,Perform(Dance)(79-80),0
+42,PeKeyb,1,CHA,X,C,X,X,X,C,X,X,C,X,X,X,X,C,X,C,Perform(Keyboard)(79-80),0
+43,PeOrat,1,CHA,X,C,X,X,X,C,X,X,C,X,X,X,X,C,X,C,Perform(Oratory)(79-80),0
+44,PePerc,1,CHA,X,C,X,X,X,C,X,X,C,X,X,X,X,C,X,C,Perform(Percussion)(79-80),0
+45,PeSing,1,CHA,X,C,X,X,X,C,X,X,C,X,X,X,X,C,X,C,Perform(Sing)(79-80),0
+46,PeStri,1,CHA,X,C,X,X,X,C,X,X,C,X,X,X,X,C,X,C,Perform(String)(79-80),0
+47,PeWind,1,CHA,X,C,X,X,X,C,X,X,C,X,X,X,X,C,X,C,Perform(Wind)(79-80),0
+48,PrApot,0,WIS,X,C,C,C,X,C,C,C,C,C,C,C,C,X,X,C,Profession(Apothecary)(80),0
+49,PrBoat,0,WIS,X,C,C,C,X,C,C,C,C,C,C,C,C,X,X,C,Profession(Boater)(80),0
+50,PrBook,0,WIS,X,C,C,C,X,C,C,C,C,C,C,C,C,X,X,C,Profession(Bookkeeper)(80),0
+51,PrBrew,0,WIS,X,C,C,C,X,C,C,C,C,C,C,C,C,X,X,C,Profession(Brewer)(80),0
+52,PrCook,0,WIS,X,C,C,C,X,C,C,C,C,C,C,C,C,X,X,C,Profession(Cook)(80),0
+53,PrDriv,0,WIS,X,C,C,C,X,C,C,C,C,C,C,C,C,X,X,C,Profession(Driver)(80),0
+54,PrFarm,0,WIS,X,C,C,C,X,C,C,C,C,C,C,C,C,X,X,C,Profession(Farmer)(80),0
+55,PrFish,0,WIS,X,C,C,C,X,C,C,C,C,C,C,C,C,X,X,C,Profession(Fisher)(80),0
+56,PrGuid,0,WIS,X,C,C,C,X,C,C,C,C,C,C,C,C,X,X,C,Profession(Guide)(80),0
+57,PrHerb,0,WIS,X,C,C,C,X,C,C,C,C,C,C,C,C,X,X,C,Profession(Herbalist)(80),0
+58,PrHerd,0,WIS,X,C,C,C,X,C,C,C,C,C,C,C,C,X,X,C,Profession(Herder)(80),0
+59,PrHunt,0,WIS,X,C,C,C,X,C,C,C,C,C,C,C,C,X,X,C,Profession(Hunter)(80),0
+60,PrInnk,0,WIS,X,C,C,C,X,C,C,C,C,C,C,C,C,X,X,C,Profession(Innkeeper)(80),0
+61,PrLumb,0,WIS,X,C,C,C,X,C,C,C,C,C,C,C,C,X,X,C,Profession(Lumberjack)(80),0
+62,PrMill,0,WIS,X,C,C,C,X,C,C,C,C,C,C,C,C,X,X,C,Profession(Miller)(80),0
+63,PrMine,0,WIS,X,C,C,C,X,C,C,C,C,C,C,C,C,X,X,C,Profession(Miner)(80),0
+64,PrPort,0,WIS,X,C,C,C,X,C,C,C,C,C,C,C,C,X,X,C,Profession(Porter)(80),0
+65,PrRanc,0,WIS,X,C,C,C,X,C,C,C,C,C,C,C,C,X,X,C,Profession(Rancher)(80),0
+66,PrSail,0,WIS,X,C,C,C,X,C,C,C,C,C,C,C,C,X,X,C,Profession(Sailor)(80),0
+67,PrScri,0,WIS,X,C,C,C,X,C,C,C,C,C,C,C,C,X,X,C,Profession(Scribe)(80),0
+68,PrSieg,0,WIS,X,C,C,C,X,C,C,C,C,C,C,C,C,X,X,C,Profession(Siege Engineer)(80),0
+69,PrStab,0,WIS,X,C,C,C,X,C,C,C,C,C,C,C,C,X,X,C,Profession(Stablehand)(80),0
+70,PrTann,0,WIS,X,C,C,C,X,C,C,C,C,C,C,C,C,X,X,C,Profession(Tanner)(80),0
+71,PrTeam,0,WIS,X,C,C,C,X,C,C,C,C,C,C,C,C,X,X,C,Profession(Teamster)(80),0
+72,PrWood,0,WIS,X,C,C,C,X,C,C,C,C,C,C,C,C,X,X,C,Profession(Woodcutter)(80),0
+73,Ride,1,DEX,C,X,X,C,C,X,C,C,X,X,X,X,C,C,C,C,Ride(80),0
+74,Search,1,INT,X,X,X,X,X,X,X,C,C,X,X,X,X,X,X,C,Search(81),0
+75,SenMot,1,WIS,X,C,X,X,X,C,C,X,C,X,X,X,X,C,X,C,Sense Motive(81),0
+76,SleHan,1,DEX,X,C,X,X,X,X,X,X,C,X,X,X,X,X,X,C,Sleight of Hand(81-82),0
+77,SpeCra,0,INT,X,C,C,C,X,X,X,X,X,C,C,C,X,X,X,C,Spellcraft(82-83),0
+78,Spot,1,WIS,X,X,X,C,X,C,X,C,C,X,X,X,C,C,X,C,Spot(83),0
+79,Surviv,1,WIS,C,X,X,C,X,X,X,C,X,X,X,C,X,C,X,C,Survival(83-84),1
+80,Swim,1,STR,X,X,X,X,X,X,X,X,X,X,X,X,C,C,C,C,Swim(84),2
+81,Tumble,1,DEX,X,C,X,X,X,C,X,X,C,X,X,X,X,X,X,C,Tumble(84-85),1
+82,UseMag,0,CHA,X,C,X,X,X,X,X,X,C,X,X,X,X,X,X,C,Use Magic Device(85-86),0
+83,UseRop,1,DEX,X,X,X,X,X,X,X,C,C,X,X,X,C,X,X,C,Use Rope(86),0
+84,{Note~______},1,DEX,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,,0
+
+:RacialBonuses
+1,
+_|List=[Race=%Race%]||Delimiter=\||Continue=1|
+_|SkillData=[ChunkData]|
+_{While~%Continue%,
+_|SkillData=[ChunkData]|
+#_%SkillData%<BR>
+_{Split~SkillData,",",Abbrev,P1,P2,P3}
+#_Abbrev=%Abbrev%  Bonus=%P1% Conditional Bonus=%P2% Condition=%P3%<BR>
+_{ArrItem~Skill,{ArrGet~Skill,%Abbrev%}:RaceBonus,%P1%}
+_{If~%P2%>0?{Param~Race,%Race%} gets a +%P2% bonus to %Abbrev% %P3%<BR>/
+_{If~%P3%>0?%P3%<BR>}
+_}
+_}
+
+
+:ChunkData
+#ChunkData Given data-list %List%, and a %Delimiter% (such as a comma or a slash), 
+#returns the first piece of data and removes it from the list.
+1,
+_{Left~{Calc~{Find~1,%Delimiter%,%List%}-1},%List%}
+_|List={Right~{Calc~{Length~%List%}-{Find~1,%Delimiter%,%List%}},%List%}|
+_{If~%List%=X?|List=X||Continue=0|/
+_}
+
+
+:Race
+1,Half-Elf\Diplom,2,0,\GatInf,2,0,\Search,1,0,\Spot,1,0,\Listen,1,0,\X
+2,Elf\Listen,2,0,\
+_Search,2,0,Elves automatically search within 10' of a secret door.\
+_Spot,2,0,\X
+3,Halfling\Listen,2,0,\Climb,2,0,\Jump,2,0,\MovSil,2,0,\Hide,4,0,\X
+4,Dwarf\Search,0,2,when dealing with Stone\
+_Apprai,0,2,when appraising metal or stone\
+_CrArmo,0,2,when crafting metal armor\
+_CrWeap,0,2,when crafting metal weapons\X
+5,Gnome\Listen,2,0,\Hide,4,0,\CrAlch,2,0,\X
+6,Half-Orc\X
+7,Human\X

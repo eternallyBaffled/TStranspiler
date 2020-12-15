@@ -1,0 +1,559 @@
+# ------------------------------------------------------
+# Last Update: re-verified by Valminder Jan 10, 2012.
+# ------------------------------------------------------
+#
+# Dragons
+# Table to create diverse and interesting dragons
+# Copyright 2001 Kevin Duda
+#
+# Modified by Ashon October 2005
+#    Tablesmith 5 Compliant
+#    I added some links to these other tables:
+#        Miscellaneous.Color 
+#        Miscellaneous.Metal 
+#	   Miscellaneous.Stone
+#	   Miscellaneous.Precious Metal
+#	   Added Stuff From Custom Dragons.Tab
+# Modified by Valminder, Nov 2005.
+#    2 subtables names [Condition]. The second was renamed [Condition2].
+#    Added subtables [BreathRange], [Size]
+#    Added some Breath Weapons, Special Abilities.
+#    Added some {Reset~} in some of the non-repeating groups.
+#    Added the non-repeating tag to the [BodyType] subtable to prevent
+#        Undead Dragon (Undead Dragon(Undead Dragon(Snake Body Type))) 
+#    Added Links to
+#        Miscellaneous.Alignment 
+#        Miscellaneous.ClassPC 
+#        Miscellaneous.Gender 
+#        Miscellaneous.Personality 
+#        Miscellaneous.Quirks
+#        Miscellaneous.Size C 
+#    Added stuff from [Custom Dragons.tab] and deleted [Custom Dragon.tab]
+#        Thanks to Gregory W. Detwiler (Dragon Magazine 260 (June 1999)).
+#             DMs will need that article to make full use of this table.
+#        AD&D and Dragon magazine are trademarks of Wizards of the Coast and
+#             are used without permission. No infringement is intended or
+#             should be inferred by this use.
+#        Thanks to (C)2000 by John William Grigsby IV (creator of [Custom
+#             Dragons.tab]. This table is designed for personal use only.
+#             The table designer accepts no responsibility for misuse.
+#
+
+/OverrideRolls 1
+
+%A%,0
+%B%,0
+%C%,0
+%D%,0
+%E%,0
+
+%X%,0
+%Y%,0
+%Z%,0
+
+%CHEM%,0
+%COLOR%,0
+%FLIGHT%,0
+
+%Random%,0
+
+%PATTERN%,0
+%TAIL%,0
+%WINGS%,0
+%BACK%,0
+%HEAD%,0
+%HORNS%,0
+%JAWS%,0
+%LIMBS%,0
+%IQ%,0
+%BREATH%,0
+%SPECIAL%,0
+
+:Start
+1,{Status~Kevin Duda, Ashon, Valminder, John Willian Grigsby IV}
+_<b><u><font size="+1">[Name]</u></b></font>
+_<i><font size="-1">   {CapEachWord~[Meaning]}</i></font><br><br>
+_<b><font size="+1">[~BodyType]</font></b><br><br>
+_<b>Alignment:</b>   {Cap~[~Miscellaneous.Alignment]}<br>
+_<b>Age:</b>   [~Creatures.Dragon Age]<br>
+_<b>Size:</b>   {Cap~[~Miscellaneous.Size C+9]}<br><br>
+_<b>Coloring:</b>   [~Pattern]<br><br>
+_<b>Back:</b>   [~Back]<br>
+_<b>Head:</b>   [~HeadRoll][~Head2]<br>
+_<b>Horns:</b>   [~HornRoll]<br>
+_<b>Jaws:</b>   [~Jaws]<br>
+_<b>Limbs:</b>   [~Limbs]<br>
+_<b>Tail:</b>   [~Tail]<br>
+_<b>Wings:</b>   [~Wings]<br>
+_<b>Intelligence:</b>   [~Intelligence]<br>
+_<b>Breath Weapon:</b>   [~BreathWeapon]<br>
+_<b>Special Abilities:</b><br>[Tab][~SpecialRoll]<br><br>
+_<b>Class:</b> |Random={Dice~1d100}|{If~%Random%<15? {Cap~[~Miscellaneous.ClassPC]}/None}<br>
+_<b>Gender:</b> {Cap~[~Miscellaneous.Gender]}<br>
+_<b>Personality:</b> [~Miscellaneous.Personality]<br>
+_<b>Quirks:</b> [~Miscellaneous.Quirks]<br>
+
+:Tab
+1,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+;Name
+4,{Cap~[Names Dragon.Fragments]}
+14,{Cap~[Names Dragon.Fragments]}[Names Dragon.Fragments]
+3,{Cap~[Names Dragon.Fragments]}[Names Dragon.Fragments] {Cap~[Names Dragon.Fragments]}
+3,{Cap~[Names Dragon.Fragments]}[Names Dragon.Fragments] {Cap~[Names Dragon.Fragments]}[Names Dragon.Fragments]
+2,{Cap~[Names Dragon.Fragments]} {Cap~[Names Dragon.Fragments]}[Names Dragon.Fragments]
+2,{Cap~[Names Dragon.Fragments]} {Cap~[Names Dragon.Fragments]}
+
+;Meaning
+4,([Names Dragon.Fragments2])
+14,([Names Dragon.Fragments2], [Names Dragon.Fragments2])
+3,([Names Dragon.Fragments2], [Names Dragon.Fragments2]) ([Names Dragon.Fragments2])
+2,([Names Dragon.Fragments2], [Names Dragon.Fragments2]) ([Names Dragon.Fragments2], [Names Dragon.Fragments2])
+2,([Names Dragon.Fragments2]) ([Names Dragon.Fragments2], [Names Dragon.Fragments2])
+2,([Names Dragon.Fragments2]) ([Names Dragon.Fragments2])
+
+;!BodyType
+3,Avian Body Type ([BT_Avian])
+1,Beast Body Type ([BT_Beast])
+3,Behemoth Body Type ([BT_Behemoth])
+6,Dragon Body Type
+1,Lindwyrm Body Type ([BT_Lindwyrm])
+1,Oriental Dragon Body Type
+3,Snake Body Type ([BT_Serpent])
+3,Undead Dragon ([BodyType])
+
+;BT_Avian
+1,Archaeopteryx
+1,Metal-scaled Bird
+1,Pterosaur
+1,Sphinx-like
+1,Winged serpent
+1,Wyvern
+
+;BT_Behemoth
+1,With sharp, bearlike claws
+1,With blunt, slothlike claws
+1,With hooves
+1,With pillarlike limbs
+
+;BT_Beast
+1,Hyena
+1,Lion
+1,Tiger
+1,Weasel
+1,Wolf
+
+;BT_Lindwyrm
+1,Snake-like
+1,Dragon-like
+1,Carnosaur
+
+;BT_Serpent
+1,Crocodile
+1,Fish
+1,Mosasaur
+1,Plesiosaur with a long neck and flippers
+1,Plesiosaur with a long neck and webbed feet
+1,Sea Snake
+1,Swimming Lizard
+1,Turtle
+
+;Pattern
+10,Solid [Color]
+7,|COLOR={Dice~1d7}|Dark [Color=%COLOR%] above, light {Reset~Color}[Color=%COLOR%] below
+1,{Cap~[Color]} and [Color] mottling
+2,{Cap~[Color]} and [Color] stripes
+1,{Cap~[Color]} with [Color] dot-like spots
+1,{Cap~[Color]} with [Color] leopard-like spots
+1,{Cap~[Color]} with [Color] jaguar rosettes
+1,{Cap~[Color]} with irregular [Color] spots
+7,Solid [Color2]
+5,|COLOR={Dice~1d6}|Dark [Color2=%COLOR%] above, light {Reset~Color2}[Color2=%COLOR%] below
+
+;!Color
+1,blue
+1,green
+1,red
+1,white
+1,black
+1,brown
+1,gray
+7,[Miscellaneous.Color]
+
+;!Color2
+1,gold
+1,silver
+1,copper
+1,bronze
+1,brass
+1,rainbow-silver
+2,[Miscellaneous.Metal]
+2,[Miscellaneous.Precious Metal]
+
+;Condition
+1,Rotted[Spooky]
+1,Skeletal[Spooky]
+1,Mummified[Spooky]
+1,Preserved[Spooky]
+1,Spectral[Spooky]
+
+;Spooky
+1, with glowing {Reset~Color}[Color] eyes
+1, with a faint {Reset~Color}[Color] aura
+2, with a terrible stench
+4,
+
+;Tail
+1,[Tail1][Tail2]
+1,[Tail1][Tail2] tail [MoreTail]
+1,[Tail3]
+1,[Tail3] tail [MoreTail]
+
+;Tail1
+5,Long
+5,Short
+5,Slender,
+5,Muscular,
+5,Sweeping,
+5,Forked
+3,Double
+1,Triple
+1,Stiff
+1,Supple
+
+;Tail2
+1, balancing
+2, draconic
+2, bludgeon-like
+2, constricting
+1, fish-like
+2, prehensile
+1, whip-like
+
+;Tail3
+1,Ankylosaur-style bony mace
+1,Axe-like
+2,Blade-like
+2,Mace-like
+1,Scorpion sting
+1,Scythe-like
+1,Spade-like
+1,Sword-like
+1,Whip-Like
+1,Short stub of a tail (utterly useless in combat)
+
+;MoreTail
+1,which ends in a bony mace with a single spike
+1,which ends in a bony mace with a double spike
+1,which ends in a bony mace with four wicked spikes
+3,with a Single row of spikes
+3,with a Double row of spikes
+1,covered in segmented armor
+1,with spines that can be fired like those of a manticore
+4,that is spiked on all sides
+5,that has a long spike on the end
+1,which ends in a rattlesnake's rattle
+1,tipped with a long spike at the end and which can easily arch over the body to strike
+
+;Wings
+1,No wings|FLIGHT={Dice~1d3}|[GenFlight]
+2,Vestigial wings|FLIGHT={Dice~1d4}|[GenFlight]
+7,Dragon wings|FLIGHT=5|[GenFlight]
+
+:GenFlight
+1, ([Flight=%FLIGHT%])<br>
+#1,<br><b>Flight:</b>   [Flight=%FLIGHT%]<br><br>
+
+;Flight
+1,No flight
+1,Levitative flight
+1,Levitation, thrust provided by wings
+5,Normal flight
+
+;Back
+1,Alternating rows of stegosaur plates
+1,Ankylosaur-type carapace
+1,Ankylosaur-type carapace covered with spines
+1,Armadillo shell of segmented armor
+1,Bony knobs
+2,Carapace
+1,Dimetrodon Fin
+1,Double row of spines
+1,Double row of stegosaur plates
+1,Fish fin
+10,Normal
+1,Pelycosaur fin, like that of dimetrodon
+2,Segmented armor
+2,Single row of spines
+1,Single row of stegosaur plates
+1,Turtle shell
+
+;HeadRoll
+10,[Head]
+1,Carnosaur-like with [Horns]
+1,Ceratopsian-like with [Cera]
+1,Crocodile-like with [Horns]
+1,Lizard-like with [Horns]
+1,Normal with [Horns]
+1,Oriental Dragon with [Horns]
+1,Snake-like with [Horns]
+1,Turtle-like with [Horns]
+
+;Cera
+1,no horns, but a short frill
+1,a long nasal horn and a short frill
+1,a forward curving nasal horn and a short frill
+1,a bony knob on the snout and a short frill
+1,a nasal horn and long frill spikes on a short frill
+1,a short nasal horn, long brow horns, and a short frill
+1,a short nasal horn, long brow horns, and a long frill
+1,a short frill, short brow horns, and a short nasal horn
+1,short brow horns, a short nasal horn, and a long frill
+1,a short nasal horn & frill and long brow horns that face sideways
+1,a short nasal horn, long brow horns, a short frill, and spikes on the cheeks
+1,a short, forward-curving nose horn with a pair of large horns at the back of a short frill
+
+;!Horns
+1,a single nasal horn
+1,a double nasal horn
+1,a triple nasal horn
+1,a single forehead horn
+1,a pair of curved horns on the sides of the head
+1,a pair of straight horns on the sides of the head
+1,short spines covering the head
+1,long spines covering the head
+1,[Horns] and [Horns]
+
+;Head2
+9,
+1,. <u>The dragon is also equipped with</u> [Head3]
+
+;!Head3
+1,short, boarlike tusks
+1,long, elephatine tusks
+1,a tapir-like snout
+1,an elephantine trunk
+1,sabre teeth
+1,poisonous fangs
+1,{Dice~1d4+1} sets of sabre teeth of varying length
+1,a domelike, bony skull
+1,{Dice~2d6} pairs of bony knobs
+1,{Dice~2d4} sets of bony knobs
+1,broad skin flaps
+1,[Head3] and [Head3]
+5,a second head: [HeadRoll={Dice~1d8+10}]
+
+;Head
+1,[Teeth]
+1,[Tusks]
+1,[Crest]
+
+;!Teeth
+1,{Reset~Teeth}[Teeth]
+20,Set of saber teeth
+10,Many sets of saber teeth
+10,Retracting fangs
+10,[Teeth]<br>[Tab][Tusks]
+10,[Teeth]<br>[Tab][Crest]
+
+;!Tusks
+1,{Reset~Tusks}[Tusks]
+10,Short tusks
+20,Long tusks
+10,[Tusks]<br>[Tab][Crest]
+
+;!Crest
+1,{Reset~Crest}[Crest]
+10,Long cobra frill
+10,Short cobra frill
+20,Bony crest
+
+;!HornRoll
+1,{Reset~HornRoll}[HornRoll]
+50,[Snout Horns]
+20,[Side Horns]
+10,[Forehead Horns]
+10,[Brow Horns]
+
+;!Snout Horns
+1,{Reset~Snout Horns}[Snout Horns]
+30,A Single [Horn Length] horn on snout
+20,Two [Horn Length] horns on snout
+10,[Snout Horns]<br>[Tab][HornRoll]
+
+;!Side Horns
+1,{Reset~Side Horns}[Side Horns]
+40,A single [Horn Length] horn on each side of the head
+10,A pair of [Horn Length] horns on each sides of the head
+10,[Side Horns]<br>[Tab][HornRoll]
+
+;!Forehead Horns
+1,{Reset~Forehead Horns}[Forehead Horns]
+10,A [Horn Length] forehead horn
+10,[Forehead Horns]<br>[Tab][HornRoll]
+
+;!Brow Horns
+1,{Reset~Brow Horns}[Brow Horns]
+10,{Cap~[Horn Length]} (eye)brow horns
+10,[Brow Horns]<br>[Tab][HornRoll]
+
+;Horn Length
+1,knob(s) of a 
+1,long [Horn Direction]
+1,short [Horn Direction]
+
+;Horn Direction
+1,straight
+1,sideways
+1,fowards curving
+1,backwards curving 
+
+;Jaws
+10,Dragon
+3,Snake (hinged jaw)
+2,Carnosaur (huge jaws)
+
+;Limbs
+1,No limbs
+1,2 Limbs, used only for manipulation
+1,2 Limbs, used only for movement
+2,4 Limbs, used only for movement
+11,4 Limbs, 2 for manipulation and 2 for movement
+2,|X={Dice~2d2+1}||X*2||Y=%X%||Y\{Dice~1d3+3}||Y*2||Z=%X%||Z-%Y%|
+_%X% Limbs, %Y% for manipulation and %Z% for movement
+1,|X={Dice~5d2-1}||X*2||Y=%X%||Y\{Dice~1d3+3}||Y*2||Z=%X%||Z-%Y%|
+_%X% Limbs, %Y% for manipulation and %Z% for movement
+
+;Intelligence
+1,Animal ({Dice~1d2})<br><b>Communication:</b>   [Communication=1]
+1,Low ({Dice~3d3-1})<br><b>Communication:</b>   [Communication={Dice~1d4}]
+5,Human ({Dice~9d2})<br><b>Communication:</b>   [Communication=2]
+10,Dragon ({Dice~1d10+16})<br><b>Communication:</b>   [Communication={Dice~1d4+1}]
+3,Dragon ({Dice~2d8+20})<br><b>Communication:</b>   [Communication={Dice~1d2+3}]
+
+;Communication
+1,Signs and signals
+7,Normal speech (Tongues Spoken: {Loop~{Dice~2d6},[Miscellaneous.Language], })
+2,Telepathy
+
+;BreathWeapon
+10,[BreathRange={Dice~1d8}] Acid|CHEM={Dice~1d5+1}|[GenBodyChem]
+10,[BreathRange={Dice~1d8}] Cold|CHEM={Dice~1d5}|[GenBodyChem]
+10,[BreathRange={Dice~1d7+4}] Electricity|CHEM={Dice~1d5+1}|[GenBodyChem]
+10,[BreathRange={Dice~1d8}] Fire|CHEM={Dice~1d6+1}|[GenBodyChem]
+1,[BreathRange=10] Sonic (half damage, deafening)|CHEM={Dice~1d3+2}|[GenBodyChem]
+1,[BreathRange=10] Sonic Combo (Sonic and |Random={Dice~1d4}|[BreathEnergy=%Random%]){If~%Random%=2? |CHEM={Dice~1d5}|}{If~%Random%=4? |CHEM={Dice~1d6+1}|/|CHEM={Dice~1d5+1}|}[GenBodyChem]
+3,[BreathRange={Dice~1d7+4}] Brilliant Light|CHEM={Dice~1d3+2}|[GenBodyChem]
+3,[BreathRange={Dice~1d10}] Burning Venom (Acid and Fire)|CHEM={Dice~1d6+1}|[GenBodyChem]
+3,[BreathRange={Dice~1d7}] Clumsiness (Dex dmg)|CHEM={Dice~1d5+1}|[GenBodyChem]
+3,[BreathRange={Dice~1d8}] Concussion (Nonlethal or not)|CHEM={Dice~1d3+2}|[GenBodyChem]
+1,[BreathRange={Dice~1d7}] Confusion|CHEM={Dice~1d5+1}|[GenBodyChem]
+1,[BreathRange={Dice~1d7+4}] Death (Con dmg)|CHEM={Dice~1d5+1}|[GenBodyChem]
+3,[BreathRange={Dice~1d8}] Dissolving Frost (Cold and Acid)|CHEM={Dice~1d7}|[GenBodyChem]
+1,[BreathRange={Dice~1d10}] Divine Energy (Divine and |Random={Dice~1d4}|[BreathEnergy=%Random%]){If~%Random%=2? |CHEM={Dice~1d5}|}{If~%Random%=4? |CHEM={Dice~1d6+1}|/|CHEM={Dice~1d5+1}|}[GenBodyChem]
+1,[BreathRange={Dice~1d5+2}] Energy Drain|CHEM={Dice~1d5+1}|[GenBodyChem]
+3,[BreathRange={Dice~1d7}] Fear|CHEM={Dice~1d7}|[GenBodyChem]
+3,[BreathRange={Dice~1d9}] Feeblemindness (Int dmg)|CHEM={Dice~1d5+1}|[GenBodyChem]
+1,[BreathRange={Dice~1d8+3}] Negative Energy|CHEM={Dice~1d5+1}|[GenBodyChem]
+3,[BreathRange={Dice~1d8}] Paralyzation|CHEM={Dice~1d5+1}|[GenBodyChem]
+10,[BreathRange={Dice~1d6}] Poison gas|CHEM={Dice~1d5+1}|[GenBodyChem]
+3,[BreathRange={Dice~1d8}] Repulsion|CHEM={Dice~1d3+2}|[GenBodyChem]
+3,[BreathRange=10] Salt spray (half damage, blinding)|CHEM={Dice~1d5+1}|[GenBodyChem]
+3,[BreathRange={Dice~1d10}] Shocking Acid (Acid and Electric)|CHEM={Dice~1d5+1}|[GenBodyChem]
+3,[BreathRange={Dice~1d10}] Shocking Fire (Fire and Electric)|CHEM={Dice~1d6+1}|[GenBodyChem]
+3,[BreathRange={Dice~1d7+2}] Shocking Frost (Cold and Electric)|CHEM={Dice~1d7}|[GenBodyChem]
+3,[BreathRange={Dice~1d10}] Sickness|CHEM={Dice~1d5+1}|[GenBodyChem]
+3,[BreathRange={Dice~1d7}] Sleep|CHEM={Dice~1d3+2}|[GenBodyChem]
+3,[BreathRange={Dice~1d8}] Slow|CHEM={Dice~1d3+2}|[GenBodyChem]
+3,[BreathRange={Dice~1d7}] Stupidity (Wis dmg)|CHEM={Dice~1d5+1}|[GenBodyChem]
+3,[BreathRange={Dice~1d6}] Superheated Steam|CHEM={Dice~1d6+1}|[GenBodyChem]
+3,[BreathRange={Dice~1d7+4}] Ugliness (Cha dmg)|CHEM={Dice~1d3+2}|[GenBodyChem]
+1,[BreathRange={Dice~1d6}] Unholy Blight|CHEM={Dice~1d5+1}|[GenBodyChem]
+3,[BreathRange={Dice~1d6}] Weakening (Str dmg)|CHEM={Dice~1d4+1}|[GenBodyChem]
+3,[BreathRange={Dice~1d10}] Whitefire (Fire and Cold)|CHEM={Dice~1d5+1}|[GenBodyChem]
+10,No breath weapon|CHEM={Dice~1d7}|[GenBodyChem]
+
+:BreathEnergy
+1,Acid
+2,Cold
+3,Electricity
+4,Fire
+
+:BreathRange
+1-5,Cone of
+6,Burst (around dragon) of
+7-11,Line of
+
+:GenBodyChem
+1,<br><b>Body chemistry:</b>   [BodyChemistry=%CHEM%]<br>
+
+:BodyChemistry
+1,Extremely cold blood
+2,Poisonous blood
+3,No unusual characteristics
+4,[SpecialChem]
+5,No unusual characteristics
+6,Acidic blood
+7,Extremely hot blood
+
+;SpecialChem
+1,Healing blood
+1,Turns to [Material] upon death
+
+;Material
+1,[Miscellaneous.Stone]
+1,Liquid [Miscellaneous.Metal]
+
+;SpecialRoll
+2,[SpecialAbility]
+3,[SpecialAbility]<br>[Tab][SpecialAbility]
+2,[SpecialAbility]<br>[Tab][SpecialAbility]<br>[Tab][SpecialAbility]
+1,[SpecialAbility]<br>[Tab][SpecialAbility]<br>[Tab][SpecialAbility]<br>[Tab][SpecialAbility]
+
+;!SpecialAbility
+1,{Reset~SpecialAbility}[SpecialAbility]
+10,Burrow
+10,Climb
+10,Swim
+10,Chameleonic shapechange
+10,Poison
+50,Dragonfear
+10,Improved armor (+5 Natural Armor)
+10,Fast Healing ({Calc~({Dice~1d3}*5)})
+10,Regeneration ({Calc~({Dice~1d3}*5)})
+30,Blindsense
+10,Tremorsense
+10,See invisible
+10,See etheral
+10,Followers
+10,Invisible while [Condition2]
+30,Arcane Spells
+10,Divine Spells (God: <b>[Religion.Dragon Gods]</b>)
+10,Psionic Powers
+50,DR {Calc~({Dice~1d4}*5)} / [DRType]
+50,[BreathEnergy] Resistance ({Calc~({Dice~1d5+1}*5)})
+10,|Random={Dice~1d4}|[BreathEnergy=%Random%] Immunity {If~%Random%=2? (Vulnerability to Fire)}{If~%Random%=4? (Vulnerability to Cold)}
+1,Artifact
+
+:Condition2
+1,under water
+2,asleep
+3,flying
+4,concentrating
+
+;DRType
+50,Magic
+1,Epic
+5,Adamantine
+10,Cold Iron
+
+:UndeadAbility
+1,Ability Drain
+2,Cause Disease
+3,Cause Insanity
+4,Paralysis
+5,Darkness, {Dice~2d4*10}' radius
+6,Banshee wail
+7,Animate dead
+8,Summon swarm
+9,Only hit by certain type of weapon

@@ -1,0 +1,425 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder August 7, 2006.
+# ---------------------------------------------------
+#
+# Random gem generator with values and descriptions
+# Based on Charts in 1ED DMG
+# Scott Kinsey (smkinsey@redrose.net)
+# 
+# Value represents Class type (base value).
+#    1 = Ornamental Stone (10 gp)
+#    2 = Semi-precious Stone (50 gp)
+#    3 = Fancy Stone (100 gp)
+#    4 = Precious Stone (500 gp)
+#    5 = Gems (1000 gp)
+#    6 = Jewels (5000 gp)
+#    7 = Hardstones (Varies)
+#    8 = Shells (Varies)
+#
+# -------------------------------------------------------------------------
+#
+# To call this table from another one:
+#    [Gems2.Generate(%ShowClass%,%ShowDesc%)
+#
+#    Normal Output: "a peridot worth 500 gp"
+#
+#    Parameters: (%ShowClass%,%ShowDesc%)
+#
+#    ShowClass:    Show the type of gem (Ornamental Stone, Semi-
+#                  precious Stone, Fancy Stone, Precious Stone,
+#                  Gems, Jewels, Hardstones, Shells).
+#                  1= Yes, 2= No.
+#                  Output: "a peridot (precious stone) worth 500 gp"
+#    ShopDesc:     If available, a descriptio will appear.
+#                  1= Yes, 2= No.
+#                  Output: "a peridot (a transparent rich olive green stone) worth 500 gp"
+#
+#    Output (both at "Yes"): "a peridot (precious stone; a transparent rich olive green stone) worth 500 gp"
+#
+# -------------------------------------------------------------------------
+#
+# You can also use: (no worth will be shown)
+#    [Gems2.Alternate(%ShowClass%,%ShowDesc%)
+#
+#    Normal Output: "a peridot"
+#    Output: "a peridot (precious stone)"
+#    Output: "a peridot (a transparent rich olive green stone)"
+#    Output (both at "Yes"): "a peridot (precious stone; a transparent rich olive green stone)"
+#
+# -------------------------------------------------------------------------
+#
+# Modified by Valminder, August  2006.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+#    Merged with "list_hems.tab" by Michael Long 2000
+#
+
+%C%,0
+%Value%,0
+%f%,0
+%Roll%,0
+%GEMCLASS%,
+%UNCUT%, 
+%ShowClass%,2
+%ShowDesc%,2
+%Desc%,0
+
+@ShowClass,2,Do you want to show the class of the gem,Yes,No
+@ShowDesc,2,Do you want to show the description of the gem,Yes,No
+
+:Start
+1,{Status~By Scott Kinsey, Michael Long, Valminder 2006}[Generate]
+
+;Generate
+1,[Class]{If~%Value%<=6?[Variation]/|C=0|}{AorAn~[Complete]}
+9,[Class]{If~%Value%<=6?[Value=%Value%]/|C=0|}{AorAn~[Complete]}
+
+:Class
+1-25,|Value=1||GEMCLASS=ornamental stone|
+26-50,|Value=2||GEMCLASS=semi-precious stone|
+51-65,|Value=3||GEMCLASS=fancy stone|
+66-80,|Value=4||GEMCLASS=precious stone|
+81-90,|Value=7||GEMCLASS=hardstone|
+91,|Value=8||GEMCLASS=shell|
+92-99,|Value=5||GEMCLASS=gem|
+100,|Value=6||GEMCLASS=jewel|
+
+:Complete
+1,%UNCUT% [Gemtype=%Value%]
+
+:Description
+1,{If~{Or~%ShowClass%=1,{And~%ShowDesc%=1,%Desc%!=0}=1}=1? (}
+_{If~%ShowClass%=1?%GEMCLASS%}
+_{If~{And~{And~%ShowDesc%=1,%Desc%!=0}=1,%ShowClass%=1}=1?; }
+_{If~{And~%ShowDesc%=1,%Desc%!=0}=1?%Desc%}
+_{If~{Or~%ShowClass%=1,{And~%ShowDesc%=1,%Desc%!=0}=1}=1?)}
+
+# ---------------------------------------------------------
+
+# No worth appears on the output
+:Alternate
+1,[Class]{If~%Value%<=6?[Variation]/|C=0|}[CompleteAlternate]
+9,[Class][CompleteAlternate]
+
+:CompleteAlternate
+1,%UNCUT% [GemtypeAlternate=%Value%]
+
+:GemtypeAlternate
+1,[Gem1][Description]
+2,[Gem2][Description]
+3,[Gem3][Description]
+4,[Gem4][Description]
+5,[Gem5][Description]
+6,[Gem6][Description]
+7,|Roll={Dice~1d100}|[Gem7=%Roll%][Description]
+8,|Roll={Dice~1d100}|[Gem8=%Roll%][Description]
+
+# ---------------------------------------------------------
+# Only the name of the gem appears.
+
+:Name of Gem
+# Ornamental
+1-25,[Gem1]
+# Semi-Precious
+26-50,[Gem2]
+# Fancy
+51-65,[Gem3]
+# Precious
+66-80,[Gem4]
+# Hardstones
+81-90,[Gem7]
+# Shells
+91,[Gem8]
+# Not Gems
+92-99,[Gem5]
+# Jewels
+100,[Gem6]
+
+# ---------------------------------------------------------
+
+;Variation
+1,|Value+1|{If~%Value%>7|Value=7|}[Value=%Value%]|UNCUT= |
+1,[Value=%Value%]|C*2||UNCUT= |
+1,[Value=%Value%]|f={Dice~1d6}||f/10||C*%f%||UNCUT= |
+1,[Value=%Value%]|f={Dice~1d4}||f/10||f+1||C*%f%||UNCUT= |
+1,[Value=%Value%]|C/2||UNCUT= |
+1,|Value-1|{If~%Value%<1?|Value=1|}|C=5||UNCUT= |
+2,[Value=%Value%]|C/10||UNCUT=rough |
+
+:Value
+1,|C=10|
+2,|C=50|
+3,|C=100|
+4,|C=500|
+5,|C=1000|
+6,|C=5000|
+7,|C=10000|
+
+# ---------------------------------------------------------
+
+:Gemtype
+1,[Gem1][Description] worth [AddComma.Start(%C%)] gp
+2,[Gem2][Description] worth [AddComma.Start(%C%)] gp
+3,[Gem3][Description] worth [AddComma.Start(%C%)] gp
+4,[Gem4][Description] worth [AddComma.Start(%C%)] gp
+5,[Gem5][Description] worth [AddComma.Start(%C%)] gp
+6,[Gem6][Description] worth [AddComma.Start(%C%)] gp
+7,|Roll={Dice~1d100}|[Gem7=%Roll%][Description] worth [Gem7Value=%Roll%]
+8,|Roll={Dice~1d100}|[Gem8=%Roll%][Description] worth [Gem8Value=%Roll%]
+
+# Ornamental (10 gp)
+;Gem1
+1,agni mani|Desc=0|
+1,algae|Desc=0|
+1,augelite|Desc=0|
+1,azurite|Desc=a mottled deep blue stones|
+1,banded agate|Desc=a striped brown/blue/white/reddish stone|
+1,bluestone|Desc=0|
+1,blue quartz|Desc=a pale blue crystal|
+1,chrysocolla|Desc=0|
+1,corstal|Desc=0|
+1,crown of silver|Desc=0|
+1,disthene|Desc=0|
+1,epidot|Desc=0|
+1,eye agate|Desc=a stone with circles of gray, white, brown, blue, and/or green|
+1,fire agate|Desc=0|
+1,fluorspar|Desc=0|
+1,frost agate|Desc=0|
+1,goldline|Desc=0|
+1,greenstone|Desc=0|
+1,hematite|Desc=a grey-black shiny stone|
+1,lapis lazuli|Desc=a light and dark blue stone with yellow flecks|
+1,hyaline|Desc=0|
+1,lynx eye|Desc=0|
+1,malachite|Desc=a striated light and dark green stone|
+1,moss agate|Desc=a pink or yellow-white stone with grayish or greenish "moss markings"|
+1,microcline|Desc=0|
+1,nelvine|Desc=0|
+1,nune|Desc=0|
+1,obsidian|Desc=a black stone|
+1,oolite|Desc=0|
+1,ophealine|Desc=0|
+1,rhodoschrosite|Desc=a light pink stone|
+1,rosaline|Desc=0|
+1,sagenite|Desc=0|
+1,sanidine|Desc=0|
+1,sarbossa|Desc=0|
+1,satin spar|Desc=0|
+1,sharpstone|Desc=0|
+1,sheen|Desc=0|
+1,silkstone|Desc=0|
+1,snowflake obsedian|Desc=0|
+1,sunstone|Desc=0|
+1,thuparlial|Desc=0|
+1,tiger eye agate|Desc=a translucent rich brown stone with a golden center underhue|
+1,turquoise|Desc=a light blue-green stone|
+1,variscite|Desc=0|
+1,violane|Desc=0|
+1,webstone|Desc=0|
+1,wonderstone|Desc=0|
+1,woodtine|Desc=0|
+1,zarbina|Desc=0|
+
+
+# Semi-Precious Stones (50 gp)
+;Gem2
+2,alestone|Desc=0|
+2,andar|Desc=0|
+2,aventurine|Desc=0|
+4,bloodstone|Desc=a dark gray stone with red flecks|
+2,bloakhar|Desc=0|
+3,carnelian|Desc=an orange to reddish-brown stone|
+3,chalcedony|Desc=a white stone|
+3,chrysoprase|Desc=a translucent apple- to emerald-green stone|
+3,citrine|Desc=a transparent pale yellow-brown stone|
+2,clelophane|Desc=0|
+2,datchas|Desc=0|
+2,dioptase|Desc=0|
+2,gold Sheen|Desc=0|
+2,hambergyle|Desc=0|
+2,hydrophane|Desc=0|
+2,hypersthene|Desc=0|
+2,tol|Desc=0|
+3,jasper|Desc=a blue/black to brown stone|
+2,irtios|Desc=0|
+2,luriyl|Desc=0|
+2,malacon|Desc=0|
+2,mellochrysos|Desc=0|
+3,moonstone|Desc=a translucent white stone with a pale blue glow|
+2,mykaro|Desc=0|
+2,mynteer|Desc=0|
+4,onyx|Desc=a pure black or white stone|
+2,orprase|Desc=0|
+2,phenalope|Desc=0|
+2,rainbow obsidian|Desc=0|
+4,rock crystal|Desc=a transparent clear stone|
+2,samarskite|Desc=0|
+3,sardonyx|Desc=a white stone with bands of red|
+3,serpentine|Desc=0|
+2,skydrop|Desc=0|
+4,smokey quartz|Desc=a transparent light gray, light yellow, or light blue stone|
+2,spodumene|Desc=0|
+3,star rose quartz|Desc=a translucent rosy stone with a white star center|
+2,tabasheer|Desc=0|
+2,tchazar|Desc=0|
+2,witherite|Desc=0|
+3,zircon|Desc=a clear pale blue-green stone|
+
+# Fancy Stone (100 gp)
+;Gem3
+6,alexandrite|Desc=a transparent dark green stone|
+8,amber|Desc=a transparent watery gold stone|
+8,amethyst|Desc=a transparent deep purple stone|
+4,angel's skin|Desc=0|
+4,brandeen|Desc=0|
+6,chrysoberyl|Desc=a transparent yellow-green to green stone|
+8,coral|Desc=a crimson gem|
+4,jargoon|Desc=0|
+6,jade|Desc=a translucent light green, deep green, or green and white stone|
+6,jet|Desc=a deep black stone|
+4,kornerupine|Desc=0|
+4,laeral's tears|Desc=0|
+4,octel|Desc=0|
+4,scapra|Desc=0|
+4,shandon|Desc=0|
+5,sinhalite|Desc=0|
+3,star diopside|Desc=0|
+4,tourmaline|Desc=a transparent pale green, blue, brown, or red stone|
+2,tremair|Desc=0|
+2,ulvaen|Desc=0|
+2,waterstar|Desc=0|
+2,ziose|Desc=0|
+
+# Precious Stone (500 gp)
+;Gem4
+7,aquamarine|Desc=a transparent pale blue-green stone|
+7,euclase|Desc=0|
+7,flamedance|Desc=0|
+8,garnet|Desc=a transparent red or brown-green stone|
+8,heliodor|Desc=0|
+7,horn coral|Desc=0|
+7,orbaline|Desc=0|
+8,pearl|Desc=a lustrous white or pinkish stone|
+8,peridot|Desc=a transparent rich olive green stone|
+8,raindrop|Desc=0|
+6,rusteen|Desc=0|
+7,sphene|Desc=0|
+7,spinel|Desc=a transparent red or red-brown stone|
+5,topaz|Desc=a transparent golden yellow stone|
+
+# Gems (1000 gp)
+;Gem5
+8,black opal|Desc=a translucent dark green stone with black mottling and golden flecks|
+8,fire opal|Desc=a translucent fiery red stone|
+8,jasmal|Desc=0|
+8,moonbar|Desc=0|
+8,opal|Desc=a translucent pale blue stone with green and golden mottling|
+8,orblen|Desc=0|
+8,orl|Desc=0|
+8,ravenar|Desc=0|
+8,red tears|Desc=0|
+4,sapphire|Desc=a transparent clear to medium-blue stone|
+3,shou lung amethyst|Desc=a transparent rich purple ston|
+3,shou lung topaz|Desc=a transparent fiery yellow stone|
+7,tomb jade|Desc=0|
+5,water opal|Desc=0|
+6,zendalure|Desc=0|
+
+# Jewels (5000 gp)
+;Gem6
+6,amaratha|Desc=0|
+11,beljuril|Desc=0|
+8,black sapphire|Desc=a translucent lustrous black stone with glowing highlights|
+11,diamond|Desc=a clear blue-white to clear white stone|
+1,emerald|Desc=a transparent deep bright green stone|
+11,jacinth|Desc=a transparent fiery orange stone|
+11,king's tears|Desc=0|
+2,rogue stone|Desc=0|
+11,ruby|Desc=a clear red to deep crimson stone|
+3,shou lung emerald|Desc=a clear bright green stone|
+8,star ruby|Desc=a translucent crimson stone with a white "star" center|
+7,star sapphire|Desc=a translucent medium-blue stone with a white "star" center|
+
+#Hardstones
+:Gem7
+01-06,alabaster|Desc=0|
+07-12,archon|Desc=0|
+13-18,hornbill ivory|Desc=0|
+19-24,iris agate|Desc=0|
+25-30,ivory|Desc=0|
+31-36,lumachella|Desc=0|
+37-42,luspeel|Desc=0|
+43-48,marble|Desc=0|
+49-54,meerschaum|Desc=0|
+55-60,pipestone|Desc=0|
+61-66,psaedros|Desc=0|
+67-72,serpentine stone|Desc=0|
+73-78,soapstone|Desc=0|
+79,star metal|Desc=0|
+80-85,sulabra|Desc=0|
+86-91,tempskya|Desc=0|
+92-95,turritella|Desc=0|
+96-00,xylopal|Desc=0|
+
+:Gem7Value
+01-06,5 sp
+07-12,2 gp
+13-18,7 sp
+19-24,2 gp
+25-30,3 gp
+31-36,26 sp
+37-42,3 gp
+43-48,3 gp
+49-54,2 gp
+55-60,1 gp
+61-66,6 sp
+67-72,3 gp
+73-78,9 sp
+79,10000 gp
+80-85,7 sp
+86-91,1 gp
+92-95,8 sp
+96-00,22 sp
+
+#Shells
+:Gem8
+01-04,red abalone|Desc=0|
+05-07,green abalone|Desc=0|
+08-14,black helmet|Desc=0|
+15-21,conch|Desc=0|
+22-28,tiger cowrie|Desc=0|
+29-33,pearl cowrie|Desc=0|
+34-36,opal cowrie|Desc=0|
+37,purple star cowrie|Desc=0|
+38-44,flame helmet|Desc=0|
+45-51,horned helmet|Desc=0|
+52-58,mother of pearl|Desc=0|
+59-65,nacre|Desc=0|
+66-72,nautilus|Desc=0|
+73-79,red helmet|Desc=0|
+80-85,sardonyx helmet|Desc=0|
+86-90,shambos|Desc=0|
+91-94,trochus|Desc=0|
+95-98,turbo|Desc=0|
+99-00,unio|Desc=0|
+
+:Gem8Value
+01-04,10 gp
+05-07,25 gp
+08-14,45 gp
+15-21,10 gp
+22-28,10 gp
+29-33,20 gp
+34-36,100 gp
+37,4000 gp
+38-44,50 gp
+45-51,50 gp
+52-58,5 sp
+59-65,1 gp
+66-72,5 gp
+73-79,20 gp
+80-85,40 gp
+86-90,3 gp
+91-94,4 gp
+95-98,2 gp
+99-00,1 gp

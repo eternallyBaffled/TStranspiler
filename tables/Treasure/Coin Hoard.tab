@@ -1,0 +1,179 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder August 22, 2006.
+# ---------------------------------------------------
+#
+# Random coin hoards, with descriptions and values
+#
+# Converted from TableMaster by Larry Cormier
+# Copyright 1995,by Wintertree Software
+#
+# -------------------------------------------------------------------------
+#
+# To call this table from another one:
+#    [Coin Hoard.Generate(%Quantity%)
+#    [Coin Hoard.GenCoins(%Quantity%)   => No container inscribed.
+#
+#    Parameters: (%Quantity%)
+#
+#    Quantity: (2) 1= Not many (1d10 of each coin type, -1 number of different coins)
+#                  2= Not many (3d10 of each coin type, +0 number of different coins)
+#                  3= Not many (5d10 of each coin type, +1 number of different coins)
+#                  4= Not many (7d10 of each coin type, +2 number of different coins)
+#                  5= Not many (10d10 of each coin type, +3 number of different coins)
+#
+# -------------------------------------------------------------------------
+#
+# *************  Variables **************
+# %ManyFactor% multiplier to adjust number of coins for type of container
+# (i.e., chests should have more in them than pouches, etc.)
+# %Worth% value of each coin, initially set by metal type
+# %Gems% set to 1,if the coin has gems set in it, 0 otherwise
+# %Total% Total value of all the coins in a batch
+# %Count% Total number of coins in a batch
+# ****************************************
+#
+# Modified by Valminder, August  2006.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+#    Added the "Quantity" of coins desired.
+#
+
+# Define Variables
+%HowMany%,0
+%ManyFactor%,0
+%Worth%,0
+%ValueFactor%,0
+%Gems%,0
+%TempNumber%,0
+%Total%,0
+%Count%,0
+%Chance%,0
+%Quantity%,0
+%NumberKind%,0
+%Kind%,0
+
+@Quantity,2,How many coins to you want,Not many,Normal,Many,Huge,Great Treasure
+
+:Start
+1,{Status~By Larry Cormier, Valminder 2006}[Generate]
+
+:Chanceof
+1,|Chance={Dice~1d100}|
+
+:Generate
+1,<b>{Cap~[Condition]} [Container] containing:</b><br>
+_[GenCoins]
+
+:GenCoins
+1,[Quantity=%Quantity%]
+_|NumberKind={Calc~({Dice~2d3-1}+%Kind%)}|{If~%NumberKind%<1?|NumberKind=1|}
+_{Loop~%NumberKind%,[CoinDetails]<br>}
+_[Tab]<u>Total of {Ceil~%Count%} coins worth {Round~2,%Total%} gp</u>
+
+:Quantity
+1,|HowMany={Dice~1d10}||Kind=-1|
+2,|HowMany={Dice~3d10}||Kind=0|
+3,|HowMany={Dice~5d10}||Kind=1|
+4,|HowMany={Dice~7d10}||Kind=2|
+5,|HowMany={Dice~10d10}||Kind=3|
+
+;Tab
+1,{Loop~5,&nbsp;}
+
+# --------------------------------------------------------
+# Container
+
+;Condition
+1,battered
+1,worn
+1,decrepit
+1,ancient
+1,old
+
+;Container
+1,bag|ManyFactor=0.75|
+1,pouch|ManyFactor=0.5|
+1,sack|ManyFactor=1.5|
+1,coffer|ManyFactor=1|
+1,urn|ManyFactor=1.2|
+1,chest|ManyFactor={Ceil~{Calc~({Dice~1d10+1}/4)}}|
+
+# --------------------------------------------------------
+# Coins generator
+
+:CoinDetails
+1,[Quantity=%Quantity%]|TempNumber={Calc~(%HowMany% * %ManyFactor%)}||HowMany=%TempNumber%|
+_{If~%HowMany%<1?|HowMany={Dice~1d4}|}|HowMany={Ceil~%HowMany%}||Count+%HowMany%||Gems=0|
+_[Tab]%HowMany% [Sized] [Shaped] [Coin_Metal] coins
+_{If~%Gems%=1? [HasGems]}
+_[Chanceof]{If~%Chance%<10? with [HoleShape] holes}
+#_|Worth={Calc~(((%Worth%*%HowMany%)*%ValueFactor%) / 100)}||Worth={Round~2,%Worth%}|
+_|Worth={Calc~((%Worth%*%ValueFactor%)/100)}||Worth={Round~2,%Worth%}|
+_ (each worth %Worth% gp; Total {Calc~(%Worth%*%HowMany%)} gp)
+_|Total+{Calc~(%Worth%*%HowMany%)}|
+
+;Sized
+1,tiny|ValueFactor=0.033|
+2,small|ValueFactor=0.066|
+4,medium-sized|ValueFactor=1|
+2,large|ValueFactor=1.5|
+1,huge|ValueFactor=2|
+
+;Shaped
+20,round
+1,square
+1,rounded square
+2,hexagonal|TempNumber={Ceil~{Calc~(%ValueFactor%*0.09)}}||ValueFactor=%TempNumber%|
+1,crescent-shaped|TempNumber={Ceil~{Calc~(%ValueFactor%*0.05)}}||ValueFactor=%TempNumber%|
+1,star-shaped|TempNumber={Ceil~{Calc~(%ValueFactor%*0.075)}}||ValueFactor=%TempNumber%|
+1,oval|TempNumber={Ceil~{Calc~(%ValueFactor%*0.11)}}||ValueFactor=%TempNumber%|
+1,half-circular|TempNumber={Ceil~{Calc~(%ValueFactor%*0.05)}}||ValueFactor=%TempNumber%|
+2,triangular|TempNumber={Ceil~{Calc~(%ValueFactor%*0.066)}}||ValueFactor=%TempNumber%|
+1,octagonal|TempNumber={Ceil~{Calc~(%ValueFactor%*0.095)}}||ValueFactor=%TempNumber%|
+1,{Dice~1d6+8}-sided|TempNumber={Ceil~{Calc~(%ValueFactor%*0.095)}}||ValueFactor=%TempNumber%|
+1,wedge-shaped|TempNumber={Ceil~{Calc~(%ValueFactor%*0.075)}}||ValueFactor=%TempNumber%|
+1,[~Miscellaneous.Shape]-shaped|TempNumber={Ceil~{Calc~(%ValueFactor%*0.075)}}||ValueFactor=%TempNumber%|
+
+;Coin_Metal
+2,bronze|Worth=1.5|
+3,copper|Worth=1|
+1,iron|Worth=2|
+5,silver|Worth=10|[Chanceof]{If~%Chance%=1?|Gems=1|}
+3,electrum|Worth=40|[Chanceof]{If~%Chance%=1?|Gems=1|}
+3,gold|Worth=100|[Chanceof]{If~%Chance%<3?|Gems=1|}
+2,platinum|Worth=1000|[Chanceof]{If~%Chance%<6?|Gems=1|}
+1,adamantium|Worth=2000|[Chanceof]{If~%Chance%<6?|Gems=1|}
+1,mithril|Worth=3000|[Chanceof]{If~%Chance%<11?|Gems=1|}
+
+:HasGems
+1,|TempNumber={Calc~(%ValueFactor% * {Dice~1d5*10})}||ValueFactor=%TempNumber%|, each set with {Dice~1d8} [Inset_Gems]
+
+;Inset_Gems
+1,small {Plural~moonstone}
+1,small {Plural~amethyst}
+1,small {Plural~garnet}
+1,small {Plural~fire opal}
+1,small {Plural~opal}
+1,small {Plural~peridot}
+1,small {Plural~golden topaz}
+1,small {Plural~aquamarine}
+10,small {Plural~[Gems2.Gem{Dice~1d3}]}
+1,tiny black {Plural~opal}
+1,tiny {Plural~emerald}
+1,tiny {Plural~sapphire}
+1,tiny {Plural~diamond}
+1,tiny {Plural~ruby}
+3,tiny {Plural~[Gems2.Gem{Dice~1d3+3}]}
+
+
+
+
+
+
+
+
+;HoleShape
+3,round
+2,square
+1,triangular
+

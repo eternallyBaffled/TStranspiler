@@ -1,0 +1,1210 @@
+﻿# ------------------------------------------------------
+# Last Update: verified by Valminder Jan 04, 2008.
+# ------------------------------------------------------
+#
+#
+# Pirate Island Generator
+#
+# By Kevin Straight.
+# A modification of the Mysterious Island Generator, for use in the Caribbean.
+#
+# Modified by Valminder, January 2008.
+#    Added some modifications, like ~ to reroll things.
+#    Added descriptions.
+#
+
+%hab%,0
+
+:Start
+1,{Status~By Kevin Straight, Valminder 2008}
+_[~PINamer]{CR~}
+_{Bold~What is the Coast Like?} [~Coast].{CR~}
+_{Bold~Is it Inhabited?} [~Inhabited]{CR~}
+_{Bold~Interesting Places}: [~Interesting Places]{CR~}
+_{Bold~Inhabitants/Monsters}: {If~hab=1?[~Inhabitants]/[~Dangerous Animal]}
+
+:Coast
+1-2,Ringed by reefs
+3,Ringed by smooth, sandy beaches
+4,Ringed by high cliffs
+5,Ringed by sand banks
+6,A variety of coastline exists
+
+;!Coast_Variety
+1,reefs
+1,smooth, sandy beaches
+1,high cliffs
+1,sand banks
+
+:Inhabited
+1-3,No settlements; uninhabited by humans|hab=0|
+4,|hab=1|Small villages{CR~}
+_{Bold~If Settled, What’s Going on?} [~Going On]
+5,|hab=1|Port Town with some surrounding villages{CR~}
+_{Bold~If Settled, What’s Going on?} [~Going On]
+6,|hab=1|Powerful city ruling an island Kingdom{CR~}
+_{Bold~If Settled, What’s Going on?} [~Going On]
+
+:Going On
+1-2,At war with another island nearby
+3,{If~{Dice~1d2}=1?Pirate/Buccaneer} is protected by the islanders
+4,Pirates regularly plunder this island
+5,The inhabitants live in peace
+6,Islanders regularly attacked by a sea monster
+7,Gruesome secret.
+8,Peculiar population (eg. no children, no adults, no men, no women etc). Why?
+9,Under sway of evil {If~{Dice~1d2}=1?Voodoo Priest/Pirate Lord}
+10,They have never seen outsiders!
+11,Island is the property of [Nation]
+12,There is a  {If~{Dice~1d2}=1?drunken celebration/tribal ceremony} currently underway
+
+:Nation
+1,Spain
+2,England
+3,France
+4,The Netherlands
+
+:Interesting Places
+1-18,[Places]
+19-20,[Places] & [Places]
+
+:!Places
+3,Freshwater spring
+4,Waterfalls
+5,Statues
+6,Buried treasure
+7,Large caves
+8,Ancient ruins
+9,Old Road
+10,Ruined fortress
+11,Secretive tower
+12,Hidden pyramid
+13,Territorial markers (skulls etc)
+14,Chasm and rope bridge
+15,Island just off the coast
+16,Carved mountain
+17,Pirate cove
+18,Spanish monastery
+
+:Inhabitants
+1,Cannibals
+2,Spanish
+3,French
+4,English
+5,Dutch
+6,[Indians]
+7,Escaped slaves
+8,Bucaneers
+9,Pirates
+10,[Undead]
+
+;Dangerous Animal
+1,Caiman
+1,Poisonous Snakes
+1,Crocodile
+1,Sharks
+1,Vampire Bats
+1,Jaguars
+1,Rabid Monkeys
+1,Giant Octopus
+1,Giant Squid
+1,Poison frogs
+1,Anacondas
+1,Pythons
+
+;Indians
+1,Taino tribe
+1,Carib tribe
+1,Galibi tribe
+1,Arawak tribe
+
+;Undead
+1,Ghosts
+1,Skeletons
+1,Zombies
+
+########## Pirate Island Namer ###########
+
+;PINamer
+1,[Island] Island
+1,[Island] Islet
+1,[Island] Isle
+1,Isle of [Island]
+1,Island of [Island]
+2,Cayo [Island]
+4,[Island] Cay
+1,[Island] Rock
+1,[Island] Bank
+3,Isla [Island]
+3,Isla de [Island]
+2,Isla de la [Island]
+1,[Island] Cayemite
+1,Ile [Island]
+1,Ilet [Island]
+1,Cay [Island]
+1,Cayos [Island]
+2,Cayos de [Island]
+
+;Island
+1,A Eau
+1,A Tois Roux
+1,A Ramiers
+1,Abaco
+1,Abner
+1,Acklins
+1,Adam
+1,Adderley
+1,Ahogado
+1,Albuquerque
+1,Alcarraza
+1,Alder
+1,Alfenique
+1,Algodones
+1,All Awash
+1,Allan
+1,Allans
+1,Ambergris
+1,Anderson
+1,Andros
+1,Anegada
+1,Angel
+1,Angle and Fish
+1,Anguila
+1,Anguilla
+1,Anguillita
+1,Anna
+1,Anthony
+1,Antigua
+1,Araway
+1,Archers
+1,Arenas
+1,Aruba
+1,Atholl
+1,Atwood
+1,Au Rat
+1,Aubin
+1,August
+1,Aves
+1,Back
+1,Bacolet
+1,Bahía
+1,Bajo Evelyn
+1,Bajo Nuevo Bank
+1,Baliceaux
+1,Ballena
+1,Bamboo
+1,Barataria
+1,Barbados
+1,Barbaretta
+1,Barbuda
+1,Barca
+1,Barkers
+1,Barn
+1,Barracuda
+1,Barrel of Beef
+1,Base Line
+1,Basse-Terre
+1,Batata
+1,Bateaux
+1,Bats
+1,Battowia
+1,Baude
+1,Bay
+1,Bayo
+1,Beach
+1,Beacon
+1,Beak
+1,Beef
+1,Bell
+1,Bellamy
+1,Belle Isle
+1,Ben
+1,Bequia
+1,Berberia
+1,Berry
+1,Big Half Moon
+1,Big Lloyd
+1,Big Major's
+1,Big Pelican
+1,Big Pigeon
+1,Big Romers
+1,Big Sand
+1,Big Joe Downer
+1,Big Whale
+1,Big Wood
+1,Big Hog
+1,Big Farmer's
+1,Big Egg
+1,Big Cross
+1,Big Crab
+1,Big Thrift Harbour
+1,Big Cave
+1,Big Carters
+1,Big Cameron
+1,Big Bersus
+1,Big Ambergris
+1,Big
+1,Big Jerry
+1,Big Fish
+1,Big Harbour
+1,Big Grand
+1,Big Lake
+1,Billy
+1,Bimini
+1,Bird
+1,Bishop
+1,Bitter Guana
+1,Black
+1,Blake
+1,Blanquilla
+1,Blinders
+1,Blowing
+1,Blue Hills
+1,Bob
+1,Bobel
+1,Bock
+1,Bogue
+1,Boisseau
+1,Bonaire
+1,Bonchard
+1,Bonds
+1,Bonefish
+1,Booby
+1,Botella
+1,Bouche
+1,Bovoni
+1,Bowe
+1,Breeches
+1,Bridges
+1,Brigantine
+1,Brown
+1,Brush
+1,Buck
+1,Buena Vista
+1,Buenavista
+1,Bumpduklok
+1,Burnside
+1,Burroughs
+1,Burrow
+1,Bursis
+1,Bush
+1,Cabbage
+1,Cabeza de Perro
+1,Cabezazos
+1,Cabras
+1,Cabras
+1,Cabritas
+1,Cabrits
+1,Caeser
+1,Caille
+1,Caja Muertos
+1,Calabash
+1,Caledonia
+1,Calf
+1,Calivigny
+1,Cambridge
+1,Camia
+1,Cana Gorda
+1,Canouan
+1,Capella
+1,Caracoles
+1,Caracoles
+1,Cardona
+1,Caribe
+1,Caribes
+1,Carrera
+1,Carriacou
+1,Carter
+1,Carval
+1,Cas
+1,Cashs
+1,Castaway
+1,Castle
+1,Cat
+1,Catalina
+1,Catch
+1,Catholic
+1,Catto
+1,Cave
+1,Cayman Brac
+1,Cerro Gordo
+1,Chacachacare
+1,Chancel
+1,Channel
+1,Chateaubelair
+1,Chevalier
+1,Children's Bay
+1,Chiva
+1,Chiva
+1,Choc
+1,Chub
+1,Church
+1,Cinnamon
+1,Cistern
+1,Clem
+1,Cluffs
+1,Coakley
+1,Coche
+1,Cochinos 
+1,Cockroach
+1,Coco
+1,Coco
+1,Cocoa Plum
+1,Coculus
+1,Codrington
+1,Collado
+1,Cololoba
+1,Comfort
+1,Compass
+1,Conception
+1,Conch
+1,Conchshell
+1,Conference
+1,Congo
+1,Contoy
+1,Cook's
+1,Cooper
+1,Cormorant
+1,Corn
+1,Cornish
+1,Corral
+1,Cotton
+1,Cove
+1,Cow And Calves
+1,Cow and Calf
+1,Cow
+1,Cozumel
+1,Crab
+1,Craig
+1,Cricket
+1,Crisby
+1,Crocus
+1,Crokus
+1,Cronstadt
+1,Crooked
+1,Cross
+1,Crump
+1,Cruz del Padre
+1,Cubagua
+1,Cueva
+1,Culebra
+1,Culebrita
+1,Culmer's
+1,Culpepper
+1,Cupids
+1,Curaçao
+1,Curly Cut
+1,Current
+1,Current
+1,Dalzel
+1,Damas
+1,Danger
+1,Daniels
+1,Darby
+1,Darvill
+1,de la Petite Terre
+1,De La Rose
+1,Dead Chest
+1,Dead Mens
+1,Deadman
+1,Deadman's
+1,del Agua
+1,del Carmen
+1,del Erio
+1,Dellis
+1,Dennery
+1,des Saintes
+1,Des Chardons
+1,Des Bateaux
+1,Desecheo
+1,Devils
+1,Diablo
+1,Diamond
+1,Dickies
+1,Dike
+1,Dikish
+1,Dilly
+1,Dodan
+1,Dog
+1,Dolly's
+1,Dolphin
+1,Dominica
+1,Domkirk
+1,Don Luis
+1,Donna
+1,Doomey
+1,Double Headed Shot
+1,Double Breasted
+1,Dove
+1,Dry
+1,Du Galion
+1,Duchamp
+1,Duck
+1,Duck Pond
+1,Dulcina
+1,Dunc
+1,Dupre
+1,Duquesnay
+1,Durloe
+1,Dutchcap
+1,Duvernette Islet
+1,East Caicos
+1,East
+1,Eden
+1,Egg
+1,El Mono
+1,El Ancon
+1,Elbow
+1,Eleuthera
+1,Elizabeth
+1,Emerald
+1,Enrique
+1,Ernst Thälmann
+1,Esquivel
+1,Este Sudeste
+1,Eustatia
+1,Exchange
+1,Exuma
+1,Factory
+1,Fahie
+1,Falcon
+1,Fallen Jerusalem
+1,Fanduca
+1,Fanny
+1,Farallon
+1,Fernandez
+1,Fiddle
+1,Fifteen Feet
+1,Finger
+1,Finley
+1,Fish Hawk
+1,Fish
+1,Fishing
+1,Five
+1,Flamingo
+1,Flanagan
+1,Flanagan
+1,Flat
+1,Foots
+1,Fort George
+1,Fortune
+1,Fota
+1,Fourer
+1,Fous
+1,Fowl
+1,Fragoso
+1,Frazer Hog
+1,Fregate
+1,Fregate
+1,French
+1,Frenchman's
+1,Friars
+1,Frigate
+1,Frog
+1,Frozen
+1,Galliot
+1,Garden
+1,Gardner
+1,Garvey
+1,Gary
+1,Garzas
+1,Gaspar Grande 
+1,Gasparillo
+1,Gaulding
+1,Gaulin
+1,Geniqui
+1,George Dog
+1,Geouge
+1,Gibb
+1,Gibson Hog
+1,Gibson
+1,Ginger
+1,Glass
+1,Glover
+1,Goat 
+1,Gold
+1,Golden
+1,Golding
+1,Gonâve
+1,Goole
+1,Gorda
+1,Gorret
+1,Grad Caicos
+1,Grand Bahama
+1,Grand Turk
+1,Grand
+1,Grande-Terre
+1,Grandeemite
+1,Grandman
+1,Grass
+1,Great Guano
+1,Great Inagua
+1,Great Ragged
+1,Great Saint James
+1,Great Sale
+1,Great Stirrup
+1,Great Thatch
+1,Great Tobago
+1,Great Goat
+1,Great Bird
+1,Great Camanoe
+1,Great Dog
+1,Great Exuma
+1,Green Turtle
+1,Green
+1,Grenada
+1,Griffins
+1,Gros
+1,Gros Ilet
+1,Grotte
+1,Grunt
+1,Guachinanga
+1,Guajaba
+1,Guana
+1,Guanahani
+1,Guanaja
+1,Guano
+1,Guayacan
+1,Guillermo
+1,Guincho Ginger
+1,Guinchos
+1,Gun
+1,Gut
+1,Haines
+1,Hale Gate
+1,Half Moon
+1,Halls
+1,Halls Pond
+1,Hans Lollik
+1,Harbour
+1,Hardy
+1,Harvey
+1,Hassel
+1,Hawes
+1,Hawksbill
+1,Hawksnest
+1,Hen and Chicken
+1,Heneagua
+1,Henley
+1,Henry
+1,High
+1,High Point
+1,Highas
+1,Highbourne
+1,Hispaniola
+1,Hoffman
+1,Hog
+1,Holmes
+1,Hope
+1,Huevos
+1,Icacos
+1,Iguana
+1,Ilets Aux Chiens
+1,Inagua
+1,India
+1,Indiaanskop
+1,Ines Soto
+1,Inner Brass
+1,Iron
+1,Ishmael
+1,Jack Adam
+1,Jalova
+1,Jalovita
+1,Jamaica
+1,James
+1,Jardines del Rey
+1,Jardines de la Reina
+1,Jessop
+1,Jewfish
+1,Joe Downer
+1,Joe Creek
+1,Joe Grants
+1,Joe
+1,John Downer
+1,Johnny's
+1,Johnson
+1,Johnsons
+1,Josephs
+1,Jost Van Dyke
+1,Joulter
+1,Juan Perez
+1,Jumento
+1,Jumento
+1,Kadoesji
+1,Kalkun
+1,Kemp
+1,Key
+1,Kick'em Jenny
+1,Kid
+1,Kits
+1,Klein Bonaire
+1,Klein Curaçao
+1,Knife
+1,Kokomo
+1,L'Islot
+1,la Juventud
+1,La Blanquilla
+1,La Cancora
+1,La Perle
+1,La Désirade
+1,La Cordillera
+1,Lanzadera
+1,Lapin
+1,Lapins
+1,Large
+1,Largo
+1,Largo del Sur
+1,las Palomas
+1,Las Lavanderas del Oeste
+1,Las Cucarachas
+1,Las Lavanderas del Este
+1,Las Hermanas
+1,Las Cabritas
+1,Laughing Bird
+1,Lavigne
+1,Laviscounts
+1,Leduck
+1,Lee Stocking
+1,Lenagan
+1,Leonard
+1,Les Trois Ilets
+1,Les Tantes
+1,Levantado
+1,Levera
+1,Levi
+1,Levisa
+1,Lezard
+1,Lightbourn's
+1,Lignumvitae
+1,Lime
+1,Limestone
+1,Linder
+1,Little Water
+1,Little Petit
+1,Little Walker
+1,Little Wax
+1,Little Tobago
+1,Little Thatch
+1,Little Stirrup
+1,Little Seal Dog
+1,Little Scrub
+1,Little San Salvador
+1,Little Whale
+1,Little
+1,Little Abaco
+1,Little Pelican
+1,Little Ambergris
+1,Little Nurse
+1,Little Martinique
+1,Little Major's
+1,Little Bell
+1,Little Bersus
+1,Little Lloyd
+1,Little Camanoe
+1,Little Carters
+1,Little Cat
+1,Little Cave
+1,Little Sale
+1,Little Key
+1,Little Jost Van Dyke
+1,Little Cistern
+1,Little Saint James
+1,Little Joe Downer
+1,Little Jerusalem
+1,Little Inagua
+1,Little Harbour
+1,Little Hans Lollik
+1,Little Half Moon
+1,Little Guana
+1,Little Romers
+1,Little Corn
+1,Little Grand
+1,Little Crab
+1,Little Goat
+1,Little Ragged
+1,Little Pimlico
+1,Little Farmer's
+1,Little Exuma
+1,Little Darby
+1,Little Cuana
+1,Littleman
+1,Lizard
+1,Lobito
+1,Lobo
+1,Lobos
+1,Lobos
+1,Lobster
+1,Lobster
+1,Lockhart
+1,Loggerhead
+1,Lone Pine
+1,Long
+1,Long
+1,Los Farallones
+1,Los Gemelos
+1,Los Negritos
+1,Lovango
+1,Lovely Bay
+1,Low
+1,Low Water Harbour
+1,Lower Crisby
+1,Lubbers Quarters
+1,Lucian
+1,Luis Pena
+1,Lyford
+1,Lynyard
+1,Mabouya
+1,Madam Dau's
+1,Madame
+1,Maddens
+1,Madeira
+1,Magueyes
+1,Maid
+1,Maiden
+1,Major Hill
+1,Major's
+1,Makuka
+1,Mal Aborder
+1,Mamma Rhonda
+1,Man Head
+1,Man
+1,Man O' War
+1,Man-O-War
+1,Mangrove
+1,Manjack
+1,Margaret
+1,Margarita
+1,Maria
+1,Maria Langa
+1,Marie-Galante
+1,Mariguana
+1,Marina
+1,Marine
+1,Market Fish
+1,Marquis
+1,Martinique
+1,Mary
+1,Mastic
+1,Mat Lowe's
+1,Mata Redonda
+1,Mata
+1,Mata Seca
+1,Matei
+1,Matojo
+1,Mayaguana
+1,Maycock
+1,Mayreau
+1,Meeks Patch
+1,Meeuwtje
+1,Melita
+1,Metrente
+1,Meves
+1,Mid
+1,Middle Creek
+1,Middle Caicos
+1,Middle Bight
+1,Middleton
+1,Milligan
+1,Mingo
+1,Mira Por Vos
+1,Miskito
+1,Mollibeday Rots
+1,Mona
+1,Mona
+1,Money
+1,Monito
+1,Monkey
+1,Monos
+1,Montserrat
+1,Moor
+1,Moores
+1,Moosha
+1,Moraine
+1,Morant
+1,Moriah Harbour
+1,Morrillito
+1,Morrillo
+1,Mosquito
+1,Mouth Of Harbou
+1,Muertos
+1,Mujeres
+1,Mushroom
+1,Mustique
+1,Nairn
+1,Nanny
+1,Navassa
+1,Navidad Bank
+1,Navy
+1,Necker
+1,Nelson
+1,Nevis
+1,New
+1,New Providence
+1,Newton
+1,Nigger
+1,Noah Bethel
+1,Noname
+1,Norman
+1,Norman's Pond
+1,Norte
+1,North Bimini
+1,North Elbow
+1,North Caicos
+1,North Halls
+1,North Cat
+1,North
+1,North Andros
+1,Northern Eleuthera
+1,Northwest
+1,Noss Mangrove
+1,Numero dos
+1,Nun Jack
+1,Nupples
+1,Nurse
+1,Nurse Channel
+1,O'Brien
+1,Ocean
+1,Old Yankee
+1,One Bush
+1,Orange
+1,Oscar
+1,Otters
+1,Outer Point
+1,Outer Brass
+1,Over Yonder
+1,Owen
+1,Oyster
+1,Packet
+1,Pajaros
+1,Palm
+1,Palomas
+1,Palominitos
+1,Palominos
+1,Paradise
+1,Parguera
+1,Parrot
+1,Patricia
+1,Paw Paw
+1,Peace and Plenty
+1,Pear
+1,Pearl
+1,Pearls
+1,Pedro
+1,Pela
+1,Pelaita
+1,Pele
+1,Pelican
+1,Penniston
+1,Penon de Afuera
+1,Penon de San Jorge
+1,Penon Brusi
+1,Pensacola
+1,Penso
+1,Perkins
+1,Perpall's
+1,Peter
+1,Petit Ilet Duprey
+1,Petit Saint Vincent
+1,Petit Vincent
+1,Petit Cannouan
+1,Petit Piton
+1,Petit Ilet
+1,Petit Mustique
+1,Petit Nevis
+1,Petit Tobac
+1,Petit
+1,Petite Martinique
+1,Petite Dominique
+1,Petite Grenade
+1,Petiteemite
+1,Piedra Stevens
+1,Piedra
+1,Piedra del Norte
+1,Pierre
+1,Pigeon
+1,Pillories
+1,Pimlico
+1,Pimlico
+1,Pine
+1,Pine Tree
+1,Pineapple
+1,Pinerito
+1,Pineros
+1,Pinsonelle
+1,Pipe
+1,Piragua de Adentro
+1,Piragua de Afuera
+1,Pirata
+1,Plana
+1,Plandon
+1,Plum
+1,Porpoise
+1,Port Royal
+1,Pot
+1,Potter
+1,Powell
+1,Praslin
+1,Prickley Pear
+1,Prickly Pear
+1,Prime
+1,Princess
+1,Protestant
+1,Providencia
+1,Providenciales
+1,Prune
+1,Puerca
+1,Puerca
+1,Puerto Rico
+1,Pumpion
+1,Punta Arenas
+1,Punta Larga
+1,Punta Mosquitos
+1,Quatre
+1,Quita Sueno Bank
+1,Rabbit
+1,Racoon
+1,Ragged
+1,Ragot
+1,Rainbow
+1,Ramgoat
+1,Ramier
+1,Ramos
+1,Ramville
+1,Rancho
+1,Randall's
+1,Rat
+1,
+1,Rata
+1,Ratman
+1,Raton
+1,Ratones
+1,Ratones
+1,Ratones
+1,Real
+1,Red
+1,Red Shank
+1,Red Head
+1,Redoda
+1,Redonda
+1,Reid
+1,Rio
+1,Roatán
+1,Roca Alcatraz
+1,Roca Cocinera
+1,Roca Speck
+1,Roca Resuello
+1,Roca Velasquez
+1,Roca Ola
+1,Roca Cucaracha
+1,Roca Culumna
+1,Rock Harbour
+1,Roker
+1,Romano
+1,Roncador
+1,Ronde
+1,Rose
+1,Rotto
+1,Rouche
+1,Round
+1,Royal
+1,Rudder Cut
+1,Rum
+1,Rupert
+1,Russell
+1,Ruth
+1,Rutter Cut
+1,Saba
+1,Sabinal
+1,Saddle Back
+1,Saddle
+1,Saetia
+1,Sail
+1,Sailor's Choice
+1,Saint Kitts
+1,Saint-Barthélemy
+1,Saint Christopher
+1,Saint Croix
+1,Saint Vincent
+1,Saint Elairs
+1,Saint Thomas
+1,Saint-Martin
+1,Saint Eustatius
+1,Saint Lucia
+1,Saint John
+1,Saint Georges
+1,Sainte-Marie
+1,Sales
+1,Saline
+1,Salt
+1,Salt Pond
+1,Saltwater Money
+1,Samama
+1,Samana
+1,Samphire
+1,Sampson
+1,San Juan
+1,San Andrés
+1,San Salvador
+1,Sand
+1,Sand Bank
+1,Sanders
+1,Sandy Spit
+1,Sandy Point
+1,Sandy
+1,Sandy
+1,Sandy Harbour
+1,Santa Maria
+1,Santa Catalina
+1,Santiago
+1,Saona
+1,Sapate Eliand
+1,Sapodilla
+1,Saut d'Eau
+1,Savan
+1,Savana
+1,Savanna
+1,Schooner
+1,Scilly
+1,Scorpion
+1,Scotland
+1,Scrub
+1,Seal
+1,Seal Dog
+1,Serrana Bank
+1,Serranilla Bank
+1,Shark
+1,Sheep
+1,Ship Channel
+1,Shot
+1,Shroud
+1,Silver
+1,Silver Bank
+1,Simms
+1,Sint Maarten
+1,Sister
+1,Sisters'
+1,Six Hill
+1,Six Shilling
+1,Skipper Jacob
+1,Smith
+1,Snake
+1,Snapper
+1,Soldado
+1,Soldier
+1,Sombrerito
+1,Sombrero
+1,Soubisse
+1,South Mangrove
+1,South
+1,South Caicos
+1,South Cat
+1,South Channel
+1,South Stirrup
+1,South Bimini
+1,South Wager
+1,South Spot
+1,Southeast
+1,Southern
+1,Spanish Wells
+1,Spanish
+1,St. Giles
+1,Staniard
+1,Staniel
+1,Steamer
+1,Steven
+1,Stocking
+1,Strachan
+1,Stranger
+1,Stubb
+1,Sugar Loaf
+1,Sugarloaf
+1,Sula
+1,Sur
+1,Swan
+1,Table Au Diable
+1,Tartane
+1,Tarzan
+1,Tear Coat
+1,Tee
+1,Terre de Haut
+1,Terre de Bas
+1,Terremoto
+1,Thatch
+1,The Stragglers
+1,The Sisters
+1,Thiery
+1,Thomas
+1,Thompson
+1,Three Mary
+1,Tiburon
+1,Tierra
+1,Tilloo
+1,Tobago
+1,Top
+1,Tortola
+1,Tortuga
+1,Tortuga
+1,Tower
+1,Tres Hermanas
+1,Tres Hermanos
+1,Triangle
+1,Trinidad
+1,Trou Terre
+1,Trunk
+1,Tumar
+1,Turner
+1,Turtleback
+1,Turtledove
+1,Twin
+1,Two Brothers
+1,Umbrella
+1,Union
+1,Upper Sandy Harbour
+1,Upper Channel
+1,Upper Samphier
+1,Upper
+1,Útila
+1,Vache
+1,Vambelle
+1,Verde
+1,Verde
+1,Vernon
+1,Victory
+1,Vieques
+1,Vieques
+1,Vigilant
+1,Virgin Gorda
+1,Waderick Wells
+1,Walker
+1,Water
+1,Waterlemon
+1,Watling
+1,Wax
+1,Weatherford
+1,Welk
+1,Well
+1,West Caicos
+1,West Sand Spit
+1,West
+1,West Dog
+1,West Shroud
+1,Wet
+1,Whale
+1,Whistling
+1,White
+1,White Bay
+1,Wicked Will
+1,Willemberg
+1,William
+1,Willis
+1,Wilson
+1,Wiltshires
+1,Windermere
+1,Wood
+1,Woolen Dean
+1,Yallis
+1,Yellow
+1,Yerba
+1,York
+1,Young
+1,Yuma

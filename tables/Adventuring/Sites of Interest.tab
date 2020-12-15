@@ -1,0 +1,63 @@
+# ------------------------------------------------------
+# Last Update: re-verified by Valminder Jan 10, 2012.
+# ------------------------------------------------------
+#
+# Site of Interest
+#
+# Places that may be encountered during
+# a party's travel.
+#
+# Copyright 1998 Bruce A. Gulke
+#
+# Modified by Valminder April 2002
+#
+# Modified by Valminder April 2002
+#      Removed header from [Start].
+#
+
+:Start
+1,{Status~Bruce A. Gulke}[Generate]
+
+:Generate
+1,[Opening] [Miscellaneous.Direction], [Middle] [Place]
+2,[Opening] [Miscellaneous.Direction], [Middle] [Place] <br>[Countryside].
+3,[Opening] [Miscellaneous.Direction], [Middle] [Place] <br>Nearby is the [Settlement].
+4,[Opening] [Miscellaneous.Direction], [Middle] [Place] <br>[Countryside]. Nearby is the [Settlement].
+5,[Opening] [Miscellaneous.Direction], [Middle] [Place] <br>[Village].
+
+;Opening
+1,To the
+1,A short distance to the
+1,Not far to the
+1,Far to the
+
+;Middle
+1,you can see
+1,there is
+
+;Place
+8,[Castles.Start2]
+5,[SITE Temples.GenerateNoMap]
+7,[SITE Ruins.GenerateNoMap]
+2,some ruins. [SITE Ravaged Ruins.Generate]
+
+;Countryside
+1,It sits in the middle of a green field
+1,It lies upon a small hill
+1,A small stream runs past it
+1,It is surrounded by a cluster of trees
+1,The land surrounding it is barren
+1,It is on the edge of a large forest
+1,It is on the shore of a small lake
+1,It overlooks the banks of a good-sized river
+1,It is nestled in a shallow valley
+1,It lies at the base of a range of mountains
+
+;Settlement
+4,hamlet of <b>[~Town Names.Generate]</b>
+4,village of <b>[~Town Names.Generate]</b>
+2,town of <b>[~Town Names.Generate]</b>
+
+;Village
+13,It looks as if a village once stood nearby, but it was obviously deserted long-ago
+7,A village stands nearby, but it looks to be recently deserted

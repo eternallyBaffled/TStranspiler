@@ -1,0 +1,683 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder August 20, 2006.
+# ---------------------------------------------------
+#
+# Inn Menu
+#
+# Copyright 1998 Bruce A. Gulke
+# Modifications Copyright 2001 Kevin Duda
+# Modified by Valminder, 2002.
+#    I linked the table with these other tables:
+#        Creatures.Fantastic
+#        Creatures.Start
+#        Miscellaneous.Color
+#        Names Generator.NAME Random
+#    I also changed "Drinks" and "Food" to add the {Loop} function.
+# Modified by Valminder, Jan 2004 based on the table by Erik C. Mattsen
+#    I linked this table with:
+#        Herb Names.Generate
+#    Added subtables:
+#        Ale Name
+#        Beer Name / Beef / Bread / Cheese
+#        Fish / Flower / Fowl / Grain
+#        Mead Name / Pork / Reptile / Rodent
+#        Seasonal / Sides / Venison
+#        Wine Name / Wine Location / Wine Style
+# Modified from: "Inn Menu2.tab" 
+#    This table is brought to you by Tyego-Press (copyright and all rights
+#    reserved), feel free to use and abuse the table as need be.
+# Modified with the modifications by Michael Long 10/2000
+#    -Forgotten Realms items: if you do not want them, change the parameter
+#     and the FR variable to:
+#     %FR%,2
+#     @FR,1,Do you want to use the Forgotten Realms items ?,Yes,No
+# Modified by Valminder, Jan 2006.
+#    Added a few stuff to link with "Inn Generator.tab"
+#    Adapted for TSv5.
+#    Changed START line.
+# Modified by Valminder, Feb 2006.
+#    Added stuff from Michael Long's tables "FR_Drink" and "FR_Food".
+#    Changed "Miscellaneous.Color" to "Miscellaneous.ColorNoType".
+# Modified by Valminder, Feb 2006.
+#    Added stuff from QWalker table "Drinks.tab".
+#
+
+/OverrideRolls 1
+
+%SPECIALVALUE%,0
+%VALUE%,0
+%piece%,gp
+%Cost%,0
+%Temp%,0
+%mod price%,1
+%FR%,1
+
+@FR,1,Do you want to use the Forgotten Realms items ?,Yes,No
+
+:Start
+1,{Status~by Bruce A. Gulke 1998, Kevin Duba 2001, Michael Long 2000, Valminder 2006}[Generate]
+
+:Generate
+1,|VALUE=0|<p align="center"><b><u>Food</u></b><br>[Food][House Specials]<b><u>Drinks</u></b><br>[Drinks]</p>
+
+:GenerateInn
+1,|VALUE=0|[Food2][House Specials]<b><u>Drinks</u></b><br>[Drinks]
+
+# ---------------------------------------------------------------------------
+# Price Checker
+
+:Cost
+1,{If~%VALUE%>10?|VALUE=10|}{If~%VALUE%>0?[Cost1]/[Cost2]}
+
+:Cost1
+1,[Price=%VALUE%]|Cost/10|[PieceChecker]%Cost% %piece%
+
+:Cost2
+1,|Cost={Dice~1d9}|%Cost% cp
+
+# This price is to be calculated in silver pieces
+:Price
+1,|Cost=1|
+2,|Cost=2|
+3,|Cost=3|
+4,|Cost={Dice~1d2+4}|
+5,|Cost={Dice~1d2+6}|
+6,|Cost={Dice~1d3+8}|
+7,|Cost={Dice~1d3+11}|
+8,|Cost={Dice~1d5+14}|
+9,|Cost={Dice~1d6+18}|
+10,|Cost={Dice~1d10+20}|
+11,|Cost={Dice~1d20+20}|
+12,|Cost={Dice~1d30+20}|
+13,|Cost={Dice~1d40+20}|
+14,|Cost={Dice~1d50+20}|
+15,|Cost={Dice~1d60+20}|
+
+:PieceChecker
+1,|piece=gp|{If~%Cost%<1 ? |Cost*10||piece=sp|{If~%Cost%<1 ? |Cost*10||piece=cp|{If~%Cost%=0 ? |piece=gp|}}}
+
+# ---------------------------------------------------------------------------
+# Drinks
+
+;Drinks
+1,<i>Non-Alcoholic</i><br>{Loop~{Dice~2d2},[Non Alcoholic]}<br>
+_<i>Alcoholic</i><br>{Loop~{Dice~2d3-1},[Alcoholic]}
+_[Special]
+
+;DrinksTavern
+1,<i>Non-Alcoholic</i><br>{Loop~{Dice~2d2-1},[Non Alcoholic]}<br>
+_<i>Alcoholic</i><br>{Loop~{Dice~2d3+1},[Alcoholic]}
+_[Special]
+
+;DrinksInn
+1,<p align="center">[Drinks]</p>
+
+;DrinksTavern
+1,<p align="center">[DrinksTavern]</p>
+
+;Alcoholic
+1,{Cap~[Alcoholic Drinks]} ([Taste], [Cost])<br>
+1,{If~%FR%=1 ? [FR Special]} ([Taste], [Cost])<br>
+
+;Non Alcoholic
+1,{Cap~[Non Alcoholic Drinks]} ([Taste], [Cost])<br>
+
+;Special
+1,<br><i>House Special</i><br>{Cap~[House Special]}|VALUE+3|{If~{Dice~1d100}<20? ([SpecialDrinkProperties])} ([Taste+2], [Cost])<br>
+2,
+
+;SpecialDrinkProperties
+1,this drink has big bubbles|VALUE+2|
+1,this drink has small bubbles|VALUE+2|
+1,this drink fizzes|VALUE+2|
+1,this drink boils|VALUE+2|
+2,this drink glows [~Miscellaneous.ColorNoType]|VALUE+2|
+2,this drink forms a thin layer of ice|VALUE+4|
+2,this drink steams|VALUE+2|
+2,this drink is ice cold|VALUE+4|
+2,this drink is hot|VALUE+4|
+1,this drink periodically froths|VALUE+2|
+1,this drink is a gas/vapors|VALUE+6|
+1,this drink is a solid|VALUE+6|
+1,this drink sings softly|VALUE+8|
+1,this drink humms|VALUE+6|
+1,this drink vibrates|VALUE+2|
+1,this drink flashes [~Miscellaneous.ColorNoType] when moved|VALUE+2|
+
+;!Non Alcoholic Drinks
+10,rainwater|VALUE=0|{Lockout~Non Alcoholic Drinks,1-30}
+10,wellwater|VALUE=0|{Lockout~Non Alcoholic Drinks,1-30}
+10,springwater|VALUE=0|{Lockout~Non Alcoholic Drinks,1-30}
+3,hot tea|VALUE=1|
+2,cold tea|VALUE=1|
+1,lemon herb tea|VALUE=1|
+1,mint tea|VALUE=2|
+1,blackberry tea|VALUE=1|
+5,cow's milk|VALUE=0|
+5,goat's milk|VALUE=0|
+5,apple cider|VALUE=1|
+1,coffee|VALUE=4|
+2,root beer|VALUE=2|
+1,sassafras|VALUE=3|
+1,[Fruit] juice|VALUE=4|
+1,[~Herb Names.Generate] herbal tea|VALUE=1|
+
+# Do not modify (Used by Caravan_Generator)
+;!Alcoholic Drinks
+5,grog|VALUE=1|
+5,light ale ([Ale Name])|VALUE=1|
+5,dark ale ([Ale Name])|VALUE=1|
+5,beer ([Beer Name])|VALUE=2|
+5,mead ([Mead Name])|VALUE=1|
+#---
+1,burbon|VALUE=6|
+5,hard cider|VALUE=3|
+5,lager|VALUE=2|
+1,ambrosia|VALUE=10|
+1,nectar|VALUE=4|
+5,stout|VALUE=4|
+1,vodka|VALUE=5|
+1,whiskey|VALUE=5|
+10,|VALUE={Dice~1d2}|wine ([Wine Name])
+5,table white wine|VALUE=1|
+5,table red wine|VALUE=1|
+
+;House Special
+1,{If~{Dice~1d4}=1?[~House Special 2]/[~Names Generator.NAME Random]'s} Best
+1,{If~{Dice~1d4}=1?[~House Special 2]/[~Names Generator.NAME Random]'s} Hope
+5,{If~{Dice~1d4}=1?[~House Special 2]/[~Names Generator.NAME Random]'s} [Color] [Creature] {Cap~[Descriptive={Dice~1d6}]}
+1,{If~{Dice~1d4}=1?[~House Special 2]/{Cap~[Creatures.Fantastic]}'s} [Color]
+1,{If~{Dice~1d4}=1?[~House Special 2]/{Cap~[Creatures.Fantastic]}'s} [Color] {Cap~[Descriptive={Dice~1d5+2}]}
+1,{If~{Dice~1d4}=1?[~House Special 2]/{Cap~[Creatures.Fantastic]}'s} Blood
+1,{If~{Dice~1d4}=1?[~House Special 2]/{Cap~[Creatures.Fantastic]}'s} Mix
+1,{If~{Dice~1d4}=1?[~House Special 2]/{Cap~[Creatures.Fantastic]}'s} Brew
+
+;House Special 2
+1,King's
+1,Queen's
+1,Prince's
+1,Rangers
+1,Standard
+1,Plain brew
+1,Light brew
+1,Winter brew
+1,Summer brew
+1,Aaron's
+1,Wizards
+1,Golden
+1,Apple
+1,Sheppy's
+1,Dragon's brew
+1,Goblin's brew
+1,Sunrise
+1,Surprise
+1,Paladins
+1,Death's
+
+:Descriptive
+1,best
+2,specialty
+3,brew
+4,potion
+5,mixture
+6,essence
+7,blood
+
+;Creature
+1,{Cap~[Creatures.Start]}
+2,
+
+;Color
+1,{Cap~[Miscellaneous.ColorNoType]}
+1,
+
+# ---------------------------------------------------------------------------
+# Food
+
+;Food
+1,<i>Breakfast</i><br>{Loop~{Dice~1d2},[Breakfasts]}<br>
+_<i>Lunch/Supper</i><br>{Loop~{Dice~1d4},[Dinner]}<br>
+_<i>Breads</i><br>{Loop~{Dice~1d4},[Breads]}<br>
+_<i>Desserts</i><br>{Loop~{Dice~2d2},[Dessert]}<br>
+
+;Food2
+1,<b><i>Breakfast</i></b><br>{Loop~{Dice~1d2},[Breakfasts]}<br>
+_<b><i>Lunch/Supper</i></b><br>{Loop~{Dice~1d4},[Dinner]}<br>
+_<b><i>Breads</i></b><br>{Loop~{Dice~1d4},[Breads]}<br>
+_<b><i>Desserts</i></b><br>{Loop~{Dice~2d2},[Dessert]}<br>
+
+;Breakfasts
+1,{Cap~[Breakfast]} ([Taste], [Cost])<br>
+
+;Breads
+4,|VALUE=0|{Cap~[Bread]} ([Taste], [Cost])<br>
+1,
+
+;Dinner
+1,{Cap~[Meal]} ([Taste], [Cost])<br>
+
+;Dessert
+1,{Cap~[Desserts]} ([Taste], [Cost])<br>
+1,
+
+;House Specials
+3,
+1,<u>House Special</u>: [House Specials2] ([Taste+3], [Cost])<br><br>
+
+;House Specials Inn
+3,
+1,<br><p align="center"><b><i>House Special</b></i><br>[House Specials2] ([Taste+3], [Cost])<br></p>
+
+;House Specials2
+1,|VALUE=2||SPECIALVALUE=0|{Cap~[Prepared]}|SPECIALVALUE+%VALUE%||VALUE=0| [Meat]|SPECIALVALUE+%VALUE%||VALUE=0| served with [Prepared]|SPECIALVALUE+%VALUE%||VALUE=0| [Vegetable]|SPECIALVALUE+%VALUE%||VALUE=0| and a side of [Soups]|SPECIALVALUE+%VALUE%||VALUE=0|, and for dessert [Desserts]|SPECIALVALUE+%VALUE%|.|VALUE=%SPECIALVALUE%||VALUE-1|
+1,|VALUE=2||SPECIALVALUE=0|{Cap~[Prepared]}|SPECIALVALUE+%VALUE%||VALUE=0| [Meat]|SPECIALVALUE+%VALUE%||VALUE=0| served with [Prepared]|SPECIALVALUE+%VALUE%||VALUE=0| [Vegetable]|SPECIALVALUE+%VALUE%||VALUE=0| and a side of [Soups]|SPECIALVALUE+%VALUE%||VALUE=0|, and for dessert [Desserts]|SPECIALVALUE+%VALUE%||VALUE=0|. It also includes [Alcoholic Drinks].|SPECIALVALUE+%VALUE%||VALUE=%SPECIALVALUE%||VALUE-1|
+1,|VALUE=3||SPECIALVALUE=0|{Cap~[Seasoned]}|SPECIALVALUE+%VALUE%||VALUE=0| [Meat]|SPECIALVALUE+%VALUE%||VALUE=0| served with [Prepared]|SPECIALVALUE+%VALUE%||VALUE=0| [Vegetable]|SPECIALVALUE+%VALUE%||VALUE=0| and a side of [Soups]|SPECIALVALUE+%VALUE%||VALUE=0|, and for dessert [Desserts]|SPECIALVALUE+%VALUE%|.|VALUE=%SPECIALVALUE%||VALUE-1|
+1,|VALUE=3||SPECIALVALUE=0|{Cap~[Seasoned]}|SPECIALVALUE+%VALUE%||VALUE=0| [Meat]|SPECIALVALUE+%VALUE%||VALUE=0| served with [Prepared]|SPECIALVALUE+%VALUE%||VALUE=0| [Vegetable]|SPECIALVALUE+%VALUE%||VALUE=0| and a side of [Soups]|SPECIALVALUE+%VALUE%||VALUE=0|, and for dessert [Desserts]|SPECIALVALUE+%VALUE%||VALUE=0|. It also includes [Alcoholic Drinks].|SPECIALVALUE+%VALUE%||VALUE=%SPECIALVALUE%||VALUE-1|
+1,|VALUE=0||SPECIALVALUE=0|{Cap~[Seasoned]}|SPECIALVALUE+%VALUE%||VALUE=0| [Vegetable]|SPECIALVALUE+%VALUE%||VALUE=0| served with [Soups]|SPECIALVALUE+%VALUE%||VALUE=0| and a side of [Desserts]|SPECIALVALUE+%VALUE%|.|VALUE=%SPECIALVALUE%||VALUE-1|
+
+# ---------------------------------------------------------------------------
+# Miscellaneous Tables
+
+;Ale Name
+1,[~Names Generator.NAME Random]'s Best|VALUE+1|
+1,[~Names Generator.NAME Random]'s Imported|VALUE+2|
+1,[~Names Generator.NAME Random]'s Pale
+1,[~Names Generator.NAME Random]'s Lager-Style
+1,[~Names Generator.NAME Random]'s [Fruit]
+1,[~Names Generator.NAME Random]'s Stout
+1,[~Names Generator.NAME Random]'s [Seasonal]
+5,House
+
+:Beer Name
+1,[~Names Generator.NAME Random]'s Best|VALUE+1|
+2,[~Names Generator.NAME Random]'s Imported|VALUE+2|
+3,[~Names Generator.NAME Random]'s
+4,[~Names Generator.NAME Random]'s [Fruit]
+5,[~Names Generator.NAME Random]'s [Seasonal]
+6-9,House
+
+;!Beef
+1,beef steak
+1,beef meat loaf
+1,beef ribs
+1,beef rib chops
+1,beef loin chops
+
+;!Bread
+2,peasant's loaf
+2,biscuits
+2,buns
+2,hardtack
+1,lord's loaf|VALUE+1|
+1,blackbread|VALUE+2|
+1,onion spiced crackers (12)|VALUE+2|
+1,garlic spiced crackers (12)|VALUE+2|
+1,pepper spiced crackers (12)|VALUE+2|
+1,savory spiced crackers (12)|VALUE+2|
+1,elven bread|VALUE+5|
+1,gingerbread
+1,sourdough bread
+1,tortilla
+
+;Breakfast
+1,|VALUE=0|grits
+1,|VALUE=0|cream of wheat
+1,|VALUE=0|rolls
+1,|VALUE=0|rice
+1,|VALUE=0|[Egg preparation] eggs
+1,|VALUE=1|[Egg preparation] eggs and [Breakfast meats]
+1,|VALUE=2|[Seasoned] {Plural~[Vegetable]}
+1,|VALUE-0|[Bread]
+1,[Soups]
+
+;Breakfast meats
+2,bacon
+2,ham
+2,hash
+1,steak
+
+;!Cake
+1,chocolate|VALUE+2|
+3,pound
+3,carrot
+1,yellow
+2,white
+1,fruit|VALUE+2|
+1,angel food
+1,strawberry
+
+;!Cheese
+5,sharp cheese
+5,mild cheese
+1,blue cheese|VALUE+2|
+1,beer cheese ([Beer Name])|VALUE+1|
+10,[~Equipment.Cheese]
+
+;!Cookie
+1,chocolate chip|VALUE+2|
+1,fudge|VALUE+1|
+1,sugar
+1,pumpkin
+1,ginger
+
+;Desserts
+3,|VALUE=2|[Fruit] pie
+1,|VALUE=3|[Fruit] cream pie
+2,|VALUE=2|[Fruit] surprise
+2,|VALUE=3|[Cake] cake
+1,|VALUE=1|bread pudding
+1,|VALUE=2|[Fruit] pudding
+1,|VALUE=2|[Fruit] tart
+1,|VALUE=2|[Cake] pudding
+1,|VALUE=2|[~Names Generator.NAME Random]'s [Fruit] pie
+1,|VALUE=2|[~Names Generator.NAME Random]'s [Fruit] surprise
+1,|VALUE=3|[~Names Generator.NAME Random]'s [Cake] cake
+1,|VALUE=1|[~Names Generator.NAME Random]'s [Pudding] pudding
+1,|VALUE=2|[~Names Generator.NAME Random]'s [Fruit] tart
+1,|VALUE=1|[~Names Generator.NAME Random]'s [Cookie] cookie
+1,|VALUE=3|[~Names Generator.NAME Random]'s [Cake] cake with [Fruit] glazing
+1,|VALUE=4|chocolate pudding
+
+;!Egg preparation
+1,scrambled
+1,poached
+1,fried
+1,boiled
+
+;!Fish
+1,cod
+3,trout
+3,bass
+1,herring
+2,shad
+4,catfish
+1,perch
+1,tuna
+1,salmon
+1,panfish
+
+;!Flower
+1,rose
+1,tulip
+1,dandelion
+1,forget-me-not
+1,snap dragon
+1,crysanthamum
+
+;!Fowl
+5,chicken
+5,duck|VALUE+1|
+5,goose
+5,turkey
+2,quail
+3,grouse
+1,pheasant
+2,chicken egg|VALUE-1|
+2,goose egg|VALUE-1|
+1,duck egg|VALUE-1|
+
+;!Fruit
+5,apple
+3,apricot
+2,blackberry
+2,blueberry
+1,boysenberry
+3,cherry
+3,chocolate
+2,cranberry
+1,gooseberry
+1,grape
+1,lemon
+1,orange
+2,peach
+5,pear
+2,plum
+1,pumpkin
+2,raspberry
+5,rhubarb
+5,strawberry
+10,[Equipment.Fruits]
+
+;!Grain
+1,rye
+1,wheat
+1,pumpernickel
+1,oat
+1,multi-grain
+
+;Mead Name
+1,[~Names Generator.NAME Random]'s [Miscellaneous.ColorNoType] Honey
+1,[Herb Names.Generate] Honey
+1,[Miscellaneous.ColorNoType] [Flower] [Seasonal]
+1,[~Names Generator.NAME Random]'s [Seasonal] Honey
+1,House
+
+;Meal
+1,|VALUE=2|[Prepared] [Meat]
+1,|VALUE=3|[Seasoned] [Meat]
+2,|VALUE=2|[Seasoned] {Plural~[Vegetable]}
+2,|VALUE=1|[Prepared] {Plural~[Vegetable]}
+3,[Soups]
+2,|VALUE=3|[Prepared] [Meat] with [Sides]
+2,|VALUE=4|[Seasoned] [Meat] with [Sides]
+
+;Meat
+5,[Beef]
+3,boar
+5,[Fish]
+5,[Fowl]
+3,goat
+3,lamb
+5,[Pork]
+2,[Venison]
+1,[Rodent]|VALUE-1|
+1,[Reptile]
+1,bear|VALUE+1|
+1,[Other Meat]
+
+;!Noodles
+1,Udon noodles
+1,Soba noodles
+1,Bean curd noodles
+1,ramen noodles
+
+;Other Meat
+1,beaver|VALUE-1|
+1,ground hog|VALUE-1|
+1,opossum|VALUE-1|
+1,raccoon|VALUE-1|
+
+;Pork
+5,ham
+3,loin chops
+3,rib chops
+1,bacon
+1,ham hocks
+2,pork sausage
+3,pork loin roast
+2,ham steak
+2,haggas
+
+;Prepared
+1,baked
+1,blackened
+1,boiled
+1,broiled
+1,dried
+1,fried
+1,marinated
+1,raw|VALUE-1|
+1,roasted
+1,sauted|VALUE+1|
+1,[Seasoned] battered
+1,smoked
+1,steamed
+1,stewed
+
+;Pudding
+1,vanilla
+1,chocolate|VALUE+2|
+1,butterscotch
+1,fudge|VALUE+1|
+1,bread|VALUE-1|
+1,tapioca
+1,lemon
+1,banana
+1,cinnamon
+
+;Reptile
+3,snake
+7,turtle
+1,alligator
+2,frog's legs
+
+;Rodent
+5,rabbit
+5,hare
+5,squirrel
+1,rat|VALUE-1|
+2,guinea|VALUE-1|
+
+;Seasoned
+1,curried
+3,garlic
+5,onion
+5,peppered
+1,rosemary
+1,sage
+5,salted
+3,spiced
+3,buttered
+2,garlic buttered
+1,blackened
+1,hot spicy
+2,sweetened
+1,sweet
+3,sour
+1,savory
+
+;Seasonal
+1,Winter
+1,Spring
+1,Summer
+1,Autumn
+
+;Sides
+3,[Grain] [Bread]
+1,[Cheese]
+1,[Vegetable]
+1,[Seasoned] [Vegetable]
+1,[Prepared] [Vegetable]
+
+;Soups
+10,|VALUE=2|[Meat] stew
+6,|VALUE=2|[Meat] and [Vegetable] stew
+6,|VALUE=3|[Meat] and dumpling soup
+8,|VALUE=1|porridge
+6,|VALUE=1|gruel
+7,|VALUE=1|[Vegetable] soup
+3,|VALUE=1|cream of [Vegetable]
+4,|VALUE=4|[Meat] chowder
+4,|VALUE=3|[Vegetable] chowder
+2,|VALUE=2|[Fowl] soup
+2,|VALUE=2|[~Names Generator.NAME Random]'s [Vegetable] soup
+2,|VALUE=1|chili
+1,|VALUE=3|[Vegetable] with [Noodles]
+1,|VALUE=4|[Meat] with [Noodles]
+
+;Taste
+1,terrible|VALUE-2|
+3,bland|VALUE-1|
+5,good
+1,superb|VALUE+1|
+
+;!Vegetable
+2,yellow bean
+2,green bean
+1,[~Miscellaneous.ColorNoType] bean
+3,beet
+3,cabbage
+5,carrot
+3,corn
+3,mushroom
+3,onion
+3,pea
+4,potato
+1,sweet potato
+1,pumpkin
+1,spinach
+5,squash
+3,tomato
+3,turnip
+1,yam
+1,lentil
+1,rutabaga
+
+;Venison
+7,deer
+3,elk
+2,caribou
+2,reindeer
+1,mule deer
+1,rothe
+
+;Wine Name
+1,[~Names Generator.NAME Random] [Wine Location] [Wine Style]
+1,Lo'[~Names Generator.NAME Random] [Wine Style]
+1,[~Equipment.Wines]
+
+;Wine Location
+1,Valley
+1,Vineyards
+1,Vintners
+1,House
+
+;Wine Style
+2,Sparkling|VALUE+2|
+5,White|VALUE+1|
+5,Rose
+1,Port|VALUE+4|
+1,Sherry|VALUE+4|
+1,Special Reserve|VALUE+5|
+10,Red
+
+# ----------------------------------------------------------
+# Forgotten Realms Special
+
+# One hand keg = 2 gal or 16 servings
+# One cask = 12 gal or 96 servings
+
+;!FR Special
+4,Bitter Black|VALUE=1|
+4,Dragon's Breath Beer|VALUE=2|
+4,Elminster's Choice|VALUE=2|
+4,Golden Sands Basic|VALUE=1|
+4,Golden Sands Gold|VALUE=1|
+4,Golden Sands Orange|VALUE=1|
+4,Iriaeboran North Brew|VALUE=1|
+4,Lurien's Best|VALUE=1|
+4,Old One Eye|VALUE=1|
+4,Shadowdark Ale|VALUE=1|
+4,SUZALE|VALUE=1|
+4,Tanagyr's Stout|VALUE=2|
+4,Knee-Cracker|VALUE=1|
+4,Purple Hill Cider(|VALUE=2|
+4,Vilhon Cider|VALUE=3|
+4,Arabellan Dry|VALUE=2|
+4,Clarry|VALUE=2|
+4,Saerloonian Special Vat|VALUE=2|
+4,Saerloonian Glowfire|VALUE=2|
+4,Saerloonian Topaz|VALUE=2|
+4,Fire Wine|VALUE=1|
+4,Undermountain Alurlyath|VALUE=2|
+4,Westgate Ruby|VALUE=2|
+4,Winter Wine|VALUE=1|
+4,Raisin Spiced Wine|VALUE=2|
+4,Fennel Spiced Wine|VALUE=2|
+4,Cinnamon Spiced Wine|VALUE=1|
+4,Anise Spiced Wine|VALUE=2|
+4,Nutmeg Spiced Wine|VALUE=1|
+4,Clove Spiced Wine|VALUE=1|
+3,Berduskan Dark|VALUE=10|
+3,Blood Wine|VALUE=3|
+1,Evermead|VALUE=13|

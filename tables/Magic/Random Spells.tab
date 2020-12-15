@@ -1,0 +1,1379 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder July 23, 2015.
+# ---------------------------------------------------
+#
+# This table is designed to Create a List of Random Spells for all
+# Magic-Using Classes.
+#
+#    To call this table from another one, you need to feed it the parameters.
+#    [Random Spells.Start(MagicUserClass,CharacterLevel,RandomAttribute,
+#                         ChooseGod,Bonus0Level,Instructions)]
+#
+#    Example: Clr20, 22 Wis, Core God (2 domains), no 0-level bonus spells.
+#             [Random Spells.Start(2,20,22,1,2,2)]
+#    Example: Wiz17, 25 Int, God does not matter, with 0-level bonus spells.
+#             [Random Spells.Start(7,17,25,1,1,2)]
+#
+# ADD_CLASS
+#    MagicUserClass:  11  1=Bard, 2=Cleric, 3=Druid, 4=Paladin, 5=Ranger, 
+#                         6=Sorcerer, 7=Wizard, 8=Adept, 9=Assassin,
+#                         10=Blackguard, 11=Random, 12=Sorcerer_Witch
+#                         13= Adept (Seer) (Ultimate NPC)
+#                         14= Adept (Smiter) (Ultimate NPC)
+#    CharacterLevel:  21  The level required in the class, not spellcaster
+#                         level. 1 to 20. 
+#                         99=Random level (1d20)
+#    RandomAttribute: 99  12-43. 99=Will chose randomly from (12 to 20).
+#    ChooseGod:       1   1= Random Core God from PH (2 domains)
+#                         2= Random Core God from PH (3 domains)
+#                         3= 2 random domains (with random deity name)
+#                         4= 3 random domains (with random deity name)
+#    Bonus0Level:     2   1= Bonus 0-level spells based on Prime Attribute
+#                            (same bonus as 1st-level bonus spells)
+#                         2= No 0=level bonus spells.
+#    Instructions     1   1= Show instructions, does not generate spells.
+#                         2= Generate spells.
+#
+# Modified by Valminder, Dec 2005.
+#    Adapted for TSv5.
+#    Revised 3.5E 
+#    I shortened a lot of subtables.
+#    Removed all the spells and it now uses "Spells.tab"
+#    Linked to: Religion.tab
+#    Added alternate gods/domains in parameters.
+#    Added instructions.
+# Modified by Larry Cormier, Feb, 2006
+#    Fixed the MagicUserClass Subtable to accurately reflect the established
+#       MagicUserIDs that call that particular Subtable.
+#    Revised Parameter Prompts so they will not be 'Cut-off' due to
+#       prompt length limitations in TableSmith v4.5
+# Modified by Valminder, Jan 2008.
+#    Added Count=0 in the FindBonus subtable to address an error in
+#    the NPC Stat Block v3_5 where errors were generated when creating
+#    groups with more than 1 spellcaster.
+# Modified by Valminder, Jan 2008.
+#    Added something to show Paladins/Rangers under 5th level who do not have spells.
+# Modified by Valminder, July 2015.
+#    Changed: 21 for Random Level TO "99".
+#    Added -Sorcerer_WitchX spells (from DMG1) === #12
+# Modified by Valminder, May 2016  =====>>>>>>>>>>>>>>>>>>>> LOOK for ADD_CLASS
+#    Added -Adept_Seer (from Ultimate NPCs) === #13
+#    Added -Adept_Smiter (from Ultimate NPCs) === #14
+# Modified by Valminder, Jan 2017
+#    Modified Adept/Blackguard spells per day error.
+#
+#
+
+# Declare Variables
+%Bonus0Level%,0
+%ChooseGod%,0
+%ClassName%,0
+%DeityName%,0
+%Instructions%,1
+%MagicUserClass%,11
+%NumberLoop%,0
+
+%Domain1%,0
+%Domain2%,0
+%Domain3%,0
+%Domain4%,0
+%Domain5%,0
+%Domain6%,0
+%Domain7%,0
+%Domain8%,0
+%Domain9%,0
+%Domain10%,0
+%Domain11%,0
+%Domain12%,0
+%DomainNumber%,2
+%DomainTemp%,0
+%DomainID1%,0
+%DomainID2%,0
+%DomainID3%,0
+%DomainID4%,0
+
+%CharacterLevel%,1
+%PrimeAttribute%,0
+%PrimeAttributeMAX%,43
+%PrimeAttributeScore%,12
+%RandomAttribute%,1
+%TempNumber%,0
+%SpellLevel%,0
+%MaxSpellLevel%,0
+%Int%,1
+%Wis%,1
+%Cha%,1
+%DailyCount%,0
+%CommaFlag%,0
+%SpellString%,0
+%Count%,0
+%DailySpells%,0
+%ShowName%,0
+
+# Defaul Parameters: 11, 21, 99, 1, 2, 1
+# Parameter Display Lists:
+# ADD_CLASS
+@MagicUserClass,11,Choose Spellcaster's Class,Bard,Cleric,Druid,Paladin,Ranger,Sorcerer,Wizard,Adept,Assassin,Blackguard,Random,Sorcerer_Witch,Adept_Seer,Adept_Smiter
+@CharacterLevel,99,Character Level desired? (Leave at 99 to 'roll' Character Level randomly)
+@RandomAttribute,99,Enter Prime Attribute spellcasting score (12-43) (99=Random)
+@ChooseGod,1,Choose the way to generate the domains of the cleric,Random Core God from PH (2 domains),Random Core God from PH (3 domains),2 random domains (with random deity name),3 random domains (with random deity name)
+@Bonus0Level,2,OPTIONAL: Bonus 0-level spells based on Prime Attribute? (same as 1st-level spells),Yes,No
+@Instructions,1,Would you like to re-show the Instructions?,Yes,No
+
+:Start
+1,{Reset~Spells.Adept0}{Reset~Spells.Adept1}{Reset~Spells.Adept2}{Reset~Spells.Adept3}{Reset~Spells.Adept4}{Reset~Spells.Adept5}
+_{Reset~Spells.Bard0}{Reset~Spells.Bard1}{Reset~Spells.Bard2}{Reset~Spells.Bard3}{Reset~Spells.Bard4}{Reset~Spells.Bard5}{Reset~Spells.Bard6}
+_{Reset~Spells.Cleric0}{Reset~Spells.Cleric1}{Reset~Spells.Cleric2}{Reset~Spells.Cleric3}{Reset~Spells.Cleric4}{Reset~Spells.Cleric5}{Reset~Spells.Cleric6}{Reset~Spells.Cleric7}{Reset~Spells.Cleric8}{Reset~Spells.Cleric9}
+_{Reset~Spells.Druid0}{Reset~Spells.Druid1}{Reset~Spells.Druid2}{Reset~Spells.Druid3}{Reset~Spells.Druid4}{Reset~Spells.Druid5}{Reset~Spells.Druid6}{Reset~Spells.Druid7}{Reset~Spells.Druid8}{Reset~Spells.Druid9}
+_{Reset~Spells.Paladin1}{Reset~Spells.Paladin2}{Reset~Spells.Paladin3}{Reset~Spells.Paladin4}
+_{Reset~Spells.Ranger1}{Reset~Spells.Ranger2}{Reset~Spells.Ranger3}{Reset~Spells.Ranger4}
+_{Reset~Spells.Wizard0}{Reset~Spells.Wizard1}{Reset~Spells.Wizard2}{Reset~Spells.Wizard3}{Reset~Spells.Wizard4}{Reset~Spells.Wizard5}{Reset~Spells.Wizard6}{Reset~Spells.Wizard7}{Reset~Spells.Wizard8}{Reset~Spells.Wizard9}
+# ADD_CLASS
+_{Reset~Spells.Sorcerer_Witch0}{Reset~Spells.Sorcerer_Witch1}{Reset~Spells.Sorcerer_Witch2}{Reset~Spells.Sorcerer_Witch3}{Reset~Spells.Sorcerer_Witch4}{Reset~Spells.Sorcerer_Witch5}{Reset~Spells.Sorcerer_Witch6}{Reset~Spells.Sorcerer_Witch7}{Reset~Spells.Sorcerer_Witch8}{Reset~Spells.Sorcerer_Witch9}
+_{Reset~Spells.Adept_Seer0}{Reset~Spells.Adept_Seer1}{Reset~Spells.Adept_Seer2}{Reset~Spells.Adept_Seer3}{Reset~Spells.Adept_Seer4}{Reset~Spells.Adept_Seer5}
+_{Reset~Spells.Adept_Smiter0}{Reset~Spells.Adept_Smiter1}{Reset~Spells.Adept_Smiter2}{Reset~Spells.Adept_Smiter3}{Reset~Spells.Adept_Smiter4}{Reset~Spells.Adept_Smiter5}
+_{If~%ChooseGod%=0?|ChooseGod=3|}
+_{If~%Instructions%=1? [Instructions]/[SpellBookStart]}
+
+:Instructions
+1,This table generates a random 3.5 Edition Spell List for any Magic-Using Class - including Bonus and Domain Spells as applicable.<br><br>
+_All you have to do is select the Magic User's Class and Character Level.<br><br>
+_Use the Parameter Button located in the Upper Left-hand corner of the screen to select your initial Class and Character Level to get started.<br><br>
+_To call this table from another one, you need to feed it the parameters in the order listed below:<br>
+_<font color=green>Random Spells.Start(MagicUserClass,CharacterLevel,RandomAttribute,ChooseGod,Bonus0Level,Instructions)<br><br></font>
+_<b>Example:</b> Clr20, 22 Wis, Core God (2 domains), no 0-level bonus spells.<br><font color=green>Random Spells.Start(2,20,22,1,2,2)<br><br></font>
+_<b>Example:</b> Wiz17, 25 Int, God does not matter, with 0-level bonus spells.<br><font color=green>Random Spells.Start(7,17,25,1,1,2)<br><br></font>
+# ADD_CLASS
+_<b>MagicUserClass:</b> <font color=darkred>(Default=11)</font> 1=Bard, 2=Cleric, 3=Druid, 4=Paladin, 5=Ranger, 6=Sorcerer, 7=Wizard, 8=Adept, 9=Assassin, 10=Blackguard, 11=Random
+# ADD_CLASS
+_, 12=Sorcerer (Witch), 13-Adept (Seer) (UltNPC1)
+_, 13=Adept (Seer) (UltNPC1)
+_, 14=Adept (Smiter) (UltNPC1)<br>
+_<b>CharacterLevel:</b> <font color=darkred>(Default=99)</font> The level required in the class, not spellcaster level. 1 to 20. 21=Random level (1d20)<br>
+_<b>RandomAttribute:</b> <font color=darkred>(Default=99)</font> 12 to 43. 99=Will chose randomly from (12 to 20).<br>
+_<b>ChooseGod:</b> <font color=darkred>(Default=1)</font> 1=Random Core God from PH (2 domains), 2=Random Core God from PH (3 domains), 3=2 random domains (with random deity name), 4=3 random domains (with random deity name)<br>
+_<b>Bonus0Level:</b> <font color=darkred>(Default=2)</font> 1=Bonus 0-level spells based on Prime Attribute (same bonus as 1st-level bonus spells)   2=No 0=level bonus spells.<br>
+_<b>Instructions:</b> <font color=darkred>(Default=1)</font> 1=Show instructions, does not generate spells.   2=Generate spells.<br><br>
+_<b>OPTIONAL:</b> You can add bonus 0-level spells if you want. The number of 0-level bonus spells is the same as the number of 1st-level bonus spells.
+
+:SpellBookStart
+1,{If~%MagicUserClass% = 11 ? |MagicUserClass=[MagicUserClassRandom]|}
+_ |ClassName=[MagicUserClass=%MagicUserClass%]|
+_ {If~%CharacterLevel% = 99 ? [RandomLevel=%MagicUserClass%]}
+_ {If~%CharacterLevel% > 20 ? |CharacterLevel=20|}
+_ {If~%MagicUserClass%=9? {If~%CharacterLevel%>10?|CharacterLevel=10|}}
+_ {If~%MagicUserClass%=10? {If~%CharacterLevel%>10?|CharacterLevel=10|}}
+_ {If~%RandomAttribute% = 99 ? |PrimeAttributeScore={Dice~1d9+11}|}
+_ {If~%RandomAttribute% != 99 ? |PrimeAttributeScore=%RandomAttribute%|
+_    {If~%PrimeAttributeScore%>%PrimeAttributeMAX%? |PrimeAttributeScore=%PrimeAttributeMAX%|}
+_    {If~%PrimeAttributeScore%<12? |PrimeAttributeScore=12|}}
+# Paladin (4) or Ranger (5)
+_ {If~{Or~%MagicUserClass%=4,%MagicUserClass%=5}=1?{If~%CharacterLevel%<5?[NotHighEnoughLevelToHaveSpells]/[SpellBookStart2]}
+_                                                 /[SpellBookStart2]}
+
+:NotHighEnoughLevelToHaveSpells
+1,{Color~Red,This {Ordinal~%CharacterLevel%} level {Cap~%ShowName%} doesn't have spells yet.}
+
+:SpellBookStart2
+#XXX 1,<b><u>Random Spells</u>: {Ordinal~%CharacterLevel%} level {Cap~[MagicUserClass=%MagicUserClass%]}, 
+1,<b><u>Random Spells</u>: {Cap~%ShowName%} {Ordinal~%CharacterLevel%}, 
+# Cleric (2) 
+_{If~%MagicUserClass%=2? [ChooseGod=%ChooseGod%],}
+_{If~%MagicUserClass%=8? [ChooseGod=%ChooseGod%],}
+_{If~%MagicUserClass%=13? [ChooseGod=%ChooseGod%],}
+# XXX Removed XXX_ [PrimeAttributeBranch=%PrimeAttribute%].
+_{If~%PrimeAttributeScore%>11? {Italic~(Includes bonus spells
+_    {If~%Bonus0Level%=1? (with bonus 0-level spells)}
+_    {If~%MagicUserClass%=2? as well as Domain spells for
+_    [ChooseGodDomain=%ChooseGod%]}).}} (Save DC[Save] + spell level):</b>
+_ <br>[BuildSpellsString]
+
+:RandomLevel
+1-8,|CharacterLevel={Dice~1d20}|
+9-10,|CharacterLevel={Dice~1d10}|
+
+:ChooseGod
+1-2,of |DeityName=[DeityNames]|%DeityName%
+3-4,of |DeityName=None| a miscellaneous deity ([~Religion.Deities])
+
+# XXX Removed
+:GeneratePrimeAttribute
+1,|Cha=%PrimeAttributeScore%|
+2,|Wis=%PrimeAttributeScore%|
+3,|Wis=%PrimeAttributeScore%|
+4,|Wis=%PrimeAttributeScore%|
+5,|Wis=%PrimeAttributeScore%|
+6,|Cha=%PrimeAttributeScore%|
+7,|Int=%PrimeAttributeScore%|
+8,|Wis=%PrimeAttributeScore%|
+9,|Int=%PrimeAttributeScore%|
+10,|Wis=%PrimeAttributeScore%|
+# Random
+11,
+# ADD_CLASS
+# Sorcerer_Witch
+12,|Cha=%PrimeAttributeScore%|
+# Adept_Seer
+13,|Wis=%PrimeAttributeScore%|
+# Adept_Smiter
+14,|Wis=%PrimeAttributeScore%|
+
+:ChooseGodDomain
+1,|DomainNumber=2|[RandomDomainsByDeity] %DomainID1%* or %DomainID2%**
+2,|DomainNumber=3|[RandomDomainsByDeity] %DomainID1%*, %DomainID2%**, or %DomainID3%***
+3,|DomainNumber=2|[RandomDomains2] %DomainID1%* or %DomainID2%**
+4,|DomainNumber=3|[RandomDomains3] %DomainID1%*, %DomainID2%**, or %DomainID3%***
+
+:Save
+1,{Calc~10+{Trunc~{Calc~((%PrimeAttributeScore%-10)/2)}}}
+
+# If you add a class, add it in those subtables:
+#    MagicUserClass
+#    SpellsDeterminationBranch
+#       DetermineSpells (create new subtable with class name or not)
+#    SorcererWizardKnownSpellsDetermination (create new subtable with class name or not)
+#       BardKnownSpells0 (create new spells/day tables with appropriate spell levels 0-9)
+#    MaxSpellLevelBranch (with class name)
+#       DetermineMaxSpellLevelBard (with class name)
+#    DailyClericSpells (with class name and number of spells for each level)
+#    ShowBonusBard (with class name)
+:MagicUserClass
+1,Bard|PrimeAttribute=3||DailySpells=Bard||ShowName=Bard||Cha=%PrimeAttributeScore%|
+2,Cleric|PrimeAttribute=2||DailySpells=Cleric||ShowName=Cleric||Wis=%PrimeAttributeScore%|
+3,Druid|PrimeAttribute=2||DailySpells=Druid||ShowName=Druid||Wis=%PrimeAttributeScore%|
+4,Paladin|PrimeAttribute=2||DailySpells=Paladin||ShowName=Paladin||Wis=%PrimeAttributeScore%|
+5,Ranger|PrimeAttribute=2||DailySpells=Ranger||ShowName=Ranger||Wis=%PrimeAttributeScore%|
+6,Sorcerer|PrimeAttribute=3||DailySpells=Sorcerer||ShowName=Sorcerer||Cha=%PrimeAttributeScore%|
+7,Wizard|PrimeAttribute=1||DailySpells=Wizard||ShowName=Wizard||Int=%PrimeAttributeScore%|
+8,Adept|PrimeAttribute=2||DailySpells=Adept||ShowName=Adept||Wis=%PrimeAttributeScore%|
+9,Assassin|PrimeAttribute=1||DailySpells=Assasin||ShowName=Assassin||Int=%PrimeAttributeScore%|
+10,Blackguard|PrimeAttribute=2||DailySpells=Blackguard||ShowName=Blackguard||Wis=%PrimeAttributeScore%|
+11,
+# ADD_CLASS
+12,Sorcerer_Witch|PrimeAttribute=3||DailySpells=Sorcerer||ShowName=Sorcerer (Witch)||Cha=%PrimeAttributeScore%|
+13,Adept_Seer|PrimeAttribute=2||DailySpells=Adept||ShowName=Adept (Seer)||Wis=%PrimeAttributeScore%|
+14,Adept_Smiter|PrimeAttribute=2||DailySpells=Adept||ShowName=Adept (Smiter)||Wis=%PrimeAttributeScore%|
+
+;MagicUserClassRandom
+# Bard
+5,1
+# Cleric
+5,2
+# Druid
+5,3
+# Paladin
+5,4
+# Ranger
+5,5
+# Sorcerer
+5,6
+# Wizard
+5,7
+# Adept
+3,8
+# Assassin
+1,9
+# Blackguard
+1,10
+# No "11" since it's Random
+# ADD_CLASS
+# Sorcerer_Witch
+3,12
+# Adept_Seer
+1,13
+# Adept_Smiter
+1,14
+
+:PrimeAttributeBranch
+#1,%Int% Intelligence
+1,Intelligence %Int%
+#2,%Wis% Wisdom
+2,Wisdom %Wis%
+#3,%Cha% Charisma
+3,Charisma %Cha%
+
+:PrintPrimeAttribute
+1,Intelligence
+2,Wisdom
+3,Charisma
+
+:BuildSpellsString
+1,|SpellLevel=0|<b>Daily Spells: ([Daily%DailySpells%Spells=%CharacterLevel%])[MaxSpellLevelBranch=%MagicUserClass%][SpellsDeterminationBranch=%MagicUserClass%]
+
+# ---------------------------------------------------------------------------
+# Tables used by [BuildSpellsString]
+
+:SpellsDeterminationBranch
+1,[ShowBonusBard=%CharacterLevel%]; Known:</b> [DetermineSpellsKnown]
+2,[ShowBonusClrDrdWiz=%CharacterLevel%]; Prepared:</b> [DetermineSpellsClericDruid][ShowDomainPowers]
+3,[ShowBonusClrDrdWiz=%CharacterLevel%]; Prepared:</b> [DetermineSpellsClericDruid]
+4-5,[ShowBonusPalRng=%CharacterLevel%]; Prepared:</b>[DetermineSpellsPaladinRanger]
+6,[ShowBonusClrDrdWiz={Calc~(%CharacterLevel%-1)}]; Known:</b> [DetermineSpellsSorcererWizard]
+7,[ShowBonusClrDrdWiz=%CharacterLevel%]; Prepared:</b> [DetermineSpellsSorcererWizard]
+8,[ShowBonusAdept=%CharacterLevel%]; Prepared:</b> [DetermineSpellsPrepared]
+9,[ShowBonusAssBlk=%CharacterLevel%]; Known:</b> [DetermineSpellsAssBlk]
+10,[ShowBonusAssBlk=%CharacterLevel%]; Prepared:</b> [DetermineSpellsAssBlk]
+11,
+# ADD_CLASS
+12,[ShowBonusClrDrdWiz={Calc~(%CharacterLevel%-1)}]; Known:</b> [DetermineSpellsSorcererWizard]
+13,[ShowBonusAdept=%CharacterLevel%]; Prepared:</b> [DetermineSpellsPrepared]
+14,[ShowBonusAdept=%CharacterLevel%]; Prepared:</b> [DetermineSpellsPrepared]
+
+:DetermineSpellsKnownTEST
+#(In case I don't want to generate spells if ability score is not 10+level).
+1,{Loop~%MaxSpellLevel%,|DailyCount=0||SpellLevel+1|{If~%PrimeAttributeScore%>={Calc~(10+%SpellLevel%-1)}? [KnownSpellsDetermination];|CommaFlag=0|}}
+
+:DetermineSpellsKnown
+1,{Loop~%MaxSpellLevel%,|DailyCount=0||SpellLevel+1|[KnownSpellsDetermination];|CommaFlag=0|}
+
+:DetermineSpellsPrepared
+1,{Loop~%MaxSpellLevel%,|DailyCount=0||SpellLevel+1|[PreparedSpellsDetermination];|CommaFlag=0|}
+
+:DetermineSpellsAssBlk
+1,{Loop~%MaxSpellLevel%,|DailyCount=0||SpellLevel+1|[AssBlkPreparedSpellsDetermination];|CommaFlag=0|}
+
+:DetermineSpellsClericDruid
+1,{Loop~%MaxSpellLevel%,|DailyCount=0||SpellLevel+1|[ClericDruidPreparedSpellsDetermination];|CommaFlag=0|}
+
+:DetermineSpellsPaladinRanger
+1,{Loop~%MaxSpellLevel%,|DailyCount=0||SpellLevel+1|[PaladinRangerPreparedSpellsDetermination];|CommaFlag=0|}
+
+:DetermineSpellsSorcererWizard
+1,{Loop~%MaxSpellLevel%,|DailyCount=0||SpellLevel+1|[SorcererWizardKnownSpellsDetermination=%SpellLevel%];|CommaFlag=0|}
+
+# ---------------------------------------------------------------------------
+# Choose the spells of each level
+
+# No bonus spells in display, since number of spells known is fixed.
+# Spells level 0-9
+:KnownSpellsDetermination
+1, <b>{Ordinal~{Calc~(%SpellLevel%-1)}} lvl:</b> [%ClassName%KnownSpells{Calc~(%SpellLevel%-1)}=%CharacterLevel%]
+_|SpellString= |
+_{Loop~%DailyCount%,|SpellString&{If~%CommaFlag% = 1 ?; } [Spells.%ClassName%{Calc~(%SpellLevel%-1)}]||CommaFlag=1|}
+_|SpellString={OrderAsc~";",%SpellString%}|
+_<i>%SpellString%</i>
+
+# With bonus spells in display. (Spells level 0 to 9)
+:PreparedSpellsDetermination
+1, <b>{Ordinal~{Calc~(%SpellLevel%-1)}} lvl:</b> [%DailySpells%PreparedSpells{Calc~(%SpellLevel%-1)}=%CharacterLevel%]
+_{If~%SpellLevel%=1? {If~%Bonus0Level%=1? [BonusSpells1=%PrimeAttributeScore%]}/[BonusSpells{Calc~(%SpellLevel%-1)}=%PrimeAttributeScore%]}
+_|SpellString= |
+# ADD_CLASS
+# Here "ClassName"  is either Adept, Adept_Seer or Adept_Smiter
+_{Loop~%DailyCount%,|SpellString&{If~%CommaFlag% = 1 ?; } [Spells.%ClassName%{Calc~(%SpellLevel%-1)}]||CommaFlag=1|}
+_|SpellString={OrderAsc~";",%SpellString%}|
+_<i>%SpellString%</i>
+
+# Spells level 1-9
+:AssBlkPreparedSpellsDetermination
+1, <b>{Ordinal~{Calc~(%SpellLevel%)}} lvl:</b> [%ClassName%PreparedSpells%SpellLevel%=%CharacterLevel%]
+_{If~%ClassName%=Blackguard?[BonusSpells%SpellLevel%=%PrimeAttributeScore%]}
+_|SpellString= |
+_{Loop~%DailyCount%,|SpellString&{If~%CommaFlag% = 1 ?; } [Spells.%ClassName%%SpellLevel%]||CommaFlag=1|}
+_|SpellString={OrderAsc~";",%SpellString%}|
+_<i>%SpellString%</i>
+
+:ClericDruidPreparedSpellsDetermination
+1, <b>{Ordinal~{Calc~(%SpellLevel%-1)}} lvl:</b> [ClericDruidPreparedSpells{Calc~(%SpellLevel%-1)}=%CharacterLevel%]
+_{If~%SpellLevel%=1? {If~%Bonus0Level%=1? [BonusSpells1=%PrimeAttributeScore%]}/[BonusSpells{Calc~(%SpellLevel%-1)}=%PrimeAttributeScore%]}
+_|SpellString= |
+_{Loop~%DailyCount%,|SpellString&{If~%CommaFlag% = 1 ?; } [Spells.%ClassName%{Calc~(%SpellLevel%-1)}]||CommaFlag=1|}
+_{If~%ClassName%=Cleric? {If~%SpellLevel%>1? [AddDomainSpells={Dice~1d%DomainNumber%}]}}
+_|SpellString={OrderAsc~";",%SpellString%}|
+_<i>%SpellString%</i>
+
+:AddDomainSpells
+1,|SpellString&; [Spells.%DomainID1%={Calc~(%SpellLevel%-1)}]*|
+2,|SpellString&; [Spells.%DomainID2%={Calc~(%SpellLevel%-1)}]**|
+3,|SpellString&; [Spells.%DomainID3%={Calc~(%SpellLevel%-1)}]***|
+
+:PaladinRangerPreparedSpellsDetermination
+1, <b>{Ordinal~{Calc~(%SpellLevel%)}} lvl:</b> [PaladinRangerPreparedSpells%SpellLevel%=%CharacterLevel%][BonusSpells%SpellLevel%=%PrimeAttributeScore%]
+_|SpellString= |
+_{Loop~%DailyCount%,|SpellString&{If~%CommaFlag% = 1 ?; } [Spells.%ClassName%%SpellLevel%]||CommaFlag=1|}
+_|SpellString={OrderAsc~";",%SpellString%}|
+_<i>%SpellString%</i>
+
+:SorcererWizardKnownSpellsDetermination
+1, <b>{Ordinal~{Calc~(%SpellLevel%-1)}} lvl:</b> [%ClassName%KnownSpells{Calc~(%SpellLevel%-1)}=%CharacterLevel%]
+_{If~%ClassName%!=Sorcerer? {If~%SpellLevel%=1? {If~%Bonus0Level%=1? [BonusSpells1=%PrimeAttributeScore%]}/[BonusSpells{Calc~(%SpellLevel%-1)}=%PrimeAttributeScore%]}}
+_|SpellString= |
+_[SorcererWizardKnownSpellsDeterminationLoop=%MagicUserClass%]
+_|SpellString={OrderAsc~";",%SpellString%}|
+_<i>%SpellString%</i>
+
+:SorcererWizardKnownSpellsDeterminationLoop
+# Sorcerer (6), Wizard (7)
+1-7,{Loop~%DailyCount%,|SpellString&{If~%CommaFlag% = 1 ?; } [Spells.Wizard{Calc~(%SpellLevel%-1)}]||CommaFlag=1|}
+# ADD_CLASS (if adding another Sorcerer or Wizard variant, like the Sorcerer_Witch fund here #12)
+# Sorcerer_Witch (12)
+8-12,{Loop~%DailyCount%,|SpellString&{If~%CommaFlag% = 1 ?; } [Spells.Sorcerer_Witch{Calc~(%SpellLevel%-1)}]||CommaFlag=1|}
+
+# --------------------------------------------------------------------------
+# Known spells by spell level
+# ADD_CLASS (For a new class not based on one of the current classes, such as Wizard, Cleric, Adept, etc)
+
+#Adept Known Spells by (SpellLevel)
+#chosen by (CharacterLevel)
+
+:AdeptPreparedSpells0
+1-20,|DailyCount=3|
+
+:AdeptPreparedSpells1
+1-2,|DailyCount=1|
+3-6,|DailyCount=2|
+7-20,|DailyCount=3|
+
+:AdeptPreparedSpells2
+1-3,
+4,|DailyCount=0|
+5-6,|DailyCount=1|
+7-10,|DailyCount=2|
+11-20,|DailyCount=3|
+
+:AdeptPreparedSpells3
+1-7,
+8,|DailyCount=0|
+9-10,|DailyCount=1|
+11-14,|DailyCount=2|
+15-20,|DailyCount=3|
+
+:AdeptPreparedSpells4
+1-11,
+12,|DailyCount=0|
+13-14,|DailyCount=1|
+15-18,|DailyCount=2|
+19-20,|DailyCount=3|
+
+:AdeptPreparedSpells5
+1-15,
+16,|DailyCount=0|
+17-18,|DailyCount=1|
+19-20,|DailyCount=2|
+
+:Adept_SeerPreparedSpells0
+1-20,|DailyCount=3|
+
+:Adept_SeerPreparedSpells1
+1-2,|DailyCount=1|
+3-6,|DailyCount=2|
+7-20,|DailyCount=3|
+
+:Adept_SeerPreparedSpells2
+1-3,
+4,|DailyCount=0|
+5-6,|DailyCount=1|
+7-10,|DailyCount=2|
+11-20,|DailyCount=3|
+
+:Adept_SeerPreparedSpells3
+1-7,
+8,|DailyCount=0|
+9-10,|DailyCount=1|
+11-14,|DailyCount=2|
+15-20,|DailyCount=3|
+
+:Adept_SeerPreparedSpells4
+1-11,
+12,|DailyCount=0|
+13-14,|DailyCount=1|
+15-18,|DailyCount=2|
+19-20,|DailyCount=3|
+
+:Adept_SeerPreparedSpells5
+1-15,
+16,|DailyCount=0|
+17-18,|DailyCount=1|
+19-20,|DailyCount=2|
+
+#Assassin Known Spells by (SpellLevel)
+#chosen by (CharacterLevel)
+
+:AssassinPreparedSpells0
+1-10,
+
+:AssassinPreparedSpells1
+1,{If~%PrimeAttributeScore% > 11 ?|DailyCount=2|/|DailyCount=0|}
+2-3,|DailyCount=3|
+4-10,|DailyCount=4|
+
+:AssassinPreparedSpells2
+1-2,
+3,{If~%PrimeAttributeScore% > 13 ?|DailyCount=2|/|DailyCount=0|}
+4-5,|DailyCount=3|
+6-10,|DailyCount=4|
+
+:AssassinPreparedSpells3
+1-4,
+5,{If~%PrimeAttributeScore% > 15 ?|DailyCount=2|/|DailyCount=0|}
+6-7,|DailyCount=3|
+8-10,|DailyCount=4|
+
+:AssassinPreparedSpells4
+1-6,
+7,{If~%PrimeAttributeScore% > 17 ?|DailyCount=2|/|DailyCount=0|}
+8-9,|DailyCount=3|
+10,|DailyCount=4|
+
+#Blackguard Prepared Spells by (SpellLevel)
+#chosen by (CharacterLevel)
+
+:BlackguardPreparedSpells0
+1-10,|DailyCount=0|
+
+:BlackguardPreparedSpells1
+1,|DailyCount=0|
+2-6,|DailyCount=1|
+7-10,|DailyCount=2|
+
+:BlackguardPreparedSpells2
+1-2,
+3,|DailyCount=0|
+4-8,|DailyCount=1|
+9-10,|DailyCount=2|
+
+:BlackguardPreparedSpells3
+1-4,
+5,|DailyCount=0|
+6-9,|DailyCount=1|
+10,|DailyCount=2|
+
+:BlackguardPreparedSpells4
+1-6,
+7,|DailyCount=0|
+8-10,|DailyCount=1|
+
+#Bard Known Spells by (SpellLevel)
+#chosen by (CharacterLevel)
+
+:BardKnownSpells0
+1,|DailyCount=4|
+2,|DailyCount=5|
+3-20,|DailyCount=6|
+
+:BardKnownSpells1
+1,
+2,{If~%PrimeAttributeScore% > 11 ?|DailyCount=2|/|DailyCount=0|}
+3-4,|DailyCount=3|
+5-15,|DailyCount=4|
+16-20,|DailyCount=5|
+
+:BardKnownSpells2
+1-3,
+4,{If~%PrimeAttributeScore% > 13 ?|DailyCount=2|/|DailyCount=0|}
+5-6,|DailyCount=3|
+7-16,|DailyCount=4|
+17-20,|DailyCount=5|
+
+:BardKnownSpells3
+1-6,
+7,{If~%PrimeAttributeScore% > 15 ?|DailyCount=2|/|DailyCount=0|}
+8-9,|DailyCount=3|
+10-17,|DailyCount=4|
+18-20,|DailyCount=5|
+
+:BardKnownSpells4
+1-9,
+10,{If~%PrimeAttributeScore% > 17 ?|DailyCount=2|/|DailyCount=0|}
+11-12,|DailyCount=3|
+13-18,|DailyCount=4|
+19-20,|DailyCount=5|
+
+:BardKnownSpells5
+1-12,
+13,{If~%PrimeAttributeScore% > 19 ?|DailyCount=2|/|DailyCount=0|}
+14-15,|DailyCount=3|
+16-19,|DailyCount=4|
+20,|DailyCount=5|
+
+:BardKnownSpells6
+1-15,
+16,{If~%PrimeAttributeScore% > 21 ?|DailyCount=2|/|DailyCount=0|}
+17-18,|DailyCount=3|
+19-20,|DailyCount=4|
+
+#Cleric/Druid Prepared Spells by (SpellLevel)
+#chosen by (CharacterLevel)
+
+:ClericDruidPreparedSpells0
+1,|DailyCount=3|
+2-3,|DailyCount=4|
+4-6,|DailyCount=5|
+7-20,|DailyCount=6|
+
+:ClericDruidPreparedSpells1
+1,|DailyCount=1|
+2-3,|DailyCount=2|
+4-6,|DailyCount=3|
+7-10,|DailyCount=4|
+11-20,|DailyCount=5|
+
+:ClericDruidPreparedSpells2
+1-2,
+3,|DailyCount=1|
+4-5,|DailyCount=2|
+6-8,|DailyCount=3|
+9-12,|DailyCount=4|
+13-20,|DailyCount=5|
+
+:ClericDruidPreparedSpells3
+1-4,
+5,|DailyCount=1|
+6-7,|DailyCount=2|
+8-10,|DailyCount=3|
+11-14,|DailyCount=4|
+15-20,|DailyCount=5|
+
+:ClericDruidPreparedSpells4
+1-6,
+7,|DailyCount=1|
+8-9,|DailyCount=2|
+10-12,|DailyCount=3|
+13-16,|DailyCount=4|
+17-20,|DailyCount=5|
+
+:ClericDruidPreparedSpells5
+1-8,
+9,|DailyCount=1|
+10-11,|DailyCount=2|
+12-14,|DailyCount=3|
+15-18,|DailyCount=4|
+19-20,|DailyCount=5|
+
+:ClericDruidPreparedSpells6
+1-10,
+11,|DailyCount=1|
+12-13,|DailyCount=2|
+14-16,|DailyCount=3|
+17-20,|DailyCount=4|
+
+:ClericDruidPreparedSpells7
+1-12,
+13,|DailyCount=1|
+14-15,|DailyCount=2|
+16-18,|DailyCount=3|
+19-20,|DailyCount=4|
+
+:ClericDruidPreparedSpells8
+1-14,
+15,|DailyCount=1|
+16-17,|DailyCount=2|
+18-19,|DailyCount=3|
+20,|DailyCount=4|
+
+:ClericDruidPreparedSpells9
+1-16,
+17,|DailyCount=1|
+18,|DailyCount=2|
+19,|DailyCount=3|
+20,|DailyCount=4|
+
+#Paladin/Ranger Prepared Spells by (SpellLevel)
+#chosen by (CharacterLevel)
+
+:PaladinRangerPreparedSpells0
+1-20,
+
+:PaladinRangerPreparedSpells1
+1-3,
+4-5,|DailyCount=0|
+6-13,|DailyCount=1|
+14-17,|DailyCount=2|
+18-20,|DailyCount=3|
+
+:PaladinRangerPreparedSpells2
+1-7,
+8-9,|DailyCount=0|
+10-15,|DailyCount=1|
+16-18,|DailyCount=2|
+19-20,|DailyCount=3|
+
+:PaladinRangerPreparedSpells3
+1-10,
+11,|DailyCount=0|
+12-16,|DailyCount=1|
+17-18,|DailyCount=2|
+19-20,|DailyCount=3|
+
+:PaladinRangerPreparedSpells4
+1-13,
+14,|DailyCount=0|
+15-18,|DailyCount=1|
+19,|DailyCount=2|
+20,|DailyCount=3|
+
+#Sorcerer Known Spells by (SpellLevel)
+#chosen by (CharacterLevel)
+
+:SorcererKnownSpells0
+1,|DailyCount=4|
+2-3,|DailyCount=5|
+4-5,|DailyCount=6|
+6-7,|DailyCount=7|
+8-9,|DailyCount=8|
+10-20,|DailyCount=9|
+
+:SorcererKnownSpells1
+1-2,|DailyCount=2|
+3-4,|DailyCount=3|
+5-6,|DailyCount=4|
+7-20,|DailyCount=5|
+
+:SorcererKnownSpells2
+1-3,
+4,|DailyCount=1|
+5-6,|DailyCount=2|
+7-8,|DailyCount=3|
+9-10,|DailyCount=4|
+11-20,|DailyCount=5|
+
+:SorcererKnownSpells3
+1-5,
+6,|DailyCount=1|
+7-8,|DailyCount=2|
+9-10,|DailyCount=3|
+11-20,|DailyCount=4|
+
+:SorcererKnownSpells4
+1-7,
+8,|DailyCount=1|
+9-10,|DailyCount=2|
+11-12,|DailyCount=3|
+13-20,|DailyCount=4|
+
+:SorcererKnownSpells5
+1-9,
+10,|DailyCount=1|
+11-12,|DailyCount=2|
+13-14,|DailyCount=3|
+15-20,|DailyCount=4|
+
+:SorcererKnownSpells6
+1-11,
+12,|DailyCount=1|
+13-14,|DailyCount=2|
+15-20,|DailyCount=3|
+
+:SorcererKnownSpells7
+1-13,
+14,|DailyCount=1|
+15-16,|DailyCount=2|
+17-20,|DailyCount=3|
+
+:SorcererKnownSpells8
+1-15,
+16,|DailyCount=1|
+17-18,|DailyCount=2|
+19-20,|DailyCount=3|
+
+:SorcererKnownSpells9
+1-17,
+18,|DailyCount=1|
+19,|DailyCount=2|
+20,|DailyCount=3|
+
+:Sorcerer_WitchKnownSpells0
+1,|DailyCount=4|
+2-3,|DailyCount=5|
+4-5,|DailyCount=6|
+6-7,|DailyCount=7|
+8-9,|DailyCount=8|
+10-20,|DailyCount=9|
+
+:Sorcerer_WitchKnownSpells1
+1-2,|DailyCount=2|
+3-4,|DailyCount=3|
+5-6,|DailyCount=4|
+7-20,|DailyCount=5|
+
+:Sorcerer_WitchKnownSpells2
+1-3,
+4,|DailyCount=1|
+5-6,|DailyCount=2|
+7-8,|DailyCount=3|
+9-10,|DailyCount=4|
+11-20,|DailyCount=5|
+
+:Sorcerer_WitchKnownSpells3
+1-5,
+6,|DailyCount=1|
+7-8,|DailyCount=2|
+9-10,|DailyCount=3|
+11-20,|DailyCount=4|
+
+:Sorcerer_WitchKnownSpells4
+1-7,
+8,|DailyCount=1|
+9-10,|DailyCount=2|
+11-12,|DailyCount=3|
+13-20,|DailyCount=4|
+
+:Sorcerer_WitchKnownSpells5
+1-9,
+10,|DailyCount=1|
+11-12,|DailyCount=2|
+13-14,|DailyCount=3|
+15-20,|DailyCount=4|
+
+:Sorcerer_WitchKnownSpells6
+1-11,
+12,|DailyCount=1|
+13-14,|DailyCount=2|
+15-20,|DailyCount=3|
+
+:Sorcerer_WitchKnownSpells7
+1-13,
+14,|DailyCount=1|
+15-16,|DailyCount=2|
+17-20,|DailyCount=3|
+
+:Sorcerer_WitchKnownSpells8
+1-15,
+16,|DailyCount=1|
+17-18,|DailyCount=2|
+19-20,|DailyCount=3|
+
+:Sorcerer_WitchKnownSpells9
+1-17,
+18,|DailyCount=1|
+19,|DailyCount=2|
+20,|DailyCount=3|
+
+#Wizard Known Spells by (SpellLevel)
+#chosen by (CharacterLevel)
+
+:WizardKnownSpells0
+1,|DailyCount=3|
+2-20,|DailyCount=4|
+
+:WizardKnownSpells1
+1,|DailyCount=1|
+2-3,|DailyCount=2|
+4-6,|DailyCount=3|
+7-20,|DailyCount=4|
+
+:WizardKnownSpells2
+1-2,
+3,|DailyCount=1|
+4-5,|DailyCount=2|
+6-8,|DailyCount=3|
+9-20,|DailyCount=4|
+
+:WizardKnownSpells3
+1-4,
+5,|DailyCount=1|
+6-7,|DailyCount=2|
+8-10,|DailyCount=3|
+11-20,|DailyCount=4|
+
+:WizardKnownSpells4
+1-6,
+7,|DailyCount=1|
+8-9,|DailyCount=2|
+10-13,|DailyCount=3|
+13-20,|DailyCount=4|
+
+:WizardKnownSpells5
+1-8,
+9,|DailyCount=1|
+10-11,|DailyCount=2|
+12-14,|DailyCount=3|
+15-20,|DailyCount=4|
+
+:WizardKnownSpells6
+1-10,
+11,|DailyCount=1|
+12-13,|DailyCount=2|
+14-16,|DailyCount=3|
+17-20,|DailyCount=4|
+
+:WizardKnownSpells7
+1-12,
+13,|DailyCount=1|
+14-15,|DailyCount=2|
+16-18,|DailyCount=3|
+19-20,|DailyCount=4|
+
+:WizardKnownSpells8
+1-14,
+15,|DailyCount=1|
+16-17,|DailyCount=2|
+18-19,|DailyCount=3|
+20,|DailyCount=4|
+
+:WizardKnownSpells9
+1-16,
+17,|DailyCount=1|
+18,|DailyCount=2|
+19,|DailyCount=3|
+20,|DailyCount=4|
+
+# ---------------------------------------------------------------------------
+
+:MaxSpellLevelBranch
+1,[DetermineMaxSpellLevelBard=%CharacterLevel%]
+2-3,[DetermineMaxSpellLevelClericDruid=%CharacterLevel%]
+4-5,[DetermineMaxSpellLevelPaladinRanger=%CharacterLevel%]
+6-13,[DetermineMaxSpellLevel%DailySpells%=%CharacterLevel%]
+
+# ADD_CLASS (For a new class not based on one of the current classes, such as Wizard, Cleric, Adept, etc)
+
+:DetermineMaxSpellLevelAdept
+1-3,|MaxSpellLevel=2|
+4,{If~%PrimeAttributeScore%>11?|MaxSpellLevel=3|/|MaxSpellLevel=2|}
+5-7,|MaxSpellLevel=3|
+8,{If~%PrimeAttributeScore%>13?|MaxSpellLevel=4|/|MaxSpellLevel=3|}
+9-11,|MaxSpellLevel=4|
+12,{If~%PrimeAttributeScore%>15?|MaxSpellLevel=5|/|MaxSpellLevel=4|}
+13-15,|MaxSpellLevel=5|
+16,{If~%PrimeAttributeScore%>17?|MaxSpellLevel=6|/|MaxSpellLevel=5|}
+17-20,|MaxSpellLevel=6|
+
+:DetermineMaxSpellLevelAssassin
+1,{If~%PrimeAttributeScore%>11?|MaxSpellLevel=1|}
+2,|MaxSpellLevel=1|
+3,{If~%PrimeAttributeScore%>13?|MaxSpellLevel=2|/|MaxSpellLevel=1|}
+4,|MaxSpellLevel=2|
+5,{If~%PrimeAttributeScore%>15?|MaxSpellLevel=3|/|MaxSpellLevel=2|}
+6,|MaxSpellLevel=3|
+7,{If~%PrimeAttributeScore%>17?|MaxSpellLevel=4|/|MaxSpellLevel=3|}
+8-10,|MaxSpellLevel=4|
+
+:DetermineMaxSpellLevelBlackguard
+1,{If~%PrimeAttributeScore%>11?|MaxSpellLevel=1|}
+2,|MaxSpellLevel=1|
+3,{If~%PrimeAttributeScore%>13?|MaxSpellLevel=2|/|MaxSpellLevel=1|}
+4,|MaxSpellLevel=2|
+5,{If~%PrimeAttributeScore%>15?|MaxSpellLevel=3|/|MaxSpellLevel=2|}
+6,|MaxSpellLevel=3|
+7,{If~%PrimeAttributeScore%>17?|MaxSpellLevel=4|/|MaxSpellLevel=3|}
+8-10,|MaxSpellLevel=4|
+
+:DetermineMaxSpellLevelBard
+1,|MaxSpellLevel=1|
+2,{If~%PrimeAttributeScore%>11?|MaxSpellLevel=2|/|MaxSpellLevel=1|}
+3,|MaxSpellLevel=2|
+4,{If~%PrimeAttributeScore%>13?|MaxSpellLevel=3|/|MaxSpellLevel=2|}
+5-6,|MaxSpellLevel=3|
+7,{If~%PrimeAttributeScore%>15?|MaxSpellLevel=4|/|MaxSpellLevel=3|}
+8-9,|MaxSpellLevel=4|
+10,{If~%PrimeAttributeScore%>17?|MaxSpellLevel=5|/|MaxSpellLevel=4|}
+11-12,|MaxSpellLevel=5|
+13,{If~%PrimeAttributeScore%>19?|MaxSpellLevel=6|/|MaxSpellLevel=5|}
+14-15,|MaxSpellLevel=6|
+16,{If~%PrimeAttributeScore%>21?|MaxSpellLevel=7|/|MaxSpellLevel=6|}
+17-20,|MaxSpellLevel=7|
+
+:DetermineMaxSpellLevelClericDruid
+1-2,|MaxSpellLevel=2|
+3-4,|MaxSpellLevel=3|
+5-6,|MaxSpellLevel=4|
+7-8,|MaxSpellLevel=5|
+9-10,|MaxSpellLevel=6|
+11-12,|MaxSpellLevel=7|
+13-14,|MaxSpellLevel=8|
+15-16,|MaxSpellLevel=9|
+17-20,|MaxSpellLevel=10|
+
+:DetermineMaxSpellLevelPaladinRanger
+1-3,|MaxSpellLevel=0|
+4-7,{If~PrimeAttributeScore<12? |MaxSpellLevel=0|/|MaxSpellLevel=1|}
+8-10,|MaxSpellLevel=2|
+11-13,|MaxSpellLevel=3|
+14-20,|MaxSpellLevel=4|
+
+:DetermineMaxSpellLevelSorcerer
+1-3,|MaxSpellLevel=2|
+4-5,|MaxSpellLevel=3|
+6-7,|MaxSpellLevel=4|
+8-9,|MaxSpellLevel=5|
+10-11,|MaxSpellLevel=6|
+12-13,|MaxSpellLevel=7|
+14-15,|MaxSpellLevel=8|
+16-17,|MaxSpellLevel=9|
+18-20,|MaxSpellLevel=10|
+
+:DetermineMaxSpellLevelWizard
+1-2,|MaxSpellLevel=2|
+3-4,|MaxSpellLevel=3|
+5-6,|MaxSpellLevel=4|
+7-8,|MaxSpellLevel=5|
+9-10,|MaxSpellLevel=6|
+11-12,|MaxSpellLevel=7|
+13-14,|MaxSpellLevel=8|
+15-16,|MaxSpellLevel=9|
+17-20,|MaxSpellLevel=10|
+
+# ---------------------------------------------------------------------------
+# Print number of spells/day to cast.
+# ADD_CLASS (For a new class not based on one of the current classes, such as Wizard, Cleric, Adept, etc)
+
+:DailyAdeptSpells
+1-2,3/1
+3,3/2
+4,3/2/0
+5-6,3/2/1
+7,3/3/2
+8,3/3/2/0
+9-10,3/3/2/1
+11,3/3/3/2
+12,3/3/3/2/0
+13-14,3/3/3/2/1
+15,3/3/3/3/2
+16,3/3/3/3/2/0
+17-18,3/3/3/3/2/1
+19-20,3/3/3/3/3/2
+
+:DailyAssassinSpells
+1,0
+2,1
+3,2/0
+4,3/1
+5,3/2/0
+6,3/3/1
+7,3/3/2/0
+8,3/3/3/1
+9,3/3/3/2
+10,3/3/3/3
+
+:DailyBardSpells
+1,2
+2,{If~%PrimeAttributeScore% < 12 ?[BardPrimeAttributeLow=%CharacterLevel%]/3/0}
+3,3/1
+4,{If~%PrimeAttributeScore% < 14 ?[BardPrimeAttributeLow=%CharacterLevel%]/3/2/0}
+5,3/3/1
+6,3/3/2
+7,{If~%PrimeAttributeScore% < 16 ?[BardPrimeAttributeLow=%CharacterLevel%]/3/3/2/0}
+8,3/3/3/1
+9,3/3/3/2
+10,{If~%PrimeAttributeScore% < 18 ?[BardPrimeAttributeLow=%CharacterLevel%]/3/3/3/2/0}
+11,3/3/3/3/1
+12,3/3/3/3/2
+13,{If~%PrimeAttributeScore% < 20 ?[BardPrimeAttributeLow=%CharacterLevel%]/3/3/3/3/2/0}
+14,4/3/3/3/3/1
+15,4/4/3/3/3/2
+16,{If~%PrimeAttributeScore% < 22 ?[BardPrimeAttributeLow=%CharacterLevel%]/4/4/4/3/3/2/0}
+17,4/4/4/4/3/3/1
+18,4/4/4/4/4/3/2
+19,4/4/4/4/4/4/3
+20,4/4/4/4/4/4/4
+
+:BardPrimeAttributeLow
+1,2
+2,3
+3,3/1
+4,3/2
+5,3/3/1
+6,3/3/2
+7,3/3/2
+8,3/3/3/1
+9,3/3/3/2
+10,3/3/3/2
+11,3/3/3/3/1
+12,3/3/3/3/2
+13,3/3/3/3/2
+14,4/3/3/3/3/1
+15,4/4/3/3/3/2
+16,4/4/4/3/3/2
+17,4/4/4/4/3/3/1
+18,4/4/4/4/4/3/2
+19,4/4/4/4/4/4/3
+20,4/4/4/4/4/4/4
+
+:DailyBlackguardSpells
+1,0
+2,1
+3,1/0
+4,1/1
+5,1/1/0
+6,1/1/1
+7,2/1/1/0
+8,2/1/1/1
+9,2/2/1/1
+10,2/2/2/1
+
+:DailyClericSpells
+1,3/1+1
+2,4/2+1
+3,4/2+1/1+1
+4,5/3+1/2+1
+5,5/3+1/2+1/1+1
+6,5/3+1/3+1/2+1
+7,6/4+1/3+1/2+1/1+1
+8,6/4+1/3+1/3+1/2+1
+9,6/4+1/4+1/3+1/2+1/1+1
+10,6/4+1/4+1/3+1/3+1/2+1
+11,6/5+1/4+1/4+1/3+1/2+1/1+1
+12,6/5+1/4+1/4+1/3+1/3+1/2+1
+13,6/5+1/5+1/4+1/4+1/3+1/2+1/1+1
+14,6/5+1/5+1/4+1/4+1/3+1/3+1/2+1
+15,6/5+1/5+1/5+1/4+1/4+1/3+1/2+1/1+1
+16,6/5+1/5+1/5+1/4+1/4+1/3+1/3+1/2+1
+17,6/5+1/5+1/5+1/5+1/4+1/4+1/3+1/2+1/1+1
+18,6/5+1/5+1/5+1/5+1/4+1/4+1/3+1/3+1/2+1
+19,6/5+1/5+1/5+1/5+1/5+1/4+1/4+1/3+1/3+1
+20,6/5+1/5+1/5+1/5+1/5+1/4+1/4+1/4+1/4+1
+
+:DailyDruidSpells
+1,3/1
+2,4/2
+3,4/2/1
+4,5/3/2
+5,5/3/2/1
+6,5/3/3/2
+7,6/4/3/2/1
+8,6/4/3/3/2
+9,6/4/4/3/2/1
+10,6/4/4/3/3/2
+11,6/5/4/4/3/2/1
+12,6/5/4/4/3/3/2
+13,6/5/5/4/4/3/2/1
+14,6/5/5/4/4/3/3/2
+15,6/5/5/4/4/4/3/2/1
+16,6/5/5/5/4/4/3/3/2
+17,6/5/5/5/5/4/4/3/2/1
+18,6/5/5/5/5/4/4/3/3/2
+19,6/5/5/5/5/5/4/4/3/3
+20,6/5/5/5/5/5/4/4/4/4
+
+:DailyPaladinSpells
+1-20,[PaladinRangerDailySpellString=%CharacterLevel%]
+
+:DailyRangerSpells
+1-20,[PaladinRangerDailySpellString=%CharacterLevel%]
+
+:PaladinRangerDailySpellString
+1-3,None
+4-5,0
+6-7,1
+8-9,1/0
+10,1/1
+11,1/1/0
+12-13,1/1/1
+14,2/1/1/0
+15,2/1/1/1
+16,2/2/1/1
+17,2/2/2/1
+18,3/2/2/1
+19,3/3/3/2
+20,3/3/3/3
+
+:DailyWizardSpells
+1,3/1
+2,4/2
+3,4/2/1
+4,4/3/2
+5,4/3/2/1
+6,4/3/3/2
+7,4/4/3/2/1
+8,4/4/3/3/2
+9,4/4/4/3/2/1
+10,4/4/4/3/3/2
+11,4/4/4/4/3/2/1
+12,4/4/4/4/3/3/2
+13,4/4/4/4/4/3/2/1
+14,4/4/4/4/4/3/3/2
+15,4/4/4/4/4/4/3/2/1
+16,4/4/4/4/4/4/3/3/2
+17,4/4/4/4/4/4/4/3/2/1
+18,4/4/4/4/4/4/4/3/3/2
+19,4/4/4/4/4/4/4/4/3/3
+20,4/4/4/4/4/4/4/4/4/4
+
+:DailySorcererSpells
+1,5/3
+2,6/4
+3,6/5
+4,6/6/3
+5,6/6/4
+6,6/6/5/3
+7,6/6/6/4
+8,6/6/6/5/3
+9,6/6/6/6/4
+10,6/6/6/6/5/3
+11,6/6/6/6/6/4
+12,6/6/6/6/6/5/3
+13,6/6/6/6/6/6/4
+14,6/6/6/6/6/6/5/3
+15,6/6/6/6/6/6/6/4
+16,6/6/6/6/6/6/6/5/3
+17,6/6/6/6/6/6/6/6/4
+18,6/6/6/6/6/6/6/6/5/3
+19,6/6/6/6/6/6/6/6/6/4
+20,6/6/6/6/6/6/6/6/6/6
+
+# ---------------------------------------------------------------------------
+# Bonus Spells based on prime ability score.
+# ADD_CLASS (if applicable) (For a new class not based on one of the current classes, such as Wizard, Cleric, Adept, etc)
+
+:FindBonus
+1,|DailyCount=0||Count=0| (Bonus spells per day: {If~%Bonus0Level%=1? [BonusSpells1=%PrimeAttributeScore%]%DailyCount%/0}{If~%NumberLoop%>0?[GenLoop]}
+
+:GenLoop
+1,/{Loop~%NumberLoop%,|Count+1||DailyCount=0|[BonusSpells%Count%=%PrimeAttributeScore%]%DailyCount%/})
+
+:ShowBonusAdept
+1-3,|NumberLoop=1|[FindBonus]
+4-7,|NumberLoop=2|[FindBonus]
+8-11,|NumberLoop=3|[FindBonus]
+12-15,|NumberLoop=4|[FindBonus]
+16-20,|NumberLoop=5|[FindBonus]
+
+:ShowBonusAssBlk
+1-2,|DailyCount=0| (Bonus Spells: |DailyCount=0|[BonusSpells1=%PrimeAttributeScore%]%DailyCount%)
+3-4,|DailyCount=0| (Bonus Spells: {Loop~2,|Count+1||DailyCount=0|[BonusSpells%Count%=%PrimeAttributeScore%]%DailyCount%/})
+5-6,|DailyCount=0| (Bonus Spells: {Loop~3,|Count+1||DailyCount=0|[BonusSpells%Count%=%PrimeAttributeScore%]%DailyCount%/})
+7-10,|DailyCount=0| (Bonus Spells: {Loop~4,|Count+1||DailyCount=0|[BonusSpells%Count%=%PrimeAttributeScore%]%DailyCount%/})
+
+:ShowBonusBard
+1,|NumberLoop=0|[FindBonus]
+2-3,|NumberLoop=1|[FindBonus]
+4-6,|NumberLoop=2|[FindBonus]
+7-9,|NumberLoop=3|[FindBonus]
+10-12,|NumberLoop=4|[FindBonus]
+13-15,|NumberLoop=5|[FindBonus]
+16-20,|NumberLoop=6|[FindBonus]
+
+:ShowBonusClrDrdWiz
+1-2,|NumberLoop=1|[FindBonus]
+3-4,|NumberLoop=2|[FindBonus]
+5-6,|NumberLoop=3|[FindBonus]
+7-8,|NumberLoop=4|[FindBonus]
+9-10,|NumberLoop=5|[FindBonus]
+11-12,|NumberLoop=6|[FindBonus]
+13-14,|NumberLoop=7|[FindBonus]
+15-16,|NumberLoop=8|[FindBonus]
+17-20,|NumberLoop=9|[FindBonus]
+
+:ShowBonusPalRng
+1-3,
+4-7,|DailyCount=0| (Bonus Spells: |DailyCount=0|[BonusSpells1=%PrimeAttributeScore%]%DailyCount%)
+8-10,|DailyCount=0| (Bonus Spells: {Loop~2,|Count+1||DailyCount=0|[BonusSpells%Count%=%PrimeAttributeScore%]%DailyCount%/})
+11-13,|DailyCount=0| (Bonus Spells: {Loop~3,|Count+1||DailyCount=0|[BonusSpells%Count%=%PrimeAttributeScore%]%DailyCount%/})
+14-20,|DailyCount=0| (Bonus Spells: {Loop~4,|Count+1||DailyCount=0|[BonusSpells%Count%=%PrimeAttributeScore%]%DailyCount%/})
+
+:BonusSpells1
+1-11,|DailyCount+0|
+12-19,|DailyCount+1|
+20-27,|DailyCount+2|
+28-35,|DailyCount+3|
+36-43,|DailyCount+4|
+
+:BonusSpells2
+1-13,|DailyCount+0|
+14-21,|DailyCount+1|
+22-29,|DailyCount+2|
+30-37,|DailyCount+3|
+38-43,|DailyCount+4|
+
+:BonusSpells3
+1-15,|DailyCount+0|
+16-23,|DailyCount+1|
+24-31,|DailyCount+2|
+32-39,|DailyCount+3|
+40-43,|DailyCount+4|
+
+:BonusSpells4
+1-17,|DailyCount+0|
+18-25,|DailyCount+1|
+26-33,|DailyCount+2|
+34-41,|DailyCount+3|
+42-43,|DailyCount+4|
+
+:BonusSpells5
+1-19,|DailyCount+0|
+20-27,|DailyCount+1|
+28-35,|DailyCount+2|
+36-43,|DailyCount+3|
+
+:BonusSpells6
+1-21,|DailyCount+0|
+22-29,|DailyCount+1|
+30-37,|DailyCount+2|
+38-43,|DailyCount+3|
+
+:BonusSpells7
+1-23,|DailyCount+0|
+24-31,|DailyCount+1|
+32-39,|DailyCount+2|
+40-43,|DailyCount+3|
+
+:BonusSpells8
+1-25,|DailyCount+0|
+26-33,|DailyCount+1|
+34-41,|DailyCount+2|
+42-43,|DailyCount+3|
+
+:BonusSpells9
+1-27,|DailyCount+0|
+28-35,|DailyCount+1|
+36-43,|DailyCount+2|
+
+# ----------------------------------------------------------------------
+# Core Deities from Player's Handbook.
+
+;DeityNames
+1,Boccob
+1,Corellon Larethian
+1,Ehlonna
+1,Erythnul
+1,Fharlanghn
+1,Garl Glittergold
+1,Gruumsh
+1,Heironeous
+1,Hextor
+1,Kord
+1,Moradin
+1,Nerull
+1,Obad Hai
+1,Olidamarra
+1,Pelor
+1,St Cuthbert
+1,Vecna
+1,Wee Jas
+1,Yondalla
+
+# ----------------------------------------------------------------------
+# Domains by Deity
+
+:RandomDomainsByDeity
+1,[Domains]
+_[ChooseDomain]|DomainID1=%DomainTemp%|
+_[ChooseDomain]|DomainID2=%DomainTemp%|
+_[ChooseDomain]|DomainID3=%DomainTemp%|
+
+:Domains
+1,|DomainTemp=[Religion.%DeityName%Domains]|
+_{Split~DomainTemp,";",Domain1,Domain2,Domain3,Domain4,Domain5,Domain6,Domain7,Domain8,Domain9,Domain10,Domain11,Domain12}
+
+:ChooseDomain
+1,|DomainTemp=[RandomDomain]|{If~%DomainTemp%=0? [ChooseDomain]}
+
+:RandomDomains2
+1,|DomainID1=[Spells.AllDomains]||DomainID2=[Spells.AllDomains]|
+
+:RandomDomains3
+1,|DomainID1=[Spells.AllDomains]||DomainID2=[Spells.AllDomains]||DomainID3=[Spells.AllDomains]|
+
+;!RandomDomain
+1,%Domain1%
+1,%Domain2%
+1,%Domain3%
+1,%Domain4%
+1,%Domain5%
+1,%Domain6%
+1,%Domain7%
+1,%Domain8%
+1,%Domain9%
+1,%Domain10%
+1,%Domain11%
+1,%Domain12%
+
+:ShowDomainPowers
+1,<br><br><i><b>Domains Granted Powers</i>:</b><br>
+_<b>%DomainID1%:</b> [Spells.%DomainID1%=10]<br>
+_<b>%DomainID2%:</b> [Spells.%DomainID2%=10]<br>
+_{If~%ChooseGod%=2? [Print3rdDomain]/{If~%ChooseGod%=4? [Print3rdDomain]}}
+
+:Print3rdDomain
+1,<b>%DomainID3%:</b> [Spells.%DomainID3%=10]<br>

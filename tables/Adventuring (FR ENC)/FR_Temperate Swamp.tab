@@ -1,0 +1,156 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder Oct 30, 2003.
+# ---------------------------------------------------
+#
+# SMS
+# 06/24/03
+# Forgotten Realms Table 44: Temperate Swamp (EL 5-15) random encounter tables
+#
+# Corrected by Valminder, Oct 2003
+#   -{If~} and {Dice~}
+#
+#Variables
+
+%Region%,0
+%Time%,0
+%Temp%,0
+
+#Parameters
+
+@Time,1,Select a time of day,Day,Night
+@Region,0,Select a value for region (1-2 see instructions for details)
+
+#
+#  Starts by putting up the instructions
+#
+
+:Start
+1,{If~%Region% = 0 ? [Instructions]/[Temperate Swamp %Time%]}
+
+;Instructions
+1,<b>Forgotten Realms Table 44: Temperate Swamp (EL 5-15)</b></br></br><h3>Instructions:</h3>
+_<b>Determine whether an encounter should occur before using this table. The chance of an encounter is based on terrain type and travel (chance per hour):</b><br>
+_<table border=1><tr><th>Terrain</th><th>Normal Travel</th><th>Cautious Travel</th><th>Hiding</th></tr>
+_<tr><td>Desolate/wasteland</td><td>5/%</td><td>2/%</td><td>1/%</td></tr>
+_<tr><td>Frontier/wilderness</td><td>8/%</td><td>4/%</td><td>2/%</td></tr>
+_<tr><td>Verdant/civilized area</td><td>10/%</td><td>5/%</td><td>2/%</td></tr>
+_<tr><td>Heavily traveled</td><td>12/%</td><td>6/%</td><td>3/%</td></tr>
+_</table>
+_<ul><li>Use the Parameter Box (below) to indicate whether it is day or night.</li>
+_<li>Then indicate whether the region is<font color=blue><ol><li>Flooded Forest</li><li>Moander's Road</li></ol></li></ul><br></font>
+
+# 1 corresponds to time="Day"
+:Temperate Swamp 1
+01-02,{Dice~1d3+2} Assassin vine
+03-04,{Dice~1d4} Banelar
+05-06,{Dice~1d2} Behir
+07-08,Black pudding
+09-11,{Dice~1d2*4} Bullywug
+12-13,{Dice~1d6} Chuul
+14,{Dice~4d6} Crawling Claw (MoF)
+15-17,Dark tree (MoF)
+18-20,{Dice~1d10+10} Dire rat
+21-22,{Dice~1d6+4} Displacer beast
+23,Cryohydra {Dice~1d6+4} heads
+24-31,Dragon: [TS_Dragon]
+32-34,{Dice~1d4+1} Fog giant (MoF)
+35-36,Gibbering mouther
+37-38,Gray render
+39-41,Gulguthydra (MoF)
+42-43,Hag Covey: 2 annises, 1 green hag, and {Dice~1d3+2} fog giants
+44-48,Hydra {Dice~1d8+4} heads
+49-51,Kobold Warband: {Dice~1d4+8} kobolds, {Dice~1d2} dire weasels, led by level {Dice~1d4} [FR_Misc.Kobold_Class]
+52,Lernaean cryohydra {Dice~1d4+4} heads
+53,Lernaean hydra {Dice~1d6+4} heads
+54-59,Lizardfolk Warband: {Dice~1d6+6} lizardfolk, {Dice~1d2} level {Dice~1d3} druids, led by level {Dice~1d4+2} [FR_Misc.Lizardfolk_Class]
+60-70,[TS_Local]
+71-72,{Dice~1d2} Meazel (MoF)
+73-74,Medusa
+75-76,{Dice~1d6+2} Merrow (ogre)
+77-78,{Dice~1d4+1} Monstrous spider, Huge (vermin)
+79,Nishruu (MoF)
+80,Nyth (MoF)
+81-82,Ochre jelly (ooze)
+83-84,{Dice~1d6+2} Ogre
+85-87,Orc Patrol: {Dice~1d4+4} orcs, {Dice~1d2} level {Dice~1d3} orc barbarians, led by level {Dice~1d4+2} [FR_Misc.Orc_Class]
+88-89,{Dice~1d4} Phase spider
+90,Pyrohydra, {Dice~1d6+4} heads
+91-92,{Dice~1d3+2} Shambling Mound
+93-96,Siv Squad: {Dice~1d6+6} sivs, {Dice~1d4+1} 2nd level siv monks, led by a level {Dice~1d2} [FR_Misc.Siv_Class]
+97-98,{Dice~1d3+1} Scrag
+99-100,{Dice~1d3+1} Troll
+
+# 2 corresponds to time="Night"
+:Temperate Swamp 2
+01-02,{Dice~1d4} Abishai, black
+03-04,{Dice~1d3+2} Assassin vine
+05,Avoral guardinal (celestial)
+06,{Dice~1d6+6} Banedead
+07-08,{Dice~1d4} Banelar
+09-10,{Dice~1d2} Behir
+11-12,Black pudding
+13-14,{Dice~1d2*4} Bullywug (Mof)
+15-16,{Dice~1d6} Chuul
+17-18,{Dice~4d6} Crawling Claw (MoF)
+19-20,{Dice~1d2+2} Darkenbeast
+21-22,Dark tree (MoF)
+23-24,{Dice~1d10+10} Dire rat
+25-26,{Dice~1d6+4} Displacer beast
+27,Cryohydra {Dice~1d6+4} heads
+28-35,Dragon: [TS_Dragon]
+36,{Dice~1d4+3} Dread warrior
+37-39,{Dice~1d4+1} Fog giant (MoF)
+40-41,Gibbering mouther
+42-43,Gray render
+44-45,Gulguthydra (MoF)
+46-47,Hag Covey: 2 annises, 1 green hag, and {Dice~1d3+2} fog giants
+48-52,Hydra {Dice~1d8+4} heads
+53-54,Kobold Warband: {Dice~1d4+8} kobolds, {Dice~1d2} dire weasels, led by level {Dice~1d4} [FR_Misc.Kobold_Class]
+55,Lernaean cryohydra {Dice~1d4+4} heads
+56,Lernaean hydra {Dice~1d6+4} heads
+57-59,Lizardfolk Warband: {Dice~1d6+6} lizardfolk, {Dice~1d2} level {Dice~1d3} druids, led by level {Dice~1d4+2} [FR_Misc.Lizardfolk_Class]
+60-69,[TS_Local]
+70,{Dice~1d2} Meazel (MoF)
+71,{Dice~1d6+2} Merrow (ogre)
+72,{Dice~1d4+1} Monstrous spider, Huge (vermin)
+75,Nishruu (MoF)
+76,Nyth (MoF)
+77-78,Ochre jelly (ooze)
+79-80,{Dice~1d6+2} Ogre
+81-83,Orc Patrol: {Dice~1d4+4} orcs, {Dice~1d2} level {Dice~1d3} orc barbarians, led by level {Dice~1d4+2} [FR_Misc.Orc_Class]
+84-85,{Dice~1d4} Phase spider
+86,Pyrohydra, {Dice~1d6+4} heads
+87-88,{Dice~1d3+2} Shambling Mound
+89-90,{Dice~1d6+3} Sinister bat (MoF)
+91-93,Siv Squad: {Dice~1d6+6} sivs, {Dice~1d4+1} 2nd level siv monks, led by a level {Dice~1d2} [FR_Misc.Siv_Class]
+94-95,{Dice~1d3+1} Scrag
+96-97,{Dice~1d3+1} Troll
+98-99,{Dice~1d6+5} Vargouille
+100,{Dice~1d6} Will-o'-wisp
+
+:TS_Local
+01-50,Local creatures: [TS_Local%Region%]
+51-100,<b>NPCs:</b><br>{Loop~{Dice~1d3+2},[FR_Random_NPC.FR_SM_NPC]}
+
+#Flooded Forest
+:TS_Local1
+01-25,{Dice~1d3+1} Assassin vine
+26-45,{Dice~1d2} Dark tree (MoF)
+46-70,{Dice~1d6+4} Lizardfolk
+71-90,{Dice~1d2} Shambling mound
+91-100,Tendriculos
+
+#Moander's Road
+:TS_Local2
+01-15,{Dice~1d4} Gray ooze
+16-30,{Dice~1d3} Ochre jelly
+31-50,{Dice~1d2} Black pudding
+51-75,{Dice~1d4+2} Phantom fungus
+76-100,{Dice~1d4+2} Violet fungi
+
+:TS_Dragon
+01,Dracolich: Black, mature adult
+02-49,Black, old
+50-56,Gold, adult
+57,Dracolich: Green, adult
+58-100,Green, mature adult

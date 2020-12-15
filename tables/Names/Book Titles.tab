@@ -1,0 +1,1292 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder Dec 03, 2013.
+# ---------------------------------------------------
+#
+# Book Titles
+# Names of books one might find in a library
+#
+# Certain portions from the world of Mythosa
+# (http://www.mythosa.net)
+#
+# Copyright 2000 Bruce A. Gulke
+#
+# Modified by Valminder April 2002
+#    I added some links to these other tables:
+#        Countries.Land
+#
+# Modified by Valminder July 2003
+#   I added some links to these other tables
+#       Countries Names.Generate
+#       Names Generator.NAME Random
+#   I modified it using Ed Hastings' own Book Titles file.
+#      "I very heavily adapted the sample Book Titles generator
+#       by Bruce A. Gulke, extending its use to history, reference,
+#       business, non-fiction, fiction, language primers, and
+#       romance novels."
+#
+# Modified by Valminder, Feb 2006.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+#    I added stuff from Michael Long' "FR_books" table.
+#    I added link to "Conflict Namer.Generate" in HISTORY.
+#    I added some specific books in MISC (Mystara, Ravenloft, Spelljammer)
+# Modified by Valminder, August  2006.
+#    Added link to: Notable Event Names.tab
+#    Add to remove some "non-duplicating" groups.
+# Modified by Valminder, Dec 2013
+#    Added categories of books from another modified table.
+# Modified by Valminder, Octobre 2016
+#    Modified link "Countries.Start" to "Countries.Countries"
+#
+
+%A%,1
+%WorldNeeded%,0
+%WorldNeededName%,0
+
+@A,1,Select Genre,Random,NonFiction,Fiction,History,Magic,Business,Bios,Educational,Languages,Specific Titles,Religion,Travelling,Biology,Craftwork,Arts,Geography
+# If you add some worlds, see YYY below.
+# DO NOT CHANGE the WORLDS CODES ===> Useful for all other tables (Book Titles, Countries, Permanent_Variables, Religion, Travelers, Ultimate NPC).
+# 1= LOAD permanent variable 2= RANDOM, 3= Blackmoor 4= Conan 5= Dragonlance 6= Dragonlance (Taladas) 7= Dark Sun 
+# 8= Eberron 9= Forgotten Realms 10= Golarion 11= Greyhawk 12= Kingdoms of Kalamar 13= Lankhmar 14= Modern 15= MYSTARA 
+# 16= Ravenloft 17= Rokugan 18= Scarred Lands 19= Spelljammer 20= Sovereign Stone
+@WorldNeeded,1,WORLD: Creatures from which world?,LOAD from Permanent_Variables,Random World,Blackmoor,Conan,Dragonlance,Dragonlance (Taladas),Dark Sun,Eberron,Forgotten Realms,Golarion,Greyhawk,Kingdoms of Kalamar,Lankhmar,Modern,Mystara,Ravenloft,Rokugan,Scarred Lands,Spelljammer,Sovereign Stone
+
+:Start
+1,{Status~By Bruce Gulke, Ed Hastings, Valminder}[Generate]
+
+:Generate
+1,[WorldNeeded]
+_[Genre=%A%]
+
+:WorldNeeded
+# YYY If you add some worlds, change the Dice below.
+1,{If~%WorldNeeded%=1?|WorldNeeded=[Permanent_Variables.WorldNeeded]|
+_     /{If~%WorldNeeded%=2?|WorldNeeded={Dice~1d18+2}|/
+_}}
+_|WorldNeededName=[Countries.WorldNeededName=%WorldNeeded%]|
+
+:Genre
+1,[Random]
+2,[NonFICTION]
+3,[FICTION]
+4,[HISTORY]
+5,[MAGIC]
+6,[BUSINESS]
+7,[BIOS]
+8,[EDUCATIONAL]
+9,[LANGUAGES]
+10,[MISC]
+11,[RELIGION]
+12,[TRAVELLING]
+13,[BIOLOGY]
+14,[CRAFTWORK]
+15,[ARTS]
+16,[GEOGRAPHY]
+
+;Random
+4,[NonFICTION]
+6,[FICTION] (Fiction)
+5,[HISTORY]
+1,[MAGIC]
+1,[BUSINESS]
+1,[BIOS]
+1,[EDUCATIONAL]
+1,[LANGUAGES]
+1,[MISC]
+3,[RELIGION]
+1,[TRAVELLING]
+1,[BIOLOGY]
+1,[CRAFTWORK]
+1,[ARTS]
+1,[GEOGRAPHY]
+
+# ---------------------------------------------------------------------------
+
+:ORIGINAL "Start"
+1-2,[Article][Type] [Preposition] [Subject]
+3-4,[Article][Type] [Preposition] [Subject], by [Author]
+5,[Author]'s [Type] [Preposition] [Subject]
+6,The Life of [Person], by [Author]
+7,History of [Subject], by [Author]
+8,History of [Subject]
+9,The Life of [Person]
+10,[Travel] [Person]
+11-12,[ADV Instant Adventure Namer.Generate]
+13-15,[ADV Instant Adventure Namer.Generate], by [Author]
+16,The Craft of the {Cap~[Miscellaneous.Occupations]}
+
+# ---------------------------------------------------------------------------
+
+;ABSTRACT
+5,the Heavens
+5,the Stars
+5,the Sea
+5,Lost Treasures
+5,the Planes
+5,the Outer Planes
+5,the Inner Planes
+5,the Transitive Planes
+5,the Astral Plane
+5,the Realm of Shadows
+1,the Beastlands
+1,Elysium Fields
+1,Concordant Opposition
+1,the Internal Arts
+1,the Sound of One Hand Clapping
+1,the Contemplation of One's Navel
+5,Divine Intervention
+1,Divine Ascension
+1,the Elemental Planes
+1,the Plane of Shadow
+1,the Plane of Dreams
+1,the Dreamscape
+1,the Plane of Time
+
+;ADV
+10,
+1,Complete
+1,Collected
+1,Definitive
+1,Abridged
+1,Unabridged
+1,Ultimate
+1,Classic
+1,Advanced
+1,Primary
+1,Revised
+
+;AGE
+10,Ancient [~Time]
+1,Prehistoric [~Time]
+5,Classical [~Time]
+1,Golden [~Time]
+1,Silver [~Time]
+2,Dark [~Time]
+10,Modern [~Time]
+
+;Arcane
+1,Illusionism
+1,Necromancy
+1,Transmutation
+1,Transmogrification
+1,Polymorphing
+1,Evocation
+1,Conjuring
+1,Divination
+1,Invocation
+1,Summoning
+1,Enchanment
+1,Charms
+1,Dweomers
+1,Dweomercrafting
+1,Hexes
+1,Curses
+1,Death Magic
+1,Summoning Outsiders
+1,the Summoning of Outsiders
+1,Blact Arts
+1,Dark Pacts
+1,Demon Binding
+1,Artificing
+1,Sorcery
+1,Wizardry
+1,the Arcane Arts
+1,the Arts Arcane
+1,Alchemy
+1,Daemonology
+1,Astrology
+1,Undead Lore
+1,Runes
+1,Artifacts and Relics
+1,Forbidden Magic
+1,Forbidden Lore
+1,Undead Lore
+1,[ABSTRACT]
+1,[ADV Instant Adventure Namer.Adjective] Magic
+
+;Article
+10,The 
+2,
+3,A 
+
+;Associative
+1,[Cultural]
+1,[Lore]
+10,[Arcane]
+1,[Historic]
+10,[Religious]
+10,[Govt]
+1,[Militant]
+10,[Languages]
+10,[MiscAssoc]
+
+;Author
+100,[Formal Names.Start]
+100,[Names Generator.NAME Random] 
+5,[Names Generator.NAME Random] the [Formal Names.Adjective]
+# See Countries in GR
+#5,[Names Generator.NAME Random] of [Countries.ListedPlaces]
+5,[Names Generator.NAME Random] of [Countries.Land_%WorldNeededName%]
+1,[Names Generator.NAME Random] and [Names Generator.NAME Random]
+1,[Names Generator.NAME Random], [Names Generator.NAME Random], and [Names Generator.NAME Random]
+1,[Formal Names.Start] and [Names Generator.NAME Random]
+1,[Names Generator.NAME Random] and [Formal Names.Start] 
+1,[Formal Names.Start] and [Formal Names.Start]
+5,[~WorldSpecificAuthor]
+5,[~WorldSpecificAuthor] and [Formal Names.Start]
+5,[~WorldSpecificAuthor] and [Names Generator.NAME Random]
+
+;BATTLES
+50,[~CONFLICT] of [~TARGET]
+2,[~CONFLICT]s of the [~Peoples] 
+2,[Superlatives] [~CONFLICT]s of the [~Peoples] 
+2,[~Peoples] [~CONFLICT]s
+1,[~Person]'s [~CONFLICT]
+2,[Superlatives] [~CONFLICT]s of the [~AGE]
+
+:CARDINAL
+1,{CapEachWord~[Miscellaneous.Direction]}
+
+;COMPANY
+5,Company
+5,Companions
+1,Crew
+1,Gang
+2,Band
+2,Group
+1,{Cap~[~NUMBER1to10]}
+2,Party
+5,Brotherhood
+5,Fraternity
+1,Sisterhood
+5,Comrades
+1,Unit
+2,Pack
+1,Dogs
+1,Circle
+1,Association
+5,Order
+
+;CONFLICT
+2,War
+2,Battle
+2,Skirmish
+1,Raid
+1,Assault
+1,Seige
+1,Offensive
+1,Charge
+1,Revolt
+1,Insurrection
+1,Revolution
+1,Struggle
+
+;Cultural
+2,Cultures
+2,Arts
+2,Societies
+3,Societal Ills
+2,Political Development
+1,Stratification of the Social Classes
+1,Caste System
+1,Organized Labor
+1,Guild System
+1,Apprenticing
+1,Trades and the Common Man
+
+;DATING
+5,Ancient
+1,Prehistoric
+3,Classical
+3,Modern
+1,Millenial
+1,Centential
+5,Traditional
+
+;Fem
+1,Lady
+1,Maid
+1,Damsel
+1,Princess
+1,Neighbor's Wife
+1,Girl Next Door
+# See Countries in Greyhawk
+# 1,Girl of [Countries.ListedPlaces]
+1,Girl of [Countries.Land_%WorldNeededName%]
+1,Maiden
+1,Lady-in-Waiting
+1,Handmaiden
+1,Milkmaid
+1,Farmer's Daughter
+1,Woodwife
+1,Dryad
+1,Virgin
+1,Dame
+
+;FemFLUFF
+1,Winsome
+1,Brunette
+1,Fire-locked
+1,Blonde
+1,Sweet
+1,Innocent
+1,Naive
+1,Svelte
+1,Coltish
+1,Stunning
+1,Beautiful
+1,Gorgeous
+1,Wondrous
+1,Knowing
+1,Sly
+1,Charitable
+1,Congenial
+1,Lusty
+1,Wild
+1,Ravishing
+
+;FemMel
+1,[Fem]
+1,[Mel]
+
+;Govt
+10,Fortifications
+3,Heraldry
+5,Law
+10,Laws
+10,Empires
+5,Assassination
+5,Dynastic Struggles
+5,Development of Fealty
+5,Dialectic
+5,Nobility
+5,Stratification of the Social Classes
+
+;Historic
+1,Early Development
+1,Migration
+
+;JOIN
+1,of the
+1,in the
+
+;LANG
+1,[Miscellaneous.Language Common]
+1,[Miscellaneous.Language]
+
+;Languages
+15,Languages
+10,Dialects
+2,Correct Intonation of Spoken {Cap~[LANG]}
+2,Importance of Enunciation
+
+;Lore
+1,Oral Heritage
+2,Bardic Lore
+2,Fiction
+2,Poetry
+2,Prose
+1,Erotic Poetry
+
+;Mel
+1,Knight
+1,Knight-Errant
+1,Swashbuckler
+1,Bandit
+1,Highwayman
+1,Rogue
+1,Scamp
+1,Tramp
+1,Journeyman
+1,Apprentice
+1,Smithy
+1,Cobbler
+1,Prince
+1,Dragonslayer
+1,Noble
+1,Baron
+1,Duke
+1,King
+1,Hunter
+1,Woodsman
+
+;MelFLUFF
+1,Dashing
+1,Handsome
+1,Rugged
+1,Manly
+1,Strong
+1,Earnest
+1,Stoic
+1,Lusty
+1,Womanizing
+1,Worldly
+1,Foolish
+1,Impetuous
+1,Bold
+1,Brave
+1,Courageous
+1,Well-mannered
+1,Gentle
+
+;Militant
+10,Weapon Design
+30,Warfare
+5,Fencing
+5,Swordmastery
+5,Sword Styles
+7,Weapon Styles
+5,Seige Techniques
+5,Seige Tactics
+1,Desert Tactics
+1,Mountain Tactics
+10,Tactics
+10,Strategy
+10,Logistics
+
+;MiscAssoc
+5,Brewing
+10,Smithing
+10,Agricultural Feats
+10,Architecture
+1,Dwarven Architecture
+1,Elvish Architecture
+1,Gnomish Architecture
+1,Cooking
+2,Dancing
+5,Herbs
+5,Herb Lore
+5,Poisons
+5,Medicine
+1,Sewing
+5,Ships
+
+;NOUN
+10,{CapEachWord~[~Creatures.Humanoid2]}
+10,{CapEachWord~[~Creatures.Monsters]}
+1,[~Fem]
+1,[~Mel]
+1,[~MelFLUFF] [~Mel] 
+1,[~FemFLUFF] [~Fem]
+5,[ADV Instant Adventure Namer.Person]
+
+:NUMBER1to10
+1,one
+2,two
+3,three
+4,four
+5,five
+6,six
+7,seven
+8,eight
+9,nine
+10,ten
+
+;Peoples
+1,[Countries.Peoples_%WorldNeededName%]
+
+#May add more later. This will serve for now...
+;Person
+100,[Author]
+1,[Countries.Important NPCs_%WorldNeededName%]
+
+;Preposition
+1,on
+5,of
+1,regarding
+1,about
+1,concerning
+
+;Preposition2
+1,On
+5,Of
+1,Regarding
+
+;Religious
+25,Religion
+10,Rites
+10,Funerary Practices
+15,Religions
+5,Idolatry
+15,Temples
+10,Faiths
+10,Cults
+5,Dark Gods
+5,Unholy Rites
+
+;SOMETHING
+1,{CapEachWord~[Things]}
+1,{CapEachWord~[Superlatives]} {CapEachWord~[Things]}
+
+;Subject
+2,the [~DATING] [~Peoples] [~Associative]
+2,the [~DATING] [~Associative] of the [~Peoples] Peoples
+1,[~AGE] [~Associative] in [~TARGET]
+1,[~AGE] [~Associative] in the [~CARDINAL]
+1,[~AGE] [~Associative]
+1,of [~CARDINAL]ern [~TARGET]
+1,the [~CARDINAL]ern [~Associative]
+1,the [~CARDINAL]ern [~Associative] [~JOIN] [~AGE]
+1,the [~CARDINAL]ern [~Peoples] [~Associative]
+1,the [~CARDINAL]ern [~Peoples]
+15,[~Associative] in [~TARGET]
+1,[~Associative] [~JOIN] [~AGE]
+1,[~Associative] [~JOIN] [~Peoples] [~JOIN] [~AGE]
+1,[~Peoples] [~JOIN] [~AGE]
+1,the [~Peoples] of [~TARGET]
+1,[~Peoples] [~Associative] in the [~AGE]
+2,the Migrations of [~Peoples] Peoples
+1,the Exodus of the [~Peoples] People in the [~AGE]
+15,[~TARGET]
+18,the [~Peoples]
+15,[~ABSTRACT]
+50,[~Associative]
+10,[Subject Original]
+
+:Subject Original
+1,Cooking
+2,Dancing
+3,Heraldry
+4,Law
+5,Alchemy
+6,Poetry
+7,Erotic Poetry
+8-11,the [Countries.Land_%WorldNeededName%] Culture
+12,Elven History
+13,Dwarven History
+14,Eastern Religion
+15,Western Temples
+16,Northern Faiths
+17,Southern Cults
+23,Brewing
+24,Elven Poetry
+25,Dwarven Weapons
+26,Warfare
+27,Ancient History
+28,Ancient Religion
+29,Daemonology
+30,the Heavens
+31,Astrology
+32,the Stars
+33,Poisons
+35,Runes
+36,Ancient Empires
+37-39,[Countries.Land_%WorldNeededName%] Architecture
+40,Dark Gods
+41,Unholy Rites
+42,Assassination
+43,Ships
+44,the Sea
+45,Artifacts and Relics
+46,Lost Treasures
+47,Forbidden Magic
+48,Herbs
+49,Dragons
+50,Sewing
+51,the [Countries Names.Generate] Culture
+52,[Countries Names.Generate] Architecture
+53,Warfare
+54,Spelljamming
+
+;Superlatives
+1,[ADV Instant Adventure Namer.Adjective]
+1,[ADV Instant Adventure Namer.Superlatives]
+
+;TARGET
+10,[Countries.Land_%WorldNeededName%]
+10,[Countries.Regions_%WorldNeededName%]
+10,[Town Names.Generate]
+2,the [~SOMETHING]
+
+;TgtReader
+1,Layman
+1,Student
+1,Expert
+1,Apprentice
+1,Journeyman
+1,Master
+1,Educated Nobleman
+1,Aristocrat
+1,Gentleman
+1,Complete Gentleman
+1,Discerning Reader
+
+;Things
+1,[ADV Instant Adventure Namer.Element]
+1,[ADV Instant Adventure Namer.Item]
+
+;Things2
+1,fables
+1,legends
+1,lore
+1,mysteries
+1,myths
+1,powers
+1,rites
+1,rituals
+1,sagas
+1,secrets
+1,stories
+1,strictures
+1,tales
+1,traditions
+
+;Time
+1,Age
+1,Ages
+1,Era
+1,Epoch
+1,Milieu
+1,Years
+1,Decades
+
+;Travel
+1,Travels of
+1,Journeys of
+1,Voyages of
+1,Adventures of
+1,Misadventures of
+1,Trek of
+1,Legends of
+
+;Type
+10,Book
+1,Scroll
+10,Treatise
+10,Reference
+10,Legend
+10,Collection
+
+;TypeB
+10,Folio
+5,Guide
+5,Log
+5,Logbook
+5,Ledger
+10,Reference
+10,Manual
+2,Diagram
+2,Analysis
+2,Compendium
+1,Writings
+
+;TypeBW
+1,Accounts
+1,Accounts Payable
+1,Accounts Recievable
+1,Outstanding Accounts 
+1,Payroll
+
+;TypeBWMaritime
+1,Ships Log
+1,Ships Ledger
+1,Captains Log
+1,Captains Journal
+1,Journal of Captain [~Person]
+1,Navigational Charts
+
+;TypeE
+1,Guide to
+1,Reference on
+1,Primer on
+1,Refresher on
+1,Reader on
+1,Journal of
+
+;TypeFS
+1,Tales
+1,Essays
+1,Misadventures
+1,Travels
+1,Adventures
+1,Exploits
+
+;TypeH
+1,Writings on
+1,Legends of
+1,Treatises on
+1,Tales of
+1,Essays of
+1,Thoughts on
+1,Reflections on
+1,A Historical Perspective of
+1,The Impact of
+1,The Ramifications of
+1,The Pervasive Influence of
+1,The Effects of
+1,The Permutaions of
+1,A New Perspective on
+1,A Reexamination of
+
+;TypeM
+10,Book
+1,Scroll
+10,Tome
+10,Grimoire
+10,Gramarye
+10,Compendium
+2,Diagram
+5,Arcanomicon
+
+;TypeN
+2,Tome
+2,Cyclopædia
+1,Lexicon
+2,Compendium
+1,Codex
+2,Treatise
+2,Reference
+2,Collection
+1,Glossary
+1,Dictionary
+
+;TypeNS
+1,Essays
+1,Thoughts
+1,Reflections
+2,Treatises
+
+;TypeS
+1,Tales
+1,Essays
+1,Thoughts
+1,Reflections
+1,Scrolls
+1,Tablets
+1,Writings
+1,Legends
+1,Treatises
+1,Observations
+
+;VERB
+1,Taming
+1,Catching
+10,Finding
+10,Slaying
+1,Hunting
+1,Healing
+1,Running
+1,Telling
+1,Singing
+1,Coursing
+1,Winning
+1,Traveling
+10,Questing
+1,Sounding
+1,Chasing
+10,Journeying
+10,Errand
+1,Death
+
+;WorldSpecificAuthor
+1,[Countries.Important NPCs_%WorldNeededName%]
+20,[Countries.Authors_%WorldNeededName%]
+
+# ---------------------------------------------------------------------------
+
+;ARTS
+1,{Cap~[PoetType]} {Cap~[Poetry]}
+
+;Poetry
+1,ballads
+1,idylls
+1,poems
+1,poetry
+1,songs
+1,verses
+
+;PoetType
+1,ancient
+1,celestial
+1,elven
+1,erotic
+1,hopeful
+1,inspirational
+1,merry
+1,mournful
+1,mystic
+1,rousing
+5,[Creatures.All]
+
+# ---------------------------------------------------------------------------
+
+;BIOLOGY
+1,{CapEachWord~[Bio]} of the [~BioPlural][BioWorld]
+1,{CapEachWord~[Things2]} of the [~BioPlural][BioWorld]
+1,[~BioCreature] {Cap~[Things2]}
+1,[~BioCreature] [~Bio]
+
+;Bio
+2,bestiary
+2,biology
+2,dietary habits
+2,ecology
+1,mating habits
+1,mating rituals
+1,treatises
+
+;BioCreature
+1,{Cap~[Creatures.All]}
+
+;BioPlural
+1,{Plural~[Creatures.All]}
+
+;BioWorld
+1,
+1, of [~Countries.Land_%WorldNeededName%]
+
+# ---------------------------------------------------------------------------
+
+;CRAFTWORK
+1,{Cap~[TypeB]} [~Preposition] the [~Crafts]
+
+;Crafts
+1,{Cap~[Miscellaneous.OccupationsMeanings]}
+
+# ---------------------------------------------------------------------------
+
+;NonFICTION
+2,[~ADV] [~BuildNF]
+2,[~BuildNF]
+5,[~Author]'s [~TypeN] [~Preposition] [~Subject]
+5,[~Article][~TypeN] [~Preposition] [~Subject]
+5,[~Article][~TypeN] [~Preposition] [~Subject], by [~Author]
+5,[~Author]'s [~TypeN] [~Preposition] [~Subject]
+1,[~Preposition2] [~Subject], by [~Author]
+3,The [~Associative] of [~Countries.Regions_%WorldNeededName%] in the [~AGE]
+1,The Craft of the {CapEachWord~[Miscellaneous.Occupations]}
+
+;BuildNF
+1,[~TypeNS] on [~Subject], by [~Author]
+2,[~TypeNS] [~Preposition] [~Subject], by [~Author]
+
+# ---------------------------------------------------------------------------
+
+;FICTION
+1,[~Article][~FemFLUFF] [~Fem] and the [~MelFLUFF] [~Mel], by [~Author]
+1,[~Article][~MelFLUFF] [~Mel] and the [~FemFLUFF] [~Fem], by [~Author]
+1,[~Article][~FemFLUFF] [~Mel] and the [~MelFLUFF] [~Fem], by [~Author]
+1,[~Miscellaneous.TitlesMale] [~Names Generator.NAME Random] and the [~FemFLUFF] [~Fem], by [~Author]
+1,[~Article]Tale of [~Miscellaneous.TitlesMale] [~Names Generator.NAME Random] the {CapEachWord~[~Creatures.Monsters2]}-slayer, by [~Author]
+1,[~Miscellaneous.Titles] [~Names Generator.NAME Random] the {CapEachWord~[~Creatures.Monsters2]}-slayer, by [~Author]
+1,[~Names Generator.NAME Random] and [~Names Generator.NAME Random], by [~Author]
+1,[~Article][~Travel] [~Author], by [~Author]
+1,[~Article][~NOUN]'s [~VERB], by [~Author]
+1,[~Article][~VERB] of the [~NOUN], by [~Author]
+1,[~Article][~Travel] the [~COMPANY] of the [~SOMETHING], by [~Author]
+1,[~Article][~Travel] the [~SOMETHING] [~COMPANY], by [~Author]
+1,[~Article][Superlatives] [~Travel] the [~SOMETHING] [~COMPANY], by [~Author]
+1,[ADV Instant Adventure Namer.Journey] [~TARGET], by [~Author]
+1,[~Person]'s [ADV Instant Adventure Namer.Journey] [~TARGET], by [~Author]
+10,{Cap~[ADV Instant Adventure Namer.Journey]} the [ADV Instant Adventure Namer.Thing] of the {Cap~[~NUMBER1to10]} {Plural~[FemMel]}, by [~Author]
+10,[~Article][~TypeFS] of the {Cap~[NUMBER1to10]} [~FemMel]s, by [~Author]
+10,[~Article][~SOMETHING] of the [~FemMel]s, by [~Author]
+10,[~Article][~COMPANY] of the [~FemMel]s, by [~Author]
+10,[ADV Instant Adventure Namer.Generate], by [Author]
+
+# ---------------------------------------------------------------------------
+
+;GEOGRAPHY
+1,{Cap~[ADV Instant Adventure Namer.Adjective]} {Cap~[Geo]} Atlas
+1,{Cap~[GeoThings]} of the {Cap~[ADV Instant Adventure Namer.Adjective]} {Cap~[Geo]}
+1,{Cap~[Activity]} in the {Cap~[Geo]}
+1,[~TypeN] of [~Miscellaneous.Language] {Cap~[Words]}
+
+;Activity
+1,fighting
+1,hunting
+1,mining
+1,surviving
+1,travel
+
+;Geo
+1,caverns
+1,desert
+1,forest
+1,hills
+1,moors
+1,mountains
+1,plains
+1,swamp
+5,[Countries.Land_%WorldNeededName%]
+5,[Countries.Regions_%WorldNeededName%]
+
+;GeoThings
+1,animals
+1,climate
+1,hazards
+1,herbs
+1,history
+1,monsters
+1,people
+1,riches
+1,ruins
+1,settlements
+1,tales
+1,weather
+
+;Words
+1,letters
+1,phrases
+1,terms
+1,words
+
+# ---------------------------------------------------------------------------
+
+;HISTORY
+5,History [~Preposition] [~Subject], by [~Author]
+5,History [~Preposition] [~Subject]
+40,The [~BATTLES], by [~Author]
+25,[~TypeH] [Countries.Historical_%WorldNeededName%], by [~Author]
+1,The Effects of [Countries.Historical_%WorldNeededName%] on [~Associative], by [~Author]
+2,The Effects of [~Associative] on [Countries.Historical_%WorldNeededName%], by [~Author]
+22,[Conflict Namer.Generate], by [~Author]
+2,The {If~{Dice~1d2}=1?meaning/origin} of [~Notable Event Names.Generate]
+2,The {If~{Dice~1d2}=1?meaning/origin} of [~Notable Event Names.Generate], by [~Author]
+1,{Cap~[Fame]} {Cap~[HistPeoples]} of the {Cap~[HistType]}
+
+;Fame
+1,acclaimed
+1,exalted
+1,famous
+1,infamous
+1,legendary
+1,notable
+1,obscure
+1,renowned
+
+;HistPeoples
+5,[Countries.Peoples_%WorldNeededName%]
+1,adventurers
+1,champions
+1,heroes
+1,nobles
+1,priests
+1,sages
+1,warriors
+1,wizards
+
+;HistType
+1,Ancient World
+1,Barbarian Plains
+1,Chaos Lands
+1,Desert Tribes
+1,Eastern Kingdoms
+1,Empire
+1,Island Kingdoms
+1,Mountain Clans
+1,Northern Cultures
+1,Southern Regions
+1,Western Realms
+1,[NonHuman]
+
+;NonHuman
+1,Dragons
+1,Dwarves
+1,Elves
+1,Giants
+1,Gnomes
+1,Orcs
+1,Trolls
+1,Underworld
+
+# ---------------------------------------------------------------------------
+
+;MAGIC
+1,[~ADV] [~BuildM]
+1,[~BuildM]
+2,[~Author]'s [~TypeM] [~Preposition] [~Arcane]
+2,[~TypeM] [~Preposition] [~Arcane], by [~Author]
+2,[~Author]'s [~TypeM] [~Preposition] [~Arcane]
+1,{Cap~[Preposition]} [~Arcane], by [~Author]
+
+;BuildM
+1,[~TypeS] on [~Arcane], by [~Author]
+2,[~TypeS] [~Preposition] [~Arcane], by [~Author]
+2,[~TypeS] [~Preposition] [~Arcane], by [~Author]
+
+# ---------------------------------------------------------------------------
+
+;BUSINESS
+1,[~TypeBW] [~TypeB] of the [Shop Names.GenShop2]
+1,[~TypeBW] [~TypeB] of the [Shop Names.GenShop2]
+1,[~TypeBW] [~TypeB] of the [Shop Names.GenShop2]
+2,[~TypeBWMaritime] of [Ship Name]
+
+;Ship Name
+10,[Ship Name Generator.Generate]
+1,the [Superlatives] {Cap~[~Fem]}
+1,the [Superlatives] [Miscellaneous.Ruler]
+
+# ---------------------------------------------------------------------------
+
+;BIOS
+5,The Life of [~Person], by [~Author]
+5,The Life of [~Person]
+5,[~Travel] [~Person], by [~Author]
+1,Biography of [Countries.Personage_%WorldNeededName%], by [~Author]
+1,Biography of [Formal Names.Start], by [~Author]
+5,Autobiography of [~Author]
+
+# ---------------------------------------------------------------------------
+
+;EDUCATIONAL
+1,[~Author]'s [~ADV] [~LANG] Reader
+1,[~ADV] [~LANG] Reader,  by [~Author]
+1,[~LANG] Reader,  by [~Author]
+1,[LANGUAGES]
+1,Introduction to [~HISTORY]
+1,[~ADV] [~MAGIC]
+1,The [~TgtReader]'s [~TypeE] [~Associative]
+1,The [~ADV] [~TypeE] [~Associative] for the [~TgtReader]
+1,The [~TgtReader]'s [~TypeE] [~Associative],  by [~Author]
+1,The [~ADV] [~TypeE] [~Associative] for the [~TgtReader],  by [~Author]
+
+;LANGUAGES
+1,{Cap~[LANG]} to {Cap~[LANG]} [~TypeN], by [~Author]
+1,[~Author]'s [~ADV] [~LANG] to [~LANG] Dictionary
+1,[~ADV] [~LANG] to [~LANG] Dictionary, by [~Author]
+1,[~Author]'s [~ADV] [~LANG] Reader
+1,[~ADV] [~LANG] Reader, by [~Author]
+1,{Cap~[LANG]} Reader, by [~Author]
+
+# ---------------------------------------------------------------------------
+
+;RELIGION
+1,Life of Saint [~Names Generator.NAME Random] of [~Religion.Deities(1)]
+1,{Cap~[RelThings]} to the [~Spells.AllDomains] {Cap~[Rel]}
+1,{Cap~[ADV Instant Adventure Namer.Adjective]} {Cap~[Things2]} of the [~Spells.AllDomains] {Cap~[Rel]}
+1,{Cap~[Things2]} of the [~Spells.AllDomains] {Cap~[Rel]}
+1,{Cap~[RelThings]} [~Preposition] [~Religion.Deities(1)]
+1,{Cap~[ADV Instant Adventure Namer.Adjective]} {Cap~[Things2]} [~Preposition] [~Religion.Deities(1)]
+1,{Cap~[Things2]} [~Preposition] [~Religion.Deities(1)]
+
+;Rel
+1,cult
+1,cults
+1,deities
+1,deity
+1,divinities
+1,divinity
+1,faith
+1,faiths
+1,god
+1,goddess
+1,goddesses
+1,gods
+1,immortal
+1,immortals
+1,pantheon
+1,pantheons
+1,religion
+1,religions
+
+;RelThings
+1,appeals
+1,champions
+1,hymns
+1,litanies
+1,miracles
+1,orders
+1,petitions
+1,prayers
+1,relics
+1,saints
+1,shrines
+1,symbols
+1,temples
+
+# ---------------------------------------------------------------------------
+
+;TRAVELLING
+1,[~Travel] [Names Generator.NAME Random] in [~Countries.Land_%WorldNeededName%]
+
+# ---------------------------------------------------------------------------
+# Below are specific books which are either fairly common or 
+# widely known. These books might be found in any decent library
+# or respectible collection and which have influenced countless
+# lesser-known writers regarding style, subjects, and naming conventions.
+# Many are quite old, but some are modern classics, famous in thier 
+# author's lifetime. This list can be added too quite safely
+# by assigning an increment of likelyhood and the title.
+#
+# Valminder July 2003: I changed some names, linking them with the
+#                      "Countries" table so that the books will seem
+#                      to have been made for your own country (if you
+#                      modify the Countries table). 
+#
+# [Countries.Peoples=1] [Countries.World=2] [Countries.Authors=1]
+
+;MISC
+5,The Glossography of [Countries.World=%WorldNeeded%], by [Countries.Authors_%WorldNeededName%=1]
+10,The Effects of the [Countries.Peoples_%WorldNeededName%=1] Expansion on Stratification of the Social Classes, by [Countries.Authors_%WorldNeededName%=1]
+2,[Countries.Authors_%WorldNeededName%=3]'s Thoughts on Warfare
+5,Reference on Languages, by [Countries.Authors_%WorldNeededName%=2]
+5,Complete Thoughts on the Realm of Shadows, by Anorbar
+5,Hadrarath's Book of Alchemy
+5,Maranzar's Advanced Ancient Sueloise to Common Dictionary
+5,Arygan's Compendium of the Transitive Planes
+5,Dragaos's Definitive Dwur Reader
+5,The Effects of Societal Ills on the Once Great Kingdom, by Dalicane
+5,The Effects of Migration on the Rise of Furyondy, by Dalicane
+5,The Effects of the Turmoil Between Crowns on Societal Ills, by Dalicane
+5,Thoughts on the [Countries.Peoples_%WorldNeededName%=1] Expansion, by Corera
+5,On Conjuring, by Carpas
+5,Collected Essays of the Sea (various)
+5,Ryen Lichtenäl's Thoughts on Fiction
+5,Gramarye of Alchemy, by Kamer
+5,The Effects of Religion on the Madness of Ivid the Undying and the Collapse of Aerdy, by [Countries.Authors_%WorldNeededName%=4]
+1,Sayter's Grimoire of Forbidden Magic
+5,The Impact of the Great Migrations of the [Countries.Peoples_%WorldNeededName%=2], by Tarasnare
+5,Rowair the Humble's Compendium of Classical [Countries.Peoples_%WorldNeededName%=3] Heraldry
+10,Treatises regarding Weapon Styles, by Oralos the Undefeated
+5,A Historical Perspective of the [Countries.Peoples_%WorldNeededName%=4], History's Forgotten Power, by [Countries.Authors_%WorldNeededName%=5]
+10,The Definitive Study of Logistics, by General Yslan of Almor
+1,Cyclopædia of the Migrations of [Countries.World=%WorldNeeded%] Peoples, by Belcel Kaura the Learned
+10,Dominant Religions of [Countries.World=%WorldNeeded%] in the Modern Epoch, by Unneth the Sage
+5,Treatises on the Acension of House Naelax, by Marannos
+5,Treatises on the Rise of the Slave Lords, by Yslos
+5,Treatises on the Rise of the Circle of Eight, by Yscir
+5,The Insurrection of Dyvers, by Crisada
+5,Misadventures of the Five Knight-Errants, by Alara
+5,Unabridged Common Reader, by Tarascelsol
+5,The Historical Impact of the Intermingling of the [Countries.Peoples_%WorldNeededName%=5] and [Countries.Peoples_%WorldNeededName%=6], by Anorlor
+5,A Reexamination of the Intermingling of the [Countries.Peoples_%WorldNeededName%=5] and [Countries.Peoples_%WorldNeededName%=6], by [Countries.Authors_%WorldNeededName%=6]
+5,History of [Countries.World=%WorldNeeded%], by Damdaleplen
+5,Essays of the Heavens, by Zelor
+5,The Struggle of Northern [Countries.World=%WorldNeeded%], by Selaren
+5,The Lusty King and the Winsome Farmer's Daughter, by Ippaaren
+5,The Overking's New Toys, by Ilovare Mogenoerid
+5,Thoughts on Ahlissa and North Kingdom, by Saykel
+5,Phonetic [Countries.Peoples_%WorldNeededName%=7], by Azamis al'Harya of Loppola
+5,On Invocation, by Inverus
+5,Tales of the Ten Damsels, by Olaflor
+5,The Company of the Ladys, by Radilos
+5,Shadfor's Tome of Unknown Magic
+5,The Adventures of Hadramyr, by Zelmarfora
+2,Buccan the Magnificent's Arcanomicon of Lordly Magic
+2,Search for the Sword of the Six Princes, by Sayela
+5,Tome of the [Countries.Peoples_%WorldNeededName%=2], by Eddval Lorerm II
+5,Compleat Reflections on Conjuring, by Tarasmer
+10,Vidamarlum's Tome of Forbidden Magic
+10,Journey into the Lair of the Eight Mortal Sins, by Dalicane the Younger
+10,Treatises on Astrology, by Werira
+10,On Wizardry, by Athaos
+15,The Company of the Kings, by Damarlos
+15,The Fine Art of Getting What You Want, by Lyrbyrlor the Crafty
+10,The High Art of Diplomacy, Unaf Illomar the Patient
+10,Transmutational Primer, by Warder Gral
+10,The Essentials of Arcane Study, by Rowbyr Soundarian
+10,Complete Bestiary of [Countries.World=%WorldNeeded%] (A-F), by Gaius Papinus Broc of [Countries.World=%WorldNeeded%]
+10,Complete Bestiary of [Countries.World=%WorldNeeded%] (G-M), by Gaius Papinus Broc of [Countries.World=%WorldNeeded%]
+10,Complete Bestiary of [Countries.World=%WorldNeeded%] (N-S), by Gaius Papinus Broc of [Countries.World=%WorldNeeded%]
+10,Complete Bestiary of [Countries.World=%WorldNeeded%] (T-Z, Index), by Gaius Papinus Broc of [Countries.World=%WorldNeeded%]
+10,Codex of Arcane Items I, by [Countries.Authors_%WorldNeededName%=7]
+10,Codex of Arcane Items II, by [Countries.Authors_%WorldNeededName%=7]
+10,Codex of Arcane Items III, by [Countries.Authors_%WorldNeededName%=7]
+10,Codex of Arcane Items IV, by [Countries.Authors_%WorldNeededName%=7]
+10,Codex of Arcane Items V and Index, by [Countries.Authors_%WorldNeededName%=7]
+10,Addendum I to the Codex of Arcane Items, by [Countries.Authors_%WorldNeededName%=8]
+10,Addendum II to the Codex of Arcane Items, by [Countries.Authors_%WorldNeededName%=9]
+10,Addendum III to the Codex of Arcane Items, by [Countries.Authors_%WorldNeededName%=9]
+10,Addendum IV to the Codex of Arcane Items, by [Countries.Authors_%WorldNeededName%=10]
+10,Addendum V to the Codex of Arcane Items, by [Countries.Authors_%WorldNeededName%=10]
+10,The Collected and Compleat Compendium of Arcane Items Part I, by [Countries.Authors_%WorldNeededName%=10]
+1,Benlum's Compendium of Death Magic in [Countries.World_%WorldNeededName%=2]
+1,[Countries.Authors_%WorldNeededName%=1] and Heiwen du Khristveraerd I's Short Codex on the Transitive Planes
+1,Of Cults in the Modern Epoch, by Damareplen of Jalpa
+1,Gaius Pompidus's Collection on the Regional Dialects of the Modern [Countries.Peoples_%WorldNeededName%=8]
+1,Yarlos Blackgold of Rel Mord's Cyclopædia of the Stars
+1,Of Idolatry, by Radiburr the Sagacious
+1,Revised Essays on Architecture in Greyhawk City, the Gem of [Countries.World=%WorldNeeded%], by Guildmaster Railum the Builder
+1,Wereth the Learned's Tome of the Dwarven-kind
+1,A Cyclopædia on the Steppes, by Rowir
+1,Ignilor Lochmore of the Duchy of Urnst's Reference Regarding Stratification of the Social Classes in former Nyrondese Tributaries
+1,The Lordly Legends of the Horrid Nine, by Annaostas of Naerie
+1,The Company of the Strumpets, by Karanroth Bancel I, the Holy
+1,Arenpas and Maranmyr, by Andurogue Chatuson of Mithat
+1,Advanced Writings on the Internal Arts, by Dambyr
+1,Of Artifacts and Relics, by Larlor
+1,Damargannroth Ysla's Grimoire of Wonderful Magic
+10,Abridged Treatises on Enchanment, by Gaira, Belpas, and Arennare
+10,Abridged Treatises on Illusions, by Gaira, Dambyr, and Annaostas
+10,Petronis Verracosus's Tome of Enchanment
+10,Odipasayth's Grimoire of Astrology
+10,Regarding Runes, by Kyrayas
+15,Aryera of Whitecrystal's Book of Artificing
+20,Tome on Artificing, by Alfradas, Selurr, and Tiratr
+15,Treatises on Artificing, by Cardua of [Countries.World=%WorldNeeded%]
+20,Bucnare's Compendium on Conjuring
+20,Diagram of Dweomercrafting, by Agtas
+15,Revised Treatises on Divination, by Olafyal
+1,Compendium on the Summoning of Outsiders, by Unnroth Brahisa the Vile
+1,Gramarye regarding Summoning Outsiders, by Olafzar Easthurst of Eaststead
+1,Regarding the Summoning of Outsiders, by Spurus Poppaedus Falcous the Inscrutible
+5,Rendatat Tiette of Rel Mord's Tome of Divination
+5,[Countries.Authors_%WorldNeededName%=12]'s Grimoire of Wonderful Magic
+5,[Countries.Authors_%WorldNeededName%=12]'s Thoughts on Temporal-Spatial Manipulations
+5,[Countries.Authors_%WorldNeededName%=12]'s Folio of Spatial Distortions, Rifts, and Portals
+5,[Countries.Authors_%WorldNeededName%=12]'s Compendium of Applied Magical Theories
+5,[Countries.Authors_%WorldNeededName%=12]'s Laboratory Notations CY420 thru CY422
+5,[Countries.Authors_%WorldNeededName%=12]'s Laboratory Notations CY423 thru CY425
+5,[Countries.Authors_%WorldNeededName%=12]'s Laboratory Notations CY426 thru CY428 (Left Unfinished by Untimely Death)
+5,Hesmar's Annotated Treatises on the Works of [Countries.Authors_%WorldNeededName%=12]
+5,The Life of [Countries.Authors_%WorldNeededName%=12], Archmage and Scholar, by Cargath of Scant
+5,Shandor's Application of the Temporal-Spatial Theories of [Countries.Authors_%WorldNeededName%=12]
+5,Kafalnicho's Refutation of [Countries.Authors_%WorldNeededName%=12]'s Third Temporal-Spatial Directive
+5,Uthar's Rebuttal to Kafalnicho's Refutation of [Countries.Authors_%WorldNeededName%=12]'s Third Temporal-Spatial Directive
+5,[Countries.Authors_%WorldNeededName%=13]'s Summaration of the Great Temporal-Spatial Debate, with Forewords by Uthar, Kafalnicho, and Iam Zelpassen. Based on the work of [Countries.Authors_%WorldNeededName%=12]
+5,Watham the Mighty's Reexamination of the Temporal-Spatial Directives of [Countries.Authors_%WorldNeededName%=12]
+5,Of Transmogrification, by Kyramer Lisbluff of Crockburg
+5,Gramarye of Enchanment, by Galum of Northwood
+5,Compendium of Simples, Herbals, and Hedge Magic by Shupar the Learned
+5,The Shamanistic Arts and Vancian Magic by Vargy Ysk of Leukish
+5,Animism vs Diety Worship by Jeorl the Heretic
+5,<b>Plants of the North and their Uses:</b> This well-organized and beautifully illustrated book describes many species of above-ground flora native to the North. By reading it for 10 minutes, it allows a PC to make an untrained Knowledge (nature) check about aboveground plants (not plant creatures) and provides a +4 bonus on such checks. It's worth 100 gp. 
+3,<b>Practical Methods of Binding for Beginners:</b> This small and thin book is bound in leather that looks suspiciously like human skin. Filled with odd diagrams and amateurish drawings of strange figures, it describes in Common a number of rituals that summon strange spirits it calls "vestiges" that are supposed to be beyond the reach of the gods. According to the book, these simple summoning rituals allow you to bind the spirits to your own for a time and thus gain strange powers. (This book is describing the methods of pact magic, a new form of magic described in Tome of Magic.) It's worth 100 gp to the right buyer, but its sale draws the angry attention of any local churches because nearly all religions consider pact magic to be sacrilegious. 
+3,<b>True Dragons and Their Lessers:</b> Black dragon skin binds this hefty tome written in Thorass. The book discusses all kinds of dragons in a disorganized fashion. By searching through it for an hour, it allows a PC to make an untrained Knowledge (arcana) check about dragons and provides a +2 bonus on such checks. It's worth 100 gp. 
+3,<b>Untouchable Dead:</b> This bone-bound tome goes into great detail about various forms of incorporeal undead, their strengths and weaknesses, and theories of their origins. By reading it for 10 minutes, it allows a PC to make an untrained Knowledge (religion) check about incorporeal undead and provides a +4 bonus on such checks. It's worth 100 gp. 
+1,<b>The Rise of Netheril:</b> A History of Our Great Nation: This decaying and coverless book is written in glowing Draconic letters using the Loross language. It details the history of Netheril but stops fifty years short of its fall. By reading it for 10 minutes, it allows a PC to make an untrained Knowledge (history) check about Netheril and provides a +4 bonus on such checks. Of course, the book contains nothing about the last fifty years of that country's history or what happened afterward. It's worth 225 gp. 
+1,A genealogy of a long-dead Darokinian/Calimshan family of spice merchants.
+5,A treatise on the care of human teeth.
+3,A catalog of woodcrafting tools and wooden objects used by the ancient [~Countries.Peoples Rare %WorldNeededName%] 
+1,The manifest of the Sultan's Breath on its voyages in the year of 1308 AC. 
+10,A fanciful atlas of the [~Countries.Countries(%WorldNeeded%)].
+10,A sheaf of scrolls that are propaganda against the [~Countries.Peoples_%WorldNeededName%]. 
+5,A discussion of the activity of the gods during the Last Cataclysm based largely on rumor and supposition.
+5,An apocalyptic alternative to the roll of years named by [Countries.Authors_%WorldNeededName%=1].
+5,A map of the main city of [~Countries.Land_%WorldNeededName%] from 100 years ago.
+1,A copy of the will of [NPC Appearance.GenerateQuick2], dead now for {Dice~2d6*10} years. 
+5,A fanciful bestiary of the magical creatures to be found in the  [~Countries.Countries(%WorldNeeded%)].
+5,The architectural plans for the port of the main city of the [~Countries.Countries(%WorldNeeded%)].
+10,A treatise on the creation of glass and how to attain various colors and levels of clarity. 
+#
+# Special Mystara Books
+5,{If~%WorldNeededName%=Mystara?The Voyages of the Princess Ark./[MISC]}
+5,{If~%WorldNeededName%=Mystara?The Discovery of the Hollow World, by Admiral Haldemar of Alphatia./[MISC]}
+1,{If~%WorldNeededName%=Mystara?The Discovery of the Hollow Moon./[MISC]}
+1,{If~%WorldNeededName%=Mystara?The Tigers of the Moons, by an unknown explorer./[MISC]}
+5,{If~%WorldNeededName%=Mystara?The Origin of the 3 Moons, by the College of High Wizardry./[MISC]}
+#
+# Special Spelljammer Books
+5,{If~%WorldNeededName%=Spelljammer?The Phlogiston./[MISC]}
+5,{If~%WorldNeededName%=Spelljammer?Wildspace and Spelljamming, by Boris Van der Willow./[MISC]}
+1,{If~%WorldNeededName%=Spelljammer?Clash of the Illithids, by Grith, the Second-rank Giff Commander./[MISC]}
+1,{If~%WorldNeededName%=Spelljammer?The Spelljammer, Legend of Wildspace./[MISC]}
+1,{If~%WorldNeededName%=Spelljammer?The Crystal Spheres of the Universe, by Holbur the Arcane./[MISC]}
+1,{If~%WorldNeededName%=Spelljammer?The Astronomi Cluster./[MISC]}
+5,{If~%WorldNeededName%=Spelljammer?Treatise on Spelljamming Ships./[MISC]}
+#
+# Special Ravenloft Books
+1,{If~%WorldNeededName%=Ravenloft?Ravenloft, a world of Darkness and Evil./[MISC]}
+5,{If~%WorldNeededName%=Ravenloft?The coming of the mist. A tale of the Vistanis./[MISC]}
+1,{If~%WorldNeededName%=Ravenloft?I, Strahd, the making of a Vampire./[MISC]}
+1,{If~%WorldNeededName%=Ravenloft?I, Strahd, the War with Azalyn./[MISC]}
+1,{If~%WorldNeededName%=Ravenloft?Van Richten's Guide on Werewolves./[MISC]}
+1,{If~%WorldNeededName%=Ravenloft?Van Richten's Guide on Ghosts./[MISC]}
+1,{If~%WorldNeededName%=Ravenloft?Van Richten's Guide on Herbs and Remedies./[MISC]}
+1,{If~%WorldNeededName%=Ravenloft?Van Richten's Guide on Vampires./[MISC]}
+1,{If~%WorldNeededName%=Ravenloft?Van Richten's Guide on Ghouls and Liches./[MISC]}
+
+# ---------------------------------------------------------------------------
+

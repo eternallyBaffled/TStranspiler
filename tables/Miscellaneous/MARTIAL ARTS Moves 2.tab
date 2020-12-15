@@ -1,0 +1,811 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder Feb 28, 2006.
+# ---------------------------------------------------
+#
+# Playful Phoenix Fist versus Four Scholars Boxing
+#
+# A Random Name Generator for Martial Arts Moves
+#
+# by Patrick T. Younts with Matthew Sernett
+# illustrated by D. Alexander Gregory
+#
+# From Dragon Issue #289, November 2001
+#
+# Dice of Fury!  Start with Table 1 or Table 2!
+#
+# Modified by Valminder, Feb 2006.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+#
+
+:Start
+1,{Status~From Dragon Magazine 289}{Cap~[Generate]}.
+
+:Generate
+1,[Table1]
+2,[Table2]
+
+:Table1
+1,[Adjective] [Fighting]
+2,[Adjective] [Noun]'s [Adjective] [Fighting]
+3,[Adjective] [Noun] [Fighting]
+4,[Adjective] [Noun]'s [Number] [Noun]s [Fighting]
+5,[Adjective] [Noun] [Placement]
+6,[Adjective] [Noun]s
+7,[Adjective] [Noun] of [Verb]ing [Noun] [Fighting]
+8,[Adjective] [Noun] [Verb]s with [Adjective] [Noun]
+9,[Fighting] of [Adjective] [Noun]
+10,[Fighting] of the [Verb]ing [Noun]
+11,[Noun] [Fighting] [Placement] the [Noun]
+12,[Noun] of the [Verb]ing [Noun]
+13,[Noun] [Placement] [Verb]ing [Noun]
+14,[Noun] [Fighting]
+15,[Noun] [Placement] [Adjective] [Noun]
+16,[Noun] [Placement] the [Noun]
+17,[Noun] [Verb]s with [Noun]
+18,The [Noun] [Verb]s when [Number] [Noun]s [Verb]
+19,[Number] [Adjective] [Noun]s' [Fighting]
+20,[Number] [Placement] [Noun]s' [Fighting]
+
+:Table2
+1,[Number] [Noun]s [Fighting]
+2,[Number] [Noun]s' [Fighting]s
+3,[Number] [Verb] [Noun]s [Fighting]
+4,[Number] [Verb]ing [Noun]s [Verb] [Placement] [Adjective] [Noun]
+5,[Placement] [Noun] [Fighting]
+6,[Placement] [Noun]s, [Noun]s [Verb]
+7,[Placement] [Noun]s [Verb] [Number] [Noun]s
+8,[Placement] the [Noun], the [Noun] [Verb]s
+9,[Placement] the [Placement] [Noun]s, [Noun] [Verb]s
+10,[Verb]ing [Adjective] [Noun] [Fighting]
+11,[Verb]ing [Adjective] [Noun]'s [Fighting]
+12,[Verb]ing like [Noun]s
+13,[Verb]ing [Noun], [Adjective] [Noun]
+14,[Verb]ing [Noun] [Fighting]
+15,[Verb]ing [Noun]'s [Adjective] [Fighting]
+16,[Verb]ing [Noun] [Placement] [Adjective] [Noun]
+17,[Verb]ing [Noun] [Verb]s [Placement] [Noun]
+18,[Verb]ing [Noun] with a [Adjective] [Noun]
+19,[Verb]ing [Placement] [Noun]
+20,[Verb]s like [Adjective] [Noun]
+
+:Fighting
+1,[TableA]
+2,[TableD]
+
+:Adjective
+1,[TableE]
+2,[TableG]
+3,[TableH]
+4,[TableI]
+5,[TableJ]
+6,[TableM]
+
+:Noun
+1,[TableB]
+2,[TableC]
+3,[TableF]
+4,[TableG]
+5,[TableJ]
+6,[TableK]
+7,[TableL]
+8,[TableN]
+
+:Placement
+1,above
+2,among
+3,around
+4,before
+5,behind
+6,below
+7,beside
+8,between
+9,beyond
+10,east of/eastern
+11,far
+12,near
+13,north of/northern
+14,on
+15,outside
+16,over
+17,south of/southern
+18,under
+19,west of/western
+20,within
+
+:Number
+1,[Number_1]
+2,[Number_2]
+3,[Number_3]
+4,[Number_4]
+
+:Number_1
+1,two
+2,three
+3,four
+4,five
+5,six
+6,seven
+7,eight
+8,nine
+9,ten
+10,eleven
+11,twelve
+12,thirteen
+
+:Number_2
+1,fourteen
+2,fifteen
+3,sixteen
+4,seventeen
+5,eighteen
+6,nineteen
+7,twenty
+8,twenty-one
+9,twenty-two
+10,twenty-three
+11,twenty-four
+12,twenty-five
+
+:Number_3
+1,twenty-seven
+2,thirty
+3,thirty-seven
+4,thirty-eight
+5,forty
+6,forty-four
+7,forty-nine
+8,fifty
+9,fifty-one
+10,fifty-seven
+11,sixty
+12,sixty-four
+
+:Number_4
+1,sixty-six
+2,seventy-four
+3,eighty-seven
+4,ninety-nine
+5,one hundred
+6,two hundred
+7,one thousand
+8,two thousand
+9,ten thousand
+10,one million
+11,two million
+12,ten million
+
+:Verb
+1,battle
+2,beg
+3,bend
+4,bite
+5,bless
+6,bloom
+7,block
+8,bow
+9,burst
+10,break
+11,breathe
+12,catch
+13,climb
+14,chase
+15,circle
+16,coil
+17,count
+18,crash
+19,crouch
+20,crunch
+21,cry
+22,cross
+23,curse
+24,cut
+25,dance
+26,devour
+27,dive
+28,dodge
+29,drain
+30,drop
+31,drink
+32,duck
+33,fall
+34,fight
+35,fly
+36,freeze
+37,gp
+38,goad
+39,grasp
+40,hack
+41,hang
+42,hide
+43,hold
+44,howl
+45,intercept
+46,jump
+47,kick
+48,lash
+49,leap
+50,kill
+51,mediate
+52,murder
+53,mine
+54,paint
+55,pinch
+56,pounce
+57,press
+58,protect
+59,punch
+60,race
+61,reign
+62,roll
+63,remove
+64,run
+65,scatter
+66,scream
+67,sculpt
+68,seize
+69,sell
+70,shield
+71,shout
+72,slay
+73,sleep
+74,slice
+75,smash
+76,soar
+77,splash
+78,surmount
+79,surpass
+80,stab
+81,stalk
+82,stall
+83,stand
+84,steal
+85,stop
+86,strike
+87,stumble
+88,swim
+89,swoop
+90,taunt
+91,tear
+92,throw
+93,torment
+94,trick
+95,turn
+96,twist
+97,win
+98,wrap
+99,write
+100,writhe
+
+
+# Defenses
+:TableA
+1,armor
+2,block
+3,crouch
+4,defense
+5,denial
+6,dodge
+7,form
+8,flip
+9,guard
+10,leap
+11,power
+12,posture
+13,protection
+14,roll
+15,shield
+16,stance
+17,style
+18,technique
+19,transformation
+20,vest
+
+# Weapons
+:TableB
+1,arrow
+2,axe
+3,club
+4,dagger
+5,dart
+6,flail
+7,gauntlet
+8,hammer
+9,knife
+10,lance
+11,lasso
+12,mace
+13,net
+14,nunchaku
+15,shuriken
+16,spear
+17,staff
+18,sword
+19,trident
+20,whip
+
+# Monsters
+:TableC
+1,angel
+2,demon
+3,devil
+4,dragon
+5,foo dog
+6,foo lion
+7,ghost
+8,giant
+9,goblin
+10,hag
+11,hydra
+12,kappa
+13,kraken
+14,naga
+15,phoenix
+16,spirit
+17,tengu
+18,unicorn
+19,vampire
+20,yeti
+
+# Attacks
+:TableD
+1,assault
+2,attack
+3,boxing
+4,chop
+5,explosion
+6,hit
+7,jab
+8,kick
+9,knee
+10,lunge
+11,pugilism
+12,punch
+13,rake
+14,slam
+15,strike
+16,swat
+17,sweep
+18,throw
+19,thrust
+20,trip
+
+# Miscellaneous Materials
+:TableE
+1,bamboo
+2,blood
+3,bone
+4,clay
+5,cloth
+6,dust
+7,flesh
+8,glass
+9,grass
+10,gravel
+11,ivory
+12,leather
+13,marble
+14,mud
+15,muscle
+16,paper
+17,silk
+18,stone
+19,wicker
+20,wood
+
+# Body Parts
+:TableF
+1,arm
+2,elbow
+3,finger
+4,fist
+5,foot
+6,hand
+7,head
+8,heart
+9,knee
+10,leg
+11,palm
+12,toe
+
+# Seasons
+:TableG
+1,autumn
+2,spring
+3,summer
+4,winter
+
+# Gems and Metals
+:TableH
+1,amber
+2,bronze
+3,copper
+4,diamond
+5,emerald
+6,gold
+7,iron
+8,jade
+9,ruby
+10,sapphire
+11,silver
+12,steel
+
+# Colors
+:TableI
+1,black
+2,blue
+3,brown
+4,gray
+5,green
+6,orange
+7,purple
+8,red
+9,white
+10,yellow
+
+# Elements
+:TableJ
+1,air
+2,earth
+3,fire
+4,metal
+5,water
+6,wood
+
+# Animals
+:TableK
+1,[TableK_1]
+2,[TableK_2]
+3,[TableK_3]
+4,[TableK_4]
+
+:TableK_1
+1,ant
+2,ape
+3,baboon
+4,badger
+5,bat
+6,bear
+7,beetle
+8,bee
+9,boar
+10,bull
+11,butterfly
+12,camel
+13,chameleon
+14,carp
+15,cat
+16,centipede
+17,chicken
+18,cockroach
+19,cobra
+20,crab
+
+:TableK_2
+1,crane
+2,dog
+3,dolphin
+4,donkey
+5,dove
+6,dragonfly
+7,duck
+8,eagle
+9,elephant
+10,fly
+11,frog
+12,gibbon
+13,goose
+14,gorilla
+15,hare
+16,hawk
+17,horse
+18,iguana
+19,leopard
+20,lion
+
+:TableK_3
+1,lizard
+2,lobster
+3,mantis
+4,monkey
+5,mouse
+6,mule
+7,octopus
+8,otter
+9,owl
+10,pig
+11,fox
+12,goat
+13,orangutan
+14,ox
+15,panda
+16,panther
+17,peacock
+18,raccoon
+19,ram
+20,rat
+
+:TableK_4
+1,rhinoceros
+2,rooster
+3,seal
+4,scorpion
+5,shark
+6,sparrow
+7,spider
+8,snake
+9,squid
+10,starfish
+11,swallow
+12,tiger
+13,toad
+14,turtle
+15,viper
+16,wasp
+17,whale
+18,weasel
+19,wolf
+20,yak
+
+
+# People
+:TableL
+1,[TableL_1]
+2,[TableL_2]
+3,[TableL_3]
+4,[TableL_4]
+
+:TableL_1
+1,ancestor
+2,assassin
+3,ally
+4,child
+5,beggar
+6,brother
+7,emperor
+8,empress
+9,enemy
+10,eunuch
+
+:TableL_2
+1,father
+2,friend
+3,general
+4,guardian
+5,hero
+6,hunter
+7,immortal
+8,man
+9,mandarin
+10,master
+
+:TableL_3
+1,monk
+2,mother
+3,ninja
+4,overlord
+5,priest
+6,peasant
+7,philosopher
+8,saint
+9,samurai
+10,scholar
+
+:TableL_4
+1,scoundrel
+2,shaman
+3,sister
+4,sohai
+5,soldier
+6,sorcerer
+7,student
+8,warrior
+9,woman
+10,wu jen
+
+
+# Miscellaneous Adjectives
+:TableM
+1,ancient
+2,angry
+3,anxious
+4,beautiful
+5,blind
+6,bloody
+7,brave
+8,celestial
+9,closed
+10,crippled
+11,crazy
+12,cruel
+13,cunning
+14,deadly
+15,defiant
+16,delicate
+17,doomed
+18,drunken
+19,echoing
+20,enlightened
+21,enviable
+22,fearful
+23,fierce
+24,foolish
+25,forceful
+26,forgotten
+27,fortunate
+28,furious
+29,gentle
+30,ghostly
+31,giant
+32,graceful
+33,handsome
+34,heavenly
+35,hidden
+36,holy
+37,honorable
+38,humble
+39,hungry
+40,immortal
+41,imperial
+42,impossible
+43,infernal
+44,insolent
+45,inspired
+46,insurmountable
+47,invulnerable
+48,jealous
+49,joyous
+50,just
+51,judgmental
+52,killer
+53,lame
+54,lazy
+55,lost
+56,lucky
+57,mad
+58,magic
+59,majestic
+60,merciful
+61,mighty
+62,mischievous
+63,old
+64,open
+65,otherworldly
+66,pitiful
+67,playful
+68,pliant
+69,powerful
+70,proud
+71,ready
+72,resilient
+73,respectable
+74,righteous
+75,ruthless
+76,shadowless
+77,sleepy
+78,sneaky
+79,solar
+80,sorcerous
+81,subtle
+82,sudden
+83,sundered
+84,swift
+85,terrible
+86,treasured
+87,tortured
+88,twin
+89,tiny
+90,ugly
+91,unstoppable
+92,unusual
+93,vicious
+94,villainous
+95,weary
+96,wild
+97,wise
+98,wondrous
+99,wounded
+100,young
+
+# Miscellaneous Nouns
+:TableN
+1,ash
+2,bag
+3,bell
+4,blossom
+5,book
+6,bowl
+7,bridge
+8,branch
+9,cane
+10,castle
+11,cavern
+12,chain
+13,city
+14,claw
+15,cloud
+16,comet
+17,curse
+18,desert
+19,door
+20,drum
+21,fan
+22,farm
+23,field
+24,flag
+25,flower
+26,forest
+27,fortress
+28,fruit
+29,fury
+30,gate
+31,gourd
+32,god
+33,grain
+34,heaven
+35,hell
+36,hill
+37,hurricane
+38,ice
+39,ink
+40,jungle
+41,lake
+42,leaf
+43,legend
+44,lightning
+45,log
+46,lotus
+47,meteor
+48,moon
+49,mountain
+50,mushroom
+51,needle
+52,ocean
+53,palace
+54,path
+55,pearl
+56,pebble
+57,pen
+58,pillar
+59,plain
+60,pond
+61,puddle
+62,rain
+63,rice
+64,river
+65,road
+66,rock
+67,roof
+68,sand
+69,scroll
+70,sea
+71,shrine
+72,sky
+73,snow
+74,soul
+75,spark
+76,star
+77,stick
+78,storm
+79,story
+80,stream
+81,sun
+82,swamp
+83,temple
+84,thread
+85,thunder
+86,tomb
+87,tornado
+88,tower
+89,trail
+90,tree
+91,twig
+92,village
+93,vow
+94,war
+95,wall
+96,waterfall
+97,wave
+98,willow
+99,wind
+100,window

@@ -1,0 +1,97 @@
+﻿# ------------------------------------------------------
+# Last Update: modified by Valminder Apr 01, 2014.
+# ------------------------------------------------------
+#
+# Ale.tab
+# A better brewing system for Tablesmith.  Based off 
+# of my Ale Table @ randomdm.wordpress.com
+# By Ashon (Aka TheRandomDM, aka tfcoug@hotmail.com)
+#
+# Modified by Valminder, April 2014.
+#    Modified "Countries.Countries" to "Countries.Land"
+# Modified by Valminder, August 2014.
+#    Added link to: Equipment.Ale
+#
+
+:Start
+1,{Status~By Ashon AKA TheRandomDM 2011}[Style Builder]
+
+;Style Builder
+2,[Type] [Style]
+2,[Grain] [Type] [Style]
+2,[Location] [Type] [Style]
+2,[Fruit] [Type] [Style]
+2,[Modifier] [Style Builder={Dice~1d4}]
+2,[Type] [Style Builder={Dice~1d4}]
+2,[Seasonal] [Style Builder={Dice~1d4}]
+2,[Named] [Style Builder={Dice~1d4}]
+2,{Cap~[Racial]} [Style Builder={Dice~1d4}]
+2,[Simple] [Style]
+1,[Equipment.Ale]
+
+:Simple
+1,[Grain]
+2,[Seasonal]
+3,{Cap~[Racial]}
+4,[Location]
+5,[Modifier]
+6,[Fruit]
+
+:Type
+1,Dark
+2,Brown
+3,Amber
+4,Red
+5,Bitter
+6,Pale
+7,Blonde
+8,Cream
+
+;Style
+1,Stout
+1,Lager
+1,Ale
+1,Beer
+
+:Grain
+1,Barley
+2,Oatmeal
+3,Wheat
+4,Corn
+5,Rice
+6,Rye
+
+:Seasonal
+1,Winter
+2,Fall
+3,Summer
+4,Spring
+
+:Racial
+1,[Creatures.Animal]
+2,[Creatures.Humanoid2]
+3,[Creatures.Fantastic]
+
+:Location
+1,Hill
+2,Mountain
+3,Underdark
+4,[~Countries.Land]
+
+:Modifier
+1,Imperial
+2,Golden
+3,Stone
+4,Chocolate
+5,Smoked
+6,Black
+
+:Fruit
+1,Blackberry
+2,Huckleberry
+3,Raspberry
+4,Cherry
+5,Strawberry
+
+:Named
+1,[Names Generator.NAME Random]

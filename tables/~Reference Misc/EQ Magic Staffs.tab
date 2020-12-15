@@ -1,0 +1,289 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder August 28, 2006.
+# ---------------------------------------------------
+#
+# Magic Staffs
+#
+# Sean Hlousek
+#
+# -------------------------------------------------------------------------
+#
+# To call this table from another one:
+#    [EQ Magic Staffs.Generate(%Rolls%)
+#
+#    Parameters: (%Rolls%)
+#
+#    Rolls:    (1) Enter the number of items needed.
+#
+# -------------------------------------------------------------------------
+#
+# Modified by Valminder, August  2006.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+#    I heavily modified this table. I could modify it more by
+#       removing all the variables for the cost, but it would
+#       be too long. For now, it works fine.
+#    The final price need to be adjusted for some items, but it
+#       seems relatively OK.
+#    I diminished the price variation in [Store].
+#    Cost of Items: Put the cost in GP, the output will modify it
+#       for gp, sp, or cp.
+#       1 sp = 0.1 gp
+#       1 cp = 0.01 gp
+# 
+
+# The prices of the scrolls might not be right.
+# I only looked for duplicate names of scrolls and adjusted the price for those.
+
+%Charges%,0
+
+%StaffofCharming%,16500
+%StaffofFire%,17750
+%StaffofSwarmingInsects%,24750
+%StaffofHealing%,27750
+%StaffofSizeAlteration%,29000
+%StaffofIllumination%,48250
+%StaffofFrost%,56250
+%StaffofDefense%,58250
+%StaffofAbjuration%,65000
+%StaffofConjuration%,65000
+%StaffofEnchantment%,65000
+%StaffofEvocation%,65000
+%StaffofIllusion%,65000
+%StaffofNecromancy%,65000
+%StaffofTransmutation%,65000
+%StaffofDivination%,73500
+%StaffofEarthandStone%,80500
+%StaffofWoodlands%,101250
+%StaffofLife%,155750
+%StaffofPassage%,170500
+%StaffofPower%,211000
+%StaffofCorruption%,192000
+%StaffofDarkness%,24000
+%StaffofPestilence%,70000
+%StaffofNight%,30000
+%StaffofEyes%,34700
+%StaffofEntrapment%,36750
+%StaffofSkulls%,39200
+%StaffofOpenDoors%,42200
+%StaffofVision%,42800
+%StaffofScrivening%,53600
+%StaffofEtherealAction%,57300
+%StaffofTransportation%,67500
+%StaffofMiracles%,77000
+%StaffofFiendishDarkness%,98200
+%Diviner'sStaff%,137375
+%StaffofPeace%,175250
+%StaffofCraftsmanship%,43000
+%StaffofSubterfuge%,56600
+%StaffofOrder%,60000
+%StaffofNoghtEverlasting%,94400
+%StaffofMadriel%,117000
+%StaffofTheForsaken%,117900
+%CalastianBattleStaff%,1689
+%StaffofMeteoricFire%,228600
+
+### Was %Base%
+%PercentGPMod%,1
+### This is the Store modifier on all its prices 70% to 200% (normal 95% - 105%)
+%STVR%,0
+### How many items to roll
+%Rolls%,0
+#### Was %Base1%
+%MagicalGPMod%,0
+
+# New variables Aug 2006.
+%Item%,0
+# Put Book=2 in the item's description if you do not want books to appear.
+%Book%,0
+%Cost%,0
+%Condition%,0
+%GenItem%,0
+# 1= Mundane Item, 2= Magical Item
+%Magic%,1
+%MWGPMod%,0
+%ArmorSizeMod%,1
+# To be used with "EQ_Main.tab"
+%GetData%,0
+%DataName%,0
+%DataPercentMod%,0
+%SpecialEffect%,0
+%BodySize%,0
+%MoneyType%,gp
+%Temp%,0
+
+@Rolls,10,How many Items are in this Shop?
+#@GenItem,1,What do you want to generate
+
+:Start
+1,{Status~By Sean Hlousek, Valminder 2006}[Generate]
+
+:Generate
+1,|STVR=1|[Store]
+#_[Multiplier]
+_{Loop~%Rolls%,|BodySize=0||PercentGPMod=0||MagicalGPMod=0||Magic=2||MWGPMod=0||ArmorSizeMod=1||SpecialEffect=0|
+_|Condition=n/a|
+_[MagicalStaffs][Print=%Magic%]}
+
+:Print
+1,<b>Item:</b> <i><font color="Purple">%Item%</font></i>[Print2]
+2,<b>Item:</b> <i><font color="Blue">(Magic) %Item%</font></i>[Print2]
+
+:Print2
+1,{If~%SpecialEffect%!=0? [PrintExtraMW]}
+_{IIf~%Book%!=2?  <font size=1>(%Book%)</font>}
+#If you do not want BodySize for everything put |BodySize=0| above and |BodySize=1| in item's description.
+_{If~%BodySize%=1? ([BodySize] size)}
+_|Cost+%MagicalGPMod%||Cost+%MWGPMod%|{If~%Magic%=1?|Cost*%ArmorSizeMod%|}
+_[Calculate Cost]
+_ (%Condition%, [AddComma.Start(%Cost%)] %MoneyType%)<br>
+
+:PrintExtraMW
+1,<u>Extra MW Effect</u>: %SpecialEffect%.
+
+# This will give a modifier to the cost of the items.
+;Store
+2,|STVR-{Calc~({Dice~1d10+20}/100)}|
+4,|STVR-{Calc~({Dice~1d10+10}/100)}|
+8,|STVR-{Calc~({Dice~1d10+5}/100)}|
+15,|STVR-{Calc~({Dice~1d5}/100)}|
+70,|STVR=1|
+30,|STVR+{Calc~({Dice~1d5}/100)}|
+15,|STVR+{Calc~({Dice~1d10+5}/100)}|
+8,|STVR+{Calc~({Dice~1d10+10}/100)}|
+4,|STVR+{Calc~({Dice~1d15+20}/100)}|
+2,|STVR+{Calc~({Dice~1d25+35}/100)}|
+1,|STVR+{Calc~({Dice~1d50+50}/100)}|
+
+:Multiplier
+1,Price Multiplier: %STVR%<br>
+
+:Calculate Cost
+1,|Cost={Calc~((%STVR%+%PercentGPMod%)*%Cost%)}|
+_{If~%Cost%>=5?|Cost={Trunc~%Cost%}||MoneyType=gp|}
+_{If~{And~%Cost%>=1,%Cost%<5}=1?{If~%Cost%={Trunc~%Cost%}?|MoneyType=gp|/|Cost={Round~1,%Cost%}||Cost*10||MoneyType=sp|}}
+_{If~%Cost%<0.1?|Cost*100||Cost={Trunc~%Cost%}|{If~%Cost%=0?|Cost=1|}|MoneyType=cp|/{If~%Cost%<1?|Cost*10||Cost={Trunc~%Cost%}|{If~%Cost%=0?|Cost=1|}|MoneyType=sp|}}
+
+
+# -----------------------------------------------------------------
+;MagicalStaffs
+15,|Item=Staff of Charming</font></i>  This staff is made of [Woods]. The wood has been [ArcaneStaffTrimmings1]. [STFX][AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%StaffofCharming%)}|
+15,|Item=Staff of Fire</font></i>  This staff is made of [Woods]. The wood has been [ArcaneStaffTrimmings1]. [STFX][AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%StaffofFire%)}|
+15,|Item=Staff of Swarming Insects</font></i>  This staff is made of [Woods]. The wood has been [ArcaneStaffTrimmings1]. [STFX][AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%StaffofSwarmingInsects%)}|
+10,|Item=Staff of Healing</font></i>  This staff is made of [Woods]. The wood has been [ArcaneStaffTrimmings1]. [STFX][AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%StaffofHealing%)}|
+10,|Item=Staff of Size Alteration</font></i>  This staff is made of [Woods]. The wood has been [ArcaneStaffTrimmings1]. [STFX][AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%StaffofSizeAlteration%)}|
+10,|Item=Staff of Illumination</font></i>  This staff is made of [Woods]. The wood has been [ArcaneStaffTrimmings1]. [STFX][AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%StaffofIllumination%)}|
+5,|Item=Staff of Frost</font></i>  This staff is made of [Woods]. The wood has been [ArcaneStaffTrimmings1]. [STFX][AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%StaffofFrost%)}|
+5,|Item=Staff of Defense</font></i>  This staff is made of [Woods]. The wood has been [ArcaneStaffTrimmings1]. [STFX][AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%StaffofDefense%)}|
+5,|Item=Staff of Abjuration</font></i>  This staff is made of [Woods]. The wood has been [ArcaneStaffTrimmings1]. [STFX][AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%StaffofAbjuration%)}|
+5,|Item=Staff of Conjuration</font></i>  This staff is made of [Woods]. The wood has been [ArcaneStaffTrimmings1]. [STFX][AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%StaffofConjuration%)}|
+5,|Item=Staff of Enchantment</font></i>  This staff is made of [Woods]. The wood has been [ArcaneStaffTrimmings1]. [STFX][AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%StaffofEnchantment%)}|
+5,|Item=Staff of Evocation</font></i>  This staff is made of [Woods]. The wood has been [ArcaneStaffTrimmings1]. [STFX][AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%StaffofEvocation%)}|
+5,|Item=Staff of Illusion</font></i>  This staff is made of [Woods]. The wood has been [ArcaneStaffTrimmings1]. [STFX][AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%StaffofIllusion%)}|
+5,|Item=Staff of Necromancy</font></i>  This staff is made of [Woods]. The wood has been [ArcaneStaffTrimmings1]. [STFX][AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%StaffofNecromancy%)}|
+5,|Item=Staff of Transmutation</font></i>  This staff is made of [Woods]. The wood has been [ArcaneStaffTrimmings1]. [STFX][AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%StaffofTransmutation%)}|
+5,|Item=Staff of Divination</font></i>  This staff is made of [Woods]. The wood has been [ArcaneStaffTrimmings1]. [STFX][AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%StaffofDivination%)}|
+2,|Item=Staff of Earth and Stone</font></i>  This staff is made of [Woods]. The wood has been [ArcaneStaffTrimmings1]. [STFX][AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%StaffofEarthandStone%)}|
+1,|Item=Staff of Woodlands</font></i>  This staff is made of [Woods]. The wood has been [ArcaneStaffTrimmings1]. [STFX][AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%StaffofWoodlands%)}|
+1,|Item=Staff of Life</font></i>  This staff is made of [Woods]. The wood has been [ArcaneStaffTrimmings1]. [STFX][AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%StaffofLife%)}|
+1,|Item=Staff of Passage</font></i>  This staff is made of [Woods]. The wood has been [ArcaneStaffTrimmings1]. [STFX][AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%StaffofPassage%)}|
+1,|Item=Staff of Power</font></i>  This staff is made of [Woods]. The wood has been [ArcaneStaffTrimmings1]. [STFX][AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%StaffofPower%)}|
+1,|Item=Staff of Corruption</font></i>  This staff is made of [Woods]. The wood has been [ArcaneStaffTrimmings1]. [STFX][AnyExtrasMA] [Charges]||Book=BVD||Cost={Calc~((%Charges%/50)*%StaffofCorruption%)}|
+7,|Item=Staff of Darkness</font></i>  This staff is made of [Woods]. The wood has been [ArcaneStaffTrimmings1]. [STFX][AnyExtrasMA] [Charges]||Book=BVD||Cost={Calc~((%Charges%/50)*%StaffofDarkness%)}|
+2,|Item=Staff of Pestilence</font></i>  This staff is made of [Woods]. The wood has been [ArcaneStaffTrimmings1]. [STFX][AnyExtrasMA] [Charges]||Book=BVD||Cost={Calc~((%Charges%/50)*%StaffofPestilence%)}|
+10,|Item=Staff of Night</font></i>  This staff is made of [Woods]. The wood has been [ArcaneStaffTrimmings1]. [STFX][AnyExtrasMA] [Charges]||Book=MOF||Cost={Calc~((%Charges%/50)*%StaffofNight%)}|
+10,|Item=Staff of Eyes</font></i>  This staff is made of [Woods]. The wood has been [ArcaneStaffTrimmings1]. [STFX][AnyExtrasMA] [Charges]||Book=MOF||Cost={Calc~((%Charges%/50)*%StaffofEyes%)}|
+10,|Item=Staff of Entrapment</font></i>  This staff is made of [Woods]. The wood has been [ArcaneStaffTrimmings1]. [STFX][AnyExtrasMA] [Charges]||Book=MOF||Cost={Calc~((%Charges%/50)*%StaffofEntrapment%)}|
+10,|Item=Staff of Skulls</font></i>  This staff is made of [Woods]. The wood has been [ArcaneStaffTrimmings1]. [STFX][AnyExtrasMA] [Charges]||Book=MOF||Cost={Calc~((%Charges%/50)*%StaffofSkulls%)}|
+10,|Item=Staff of Open Doors</font></i>  This staff is made of [Woods]. The wood has been [ArcaneStaffTrimmings1]. [STFX][AnyExtrasMA] [Charges]||Book=MOF||Cost={Calc~((%Charges%/50)*%StaffofOpenDoors%)}|
+10,|Item=Staff of Vision</font></i>  This staff is made of [Woods]. The wood has been [ArcaneStaffTrimmings1]. [STFX][AnyExtrasMA] [Charges]||Book=MOF||Cost={Calc~((%Charges%/50)*%StaffofVision%)}|
+5,|Item=Staff of Scrivening</font></i>  This staff is made of [Woods]. The wood has been [ArcaneStaffTrimmings1]. [STFX][AnyExtrasMA] [Charges]||Book=MOF||Cost={Calc~((%Charges%/50)*%StaffofScrivening%)}|
+5,|Item=Staff of Ethereal Action</font></i>  This staff is made of [Woods]. The wood has been [ArcaneStaffTrimmings1]. [STFX][AnyExtrasMA] [Charges]||Book=MOF||Cost={Calc~((%Charges%/50)*%StaffofEtherealAction%)}|
+5,|Item=Staff of Transportation</font></i>  This staff is made of [Woods]. The wood has been [ArcaneStaffTrimmings1]. [STFX][AnyExtrasMA] [Charges]||Book=MOF||Cost={Calc~((%Charges%/50)*%StaffofTransportation%)}|
+5,|Item=Staff of Miracles</font></i>  This staff is made of [Woods]. The wood has been [ArcaneStaffTrimmings1]. [STFX][AnyExtrasMA] [Charges]||Book=MOF||Cost={Calc~((%Charges%/50)*%StaffofMiracles%)}|
+2,|Item=Staff of Fiendish Darkness</font></i>  This staff is made of [Woods]. The wood has been [ArcaneStaffTrimmings1]. [STFX][AnyExtrasMA] [Charges]||Book=MOF||Cost={Calc~((%Charges%/50)*%StaffofFiendishDarkness%)}|
+1,|Item=Diviner's Staff</font></i>  This staff is made of [Woods]. The wood has been [ArcaneStaffTrimmings1]. [STFX][AnyExtrasMA] [Charges]||Book=MOF||Cost={Calc~((%Charges%/50)*%Diviner'sStaff%)}|
+1,|Item=Staff of Peace</font></i>  This staff is made of [Woods]. The wood has been [ArcaneStaffTrimmings1]. [STFX][AnyExtrasMA] [Charges]||Book=MOF||Cost={Calc~((%Charges%/50)*%StaffofPeace%)}|
+10,|Item=Staff of Craftsmanship</font></i>  This staff is made of [Woods]. The wood has been [ArcaneStaffTrimmings1]. [STFX][AnyExtrasMA] [Charges]||Book=RR2||Cost={Calc~((%Charges%/50)*%StaffofCraftsmanship%)}|
+5,|Item=Staff of Subterfuge</font></i>  This staff is made of [Woods]. The wood has been [ArcaneStaffTrimmings1]. [STFX][AnyExtrasMA] [Charges]||Book=RR2||Cost={Calc~((%Charges%/50)*%StaffofSubterfuge%)}|
+5,|Item=Staff of Order</font></i>  This staff is made of [Woods]. The wood has been [ArcaneStaffTrimmings1]. [STFX][AnyExtrasMA] [Charges]||Book=RR2||Cost={Calc~((%Charges%/50)*%StaffofOrder%)}|
+2,|Item=Staff of Night Everlasting</font></i>  This staff is made of [Woods]. The wood has been [ArcaneStaffTrimmings1]. [STFX][AnyExtrasMA] [Charges]||Book=RR2||Cost={Calc~((%Charges%/50)*%StaffofNoghtEverlasting%)}|
+1,|Item=Staff of Madriel</font></i>  This staff is made of [Woods]. The wood has been [ArcaneStaffTrimmings1]. [STFX][AnyExtrasMA] [Charges]||Book=RR2||Cost={Calc~((%Charges%/50)*%StaffofMadriel%)}|
+1,|Item=Staff of The Forsaken</font></i>  This staff is made of [Woods]. The wood has been [ArcaneStaffTrimmings1]. [STFX][AnyExtrasMA] [Charges]||Book=RR2||Cost={Calc~((%Charges%/50)*%StaffofTheForsaken%)}|
+1,|Item=Calastian Battle Staff</font></i>  This staff is made of [Woods]. The wood has been [ArcaneStaffTrimmings1]. [STFX][AnyExtrasMA] [Charges]||Book=RR2||Cost={Calc~((%Charges%/50)*%CalastianBattleStaff%)}|
+1,|Item=Staff of Meteoric Fire</font></i>  This staff is made of [Woods]. The wood has been [ArcaneStaffTrimmings1]. [STFX][AnyExtrasMA] [Charges]||Book=RR2||Cost={Calc~((%Charges%/50)*%StaffofMeteoricFire%)}|
+
+;Charges
+1,<u>Charges</u>:<i><font color="Crimson">|Charges=[ChargesGen]| %Charges%</font></i>
+
+;ChargesGen
+1,{Dice~1d10}
+2,{Dice~4d10}
+4,{Dice~1d20+30}
+2,{Dice~1d10+40}
+1,50
+
+;ArcaneStaffTrimmings1
+1,|GetData=[EQ_Main.ArcaneStaffTrimmings1]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+0|
+_%DataName%
+
+;AnyExtrasMA
+1,|GetData=[EQ_Main.AnyExtrasMA]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+0|
+_%DataName%
+
+;ChitOrSteel
+1,|GetData=[EQ_Main.ChitOrSteel]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+0|
+_%DataName%
+
+;MAHilt
+1,|GetData=[EQ_Main.MAHilt]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+0|
+_%DataName%
+
+;Woods
+1,|GetData=[EQ_Main.Woods]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+0|
+_%DataName%
+
+
+
+;STFX
+5,
+3,{Cap~[StaffExtras]}.
+2,{Cap~[StaffExtras]} and [StaffExtras].
+
+;StaffExtras
+1,the staff is topped by {AorAn~[GemQuality]} [Gems2.Name of Gem][GemExtras]
+1,the staff [StaffMetalTrimmings] [ChitOrSteel]
+1,the staff has a grip [MAHilt]
+
+;GemQuality
+10,uncut or natural
+12,rough or nearly all natural with just a few nice exposures
+16,rough-cut or mostly natural with some nice exposures
+23,cut
+24,well cut
+7,very well cut
+5,near flawless
+3,flawless
+
+;GemExtras
+10,
+5,. The gem glows
+3,. The gem glows and gives off insubstantial grains of light
+2,. The gem pulses
+1,. The gem hums
+
+;StaffMetalTrimmings
+1,has caps
+1,has fine wire wrapping
+1,has thick bands
+

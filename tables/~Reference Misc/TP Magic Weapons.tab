@@ -1,0 +1,398 @@
+# ------------------------------------------------------
+# Last Update: verified by Valminder Jan 02, 2014.
+# ------------------------------------------------------
+#
+# This table generates an item, determines if it 
+# falls within the desired range, and if not, re-rolls. 
+# It'll try this based on the passed-in number of tries.
+# If a result doesn't come up in that time, it returns nothing.
+#
+
+#/OverrideRolls 1
+
+%ctr%,0
+%minVal%,0
+%maxVal%,0
+%power%,0
+%maxTries%,0
+%value%,0
+%group%,0
+%bonusBase%,0
+%bonusTotal%,0
+%bonusSecond%,0
+%name%,0
+%weight%,0
+%desc%,0
+%wpnType%,0
+%isAmmo%,0
+%isMelee%,0
+%isThrown%,0
+%isRanged%,0
+%isDouble%,0
+%weapon%,0
+%abilityRolls%,0
+%special%,0
+%tries%,0
+%inRange%,0
+%weaponRec%,0
+%format%,0
+%temp%,0
+%auras%,0
+
+%abilityDS%,0
+%abilityRec%,0
+
+@minVal,0,Enter minimum value (in gp):
+@maxVal,99999999,Enter maximum value (in gp):
+@power,4,Degree of Power:,Minor,Medium,Major,Random
+@format,1,Select format:,Human-readable,Delimited for other table
+@maxTries,10,Number of attempts:
+
+# -----------------------------------------------------------------
+#
+# - Initialize the table
+# - Determine the weapon's degree of power
+# - Roll for the weapon
+# - Roll for special abilities (if any)
+#
+# -----------------------------------------------------------------
+:Start
+1,|temp=[CheckParams]|{If~%temp%=OK?[Continue]/%temp%}
+_{Status~}
+
+:Continue
+1,|tries=0|{While~%tries%<%maxTries%,[GenWeapon][CheckValueInRange]{If~%inRange%=yes?|tries=maxTries|/|tries+1|}}
+_{If~%inRange%=no?[Error=2]/[DisplayWeapon=%format%]}
+
+:DisplayWeapon
+1,{Bold~{Cap~%name%} {If~%special%=0?+%bonusBase%}{If~%abilityRolls%>0? [ProcessAbilities=1]}{If~%bonusSecond%>0? (second head: +%bonusSecond%)}}
+_{CR~}Description: [AugmentDesc]{Cap~%desc%}{CR~}Value: %value% gp{CR~}Weight: %weight% lbs.
+_{CR~}Aura(s): [DefAura]{Italic~%auras%}
+2,%name% {If~%special%=0?+%bonusBase%}{If~%abilityRolls%>0? [ProcessAbilities=2]}{If~%bonusSecond%>0?  (second head: +%bonusSecond%)}!%value%!%weight%![DefAura]%auras%![AugmentDesc]%desc%
+
+:ProcessAbilities
+1,|ctr=1|{DSSort~abilityDS,ability,0}{Loop~{DSCount~abilityDS},|auras&{DSGet~abilityDS,%ctr%,aura}, |{Italic~{DSGet~abilityDS,%ctr%,ability}}{If~%ctr%<{DSCount~abilityDS}?, }|ctr+1|}
+2,|ctr=1|{DSSort~abilityDS,ability,0}{Loop~{DSCount~abilityDS},|auras&{DSGet~abilityDS,%ctr%,aura}, |{DSGet~abilityDS,%ctr%,ability}{If~%ctr%<{DSCount~abilityDS}?, }|ctr+1|}
+
+:DefAura
+1,{If~{And~%special%=0,%abilityRolls%=0}=1?|auras=faint evocation|}
+_{If~%abilityRolls%>0?|temp={Length~%auras%}||auras={Left~{Calc~%temp%-2},%auras%}|}
+
+:CheckParams
+1,{If~%minVal%<=%maxVal%?OK/[Error=1]}
+
+:CheckValueInRange
+1,|inRange={If~{And~%minVal%<=%value%,%value%<=%maxVal%}=1?yes/no}|
+
+:GenWeapon
+1,[Initialize]
+_{Status~Attempt WEAPON #{Calc~%tries%+1} of %maxTries%}
+_|group={IIf~%power%=4?{Param~power,{Dice~1d3}}:{Param~power,%power%}}|
+_|weapon=[%group%]|
+_{If~%special%=1?{Split~weapon,"!",name,value,weight,auras,desc}}
+_{If~%abilityRolls%>0?[GenAbilities]}
+_{IIf~%special%=0?|value+[BonusCost={Calc~%bonusBase%+{If~%abilityRolls%>0?{DSCalc~abilityDS,sum,bonus}/0}}]|}
+_{If~%isDouble%=1?[SecondHead]}
+
+:SecondHead
+1,|bonusSecond=%bonusBase%||value+[BonusCost=%bonusSecond%]|
+2,|bonusSecond={Calc~%bonusBase%-1}|{If~%bonusSecond%>0?|value+[BonusCost={Calc~%bonusSecond%-1}]|}
+
+;Initialize
+1,|abilityRolls=0||special=0||bonusBase=0||bonusTotal=0||auras=|
+_{Reset~MeleeAbilitiesMinor}{Reset~MeleeAbilitiesMedium}{Reset~MeleeAbilitiesMajor}
+_{Reset~RangedAbilitiesMinor}{Reset~RangedAbilitiesMedium}{Reset~RangedAbilitiesMajor}
+
+;WeaponCat
+70,|weaponRec=[TP Common Melee Weapons.Start]|{Split~weaponRec,"!",name,value,weight,desc,wpnType,isAmmo,isMelee,isThrown,isRanged,isDouble}
+10,|weaponRec=[TP Uncommon Weapons.Start]|{Split~weaponRec,"!",name,value,weight,desc,wpnType,isAmmo,isMelee,isThrown,isRanged,isDouble}
+20,|weaponRec=[TP Common Ranged Weapons.Start]|{Split~weaponRec,"!",name,value,weight,desc,wpnType,isAmmo,isMelee,isThrown,isRanged,isDouble}
+
+;Minor
+70,[WeaponCat]|bonusBase=1|
+15,[WeaponCat]|bonusBase=2|
+5,{If~%abilityRolls%=0?|special=1|[SpecWeaponMinor]/[Minor]}
+10,|abilityRolls+1|[Minor]
+
+;Medium
+10,[WeaponCat]|bonusBase=1|
+19,[WeaponCat]|bonusBase=2|
+29,[WeaponCat]|bonusBase=3|
+4,[WeaponCat]|bonusBase=4|
+6,{If~%abilityRolls%=0?|special=1|[SpecWeaponMedium]/[Medium]}
+32,|abilityRolls+1|[Medium]
+
+;Major
+20,[WeaponCat]|bonusBase=3|
+18,[WeaponCat]|bonusBase=4|
+11,[WeaponCat]|bonusBase=5|
+14,{If~%abilityRolls%=0?|special=1|[SpecWeaponMajor]/[Major]}
+37,|abilityRolls+1|[Major]
+
+:GenAbilities
+1,[ResetAbilitiesTables]
+_|abilityDS=<data><record><ability>xxx</ability><aura>xxx</aura><bonus>0</bonus></record>|
+_{Loop~%abilityRolls%,[RollAbility]}|abilityDS&</data>|
+_{If~{Calc~%bonusBase%+{DSCalc~abilityDS,sum,bonus}}>10?[GenAbilities]}
+
+;ResetAbilitiesTables
+1,{Reset~MeleeAbilitiesMinor}{Reset~MeleeAbilitiesMedium}{Reset~MeleeAbilitiesMajor}
+_{Reset~RangedAbilitiesMinor}{Reset~RangedAbilitiesMedium}{Reset~RangedAbilitiesMajor}
+
+:RollAbility
+1,
+_{IIf~{And~%isRanged%=1,%isMelee%=0}=1?|abilityRec=<record>[RollOnTable=1]</record>|}
+_{IIf~{And~%isRanged%=0,%isMelee%=1}=1?|abilityRec=<record>[RollOnTable=2]</record>|}
+_{IIf~{And~%isRanged%=1,%isMelee%=1}=1?|abilityRec=<record>[RollOnTable]</record>|}
+_|abilityDS&%abilityRec%|
+
+:RollOnTable
+1,[RangedAbilities%group%]
+2,[MeleeAbilities%group%]
+
+:Error
+1,ERR001: Invalid min and/or max values
+2,ERR005: Couldn't generate item in %tries% tries
+
+:AugmentDesc
+1,{If~%isMelee%=1?[MeleeExtras]/[RangedExtras]}
+
+:MeleeExtras
+1-30,|desc& that sheds light|
+31-45,|desc& with [Clue]|
+46-100,
+
+:RangedExtras
+1-15,|desc& with [Clue]|
+16-100,
+
+;Clue
+1,{AorAn~[ClueType]} that provides some clue as to its function
+
+;ClueType
+1,design
+1,inscription
+
+# ----------------------------------------------------
+
+;!MeleeAbilitiesMinor
+10	,<ability>bane ([Target])</ability><aura>moderate conjuration</aura><bonus>1</bonus>
+7	,<ability>defending</ability><aura>moderate abjuration</aura><bonus>1</bonus>
+10	,<ability>flaming</ability><aura>moderate evocation</aura><bonus>1</bonus>
+10	,<ability>frost</ability><aura>moderate evocation</aura><bonus>1</bonus>
+10	,<ability>shock</ability><aura>moderate evocation</aura><bonus>1</bonus>
+9	,<ability>ghost touch</ability><aura>moderate conjuration</aura><bonus>1</bonus>
+11	,{IIf~{Find~1,b,%wpnType%}=0?<ability>keen</ability><aura>moderate transmutation</aura><bonus>1</bonus>:[MeleeAbilitiesMinor]}
+4	,<ability>ki focus</ability><aura>moderate transmutation</aura><bonus>1</bonus>
+4	,<ability>merciful</ability><aura>faint conjuration</aura><bonus>1</bonus>
+7	,<ability>mighty cleaving</ability><aura>moderate evocation</aura><bonus>1</bonus>
+5	,<ability>spell storing</ability><aura>strong evocation (plus aura of stored spell)</aura><bonus>1</bonus>
+4	,<ability>throwing</ability><aura>faint transmutation</aura><bonus>1</bonus>
+4	,<ability>thundering</ability><aura>faint necromancy</aura><bonus>1</bonus>
+4	,<ability>vicious</ability><aura>moderate necromancy</aura><bonus>1</bonus>
+1	,[MeleeAbilitiesMinor]</record><record>[MeleeAbilitiesMinor]
+
+;!MeleeAbilitiesMedium
+6	,<ability>bane ([Target])</ability><aura>moderate conjuration</aura><bonus>1</bonus>
+6	,<ability>defending</ability><aura>moderate abjuration</aura><bonus>1</bonus>
+7	,<ability>flaming</ability><aura>moderate evocation</aura><bonus>1</bonus>
+7	,<ability>frost</ability><aura>moderate evocation</aura><bonus>1</bonus>
+7	,<ability>shock</ability><aura>moderate evocation</aura><bonus>1</bonus>
+5	,<ability>ghost touch</ability><aura>moderate conjuration</aura><bonus>1</bonus>
+6	,{IIf~{Find~1,b,%wpnType%}=0?<ability>keen</ability><aura>moderate transmutation</aura><bonus>1</bonus>:[MeleeAbilitiesMedium]}
+4	,<ability>ki focus</ability><aura>moderate transmutation</aura><bonus>1</bonus>
+2	,<ability>merciful</ability><aura>faint conjuration</aura><bonus>1</bonus>
+4	,<ability>mighty cleaving</ability><aura>moderate evocation</aura><bonus>1</bonus>
+5	,<ability>spell storing</ability><aura>strong evocation (plus aura of stored spell)</aura><bonus>1</bonus>
+4	,<ability>throwing</ability><aura>faint transmutation</aura><bonus>1</bonus>
+2	,<ability>thundering</ability><aura>faint necromancy</aura><bonus>1</bonus>
+4	,<ability>vicious</ability><aura>moderate necromancy</aura><bonus>1</bonus>
+3	,<ability>anarchic</ability><aura>moderate evocation (chaotic)</aura><bonus>2</bonus>
+3	,<ability>axiomatic</ability><aura>moderate evocation (lawful)</aura><bonus>2</bonus>
+3	,{IIf~{Find~1,b,%wpnType%}!=0?<ability>disruption</ability><aura>strong conjuration</aura><bonus>2</bonus>:[MeleeAbilitiesMedium]}
+3	,<ability>flaming burst</ability><aura>strong evocation</aura><bonus>2</bonus>
+3	,<ability>icy burst</ability><aura>moderate evocation</aura><bonus>2</bonus>
+3	,<ability>holy</ability><aura>moderate evocation (good)</aura><bonus>2</bonus>
+3	,<ability>shocking burst</ability><aura>moderate evocation</aura><bonus>2</bonus>
+3	,<ability>unholy</ability><aura>moderate evocation (evil)</aura><bonus>2</bonus>
+2	,<ability>wounding</ability><aura>moderate evocation</aura><bonus>2</bonus>
+5	,[MeleeAbilitiesMedium]</record><record>[MeleeAbilitiesMedium]
+
+;!MeleeAbilitiesMajor
+3	,<ability>bane ([Target])</ability><aura>moderate conjuration</aura><bonus>1</bonus>
+3	,<ability>flaming</ability><aura>moderate evocation</aura><bonus>1</bonus>
+3	,<ability>frost</ability><aura>moderate evocation</aura><bonus>1</bonus>
+3	,<ability>shock</ability><aura>moderate evocation</aura><bonus>1</bonus>
+3	,<ability>ghost touch</ability><aura>moderate conjuration</aura><bonus>1</bonus>
+4	,<ability>ki focus</ability><aura>moderate transmutation</aura><bonus>1</bonus>
+2	,<ability>mighty cleaving</ability><aura>moderate evocation</aura><bonus>1</bonus>
+3	,<ability>spell storing</ability><aura>strong evocation (plus aura of stored spell)</aura><bonus>1</bonus>
+4	,<ability>throwing</ability><aura>faint transmutation</aura><bonus>1</bonus>
+4	,<ability>thundering</ability><aura>faint necromancy</aura><bonus>1</bonus>
+4	,<ability>vicious</ability><aura>moderate necromancy</aura><bonus>1</bonus>
+5	,<ability>anarchic</ability><aura>moderate evocation (chaotic)</aura><bonus>2</bonus>
+5	,<ability>axiomatic</ability><aura>moderate evocation (lawful)</aura><bonus>2</bonus>
+3	,{IIf~{Find~1,b,%wpnType%}!=0?<ability>disruption</ability><aura>strong conjuration</aura><bonus>2</bonus>:[MeleeAbilitiesMajor]}
+5	,<ability>flaming burst</ability><aura>strong evocation</aura><bonus>2</bonus>
+5	,<ability>icy burst</ability><aura>moderate evocation</aura><bonus>2</bonus>
+5	,<ability>holy</ability><aura>moderate evocation (good)</aura><bonus>2</bonus>
+5	,<ability>shocking burst</ability><aura>moderate evocation</aura><bonus>2</bonus>
+5	,<ability>unholy</ability><aura>moderate evocation (evil)</aura><bonus>2</bonus>
+4	,<ability>wounding</ability><aura>moderate evocation</aura><bonus>2</bonus>
+5	,<ability>speed</ability><aura>moderate transmutation</aura><bonus>3</bonus>
+3	,<ability>brilliant energy</ability><aura>strong transmutation</aura><bonus>4</bonus>
+2	,<ability>dancing</ability><aura>strong transmutation</aura><bonus>4</bonus>
+2	,{IIf~{Find~1,s,%wpnType%}!=0?<ability>vorpal</ability><aura>strong necromancy and transmutation</aura><bonus>5</bonus>:[MeleeAbilitiesMajor]}
+10	,[MeleeAbilitiesMajor]</record><record>[MeleeAbilitiesMajor]
+
+;!RangedAbilitiesMinor
+12	,<ability>bane</ability><aura>moderate conjuration</aura><bonus>1</bonus>
+13	,<ability>distance</ability><aura>moderate divination</aura><bonus>1</bonus>
+15	,<ability>flaming</ability><aura>moderate evocation</aura><bonus>1</bonus>
+15	,<ability>frost</ability><aura>moderate evocation</aura><bonus>1</bonus>
+5	,<ability>merciful</ability><aura>faint conjuration</aura><bonus>1</bonus>
+8	,{IIf~%isThrown%=1?<ability>returning</ability><aura>moderate transmutation</aura><bonus>1</bonus>:[RangedAbilitiesMinor]}
+15	,<ability>shock</ability><aura>moderate evocation</aura><bonus>1</bonus>
+10	,<ability>seeking</ability><aura>strong divination</aura><bonus>1</bonus>
+6	,<ability>thundering</ability><aura>faint necromancy</aura><bonus>1</bonus>
+1	,[RangedAbilitiesMinor]</record><record>[RangedAbilitiesMinor]
+
+;!RangedAbilitiesMedium
+8	,<ability>bane</ability><aura>moderate conjuration</aura><bonus>1</bonus>
+8	,<ability>distance</ability><aura>moderate divination</aura><bonus>1</bonus>
+12	,<ability>flaming</ability><aura>moderate evocation</aura><bonus>1</bonus>
+12	,<ability>frost</ability><aura>moderate evocation</aura><bonus>1</bonus>
+2	,<ability>merciful</ability><aura>faint conjuration</aura><bonus>1</bonus>
+5	,{IIf~%isThrown%=1?<ability>returning</ability><aura>moderate transmutation</aura><bonus>1</bonus>:[RangedAbilitiesMedium]}
+12	,<ability>shock</ability><aura>moderate evocation</aura><bonus>1</bonus>
+5	,<ability>seeking</ability><aura>strong divination</aura><bonus>1</bonus>
+4	,<ability>thundering</ability><aura>faint necromancy</aura><bonus>1</bonus>
+3	,<ability>anarchic</ability><aura>moderate evocation (chaotic)</aura><bonus>2</bonus>
+3	,<ability>axiomatic</ability><aura>moderate evocation (lawful)</aura><bonus>2</bonus>
+5	,<ability>flaming burst</ability><aura>strong evocation</aura><bonus>2</bonus>
+3	,<ability>holy</ability><aura>moderate evocation (good)</aura><bonus>2</bonus>
+5	,<ability>icy burst</ability><aura>moderate evocation</aura><bonus>2</bonus>
+5	,<ability>shocking burst</ability><aura>moderate evocation</aura><bonus>2</bonus>
+3	,<ability>unholy</ability><aura>moderate evocation (evil)</aura><bonus>2</bonus>
+5	,[RangedAbilitiesMedium]</record><record>[RangedAbilitiesMedium]	
+
+;!RangedAbilitiesMajor
+4	,<ability>bane</ability><aura>moderate conjuration</aura><bonus>1</bonus>
+4	,<ability>distance</ability><aura>moderate divination</aura><bonus>1</bonus>
+4	,<ability>flaming</ability><aura>moderate evocation</aura><bonus>1</bonus>
+4	,<ability>frost</ability><aura>moderate evocation</aura><bonus>1</bonus>
+5	,{IIf~%isThrown%=1?<ability>returning</ability><aura>moderate transmutation</aura><bonus>1</bonus>:[RangedAbilitiesMajor]}
+4	,<ability>shock</ability><aura>moderate evocation</aura><bonus>1</bonus>
+2	,<ability>seeking</ability><aura>strong divination</aura><bonus>1</bonus>
+2	,<ability>thundering</ability><aura>faint necromancy</aura><bonus>1</bonus>
+5	,<ability>anarchic</ability><aura>moderate evocation (chaotic)</aura><bonus>2</bonus>
+5	,<ability>axiomatic</ability><aura>moderate evocation (lawful)</aura><bonus>2</bonus>
+10	,<ability>flaming burst</ability><aura>strong evocation</aura><bonus>2</bonus>
+5	,<ability>holy</ability><aura>moderate evocation (good)</aura><bonus>2</bonus>
+10	,<ability>icy burst</ability><aura>moderate evocation</aura><bonus>2</bonus>
+10	,<ability>shocking burst</ability><aura>moderate evocation</aura><bonus>2</bonus>
+5	,<ability>unholy</ability><aura>moderate evocation (evil)</aura><bonus>2</bonus>
+5	,<ability>speed</ability><aura>moderate transmutation</aura><bonus>3</bonus>
+6	,{IIf~{Or~%thrown%=1,%ammo%=1}=1?<ability>brilliant energy</ability><aura>strong transmutation</aura><bonus>4</bonus>:[RangedAbilitiesMajor]}
+10	,[RangedAbilitiesMajor]</record><record>[RangedAbilitiesMajor]
+
+
+;SpecWeaponMinor
+15,sleep arrow!132!0.15!faint enchantment!masterwork white arrow with white fletching
+10,screaming bolt!267!0.1!faint enchantment!masterwork crossbow bolt
+20,silver dagger, masterwork!322!1!no aura!masterwork silver dagger
+20,cold iron longsword, masterwork!330!4!no aura!masterwork cold iron longsword
+10,javelin of lightning!1500!2!faint evocation!masterwork javelin
+5,slaying arrow ([Target])!2282!0.15!strong necromancy!masterwork arrow
+10,adamantine dagger!3002!1!no aura!masterwork adamantine dagger
+10,adamantine battleaxe!3010!6!no aura!masterwork adamantine battleaxe
+
+;SpecWeaponMedium
+9,javelin of lightning!1500!2!faint evocation!masterwork javelin
+6,slaying arrow ([Target])!2282!0.15!strong necromancy!masterwork arrow
+9,adamantine dagger!3002!1!no aura!masterwork adamantine dagger
+9,adamantine battleaxe!3010!6!no aura!masterwork adamantine battleaxe
+4,slaying arrow (greater) ([Target])!4057!0.15!strong necromancy!masterwork arrow
+3,shatterspike!4315!4!strong evocation!masterwork longsword
+6,dagger of venom!8302!1!faint necromancy!black dagger with a serrated edge
+5,trident of warning!10115!4!moderate divination!masterwork trident
+6,assassin's dagger!10302!1!moderate necromancy!wicked-looking, curved dagger
+5,shifter's sorrow!12780!10!strong transmutation!masterwork, silver-bladed two-bladed sword
+4,trident of fish command!18650!4!moderate enchantment!masterwork trident with 6-foot long haft
+8,flame tongue!20715!4!moderate evocation!masterwork longsword
+5,luck blade (0 wishes)!22060!2!strong evocation!masterwork short sword
+7,sword of subtlety!22310!2!moderate illusion!masterwork short sword with a thin, dull gray blade
+5,sword of the planes!22315!4!strong evocation!masterwork longsword
+4,nine lives stealer!23057!4!strong necromancy (evil)!masterwork longsword
+3,sword of life stealing!25715!4!strong necromancy!masterwork black iron longsword
+2,oathbow!25600!3!strong evocation!white masterwork composite longbow
+
+# Add no items under 10302 gp
+;SpecWeaponMajor
+4,assassin's dagger!10302!1!moderate necromancy!wicked-looking, curved dagger
+3,shifter's sorrow!12780!10!strong transmutation!masterwork, silver-bladed two-bladed sword
+2,trident of fish command!18650!4!moderate enchantment!masterwork trident with 6-foot long haft
+4,flame tongue!20715!4!moderate evocation!masterwork longsword
+4,luck blade (0 wishes)!22060!2!strong evocation!masterwork short sword
+7,sword of subtlety!22310!2!moderate illusion!masterwork short sword with a thin, dull gray blade
+7,sword of the planes!22315!4!strong evocation!masterwork longsword
+6,nine lives stealer!23057!4!strong necromancy (evil)!masterwork longsword
+5,sword of life stealing!25715!4!strong necromancy!masterwork black iron longsword
+4,oathbow!25600!3!strong evocation!white masterwork composite longbow
+5,mace of terror!38552!8!strong necromancy!masterwork heavy mace
+6,life-drinker!40320!12!strong necromancy!masterwork greataxe
+5,sylvan scimitar!47315!4!moderate evocation!masterwork scimitar
+5,rapier of puncturing!50320!2!strong necromancy!masterwork rapier
+6,sun blade!50335!6!moderate evocation!masterwork bastard sword
+6,frost brand!54475!8!strong evocation!masterwork greatsword
+5,dwarven thrower!60312!5!moderate evocation!masterwork warhammer
+7,luck blade (1 wish)!62360!2!strong evocation!masterwork short sword
+4,mace of smiting!75312!8!moderate transmutation!masterwork adamantine heavy mace
+2,luck blade (2 wishes)!102660!2!strong evocation!masterwork short sword
+2,holy avenger!120630!4!strong abjuration!masterwork cold iron longsword
+1,luck blade (3 wishes)!142960!2!strong evocation!masterwork short sword
+
+;!Target
+5,aberrations
+4,animals
+7,constructs
+6,dragons
+5,elementals
+5,fey
+7,giants
+1,humanoids - aquatic
+2,humanoids - dwarf
+2,humanoids - elf
+1,humanoids - gnoll
+1,humanoids - gnome
+3,humanoids - goblinoid
+1,humanoids - halfling
+4,humanoids - human
+3,humanoids - reptilian
+3,humanoids - orc
+5,magical beasts
+5,monstrous humanoids
+2,oozes
+1,outsiders - air
+3,outsiders - chaotic
+1,outsiders - earth
+3,outsiders - evil
+1,outsiders - fire
+3,outsiders - good
+3,outsiders - lawful
+1,outsiders - water
+2,plants
+8,undead
+2,vermin
+
+:BonusCost
+1,2000
+2,8000
+3,18000
+4,32000
+5,50000
+6,72000
+7,98000
+8,128000
+9,162000
+10,200000

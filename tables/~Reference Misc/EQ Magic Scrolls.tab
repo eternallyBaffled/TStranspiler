@@ -1,0 +1,4406 @@
+# ------------------------------------------------------
+# Last Update: modified by Valminder September 10, 2006.
+# ------------------------------------------------------
+#
+# Scoll Inventory
+# This table generates an inventory of scrolls with variations of price 
+# based on the stores pricing policy. To use the table without the pricing
+# policy, simply use just the "generateitems" table and leave the "ST" table
+# out. I have adjusted the prices presented in the sources.  
+#
+# Sean Hlousek
+#
+# -------------------------------------------------------------------------
+#
+# To call this table from another one:
+#    [EQ Magic Scrolls.Generate(%Rolls%,%GenItem%,%LevelNeeded%)
+#
+#    Parameters: (%Rolls%,GenItem%,%LevelNeeded%)
+#
+#    Rolls:    (1) Enter the number of items needed.
+#    GenItem:  (1) 1= ALL Scrolls
+#                  2= ALL Divine Scrolls (Clr - Drd - Pal - Rng)
+#                  3= Arcane Scrolls
+#                  4= Cleric Scrolls
+#                  5= Druid Scrolls
+#                  6= Paladin Scrolls
+#                  7= Ranger Scrolls
+#    LevelNeeded: (99) Enter the level required for the scroll.
+#                      99 = Any spell level.
+#
+# -------------------------------------------------------------------------
+#
+# Modified by Valminder, August  2006.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+#    I heavily modified this table. I could modify it more by
+#       removing all the variables for the cost, but it would
+#       be too long. For now, it works fine.
+#    The final price need to be adjusted for some items, but it
+#       seems relatively OK.
+#    I diminished the price variation in [Store].
+#    Cost of Items: Put the cost in GP, the output will modify it
+#       for gp, sp, or cp.
+#       1 sp = 0.1 gp
+#       1 cp = 0.01 gp
+# 
+
+# The prices of the scrolls might not be right.
+# I only looked for duplicate names of scrolls and adjusted the price for those.
+# Some scrolls might have a wrong price for missing material components and/or focus.
+%Aberrate%,30
+%Abrindel'sPrisimCloak%,3200
+%AbyssalMight%,1200
+%AbyssalMightClr%,750
+%AccelerateReflexes%,700
+%AcidFog%,1650
+%AcidicVapors%,150
+%AcidOrb%,700
+%AcidSpittle%,30
+%AcidSplash%,12.5
+%AcidStorm%,1650
+%AddictionClr%,150
+%Addiction%,250
+%AdheretoWood%,12.5
+%AdheretoWoodRng%,25
+%AdrenalineSurge%,150
+%AegisoftheGods%,25
+%Affliction%,700
+%Aganazzar'sScorcher%,150
+%Aid%,150
+%AirWalk%,700
+%Alamanther'sReturn%,7800
+%Alarm%,25
+%AlertBebilith%,4000
+%Alibi%,150
+%AlignWeapon%,150
+%AlterSelf%,150
+%Amanuensis%,450
+%AnalyzeDweomer%,1650
+%AnalyzePortal%,375
+%AnaphylaticTouch%,1125
+%AngryAche%,25
+%AnimalGrowth%,1125
+%AnimalGrowthRng%,700
+%AnimalInfusionDrd%,185
+%AnimalInfusion%,410
+%AnimalMessengerRng%,25
+%AnimalMessenger%,150
+%AnimalReduction%,150
+%AnimalReductionRng%,375
+%AnimalShapes%,3000
+%AnimalSpy%,375
+%AnimalTrance%,150
+%AnimalTrick%,25
+%AnimateDead%,1500
+%AnimateDeadClr%,400
+%AnimateImages%,1125
+%AnimateObjects%,1650
+%AnimatePlants%,2275
+%AnimateRope%,25
+%AnimateShadow%,375
+%Antihistamine%,12.5
+%AntihistamineRng%,25
+%AntilifeShell%,1650
+%AntimagicAura%,2275
+%AntimagicField%,1650
+%AntimagicFieldClr%,3000
+%Antipathy%,3000
+%AntipathyDrd%,3825
+%AntiplantShell%,700
+%ArborealArcher%,150
+%ArcaneEye%,700
+%ArcaneLock%,150
+%ArcaneMark%,12.5
+%ArcaneParry%,375
+%ArcaneSight%,375
+%ArmorofBrambles%,700
+%ArmorofUndeath%,400
+%ArrowCharm%,25
+%Assassin'sSenses%,150
+%Assassin'sSense's%,150
+%AstralProjection%,4830
+%Atonement%,4125
+%Augury%,150
+%AuraAgainstFlame%,150
+%AuraofDarkness%,150
+%AuraofGlory%,150
+%AuraofLight%,150
+%AuraofMenace%,150
+%AuraofVitality%,2275
+%Austlinan'sViolentScream%,375
+%Avalanche%,1650
+%Avatar%,4200
+%Awaken%,2375
+%AwakenLesserTitanAvatar%,7000
+%Azuth'sExaltedTriad%,1650
+%Azuth'sSpellShield%,2275
+
+
+%Backlash%,700
+%Balagarn'sIronHorn%,300
+%BalefulPolymorph%,1125
+%BallLightning%,1125
+%Bandersnatch%,1125
+%Bane%,25
+%BaneoftheForge%,150
+%BaneoftheForgeRng%,375
+%Banishment%,2275
+%BanishmentClr%,1650
+%BanishShadow%,375
+%Barkskin%,150
+%BathofPurity%,700
+%BatteringRam%,150
+%Battlecry%,3000
+%BattleProjection%,375
+%Battletide%,1125
+%Bear'sEndurance%,150
+%Bear'sEnduranceMass%,1650
+%Bear'sHeart%,1125
+%Bear'sHeart4%,700
+%BeastClawsDrd%,375
+%BeastClaws%,700
+%Beastmask%,150
+%BeastSoul%,375
+%BedBugBites%,150
+%BedBugBitesRng%,25
+%BeetleSwarm%,1125
+%Befoul%,3000
+%BegetBogun%,150
+%Belsameth'sBlessing%,1650
+%Belsameth'sBlessingClr%,1125
+%Belsameth'sStrifeClr%,1125
+%Belsameth'sStrife%,700
+%BendSounds%,150
+%BestowCurse%,700
+%BestowCurseClr%,375
+%BestowGreaterCurseClr%,2275
+%BestowGreaterCurse%,3000
+%BestowWound%,25
+%Bigby'sClenchedFist%,3000
+%Bigby'sCrushingHand%,3825
+%Bigby'sForcefulHand%,1650
+%Bigby'sGraspingHand%,2275
+%Bigby'sInterposingHand%,1125
+%BigSky%,1125
+%Binding%,3000
+%BindingWinds%,1125
+%BindOath%,375
+%BlackBag%,40
+%BlackBladeofDisaster%,3825
+%BlackCloudofHorror%,750
+%Blackflame%,2275
+%Blacklight%,375
+%Blackstaff%,3000
+%BladeBarrier%,1650
+%BladeMeld%,1650
+%Bladethirst%,25
+%Bladethirst(1)%,150
+%Bladethirst(2)%,375
+%Blaise'sBeadofFrost%,700
+%Blaise'sBlastingBead%,700
+%Blaise'sBlazingBeads%,25
+%Blaise'sIronBead%,1125
+%Blaise'sIronBeadDrd%,1650
+%Blaise'sLuckyBead%,700
+%Blasphemy%,2275
+%BlazingShield%,150
+%BleedingDisease%,12.5
+%Bless%,25
+%BlessedArmClr%,375
+%BlessedArm%,150
+%BlessWater%,50
+%BlessWeapon%,25
+%BlightDrd%,700
+%Blight%,1125
+%BlindingSpittle%,25
+%BlindMark%,150
+%Blindness/Deafness%,150
+%Blindness/DeafnessClr%,375
+%BlindsightClr%,700
+%Blindsight%,375
+%Blink%,375
+%Bloodblade%,700
+%BloodFrenzy%,150
+%Bloodhound%,25
+%BloodiedBlade%,700
+%Bloodstorm%,375
+%BloodWaterDrd%,1125
+%BloodWater%,700
+%Blur%,150
+%BodakBirth%,3700
+%BodyBlades%,155
+%BodyofSand%,150
+%BodyofSandDrd%,25
+%BodyoftheSun%,150
+%BoltofPower%,25
+%BoltofPowerDrd%,150
+%Bombardment%,3000
+%Boneblade%,375
+%Boneblades%,1125
+%Boneblast%,150
+%BonesofAdamantine%,1650
+%BonesofIron%,700
+%BonesofSilver%,375
+%BoostImmunityRng%,25
+%BoostImmunity%,150
+%BottleofSmokeRng%,375
+%BottleofSmoke%,700
+%BottomlessPit%,700
+%BrainSpider%,3000
+%Brambles%,150
+%BranchtoBranch%,150
+%BreadofLife%,150
+%BreakEnchantment5%,1125
+%BreakEnchantment4%,700
+%BreathofTruth%,1125
+%BreathtoDeath%,1125
+%BriarWeb%,375
+%BriarWebRng%,150
+%BrilliantAura%,2275
+%BrothersinArmsPal%,700
+%BrothersinArms%,1125
+%Bull'sGrace%,200
+%Bull'sStrength%,150
+%Bull'sStrengthMass%,1650
+%BuoyancyNet%,25
+%BurdenofFaith%,1125
+%BurdenofFaithDrd%,1650
+%BurialBlessing%,25
+%BurningHands%,25
+%BurrowingBonyDigits%,1300
+%BurstofEnergyPal%,25
+%BurstofEnergy%,150
+
+%CacophonicShield%,1650
+%CalalyticMouth%,700
+%CallAnimalCompanion%,100
+%CallAquaticAnimal1%,150
+%CallAquaticAnimal2%,700
+%CallAquaticHumaniod1%,375
+%CallAquaticHumaniod2%,1650
+%CallAquaticMonster%,1125
+%CallDretchHorde%,3000
+%CallLemureHorde%,3000
+%CallLightning%,375
+%CallLightningStorm%,1125
+%CallNightmare%,1650
+%CalmAnimals%,25
+%CalmEmotions%,75
+%Camouflage%,25
+%Castigate%,700
+%CastinStone%,3825
+%Cat'sGrace%,150
+%Cat'sGraceMass%,1650
+%CauseFear%,25
+%CensureofMesos%,3825
+%ChainContingency%,5325
+%ChainLightning%,1650
+%ChainofChaos%,375
+%ChainofChaosDrd%,700
+%ChainofEyes%,375
+%ChainofEyesDrd%,700
+%ChainsofBinding%,375
+%ChameleonSkin%,25
+%ChameleonSkin(1)%,25
+%ChameleonSkin(2)%,150
+%ChampionSwimmer%,25
+%ChangeSelf%,25
+%Changestaff%,2275
+%ChaosFlame%,150
+%Chardun'sBranding%,3300
+%Chardun'sGlory%,25
+%Chardun'sPresence%,700
+%Chardun'sTorments%,375
+%CharmAnimal%,25
+%CharmMonster%,700
+%CharmPerson%,25
+%Charm'sAegis%,2275
+%CharnelFire%,1250
+%Cheat%,25
+%Chern'sExhalation%,1650
+%Chill/Warmth%,12.5
+%Chill/WarmthRng%,25
+%ChillGaze%,1650
+%ChillMetal%,150
+%ChillTouch%,25
+%ChillWeapon%,25
+%Choke%,150
+%CircleDance%,375
+%CircleofDeath%,2150
+%CircleofNausea%,375
+%CircleofNauseaDrd%,150
+%CircleofSounds%,150
+%Clairaudience/Clairvoyance%,375
+%ClawsofDarkness%,150
+%ClawsoftheBeast%,25
+%ClawsoftheBeastRng%,150
+%ClawsoftheDemon%,25
+%ClawsoftheSavage%,700
+%Clawstrike%,25
+%CleanRng%,25
+%Clean%,12.5
+%CleanseMinorVermin%,25
+%ClearPath%,25
+%CloakofChoas%,3800
+%CloakofRighteousness%,700
+%CloakoftheSea%,1125
+%Clone%,4500
+%Cloudburst%,150
+%Cloudkill%,1125
+%CloudofAchaierai%,1650
+%CloudofBewilderment%,150
+%Cloudwalkers%,2275
+%ClutchofOrcus%,375
+%Cobwebs%,25
+%Cocoon%,8000
+%ColdOrb%,700
+%ColdSnap%,150
+%ColdSnap%,75
+%ColorSpray%,25
+%Combust%,150
+%Command%,25
+%CommandConstruct%,3825
+%CommandGreater%,1125
+%CommandingPresence%,150
+%CommandPlants%,700
+%CommandPlantsRng%,375
+%CommandUndead%,150
+%Commune%,1650
+%CommunewithNature%,1125
+%CommunewithNatureRng%,700
+%ComprehendLanguages%,25
+%Condemned%,700
+%ConeofCold%,1125
+%ConeofOblivion%,3825
+%Confusion%,700
+%Conjurer'sToolbelt%,12.5
+%Consecrate%,200
+%Constellation%,3000
+%ContactOtherPlane%,1125
+%ContagionClr%,375
+%Contagion%,700
+%ContagiousTouch%,1650
+%Contingency%,3150
+%ContinualFlame%,200
+%ContinualFlameClr%,425
+%ContinualHeat%,150
+%ControlLight%,700
+%ControlPlants%,3000
+%ControlUndead%,2275
+%ControlWaterClr%,700
+%ControlWater%,1650
+%ControlWeather%,1125
+%ControlWeather%,2275
+%ControlWinds%,1125
+%Convert%,6200
+%Corean'sFire%,3500
+%CorpseCandle%,375
+%CorrosiveGrasp%,25
+%CorruptSummons%,1300
+%Countermoon%,375
+%CrawlingDarkness%,1125
+%CreateCrossroads&Backroad%,19775
+%CreateFood&Water%,375
+%CreateGreaterUndead%,3500
+%CreateUndead%,1950
+%CreateWater%,12.5
+%CreateWaterPal%,25
+%CreatMagicTatto%,150
+%CreepingCold%,175
+%CreepingDoom%,2275
+%CropCircle%,25
+%CruelDisappointment%,375
+%Crumble%,1650
+%CrushingDespair%,700
+%CrushingFistofSpite%,8000
+%CureCriticalWounds%,700
+%CureCriticalWoundsDrd%,1125
+%CureCriticalWoundsMass%,3000
+%CureCriticalWoundsMassDrd%,3825
+%CureLightWounds%,25
+%CureLightWoundsRng%,150
+%CureLightWoundsMass%,1125
+%CureLightWoundsMassDrd%,1650
+%CureMinorWounds%,12.5
+%CureModerateWoundsClr%,150
+%CureModerateWounds%,375
+%CureModerateWoundsMass%,1650
+%CureModerateWoundsMassDrd%,2275
+%CureSeriousWoundsClr%,375
+%CureSeriousWounds%,700
+%CureSeriousWoundsMass%,2275
+%CureSeriousWoundsMassDrd%,3000
+%CurseofIllFortune%,150
+%CurseofSolidity%,150
+%CurseofTerror%,750
+%CurseoftheBrute%,375
+%CurseoftheBrute%,150
+%CurseoftheFireflyClr%,375
+%CurseoftheFirefly%,25
+%CurseofthePutridHusk%,375
+%CurseWater%,50
+%CurtainofDarkness%,1125
+
+
+%DaggerofUndeath%,3825
+%DaggersofVaul%,2275
+%DamageReduction%,1125
+%DamningDarkness%,700
+%DanceofRuin%,150
+%DancingChains%,700
+%DancingLights%,12.5
+%Darkbolt%,150
+%DarkChanneling%,3000
+%Darkfire%,375
+%DarkFlames%,150
+%Darklight%,45
+%DarkLightning%,2275
+%Darkness%,150
+%Darkness%,150
+%Darkseed%,12.5
+%Darksoul%,1125
+%Darkstaff%,3000
+%Darkvision%,150
+%DarkWater%,1125
+%DarkWaterClr%,1650
+%DarkWay%,275
+%Darsson'sPotion%,700
+%Dar'Tan'sShadowBolt%,375
+%Dawn%,25
+%DawnDrd%,12.5
+%Dawnspear%,1650
+%Daylight%,375
+%Daze%,12.5
+%DazeAnimal%,12.5
+%DeadMan'sEyes%,150
+%DeafeningClang%,25
+%DeathArmor%,200
+%DeathBlade%,1650
+%DeathDragon%,2275
+%DeathGrimace%,40
+%DeathKnell%,150
+%DeathPact%,4750
+%DeathWard%,700
+%DeathWardDrd%,1125
+%Deathwatch%,25
+%DeclarationofDeath%,1650
+%Decompose%,150
+%Decomposition%,150
+%DecoyImage%,375
+%DeeperDarkness%,375
+%DeepSlumber%,375
+%DelayedBlastFireball%,2275
+%DelayPoisonRng%,25
+%DelayPoison%,150
+%Demand%,3000
+%Demonbane%,1125
+%DemonbanePal%,700
+%Denev'sExilefromNature%,375
+%Denev'sFury%,3825
+%Denev'sLeap%,1125
+%Denev'sShadow%,1125
+%Desecrate%,200
+%Desiccate%,375
+%Despoil%,3825
+%Destruction%,2275
+%DetectAnimalsorPlants%,25
+%DetectChaos/Evil/Good/Law%,25
+%DetectCrossroads%,12.5
+%DetectDreams%,375
+%DetectFavoredEnemy%,375
+%DetectFey%,25
+%DetectGold/Metals%,25
+%DetectMagic%,12.5
+%DetectPoisonPalRng%,25
+%DetectPoison%,12.5
+%DetectScrying%,700
+%DetectSecretDoors%,25
+%DetectShapechangers%,25
+%DetectSnaresPits%,25
+%DetectThoughts%,150
+%DetectUndead%,25
+%DetectWard%,150
+%Devil'sEye%,375
+%Dhulark'sGlasstrike%,1650
+%Dictum%,2275
+%Dig%,150
+%DimensionalAnchor%,700
+%DimensionalLock%,3000
+%DimensionDoor%,700
+%DiminishPlants%,375
+%DirgeoftheWalkingDead%,375
+%Disappear%,25
+%DiscernLies%,700
+%DiscernLiesPal%,375
+%DiscernLocation%,3000
+%DisguiseSelf%,25
+%DisguiseUndead%,150
+%DisintegrationSphere%,3000
+%Disintergrate%,1650
+%Dismissal%,1125
+%DismissalClr%,700
+%DispelChaos%,700
+%DispelChaos/Evil/Good/Law%,1125
+%DispelEvil%,700
+%DispelMagic%,375
+%DispelMagicDrd%,700
+%DispelMagicGreater%,1650
+%Displacement%,375
+%DisruptingWeapon%,1125
+%DisruptionMissiles%,150
+%DisruptionWave%,1125
+%DisruptionWave%,2275
+%DisruptUndead%,12.5
+%DistortShadow%,12.5
+%Divination%,725
+%DivineAgility%,1125
+%DivineFavor%,25
+%DivineFlame%,150
+%DivineHeart%,150
+%DivinePower%,700
+%DivineProtection%,2275
+%DivineRaiment%,375
+%DivineSacrifice%,25
+%DivineWisdom%,150
+%DivineWisdomPal%,375
+%DivineZephyr%,150
+%Dolomar'sForceWave%,150
+%Dolomar'sLimitedLiquification%,1125
+%Dolomar'sMapping%,150
+%DominateAnimal%,375
+%DominateMonster%,3825
+%DominatePerson%,1125
+%Doom%,25
+%DoomFog%,375
+%Doomtide%,700
+%Doomwail%,1125
+%Downdraft%,150
+%Dowsing%,12.5
+%DowsingRng%,25
+%Dragonflight%,150
+%Dragonhide%,150
+%Dragon'sBreath%,1125
+%Drawmij'sInstantSummons%,3275
+%Dreadmantle%,1125
+%DreadWord%,375
+%Dream%,1125
+%Dreamstealer%,3825
+%DrownDrd%,1650
+%Drown%,375
+%DrugResistance%,25
+%DruidGrove%,1125
+%DyingBreath%,150
+
+%EagleEyes%,25
+%Eagle'sSplendor%,150
+%Eagle'sSplendorMass%,825
+%EarsoftheWolf%,150
+%EarsoftheWolfRng1%,25
+%EarthBlastDrd3%,375
+%Earthblast%,700
+%EarthenScreen%,375
+%EarthenScreenRng2%,150
+%Earthfast%,150
+%Earthquake%,3000
+%EasetheAgesBurden%,5000
+%EasyClimb%,365
+%EasyTrail%,150
+%EchoSkull%,1125
+%EctoplasmicEnhancement%,1650
+%ElectricJolt%,12.5
+%ElectricOrb%,1125
+%ElementalKiss%,3000
+%ElementalKissDrd7%,2275
+%ElementalSwarm%,3825
+%Elina'sPerfume%,12.5
+%Elina'sWardrobe%,25
+%Elminster'sEffulgentEpuration%,3825
+%Elminster'sEvasion%,3825
+%EmbracetheWild%,375
+%Emotion%,700
+%EnchantSpiritDoll%,1125
+%Endurance%,150
+%EndureElements%,25
+%EnduringWebs%,700
+%EnergyBuffer%,1125
+%EnergyDrain%,3825
+%EnergyImmunity%,2275
+%EnergyImmunity6%,1650
+%EnergyTransformationField%,7900
+%EnhancedSenses%,700
+%EnhancedSensesDrd3%,375
+%EnhanceFamiliar%,375
+%EnhanceToxicity%,25
+%Enkili'sLightningStorm%,1650
+%Enkili'sLuck%,150
+%Enkili'sPrank%,150
+%EnlargePerson%,25
+%EnlargeWard%,375
+%Entangle%,25
+%Enthrall%,150
+%EnticeGift%,150
+%EntropicShield%,25
+%Enumerate%,12.5
+%Enervation%,700
+%EphodofMelee%,25
+%Epidemic%,3825
+%Erase%,25
+%EssentialBlade%,1125
+%EtherealBolt%,150
+%EtherealJaunt%,2275
+%Etherealness%,3825
+%Evard'sBlackTentacles%,700
+%EverScent%,150
+%EvilEye%,375
+%Exhaust%,150
+%ExpeditiousRetreat%,25
+%ExplosiveCascade%,700
+%ExplosiveRunes%,375
+%ExtractDrug%,25
+%Eyebite%,1650
+%Eyeburst%,2275
+%EyeoftheBeholder%,4200
+%EyesoftheZombie%,375
+
+
+%Fabricate%,1125
+%FacttoFiction%,18000
+%FaerieFire%,25
+%FairLight%,700
+%FaithHealing%,25
+%FalseBravado%,400
+%FalseFlavor%,12.5
+%FalseHistory%,1125
+%FalseLife%,150
+%FalseLove'sKiss%,375
+%FalseSending%,1650
+%FalseSendingClr5%,1125
+%FalseVision%,1375
+%FalseVisionClr%,1125
+%FamiliarPocket%,150
+%FanningtheFlames%,150
+%FavorofIlmater%,700
+%Fear%,700
+%FeatherFall%,25
+%Feathers%,700
+%Feeblemind%,1125
+%FeignDeath%,375
+%FeloniousFriend1%,150
+%FeloniousFriend2%,700
+%FeloniousFriend3%,1650
+%FieldofRazors%,25
+%Fiendform%,1650
+%FiendishClarity%,2275
+%FiendishQuickening%,1650
+%Filch%,12.5
+%Filter%,150
+%FindthePath%,1650
+%FindTraps%,150
+%FingerofDeath%,2275
+%FingerofDeathDrd8%,3000
+%FingerofLife%,1125
+%Fireball%,375
+%Firebrand%,1145
+%FireEyes%,12.5
+%FireOrb%,700
+%FireSeeds%,1650
+%FireShield%,700
+%FireSpiders%,2150
+%FireStorm%,3000
+%FireStormDrd7%,2275
+%FireStride%,700
+%FireTrap%,725
+%FireTrapDrd2%,175
+%Flame/FrostWeapon%,150
+%FlameArrow%,375
+%FlameBlade%,150
+%FlameBolt%,25
+%FlameDagger%,150
+%FlameofFaith%,375
+%FlameStrike%,1125
+%FlameStrikeDrd4%,700
+%FlamingSphere%,150
+%Flare%,12.5
+%Flash%,25
+%Flashburst%,375
+%FleetFeet%,150
+%Flensing%,3000
+%FleshRipper%,775
+%FleshtoStone%,1650
+%FloorofFire%,375
+%FloorofFireDrd4%,700
+%Fly%,375
+%FlyingAbominationsClr5%,1125
+%FlyingAbominations%,2275
+%FogCloud%,150
+%Forbiddance%,4650
+%Forcecage%,3775
+%ForceLadder%,150
+%ForceofWill%,150
+%Forceward%,375
+%Forcewave%,25
+%Foreaction%,25
+%Foresight%,3825
+%ForestfoldRng3%,375
+%Forestfold%,700
+%Forgetfulness%,25
+%FortifyFamiliar%,700
+%FortunateFate%,2275
+%FountainofBlood%,150
+%Fox'sCunning%,150
+%Freedom%,3825
+%FreedomofMovement%,700
+%FreezingCurse%,2275
+%FrigidSquall%,1125
+%FrogTongue%,150
+%Frostform%,700
+
+
+%Gandar'sChatterbox%,375
+%Ganest'sFarstrike%,150
+%Ganest'sFarstrikeDrd3%,375
+%GasCloud%,375
+%GaseousForm%,375
+%GateCalling%,8825
+%Gate%,3825
+%GateSeal%,1650
+%Gaurak'sCorpluance%,700
+%GazeofTruth%,25
+%GazeScreen%,150
+%Geas/Quest%,1650
+%Gedlee'sElectricLoop%,150
+%Gemjump%,2275
+%GeneralofUndeath%,3000
+%GentleRepose%,375
+%GentleReposeClr%,150
+%GhorusToth'sMetalMelt%,700
+%Ghostdweomer%,700
+%Ghostform%,1125
+%GhostSound%,12.5
+%GhoulTouch%,150
+%GiantVermin%,700
+%GlimpseofTruth%,375
+%Glitterdust%,150
+%GlitteringRobe%,150
+%GlobeofInvulnerablity%,1650
+%Gloom%,150
+%GloryoftheMartyr%,750
+%Glue%,25
+%Gluttony%,700
+%GlyphofWarding%,575
+%GlyphofWardingGreater%,2050
+%Goodberry%,25
+%Graz'zt'sLongGrasp%,150
+%Grease%,25
+%GreaterBendSounds%,375
+%GreaterCallLightning%,1650
+%GreaterCircleofSeeing%,3000
+%GreaterCommand%,1125
+%GreaterCreepingCold%,2275
+%GreaterDispelling%,1650
+%GreaterFamiliar%,8345
+%GreaterFingerofLife%,3000
+%GreaterHealingCircle%,2275
+%GreaterHealingCircleDrd8%,3000
+%GreaterHeroisim%,1650
+%GreaterIronguard%,2275
+%GreaterMageHand%,375
+%GreaterMagicFang%,375
+%GreaterMagicWeapon%,375
+%GreaterMagicWeaponClr4%,700
+%GreaterPlanarBinding%,3000
+%GreaterScrying%,2275
+%GreaterShadowConjuration%,2275
+%GreaterShadowEvocation%,3000
+%GreaterSpectralHand%,700
+%GreaterTimeheal%,2275
+%GreaterTransference%,700
+%GreaterTurnResistance%,2275
+%GreatKnock%,375
+%GreatShout%,3000
+%GreatThunderclap%,2275
+%GreenBlockade%,150
+%GrimFeast%,25
+%GrimRevenge%,700
+%Grimwald'sGreymantle%,2250
+%GroveofSenenity%,3000
+%GuardsandWards%,1650
+%Guidance%,12.5
+%Gulaben'sEcstasy%,1125
+%Gullibilty%,1125
+%GustofWind%,150
+%Gutroot%,1125
+%Gutsnake%,700
+%Gutwrench%,3000
+
+
+%HallofFire%,1125
+%HallofFireDrd6%,1650
+%Hallow%,2125
+%HallucinatoryTerrain%,700
+%HaloofVengeance%,1125
+%HaloofVengeancePal4%,700
+%HaltUndead%,375
+%HammerandAnvil%,2275
+%Hammerstrike%,25
+%Handfire%,25
+%HandofDivinity%,150
+%HandofJustice%,700
+%HandofTorm%,700
+%Hardening%,1650
+%Harm%,1650
+%Harrier%,375
+%HarrierClr4%,700
+%Haste%,375
+%Hawkeye%,25
+%Heal%,1650
+%HealDrd7%,2275
+%HealBrokenBones%,375
+%HealBrokenBonesDrd4%,700
+%HealCriticalInjuries%,1125
+%HealCriticalInjuriesDrd6%,1650
+%HealingInterdictionDrd8%,30800
+%HealingInterdiction%,3825
+%HealingSting%,375
+%HealingTouch%,375
+%HealMass%,38250
+%HealMount%,375
+%Heartache%,25
+%Heartclutch%,1125
+%HeartofValor%,375
+%HeatMetal%,150
+%Hedrada'sJustice%,375
+%Hell'sPower%,700
+%HelpingHand%,375
+%Helrada'sBalance%,150
+%Heroisim%,375
+%HerosFeast%,1650
+%Hesistate%,25
+%HiddenLore%,150
+%HidefromAnimals%,25
+%HidefromUndead%,25
+%HideLife%,28825
+%Hoizikaul'sCough%,12.5
+%HoldAnimal%,150
+%HoldMonster%,1125
+%HoldPerson%,375
+%HoldPersonClr2%,150
+%HoldPortal%,25
+%HoldStone%,700
+%HolyAura%,3500
+%HolyBeacon%,25
+%HolyBeacon'sAnswer%,700
+%HolyChannel%,700
+%HolyStar%,2275
+%HolySword%,700
+%HolyWar%,9000
+%HolyWord%,2275
+%Horizikaul'sBoom%,25
+%Horizikaul'sVersatileVibration%,1175
+%HorridWilting%,3000
+%HorrificAspect%,1650
+%Hunter'sMercy%,25
+%Hunter'sMoon%,150
+%Hunter'sStalk%,150
+%HypnoticPattern%,150
+%Hypnotism%,25
+
+
+%IceBurst%,375
+%IceDagger%,25
+%IceKnife%,150
+%Iceshards%,150
+%IceshardsDrd3%,375
+%IceshardsRng4%,700
+%IceStorm%,700
+%IceStormDrd5%,1125
+%Identify%,125
+%IdentifyTransgressor%,700
+%Igedrazaar'sMiasma%,150
+%IlajamFire%,2275
+%IllusionaryBolt%,25
+%IllusionaryScript%,425
+%IllusionaryWall%,700
+%ImbueFamiliarwithSpellAbility%,1650
+%ImbueShadow%,1125
+%ImbueWithSpellAbility%,700
+%Immobilize%,375
+%Implosion%,3825
+%ImpotentPossessor%,1650
+%Imprint%,150
+%Imprisonment%,3825
+%ImprisonPossessor%,1125
+%ImprisonSoul%,2275
+%ImprovedInvisibility%,700
+%ImprovedSimulacrum%,3000
+%Incapacitate%,3825
+%IncendiaryCloud%,3000
+%Incite%,2275
+%Indifference%,150
+%Inferno%,1125
+%InfestationofMaggots%,375
+%InflictCriticalWounds%,700
+%InflictCriticalWoundsMass%,3000
+%InflictLightWounds%,25
+%InflictLightWoundsMass%,1125
+%InflictMinorWounds%,12.5
+%InflictModerateWounds%,150
+%InflictModerateWoundsMass%,1650
+%InflictSeriousWounds%,375
+%InflictSeriousWoundsMass%,2275
+%Inquistion%,1125
+%Insanity%,2275
+%InsectPlague%,1125
+%Instability%,150
+%Intoxicate%,150
+%InvigorateDead%,375
+%Invisibility%,150
+%InvisibilityPurge%,375
+%InvisibilitySphere%,375
+%InvulnerablitytoElements%,3825
+%IronBody%,3000
+%IronBones%,700
+%IronButterflies%,700
+%Ironguts%,25
+%Ironheart%,700
+%IronStorm%,375
+%Ironwood%,1650
+
+
+%Jester'sGift%,150
+%Jump%,25
+
+
+%Kauper'sSkittishNerves%,25
+%KeenEar%,25
+%KeenEdge%,375
+%KeshmeeriRefuge%,185
+%Khelben'sSuspendedSilence%,375
+%KissofDeath%,1125
+%KissoftheVampire%,1175
+%KnifeSpray%,150
+%Knock%,150
+%KnoeProtections%,25
+%KnowDirection%,12.5
+%KnowGreatestEnemy%,375
+%KnowVulnerabilities%,700
+
+
+%Laeral'sCuttingHand%,25
+%LandWomb%,700
+%Languor%,700
+%LastBreath%,700
+%LaunchBolt%,12.5
+%LaunchItem%,25
+%LeechField%,3000
+%LegendLore%,2100
+%Legion'sMarch%,1125
+%Leomund'sSecretChest%,1125
+%Leomund'sSecureShelter%,700
+%Leomund'sTinyHut%,375
+%LeomundsTrap%,200
+%LesserAcidOrb%,25
+%LesserAspectoftheDeity%,700
+%LesserColdOrb%,25
+%LesserElectricOrb%,25
+%LesserFireOrb%,25
+%LesserGeas%,700
+%LesserIronguard%,1125
+%LesserPlanarBinding%,1125
+%LesserSonicOrb%,25
+%LesserTelepathicBond%,375
+%LesserTimeheal%,700
+%LesserTurnResistance%,375
+%Lethargy%,700
+%Lethene'sInnerStorm%,1125
+%Levitate%,150
+%LifeBolt%,150
+%LifeForceTransfer%,375
+%LifeForceTransferPal4%,700
+%LifeShield%,150
+%Light%,12.5
+%LightBlade%,150
+%LightningBolt%,375
+%Liliandel'sFlurry%,150
+%LimbsofEndurance%,150
+%LimitedWish%,4775
+%LiquidPain%,700
+%ListeningRingworm%,375
+%Liveoak%,1650
+%LiveWood%,1125
+%LiveWoodDrd4%,700
+%LivingPrints%,375
+%LocateCorpse%,150
+%LocateCreature%,700
+%LocateOasis%,25
+%LocateOasisClr2%,150
+%LocateObject%,150
+%LocateObjectClr3%,375
+%LocateWater%,25
+%Longstrider%,25
+%Lookingglass%,3825
+%Low-LightVision%,25
+%LoyalVassal%,375
+%Lucius'sRustlingLeaves%,25
+%Lumberjack%,375
+%Lure%,375
+%LureDrd2%,150
+
+
+%MaceofOdo%,375
+%Madriel'sEmpathicResonance%,25
+%MageArmor%,25
+%MageHand%,12.5
+%MagicalVacuum%,2275
+%MagicCircleAgainstChaos%,375
+%MagicCircleAgainstChaos/Evil/Good/Law%,375
+%MagicFang%,25
+%MagicFangGreater%,375
+%MagicJar%,1225
+%MagicMissile%,25
+%MagicMouth%,160
+%MagicStone%,25
+%MagicVestment%,375
+%MagicWeapon%,25
+%MagicWeaponGreaterClr4%,700
+%MagicWeaponGreater%,375
+%MagneticResonance%,150
+%MajorCreation%,1125
+%MajorImage%,375
+%MakeWhole%,150
+%Malaise%,375
+%MaledictionofRazors%,375
+%MaliciousImage%,375
+%ManaSink%,1125
+%Manaspear%,375
+%Mandragora%,1750
+%MantleofShadows%,25
+%MarathonProwess%,375
+%MarkofEvil%,700
+%MarkofJustice%,350
+%MarkofJustice%,1125
+%MaskMagic%,375
+%Masochisim%,250
+%Masochism%,375
+%MassAwaken%,3250
+%MassBear'sEndurance%,1650
+%MassBull'sStrength%,1650
+%MassCalm%,700
+%MassCamouflage%,700
+%MassCat'sGrace%,1650
+%MassCharm%,3000
+%MassDarkvision%,700
+%MassEagle'sSplendor%,1650
+%MassEnlargePerson%,700
+%MassFly%,1650
+%MassFox'sCunning%,1650
+%MassHaste%,1650
+%MassHoldMonster%,3825
+%MassHoldPerson%,2275
+%MassInvisibility%,2275
+%MassOwl'sWisdom%,1650
+%MassReducePerson%,700
+%MassResistElements%,700
+%MassResistElementsClr3%,375
+%MassSuggestion%,1650
+%MassTeleport%,2275
+%MassTrance%,1125
+%MassTrueStrike%,1650
+%MasterAir%,150
+%MasterEarth%,2275
+%MawofChaos%,3825
+%Maze%,3000
+%MeldintoStone%,375
+%MeldObject%,1125
+%Melf'sAcidArrow%,150
+%MemoryRot%,1125
+%Mending%,12.5
+%MendSeveredLimb%,375
+%MendSeveredLimbDrd4%,700
+%Mesos'Containment%,2275
+%Mesos'Vengeance%,1125
+%Message%,12.5
+%Mestil'sAcidBreath%,375
+%Mestil'sAcidSheath%,1125
+%MeteorSwarm%,3825
+%Miasma%,1650
+%MightoftheOak%,150
+%MindBlank%,3000
+%MindFog%,1125
+%MindoverMatter%,700
+%MindRaid%,375
+%Mindrape%,5300
+%Mindwrack%,3825
+%MinorCircleofSeeing%,700
+%MinorCreation%,700
+%MinorGlobeofInvulnerability%,700
+%MinorImage%,150
+%MinorShadowConjuration%,150
+%MinorShadowEvocation%,375
+%MinorSymbolofDivinity%,25
+%Miracle%,28825
+%MirageArcana%,1125
+%MirrorImage%,150
+%MirrorSafe%,700
+%MirrorSending%,700
+%Misdirection%,150
+%Mislead%,1650
+%MissileStorm%,375
+%MomentofPrescience%,3000
+%MonstrousRegeneration%,1125
+%Moonbeam%,1650
+%Moonglow%,3000
+%MoralityUndone%,1125
+%Mordenkainen'sPrivateSanctum%,1125
+%Mord'sDisjunction%,3825
+%Mord'sFaithfulHound%,1125
+%Mord'sLucubration%,1650
+%Mord'sMagnificentMansion%,2275
+%Mord'sSword%,2525
+%Mormo'sSerpentHandsDrd6%,1650
+%Mormo'sSerpentHands%,2275
+%Mount%,25
+%MoveEarth%,1650
+%MultiImage%,700
+%Multiplicity%,1125
+%MysticLash%,375
+
+
+%Nature'sAvatar%,3850
+%Nature'sFavorRng2%,150
+%Nature'sFavor%,375
+%NaturewatchRng1%,25
+%Naturewatch%,12.5
+%NecroticBlast%,1125
+%NegativeEnergyBurst%,375
+%NegativeEnergyGeyser%,3000
+%NegativeEnergyRay%,25
+%NegativeEnergyWave%,700
+%Netherblade%,150
+%Netherblast%,1125
+%Nethergaze%,1125
+%Nethershield%,1125
+%NetherTrail%,25
+%NetofShadows%,25
+%NeutralizePoison3%,375
+%NeutralizePoison%,700
+%Nightmare%,1125
+%NoLight%,12.5
+%Nondetection%,425
+%Nondetection4%,750
+%NorthStar%,700
+%NoseoftheRat1%,25
+%NoseoftheRat2%,150
+%Nybor'sGentleReminder%,25
+%Nybor'sMildAdmonishment%,375
+%Nybor'sSternReproof%,2275
+%Nybor'sWrathfulCastigation%,3000
+%Nystul'sMagicalAura%,25
+%Nystul'sUndetectableAura%,25
+
+
+%ObscureObject2%,150
+%ObscureObject3%,375
+%ObscureShadow%,25
+%ObscuringMist%,25
+%Omniscience%,700
+%OnewiththeLand%,150
+%Open/Close%,12.5
+%OtilukesDispellingScreen%,700
+%Otiluke'sFreezingSphere%,1650
+%Otiluke'sGreaterDispellingScreen%,2275
+%Otiluke'sResilientSphere%,700
+%Otiluke'sTelekineticSphere%,3000
+%Otto'sIrresistibleDance%,3000
+%OverlandFlight%,1125
+%Owl'sInsight%,1125
+%Owl'sWisdom%,150
+%Owl'sWisdomMass%,1650
+
+
+%PackofGhouls%,700
+%PasstheYears%,1650
+%Passwall%,1125
+%PassWithoutTrace%,25
+%PerfectRecollection%,150
+%Perivax'sPoisonPillar5%,1125
+%Perivax'sPoisonPillar%,1650
+%Permanency%,6125
+%PermanentImage%,1750
+%PersistantImage%,1125
+%PersistantMissiles%,700
+%PersistenceoftheWaves%,150
+%Pestilence7%,2275
+%Pestilence%,3000
+%PhantasmalKiller%,700
+%PhantasmalThief%,4500
+%Phantom'sHowl%,150
+%PhantomSteed%,375
+%PhaseDoor%,2275
+%PillarofAttraction/Replusion%,1125
+%PlagueTouch5%,1125
+%PlagueTouch%,1650
+%PlanarAlly%,2900
+%PlanarAllyGreater%,5500
+%PlanarAllyLesser%,1200
+%PlanarBinding%,1650
+%PlaneShift5%,1125
+%PlaneShift7%,2275
+%PlantGrowth%,375
+%Poison%,375
+%Poison4%,700
+%PoisonedGoblet%,700
+%PoisonVines%,2275
+%PolarRay%,3000
+%Pollen%,150
+%PolymorphanyObject%,3000
+%PolymorphOther%,700
+%PolymorphSelf%,700
+%PowerSight%,25
+%PowerwordBlind%,2275
+%PowerwordKill%,3825
+%PowerWordStun%,3000
+%PowerWordThunder%,1650
+%Pox%,1650
+%Prayer%,375
+%PreserveOrgan%,12.5
+%PressureSphere%,375
+%Prestidigitation%,12.5
+%Prevarication'sBounty%,25
+%PrimevalInsight%,375
+%PrismaticEye%,1650
+%PrismaticSphere%,3825
+%PrismaticSpray%,2275
+%PrismaticWall%,3000
+%Privacy%,700
+%ProduceFlame%,25
+%ProfaneStare%,1125
+%ProgrammedImage%,1675
+%ProjectImage%,2280
+%ProtectBook%,150
+%ProtectionChaos/Evil/Good/Law%,25
+%ProtectionfromallElements%,1650
+%ProtectionfromArrows%,150
+%ProtectionfromChaos/Evil%,25
+%ProtectionfromChaos/Evil/Good/Law%,25
+%ProtectionFromElements%,375
+%ProtectionfromEnergy%,375
+%ProtectionfromEnergy2%,150
+%ProtectionfromSpells%,5500
+%ProtectionfromWards%,2275
+%PryingEye's%,1125
+%PsychicPoison%,700
+%PulsingFireball%,1650
+%PuppetMaster%,2275
+%PurifyFood&Drink%,12.5
+%PurifyingFlames%,700
+%Pyrotechnics%,150
+
+
+%Quakethrust%,25
+%Quench%,375
+%QuickLearn%,7000
+%QuickSober%,12.5
+%Quill%,12.5
+%Quillfire%,375
+
+
+%RabbitFeet%,25
+%Rage%,375
+%RainbowPattern%,700
+%RaiseDead%,6125
+%Ram'sMight%,12.5
+%Ram'sMight1%,25
+%RapidJourney%,3000
+%Rary'sMnemonicEnhancer%,750
+%Rary'sTelepathicBond%,1125
+%RayofEnfeeblment%,25
+%RayofFrost%,12.5
+%ReadMagic%,12.5
+%RealityBond%,375
+%RecallChampion%,3000
+%Recitation%,700
+%Reduce%,25
+%ReduceAnimal2%,150
+%ReduceAnimal3%,375
+%Refuge7%,2625
+%Refuge9%,5325
+%Regenerate7%,1125
+%Regenerate9%,3825
+%RegenerateCircle%,1650
+%RegenerateCriticalWounds%,1125
+%RegenerateLightWounds%,25
+%RegenerateModerateWounds%,150
+%RegenerateRing%,375
+%RegenerateSeriousWounds%,700
+%Reincarnate%,1700
+%RemedyModerateWounds3%,375
+%RemedyModerateWounds2%,150
+%RemoveBlindness/Deafness%,375
+%RemoveCurse3%,375
+%RemoveCurse4%,700
+%RemoveDisease%,375
+%RemoveFear%,25
+%RemoveParalysis%,150
+%RemoveResistance%,700
+%RemoveScars%,150
+%RendtheSovereignSoul%,150
+%RenewedFocus%,150
+%RepairCriticalDamage%,700
+%RepairDead4%,700
+%RepairDead3%,375
+%RepairLightDamage%,25
+%RepairMinorDamage%,12.5
+%RepairModerateDamage%,150
+%RepairSeriousDamage%,375
+%RepelMetalorStone%,3000
+%RepelUndead%,700
+%RepelVermin3%,375
+%RepelVermin4%,700
+%RepelWood%,1650
+%Repulsion6%,1700
+%Repulsion7%,2275
+%Rescue%,375
+%ReshapeShadow%,25
+%Resin%,375
+%Resistance%,12.5
+%ResistEnergy%,150
+%ResistEnergy1%,25
+%ResistNaturalPoisons%,25
+%ResonatingResistance%,1125
+%Restoration%,800
+%RestorationGreater%,4775
+%RestorationLesser1%,25
+%RestorationLesser2%,150
+%RestoreBook%,1650
+%RestorePage%,375
+%RestoreSanity%,1650
+%RestoreSanity7%,2275
+%Resurrection%,12275
+%RevealWard%,375
+%Revenance%,350
+%Revenance%,700
+%ReverseArrows%,375
+%ReverseGravity%,2275
+%ReverseGravity8%,3000
+%ReverseIllusion%,1650
+%Ricochete2%,150
+%Ricochete3%,375
+%Ricochete4%,700
+%Rie'sDanceofSeduction%,1650
+%Rie'sLustfulGaze%,150
+%RighteousCharge4%,700
+%RighteousCharge%,1125
+%RighteousFury%,375
+%RighteousMight%,1125
+%RighteousWrathoftheFaithful%,2275
+%Rontra'sBlessing%,25
+%RopeTrick%,150
+%RumoroftheEarth3%,375
+%RumoroftheEarth%,700
+%RuneofDarkness%,150
+%RuneofFire%,375
+%RuneofPoison%,700
+%RuneofSeeing%,375
+%RuneofSleep%,375
+%RustingGrasp%,700
+
+
+%SacredJourney%,700
+%SacredWeapon%,375
+%SacrificalHeart%,1650
+%SacrificeSpell%,700
+%SacrificialSkill%,25
+%Sadisim%,150
+%SafeClearing%,375
+%Salamar'sQuietContemplation%,25
+%Sanctuary%,25
+%Sandblast%,25
+%SapStrength2%,150
+%SapStrength4%,700
+%SapStrength5%,1125
+%Scare%,150
+%Scarecrow%,12.5
+%Scatterspray%,25
+%Scent%,150
+%ScentoftheHunted%,1125
+%ScintillatingSphere%,375
+%ScorchingRay%,150
+%Screen%,3000
+%Scribe%,375
+%ScryBlast%,1650
+%ScryingClr5%,1225
+%ScryingDrd4%,700
+%ScryingWiz4%,1700
+%SealofHedrada%,700
+%SearingLight%,375
+%SecretPage%,375
+%SeeInvisiblity%,150
+%SeekEternalRest%,700
+%Seeming%,1125
+%Sending5%,1125
+%Sending4%,700
+%SepiaSnakeSigil%,1200
+%Sequester%,2275
+%SerpentsStare2%,150
+%SerpentsStare1%,25
+%Sethris'Potency1%,25
+%Sethris'Potency2%,150
+%Sethtel'sStickServant%,150
+%Sethtel'sStickServant3%,375
+%Sever%,2275
+%Shade%,12.5
+%ShadeEvocation%,2275
+%Shades%,3850
+%Shade'sSight%,25
+%ShadeStorm%,1650
+%ShadowChains%,700
+%ShadowConjuration%,700
+%ShadowEvocation%,1125
+%ShadowFormofLyrand%,700
+%ShadowHand%,1125
+%ShadowImages%,150
+%ShadowMask%,150
+%ShadowShield%,700
+%ShadowSight%,375
+%ShadowSmash%,1650
+%ShadowSpray%,150
+%ShadowStorm%,3000
+%ShadowStrike%,375
+%ShadowTouch%,375
+%ShadowTwin%,3000
+%ShadowWalk%,1650
+%ShadowWeapon%,1125
+%ShadowWell%,700
+%Shambler%,3825
+%Shapechange%,5325
+%ShareHusk%,150
+%Shatter%,150
+%Shatterfloor%,375
+%ShatterSoul%,8000
+%Shelgarn'sPersistantBlade%,35
+%Shelve%,12.5
+%Shibboleth%,3000
+%Shield%,25
+%ShieldofFaith%,25
+%ShieldofLaw%,3500
+%ShieldOther%,200
+%Shillelagh%,25
+%ShipSnare%,1125
+%ShockingGrasp%,25
+%ShockingMissile%,150
+%Shockwave3%,375
+%Shockwave2%,150
+%Shockwave0%,12.5
+%ShockwaveStrike%,25
+%ShootingStars%,3825
+%Shout%,700
+%ShrinkItem%,375
+%Shriveling%,150
+%Shriveling3%,375
+%ShroudofUndeath%,150
+%SigilofFire%,1125
+%SigilofIce%,1125
+%SigilofOoze%,1650
+%Silence%,150
+%SilentImage%,25
+%SilentPortal%,12.5
+%Silverbeard%,25
+%Simbul'sSkeletalDeliquescence%,3000
+%Simbul'sSpellMatrix%,1625
+%Simbul'sSpellSequencer%,3275
+%Simbul'sSpellTrigger%,5325
+%Simbul'sSynostodweomer%,2275
+%Simulacrum10HD%,8275
+%Simulacrum15HD%,11275
+%Simulacrum20HD%,14275
+%SkeletalGuard%,3500
+%SkullofSecrets%,700
+%SlashTongue%,12.5
+%SlayLiving%,1125
+%Sleep%,25
+%SleepoftheDead%,150
+%SleetStorm%,375
+%SlimeWall%,2275
+%SlimeWave%,2275
+%SlippingtheRanks%,150
+%Slow%,375
+%SlowConsumption1%,25
+%SlowConsumption%,150
+%SlowtheYears%,1125
+%SmellofFear%,25
+%Smite%,25
+%Smother%,150
+%Snakebite3%,375
+%Snakebite4%,700
+%SnakeStaff%,1125
+%Snare3%,375
+%Snare2%,150
+%SnareAstralTraveler%,1650
+%Sneeze%,12.5
+%Snilloc'sSnowballSwarm%,150
+%SoftenEarthandStone%,150
+%SolidFog%,700
+%SonicOrb%,700
+%Sorrow%,25
+%SoulBind5HD%,8825
+%SoulBind10HD%,13825
+%SoulBind15HD%,18825
+%SoulBind20HD%,23825
+%SoulBlast%,150
+%SoulDisk%,3000
+%SoulofMercy%,700
+%SoulShackles%,1125
+%Soul'sTreasureLost%,3000
+%Soulstrike%,2275
+%SoundBurst%,150
+%Spark%,12.5
+%Spark1%,25
+%SpeakwithAnimals%,25
+%SpeakwithAnything%,3000
+%SpeakwithDead%,375
+%SpeakwithPlants2%,150
+%SpeakwithPlants3%,375
+%SpectralHand%,150
+%SpectralStag%,150
+%SpeedoftheWind%,150
+%SpeedSwim%,25
+%SpeedtheYears%,1125
+%SpellEngine%,5250
+%SpellEnhancer%,700
+%SpellImmunity%,700
+%SpellImmunityGreater%,3000
+%Spellmantle%,1650
+%SpellPhylactory%,1125
+%SpellResistance%,1125
+%SpellShield%,150
+%Spellstaff%,1650
+%SpellTurning%,2275
+%SpellWall%,700
+%SpiderClimb%,25
+%SpiderHand%,25
+%SpiderLegs%,150
+%SpiderPoison%,375
+%SpikeGrowth3%,375
+%SpikeGrowth2%,150
+%Spikes%,375
+%SpikeStones%,700
+%SpiritKnife%,2275
+%SpiritualWeapon%,150
+%Spiritwall%,1125
+%SpiritWatch%,25
+%SpiritWorm%,25
+%SpreadofSavagery%,3825
+%Stalker'sSight%,150
+%StalkingBrand%,25
+%StandingWave%,375
+%Statue%,2275
+%Status%,150
+%StealLife%,3000
+%StealSleep%,12.5
+%StealSleep1%,25
+%Steeldance%,377
+%Stelan'sBloodTentacles%,1125
+%StinkingCloud%,375
+%StoneAssault%,3000
+%StoneAssault7%,2275
+%StoneBolt%,25
+%StoneBones%,150
+%Stonehold%,1650
+%Stonelore3%,375
+%Stonelore2%,150
+%StoneShape3%,375
+%StoneShape5%,1125
+%Stoneskin4%,950
+%Stoneskin5%,1375
+%StoneTell%,1650
+%StoneWalk%,6650
+%StopHeart5%,1125
+%StopHeart4%,700
+%StoptheYears%,2275
+%StormCellar%,150
+%StormofVengeance%,3825
+%Stormrage%,3000
+%StormTower%,2275
+%StrategicCharge%,25
+%Strench%,25
+%StrengthofKadum%,3000
+%StrengthofMind%,25
+%StrengthofStone%,150
+%StrengthoftheVrock%,150
+%Strongoak'sAffinitywithNature3%,375
+%Strongoak'sAffinitywithNature4%,700
+%Strongoak'sAffinitywithNature5%,1125
+%Stupor%,25
+%Suggestion%,375
+%Summarize%,12.5
+%SummonMonster1%,25
+%SummonMonster2%,150
+%SummonMonster3%,375
+%SummonMonster4%,700
+%SummonMonster5%,1125
+%SummonMonster6%,1650
+%SummonMonster7%,2275
+%SummonMonster8%,3000
+%SummonMonster9%,3825
+%SummonNature'sAlly1%,25
+%SummonNature'sAlly2%,150
+%SummonNature'sAlly3%,375
+%SummonNature'sAlly4%,700
+%SummonNature'sAlly5%,1125
+%SummonNature'sAlly6%,1650
+%SummonNature'sAlly7%,2275
+%SummonNature'sAlly8%,3000
+%SummonNature'sAlly9%,3825
+%SummonSwarm%,150
+%SummonUndead1%,25
+%SummonUndead2%,150
+%SummonUndead3%,375
+%SummonUndead4%,700
+%SummonUndead5%,1125
+%SumptuousFeast%,700
+%Sunbeam%,2275
+%Sunburst%,3000
+%Sunspear%,375
+%SuppressGlyph%,1650
+%Surefoot%,25
+%Surface%,170
+%SuspendDisease%,25
+%SweetWater2%,150
+%SweetWater3%,375
+%SwiftWater%,150
+%SwordofJustice%,375
+%SwordStorm%,375
+%SymbolofDeath%,8000
+%SymbolofFear%,2650
+%SymbolofInsanity%,8000
+%SymbolofPain%,2125
+%SymbolofSleep%,6650
+%SymbolofStunning%,7275
+%SymbolofWeakness%,7275
+%Sympathy8%,4500
+%Sympathy9%,5325
+%Syron'sDancingShield%,375
+%Syron'sEnergyArmor%,25
+
+
+%Taldock'sSpellInhibitor%,1650
+%Talen'sConfoundingBattlefield%,1650
+%Talen'sMalignedPerformance%,700
+%Tanil'sPurging%,700
+%Tanil'sSpectralArchers4%,700
+%Tanil'sSpectralArchers3%,375
+%Tanil'sTouch1%,25
+%Tanil'sTouch2%,150
+%Tasha'sFickleFinger%,25
+%Tasha'sHideousLaughter%,150
+%TattooItem%,700
+%Telekinesis%,1125
+%Teleport%,1125
+%TeleportationCircle%,4825
+%TeleportwithoutError%,2275
+%TemporalStasis%,8000
+%TendrilsofEternalNight%,3825
+%Tenser'sFloatingDisk%,25
+%Tenser'sTransformation%,1950
+%Terole'sTranslator%,700
+%Tevikk'sCreepingEye%,700
+%ThornThrow%,375
+%ThousandNeedles%,1650
+%Thulkas'Fury5%,1125
+%Thulkas'Fury6%,1650
+%Thunderlance%,700
+%Thunderswarm%,3825
+%TimeSkip%,3000
+%TimeStop%,3825
+%Tirumael'sEnergySphere's%,700
+%Titan'sStrength%,700
+%TongueofBaalzebul%,25
+%Tongues3%,375
+%Tongues4%,700
+%TongueSerpents%,375 
+%TongueTendrils%,25
+%TortoiseShell%,1650
+%TouchofFatigue%,12.5
+%TouchofIdiocy%,150
+%TouchofMadness6%,1650
+%TouchofRenewal3%,375
+%TouchofRenewal5%,1125
+%TouchofRenewal6%,1650
+%TouchoftheEel3%,375
+%TouchoftheEel4%,700
+%ToweringOak%,25
+%TranscribeSymbol%,3000
+%Transference%,375
+%TransformUndead%,1650
+%TranslocationTrick%,1650
+%TransmuteFleshtoShadow%,2275
+%TransmuteMetalWood%,2275
+%TransmuteMudtoRock%,1125
+%TransmuteRocktoMud%,1125
+%TransmuteSnowtoStone%,1125
+%TransportviaPlants%,1650
+%TraptheSoul10HD%,13000
+%TraptheSoul20HD%,23000
+%TraptheSoul30HD%,33000
+%TreeShape3%,375
+%TreeShape2%,150
+%TreeStride4%,700
+%TreeStride5%,1125
+%TriggerRune%,25
+%TriggerTrap%,375
+%TrueReincarnate%,8825
+%TrueResurrection%,28825
+%TrueSeeing5%,1375
+%TrueSeeing6%,1900
+%TrueSeeing7%,2525
+%TrueStrike%,25
+%TrustintheGods%,2275
+%TurnResistance%,1125
+%TwoMinds%,3825
+
+
+%Unbuckle%,375
+%UndeadBaneWeapon%,375
+%UndeadCrew%,1650
+%UndeadGate%,3000
+%UndeadLieutenant%,375
+%UndeadTouch%,3750
+%UndeathAfterDeath5HD%,2525
+%UndeathAfterDeath10HD%,2775
+%UndeathAfterDeath15HD%,3025
+%UndeathAfterDeath20HD%,3275
+%Undeath'sEternalFoe%,3825
+%UndeathtoDeath%,1650
+%UnderstandDevice%,375
+%UndetectableAlignment%,150
+%UnfailingEndurance%,700
+%Unhallow%,2125
+%UnhallowSpell1%,3125
+%UnhallowSpell3%,5125
+%UnhallowSpell5%,7125
+%UnhallowSpell7%,9125
+%UnhallowSpell9%,11125
+%Unheavened%,150
+%UnholyAura%,3000
+%UnholyChannel%,700
+%UnlivingWeapon%,375
+%UnnervingGaze%,12.5
+%Unravel%,25
+%UnseenServant%,25
+%UnwaveringAlly%,700
+%Utterdark%,3825
+
+
+%Valus'sMassMissile%,375
+%VampiricTouch%,375
+%VampiricWeapon%,375
+%Vangal'sBlessing%,375
+%Vangal'sTouch%,150
+%Vangal'sWounding%,375
+%Vanish%,2275
+%Veil%,1650
+%VeilofLust%,375
+%VenomousSpray%,700
+%Ventriloquism%,25
+%Verisimilitude%,150
+%Verminplague%,700
+%VigilantGuardians%,150
+%VileLance%,375
+%VineMine%,1125
+%Vipergout%,2275
+%Virtue0%,12.5
+%Virtue1%,25
+%Virtue'sCurse3%,375
+%Virtue'sCurse2%,150
+%Virulence7%,2274
+%Virulence8%,3000
+%Vision%,2775
+%VisionofGlory%,25
+
+
+%WailoftheBanshee%,3825
+%WallofChains%,375
+%WallofChaos%,700
+%WallofChaos/Evil/God/Law%,700
+%WallofDeadlyChains%,700
+%WallofEarth%,700
+%WallofEvil%,700
+%WallofEyes%,2275
+%WallofFire4%,700
+%WallofFire5%,1125
+%WallofForce%,1125
+%WallofGood%,700
+%WallofHonets%,375
+%WallofIce%,700
+%WallofIron%,1700
+%WallofLaw%,700
+%WallofOoze%,1125
+%WallofStone5%,1125
+%WallofStone6%,1650
+%WallofThorns%,1125
+%WallofVermin%,1125
+%WarningShout%,25
+%WarpWood%,150
+%Waterball%,701
+%WaterBreathing%,375
+%Water'sEmbrace4%,700
+%Water'sEmbrace5%,1125
+%WaterWalk%,375
+%WaveofGrief%,150
+%WavesofExhaustion%,2275
+%WavesofFatigue%,1125
+%WeaponofImpact%,375
+%WeaponoftheDeity%,700
+%WeatherEye3%,375
+%WeatherEye4%,700
+%Web%,150
+%WebSphere%,25
+%WebWalking%,25
+%Weepingfool%,150
+%WeightlessCube%,150
+%Weird%,3825
+%Were-Doom%,3825
+%Whirlwind%,3000
+%WhirlwindofIce%,25
+%WhirlwindofTeeth%,2275
+%WhisperingBranches%,25
+%WhisperingWind%,150
+%Widdershins%,3000
+%Wieldskill%,25
+%WindTunnel5%,1125
+%WindWalk6%,1650
+%WindWalk7%,2275
+%WindWall2%,150
+%WindWall3%,375
+%Wish%,28825
+%WitherLimb%,150
+%Wolf'sCry%,150
+%WoodShape%,150
+%WoodWose%,25
+%WordofChaos%,2275
+%WordofRecall6%,1650
+%WordofRecall8%,3000
+%Wrack3%,375
+%Wrack4%,700
+%WrathofThulkas%,700
+%WretchedBlight%,2275
+
+
+%Yaral'sTotemicTransformation3%,375
+%Yaral'sTotemicTransformation4%,700
+
+
+%Zajimarns'Avalanche%,3825
+%Zajimarn'sFieldofIcyRazors%,3000
+%Zajimarn'sIceClawPrison%,2275
+%Zeal%,150
+%ZombieForm%,700
+%ZoneofTruth%,150
+%ZoneofVisibility%,375
+
+### Was %Base%
+%PercentGPMod%,1
+### This is the Store modifier on all its prices 70% to 200% (normal 95% - 105%)
+%STVR%,0
+### How many items to roll
+%Rolls%,0
+#### Was %Base1%
+%MagicalGPMod%,0
+
+# New variables Aug 2006.
+%Item%,0
+# Put Book=2 in the item's description if you do not want books to appear.
+%Book%,0
+%Cost%,0
+%Condition%,0
+%GenItem%,0
+# 1= Mundane Item, 2= Magical Item
+%Magic%,1
+%MWGPMod%,0
+%ArmorSizeMod%,1
+# To be used with "EQ_Main.tab"
+%GetData%,0
+%DataName%,0
+%DataPercentMod%,0
+%SpecialEffect%,0
+%BodySize%,0
+%MoneyType%,gp
+%Temp%,0
+%LevelNeeded%,99
+%LevelNeededPalRng%,99
+@Rolls,30,How many Items are in this Shop?
+@GenItem,1,What do you want to generate,ALL Scrolls,ALL Divine Scrolls (Clr - Drd - Pal - Rng),Arcane Scrolls,Cleric Scrolls,Druid Scrolls,Paladin Scrolls,Ranger Scrolls
+@LevelNeeded,99,Choose the spell level of the scroll (0-9 Cleric-Druid-Sorcerer-Wizard; 1-4 Paladin-Ranger) (99 = Any Level)
+
+:Start
+1,{Status~By Sean Hlousek, Valminder 2006}[Generate]
+
+:Generate
+1,|STVR=1|[Store]
+#_[Multiplier]
+_{Loop~%Rolls%,|BodySize=0||PercentGPMod=0||MagicalGPMod=0||Magic=2||MWGPMod=0||ArmorSizeMod=1||SpecialEffect=0|
+_|Condition=n/a|
+_{If~%LevelNeeded%<0?|LevelNeeded=0|}
+_{If~{And~%LevelNeeded%>9,%LevelNeeded%!=99}=1?|LevelNeeded=9|}
+_|LevelNeededPalRng=%LevelNeeded%|
+_[Scrolls=%GenItem%][Print=%Magic%]}
+
+:Print
+1,<b>Item:</b> <i><font color="Purple">%Item%</font></i>[Print2]
+2,<b>Item:</b> <i><font color="Blue">(Magic) %Item%</font></i>[Print2]
+
+:Print2
+1,{If~%SpecialEffect%!=0? [PrintExtraMW]}
+_{IIf~%Book%!=2?  <font size=1>(%Book%)</font>}
+#If you do not want BodySize for everything put |BodySize=0| above and |BodySize=1| in item's description.
+_{If~%BodySize%=1? ([BodySize] size)}
+_|Cost+%MagicalGPMod%||Cost+%MWGPMod%|{If~%Magic%=1?|Cost*%ArmorSizeMod%|}
+_[Calculate Cost]
+_ (%Condition%, [AddComma.Start(%Cost%)] %MoneyType%)<br>
+
+:PrintExtraMW
+1,<u>Extra MW Effect</u>: %SpecialEffect%.
+
+# This will give a modifier to the cost of the items.
+;Store
+2,|STVR-{Calc~({Dice~1d10+20}/100)}|
+4,|STVR-{Calc~({Dice~1d10+10}/100)}|
+8,|STVR-{Calc~({Dice~1d10+5}/100)}|
+15,|STVR-{Calc~({Dice~1d5}/100)}|
+70,|STVR=1|
+30,|STVR+{Calc~({Dice~1d5}/100)}|
+15,|STVR+{Calc~({Dice~1d10+5}/100)}|
+8,|STVR+{Calc~({Dice~1d10+10}/100)}|
+4,|STVR+{Calc~({Dice~1d15+20}/100)}|
+2,|STVR+{Calc~({Dice~1d25+35}/100)}|
+1,|STVR+{Calc~({Dice~1d50+50}/100)}|
+
+:Multiplier
+1,Price Multiplier: %STVR%<br>
+
+:Calculate Cost
+1,|Cost={Calc~((%STVR%+%PercentGPMod%)*%Cost%)}|
+_{If~%Cost%>=5?|Cost={Trunc~%Cost%}||MoneyType=gp|}
+_{If~{And~%Cost%>=1,%Cost%<5}=1?{If~%Cost%={Trunc~%Cost%}?|MoneyType=gp|/|Cost={Round~1,%Cost%}||Cost*10||MoneyType=sp|}}
+_{If~%Cost%<0.1?|Cost*100||Cost={Trunc~%Cost%}|{If~%Cost%=0?|Cost=1|}|MoneyType=cp|/{If~%Cost%<1?|Cost*10||Cost={Trunc~%Cost%}|{If~%Cost%=0?|Cost=1|}|MoneyType=sp|}}
+
+:Scrolls
+1,[ALL Scrolls]
+2,[DivineClassType]
+3,{If~%LevelNeeded%=99?[ArcaneSpellLevel]/[ArcaneSpellLevelNeeded]}
+4,{If~%LevelNeeded%=99?[ClericalSpellLevel]/[ClericalSpellLevelNeeded]}
+5,{If~%LevelNeeded%=99?[DruidicSpellLevel]/[DruidicSpellLevelNeeded]}
+6,{If~%LevelNeededPalRng%=99?[PaladinSpellLevel]/{If~%LevelNeededPalRng%>4?|LevelNeededPalRng=4|}{If~%LevelNeededPalRng%<1?|LevelNeededPalRng=1|}[PaladinSpellLevelNeeded]}
+7,{If~%LevelNeededPalRng%=99?[RangerSpellLevel]/{If~%LevelNeededPalRng%>4?|LevelNeededPalRng=4|}{If~%LevelNeededPalRng%<1?|LevelNeededPalRng=1|}[RangerSpellLevelNeeded]}
+
+;ALL Scrolls
+7,{If~%LevelNeeded%=99?[ArcaneSpellLevel]/[ArcaneSpellLevelNeeded]}
+3,[DivineClassType]
+
+;ArcaneSpellLevel
+20,|Item=Arcane Scroll of |[Arcane_0]|Item& (0th)|
+30,|Item=Arcane Scroll of |[Arcane_1]|Item& (1st)|
+25,|Item=Arcane Scroll of |[Arcane_2]|Item& (2nd)|
+15,|Item=Arcane Scroll of |[Arcane_3]|Item& (3rd)|
+11,|Item=Arcane Scroll of |[Arcane_4]|Item& (4th)|
+6,|Item=Arcane Scroll of |[Arcane_5]|Item& (5th)|
+6,|Item=Arcane Scroll of |[Arcane_6]|Item& (6th)|
+5,|Item=Arcane Scroll of |[Arcane_7]|Item& (7th)|
+3,|Item=Arcane Scroll of |[Arcane_8]|Item& (8th)|
+2,|Item=Arcane Scroll of |[Arcane_9]|Item& (9th)|
+
+:ArcaneSpellLevelNeeded
+1,|Item=Arcane Scroll of |[Arcane_%LevelNeeded%]|Item& ({Ordinal~%LevelNeeded%})|
+
+;DivineClassType
+5,{If~%LevelNeeded%=99?[ClericalSpellLevel]/[ClericalSpellLevelNeeded]}
+3,{If~%LevelNeeded%=99?[DruidicSpellLevel]/[DruidicSpellLevelNeeded]}
+2,{If~%LevelNeededPalRng%=99?[PaladinSpellLevel]/{If~%LevelNeededPalRng%>4?|LevelNeededPalRng=4|}{If~%LevelNeededPalRng%<1?|LevelNeededPalRng=1|}[PaladinSpellLevelNeeded]}
+2,{If~%LevelNeededPalRng%=99?[RangerSpellLevel]/{If~%LevelNeededPalRng%>4?|LevelNeededPalRng=4|}{If~%LevelNeededPalRng%<1?|LevelNeededPalRng=1|}[RangerSpellLevelNeeded]}
+
+;ClericalSpellLevel
+20,|Item=Clerical Scroll of |[Cleric_0]|Item& (0th)|
+30,|Item=Clerical Scroll of |[Cleric_1]|Item& (1st)|
+25,|Item=Clerical Scroll of |[Cleric_2]|Item& (2nd)|
+15,|Item=Clerical Scroll of |[Cleric_3]|Item& (3rd)|
+11,|Item=Clerical Scroll of |[Cleric_4]|Item& (4th)|
+6,|Item=Clerical Scroll of |[Cleric_5]|Item& (5th)|
+6,|Item=Clerical Scroll of |[Cleric_6]|Item& (6th)|
+5,|Item=Clerical Scroll of |[Cleric_7]|Item& (7th)|
+3,|Item=Clerical Scroll of |[Cleric_8]|Item& (8th)|
+2,|Item=Clerical Scroll of |[Cleric_9]|Item& (9th)|
+
+:ClericalSpellLevelNeeded
+1,|Item=Clerical Scroll of |[Cleric_%LevelNeeded%]|Item& ({Ordinal~%LevelNeeded%})|
+
+;DruidicSpellLevel
+20,|Item=Druidic Scroll of |[Druid_0]|Item& (0th)|
+30,|Item=Druidic Scroll of |[Druid_1]|Item& (1st)|
+25,|Item=Druidic Scroll of |[Druid_2]|Item& (2nd)|
+15,|Item=Druidic Scroll of |[Druid_3]|Item& (3rd)|
+11,|Item=Druidic Scroll of |[Druid_4]|Item& (4th)|
+6,|Item=Druidic Scroll of |[Druid_5]|Item& (5th)|
+6,|Item=Druidic Scroll of |[Druid_6]|Item& (6th)|
+5,|Item=Druidic Scroll of |[Druid_7]|Item& (7th)|
+3,|Item=Druidic Scroll of |[Druid_8]|Item& (8th)|
+2,|Item=Druidic Scroll of |[Druid_9]|Item& (9th)|
+
+:DruidicSpellLevelNeeded
+1,|Item=Druidic Scroll of |[Druid_%LevelNeeded%]|Item& ({Ordinal~%LevelNeeded%})|
+
+;PaladinSpellLevel
+20,|Item=Paladin Scroll of |[Paladin_1]|Item& (1st)|
+10,|Item=Paladin Scroll of |[Paladin_2]|Item& (2nd)|
+5,|Item=Paladin Scroll of |[Paladin_3]|Item& (3rd)|
+3,|Item=Paladin Scroll of |[Paladin_4]|Item& (4th)|
+
+:PaladinSpellLevelNeeded
+1,|Item=Paladin Scroll of |[Paladin_%LevelNeededPalRng%]|Item& ({Ordinal~%LevelNeededPalRng%})|
+
+;RangerSpellLevel
+20,|Item=Ranger Scroll of |[Ranger_1]|Item& (1st)|
+10,|Item=Ranger Scroll of |[Ranger_2]|Item& (2nd)|
+5,|Item=Ranger Scroll of |[Ranger_3]|Item& (3rd)|
+3,|Item=Ranger Scroll of |[Ranger_4]|Item& (4th)|
+
+:RangerSpellLevelNeeded
+1,|Item=Ranger Scroll of |[Ranger_%LevelNeededPalRng%]|Item& ({Ordinal~%LevelNeededPalRng%})|
+
+# --------------------------------------------------------------------
+# Arcane Spells
+;Arcane_0
+5,|Item&Filch||Book=RR2||Cost=%Filch%|
+20,|Item&Quick Sober||Book=RR1||Cost=%QuickSober%|
+10,|Item&Arcane Mark||Book=PHB3.5||Cost=%ArcaneMark%|
+30,|Item&Detect Magic||Book=PHB3.5||Cost=%DetectMagic%|
+20,|Item&Prestidigitation||Book=PHB3.5||Cost=%Prestidigitation%|
+30,|Item&Read Magic||Book=PHB3.5||Cost=%ReadMagic%|
+10,|Item&Summarize||Book=SP&SC||Cost=%Summarize%|
+10,|Item&Shelve||Book=SP&SC||Cost=%Shelve%|
+10,|Item&Open/Close||Book=PHB3.5||Cost=%Open/Close%|
+5,|Item&Conjurer's Toolbelt||Book=S&S||Cost=%Conjurer'sToolbelt%|
+5,|Item&False Flavor||Book=RR2||Cost=%FalseFlavor%|
+5,|Item&Elina's Perfume||Book=RR2||Cost=%Elina'sPerfume%|
+5,|Item&Acid Splash||Book=PHB3.5||Cost=%AcidSplash%|
+10,|Item&Electric Jolt||Book=MOF||Cost=%ElectricJolt%|
+5,|Item&Hoizikaul's Cough||Book=MOF||Cost=%Hoizikaul'sCough%|
+20,|Item&Silent Portal||Book=MOF||Cost=%SilentPortal%|
+15,|Item&Launch Bolt||Book=MOF||Cost=%LaunchBolt%|
+5,|Item&Repair Minor Damage||Book=T&B||Cost=%RepairMinorDamage%|
+15,|Item&Quill||Book=SP&SC||Cost=%Quill%|
+20,|Item&Dancing Lights||Book=PHB3.5||Cost=%DancingLights%|
+10,|Item&Daze||Book=PHB3.5||Cost=%Daze%|
+10,|Item&Enumerate||Book=RR1||Cost=%Enumerate%|
+10,|Item&Dowsing||Book=RR1||Cost=%Dowsing%|
+15,|Item&Detect Poison||Book=PHB3.5||Cost=%DetectPoison%|
+15,|Item&Ray of Frost||Book=PHB3.5||Cost=%RayofFrost%|
+25,|Item&Mending||Book=PHB3.5||Cost=%Mending%|
+10,|Item&Sneeze||Book=RR1||Cost=%Sneeze%|
+10,|Item&Steal Sleep||Book=RR1||Cost=%StealSleep%|
+10,|Item&Flare||Book=PHB3.5||Cost=%Flare%|
+20,|Item&Spark||Book=RR1||Cost=%Spark%|
+20,|Item&Ghost Sound||Book=PHB3.5||Cost=%GhostSound%|
+20,|Item&Mage Hand||Book=PHB3.5||Cost=%MageHand%|
+5,|Item&Distort Shadow||Book=RR1||Cost=%DistortShadow%|
+30,|Item&Clean||Book=RR1||Cost=%Clean%|
+30,|Item&Chill/Warmth||Book=RR1||Cost=%Chill/Warmth%|
+5,|Item& Disrupt Undead||Book=PHB3.5||Cost=%DisruptUndead%|
+10,|Item&Resistance||Book=PHB3.5||Cost=%Resistance%|
+30,|Item&Light||Book=PHB3.5||Cost=%Light%|
+5,|Item&Touch of Fatigue||Book=PHB3.5||Cost=%TouchofFatigue%|
+10,|Item&Preserve Organ||Book=BVD||Cost=%PreserveOrgan%|
+5,|Item&Unnerving Gaze||Book=BVD||Cost=%UnnervingGaze%|
+5,|Item&No Light||Book=BVD||Cost=%NoLight%|
+5,|Item&Slash Tongue||Book=BVD||Cost=%SlashTongue%|
+
+;Arcane_1
+10,|Item&Disguise Self||Book=PHB3.5||Cost=%DisguiseSelf%|
+5,|Item&Horizikaul's Boom||Book=MOF||Cost=%Horizikaul'sBoom%|
+10,|Item&Forcewave||Book=MOF||Cost=%Forcewave%|
+5,|Item&Nybor's Gentle Reminder||Book=MOF||Cost=%Nybor'sGentleReminder%|
+5,|Item&Know Protections||Book=MOF||Cost=%KnoeProtections%|
+5,|Item&Corrosive Grasp||Book=MOF||Cost=%CorrosiveGrasp%|
+5,|Item&Shelgarn's Persistant Blade||Book=MOF||Cost=%Shelgarn'sPersistantBlade%|
+10,|Item&Ironguts||Book=MOF||Cost=%Ironguts%|
+5,|Item&Summon Undead 1||Book=MOF||Cost=%SummonUndead1%|
+10,|Item&Lesser Sonic Orb||Book=T&B||Cost=%LesserSonicOrb%|
+20,|Item&Lesser Electric Orb||Book=T&B||Cost=%LesserElectricOrb%|
+10,|Item&Lesser Cold Orb||Book=T&B||Cost=%LesserColdOrb%|
+5,|Item&Elina's Wardrobe||Book=RR2||Cost=%Elina'sWardrobe%|
+10,|Item&Lesser Acid Orb||Book=T&B||Cost=%LesserAcidOrb%|
+10,|Item&Foreaction||Book=RR2||Cost=%Foreaction%|
+10,|Item&Net of Shadows||Book=MOF||Cost=%NetofShadows%|
+5,|Item&Spirit Worm||Book=MOF||Cost=%SpiritWorm%|
+5,|Item&Kauper's Skittish Nerves||Book=MOF||Cost=%Kauper'sSkittishNerves%|
+5,|Item&Laeral's Cutting Hand||Book=MOF||Cost=%Laeral'sCuttingHand%|
+15,|Item&Launch Item||Book=MOF||Cost=%LaunchItem%|
+20,|Item&Low-Light Vision||Book=MOF||Cost=%Low-LightVision%|
+10,|Item&Scatterspray||Book=MOF||Cost=%Scatterspray%|
+15,|Item&Speed Swim||Book=MOF||Cost=%SpeedSwim%|
+15,|Item&Ice Dagger||Book=MOF||Cost=%IceDagger%|
+5,|Item&Repair Light Damage||Book=T&B||Cost=%RepairLightDamage%|
+10,|Item&Web Walking||Book=SP&SC||Cost=%WebWalking%|
+20,|Item&Unravel||Book=SP&SC||Cost=%Unravel%|
+5,|Item&Tasha's Fickle Finger||Book=SP&SC||Cost=%Tasha'sFickleFinger%|
+5,|Item&Syron's Energy Armor||Book=SP&SC||Cost=%Syron'sEnergyArmor%|
+10,|Item&Strech||Book=SP&SC||Cost=%Strench%|
+10,|Item&Quakethrust||Book=SP&SC||Cost=%Quakethrust%|
+10,|Item&Mantle of Shadows||Book=SP&SC||Cost=%MantleofShadows%|
+10,|Item&Illusionary Bolt||Book=SP&SC||Cost=%IllusionaryBolt%|
+15,|Item&Hesistate||Book=SP&SC||Cost=%Hesistate%|
+10,|Item&Hammerstrike||Book=SP&SC||Cost=%Hammerstrike%|
+10,|Item&Forgetfulness||Book=SP&SC||Cost=%Forgetfulness%|
+15,|Item&Cleanse Minor Vermin||Book=SP&SC||Cost=%CleanseMinorVermin%|
+5,|Item&Blaise's Blazing Beads||Book=RR2||Cost=%Blaise'sBlazingBeads%|
+5,|Item&Negative Energy Ray||Book=T&B||Cost=%NegativeEnergyRay%|
+10,|Item&Bladethirst||Book=RR2||Cost=%Bladethirst%|
+5,|Item&Field of Razors||Book=RR2||Cost=%FieldofRazors%|
+10,|Item&Web Sphere||Book=RR2||Cost=%WebSphere%|
+10,|Item&Detect Shapechangers||Book=RR2||Cost=%DetectShapechangers%|
+5,|Item&Locate Oasis||Book=RR2||Cost=%LocateOasis%|
+20,|Item&Locate Water||Book=RR2||Cost=%LocateWater%|
+15,|Item&Spirit Watch||Book=RR2||Cost=%SpiritWatch%|
+5,|Item&Serpents Stare||Book=RR2||Cost=%SerpentsStare1%|
+10,|Item&Cobwebs||Book=RR2||Cost=%Cobwebs%|
+10,|Item&Bolt of Power||Book=RR2||Cost=%BoltofPower%|
+10,|Item&Clawstrike||Book=RR2||Cost=%Clawstrike%|
+15,|Item&Stone Bolt||Book=RR2||Cost=%StoneBolt%|
+15,|Item&Chill Weapon||Book=RR2||Cost=%ChillWeapon%|
+5,|Item&Claws of the Demon||Book=SP&SC||Cost=%ClawsoftheDemon%|
+20,|Item&Nystul's Magical Aura||Book=PHB3.5||Cost=%Nystul'sMagicalAura%|
+30,|Item&Unseen Servant||Book=PHB3.5||Cost=%UnseenServant%|
+15,|Item&Arrow Charm||Book=RR1||Cost=%ArrowCharm%|
+10,|Item&Ray of Enfeeblment||Book=PHB3.5||Cost=%RayofEnfeeblment%|
+5,|Item&Chill Touch||Book=PHB3.5||Cost=%ChillTouch%|
+15,|Item&Ventriloquism||Book=PHB3.5||Cost=%Ventriloquism%|
+20,|Item&True Strike||Book=PHB3.5||Cost=%TrueStrike%|
+10,|Item&Detect Gold/Metals||Book=RR1||Cost=%DetectGold/Metals%|
+10,|Item&Detect Secret Doors||Book=PHB3.5||Cost=%DetectSecretDoors%|
+10,|Item&Detect Undead||Book=PHB3.5||Cost=%DetectUndead%|
+5,|Item&Identify||Book=PHB3.5||Cost=%Identify%|
+10,|Item&Lesser Fire Orb||Book=T&B||Cost=%LesserFireOrb%|
+10,|Item&Shade's Sight||Book=RR1||Cost=%Shade'sSight%|
+5,|Item&Acid Spittle||Book=RR1||Cost=%AcidSpittle%|
+5,|Item&Nystul's Undetectable Aura||Book=PHB3.0||Cost=%Nystul'sUndetectableAura%|
+10,|Item&Cause Fear||Book=PHB3.5||Cost=%CauseFear%|
+1,|Item&Disappear||Book=RR1||Cost=%Disappear%|
+5,|Item&Color Spray||Book=PHB3.5||Cost=%ColorSpray%|
+#15,|Item&Change Self||Book=PHB3.0||Cost=%ChangeSelf%|
+10,|Item&Chameleon Skin||Book=RR1||Cost=%ChameleonSkin%|
+10,|Item&Tenser's Floating Disk||Book=PHB3.5||Cost=%Tenser'sFloatingDisk%|
+30,|Item&Magic Missile||Book=PHB3.5||Cost=%MagicMissile%|
+20,|Item&Flash||Book=RR1||Cost=%Flash%|
+20,|Item&Flame Bolt||Book=RR1||Cost=%FlameBolt%|
+20,|Item&Sleep||Book=PHB3.5||Cost=%Sleep%|
+5,|Item&Salamar's Quiet Contemplation||Book=RR1||Cost=%Salamar'sQuietContemplation%|
+10,|Item&Hypnotism||Book=PHB3.5||Cost=%Hypnotism%|
+15,|Item&Charm Person||Book=PHB3.5||Cost=%CharmPerson%|
+15,|Item&Silent Image||Book=PHB3.5||Cost=%SilentImage%|
+25,|Item&Protection from [Algn]||Book=PHB3.5||Cost=%ProtectionChaos/Evil/Good/Law%|
+15,|Item&Trigger Rune||Book=RR1||Cost=%TriggerRune%|
+20,|Item&Spider Climb||Book= PHB3.5||Cost=%SpiderClimb%|
+15,|Item&Shocking Grasp||Book=PHB3.5||Cost=%ShockingGrasp%|
+10,|Item&Reshape Shadow||Book=RR1||Cost=%ReshapeShadow%|
+20,|Item&Reduce Person||Book=PHB3.5||Cost=%Reduce%|
+10,|Item&Rabbit Feet||Book=RR1||Cost=%RabbitFeet%|
+20,|Item&Comprehend Languages||Book=PHB3.5||Cost=%ComprehendLanguages%|
+20,|Item&Obscuring Mist||Book=PHB3.5||Cost=%ObscuringMist%|
+20,|Item&Animate Rope||Book=PHB3.5||Cost=%AnimateRope%|
+20,|Item&Mount||Book=PHB3.5||Cost=%Mount%|
+30,|Item&Mage Armor||Book=PHB3.5||Cost=%MageArmor%|
+20,|Item&Grease||Book=PHB3.5||Cost=%Grease%|
+10,|Item&Summon Monster 1||Book=PHB3.5||Cost=%SummonMonster1%|
+25,|Item&Shield||Book=PHB3.5||Cost=%Shield%|
+10,|Item&Obscure Shadow||Book=RR1||Cost=%ObscureShadow%|
+20,|Item&Hold Portal||Book=PHB3.5||Cost=%HoldPortal%|
+30,|Item&Endure Elements||Book=PHB3.5||Cost=%EndureElements%|
+10,|Item&Buoyancy Net||Book=RR1||Cost=%BuoyancyNet%|
+25,|Item&Message||Book=PHB3.0||Cost=%Message%|
+20,|Item&Magic Weapon||Book=PHB3.5||Cost=%MagicWeapon%|
+30,|Item&Jump||Book=PHB3.5||Cost=%Jump%|
+25,|Item&Feather Fall||Book=PHB3.5||Cost=%FeatherFall%|
+30,|Item&Alarm||Book=PHB3.5||Cost=%Alarm%|
+25,|Item&Expeditious Retreat||Book=PHB3.5||Cost=%ExpeditiousRetreat%|
+10,|Item&Erase||Book=PHB3.5||Cost=%Erase%|
+20,|Item&Enlarge Person||Book=PHB3.5||Cost=%EnlargePerson%|
+20,|Item&Burning Hands||Book=PHB3.5||Cost=%BurningHands%|
+20,|Item&Glue||Book=RR1||Cost=%Glue%|
+10,|Item&Suspend Disease||Book=BVD||Cost=%SuspendDisease%|
+5,|Item&Black Bag||Book=BVD||Cost=%BlackBag%|
+5,|Item&Extract Drug||Book=BVD||Cost=%ExtractDrug%|
+10,|Item&Nether Trail||Book=BVD||Cost=%NetherTrail%|
+10,|Item&Drug Resistance||Book=BVD||Cost=%DrugResistance%|
+5,|Item&Sacrificial Skill||Book=BVD||Cost=%SacrificialSkill%|
+5,|Item&Stupor||Book=BVD||Cost=%Stupor%|
+5,|Item&Darklight||Book=BVD||Cost=%Darklight%|
+5,|Item&Death Grimace||Book=BVD||Cost=%DeathGrimace%|
+5,|Item&Aberrate||Book=BVD||Cost=%Aberrate%|
+5,|Item&Bestow Wound||Book=BVD||Cost=%BestowWound%|
+5,|Item&Cheat||Book=BVD||Cost=%Cheat%|
+5,|Item&Tongue Tendrils||Book=BVD||Cost=%TongueTendrils%|
+
+;Arcane_2
+20,|Item&Bear's Endurance||Book=PHB3.5||Cost=%Bear'sEndurance%|
+10,|Item&Scorching Ray||Book=PHB3.5||Cost=%ScorchingRay%|
+5,|Item&Touch of Idiocy||Book=PHB3.5||Cost=%TouchofIdiocy%|
+5,|Item&Vigilant Guardians||Book=SP&SC||Cost=%VigilantGuardians%|
+10,|Item&Slipping the Ranks||Book=SP&SC||Cost=%SlippingtheRanks%|
+20,|Item&Protect Book||Book=SP&SC||Cost=%ProtectBook%|
+10,|Item&Jester's Gift||Book=SP&SC||Cost=%Jester'sGift%|
+10,|Item&Instability||Book=SP&SC||Cost=%Instability%|
+10,|Item&Imprint||Book=SP&SC||Cost=%Imprint%|
+5,|Item&Felonious Friend 1||Book=SP&SC||Cost=%FeloniousFriend1%|
+10,|Item&Glittering Robe||Book=SP&SC||Cost=%GlitteringRobe%|
+10,|Item&Exhaust||Book=SP&SC||Cost=%Exhaust%|
+10,|Item&Disruption Missiles||Book=SP&SC||Cost=%DisruptionMissiles%|
+10,|Item&Weeping fool||Book=SP&SC||Cost=%Weepingfool%|
+10,|Item&Weightless Cube||Book=SP&SC||Cost=%WeightlessCube%|
+10,|Item&Dig||Book=SP&SC||Cost=%Dig%|
+5,|Item&Bed Bug Bites||Book=RR2||Cost=%BedBugBites%|
+20,|Item&Shocking Missile||Book=RR2||Cost=%ShockingMissile%|
+15,|Item&Repair Moderate Damage||Book=T&B||Cost=%RepairModerateDamage%|
+20,|Item&Owl's Wisdom||Book=PHB3.5||Cost=%Owl'sWisdom%|
+20,|Item&Fox's Cunning||Book=PHB3.5||Cost=%Fox'sCunning%|
+10,|Item&Fanning the Flames||Book=RR2||Cost=%FanningtheFlames%|
+10,|Item&False Life||Book=PHB3.5||Cost=%FalseLife%|
+15,|Item&Dragonhide||Book=RR2||Cost=%Dragonhide%|
+5,|Item&Command Undead||Book=PHB3.5||Cost=%CommandUndead%|
+10,|Item&Dark Flames||Book=RR1||Cost=%DarkFlames%|
+10,|Item&Indifference||Book=T&B||Cost=%Indifference%|
+10,|Item&Filter||Book=T&B||Cost=%Filter%|
+10,|Item&Gaze Screen||Book=T&B||Cost=%GazeScreen%|
+5,|Item&Choke||Book=T&B||Cost=%Choke%|
+15,|Item&Eagle's Splendor||Book=PHB3.5||Cost=%Eagle'sSplendor%|
+15,|Item&Verisimilitude||Book=RR2||Cost=%Verisimilitude%|
+5,|Item&Rie's Lustful Gaze||Book=RR2||Cost=%Rie'sLustfulGaze%|
+15,|Item&Ice Knife||Book=T&B||Cost=%IceKnife%|
+5,|Item&Chaos Flame||Book=RR2||Cost=%ChaosFlame%|
+10,|Item&Downdraft||Book=RR2||Cost=%Downdraft%|
+5,|Item&Fountain of Blood||Book=RR2||Cost=%FountainofBlood%|
+5,|Item&Nose of the Rat||Book=RR2||Cost=%NoseoftheRat2%|
+10,|Item&Blind Mark||Book=RR2||Cost=%BlindMark%|
+15,|Item&Bend Sounds||Book=RR2||Cost=%BendSounds%|
+10,|Item&Dying Breath||Book=RR2||Cost=%DyingBreath%|
+10,|Item&Netherblade||Book=RR2||Cost=%Netherblade%|
+5,|Item&Soul Blast||Book=RR2||Cost=%SoulBlast%|
+10,|Item&Bull's Grace||Book=RR2||Cost=%Bull'sGrace%|
+30,|Item&Continual Heat||Book=RR2||Cost=%ContinualHeat%|
+1,|Item&Dragonflight||Book=RR2||Cost=%Dragonflight%|
+5,|Item&Aura of Menace||Book=RR2||Cost=%AuraofMenace%|
+5,|Item&Iceshards||Book=RR2||Cost=%Iceshards%|
+5,|Item&Gloom||Book=RR1||Cost=%Gloom%|
+1,|Item&SeeInvisiblity||Book=PHB3.5||Cost=%SeeInvisiblity%|
+5,|Item&Alibi||Book=RR1||Cost=%Alibi%|
+10,|Item&Commanding Presence||Book=RR1||Cost=%CommandingPresence%|
+5,|Item&Enkili's Prank||Book=RR1||Cost=%Enkili'sPrank%|
+15,|Item&Rend the Soverign Soul||Book=RR1||Cost=%RendtheSovereignSoul%|
+5,|Item&Detect Thoughts||Book=PHB3.5||Cost=%DetectThoughts%|
+10,|Item&Cold Snap||Book=RR1||Cost=%ColdSnap%|
+5,|Item&Dead Man's Eyes||Book=RR1||Cost=%DeadMan'sEyes%|
+15,|Item&Darkness||Book=PHB3.5||Cost=%Darkness%|
+15,|Item&Familiar Pocket||Book=T&B||Cost=%FamiliarPocket%|
+5,|Item&Dolomar's Force Wave||Book=RR1||Cost=%Dolomar'sForceWave%|
+10,|Item&Ethereal Bolt||Book=RR1||Cost=%EtherealBolt%|
+10,|Item&Flame/Frost Weapon||Book=RR1||Cost=%Flame/FrostWeapon%|
+20,|Item&Flaming Sphere||Book=PHB3.5||Cost=%FlamingSphere%|
+20,|Item&Daylight||Book=PHB3.5||Cost=%Daylight%|
+5,|Item&Tasha's Hideous Laughter||Book=PHB3.5||Cost=%Tasha'sHideousLaughter%|
+15,|Item&Glitterdust||Book=PHB3.5||Cost=%Glitterdust%|
+20,|Item&Arcane Lock||Book=PHB3.5||Cost=%ArcaneLock%|
+15,|Item&Blazing Shield||Book=RR1||Cost=%BlazingShield%|
+5,|Item&Obscure Object||Book=PHB3.5||Cost=%ObscureObject2%|
+5,|Item&Protection from Arrows||Book=PHB3.5||Cost=%ProtectionfromArrows%|
+20,|Item&Resist Energy ([EnergyType])||Book=PHB3.5||Cost=%ResistEnergy%|
+5,|Item&Rune of Darkness||Book=RR1||Cost=%RuneofDarkness%|
+10,|Item&Locate Object||Book=PHB3.5||Cost=%LocateObject%|
+15,|Item&Fog Cloud||Book=PHB3.5||Cost=%FogCloud%|
+15,|Item&Shatter||Book=PHB3.5||Cost=%Shatter%|
+10,|Item&Life Shield||Book=RR1||Cost=%LifeShield%|
+5,|Item&Liliandel's Flurry||Book=RR1||Cost=%Liliandel'sFlurry%|
+10,|Item&Acid Arrow||Book=PHB3.5||Cost=%Melf'sAcidArrow%|
+10,|Item&Summon Monster 2||Book=PHB3.5||Cost=%SummonMonster2%|
+5,|Item&Summon Swarm||Book=PHB3.5||Cost=%SummonSwarm%|
+20,|Item&Web||Book=PHB3.5||Cost=%Web%|
+5,|Item&Assassin's Sense's||Book=RR1||Cost=%Assassin'sSense's%|
+10,|Item&Dolomar's Mapping||Book=RR1||Cost=%Dolomar'sMapping%|
+5,|Item&Levitate||Book=PHB3.5||Cost=%Levitate%|
+5,|Item&Ganest's Farstrike||Book=RR1||Cost=%Ganest'sFarstrike%|
+10,|Item&Blindness/Deafness||Book=PHB3.5||Cost=%Blindness/Deafness%|
+20,|Item&Bull's Strength||Book=PHB3.5||Cost=%Bull'sStrength%|
+20,|Item&Cat's Grace||Book=PHB3.5||Cost=%Cat'sGrace%|
+20,|Item&Darkvision||Book=PHB3.5||Cost=%Darkvision%|
+#15,|Item&Endurance||Book=PHB3.5||Cost=%Endurance%|
+15,|Item&Spectral Hand||Book=PHB3.5||Cost=%SpectralHand%|
+20,|Item&Knock||Book=PHB3.5||Cost=%Knock%|
+5,|Item&Sleep of the Dead||Book=RR1||Cost=%SleepoftheDead%|
+10,|Item&Perfect Recollection||Book=RR1||Cost=%PerfectRecollection%|
+20,|Item&Pyrotechnics||Book=PHB3.5||Cost=%Pyrotechnics%|
+10,|Item&Renewed Focus||Book=RR1||Cost=%RenewedFocus%|
+20,|Item&Rope Trick||Book=PHB3.5||Cost=%RopeTrick%|
+10,|Item&Swift Water||Book=RR1||Cost=%SwiftWater%|
+10,|Item&Whispering Wind||Book=PHB3.5||Cost=%WhisperingWind%|
+5,|Item&Acidic Vapors||Book=SP&SC||Cost=%AcidicVapors%|
+10,|Item&Intoxicate||Book=RR1||Cost=%Intoxicate%|
+10,|Item&MinorImage||Book=PHB3.5||Cost=%MinorImage%|
+10,|Item&Smother||Book=RR1||Cost=%Smother%|
+20,|Item&Blur||Book=PHB3.5||Cost=%Blur%|
+20,|Item&ContinualFlame||Book=PHB3.5||Cost=%ContinualFlame%|
+10,|Item&EverScent||Book=SP&SC||Cost=%EverScent%|
+10,|Item&HypnoticPattern||Book=PHB3.5||Cost=%HypnoticPattern%|
+1,|Item&Invisibility||Book=PHB3.5||Cost=%Invisibility%|
+10,|Item&Alter Self||Book=PHB3.5||Cost=%AlterSelf%|
+10,|Item&Magic Mouth||Book=PHB3.5||Cost=%MagicMouth%|
+30,|Item&Detect Ward||Book=SP&SC||Cost=%DetectWard%|
+5,|Item&Minor Shadow Conjuration||Book=RR1||Cost=%MinorShadowConjuration%|
+20,|Item&Mirror Image||Book=PHB3.5||Cost=%MirrorImage%|
+10,|Item&Misdirection||Book=PHB3.5||Cost=%Misdirection%|
+10,|Item&Shadow Images||Book=RR1||Cost=%ShadowImages%|
+5,|Item&Ghoul Touch||Book=PHB3.5||Cost=%GhoulTouch%|
+10,|Item&Phantom's Howl||Book=RR1||Cost=%Phantom'sHowl%|
+5,|Item&Scare||Book=PHB3.5||Cost=%Scare%|
+5,|Item&Leomunds Trap||Book=PHB3.5||Cost=%LeomundsTrap%|
+15,|Item&Force Ladder||Book=MOF||Cost=%ForceLadder%|
+5,|Item&Balagarn's Iron Horn||Book=MOF||Cost=%Balagarn'sIronHorn%|
+5,|Item&Shroud of Undeath||Book=MOF||Cost=%ShroudofUndeath%|
+20,|Item&Life Bolt||Book=MOF||Cost=%LifeBolt%|
+5,|Item&Death Armor||Book=MOF||Cost=%DeathArmor%|
+10,|Item&Shadow Spray||Book=MOF||Cost=%ShadowSpray%|
+5,|Item&Shadow Mask||Book=MOF||Cost=%ShadowMask%|
+5,|Item&Disguise Undead||Book=MOF||Cost=%DisguiseUndead%|
+5,|Item&Claws of Darkness||Book=MOF||Cost=%ClawsofDarkness%|
+5,|Item&Scent||Book=CDiv||Cost=%Scent%|
+5,|Item&Gedlee's Electric Loop||Book=MOF||Cost=%Gedlee'sElectricLoop%|
+15,|Item&Stone Bones||Book=MOF||Cost=%StoneBones%|
+20,|Item&Flame Dagger||Book=MOF||Cost=%FlameDagger%|
+15,|Item&Combust||Book=MOF||Cost=%Combust%|
+10,|Item&Aganazzar's Scorcher||Book=MOF||Cost=%Aganazzar'sScorcher%|
+5,|Item&Summon Undead 2||Book=MOF||Cost=%SummonUndead2%|
+5,|Item&Igedrazaar's Miasma||Book=MOF||Cost=%Igedrazaar'sMiasma%|
+5,|Item&Keshmeeri Refuge||Book=RR2||Cost=%KeshmeeriRefuge%|
+20,|Item&Battering Ram||Book=MOF||Cost=%BatteringRam%|
+10,|Item&Create Magic Tatto||Book=MOF||Cost=%CreatMagicTatto%|
+15,|Item&Cloud of Bewilderment||Book=MOF||Cost=%CloudofBewilderment%|
+5,|Item&Snilloc's Snowball Swarm||Book=MOF||Cost=%Snilloc'sSnowballSwarm%|
+2,|Item&Unheavened||Book=BVD||Cost=%Unheavened%|
+2,|Item&Addiction||Book=BVD||Cost=%Addiction%|
+2,|Item&Entice Gift||Book=BVD||Cost=%EnticeGift%|
+2,|Item&Masochisim||Book=BVD||Cost=%Masochisim%|
+2,|Item&Sadism||Book=BVD||Cost=%Sadisim%|
+2,|Item&Darkbolt||Book=BVD||Cost=%Darkbolt%|
+2,|Item&Dance of Ruin||Book=BVD||Cost=%DanceofRuin%|
+2,|Item&Shriveling||Book=BVD||Cost=%Shriveling%|
+2,|Item&Slow Consumption||Book=BVD||Cost=%SlowConsumption%|
+2,|Item&Wither Limb||Book=BVD||Cost=%WitherLimb%|
+2,|Item&Graz'zt's Long Grasp||Book=BVD||Cost=%Graz'zt'sLongGrasp%|
+
+;Arcane_3
+20,|Item&Rage||Book=PHB3.5||Cost=%Rage%|
+10,|Item&Deep Slumber||Book=PHB3.5||Cost=%DeepSlumber%|
+10,|Item&Shrink Item||Book=PHB3.5||Cost=%ShrinkItem%|
+10,|Item&Greater Bend Sounds||Book=RR2||Cost=%GreaterBendSounds%|
+5,|Item&Syron's Dancing Shield||Book=SP&SC||Cost=%Syron'sDancingShield%|
+10,|Item&Shockwave||Book=SP&SC||Cost=%Shockwave3%|
+10,|Item&Shadow Sight||Book=SP&SC||Cost=%ShadowSight%|
+20,|Item&Scribe||Book=SP&SC||Cost=%Scribe%|
+30,|Item&Reveal Ward||Book=SP&SC||Cost=%RevealWard%|
+20,|Item&Restore Page||Book=SP&SC||Cost=%RestorePage%|
+5,|Item&Malediction of Razors||Book=SP&SC||Cost=%MaledictionofRazors%|
+10,|Item&Immobilize||Book=SP&SC||Cost=%Immobilize%|
+10,|Item&Gandar's Chatterbox||Book=SP&SC||Cost=%Gandar'sChatterbox%|
+10,|Item&Floor of Fire||Book=SP&SC||Cost=%FloorofFire%|
+10,|Item&Unbuckle||Book=RR1||Cost=%Unbuckle%|
+5,|Item&Valus's Mass Missile||Book=SP&SC||Cost=%Valus'sMassMissile%|
+5,|Item&Slow||Book=PHB3.5||Cost=%Slow%|
+5,|Item&Zone of Visibility||Book=SP&SC||Cost=%ZoneofVisibility%|
+10,|Item&SecretPage||Book=PHB3.5||Cost=%SecretPage%|
+30,|Item&Keen Edge||Book=PHB3.5||Cost=%KeenEdge%|
+20,|Item&Ice Burst||Book=T&B||Cost=%IceBurst%|
+10,|Item&Greater Magic Weapon||Book=PHB3.5||Cost=%GreaterMagicWeapon%|
+20,|Item&Great Knock||Book=RR1||Cost=%GreatKnock%|
+5,|Item&Gaseous Form||Book=PHB3.5||Cost=%GaseousForm%|
+1,|Item&Fly||Book=PHB3.5||Cost=%Fly%|
+20,|Item&Blink||Book=PHB3.5||Cost=%Blink%|
+20,|Item&Enhance Familiar||Book=T&B||Cost=%EnhanceFamiliar%|
+5,|Item&Repair Serious Damage||Book=T&B||Cost=%RepairSeriousDamage%|
+5,|Item&Negative Energy Burst||Book=T&B||Cost=%NegativeEnergyBurst%|
+5,|Item&Feign Death||Book=T&B||Cost=%FeignDeath%|
+5,|Item&Touch of the Eel||Book=RR1||Cost=%TouchoftheEel3%|
+5,|Item&Battle Projection||Book=RR2||Cost=%BattleProjection%|
+30,|Item&Dispel Magic||Book=PHB3.5||Cost=%DispelMagic%|
+20,|Item&ExplosiveRunes||Book=PHB3.5||Cost=%ExplosiveRunes%|
+10,|Item&Magic Circle Against [Algn]||Book=PHB3.5||Cost=%MagicCircleAgainstChaos/Evil/Good/Law%|
+5,|Item&Nondetection||Book=PHB3.5||Cost=%Nondetection%|
+#30,|Item&Protection From [EnergyType]||Book=PHB3.0||Cost=%ProtectionFromElements%|
+20,|Item&Water Breathing||Book=PHB3.5||Cost=%WaterBreathing%|
+5,|Item&Rune of Fire||Book=RR1||Cost=%RuneofFire%|
+5,|Item&Rune of Sleep||Book=RR1||Cost=%RuneofSleep%|
+5,|Item&Chains of Binding||Book=RR2||Cost=%ChainsofBinding%|
+10,|Item&Missile Storm||Book=RR2||Cost=%MissileStorm%|
+15,|Item&Arcane Parry||Book=RR2||Cost=%ArcaneParry%|
+5,|Item&Detect Dreams||Book=RR2||Cost=%DetectDreams%|
+20,|Item&Trigger Trap||Book=SP&SC||Cost=%TriggerTrap%|
+5,|Item&Austlinan's Violent Scream||Book=RR2||Cost=%Austlinan'sViolentScream%|
+10,|Item&Haste||Book=PHB3.5||Cost=%Haste%|
+5,|Item&Malicious Image||Book=RR2||Cost=%MaliciousImage%|
+15,|Item&Mask Magic||Book=RR2||Cost=%MaskMagic%|
+10,|Item&Veil of Lust||Book=RR2||Cost=%VeilofLust%|
+10,|Item&Bones of Silver||Book=RR2||Cost=%BonesofSilver%|
+5,|Item&Lesser Turn Resistance||Book=RR2||Cost=%LesserTurnResistance%|
+5,|Item&Malaise||Book=RR2||Cost=%Malaise%|
+5,|Item&Vampiric Weapon||Book=RR2||Cost=%VampiricWeapon%|
+5,|Item&Vangal's Blessing||Book=RR2||Cost=%Vangal'sBlessing%|
+5,|Item&Virtue's Curse||Book=RR2||Cost=%Virtue'sCurse3%|
+10,|Item&Call Aquatic Humaniod1||Book=RR1||Cost=%CallAquaticHumaniod1%|
+20,|Item&Flame Arrow||Book=PHB3.5||Cost=%FlameArrow%|
+20,|Item&Gas Cloud||Book=RR1||Cost=%GasCloud%|
+20,|Item&Phantom Steed||Book=PHB3.5||Cost=%PhantomSteed%|
+10,|Item&Lure||Book=RR2||Cost=%Lure%|
+15,|Item&Illusionary Script||Book=PHB3.5||Cost=%IllusionaryScript%|
+15,|Item&Tongues||Book=PHB3.5||Cost=%Tongues3%|
+20,|Item&Reverse Arrows||Book=MOF||Cost=%ReverseArrows%|
+20,|Item&Suggestion||Book=PHB3.5||Cost=%Suggestion%|
+10,|Item&Pressure Sphere||Book=RR1||Cost=%PressureSphere%|
+5,|Item&Dar'Tan's ShadowBolt||Book=RR1||Cost=%Dar'Tan'sShadowBolt%|
+2,|Item&[DragonsBreathType] Dragon's Breath||Book=RR1||Cost=%Dragon'sBreath%|
+30,|Item&Fireball||Book=PHB3.5||Cost=%Fireball%|
+30,|Item&Gust of Wind||Book=PHB3.5||Cost=%GustofWind%|
+15,|Item&Iron Storm||Book=RR1||Cost=%IronStorm%|
+5,|Item&Leomund's Tiny Hut||Book=PHB3.5||Cost=%Leomund'sTinyHut%|
+30,|Item&Lightning Bolt||Book=PHB3.5||Cost=%LightningBolt%|
+10,|Item&Manaspear||Book=RR1||Cost=%Manaspear%|
+5,|Item&Rune of Seeing||Book=RR1||Cost=%RuneofSeeing%|
+15,|Item&Displacement||Book=PHB3.5||Cost=%Displacement%|
+25,|Item&Hold Person||Book=PHB3.5||Cost=%HoldPerson%|
+1,|Item&Invisibility Sphere||Book=PHB3.5||Cost=%InvisibilitySphere%|
+5,|Item&Major Image||Book=PHB3.5||Cost=%MajorImage%|
+10,|Item&MinorShadowEvocation||Book=RR1||Cost=%MinorShadowEvocation%|
+5,|Item&Armor of Undeath||Book=RR1||Cost=%ArmorofUndeath%|
+5,|Item&Gentle Repose||Book=PHB3.5||Cost=%GentleRepose%|
+20,|Item&Halt Undead||Book=PHB3.5||Cost=%HaltUndead%|
+10,|Item&Shadow Strike||Book=RR1||Cost=%ShadowStrike%|
+10,|Item&Shadow Touch||Book=RR1||Cost=%ShadowTouch%|
+5,|Item&Vampiric Touch||Book=PHB3.5||Cost=%VampiricTouch%|
+20,|Item&Animal Infusion||Book=RR1||Cost=%AnimalInfusion%|
+10,|Item&Animate Shadow||Book=RR1||Cost=%AnimateShadow%|
+5,|Item&Corpse Candle||Book=T&B||Cost=%CorpseCandle%|
+20,|Item&Arcane Sight||Book=T&B||Cost=%ArcaneSight%|
+10,|Item&Wind Wall||Book=PHB3.5||Cost=%WindWall3%|
+10,|Item&Shatter floor||Book=MOF||Cost=%Shatterfloor%|
+10,|Item&Weapon of Impact||Book=MOF||Cost=%WeaponofImpact%|
+15,|Item&Greater Mage Hand||Book=MOF||Cost=%GreaterMageHand%|
+30,|Item&Amanuensis||Book=MOF||Cost=%Amanuensis%|
+5,|Item&Undead Torch||Book=MOF||Cost=%UndeadTouch%|
+5,|Item&Undead Lieutenant||Book=MOF||Cost=%UndeadLieutenant%|
+5,|Item&Spider Poison||Book=MOF||Cost=%SpiderPoison%|
+5,|Item&Mind Raid||Book=RR1||Cost=%MindRaid%|
+5,|Item&False Love's Kiss||Book=SP&SC||Cost=%FalseLove'sKiss%|
+5,|Item&Bloodstorm||Book=RR1||Cost=%Bloodstorm%|
+2,|Item&Healing Touch||Book=MOF||Cost=%HealingTouch%|
+5,|Item&Scintillating Sphere||Book=MOF||Cost=%ScintillatingSphere%|
+10,|Item&Flashburst||Book=MOF||Cost=%Flashburst%|
+15,|Item&Blacklight||Book=MOF||Cost=%Blacklight%|
+5,|Item&Nybor's Mild Admonishment||Book=MOF||Cost=%Nybor'sMildAdmonishment%|
+10,|Item&Analyze Portal||Book=MOF||Cost=%AnalyzePortal%|
+5,|Item&Summon Undead 3||Book=MOF||Cost=%SummonUndead3%|
+5,|Item&Mestil's Acid Breath||Book=MOF||Cost=%Mestil'sAcidBreath%|
+5,|Item&Khelben's Suspended Silence||Book=MOF||Cost=%Khelben'sSuspendedSilence%|
+5,|Item&DoomFog||Book=SP&SC||Cost=%DoomFog%|
+5,|Item&Desiccate||Book=SP&SC||Cost=%Desiccate%|
+5,|Item&Sepia Snake Sigil||Book=PHB3.5||Cost=%SepiaSnakeSigil%|
+20,|Item&Sleet Storm||Book=PHB3.5||Cost=%SleetStorm%|
+20,|Item&Stinking Cloud||Book=PHB3.5||Cost=%StinkingCloud%|
+10,|Item&Summon Monster 3||Book=PHB3.5||Cost=%SummonMonster3%|
+10,|Item&Clairaudience/Clairvoyance||Book=PHB3.5||Cost=%Clairaudience/Clairvoyance%|
+5,|Item&Steeldance||Book=MOF||Cost=%Steeldance%|
+15,|Item&Blindsight||Book=MOF||Cost=%Blindsight%|
+5,|Item&Enlarge Ward||Book=SP&SC||Cost=%EnlargeWard%|
+15,|Item&Heroism||Book=PHB3.5||Cost=%Heroisim%|
+5,|Item&Devil's Eye||Book=BVD||Cost=%Devil'sEye%|
+5,|Item&Eyes of the Zombie||Book=BVD||Cost=%EyesoftheZombie%|
+2,|Item&Glimpse of Truth||Book=BVD||Cost=%GlimpseofTruth%|
+10,|Item&Drown||Book=BVD||Cost=%Drown%|
+5,|Item&Wall of Chains||Book=BVD||Cost=%WallofChains%|
+3,|Item&Evil Eye||Book=BVD||Cost=%EvilEye%|
+3,|Item&Dread Word||Book=BVD||Cost=%DreadWord%|
+3,|Item&Vile Lance||Book=BVD||Cost=%VileLance%|
+3,|Item&Cruel Disappointment||Book=BVD||Cost=%CruelDisappointment%|
+3,|Item&Curse of the Putrid Husk||Book=BVD||Cost=%CurseofthePutridHusk%|
+3,|Item&Reality Bond||Book=BVD||Cost=%RealityBond%|
+3,|Item&Tongue Serpents||Book=BVD||Cost=%TongueSerpents%|
+
+;Arcane_4
+10,|Item&Mass Reduce Person||Book=PHB3.5||Cost=%MassReducePerson%|
+10,|Item&Mass Enlarge Person||Book=PHB3.5||Cost=%MassEnlargePerson%|
+5,|Item&Crushing Despair||Book=SP&SC||Cost=%CrushingDespair%|
+10,|Item&Mirror Safe||Book=RR1||Cost=%MirrorSafe%|
+5,|Item&Shadow Form of Lyrand||Book=RR1||Cost=%ShadowFormofLyrand%|
+5,|Item&Seal of Hedrada||Book=RR1||Cost=%SealofHedrada%|
+10,|Item&Remove Resistance||Book=RR1||Cost=%RemoveResistance%|
+20,|Item&Stoneskin||Book=PHB3.5||Cost=%Stoneskin4%|
+20,|Item&Rary's Mnemonic Enhancer||Book=PHB3.5||Cost=%Rary'sMnemonicEnhancer%|
+25,|Item&Polymorph||Book=PHB3.5||Cost=%PolymorphSelf%|
+5,|Item&Tattoo Item||Book=RR1||Cost=%TattooItem%|
+20,|Item&Fire Trap||Book=PHB3.5||Cost=%FireTrap%|
+5,|Item&Burrowing Bony Digits||Book=SP&SC||Cost=%BurrowingBonyDigits%|
+20,|Item&Lesser Globe of Invulnerability||Book=PHB3.5||Cost=%MinorGlobeofInvulnerability%|
+20,|Item&Dimension Door||Book=PHB3.5||Cost=%DimensionDoor%|
+#20,|Item&Polymorph Other||Book=PHB3.5||Cost=%PolymorphOther%|
+10,|Item&Water's Embrace||Book=RR1||Cost=%Water'sEmbrace4%|
+5,|Item&Yaral's Totemic Transformation||Book=RR1||Cost=%Yaral'sTotemicTransformation4%|
+20,|Item&Dimensional Anchor||Book=PHB3.5||Cost=%DimensionalAnchor%|
+15,|Item&Bestow Curse||Book=PHB3.5||Cost=%BestowCurse%|
+15,|Item&Calalytic Mouth||Book=SP&SC||Cost=%CalalyticMouth%|
+30,|Item&Remove Curse||Book=PHB3.5||Cost=%RemoveCurse4%|
+5,|Item&Felonious Friend 2||Book=SP&SC||Cost=%FeloniousFriend2%|
+5,|Item&Lethargy||Book=SP&SC||Cost=%Lethargy%|
+10,|Item&Multi Image||Book=SP&SC||Cost=%MultiImage%|
+5,|Item&Poisoned Goblet||Book=SP&SC||Cost=%PoisonedGoblet%|
+15,|Item&Privacy||Book=SP&SC||Cost=%Privacy%|
+10,|Item&Repel Undead||Book=SP&SC||Cost=%RepelUndead%|
+10,|Item&Titan's Strength||Book=SP&SC||Cost=%Titan'sStrength%|
+5,|Item&Rune of Poison||Book=RR1||Cost=%RuneofPoison%|
+5,|Item&Wall of Law||Book=MOF||Cost=%WallofLaw%|
+15,|Item&Spell Enhancer||Book=MOF||Cost=%SpellEnhancer%|
+10,|Item&Iron Bones||Book=MOF||Cost=%IronBones%|
+5,|Item&Gutsnake||Book=MOF||Cost=%Gutsnake%|
+10,|Item&Ghorus Toth's Metal Melt||Book=MOF||Cost=%GhorusToth'sMetalMelt%|
+15,|Item&Evard's Black Tentacles||Book=PHB3.5||Cost=%Evard'sBlackTentacles%|
+10,|Item&Fire Stride||Book=MOF||Cost=%FireStride%|
+5,|Item&Darsson's Potion||Book=MOF||Cost=%Darsson'sPotion%|
+5,|Item&Backlash||Book=MOF||Cost=%Backlash%|
+10,|Item&Shadow Well||Book=MOF||Cost=%ShadowWell%|
+10,|Item&Tirumael's Energy Sphere's||Book=MOF||Cost=%Tirumael'sEnergySphere's%|
+10,|Item&Thunderlance||Book=MOF||Cost=%Thunderlance%|
+5,|Item&Affliction||Book=RR2||Cost=%Affliction%|
+5,|Item&Summon Undead 4||Book=MOF||Cost=%SummonUndead4%|
+20,|Item&Confusion||Book=PHB3.5||Cost=%Confusion%|
+5,|Item&Wall of Good||Book=MOF||Cost=%WallofGood%|
+5,|Item&Wall of Evil||Book=MOF||Cost=%WallofEvil%|
+5,|Item&Wall of Chaos||Book=MOF||Cost=%WallofChaos%|
+10,|Item&Sap Strength||Book=RR2||Cost=%SapStrength4%|
+35,|Item&Lesser Timeheal||Book=RR2||Cost=%LesserTimeheal%|
+15,|Item&FireShield||Book=PHB3.5||Cost=%FireShield%|
+15,|Item&Frostform||Book=RR2||Cost=%Frostform%|
+5,|Item&Zombie Form||Book=RR1||Cost=%ZombieForm%|
+20,|Item&Earthblast||Book=RR2||Cost=%Earthblast%|
+10,|Item&Bloodied Blade||Book=RR2||Cost=%BloodiedBlade%|
+5,|Item&Bath of Purity||Book=RR2||Cost=%BathofPurity%|
+20,|Item&Explosive Cascade||Book=MOF||Cost=%ExplosiveCascade%|
+10,|Item&Solid Fog||Book=PHB3.5||Cost=%SolidFog%|
+10,|Item&Fortify Familiar||Book=T&B||Cost=%FortifyFamiliar%|
+5,|Item&Repair Critical Damage||Book=T&B||Cost=%RepairCriticalDamage%|
+10,|Item&Mass Darkvision||Book=PHB3.5||Cost=%MassDarkvision%|
+5,|Item&Negative Energy Wave||Book=T&B||Cost=%NegativeEnergyWave%|
+10,|Item&Sonic Orb||Book=T&B||Cost=%SonicOrb%|
+10,|Item&Fire Orb||Book=T&B||Cost=%FireOrb%|
+10,|Item&Electric Orb||Book=T&B||Cost=%ElectricOrb%|
+10,|Item&Cold Orb||Book=T&B||Cost=%ColdOrb%|
+10,|Item&Acid Orb||Book=T&B||Cost=%AcidOrb%|
+5,|Item&Otilukes Dispelling Screen||Book=T&B||Cost=%OtilukesDispellingScreen%|
+15,|Item&Mass Resist Elements||Book=PHB3.5||Cost=%MassResistElements%|
+15,|Item&Emotion||Book=PHB3.0||Cost=%Emotion%|
+10,|Item&Minor Creation||Book=PHB3.5||Cost=%MinorCreation%|
+5,|Item&Gluttony||Book=RR1||Cost=%Gluttony%|
+10,|Item&Summon Monster 4||Book=PHB3.5||Cost=%SummonMonster4%|
+5,|Item&Tevikk's Creeping Eye||Book=RR1||Cost=%Tevikk'sCreepingEye%|
+10,|Item&Verminplague||Book=RR1||Cost=%Verminplague%|
+10,|Item&Arcane Eye||Book=PHB3.5||Cost=%ArcaneEye%|
+15,|Item&Detect Scrying||Book=PHB3.5||Cost=%DetectScrying%|
+20,|Item&Locate Creature||Book=PHB3.5||Cost=%LocateCreature%|
+5,|Item&Minor Circle of Seeing||Book=RR1||Cost=%MinorCircleofSeeing%|
+15,|Item&Scrying||Book=PHB3.5||Cost=%ScryingWiz4%|
+15,|Item&Terole's Translator||Book=RR1||Cost=%Terole'sTranslator%|
+5,|Item&Belsameth's Strife||Book=RR1||Cost=%Belsameth'sStrife%|
+20,|Item&Charm Monster||Book=PHB3.5||Cost=%CharmMonster%|
+20,|Item&Enhanced Senses||Book=RR2||Cost=%EnhancedSenses%|
+5,|Item&Leomund's Secure Shelter||Book=PHB3.5||Cost=%Leomund'sSecureShelter%|
+20,|Item&Rainbow Pattern||Book=PHB3.5||Cost=%RainbowPattern%|
+10,|Item&Purifying Flames||Book=RR1||Cost=%PurifyingFlames%|
+20,|Item&Shadow Shield||Book=RR1||Cost=%ShadowShield%|
+20,|Item&Fear||Book=PHB3.5||Cost=%Fear%|
+5,|Item&Enervation||Book=PHB3.5||Cost=%Enervation%|
+5,|Item&Contagion||Book=PHB3.5||Cost=%Contagion%|
+15,|Item&Bottomless Pit||Book=RR2||Cost=%BottomlessPit%|
+20,|Item&Mind over Matter||Book=RR1||Cost=%MindoverMatter%|
+15,|Item&Otiluke's Resilient Sphere||Book=PHB3.5||Cost=%Otiluke'sResilientSphere%|
+10,|Item&Shadow Conjuration||Book=RR1||Cost=%ShadowConjuration%|
+10,|Item&Sacrifice Spell||Book=RR1||Cost=%SacrificeSpell%|
+101,|Item&Phantasmal Killer||Book=PHB3.5||Cost=%PhantasmalKiller%|
+1,|Item&Invisibility, Greater||Book=PHB3.5||Cost=%ImprovedInvisibility%|
+20,|Item&Illusionary Wall||Book=PHB3.5||Cost=%IllusionaryWall%|
+20,|Item&Hallucinatory Terrain||Book=PHB3.5||Cost=%HallucinatoryTerrain%|
+10,|Item&Ghostdweomer||Book=RR1||Cost=%Ghostdweomer%|
+20,|Item&Shout||Book=PHB3.5||Cost=%Shout%|
+20,|Item&Wall of Fire||Book=PHB3.5||Cost=%WallofFire4%|
+20,|Item&Wall of Ice||Book=PHB3.5||Cost=%WallofIce%|
+15,|Item&Gaurak's Corpluance||Book=RR2||Cost=%Gaurak'sCorpluance%|
+10,|Item&Enduring Webs||Book=RR2||Cost=%EnduringWebs%|
+10,|Item&Accelerate Reflexes||Book=RR2||Cost=%AccelerateReflexes%|
+5,|Item&Repair Dead||Book=RR2||Cost=%RepairDead4%|
+5,|Item&Greater Spectral Hand||Book=RR2||Cost=%GreaterSpectralHand%|
+5,|Item&Bones of Iron||Book=RR2||Cost=%BonesofIron%|
+10,|Item&Talen's Maligned Performance||Book=RR2||Cost=%Talen'sMalignedPerformance%|
+5,|Item&Shadow Chains||Book=RR2||Cost=%ShadowChains%|
+20,|Item&Persistant Missiles||Book=RR2||Cost=%PersistantMissiles%|
+5,|Item&Blaise's Blasting Bead||Book=RR2||Cost=%Blaise'sBlastingBead%|
+5,|Item&Blaise's Bead of Frost||Book=RR2||Cost=%Blaise'sBeadofFrost%|
+15,|Item&Quick Learn||Book=RR2||Cost=%QuickLearn%|
+10,|Item&Iron Butterflies||Book=RR2||Cost=%IronButterflies%|
+25,|Item&Ice Storm||Book=PHB3.5||Cost=%IceStorm%|
+10,|Item&Spell Wall||Book=RR2||Cost=%SpellWall%|
+5,|Item&Hold Stone||Book=RR2||Cost=%HoldStone%|
+5,|Item&Blaise's Lucky Bead||Book=PHB3.5||Cost=%Blaise'sLuckyBead%|
+10,|Item&Lesser Geas||Book=PHB3.5||Cost=%LesserGeas%|
+10,|Item&Tanil's Spectral Archers||Book=PHB3.5||Cost=%Tanil'sSpectralArchers4%|
+5,|Item&Psychic Poison||Book=BVD||Cost=%PsychicPoison%|
+5,|Item&Abyssal Might||Book=BVD||Cost=%AbyssalMight%|
+5,|Item&Hell's Power||Book=BVD||Cost=%Hell'sPower%|
+5,|Item&Wall of Deadly Chains||Book=BVD||Cost=%WallofDeadlyChains%|
+5,|Item&Damning Darkness||Book=BVD||Cost=%DamningDarkness%|
+5,|Item&Mirror Sending||Book=BVD||Cost=%MirrorSending%|
+5,|Item&Grim Revenge||Book=BVD||Cost=%GrimRevenge%|
+5,|Item&Liquid Pain||Book=BVD||Cost=%LiquidPain%|
+5,|Item&Wrack||Book=BVD||Cost=%Wrack4%|
+5,|Item&Corrupt Summons||Book=BVD||Cost=%CorruptSummons%|
+5,|Item&Dancing Chains||Book=BVD||Cost=%DancingChains%|
+
+;Arcane_5
+1,|Item&OverlandFlight||Book=PHB3.5||Cost=%OverlandFlight%|
+1,|Item&Baleful Polymorph||Book=PHB3.5||Cost=%BalefulPolymorph%|
+1,|Item&Waves of Fatigue||Book=PHB3.5||Cost=%WavesofFatigue%|
+1,|Item&Symbol of Pain||Book=PHB3.5||Cost=%SymbolofPain%|
+2,|Item&False Vison||Book=PHB3.5||Cost=%FalseVision%|
+4,|Item&Break Enchantment||Book=PHB3.5||Cost=%BreakEnchantment5%|
+1,|Item&Kiss of the Vampire||Book=MOF||Cost=%KissoftheVampire%|
+4,|Item&Firebrand||Book=MOF||Cost=%Firebrand%|
+1,|Item&Horizikaul's Versatile Vibration||Book=MOF||Cost=%Horizikaul'sVersatileVibration%|
+2,|Item&Shadow Hand||Book=MOF||Cost=%ShadowHand%|
+1,|Item&Grimwald's Greymantle||Book=MOF||Cost=%Grimwald'sGreymantle%|
+4,|Item&Ball Lightning||Book=MOF||Cost=%BallLightning%|
+1,|Item&Simbul's Spell Matrix||Book=MOF||Cost=%Simbul'sSpellMatrix%|
+1,|Item&Meld Object||Book=RR1||Cost=%MeldObject%|
+1,|Item&Multiplicity||Book=RR1||Cost=%Multiplicity%|
+2,|Item&Greater Shadow Conjuration||Book=PHB3.5||Cost=%GreaterShadowConjuration%|
+2,|Item&MagicJar||Book=PHB3.5||Cost=%MagicJar%|
+1,|Item&Nethergaze||Book=RR1||Cost=%Nethergaze%|
+2,|Item&Dimensional Lock||Book=MOF||Cost=%DimensionalLock%|
+4,|Item&Lesser Ironguard||Book=MOF||Cost=%LesserIronguard%|
+4,|Item&Animal Growth||Book=PHB3.5||Cost=%AnimalGrowth%|
+5,|Item&Blight||Book=PHB3.5||Cost=%Blight%|
+1,|Item&Dolomar's Limited Liquification||Book=RR1||Cost=%Dolomar'sLimitedLiquification%|
+4,|Item&Passwall||Book=PHB3.5||Cost=%Passwall%|
+2,|Item&Live Wood||Book=RR1||Cost=%LiveWood%|
+1,|Item&Summon Undead 5||Book=MOF||Cost=%SummonUndead5%|
+1,|Item&Ship Snare||Book=RR1||Cost=%ShipSnare%|
+4,|Item&Telekinesis||Book=PHB3.5||Cost=%Telekinesis%|
+2,|Item&Teleport||Book=PHB3.5||Cost=%Teleport%|
+2,|Item&Transmute Mud to Rock||Book=PHB3.5||Cost=%TransmuteMudtoRock%|
+2,|Item&Transmute Snow to Stone||Book=SP&SC||Cost=%TransmuteSnowtoStone%|
+2,|Item&Permanency||Book=PHB3.5||Cost=%Permanency%|
+1,|Item&Mestil's Acid Sheath||Book=MOF||Cost=%Mestil'sAcidSheath%|
+2,|Item&Fabricate||Book=PHB3.5||Cost=%Fabricate%|
+2,|Item&Rary's Telepathic Bond||Book=PHB3.5||Cost=%Rary'sTelepathicBond%|
+2,|Item&Essential Blade||Book=RR2||Cost=%EssentialBlade%|
+2,|Item&False History||Book=SP&SC||Cost=%FalseHistory%|
+1,|Item&Bandersnatch||Book=SP&SC||Cost=%Bandersnatch%|
+2,|Item&Animate Images||Book=SP&SC||Cost=%AnimateImages%|
+2,|Item&Lesser Planar Binding||Book=PHB3.5||Cost=%LesserPlanarBinding%|
+1,|Item&Major Creation||Book=PHB3.5||Cost=%MajorCreation%|
+1,|Item&Mord's Faithful Hound||Book=PHB3.5||Cost=%Mord'sFaithfulHound%|
+2,|Item&Pillar of Attraction/Replusion||Book=PHB3.5||Cost=%PillarofAttraction/Replusion%|
+3,|Item&Summon Monster 5||Book=PHB3.5||Cost=%SummonMonster5%|
+2,|Item&Stone Shape||Book=PHB3.5||Cost=%StoneShape5%|
+4,|Item&Wall of Iron||Book=PHB3.5||Cost=%WallofIron%|
+4,|Item&Wall of Stone||Book=PHB3.5||Cost=%WallofStone5%|
+1,|Item&Necrotic Blast||Book=SP&SC||Cost=%NecroticBlast%|
+2,|Item&Prying Eye's||Book=PHB3.5||Cost=%PryingEye's%|
+2,|Item&Wall of Vermin||Book=SP&SC||Cost=%WallofVermin%|
+2,|Item&Dominate Person||Book=PHB3.5||Cost=%DominatePerson%|
+2,|Item&Feeblemind||Book=PHB3.5||Cost=%Feeblemind%|
+6,|Item&Hold Monster||Book=PHB3.5||Cost=%HoldMonster%|
+2,|Item&Mind Fog||Book=PHB3.5||Cost=%MindFog%|
+5,|Item&Cone of Cold||Book=PHB3.5||Cost=%ConeofCold%|
+6,|Item&Sending||Book=PHB3.5||Cost=%Sending5%|
+4,|Item&Wall of Force||Book=PHB3.5||Cost=%WallofForce%|
+4,|Item&Dream||Book=PHB3.5||Cost=%Dream%|
+4,|Item&False Vision||Book=PHB3.5||Cost=%FalseVision%|
+1,|Item&Enchant Spirit Doll||Book=RR2||Cost=%EnchantSpiritDoll%|
+3,|Item&Mirage Arcana||Book=PHB3.5||Cost=%MirageArcana%|
+4,|Item&Contact Other Plane||Book=PHB3.5||Cost=%ContactOtherPlane%|
+2,|Item&Gullibilty||Book=RR2||Cost=%Gullibilty%|
+1,|Item&Nightmare||Book=PHB3.5||Cost=%Nightmare%|
+2,|Item&Dismissal||Book=PHB3.5||Cost=%Dismissal%|
+1,|Item&Mana Sink||Book=RR2||Cost=%ManaSink%|
+1,|Item&Beetle Swarm||Book=RR2||Cost=%BeetleSwarm%|
+1,|Item&Call Aquatic Monster||Book=RR1||Cost=%CallAquaticMonster%|
+6,|Item&Cloudkill||Book=PHB3.5||Cost=%Cloudkill%|
+1,|Item&Greater Familiar||Book=SP&SC||Cost=%GreaterFamiliar%|
+1,|Item&Leomund's Secret Chest||Book=PHB3.5||Cost=%Leomund'sSecretChest%|
+1,|Item&Blaise's Iron Bead||Book=RR2||Cost=%Blaise'sIronBead%|
+1,|Item&Burden of Faith||Book=RR2||Cost=%BurdenofFaith%|
+1,|Item&Darksoul||Book=RR2||Cost=%Darksoul%|
+2,|Item&Hall of Fire||Book=SP&SC||Cost=%HallofFire%|
+1,|Item&Gulaben's Ecstasy||Book=RR2||Cost=%Gulaben'sEcstasy%|
+2,|Item&Curtain of Darkness||Book=RR1||Cost=%CurtainofDarkness%|
+1,|Item&Thulkas' Fury||Book=RR2||Cost=%Thulkas'Fury5%|
+1,|Item&Bone Blades||Book=RR2||Cost=%Boneblades%|
+3,|Item&Netherblast||Book=RR2||Cost=%Netherblast%|
+4,|Item&Nethershield||Book=RR2||Cost=%Nethershield%|
+2,|Item&Sigil of Fire||Book=RR2||Cost=%SigilofFire%|
+2,|Item&Sigil of Ice||Book=RR2||Cost=%SigilofIce%|
+1,|Item&Slow the Years||Book=RR2||Cost=%SlowtheYears%|
+1,|Item&Speed the Years||Book=RR2||Cost=%SpeedtheYears%|
+1,|Item&Stelan's Blood Tentacles||Book=RR2||Cost=%Stelan'sBloodTentacles%|
+1,|Item&Turn Resistance||Book=PHB3.5||Cost=%TurnResistance%|
+2,|Item&Wind Tunnel||Book=SP&SC||Cost=%WindTunnel5%|
+1,|Item&Dreadmantle||Book=RR2||Cost=%Dreadmantle%|
+3,|Item&EnergyBuffer [EnergyType]||Book=T&B||Cost=%EnergyBuffer%|
+1,|Item&Ghostform||Book=T&B||Cost=%Ghostform%|
+2,|Item&Persistant Image||Book=PHB3.5||Cost=%PersistantImage%|
+1,|Item&Bigby's Interposing Hand||Book=PHB3.5||Cost=%Bigby'sInterposingHand%|
+1,|Item&ScryBlast||Book=RR2||Cost=%ScryBlast%|
+1,|Item&Mesos' Vengeance||Book=RR2||Cost=%Mesos'Vengeance%|
+1,|Item&Mordenkainen's Private Sanctum||Book=T&B||Cost=%Mordenkainen'sPrivateSanctum%|
+2,|Item&Legion's March||Book=RR2||Cost=%Legion'sMarch%|
+2,|Item&Shadow Evocation||Book=PHB3.5||Cost=%ShadowEvocation%|
+1,|Item&Doomwail||Book=RR1||Cost=%Doomwail%|
+1,|Item&DarkWater||Book=RR1||Cost=%DarkWater%|
+1,|Item&Animate Dead||Book=PHB3.5||Cost=%AnimateDead%|
+1,|Item&Shadow Weapon||Book=RR1||Cost=%ShadowWeapon%|
+2,|Item&Seeming||Book=PHB3.5||Cost=%Seeming%|
+1,|Item&Spiritwall||Book=T&B||Cost=%Spiritwall%|
+1,|Item&Imprison Possessor||Book=BVD||Cost=%ImprisonPossessor%|
+1,|Item&Call Dretch Horde||Book=BVD||Cost=%CallDretchHorde%|
+1,|Item&Call Lemure Horde||Book=BVD||Cost=%CallLemureHorde%|
+1,|Item&Call Nightmare||Book=BVD||Cost=%CallNightmare%|
+1,|Item&Wall of Ooze||Book=BVD||Cost=%WallofOoze%|
+1,|Item&Soul Shackles||Book=BVD||Cost=%SoulShackles%|
+1,|Item&Stop Heart||Book=BVD||Cost=%StopHeart5%|
+1,|Item&Resonating Resistance||Book=BVD||Cost=%ResonatingResistance%|
+
+;Arcane_6
+2,|Item&Mass Suggestion||Book=PHB3.5||Cost=%MassSuggestion%|
+2,|Item&Greater Heroism||Book=PHB3.5||Cost=%GreaterHeroisim%|
+1,|Item&Energy Transformation Field||Book=MOF||Cost=%EnergyTransformationField%|
+2,|Item&Dhulark's Glasstrike||Book=MOF||Cost=%Dhulark'sGlasstrike%|
+2,|Item&Undeath to Death||Book=PHB3.5||Cost=%UndeathtoDeath%|
+4,|Item&Prismatic Eye||Book=MOF||Cost=%PrismaticEye%|
+2,|Item&Cacophonic Shield||Book=MOF||Cost=%CacophonicShield%|
+2,|Item&Imbue Familiar with Spell Ability||Book=T&B||Cost=%ImbueFamiliarwithSpellAbility%|
+3,|Item&Fire Spiders||Book=MOF||Cost=%FireSpiders%|
+4,|Item&Gate Seal||Book=MOF||Cost=%GateSeal%|
+1,|Item&Fiendform||Book=MOF||Cost=%Fiendform%|
+4,|Item&Reverse Illusion||Book=RR1||Cost=%ReverseIllusion%|
+4,|Item&Acid Storm||Book=MOF||Cost=%AcidStorm%|
+2,|Item&Translocation Trick||Book=MOF||Cost=%TranslocationTrick%|
+3,|Item&Chain Lightning||Book=PHB3.5||Cost=%ChainLightning%|
+3,|Item&Contingency||Book=PHB3.5||Cost=%Contingency%|
+2,|Item&Enkili's Lightning Storm||Book=RR1||Cost=%Enkili'sLightningStorm%|
+25,|Item&Eagle's Splendor Mass||Book=PHB3.5||Cost=%Eagle'sSplendorMass%|
+2,|Item&Otiluke's Freezing Sphere||Book=PHB3.5||Cost=%Otiluke'sFreezingSphere%|
+1,|Item&Symbol of Sleep||Book=PHB3.5||Cost=%SymbolofSleep%|
+2,|Item&Veil||Book=PHB3.5||Cost=%Veil%|
+2,|Item&Permanent Image||Book=PHB3.5||Cost=%PermanentImage%|
+2,|Item&Tenser's Transformation||Book=PHB3.5||Cost=%Tenser'sTransformation%|
+3,|Item&Programmed Image||Book=PHB3.5||Cost=%ProgrammedImage%|
+1,|Item&Death Blade||Book=RR1||Cost=%DeathBlade%|
+2,|Item&Hardening||Book=MOF||Cost=%Hardening%|
+1,|Item&Circle of Death||Book=PHB3.5||Cost=%CircleofDeath%|
+1,|Item&Mislead||Book=PHB3.5||Cost=%Mislead%|
+1,|Item&Undead Crew||Book=RR2||Cost=%UndeadCrew%|
+1,|Item&Call Aquatic Humaniod 2||Book=RR1||Cost=%CallAquaticHumaniod2%|
+1,|Item&Bigby's Forceful Hand||Book=PHB3.5||Cost=%Bigby'sForcefulHand%|
+3,|Item&Avalanche||Book=RR2||Cost=%Avalanche%|
+4,|Item&Mass True Strike||Book=PHB3.5||Cost=%MassTrueStrike%|
+1,|Item&Abrindel'sPrisimCloak||Book=RR2||Cost=%Abrindel'sPrisimCloak%|
+1,|Item&Talen's Confounding Battlefield||Book=RR2||Cost=%Talen'sConfoundingBattlefield%|
+1,|Item&Bones of Adamantine||Book=RR2||Cost=%BonesofAdamantine%|
+1,|Item&Chern's Exhalation||Book=RR2||Cost=%Chern'sExhalation%|
+1,|Item&Plague Touch||Book=RR2||Cost=%PlagueTouch%|
+2,|Item&Shade Storm||Book=RR2||Cost=%ShadeStorm%|
+1,|Item&Sigil of Ooze||Book=RR2||Cost=%SigilofOoze%|
+4,|Item&Control Water||Book=PHB3.5||Cost=%ControlWater%|
+1,|Item&Transform Dead||Book=RR2||Cost=%TransformUndead%|
+1,|Item&Mass Fly||Book=T&B||Cost=%MassFly%|
+2,|Item&Blade Meld||Book=RR2||Cost=%BladeMeld%|
+2,|Item&Chill Gaze||Book=RR2||Cost=%ChillGaze%|
+1,|Item&Shadow Smash||Book=RR1||Cost=%ShadowSmash%|
+1,|Item&Pass the Years||Book=RR1||Cost=%PasstheYears%|
+4,|Item&MoveEarth||Book=PHB3.5||Cost=%MoveEarth%|
+1,|Item&Mord's Lucubration||Book=PHB3.5||Cost=%Mord'sLucubration%|
+2,|Item&Mass Haste||Book=PHB3.5||Cost=%MassHaste%|
+4,|Item&Flesh to Stone||Book=PHB3.5||Cost=%FleshtoStone%|
+1,|Item&Eyebite||Book=PHB3.5||Cost=%Eyebite%|
+4,|Item&Disintegrate||Book=PHB3.5||Cost=%Disintergrate%|
+1,|Item&Belsameth's Blessing||Book=RR1||Cost=%Belsameth'sBlessing%|
+1,|Item&Touch of Madness||Book=RR2||Cost=%TouchofMadness6%|
+4,|Item&Globe of Invulnerablity||Book=PHB3.5||Cost=%GlobeofInvulnerablity%|
+1,|Item&Felonious Friend 3||Book=SP&SC||Cost=%FeloniousFriend3%|
+1,|Item&Horrific Aspect||Book=SP&SC||Cost=%HorrificAspect%|
+3,|Item&Pulsing Fireball||Book=SP&SC||Cost=%PulsingFireball%|
+4,|Item&Restore Book||Book=SP&SC||Cost=%RestoreBook%|
+3,|Item&Antimagic Field||Book=PHB3.5||Cost=%AntimagicField%|
+10,|Item&Dispel Magic, Greater||Book=PHB3.5||Cost=%GreaterDispelling%|
+4,|Item&Guards and Wards||Book=PHB3.5||Cost=%GuardsandWards%|
+4,|Item&Repulsion||Book=PHB3.5||Cost=%Repulsion6%|
+1,|Item&Taldock's Spell Inhibitor||Book=RR1||Cost=%Taldock'sSpellInhibitor%|
+4,|Item&Acid Fog||Book=PHB3.5||Cost=%AcidFog%|
+1,|Item&Legend Lore||Book=PHB3.5||Cost=%LegendLore%|
+1,|Item&Rie's Dance of Seduction||Book=RR1||Cost=%Rie'sDanceofSeduction%|
+1,|Item&Awaken Lesser Titan Avatar||Book=RR1||Cost=%AwakenLesserTitanAvatar%|
+4,|Item&True Seeing||Book=PHB3.5||Cost=%TrueSeeing6%|
+2,|Item&Geas/Quest||Book=PHB3.5||Cost=%Geas/Quest%|
+2,|Item&Mass Suggestion||Book=PHB3.5||Cost=%MassSuggestion%|
+1,|Item&Shadow Walk||Book=PHB3.5||Cost=%ShadowWalk%|
+3,|Item&Analyze Dweomer||Book=PHB3.5||Cost=%AnalyzeDweomer%|
+2,|Item&Summon Monster 6||Book=PHB3.5||Cost=%SummonMonster6%|
+4,|Item&Planar Binding||Book=PHB3.5||Cost=%PlanarBinding%|
+1,|Item&Symbol of Fear||Book=PHB3.5||Cost=%SymbolofFear%|
+1,|Item&Power Word Thunder||Book=RR1||Cost=%PowerWordThunder%|
+2,|Item&Declaration of Death||Book=RR1||Cost=%DeclarationofDeath%|
+2,|Item&Mass Bear's Endurance||Book=PHB3.5||Cost=%MassBear'sEndurance%|
+2,|Item&Mass Bull's Strength||Book=PHB3.5||Cost=%MassBull'sStrength%|
+2,|Item&Mass Cat's Grace||Book=PHB3.5||Cost=%MassCat'sGrace%|
+2,|Item&Mass Eagle's Splendor||Book=PHB3.5||Cost=%MassEagle'sSplendor%|
+2,|Item&Mass Fox's Cunning||Book=PHB3.5||Cost=%MassFox'sCunning%|
+2,|Item&Mass Owl's Wisdom||Book=PHB3.5||Cost=%MassOwl'sWisdom%|
+1,|Item&Impotent Possessor||Book=BVD||Cost=%ImpotentPossessor%|
+1,|Item&Snare Astral Traveler||Book=BVD||Cost=%SnareAstralTraveler%|
+1,|Item&Alert Bebilith||Book=BVD||Cost=%AlertBebilith%|
+1,|Item&False Sending||Book=BVD||Cost=%FalseSending%|
+1,|Item&Ectoplasmic Enhancement||Book=BVD||Cost=%EctoplasmicEnhancement%|
+1,|Item&Fiendish Quickening||Book=BVD||Cost=%FiendishQuickening%|
+
+;Arcane_7
+1,|Item&Ease the Ages Burden||Book=RR2||Cost=%EasetheAgesBurden%|
+1,|Item&Otiluke's Greater Dispelling Screen||Book=T&B||Cost=%Otiluke'sGreaterDispellingScreen%|
+2,|Item&Teleport Object||Book=PHB3.5||Cost=%Vanish%|
+1,|Item&Limited Wish||Book=PHB3.5||Cost=%LimitedWish%|
+2,|Item&Greater Teleport||Book=PHB3.5||Cost=%TeleportwithoutError%|
+1,|Item&Finger of Death||Book=PHB3.5||Cost=%FingerofDeath%|
+2,|Item&Blackflame||Book=SP&SC||Cost=%Blackflame%|
+1,|Item&Greater Timeheal||Book=RR2||Cost=%GreaterTimeheal%|
+1,|Item&Stop the Years||Book=RR2||Cost=%StoptheYears%|
+1,|Item&Greater Turn Resistance||Book=RR2||Cost=%GreaterTurnResistance%|
+2,|Item&Hammer and Anvil||Book=RR2||Cost=%HammerandAnvil%|
+1,|Item&Soulstrike||Book=RR1||Cost=%Soulstrike%|
+1,|Item&Symbol of Stunning||Book=PHB3.5||Cost=%SymbolofStunning%|
+1,|Item&Symbol of Weakness||Book=PHB3.5||Cost=%SymbolofWeakness%|
+3,|Item&Antimagic Aura||Book=MOF||Cost=%AntimagicAura%|
+1,|Item&Eyeburst||Book=RR2||Cost=%Eyeburst%|
+1,|Item&Control Undead||Book=PHB3.5||Cost=%ControlUndead%|
+2,|Item&Control Weather||Book=PHB3.5||Cost=%ControlWeather%|
+2,|Item&Project Image||Book=PHB3.5||Cost=%ProjectImage%|
+2,|Item&Greater Ironguard||Book=MOF||Cost=%GreaterIronguard%|
+2,|Item&Simbul's Synostodweomer||Book=MOF||Cost=%Simbul'sSynostodweomer%|
+1,|Item&Simbul's Spell Sequencer||Book=MOF||Cost=%Simbul'sSpellSequencer%|
+2,|Item&Mass Teleport||Book=MOF||Cost=%MassTeleport%|
+3,|Item&Gemjump||Book=MOF||Cost=%Gemjump%|
+1,|Item&Zajimarn's Ice Claw Prison||Book=MOF||Cost=%Zajimarn'sIceClawPrison%|
+2,|Item&GreatThunderclap||Book=MOF||Cost=%GreatThunderclap%|
+2,|Item&Freezing Curse||Book=RR1||Cost=%FreezingCurse%|
+1,|Item&Vipergout||Book=MOF||Cost=%Vipergout%|
+2,|Item&Statue||Book=PHB3.5||Cost=%Statue%|
+2,|Item&Shade Evocation||Book=RR1||Cost=%ShadeEvocation%|
+2,|Item&Ethereal Jaunt||Book=PHB3.5||Cost=%EtherealJaunt%|
+2,|Item&Dark Lightning||Book=RR2||Cost=%DarkLightning%|
+1,|Item&Mormo's Serpent Hands||Book=RR1||Cost=%Mormo'sSerpentHands%|
+3,|Item&Plane Shift||Book=PHB3.5||Cost=%PlaneShift7%|
+2,|Item&Reverse Gravity||Book=PHB3.5||Cost=%ReverseGravity%|
+2,|Item&[EnergyType] Immunity||Book=T&B||Cost=%EnergyImmunity%|
+1,|Item&Nybor's Stern Reproof||Book=MOF||Cost=%Nybor'sSternReproof%|
+1,|Item&Simulacrum (10HD)||Book=PHB3.5||Cost=%Simulacrum10HD%|
+1,|Item&Simulacrum (15HD)||Book=PHB3.5||Cost=%Simulacrum15HD%|
+1,|Item&Simulacrum (20HD)||Book=PHB3.5||Cost=%Simulacrum20HD%|
+1,|Item&Drawmij's Instant Summons||Book=PHB3.5||Cost=%Drawmij'sInstantSummons%|
+1,|Item&Vision||Book=PHB3.5||Cost=%Vision%|
+1,|Item&Spirit Knife||Book=SP&SC ||Cost=%SpiritKnife%|
+1,|Item&Puppet Master||Book=SP&SC||Cost=%PuppetMaster%|
+4,|Item&ProtectionfromWards||Book=SP&SC||Cost=%ProtectionfromWards%|
+2,|Item&Disruption Wave||Book=SP&SC||Cost=%DisruptionWave%|
+1,|Item&Magical Vacuum||Book=SP&SC||Cost=%MagicalVacuum%|
+4,|Item&Spell Turning||Book=PHB3.5||Cost=%SpellTurning%|
+3,|Item&Greater Scrying||Book=PHB3.5||Cost=%GreaterScrying%|
+2,|Item&Summon Monster 7||Book=PHB3.5||Cost=%SummonMonster7%|
+2,|Item&Power Word Stun||Book=PHB3.5||Cost=%PowerWordStun%|
+3,|Item&Phase Door||Book=PHB3.5||Cost=%PhaseDoor%|
+1,|Item&Mord's Magnificent Mansion||Book=PHB3.5||Cost=%Mord'sMagnificentMansion%|
+1,|Item&Flying Abominations||Book=SP&SC||Cost=%FlyingAbominations%|
+1,|Item&Mesos' Containment||Book=RR2||Cost=%Mesos'Containment%|
+4,|Item&Delayed Blast Fireball||Book=PHB3.5||Cost=%DelayedBlastFireball%|
+1,|Item&Bigby's Grasping Hand||Book=PHB3.5||Cost=%Bigby'sGraspingHand%|
+1,|Item&Sever||Book=RR1||Cost=%Sever%|
+2,|Item&Sequester||Book=PHB3.5||Cost=%Sequester%|
+4,|Item&Banishment||Book=PHB3.5||Cost=%Banishment%|
+1,|Item&Transmute Flesh to Shadow||Book=RR1||Cost=%TransmuteFleshtoShadow%|
+1,|Item&Insanity||Book=PHB3.5||Cost=%Insanity%|
+1,|Item&Mass Invisibility||Book=PHB3.5||Cost=%MassInvisibility%|
+2,|Item&Daggers's of Vaul||Book=RR1||Cost=%DaggersofVaul%|
+3,|Item&Forcecage||Book=PHB3.5||Cost=%Forcecage%|
+1,|Item&Ilajam Fire||Book=RR1||Cost=%IlajamFire%|
+1,|Item&Mord's Sword||Book=PHB3.5||Cost=%Mord'sSword%|
+4,|Item&Prismatic Spray||Book=PHB3.5||Cost=%PrismaticSpray%|
+6,|Item&Mass Hold Person||Book=PHB3.5||Cost=%MassHoldPerson%|
+1,|Item&WavesofExhaustion||Book=BVD||Cost=%WavesofExhaustion%|
+1,|Item&WallofEyes||Book=BVD||Cost=%WallofEyes%|
+1,|Item&FiendishClarity||Book=BVD||Cost=%FiendishClarity%|
+2,|Item&WhirlwindofTeeth||Book=BVD||Cost=%WhirlwindofTeeth%|
+1,|Item&EyeoftheBeholder||Book=BVD||Cost=%EyeoftheBeholder%|
+
+;Arcane_8
+3,|Item&Greater Shout||Book=PHB3.5||Cost=%GreatShout%|
+4,|Item&Protection from Spells||Book=PHB3.5||Cost=%ProtectionfromSpells%|
+2,|Item&Flensing||Book=MOF||Cost=%Flensing%|
+2,|Item&Summon Monster 8||Book=PHB3.5||Cost=%SummonMonster8%|
+1,|Item&Zajimarn's Field of Icy Razors||Book=MOF||Cost=%Zajimarn'sFieldofIcyRazors%|
+1,|Item&Skeletal Guard (10 Skeletons)||Book=MOF||Cost=%SkeletalGuard%|
+3,|Item&Blackstaff||Book=MOF||Cost=%Blackstaff%|
+1,|Item&Simbul's Skeletal Deliquescence||Book=MOF||Cost=%Simbul'sSkeletalDeliquescence%|
+2,|Item&Greater Circle of Seeing||Book=RR1||Cost=%GreaterCircleofSeeing%|
+1,|Item&Mind Blank||Book=PHB3.5||Cost=%MindBlank%|
+1,|Item&Trap the Soul (10HD)||Book=PHB3.5||Cost=%TraptheSoul10HD%|
+1,|Item&Trap the Soul (20HD)||Book=PHB3.5||Cost=%TraptheSoul20HD%|
+1,|Item&Trap the Soul (30HD)||Book=PHB3.5||Cost=%TraptheSoul30HD%|
+1,|Item&Strength of Kadum||Book=RR1||Cost=%StrengthofKadum%|
+2,|Item&Power word Blind||Book=PHB3.0||Cost=%PowerwordBlind%|
+3,|Item&Maze||Book=PHB3.5||Cost=%Maze%|
+4,|Item&Incendiary Cloud||Book=PHB3.5||Cost=%IncendiaryCloud%|
+4,|Item&Greater Planar Binding||Book=PHB3.5||Cost=%GreaterPlanarBinding%|
+4,|Item&Prismatic Wall||Book=PHB3.5||Cost=%PrismaticWall%|
+1,|Item&Nybor's Wrathful Castigation||Book=MOF||Cost=%Nybor'sWrathfulCastigation%|
+1,|Item&Discern Location||Book=PHB3.5||Cost=%DiscernLocation%|
+1,|Item&Virulence||Book=RR2||Cost=%Virulence8%|
+1,|Item&Darkstaff||Book=RR1||Cost=%Darkstaff%|
+1,|Item&Horrid Wilting||Book=PHB3.5||Cost=%HorridWilting%|
+1,|Item&Leech Field||Book=RR1||Cost=%LeechField%|
+1,|Item&Rapid Journey||Book=RR1||Cost=%RapidJourney%|
+1,|Item&Time Skip||Book=RR1||Cost=%TimeSkip%|
+1,|Item&Widdershins||Book=RR1||Cost=%Widdershins%|
+1,|Item&Clone||Book=PHB3.5||Cost=%Clone%|
+3,|Item&Elemental Kiss of [EnergyType]||Book=RR2||Cost=%ElementalKiss%|
+2,|Item&Shadow Storm||Book=RR1||Cost=%ShadowStorm%|
+1,|Item&Negative Energy Geyser||Book=RR2||Cost=%NegativeEnergyGeyser%|
+1,|Item&Transcribe Symbol||Book=SP&SC||Cost=%TranscribeSymbol%|
+4,|Item&Soul Disk||Book=RR2||Cost=%SoulDisk%|
+1,|Item&Polymorph any Object||Book=PHB3.5||Cost=%PolymorphanyObject%|
+1,|Item&Undead Gate||Book=SP&SC||Cost=%UndeadGate%|
+1,|Item&ImprovedSimulacrum||Book=SP&SC||Cost=%ImprovedSimulacrum%|
+1,|Item&Disintegration Sphere||Book=SP&SC||Cost=%DisintegrationSphere%|
+1,|Item&Dark Channeling||Book=SP&SC||Cost=%DarkChanneling%|
+2,|Item&Spell Engine||Book=MOF||Cost=%SpellEngine%|
+2,|Item&Demand||Book=PHB3.5||Cost=%Demand%|
+3,|Item&Mass Charm Monster||Book=PHB3.5||Cost=%MassCharm%|
+2,|Item&Iron Body||Book=PHB3.5||Cost=%IronBody%|
+2,|Item&Shadow Twin||Book=RR1||Cost=%ShadowTwin%|
+2,|Item&Binding||Book=PHB3.5||Cost=%Binding%|
+1,|Item&Symbol of Death||Book=PHB3.5||Cost=%SymbolofDeath%|
+2,|Item&Antipathy||Book=PHB3.5||Cost=%Antipathy%|
+2,|Item&Battlecry||Book=SP&SC||Cost=%Battlecry%|
+2,|Item&Otto's Irresistible Dance||Book=PHB3.5||Cost=%Otto'sIrresistibleDance%|
+2,|Item&Sympathy||Book=PHB3.5||Cost=%Sympathy8%|
+1,|Item&Symbol of Insanity||Book=PHB3.5||Cost=%SymbolofInsanity%|
+1,|Item&Bigby's Clenched Fist||Book=PHB3.5||Cost=%Bigby'sClenchedFist%|
+1,|Item&Otiluke's Telekinetic Sphere||Book=PHB3.5||Cost=%Otiluke'sTelekineticSphere%|
+4,|Item&Sunburst||Book=PHB3.5||Cost=%Sunburst%|
+1,|Item&Screen||Book=PHB3.5||Cost=%Screen%|
+1,|Item&Moment of Prescience||Book=PHB3.5||Cost=%MomentofPrescience%|
+3,|Item&Polar Ray||Book=PHB3.5||Cost=%PolarRay%|
+1,|Item&Temporal Stasis||Book=PHB3.5||Cost=%TemporalStasis%|
+1,|Item&Phantasmal Thief||Book=BVD||Cost=%PhantasmalThief%|
+1,|Item&Gutwrench||Book=BVD||Cost=%Gutwrench%|
+1,|Item&StealLife||Book=BVD||Cost=%StealLife%|
+2,|Item&BestowGreaterCurse||Book=BVD||Cost=%BestowGreaterCurse%|
+1,|Item&Soul'sTreasureLost||Book=BVD||Cost=%Soul'sTreasureLost%|
+
+;Arcane_9
+2,|Item&Etherealness||Book=PHB3.5||Cost=%Etherealness%|
+2,|Item&Cone of Oblivion||Book=RR2||Cost=%ConeofOblivion%|
+1,|Item&Dreamstealer||Book=SP&SC||Cost=%Dreamstealer%|
+1,|Item&Two Minds||Book=RR1||Cost=%TwoMinds%|
+1,|Item&Time Stop||Book=PHB3.5||Cost=%TimeStop%|
+1,|Item&Command Construct||Book=SP&SC||Cost=%CommandConstruct%|
+1,|Item&Wish||Book=PHB3.5||Cost=%Wish%|
+1,|Item&Simbul's Spell Trigger||Book=PHB3.5||Cost=%Simbul'sSpellTrigger%|
+1,|Item&Hide Life||Book=T&B||Cost=%HideLife%|
+2,|Item&Healing Interdiction||Book=RR2||Cost=%HealingInterdiction%|
+1,|Item&Censure of Mesos||Book=RR2||Cost=%CensureofMesos%|
+1,|Item&Tendrils of Eternal Night||Book=RR2||Cost=%TendrilsofEternalNight%|
+1,|Item&Dagger of Undeath||Book=RR2||Cost=%DaggerofUndeath%|
+2,|Item&Mindwrack||Book=RR2||Cost=%Mindwrack%|
+1,|Item&Powerword Kill||Book=PHB3.5||Cost=%PowerwordKill%|
+1,|Item&Chain Contingency||Book=T&B||Cost=%ChainContingency%|
+3,|Item&Summon Monster 9||Book=PHB3.5||Cost=%SummonMonster9%|
+1,|Item&Elminster's Effulgent Epuration||Book=MOF||Cost=%Elminster'sEffulgentEpuration%|
+1,|Item&Maw of Chaos||Book=MOF||Cost=%MawofChaos%|
+1,|Item&Black Blade of Disaster||Book=MOF||Cost=%BlackBladeofDisaster%|
+1,|Item&Zajimarns' Avalanche||Book=MOF||Cost=%Zajimarns'Avalanche%|
+1,|Item&Elminster's Evasion||Book=MOF||Cost=%Elminster'sEvasion%|
+1,|Item&Alamanther's Return||Book=SP&SC||Cost=%Alamanther'sReturn%|
+1,|Item&Freedom||Book=PHB3.5||Cost=%Freedom%|
+1,|Item&Imprisonment||Book=PHB3.5||Cost=%Imprisonment%|
+1,|Item&Mord's Disjunction||Book=PHB3.5||Cost=%Mord'sDisjunction%|
+1,|Item&Foresight||Book=PHB3.5||Cost=%Foresight%|
+1,|Item&Gate (Planar Travel)||Book=PHB3.5||Cost=%Gate%|
+1,|Item&Gate (Calling Creature)||Book=PHB3.5||Cost=%GateCalling%|
+3,|Item&Teleportation Circle||Book=PHB3.5||Cost=%TeleportationCircle%|
+2,|Item&Dominate Monster||Book=PHB3.5||Cost=%DominateMonster%|
+1,|Item&Bigby's Crushing Hand||Book=PHB3.5||Cost=%Bigby'sCrushingHand%|
+4,|Item&Meteor Swarm||Book=PHB3.5||Cost=%MeteorSwarm%|
+2,|Item&Weird||Book=PHB3.5||Cost=%Weird%|
+3,|Item&Astral Projection||Book=PHB3.5||Cost=%AstralProjection%|
+1,|Item&Energy Drain||Book=PHB3.5||Cost=%EnergyDrain%|
+2,|Item&Soul Bind (5HD)||Book=PHB3.5||Cost=%SoulBind5HD%|
+2,|Item&Soul Bind (10HD)||Book=PHB3.5||Cost=%SoulBind10HD%|
+1,|Item&Soul Bind (15HD)||Book=PHB3.5||Cost=%SoulBind15HD%|
+1,|Item&Soul Bind (20HD)||Book=PHB3.5||Cost=%SoulBind20HD%|
+1,|Item&Wail of the Banshee||Book=PHB3.5||Cost=%WailoftheBanshee%|
+1,|Item&Refuge||Book=PHB3.0||Cost=%Refuge9%|
+2,|Item&Shades||Book=PHB3.5||Cost=%Shades%|
+3,|Item&Shapechange||Book=PHB3.5||Cost=%Shapechange%|
+4,|Item&Prismatic Sphere||Book=PHB3.5||Cost=%PrismaticSphere%|
+1,|Item&Mass Hold Monster||Book=PHB3.5||Cost=%MassHoldMonster%|
+1,|Item&Utterdark||Book=BVD||Cost=%Utterdark%|
+1,|Item&Mindrape||Book=BVD||Cost=%Mindrape%|
+
+#-------------------------------------------------------------------------------
+# Cleric Spells
+;Cleric_0
+30,|Item&Create Water||Book=PHB3.5||Cost=%CreateWater%|
+50,|Item&Cure Minor Wounds||Book=PHB3.5||Cost=%CureMinorWounds%|
+30,|Item&Detect Magic||Book=PHB3.5||Cost=%DetectMagic%|
+25,|Item&Detect Poison||Book=PHB3.5||Cost=%DetectPoison%|
+20,|Item&Guidance||Book=PHB3.5||Cost=%Guidance%|
+5,|Item&Inflict Minor Wounds||Book=PHB3.5||Cost=%InflictMinorWounds%|
+35,|Item&Light||Book=PHB3.5||Cost=%Light%|
+35,|Item&Mending||Book=PHB3.5||Cost=%Mending%|
+20,|Item&Purify Food & Drink||Book=PHB3.5||Cost=%PurifyFood&Drink%|
+10,|Item&Read Magic||Book=PHB3.5||Cost=%ReadMagic%|
+25,|Item&Resistance||Book=PHB3.5||Cost=%Resistance%|
+20,|Item&Virtue||Book=PHB3.5||Cost=%Virtue0%|
+5,|Item&Bleeding Disease||Book=RR1||Cost=%BleedingDisease%|
+40,|Item&Clean||Book=RR1||Cost=%Clean%|
+30,|Item&Quick Sober||Book=RR1||Cost=%QuickSober%|
+20,|Item&Shockwave||Book=RR1||Cost=%Shockwave0%|
+5,|Item&No Light||Book=BVD||Cost=%NoLight%|
+5,|Item&Preserve Organ||Book=BVD||Cost=%PreserveOrgan%|
+5,|Item&Slash Tongue||Book=BVD||Cost=%SlashTongue%|
+30,|Item&Shelve||Book=SP&SC||Cost=%Shelve%|
+30,|Item&Summarize||Book=SP&SC||Cost=%Summarize%|
+20,|Item&Antihistamine||Book=ITG||Cost=%Antihistamine%|
+
+;Cleric_1
+10,|Item&Bane||Book=PHB3.5||Cost=%Bane%|
+20,|Item&Bless||Book=PHB3.5||Cost=%Bless%|
+25,|Item&Bless Water||Book=PHB3.5||Cost=%BlessWater%|
+10,|Item&Cause Fear||Book=PHB3.5||Cost=%CauseFear%|
+15,|Item&Command||Book=PHB3.5||Cost=%Command%|
+28,|Item&Comprehend Languages||Book=PHB3.5||Cost=%ComprehendLanguages%|
+100,|Item&Cure Light Wounds||Book=PHB3.5||Cost=%CureLightWounds%|
+12,|Item&Curse Water||Book=PHB3.5||Cost=%CurseWater%|
+20,|Item&Deathwatch||Book=PHB3.5||Cost=%Deathwatch%|
+30,|Item&Detect [Algn]||Book=PHB3.5||Cost=%DetectChaos/Evil/Good/Law%|
+15,|Item&Detect Undead||Book=PHB3.5||Cost=%DetectUndead%|
+2,|Item&Divine Favor||Book=PHB3.5||Cost=%DivineFavor%|
+5,|Item&Doom||Book=PHB3.5||Cost=%Doom%|
+25,|Item&Endure Elements||Book=PHB3.5||Cost=%EndureElements%|
+20,|Item&Entropic Shield||Book=PHB3.5||Cost=%EntropicShield%|
+20,|Item&Hide from Undead||Book=PHB3.5||Cost=%HidefromUndead%|
+10,|Item&Inflict Light Wounds||Book=PHB3.5||Cost=%InflictLightWounds%|
+20,|Item&Magic Stone||Book=PHB3.5||Cost=%MagicStone%|
+25,|Item&Magic Weapon||Book=PHB3.5||Cost=%MagicWeapon%|
+20,|Item&Obscuring Mist||Book=PHB3.5||Cost=%ObscuringMist%|
+30,|Item&Protection from [Algn]||Book=PHB3.5||Cost=%ProtectionfromChaos/Evil/Good/Law%|
+28,|Item&Remove Fear||Book=PHB3.5||Cost=%RemoveFear%|
+25,|Item&Sanctuary||Book=PHB3.5||Cost=%Sanctuary%|
+20,|Item&Shield of Faith||Book=PHB3.5||Cost=%ShieldofFaith%|
+5,|Item&Summon Monster 1||Book=PHB3.5||Cost=%SummonMonster1%|
+5,|Item&Grim Feast||Book=RR1||Cost=%GrimFeast%|
+8,|Item&Madriel's Empathic Resonance||Book=RR1||Cost=%Madriel'sEmpathicResonance%|
+30,|Item&Minor Symbol of Divinity||Book=RR1||Cost=%MinorSymbolofDivinity%|
+20,|Item&Prevarication's Bounty||Book=RR1||Cost=%Prevarication'sBounty%|
+20,|Item&Shockwave Strike||Book=RR1||Cost=%ShockwaveStrike%|
+20,|Item&Smite||Book=RR1||Cost=%Smite%|
+10,|Item&Tanil's Touch||Book=RR1||Cost=%Tanil'sTouch1%|
+15,|Item&Champion Swimmer||Book=RR2||Cost=%ChampionSwimmer%|
+15,|Item&Detect Shapechangers||Book=RR2||Cost=%DetectShapechangers%|
+20,|Item&Locate Water||Book=RR2||Cost=%LocateWater%|
+30,|Item&Burial Blessing||Book=DOF||Cost=%BurialBlessing%|
+20,|Item&Faith Healing||Book=MOF||Cost=%FaithHealing%|
+20,|Item&Handfire||Book=MOF||Cost=%Handfire%|
+20,|Item&Vision of Glory||Book=MOF||Cost=%VisionofGlory%|
+25,|Item&Wieldskill||Book=MOF||Cost=%Wieldskill%|
+8,|Item&Aegis of the Gods||Book=SP&SC||Cost=%AegisoftheGods%|
+5,|Item&Claws of the Demon||Book=SP&SC||Cost=%ClawsoftheDemon%|
+15,|Item&Strength of Mind||Book=SP&SC||Cost=%StrengthofMind%|
+15,|Item&Detect Fey||Book=ITG||Cost=%DetectFey%|
+15,|Item&Rontra's Blessing||Book=BOR||Cost=%Rontra'sBlessing%|
+5,|Item&Angry Ache||Book=BVD||Cost=%AngryAche%|
+5,|Item&Drug Resistance||Book=BVD||Cost=%DrugResistance%|
+5,|Item&Extract Drug||Book=BVD||Cost=%ExtractDrug%|
+3,|Item&Heartache||Book=BVD||Cost=%Heartache%|
+5,|Item&Sacrificial Skill||Book=BVD||Cost=%SacrificialSkill%|
+5,|Item&Slow Consumption||Book=BVD||Cost=%SlowConsumption1%|
+5,|Item&Sorrow||Book=BVD||Cost=%Sorrow%|
+5,|Item&Spider Hand||Book=BVD||Cost=%SpiderHand%|
+5,|Item&Stupor||Book=BVD||Cost=%Stupor%|
+5,|Item&Suspend Disease||Book=BVD||Cost=%SuspendDisease%|
+2,|Item&Tongue of Baalzebul||Book=BVD||Cost=%TongueofBaalzebul%|
+
+;Cleric_2
+30,|Item&Aid||Book=PHB3.5||Cost=%Aid%|
+15,|Item&Align Weapon||Book=PHB3.5||Cost=%AlignWeapon%|
+2,|Item&Augury||Book=PHB3.5||Cost=%Augury%|
+20,|Item&Bear's Endurance||Book=PHB3.5||Cost=%Bear'sEndurance%|
+20,|Item&Bull's Strength||Book=PHB3.5||Cost=%Bull'sStrength%|
+25,|Item&Calm Emotions||Book=PHB3.5||Cost=%CalmEmotions%|
+30,|Item&Consecrate||Book=PHB3.5||Cost=%Consecrate%|
+100,|Item&Cure Moderate Wounds||Book=PHB3.5||Cost=%CureModerateWoundsClr%|
+10,|Item&Darkness||Book=PHB3.5||Cost=%Darkness%|
+10,|Item&Death Knell||Book=PHB3.5||Cost=%DeathKnell%|
+30,|Item&Delay Poison||Book=PHB3.5||Cost=%DelayPoison%|
+5,|Item&Desecrate||Book=PHB3.5||Cost=%Desecrate%|
+20,|Item&Eagle's Splendor||Book=PHB3.5||Cost=%Eagle'sSplendor%|
+15,|Item&Enthrall||Book=PHB3.5||Cost=%Enthrall%|
+20,|Item&Find Traps||Book=PHB3.5||Cost=%FindTraps%|
+20,|Item&Gentle Repose||Book=PHB3.5||Cost=%GentleReposeClr%|
+20,|Item&Hold Person||Book=PHB3.5||Cost=%HoldPersonClr2%|
+10,|Item&Inflict Moderate Wounds||Book=PHB3.5||Cost=%InflictModerateWounds%|
+30,|Item&Make Whole||Book=PHB3.5||Cost=%MakeWhole%|
+20,|Item&Owl's Wisdom||Book=PHB3.5||Cost=%Owl'sWisdom%|
+30,|Item&Remove Paralysis||Book=PHB3.5||Cost=%RemoveParalysis%|
+25,|Item&Resist Energy ([EnergyType])||Book=PHB3.5||Cost=%ResistEnergy%|
+20,|Item&Restoration Lesser||Book=PHB3.5||Cost=%RestorationLesser2%|
+15,|Item&Shatter||Book=PHB3.5||Cost=%Shatter%|
+20,|Item&Shield Other||Book=PHB3.5||Cost=%ShieldOther%|
+15,|Item&Silence||Book=PHB3.5||Cost=%Silence%|
+15,|Item&Sound Burst||Book=PHB3.5||Cost=%SoundBurst%|
+25,|Item&Spiritual Weapon||Book=PHB3.5||Cost=%SpiritualWeapon%|
+12,|Item&Status||Book=PHB3.5||Cost=%Status%|
+5,|Item&Summon Monster 2||Book=PHB3.5||Cost=%SummonMonster2%|
+10,|Item&Undetectable Alignment||Book=PHB3.5||Cost=%UndetectableAlignment%|
+15,|Item&Zone of Truth||Book=PHB3.5||Cost=%ZoneofTruth%|
+5,|Item&Assassin's Senses||Book=RR1||Cost=%Assassin'sSenses%|
+20,|Item&Commanding Presence||Book=RR1||Cost=%CommandingPresence%|
+5,|Item&Dead Man's Eye's||Book=RR1||Cost=%DeadMan'sEyes%|
+10,|Item&Divine Wisdom||Book=RR1||Cost=%DivineWisdom%|
+10,|Item&Enkili's Luck||Book=RR1||Cost=%Enkili'sLuck%|
+10,|Item&Helrada's Balance||Book=RR1||Cost=%Helrada'sBalance%|
+15,|Item&Locate Corpse||Book=RR1||Cost=%LocateCorpse%|
+5,|Item&Rend the Sovereign Soul||Book=RR1||Cost=%RendtheSovereignSoul%|
+5,|Item&Sethris' Potency||Book=RR1||Cost=%Sethris'Potency2%|
+5,|Item&Sleep of the Dead||Book=RR1||Cost=%SleepoftheDead%|
+2,|Item&Vangal's Touch||Book=RR1||Cost=%Vangal'sTouch%|
+5,|Item&Aura of Menace||Book=RR2||Cost=%AuraofMenace%|
+5,|Item&Bed Bug Bites||Book=RR2||Cost=%BedBugBites%|
+15,|Item&Body of Sand||Book=RR2||Cost=%BodyofSand%|
+20,|Item&Bread of Life||Book=RR2||Cost=%BreadofLife%|
+15,|Item&Burst of Energy||Book=RR2||Cost=%BurstofEnergy%|
+20,|Item&Curse of Solidity||Book=RR2||Cost=%CurseofSolidity%|
+17,|Item&Force of Will||Book=RR2||Cost=%ForceofWill%|
+15,|Item&Locate Oasis||Book=RR2||Cost=%LocateOasisClr2%|
+10,|Item&Virtue's Curse||Book=RR2||Cost=%Virtue'sCurse2%|
+15,|Item&Brambles||Book=CDiv||Cost=%Brambles%|
+10,|Item&Divine Flame||Book=DOF||Cost=%DivineFlame%|
+10,|Item&Divine Zephyr||Book=DOF||Cost=%DivineZephyr%|
+10,|Item&Beastmask||Book=DOF||Cost=%Beastmask%|
+12,|Item&Knife Spray||Book=DOF||Cost=%KnifeSpray%|
+15,|Item&Aura Against Flame||Book=MOF||Cost=%AuraAgainstFlame%|
+8,|Item&Body Blades||Book=MOF||Cost=%BodyBlades%|
+5,|Item&Curse of Ill Fortune||Book=MOF||Cost=%CurseofIllFortune%|
+10,|Item&Hand of Divinity||Book=MOF||Cost=%HandofDivinity%|
+20,|Item&Spectral Stag||Book=MOF||Cost=%SpectralStag%|
+15,|Item&Spell Shield||Book=MOF||Cost=%SpellShield%|
+5,|Item&Stone Bones||Book=MOF||Cost=%StoneBones%|
+5,|Item&Aura of Darkness||Book=SP&SC||Cost=%AuraofDarkness%|
+12,|Item&Aura of Light||Book=SP&SC||Cost=%AuraofLight%|
+20,|Item&Dig||Book=SP&SC||Cost=%Dig%|
+20,|Item&Divine Heart||Book=SP&SC||Cost=%DivineHeart%|
+25,|Item&Fleet Feet||Book=SP&SC||Cost=%FleetFeet%|
+25,|Item&Shockwave||Book=SP&SC||Cost=%Shockwave2%|
+15,|Item&Surface||Book=SP&SC||Cost=%Surface%|
+25,|Item&Boost Immunity||Book=ITG||Cost=%BoostImmunity%|
+5,|Item&Hidden Lore||Book=ITG||Cost=%HiddenLore%|
+30,|Item&Remove Scars||Book=TA||Cost=%RemoveScars%|
+5,|Item&Addiction||Book=BVD||Cost=%AddictionClr%|
+5,|Item&Boneblast||Book=BVD||Cost=%Boneblast%|
+5,|Item&Dance of Ruin||Book=BVD||Cost=%DanceofRuin%|
+5,|Item&Darkbolt||Book=BVD||Cost=%Darkbolt%|
+5,|Item&Sap Strength||Book=BVD||Cost=%SapStrength2%|
+5,|Item&Spider Legs||Book=BVD||Cost=%SpiderLegs%|
+5,|Item&Strength of the Vrock||Book=BVD||Cost=%StrengthoftheVrock%|
+5,|Item&Wave of Grief||Book=BVD||Cost=%WaveofGrief%|
+5,|Item&Wither Limb||Book=BVD||Cost=%WitherLimb%|
+
+;Cleric_3
+10,|Item&Animate Dead||Book=PHB3.5||Cost=%AnimateDeadClr%|
+5,|Item&Bestow Curse||Book=PHB3.5||Cost=%BestowCurseClr%|
+5,|Item&Blindness/Deafness||Book=PHB3.5||Cost=%Blindness/DeafnessClr%|
+5,|Item&Contagion||Book=PHB3.5||Cost=%ContagionClr%|
+30,|Item&Continual Flame||Book=PHB3.5||Cost=%ContinualFlameClr%|
+30,|Item&Create Food & Water||Book=PHB3.5||Cost=%CreateFood&Water%|
+100,|Item&Cure Serious Wounds||Book=PHB3.5||Cost=%CureSeriousWoundsClr%|
+20,|Item&Daylight||Book=PHB3.5||Cost=%Daylight%|
+15,|Item&Deeper Darkness||Book=PHB3.5||Cost=%DeeperDarkness%|
+30,|Item&Dispel Magic||Book=PHB3.5||Cost=%DispelMagic%|
+15,|Item&Glyph of Warding||Book=PHB3.5||Cost=%GlyphofWarding%|
+15,|Item&Helping Hand||Book=PHB3.5||Cost=%HelpingHand%|
+5,|Item&Inflict Serious Wounds||Book=PHB3.5||Cost=%InflictSeriousWounds%|
+5,|Item&Invisibility Purge||Book=PHB3.5||Cost=%InvisibilityPurge%|
+20,|Item&Locate Object||Book=PHB3.5||Cost=%LocateObjectClr3%|
+20,|Item&Magic Circle Against [Algn]||Book=PHB3.5||Cost=%MagicCircleAgainstChaos/Evil/Good/Law%|
+20,|Item&Magic Vestment||Book=PHB3.5||Cost=%MagicVestment%|
+15,|Item&Meld into Stone||Book=PHB3.5||Cost=%MeldintoStone%|
+12,|Item&Obscure Object||Book=PHB3.5||Cost=%ObscureObject3%|
+25,|Item&Prayer||Book=PHB3.5||Cost=%Prayer%|
+20,|Item&Protection From Energy ([EnergyType])||Book=PHB3.5||Cost=%ProtectionfromEnergy%|
+30,|Item&Remove Blindness/Deafness||Book=PHB3.5||Cost=%RemoveBlindness/Deafness%|
+30,|Item&Remove Curse||Book=PHB3.5||Cost=%RemoveCurse3%|
+40,|Item&Remove Disease||Book=PHB3.5||Cost=%RemoveDisease%|
+20,|Item&Searing Light||Book=PHB3.5||Cost=%SearingLight%|
+15,|Item&Speak with Dead||Book=PHB3.5||Cost=%SpeakwithDead%|
+20,|Item&Stone Shape||Book=PHB3.5||Cost=%StoneShape3%|
+5,|Item&Summon Monster 3||Book=PHB3.5||Cost=%SummonMonster3%|
+5,|Item&Water Breathing||Book=PHB3.5||Cost=%WaterBreathing%|
+10,|Item&Water Walk||Book=PHB3.5||Cost=%WaterWalk%|
+20,|Item&Wind Wall||Book=PHB3.5||Cost=%WindWall3%|
+15,|Item&Animal Spy||Book=RR1||Cost=%AnimalSpy%|
+15,|Item&Banish Shadow||Book=RR1||Cost=%BanishShadow%|
+5,|Item&Chardun's Torments||Book=RR1||Cost=%Chardun'sTorments%|
+5,|Item&Curse of Terror||Book=RR1||Cost=%CurseofTerror%|
+10,|Item&Divine Raiment||Book=RR1||Cost=%DivineRaiment%|
+15,|Item&Mass Resist Elements||Book=PHB3.5||Cost=%MassResistElementsClr3%|
+5,|Item&Invigorate Dead||Book=RR1||Cost=%InvigorateDead%|
+20,|Item&Life Force Transfer||Book=RR1||Cost=%LifeForceTransfer%|
+5,|Item&Mind Raid||Book=RR1||Cost=%MindRaid%|
+20,|Item&Sacred Weapon||Book=RR1||Cost=%SacredWeapon%|
+5,|Item&Shadow Touch||Book=RR1||Cost=%ShadowTouch%|
+20,|Item&Sunspear||Book=RR1||Cost=%Sunspear%|
+5,|Item&Vangal's Wounding||Book=RR1||Cost=%Vangal'sWounding%|
+10,|Item&Curse of the Firefly||Book=RR2||Cost=%CurseoftheFireflyClr%|
+10,|Item&Hedrada's Justice||Book=RR2||Cost=%Hedrada'sJustice%|
+5,|Item&Repair Dead||Book=RR2||Cost=%RepairDead3%|
+10,|Item&Ricochete||Book=RR2||Cost=%Ricochete3%|
+5,|Item&Vangal's Blessing||Book=RR2||Cost=%Vangal'sBlessing%|
+20,|Item&Blessed Aim||Book=DOF||Cost=%BlessedArmClr%|
+10,|Item&Chain of Eyes||Book=DOF||Cost=%ChainofEyes%|
+10,|Item&Curse of the Brute||Book=DOF||Cost=%CurseoftheBrute%|
+5,|Item&Flame of Faith||Book=DOF||Cost=%FlameofFaith%|
+8,|Item&Lesser Telepathic Bond||Book=DOF||Cost=%LesserTelepathicBond%|
+8,|Item&Spikes||Book=DOF||Cost=%Spikes%|
+15,|Item&Sweet Water||Book=DOF||Cost=%SweetWater3%|
+20,|Item&Sword Storm||Book=DOF||Cost=%SwordStorm%|
+20,|Item&Amanuensis||Book=MOF||Cost=%Amanuensis%|
+20,|Item&Circle Dance||Book=MOF||Cost=%CircleDance%|
+5,|Item&Dark Way||Book=MOF||Cost=%DarkWay%|
+10,|Item&Darkfire||Book=MOF||Cost=%Darkfire%|
+20,|Item&Forceward||Book=MOF||Cost=%Forceward%|
+20,|Item&Mace of Odo||Book=MOF||Cost=%MaceofOdo%|
+10,|Item&Mystic Lash||Book=MOF||Cost=%MysticLash%|
+15,|Item&Remedy Moderate Wounds||Book=MOF||Cost=%RemedyModerateWounds3%|
+20,|Item&Understand Device||Book=MOF||Cost=%UnderstandDevice%|
+20,|Item&Weapon of Impact||Book=MOF||Cost=%WeaponofImpact%|
+5,|Item&Black Cloud of Horror||Book=SP&SC||Cost=%BlackCloudofHorror%|
+5,|Item&Bloodblade||Book=SP&SC||Cost=%Bloodblade%|
+5,|Item&Dirge of the Walking Dead||Book=SP&SC||Cost=%DirgeoftheWalkingDead%|
+5,|Item&Doom Fog||Book=SP&SC||Cost=%DoomFog%|
+20,|Item&Marathon Prowess||Book=SP&SC||Cost=%MarathonProwess%|
+20,|Item&Rescue||Book=SP&SC||Cost=%Rescue%|
+100,|Item&Heal Broken Bones||Book=TA||Cost=%HealBrokenBones%|
+100,|Item&Mend Severed Limb||Book=TA||Cost=%MendSeveredLimb%|
+15,|Item&Bind Oath||Book=BOR||Cost=%BindOath%|
+15,|Item&Transference||Book=BOR||Cost=%Transference%|
+5,|Item&Boneblade||Book=BVD||Cost=%Boneblade%|
+5,|Item&Circle of Nausea||Book=BVD||Cost=%CircleofNausea%|
+2,|Item&Clutch of Orcus||Book=BVD||Cost=%ClutchofOrcus%|
+5,|Item&Devil's Eye||Book=BVD||Cost=%Devil'sEye%|
+5,|Item&Eye's of the Zombie||Book=BVD||Cost=%EyesoftheZombie%|
+5,|Item&Flesh Ripper||Book=BVD||Cost=%FleshRipper%|
+5,|Item&Masochism||Book=BVD||Cost=%Masochism%|
+5,|Item&Sadism||Book=BVD||Cost=%Sadisim%|
+5,|Item&Shriveling||Book=BVD||Cost=%Shriveling3%|
+5,|Item&Unliving Weapon||Book=BVD||Cost=%UnlivingWeapon%|
+5,|Item&Vile Lance||Book=BVD||Cost=%VileLance%|
+5,|Item&Wrack||Book=BVD||Cost=%Wrack3%|
+15,|Item&Briar Web||Book=CDiv||Cost=%BriarWeb%|
+5,|Item&Chain of Chaos||Book=CDiv||Cost=%ChainofChaos%|
+
+;Cleric_4
+10,|Item&Greater Magic Weapon||Book=PHB3.5||Cost=%GreaterMagicWeaponClr4%|
+2,|Item&Air Walk||Book=PHB3.5||Cost=%AirWalk%|
+25,|Item&Control Water||Book=PHB3.5||Cost=%ControlWaterClr%|
+75,|Item&Cure Critical Wounds||Book=PHB3.5||Cost=%CureCriticalWounds%|
+15,|Item&Death Ward||Book=PHB3.5||Cost=%DeathWard%|
+15,|Item&Dimensional Anchor||Book=PHB3.5||Cost=%DimensionalAnchor%|
+30,|Item&Discern Lies||Book=PHB3.5||Cost=%DiscernLies%|
+20,|Item&Dismissal||Book=PHB3.5||Cost=%DismissalClr%|
+5,|Item&Divination||Book=PHB3.5||Cost=%Divination%|
+10,|Item&Divine Power||Book=PHB3.5||Cost=%DivinePower%|
+20,|Item&Freedom of Movement||Book=PHB3.5||Cost=%FreedomofMovement%|
+5,|Item&Giant Vermin||Book=PHB3.5||Cost=%GiantVermin%|
+15,|Item&Imbue With Spell Ability||Book=PHB3.5||Cost=%ImbueWithSpellAbility%|
+5,|Item&Inflict Critical Wounds||Book=PHB3.5||Cost=%InflictCriticalWounds%|
+20,|Item&Magic Weapon Greater||Book=PHB3.5||Cost=%MagicWeaponGreaterClr4%|
+50,|Item&Neutralize Poison||Book=PHB3.5||Cost=%NeutralizePoison%|
+5,|Item&Planar Ally Lesser||Book=PHB3.5||Cost=%PlanarAllyLesser%|
+5,|Item&Poison||Book=PHB3.5||Cost=%Poison4%|
+25,|Item&Repel Vermin||Book=PHB3.5||Cost=%RepelVermin4%|
+20,|Item&Restoration||Book=PHB3.5||Cost=%Restoration%|
+30,|Item&Sending||Book=PHB3.5||Cost=%Sending4%|
+20,|Item&Spell Immunity||Book=PHB3.5||Cost=%SpellImmunity%|
+5,|Item&Summon Monster 4||Book=PHB3.5||Cost=%SummonMonster4%|
+30,|Item&Tongues||Book=PHB3.5||Cost=%Tongues4%|
+20,|Item&Cloak of Righteousness||Book=RR1||Cost=%CloakofRighteousness%|
+15,|Item&Condemned||Book=RR1||Cost=%Condemned%|
+25,|Item&Control Light||Book=RR1||Cost=%ControlLight%|
+20,|Item&Holy Channel||Book=RR1||Cost=%HolyChannel%|
+20,|Item&Ironheart||Book=RR1||Cost=%Ironheart%|
+15,|Item&Mind Over Matter||Book=RR1||Cost=%MindoverMatter%|
+10,|Item&Seal of Hedrada||Book=RR1||Cost=%SealofHedrada%|
+10,|Item&Tanil's Purging||Book=RR1||Cost=%Tanil'sPurging%|
+20,|Item&Terole's Translator||Book=RR1||Cost=%Terole'sTranslator%|
+5,|Item&Unholy Channel||Book=RR1||Cost=%UnholyChannel%|
+5,|Item&Blood Water||Book=RR2||Cost=%BloodWater%|
+5,|Item&Bloodied Blade||Book=RR2||Cost=%BloodiedBlade%|
+25,|Item&Enhanced Senses||Book=RR2||Cost=%EnhancedSenses%|
+20,|Item&Hold Stone||Book=RR2||Cost=%HoldStone%|
+10,|Item&Keshmeeri Refuge||Book=RR2||Cost=%KeshmeeriRefuge%|
+30,|Item&Quick Learn||Book=RR2||Cost=%QuickLearn%|
+20,|Item&Unwavering Ally||Book=RR2||Cost=%UnwaveringAlly%|
+10,|Item&Beast Claws||Book=DOF||Cost=%BeastClaws%|
+5,|Item&Castigate||Book=DOF||Cost=%Castigate%|
+10,|Item&Harrier||Book=DOF||Cost=%HarrierClr4%|
+10,|Item&Recitation||Book=CDiv||Cost=%Recitation%|
+15,|Item&Unfailing Endurance||Book=DOF||Cost=%UnfailingEndurance%|
+15,|Item&Weapon of the Deity||Book=CDiv||Cost=%WeaponoftheDeity%|
+15,|Item&Weather Eye||Book=CDiv||Cost=%WeatherEye4%|
+15,|Item&Blindsight||Book=MOF||Cost=%BlindsightClr%|
+5,|Item&Doomtide||Book=MOF||Cost=%Doomtide%|
+10,|Item&Favor of Ilmater||Book=MOF||Cost=%FavorofIlmater%|
+10,|Item&Hand of Torm||Book=MOF||Cost=%HandofTorm%|
+5,|Item&Iron Bones||Book=MOF||Cost=%IronBones%|
+10,|Item&Know Vulnerabilities||Book=MOF||Cost=%KnowVulnerabilities%|
+10,|Item&Revenance||Book=MOF||Cost=%Revenance%|
+5,|Item&Skull of Secrets||Book=MOF||Cost=%SkullofSecrets%|
+15,|Item&Wall of [Algn]||Book=MOF||Cost=%WallofChaos/Evil/God/Law%|
+5,|Item&Pack of Ghouls||Book=SP&SC||Cost=%PackofGhouls%|
+30,|Item&Sumptuous Feast||Book=SP&SC||Cost=%SumptuousFeast%|
+5,|Item&Titan's Strength||Book=SP&SC||Cost=%Titan'sStrength%|
+15,|Item&Fair Light||Book=BOR||Cost=%FairLight%|
+10,|Item&Mark of Evil||Book=BOR||Cost=%MarkofEvil%|
+20,|Item&North Star||Book=BOR||Cost=%NorthStar%|
+20,|Item&Greater Transference||Book=BOR||Cost=%GreaterTransference%|
+5,|Item&Abyssal Might||Book=BVD||Cost=%AbyssalMightClr%|
+5,|Item&Claws of the Savage||Book=BVD||Cost=%ClawsoftheSavage%|
+5,|Item&Damning Darkness||Book=BVD||Cost=%DamningDarkness%|
+5,|Item&Hell's Power||Book=BVD||Cost=%Hell'sPower%|
+10,|Item&Identify Transgressor||Book=BVD||Cost=%IdentifyTransgressor%|
+5,|Item&Psychic Poison||Book=BVD||Cost=%PsychicPoison%|
+3,|Item&Stop Heart||Book=BVD||Cost=%StopHeart4%|
+
+;Cleric_5
+20,|Item&Atonement||Book=PHB3.5||Cost=%Atonement%|
+20,|Item&Break Enchantment||Book=PHB3.5||Cost=%BreakEnchantment5%|
+15,|Item&Command Greater||Book=PHB3.5||Cost=%CommandGreater%|
+25,|Item&Commune||Book=PHB3.5||Cost=%Commune%|
+50,|Item&Cure Light Wounds Mass||Book=PHB3.5||Cost=%CureLightWoundsMass%|
+25,|Item&Dispel [Algn]||Book=PHB3.5||Cost=%DispelChaos/Evil/Good/Law%|
+25,|Item&Disrupting Weapon||Book=PHB3.5||Cost=%DisruptingWeapon%|
+4,|Item&False Vision||Book=PHB3.5||Cost=%FalseVisionClr%|
+25,|Item&Flame Strike||Book=PHB3.5||Cost=%FlameStrike%|
+20,|Item&Hallow||Book=PHB3.5||Cost=%Hallow%|
+5,|Item&Inflict Light Wounds Mass||Book=PHB3.5||Cost=%InflictLightWoundsMass%|
+5,|Item&Insect Plague||Book=PHB3.5||Cost=%InsectPlague%|
+15,|Item&Mark of Justice||Book=PHB3.5||Cost=%MarkofJustice%|
+10,|Item&Plane Shift||Book=PHB3.5||Cost=%PlaneShift5%|
+50,|Item&Raise Dead||Book=PHB3.5||Cost=%RaiseDead%|
+20,|Item&Righteous Might||Book=PHB3.5||Cost=%RighteousMight%|
+15,|Item&Scrying||Book=PHB3.5||Cost=%ScryingClr5%|
+10,|Item&Slay Living||Book=PHB3.5||Cost=%SlayLiving%|
+15,|Item&Spell Resistance||Book=PHB3.5||Cost=%SpellResistance%|
+5,|Item&Summon Monster 5||Book=PHB3.5||Cost=%SummonMonster5%|
+5,|Item&Symbol of Pain||Book=PHB3.5||Cost=%SymbolofPain%|
+30,|Item&True Seeing||Book=PHB3.5||Cost=%TrueSeeing5%|
+5,|Item&Unhallow (No Spell)||Book=PHB3.5||Cost=%Unhallow%|
+4,|Item&Unhallow (with 1st level spell)||Book=PHB3.5||Cost=%UnhallowSpell1%|
+3,|Item&Unhallow (with 3rd level spell)||Book=PHB3.5||Cost=%UnhallowSpell3%|
+2,|Item&Unhallow (with 5th level spell)||Book=PHB3.5||Cost=%UnhallowSpell5%|
+1,|Item&Unhallow (with 7th level spell)||Book=PHB3.5||Cost=%UnhallowSpell7%|
+1,|Item&Unhallow (with 9th level spell)||Book=PHB3.5||Cost=%UnhallowSpell9%|
+15,|Item&Wall of Stone||Book=PHB3.5||Cost=%WallofStone5%|
+10,|Item&Belsameth's Blessing||Book=RR1||Cost=%Belsameth'sBlessingClr%|
+5,|Item&Belsameth's Strife||Book=RR1||Cost=%Belsameth'sStrifeClr%|
+20,|Item&Brothers in Arms||Book=RR1||Cost=%BrothersinArms%|
+5,|Item&Doomwail||Book=RR1||Cost=%Doomwail%|
+5,|Item&Imbue Shadow||Book=RR1||Cost=%ImbueShadow%|
+5,|Item&Inquistion||Book=RR1||Cost=%Inquistion%|
+5,|Item&Darksoul||Book=RR2||Cost=%Darksoul%|
+10,|Item&Demonbane||Book=RR2||Cost=%Demonbane%|
+15,|Item&Essential Blade||Book=RR2||Cost=%EssentialBlade%|
+10,|Item&Legion's March||Book=RR2||Cost=%Legion'sMarch%|
+5,|Item&Plague Touch||Book=RR2||Cost=%PlagueTouch5%|
+5,|Item&Profane Stare||Book=RR2||Cost=%ProfaneStare%|
+20,|Item&Righteous Charge||Book=RR2||Cost=%RighteousCharge%|
+10,|Item&Sap Strength||Book=RR2||Cost=%SapStrength5%|
+5,|Item&Slow the Years||Book=RR2||Cost=%SlowtheYears%|
+5,|Item&Speed the Years||Book=RR2||Cost=%SpeedtheYears%|
+10,|Item&Bear's Heart||Book=DOF||Cost=%Bear'sHeart%|
+20,|Item&Divine Agility||Book=DOF||Cost=%DivineAgility%|
+20,|Item&Battletide||Book=MOF||Cost=%Battletide%|
+5,|Item&Crawling Darkness||Book=MOF||Cost=%CrawlingDarkness%|
+15,|Item&Monstrous Regeneration||Book=MOF||Cost=%MonstrousRegeneration%|
+10,|Item&Spell Phylactory||Book=MOF||Cost=%SpellPhylactory%|
+40,|Item&Finger of Life||Book=SP&SC||Cost=%FingerofLife%|
+5,|Item&Flying Abominations||Book=SP&SC||Cost=%FlyingAbominationsClr5%|
+5,|Item&Halo of Vengeance||Book=SP&SC||Cost=%HaloofVengeance%|
+10,|Item&Strongoak's Affinity with Nature||Book=SP&SC||Cost=%Strongoak'sAffinitywithNature5%|
+10,|Item&Wind Tunnel||Book=SP&SC||Cost=%WindTunnel5%|
+20,|Item&Damage Reduction||Book=TA||Cost=%DamageReduction%|
+40,|Item&Heal Critical Injuries||Book=TA||Cost=%HealCriticalInjuries%|
+5,|Item&Charnel Fire||Book=BVD||Cost=%CharnelFire%|
+5,|Item&False Sending||Book=BVD||Cost=%FalseSendingClr5%|
+5,|Item&Heartclutch||Book=BVD||Cost=%Heartclutch%|
+5,|Item&Morality Undone||Book=BVD||Cost=%MoralityUndone%|
+5,|Item&Resonating Resistance||Book=BVD||Cost=%ResonatingResistance%|
+
+;Cleric_6
+10,|Item&Dispel Magic, Greater||Book=PHB3.5||Cost=%GreaterDispelling%|
+15,|Item&Animate Objects||Book=PHB3.5||Cost=%AnimateObjects%|
+10,|Item&Antilife Shell||Book=PHB3.5||Cost=%AntilifeShell%|
+20,|Item&Banishment||Book=PHB3.5||Cost=%BanishmentClr%|
+25,|Item&Bear's Endurance Mass||Book=PHB3.5||Cost=%Bear'sEnduranceMass%|
+20,|Item&Blade Barrier||Book=PHB3.5||Cost=%BladeBarrier%|
+25,|Item&Bull's Strength Mass||Book=PHB3.5||Cost=%Bull'sStrengthMass%|
+5,|Item&Create Undead||Book=PHB3.5||Cost=%CreateUndead%|
+75,|Item&Cure Moderate Wounds Mass||Book=PHB3.5||Cost=%CureModerateWoundsMass%|
+30,|Item&Dispel Magic Greater||Book=PHB3.5||Cost=%DispelMagicGreater%|
+25,|Item&Eagle's Splendor Mass||Book=PHB3.5||Cost=%Eagle'sSplendorMass%|
+20,|Item&Find the Path||Book=PHB3.5||Cost=%FindthePath%|
+15,|Item&Forbiddance||Book=PHB3.5||Cost=%Forbiddance%|
+10,|Item&Geas/Quest||Book=PHB3.5||Cost=%Geas/Quest%|
+15,|Item&Glyph of Warding Greater||Book=PHB3.5||Cost=%GlyphofWardingGreater%|
+5,|Item&Harm||Book=PHB3.5||Cost=%Harm%|
+50,|Item&Heal ||Book=PHB3.5||Cost=%Heal%|
+30,|Item&Heros Feast||Book=PHB3.5||Cost=%HerosFeast%|
+5,|Item&Inflict Moderate Wounds Mass||Book=PHB3.5||Cost=%InflictModerateWoundsMass%|
+25,|Item&Owl's Wisdom Mass||Book=PHB3.5||Cost=%Owl'sWisdomMass%|
+5,|Item&Planar Ally  ||Book=PHB3.5||Cost=%PlanarAlly%|
+5,|Item&Summon Monster 6||Book=PHB3.5||Cost=%SummonMonster6%|
+5,|Item&Symbol of Fear||Book=PHB3.5||Cost=%SymbolofFear%|
+5,|Item&Symbol of Sleep||Book=PHB3.5||Cost=%SymbolofSleep%|
+2,|Item&Wind Walk||Book=PHB3.5||Cost=%WindWalk6%|
+20,|Item&Word of Recall||Book=PHB3.5||Cost=%WordofRecall6%|
+15,|Item&Dark Water||Book=RR1||Cost=%DarkWaterClr%|
+20,|Item&Enkili's Lightning Storm||Book=RR1||Cost=%Enkili'sLightningStorm%|
+5,|Item&Pass the Years||Book=RR1||Cost=%PasstheYears%|
+5,|Item&Sacrifical Heart||Book=RR1||Cost=%SacrificalHeart%|
+5,|Item&Touch of Renewal||Book=RR2||Cost=%TouchofRenewal6%|
+5,|Item&Azuth's Exalted Triad||Book=MOF||Cost=%Azuth'sExaltedTriad%|
+10,|Item&Gate Seal||Book=MOF||Cost=%GateSeal%|
+10,|Item&Spellmantle||Book=MOF||Cost=%Spellmantle%|
+20,|Item&Stone Walk||Book=MOF||Cost=%StoneWalk%|
+20,|Item&Suppress Glyph||Book=MOF||Cost=%SuppressGlyph%|
+10,|Item&Undeath to Death||Book=PHB3.5||Cost=%UndeathtoDeath%|
+20,|Item&Dawnspear||Book=SP&SC||Cost=%Dawnspear%|
+5,|Item&Perivax's Poison Pillar||Book=SP&SC||Cost=%Perivax'sPoisonPillar%|
+2,|Item&[EnergyType] Immunity||Book=T&B||Cost=%EnergyImmunity6%|
+15,|Item&Restore Sanity||Book=TA||Cost=%RestoreSanity%|
+5,|Item&Cloud of Achaierai||Book=BVD||Cost=%CloudofAchaierai%|
+5,|Item&Fiendish Quickening||Book=BVD||Cost=%FiendishQuickening%|
+5,|Item&Snare Astral Traveler||Book=BVD||Cost=%SnareAstralTraveler%|
+5,|Item&Thousand Needles||Book=BVD||Cost=%ThousandNeedles%|
+
+;Cleric_7
+5,|Item&Blasphemy||Book=PHB3.5||Cost=%Blasphemy%|
+15,|Item&Control Weather||Book=PHB3.5||Cost=%ControlWeather%|
+50,|Item&Cure Serious Wounds Mass||Book=PHB3.5||Cost=%CureSeriousWoundsMass%|
+15,|Item&Destruction||Book=PHB3.5||Cost=%Destruction%|
+20,|Item&Dictum||Book=PHB3.5||Cost=%Dictum%|
+5,|Item&Ethereal Jaunt||Book=PHB3.5||Cost=%EtherealJaunt%|
+10,|Item&Holy Word||Book=PHB3.5||Cost=%HolyWord%|
+5,|Item&Inflict Serious Wounds Mass||Book=PHB3.5||Cost=%InflictSeriousWoundsMass%|
+20,|Item&Refuge||Book=PHB3.5||Cost=%Refuge7%|
+20,|Item&Regenerate||Book=PHB3.5||Cost=%Regenerate7%|
+15,|Item&Repulsion||Book=PHB3.5||Cost=%Repulsion7%|
+20,|Item&Restoration Greater||Book=PHB3.5||Cost=%RestorationGreater%|
+25,|Item&Resurrection||Book=PHB3.5||Cost=%Resurrection%|
+20,|Item&Scrying Greater||Book=PHB3.5||Cost=%GreaterScrying%|
+5,|Item&Summon Monster 7||Book=PHB3.5||Cost=%SummonMonster7%|
+5,|Item&Symbol of Weakness||Book=PHB3.5||Cost=%SymbolofWeakness%|
+5,|Item&Symbol of Stunning||Book=PHB3.5||Cost=%SymbolofStunning%|
+5,|Item&Word of Chaos||Book=PHB3.5||Cost=%WordofChaos%|
+10,|Item&Dagger's of Vaul||Book=RR1||Cost=%DaggersofVaul%|
+30,|Item&Greater Healing Circle||Book=RR1||Cost=%GreaterHealingCircle%|
+15,|Item&Incite||Book=RR1||Cost=%Incite%|
+10,|Item&Charm's Aegis||Book=RR2||Cost=%Charm'sAegis%|
+20,|Item&Divine Protection||Book=RR2||Cost=%DivineProtection%|
+1,|Item&Stop the Years||Book=RR2||Cost=%StoptheYears%|
+5,|Item&Trust in the Gods||Book=RR2||Cost=%TrustintheGods%|
+5,|Item&Virulence||Book=RR2||Cost=%Virulence7%|
+15,|Item&Righteous Wrath of the Faithful||Book=DOF||Cost=%RighteousWrathoftheFaithful%|
+5,|Item&Slime Wave||Book=CDiv||Cost=%SlimeWave%|
+5,|Item&Azuth's Spell Shield||Book=MOF||Cost=%Azuth'sSpellShield%|
+5,|Item&Death Dragon||Book=MOF||Cost=%DeathDragon%|
+5,|Item&Fortunate Fate||Book=MOF||Cost=%FortunateFate%|
+10,|Item&Holy Star||Book=MOF||Cost=%HolyStar%|
+5,|Item&Undeath After Death (5HD)||Book=MOF||Cost=%UndeathAfterDeath5HD%|
+4,|Item&Undeath After Death (10HD)||Book=MOF||Cost=%UndeathAfterDeath10HD%|
+3,|Item&Undeath After Death (15HD)||Book=MOF||Cost=%UndeathAfterDeath15HD%|
+2,|Item&Undeath After Death (20HD)||Book=MOF||Cost=%UndeathAfterDeath20HD%|
+25,|Item&Disruption Wave||Book=SP&SC||Cost=%DisruptionWave%|
+5,|Item&Spirit Knife||Book=SP&SC||Cost=%SpiritKnife%|
+5,|Item&Bestow Greater Curse||Book=BVD||Cost=%BestowGreaterCurseClr%|
+5,|Item&Fiendish Clarity||Book=BVD||Cost=%FiendishClarity%|
+2,|Item&Imprison Soul||Book=BVD||Cost=%ImprisonSoul%|
+5,|Item&Wretched Blight||Book=BVD||Cost=%WretchedBlight%|
+
+;Cleric_8
+20,|Item&Antimagic Field||Book=PHB3.5||Cost=%AntimagicFieldClr%|
+10,|Item&Cloak of Chaos||Book=PHB3.5||Cost=%CloakofChoas%|
+5,|Item&Create Greater Undead||Book=PHB3.5||Cost=%CreateGreaterUndead%|
+50,|Item&Cure Critical Wounds Mass||Book=PHB3.5||Cost=%CureCriticalWoundsMass%|
+15,|Item&Dimensional Lock||Book=PHB3.5||Cost=%DimensionalLock%|
+30,|Item&Discern Location||Book=PHB3.5||Cost=%DiscernLocation%|
+20,|Item&Earthquake||Book=PHB3.5||Cost=%Earthquake%|
+20,|Item&Fire Storm||Book=PHB3.5||Cost=%FireStorm%|
+15,|Item&Holy Aura||Book=PHB3.5||Cost=%HolyAura%|
+2,|Item&Planar Ally Greater||Book=PHB3.5||Cost=%PlanarAllyGreater%|
+5,|Item&Inflict Critical Wounds Mass||Book=PHB3.5||Cost=%InflictCriticalWoundsMass%|
+10,|Item&Shield of Law||Book=PHB3.5||Cost=%ShieldofLaw%|
+15,|Item&Spell Immunity Greater||Book=PHB3.5||Cost=%SpellImmunityGreater%|
+5,|Item&Summon Monster 8||Book=PHB3.5||Cost=%SummonMonster8%|
+5,|Item&Symbol of Death||Book=PHB3.5||Cost=%SymbolofDeath%|
+5,|Item&Symbol of Insanity||Book=PHB3.5||Cost=%SymbolofInsanity%|
+5,|Item&Unholy Aura||Book=PHB3.5||Cost=%UnholyAura%|
+2,|Item&Avatar||Book=RR1||Cost=%Avatar%|
+5,|Item&Recall Champion||Book=RR1||Cost=%RecallChampion%|
+5,|Item&Strength of Kadum||Book=RR1||Cost=%StrengthofKadum%|
+5,|Item&Chardun's Branding||Book=RR2||Cost=%Chardun'sBranding%|
+10,|Item&Corean's Fire||Book=RR2||Cost=%Corean'sFire%|
+15,|Item&Elemental Kiss||Book=RR2||Cost=%ElementalKiss%|
+15,|Item&Stone Assault||Book=RR2||Cost=%StoneAssault%|
+5,|Item&Brain Spider||Book=DOF||Cost=%BrainSpider%|
+5,|Item&Death Pact||Book=MOF||Cost=%DeathPact%|
+5,|Item&General of Undeath||Book=MOF||Cost=%GeneralofUndeath%|
+10,|Item&Stormrage||Book=MOF||Cost=%Stormrage%|
+30,|Item&Greater Finger of Life||Book=SP&SC||Cost=%GreaterFingerofLife%|
+20,|Item&Constellation||Book=BOR||Cost=%Constellation%|
+20,|Item&Shibboleth||Book=BOR||Cost=%Shibboleth%|
+5,|Item&Befoul||Book=BVD||Cost=%Befoul%|
+5,|Item&Bodak Birth||Book=BVD||Cost=%BodakBirth%|
+5,|Item&Pestilence||Book=BVD||Cost=%Pestilence%|
+
+;Cleric_9
+5,|Item&Astral Projection||Book=PHB3.5||Cost=%AstralProjection%|
+5,|Item&Energy Drain||Book=PHB3.5||Cost=%EnergyDrain%|
+5,|Item&Etherealness||Book=PHB3.5||Cost=%Etherealness%|
+10,|Item&Gate (Planar Travel)||Book=PHB3.5||Cost=%Gate%|
+10,|Item&Gate (Calling Creature)||Book=PHB3.5||Cost=%GateCalling%|
+40,|Item&Heal Mass||Book=PHB3.5||Cost=%HealMass%|
+15,|Item&Implosion||Book=PHB3.5||Cost=%Implosion%|
+1,|Item&Miracle||Book=PHB3.5||Cost=%Miracle%|
+5,|Item&Soul Bind (5HD)||Book=PHB3.5||Cost=%SoulBind5HD%|
+3,|Item&Soul Bind (10HD)||Book=PHB3.5||Cost=%SoulBind10HD%|
+2,|Item&Soul Bind (15HD)||Book=PHB3.5||Cost=%SoulBind15HD%|
+1,|Item&Soul Bind (20HD)||Book=PHB3.5||Cost=%SoulBind20HD%|
+10,|Item&Storm of Vengeance||Book=PHB3.5||Cost=%StormofVengeance%|
+5,|Item&Summon Monster 9||Book=PHB3.5||Cost=%SummonMonster9%|
+20,|Item&True Resurrection||Book=PHB3.5||Cost=%TrueResurrection%|
+15,|Item&Convert||Book=RR1||Cost=%Convert%|
+10,|Item&Incapacitate||Book=RR1||Cost=%Incapacitate%|
+5,|Item&Shatter Soul||Book=RR1||Cost=%ShatterSoul%|
+5,|Item&Dagger of Undeath||Book=RR2||Cost=%DaggerofUndeath%|
+7,|Item&Holy War||Book=RR2||Cost=%HolyWar%|
+20,|Item&Undeath's Eternal Foe||Book=MOF||Cost=%Undeath'sEternalFoe%|
+2,|Item&Fact to Fiction||Book=BOR||Cost=%FacttoFiction%|
+5,|Item&Despoil||Book=BVD||Cost=%Despoil%|
+5,|Item&Spread of Savagery||Book=BVD||Cost=%SpreadofSavagery%|
+5,|Item&Were-Doom||Book=BVD||Cost=%Were-Doom%|
+
+#------------------------------------------------------------------------------------
+# Druid Spells
+;Druid_0
+30,|Item&Create Water||Book=PHB3.5||Cost=%CreateWater%|
+10,|Item&Cure Minor Wounds||Book=PHB3.5||Cost=%CureMinorWounds%|
+25,|Item&Detect Magic||Book=PHB3.5||Cost=%DetectMagic%|
+25,|Item&Detect Poison||Book=PHB3.5||Cost=%DetectPoison%|
+20,|Item&Flare||Book=PHB3.5||Cost=%Flare%|
+15,|Item&Guidance||Book=PHB3.5||Cost=%Guidance%|
+25,|Item&Know Direction||Book=PHB3.5||Cost=%KnowDirection%|
+30,|Item&Light||Book=PHB3.5||Cost=%Light%|
+20,|Item&Mending||Book=PHB3.5||Cost=%Mending%|
+20,|Item&Purify Food & Drink||Book=PHB3.5||Cost=%PurifyFood&Drink%|
+15,|Item&Read Magic||Book=PHB3.5||Cost=%ReadMagic%|
+25,|Item&Resistance||Book=PHB3.5||Cost=%Resistance%|
+15,|Item&Virtue||Book=PHB3.5||Cost=%Virtue0%|
+20,|Item&Adhere to Wood||Book=RR1||Cost=%AdheretoWood%|
+20,|Item&Chill/Warmth||Book=RR1||Cost=%Chill/Warmth%|
+15,|Item&Shockwave||Book=RR1||Cost=%Shockwave0%|
+20,|Item&Sneeze||Book=RR1||Cost=%Sneeze%|
+20,|Item&Spark||Book=RR1||Cost=%Spark%|
+30,|Item&Dawn||Book=MOW||Cost=%DawnDrd%|
+10,|Item&Detect Crossroads||Book=MOF||Cost=%DetectCrossroads%|
+20,|Item&Naturewatch||Book=CDiv||Cost=%Naturewatch%|
+15,|Item&Ram's Might||Book=MOF||Cost=%Ram'sMight%|
+20,|Item&Antihistamine||Book=ITG||Cost=%Antihistamine%|
+20,|Item&Shade||Book=ITG||Cost=%Shade%|
+3,|Item&Preserve Organ||Book=BVD||Cost=%PreserveOrgan%|
+
+;Druid_1
+20,|Item&Animal Trick||Book=MOW||Cost=%AnimalTrick%|
+10,|Item&Darkseed||Book=MOW||Cost=%Darkseed%|
+20,|Item&Daze Animal||Book=MOW||Cost=%DazeAnimal%|
+15,|Item&Fire Eyes||Book=MOW||Cost=%FireEyes%|
+10,|Item&Scarecrow||Book=MOW||Cost=%Scarecrow%|
+30,|Item&Calm Animals||Book=PHB3.5||Cost=%CalmAnimals%|
+20,|Item&Charm Animal||Book=PHB3.5||Cost=%CharmAnimal%|
+10,|Item&Cure Light Wounds||Book=PHB3.5||Cost=%CureLightWounds%|
+25,|Item&Detect Animals or Plants||Book=PHB3.5||Cost=%DetectAnimalsorPlants%|
+20,|Item&Detect Snares and Pits||Book=PHB3.5||Cost=%DetectSnaresPits%|
+30,|Item&Endure Elements||Book=PHB3.5||Cost=%EndureElements%|
+25,|Item&Entangle||Book=PHB3.5||Cost=%Entangle%|
+20,|Item&Faerie Fire||Book=PHB3.5||Cost=%FaerieFire%|
+20,|Item&Goodberry||Book=PHB3.5||Cost=%Goodberry%|
+20,|Item&Hide from Animals||Book=PHB3.5||Cost=%HidefromAnimals%|
+10,|Item&Jump||Book=PHB3.5||Cost=%Jump%|
+15,|Item&Longstrider||Book=PHB3.5||Cost=%Longstrider%|
+20,|Item&Magic Fang||Book=PHB3.5||Cost=%MagicFang%|
+25,|Item&Magic Stone||Book=PHB3.5||Cost=%MagicStone%|
+15,|Item&Obscuring Mist||Book=PHB3.5||Cost=%ObscuringMist%|
+30,|Item&Pass Without Trace||Book=PHB3.5||Cost=%PassWithoutTrace%|
+30,|Item&Produce Flame||Book=PHB3.5||Cost=%ProduceFlame%|
+20,|Item&Shillelagh||Book=PHB3.5||Cost=%Shillelagh%|
+25,|Item&Speak with Animals||Book=PHB3.5||Cost=%SpeakwithAnimals%|
+20,|Item&Summon Natures Ally 1||Book=PHB3.5||Cost=%SummonNature'sAlly1%|
+25,|Item&Chameleon Skin||Book=RR1||Cost=%ChameleonSkin(1)%|
+10,|Item&Minor Symbol of Divinity||Book=RR1||Cost=%MinorSymbolofDivinity%|
+20,|Item&Rabbit Feet||Book=RR1||Cost=%RabbitFeet%|
+15,|Item&Salamar's Quiet Contemplation||Book=RR1||Cost=%Salamar'sQuietContemplation%|
+10,|Item&Sethris' Potency||Book=RR1||Cost=%Sethris'Potency1%|
+15,|Item&Shockwave Strike||Book=RR1||Cost=%ShockwaveStrike%|
+25,|Item&Body of Sand||Book=RR2||Cost=%BodyofSandDrd%|
+5,|Item&Call Animal Companion||Book=RR2||Cost=%CallAnimalCompanion%|
+20,|Item&Champion Swimmer||Book=RR2||Cost=%ChampionSwimmer%|
+20,|Item&Locate Oasis||Book=RR2||Cost=%LocateOasis%|
+25,|Item&Nose of the Rat||Book=RR2||Cost=%NoseoftheRat1%|
+10,|Item&Blinding Spittle||Book=MOF||Cost=%BlindingSpittle%|
+25,|Item&Camouflage||Book=CDiv||Cost=%Camouflage%|
+10,|Item&Claws of the Beast||Book=MOF||Cost=%ClawsoftheBeast%|
+10,|Item&Handfire||Book=MOF||Cost=%Handfire%|
+20,|Item&Speed Swim||Book=MOF||Cost=%SpeedSwim%|
+20,|Item&Eagle Eyes||Book=SP&SC||Cost=%EagleEyes%|
+20,|Item&Keen Ear||Book=SP&SC||Cost=%KeenEar%|
+20,|Item&Lucius's Rustling Leaves||Book=SP&SC||Cost=%Lucius'sRustlingLeaves%|
+15,|Item&Web Walking||Book=SP&SC||Cost=%WebWalking%|
+15,|Item&Whirlwind of Ice||Book=SP&SC||Cost=%WhirlwindofIce%|
+20,|Item&Whispering Branches||Book=SP&SC||Cost=%WhisperingBranches%|
+40,|Item&Clear Path||Book=ITG||Cost=%ClearPath%|
+20,|Item&Crop Circle||Book=ITG||Cost=%CropCircle%|
+10,|Item&Detect Fey||Book=ITG||Cost=%DetectFey%|
+5,|Item&Enhance Toxicity||Book=ITG||Cost=%EnhanceToxicity%|
+30,|Item&Resist Natural Poisons||Book=ITG||Cost=%ResistNaturalPoisons%|
+5,|Item&Extract Drug||Book=BVD||Cost=%ExtractDrug%|
+5,|Item&Spider Hand||Book=BVD||Cost=%SpiderHand%|
+10,|Item&Suspend Disease||Book=BVD||Cost=%SuspendDisease%|
+10,|Item&Hawkeye||Book=MOW||Cost=%Hawkeye%|
+20,|Item&Power Sight||Book=MOW||Cost=%PowerSight%|
+20,|Item&Regenerate Light Wounds||Book=MOW||Cost=%RegenerateLightWounds%|
+20,|Item&Sandblast||Book=MOW||Cost=%Sandblast%|
+15,|Item&Wood Wose||Book=MOW||Cost=%WoodWose%|
+
+;Druid_2
+25,|Item&Animal Messenger||Book=PHB3.5||Cost=%AnimalMessenger%|
+20,|Item&Animal Trance||Book=PHB3.5||Cost=%AnimalTrance%|
+30,|Item&Barkskin||Book=PHB3.5||Cost=%Barkskin%|
+25,|Item&Bear's Endurance||Book=PHB3.5||Cost=%Bear'sEndurance%|
+25,|Item&Bull's Strength||Book=PHB3.5||Cost=%Bull'sStrength%|
+25,|Item&Cat's Grace||Book=PHB3.5||Cost=%Cat'sGrace%|
+15,|Item&Chill Metal||Book=PHB3.5||Cost=%ChillMetal%|
+20,|Item&Delay Poison||Book=PHB3.5||Cost=%DelayPoison%|
+15,|Item&Fire Trap||Book=PHB3.5||Cost=%FireTrapDrd2%|
+20,|Item&Flame Blade||Book=PHB3.5||Cost=%FlameBlade%|
+15,|Item&Flaming Sphere||Book=PHB3.5||Cost=%FlamingSphere%|
+20,|Item&Fog Cloud||Book=PHB3.5||Cost=%FogCloud%|
+20,|Item&Gust of Wind||Book=PHB3.5||Cost=%GustofWind%|
+15,|Item&Heat Metal||Book=PHB3.5||Cost=%HeatMetal%|
+20,|Item&Hold Animal||Book=PHB3.5||Cost=%HoldAnimal%|
+25,|Item&Owl's Wisdom||Book=PHB3.5||Cost=%Owl'sWisdom%|
+20,|Item&Reduce Animal||Book=PHB3.5||Cost=%ReduceAnimal2%|
+20,|Item&Resist Energy||Book=PHB3.5||Cost=%ResistEnergy%|
+5,|Item&Restoration Lesser||Book=PHB3.5||Cost=%RestorationLesser2%|
+20,|Item&Soften Earth and Stone||Book=PHB3.5||Cost=%SoftenEarthandStone%|
+20,|Item&Spider Climb||Book=PHB3.5||Cost=%SpiderClimb%|
+20,|Item&Summon Natures Ally 2||Book=PHB3.5||Cost=%SummonNature'sAlly2%|
+15,|Item&Summon Swarm||Book=PHB3.5||Cost=%SummonSwarm%|
+20,|Item&Tree Shape||Book=PHB3.5||Cost=%TreeShape2%|
+20,|Item&Warp Wood||Book=PHB3.5||Cost=%WarpWood%|
+15,|Item&Wood Shape||Book=PHB3.5||Cost=%WoodShape%|
+30,|Item&Animal Infusion||Book=RR1||Cost=%AnimalInfusionDrd%|
+10,|Item&Call Aquatic Animal 1||Book=RR1||Cost=%CallAquaticAnimal1%|
+20,|Item&Circle of Sounds||Book=RR1||Cost=%CircleofSounds%|
+20,|Item&Cold Snap||Book=RR1||Cost=%ColdSnap%|
+15,|Item&Commanding Presence||Book=RR1||Cost=%CommandingPresence%|
+10,|Item&Divine Wisdom||Book=RR1||Cost=%DivineWisdom%|
+15,|Item&Flame/Frost Weapon||Book=RR1||Cost=%Flame/FrostWeapon%|
+20,|Item&Frog Tongue||Book=RR1||Cost=%FrogTongue%|
+20,|Item&Hunter's Stalk||Book=RR1||Cost=%Hunter'sStalk%|
+15,|Item&Sethtel's Stick Servant||Book=RR1||Cost=%Sethtel'sStickServant%|
+20,|Item&Swift Water||Book=RR1||Cost=%SwiftWater%|
+15,|Item&Wolf's Cry||Book=RR1||Cost=%Wolf'sCry%|
+10,|Item&Bane of the Forge||Book=RR2||Cost=%BaneoftheForge%|
+20,|Item&Bolt of Power||Book=RR2||Cost=%BoltofPowerDrd%|
+15,|Item&Burst of Energy||Book=RR2||Cost=%BurstofEnergy%|
+20,|Item&Decompose||Book=RR2||Cost=%Decompose%|
+20,|Item&Downdraft||Book=RR2||Cost=%Downdraft%|
+20,|Item&Ears of the Wolf||Book=RR2||Cost=%EarsoftheWolf%|
+20,|Item&Fanning the Flames||Book=RR2||Cost=%FanningtheFlames%|
+15,|Item&Keshmeeri Refuge||Book=RR2||Cost=%KeshmeeriRefuge%|
+20,|Item&Lure||Book=RR2||Cost=%LureDrd2%|
+10,|Item&Ricochete||Book=RR2||Cost=%Ricochete2%|
+10,|Item&Serpent's Stare||Book=RR2||Cost=%SerpentsStare2%|
+25,|Item&Beastmask||Book=DOF||Cost=%Beastmask%|
+20,|Item&Brambles||Book=CDiv||Cost=%Brambles%|
+15,|Item&Sweet Water||Book=DOF||Cost=%SweetWater2%|
+5,|Item&Blood Frenzy||Book=MOF||Cost=%BloodFrenzy%|
+20,|Item&Cloudburst||Book=CDiv||Cost=%Cloudburst%|
+15,|Item&Earthfast||Book=MOF||Cost=%Earthfast%|
+25,|Item&Easy Trail||Book=MOF||Cost=%EasyTrail%|
+1,|Item&Master Air||Book=MOF||Cost=%MasterAir%|
+15,|Item&One with the Land||Book=MOF||Cost=%OnewiththeLand%|
+10,|Item&Remedy Moderate Wounds||Book=MOF||Cost=%RemedyModerateWounds2%|
+20,|Item&Scent||Book=CDiv||Cost=%Scent%|
+5,|Item&Share Husk||Book=MOF||Cost=%ShareHusk%|
+25,|Item&Chameleon Skin||Book=SP&SC||Cost=%ChameleonSkin(2)%|
+20,|Item&Dig||Book=SP&SC||Cost=%Dig%|
+15,|Item&Fleet Feet||Book=SP&SC||Cost=%FleetFeet%|
+15,|Item&Surface||Book=SP&SC||Cost=%Surface%|
+20,|Item&Arboreal Archer||Book=ITG||Cost=%ArborealArcher%|
+25,|Item&Boost Immunity||Book=ITG||Cost=%BoostImmunity%|
+5,|Item&Hidden Lore||Book=ITG||Cost=%HiddenLore%|
+10,|Item&Magnetic Resonance||Book=ITG||Cost=%MagneticResonance%|
+15,|Item&Pollen||Book=ITG||Cost=%Pollen%|
+15,|Item&Storm Cellar||Book=ITG||Cost=%StormCellar%|
+5,|Item&Remove Scars||Book=TA||Cost=%RemoveScars%|
+5,|Item&Circle of Nausea||Book=BVD||Cost=%CircleofNauseaDrd%|
+10,|Item&Adrenaline Surge||Book=MOW||Cost=%AdrenalineSurge%|
+10,|Item&Animal Reduction||Book=MOW||Cost=%AnimalReduction%|
+15,|Item&Body of the Sun||Book=MOW||Cost=%BodyoftheSun%|
+10,|Item&Creeping Cold||Book=MOW||Cost=%CreepingCold%|
+20,|Item&Decomposition||Book=MOW||Cost=%Decomposition%|
+15,|Item&Green Blockade||Book=MOW||Cost=%GreenBlockade%|
+20,|Item&Might of the Oak||Book=MOW||Cost=%MightoftheOak%|
+20,|Item&Persistence of the Waves||Book=MOW||Cost=%PersistenceoftheWaves%|
+10,|Item&Regenerate Moderate Wounds||Book=MOW||Cost=%RegenerateModerateWounds%|
+10,|Item&Speed of the Wind||Book=MOW||Cost=%SpeedoftheWind%|
+
+;Druid_3
+30,|Item&Call Lightning||Book=PHB3.5||Cost=%CallLightning%|
+5,|Item&Contagion||Book=PHB3.5||Cost=%ContagionClr%|
+5,|Item&Cure Moderate Wounds||Book=PHB3.5||Cost=%CureModerateWounds%|
+20,|Item&Daylight||Book=PHB3.5||Cost=%Daylight%|
+20,|Item&Diminish Plants||Book=PHB3.5||Cost=%DiminishPlants%|
+15,|Item&Dominate Animal||Book=PHB3.5||Cost=%DominateAnimal%|
+25,|Item&Magic Fang Greater||Book=PHB3.5||Cost=%MagicFangGreater%|
+20,|Item&Meld into Stone||Book=PHB3.5||Cost=%MeldintoStone%|
+30,|Item&Neutralize Poison||Book=PHB3.5||Cost=%NeutralizePoison3%|
+25,|Item&Plant Growth||Book=PHB3.5||Cost=%PlantGrowth%|
+20,|Item&Poison||Book=PHB3.5||Cost=%Poison%|
+20,|Item&Protection from Energy ([EnergyType])||Book=PHB3.5||Cost=%ProtectionfromEnergy%|
+20,|Item&Quench||Book=PHB3.5||Cost=%Quench%|
+10,|Item&Remove Disease||Book=PHB3.5||Cost=%RemoveDisease%|
+20,|Item&Sleet Storm||Book=PHB3.5||Cost=%SleetStorm%|
+20,|Item&Snare||Book=PHB3.5||Cost=%Snare3%|
+25,|Item&Speak with Plants||Book=PHB3.5||Cost=%SpeakwithPlants3%|
+20,|Item&Spike Growth||Book=PHB3.5||Cost=%SpikeGrowth3%|
+20,|Item&Stone Shape||Book=PHB3.5||Cost=%StoneShape3%|
+20,|Item&Summon Nature's Ally 3||Book=PHB3.5||Cost=%SummonNature'sAlly3%|
+30,|Item&Water Breathing||Book=PHB3.5||Cost=%WaterBreathing%|
+20,|Item&Wind Wall||Book=PHB3.5||Cost=%WindWall3%|
+20,|Item&Animal Spy||Book=RR1||Cost=%AnimalSpy%|
+15,|Item&Beast Soul||Book=RR1||Cost=%BeastSoul%|
+20,|Item&Denev's Exile from Nature||Book=RR1||Cost=%Denev'sExilefromNature%|
+10,|Item&Ganest's Farstrike||Book=RR1||Cost=%Ganest'sFarstrikeDrd3%|
+10,|Item&Listening Ringworm||Book=RR1||Cost=%ListeningRingworm%|
+25,|Item&Pressure Sphere||Book=RR1||Cost=%PressureSphere%|
+20,|Item&Thorn Throw||Book=RR1||Cost=%ThornThrow%|
+10,|Item&Wall of Honets||Book=RR1||Cost=%WallofHonets%|
+10,|Item&Yaral's Totemic Transformation||Book=RR1||Cost=%Yaral'sTotemicTransformation3%|
+20,|Item&Earth Blast||Book=RR2||Cost=%EarthBlastDrd3%|
+25,|Item&Earthen Screen||Book=RR2||Cost=%EarthenScreen%|
+20,|Item&Enhanced Senses||Book=RR2||Cost=%EnhancedSensesDrd3%|
+20,|Item&Iceshards||Book=RR2||Cost=%IceshardsDrd3%|
+20,|Item&Beast Claws||Book=DOF||Cost=%BeastClawsDrd%|
+15,|Item&Harrier||Book=DOF||Cost=%Harrier%|
+15,|Item&Spikes||Book=DOF||Cost=%Spikes%|
+30,|Item&Weather Eye||Book=CDiv||Cost=%WeatherEye3%|
+15,|Item&Blindsight||Book=MOF||Cost=%Blindsight%|
+15,|Item&Circle Dance||Book=MOF||Cost=%CircleDance%|
+5,|Item&Healing Sting||Book=MOF||Cost=%HealingSting%|
+5,|Item&Infestation of Maggots||Book=MOF||Cost=%InfestationofMaggots%|
+5,|Item&Quillfire||Book=MOF||Cost=%Quillfire%|
+5,|Item&Snakebite||Book=MOF||Cost=%Snakebite3%|
+15,|Item&Tortoise Shell||Book=CDiv||Cost=%TortoiseShell%|
+5,|Item&Doom Fog||Book=SP&SC||Cost=%DoomFog%|
+5,|Item&Rescue||Book=SP&SC||Cost=%Rescue%|
+20,|Item&Stonelore||Book=SP&SC||Cost=%Stonelore3%|
+25,|Item&Strongoak's Affinity with Nature||Book=SP&SC||Cost=%Strongoak'sAffinitywithNature3%|
+15,|Item&Lumberjack||Book=ITG||Cost=%Lumberjack%|
+10,|Item&Primeval Insight||Book=ITG||Cost=%PrimevalInsight%|
+20,|Item&Resin||Book=ITG||Cost=%Resin%|
+15,|Item&Countermoon||Book=MOW||Cost=%Countermoon%|
+20,|Item&Embrace the Wild||Book=MOW||Cost=%EmbracetheWild%|
+10,|Item&False Bravado||Book=MOW||Cost=%FalseBravado%|
+20,|Item&Nature's Favor||Book=CDiv||Cost=%Nature'sFavor%|
+20,|Item&Regenerate Ring||Book=MOW||Cost=%RegenerateRing%|
+15,|Item&Standing Wave||Book=MOW||Cost=%StandingWave%|
+15,|Item&Briar Web||Book=CDiv||Cost=%BriarWeb%|
+
+;Druid_4
+1,|Item&Air Walk||Book=PHB3.5||Cost=%AirWalk%|
+10,|Item&Antiplant Shell||Book=PHB3.5||Cost=%AntiplantShell%|
+10,|Item&Blight||Book=PHB3.5||Cost=%BlightDrd%|
+20,|Item&Command Plants||Book=PHB3.5||Cost=%CommandPlants%|
+20,|Item&Control Water||Book=PHB3.5||Cost=%ControlWaterClr%|
+5,|Item&Cure Serious Wounds||Book=PHB3.5||Cost=%CureSeriousWounds%|
+10,|Item&Dispel Magic||Book=PHB3.5||Cost=%DispelMagicDrd%|
+10,|Item&Flame Strike||Book=PHB3.5||Cost=%FlameStrikeDrd4%|
+15,|Item&Freedom of Movement||Book=PHB3.5||Cost=%FreedomofMovement%|
+15,|Item&Giant Vermin||Book=PHB3.5||Cost=%GiantVermin%|
+20,|Item&Reincarnate||Book=PHB3.5||Cost=%Reincarnate%|
+20,|Item&Repel Vermin||Book=PHB3.5||Cost=%RepelVermin4%|
+10,|Item&Rusting Grasp||Book=PHB3.5||Cost=%RustingGrasp%|
+10,|Item&Scrying||Book=PHB3.5||Cost=%ScryingDrd4%|
+15,|Item&Spike Stones||Book=PHB3.5||Cost=%SpikeStones%|
+20,|Item&Summon Nature's Ally 4||Book=PHB3.5||Cost=%SummonNature'sAlly4%|
+10,|Item&Bear's Heart||Book=DOF||Cost=%Bear'sHeart4%|
+10,|Item&Call Aquatic Animal 2||Book=RR1||Cost=%CallAquaticAnimal2%|
+5,|Item&Gluttony||Book=RR1||Cost=%Gluttony%|
+10,|Item&Live Wood||Book=RR1||Cost=%LiveWoodDrd4%|
+5,|Item&Mind over Matter||Book=RR1||Cost=%MindoverMatter%|
+5,|Item&Tattoo Item||Book=RR1||Cost=%TattooItem%|
+5,|Item&Touch of the Eel||Book=RR1||Cost=%TouchoftheEel4%|
+10,|Item&Armor of Brambles||Book=RR2||Cost=%ArmorofBrambles%|
+5,|Item&Bloodied Blade||Book=RR2||Cost=%BloodiedBlade%|
+10,|Item&Frostform||Book=RR2||Cost=%Frostform%|
+5,|Item&Omniscience||Book=RR2||Cost=%Omniscience%|
+15,|Item&Wrath of Thulkas||Book=RR2||Cost=%WrathofThulkas%|
+10,|Item&Floor of Fire||Book=SP&SC||Cost=%FloorofFireDrd4%|
+15,|Item&Rumor of the Earth||Book=SP&SC||Cost=%RumoroftheEarth%|
+10,|Item&Venomous Spray||Book=SP&SC||Cost=%VenomousSpray%|
+25,|Item&Wall of Earth||Book=SP&SC||Cost=%WallofEarth%|
+20,|Item&North Star||Book=BOR||Cost=%NorthStar%|
+10,|Item&Heal Broken Bones||Book=TA||Cost=%HealBrokenBonesDrd4%|
+10,|Item&Mend Severed Limb||Book=TA||Cost=%MendSeveredLimbDrd4%|
+5,|Item&Claws of the Savage||Book=BVD||Cost=%ClawsoftheSavage%|
+5,|Item&Beget Bogun||Book=CDiv||Cost=%BegetBogun%|
+5,|Item&Feathers||Book=MOW||Cost=%Feathers%|
+20,|Item&Forestfold||Book=MOW||Cost=%Forestfold%|
+5,|Item&Languor||Book=MOW||Cost=%Languor%|
+8,|Item&Last Breath||Book=MOW||Cost=%LastBreath%|
+25,|Item&Mass Calm||Book=MOW||Cost=%MassCalm%|
+5,|Item&Miasma||Book=MOW||Cost=%Miasma%|
+20,|Item&Regenerate Serious Wounds||Book=MOW||Cost=%RegenerateSeriousWounds%|
+20,|Item&Waterball||Book=MOW||Cost=%Waterball%|
+20,|Item&Bottle of Smoke||Book=CDiv||Cost=%BottleofSmoke%|
+5,|Item&Chain of Chaos||Book=CDiv||Cost=%ChainofChaosDrd%|
+
+;Druid_5
+20,|Item&Animal Growth||Book=PHB3.5||Cost=%AnimalGrowth%|
+10,|Item&Atonement||Book=PHB3.5||Cost=%Atonement%|
+20,|Item&Awaken||Book=PHB3.5||Cost=%Awaken%|
+5,|Item&Baleful Polymorph||Book=PHB3.5||Cost=%BalefulPolymorph%|
+25,|Item&Call Lightning Storm||Book=PHB3.5||Cost=%CallLightningStorm%|
+25,|Item&Commune with Nature||Book=PHB3.5||Cost=%CommunewithNature%|
+20,|Item&Control Winds||Book=PHB3.5||Cost=%ControlWinds%|
+5,|Item&Cure Critical Wounds||Book=PHB3.5||Cost=%CureCriticalWoundsDrd%|
+10,|Item&Death Ward||Book=PHB3.5||Cost=%DeathWardDrd%|
+20,|Item&Ice Storm||Book=PHB3.5||Cost=%IceStormDrd5%|
+5,|Item&Hallow||Book=PHB3.5||Cost=%Hallow%|
+10,|Item&Insect Plague||Book=PHB3.5||Cost=%InsectPlague%|
+20,|Item&Stoneskin||Book=PHB3.5||Cost=%Stoneskin5%|
+20,|Item&Summon Nature's Ally 5||Book=PHB3.5||Cost=%SummonNature'sAlly5%|
+20,|Item&Transmute Rock to Mud||Book=PHB3.5||Cost=%TransmuteRocktoMud%|
+20,|Item&Transmute Mud to Rock||Book=PHB3.5||Cost=%TransmuteMudtoRock%|
+20,|Item&Tree Stride||Book=PHB3.5||Cost=%TreeStride5%|
+2,|Item&Unhallow (with 1st level spell)||Book=PHB3.5||Cost=%UnhallowSpell1%|
+1,|Item&Unhallow (with 3rd level spell)||Book=PHB3.5||Cost=%UnhallowSpell3%|
+1,|Item&Unhallow (with 5th level spell)||Book=PHB3.5||Cost=%UnhallowSpell5%|
+1,|Item&Unhallow (with 7th level spell)||Book=PHB3.5||Cost=%UnhallowSpell7%|
+1,|Item&Unhallow (with 9th level spell)||Book=PHB3.5||Cost=%UnhallowSpell9%|
+15,|Item&Wall of Fire||Book=PHB3.5||Cost=%WallofFire5%|
+20,|Item&Wall of Thorns||Book=PHB3.5||Cost=%WallofThorns%|
+10,|Item&Gutroot||Book=RR1||Cost=%Gutroot%|
+10,|Item&Ship Snare||Book=RR1||Cost=%ShipSnare%|
+10,|Item&Water's Embrace||Book=RR1||Cost=%Water'sEmbrace5%|
+5,|Item&Blood Water||Book=RR2||Cost=%BloodWaterDrd%|
+5,|Item&Boneblades||Book=RR2||Cost=%Boneblades%|
+5,|Item&Breath to Death||Book=RR2||Cost=%BreathtoDeath%|
+5,|Item&Denev's Leap||Book=RR2||Cost=%Denev'sLeap%|
+5,|Item&Denev's Shadow||Book=RR2||Cost=%Denev'sShadow%|
+2,|Item&Enchant Spirit Doll||Book=RR2||Cost=%EnchantSpiritDoll%|
+5,|Item&Essential Blade||Book=RR2||Cost=%EssentialBlade%|
+5,|Item&Lethene's Inner Storm||Book=RR2||Cost=%Lethene'sInnerStorm%|
+10,|Item&Sap Strength||Book=RR2||Cost=%SapStrength5%|
+10,|Item&Scent of the Hunted||Book=RR2||Cost=%ScentoftheHunted%|
+10,|Item&Snake Staff||Book=RR2||Cost=%SnakeStaff%|
+10,|Item&Touch of Renewal||Book=RR2||Cost=%TouchofRenewal5%|
+15,|Item&Binding Winds||Book=CDiv||Cost=%BindingWinds%|
+5,|Item&Breath of Truth||Book=MOF||Cost=%BreathofTruth%|
+5,|Item&Echo Skull||Book=MOF||Cost=%EchoSkull%|
+10,|Item&Inferno||Book=MOF||Cost=%Inferno%|
+5,|Item&Memory Rot||Book=MOF||Cost=%MemoryRot%|
+15,|Item&Owl's Insight||Book=MOF||Cost=%Owl'sInsight%|
+20,|Item&Vine Mine||Book=MOF||Cost=%VineMine%|
+20,|Item&Wind Tunnel||Book=MOF||Cost=%WindTunnel5%|
+5,|Item&Finger of Life||Book=SP&SC||Cost=%FingerofLife%|
+5,|Item&Perivax's Poison Pillar||Book=SP&SC||Cost=%Perivax'sPoisonPillar5%|
+10,|Item&Wall of Vermin||Book=SP&SC||Cost=%WallofVermin%|
+10,|Item&Damage Reduction||Book=TA||Cost=%DamageReduction%|
+5,|Item&Anaphylatic Touch||Book=ITG||Cost=%AnaphylaticTouch%|
+10,|Item&Frigid Squall||Book=ITG||Cost=%FrigidSquall%|
+15,|Item&Big Sky||Book=MOW||Cost=%BigSky%|
+15,|Item&Cloak of the Sea||Book=MOW||Cost=%CloakoftheSea%|
+25,|Item&Druid Grove||Book=MOW||Cost=%DruidGrove%|
+5,|Item&Kiss of Death||Book=MOW||Cost=%KissofDeath%|
+20,|Item&Mass Trance||Book=MOW||Cost=%MassTrance%|
+20,|Item&Regenerate Critical Wounds||Book=MOW||Cost=%RegenerateCriticalWounds%|
+
+;Druid_6
+10,|Item&Dispel Magic, Greater||Book=PHB3.5||Cost=%GreaterDispelling%|
+10,|Item&Antilife Shell||Book=PHB3.5||Cost=%AntilifeShell%|
+25,|Item&Bear's Endurance Mass||Book=PHB3.5||Cost=%Bear'sEnduranceMass%|
+25,|Item&Cat's Grace Mass||Book=PHB3.5||Cost=%Cat'sGraceMass%|
+25,|Item&Cure Light Wounds Mass||Book=PHB3.5||Cost=%CureLightWoundsMassDrd%|
+10,|Item&Dispel Magic Greater||Book=PHB3.5||Cost=%DispelMagicGreater%|
+25,|Item&Find the Path||Book=PHB3.5||Cost=%FindthePath%|
+15,|Item&Fire Seeds||Book=PHB3.5||Cost=%FireSeeds%|
+20,|Item&Ironwood||Book=PHB3.5||Cost=%Ironwood%|
+20,|Item&Liveoak||Book=PHB3.5||Cost=%Liveoak%|
+20,|Item&Move Earth||Book=PHB3.5||Cost=%MoveEarth%|
+25,|Item&Owl's Wisdom Mass||Book=PHB3.5||Cost=%Owl'sWisdomMass%|
+20,|Item&Repel Wood||Book=PHB3.5||Cost=%RepelWood%|
+15,|Item&Spellstaff||Book=PHB3.5||Cost=%Spellstaff%|
+20,|Item&Stone Tell||Book=PHB3.5||Cost=%StoneTell%|
+20,|Item&Summon Nature's Ally 6||Book=PHB3.5||Cost=%SummonNature'sAlly6%|
+15,|Item&Transport via Plants||Book=PHB3.5||Cost=%TransportviaPlants%|
+20,|Item&Wall of Stone||Book=PHB3.5||Cost=%WallofStone6%|
+10,|Item&Dark Water||Book=RR1||Cost=%DarkWaterClr%|
+10,|Item&Mormo's Serpent Hands||Book=RR1||Cost=%Mormo'sSerpentHandsDrd6%|
+20,|Item&Power Word Thunder||Book=RR1||Cost=%PowerWordThunder%|
+20,|Item&Avalanche||Book=RR2||Cost=%Avalanche%|
+10,|Item&Blaise's Iron Bead||Book=RR2||Cost=%Blaise'sIronBeadDrd%|
+5,|Item&Burden of Faith||Book=RR2||Cost=%BurdenofFaithDrd%|
+5,|Item&Chern's Exhalation||Book=RR2||Cost=%Chern'sExhalation%|
+20,|Item&Thulkas' Fury||Book=RR2||Cost=%Thulkas'Fury6%|
+2,|Item&[EnergyType] Immunity||Book=T&B||Cost=%EnergyImmunity6%|
+10,|Item&Crumble||Book=MOF||Cost=%Crumble%|
+10,|Item&Drown||Book=MOF||Cost=%DrownDrd%|
+2,|Item&Gate Seal||Book=MOF||Cost=%GateSeal%|
+15,|Item&Stonehold||Book=MOF||Cost=%Stonehold%|
+10,|Item&Hall of Fire||Book=SP&SC||Cost=%HallofFireDrd6%|
+5,|Item&Heal Critical Injuries||Book=TA||Cost=%HealCriticalInjuriesDrd6%|
+20,|Item&Moonbeam||Book=BOR||Cost=%Moonbeam%|
+5,|Item&Pox||Book=BVD||Cost=%Pox%|
+5,|Item&Contagious Touch||Book=MOW||Cost=%ContagiousTouch%|
+20,|Item&Greater Call Lightning||Book=MOW||Cost=%GreaterCallLightning%|
+5,|Item&Mandragora||Book=MOW||Cost=%Mandragora%|
+25,|Item&Protection from all Elements||Book=MOW||Cost=%ProtectionfromallElements%|
+25,|Item&Regenerate Circle||Book=MOW||Cost=%RegenerateCircle%|
+
+;Druid_7
+25,|Item&Animate Plants||Book=PHB3.5||Cost=%AnimatePlants%|
+15,|Item&Changestaff||Book=PHB3.5||Cost=%Changestaff%|
+20,|Item&Control Weather||Book=PHB3.5||Cost=%ControlWeather%|
+15,|Item&Creeping Doom||Book=PHB3.5||Cost=%CreepingDoom%|
+10,|Item&Cure Moderate Wounds Mass||Book=PHB3.5||Cost=%CureModerateWoundsMassDrd%|
+20,|Item&Fire Storm||Book=PHB3.5||Cost=%FireStormDrd7%|
+5,|Item&Heal||Book=PHB3.5||Cost=%HealDrd7%|
+10,|Item&Scrying Greater||Book=PHB3.5||Cost=%GreaterScrying%|
+20,|Item&Summon Nature's Ally 7||Book=PHB3.5||Cost=%SummonNature'sAlly7%|
+25,|Item&Sunbeam||Book=PHB3.5||Cost=%Sunbeam%|
+20,|Item&Transmute Metal Wood||Book=PHB3.5||Cost=%TransmuteMetalWood%|
+5,|Item&True Seeing||Book=PHB3.5||Cost=%TrueSeeing7%|
+2,|Item&Wind Walk||Book=PHB3.5||Cost=%WindWalk7%|
+5,|Item&Freezing Curse||Book=RR1||Cost=%FreezingCurse%|
+2,|Item&Sever||Book=RR1||Cost=%Sever%|
+5,|Item&Elemental Kiss||Book=RR2||Cost=%ElementalKissDrd7%|
+20,|Item&Stone Assult||Book=RR2||Cost=%StoneAssault7%|
+5,|Item&Virulence||Book=RR2||Cost=%Virulence7%|
+2,|Item&Slime Wall||Book=DOF||Cost=%SlimeWall%|
+5,|Item&Aura of Vitality||Book=MOF||Cost=%AuraofVitality%|
+10,|Item&Brilliant Aura||Book=CDiv||Cost=%BrilliantAura%|
+10,|Item&Create Crossroads & Backroad||Book=MOF||Cost=%CreateCrossroads&Backroad%|
+5,|Item&Master Earth||Book=MOF||Cost=%MasterEarth%|
+10,|Item&Poison Vines||Book=MOF||Cost=%PoisonVines%|
+15,|Item&Storm Tower||Book=MOF||Cost=%StormTower%|
+2,|Item&Restore Sanity||Book=TA||Cost=%RestoreSanity7%|
+5,|Item&Pestilence||Book=BVD||Cost=%Pestilence7%|
+1,|Item&Cloudwalkers||Book=MOW||Cost=%Cloudwalkers%|
+10,|Item&Greater Creeping Cold||Book=MOW||Cost=%GreaterCreepingCold%|
+
+;Druid_8
+15,|Item&Animal Shapes||Book=PHB3.5||Cost=%AnimalShapes%|
+25,|Item&Control Plants||Book=PHB3.5||Cost=%ControlPlants%|
+10,|Item&Cure Serious Wounds Mass||Book=PHB3.5||Cost=%CureSeriousWoundsMassDrd%|
+20,|Item&Earthquake||Book=PHB3.5||Cost=%Earthquake%|
+10,|Item&Finger of Death||Book=PHB3.5||Cost=%FingerofDeathDrd8%|
+20,|Item&Repel Metal or Stone||Book=PHB3.5||Cost=%RepelMetalorStone%|
+20,|Item&Reverse Gravity||Book=PHB3.5||Cost=%ReverseGravity8%|
+20,|Item&Summon Nature's Ally 8||Book=PHB3.5||Cost=%SummonNature'sAlly8%|
+20,|Item&Sunburst||Book=PHB3.5||Cost=%Sunburst%|
+20,|Item&Whirlwind  ||Book=PHB3.5||Cost=%Whirlwind%|
+10,|Item&Word of Recall||Book=PHB3.5||Cost=%WordofRecall8%|
+5,|Item&Greater Healing Circle||Book=RR1||Cost=%GreaterHealingCircleDrd8%|
+20,|Item&Grove of Senenity||Book=RR1||Cost=%GroveofSenenity%|
+5,|Item&Healing Interdiction||Book=RR2||Cost=%HealingInterdictionDrd8%|
+5,|Item&Bombardment||Book=MOF||Cost=%Bombardment%|
+10,|Item&Cocoon||Book=MOF||Cost=%Cocoon%|
+15,|Item&Moonglow||Book=BOR||Cost=%Moonglow%|
+20,|Item&Constellation||Book=BOR||Cost=%Constellation%|
+5,|Item&Greater Finger of Life||Book=SP&SC||Cost=%GreaterFingerofLife%|
+20,|Item&Mass Awaken||Book=MOW||Cost=%MassAwaken%|
+10,|Item&Speak with Anything||Book=MOW||Cost=%SpeakwithAnything%|
+
+;Druid_9
+2,|Item&Antipathy||Book=PHB3.5||Cost=%AntipathyDrd%|
+5,|Item&Cure Critical Wounds Mass||Book=PHB3.5||Cost=%CureCriticalWoundsMassDrd%|
+15,|Item&Elemental Swarm||Book=PHB3.5||Cost=%ElementalSwarm%|
+2,|Item&Foresight||Book=PHB3.5||Cost=%Foresight%|
+20,|Item&Regenerate||Book=PHB3.5||Cost=%Regenerate9%|
+15,|Item&Shambler||Book=PHB3.5||Cost=%Shambler%|
+20,|Item&Shapechange||Book=PHB3.5||Cost=%Shapechange%|
+15,|Item&Storm of Vengeance||Book=PHB3.5||Cost=%StormofVengeance%|
+20,|Item&Summon Nature's Ally 9||Book=PHB3.5||Cost=%SummonNature'sAlly9%|
+2,|Item&Sympathy||Book=PHB3.5||Cost=%Sympathy9%|
+10,|Item&Denev's Fury||Book=RR1||Cost=%Denev'sFury%|
+10,|Item&Censure of Mesos||Book=RR2||Cost=%CensureofMesos%|
+20,|Item&Cast in Stone||Book=MOF||Cost=%CastinStone%|
+20,|Item&Shooting Stars||Book=BOR||Cost=%ShootingStars%|
+1,|Item&Were-Doom||Book=BVD||Cost=%Were-Doom%|
+5,|Item&Epidemic||Book=MOW||Cost=%Epidemic%|
+20,|Item&Invulnerablity to Elements||Book=MOW||Cost=%InvulnerablitytoElements%|
+15,|Item&Lookingglass||Book=MOW||Cost=%Lookingglass%|
+10,|Item&Nature's Avatar||Book=CDiv||Cost=%Nature'sAvatar%|
+20,|Item&Thunderswarm||Book=MOW||Cost=%Thunderswarm%|
+20,|Item&True Reincarnate||Book=MOW||Cost=%TrueReincarnate%|
+
+#----------------------------------------------------------------------------------
+# Paladin Spells
+;Paladin_1
+30,|Item&Bless||Book=PHB3.5||Cost=%Bless%|
+25,|Item&Bless Water||Book=PHB3.5||Cost=%BlessWater%|
+20,|Item&Bless Weapon||Book=PHB3.5||Cost=%BlessWeapon%|
+15,|Item&Create Water||Book=PHB3.5||Cost=%CreateWaterPal%|
+20,|Item&Cure Light Wounds||Book=PHB3.5||Cost=%CureLightWounds%|
+15,|Item&Detect Poison||Book=PHB3.5||Cost=%DetectPoisonPalRng%|
+25,|Item&Detect Undead||Book=PHB3.5||Cost=%DetectUndead%|
+25,|Item&Divine Favor||Book=PHB3.5||Cost=%DivineFavor%|
+15,|Item&Endure Elements||Book=PHB3.5||Cost=%EndureElements%|
+20,|Item&Magic Weapon||Book=PHB3.5||Cost=%MagicWeapon%|
+20,|Item&Protection from [PalAlgn]||Book=PHB3.5||Cost=%ProtectionfromChaos/Evil%|
+2,|Item&Read Magic||Book=PHB3.5||Cost=%ReadMagic%|
+5,|Item&Resistance||Book=PHB3.5||Cost=%Resistance%|
+20,|Item&Restoration Lesser||Book=PHB3.5||Cost=%RestorationLesser1%|
+25,|Item&Virtue||Book=PHB3.5||Cost=%Virtue1%|
+20,|Item&Ephod of Melee||Book=RR1||Cost=%EphodofMelee%|
+20,|Item&Gaze of Truth||Book=RR1||Cost=%GazeofTruth%|
+20,|Item&Holy Beacon||Book=RR1||Cost=%HolyBeacon%|
+20,|Item&Minor Symbol of Divinity||Book=RR1||Cost=%MinorSymbolofDivinity%|
+30,|Item&Smite||Book=RR1||Cost=%Smite%|
+15,|Item&Burst of Energy||Book=RR2||Cost=%BurstofEnergyPal%|
+10,|Item&Divine Sacrifice||Book=DOF||Cost=%DivineSacrifice%|
+20,|Item&Deafening Clang||Book=MOF||Cost=%DeafeningClang%|
+20,|Item&Faith Healing||Book=MOF||Cost=%FaithHealing%|
+10,|Item&Silverbeard||Book=MOF||Cost=%Silverbeard%|
+20,|Item&Strategic Charge||Book=MOF||Cost=%StrategicCharge%|
+20,|Item&Vision of Glory||Book=MOF||Cost=%VisionofGlory%|
+20,|Item&Warning Shout||Book=MOF||Cost=%WarningShout%|
+
+;Paladin_2
+20,|Item&Bull's Strength||Book=PHB3.5||Cost=%Bull'sStrength%|
+15,|Item&Delay Poison||Book=PHB3.5||Cost=%DelayPoison%|
+20,|Item&Eagle's Splendor||Book=PHB3.5||Cost=%Eagle'sSplendor%|
+20,|Item&Owl's Wisdom||Book=PHB3.5||Cost=%Owl'sWisdom%|
+25,|Item&Remove Paralysis||Book=PHB3.5||Cost=%RemoveParalysis%|
+20,|Item&Resist Energy||Book=PHB3.5||Cost=%ResistEnergy%|
+20,|Item&Shield Other||Book=PHB3.5||Cost=%ShieldOther%|
+10,|Item&Undetetable Alignment||Book=PHB3.5||Cost=%UndetectableAlignment%|
+20,|Item&Zone of Truth||Book=PHB3.5||Cost=%ZoneofTruth%|
+20,|Item&Commanding Presence||Book=RR1||Cost=%CommandingPresence%|
+20,|Item&Limbs of Endurance||Book=RR1||Cost=%LimbsofEndurance%|
+15,|Item&Curse of Solidity||Book=RR2||Cost=%CurseofSolidity%|
+15,|Item&Force of Will||Book=RR2||Cost=%ForceofWill%|
+20,|Item&Light Blade||Book=RR2||Cost=%LightBlade%|
+20,|Item&Blessed Aim||Book=DOF||Cost=%BlessedArm%|
+5,|Item&Curse of the Brute||Book=DOF||Cost=%CurseoftheBrute%|
+10,|Item&Zeal||Book=DOF||Cost=%Zeal%|
+25,|Item&Remove Scars||Book=TA||Cost=%RemoveScars%|
+20,|Item&Aura of Glory||Book=MOF||Cost=%AuraofGlory%|
+15,|Item&Hand of Divinity||Book=MOF||Cost=%HandofDivinity%|
+20,|Item&Strength of Stone||Book=MOF||Cost=%StrengthofStone%|
+20,|Item&Aura of Light||Book=SP&SC||Cost=%AuraofLight%|
+
+;Paladin_3
+10,|Item&Greater Magic Weapon||Book=PHB3.5||Cost=%GreaterMagicWeapon%|
+20,|Item&Cure Moderate Wounds||Book=PHB3.5||Cost=%CureModerateWounds%|
+20,|Item&Daylight||Book=PHB3.5||Cost=%Daylight%|
+20,|Item&Discern Lies||Book=PHB3.5||Cost=%DiscernLiesPal%|
+10,|Item&Dispel Magic||Book=PHB3.5||Cost=%DispelMagic%|
+30,|Item&Heal Mount||Book=PHB3.5||Cost=%HealMount%|
+20,|Item&Magic Circle Against Chaos||Book=PHB3.5||Cost=%MagicCircleAgainstChaos%|
+20,|Item&Magic Weapon Greater||Book=PHB3.5||Cost=%MagicWeaponGreater%|
+25,|Item&Prayer||Book=PHB3.5||Cost=%Prayer%|
+20,|Item&Remove Blindness/Deafness||Book=PHB3.5||Cost=%RemoveBlindness/Deafness%|
+20,|Item&Remove Curse||Book=PHB3.5||Cost=%RemoveCurse3%|
+20,|Item&Divine Wisdow||Book=RR1||Cost=%DivineWisdomPal%|
+20,|Item&Heart of Valor||Book=RR1||Cost=%HeartofValor%|
+20,|Item&Touch of Renewal||Book=RR2||Cost=%TouchofRenewal3%|
+25,|Item&Heal Broken Bones||Book=TA||Cost=%HealBrokenBones%|
+25,|Item&Mend Severed Limb||Book=TA||Cost=%MendSeveredLimb%|
+15,|Item&Forceward||Book=MOF||Cost=%Forceward%|
+20,|Item&Know Greatest Enemy||Book=MOF||Cost=%KnowGreatestEnemy%|
+20,|Item&Loyal Vassal||Book=MOF||Cost=%LoyalVassal%|
+20,|Item&Righteous Fury||Book=MOF||Cost=%RighteousFury%|
+20,|Item&Undead Bane Weapon||Book=MOF||Cost=%UndeadBaneWeapon%|
+20,|Item&Sword of Justice||Book=SP&SC||Cost=%SwordofJustice%|
+
+;Paladin_4
+15,|Item&Break Enchantment||Book=PHB3.5||Cost=%BreakEnchantment4%|
+20,|Item&Cure Serious Wounds||Book=PHB3.5||Cost=%CureSeriousWounds%|
+20,|Item&Death Ward||Book=PHB3.5||Cost=%DeathWard%|
+20,|Item&Dispel Chaos||Book=PHB3.5||Cost=%DispelChaos%|
+20,|Item&Dispel Evil||Book=PHB3.5||Cost=%DispelEvil%|
+20,|Item&Holy Sword||Book=PHB3.5||Cost=%HolySword%|
+20,|Item&Mark of Justice||Book=PHB3.5||Cost=%MarkofJustice%|
+15,|Item&Neutralize Poison||Book=PHB3.5||Cost=%NeutralizePoison%|
+25,|Item&Restoration  ||Book=PHB3.5||Cost=%Restoration%|
+20,|Item&Brothers in Arms||Book=RR1||Cost=%BrothersinArmsPal%|
+20,|Item&Hand of Justice||Book=RR1||Cost=%HandofJustice%|
+20,|Item&Holy Beacon's Answer||Book=RR1||Cost=%HolyBeacon'sAnswer%|
+20,|Item&Ironheart||Book=RR1||Cost=%Ironheart%|
+20,|Item&Life Force Transfer||Book=RR1||Cost=%LifeForceTransferPal4%|
+15,|Item&Sacred Journey||Book=RR1||Cost=%SacredJourney%|
+15,|Item&Soul of Mercy||Book=RR1||Cost=%SoulofMercy%|
+15,|Item&Demonbane||Book=RR2||Cost=%DemonbanePal%|
+20,|Item&Righteous Charge||Book=RR2||Cost=%RighteousCharge4%|
+10,|Item&Ricochete||Book=RR2||Cost=%Ricochete4%|
+10,|Item&Lesser Aspect of the Deity||Book=DOF||Cost=%LesserAspectoftheDeity%|
+20,|Item&Weapon of the Deity||Book=CDiv||Cost=%WeaponoftheDeity%|
+15,|Item&Favor of Ilmater||Book=MOF||Cost=%FavorofIlmater%|
+15,|Item&Glory of the Martyr||Book=MOF||Cost=%GloryoftheMartyr%|
+15,|Item&Hand of Torm||Book=MOF||Cost=%HandofTorm%|
+10,|Item&Revenance||Book=MOF||Cost=%Revenance%|
+20,|Item&Seek Eternal Rest||Book=MOF||Cost=%SeekEternalRest%|
+20,|Item&Halo of Vengeance||Book=SP&SC||Cost=%HaloofVengeancePal4%|
+
+#-------------------------------------------------------------------------------------
+# Ranger Spells
+;Ranger_1
+20,|Item&Alarm||Book=PHB3.5||Cost=%Alarm%|
+20,|Item&Animal Messenger||Book=PHB3.5||Cost=%AnimalMessengerRng%|
+25,|Item&Calm Animals||Book=PHB3.5||Cost=%CalmAnimals%|
+20,|Item&Charm Animal||Book=PHB3.5||Cost=%CharmAnimal%|
+20,|Item&Delay Poison||Book=PHB3.5||Cost=%DelayPoisonRng%|
+20,|Item&Detect Animals or Plants||Book=PHB3.5||Cost=%DetectAnimalsorPlants%|
+15,|Item&Detect Poison||Book=PHB3.5||Cost=%DetectPoisonPalRng%|
+25,|Item&Detect Snares & Pits||Book=PHB3.5||Cost=%DetectSnaresPits%|
+25,|Item&Endure Elements||Book=PHB3.5||Cost=%EndureElements%|
+20,|Item&Entangle||Book=PHB3.5||Cost=%Entangle%|
+20,|Item&Hide from Animals||Book=PHB3.5||Cost=%HidefromAnimals%|
+20,|Item&Jump||Book=PHB3.5||Cost=%Jump%|
+15,|Item&Longstrider||Book=PHB3.5||Cost=%Longstrider%|
+15,|Item&Magic Fang||Book=PHB3.5||Cost=%MagicFang%|
+30,|Item&Pass without Trace||Book=PHB3.5||Cost=%PassWithoutTrace%|
+10,|Item&Read Magic||Book=PHB3.5||Cost=%ReadMagic%|
+15,|Item&Resist Energy||Book=PHB3.5||Cost=%ResistEnergy1%|
+25,|Item&Speak with Animals||Book=PHB3.5||Cost=%SpeakwithAnimals%|
+20,|Item&Summon Nature's Ally 1||Book=PHB3.5||Cost=%SummonNature'sAlly1%|
+15,|Item&Adhere to Wood||Book=RR1||Cost=%AdheretoWoodRng%|
+20,|Item&Chameleon Skin||Book=RR1||Cost=%ChameleonSkin(1)%|
+20,|Item&Chill/Warmth||Book=RR1||Cost=%Chill/WarmthRng%|
+30,|Item&Clean||Book=RR1||Cost=%CleanRng%|
+10,|Item&Dowsing||Book=RR1||Cost=%DowsingRng%|
+5,|Item&Minor Symbol of Divinity||Book=RR1||Cost=%MinorSymbolofDivinity%|
+10,|Item&Rabbit Feet||Book=RR1||Cost=%RabbitFeet%|
+15,|Item&Shade's Sight||Book=RR1||Cost=%Shade'sSight%|
+10,|Item&Spark||Book=RR1||Cost=%Spark1%|
+10,|Item&Steal Sleep||Book=RR1||Cost=%StealSleep1%|
+10,|Item&Bed Bug Bites||Book=RR2||Cost=%BedBugBitesRng%|
+20,|Item&Champion Swimmer||Book=RR2||Cost=%ChampionSwimmer%|
+15,|Item&Chardun's Glory||Book=RR2||Cost=%Chardun'sGlory%|
+20,|Item&Curse of the Firefly||Book=RR2||Cost=%CurseoftheFirefly%|
+10,|Item&Detect Shapechangers||Book=RR2||Cost=%DetectShapechangers%|
+20,|Item&Ears of the Wolf||Book=RR2||Cost=%EarsoftheWolfRng1%|
+10,|Item&Locate Oasis||Book=RR2||Cost=%LocateOasis%|
+30,|Item&Locate Water||Book=RR2||Cost=%LocateWater%|
+20,|Item&Nose of the Rat||Book=RR2||Cost=%NoseoftheRat1%|
+15,|Item&Animal Trick||Book=MOW||Cost=%AnimalTrick%|
+20,|Item&Bloodhound||Book=MOW||Cost=%Bloodhound%|
+25,|Item&Camouflage||Book=CDiv||Cost=%Camouflage%|
+25,|Item&Dawn||Book=MOW||Cost=%Dawn%|
+20,|Item&Hawkeye||Book=MOW||Cost=%Hawkeye%|
+15,|Item&Handfire||Book=MOF||Cost=%Handfire%|
+15,|Item&Hunter's Mercy||Book=MOF||Cost=%Hunter'sMercy%|
+30,|Item&Low-Light Vision||Book=MOF||Cost=%Low-LightVision%|
+25,|Item&Naturewatch||Book=CDiv||Cost=%NaturewatchRng1%|
+20,|Item&Ram's Might||Book=MOF||Cost=%Ram'sMight1%|
+10,|Item&Smell of Fear||Book=MOF||Cost=%SmellofFear%|
+20,|Item&Speed Swim||Book=MOF||Cost=%SpeedSwim%|
+20,|Item&Stalking Brand||Book=MOF||Cost=%StalkingBrand%|
+25,|Item&Surefoot||Book=MOF||Cost=%Surefoot%|
+10,|Item&Towering Oak||Book=MOF||Cost=%ToweringOak%|
+25,|Item&Eagle Eyes||Book=SP&SC||Cost=%EagleEyes%|
+25,|Item&Keen Ear||Book=SP&SC||Cost=%KeenEar%|
+20,|Item&Lucius's Rustling Leaves||Book=SP&SC||Cost=%Lucius'sRustlingLeaves%|
+20,|Item&Web Walking||Book=SP&SC||Cost=%WebWalking%|
+20,|Item&Whispering Branches||Book=SP&SC||Cost=%WhisperingBranches%|
+20,|Item&Antihistamine||Book=ITG||Cost=%AntihistamineRng%|
+20,|Item&Boost Immunity||Book=ITG||Cost=%BoostImmunityRng%|
+50,|Item&Clear Path||Book=ITG||Cost=%ClearPath%|
+5,|Item&Detect Fey||Book=ITG||Cost=%DetectFey%|
+5,|Item&Enhance Toxicity||Book=ITG||Cost=%EnhanceToxicity%|
+25,|Item&Resist Natural Poisons||Book=ITG||Cost=%ResistNaturalPoisons%|
+
+;Ranger_2
+20,|Item&Barkskin||Book=PHB3.5||Cost=%Barkskin%|
+25,|Item&Bear's Endurance||Book=PHB3.5||Cost=%Bear'sEndurance%|
+25,|Item&Cat's Grace||Book=PHB3.5||Cost=%Cat'sGrace%|
+5,|Item&Cure Light Wounds||Book=PHB3.5||Cost=%CureLightWoundsRng%|
+10,|Item&Hold Animal||Book=PHB3.5||Cost=%HoldAnimal%|
+25,|Item&Owl's Wisdom||Book=PHB3.5||Cost=%Owl'sWisdom%|
+15,|Item&Protection from Energy ([EnergyType])||Book=PHB3.5||Cost=%ProtectionfromEnergy2%|
+20,|Item&Snare||Book=PHB3.5||Cost=%Snare2%|
+15,|Item&Speak with Plants||Book=PHB3.5||Cost=%SpeakwithPlants2%|
+10,|Item&Spike Growth||Book=PHB3.5||Cost=%SpikeGrowth2%|
+20,|Item&Summon Nature's Ally 2||Book=PHB3.5||Cost=%SummonNature'sAlly2%|
+10,|Item&Wind Wall||Book=PHB3.5||Cost=%WindWall2%|
+10,|Item&Call Aquatic Animal 1||Book=RR1||Cost=%CallAquaticAnimal1%|
+20,|Item&Circle of Sounds||Book=RR1||Cost=%CircleofSounds%|
+25,|Item&Hunter's Stalk||Book=RR1||Cost=%Hunter'sStalk%|
+20,|Item&Liliandel's Flurry||Book=RR1||Cost=%Liliandel'sFlurry%|
+10,|Item&Tanil's Touch||Book=RR1||Cost=%Tanil'sTouch2%|
+20,|Item&Wolf's Cry||Book=RR1||Cost=%Wolf'sCry%|
+10,|Item&Bladethirst (1)||Book=RR2||Cost=%Bladethirst(1)%|
+15,|Item&Decompose||Book=RR2||Cost=%Decompose%|
+20,|Item&Earthen Screen||Book=RR2||Cost=%EarthenScreenRng2%|
+20,|Item&Hunter's Moon||Book=RR2||Cost=%Hunter'sMoon%|
+15,|Item&Shocking Missile||Book=RR2||Cost=%ShockingMissile%|
+25,|Item&Stalker's Sight||Book=RR2||Cost=%Stalker'sSight%|
+15,|Item&Verisimilitude||Book=RR2||Cost=%Verisimilitude%|
+15,|Item&Briar Web||Book=CDiv||Cost=%BriarWebRng%|
+20,|Item&Nature's Favor||Book=CDiv||Cost=%Nature'sFavorRng2%|
+10,|Item&Remove Scars||Book=TA||Cost=%RemoveScars%|
+20,|Item&Branch to Branch||Book=MOF||Cost=%BranchtoBranch%|
+20,|Item&Claws of the Beast||Book=MOF||Cost=%ClawsoftheBeastRng%|
+25,|Item&Easy Trail||Book=MOF||Cost=%EasyTrail%|
+25,|Item&One with the Land||Book=MOF||Cost=%OnewiththeLand%|
+25,|Item&Scent||Book=CDiv||Cost=%Scent%|
+25,|Item&Chameleon Skin||Book=SP&SC||Cost=%ChameleonSkin(2)%|
+20,|Item&Fleet Feet||Book=SP&SC||Cost=%FleetFeet%|
+15,|Item&Stonelore||Book=SP&SC||Cost=%Stonelore2%|
+15,|Item&Arboreal Archer||Book=ITG||Cost=%ArborealArcher%|
+15,|Item&Pollen||Book=ITG||Cost=%Pollen%|
+10,|Item&Storm Cellar||Book=ITG||Cost=%StormCellar%|
+
+;Ranger_3
+10,|Item&Command Plants||Book=PHB3.5||Cost=%CommandPlantsRng%|
+5,|Item&Cure Moderate Wounds||Book=PHB3.5||Cost=%CureModerateWounds%|
+30,|Item&Darkvision||Book=PHB3.5||Cost=%Darkvision%|
+15,|Item&Diminish Plants||Book=PHB3.5||Cost=%DiminishPlants%|
+15,|Item&Magic Fang Greater||Book=PHB3.5||Cost=%MagicFangGreater%|
+20,|Item&Neutralize Poison||Book=PHB3.5||Cost=%NeutralizePoison3%|
+20,|Item&Plant Growth||Book=PHB3.5||Cost=%PlantGrowth%|
+15,|Item&Reduce Animal||Book=PHB3.5||Cost=%ReduceAnimal3%|
+5,|Item&Remove Diease||Book=PHB3.5||Cost=%RemoveDisease%|
+10,|Item&Repel Vermin||Book=PHB3.5||Cost=%RepelVermin3%|
+20,|Item&Summon Nature's Ally 3||Book=PHB3.5||Cost=%SummonNature'sAlly3%|
+10,|Item&Tree Shape||Book=PHB3.5||Cost=%TreeShape3%|
+10,|Item&Water Walk||Book=PHB3.5||Cost=%WaterWalk%|
+15,|Item&Animal Infusion||Book=RR1||Cost=%AnimalInfusion%|
+15,|Item&Animal Spy||Book=RR1||Cost=%AnimalSpy%|
+10,|Item&Beast Soul||Book=RR1||Cost=%BeastSoul%|
+5,|Item&Sethtel's Stick Servant||Book=RR1||Cost=%Sethtel'sStickServant3%|
+10,|Item&Bane of the Forge||Book=RR2||Cost=%BaneoftheForgeRng%|
+20,|Item&Enhanced Senses||Book=RR2||Cost=%EnhancedSensesDrd3%|
+20,|Item&Greater Magic Fang||Book=RR2||Cost=%GreaterMagicFang%|
+5,|Item&Keshmeeri Refuge||Book=RR2||Cost=%KeshmeeriRefuge%|
+20,|Item&Lure||Book=RR2||Cost=%Lure%|
+15,|Item&Tanil's Spectral Archers||Book=RR2||Cost=%Tanil'sSpectralArchers3%|
+10,|Item&Animal Reduction||Book=MOW||Cost=%AnimalReductionRng%|
+20,|Item&Detect Favored Enemy||Book=MOW||Cost=%DetectFavoredEnemy%|
+25,|Item&Embrace the Wild||Book=MOW||Cost=%EmbracetheWild%|
+25,|Item&Forestfold||Book=MOW||Cost=%ForestfoldRng3%|
+10,|Item&Bladethirst (2)||Book=MOF||Cost=%Bladethirst(2)%|
+10,|Item&Decoy Image||Book=MOF||Cost=%DecoyImage%|
+25,|Item&Easy Climb||Book=MOF||Cost=%EasyClimb%|
+25,|Item&Living Prints||Book=MOF||Cost=%LivingPrints%|
+30,|Item&Safe Clearing||Book=MOF||Cost=%SafeClearing%|
+20,|Item&Rumor of the Earth||Book=SP&SC||Cost=%RumoroftheEarth3%|
+20,|Item&Lumberjack||Book=ITG||Cost=%Lumberjack%|
+5,|Item&Primeval Insight||Book=ITG||Cost=%PrimevalInsight%|
+20,|Item&Bottle of Smoke||Book=CDiv||Cost=%BottleofSmokeRng%|
+
+;Ranger_4
+10,|Item&Animal Growth||Book=PHB3.5||Cost=%AnimalGrowthRng%|
+15,|Item&Commune with Nature||Book=PHB3.5||Cost=%CommunewithNatureRng%|
+5,|Item&Cure Serious Wounds||Book=PHB3.5||Cost=%CureSeriousWounds%|
+15,|Item&Freedom of Movement||Book=PHB3.5||Cost=%FreedomofMovement%|
+20,|Item&Nondetection||Book=PHB3.5||Cost=%Nondetection4%|
+20,|Item&Summon Nature's Ally 4||Book=PHB3.5||Cost=%SummonNature'sAlly4%|
+20,|Item&Tree Stride||Book=PHB3.5||Cost=%TreeStride4%|
+10,|Item&Call Aquatic Animal 2||Book=RR1||Cost=%CallAquaticAnimal2%|
+5,|Item&Tanil's Purging||Book=RR1||Cost=%Tanil'sPurging%|
+5,|Item&Tattoo Item||Book=RR1||Cost=%TattooItem%|
+5,|Item&Yaral's Totemic Transformation||Book=RR1||Cost=%Yaral'sTotemicTransformation4%|
+5,|Item&Chardun's Presence||Book=RR2||Cost=%Chardun'sPresence%|
+20,|Item&Iceshards||Book=RR2||Cost=%IceshardsRng4%|
+20,|Item&Ricochete||Book=RR2||Cost=%Ricochete4%|
+10,|Item&Land Womb||Book=MOF||Cost=%LandWomb%|
+30,|Item&Mass Camouflage||Book=MOF||Cost=%MassCamouflage%|
+5,|Item&Snakebite||Book=MOF||Cost=%Snakebite4%|
+20,|Item&Heal Broken Bones||Book=TA||Cost=%HealBrokenBonesDrd4%|
+20,|Item&Mend Severed Limb||Book=TA||Cost=%MendSeveredLimbDrd4%|
+20,|Item&Strongoak's Affinity with Nature||Book=SP&SC||Cost=%Strongoak'sAffinitywithNature4%|
+
+# -------------------------------------------------------------------
+;PalAlgn    
+2,Evil  
+1,Chaos
+
+;Algn
+1,Chaos
+5,Evil
+3,Good
+1,Law
+
+;EnergyType
+3,acid
+5,cold
+4,electricity
+6,fire
+2,sonic
+
+;DragonsBreathType
+1,amethyst
+5,black
+5,blue
+5,brass
+5,bronze
+1,brown
+1,cloud
+5,copper
+1,crystal
+1,emerald
+1,fang
+5,gold
+5,green
+1,mist
+5,red
+1,sapphire
+1,shadow
+5,silver
+1,slarecian
+1,song
+1,topaz
+5,white

@@ -1,0 +1,268 @@
+# ------------------------------------------------------
+# Last Update: re-verified by Valminder Jan 10, 2012.
+# ------------------------------------------------------
+#
+# Road Encounters
+# 
+# from Dragon Magazine 275 
+#
+# Created and modified by Valminder May 2003
+#    I added some links to these other tables:
+#         Barrel and Jar Contents.Generate
+#      Countries.Start
+#      Crate and Wagon Contents.Generate
+#      Creatures.Animal2
+#      Creatures.AnimalPack
+#      Creatures.AnimalPet
+#      Creatures.AnimalRiding
+#      Creatures.Bird of Prey
+#      Creatures.Dragon
+#      Creatures.Flying
+#      Creatures.FlyingTransport
+#      Creatures.Humanoid
+#      Creatures.Humanoid2
+#      Creatures.Start2
+#      Curios.Start
+#        ENC Road Civilized.Transport
+#      Miscellaneous.Alignment2
+#      Miscellaneous.Armors
+#      Miscellaneous.Cloth
+#         Miscellaneous.Color
+#      Miscellaneous.Direction
+#      Miscellaneous.Gender
+#      Miscellaneous.Occupations
+#      Miscellaneous.Odor
+#      Miscellaneous.Personality
+#      Miscellaneous.Quirks
+#      Miscellaneous.Sound
+#      Miscellaneous.Weapons
+#      Names Generator.NAME Random
+#      Noble Household Names.Start
+#        NPC Appearance.Generate
+#        NPC Appearance.Generate2
+#      Religion.Deities2
+#      Rumors.Bounty
+#      Rumors.Generate
+#
+# Modified by Valminder, Nov 2005
+#      Removed header in [Start]
+#
+
+/OverrideRolls 1
+
+%Number%,1
+
+:Start
+1,{Status~Valminder}{Cap~[Generate]}<br>
+
+;Generate
+6,[Common]
+3,[Uncommon]
+1,[Rare]
+
+;Common
+1, [~Creatures.All] crossing. 
+1, [~Creatures.All] drinking. 
+1, [~Creatures.All] fishing. 
+1, Abandoned barge or raft (empty). 
+1, Abandoned rowboat (empty). 
+1, Banks hidden by tall reeds.
+1, Banks, shallow.
+1, Banks, eroded. 
+1, <b>{Dice~1d8}</b> [~Creatures.Humanoid2] bather(s). [NPC] 
+1, Boulders under the water (DC<b>{Dice~1d15+10}</b> or boat is badly damaged).
+1, Bridge, rope.
+1, Bridge, wooden.
+2, Broken character equipment (like backpack or armor).
+2, Broken vehicle (like a mast or rope).
+1, [~Creatures.Humanoid2] children, picking reeds for baskets. 
+1, <b>{Dice~1d10}</b> [~Creatures.Humanoid2] clam digger(s). [NPC]
+1, Creature flying overhead ([~Creatures.Flying]).
+1, Duck crossing (<b>{Dice~1d6+1}</b>). 
+1, Fireflies. 
+1, <b>{Dice~1d8+1}</b> Fishermen with catch. [Transport] [NPC]
+1, <b>{Dice~1d8+1}</b> Fishermen without catch. [Transport] [NPC] 
+1, Fisherman on bank. [NPC] 
+1, Fisherman on bank, sleeping. [NPC] 
+1, Fisherman in water, near bank, with net or spear. [NPC]
+1, Fog.
+2, Ford of sand.
+2, Ford of shallow water. 
+2, Ford of rocks. 
+1, <b>{Dice~1d4+1}</b> [~Creatures.Humanoid2] herdsmen on foot with <b>{Dice~1d20+10}</b> [~Creatures.Animal2] crossing. [NPC] 
+1, <b>{Dice~1d4+1}</b> [~Creatures.Humanoid2] herdsmen on foot with <b>{Dice~1d20+10}</b> [~Creatures.Animal2] drinking. [NPC] 
+2, Hunter (frog or crayfish) with catch. [NPC] 
+2, Hunter (frog or crayfish) without catch. [NPC]
+2, <b>{Dice~1d10+2}</b> [~Creatures.Humanoid2] laborers in a ferry. [NPC] 
+1, Log jam.
+1, Logs (DC<b>{Dice~1d10+5}</b> or boat lightly damaged).
+1, Lost character equipment (something fell from the backpack or belt pouch).
+1, <b>{Dice~1d6+1}</b> [~Creatures.Humanoid2] mercenary. [Transport] [NPC] 
+2, Merchant. [Transport2] [Merchant]
+2, Merchant without guards, but with <b>{Dice~1d6+2}</b> [~Creatures.Humanoid2] workers. [Transport] [Merchant]
+2, Merchant with <b>{Dice~1d6+1}</b> [~Creatures.Humanoid2] guards, and <b>{Dice~1d6+2}</b> [~Creatures.Humanoid2] workers. [Transport] [Merchant] 
+1, Military patrol (<b>{Dice~1d10+10}</b> [~Creatures.Humanoid2] soldiers). [Transport] [NPC]
+1, Pier, fishing or boat. 
+1, Playful giant otter or beaver. 
+1, Rapids (DC<b>{Dice~1d20+10}</b> or sink).
+2, Refuse, organic.
+1, <b>{Dice~1d6+1}</b> religious pilgrims of [~Religion.Deities2]. [Transport] [NPC] 
+1, Sailing ship or rowboat with broken mast. [Merchant]
+1, Sailing ship or rowboat with leaking hull. [Merchant]
+1, Sandbar (DC<b>{Dice~1d10+10}</b> or boat is stuck).
+1, School of [~Miscellaneous.Color] fish. 
+2, <b>Smell</b>: creature ([~Creatures.Battle]) coming from the [~Miscellaneous.Direction].
+2, <b>Smell</b>: nice smell (like flowers or bread) coming from the [~Miscellaneous.Direction].
+5, <b>Smell</b>: ([~Miscellaneous.Odor]) coming from the [~Miscellaneous.Direction].
+2, Smoke in the horizon (from a fire or house) ([~Miscellaneous.Direction]).
+2, <b>Sound</b>: creature ([~Creatures.Battle]) coming from the [~Miscellaneous.Direction].
+5, <b>Sound</b>: ([~Miscellaneous.Sound]) coming from the [~Miscellaneous.Direction].
+1, <b>{Dice~1d8}</b> [~Creatures.Humanoid2] swimmer(s). [NPC] 
+2, Traveler. [Transport] [NPCForeign] 
+1, Traveler. [ENC Road Civilized.Transport] [NPCForeign] 
+1, Traveler building raft. [NPCForeign] 
+1, Traveler collecting water. [ENC Road Civilized.Transport] [NPCForeign] 
+1, Traveler watering mounts. [ENC Road Civilized.Transport] [NPCForeign] 
+1, <b>{Dice~1d6+1}</b> turtles on floating log. 
+1, Women and <b>{Dice~1d3+1}</b> children, picking berries. [NPC] 
+1, Women washing clothes. [NPC] 
+1, You find [Curios.Start].
+1, Young apprentice ([~Miscellaneous.Class]) on errand for his master. [Transport2] [NPC] 
+1, Young person. [Transport2] [CargoOnly] [NPC]
+
+;Uncommon
+1, Abandoned barge or raft. [CargoOnly]
+1, Abandoned ferry (empty).
+1, Abandoned rowboat. [CargoOnly] 
+1, Abandoned barge or raft (destroyed).
+1, Abandoned rowboat (destroyed).
+1, Animal trapped on floating tree ([~Creatures.AnimalPet]). 
+1, Animal trapped on island ([~Creatures.Animal]). 
+1, Battle between [~Creatures.Battle] and [~Creatures.Battle].
+1, Beaver dam. 
+1, Birds of prey, circling. (<b>{Dice~1d6+1}</b> [~Creatures.Bird of Prey]) 
+1, Border patrol tower with <b>{Dice~2d10}</b> [~Creatures.Humanoid2] guards. [Transport][NPC]
+1, Bottle with a note saying:<br>[Rumors.Alternate].
+1, Bounty hunter. <br><u>Bounty</u>: [Rumors.Bounty] [Transport] [NPC] 
+1, Bridge, rope (damaged).
+1, Bridge, stone.
+1, Bridge, wooden (damaged).
+1, Camp with fish cooking on bank (<b>{Dice~1d10}</b> [~Creatures.Humanoid2]). [ENC Road Civilized.Transport][NPC]
+1, Dead [~Creatures.Battle] (<b>{Dice~1d20+5}</b> days dead).
+2, Enamored [~Creatures.Humanoid2] couple in a rowboat. [NPC] [NPC] 
+1, Fallen tree blocking river. 
+1, Fist fight. [Transport][NPC] [NPC] 
+1, Floating barrel ([~Barrel and Jar Contents.Generate]).
+1, Floating fish and turtles, dead. 
+1, Frenzied [~Miscellaneous.Color] fish. 
+1, Fresh water dolphins (<b>{Dice~1d6+1}</b>). 
+2, Hunter on bank, with game.<br><u>Game</u>: [~Creatures.Start2] [NPC] 
+2, Hunter on bank, without game. [NPC]
+1, Logger cabin or camp. [NPC]
+2, Merchant with {Dice~1d3+1} barges or rafts and {Dice~2d10} <b>[Creatures.Humanoid2]</b> guards. [Merchant]
+1, Military patrol (<b>{Dice~1d20+10}</b> [~Creatures.Humanoid2] soldiers). [Transport][NPC]
+1, Muddy water.
+1, Outcast / Hermit living on a small island. [NPC] 
+1, <b>{Dice~1d10+2}</b> [~Creatures.Humanoid2] pirates. [Transport] [NPC] 
+1, Raft or barge blocking river, no one aboard. 
+1, Raft or barge blocking river. [NPC] 
+1, Raspberry bushes on bank.
+1, <b>{Dice~1d6+1}</b> [~Creatures.Humanoid2] refugees from [~Countries.Land]. [Transport][NPC]
+1, River section choked with plants. 
+1, Rope or chain across river (DC<b>{Dice~1d6+10}</b> or mast and sail can be lightly damaged).
+1, Rowboat hidden in bushes (Hide DC<b>{Dice~1d10+10}</b>).
+5, [Sites of Interest.Generate]
+1, <b>{Dice~1d6+1}</b> [~Creatures.Humanoid] smuglers. [Transport] [NPC] 
+1, Spawning [~Miscellaneous.Color] fish. 
+1, Swollen section of river. 
+1, Toll collector, legitimate. [NPC] 
+1, [~Creatures.Humanoid2] tracks on bank (<b>{Dice~1d20}</b> hours old). [ENC Road Civilized.Transport] 
+1, [~Creatures.Start] tracks on bank (<b>{Dice~1d20}</b> hours old). 
+1, Tree swing over river. 
+1, Two ships or boats in combat. [~Creatures.Humanoid2] vs [~Creatures.Humanoid2]. [NPC] [NPC] 
+1, Wealthy citizen in rowboat, with <b>{Dice~1d3}</b> rower(s). [NPC]
+1, Wealthy citizen in luxuous barge with <b>{Dice~1d7+3}</b> [~Creatures.Humanoid2] sailors and guards. [NPC] 
+1, Young noble and <b>{Dice~1d10+1}</b> [~Creatures.Humanoid2] guards as an escort.<br><br><u>Noble Household Name</u>: [Noble Household Names.Start]<br> [Transport] [NPC] 
+1, Young noble and <b>{Dice~1d4+1}</b> [~Creatures.Humanoid2] friends as an escort.<br><br><u>Noble Household Name</u>: [Noble Household Names.Start]<br> [Transport] [NPC] 
+1, Young person in a barge or raft. [CargoOnly] [NPC] 
+1, Young wizard-apprentice on errand with his [~Creatures.Familiar] familiar. [Transport] [NPC] 
+
+;Rare
+1, |Number={Dice~1d6+1}|<b>%Number%</b> Adventurers. [Transport] {Loop~%Number%, [NPCAdventurers]} 
+1, Border patrol tower with <b>{Dice~2d20+5}</b> [~Creatures.Humanoid2] guards. [Transport][NPC]
+1, Bridge, stone (damaged).
+1, Carnivorous lily pads (<b>{Dice~1d6+1}</b>).
+1, Crumbled cliff face blocking river.
+1, <u>Dream</u>: One of the PC receives this dream.<br><br>[Dreams.Dreams]
+1, Famous person. [Transport] [NPC]
+1, Floating corpse. (<b>{Dice~1d6}</b> day(s) old) [NPC] 
+1, Hot springs, water steams.
+1, Military patrol (<b>{Dice~1d100+10}</b> [~Creatures.Humanoid2] soldiers). [Transport][NPC]
+1, Noble, <b>{Dice~1d6+1}</b> [~Creatures.Humanoid2] retainers, and <b>{Dice~1d20+3}</b> [~Creatures.Humanoid2] guards as an escort.<br><br><u>Noble Household Name</u>: [Noble Household Names.Start]<br> [Transport] [NPC] 
+1, Playful creatures, throwings nuts or pine cones at passersby. 
+1, Rope pulley and carriage stuck in water (abandoned and empty).
+1, Rope pulley and carriage stuck in water (abandoned). [CargoOnly]
+1, Royalty, <b>{Dice~2d6+2}</b> [~Creatures.Humanoid2] retainers, and <b>{Dice~2d20+6}</b> [~Creatures.Humanoid2] guards as an escort.<br><br><u>Noble Household Name</u>: [Noble Household Names.Start]<br> [Transport] [NPC] 
+1, Runaway or stowaway aboard PC's boat.
+1, Sailing Ship, partially sunk. [CargoOnly]
+1, Sailing Ship, partially sunk. <b>{Dice~1d20+3}</b> [~Creatures.Humanoid2] dead bodies.[CargoOnly]
+1, Sharpened poles under water (DC<b>{Dice~1d15+10}</b> or boat is stuck and badly damaged). 
+1, Small cliff with partially submerged cave filled with bats. 
+1, Sunken village on banks. 
+1, Sylvan race, bathing or fishing. 
+1, Tinker.[Transport][NPC] 
+1, Toll collector, false. [NPC] 
+1, [~Creatures.Humanoid2] tracks on bank (<b>{Dice~1d6}</b> days old). [ENC Road Civilized.Transport] 
+1, [~Creatures.Start] tracks on bank (<b>{Dice~1d6}</b> days old). 
+1, Treant stuck on a small island. 
+1, Warning sign. 
+1, Young female noble and [~Creatures.Humanoid2] maid.<br><br><u>Noble Household Name</u>: [Noble Household Names.Start]<br> [Transport] [NPC] 
+
+# ---------------------------------------------------------------------------
+
+:Merchant
+1,<br><u>Cargo</u>: [Cargo]<br>[NPC]
+
+:CargoOnly
+1,<br><u>Cargo</u>: [Cargo]<br>
+
+;!Cargo
+10,Barrels of [~Barrel and Jar Contents.Generate].
+5,Barrels of [~Barrel and Jar Contents.Generate] and [~Barrel and Jar Contents.Generate].
+10,Crates of [~Crate and Wagon Contents.Generate].
+5,Crates of [~Crate and Wagon Contents.Generate] and [~Crate and Wagon Contents.Generate].
+5,Crates of [~Crate and Wagon Contents.Generate] and Barrels of [~Barrel and Jar Contents.Generate].
+5,Bundles of Cloth (<b>[Miscellaneous.Cloth]</b>).
+2,<b>{Dice~1d4+1}</b> [~Creatures.Humanoid2] prisoners and one [~Creatures.Humanoid].
+1,<b>{Dice~2d10+2}</b> [~Creatures.Humanoid2] slaves.
+5,<b>{Dice~1d6+1}</b> [~Creatures.Humanoid2] passengers and [Cargo]
+
+# ---------------------------------------------------------------------------
+
+:NPC
+1,<br><br><hr><br>[NPC Appearance.Generate]
+
+:NPCForeign
+1,<br><br><hr><br>[NPC Appearance.Generate2]
+
+:NPCAdventurers
+1,<br><br><hr><br>[NPC Appearance.Generate3]
+
+# ---------------------------------------------------------------------------
+
+:Transport
+1,<br><u>Mode of Transportaton</u>: [TransportMode]
+
+:Transport2
+1,<br><u>Mode of Transportaton</u>: [TransportMode-30]
+
+;TransportMode
+25,Rowboat (may have <b>{Dice~1d2}</b> extra sailors).
+5,In a crude barge of raft (may have <b>{Dice~1d4+1}</b> extra sailors).
+10,In a barge or raft with rudder and poles (may have <b>{Dice~1d4+1}</b> extra sailors).
+25,In a barge or raft (may have <b>{Dice~1d4+1}</b> extra sailors).
+25,Sailing Ship (may have <b>{Dice~2d20+5}</b> extra sailors)..
+5,Riding a flying creature (<b>[Creatures.FlyingTransport]</b>).
+1,Magical Flying Item (<b>[Magical Items.VehicleFlying]</b>).
+1,Magical Water Vehicle (<b>[Magical Items.VehicleWater]</b>).
+

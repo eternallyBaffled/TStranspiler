@@ -1,0 +1,112 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder Jan 03, 2006.
+# ---------------------------------------------------
+#
+# Bugbear Names
+#
+# Githzerai Names
+#
+# Githzerai Names & Dieties: Zaerith, Zaerith Menyar-Ag-Gith,
+#                            Ar'myzar-fhemir, Ar'rradun, Ar'kchagun,
+#                            Zudai-zi, Zerthimon, Shra'kt'lor,
+#                            Ahqae-i'Zerthimon, Ar'aravhun,
+#                            Ar'av-rravhun, Theor-Raman, Mein-Shan, Hak'kan,
+#                            Marac'Knir
+#
+# Modified by Valminder, Jan 2006.
+#    Renamed "Githzerai Names".
+#    Added to "Names Generator.tab".
+#
+
+
+%Gender%,3
+
+@Gender,3,Please choose a Gender,Male,Female,Random
+
+:Start
+1,{If~%Gender%=3? |Gender={Dice~1d2}|}[PickGender=%Gender%]
+
+:PickGender
+1,[Male]
+2,[Female]
+
+:Male
+1,{Cap~[Cons]}[Vowel][Cons][Vowel][Cons][More]
+2,{Cap~[Vowel]}[Cons][Vowel][Cons][More]
+3-6,[MalePrefix][Vowel][Suffix]
+7-10,[MalePrefix][Vowel][Cons][Vowel][Suffix]
+
+:Female
+1,{Cap~[Cons]}[Vowel][Cons][Vowel][Cons][More]
+2,{Cap~[Vowel]}[Cons][Vowel][Cons][More]
+3-6,[FemalePrefix][Vowel][Suffix]
+7-10,[FemalePrefix][Vowel][Cons][Vowel][Suffix]
+
+:More
+1-4,[Vowel][Cons]
+5-8,
+
+;MalePrefix
+1,Ag'
+1,Ar
+1,Av'
+1,Hak
+1,Hak'
+1,Marac'
+1,Marac
+1,Men
+1,Myz
+1,Rad
+1,Ram
+1,Rr
+1,Shra
+1,Shra'
+1,Theor'
+1,Zaer
+1,Zi'
+
+;FemalePrefix
+1,Ahg
+1,Fhem
+1,Knir
+1,Mein
+1,Meny
+1,Zi'
+
+;Cons
+1,ch
+1,g
+1,r
+1,hg
+1,kt
+1,s
+1,k
+1,tr
+1,sh
+1,th
+1,m
+1,v
+1,rth
+
+;Vowel
+1,a
+1,ai
+2,i
+1,e
+1,o
+1,oi
+1,u
+
+;Suffix
+1,ish
+1,nar
+1,mok
+1,roth
+1,cha
+1,ach
+1,nar
+1,nica
+1,tha
+1,kith
+1,ith
+1,gith

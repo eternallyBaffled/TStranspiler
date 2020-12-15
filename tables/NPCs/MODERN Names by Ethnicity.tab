@@ -1,0 +1,172 @@
+# ------------------------------------------------------
+# Last Update: modified by Valminder September 07, 2007.
+# ------------------------------------------------------
+#
+# Modern Names By Ethnicity
+# By Larry Cormier
+#
+# This table is designed to generate lists of Names by specified
+# Ethnic Identifiers.
+# It is Linked to these Other Tables, and may Generate an Error if they are
+# not present:
+#
+#       Modern Normal Male Names.tab
+#       Modern Normal Female Names.tab
+#       Modern Last Names MAIN.tab
+#       Modern Names.tab
+#       French Names.tab
+#       English Names.tab
+#       KS_JapaneseNames.tab
+#
+# -------------------------------------------------------------------------
+#
+# ************ SEE "Zombie Appearance.tab" for how to generate an ethnic name ************* 
+#
+# To call this table from another one:
+#    [MODERN Names by Ethnicity.GenerateName(2,%EthnicID%,%Gender%)
+#
+#    Parameters: (%Instructions%,%EthnicID%,%Gender%)
+#
+#    Instructions: 2= NO (always)
+#    EthnicID:     1= Random            2= Arab           3= British/English
+#                  4= Celtic            5= Cornish        6= Danish
+#                  7= Dutch             8= European       9= French
+#                  10= German           11= Greek         12= Hebrew
+#                  13= Irish            14= Italian       15= Japanese
+#                  16= Latin/Hispanic   17= Polish        18= Portuguese
+#                  19= Russian          20= Saxon         21= Scottish
+#                  22= Spanish          23= STREET CRED   24= Swedish
+#                  25= Turkish
+#    Gender:       1= Male
+#                  2= Female
+#
+# -------------------------------------------------------------------------
+#
+# Modified by Valminder, Jan 2006.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+#    Removed "EthnicClass" subtable and replaced with {Param~} function.
+#    Added: Irish, Italian
+# Modified by Valminder, Feb 2006.
+#    Added link to "Street Cred.Generate"
+# Modified by Valminder, August  2006.
+#    Added link to:
+#       Arab.tab
+#       Cornish.tab
+#       Germanic.tab
+#       Greek.tab
+#       Spanish.tab
+# Modified by Valminder, September 2007.
+#    Added subtable:
+#       Japanese_Name
+#    Added link to:
+#       NamesModernJapanese.tab
+#
+
+# Declare Variables
+%Gender%,0
+%EthnicID%,0
+%Chance%,0
+%Instructions%,1
+
+# Parameter Display Lists:
+@Instructions,1,Would you like to re-show the Instructions?,Yes,No
+@EthnicID,1,Please choose an Ethnic Class,Random,Arab,British/English,Celtic,Cornish,Danish,Dutch,European,French,German,Greek,Hebrew,Irish,Italian,Japanese,Latin,Polish,Portuguese,Russian,Saxon,Scottish,Spanish,Street Name,Swedish,Turkish,Generic
+@Gender,3,Please choose a Gender,Male,Female,Random
+
+:Start
+1,{Status~By Larry Cormier 2005, Valminder 2006}
+_{If~%Instructions%=1? [Instructions] / [GenerateName]}
+
+:GenerateName
+1,{If~%Gender%=3? [Chanceof]{If~%Chance%<75?|Gender=1|/|Gender=2|}}
+_{If~%EthnicID%=1? |EthnicID={Dice~1d25+1}|}
+_<b>[Gender=%Gender%] {Param~EthnicID,%EthnicID%}:</b> [NamesBranch=%EthnicID%]
+
+:Instructions
+1,This table generates a Random Name Based on the Ethnic Class and Gender provided.
+_<br><br> You can also generate completely random Lists of Names if desired. (Listed Ethnicities Only).<br>Use the Change Button located in the Lower Right-hand corner of the screen to select your initial Ethnic Class and Gender to get started.<br><br>
+_<u>Possible Ethnic Class</u>:<br>
+_[Tab]-Random<br><br>[Tab]-Arab<br>[Tab]-British/English<br>[Tab]-Celtic<br>[Tab]-Cornish<br>[Tab]-Danish<br>[Tab]-Dutch<br>[Tab]-European<br>[Tab]-French<br>[Tab]-German<br>[Tab]-Greek<br>[Tab]-Hebrew<br>[Tab]-Irish<br>[Tab]-Italian<br>[Tab]-Japanese<br>[Tab]-Latin<br>[Tab]-Polish<br>[Tab]-Portuguese<br>[Tab]-Russian<br>[Tab]-Saxon<br>[Tab]-Scottish<br>[Tab]-Spanish<br>[Tab]-Street Name<br>[Tab]-Swedish<br>[Tab]-Turkish<br><br>[Tab]-Generic<br>
+
+:Chanceof
+1,|Chance={Dice~1d100}|
+
+;Tab
+1,{Loop~5,&nbsp;} 
+
+:NamesBranch
+1,Nothing
+# Arab
+2,[Arab.Start(%Gender%)]
+# British/English
+3,[Real English.Start(%Gender%,1)]
+# Celtic
+4,{If~%Gender%=1? [Modern Normal Male Names.Start]/[Modern Normal Female Names.Start]} [Modern Names.Last Name=11]
+# Cornish
+5,[Cornish.Start(%Gender%)]
+# Danish
+6,[Real Danish.Start(%Gender%,1)]
+# Dutch
+7,[Real Dutch.Start(%Gender%,1)]
+# European
+8,{If~%Gender%=1? [Modern Normal Male Names.Start]/[Modern Normal Female Names.Start]} [Modern Names.Last Name=4] 
+# French
+9,[Real French.Start(%Gender%,1)]
+# German
+10,[German_Name]
+# Greek
+11,[Greek_Name]
+# Hebrew
+12,{If~%Gender%=1? [Modern Normal Male Names.Start]/[Modern Normal Female Names.Start]} [Modern Names.Last Name=8] 
+# Irish
+13,[Real Irish.Start(%Gender%,1)]
+# Italian
+14,[Real Italian.Start(%Gender%,1)]
+# Japanese
+15,[Japanese_Name]
+# Latin
+16,{If~%Gender%=1? [Modern Normal Male Names.Start]/[Modern Normal Female Names.Start]} [Modern Names.Last Name=9]
+# Polish
+17,[Real Polish.Start(%Gender%,1)]
+# Portuguese
+18,[Real Portuguese.Start(%Gender%,1)]
+# Russian
+19,[Real Russian.Start(%Gender%,1)]
+# Saxon
+20,{If~%Gender%=1? [Modern Normal Male Names.Start]/[Modern Normal Female Names.Start]} [Modern Names.Last Name=10]
+# Scottish
+21,[Real Scottish.Start(%Gender%,1)]
+# Spanish
+22,[Spanish_Name]
+# Street Name
+23,[Street Cred.Generate]
+# Swedish
+24,[Real Swedish.Generate=%Gender%]
+# Turkish
+25,[Real Turkish.Start(%Gender%,1)]
+26,[GenericNameBranch]
+
+;GenericNameBranch
+75,{If~%Gender%=1? [Modern Names.Male]/[Modern Names.Female]}
+25,{If~%Gender%=1? [Modern Normal Male Names.Start]/[Modern Normal Female Names.Start]} [Modern Last Names MAIN.Start]
+
+:Gender
+1,Male
+2,Female
+
+;German_Name
+1,[Real German.Start(%Gender%,1)]
+1,{If~%Gender%=1?[MODERN Names Generator.German_Male]/[MODERN Names Generator.German_Female]}
+
+;Greek_Name
+1,[Real Greek.Start(%Gender%,1)]
+1,{If~%Gender%=1?[MODERN Names Generator.Greek_Male]/[MODERN Names Generator.Greek_Female]}
+
+;Japanese_Name
+1,{If~%Gender%=1?[NamesModernJapanese.GenMale]/[NamesModernJapanese.GenFemale]}
+1,[Real Japanese.GENDER=%Gender%]
+
+;Spanish_Name
+1,[Real Spanish.Start(%Gender%,1)]
+1,{If~%Gender%=1?[MODERN Names Generator.Spanish_Male]/[MODERN Names Generator.Spanish_Female]}

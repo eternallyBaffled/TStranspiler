@@ -1,0 +1,84 @@
+# ------------------------------------------------------
+# Last Update: re-verified by Valminder Jan 10, 2012.
+# ------------------------------------------------------
+# ---------------------------------------------------
+# Last Update: Valminder Jan 15, 2006.
+# ---------------------------------------------------
+#
+# Temples
+# 
+# Copyright 1998 Bruce A. Gulke
+#
+#
+# Modified by Valminder April 2002
+#
+# Modified by Valminder, Nov 2005
+#    Removed header from [START].
+#
+# Modified by Larry Cormier, Jan 2006
+#    Added Mapping option to table
+#    Added Link to:
+#          MAP Buildings.tab
+#
+# Modified by Valminder Jan 2006
+#    Added "GenerateNoMap" subtable.
+#
+
+# Define Variables
+%Wd%,0
+%Ht%,0
+%OpenArea%,0
+%BuildingFlag%,0
+%Size%,0
+
+:Start
+1,{Status~Bruce A. Gulke 1998, Larry Cormier and Valminder 2006}{Cap~[Generate]}
+
+:Generate
+1,[Building] [Deity]. [Occupation]{Generate~0, (Click to show map),PrintMap}
+
+:PrintMap
+1,<br><br>[~GenRandomMap]
+
+:GenerateNoMap
+1,[Building] [Deity]. [Occupation]
+
+;Building
+12,a shrine to|Size=1||BuildingFlag=1|
+6,a church dedicated to|Size={Dice~1d2+1}||BuildingFlag=2|
+3,a temple of|Size={Dice~1d2}||BuildingFlag=3|
+6,a chapel of|Size=1||BuildingFlag=4|
+1,a cathedral of|Size=3||BuildingFlag=5|
+5,an altar of|Size=1||BuildingFlag=6|
+
+:TempleDescription
+1,shrine
+2,church
+3,temple
+4,chapel
+5,cathedral
+6,altar
+
+;Deity
+9,[~Religion.Deities]
+1,an unknown deity
+
+;Occupation
+5,It appears that a ceremony of some kind is currently taking place, with <b>{Dice~1d10+2}</b> [~Creatures.Humanoid2] priests.
+10,The place is quiet, though obviously occupied. <b>{Dice~1d20+1}</b> [~Creatures.Humanoid2] priests.
+3,The building is crumbling and overgrown with weeds. It appears to have been deserted for some time (<b>{Dice~1d20+2}</b> years).
+2,The building appears to have been abandoned recently (<b>{Dice~2d12}</b> months).
+
+:TempleMap
+1,[MAP Buildings.GenMap(%Wd%,%Ht%,%OpenArea%)]
+
+:GenRandomMap
+1,[BuildingSize=%Size%][TempleMap]
+
+:BuildingSize
+# Small Temple; Width: 3-9 Height: 3-9, with 10-20% Open Space
+1,|Wd={Dice~2d4+1}||Ht={Dice~2d4+1}||OpenArea={Dice~1d2*10}|
+#  Medium Temple; Width: 6-15 Height: 7-10, with 20-80% Open Space
+2,|Wd={Dice~3d4+3}||Ht={Dice~3d4+3}||OpenArea={Dice~1d2*10}|
+#  Large Temple; Width: 5-20 Height: 4-16, with 20-80% Open Space
+3,|Wd={Dice~5d4}||Ht={Dice~4d4}||OpenArea={Dice~1d2*10}|

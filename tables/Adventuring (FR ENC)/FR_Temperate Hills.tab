@@ -1,0 +1,141 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder Oct 30, 2003.
+# ---------------------------------------------------
+#
+# SMS
+# 06/20/03
+# Forgotten Realms Table 24: Temperate Hills (EL 2-9) random encounter tables
+#
+# Corrected by Valminder, Oct 2003
+#   -{If~} and {Dice~}
+#
+#Variables
+
+%Region%,0
+%Time%,0
+%Temp%,0
+
+#Parameters
+
+@Time,1,Select a time of day,Day,Night
+@Region,0,Select a value for region (1=Serpent Hills 2=The Trollclaws 3=Troll Hills)
+
+#
+#  Starts by putting up the instructions
+#
+
+:Start
+1,{If~%Region% = 0 ? [Instructions]/[Temperate Hills %Time%]}
+
+;Instructions
+1,<b>Forgotten Realms Table 24: Temperate Hills (EL 2-9)</b></br></br><h3>Instructions:</h3>
+_<b>Determine whether an encounter should occur before using this table. The chance of an encounter is based on terrain type and travel (chance per hour):</b><br>
+_<table border=1><tr><th>Terrain</th><th>Normal Travel</th><th>Cautious Travel</th><th>Hiding</th></tr>
+_<tr><td>Desolate/wasteland</td><td>5/%</td><td>2/%</td><td>1/%</td></tr>
+_<tr><td>Frontier/wilderness</td><td>8/%</td><td>4/%</td><td>2/%</td></tr>
+_<tr><td>Verdant/civilized area</td><td>10/%</td><td>5/%</td><td>2/%</td></tr>
+_<tr><td>Heavily traveled</td><td>12/%</td><td>6/%</td><td>3/%</td></tr>
+_</table>
+_<ol><li>Use the Parameter Box (below) to indicate whether it is day or night.</li>
+_<li>Then indicate whether the region is<font color=blue><ul><li>Serpent Hills</li><li>The Trollclaws</li><li>Troll Hills</li></ul></li></ul><br></font>
+
+# 1 corresponds to time="Day"
+:Temperate Hills 1
+01-04,Basilisk
+05-06,Deathkiss Beholderkin (MoF)
+07-09,{Dice~1d3} Animal: Bear, Black
+10-12,Dire badger
+13-15,{Dice~1d2} Displacer best
+16-20,Dragon: [TH_Dragon]
+21-25,{Dice~1d2} Ettin
+26-28,{Dice~1d3} Gargoyle
+29-30,Goblin patrol: {Dice~1d6+3} goblins, led by level {Dice~1d3} goblin fighter
+31-35,{Dice~1d2} Griffon
+36-40,Lightfoot halfling scouts: {Dice~1d4+4} 1st level warriors, {Dice~1d3+1} dogs, led by level {Dice~1d6+2} [FR_Misc.Halfling_Class]
+41,{Dice~1d2} Hellhound
+42-45,Hill Giant
+46-47,{Dice~1d2} Hippogriff
+48-49,{Dice~1d6+1} Hobgoblin
+50-53,{Dice~1d2} Leucrotta (MoF)
+54-68,[TH_Local]
+69-70,Medusa
+71-73,{Dice~1d3+1} Ogre
+74-75,{Dice~1d3+1} Orc
+76-77,{Dice~1d2} Peryton
+78-79,{Dice~1d3} Snakes: 2-headed adder (FRCS)
+80-81,Trendiculos
+82-84,{Dice~1d2} Werebear
+85-86,{Dice~1d2} Weretiger
+87-88,{Dice~1d3+1} Werewolf
+89-98,{Dice~1d6+2} Animal: wolf
+97-98,Animal: Wolverine
+99-100,Wyvern
+
+# 2 corresponds to time="Night"
+:Temperate Hills 2
+01-02,Allip
+03-04,Deathkiss Beholderkin (MoF)
+05,{Dice~1d3} Animal: Bear, Black
+06,Dire badger
+07-08,{Dice~1d4+2} Dire bat
+09-10,{Dice~1d2} Displacer best
+11-15,Dragon: [TH_Dragon]
+18-20,{Dice~1d2} Ettin
+21-22,{Dice~1d3} Gargoyle
+23-24,{Dice~1d3+1} Ghast
+25,Ghast pack: {Dice~1d3+1} ghasts and {Dice~1d6+6} ghouls
+26-27,{Dice~1d4+2} Ghouls
+28-31,Goblin patrol: {Dice~1d6+3} goblins, led by level {Dice~1d3} goblin fighter
+32-35,Goblin raiders: {Dice~1d3+2} goblins, led by level {Dice~1d3} goblin fighter, all mounted on worgs
+36-37,{Dice~1d2} Hellhound
+38-40,Hill Giant
+41-43,{Dice~1d6+1} Hobgoblin
+44-45,{Dice~1d2} Leucrotta (MoF)
+46-54,[TH_Local]
+55-59,{Dice~1d4+4} Nighthunter bat (MoF)
+60-62,Nightmare
+63-65,{Dice~1d3+1} Ogre
+66-69,{Dice~1d3+1} Orc
+70-72,Spectral panther (MoF)
+73-74,{Dice~1d4} Shadow
+75-76,{Dice~1d4} Sinister bat (MoF)
+77-78,{Dice~1d2+1} Vampire spawn
+79-80,{Dice~1d2} Werebear
+81-83,{Dice~1d2} Weretiger
+84-86,{Dice~1d3+1} Werewolf
+87-88,{Dice~1d4+1} Wight
+89-96,{Dice~1d6+2} Animal: wolf
+97-98,{Dice~1d2} Wraith
+99-100,Wyvern
+
+:TH_Local
+01-50,Local creatures: [TH_Local%Region%]
+51-100,<b>NPCs:</b><br>{Loop~{Dice~1d3+2},[FR_Random_NPC.FR_SM_NPC]}
+
+#Serpent Hills local creatures when Region = 1
+:TH_Local1
+01-40,{Dice~1d4+1} Snake: 2 headed
+41-50,{Dice~1d4} Adder (FRCS)
+51-60,{Dice~1d3+1} Snake: winged viper (FRCS)
+61-75,{Dice~1d3} Snake: large viper
+76-85,{Dice~1d2} Snake: huge viper
+86-95,{Dice~1d3+1} Snake: constrictor
+96-100,{Dice~1d2} Snake: giant constrictor
+
+#The Trollclaws local creatures when Region = 2
+:TH_Local2
+01-20,{Dice~1d2} Tall mouther (MoF)
+80-100,{Dice~1d3+1} Troll
+
+#Troll Hills local creatures when Region = 3
+:TH_Local3
+01-85,{Dice~1d3+1} Troll
+86-100,Troll Warband: {Dice~1d6+1} trolls, led by level {Dice~1d3} troll [FR_Misc.Troll_Class]
+
+:TH_Dragon
+01-15,Copper, juvenile
+16-35,Fang, young (MoF)
+36-45,Gold, young
+46,Dracolich, Red, very young (FRCS)
+47-81,Red, young
+82-100,Song, young (MoF)

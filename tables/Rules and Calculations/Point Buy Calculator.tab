@@ -1,0 +1,143 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder July 5, 2006.
+# ---------------------------------------------------
+#
+# Random Point Buy Calculator
+# by Larry Cormier
+#
+# Modified by Valminder, July  2006.
+#    Adapted for TSv5.
+#    Greatly modified. Easier to compute. No more error over 45 points.
+#
+
+# This Table will generate 6 Random Attribute Scores for a Non-Standard Point-Buy Character
+
+/OverRideRolls 1
+
+%Attribute1%,0
+%Attribute2%,0
+%Attribute3%,0
+%Attribute4%,0
+%Attribute5%,0
+%Attribute6%,0
+%AttributeCount%,0
+%CostValue%,0
+%Instructions%,0
+%PointBuyMethod%,0
+%Points%,28
+%RunningTotal%,0
+%TempNumber%,0
+%TempPoints%,0
+%TempSort%,0
+
+# Parameter Display Lists: 
+@PointBuyMethod,3,Please enter the Point Buy value desired:,Low-Powered Campaign (15),Challenging Campaign (22),Tough Campaign (25),Tougher Campaign (28),High-Powered Campaign (32),Input Desired Value
+@Instructions,1,Would you like to re-show the Instructions?,Yes,No
+
+:Start
+1,{Status~by Larry Cormier and Valminder}
+_{If~%Instructions%=1?[Instructions]/[GenerateAttributes]}
+
+:Instructions
+1,This table generates 6 Random Attributes based on the Non-Standard Point Buy Method described in the 3rd Edition D&D Dungeon Master Guide.
+_<br><br><b>Standard Values are listed below:</b><br><br>
+_<b>15 Points:</b> Low-Powered Campaign<br>
+_<b>22 Points:</b> Challenging Campaign<br>
+_<b>25 Points:</b> Tough Campaign (Legacy of the Green Regent)<br>
+_<b>28 Points:</b> Tougher Campaign (Living Greyhawk)<br>
+_<b>32 Points:</b> High-Powered Campaign<br><br>
+_<b>Input Desired Value</b> - <font color="Red">Note: The maximum value is 96, which will give all 18.</font><br>
+_<br>Use the Change Button located in the Upper Left-hand corner of the screen to select the desired Point-Buy Option to get started.
+
+:GenerateAttributes
+#1,|PointBuyMethod={InputList~3,Please enter the Point Buy value desired:,Low-Powered Campaign (15),Challenging Campaign (22),Tough Campaign (25),Tougher Campaign (28),High-Powered Campaign (32),Input Desired Value}|
+1,|Points=[DeterminePoints=%PointBuyMethod%]|
+_{If~%Points%>96?|Points=96|}[Continue]
+
+:Continue
+1,[ClearVariables]|RunningTotal=%Points%|
+_{While~%AttributeCount%,[GenAttribute]}
+_{If~%RunningTotal%=0?[DisplayResults]/[Continue]}
+
+:DeterminePoints
+1,15
+2,22
+3,25
+4,28
+5,32
+6,{InputText~25,Enter desired value (maximum 96 which gives all 18)}
+
+:ClearVariables
+1,|TempNumber=0||TempPoints=%Points%||AttributeCount=6||CostValue=0|
+_|Attribute1=0||Attribute2=0||Attribute3=0||Attribute4=0||Attribute5=0||Attribute6=0|
+
+:GenAttribute
+1,|TempPoints+1||TempNumber={Dice~1d%TempPoints%}|[DetermineCostValue=%TempNumber%]|TempPoints-%CostValue%|
+_|AttributeCount-1||TempPoints-1||RunningTotal-%CostValue%|
+
+:DetermineCostValue
+1,|CostValue=0||Attribute%AttributeCount%=8|
+2,|CostValue=1||Attribute%AttributeCount%=9|
+3,|CostValue=2||Attribute%AttributeCount%=10|
+4,|CostValue=3||Attribute%AttributeCount%=11|
+5,|CostValue=4||Attribute%AttributeCount%=12|
+6,|CostValue=5||Attribute%AttributeCount%=13|
+7-8,|TempNumber=7||CostValue=6||Attribute%AttributeCount%=14|
+9-10,|TempNumber=9||CostValue=8||Attribute%AttributeCount%=15|
+11-13,|TempNumber=11||CostValue=10||Attribute%AttributeCount%=16|
+14-16,|TempNumber=14||CostValue=13||Attribute%AttributeCount%=17|
+17-100,|TempNumber=17||CostValue=16||Attribute%AttributeCount%=18|
+
+:DisplayResults
+1,|TempSort=%Attribute1%;%Attribute2%;%Attribute3%;%Attribute4%;%Attribute5%;%Attribute6%|
+_|TempSort={OrderDesc~";",%TempSort%}|
+_{Split~TempSort,";",Attribute1,Attribute2,Attribute3,Attribute4,Attribute5,Attribute6}
+_<b>Random Attribute Scores for a [CampaignPower=%Points%] (%Points% Points)</b><br><br>
+_<table border=0 cellspacing=2>
+_<tr><td align=center><b><u>Attribute</u></b></td><td align=center><b><u>Value</u></b></td><td align=right><b><u>Cost</u></b></td>
+_<td align=right><b><u>Add</u></b></td></tr>
+_<tr><td align=center>Attribute 1:</td><td align=right><b>%Attribute1%</b></td><td align=right>[CostValue=%Attribute1%]</td>
+_<td align=right>[DetermineAdds=%Attribute1%]</td></tr>
+_<tr><td align=center>Attribute 2:</td><td align=right><b>%Attribute2%</b></td><td align=right>[CostValue=%Attribute2%]</td>
+_<td align=right>[DetermineAdds=%Attribute2%]</td></tr>
+_<tr><td align=center>Attribute 3:</td><td align=right><b>%Attribute3%</b></td><td align=right>[CostValue=%Attribute3%]</td>
+_<td align=right>[DetermineAdds=%Attribute3%]</td></tr>
+_<tr><td align=center>Attribute 4:</td><td align=right><b>%Attribute4%</b></td><td align=right>[CostValue=%Attribute4%]</td>
+_<td align=right>[DetermineAdds=%Attribute4%]</td></tr>
+_<tr><td align=center>Attribute 5:</td><td align=right><b>%Attribute5%</b></td><td align=right>[CostValue=%Attribute5%]</td>
+_<td align=right>[DetermineAdds=%Attribute5%]</td></tr>
+_<tr><td align=center>Attribute 6:</td><td align=right><b>%Attribute6%</b></td><td align=right><u>[CostValue=%Attribute6%]</u></td>
+_<td align=right>[DetermineAdds=%Attribute6%]</td></tr>
+_<tr><td></td></tr>
+_<tr><td colspan=2>Point-Buy Total:</td><td align=right>%Points%</td></tr>
+_</table>
+
+:CampaignPower
+1-15,Low-Powered Campaign
+16-24,Challenging Campaign
+25-27,Tough Campaign
+28-31,Tougher Campaign
+32-50,High-Powered Campaign
+51-96,Epic-Level Campaign
+
+:CostValue
+8,0
+9,1
+10,2
+11,3
+12,4
+13,5
+14,6
+15,8
+16,10
+17,13
+18,16
+
+:DetermineAdds
+8-9,-1
+10-11,+0
+12-13,+1
+14-15,+2
+16-17,+3
+18,+4
+

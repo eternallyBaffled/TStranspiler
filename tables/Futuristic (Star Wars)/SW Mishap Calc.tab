@@ -1,0 +1,93 @@
+# ------------------------------------------------------
+# Last Update: re-verified by Valminder Jan 10, 2012.
+# ------------------------------------------------------
+#
+# Ship Mishap Calculator
+#
+# This table is used to calculate the time of repairs,
+# based on the average time it would takes vs. the
+# skill check made.
+#
+# **************************************
+# This is a HOUSE RULE by Patrick Hodak.
+# **************************************
+#
+# Modified by Valminder, Jan 2006.
+#    Adapted for TSv5.
+#    Added {Param~} instead of table call.
+#    Added time fractions.
+#
+
+/OverrideRolls 1
+
+%Units%,0
+%UnitsCode%,0
+%DC%,0
+%Roll%,0
+%Ti%,0
+%Tf%,0
+%TempMin%,0
+%TempHour%,0
+%TempRound%,0
+%TfDays%,0
+%TfHours%,0
+%TfMinutes%,0
+
+@Units,5,Select unit of Time,Rounds,Minutes,Hours,Days,Intro
+
+:Start
+1,{Status~By Patrick Hodak 2005, Valminder 2006}
+_{If~%Units%=5? [Intro] / [Begin]}
+
+:Intro
+1,<CENTER><b>Welcome to the Ship Mishap Calculator</b></br><br>
+_Please begin by selecting the proper unit of time from the parameter list.</br>
+_Then hit the Re-Roll button and follow the instructions.<br><br>
+_<u>House Rule</u>: This table is used to calculate the time of repairs,<br>
+_based on the average time it would takes vs. the skill check made.</CENTER>
+
+:Begin
+1,<CENTER><b>Ship Mishap Calculator</b></CENTER></br>
+_|UnitsCode=%Units%||Units={Param~Units,%Units%}|
+_{Input~Ti,What was the initial time estimate in %Units%?,12}
+_{Input~DC,What was the Difficulty Class (DC)?,19}
+_{Input~Roll,What did the Character Roll?,22}
+_<b>Repair Time Estimate:</b> %Ti% {LCase~%Units%}</br>
+_<b>DC:</b> %DC% <b>Character's Roll:</b> %Roll%</br>
+_[CalcTime=%UnitsCode%]
+_{If~%Roll%>=%DC%? [Elapse] / Check Failed}
+
+:CalcTime
+# Rounds
+1,|Tf={Calc~%Ti%-(%Roll%-%DC%)}|
+# Minutes
+2,|Tf={Calc~%Ti%-(%Roll%-%DC%)}|
+# Hours
+3,|Tf={Calc~(%Ti%*60-(%Roll%-%DC%)*%Ti%)/60}|
+# Days
+4,|Tf={Calc~(%Ti%*1440-(%Roll%-%DC%)*(%Ti%*24))/1440}|
+
+:Elapse
+1,<b>Total Time Elapsed:</b> [ShowTime=%UnitsCode%].
+
+:ShowTime
+# Rounds
+1,{If~{Floor~%Tf%}>=2? {Floor~%Tf%} rounds / {Floor~%Tf%} round}
+# Minutes
+2,|TfMinutes={Floor~%Tf%}||TempRound={Calc~(%Tf%-%TfMinutes%)}||TempRound*10|
+_{If~%TfMinutes%>=1?%TfMinutes% minutes} {If~%TempRound%>=1?{Floor~%TempRound%} rounds} {If~{And~%TempRound%<1,%TfMinutes%<1}=1? 1 round}
+# Hours
+3,|TfHours={Floor~%Tf%}||TempMin={Calc~(%Tf%-%TfHours%)}||TempMin*60|
+_{If~%TfHours%>=1?%TfHours% hours} {If~%TempMin%>=1?{Floor~%TempMin%} minutes}
+# Days
+4,|TfDays={Floor~%Tf%}||TempHour={Calc~(%Tf%-%TfDays%)}||TempHour*24||TfHours={Floor~%TempHour%}||TempMin={Calc~(%TempHour%-%TfHours%)}||TempMin*60|
+_{If~%TfDays%>=1?%TfDays% days} {If~%TfHours%>=1?%TfHours% hours} {If~%TempMin%>=1?{Floor~%TempMin%} minutes}
+
+
+
+
+
+
+
+
+

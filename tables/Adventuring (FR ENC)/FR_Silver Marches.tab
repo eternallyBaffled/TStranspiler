@@ -1,0 +1,808 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder Oct 30, 2003.
+# ---------------------------------------------------
+#
+# SMS
+# 06/11/03
+# Silver Marches random encounter tables
+#
+# Corrected by Valminder, Oct 2003
+#   -{If~} and {Dice~}
+#
+#Variables
+
+%Region%,0
+%Time%,0
+%Temp%,0
+
+#Parameters
+
+@Time,1,Select a time of day,Day,Night
+@Region,0,Select a region (1-8 see instructions)
+
+#
+#  Starts by putting up the instructions
+#
+
+:Start
+1,{If~%Region% = 0 ? [Instructions]/[Region=%Region%]}
+
+;Instructions
+1,<h3>Instructions:</h3>
+_<b>Determine whether an encounter should occur before using this table. The chance of an encounter is based on terrain type and travel (chance per hour):</b><br>
+_<table border=1><tr><th>Terrain</th><th>Normal Travel</th><th>Cautious Travel</th><th>Hiding</th></tr>
+_<tr><td>Desolate</td><td>5/%</td><td>2/%</td><td>1/%</td></tr>
+_<tr><td>Wilderness</td><td>8/%</td><td>4/%</td><td>2/%</td></tr>
+_<tr><td>Frontier</td><td>10/%</td><td>5/%</td><td>2/%</td></tr>
+_<tr><td>Settled</td><td>12/%</td><td>6/%</td><td>3/%</td></tr>
+_</table>
+_Use the Parameter Box (below) to select the region for which you want to generate an encounter.<br><br>
+_0-These Instructions.<br><br>
+_<b>Regions Included</b><br>
+_<font color=blue><b>1</b> Rauvin Vale (Settled, EL 1-9),<br><b>2</b> Sundabar Vale (Settled, EL 1-9),<br><b>3</b> Moonlands or Adbar Vale or Cold Vale (Frontier, EL 2-10),<br><b>4</b> Evermoors (Wilderness, EL 2-14),<br><b>5</b> High Forest (Wilderness, EL 2-12),<br><b>6</b> Cold Wood or Moonwood (Wilderness, EL 2-12),<br><b>7</b> Nether or Rauvin Mountains (Wilderness, EL 4-14),<br><b>8</b> Spine of the World or Ice Mountains (Desolate, EL 4-14)<br><br></font>
+_Then indicate whether it is day or night.<br>
+
+
+
+:Region
+1,[Rauvin Vale %Time%]
+2,[Sundabar Vale %Time%]
+3,[Moonlands or Adbar Vale or Cold Vale %Time%]
+4,[Evermoors %Time%]
+5,[High Forest %Time%]
+6,[Cold Wood or Moonwood %Time%]
+7,[Nether or Rauvin Mountains %Time%]
+8,[Spine of the World or Ice Mountains %Time%]
+
+:Rauvin Vale 1
+01-07,Bandits: {Dice~1d6+1} 1st level warrior [SM_Bandit_Race] bandits led by [SM_Bandit_Leader]
+08-11,Animal: Bear, Brown
+12-16,{Dice~1d8+2} Branta (Silver Marches)
+17-25,{Dice~2d6} Animal: Deer (Silver Marches)
+26-27,Dire Bear
+28-29,{Dice~1d10+10} Dire rats
+30-31,Dire wolf
+32-34,{Dice~1d6+2} Animal: Elk (Silver Marches)
+35,{Dice~1d2} Gargoyle 
+36-37,{Dice~1d4+4} Goblin raiders led by a level {Dice~1d4+1} goblin fighter and a level {Dice~1d4} goblin adept, all on worgs
+38-45,<b>NPCs:</b><br>{Loop~{Dice~1d3+2},[FR_Random_NPC.FR_SM_NPC]}
+46-53,[SM_Merchant_Race] merchants {Dice~2d4} commoners, {Dice~2d4} 1st level warriors, led by [SM_Merchant_Leader]
+54,Mountain torrent (treat as no encounter on road or trail as stream is bridged in some fashion) 50% chance stream has boulders or log that allow crossing with balance check DC 15 (see Mountain Torrents p 49 Silver Marches)
+55-57,{Dice~1d2} Ogre
+58-59,{Dice~1d3+1} Orc
+60,{Dice~1d10+5} Orcs, {Dice~1d3+1} Orc barbarians, and 1 level {Dice~1d6} Orc adept accompanied by {Dice~1d2} dire boars
+61-69,[SM_Patrol_Rauvin]
+70-71,{Dice~1d2} Peryton
+72,{Dice~2d4} planetouched, fey'ri (MoF)
+73,{Dice~1d4+1} planetouched, tanarukk (MoF)
+74-78,{Dice~1d10+10} surface rothe (FRCS)
+79-81,Animal: Red Tiger (Silver Marches)
+82-84,Troll
+85,{Dice~1d2} Wereboar
+86-87,{Dice~1d2} Werewolf
+88-96,{Dice~1d6+10} Animal: wolf
+97-100,{Dice~1d2} Worg
+
+:Rauvin Vale 2
+01-02,Abishai, white (MoF)
+03-05,Bandits: {Dice~1d6+1} 1st level warrior [SM_Bandit_Race] bandits led by [SM_Bandit_Leader]
+06,Baneguard (MoF)
+07-08,Bat, night hunter (MoF)
+09,Animal: Bear, Brown
+10-11,{Dice~1d8+2} Branta (Silver Marches)
+12,{Dice~2d6} Animal: Deer (Silver Marches)
+13,Dire Bear
+14,{Dice~1d10+10} Dire rats
+15-16,Dire wolf
+17-18,Dread warrior (MoF)
+19,{Dice~1d6+2} Animal: Elk (Silver Marches)
+20-21,{Dice~1d2} Gargoyle 
+22-23,{Dice~1d2} Ghast
+24-26,{Dice~1d6} Ghoul
+27-34,{Dice~1d4+4} Goblin raiders led by a level {Dice~1d4+1} goblin fighter and a level {Dice~1d4} goblin adept, all on worgs
+35-39,<b>NPCs:</b><br>{Loop~{Dice~1d3+2},[FR_Random_NPC.FR_SM_NPC]}
+40,[SM_Merchant_Race] merchants {Dice~2d4} commoners, {Dice~2d4} 1st level warriors, led by [SM_Merchant_Leader]
+41,Mountain torrent (treat as no encounter on road or trail as stream is bridged in some fashion) 50% chance stream has boulders or log that allow crossing with balance check DC 15 (see Mountain Torrents p 49 Silver Marches)
+42,Nyth (MoF)
+43-48,{Dice~1d2} Ogre
+49-54,{Dice~1d3+1} Orc
+55-58,{Dice~1d10+5} Orcs, {Dice~1d3+1} Orc barbarians, and 1 level {Dice~1d6} Orc adept accompanied by {Dice~1d2} dire boars
+59-61,[SM_Patrol_Rauvin]
+62-63,{Dice~1d2} Peryton (MoF)
+64-65,{Dice~2d4} planetouched, fey'ri (MoF)
+66-68,{Dice~1d4+1} planetouched, tanarukk (MoF)
+69-70,{Dice~1d10+10} surface rothe (FRCS)
+71,Spectral Panther (MoF)
+72-73,{Dice~1d6} skeletons, medium
+74-75,Animal: Red Tiger (Silver Marches)
+76-79,Troll
+80-81,{Dice~1d2} Vampire spawn
+82,{Dice~1d2} Wereboar
+83-84,{Dice~1d2} Werewolf
+85-87,{Dice~1d2} Wight
+88-90,{Dice~1d6+10} Animal: wolf
+91-97,{Dice~1d2} Worg
+98-100,{Dice~1d4+1} Zombies, medium
+
+:Sundabar Vale 1
+01-07,Bandits: {Dice~1d6+1} 1st level warrior [SM_Bandit_Race] bandits led by [SM_Bandit_Leader]
+08-11,Animal: Bear, Brown
+12-16,{Dice~1d8+2} Branta (Silver Marches)
+17-25,{Dice~2d6} Animal: Deer (Silver Marches)
+26-27,Dire Bear
+28-29,{Dice~1d10+10} Dire rats
+30-31,Dire wolf
+32-34,{Dice~1d6+2} Animal: Elk (Silver Marches)
+35,{Dice~1d2} Gargoyle 
+36-37,{Dice~1d4+4} Goblin raiders led by a level {Dice~1d4+1} goblin fighter and a level {Dice~1d4} goblin adept, all on worgs
+38-45,<b>NPCs:</b><br>{Loop~{Dice~1d3+2},[FR_Random_NPC.FR_SM_NPC]}
+46-53,[SM_Merchant_Race] merchants {Dice~2d4} commoners, {Dice~2d4} 1st level warriors, led by [SM_Merchant_Leader]
+54,Mountain torrent (treat as no encounter on road or trail as stream is bridged in some fashion) 50% chance stream has boulders or log that allow crossing with balance check DC 15 (see Mountain Torrents p 49 Silver Marches)
+55-57,{Dice~1d2} Ogre
+58-59,{Dice~1d3+1} Orc
+60,{Dice~1d10+5} Orcs, {Dice~1d3+1} Orc barbarians, and 1 level {Dice~1d6} Orc adept accompanied by {Dice~1d2} dire boars
+61-69,[SM_Patrol_Sundabar]
+70-71,{Dice~1d2} Peryton
+72,{Dice~2d4} planetouched, fey'ri (MoF)
+73,{Dice~1d4+1} planetouched, tanarukk (MoF)
+74-78,{Dice~1d10+10} surface rothe (FRCS)
+79-81,Animal: Red Tiger (Silver Marches)
+82-84,Troll
+85,{Dice~1d2} Wereboar
+86-87,{Dice~1d2} Werewolf
+88-96,{Dice~1d6+10} Animal: wolf
+97-100,{Dice~1d2} Worg
+
+:Sundabar Vale 2
+01-02,Abishai, white (MoF)
+03-05,Bandits: {Dice~1d6+1} 1st level warrior [SM_Bandit_Race] bandits led by [SM_Bandit_Leader]
+06,Baneguard (MoF)
+07-08,Bat, night hunter (MoF)
+09,Animal: Bear, Brown
+10-11,{Dice~1d8+2} Branta (Silver Marches)
+12,{Dice~2d6} Animal: Deer (Silver Marches)
+13,Dire Bear
+14,{Dice~1d10+10} Dire rats
+15-16,Dire wolf
+17-18,Dread warrior (MoF)
+19,{Dice~1d6+2} Animal: Elk (Silver Marches)
+20-21,{Dice~1d2} Gargoyle 
+22-23,{Dice~1d2} Ghast
+24-26,{Dice~1d6} Ghoul
+27-34,{Dice~1d4+4} Goblin raiders led by a level {Dice~1d4+1} goblin fighter and a level {Dice~1d4} goblin adept, all on worgs
+35-39,<b>NPCs:</b><br>{Loop~{Dice~1d3+2},[FR_Random_NPC.FR_SM_NPC]}
+40,[SM_Merchant_Race] merchants {Dice~2d4} commoners, {Dice~2d4} 1st level warriors, led by [SM_Merchant_Leader]
+41,Mountain torrent (treat as no encounter on road or trail as stream is bridged in some fashion) 50% chance stream has boulders or log that allow crossing with balance check DC 15 (see Mountain Torrents p 49 Silver Marches)
+42,Nyth (MoF)
+43-48,{Dice~1d2} Ogre
+49-54,{Dice~1d3+1} Orc
+55-58,{Dice~1d10+5} Orcs, {Dice~1d3+1} Orc barbarians, and 1 level {Dice~1d6} Orc adept accompanied by {Dice~1d2} dire boars
+59-61,[SM_Patrol_Sundabar]
+62-63,{Dice~1d2} Peryton (MoF)
+64-65,{Dice~2d4} planetouched, fey'ri (MoF)
+66-68,{Dice~1d4+1} planetouched, tanarukk (MoF)
+69-70,{Dice~1d10+10} surface rothe (FRCS)
+71,Spectral Panther (MoF)
+72-73,{Dice~1d6} skeletons, medium
+74-75,Animal: Red Tiger (Silver Marches)
+76-79,Troll
+80-81,{Dice~1d2} Vampire spawn
+82,{Dice~1d2} Wereboar
+83-84,{Dice~1d2} Werewolf
+85-87,{Dice~1d2} Wight
+88-90,{Dice~1d6+10} Animal: wolf
+91-97,{Dice~1d2} Worg
+98-100,{Dice~1d4+1} Zombies, medium
+
+:Moonlands or Adbar Vale or Cold Vale 1
+01-05,Bandits: {Dice~1d6+1} 1st level warrior [SM_Bandit_Race] bandits led by [SM_Bandit_Leader]
+06-10,Animal: Bear, Brown
+11,Behir
+12-16,{Dice~1d6+2} Branta (Silver Marches)
+17-18,{Dice~1d3+1} Bugbear
+19-25,{Dice~2d6} Animal: Deer (Silver Marches)
+26-27,Dire Bear
+28-29,{Dice~1d4+4} Dire wolf
+30,{Dice~1d2} Dire wolverine
+31-34,Dragon: [SM_Moonlands_Dragon]
+35,{Dice~2d4} Dragonkin (MoF)
+36-39,Shield Dwarf Patrol:{Dice~1d4+4} 1st level warriors, {Dice~1d2} level {Dice~1d3} clerics, led by a level {Dice~1d4+2} [FR_Misc.Dwarf_Class]
+40-43,{Dice~1d6+2} Animal: Elk (Silver Marches)
+44,{Dice~1d3+1} Ettin
+45-46,{Dice~1d4+4} Goblin raiders led by a level {Dice~1d4+1} goblin fighter and a level {Dice~1d4} goblin adept, all on worgs
+47,{Dice~1d2} Hill giant
+48-49,{Dice~1d4} Leucrotta (MoF)
+50-53,[SM_Merchant_Race] merchants {Dice~2d4} commoners, {Dice~2d4} 1st level warriors, led by [SM_Merchant_Leader]
+54-55,Mountain torrent (treat as no encounter on road or trail as stream is bridged in some fashion) 50% chance stream has boulders or log that allow crossing with balance check DC 15 (see Mountain Torrents p 49 Silver Marches)
+56-58,<b>NPCs:</b><br>{Loop~{Dice~1d3+2},[FR_Random_NPC.FR_SM_NPC]}
+59-60,{Dice~1d2} Ogre
+61-63,{Dice~1d10+5} Orcs, {Dice~1d3+1} Orc barbarians, and 1 level {Dice~1d6} Orc adept accompanied by {Dice~1d2} dire boars
+64,{Dice~1d4+1} planetouched, tanarukk (MoF)
+65-68,{Dice~1d10+10} surface rothe (FRCS)
+69-73,Argent Legion Patrol: {Dice~1d4+4} 1st level warriors, led by [SM_Argent_Leader], mounted on light warhorses and armed with lances, crossbows, and longswords
+74-76,Animal: Red Tiger (Silver Marches)
+77-79,{Dice~1d3+1} Troll
+80-85,Uthgardt scouts: {Dice~1d4+2} 1st level warriors, led by [SM_Uthgardt_Leader], (30% chance they belond to Sky Pony tribe and are mounted)
+86,{Dice~1d2} Wereboar
+87-89,{Dice~1d6+4} Werewolf
+90-95,{Dice~1d6+10} Animal: wolf
+96-97,{Dice~1d2} Animal: wolverine
+98-100,{Dice~1d2} Worg
+
+:Moonlands or Adbar Vale or Cold Vale 2
+01-02,Abishai, white (MoF)
+03-04,Bandits: {Dice~1d6+1} 1st level warrior [SM_Bandit_Race] bandits led by [SM_Bandit_Leader]
+05-06,{Dice~2d6} Bat, night hunter (MoF)
+07,Animal: Bear, Brown
+08,Behir
+09-10,{Dice~1d6+2} Branta (Silver Marches)
+11-12,{Dice~1d3+1} Bugbear
+13,{Dice~2d6} Animal: Deer (Silver Marches)
+14-15,Dire Bear
+16-17,{Dice~1d4+4} Dire wolf
+18-19,{Dice~1d2} Dire wolverine
+20-24,Dragon: [SM_Moonlands_Dragon]
+25,{Dice~2d4} Dragonkin (MoF)
+26-27,Dread warrior (MoF)
+28-29,Shield Dwarf Patrol:{Dice~1d4+4} 1st level warriors, {Dice~1d2} level {Dice~1d3} clerics, led by a level {Dice~1d4+2} [FR_Misc.Dwarf_Class]
+30,{Dice~1d6+2} Animal: Elk (Silver Marches)
+31-34,{Dice~1d3+1} Ettin
+35-37,{Dice~1d2} Ghast
+38-41,{Dice~1d6} Ghoul
+42-47,{Dice~1d4+4} Goblin raiders led by a level {Dice~1d4+1} goblin fighter and a level {Dice~1d4} goblin adept, all on worgs
+48-51,{Dice~1d2} Hill giant
+52-53,{Dice~1d4} Leucrotta (MoF)
+54,Nishruu (MoF)
+55,[SM_Merchant_Race] merchants {Dice~2d4} commoners, {Dice~2d4} 1st level warriors, led by [SM_Merchant_Leader]
+56-57,Mountain torrent (treat as no encounter on road or trail as stream is bridged in some fashion) 50% chance stream has boulders or log that allow crossing with balance check DC 15 (see Mountain Torrents p 49 Silver Marches)
+58-59,<b>NPCs:</b><br>{Loop~{Dice~1d3+2},[FR_Random_NPC.FR_SM_NPC]}
+60-61,{Dice~1d2} Ogre
+62-67,{Dice~1d10+5} Orcs, {Dice~1d3+1} Orc barbarians, and 1 level {Dice~1d6} Orc adept accompanied by {Dice~1d2} dire boars
+68-69,{Dice~1d4+1} planetouched, tanarukk (MoF)
+70-71,{Dice~1d10+10} surface rothe (FRCS)
+72,Argent Legion Patrol: {Dice~1d4+4} 1st level warriors, led by [SM_Argent_Leader], mounted on light warhorses and armed with lances, crossbows, and longswords
+73,Animal: Red Tiger (Silver Marches)
+74-77,{Dice~1d3+1} Troll
+78-79,Uthgardt scouts: {Dice~1d4+2} 1st level warriors, led by [SM_Uthgardt_Leader], (30% chance they belond to Sky Pony tribe and are mounted)
+80-81,{Dice~1d2} Vampire spawn
+82,{Dice~1d2} Wereboar
+83-84,{Dice~1d6+4} Werewolf
+85-87,{Dice~1d4+1} Wight
+88-89,{Dice~1d4+1} Winter Wolf
+90-94,{Dice~1d6+10} Animal: wolf
+95,{Dice~1d2} Animal: wolverine
+96-100,{Dice~1d2} Worg
+
+:Evermoors 1
+01-02,Behir
+03-10,{Dice~2d6} Animal: Deer (Silver Marches)
+11-14,{Dice~1d4+4} Dire wolf
+15-20,Dragon: [SM_Evermoors_Dragon]
+21-25,{Dice~1d3+1} Ettin
+26-28,{Dice~1d2} Fog Giant (MoF)
+29-34,{Dice~1d3} Hill giant
+35-37,{Dice~1d3+1} Ice serpent (MoF)
+38-45,<b>NPCs:</b><br>{Loop~{Dice~1d3+2},[FR_Random_NPC.FR_SM_NPC]}
+46,Nishruu (MoF)
+47,Nyth (MoF)
+48-53,{Dice~1d3+1} Ogre
+54-61,{Dice~1d10+5} Orcs, {Dice~1d3+1} Orc barbarians, and 1 level {Dice~1d6} Orc adept accompanied by {Dice~1d2} dire boars
+62-66,{Dice~1d10+10} ghost rothe (FRCS)
+67-69,{Dice~1d2} Shambling mound
+70-71,{Dice~1d6+2} Snowcloak (Silver Marches)
+72-83,{Dice~1d3+1} Troll
+84-86,{Dice~1d6+5} Winter Wolf
+87-94,{Dice~1d10+6} Animal: wolf
+95-99,{Dice~1d4+4} Worg
+100,{Dice~1d6+5} Yeth hound
+
+:Evermoors 2
+01-03,Behir
+04-05,{Dice~1d2+2} Darkenbeast
+06,{Dice~2d6} Animal: Deer (Silver Marches)
+07-09,{Dice~1d4+4} Dire wolf
+10-14,Dragon: [SM_Evermoors_Dragon]
+15-17,{Dice~1d4+3} Dread Warrior (MoF)
+18-21,{Dice~1d3+1} Ettin
+22-24,{Dice~1d2} Fog Giant (MoF)
+25-27,Ghast pack: {Dice~1d3+1} ghasts and {Dice~1d6+1} ghouls
+28-30,Ghost: [SM_Ghost]
+31-35,{Dice~1d3} Hill giant
+36-37,{Dice~1d3+1} Ice serpent (MoF)
+38-44,<b>NPCs:</b><br>{Loop~{Dice~1d3+2},[FR_Random_NPC.FR_SM_NPC]}
+45-47,Nishruu (MoF)
+48-50,Nyth (MoF)
+51-54,{Dice~1d3+1} Ogre
+55-63,{Dice~1d10+5} Orcs, {Dice~1d3+1} Orc barbarians, and 1 level {Dice~1d6} Orc adept accompanied by {Dice~1d2} dire boars
+64-67,{Dice~1d10+10} ghost rothe (FRCS)
+68-69,{Dice~1d2} Shambling mound
+70-71,{Dice~1d6+2} Snowcloak (Silver Marches)
+72,{Dice~1d6} Spectre
+73-77,{Dice~1d3+1} Troll
+78-80,{Dice~1d8+1} Wight
+81-82,{Dice~1d6} Will o wisp
+83-84,{Dice~1d6} Wraith
+85-87,{Dice~1d6+5} Winter Wolf
+88-90,{Dice~1d10+6} Animal: wolf
+91-96,{Dice~1d4+4} Worg
+97-100,{Dice~1d6+5} Yeth hound
+
+:High Forest 1
+01,{Dice~1d4} Abishai, green (MoF)
+02-07,{Dice~1d4+4} Centaur
+08-15,{Dice~2d6} Animal: Deer (Silver Marches)
+16-17,Dire bear
+18-19,{Dice~1d10+10} Dire rats
+20-22,{Dice~1d4+4} Dire wolf
+23-24,Dire wolverine
+25-30,Dragon: [SM_HighForest_Dragon]
+31-34,{Dice~1d6+2} Animal: Elk (Silver Marches)
+35,Forest Fire (Summer or fall only, in winter or fall treat as no encounter. Front is {Dice~3d10*500} feet wide. See p.49 Silver Marches for more detail)
+36-41,Gnoll hunters: {Dice~1d4+2} gnolls, led by a level {Dice~1d3+2} gnoll ranger and a level {Dice~1d4} gnoll adept, accompanied by {Dice~1d2} dire wolves
+42-43,Gray render
+44-45,{Dice~1d2} Green hag
+46,Gulguthhydra (MoF)
+47,{Dice~1d2} Ibrandlin (MoF)
+48-49,{Dice~1d4+1} Kir-lanan (FRCS)
+50-56,<b>NPCs:</b><br>{Loop~{Dice~1d3+2},[FR_Random_NPC.FR_SM_NPC]}
+57,Nymph
+58-60,{Dice~1d3+1} Ogre
+61-65,{Dice~1d10+5} Orcs, {Dice~1d3+1} Orc barbarians, and 1 level {Dice~1d6} Orc adept accompanied by {Dice~1d2} dire boars
+66,{Dice~1d4} Phase spiders
+67-68,{Dice~1d2*10} Planetouched, fey'ri (MoF)
+69-70,{Dice~1d6+5} Planetouched, tanarukk (MoF)
+71-72,Animal: Red tiger (Silver Marches)
+73,{Dice~1d2} Shambling mound
+74,{Dice~1d2} Tall Mouther (MoF)
+75-79,{Dice~1d2}Treant
+80-81,{Dice~1d3+1} Troll
+82-84,{Dice~1d4+2} Unicorn
+85-86,{Dice~1d2} Werebear
+87-88,{Dice~1d6+4} Werewolf
+89-92,{Dice~1d8+10} Animal: wolf
+93-98,Wood elf patrol: {Dice~1d4+4} 1st level warriors, {Dice~1d2} level {Dice~1d3+1} rogues, {Dice~1d2} level {Dice~1d3+1} sorcerers, led by a level {Dice~1d4+3} [SM_Elf_Class] (some patrols may include Moon or Sun elves)
+99-100,{Dice~1d6+5} Worg
+
+:High Forest 2
+01-02,{Dice~1d4} Abishai, green (MoF)
+03-05,{Dice~2d6} Bat, night hunter (MoF)
+06-07,{Dice~1d6+3} Bat, sinister (MoF)
+08-09,{Dice~1d4+4} Centaur
+10-11,{Dice~4d6} Crawling claw (MoF)
+12-14,{Dice~1d2+2} Darkenbeast (MoF)
+15,{Dice~2d6} Animal: Deer (Silver Marches)
+16-17,{Dice~1d4+4} Dire bat
+18-19,Dire bear
+20-21,{Dice~1d10+10} Dire rats
+22-24,{Dice~1d4+4} Dire wolf
+25,Dire wolverine
+26-27,{Dice~2d6} Dread Warrior (MoF)
+28-33,Dragon: [SM_HighForest_Dragon]
+34,{Dice~1d6+2} Animal: Elk (Silver Marches)
+35,Forest Fire (Summer or fall only, in winter or fall treat as no encounter. Front is {Dice~3d10*500} feet wide. See p.49 Silver Marches for more detail)
+36-37,Ghast pack: {Dice~1d3+1} ghasts and {Dice~1d6+1} ghouls
+38-40,Gnoll hunters: {Dice~1d4+2} gnolls, led by a level {Dice~1d3+2} gnoll ranger and a level {Dice~1d4} gnoll adept, accompanied by {Dice~1d2} dire wolves
+41-44,Gray render
+45-47,{Dice~1d2} Green hag
+48-49,Gulguthhydra (MoF)
+50,{Dice~1d2} Ibrandlin (MoF)
+51-54,{Dice~1d4+1} Kir-lanan (FRCS)
+55-57,<b>NPCs:</b><br>{Loop~{Dice~1d3+2},[FR_Random_NPC.FR_SM_NPC]}
+58,Nymph
+59-61,{Dice~1d3+1} Ogre
+62-68,{Dice~1d10+5} Orcs, {Dice~1d3+1} Orc barbarians, and 1 level {Dice~1d6} Orc adept accompanied by {Dice~1d2} dire boars
+69-70,{Dice~1d4} Phase spiders
+71-73,{Dice~1d2*10} Planetouched, fey'ri (MoF)
+74-75,{Dice~1d6+5} Planetouched, tanarukk (MoF)
+76,Animal: Red tiger (Silver Marches)
+77,{Dice~1d4+1} Shadow
+78,{Dice~1d2} Shambling mound
+79,{Dice~1d4} Spectre
+80,{Dice~1d2} Tall Mouther (MoF)
+81-82,{Dice~1d2} Treant
+83-84,{Dice~1d3+1} Troll
+85,{Dice~1d4+2} Unicorn
+86-87,{Dice~1d6+5} Vargouille
+88-89,{Dice~1d2} Werebat (MoF)
+90,{Dice~1d2} Werebear
+91-92,{Dice~1d6+4} Werewolf
+93-94,{Dice~1d6+5} Wight
+95-96,{Dice~1d8+10} Animal: wolf
+97,Wood elf patrol: {Dice~1d4+4} 1st level warriors, {Dice~1d2} level {Dice~1d3+1} rogues, {Dice~1d2} level {Dice~1d3+1} sorcerers, led by a level {Dice~1d4+3} [SM_Elf_Class] (some patrols may include Moon or Sun elves)
+98-99,{Dice~1d6+5} Worg
+100,{Dice~1d6+5} Wraith
+
+:Cold Wood or Moonwood 1
+01,{Dice~1d4} Abishai, green (MoF)
+02-07,{Dice~1d6+2} Branta (Silver Marches)
+08-15,{Dice~2d6} Animal: Deer (Silver Marches)
+16-18,Dire bear
+19-22,{Dice~1d4+4} Dire wolf
+23-24,Dire wolverine
+25-30,Dragon: [SM_Moonwood_Dragon]
+31-33,{Dice~1d3+1} Ettin
+34-37,{Dice~1d6+2} Animal: Elk (Silver Marches)
+38,Forest Fire (Summer or fall only, in winter or fall treat as no encounter. Front is {Dice~3d10*500} feet wide. See p.49 Silver Marches for more detail)
+39,Gray render
+40-41,{Dice~1d2} Green hag
+42,Gulguthhydra (MoF)
+43,{Dice~1d2} Ibrandlin (MoF)
+44-49,<b>NPCs:</b><br>{Loop~{Dice~1d3+2},[FR_Random_NPC.FR_SM_NPC]}
+50-53,{Dice~1d3+1} Ogre
+54-58,{Dice~1d10+5} Orcs, {Dice~1d3+1} Orc barbarians, and 1 level {Dice~1d6} Orc adept accompanied by {Dice~1d2} dire boars
+59-60,{Dice~1d4} Peryton (MoF)
+61,{Dice~1d4} Phase spiders
+62,{Dice~1d6+5} Planetouched, tanarukk (MoF)
+63,Animal: Red tiger (Silver Marches)
+64,{Dice~1d4+1} Snowcloak (Silver Marches)
+65-66,{Dice~1d2} Tall Mouther (MoF)
+67-68,{Dice~1d2} Treant
+69-73,{Dice~1d3+1} Troll
+74,{Dice~1d4+2} Unicorn
+75-83,Uthgardt scouts: {Dice~1d4+2} 1st level warriors, led by [SM_Uthgardt_Leader], (30% chance they belond to Sky Pony tribe and are mounted)
+84-85,{Dice~1d2} Werebear
+86-87,{Dice~1d6+4} Werewolf
+88,Werewolf Raiders: {Dice~1d4+1} werewolves, {Dice~1d4+4} wolves, led by level {Dice~1d6+1} [SM_Werewolf_Class] werewolf
+89-92,{Dice~1d8+10} Animal: wolf
+93-98,Wood elf patrol: {Dice~1d4+4} 1st level warriors, {Dice~1d2} level {Dice~1d3+1} rogues, {Dice~1d2} level {Dice~1d3+1} sorcerers, led by a level {Dice~1d4+3} [SM_Elf_Class] (some patrols may include Moon or Sun elves)
+99-100,{Dice~1d4+4} Worg
+
+:Cold Wood or Moonwood 2
+01-02,{Dice~1d4} Abishai, green (MoF)
+03-04,{Dice~2d6} Bat, night hunter (MoF)
+05,{Dice~1d6+3} Bat, sinister (MoF)
+06-07,{Dice~1d6+2} Branta (Silver Marches)
+08,{Dice~4d6} Crawling claw (MoF)
+09-12,{Dice~1d2+2} Darkenbeast (MoF)
+13,{Dice~2d6} Animal: Deer (Silver Marches)
+14-15,{Dice~1d4+4} Dire bat
+16-17,Dire bear
+18-20,{Dice~1d4+4} Dire wolf
+21,Dire wolverine
+22-23,{Dice~2d6} Dread Warrior (MoF)
+24-28,Dragon: [SM_Moonwood_Dragon]
+29-30,{Dice~1d3+1} Ettin
+31-32,{Dice~1d6+2} Animal: Elk (Silver Marches)
+33,Forest Fire (Summer or fall only, in winter or fall treat as no encounter. Front is {Dice~3d10*500} feet wide. See p.49 Silver Marches for more detail)
+34-36,Ghast pack: {Dice~1d3+1} ghasts and {Dice~1d6+1} ghouls
+37,Gray render
+38-39,{Dice~1d2} Green hag
+40,Gulguthhydra (MoF)
+41,{Dice~1d2} Ibrandlin (MoF)
+42-44,<b>NPCs:</b><br>{Loop~{Dice~1d3+2},[FR_Random_NPC.FR_SM_NPC]}
+45-47,{Dice~1d3+1} Ogre
+48-56,{Dice~1d10+5} Orcs, {Dice~1d3+1} Orc barbarians, and 1 level {Dice~1d6} Orc adept accompanied by {Dice~1d2} dire boars
+57-58,{Dice~1d4} Peryton (MoF)
+59,{Dice~1d4} Phase spiders
+60-62,{Dice~1d6+5} Planetouched, tanarukk (MoF)
+63,Animal: Red tiger (Silver Marches)
+64-65,{Dice~1d4+1} Shadow
+66-67,{Dice~1d4+1} Snowcloak
+68-69,{Dice~1d4} Spectre
+70-71,{Dice~1d2} Tall Mouther (MoF)
+72-73,{Dice~1d2} Treant
+74-78,{Dice~1d3+1} Troll
+79,{Dice~1d4+2} Unicorn
+80-81,Uthgardt scouts: {Dice~1d4+2} 1st level warriors, led by [SM_Uthgardt_Leader], (30% chance they belond to Sky Pony tribe and are mounted)
+82-83,{Dice~1d6+5} Vargouille
+84,{Dice~1d2} Werebat (MoF)
+85,{Dice~1d2} Werebear
+86-87,{Dice~1d6+4} Werewolf
+88,Werewolf Raiders: {Dice~1d4+1} werewolves, {Dice~1d4+4} wolves, led by level {Dice~1d6+1} [SM_Werewolf_Class] werewolf
+89-90,{Dice~1d6+5} Wight
+91-93,{Dice~1d8+10} Animal: wolf
+94,Wood elf patrol: {Dice~1d4+4} 1st level warriors, {Dice~1d2} level {Dice~1d3+1} rogues, {Dice~1d2} level {Dice~1d3+1} sorcerers, led by a level {Dice~1d4+3} [SM_Elf_Class] (some patrols may include Moon or Sun elves)
+95-98,{Dice~1d4+4} Worg
+99-100,{Dice~1d6+5} Wraith
+
+:Nether or Rauvin Mountains 1
+01,Avalanche/landslide (see p 48 Silver Marches for details)
+02-03,{Dice~1d2} Animal: bear, brown
+04-07,{Dice~1d6+2} Branta (Silver Marches)
+08-10,Bugbear band: {Dice~1d10+10} bugbears, {Dice~1d3} level {Dice~1d3+1} warriors, led by a level {Dice~1d4+3} bugbear fighter
+11-12,Cloud giant
+13-16,{Dice~1d2} Dire bear
+17-18,{Dice~1d2} Dire lion
+19-24,{Dice~1d4+4} Dire wolf
+25-32,Dragon: [SM_Nether_Dragon]
+33-34,{Dice~2d4} Dragonkin (MoF)
+35-38,{Dice~1d3+2} Eagle, giant
+39-41,{Dice~1d3+1} Ettin
+42-44,{Dice~1d4+1} Frost Giant
+45,{Dice~1d12+2} Goblin, Dekanter (MoF)
+46-49,{Dice~1d4+4} Goblin raiders led by a level {Dice~1d4+1} goblin fighter and a level {Dice~1d4} goblin adept, all on worgs
+50-53,{Dice~1d4+1} Hill giant
+54-55,{Dice~1d3+1} Leucrotta (MoF)
+56-58,Mountain torrent (treat as no encounter on road or trail as stream is bridged in some fashion) 50% chance stream has boulders or log that allow crossing with balance check DC 15 (see Mountain Torrents p 49 Silver Marches)
+59-61,<b>NPCs:</b><br>{Loop~{Dice~1d3+2},[FR_Random_NPC.FR_SM_NPC]}
+62-64,{Dice~1d3+1} Ogre
+65-67,{Dice~1d10+5} Orcs, {Dice~1d3+1} Orc barbarians, and 1 level {Dice~1d6} Orc adept accompanied by {Dice~1d2} dire boars
+68-69,Orc warband: {Dice~1d10+10} orcs, {Dice~1d3} level {Dice~1d3+1} barbarians, {Dice~1d3} level {Dice~1d3+1} fighters, 1 level {Dice~1d6} adept, led by level {Dice~1d3+3} [FR_Misc.Orc_Class], accompanied by {Dice~1d2} dire boars
+70,{Dice~1d3+1} Peryton (MoF)
+71-72,{Dice~1d2*10} Planetouched, fey'ri (MoF)
+73-74,{Dice~1d6+5} Planetouched, tanarukk (MoF)
+75-76,{Dice~1d2} Rock wyrm (Silver Marches)
+77-80,{Dice~1d10+10} Ghost Rothe (FRCS)
+81-82,Argent Legion Patrol: {Dice~1d4+4} 1st level warriors, led by [SM_Argent_Leader], mounted on light warhorses and armed with lances, crossbows, and longswords
+83-84,{Dice~1d6+2} Snowcloak
+85-86,Uthgardt scouts: {Dice~1d4+2} 1st level warriors, led by [SM_Uthgardt_Leader], (30% chance they belond to Sky Pony tribe and are mounted)
+87-92,{Dice~1d8+8} Animal: wolf
+93-96,{Dice~1d4+4} Worg
+97-99,{Dice~1d4+2} Wyvern
+100,{Dice~1d3+1} Yrthak
+
+:Nether or Rauvin Mountains 2
+01,{Dice~1d3+1} Abishai, red (MoF)
+02,Avalanche/landslide (see p 48 Silver Marches for details)
+03,{Dice~1d2} Animal: bear, brown
+04,{Dice~1d6+2} Branta (Silver Marches)
+05-07,Bugbear band: {Dice~1d10+10} bugbears, {Dice~1d3} level {Dice~1d3+1} warriors, led by a level {Dice~1d4+3} bugbear fighter
+08-09,Cloud giant
+10-11,Deepspawn (MoF)
+12-13,{Dice~1d2} Dire bear
+14-15,{Dice~1d2} Dire lion
+16-18,{Dice~1d4+4} Dire wolf
+19-25,Dragon: [SM_Nether_Dragon]
+26-27,{Dice~2d4} Dragonkin (MoF)
+28,{Dice~1d3+2} Eagle, giant
+29-32,{Dice~1d3+1} Ettin
+33-35,{Dice~1d4+1} Frost Giant
+36,{Dice~1d12+2} Goblin, Dekanter (MoF)
+37-43,{Dice~1d4+4} Goblin raiders led by a level {Dice~1d4+1} goblin fighter and a level {Dice~1d4} goblin adept, all on worgs
+44-47,{Dice~1d4+1} Hill giant
+48-49,{Dice~1d3+1} Leucrotta (MoF)
+50-52,Mountain torrent (treat as no encounter on road or trail as stream is bridged in some fashion) 50% chance stream has boulders or log that allow crossing with balance check DC 15 (see Mountain Torrents p 49 Silver Marches)
+53-54,<b>NPCs:</b><br>{Loop~{Dice~1d3+2},[FR_Random_NPC.FR_SM_NPC]}
+55-57,{Dice~1d3+1} Ogre
+58-65,{Dice~1d10+5} Orcs, {Dice~1d3+1} Orc barbarians, and 1 level {Dice~1d6} Orc adept accompanied by {Dice~1d2} dire boars
+66-68,Orc warband: {Dice~1d10+10} orcs, {Dice~1d3} level {Dice~1d3+1} barbarians, {Dice~1d3} level {Dice~1d3+1} fighters, 1 level {Dice~1d6} adept, led by level {Dice~1d3+3} [FR_Misc.Orc_Class], accompanied by {Dice~1d2} dire boars
+69,{Dice~1d3+1} Peryton (MoF)
+70,{Dice~1d2*10} Planetouched, fey'ri (MoF)
+71,{Dice~1d6+5} Planetouched, tanarukk (MoF)
+72,{Dice~1d2} Rock wyrm (Silver Marches)
+73,{Dice~1d10+10} Ghost Rothe (FRCS)
+74,Argent Legion Patrol: {Dice~1d4+4} 1st level warriors, led by [SM_Argent_Leader], mounted on light warhorses and armed with lances, crossbows, and longswords
+75-77,{Dice~1d6+2} Snowcloak
+78,Uthgardt scouts: {Dice~1d4+2} 1st level warriors, led by [SM_Uthgardt_Leader], (30% chance they belond to Sky Pony tribe and are mounted)
+79-80,{Dice~1d2} Vampire
+81-82,Vampire troupe: {Dice~1d2} Vampires and {Dice~1d4+1} vampire spawn
+83-84,{Dice~1d8+8} Animal: wolf
+85-90,{Dice~1d4+4} Worg
+91-93,{Dice~1d6+5} Wraith
+94-96,{Dice~1d4+2} Wyvern
+97-100,{Dice~1d3+1} Yrthak
+
+:Spine of the World or Ice Mountains 1
+01-02,Artic dwarf hunters: {Dice~1d4+1} War1, {Dice~1d2} level {Dice~1d3+2} barbarians, led by level {Dice~1d4+3} [SM_ArcticDwarf_Class] (MoF)
+03,Avalanche/landslide (see p 48 Silver Marches for details)
+04-05,{Dice~1d2} Animal: bear, polar
+06-08,{Dice~1d6+2} Branta (Silver Marches)
+09-10,Cloud giant
+11-14,{Dice~1d2} Dire bear
+15-19,{Dice~1d4+4} Dire wolf
+20-27,Dragon: [SM_Spine_Dragon]
+28-33,{Dice~1d3+2} Eagle, giant
+34-38,{Dice~1d3+1} Ettin
+39-46,{Dice~1d4+1} Frost Giant
+47-48,Frost Worm
+49-50,{Dice~1d4+4} Goblin raiders led by a level {Dice~1d4+1} goblin fighter and a level {Dice~1d4} goblin adept, all on worgs
+51-53,{Dice~1d4+1} Hill giant
+54-56,Mountain torrent (treat as no encounter on road or trail as stream is bridged in some fashion) 50% chance stream has boulders or log that allow crossing with balance check DC 15 (see Mountain Torrents p 49 Silver Marches)
+57-58,<b>NPCs:</b><br>{Loop~{Dice~1d3+2},[FR_Random_NPC.FR_SM_NPC]}
+59-62,{Dice~1d3+1} Ogre
+63-66,{Dice~1d10+5} Orcs, {Dice~1d3+1} Orc barbarians, and 1 level {Dice~1d6} Orc adept accompanied by {Dice~1d2} dire boars
+67-69,Orc warband: {Dice~1d10+10} orcs, {Dice~1d3} level {Dice~1d3+1} barbarians, {Dice~1d3} level {Dice~1d3+1} fighters, 1 level {Dice~1d6} adept, led by level {Dice~1d3+3} [FR_Misc.Orc_Class], accompanied by {Dice~1d2} dire boars
+70-72,{Dice~1d6+5} Planetouched, tanarukk (MoF)
+73-76,Remorhaz
+77-78,{Dice~1d2} Rock wyrm (Silver Marches)
+79-82,{Dice~1d10+10} Ghost Rothe (FRCS)
+83-85,{Dice~1d6+2} Snowcloak
+86-89,{Dice~1d8+8} Animal: wolf
+90-95,{Dice~1d4+4} Worg
+96-98,{Dice~1d4+2} Wyvern
+99-100,{Dice~1d3+1} Yrthak
+
+:Spine of the World or Ice Mountains 2
+01,Artic dwarf hunters: {Dice~1d4+1} War1, {Dice~1d2} level {Dice~1d3+2} barbarians, led by level {Dice~1d4+3} [SM_ArcticDwarf_Class] (MoF)
+02,Avalanche/landslide (see p 48 Silver Marches for details)
+03,{Dice~1d2} Animal: bear, polar
+04,{Dice~1d6+2} Branta (Silver Marches)
+05-06,Cloud giant
+07-08,{Dice~1d2} Dire bear
+09-12,{Dice~1d4+4} Dire wolf
+13-20,Dragon: [SM_Spine_Dragon]
+21,{Dice~1d3+2} Eagle, giant
+22-28,{Dice~1d3+1} Ettin
+29-37,{Dice~1d4+1} Frost Giant
+38-43,Frost Worm
+44-49,{Dice~1d4+4} Goblin raiders led by a level {Dice~1d4+1} goblin fighter and a level {Dice~1d4} goblin adept, all on worgs
+50-52,{Dice~1d4+1} Hill giant
+53-54,Mountain torrent (treat as no encounter on road or trail as stream is bridged in some fashion) 50% chance stream has boulders or log that allow crossing with balance check DC 15 (see Mountain Torrents p 49 Silver Marches)
+55-56,<b>NPCs:</b><br>{Loop~{Dice~1d3+2},[FR_Random_NPC.FR_SM_NPC]}
+57-59,{Dice~1d3+1} Ogre
+60-66,{Dice~1d10+5} Orcs, {Dice~1d3+1} Orc barbarians, and 1 level {Dice~1d6} Orc adept accompanied by {Dice~1d2} dire boars
+67-69,Orc warband: {Dice~1d10+10} orcs, {Dice~1d3} level {Dice~1d3+1} barbarians, {Dice~1d3} level {Dice~1d3+1} fighters, 1 level {Dice~1d6} adept, led by level {Dice~1d3+3} [FR_Misc.Orc_Class], accompanied by {Dice~1d2} dire boars
+70-73,{Dice~1d6+5} Planetouched, tanarukk (MoF)
+74-76,Remorhaz
+77-78,{Dice~1d2} Rock wyrm (Silver Marches)
+79-80,{Dice~1d10+10} Ghost Rothe (FRCS)
+81-84,{Dice~1d6+2} Snowcloak
+85,{Dice~1d8+8} Animal: wolf
+86-90,{Dice~1d4+4} Worg
+91-93,{Dice~1d6+5} Wraith
+94-96,{Dice~1d4+2} Wyvern
+97-100,{Dice~1d3+1} Yrthak
+
+
+:SM_Ghost
+1,level {Dice~1d4+2} [SM_Ghost_Race] [SM_Ghost_Class]
+2,level {Dice~1d4+2} [SM_Ghost_Race] [SM_Ghost_Class], level {Dice~1d4+2} [SM_Ghost_Race] [SM_Ghost_Class]
+3,level {Dice~1d4+2} [SM_Ghost_Race] [SM_Ghost_Class], level {Dice~1d4+2} [SM_Ghost_Race] [SM_Ghost_Class], level {Dice~1d4+2} [SM_Ghost_Race] [SM_Ghost_Class]
+4,level {Dice~1d4+2} [SM_Ghost_Race] [SM_Ghost_Class], level {Dice~1d4+2} [SM_Ghost_Race] [SM_Ghost_Class], level {Dice~1d4+2} [SM_Ghost_Race] [SM_Ghost_Class], level {Dice~1d4+2} [SM_Ghost_Race] [SM_Ghost_Class]
+
+:SM_Ghost_Class
+01-05,Bard
+06-20,Cleric
+21-60,Fighter
+61-65,Ranger
+66-80,Rogue
+81-90,Sorcerer
+91-100,Wizard
+
+:SM_Ghost_Race
+01-25,Shield Dwarf
+26-40,Moon Elf
+41-80,Human
+81-90,Half orc
+91-100,Lightfoot halfing
+
+:SM_Werewolf_Class
+01-15,cleric of [Religion.Evil Gods]
+16-25,druid
+26-60,fighter
+61-75,ranger
+76-90,rogue
+91-100,sorcerer
+
+:SM_Uthgardt_Leader
+1,a [SM_Uthgardt_Class] of {Dice~1d6+2} level
+2,a [SM_Uthgardt_Class] of {Dice~1d6+2} level and a [SM_Uthgardt_Class] of {Dice~1d6+2} level
+
+:SM_Uthgardt_Class
+01-50,barbarian
+51-65,cleric
+66-75,druid
+76-85,ranger
+86-90,rogue
+91-100,sorcerer
+
+:SM_Bandit_Leader
+1,a [SM_Bandit_Class] of {Dice~1d4+3} level
+2,a [SM_Bandit_Class] of {Dice~1d4+3} level and a [SM_Bandit_Class] of {Dice~1d4+3} level
+
+:SM_Bandit_Class
+01-15,cleric of [Religion.Evil Gods]
+16-40,fighter
+41-60,rogue
+61-70,sorcerer
+71-100,warrior
+
+:SM_Bandit_Race
+01-10,Dwarf
+11-70,Human
+71-100,Half orc
+
+:SM_Merchant_Leader
+1,a [SM_Merchant_Class] of {Dice~1d4+1} level
+2,a [SM_Merchant_Class] of {Dice~1d4+1} level and a [SM_Bandit_Class] of {Dice~1d4+3} level
+
+
+:SM_Merchant_Race
+01-20,Shield dwarf
+21-25,Moon elf
+26-75,Human
+76-85,Lightfoot halfling
+86-95,Half-orc
+96-100,Rock gnome
+
+:SM_Merchant_Class
+01-10,cleric of [Religion.Deities]
+11-35,fighter
+36-55,rogue
+56-60,wizard
+61-75,warrior
+76-100,expert
+
+:SM_Patrol_Rauvin
+01-75,Argent Legion Patrol: {Dice~1d4+4} 1st level warriors, led by [SM_Argent_Leader], mounted on light warhorses and armed with lances, crossbows, and longswords
+76-100,Wood elf patrol: {Dice~1d4+4} 1st level warriors, {Dice~1d2} level {Dice~1d3+1} rogues, {Dice~1d2} level {Dice~1d3+1} sorcerers, led by a level {Dice~1d4+3} [SM_Elf_Class] (some patrols may include Moon or Sun elves)
+
+:SM_Patrol_Sundabar
+01-40,Shield Dwarf Patrol:{Dice~1d4+4} 1st level warriors, {Dice~1d2} level {Dice~1d3} clerics, led by a level {Dice~1d4+2} [FR_Misc.Dwarf_Class]
+41-100,Argent Legion Patrol: {Dice~1d4+4} 1st level warriors, led by [SM_Argent_Leader], mounted on light warhorses and armed with lances, crossbows, and longswords
+
+:SM_Elf_Class
+01-10,cleric of [Religion.Elf Gods]
+11-20,druid
+21-50,fighter
+51-75,ranger
+76-80,rogue
+81-90,sorcerer
+91-100,wizard
+
+:SM_ArcticDwarf_Class
+01-50,barbarian
+51-65,cleric of [Religion.Dwarf Gods]
+66-75,druid
+76-80,fighter
+81-95,ranger
+96-100,rogue
+
+:SM_Argent_Leader
+1, a level {Dice~1d4+1} [SM_Argent_Leader_Class]
+2, a level {Dice~1d4+1} [SM_Argent_Leader_Class] and a level {Dice~1d4+1} [SM_Argent_Leader_Class]
+3, a level {Dice~1d4+1} [SM_Argent_Leader_Class], a level {Dice~1d4+1} [SM_Argent_Leader_Class], and a a level {Dice~1d4+1} [SM_Argent_Leader_Class]
+
+:SM_Argent_Leader_Class
+01-20,cleric of [Religion.Deities]
+21-60,fighter
+61-70,paladin of [Religion.Deities]
+71-80,ranger
+81-90,sorcerer
+91-100,wizard
+
+:SM_Moonlands_Dragon
+01-10,Fang, juvenile (MoF)
+11-18,Gold, young
+19-45,Red, young
+46-55,Shadow, juvenile (MoF)
+56-100,White, young adult
+
+:SM_Evermoors_Dragon
+01-10,Black, young (clutch of {Dice~1d4+1})
+11-20,Black, old
+21-45,Red, juvenile
+46-52,Shadow, young (MoF)
+53-61,White, young (clutch of {Dice~1d4+1})
+62-95,White, old
+96-98,Dracolich, White adult (FRCS)
+98-100,Dracolich, red young adult (FRCS)
+
+:SM_HighForest_Dragon
+01-15,White, young adult
+16-25,Gold, young
+26-45,Green, young (clutch of {Dice~1d4+1})
+46-85,Green, young adult
+86-96,Song, juvenile (MoF)
+97-100,Dracolich, green young adult (FRCS)
+
+:SM_Moonwood_Dragon
+01-30,White, young adult
+31-35,Gold, young
+36-45,Green, young (clutch of {Dice~1d4+1})
+46-70,Green, young adult
+71-85,Red, juvenile
+86-94,Song, juvenile (MoF)
+95-98,Dracolich, green young adult (FRCS)
+99-100,Dracolich, juvenile red (FRCS)
+
+:SM_Nether_Dragon
+01-10,Blue, adult
+11-19,Copper, adult
+20-39,Fang, mature adult (MoF)
+40-47,Gold, young adult
+48-59,Red, young adult
+60-69,Silver, young adult
+70-96,White, old
+97-98,Dracolich, red young adult (FRCS)
+99-100,Dracolich, white mature adult (FRCS)
+
+:SM_Spine_Dragon
+01-22,Fang, old (MoF)
+23-28,Gold, adult
+29-39,Red, adult
+40-45,Silver, adult
+46-60,White, juvenile (clutch of {Dice~1d4+1})
+61-95,White, old
+96-97,Dracolich, red adult (FRCS)
+98-100,Dracolich, white mature adult (FRCS)

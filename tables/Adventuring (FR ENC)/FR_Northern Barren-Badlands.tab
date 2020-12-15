@@ -1,0 +1,145 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder Oct 30, 2003.
+# ---------------------------------------------------
+#
+# SMS
+# 06/25/03
+# Forgotten Realms Table 48: Northern Barren/Badlands (EL 3-9) random encounter tables
+#
+# Corrected by Valminder, Oct 2003
+#   -{If~} and {Dice~}
+#
+#Variables
+
+%Region%,0
+%Time%,0
+%Temp%,0
+
+#Parameters
+
+@Time,1,Select a time of day,Day,Night
+@Region,0,Select a value for region (1=Anauroch 2=Tortured Land)
+
+#
+#  Starts by putting up the instructions
+#
+
+:Start
+1,{If~%Region% = 0 ? [Instructions]/[Northern Barren %Time%]}
+
+;Instructions
+1,<b>Forgotten Realms Table 48: Northern Barren/Badlands (EL 3-9)</b></br></br><h3>Instructions:</h3>
+_<b>Determine whether an encounter should occur before using this table. The chance of an encounter is based on terrain type and travel (chance per hour):</b><br>
+_<table border=1><tr><th>Terrain</th><th>Normal Travel</th><th>Cautious Travel</th><th>Hiding</th></tr>
+_<tr><td>Desolate/wasteland</td><td>5/%</td><td>2/%</td><td>1/%</td></tr>
+_<tr><td>Frontier/wilderness</td><td>8/%</td><td>4/%</td><td>2/%</td></tr>
+_<tr><td>Verdant/civilized area</td><td>10/%</td><td>5/%</td><td>2/%</td></tr>
+_<tr><td>Heavily traveled</td><td>12/%</td><td>6/%</td><td>3/%</td></tr>
+_</table>
+_<ol><li>Use the Parameter Box (below) to indicate whether it is day or night.</li>
+_<li>Then indicate whether the region is <font color=blue><b>1)</b> Anauroch or <b>2)</b> the Tortured Land</li></ul><br></font>
+
+# 1 corresponds to time="Day"
+:Northern Barren 1
+01,Annis (hag)
+02-04,Arctic Dwarf Hunters: {Dice~1d4+4} 1st level warriors, {Dice~1d3+1} level {Dice~1d3+3} barbarians
+05-07,Barghest Pack: {Dice~1d2} barghest and {Dice~1d4+4} goblins
+08-09,{Dice~1d3+1} Bugbear
+10-13,{Dice~1d2} Dire lion
+14,{Dice~1d10+10} Dire rat
+15-16,{Dice~1d2} Dire tiger
+17-20,{Dice~1d4+4} Dire wolf
+21-28,Dragon: [NB_Dragon]
+29-33,{Dice~1d4} Ettin
+34-39,Frost Giant
+40-42,Frost worm
+43-45,{Dice~1d3+1} Gargoyle
+46,Greenhag
+47-52,{Dice~1d2} Hill Giant
+53-54,{Dice~1d3+1} Hell hound
+55,{Dice~1d2} Hellcat (devil)
+56-57,Ibrandlin (MoF)
+58-62,{Dice~1d3} Ice serpent (MoF)
+63-65,{Dice~1d4+1} Kir-lanan gargoyle (FRCS)
+66-67,{Dice~1d2} Lamia
+68-74,[NB_Local]
+75-80,Nomads (human Nar tribesmen, barbarians from the Ride, Shaar horsemen, or Tuigan bands): {Dice~1d4+2} 1st level warriors led by [FR_Misc.Nomad_Leader], all mounted on light warhorses
+81-83,{Dice~1d4+4} Ogre
+84-88,Orc Patrol: {Dice~1d4+4} orcs, {Dice~1d2} level {Dice~1d3} orc barbarians, led by level {Dice~1d4+2} [FR_Misc.Orc_Class]
+89-90,Snow tiger or Red tiger: (Red tiger is found from the Nether Mtns to the Spine of the World, the Snow tiger is found in Rashemen and its coloring changes with the seasons) 
+91-93,Troll
+94-97,{Dice~1d6+3} Animal: wolf
+98-100,{Dice~1d4} Worg
+
+# 2 corresponds to time="Night"
+:Northern Barren 2
+01,Allip
+02,Annis (hag)
+03,Baneguard (MoF)
+04-05,Barghest Pack: {Dice~1d2} barghest and {Dice~1d4+4} goblins
+06-07,{Dice~1d3+1} Bugbear
+08-10,{Dice~1d2} Darkenbeast
+11-14,{Dice~1d4+4} Dire bat
+15-16,{Dice~1d2} Dire lion
+17,{Dice~1d10+10} Dire rat
+18-19,{Dice~1d2} Dire tiger
+20-21,{Dice~1d4+4} Dire wolf
+22-29,Dragon: [NB_Dragon]
+30-31,Dread warrior (MoF)
+32-35,{Dice~1d4} Ettin
+36-39,Frost Giant
+40-43,Frost worm
+44-45,{Dice~1d3+1} Gargoyle
+46-47,{Dice~1d3+1} Ghast
+48-50,{Dice~1d3+3} Ghoul
+51,Greenhag (hag)
+52-55,{Dice~1d2} Hill Giant
+56-57,{Dice~1d3+1} Hell hound
+58-59,{Dice~1d2} Hellcat (devil)
+60,{Dice~1d2} Hound archon (celestial)
+61,Ibrandlin (MoF)
+62-64,{Dice~1d3} Ice serpent (MoF)
+65-66,{Dice~1d4+1} Kir-lanan gargoyle (FRCS)
+67-68,{Dice~1d2} Lamia
+69-75,[NB_Local]
+76,Nightmare
+77-78,Nomads (human Nar tribesmen, barbarians from the Ride, Shaar horsemen, or Tuigan bands): {Dice~1d4+2} 1st level warriors led by [FR_Misc.Nomad_Leader], all mounted on light warhorses
+79-81,{Dice~1d4+4} Ogre
+82-86,Orc Patrol: {Dice~1d4+4} orcs, {Dice~1d2} level {Dice~1d3} orc barbarians, led by level {Dice~1d4+2} [FR_Misc.Orc_Class]
+87,{Dice~1d6} Shadow
+88-89,{Dice~1d2} Shadow mastiff
+90,Snow tiger or Red tiger: (Red tiger is found from the Nether Mtns to the Spine of the World, the Snow tiger is found in Rashemen and its coloring changes with the seasons) 
+91-93,Troll
+94,{Dice~1d3+1} Vampire spawn
+95-96,{Dice~1d4+1} Vargouille
+97,{Dice~1d6} Wight
+98,{Dice~1d4} Worg
+99,{Dice~1d3} Wraith
+100,{Dice~1d4+6} Zombie, medium
+
+:NB_Local
+01-50,Local creatures: [NB_Local%Region%]
+51-100,<b>NPCs:</b><br>{Loop~{Dice~1d3+2},[FR_Random_NPC.FR_SM_NPC]}
+
+#Anauroch local creatures when Region = 1
+:NB_Local1
+01-35,{Dice~1d4+1} Asabi (MoF)
+36-55,Bedine Band (usually Chaotic Good): scouting group of {Dice~1d3+1} 1st level warriors, {Dice~1d2} level {Dice~1d3+2} rangers, led by level {Dice~1d3+1} [FR_Misc.Bedine_Class], mounted on camels
+56-70,Shadovar Patrol (usually Neutral Evil): {Dice~1d4+4} 1st level human fighters, {Dice~1d2} level {Dice~1d4} human fighters, {Dice~1d2} level {Dice~1d6} human sorcerer, led by [FR_Misc.Shade_Leader]
+_{If~{Dice~1d100} < 26 ? mounted on dire bats/}
+71-100,{Dice~1d4+1} Stingtail (asabi) (MoF)
+
+#Tortured Land local creatures when Region = 2
+:NB_Local2
+01-25,Destrachan
+26-45,Gray render
+46-65,Remorhaz
+66-100,{Dice~1d4+2} Rast
+
+:NB_Dragon
+01,Dracolich: Brown, juvenile
+02-45,Brown, young adult (MoF)
+46-55,Copper, young adult
+56-60,Gold, juvenile
+61-99,White, adult
+100,Dracolich, White, young adult (FRCS)

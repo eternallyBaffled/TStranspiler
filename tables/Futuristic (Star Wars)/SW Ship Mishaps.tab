@@ -1,0 +1,612 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder Jan 20, 2006.
+# ---------------------------------------------------
+#
+# Starship Mishaps
+#
+# Randomly creates a starship problem, includes repair times and DCs.
+#
+# Created by Patrick Hodak
+# Last Updated: 10-04-05
+#
+#
+# Modified by Valminder, Jan 2006.
+#    Adapted for TSv5.
+#    Added computer's error messages for some mishaps:
+#       "Calc Error" subtable.
+#    Added link to:
+#       Gizmosis.Start
+#
+
+%PC%,0
+
+:Start
+1,[Drive Systems]
+2,[Environmental]
+3,[Shield Generator]
+4,[Computer Systems]
+5,[Weapon Systems]
+6,[Power Core]
+7,[SenCom System]
+8,[Miscellaneous]
+9,[Area Specific]
+
+:Drive Systems
+1-5,<u>Main Hyperdrive malfunction</u></br>
+_The main engine. Greatly reduces travel time.</br>
+_<b>Computer reads:</b> [~Calc Error]<br>
+_<b>Good News: </b>A full engine servicing should fix the problem
+_ without needing to purchase new parts. Until then, speed is slightly decreased.</br>
+_<b>Bad News: </b>A full servicing will still take a while.</br>
+_<b>Effect: </b>Double (X2) the hyperdrive multiple until fixed.</br>
+_<b>Repair DC: </b>10 <b>Parts Cost: </b>Minimal </br><b>Time to repair: </b>{Dice~1d60} minutes </br>[RepairCheck=1]
+6-10,<u>Hyperdrive Cooling System malfunction</u></br>
+_Controls Engine heat. May cause fires if malfunctioning.</br>
+_<b>Computer reads:</b> [~Calc Error]<br>
+_<b>Good News: </b>The engine still works.</br>
+_<b>Bad News: </b>The engine randomly cuts out. Will require 
+_ servicing and possibly new parts. Further use may damage engine.</br>
+_<b>Effect: </b>[Fire]</br>
+_<b>Repair DC: </b>10 <b>Parts Cost: </b>Minimal </br><b>Time to repair: </b>{Dice~1d60} minutes</br>[RepairCheck=1]
+11-12,<u>Radiation Dissipation System malfunction.</u></br>
+_Expels radiation from the ship's interior.</br>
+_<b>Computer reads:</b> [~Calc Error]<br>
+_<b>Good News: </b>The engine still works.</br>
+_<b>Bad News: </b>Radiation will spread throughout the ship unless
+_ the system is repaired or the engine is stopped. May require new parts.</br>
+_<b>Effect: </b>[Rad]</br>
+_<b>Repair DC: </b>10 <b>Parts Cost: </b>Minimal </br><b>Time to repair: </b>{Dice~1d60} minutes</br>[RepairCheck=1]
+13-14,<u>Main Hyperdrive damaged.</u></br>
+_The main engine. Greatly reduces travel time.</br>
+_<b>Computer reads:</b> [~Calc Error]<br>
+_<b>Good News: </b>The engine does not need to be replaced entirely.</br>
+_<b>Bad News: </b>The engine will certainly need new parts, and this
+_ might get expensive. Extended use may further damage engine. Large speed decrease.</br>
+_<b>Effect: </b>Quadruple (X4) the speed until fixed. [Fire]</br>
+_<b>Repair DC: </b>15 <b>Parts Cost: </b>One tenth engine cost </br><b>Time to repair: </b>{Dice~1d6} hours </br>[RepairCheck=2]
+15,<u>Main Hyperdrive severely damaged.</u></br>
+_The main engine. Greatly reduces travel time.</br>
+_<b>Good News: </b>Well, you're not dead.</br>
+_<b>Bad News: </b>The engine needs a complete overhaul. It might be cheaper to buy a new engine.</br>
+_<b>Effect: </b>Engine is inoperable. [Fire]</br>
+_<b>Repair DC: </b>25 <b>Parts Cost: </b>One half component cost (or new component) </br><b>Time to repair: </b>{Dice~1d6} days </br>[RepairCheck=3]
+16-20,<u>Backup Hyperdrive slightly damaged.</u></br>
+_Only used when Main Hyperdrive is unusable.</br>
+_<b>Good News: </b>Its only the backup system.</br>
+_<b>Bad News: </b>If your Primary system is down too, this won't help matters much.</br>
+_<b>Effect: </b>Double (X2) the speed until fixed. [Fire]</br>
+_<b>Repair DC: </b>10 <b>Parts Cost: </b>Minimal </br><b>Time to repair: </b>{Dice~1d60} minutes </br>[RepairCheck=1]
+21,<u>Backup Hyperdrive severely damaged.</u></br>
+_Only used when Main Hyperdrive is unusable.</br>
+_<b>Good News: </b>Its only the backup system.</br>
+_<b>Bad News: </b>If your Primary system is down too, you're screwed. 
+_ Better cannibalize the one of the systems to get the other to work.</br>
+_<b>Effect: </b>Engine inoperable. [Fire]</br>
+_<b>Repair DC: </b>25 <b>Parts Cost: </b>One half component cost (or new component) </br><b>Time to repair: </b>{Dice~1d6} days </br>[RepairCheck=3]
+22-26,<u>Sublight Engine malfunction</u></br>
+_Used for all regular maneuvers while in normal space.</br>
+_<b>Computer reads:</b> [~Calc Error]<br>
+_<b>Good News: </b>Make good use of your maneuvering jets if docking
+_ with a spaceport. Otherwise, find a good dirtside port.</br>
+_<b>Bad News: </b>This will make combat difficult</br>
+_<b>Effect: </b>Speed drops by half.</br>
+_<b>Repair DC: </b>10 <b>Parts Cost: </b>Minimal </br><b>Time to repair: </b>{Dice~1d60} minutes </br>[RepairCheck=1]
+27-31,<u>Sublight Engine Failure</u></br>
+_Used for all regular maneuvers while in normal space.</br>
+_<b>Computer reads:</b> [~Calc Error]<br>
+_<b>Good News: </b>Make good use of your maneuvering jets if docking
+_ with a spaceport. Otherwise, find a good dirtside port.</br>
+_<b>Bad News: </b>Engine will need to be replaced.</br>
+_<b>Effect: </b>Ship cannot perform maneuvers. [Fire]</br>
+_<b>Repair DC: </b>25 <b>Parts Cost: </b>One half component cost (or new component) </br><b>Time to repair: </b>{Dice~1d6} days </br>[RepairCheck=3]
+32-36,<u>[Side] Maneuvering Thruster Malfunction</u></br>
+_Used for fine maneuvers in normal space. Includes spaceport docking.</br>
+_<b>Computer reads:</b> [~Calc Error]<br>
+_<b>Good News: </b>You can still dock dirtside.</br>
+_<b>Bad News: </b>Docking anywhere else will be very difficult if not impossible.</br>
+_<b>Effect: </b>Advanced maneuvers are impossible. Ship-to-ship docking will require a Piloting check at -4.</br>
+_<b>Repair DC: </b>10 <b>Parts Cost: </b>Minimal </br><b>Time to repair: </b>{Dice~1d60} minutes </br>[RepairCheck=1]
+37-41,<u>Repulsor Anti-Grav System Malfunction</u></br>
+_Regulations mandate the use of Anti-Grav within planetary atmosphere.</br>
+_<b>Computer reads:</b> [~Calc Error]<br>
+_<b>Good News: </b>You can still dock at a spaceport.</br>
+_<b>Bad News: </b>Docking dirtside will be a violation of interplanetary codes, if not impossible.
+_ Just make sure your sublight drive and thrusters are working.</br>
+_<b>Effect: </b>Docking planetside will require a Piloting check with a -4 penalty.</br>
+_<b>Repair DC: </b>10 <b>Parts Cost: </b>Minimal </br><b>Time to repair: </b>{Dice~1d60} minutes </br>[RepairCheck=1]
+42-46,<u>Internal Stabilizer Damaged</u></br>
+_Makes maneuvers smooth and relatively vibration free.</br>
+_<b>Computer reads:</b> [~Calc Error]<br>
+_<b>Good News: </b>A moderate inconvenience at best.</br>
+_<b>Bad News: </b>Actions aboard the ship become a little more difficult.</br>
+_<b>Effect: </b>All checks and attack suffer a -2 penalty. [Fire]</br>
+_<b>Repair DC: </b>10 <b>Parts Cost: </b>Minimal </br><b>Time to repair: </b>{Dice~1d60} minutes </br>[RepairCheck=1]
+
+:Environmental
+1-5,<u>Gravometric Converter Failure on [PCT] of ship.</u></br>
+_Controls onboard, artificial gravity.</br>
+_<b>Computer reads:</b> [~Calc Error]<br>
+_<b>Good News: </b>A minor inconvenience if nothing else is going on.</br>
+_<b>Bad News: </b>Manuevering around inside is difficult without magnetic boots</br>
+_<b>Effect: </b>Crew members without mag boots suffer a -2 penalty on all checks and attacks. [Fire]</br>
+_<b>Repair DC: </b>15 <b>Parts Cost: </b>One tenth converter cost </br><b>Time to repair: </b>{Dice~1d6} hours </br>[RepairCheck=2]
+6-10,<u>Lighting Failure on [PCT] of ship.</u></br>
+_Creates effective lighting.</br>
+_<b>Computer reads:</b> [~Calc Error]<br>
+_<b>Good News: </b>Its only darkness.</br>
+_<b>Bad News: </b>Space is quite dark also. Bring a glowrod.</br>
+_<b>Effect: </b>Crew members are subject to appropriate darkness penalties. [Fire]</br>
+_<b>Repair DC: </b>15 <b>Parts Cost: </b>Minimal </br><b>Time to repair: </b>{Dice~1d6} hours </br>[RepairCheck=2]
+7-8,<u>Alluvial Damper Failure.</u></br>
+_Softens the effects of Hyperspace travel. A Necessity.</br>
+_<b>Computer reads:</b> [~Calc Error]<br>
+_<b>Good News: </b>Shouldn't be a problem as long as hyperdrive is not engaged.</br>
+_<b>Bad News: </b>As a safety precaution, the hyperdrive will not activate in this state.</br>
+_<b>Effect: </b>(Safety Override): If the hyperdrive does activate, everyone will be splattered against the interior walls.</br>
+_<b>Repair DC: </b>15 <b>Parts Cost: </b>One tenth component cost </br><b>Time to repair: </b>{Dice~1d6} hours </br>[RepairCheck=2]
+9-13,<u>Air Filter and CO2 Srubber Failure.</u></br>
+_Keeps air breathable.</br>
+_<b>Computer reads:</b> [~Calc Error]<br>
+_<b>Good News: </b>You'll still be able to breath the remaining air supply.</br>
+_<b>Bad News: </b>Air supply consumption will double.</br>
+_<b>Effect: </b>[Fire]</br>
+_<b>Repair DC: </b>15 <b>Parts Cost: </b>One tenth component cost </br><b>Time to repair: </b>{Dice~1d6} hours </br>[RepairCheck=2]
+14-18,<u>Barometric Regulator Failure.</u></br>
+_Keep the pressure effects of space to a bare minimum.</br>
+_<b>Computer reads:</b> [~Calc Error]<br>
+_<b>Good News: </b>The hull may not be entirely compromised.</br>
+_<b>Bad News: </b>Breathing is laborious. Overall, very uncomfortable.</br>
+_<b>Effect: </b>Crewmembers will suffer a -2 penalty on all checks if subjected to this condition for more than 4 rounds. [Fire]</br>
+_<b>Repair DC: </b>15 <b>Parts Cost: </b>One tenth component cost </br><b>Time to repair: </b>{Dice~1d6} hours </br>[RepairCheck=2]
+19-23,<u>Waste Disposal Unit Failure.</u></br>
+_Clears the waste at a spaceport. Jettisons the waste in mid-space.</br>
+_<b>Computer reads:</b> [~Calc Error]<br>
+_<b>Good News: </b>Something far more worse could have occurred.</br>
+_<b>Bad News: </b>Call the plumber, this could get messy.</br>
+_<b>Effect: </b>Crewmembers suffer a -2 penalty to Taking a Dump, but gain +2 to Projectile Vomiting</br>
+_<b>Repair DC: </b>10 <b>Parts Cost: </b>Minimal </br><b>Time to repair: </b>{Dice~1d6} hours </br>[RepairCheck=2]
+24-28,<u>Thermostatic Regulator Failure.</u></br>
+_The temperature gauge and subsequent heating/cooling system</br>
+_<b>Computer reads:</b> [~Calc Error]<br>
+_<b>Good News: </b>May not be life threatening.</br>
+_<b>Bad News: </b>Hope you have plenty of blankets.</br>
+_<b>Effect: </b>See Page 287 under "Heat and Cold" for appropriate penalties. [Fire]</br>
+_<b>Repair DC: </b>15 <b>Parts Cost: </b>Minimal </br><b>Time to repair: </b>{Dice~1d6} hours </br>[RepairCheck=2]
+
+:Shield Generator
+1,<u>Particle Shield Generator Failure</u></br>
+_Protects ship from small spatial objects (debris, etc.). Essential.</br>
+_<b>Computer reads:</b> [~Calc Error]<br>
+_<b>Good News: </b>The ship should be safe at low speeds. Hyperdrive systems are unaffected by this.</br>
+_<b>Bad News: </b>As a precaution, the ion engines will only engage at the maximum safe speed.</br>
+_<b>Effect: </b>(Safety Override): At high speeds, ship will begin taking damage at a rate determined by the GM. [Fire]</br>
+_<b>Repair DC: </b>20 <b>Parts Cost: </b>One fifth component cost </br><b>Time to repair: </b>{Dice~1d6} hours </br>[RepairCheck=2]
+2-6,<u>[PCT] Deflector Shield Generator Failure</u></br>
+_Protects ship from laser cannon attacks.</br>
+_<b>Computer reads:</b> [~Calc Error]<br>
+_<b>Good News: </b>You can do without it until its repaired.</br>
+_<b>Bad News: </b>Just don't piss anyone off until its fixed.</br>
+_<b>Effect: </b>Percentage less effective. [Fire]</br>
+_<b>Repair DC: </b>15 <b>Parts Cost: </b>One tenth component cost </br><b>Time to repair: </b>{Dice~1d6} hours </br>[RepairCheck=2]
+7-8,<u>Massive Deflector Shield Failure</u></br>
+_Deflector Shield is toast. Disengage from skirmishes when possible.</br>
+_<b>Computer reads:</b> [~Calc Error]<br>
+_<b>Good News: </b>May still be repairable.</br>
+_<b>Bad News: </b>Its gonna take time and money. Shields do not recover
+_ until fully repaired. You'll probably have to land to fix it.</br>
+_<b>Effects: </b>Shields reduced to zero. [Fire]</br>
+_<b>Repair DC: </b>25 <b>Parts Cost: </b>One half component cost (or new component) </br><b>Time to repair: </b>{Dice~1d6} days </br>[RepairCheck=3]
+9-13,<u>Magnetic Shield Generator Damaged</u></br>
+_The ship's cargo bay shield.</br>
+_<b>Computer reads:</b> [~Calc Error]<br>
+_<b>Good News: </b>You're OK as long as there is a sealed hatch.</br>
+_<b>Bad News: </b>Your cargo is as good as gone otherwise. Hull integrity may be compromised.</br>
+_<b>Repair DC: </b>15 <b>Parts Cost: </b>One tenth component cost </br><b>Time to repair: </b>{Dice~1d6} hours </br>[RepairCheck=2]
+
+:Computer Systems
+1-5,<u>Navigation Computer Malfunction</u></br>
+_The NavCom is buggy. Randomly freezes.</br>
+_<b>Nav computer reads:</b> [~Calc Error2]<br>
+_<b>Good News: </b>Still works, just not as well.</br>
+_<b>Bad News: </b>Astrogation will take a bit longer.</br>
+_<b>Effect: </b>Crewmembers suffer a -2 penalty on Astrogation checks.</br>
+_<b>Repair DC: </b>10 <b>Parts Cost: </b>Minimal </br><b>Time to repair: </b>{Dice~1d60} minutes </br>[RepairCheck=1]
+6-7,<u>Navigation Computer Failure</u></br>
+_The NavCom won't even boot up. Currently unusable.</br>
+_<b>Nav computer reads:</b> [~Calc Error2]<br>
+_<b>Good News: </b>Many races can astrogate without a computer.</br>
+_<b>Bad News: </b>Its just going to take a while to do so.</br>
+_<b>Effect: </b>Consult table 11-2 on Page 205 for appropriate astrogation DC. [Fire]</br>
+_<b>Repair DC: </b>20 <b>Parts cost: </b>1/2 Component cost (or new component) </br><b>Time to repair: </b>{Dice~1d6} days </br>[RepairCheck=3]
+8-12,<u>Minor Life Support System Malfunction</u></br>
+_One of the environmental systems is slightly miscalibrated.</br>
+_<b>Computer reads:</b> [~Calc Error]<br>
+_<b>Good News: </b>Not serious. Just annoying.</br>
+_<b>Bad News: </b>Consider yourself lucky.</br>
+_<b>Effect: </b>Crewmembers suffer a -1 to all skill checks.</br>
+_<b>Repair DC: </b>10 <b>Parts Cost: </b>Minimal </br><b>Time to repair: </b>{Dice~1d60} minutes </br>[RepairCheck=1]
+13-14,<u>Moderate Life Support System Malfunction</u></br>
+_One or more of the environmental systems is out of whack.</br>
+_<b>Computer reads:</b> [~Calc Error]<br>
+_<b>Good News: </b>Severity ranges from inconvenient to problematic.</br>
+_<b>Bad News: </b>Has the possibility of being a serious problem.</br>
+_<b>Effect: </b>Crewmembers suffer a -2 to all skill checks.</br>
+_<b>Repair DC: </b>15 <b>Parts Cost: </b>One tenth component cost </br><b>Time to repair: </b>{Dice~1d6} hours </br>[RepairCheck=2]
+15,<u>Major Life Support System Malfunction</u></br>
+_Multiple environmental systems are going crazy.</br>
+_<b>Computer reads:</b> [~Calc Error]<br>
+_<b>Good News: </b>Bad Mojo. Get some vacuum suits and fix it quick.</br>
+_<b>Bad News: </b>Some serious problems may arise due to this failure.</br>
+_<b>Effect: </b>Crewmembers suffer a -4 to all skill checks. [Fire]</br>
+_<b>Repair DC: </b>20 <b>Parts Cost: </b>1/5 component cost </br><b>Time to repair: </b> {Dice~1d6} hours </br>[RepairCheck=2]
+16-20,<u>General Diagnostics System Malfunction</u></br>
+_This systems checks for problems in all other systems linked to it.</br>
+_<b>Computer reads:</b> [~Calc Error]<br>
+_<b>Good News: </b>Not a major problem in and of itself.</br>
+_<b>Bad News: </b>Will make finding other ship problems difficult.</br>
+_<b>Effect: </b>Crewmembers suffer a -2 penalty on Search checks to find other problems.</br>
+_<b>Repair DC: </b>10 <b>Parts Cost: </b>Minimal </br><b>Time to repair: </b>{Dice~1d60} minutes </br>[RepairCheck=1]
+21-22,<u>General Diagnostics System Failure</u></br>
+_This systems checks for problems in all other systems linked to it.</br>
+_<b>Computer reads:</b> [~Calc Error]<br>
+_<b>Good News: </b>Could become a problem.</br>
+_<b>Bad News: </b>Will make finding other ship problems very difficult.</br>
+_<b>Effect: </b>Crewmembers suffer a -4 penalty on Search checks to find other problems. [Fire]</br>
+_<b>Repair DC: </b>20 <b>Parts cost: </b>1/5 Component cost (or new component) </br><b>Time to repair: </b>{Dice~1d6} hours </br>[RepairCheck=2]
+
+:Weapon Systems
+1-5,<u>Fire Control System Malfunction</u></br>
+_The computer targetting system is buggy.</br>
+_<b>Computer reads:</b> [~Calc Error]<br>
+_<b>Good News: </b>The system is still working, just not real well.</br>
+_<b>Bad News: </b>The benefit of the system is reduced.</br>
+_<b>Effect: </b>Subtract 2 points from the fire control bonus.</br>
+_<b>Repair DC: </b>10 <b>Parts Cost: </b>Minimal </br><b>Time to repair: </b>{Dice~1d60} minutes </br>[RepairCheck=1]
+6-7,<u>Fire Control System Failure</u></br>
+_The computer targetting system is not working.</br>
+_<b>Computer reads:</b> [~Calc Error]<br>
+_<b>Good News: </b>The weapon still works.</br>
+_<b>Bad News: </b>The targetting computer is fried.</br>
+_<b>Effect: </b>The fire control bonus becomes zero. [Fire]</br>
+_<b>Repair DC: </b>15 <b>Parts cost: </b>1/10 Component cost </br><b>Time to repair: </b>{Dice~1d6} hours </br>[RepairCheck=2]
+8-12,<u>Turret control system malfunction</u></br>
+_The gun turret is moving slowly.</br>
+_<b>Computer reads:</b> [~Calc Error]<br>
+_<b>Good News: </b>The weapon still works.</br>
+_<b>Bad News: </b>Targetting ships in other quadrants becomes more difficult.</br>
+_<b>Effect: </b>-2 penalty to hit targets in other quadrants.</br>
+_<b>Repair DC: </b>10 <b>Parts Cost: </b>Minimal </br><b>Time to repair: </b>{Dice~1d60} minutes </br>[RepairCheck=1]
+13-14,<u>Turrent control system Failure</u></br>
+_The gun turret is locked in its current position.</br>
+_<b>Computer reads:</b> [~Calc Error]<br>
+_<b>Good News: </b>No penalty for attacking targets in current quadrant.</br>
+_<b>Bad News: </b>Cannot attack targets in other quadrants.</br>
+_<b>Effect: </b>See Bad News. [Fire]</br>
+_<b>Repair DC: </b>15 <b>Parts cost: </b>1/10 Component cost </br><b>Time to repair: </b>{Dice~1d6} hours </br>[RepairCheck=2]
+15-19,<u>Cannon Cooling System Failure</u></br>
+_Cannon cooling system is damaged.</br>
+_<b>Computer reads:</b> [~Calc Error]<br>
+_<b>Good News: </b>Cannon still usable, but run the risk of overheating.</br>
+_<b>Bad News: </b>Extended use may melt barrel, rendering cannon useless.</br>
+_<b>Effect: </b>[Fire]</br>
+_<b>Repair DC: </b>15 <b>Parts Cost: </b>One tenth component cost </br><b>Time to repair: </b>{Dice~1d6} hours </br>[RepairCheck=2]
+20-24,<u>Cannon Jammed</u></br>
+_Self Explanatory.</br>
+_<b>Computer reads:</b> [~Calc Error]<br>
+_<b>Good News: </b>A quick fix.</br>
+_<b>Bad News: </b>Further attempts to fire cannon may trigger explosion/backfire.</br>
+_<b>Repair DC: </b>10 <b>Parts Cost: </b>Minimal </br><b>Time to repair: </b>{Dice~1d60} minutes </br>[RepairCheck=1]
+
+:Power Core
+1-10,<u>Minor Power Core Malfunction</u></br>
+_There is a short somewhere along the power cable. 1 or 2 systems affected.</br>
+_<b>*NOTE: All individual repair checks are overridden by this problem.</b></br>
+_<b>Good News: </b>A power cable is easily fixed with electrical tape.</br>
+_<b>Bad News: </b>Systems Affected: </br><hr>|PC={Dice~1d2}| [PCSys=%PC%]<hr>
+_<b>*Repair DC: </b>10 <b>Parts Cost: </b>Minimal </br><b>Time to repair: </b>{Dice~1d60} minutes </br>[RepairCheck=1]
+11-15,<u>Moderate Power Core Malfunction</u></br>
+_A power cable has been severed. 2 to 4 systems down.</br>
+_<b>*NOTE: All individual repair checks are overridden by this problem.</b></br>
+_<b>Good News: </b>Not too difficult to repair.</br>
+_<b>Bad News: </b>Systems Affected: </br><hr>|PC={Dice~1d3+1}| [PCSys=%PC%]<hr>
+_<b>*Repair DC: </b>15 <b>Parts cost: </b>1/10 Component cost (or new component) </br><b>Time to repair: </b>{Dice~1d4} hours </br>[RepairCheck=2]
+16-17,<u>Serious Power Core Malfunction</u></br>
+_A power core regulator is damaged. Multiple systems may be compromised.</br>
+_<b>*NOTE: All individual repair checks are overridden by this problem.</b></br>
+_<b>Good News: </b>The power core regulator isn't too expensive to replace.</br>
+_<b>Bad News: </b>Systems Affected: </br><hr>|PC={Dice~1d8+4}| [PCSys=%PC%]<hr>
+_<b>*Repair DC: </b>20 <b>Parts Cost: </b>One fifth component cost </br><b>Time to repair: </b>{Dice~1d6} hours </br>[RepairCheck=2]
+18,<u>Power Core Failure</u></br>
+_The power core is compromised. Destruction is imminent.</br>
+_<b>Good News: </b>You might not explode if you can eject the core.</br>
+_<b>Bad News: </b>You're probably going to die one way or another.</br>
+_<b>Effect: </b>Death if not jettisoned. [Fire]</br>
+_<b>Repair DC: </b>35 (to save), 15 (to jettison) <b>Parts Cost: </b>New component cost </br><b>Time to repair: </b>{Dice~1d6} days </br>[RepairCheck=3]
+19-23,<u>Cooling System Failure</u></br>
+_The power core cooling system is damaged.</br>
+_<b>Computer reads:</b> [~Calc Error]<br>
+_<b>Good News: </b>A complicated, but inexpensive fix.</br>
+_<b>Bad News: </b>The power core may be damaged with extended use.</br>
+_<b>Effect: </b>[Fire]</br>
+_<b>Repair DC: </b>15 <b>Parts Cost: </b>One tenth component cost </br><b>Time to repair: </b>{Dice~1d6} hours </br>[RepairCheck=2]
+24-25,<u>Leakage Containment System failure.</u></br>
+_The core is beginning to irradiate the ship.</br>
+_<b>Computer reads:</b> [~Calc Error]<br>
+_<b>Good News: </b>The power core works irregardless of the containment.</br>
+_<b>Bad News: </b>You won't be around very long if this isn't fixed.</br>
+_<b>Effect: </b>[Rad]</br>
+_<b>Repair DC: </b>15 <b>Parts Cost: </b>One tenth component cost </br><b>Time to repair: </b>{Dice~1d6} hours </br>[RepairCheck=2]
+
+:SenCom System
+1-5,<u>Sensor Array Malfunction</u></br>
+_The sensor's range is limited.</br>
+_<b>Computer reads:</b> [~Calc Error]<br>
+_<b>Good News: </b>The array is still functional and shouldn't be difficult to fix</br>
+_<b>Bad News: </b>Tracking other ships is quite a hassle.</br>
+_<b>Effect: </b>Crewmembers suffer a -2 penalty to Spot and Search checks using these sensors.</br>
+_<b>Repair DC: </b>10 <b>Parts Cost: </b>Minimal </br><b>Time to repair: </b>{Dice~1d60} minutes </br>[RepairCheck=1]
+6-7,<u>Sensor Array Failure</u></br>
+_Various sensor quadrants are down.</br>
+_<b>Computer reads:</b> [~Calc Error]<br>
+_<b>Good News: </b>The array may not need to be completely replaced.</br>
+_<b>Bad News: </b>Quadrants affected: [Quad]</br>
+_<b>Effect: </b>It is impossible to detect anything in the affected quadrants. [Fire]</br>
+_<b>Repair DC: </b>20 <b>Parts cost: </b>1/2 Component cost (or new component) </br><b>Time to repair: </b>{Dice~1d6} hours </br>[RepairCheck=2]
+8-12,<u>[PCT] Subspace Communications Malfunction</u></br>
+_Communications range is limited.</br>
+_<b>Computer reads:</b> [~Calc Error]<br>
+_<b>Good News: </b>The Coms are still usable.</br>
+_<b>Bad News: </b>Broadcasting messages long distances is difficult.</br>
+_<b>Repair DC: </b>10 <b>Parts Cost: </b>Minimal </br><b>Time to repair: </b>{Dice~1d60} minutes </br>[RepairCheck=1]
+13-14,<u>Subspace Communications Failure</u></br>
+_Messages are difficult if not impossible to decipher.</br>
+_<b>Computer reads:</b> [~Calc Error]<br>
+_<b>Good News: </b>Could be as simple as a blown speaker.</br>
+_<b>Bad News: </b>Could be as difficult as a fried receiver.</br>
+_<b>Effect: </b>The DC for deciphering communications is doubled. [Fire]</br>
+_<b>Repair DC: </b>15 <b>Parts Cost: </b>One tenth component cost <b></br>Time to repair: </b>{Dice~1d6} hours </br>[RepairCheck=2]
+15-19,<u>[PCT] Internal Communications Failure</u></br>
+_A percantage of the internal coms system is damaged.</br>
+_<b>Computer reads:</b> [~Calc Error]<br>
+_<b>Good News: </b>Internal coms are relatively inexpensive.</br>
+_<b>Bad News: </b>Might be cheaper to buy a new system.</br>
+_<b>Effect: </b>PCs won't be able to talk to one another in affected areas. [Fire]</br>
+_<b>Repair DC: </b>10 <b>Parts Cost: </b>One tenth component cost <b></br>Time to repair: </b>{Dice~1d60} minutes </br>[RepairCheck=1]
+
+:!Miscellaneous
+1-5,<u>[PCT] Door Mechanisms Malfunction</u></br>
+_A percentage of the automated doors must be opened manually.</br>
+_<b>Computer reads:</b> [~Calc Error]<br>
+_<b>Good News: </b>The button or sensor is just dirty or broken.</br>
+_<b>Bad News: </b>A minor inconveinence, though easily fixed.</br>
+_<b>Repair DC: </b>10 <b>Parts Cost: </b>Minimal </br><b>Time to repair: </b>{Dice~1d60} minutes </br>[RepairCheck=1]
+6-7,<u>[PCT] Door Mechanisms Failure</u></br>
+_A percentage of the automated doors are jammed.</br>
+_<b>Computer reads:</b> [~Calc Error]<br>
+_<b>Good News: </b>The mechanism is relatively easy to fix.</br>
+_<b>Bad News: </b>The doors are quite difficult to open until fixed.</br>
+_<b>Effect: </b>[Fire]</br>
+_<b>Repair DC: </b>15 <b>Parts Cost: </b>One tenth component cost </br><b>Time to repair: </b>{Dice~1d6} hours </br>[RepairCheck=2]
+8-9,<u>Landing Gear Failure</u></br>
+_The landing gear will not extend or retract.</br>
+_<b>Computer reads:</b> [~Calc Error]<br>
+_<b>Good News: </b>You might be able to dock with another ship.</br>
+_<b>Bad News: </b>Planetary docking will cause hull damage.</br>
+_<b>Effect: </b>[Fire]</br>
+_<b>Repair DC: </b>15 <b>Parts Cost: </b>One tenth component cost </br><b>Time to repair: </b>{Dice~1d6} hours </br>[RepairCheck=2]
+10-11,<u>Landing Gear Magnetism Failure</u></br>
+_The landing gear has lost its magnetism.</br>
+_<b>Computer reads:</b> [~Calc Error]<br>
+_<b>Good News: </b>This shouldn't effect planetary docking.</br>
+_<b>Bad News: </b>Spaceport docking will be quite difficult.</br>
+_<b>Effect: </b>[Fire]</br>
+_<b>Repair DC: </b>15 <b>Parts Cost: </b>One tenth component cost </br><b>Time to repair: </b>{Dice~1d6} hours </br>[RepairCheck=2]
+12-13,<u>CargoLift or CargoTrack Mechanism Failure</u></br>
+_Heavy cargo will be very difficult to store or remove.</br>
+_<b>Computer reads:</b> [~Calc Error]<br>
+_<b>Good News: </b>Not a large concern if vessel is not a frieghter.</br>
+_<b>Bad News: </b>You probably own a freighter. [Fire]</br>
+_<b>Effect: </b>[Fire]</br>
+_<b>Repair DC: </b>15 <b>Parts Cost: </b>One tenth component cost </br><b>Time to repair: </b>{Dice~1d6} hours </br>[RepairCheck=2]
+
+;Area Specific
+5,<u>Fire [Area]</u></br>
+_Someone will have to put the fire out before it spreads across the ship.</br>
+_<b>Good News: </b>Fires are not very difficult to put out</br>
+_<b>Bad News: </b>It still needs to be put out.</br>
+_<b>Effect: </b>[Fire=1]</br>
+5,<u>Hull Breech [Area]</u></br>
+_Internal pressure is leaked out into space.</br>
+_<b>Good News: </b>The doors should automatically seal off the room.</br>
+_<b>Bad News: </b>This will be a big problem if coupled with a door mechanism failure</br>
+_<b>Effect: </b>Pressure, oxygen, and contents (depending on size) are lost. Hull damage may occur if not sealed.</br>
+_<b>Repair DC: </b>10 (small hull breech) <b>Parts Cost: </b>Minimal </br><b>Time to repair: </b>{Dice~1d60} minutes </br>[RepairCheck=1]
+5,<u>Small Fuel Leak</u></br>
+_A small hole has opened up in the fuel line</br>
+_<b>Good News: </b>There should be enough fuel to get to the nearest Space Station to refuel</br>
+_<b>Bad News: </b>The nearest Space Station may not be the best place</br>
+_<b>Effect: </b>Ship consumes fuel at double the rate</br>
+_<b>Repair DC: </b>10 <b>Parts Cost: </b>Minimal </br><b>Time to repair: </b>{Dice~1d60} minutes </br>[RepairCheck=1]
+5,<u>Leak in the Water Reservoir</u></br>
+_A hole has opened up in the Water Line</br>
+_<b>Good News: </b>Water is inexpensive and you should have enough to get you to the next Station</br>
+_<b>Bad News: </b>You're going to get thirsty sooner or later.</br>
+_<b>Effect: </b>For extended trips, see page 287 under "Starvation and Thirst."</br>
+_<b>Repair DC: </b>15 <b>Parts Cost: </b>Minimal </br><b>Time to repair: </b>{Dice~1d60} minutes </br>[RepairCheck=1]
+
+;!Area
+1,in the Engine Room
+5,in the Commons Area
+5,in the Repair Bay
+1,at the Comm Station
+1,at the Diagnostics Station
+1,in the Cockpit
+5,at the Sensor Array
+5,in the Cargo Bay
+5,in the Storage Room
+5,in the Crew Quarters
+5,on the Exterior of the ship (if in Oxygenated atmosphere)
+
+;Quad
+4,[Quad2]
+3,[Quad2] and [Quad2]
+2,[Quad2], [Quad2], and [Quad2]
+1,All Quadrants
+
+:!Quad2
+1,Forward
+2,Rear
+3,Left
+4,Right
+
+:PCSys
+1,[SysList]</br>
+2,[SysList]</br>[SysList]</br>
+3,[SysList]</br>[SysList]</br>[SysList]</br>
+4,[SysList]</br>[SysList]</br>[SysList]</br>[SysList]</br>
+5,[SysList]</br>[SysList]</br>[SysList]</br>[SysList]</br>[SysList]</br>
+6,[SysList]</br>[SysList]</br>[SysList]</br>[SysList]</br>[SysList]</br>[SysList]</br>
+7,[SysList]</br>[SysList]</br>[SysList]</br>[SysList]</br>[SysList]</br>[SysList]</br>[SysList]</br>
+8,[SysList]</br>[SysList]</br>[SysList]</br>[SysList]</br>[SysList]</br>[SysList]</br>[SysList]</br>[SysList]</br>
+9,[SysList]</br>[SysList]</br>[SysList]</br>[SysList]</br>[SysList]</br>[SysList]</br>[SysList]</br>[SysList]</br>[SysList]</br>
+10,[SysList]</br>[SysList]</br>[SysList]</br>[SysList]</br>[SysList]</br>[SysList]</br>[SysList]</br>[SysList]</br>[SysList]</br>[SysList]</br>
+11,[SysList]</br>[SysList]</br>[SysList]</br>[SysList]</br>[SysList]</br>[SysList]</br>[SysList]</br>[SysList]</br>[SysList]</br>[SysList]</br>[SysList]</br>
+12,[SysList]</br>[SysList]</br>[SysList]</br>[SysList]</br>[SysList]</br>[SysList]</br>[SysList]</br>[SysList]</br>[SysList]</br>[SysList]</br>[SysList]</br>[SysList]</br>
+
+;!SysList
+#1,Hyperdrive
+1,Powerloss causes [Drive Systems=1]
+#2,Hyperdrive Heat Dissapation System
+1,Powerloss causes [Drive Systems=6]
+#3,Radiation Dissaption System
+1,Powerloss causes [Drive Systems=11]
+#4,Sublight Drive
+1,Powerloss causes [Drive Systems=22]
+#5,Repulsor Anti-Grav System
+1,Powerloss causes [Drive Systems=32]
+#6,Maneuvering Jets
+1,Powerloss causes [Drive Systems=37]
+#7,Gravometric Converter
+1,Powerloss causes [Environmental=1]
+#8,Air Filters and Scrubbers
+1,Powerloss causes [Environmental=9]
+#9,Alluvial Dampers
+1,Powerloss causes [Environmental=7]
+#10,Barometric Regulator
+1,Powerloss causes [Environmental=14]
+#11,Waste Disposal Unit
+1,Powerloss causes [Environmental=19]
+#12,Thermostatic Regulator
+1,Powerloss causes [Environmental=24]
+#13,NavCom
+1,Powerloss causes [Computer Systems=1]
+#14,Auto-Pilot
+1,<u>Auto-Pilot Computer System Failure</u></br>
+_The Auto-Pilot Computer is down.</br>
+_<b>Good News: </b>Not a problems if someone is at the controls.</br>
+_<b>Bad News: </b>Ship will deviate from course and heading.</br>
+#15,Particle Shield Generator
+1,Powerloss causes [Shield Generator=1]
+#16,Deflector Shield Generator
+1,Powerloss causes [Shield Generator=2]
+#17,Magnetic Shield Generator
+1,Powerloss causes [Shield Generator=9]
+#18,Individual Weapon Systems
+1,Powerloss causes [Weapon Systems=1]
+1,Powerloss causes [Weapon Systems=8]
+1,Powerloss causes [Weapon Systems=15]
+#19,SenCom Systems
+1,Powerloss causes [SenCom System]
+1,Powerloss causes [SenCom System]
+1,Powerloss causes [SenCom System]
+#Miscellaneous systems
+1,Powerloss causes [Miscellaneous]
+1,Powerloss causes [Miscellaneous]
+1,Powerloss causes [Miscellaneous]
+
+:Side
+1,Left
+2,Right
+3,Upward
+4,Downward
+5,Reverse
+6,Left and Right
+7,Left and Upward
+8,Left and Downward
+9,Left and Reverse
+10,Right and Upward
+11,Right and Downward
+12,Right and Reverse
+13,Downward and Upward
+14,Downward and Reverse
+15,Upward and Reverse
+16,All
+
+;PCT
+5,<b>10 percent</b>
+4,<b>25 percent</b>
+3,<b>50 percent</b>
+2,<b>75 percent</b>
+1,<b>90 percent</b>
+
+;Fire
+1,<b>A fire has broken out on the ship! Ref DC: </b>15 <b>DMG: </b>1d6
+9,
+
+;Rad
+10,<b>Radiation:</b> Level I (mild) <b>Fort DC:</b> 12 <b>Passed DMG:</b> 1 Con <b>Failed DMG:</b> 1 Con, 1 Str*
+2,<b>Radiation:</b> Level II (strong) <b>Fort DC:</b> 15 <b>Passed DMG:</b> 1 Con, 1 Str <b>Failed DMG:</b> {Dice~1d2} Con, {Dice~1d2} Str*
+1,<b>Radiation:</b> Level III (powerful) <b>Fort DC:</b> 18 <b>Passed DMG:</b> {Dice~1d2} Con*, {Dice~1d3} Str <b>Failed DMG:</b> {Dice~1d6} Con*, {Dice~1d4} Str*, {Dice~1d2} Cha
+
+:RepairCheck
+1,<br>**<FONT SIZE=2> House Rule: <I>Upon successful repair check, reduce the time to repair by the difference between the DC and the repair Check (in minutes). Minimum 1 minute.</I></FONT></br>
+2,<br>**<FONT SIZE=2> House Rule: <I>Upon successful repair check, reduce the time to repair by the difference between the DC and the repair Check (in minutes), multiplied by the number of hours to complete. T<SUB>f</SUB>=T<SUB>i</SUB>*60-(Check-DC)*T<SUB>i</SUB> Result in minutes.</I></FONT></br>
+3,<br>**<FONT SIZE=2> House Rule: <I>Upon successful repair check, reduce the time to repair by the difference between the DC and the repair Check (in minutes), multiplied by the number of hours to complete. T<SUB>f</SUB>=T<SUB>i</SUB>*60-(Check-DC)*(T<SUB>i</SUB>*24) Result in minutes.</I></FONT></br>
+
+# --------------------------------------------------------------------------
+# Error messages
+
+# If you add Error messages, also modify in "SW Hyperspace Time.tab"
+# if applicable
+;Calc Error
+1,ERROR: Cannot free already freed memory.
+1,ERROR: Diagnostics sequence does not exist.
+1,ERROR: Calculations out of range, cannot compute safe operation process.
+1,ERROR: Invalid Syntax.
+1,ERROR: Cannot divide by zero.
+1,ERROR: Your operating system has stopped functioning.
+1,ERROR: Cannot connect to main database.
+1,ERROR: System malfunction, please reboot (if this does not work, contact your nearest retailer).
+1,ERROR: Time elapsed determined to be negative.
+1,ERROR: Error reading drive [alpha.alphabet]:
+1,ERROR: Your system has become unstable. You can wait for the system to become stable or you can restart the computer.
+1,ERROR: Running Safe Disk. Please Wait...........20/%
+1,ERROR: System Fault. Please consult the owner's manual, PG {Dice~1d12}-{Dice~1d100}.
+1,ERROR: Unknown error, reboot system.
+1,ERROR: Cannot access database [alpha.alphabet]{Dice~1d99}[alpha.alphabet][alpha.alphabet]{Dice~1d1000}[alpha.alphabet].
+1,ERROR: Error {Dice~1d100}[alpha.alphabet][alpha.alphabet]{Dice~1d100}[alpha.alphabet][alpha.alphabet] has occured.
+1,ERROR: Memory overload, cannot execute.
+5,ERROR: [ErrorPart] in compartment [alpha.alphabet]{Dice~1d100}.
+5,ERROR: [ErrorPart], [FixError] part {If~{Dice~1d100}<50?[alpha.alphabet]/{Dice~1d10-1}}[alpha.alphabet]{Dice~1d100}{Dice~1d100}{If~{Dice~1d3}=1?[alpha.alphabet]}.
+5,ERROR: [ErrorPart] in [~Gizmosis.Start].
+
+:Calc Error2
+1,[Calc Error={Dice~1d17}]
+
+;ErrorPart
+5,Electrical problem
+5,Mechanical problem
+3,Burned-out electrical component{Lockout~FixError,1-3}
+3,Burned-out mechanical component{Lockout~FixError,1-3}
+2,Burned fuses{Lockout~FixError,1-2}
+1,Induction problem
+1,Cooling problem
+1,Overheating
+1,Ionization
+5,Unknown [ErrorPart={Dice~1d10}]
+
+;FixError
+1,recalibrate
+1,fix
+1,repair
+1,replace

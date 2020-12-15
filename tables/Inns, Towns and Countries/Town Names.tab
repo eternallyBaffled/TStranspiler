@@ -1,0 +1,244 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder Jan 30, 2006.
+# ---------------------------------------------------
+#
+# Town Names
+#
+# This file generates names for towns and villages.
+#
+# Copyright 2000 Bruce A. Gulke
+#
+# -------------------------------------------------------------------------
+# This Table Links to these tables as required:
+#    Names City.tab
+#
+# -------------------------------------------------------------------------
+# This table is called by: (can be called by other tables also)
+#    NPC Stat Block Pathfinder
+#
+# -------------------------------------------------------------------------
+# Modified by Valminder April 2002
+#    I changed the "START" line.
+# Modified by Valmider, July 2003.
+#    -I added stuff from Ed Hastings' "KS_TownNames" table.
+#    -Added Group0 to produce names without descriptors such as fort,
+#       mountain, etc, so as to use this file to also generate
+#       last names as many names originate from a locality.
+#    -Linked to the "Names City" table. (by Robert Maxwell)
+#
+# Modified by Valminder, Jan 2006.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+#
+
+:Start
+1,{Status~by Bruce A. Gulke 2000}[Generate].
+
+;Generate
+10,{Cap~[Group1]}[Group2]
+1,{Cap~[Group0]}
+1,{Cap~[Direction]} {Cap~[Mineral]}[Group2]
+1,{Cap~[Direction]} {Cap~[Color]}[Group2]
+1,{Cap~[Age]} {Cap~[Mineral]}[Group2]
+1,{Cap~[Age]} {Cap~[Color]}[Group2]
+1,{Cap~[Prefix]} {Cap~[Group1]}[Group2]
+
+;Group0
+1,{Cap~[Misc]}[Suffix]
+1,{Cap~[Direction]}[Suffix]
+1,{Cap~[Color]}[Mineral]
+1,{Cap~[Misc]}[Place]
+1,{Cap~[Direction]}[Place]
+1,[Names City.Start]
+
+;Group1
+1,[Mineral]
+1,[Color]
+1,[Direction]
+1,[Age]
+1,[Jobs]
+10,[Misc]
+
+;Jobs
+1,cooper
+1,king
+1,monk
+1,knight
+1,miller
+1,archer
+
+;Misc
+1,abbey
+1,aber
+1,ard
+1,ballin
+1,battle
+1,bel
+1,bella
+1,ben
+1,bryn
+1,caer
+1,carrick
+1,cart
+1,castle
+1,coving
+1,day
+1,dun
+1,eal
+1,edin
+1,fair
+1,fitz
+1,glen
+1,hack
+1,hagers
+1,hamp
+1,har
+1,hart
+1,hav
+1,hodge
+1,hunt
+1,inver
+1,jack
+1,kent
+1,kill
+1,lis
+1,loch
+1,long
+1,nor
+1,pen
+1,port
+1,rath
+1,rhos
+1,ross
+1,royal
+1,scot
+1,spring
+1,stock
+1,tre
+1,york
+
+;Group2
+4,[Suffix]
+1,[Tree]
+1,[Place]
+
+;Suffix
+1,ant
+1,bluff
+1,bourne
+1,bridge
+1,burg
+1,bury
+1,by
+1,caster
+1,chester
+1,cot
+1,dale
+1,den
+1,don
+1,ey
+1,field
+1,ford
+1,gate
+1,ham
+1,head
+1,hurst
+1,ia
+1,ing
+1,land
+1,ley
+1,mere
+1,minster
+1,more
+1,mount
+1,mouth
+1,park
+1,port
+1,stead
+1,stock
+1,ston
+1,ton
+1,town
+1,tree
+1,vale
+1,view
+1,ville
+1,water
+1,well
+1,wich
+1,wood
+1,worth
+
+;Tree
+1,ash
+1,beech
+1,cedar
+1,cherry
+1,elm
+1,fir
+1,hickory
+1,maple
+1,oak
+1,pine
+1,spruce
+1,walnut
+
+;Place
+1,field
+1,hill
+1,lake
+1,marsh
+1,ridge
+1,river
+1,wood
+1,point
+
+;Mineral
+1,diamond
+1,emerald
+1,iron
+1,ruby
+1,glass
+1,crystal
+1,copper
+1,gold
+1,iron
+1,silver
+
+;Color
+1,black
+1,blue
+1,bronze
+1,brown
+1,copper
+1,gold
+1,green
+1,grey
+1,indigo
+1,ivory
+1,jade
+1,orange
+1,pink
+1,purple
+1,red
+1,silver
+1,white
+1,yellow
+
+;Direction
+1,north
+1,south
+1,east
+1,west
+
+;Age
+1,high
+1,low
+1,old
+1,new
+
+;Prefix
+1,fort
+1,lake
+1,mount
+1,port

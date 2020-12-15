@@ -1,0 +1,339 @@
+# ------------------------------------------------------
+# Last Update: re-verified by Valminder Jan 10, 2012.
+# ------------------------------------------------------
+# ---------------------------------------------------
+# Last Update: modified by Valminder Jan 01, 2006.
+# ---------------------------------------------------
+#
+# Road Encounters
+# 
+# from Dragon Magazine 275 
+#
+# Created and modified by Valminder May 2003
+#    I added some links to these other tables:
+#        Barrel and Jar Contents.Generate
+#        Countries.Start
+#        Crate and Wagon Contents.Generate
+#        Creatures.Animal2
+#        Creatures.AnimalPack
+#        Creatures.AnimalPet
+#        Creatures.AnimalRiding
+#        Creatures.Bird of Prey
+#        Creatures.Dragon
+#        Creatures.Flying
+#        Creatures.FlyingTransport
+#        Creatures.Humanoid
+#        Creatures.Humanoid2
+#        Creatures.Start2
+#        Curios.Start
+#        Miscellaneous.Alignment2
+#        Miscellaneous.Armors
+#        Miscellaneous.Cloth
+#        Miscellaneous.Direction
+#        Miscellaneous.Gender
+#        Miscellaneous.Occupations
+#        Miscellaneous.Odor
+#        Miscellaneous.Personality
+#        Miscellaneous.Quirks
+#        Miscellaneous.Sound
+#        Miscellaneous.Weapons
+#        Names Generator.NAME Random
+#        Noble Household Names.Start
+#        NPC Appearance.Generate
+#        NPC Appearance.Generate2
+#        Religion.Deities2
+#        Rumors.Bounty
+#        Rumors.Generate
+#        Wilderness Encounters.Generate
+#
+# Modified by Valminder, Nov 2005
+#        Removed header from [Start]
+#
+# Modified by Larry Cormier December, 2005
+#    Broke out Multiple Items into seprate entities
+#    Added Passive Tense sentence structure for consistency
+#       throughout entry options
+#
+# Modified by Valminder, Dec 2005
+#        Added link to:
+#           MAP Clearings.GenRandomMapRoad
+#
+
+/OverrideRolls 1
+
+%Number%,1
+
+:Start
+1,{Status~Dragon Magazine 275, Valminder}{Cap~[Generate]}<br>
+
+;Generate
+1,[DiscoverFindBranch] [Wilderness Encounters.Generate].
+11,[DiscoverFindBranch] [Common][MAP]
+6,[DiscoverFindBranch] [Uncommon][MAP]
+2,[DiscoverFindBranch] [Rare][MAP]
+
+;GenerateNoMap
+1,[DiscoverFindBranch] [Wilderness Encounters.Generate].
+11,[DiscoverFindBranch] [Common]
+6,[DiscoverFindBranch] [Uncommon]
+2,[DiscoverFindBranch] [Rare]
+
+:DiscoverFindBranch
+1,You discover
+2,You find
+
+:MAP
+1,<br>{Space~5}{Generate~0,Click to generate clearing map,GenMAP}
+
+:GenMAP
+1,<br>[~MAP Clearings.GenRandomMapRoad]
+
+# ------------------------------------------------------------------------
+
+;Common
+1,an abandoned cart (empty). 
+1,an abandoned wagon (empty). 
+1,a bridge, wooden.
+2,some broken character equipment ([~Equipment.Start]).
+1,a broken cart wheel.
+1,a broken mount equipment (like saddle or saddle bags).
+1,<b>{Dice~1d6+1}</b> [~Creatures.Humanoid2] children playing games. 
+1,a [~Creatures.Humanoid2] construction crew (<b>{Dice~1d10+5}</b>). [NPC] 
+2,a Craftsman with wares.[Transport][NPC]
+1,a creature flying overhead ([~Creatures.Flying]).
+1,a deer crossing (<b>{Dice~1d6+1}</b>).
+1,a duck crossing (<b>{Dice~1d6+1}</b>). 
+2,a fallen tree across road.
+1,a [~Creatures.Humanoid2] family moving (<b>{Dice~1d6+1}</b> members). [Transport][NPC] 
+2,<b>{Dice~1d8+1}</b> [~Creatures.Humanoid2] Farmers. [Transport] [NPC] 
+1,a holy symbol ([~Religion.Deities]).
+1,a Fisherman with catch. [NPC]
+1,a Fisherman without catch. [NPC] 
+1,a Healer and one wagon pulled by <b>[WagonNumber]</b> [~Creatures.AnimalRiding].  [NPC]
+2,<b>{Dice~1d4+1}</b> [~Creatures.Humanoid2] herdsmen on foot with <b>{Dice~1d20+10}</b> [~Creatures.Animal2]. [NPC] 
+1,an Herbalist and one wagon pulled by <b>[WagonNumber]</b> [~Creatures.AnimalRiding].  [NPC]
+1,a Horse merchant with wares (<b>{Dice~1d8+2}</b> [~Creatures.AnimalRiding]). [Transport] [NPC] 
+2,a Hunter with game.<br><u>Game</u>: [~Creatures.Start2] [NPC] 
+2,a Hunter without game. [NPC]
+2,an isolated Household. [NPC]
+1,<b>{Dice~1d6+1}</b> logging wagons with <b>{Dice~1d20+5}</b> [~Creatures.Humanoid2] loggers. [NPC]
+2,<b>{Dice~1d10+2}</b> [~Creatures.Humanoid2] laborers on foot. [NPC] 
+2,<b>{Dice~1d10+2}</b> [~Creatures.Humanoid2] laborers. [Transport2] [NPC] 
+1,a lonely tree apart from the others.
+1,lost character equipment (something fell from the backpack or belt pouch).
+1,<b>{Dice~1d6+1}</b> [~Creatures.Humanoid2] mercenary. [Transport] [NPC] 
+2,a Merchant with <b>{Dice~1d6+2}</b> laden pack animals ([~Creatures.AnimalPack]). [Merchant]
+2,a Merchant with cart pulled by <b>[CartNumber]</b> [~Creatures.AnimalRiding]. [Merchant]
+2,a Merchant with one wagon and no guards. The wagon is pulled by <b>[WagonNumber]</b>
+_ [~Creatures.AnimalRiding].[Merchant]
+2,a Merchant with one wagon and <b>{Dice~1d6}</b> [~Creatures.Humanoid2] guard(s).
+_ The wagon is pulled by <b>[WagonNumber]</b> [~Creatures.AnimalRiding].[Merchant] 
+2,a Messenger. [Transport]<br><u>Message</u>:<br>[Rumors.Generate] [NPC] 
+1,a Military patrol on foot (<b>{Dice~1d10+10}</b> [~Creatures.Humanoid2] soldiers). [NPC]
+2,a muddy road.
+1,an old campsite (<b>{Dice~1d20+2}</b> days old).
+1,an old abandoned shack (<b>{Dice~1d20+1}</b> years old).
+1,an old, abandoned and badly damage armor ([~Miscellaneous.Armors]).
+1,an old, abandoned and badly damage weapon ([~Miscellaneous.Weapons]).
+2,a patch of [~Miscellaneous.Color] wildflowers. 
+1,a pedestrian with pet ([~Creatures.AnimalPet]). [NPC] 
+1,a pedestrian, lost. [NPC] 
+1,a pedestrian, foreign. [NPCForeign] 
+2,a pouch. [Pockets.Generate]
+2,<b>{Dice~1d6+1}</b> religious pilgrims of [~Religion.Deities2]. [NPC] 
+1,a right of way dispute between 2 persons. [Transport][Transport2] [NPC][NPC] 
+1,a road Sign (correct).
+1,the ruins of a small house or farm (<b>{Dice~1d100+5}</b> years old).
+2,a small stream across road.
+2,a <b>smell</b>: creature ([~Creatures.Battle]) coming from the [~Miscellaneous.Direction]. It can scare the horses.
+2,a <b>smell</b>: nice smell (like flowers or bread) coming from the [~Miscellaneous.Direction].
+5,a <b>smell</b>: ([~Miscellaneous.Odor]) coming from the [~Miscellaneous.Direction].
+2,smoke on the horizon (from a fire or house) ([~Miscellaneous.Direction]).
+2,a <b>sound</b>: creature ([~Creatures.Battle]) coming from the [~Miscellaneous.Direction]. It can scare the horses.
+5,a <b>sound</b>: ([~Miscellaneous.Sound]) coming from the [~Miscellaneous.Direction]. It can scare the horses.
+1,a character with a sprained ankle.
+1,a mount that has sprained it's ankle.
+1,[~Creatures.Humanoid2] tracks (<b>{Dice~1d20}</b> hours old). [Transport] 
+1,[~Creatures.Start] tracks (<b>{Dice~1d20}</b> hours old). 
+1,a trapper with skins. [NPC]
+1,a traveler. [Transport] [NPCForeign] 
+1,a traveler, resting. [Transport] [NPCForeign] 
+2,[Curios.Start].
+1,a young apprentice ([~Miscellaneous.Class]) on errand for his master. [Transport] [NPC] 
+1,a young person with cart being pulled by <b>[CartNumber]</b> [~Creatures.AnimalRiding]. [CargoOnly] [NPC]
+1,a young squire on errand for his master. [Transport] [NPC] 
+1,a Wagon with broken wheel, pulled by <b>[WagonNumber]</b> [~Creatures.AnimalRiding]. [Merchant]
+1,a Wagon with lame draft animal, pulled by <b>[WagonNumber]</b> [~Creatures.AnimalRiding]. [Merchant]
+1,a Woman with basket of berries, fruit, vegetables, or flowers. [NPC] 
+
+;Uncommon
+1,an abandoned wagon. [CargoOnly]
+1,that <b>{Dice~1d10+2}</b> [~Creatures.Humanoid2] bandits. [Transport] [NPC] 
+1,a battle between [~Creatures.Battle] and [~Creatures.Battle].
+1,birds of prey, circling. (<b>{Dice~1d6+1}</b> [~Creatures.Bird of Prey]) 
+1,a border patrol tower with <b>{Dice~2d10}</b> [~Creatures.Humanoid2] guards. [NPC]
+1,a Bounty hunter. <br><u>Bounty</u>: [Rumors.Bounty] [Transport] [NPC] 
+1,a stone bridge.
+1,a wooden bridge (damaged).
+1,a canal 
+2,<b>{Dice~1d10+4}</b> Cattle rustlers mounted on [~Creatures.AnimalRiding] with <b>{Dice~1d100+20}</b>
+_ cattle and <b>{Dice~1d10-1}</b> dogs. [NPC] 
+1,a charlatan healer and one wagon pulled by <b>[WagonNumber]</b> [~Creatures.AnimalRiding]. [NPC] 
+1,a dead [~Creatures.Battle] (<b>{Dice~1d20+5}</b> days dead).
+1,a dog tied to tree (friendly).
+1,a dog tied to tree (mean).
+1,a domestic animal, blocking road ([~Creatures.Animal2]). 
+1,a domestic animal herd, blocking road ([~Creatures.Animal2]). 
+2,an enamored [~Creatures.Humanoid2] couple, strolling. [NPC] [NPC] 
+2,an enamored [~Creatures.Humanoid2] couple, riding a [~Creatures.AnimalRiding]. [NPC] [NPC]
+1,an enamored [~Creatures.Humanoid2] couple, eloping. [NPC] [NPC]
+1,a fist fight. [NPC] [NPC] 
+1,a Fog bank.
+1,<b>{Dice~1d3+1}</b> [~Creatures.Humanoid2] foot racers. [NPC] 
+1,<b>{Dice~1d20+4}</b> [~Creatures.Humanoid2] in a funeral procession on foot.
+_ The procession is led by a priest of [~Religion.Deities2].
+_ The dead is a [~Miscellaneous.Class2] called [~Names Generator.NAME Random]. [NPC] 
+1,<b>{Dice~1d6+1}</b> [~Creatures.Humanoid2] horse thieves. [Transport] [NPC] 
+1,a lone woman, cowled. [NPC] 
+2,a Merchant with {Dice~1d6+2} wagons and {Dice~2d10} [~Creatures.Humanoid2] guards.
+_ The wagons are pulled by pulled by <b>[WagonNumber]</b> [~Creatures.AnimalRiding].[Merchant]
+1,a Military patrol on foot (<b>{Dice~1d20+10}</b> [~Creatures.Humanoid2] soldiers). [NPC]
+1,a note saying:<br>[Rumors.Alternate].
+1,an Outcast. [NPC]
+1,a Hermit. [NPC]  
+1,<b>{Dice~1d6+1}</b> [~Creatures.Humanoid] outlaws. [Transport] [NPC] 
+1,a Porter, looking for work. [NPC] 
+1,a post with <b>{Dice~1d3+1}</b> hanging cages containing <b>{Dice~1d3}</b> [~Creatures.Humanoid2] skeleton(s). 
+1,a post with <b>{Dice~1d3+1}</b> hanging cages containing <b>{Dice~1d2}</b> [~Creatures.Humanoid2] skeleton(s)
+_ and one recently dead person (<b>{Dice~1d20+2}</b> days). [NPC] 
+1,a post with <b>{Dice~1d3+1}</b> hanging cages containing <b>{Dice~1d2}</b> [~Creatures.Humanoid2] skeleton(s)
+_ and one living person encaged for <b>{Dice~1d10+1}</b> days. [NPC] 
+1,a pouch containing <b>{Dice~1d10}</b> cp, <b>{Dice~1d20}</b> sp and <b>{Dice~1d20}</b> gp.
+1,<b>{Dice~1d6}</b> prospectors, mostly [~Creatures.Humanoid2]. [Transport] [NPC] 
+1,<b>{Dice~1d6+1}</b> [~Creatures.Humanoid2] refugees from [~Countries.Land]. [Transport][NPC]
+1,a riding animal ([~Creatures.AnimalRiding]) tied to a tree. [NPC]
+1,a road sign (incorrect). 
+1,<b>{Dice~1d20+1}</b> scales of a dragon ([~Creatures.Dragon]).
+5,[Sites of Interest.Generate]
+1,a small abandoned shrine to [~Religion.Deities].
+1,a small shrine to [~Religion.Deities2] with <b>{Dice~1d8+1}</b> priests. [NPC]
+1,[~Creatures.Humanoid2] tracks (<b>{Dice~1d6}</b> days old). [Transport] 
+1,[~Creatures.Start] tracks (<b>{Dice~1d6}</b> days old). 
+1,a Toll collector (legitimate). [NPC] 
+1,a wagon with stubborn dwarf animals; pulled by <b>[WagonNumber]</b> [~Creatures.AnimalRiding]. [Merchant]
+1,a warning sign. 
+1,a wealthy citizen in carriage pulled by <b>[WagonNumber]</b> [~Creatures.AnimalRiding]. [NPC]
+1,a wealthy citizen on litter <b>{Dice~1d7+3}</b> [~Creatures.Humanoid2] bearers. [NPC] 
+1,<b>{Dice~1d20+4}</b> [~Creatures.Humanoid2] in a wedding procession on foot.
+_ The procession is led by a priest of [~Religion.Deities2]. [NPC] 
+1,a wounded pet or wild animal (choose either [~Creatures.Animal] or [~Creatures.Animal2]). 
+1,a young noble and <b>{Dice~1d10+1}</b> [~Creatures.Humanoid2] guards as an escort.
+_ <br><br><u>Noble Household Name</u>: [Noble Household Names.Start]<br> [Transport] [NPC] 
+1,a young noble and <b>{Dice~1d4+1}</b> [~Creatures.Humanoid2] friends as an escort.
+_ <br><br><u>Noble Household Name</u>: [Noble Household Names.Start]<br> [Transport] [NPC] 
+1,a young person with wagon pulled by <b>[WagonNumber]</b> [~Creatures.AnimalRiding]. [CargoOnly] [NPC] 
+1,a young wizard-apprentice on errand with his [~Creatures.Familiar] familiar. [Transport] [NPC] 
+1,a curtained liner with <b>{Dice~1d7+3}</b> [~Creatures.Humanoid2] bearers.
+_ The liner contains a young noble.<br><br><u>Noble Household Name</u>: [Noble Household Names.Start]<br> [NPC] 
+
+;Rare
+1,an acting troupe of <b>{Dice~2d10}</b> performers, mostly [~Creatures.Humanoid2], with <b>{Dice~1d3}</b> [~Creatures.Humanoid]. [NPC] 
+1,|Number={Dice~1d6+1}|<b>%Number%</b> Adventurers. [Transport] [NPCAdventurers]
+1,a border patrol tower with <b>{Dice~2d20+5}</b> [~Creatures.Humanoid2] guards. [NPC]
+1,a stone bridge (damaged).
+1,a Circus of <b>{Dice~2d20}</b> performers, mostly [~Creatures.Humanoid2], with <b>{Dice~1d3}</b>
+_ [~Creatures.Humanoid] and <b>{Dice~1d3}</b> [~Creatures.Humanoid]. [NPC] 
+1,a destroyed area, by the breath of a [~Creatures.Dragon].
+1,a <u>Dream</u>: One of the PC receives this dream.<br><br>[Dreams.Dreams]
+1,a famous person. [Transport] [NPC]
+1,Gypsies (<b>{Dice~1d20}</b>). [Transport2] [NPC] 
+1,a hangman's tree with <b>{Dice~1d6}</b> occupant(s), mostly [~Creatures.Humanoid] and maybe one [~Creatures.All]. 
+1,a local hero's homecoming. [NPC] 1, Merchant with {Dice~1d6+2} wagons and no guards.
+_ The wagons are pulled by pulled by <b>[WagonNumber]</b> [~Creatures.AnimalRiding].[Merchant]
+1,a Military patrol on foot (<b>{Dice~1d100+10}</b> [~Creatures.Humanoid2] soldiers). [NPC]
+1,a Noble, <b>{Dice~1d6+1}</b> [~Creatures.Humanoid2] retainers, and <b>{Dice~1d20+3}</b> [~Creatures.Humanoid2] guards as an escort.
+_ <br><br><u>Noble Household Name</u>: [Noble Household Names.Start]<br> [Transport] [NPC] 
+1,a pouch containing <b>{Dice~1d20}</b> sp, <b>{Dice~1d20}</b> gp and <b>{Dice~1d20}</b> pp.
+1,Royalty, <b>{Dice~2d6+2}</b> [~Creatures.Humanoid2] retainers, and <b>{Dice~2d20+6}</b> [~Creatures.Humanoid2] guards as an escort.
+_ <br><br><u>Noble Household Name</u>: [Noble Household Names.Start]<br> [Transport] [NPC] 
+1,<u>Ruins</u>:<br>[SITE Ravaged Ruins.Generate]
+1,<u>Ruins</u>:<br>[SITE Ruins.Generate]
+1,a small evil shrine to [~Religion.Evil Gods] with <b>{Dice~1d8+2}</b> priests.
+1,{Cap~[SITE Temples.Generate]}[NPC]
+1,a Tinker.[Transport][NPC] 
+1,a Toll Collector (false). [NPC] 
+1,[~Creatures.Humanoid2] tracks (<b>{Dice~1d4}</b> weeks old). [Transport] 
+1,[~Creatures.Start] tracks (<b>{Dice~1d4}</b> weeks old). 
+1,a young female noble and [~Creatures.Humanoid2] maid.<br><br><u>Noble Household Name</u>:
+_ [Noble Household Names.Start]<br> [Transport] [NPC] 
+
+# ---------------------------------------------------------------------------
+
+:Merchant
+1,<br><u>Cargo</u>: [Cargo]<br>[NPC]
+
+:CargoOnly
+1,<br><u>Cargo</u>: [Cargo]<br>
+
+;!Cargo
+10,Barrels of [~Barrel and Jar Contents.Generate].
+5,Barrels of [~Barrel and Jar Contents.Generate] and [~Barrel and Jar Contents.Generate].
+10,Crates of [~Crate and Wagon Contents.Generate].
+5,Crates of [~Crate and Wagon Contents.Generate] and [~Crate and Wagon Contents.Generate].
+5,Crates of [~Crate and Wagon Contents.Generate] and Barrels of [~Barrel and Jar Contents.Generate].
+5,Bundles of Cloth (<b>[Miscellaneous.Cloth]</b>).
+2,<b>{Dice~1d4+1}</b> [~Creatures.Humanoid2] prisoners and one [~Creatures.Humanoid].
+1,<b>{Dice~2d10+2}</b> [~Creatures.Humanoid2] slaves.
+5,<b>{Dice~1d6+1}</b> [~Creatures.Humanoid2] passengers and [Cargo]
+
+# ---------------------------------------------------------------------------
+
+:NPC
+#1,<br><br><hr><br>[NPC Appearance.Generate]
+1,[NPC Appearance.NPC_Info1=1]
+
+:NPCForeign
+1,<br>{Space~5}{Generate~0,INFORMATIONS: Click to generate the FOREIGN NPC's appearance and informations.,NPCForeign2}
+
+:NPCForeign2
+1,<br>[NPC Appearance.Generate2]<br>
+
+:NPCAdventurers
+1,<br>{Space~5}{Generate~0,INFORMATIONS: Click to generate the ADVENTURER's appearance and informations.,NPCAdventurers2}
+
+:NPCAdventurers2
+1,<br>[NPC Appearance.Generate3][NPCAdventurers]
+
+# ---------------------------------------------------------------------------
+
+:Transport
+1,<br><u>Mode of Transportaton</u>: [TransportMode]
+
+:Transport2
+1,<br><u>Mode of Transportaton</u>: [TransportMode-30]
+
+;TransportMode
+25,{Cap~[Land Vehicle]}
+25,Riding a [~Creatures.AnimalRiding].
+40,On foot.
+5,Riding a flying creature (<b>[Creatures.FlyingTransport]</b>).
+1,Magical Flying Item (<b>[Magical Items.VehicleFlying]</b>).
+1,Magical Land Vehicle (<b>[Magical Items.VehicleLand]</b>).
+
+;Land Vehicle
+60,in a cart pulled by <b>[CartNumber]</b> [~Creatures.AnimalRiding].
+40,in a wagon pulled by <b>[WagonNumber]</b> [~Creatures.AnimalRiding].
+
+;CartNumber
+9,one
+1,two
+
+;WagonNumber
+25,one
+50,two
+20,four
+4,six
+1,eight
+
+
+

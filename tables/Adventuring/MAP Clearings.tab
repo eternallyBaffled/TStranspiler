@@ -1,0 +1,201 @@
+# ------------------------------------------------------
+# Last Update: re-verified by Valminder Jan 10, 2012.
+# ------------------------------------------------------
+#
+# Clearings
+#
+# By Larry Cormier
+#
+# Derived from Dungeon Map; Copyright 2001 by Bruce A. Gulke
+#
+# Modified by Valminder, Dec 2005
+#
+#
+
+/OverrideRolls 1
+
+%Path1%,<IMG SRC="Graphics\Clearings\
+%Path2%," WIDTH="127" HEIGHT="127" BORDER="0">
+%PathColumn%,0
+%Wd%,0
+%Ht%,0
+%X%,0
+%Y%,0
+%Chance%,0
+%PathType%,0
+%Inhabited%,0
+%River%,0
+%Road%,0
+
+@Wd,0,Enter width (minimum 3):
+@Ht,0,Enter height (minimum 3):
+@River,3,Include Rivers?,Yes,No,Random
+@Road,3,Include Roads?,Yes,No,Random
+@Inhabited,3,Is this Area Inhabited?,Yes,No,Random
+
+:Start
+1,{If~%Wd%=0 ? [Instructions] / [GenMap]}
+
+:Instructions
+1,This table generates random Wilderness Clearing Maps.<br><br>
+_ To use it, change the parameters (click the parameter button) to enter the height and width you want, then click the 'Roll' button.
+
+:Chanceof
+1,|Chance={Dice~1d100}|
+
+:GenMap
+#1,%River% %Road% %Inhabited%<br><br>|PathType=0|{If~%River%=3? |River={Dice~1d2}|}
+1,|PathType=0|{If~%River%=3? |River={Dice~1d2}|}
+_ {If~%River%=1? |PathType=1|}
+_ {If~%Road%=3? |Road={Dice~1d2}|}
+_ {If~%Road%=1? |PathType=2|}
+_ {If~{And~%River%=1,%Road%=1}=1?[Chanceof]{If~%Chance%<70? |PathType=3|}}
+_ {If~%Inhabited%=3? |Inhabited={Dice~1d2}|}
+_ |Y=%Ht%||Y-3|[GenTopRow][GenMiddleRows][GenBottomRow]
+
+:GenTopRow
+1,|X=%Wd%||X-3|
+_ {If~%PathType%>0?|PathColumn={Dice~1d{Calc~%X%+1}-1}|}
+_ {If~%PathType%>0?[PathBranchTopRow=%PathType%]/[ULCorner][UpperEdge][URCorner]{CR~}}
+
+:GenMiddleRows
+1,|X=%Wd%||X-3|
+_ {If~%PathType%>0?[PathBranchMiddleRow=%PathType%]/[LeftEdge][Middle][RightEdge]{CR~}|Y-1|{If~%Y%>=0?[GenMiddleRows]}}
+
+:GenBottomRow
+1,|X=%Wd%||X-3|
+_ {If~%PathType%>0?[PathBranchBottomRow=%PathType%]/[LLCorner][BottomEdge][LRCorner]{CR~}}
+
+:PathBranchTopRow
+1,[ULCorner][UpperEdgeRiver][URCorner]{CR~}
+2,[ULCorner][UpperEdgeRoad][URCorner]{CR~}
+3,[ULCorner][UpperEdgeRiverAndRoad][URCorner]{CR~}
+
+:PathBranchMiddleRow
+1,[LeftEdge][MiddleRiver][RightEdge]{CR~}|Y-1|{If~%Y%>=0?[GenMiddleRows]}
+2,[LeftEdge][MiddleRoad][RightEdge]{CR~}|Y-1|{If~%Y%>=0?[GenMiddleRows]}
+3,[LeftEdge][MiddleRiverAndRoad][RightEdge]{CR~}|Y-1|{If~%Y%>=0?[GenMiddleRows]}
+
+:PathBranchBottomRow
+1,[LLCorner][BottomEdgeRiver][LRCorner]{CR~}
+2,[LLCorner][BottomEdgeRoad][LRCorner]{CR~}
+3,[LLCorner][BottomEdgeRiverAndRoad][LRCorner]{CR~}
+
+:ULCorner
+1,%Path1%ULCorner{Dice~1d3}.jpg%Path2%
+
+:UpperEdge
+1,%Path1%UEdge{Dice~1d3+3}.jpg%Path2%|X-1|{If~%X%>=0?[UpperEdge]}
+
+:UpperEdgeRiver
+1,{If~%PathColumn%=%X%?%Path1%UEdge1.jpg%Path2%/%Path1%UEdge{Dice~1d3+3}.jpg%Path2%}|X-1|{If~%X%>=0?[UpperEdgeRiver]}
+
+:UpperEdgeRoad
+1,{If~%PathColumn%=%X%?%Path1%UEdge2.jpg%Path2%/%Path1%UEdge{Dice~1d3+3}.jpg%Path2%}|X-1|{If~%X%>=0?[UpperEdgeRoad]}
+#1,%Path1%UEdge2.jpg%Path2%|X-1|{If~%X%>=0?[UpperEdge]}
+
+:UpperEdgeRiverAndRoad
+1,{If~%PathColumn%=%X%?%Path1%UEdge3.jpg%Path2%/%Path1%UEdge{Dice~1d3+3}.jpg%Path2%}|X-1|{If~%X%>=0?[UpperEdgeRiverAndRoad]}
+#1,%Path1%UEdge3.jpg%Path2%|X-1|{If~%X%>=0?[UpperEdge]}
+
+:URCorner
+1,%Path1%URCorner{Dice~1d3}.jpg%Path2%
+
+:LLCorner
+1,%Path1%LLCorner{Dice~1d3}.jpg%Path2%
+
+:BottomEdge
+1,%Path1%BEdge{Dice~1d3+3}.jpg%Path2%|X-1|{If~%X%>=0?[BottomEdge]}
+
+:BottomEdgeRiver
+1,{If~%PathColumn%=%X%?%Path1%BEdge1.jpg%Path2%/%Path1%BEdge{Dice~1d3+3}.jpg%Path2%}|X-1|{If~%X%>=0?[BottomEdgeRiver]}
+
+:BottomEdgeRoad
+1,{If~%PathColumn%=%X%?%Path1%BEdge2.jpg%Path2%/%Path1%BEdge{Dice~1d3+3}.jpg%Path2%}|X-1|{If~%X%>=0?[BottomEdgeRoad]}
+
+:BottomEdgeRiverAndRoad
+1,{If~%PathColumn%=%X%?%Path1%BEdge3.jpg%Path2%/%Path1%BEdge{Dice~1d3+3}.jpg%Path2%}|X-1|{If~%X%>=0?[BottomEdgeRiverAndRoad]}
+
+:LRCorner
+1,%Path1%LRCorner{Dice~1d3}.jpg%Path2%
+
+:LeftEdge
+1,%Path1%LEdge{Dice~1d3}.jpg%Path2%
+
+:Middle
+1,{If~%Inhabited%=1?[HabitationBranch=1]/
+_[Chanceof]{If~%Chance%<10?[MiddleSpecial=1]/
+_[Chanceof]{If~%Chance%<30?[SparseVegetation=1]/
+_%Path1%Middle1.jpg%Path2%|X-1|{If~%X%>=0?[Middle]}}}}
+
+:MiddleRiver
+1,{If~%PathColumn%=%X%?%Path1%River{Dice~1d5}.jpg%Path2%/
+_{If~%Inhabited%=1?[HabitationBranch=2]/
+_[Chanceof]{If~%Chance%<10?[MiddleSpecial=2]/
+_[Chanceof]{If~%Chance%<30?[SparseVegetation=2]/
+_%Path1%Middle1.jpg%Path2%}}}}
+_|X-1|{If~%X%>=0?[MiddleRiver]}
+
+:MiddleRoad
+1,{If~%PathColumn%=%X%?%Path1%Road{Dice~1d5}.jpg%Path2%/
+_{If~%Inhabited%=1?[HabitationBranch=2]/
+_[Chanceof]{If~%Chance%<10?[MiddleSpecial=2]/
+_[Chanceof]{If~%Chance%<30?[SparseVegetation=2]/
+_%Path1%Middle1.jpg%Path2%}}}}
+_|X-1|{If~%X%>=0?[MiddleRoad]}
+
+:MiddleRiverAndRoad
+1,{If~%PathColumn%=%X%?%Path1%RiverRoad{Dice~1d5}.jpg%Path2%/
+_{If~%Inhabited%=1?[HabitationBranch=2]/
+_[Chanceof]{If~%Chance%<10?[MiddleSpecial=2]/
+_[Chanceof]{If~%Chance%<30?[SparseVegetation=2]/
+_%Path1%Middle1.jpg%Path2%}}}}
+_|X-1|{If~%X%>=0?[MiddleRiverAndRoad]}
+
+:RightEdge
+1,%Path1%REdge{Dice~1d3}.jpg%Path2%
+
+:HabitationBranch
+1,[Chanceof]{If~%Chance%<30?%Path1%Habitation{Dice~1d5}.jpg%Path2%|X-1|{If~%X%>=0?[Middle]}/
+_[Chanceof]{If~%Chance%<10?[MiddleSpecial=1]/
+_%Path1%Middle1.jpg%Path2%|X-1|{If~%X%>=0?[Middle]}}}
+2,[Chanceof]{If~%Chance%<30?%Path1%Habitation{Dice~1d5}.jpg%Path2%/
+_[Chanceof]{If~%Chance%<10?[MiddleSpecial=2]/
+_%Path1%Middle1.jpg%Path2%}}
+
+:MiddleSpecial
+1,%Path1%Special{Dice~1d8}.jpg%Path2%|X-1|{If~%X%>=0?[Middle]}
+2,%Path1%Special{Dice~1d8}.jpg%Path2%
+
+:SparseVegetation
+1,%Path1%Middle{Dice~1d19+1}.jpg%Path2%|X-1|{If~%X%>=0?[Middle]}
+2,%Path1%Middle{Dice~1d19+1}.jpg%Path2%
+
+# ------------------------------------------------------------------------
+# I added this to generate a random map found in a treasure.
+# I added info some subtable to be able to use ~
+
+:GenRandomMap
+1,|Wd={Dice~2d2+1}||Ht={Dice~2d2+1}||River={Dice~1d2}||Road={Dice~1d2}||Inhabited={Dice~1d2}|[GenMap]
+
+# with river
+:GenRandomMapRiver
+1,|Wd={Dice~2d2+1}||Ht={Dice~2d2+1}||River=1||Road={Dice~1d2}||Inhabited={Dice~1d2}|[GenMap]
+
+# with road
+:GenRandomMapRoad
+1,|Wd={Dice~2d2+1}||Ht={Dice~2d2+1}||River={Dice~1d2}||Road=1||Inhabited={Dice~1d2}|[GenMap]
+
+# inhabited
+:GenRandomMapInhabited
+1,|Wd={Dice~2d2+1}||Ht={Dice~2d2+1}||River={Dice~1d2}||Road={Dice~1d2}||Inhabited=1|[GenMap]
+
+# no road/ not inhabited
+:GenRandomMapWild
+1,|Wd={Dice~2d2+1}||Ht={Dice~2d2+1}||River={Dice~1d2}||Road=2||Inhabited=2|[GenMap]
+
+# You can feed parameters:
+# [MAP Clearings.GenRandomMapInput(,,%River%,%Road%,%Inhabited%)]
+:GenRandomMapInput
+1,|Wd={Dice~2d2+1}||Ht={Dice~2d2+1}|[GenMap]
+

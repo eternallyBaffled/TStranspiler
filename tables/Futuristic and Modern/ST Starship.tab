@@ -1,0 +1,109 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder Jan 20, 2006.
+# ---------------------------------------------------
+#
+# Starship Creator V2.0
+# This will attempt to create a random starship using Primary Hulls
+# Secondary Hulls, Warp Engines, and Nacelles.
+#
+# Modified by Valminder, Jan 2006.
+#    Adapted for TSv5.
+#    Added "Random" parameters.
+#    Added a way to generate a particular ship.
+#
+
+/OverrideRolls 1
+
+#Variables
+%P%,1
+%S%,1
+%N%,1
+%E%,1
+
+%FullShip%,0
+
+#Parameters
+@P,8,Which Primary Hull would you like to use?,Akira,Constitution,Galaxy,Excelsior,Intrepid,Prometheus,Sovereighn,Random
+@S,8,Which Secondary Hull would you like to use?,Akira,Constitution,Galaxy,Excelsior,Intrepid,Prometheus,Sovereighn,Random
+@E,8,Which Warp Engine would you like to use?,Akira,Constitution,Galaxy,Excelsior,Intrepid,Prometheus,Sovereighn,Random
+@FullShip,8,Choose the ship and the other parameters won't be used.,Akira,Constitution,Galaxy,Excelsior,Intrepid,Prometheus,Sovereighn,Random
+
+%Path21%,<IMG SRC="Graphics\ST Starship\
+%Path22%," BORDER="0" style="z-index:1;position:absolute;left:5px; top:172px;">
+
+%Path33%,<IMG SRC="Graphics\ST Starship\
+%Path34%," BORDER="0" style="z-index:2;position:absolute;left:5px;">
+
+%Path45%,<IMG SRC="Graphics\ST Starship\
+%Path46%," BORDER="0" style="z-index:3;position:absolute;left:90px; top:172px;">
+
+%Path69%,<IMG SRC="Graphics\ST Starship\
+%Path60%," BORDER="0" style="z-index:5;position:absolute;left:40px; top:172px;">
+
+
+:Start
+1,{If~%P%=8? |P={Dice~1d7}|}
+_{If~%S%=8? |S={Dice~1d7}|}
+_{If~%E%=8? |E={Dice~1d7}|}
+_{If~%FullShip%!=8? [FullShip=%FullShip%]}
+_This will hopefully make one starship at a time. <br><b>YOU CAN'T SAVE THESE STARSHIPS BY RIGHT CLICKING ON THEM!!<p>
+_%Path21%[LWarp=%E%].jpg%Path22%
+_%Path33%[Primary=%P%].jpg%Path34%
+_%Path45%[RWarp=%E%].jpg%Path46%
+_%Path69%[Secondary=%S%].jpg%Path60%
+_<br><br><br>
+
+:FullShip
+# Akira
+1,|P=1||S=1||E=1|
+# Constitution
+2,|P=2||S=2||E=2|
+# Galaxy
+3,|P=3||S=3||E=3|
+# Excelsior
+4,|P=4||S=4||E=4|
+# Intrepid
+5,|P=5||S=5||E=5|
+# Prometheus
+6,|P=6||S=6||E=6|
+# Sovereighn
+7,|P=7||S=7||E=7|
+
+:LWarp
+1,LWarp1
+2,LWarp2
+3,LWarp3
+4,LWarp4
+5,LWarp5
+6,LWarp6
+7,LWarp7
+
+:Primary
+1,Primary1
+2,Primary2
+3,Primary3
+4,Primary4
+5,Primary5
+6,Primary6
+7,Primary7
+
+:RWarp
+1,RWarp1
+2,RWarp2
+3,RWarp3
+4,RWarp4
+5,RWarp5
+6,RWarp6
+7,RWarp7
+
+
+
+:Secondary
+1,Secondary1
+2,Secondary2
+3,Secondary3
+4,Secondary4
+5,Secondary5
+6,Secondary6
+7,Secondary7
+

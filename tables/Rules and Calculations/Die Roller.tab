@@ -1,0 +1,97 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder August 10, 2006.
+# ---------------------------------------------------
+#
+# This will generate any die roll, with a minimum of 1d2.
+#
+# -------------------------------------------------------------------------
+#
+# To call this table from another one:
+#    [Die Roller.Generate(%DieSides%,%DieNum%)
+#       This will return a result like: "(6d6= 26)"
+#
+#    [Die Roller.Generate(%DieSides%,%DieNum%)
+#        This will only return the dice total: "26"
+#
+#    Parameters: (%DieSides%,%DieNum%)
+#
+#    DieSides:     The number of sides on the dice.
+#                  Enter 6 for d6, 8 for d8, etc.
+#    DieNum:       The number of dice rolled.
+#
+#    Example: 3d6 = [Die Roller.Generate(6,3)
+#    Example: 1d100 = [Die Roller.Generate(100,1)
+#
+# -------------------------------------------------------------------------
+#
+# Modified by Valminder, August  2006.
+#    Added a way to call this table from another one.
+#    When calling from another table: 
+#       no heads/tails.
+#       DieSides is automatically set to a minimum of 2.
+#       DieNum is automatically set to a minimum of 1.
+#
+
+
+%DieSides%,0
+%DieScore%,0
+%DieTotal%,0
+%DieNum%,0
+%Heads%,0
+%Tails%,0
+
+
+@DieSides,6,What kind of die (Number of sides) ?
+@DieNum,1,Roll die how many times ?
+
+:Start
+1,[SetVariables]{If~%DieSides%<2?[ChangeChoice=1]/{If~%DieNum%<1?[ChangeChoice=2]/[BeginRolling]}}
+
+:SetVariables
+1,|DieScore=0||DieTotal=0||Heads=0||Tails=0|
+
+:ChangeChoice
+1,<font color=purple>Number of Sides on the Die must be greater than 1!</font>
+2,<font color=purple>You must roll the die at least once !</font>
+
+:BeginRolling
+1,{Bold~DieType} = d%DieSides%<br>
+_{Bold~Rolled} = %DieNum% times.<br>
+_{Bold~Rolls} : 
+_{Loop~%DieNum%, [RollDice]}<br>
+_{If~%DieSides%=2? [DisplayHorT]/[DisplayRoll]}
+
+:RollDice
+1,|DieScore={Dice~1d%DieSides%}|
+_{If~%DieSides%=2?{If~%DieScore%=1? |Heads+1|/|Tails+1|}/|DieTotal+%DieScore%|}
+_{If~%DieSides%=2?{If~%DieScore%=1? Heads/Tails}/%DieScore%}
+
+:DisplayHorT
+1,{If~%Heads%=%Tails%?{Bold~Even}/{If~%Heads%>%Tails%?{Bold~Heads}/{Bold~Tails}}}<br>
+
+:DisplayRoll
+1,{Bold~Roll Total} : %DieTotal%<br>
+_{Status~This table can easily be called from other tables.}
+
+# ----------------------------------------------------------------
+# To be called from other tables.
+
+# This will give (6d6= 26)
+:Generate
+1,[SetVariables]{If~%DieSides%<2?|DieSides=2|/{If~%DieNum%<1?|DieNum=1|/[BeginRollingGen]}}
+
+:BeginRollingGen
+1,(%DieNum%d%DieSides%={Loop~%DieNum%,[RollDiceGen]} %DieTotal%)
+
+:RollDiceGen
+1,|DieScore={Dice~1d%DieSides%}||DieTotal+%DieScore%|
+
+# ----------------------------------------------------------------
+# To be called from other tables.
+
+# This will give only the result: 26
+:Alternate
+1,[SetVariables]{If~%DieSides%<2?|DieSides=2|/{If~%DieNum%<1?|DieNum=1|/[BeginRollingAlt]}}
+
+:BeginRollingAlt
+1,{Loop~%DieNum%,[RollDiceGen]} %DieTotal%

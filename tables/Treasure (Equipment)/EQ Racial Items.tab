@@ -1,0 +1,505 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder August 24, 2006.
+# ---------------------------------------------------
+#
+# This table includes:
+#    Dwarven Supplies
+#    Elven Items
+#    Halfling Items
+#
+# Sean Hlousek
+#
+# -------------------------------------------------------------------------
+#
+# To call this table from another one:
+#    [EQ Racial Items.Generate(%Rolls%,%GenItem%)
+#
+#    Parameters: (%Rolls%,%GenItem%)
+#
+#    Rolls:    (1) Enter the number of items needed.
+#    Gen Item: (1) 1= ALL
+#                  2= Dwarven Items
+#                  3= Elven Items
+#                  4= Halfling Items
+#
+# -------------------------------------------------------------------------
+#
+# Modified by Valminder, August  2006.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+#    I heavily modified this table. I could modify it more by
+#       removing all the variables for the cost, but it would
+#       be too long. For now, it works fine.
+#    The final price need to be adjusted for some items, but it
+#       seems relatively OK.
+#    I diminished the price variation in [Store].
+#    Cost of Items: Put the cost in GP, the output will modify it
+#       for gp, sp, or cp.
+#       1 sp = 0.1 gp
+#       1 cp = 0.01 gp
+#
+
+# Dwarven Items
+%BurrowingShield%,47
+%StonecuttingAxe%,90
+%JawedMaul%,400
+%Barrowboat%,50
+%ClimbingHarness%,25
+%CollapsingCart%,40
+%DescendingStaff%,60
+%DwarvinFirebox%,100
+%ElfhairRope(50ft)%,20
+%FungalRations%,0.5
+%GasFinder%,200
+%Giantspars%,80
+%HallowedAle%,15
+%ImbuingTub%,250
+%KillingGold(poisonextra)%,50
+%LanternDarkvison%,450
+%DwarvinLeather%,10
+%ScouringLye%,5
+%Maelstone%,50
+%Miner'sPack%,75
+%PullCart%,50
+%NorthernGarb%,8
+%HoningOil%,150
+%StonesightOil%,150
+%ThunderingOil%,200
+%StonebredPony%,65
+%Pulverizer%,200
+%Quickrock%,5
+%Rumblesticks%,25
+%SendingDrums(Pair)%,20
+%SiftingPan%,1
+%SlideGrease%,25
+%SocketHaft%,125
+%TrapSpringer%,500
+%Miner'sTravois%,30
+%Ularid'sFirewood(perday)%,5
+%Vilevine(percutting)%,1
+%WaterboreDrillhead%,65
+%WaterborePipeSection%,25
+%WheelBore%,250
+%Xilliar(gallon)%,55
+%YewWood(10Sq.Ft)%,230
+%Zither(Dwarvin)%,65
+%Pipe%,0.1
+
+# Elven Items
+%ElvenWarpaint%,15
+%BottledMist%,15
+%ChameleonPaint%,4
+%ClimbingCanes%,5
+%ColdFire(flask)%,5
+%ColdFireTorch%,1
+%ElvenBoots%,85
+%ElvenCamouflagePaint%,15
+%ElvenLyre%,80
+%ElvenWine%,30
+%FaerieDust%,15
+%FeySpirits%,450
+%Glowwand%,1
+%HornHarp%,500
+%IronwoodBalm%,40
+%LiquidLight%,4
+%Naphtha%,40
+%OrrerySmall%,1200
+%QuickshotQuiver%,5
+%SleepingMist%,30
+%Spidersilk%,25
+%StarRobes%,750
+%TwinFlutes%,30
+%TravelingCloak%,15
+%Waybread(3days)%,5
+%WoodChimes%,4
+
+# Halfling Items
+%HalflingHarness%,250
+%Buzzshield%,50
+%HandClamp%,15
+%SpikedHandClamp%,20
+%PoweredPressureShortSword%,425
+%PoweredPressureGreatSword%,925
+%BouncingBoots%,75
+%Bumblefoot%,120
+%Small-HandsThieve'sTools%,30
+%UnderwaterGoggles%,5
+%SmallHeathdownBedroll%,10
+%MediumHeathdownBedroll%,20
+%LanternHelmet%,19
+%ListeningHelmet%,75
+%InfiniteBook(empty)%,20
+%InfiniteSpellbook(Empty)%,300
+%ManyLensMask%,350
+%ManyLensMask(withExtendingLens)%,460
+%MechanicalLog%,750
+%PortableStove%,40
+%PortableStoveSupplies(perWeek)%,3
+%RobFob%,280
+%RopeCranker%,25
+%SecuredSpiceRack%,30
+%SecuredSpiceRack(Full)%,50
+%Southfinder%,100
+%Swiftfeet%,200
+%SwimmingGear%,100
+%Tool-Pipe%,50
+%Whistle-Pipe%,15
+%WoolenDomeTent4-Person%,65
+%WoolenDomeTent1-Person%,35
+%WoolenDomeTent2-Person%,45
+
+### Was %Base%
+%PercentGPMod%,1
+### This is the Store modifier on all its prices 70% to 200% (normal 95% - 105%)
+%STVR%,0
+### How many items to roll
+%Rolls%,0
+#### Was %Base1%
+%MagicalGPMod%,0
+
+# New variables Aug 2006.
+%Item%,0
+%Book%,0
+%Cost%,0
+%Condition%,0
+%GenItem%,0
+# 1= Mundane Item, 2= Magical Item
+%Magic%,1
+%MWGPMod%,0
+%ArmorSizeMod%,1
+# To be used with "EQ_Main.tab"
+%GetData%,0
+%DataName%,0
+%DataPercentMod%,0
+%SpecialEffect%,0
+%BodySize%,0
+%Pony%,0
+%MoneyType%,gp
+
+@Rolls,10,How many Items are in this Shop?
+@GenItem,1,What do you want to generate,ALL Racial Items,Dwarven Items,Elven Items,Halfling Items
+
+:Start
+1,{Status~By Sean Hlousek, Valminder 2006}[Generate]
+
+:Generate
+1,|STVR=1|[Store]
+#_[Multiplier]
+_{Loop~%Rolls%,|Pony=0||BodySize=0||PercentGPMod=0||MagicalGPMod=0||Magic=1||MWGPMod=0||ArmorSizeMod=1||SpecialEffect=0|
+_[Racial Items=%GenItem%]{If~%Pony%=1?<br>[Horse Generator.GenType=9]<br>/[Print=%Magic%]}
+_{If~%Rolls%>1?<br>}}
+
+:Print
+1,<b>Item:</b> <i><font color="Purple">%Item%</font></i>[Print2]
+2,<b>Item:</b> <i><font color="Blue">(Magic) %Item%</font></i>[Print2]
+
+:Print2
+1,{If~%SpecialEffect%!=0? [PrintExtraMW]}{IIf~%Book%!=2? <font size=1>(%Book%)</font>}
+_{If~%BodySize%=1? ([BodySize] size)}
+_|Cost+%MagicalGPMod%||Cost+%MWGPMod%|{If~%Magic%=1?|Cost*%ArmorSizeMod%|}
+_[Calculate Cost]
+_ (%Condition%, [AddComma.Start(%Cost%)] %MoneyType%)
+
+:PrintExtraMW
+1,<u>Extra MW Effect</u>: %SpecialEffect%.
+
+:Racial Items
+1,[RandomRacialItem]
+2,[DwarfItems]
+3,[ElfItems]
+4,[HalflingItems]
+
+:RandomRacialItem
+1,[DwarfItems]
+2,[ElfItems]
+3,[HalflingItems]
+
+# This will give a modifier to the cost of the items.
+;Store
+2,|STVR-{Calc~({Dice~1d10+20}/100)}|
+4,|STVR-{Calc~({Dice~1d10+10}/100)}|
+8,|STVR-{Calc~({Dice~1d10+5}/100)}|
+15,|STVR-{Calc~({Dice~1d5}/100)}|
+70,|STVR=1|
+30,|STVR+{Calc~({Dice~1d5}/100)}|
+15,|STVR+{Calc~({Dice~1d10+5}/100)}|
+8,|STVR+{Calc~({Dice~1d10+10}/100)}|
+4,|STVR+{Calc~({Dice~1d15+20}/100)}|
+2,|STVR+{Calc~({Dice~1d25+35}/100)}|
+1,|STVR+{Calc~({Dice~1d50+50}/100)}|
+
+:Multiplier
+1,Price Multiplier: %STVR%<br>
+                                                                         
+:Calculate Cost
+1,|Cost={Calc~((%STVR%+%PercentGPMod%)*%Cost%)}|
+_{If~%Cost%>=5?|Cost={Trunc~%Cost%}||MoneyType=gp|}
+_{If~{And~%Cost%>=1,%Cost%<5}=1?{If~%Cost%={Trunc~%Cost%}?|MoneyType=gp|/|Cost={Round~1,%Cost%}||Cost*10||MoneyType=sp|}}
+_{If~%Cost%<0.1?|Cost*100||Cost={Trunc~%Cost%}|{If~%Cost%=0?|Cost=1|}|MoneyType=cp|/{If~%Cost%<1?|Cost*10||Cost={Trunc~%Cost%}|{If~%Cost%=0?|Cost=1|}|MoneyType=sp|}}
+
+# --------------------------------------------------------------------
+;DwarfItems
+10,|Item=Burrowing Shield</font></i>[WeaponMetals].[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%BurrowingShield%|
+10,|Item=Stonecutting Axe</font></i> It has a haft[WoodOrSteel2], and a blade[WeaponMetals].||Book=UEG||Condition=[Condition]||Cost=%StonecuttingAxe%|
+2,|Item=Jawed Maul</font></i>[WeaponMetals].[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%JawedMaul%|
+2,|Item=Barrowboat</font></i> made of [Woods].[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%Barrowboat%|
+5,|Item=Climbing Harness</font></i> It is Dwarven-sized.||Book=UEG||Condition=[Condition]||Cost=%ClimbingHarness%|
+2,|Item=Collapsing Cart</font></i>[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%CollapsingCart%|
+2,|Item=Descending Staff</font></i> made of [Woods].[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%DescendingStaff%|
+3,|Item=Dwarven Firebox</font></i>[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%DwarvinFirebox%|
+10,|Item=Elfhair Rope (50ft)||Book=UEG||Condition=[Condition]||Cost=%ElfhairRope(50ft)%|
+5,|Item=Fungal Rations ({Dice~2d10} days)||Book=UEG||Condition=[Condition]||Cost=%FungalRations%|
+2,|Item=Gas Finder||Book=UEG||Condition=[Condition]||Cost=%GasFinder%|
+3,|Item=Giantspars</font></i> There are {Dice~1d10} available.||Book=UEG||Condition=[Condition]||Cost=%Giantspars%|
+5,|Item=Hallowed Ale</font></i> There are {Dice~2d6} bottles available.||Book=UEG||Condition=[Condition]||Cost=%HallowedAle%|
+3,|Item=Imbuing Tub</font></i>[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%ImbuingTub%|
+2,|Item=Killing Gold</font></i> (poison is not included)||Book=UEG||Condition=[Condition]||Cost=%KillingGold(poisonextra)%|
+20,|Item=Lantern, Darkvison</font></i>[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%LanternDarkvison%|
+5,|Item=Dwarven Leather Armor</font></i> made out of [HiltMaterial].[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%DwarvinLeather%|
+3,|Item=Scouring Lye||Book=UEG||Condition=[Condition]||Cost=%ScouringLye%|
+5,|Item=Maelstone||Book=UEG||Condition=[Condition]||Cost=%Maelstone%|
+10,|Item=Miner's Pack</font></i> made out of [HiltMaterial].[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%Miner'sPack%|
+5,|Item=Pull Cart</font></i>[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%PullCart%|
+10,|Item=Northern Garb</font></i> with a color theme that is primarily [RobeColors].||Book=UEG||Condition=[Condition]||Cost=%NorthernGarb%|
+10,|Item=Honing Oil</font></i> ({Dice~1d6} applications)||Book=UEG||Condition=[Condition]||Cost=%HoningOil%|
+5,|Item=Stonesight Oil</font></i> ({Dice~1d6} applications)||Book=UEG||Condition=[Condition]||Cost=%StonesightOil%|
+5,|Item=Thundering Oil</font></i> ({Dice~1d6} applications)||Book=UEG||Condition=[Condition]||Cost=%ThunderingOil%|
+1,|Item=Stonebred Pony||Pony=1||Book=UEG||Condition=n/a||Cost=%StonebredPony%|
+3,|Item=Pulverizer</font></i>||Book=UEG||Condition=[Condition]||Cost=%Pulverizer%|
+10,|Item=Quickrock</font></i> There are {Dice~1d10} pounds available.||Book=UEG||Condition=[Condition]||Cost=%Quickrock%|
+2,|Item=Rumblestick</font></i>||Book=UEG||Condition=[Condition]||Cost=%Rumblesticks%|
+5,|Item=Sending Drum </font></i>[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%SendingDrums(Pair)%|
+3,|Item=Sifting Pan</font></i>[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%SiftingPan%|
+2,|Item=Slide Grease</font></i>||Book=UEG||Condition=[Condition]||Cost=%SlideGrease%|
+5,|Item=Socket Haft</font></i> [WeaponMetals]. The battle axe head is [WeaponMetals] and the warhammer head is [WeaponMetals].[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%SocketHaft%|
+2,|Item=Trap Springer</font></i>||Book=UEG||Condition=[Condition]||Cost=%TrapSpringer%|
+5,|Item=Miner's Travois</font></i>||Book=UEG||Condition=[Condition]||Cost=%Miner'sTravois%|
+10,|Item=Ularid's Firewood (per day)</font></i> There are {Dice~1d10} days available.||Book=UEG||Condition=[Condition]||Cost=%Ularid'sFirewood(perday)%|
+5,|Item=Vilevine (per cutting)</font></i> There are {Dice~1d20} cuttings available.||Book=UEG||Condition=[Condition]||Cost=%Vilevine(percutting)%|
+1,|Item=Waterbore Drillhead</font></i>[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%WaterboreDrillhead%|
+1,|Item=Waterbore, Pipe Section</font></i>||Book=UEG||Condition=[Condition]||Cost=%WaterborePipeSection%|
+1,|Item=Wheel Bore</font></i>||Book=UEG||Condition=[Condition]||Cost=%WheelBore%|
+5,|Item=Xilliar (gallon)</font></i> There are {Dice~1d10} gallons available.||Book=UEG||Condition=[Condition]||Cost=%Xilliar(gallon)%|
+10,|Item=Yew Wood (10 Sq. Ft)</font></i> ||Book=UEG||Condition=[Condition]||Cost=%YewWood(10Sq.Ft)%|
+5,|Item=Zither (Dwarvin)</font></i>[AnyExtrasMundane]||Book=UEG||Condition=[InstrumentCondition]||Cost=%Zither(Dwarvin)%|
+30,|Item=Pipe:</font></i> [PipeGen]||Book=UEG||Condition=[Condition]||Cost=%Pipe%|
+
+# --------------------------------------------------------------------
+;ElfItems
+5,|Item=Elven Warpaint</font></i>||Book=UEG||Condition=[Condition]||Cost=%ElvenWarpaint%|
+5,|Item=Bottled Mist</font></i>||Book=UEG||Condition=[Condition]||Cost=%BottledMist%|
+5,|Item=Chameleon Paint</font></i> There are {Dice~1d6} application(s)||Book=UEG||Condition=[Condition]||Cost=%ChameleonPaint%|
+10,|Item=Climbing Canes</font></i> made out of [Woods].[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%ClimbingCanes%|
+15,|Item=Cold Fire (flask)</font></i> There are {Dice~1d6} use(s)||Book=UEG||Condition=[Condition]||Cost=%ColdFire(flask)%|
+10,|Item=Cold Fire Torch</font></i>||Book=UEG||Condition=[Condition]||Cost=%ColdFireTorch%|
+10,|Item=Elven Boots</font></i> made of [HiltMaterial].[AnyExtrasMundane]||BodySize=1||Book=UEG||Condition=[Condition]||Cost=%ElvenBoots%|
+5,|Item=Elven Camouflage Paint</font></i> There are {Dice~1d6} application(s).||Book=UEG||Condition=[Condition]||Cost=%ElvenCamouflagePaint%|
+2,|Item=Elven Lyre</font></i> made out of [Woods].[AnyExtrasMundane]||Book=UEG||Condition=[InstrumentCondition]||Cost=%ElvenLyre%|
+1,|Item=Elven Wine</font></i>||Book=UEG||Condition=[Condition]||Cost=%ElvenWine%|
+5,|Item=1 Bag of Faerie Dust</font></i>||Book=UEG||Condition=[Condition]||Cost=%FaerieDust%|
+2,|Item=Fey Spirits</font></i>||Book=UEG||Condition=[Condition]||Cost=%FeySpirits%|
+10,|Item=Glowwand</font></i>[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%Glowwand%|
+2,|Item=Horn Harp</font></i>[WoodOrSteel2].[AnyExtrasMundane]||Book=UEG||Condition=[InstrumentCondition]||Cost=%HornHarp%|
+5,|Item=Ironwood Balm</font></i>||Book=UEG||Condition=[Condition]||Cost=%IronwoodBalm%|
+5,|Item=Liquid Light</font></i>||Book=UEG||Condition=[Condition]||Cost=%LiquidLight%|
+5,|Item=Naphtha</font></i>||Book=UEG||Condition=[Condition]||Cost=%Naphtha%|
+1,|Item=Orrery, Small</font></i>||Book=UEG||Condition=[Condition]||Cost=%OrrerySmall%|
+15,|Item=Quickshot Quiver</font></i>[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%QuickshotQuiver%|
+2,|Item=Sleeping Mist</font></i>||Book=UEG||Condition=[Condition]||Cost=%SleepingMist%|
+5,|Item=Spidersilk</font></i>||Book=UEG||Condition=[Condition]||Cost=%Spidersilk%|
+10,|Item=Star Robes</font></i> The robe is colored [RobeColorsMix].[AnyExtrasMundane]||BodySize=1||Book=UEG||Condition=[Condition]||Cost=%StarRobes%|
+2,|Item=Twin Flutes</font></i> made of [Woods].[AnyExtrasMundane]||Book=UEG||Condition=[InstrumentCondition]||Cost=%TwinFlutes%|
+10,|Item=Traveling Cloak</font></i> colored [RobeColors].||BodySize=1||Book=UEG||Condition=[Condition]||Cost=%TravelingCloak%|
+20,|Item=Waybread (3 days)</font></i> There are {Dice~3d5} 3-day portions available.||Book=UEG||Condition=[Condition]||Cost=%Waybread(3days)%|
+10,|Item=Wood Chimes</font></i> made of [Woods].[AnyExtrasMundane]||Book=UEG||Condition=[InstrumentCondition]||Cost=%WoodChimes%|
+
+# --------------------------------------------------------------------
+;HalflingItems
+20,|Item=Pipe:</font></i> [PipeGen]||Book=UEG||Condition=[Condition]||Cost=%Pipe%|
+15,|Item=Halfling Harness</font></i> made of [HiltMaterial].[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%HalflingHarness%|
+5,|Item=Buzzshield</font></i> [WeaponMetals].[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%Buzzshield%|
+2,|Item=Hand Clamp ([EQ_Main.Hand])</font></i> [WeaponMetals].[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%HandClamp%|
+2,|Item=Spiked Hand Clamp ([EQ_Main.Hand])</font></i> [WeaponMetals].[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%SpikedHandClamp%|
+1,|Item=Powered Pressure Short Sword</font></i> [WeaponMetals].[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%PoweredPressureShortSword%|
+1,|Item=Powered Pressure Great Sword</font></i> [WeaponMetals].[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%PoweredPressureGreatSword%|
+2,|Item=Bouncing Boots</font></i> made of [HiltMaterial].[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%BouncingBoots%|
+10,|Item=Bumblefoot</font></i>||Book=UEG||Condition=[Condition]||Cost=%Bumblefoot%|
+10,|Item=Small-Hands Thieve's Tools</font></i>[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%Small-HandsThieve'sTools%|
+5,|Item=Underwater Goggles</font></i>[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%UnderwaterGoggles%|
+10,|Item=Small Heathdown Bedroll</font></i>[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%SmallHeathdownBedroll%|
+10,|Item=Medium Heathdown Bedroll</font></i>[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%MediumHeathdownBedroll%|
+10,|Item=Lantern Helmet</font></i>[WeaponMetals].[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%LanternHelmet%|
+5,|Item=Listening Helmet</font></i>[WoodOrSteel2][AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%ListeningHelmet%|
+5,|Item=Infinite Book (empty)</font></i>||Book=UEG||Condition=[Condition]||Cost=%InfiniteBook(empty)%|
+1,|Item=Infinite Spellbook (Empty)</font></i>||Book=UEG||Condition=[Condition]||Cost=%InfiniteSpellbook(Empty)%|
+2,|Item=Many Lens Mask</font></i>[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%ManyLensMask%|
+1,|Item=Many Lens Mask (with Extending Lens)</font></i>[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%ManyLensMask(withExtendingLens)%|
+2,|Item=Mechanical Log</font></i>[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%MechanicalLog%|
+10,|Item=Portable Stove</font></i>[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%PortableStove%|
+10,|Item=Portable Stove Supplies (per Week)</font></i> There are {Dice~1d8+1} weeks available.||Book=UEG||Condition=[Condition]||Cost=%PortableStoveSupplies(perWeek)%|
+2,|Item=Rob Fob</font></i>[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%RobFob%|
+2,|Item=Rope Cranker</font></i>[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%RopeCranker%|
+7,|Item=Secured Spice Rack (empty)</font></i>[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%SecuredSpiceRack%|
+5,|Item=Secured Spice Rack (Full)</font></i>[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%SecuredSpiceRack(Full)%|
+1,|Item=Southfinder</font></i>[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%Southfinder%|
+1,|Item=Swiftfeet</font></i>||Book=UEG||Condition=[Condition]||Cost=%Swiftfeet%|
+2,|Item=Swimming Gear</font></i>[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%SwimmingGear%|
+5,|Item=Tool-Pipe ([ToolPipeType])</font></i> [PipeGen]||Book=UEG||Condition=[Condition]||Cost=%Tool-Pipe%|
+10,|Item=Whistle-Pipe</font></i> [PipeGen]||Book=UEG||Condition=[InstrumentCondition]||Cost=%Whistle-Pipe%|
+10,|Item=Woolen Dome Tent 4-Person</font></i>[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%WoolenDomeTent4-Person%|
+5,|Item=Woolen Dome Tent 1-Person</font></i>[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%WoolenDomeTent1-Person%|
+15,|Item=Woolen Dome Tent 2-Person</font></i>[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%WoolenDomeTent2-Person%|
+
+# -----------------------------------------------------------------------------------
+# SUPPORT TABLES
+
+# -----------------------------------------------------------------------------------
+# Conditions
+
+;Condition
+1,|GetData=[EQ_Main.Condition]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+;InstrumentCondition
+1,|GetData=[EQ_Main.InstrumentCondition]|
+_{Split~GetData,"!!!",DataName,DataPercentMod,SpecialEffect}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# -----------------------------------------------------------------------------------
+# Materials
+
+;WoodOrSteel2
+1,|GetData=[EQ_Main.WoodOrSteel2]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+;HiltMaterial
+1,|GetData=[EQ_Main.HiltMaterial]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+;WeaponMetals
+1,|GetData=[EQ_Main.WeaponMetals]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+;ToolPipeType
+2,thieves tools
+8,normal tools
+
+# -----------------------------------------------------------------------------------
+# Pipe Generator
+
+;PipeGen
+1,|GetData=[EQ_Main.PipeGen]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# -----------------------------------------------------------------------------------
+# Size Tables
+
+;BodySize
+1,|GetData=[EQ_Main.BodySize]|
+_{Split~GetData,"!!!",DataName,ArmorSizeMod}
+_%DataName%
+
+# -----------------------------------------------------------------------------------
+# Clothing Colors and Other Colors
+
+;RobeColors
+1,[~Miscellaneous.Color+1]
+
+;RobeColorsMix
+3,[~Miscellaneous.Color+1]
+6,[~Miscellaneous.Color+1] and [~Miscellaneous.Color+1]
+1,[~Miscellaneous.Color+1], [~Miscellaneous.Color+1], and [~Miscellaneous.Color+1]
+
+# -----------------------------------------------------------------------------------
+# Tables Related to the Extra features - Engravings and the like
+
+;AnyExtrasMundane
+1,|GetData=[EQ_Main.AnyExtrasMundane]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# -----------------------------------------------------------------------------------
+# Woods and Wood Tables
+
+;Woods
+1,|GetData=[EQ_Main.Woods]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

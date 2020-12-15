@@ -1,0 +1,18 @@
+# This table demonstrates the use
+# of parameters in TableSmith files.
+
+%A%,0
+%B%,0
+%C%,1
+
+@A,ABC,Type in A
+@B,XYZ,Type in B
+@C,1,Choose C,Option 1,Option 2,Option 3
+
+:Start
+1,A = %A%<br>B = %B%<br>C = [Options=%C%]
+
+:Options
+1,Option 1
+2,Option 2
+3,Option 3

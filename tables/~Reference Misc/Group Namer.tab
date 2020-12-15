@@ -1,0 +1,152 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder Mar 23, 2018.
+# ---------------------------------------------------
+#
+# Group Namer
+# by Larry Cormier 2005
+#
+# -------------------------------------------------------------------------
+# This Table Links to these tables as required:
+#    Creatures.tab
+#    Miscellaneous.tab
+#    Religion.tab
+#
+# -------------------------------------------------------------------------
+# This table is called by:
+#    Group Designer
+#    NPC Stat Block Pathfinder
+#
+# -------------------------------------------------------------------------
+#
+# Modified by Valminder, Jan 2006.
+#    Added link to:
+#       Miscellaneous.ClassName
+#       Miscellaneous.ColorNoType
+#       Miscellaneous.Metal
+
+# Define Variables
+%Chance%,0
+
+:Start
+1,{Status~By Larry Cormier and Valminder}[BuildGroup]
+
+:BuildGroup
+1,The [Chanceof]{If~%Chance%>50 ? {Cap~[PreType]}/ {Cap~[GroupType]}} of the
+_ [Chanceof]{If~%Chance%>50 ? {CapEachWord~[Miscellaneous.ColorNoType]}} {Cap~[Flower]}
+2,The [Chanceof]{If~%Chance%>50 ? {CapEachWord~[Miscellaneous.ColorNoType]}} {Cap~[Flower]} {Cap~[GroupType]}
+3,The [Chanceof]{If~%Chance%>50 ? {CapEachWord~[Miscellaneous.ColorNoType]}} {Cap~[Flower]} Group
+4,The {CapEachWord~[Miscellaneous.Metal]} {Cap~[GroupType]}
+5,The {CapEachWord~[Miscellaneous.Wood]} {Cap~[GroupType]}
+6,The {CapEachWord~[Miscellaneous.Stone]} {Cap~[GroupType]}
+7,The {CapEachWord~[Miscellaneous.Occupations]}'s {Cap~[GroupType]}
+8,The [Chanceof]{If~%Chance%>50 ? {Cap~[PreType]}/ {Cap~[GroupType]}} of the
+_ [Chanceof]{If~%Chance%>50 ? {CapEachWord~[Miscellaneous.ColorNoType]}} {CapEachWord~[Miscellaneous.Weapons]}
+9,The {CapEachWord~[Miscellaneous.ClassName]}'s {Cap~[GroupType]}
+10,The [Chanceof]{If~%Chance%>50 ? {Cap~[Superlatives]}}
+_ [Chanceof]{If~%Chance%>50 ? {CapEachWord~[Miscellaneous.ColorNoType]}} {Plural~{CapEachWord~[Creatures.Animal+20]}}
+11,The [Chanceof]{If~%Chance%>50 ? {Cap~[Superlatives]}}
+_ [Chanceof]{If~%Chance%>50 ? {CapEachWord~[Miscellaneous.ColorNoType]}} {Plural~{CapEachWord~[Creatures.Fantastic+20]}}
+12,The [Chanceof]{If~%Chance%>50 ? {Cap~[Superlatives]}}
+_ [Chanceof]{If~%Chance%>50 ? {CapEachWord~[Miscellaneous.ColorNoType]}} {Plural~{CapEachWord~[Creatures.Bird of Prey]}}
+13,{CapEachWord~[Town Names.Generate]}'s {Cap~[GroupType]}
+14,The {Cap~[GroupType]} of {CapEachWord~[Town Names.Generate]}
+15,The {Cap~[DescriptorBranch]} {Cap~[PreType]}
+
+:Chanceof
+1,|Chance={Dice~1d100}|
+
+;DescriptorBranch
+1,[Chanceof]{If~%Chance%>50 ? {CapEachWord~[Miscellaneous.ColorNoType]}} {Cap~[Flower]} 
+1,{CapEachWord~[Miscellaneous.Wood]}
+1,{CapEachWord~[Miscellaneous.Stone]} 
+1,{CapEachWord~[Miscellaneous.Occupations]}'s
+1,[Chanceof]{If~%Chance%>50 ? {CapEachWord~[Miscellaneous.ColorNoType]}} {CapEachWord~[Miscellaneous.Weapons]}
+1,[Chanceof]{If~%Chance%>50 ? {CapEachWord~[Miscellaneous.ColorNoType]}} {Plural~{CapEachWord~[Creatures.Animal+20]}}
+1,[Chanceof]{If~%Chance%>50 ? {CapEachWord~[Miscellaneous.ColorNoType]}} {Plural~{CapEachWord~[Creatures.Fantastic+20]}}
+1,[Chanceof]{If~%Chance%>50 ? {CapEachWord~[Miscellaneous.ColorNoType]}} {Plural~{CapEachWord~[Creatures.Bird of Prey]}}
+
+:Flower
+1,rose
+2,tulip
+3,carnation
+4,lily
+
+;GroupType
+1,accord
+1,alliance
+1,amalgamation
+1,assembly
+1,association
+1,citizens
+1,club
+1,coalition
+1,company
+1,concurrence
+1,confederacy
+1,confederation
+1,congregation
+1,congress
+1,convention
+1,cult
+1,detachment
+1,division
+1,faction
+1,federation
+1,fraternity
+1,gang
+1,gathering
+1,institute
+1,institution
+1,organization
+1,order
+1,partition
+1,partnership
+1,party
+1,practice
+1,sect
+1,section
+1,segment
+1,society
+1,sorority
+1,union
+1,worshippers
+
+;PreType
+1,bloc
+1,cabal
+1,camp
+1,caucus
+1,circle
+1,council
+1,guild
+1,group
+1,league
+1,troop
+1,unit
+1,wing
+
+;Superlatives
+1,unstoppable
+1,relentless
+1,mad
+1,killer
+1,masterful
+1,mighty
+1,horrible
+1,fiendish
+1,celestial
+1,superb
+1,pious
+1,wise
+1,learned
+1,educated
+1,unmatched
+1,undefeated
+1,invincible
+1,invulnerable
+1,murderous
+1,curious
+1,lazy
+1,greedy
+1,zealous
+1,skullfaced

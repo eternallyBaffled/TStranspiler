@@ -1,0 +1,88 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder Oct 30, 2003.
+# ---------------------------------------------------
+#
+# SMS
+# 06/26/03
+# Forgotten Realms Table 57: Southern River/Lake (EL 3-12) random encounter tables
+#
+# Corrected by Valminder, Oct 2003
+#   -{If~} and {Dice~}
+#
+#Variables
+
+%Time%,0
+%Temp%,0
+
+#Parameters
+
+@Time,3,Select a time of day,Day,Night,_
+
+#
+#  Starts by putting up the instructions
+#
+
+:Start
+1,{If~%Time% = 3 ? [Instructions]/[Southern River %Time%]}
+
+;Instructions
+1,<b>Forgotten Realms Table 57: Southern River/Lake (EL 3-12)</b></br></br><h3>Instructions:</h3>
+_<b>Determine whether an encounter should occur before using this table. The chance of an encounter is based on terrain type and travel (chance per hour):</b><br>
+_<table border=1><tr><th>Terrain</th><th>Normal Travel</th><th>Cautious Travel</th><th>Hiding</th></tr>
+_<tr><td>Desolate/wasteland</td><td>5/%</td><td>2/%</td><td>1/%</td></tr>
+_<tr><td>Frontier/wilderness</td><td>8/%</td><td>4/%</td><td>2/%</td></tr>
+_<tr><td>Verdant/civilized area</td><td>10/%</td><td>5/%</td><td>2/%</td></tr>
+_<tr><td>Heavily traveled</td><td>12/%</td><td>6/%</td><td>3/%</td></tr>
+_</table>
+_<ol><li>Use the Parameter Box (below) to indicate whether it is day or night. Selecting "_" displays these instructions</li>
+_<li>This table applies to all Southern River/Lake areas so there is no region to set.</li></ul><br>
+
+# 1 corresponds to time="Day"
+:Southern River 1
+01-02,Aballin (MoF)
+03,{Dice~1d4} Banelar (MoF)
+04-09,{Dice~1d2*4} Bullywug
+10-16,{Dice~1d6+5} Crocodile
+17-19,Chuul
+20-25,Dragon: Bronze, young
+26-28,{Dice~1d2} Elasmosaurus (dinosaur)
+29,Gelatinous cube (ooze)
+30-32,{Dice~1d6+5} Giant crocodile
+33,Greenhag (hag)
+34-39,Keelboat carrying merchants: [FR_Misc.Merchant_Race] Merchants: {Dice~2d4} 1st level commoners, {Dice~2d4} 1st level warriors, led by [FR_Misc.Merchant_Leader]
+40-41,{Dice~1d4+4} Merrow (ogre)
+42-47,River Bandits ([FR_Misc.Bandit_Race]): {Dice~1d6+6} 1st level warriors and {Loop~{Dice~1d3+2}, Level {Dice~1d4} [FR_Random_NPC.FR_Evil_Class]<br> }
+48-49,{Dice~1d3+1} Scrag
+50,{Dice~1d3} Sea hag (hag)
+51-53,{Dice~1d3+1} Tojanida, juvenile
+54-55,{Dice~1d3+1} Tojanida, adult
+56,Tojanida, elder
+57-58,{Dice~1d2} Water naga
+59-60,{Dice~1d2} Werecrocodile (MoF)
+61-75,Rolled on Table 43: Southern Marsh: [FR_Southern Marsh.Southern Marsh 1]
+76-100,Roll on encounter table corresponding to surrounding terrain
+
+# 2 corresponds to time="Night"
+:Southern River 2
+01-02,Aballin (MoF)
+03-04,{Dice~1d4} Banelar (MoF)
+05-08,{Dice~1d2*4} Bullywug
+09-10,{Dice~1d6+5} Crocodile
+11-14,Chuul
+15-20,Dragon: Bronze, young
+21-22,{Dice~1d2} Elasmosaurus (dinosaur)
+23,Gelatinous cube (ooze)
+24-25,{Dice~1d6+5} Giant crocodile
+26-27,Greenhag (hag)
+28-29,Keelboat carrying merchants: [FR_Misc.Merchant_Race] Merchants: {Dice~2d4} 1st level commoners, {Dice~2d4} 1st level warriors, led by [FR_Misc.Merchant_Leader]
+30-36,{Dice~1d4+4} Merrow (ogre)
+37-39,River Bandits ([FR_Misc.Bandit_Race]): {Dice~1d6+6} 1st level warriors and {Loop~{Dice~1d3+2}, Level {Dice~1d4} [FR_Random_NPC.FR_Evil_Class]<br> }
+40-46,{Dice~1d3+1} Scrag
+47-48,{Dice~1d3} Sea hag (hag)
+49-51,{Dice~1d3+1} Tojanida, juvenile
+52-53,{Dice~1d3+1} Tojanida, adult
+54,Tojanida, elder
+55-57,{Dice~1d2} Water naga
+58-60,{Dice~1d2} Werecrocodile (MoF)
+61-75,Rolled on Table 43: Southern Marsh: [FR_Southern Marsh.Southern Marsh 2]
+76-100,Roll on encounter table corresponding to surrounding terrain

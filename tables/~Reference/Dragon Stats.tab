@@ -1,0 +1,3060 @@
+# ---------------------------------------------------
+# Last Update: Valminder Mar 2015.
+# ---------------------------------------------------
+#
+# 3.5 Edition D&D Random Dragon Stats
+#
+# -------------------------------------------------------------------------
+#
+# To call this table from another one:
+#    [Dragon Stats.CheckVariableStatus(%DragonType%,%DragonAge%,
+#                                      %Bonus0Level%,,%Ally4%,%AllyCount4%)]
+#
+#             (Default Value)
+#    DragonType:  (13) Choose a Dragon Type
+#                      1=Black, 2=Blue, 3=Green, 4=Red, 5=White, 6=Brass,
+#                      7=Bronze, 8=Copper, 9=Gold, 10=Silver, 
+#                      11=Random Chromatic, 12=Random Metallic, 13=Random Any
+#    DragonAge:   (13) 1=Wyrmling, 2=Very Young, 3=Young, 4=Juvenile,
+#                      5=Young Adult, 6=Adult, 7=Mature Adult, 8=Old,
+#                      9=Very Old, 10=Ancient, 11=Wyrm, 12=Great Wyrm, 
+#                      13=Random
+#    Bonus0Level: (2)  1= Yes, add 0-Level bonus spells.
+#                      2= No 0-Level bonus spells.
+#    Instructions:(1)  1= Shows instructions (if called from .Start)
+#                      2= To activate the table (if called from .Start)
+#    Ally4:       (0)  DO NOT MODIFY (only to link with Monster Stats.tab)
+#    AllyCount4:  (0)  DO NOT MODIFY (only to link with Monster Stats.tab)
+#
+# -------------------------------------------------------------------------
+#
+# Modified by Valminder, Dec 2005.
+#    Adapted for TSv5.
+#    Added a lot of modifications.
+#       Example: changed some functions.
+#                Dragon can't have Cleave if no Power Attack feat.
+#    Removed [OrgDescription] subtable and added link to 
+#       [Monster Stats.OrganizationDescription]
+#    Will be called from "Monster Stats.tab"
+#
+# Modified by Larry Cormier, Jan 2006.
+#    Revised Parameter Prompts so they will not be 'Cut-off' due to
+#       prompt length limitations in TableSmith v4.5
+#    Revised NumberAppearing table to eliminate redundant'Dragon Families'
+#       being generated for offspring
+#    Revised some display code for Aesthetic and Grammatical reasons
+#
+# Modified by Larry Cormier, Feb 2006.
+#    Added Bold Font style and an Attribute identifier for ease of use,
+#       and consistant integration with Monster Stats.tab
+# Modified by Valminder, Feb 2006.
+#    The feats and skills were not displayed in alphabetical order due to
+#    too many spaces here and there. Everything is now fixed.
+# Modified by Valminder, Mar 2015.
+#    Added subtable "DragonMainURE" for "ENC Ultimate Random Encounters.tab"
+#
+
+# Declare Variables
+%Instructions%,0
+%1stValue%,0
+%2ndValue%,0
+%ModValue%,0
+%Multiplier%,0
+%OrgDescription%,0
+%OrgID%,0
+%OrgOptions%,0
+%NA%,0
+%NAChoice%,0
+%DragonType%,1
+%DragonAge%,1
+%Offspring%,0
+%OffspringCount%,0
+%OffspringFlag%,0
+%OffspringAge%,0
+%HitDice%,0
+%SkillCounter%,0
+%SkillID%,0
+%TotalSkillPoints%,0
+%MaxRanks%,0
+%RanksApplied%,0
+%SkillCountAtMaxRanks%,0
+%FeatsCount%,0
+%FeatsString%,0
+%SpellcasterID%,0
+%CharacterLevel%,0
+%MagicUserClass%,0
+%Str%,0
+%Dex%,0
+%Con%,0
+%Int%,0
+%Wis%,0
+%Cha%,0
+%StrBonus%,0
+%DexBonus%,0
+%ConBonus%,0
+%IntBonus%,0
+%WisBonus%,0
+%ChaBonus%,0
+%SkillsString%,0
+%Chance%,0
+%CommaFlag%,0
+
+#For "Random Spells.tab"
+%Bonus0Level%,2
+%CharacterLevel%,21
+%ChooseGod%,3
+%MagicUserClass%,11
+%RandomAttribute%,99
+
+# To link it with Monster Stats.tab
+%Ally4%,0
+%AllyCount4%,0
+
+# Parameter Display Lists:
+@DragonType,13,Please choose a Dragon Type,Black,Blue,Green,Red,White,Brass,Bronze,Copper,Gold,Silver,Random Chromatic,Random Metallic,Random Any
+@DragonAge,12,Dragon Age desired?,Wyrmling,Very Young,Young,Juvenile,Young Adult,Adult,Mature Adult,Old,Very Old,Ancient,Wyrm,Great Wyrm,Random
+@Bonus0Level,1,OPTIONAL: Bonus 0-level spells based on Prime Attribute? (same as 1st-level spells),Yes,No
+@Instructions,1,Continue showing Instructions?,Yes,No
+@Ally4,0,DO NOT MODIFY (only used to link with Monster Stats.tab)
+@AllyCount4,0,DO NOT MODIFY (only used to link with Monster Stats.tab)
+
+:Start
+1,{Status~By Larry Cormier and Valminder 2005}
+_{If~%Instructions%=1? [Instructions]/[CheckVariableStatus]}
+
+:Instructions
+1,This table generates Stats for 3.5 Edition D&D Dragons.<br><br>
+_ Use the Parameter Button located in the Upper Left-hand corner of the screen to Input a MonsterID to get started.<br><br>
+_To call this table from another one, you need to feed it the parameters in the order listed below:<br>
+_<font color=green>Dragon Stats.CheckVariableStatus(DragonType,DragonAge,Bonus0Level,Instructions,Ally4,AllyCount4)</font><br><br>
+_<b>Example:</b> Gold Dragon, Great Wyrm, without 0-Level bonus spells.<br>
+_<font color=green>Dragon Stats.CheckVariableStatus(9,12,2)</font> (You do not need the last 3 parameters)<br><br>
+_<b>DragonType:</b><font color=darkred> (Default=13)</font> 1=Black, 2=Blue, 3=Green, 4=Red, 5=White, 6=Brass,
+_ 7=Bronze, 8=Copper, 9=Gold, 10=Silver, 11=Random Chromatic, 12=Random Metallic, 13=Random Any<br>
+_<b>DragonAge:</b> <font color=darkred>(Default=13)</font> 1=Wyrmling, 2=Very Young, 3=Young, 4=Juvenile, 5=Young Adult,
+_ 6=Adult, 7=Mature Adult, 8=Old, 9=Very Old, 10=Ancient, 11=Wyrm, 12=Great Wyrm, 13=Random<br>
+_<b>Bonus0Level:</b> <font color=darkred>(Default=2)</font>  1= Yes, add 0-Level bonus spells. 2= No 0-Level bonus spells.<br>
+_<b>Instructions:</b> <font color=darkred>(Default=1)</font>
+_ 1= Shows instructions (if called from .Start) 2= To activate the table (if called from .Start)<br>
+_<b>Ally4:</b> <font color=darkred>(Default=0)</font> DO NOT MODIFY (only to link with Monster Stats.tab)<br>
+_<b>AllyCount4:</b> <font color=darkred>(Default=0)</font> DO NOT MODIFY (only to link with Monster Stats.tab)<br>
+
+:CheckVariableStatus
+1,{If~%DragonType%=11?[ChromaticDragonStats]}
+_{If~%DragonType%=12?[MetallicDragonStats]}
+_{If~%DragonType%=13?[DetermineDragonType]}
+_{If~%DragonAge%=13?[DetermineDragonAge]}
+_[DragonMain]
+
+:DragonMain
+1,{If~%DragonAge%=13? [DetermineDragonAge]}
+_[DragonOrganization=%DragonAge%][DetermineNumberAppearing]
+_{If~%AllyCount4%!=0?|NA=%AllyCount4%|}
+_{If~%NA%<2 ? {If~%OrgDescription%=22? |NA=1|/|NA=1||OrgDescription=1|}}
+_<b>[Monster Stats.OrganizationDescription=%OrgDescription%]
+_ {If~%OrgDescription%>1? of [DragonTypeName=%DragonType%] Dragons/[DragonTypeName=%DragonType%] Dragon}</b><br><br>
+_[BuildDragonStats]
+_{If~%SpellcasterID%>0 ? <br><br>|MagicUserClass=%SpellcasterID%|
+_[Random Spells.Start(%MagicUserClass%,%CharacterLevel%,%RandomAttribute%,%ChooseGod%,%Bonus0Level%,2)]}
+_{If~%OffspringFlag%=1 ? <br><br> |DragonAge=%OffspringAge%|[BuildDragonStats]}
+
+:DragonMainURE
+1,[BuildDragonStats]
+_{If~%SpellcasterID%>0 ? <br><br>|MagicUserClass=%SpellcasterID%|
+_[Random Spells.Start(%MagicUserClass%,%CharacterLevel%,%RandomAttribute%,%ChooseGod%,%Bonus0Level%,2)]}
+_{If~%OffspringFlag%=1 ? <br><br> |DragonAge=%OffspringAge%|[BuildDragonStats]}
+
+# For the Hound Archon from Special Organization in "Monster Stats.tab"
+:DragonAlternate
+1,{If~%DragonAge%=13? [DetermineDragonAge]}
+_ |NA=%AllyCount4%|
+_ {If~%NA%=1? |OrgDescription=1|/|OrgDescription=71|}
+_ <b>[Monster Stats.OrganizationDescription=%OrgDescription%]
+_ {If~%OrgDescription%>1? of [DragonTypeName=%DragonType%] Dragons/[DragonTypeName=%DragonType%] Dragon}</b><br><br>
+_ [BuildDragonStats]
+_ {If~%SpellcasterID%>0 ? <br><br>|MagicUserClass=%SpellcasterID%|
+_ [Random Spells.Start(%MagicUserClass%,%CharacterLevel%,%RandomAttribute%,%ChooseGod%,%Bonus0Level%,2)]}
+_ {If~%OffspringFlag%=1 ? <br><br> |DragonAge=%OffspringAge%|[BuildDragonStats]}
+
+:NumberAppearing
+1,{If~%NA%=0 ? |NA=1|}
+_{If~%Offspring%=2 ? |NA=%OffspringCount%||OffspringFlag=0|}
+_(%NA%{If~%OffspringFlag%=1?[OffspringBlurb]})
+
+:DetermineNumberAppearing
+1,|NA={Dice~%1stValue%d%2ndValue%+%ModValue%}|
+2,|NA={Dice~%1stValue%d%2ndValue%*%ModValue%}|
+3,|NA={Calc~{Dice~%1stValue%d%2ndValue%+%ModValue%}*%Multiplier%}|
+
+:Chanceof
+1,|Chance={Dice~1d100}|
+
+:MagicUsingAllyBranch
+1,Bard |MagicUserClass=1|
+2,Cleric |MagicUserClass=2|
+3,Druid |MagicUserClass=3|
+4,Paladin |MagicUserClass=4|
+5,Ranger |MagicUserClass=5|
+6,Sorcerer |MagicUserClass=6|
+7,Wizard |MagicUserClass=7|
+8,Adept |MagicUserClass=8|
+9,Assassin |MagicUserClass=9|
+10,Blackguard |MagicUserClass=10|
+
+:BuildDragonStats
+1,|SpellcasterID=0|[ResetDragonFeatsAndSkills][DetermineAbilities=%DragonType%][CalculateAbilityAdds][DetermineDragonStats=%DragonType%]
+
+:DragonOrganization
+# Wyrmling, Very Young, Young, Juvenile, or Young Adult
+1-5,|NA={Dice~1d2}|
+_ {If~%NA%>1 ? |NA+1|}
+_ {If~%NA%=3 ? |1stValue=1||2ndValue=3||ModValue=2||NAChoice=1||OrgDescription=12|}
+# Adult, Mature Adult
+6-7,|NA={Dice~1d3}|
+_ {If~%NA%=3 ? |1stValue=1||2ndValue=2||ModValue=1||NAChoice=1||OrgDescription=22||OffspringFlag=1|[OffspringAge]}
+# Old, Very Old, Ancient, Wyrm, or Great Wyrm
+8-12,|NA=1|
+
+:OffspringBlurb
+1,, and |OffspringCount={Dice~1d4+1}| %OffspringCount% [DragonAgeDescription=%OffspringAge%] offspring |Offspring=2|
+
+:OffspringAge
+1-10,|OffspringAge=1|
+11-30,|OffspringAge=2|
+31-50,|OffspringAge=3|
+51-90,|OffspringAge=4|
+91-100,|OffspringAge=5|
+
+:ResetDragonFeatsAndSkills
+1,{Unlock~DragonGeneralFeats,1-12}
+_ {Unlock~DragonMetamagicFeats,1-9}
+_ {Unlock~TrueDragonSkills,1-6}
+_ {Unlock~FavoredInitialSkills,1-3}
+_ {Unlock~KnowledgeType,1-10}
+_ {Unlock~BlackClassSkills,1-3}
+_ {Unlock~BlueClassSkills,1-3}
+_ {Unlock~GreenClassSkills,1-3}
+_ {Unlock~RedClassSkills,1-3}
+_ {Unlock~WhiteClassSkills,1-3}
+_ {Unlock~BrassClassSkills,1-3}
+_ {Unlock~BronzeClassSkills,1-3}
+_ {Unlock~CopperClassSkills,1-3}
+_ {Unlock~GoldClassSkills,1-3}
+_ {Unlock~SilverClassSkills,1-3}
+
+:DetermineDragonStats
+# Black Dragons
+1,[BlackDragonStats=%DragonAge%]
+# Blue Dragons
+2,[BlueDragonStats=%DragonAge%]
+# Green Dragons
+3,[GreenDragonStats=%DragonAge%]
+# Red Dragons
+4,[RedDragonStats=%DragonAge%]
+# White Dragons
+5,[WhiteDragonStats=%DragonAge%]
+# Brass Dragons
+6,[BrassDragonStats=%DragonAge%]
+# Bronze Dragons
+7,[BronzeDragonStats=%DragonAge%]
+# Copper Dragons
+8,[CopperDragonStats=%DragonAge%]
+# Gold Dragons
+9,[GoldDragonStats=%DragonAge%]
+# Silver Dragons
+10,[SilverDragonStats=%DragonAge%]
+
+:DetermineDragonAge
+# Wyrmling
+1-5,|DragonAge=1|
+# Very Young
+6-10,|DragonAge=2|
+# Young
+11-15,|DragonAge=3|
+# Juvenile
+15-20,|DragonAge=4|
+# Young Adult
+21-25,|DragonAge=5|
+# Adult
+26-30,|DragonAge=6|
+# Mature Adult
+31-55,|DragonAge=7|
+# Old
+56-70,|DragonAge=8|
+# Very Old
+71-80,|DragonAge=9|
+# Ancient
+81-95,|DragonAge=10|
+# Wyrm
+96-98,|DragonAge=11|
+# Great Wyrm
+99-100,|DragonAge=12|
+
+:DragonAgeDescription
+1,Wyrmling
+2,Very Young
+3,Young
+4,Juvenile
+5,Young Adult
+6,Adult
+7,Mature Adult
+8,Old
+9,Very Old
+10,Ancient
+11,Wyrm
+12,Great Wyrm
+
+:DragonTypeName
+1,Black
+2,Blue
+3,Green
+4,Red
+5,White
+6,Brass
+7,Bronze
+8,Copper
+9,Gold
+10,Silver
+
+:DetermineDragonType
+# Black Dragon
+1-10,|DragonType=1|
+# Blue Dragon
+11-20,|DragonType=2|
+# Green Dragon
+21-30,|DragonType=3|
+# Red Dragon
+31-50,|DragonType=4|
+# White Dragon
+51-55,|DragonType=5|
+# Brass Dragon
+56-60,|DragonType=6|
+# Bronze Dragon
+61-65,|DragonType=7|
+# Copper Dragon
+66-70,|DragonType=8|
+# Gold Dragon
+71-90,|DragonType=9|
+# Silver Dragon
+91-100,|DragonType=10|
+
+:ChromaticDragonStats
+1,|DragonType=1|
+2,|DragonType=2|
+3,|DragonType=3|
+4,|DragonType=4|
+5,|DragonType=5|
+
+:MetallicDragonStats
+1,|DragonType=6|
+2,|DragonType=7|
+3,|DragonType=8|
+4,|DragonType=9|
+5,|DragonType=10|
+
+:BlackDragonStats
+# Wyrmling
+1,<b>Black Dragon, Wyrmling</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Tiny Dragon; 
+_ <b>CR:</b> 3; <b>HD:</b> 4d12+4 (30); <b>Init:</b> +0; <b>Spd:</b> 60 ft., fly 100 ft. (average), swim 60 ft.; 
+_ <b>AC:</b> 15 (+2 size,+3 natural), touch 12, flat-footed 15; 
+_ <b>BAB/Grapple:</b> +4/-4; 
+_ <b>Atk:</b> Bite +6 melee (1d4), Claws +6 melee (1d3), plus breath 2d4 (13); 
+_ <b>Full Atk:</b> Bite +6 melee (1d4) and 2 Claws +6 melee (1d3), plus breath 2d4 (13); 
+_ <b>Space/reach:</b> 2-1/2 ft./0 ft. (5 ft. with bite); 
+_ <b>SA:</b> Immunity to acid, sleep, and paralysis, water breathing; 
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always chaotic evil;
+_ <b>SV:</b> Fort +5, Ref +4, Will +4;
+_ <b>Attributes:</b> Str 11, Dex 10, Con 13, Int 8, Wis 11, Cha 8; 
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats]
+# Very Young
+2,<b>Black Dragon, Very Young</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Small Dragon; 
+_ <b>CR:</b> 4; <b>HD:</b> 7d12+7 (52); <b>Init:</b> +0; <b>Spd:</b> 60 ft., fly 100 ft. (average), swim 60 ft.; 
+_ <b>AC:</b> 17 (+1 size,+6 natural), touch 11, flat-footed 17 
+_ <b>BAB/Grapple:</b> +7/+4; 
+_ <b>Atk:</b> Bite +9 melee (1d6), Claws +9 melee (1d4), plus breath 4d4 (14); 
+_ <b>Full Atk:</b> Bite +9 melee (1d6) and 2 Claws +9 melee (1d4), plus breath 4d4 (14); 
+_ <b>Space/reach:</b> 5 ft./5 ft.; 
+_ <b>SA:</b> Immunity to acid, sleep, and paralysis, water breathing; 
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always chaotic evil;
+_ <b>SV:</b> Fort +6, Ref +5, Will +5;
+_ <b>Attributes:</b> Str 13, Dex 10, Con 13, Int 8, Wis 11, Cha 8 
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats]
+# Young
+3,<b>Black Dragon, Young</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Medium Dragon; 
+_ <b>CR:</b> 5; <b>HD:</b> 10d12+20 (85); <b>Init:</b> +0; <b>Spd:</b> 60 ft., fly 150 ft. (poor), swim 60 ft.; 
+_ <b>AC:</b> 19 (+9 natural), touch 10, flat-footed 19; 
+_ <b>BAB/Grapple:</b> +10/+12; 
+_ <b>Atk:</b> Bite +12 melee (1d8), Claws +12 melee (1d6), Wings +12 Melee (1d4), plus breath 6d4 (17); 
+_ <b>Full Atk:</b> Bite +12 melee (1d8) and 2 Claws +12 melee (1d6), and 2 Wings +12 Melee (1d4), plus breath 6d4 (17); 
+_ <b>Space/reach:</b> 5 ft./5 ft.; 
+_ <b>SA:</b> Immunity to acid, sleep, and paralysis, water breathing; 
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always chaotic evil;
+_ <b>SV:</b> Fort +9, Ref +7, Will +7;
+_ <b>Attributes:</b> Str 15, Dex 10, Con 15, Int 10, Wis 11, Cha 10;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats]
+# Juvenile
+4,<b>Black Dragon, Juvenile</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Medium Dragon; 
+_ <b>CR:</b> 7; <b>HD:</b> 13d12+26 (110); <b>Init:</b> +0; <b>Spd:</b> 60 ft., fly 150 ft. (poor), swim 60 ft.; 
+_ <b>AC:</b> 22 (+12 natural), touch 10, flat-footed 22; 
+_ <b>BAB/Grapple:</b> +13/+16; 
+_ <b>Atk:</b> Bite +16 melee (1d8), Claws +16 melee (1d6), Wings +16 Melee (1d4), plus breath 8d4 (18); 
+_ <b>Full Atk:</b> Bite +16 melee (1d8) and 2 Claws +16 melee (1d6), and 2 Wings +16 Melee (1d4), plus breath 8d4 (18); 
+_ <b>Space/reach:</b> 5 ft./5 ft.; 
+_ <b>SA:</b> Darkness, Immunity to acid, sleep, and paralysis, water breathing; 
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always chaotic evil;
+_ <b>SV:</b> Fort +10, Ref +8, Will +8;
+_ <b>Attributes:</b> Str 17, Dex 10, Con 15, Int 10, Wis 11, Cha 10;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats]
+# Young Adult
+5,<b>Black Dragon, Young Adult</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Large Dragon; 
+_ <b>CR:</b> 9; <b>HD:</b> 16d12+48 (152); <b>Init:</b> +0; <b>Spd:</b> 60 ft., fly 150 ft. (poor), swim 60 ft.; 
+_ <b>AC:</b> 24 (-1 size, +15 natural), touch 9, flat-footed 24; 
+_ <b>BAB/Grapple:</b> +16/+24; 
+_ <b>Atk:</b> Bite +19 melee (2d6), Claws +19 melee (1d8), Wings +19 Melee (1d6), tail slap +19 melee (1d8), plus breath 10d4 (21); 
+_ <b>Full Atk:</b> Bite +19 melee (2d6) and 2 Claws +19 melee (1d8) and 2 Wings +19 Melee (1d6) and tail slap +19 melee (1d8),
+_ plus breath 10d4 (21); 
+_ <b>Space/reach:</b> 10 ft./5 ft. (10 ft. with bite); 
+_ <b>SA:</b> Darkness, Damage Resistance 5/Magic, Frightful Presense (19), Immunity to acid, sleep, and paralysis, Spell Resistance (17),
+_ 1st Level caster,|SpellcasterID=6||CharacterLevel=1||RandomAttribute=12| water breathing; 
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always chaotic evil;
+_ <b>SV:</b> Fort +13, Ref +10, Will +11;
+_ <b>Attributes:</b> Str 19, Dex 10, Con 17, Int 12, Wis 13, Cha 12;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats]
+# Adult
+6,<b>Black Dragon, Adult</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Large Dragon; 
+_ <b>CR:</b> 11; <b>HD:</b> 19d12+76 (199); <b>Init:</b> +0; <b>Spd:</b> 60 ft., fly 150 ft. (poor), swim 60 ft.; 
+_ <b>AC:</b> 27 (-1 size, +18 natural), touch 9, flat-footed 27; 
+_ <b>BAB/Grapple:</b> +19/+29; 
+_ <b>Atk:</b> Bite +24 melee (2d6) Claws +24 melee (1d8), Wings +24 Melee (1d6), tail slap +24 melee (1d8), plus breath 12d4 (23); 
+_ <b>Full Atk:</b> Bite +24 melee (2d6) and 2 Claws +24 melee (1d8) and 2 Wings +24 Melee (1d6) and tail slap +24 melee (1d8),
+_ plus breath 12d4 (23); 
+_ <b>Space/reach:</b> 10 ft./5 ft. (10 ft. with bite); 
+_ <b>SA:</b> Corrupt Water, Darkness, Damage Resistance 5/Magic, Frightful Presense (20), Immunity to acid, sleep, and paralysis,
+_ Spell Resistance (18), 3rd Level caster|SpellcasterID=6||CharacterLevel=3||RandomAttribute=12|, water breathing; 
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always chaotic evil;
+_ <b>SV:</b> Fort +15, Ref +11, Will +12;
+_ <b>Attributes:</b> Str 23, Dex 10, Con 19, Int 12, Wis 13, Cha 12;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats]
+# Mature Adult
+7,<b>Black Dragon, Mature Adult</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Huge Dragon; 
+_ <b>CR:</b> 14; <b>HD:</b> 22d12+110 (253); <b>Init:</b> +0; <b>Spd:</b> 60 ft., fly 150 ft. (poor), swim 60 ft.; 
+_ <b>AC:</b> 29 (-2 size, +21 natural), touch 8, flat-footed 29; 
+_ <b>BAB/Grapple:</b> +22/+38; 
+_ <b>Atk:</b> Bite +28 melee (2d8) Claws +28 melee (2d6), Wings +28 Melee (1d8), tail slap +28 melee (2d6), Crush +28 Melee (2d8),
+_ plus breath 14d4 (26); 
+_ <b>Full Atk:</b> Bite +28 melee (2d8) and 2 Claws +28 melee (2d6) and 2 Wings +28 Melee (1d8) and tail slap +28 melee (2d6) and
+_ Crush +28 Melee (2d8), plus breath 14d4 (26); 
+_ <b>Space/reach:</b> 15 ft./10 ft. (15 ft. with bite); 
+_ <b>SA:</b> Corrupt Water, Darkness, Damage Resistance 10/Magic, Frightful Presense (23), Immunity to acid, sleep, and paralysis,
+_ Spell Resistance (21), 5th Level caster|SpellcasterID=6||CharacterLevel=5||RandomAttribute=14|, water breathing; 
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always chaotic evil;
+_ <b>SV:</b> Fort +18, Ref +13, Will +15;
+_ <b>Attributes:</b> Str 27, Dex 10, Con 21, Int 14, Wis 15, Cha 14;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats]
+# Old
+8,<b>Black Dragon, Old</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Huge Dragon; 
+_ <b>CR:</b> 16; <b>HD:</b> 25d12+125 (287); <b>Init:</b> +0; <b>Spd:</b> 60 ft., fly 150 ft. (poor), swim 60 ft.; 
+_ <b>AC:</b> 32 (-2 size, +24 natural), touch 8, flat-footed 32; 
+_ <b>BAB/Grapple:</b> +25/+42; 
+_ <b>Atk:</b> Bite +32 melee (2d8) Claws +32 melee (2d6), Wings +32 Melee (1d8), tail slap +32 melee (2d6), Crush +32 Melee (2d8),
+_ plus breath 16d4 (27); 
+_ <b>Full Atk:</b> Bite +32 melee (2d8) and 2 Claws +32 melee (2d6) and 2 Wings +32 Melee (1d8) and tail slap +32 melee (2d6) and
+_ Crush +32 Melee (2d8), plus breath 16d4 (27); 
+_ <b>Space/reach:</b> 15 ft./10 ft. (15 ft. with bite); 
+_ <b>SA:</b> Corrupt Water, Darkness, Damage Resistance 10/Magic, Frightful Presense (24), Immunity to acid, sleep, plant and paralysis,
+_ plant growth, Spell Resistance (22), 7th Level caster|SpellcasterID=6||CharacterLevel=7||RandomAttribute=14|, water breathing; 
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always chaotic evil;
+_ <b>SV:</b> Fort +19, Ref +14, Will +16;
+_ <b>Attributes:</b> Str 29, Dex 10, Con 21, Int 14, Wis 15, Cha 14;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats]
+# Very Old
+9,<b>Black Dragon, Very Old</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Huge Dragon; 
+_ <b>CR:</b> 18; <b>HD:</b> 28d12+168 (350); <b>Init:</b> +0; <b>Spd:</b> 60 ft., fly 150 ft. (poor), swim 60 ft.; 
+_ <b>AC:</b> 35 (-2 size, +27 natural), touch 8, flat-footed 35; 
+_ <b>BAB/Grapple:</b> +28/+46; 
+_ <b>Atk:</b> Bite +36 melee (2d8) Claws +36 melee (2d6), Wings +36 Melee (1d8), tail slap +36 melee (2d6), Crush +36 Melee (2d8),
+_ plus breath 18d4 (30); 
+_ <b>Full Atk:</b> Bite +36 melee (2d8) and 2 Claws +36 melee (2d6) and 2 Wings +36 Melee (1d8) and tail slap +36 melee (2d6) and
+_ Crush +36 Melee (2d8), plus breath 18d4 (30); 
+_ <b>Space/reach:</b> 15 ft./10 ft. (15 ft. with bite); 
+_ <b>SA:</b> Corrupt Water, Darkness, Damage Resistance 15/Magic, Frightful Presense (27), Immunity to acid, sleep, plant and paralysis,
+_ plant growth, Spell Resistance (23), 9th Level caster|SpellcasterID=6||CharacterLevel=9||RandomAttribute=16|, water breathing; 
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always chaotic evil;
+_ <b>SV:</b> Fort +22, Ref +16, Will +19;
+_ <b>Attributes:</b> Str 31, Dex 10, Con 23, Int 16, Wis 17, Cha 16;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats]
+# Ancient
+10,<b>Black Dragon, Ancient</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Huge Dragon; 
+_ <b>CR:</b> 19; <b>HD:</b> 31d12+186 (387); <b>Init:</b> +0; <b>Spd:</b> 60 ft., fly 150 ft. (poor), swim 60 ft.; 
+_ <b>AC:</b> 38 (-2 size, +30 natural), touch 8, flat-footed 38; 
+_ <b>BAB/Grapple:</b> +31/+50; 
+_ <b>Atk:</b> Bite +40 melee (2d8) Claws +40 melee (2d6), Wings +40 Melee (1d8), tail slap +40 melee (2d6), Crush +40 Melee (2d8),
+_ plus breath 20d4 (31); 
+_ <b>Full Atk:</b> Bite +40 melee (2d8) and 2 Claws +40 melee (2d6) and 2 Wings +40 Melee (1d8) and tail slap +40 melee (2d6) and
+_ Crush +40 Melee (2d8), plus breath 20d4 (31); 
+_ <b>Space/reach:</b> 15 ft./10 ft. (15 ft. with bite); 
+_ <b>SA:</b> Corrupt Water, Darkness, Damage Resistance 15/Magic, Frightful Presense (28), Immunity to acid, sleep, plant and paralysis,
+_ Insect Plague, plant growth, Spell Resistance (25), 11th Level caster|SpellcasterID=6||CharacterLevel=11||RandomAttribute=16|, water breathing; 
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always chaotic evil;
+_ <b>SV:</b> Fort +23, Ref +17, Will +20;
+_ <b>Attributes:</b> Str 33, Dex 10, Con 23, Int 16, Wis 17, Cha 16;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats]
+# Wyrm
+11,<b>Black Dragon, Wyrm</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Gargantuan Dragon; 
+_ <b>CR:</b> 20; <b>HD:</b> 34d12+238 (459); <b>Init:</b> +0; <b>Spd:</b> 60 ft., fly 200 ft. (clumsy), swim 60 ft.; 
+_ <b>AC:</b> 39 (-4 size, +33 natural), touch 6, flat-footed 39; 
+_ <b>BAB/Grapple:</b> +34/+58; 
+_ <b>Atk:</b> Bite +42 melee (4d6) Claws +42 melee (2d8), Wings +42 Melee (2d6), tail slap +42 melee (2d8), Crush +42 Melee (4d6),
+_ tail sweep +42 melee (2d6), plus breath 22d4 (34); 
+_ <b>Full Atk:</b> Bite +42 melee (4d6) and 2 Claws +42 melee (2d8) and 2 Wings +42 Melee (2d6) and tail slap +42 melee (2d8) and
+_ Crush +42 Melee (4d6) and tail sweep +42 melee (2d6), plus breath 22d4 (34); 
+_ <b>Space/reach:</b> 20 ft./15 ft. (20 ft. with bite); 
+_ <b>SA:</b> Corrupt Water, Darkness, Damage Resistance 20/Magic, Frightful Presense (31), Immunity to acid, sleep, plant and paralysis,
+_ Insect Plague, plant growth, Spell Resistance (26), 13th Level caster|SpellcasterID=6||CharacterLevel=13||CharacterLevel=13||RandomAttribute=18|, water breathing; 
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always chaotic evil;
+_ <b>SV:</b> Fort +26, Ref +19, Will +23;
+_ <b>Attributes:</b> Str 35, Dex 10, Con 25, Int 18, Wis 19, Cha 18;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats]
+# Great Wyrm
+12,<b>Black Dragon, Great Wyrm</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Gargantuan Dragon; 
+_ <b>CR:</b> 22; <b>HD:</b> 37d12+296 (536); <b>Init:</b> +0; <b>Spd:</b> 60 ft., fly 200 ft. (clumsy), swim 60 ft.; 
+_ <b>AC:</b> 42 (-4 size, +36 natural), touch 6, flat-footed 42; 
+_ <b>BAB/Grapple:</b> +37/+62; 
+_ <b>Atk:</b> Bite +46 melee (4d6) Claws +46 melee (2d8), Wings +46 Melee (2d6), tail slap +46 melee (2d8), Crush +46 Melee (4d6),
+_ tail sweep +46 melee (2d6), plus breath 24d8 (36); 
+_ <b>Full Atk:</b> Bite +46 melee (4d6) and 2 Claws +46 melee (2d8) and 2 Wings +46 Melee (2d6) and tail slap +46 melee (2d8) and
+_ Crush +46 Melee (4d6) and tail sweep +46 melee (2d6), plus breath 24d8 (36); 
+_ <b>Space/reach:</b> 20 ft./15 ft. (20 ft. with bite); 
+_ <b>SA:</b> Charm Reptiles, Corrupt Water, Darkness, Damage Resistance 20/Magic, Frightful Presense (33),
+_ Immunity to acid, sleep, plant and paralysis, Insect Plague, plant growth, Spell Resistance (28), 15th Level caster|SpellcasterID=6|
+_ |CharacterLevel=15||RandomAttribute=20|, water breathing; 
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always chaotic evil;
+_ <b>SV:</b> Fort +28, Ref +20, Will +25;
+_ <b>Attributes:</b> Str 37, Dex 10, Con 27, Int 20, Wis 21, Cha 20;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats]
+
+:BlueDragonStats
+# Wyrmling
+1,<b>Blue Dragon, Wyrmling</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Small Dragon; 
+_ <b>CR:</b> 3; <b>HD:</b> 6d12+6 (45); <b>Init:</b> +0; <b>Spd:</b> 40 ft., burrow 20 ft., fly 100 ft. (average); 
+_ <b>AC:</b> 16 (+1 size, +5 natural), touch 10, flat-footed 18; 
+_ <b>BAB/Grapple:</b> +6/+3; 
+_ <b>Atk:</b> Bite +8 melee (1d6) or Claws +8 melee (1d4) plus breath 2d8 (14); 
+_ <b>Full Atk:</b> Bite +8 melee (1d6) and 2 Claws +8 melee (1d4) plus breath 2d8 (14); 
+_ <b>Space/reach:</b> 5 ft./5 ft.; 
+_ <b>SA:</b> Immunity to electricity, create/destroy water; 
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always lawful evil;
+_ <b>SV:</b> Fort +6, Ref +5, Will +5;
+_ <b>Attributes:</b> Str 13, Dex 10, Con 13, Int 10, Wis 11, Cha 10; 
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats]
+# Very Young
+2,<b>Blue Dragon, Very Young</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Medium Dragon; 
+_ <b>CR:</b> 4; <b>HD:</b> 9d12+18 (76); <b>Init:</b> +0; <b>Spd:</b> 40 ft., burrow 20 ft., fly 150 ft. (poor); 
+_ <b>AC:</b> 18 (+8 natural), touch 11, flat-footed 16; 
+_ <b>BAB/Grapple:</b> +9/+11; 
+_ <b>Atk:</b> Bite +11 melee (1d8), Claws +11 melee (1d6), or Wings +11 melee (1d4) plus breath 4d8 (16); 
+_ <b>Full Atk:</b> Bite +11 melee (1d8) and 2 Claws +11 melee (1d6), and 2 Wings +11 melee (1d4) plus breath 4d8 (16); 
+_ <b>Space/reach:</b> 5 ft./5 ft.; 
+_ <b>SA:</b> Immunity to electricity, create/destroy water; 
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always lawful evil;
+_ <b>SV:</b> Fort +8, Ref +6, Will +6;
+_ <b>Attributes:</b> Str 15, Dex 10, Con 15, Int 10, Wis 11, Cha 10; 
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats]
+# Young
+3,<b>Blue Dragon, Young</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Medium Dragon; 
+_ <b>CR:</b> 6; <b>HD:</b> 12d12+24 (102); <b>Init:</b> +0; <b>Spd:</b> 40 ft., burrow 20 ft., fly 150 ft. (poor); 
+_ <b>AC:</b> 21 (+11 natural), touch 10, flat-footed 21; 
+_ <b>BAB/Grapple:</b> +12/+15; 
+_ <b>Atk:</b> Bite +15 melee (1d8), Claws +15 melee (1d6), or Wings +15 melee (1d4) plus breath 6d8 (18); 
+_ <b>Full Atk:</b> Bite +15 melee (1d8) and 2 Claws +15 melee (1d6), and 2 Wings +15 melee (1d4) plus breath 6d8 (18); 
+_ <b>Space/reach:</b> 5 ft./5 ft.; 
+_ <b>SA:</b> Immunity to electricity, create/destroy water; 
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always lawful evil;
+_ <b>SV:</b> Fort +10, Ref +8, Will +9;
+_ <b>Attributes:</b> Str 17, Dex 10, Con 15, Int 12, Wis 13, Cha 12; 
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats]
+# Juvenile
+4,<b>Blue Dragon, Juvenile</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Large Dragon; 
+_ <b>CR:</b> 8; <b>HD:</b> 15d12+45 (142); <b>Init:</b> +0; <b>Spd:</b> 40 ft., burrow 20 ft., fly 150 ft. (poor); 
+_ <b>AC:</b> 23 (-1 Size, +14 natural), touch 9, flat-footed 23; 
+_ <b>BAB/Grapple:</b> +15/+23; 
+_ <b>Atk:</b> Bite +18 melee (2d6), Claws +18 melee (1d8), Wings +18 melee (1d6), or Tail +18 melee (1d8), plus breath 8d8 (20); 
+_ <b>Full Atk:</b> Bite +18 melee (2d6) and 2 Claws +18 melee (1d8) and 2 Wings +18 melee (1d6) and Tail +18 melee (1d8), plus breath 8d8 (20); 
+_ <b>Space/reach:</b> 10 ft./5 ft. (10 ft. with bite); 
+_ <b>SA:</b> Immunity to electricity, create/destroy water, sound imitation, 1st Level caster|SpellcasterID=6||CharacterLevel=1||RandomAttribute=14|; 
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always lawful evil;
+_ <b>SV:</b> Fort +12, Ref +9, Will +11;
+_ <b>Attributes:</b> Str 19, Dex 10, Con 17, Int 14, Wis 15, Cha 14;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Young Adult
+5,<b>Blue Dragon, Young Adult</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Large Dragon; 
+_ <b>CR:</b> 11; <b>HD:</b> 18d12+72 (189); <b>Init:</b> +0; <b>Spd:</b> 40 ft., burrow 20 ft., fly 150 ft. (poor); 
+_ <b>AC:</b> 26 (-1 Size, +17 natural), touch 9, flat-footed 26; 
+_ <b>BAB/Grapple:</b> +18/+28; 
+_ <b>Atk:</b> Bite +23 melee (2d6), Claws +23 melee (1d8), Wings +23 melee (1d6), or Tail +23 melee (1d8), plus breath 10d8 (23); 
+_ <b>Full Atk:</b> Bite +23 melee (2d6) and 2 Claws +23 melee (1d8) and 2 Wings +23 melee (1d6) and Tail +23 melee (1d8), plus breath 10d8 (23); 
+_ <b>Space/reach:</b> 10 ft./5 ft. (10 ft. with bite); 
+_ <b>SA:</b> Damage Resistance 5/Magic, Frightful Presense (21), Immunity to electricity, create/destroy water, sound imitation,
+_ Spell Resistance (19), 3rd Level caster|SpellcasterID=6||CharacterLevel=3||RandomAttribute=14|; 
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always lawful evil;
+_ <b>SV:</b> Fort +15, Ref +11, Will +13;
+_ <b>Attributes:</b> Str 23, Dex 10, Con 19, Int 14, Wis 15, Cha 14;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Adult
+6,<b>Blue Dragon, Adult</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Huge Dragon; 
+_ <b>CR:</b> 14; <b>HD:</b> 21d12+105 (241); <b>Init:</b> +0; <b>Spd:</b> 40 ft., burrow 20 ft., fly 150 ft. (poor); 
+_ <b>AC:</b> 28 (-2 Size, +20 natural), touch 8, flat-footed 28; 
+_ <b>BAB/Grapple:</b> +21/+37; 
+_ <b>Atk:</b> Bite +27 melee (2d8), Claws +27 melee (2d6), Wings +27 melee (1d8), Tail +27 melee (2d6), or crush +27 melee (2d8),
+_ plus breath 12d8 (25); 
+_ <b>Full Atk:</b> Bite +27 melee (2d8)and 2 Claws +27 melee (2d6) and 2 Wings +27 melee (1d8) and Tail +27 melee (2d6) and crush +27 melee (2d8),
+_ plus breath 12d8 (25); 
+_ <b>Space/reach:</b> 15 ft./10 ft. (15 ft. with bite); 
+_ <b>SA:</b> Create/destroy water, Damage Resistance 5/Magic, Frightful Presense (23), Immunity to electricity, sound imitation,
+_ Spell Resistance (21), ventriloquism, 5th Level caster|SpellcasterID=6||CharacterLevel=5||RandomAttribute=16|; 
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always lawful evil;
+_ <b>SV:</b> Fort +17, Ref +12, Will +15;
+_ <b>Attributes:</b> Str 27, Dex 10, Con 21, Int 16, Wis 17, Cha 16;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Mature Adult
+7,<b>Blue Dragon, Mature Adult</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Huge Dragon; 
+_ <b>CR:</b> 16; <b>HD:</b> 24d12+120 (276); <b>Init:</b> +0; <b>Spd:</b> 40 ft., burrow 20 ft., fly 150 ft. (poor); 
+_ <b>AC:</b> 31 (-2 Size, +23 natural), touch 8, flat-footed 31; 
+_ <b>BAB/Grapple:</b> +24/+41; 
+_ <b>Atk:</b> Bite +31 melee (2d8), Claws +31 melee (2d6), Wings +31 melee (1d8), Tail +31 melee (2d6), or crush +31 melee (2d8),
+_ plus breath 14d8 (27); 
+_ <b>Full Atk:</b> Bite +31 melee (2d8)and 2 Claws +31 melee (2d6) and 2 Wings +31 melee (1d8) and Tail +31 melee (2d6) and crush +31 melee (2d8),
+_ plus breath 14d8 (27); 
+_ <b>Space/reach:</b> 15 ft./10 ft. (15 ft. with bite); 
+_ <b>SA:</b> Create/destroy water, Damage Resistance 10/Magic, Frightful Presense (25), Immunity to electricity, sound imitation,
+_ Spell Resistance (22), ventriloquism, 7th Level caster|SpellcasterID=6||CharacterLevel=7||RandomAttribute=16|; 
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always lawful evil;
+_ <b>SV:</b> Fort +19, Ref +14, Will +17;
+_ <b>Attributes:</b> Str 29, Dex 10, Con 21, Int 16, Wis 17, Cha 16;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Old
+8,<b>Blue Dragon, Old</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Huge Dragon; 
+_ <b>CR:</b> 18; <b>HD:</b> 27d12+162 (337); <b>Init:</b> +0; <b>Spd:</b> 40 ft., burrow 20 ft., fly 150 ft. (poor); 
+_ <b>AC:</b> 34 (-2 Size, +26 natural), touch 8, flat-footed 34; 
+_ <b>BAB/Grapple:</b> +27/+45; 
+_ <b>Atk:</b> Bite +35 melee (2d8), Claws +35 melee (2d6), Wings +35 melee (1d8), Tail +35 melee (2d6), or crush +35 melee (2d8),
+_ plus breath 16d8 (29); 
+_ <b>Full Atk:</b> Bite +35 melee (2d8) and 2 Claws +35 melee (2d6) and 2 Wings +35 melee (1d8) and Tail +35 melee (2d6) and crush +35 melee (2d8),
+_ plus breath 16d8 (29); 
+_ <b>Space/reach:</b> 15 ft./10 ft. (15 ft. with bite); 
+_ <b>SA:</b> Create/destroy water, Damage Resistance 10/Magic, Frightful Presense (25), Hallucinatory terrain, Immunity to electricity,
+_ sound imitation, Spell Resistance (24), ventriloquism, 9th Level caster|SpellcasterID=6||CharacterLevel=9||RandomAttribute=18|; 
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always lawful evil;
+_ <b>SV:</b> Fort +21, Ref +15, Will +19;
+_ <b>Attributes:</b> Str 31, Dex 10, Con 23, Int 18, Wis 19, Cha 18;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Very Old
+9,<b>Blue Dragon, Very Old</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Huge Dragon; 
+_ <b>CR:</b> 19; <b>HD:</b> 30d12+180 (375); <b>Init:</b> +0; <b>Spd:</b> 40 ft., burrow 20 ft., fly 150 ft. (poor); 
+_ <b>AC:</b> 37 (-2 Size, +29 natural), touch 8, flat-footed 37; 
+_ <b>BAB/Grapple:</b> +30/+49; 
+_ <b>Atk:</b> Bite +39 melee (2d8), Claws +39 melee (2d6), Wings +39 melee (1d8), Tail +39 melee (2d6), or crush +39 melee (2d8),
+_ plus breath 18d8 (31); 
+_ <b>Full Atk:</b> Bite +39 melee (2d8) and 2 Claws +39 melee (2d6)and 2 Wings +39 melee (1d8) and Tail +39 melee (2d6) and crush +39 melee (2d8),
+_ plus breath 18d8 (31); 
+_ <b>Space/reach:</b> 15 ft./10 ft. (15 ft. with bite); 
+_ <b>SA:</b> Create/destroy water, Damage Resistance 15/Magic, Frightful Presense (29), Hallucinatory terrain, Immunity to electricity,
+_ sound imitation, Spell Resistance (25), ventriloquism, 11th Level caster|SpellcasterID=6||CharacterLevel=11||RandomAttribute=18|; 
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always lawful evil;
+_ <b>SV:</b> Fort +23, Ref +17, Will +21;
+_ <b>Attributes:</b> Str 33, Dex 10, Con 23, Int 18, Wis 19, Cha 18;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Ancient
+10,<b>Blue Dragon, Ancient</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Gargantuan Dragon; 
+_ <b>CR:</b> 21; <b>HD:</b> 33d12+231 (445); <b>Init:</b> +0; <b>Spd:</b> 40 ft., burrow 20 ft., fly 200 ft. (clumsy); 
+_ <b>AC:</b> 38 (-4 Size, +32 natural), touch 6, flat-footed 38; 
+_ <b>BAB/Grapple:</b> +33/+57; 
+_ <b>Atk:</b> Bite +41 melee (4d6), Claws +41 melee (2d8), Wings +41 melee (2d6), Tail +41 melee (2d8), crush +41 melee (4d6),
+_ or tail sweep +41 melee (2d6), plus breath 20d8 (33); 
+_ <b>Full Atk:</b> Bite +41 melee (4d6) and 2 Claws +41 melee (2d8) and 2 Wings +41 melee (2d6) and Tail +41 melee (2d8) and crush +41 melee (4d6),
+_ and tail sweep +41 melee (2d6), plus breath 20d8 (33); 
+_ <b>Space/reach:</b> 20 ft./15 ft. (20 ft. with bite); 
+_ <b>SA:</b> Create/destroy water, Damage Resistance 15/Magic, Frightful Presense (31), Hallucinatory terrain, Immunity to electricity,
+_ sound imitation, Spell Resistance (27), veil, ventriloquism, 13th Level caster|SpellcasterID=6||CharacterLevel=13||RandomAttribute=20|; 
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always lawful evil;
+_ <b>SV:</b> Fort +25, Ref +18, Will +23;
+_ <b>Attributes:</b> Str 35, Dex 10, Con 25, Int 20, Wis 21, Cha 20;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Wyrm
+11,<b>Blue Dragon, Wyrm</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Gargantuan Dragon; 
+_ <b>CR:</b> 23; <b>HD:</b> 36d12+288 (522); <b>Init:</b> +0; <b>Spd:</b> 40 ft., burrow 20 ft., fly 200 ft. (clumsy); 
+_ <b>AC:</b> 41 (-4 Size, +35 natural), touch 6, flat-footed 41; 
+_ <b>BAB/Grapple:</b> +36/+61; 
+_ <b>Atk:</b> Bite +45 melee (4d6), Claws +45 melee (2d8), Wings +45 melee (2d6), Tail +45 melee (2d8), crush +45 melee (4d6),
+_ or tail sweep +45 melee (2d6), plus breath 22d8 (36); 
+_ <b>Full Atk:</b> Bite +45 melee (4d6)and 2 Claws +45 melee (2d8) and 2 Wings +45 melee (2d6) and Tail +45 melee (2d8) and crush +45 melee (4d6),
+_ and tail sweep +45 melee (2d6), plus breath 22d8 (36); 
+_ <b>Space/reach:</b> 20 ft./15 ft. (20 ft. with bite); 
+_ <b>SA:</b> Create/destroy water, Damage Resistance 20/Magic, Frightful Presense (33), Hallucinatory terrain, Immunity to electricity,
+_ sound imitation, Spell Resistance (29), veil, ventriloquism, 15th Level caster|SpellcasterID=6||CharacterLevel=15||RandomAttribute=20|; 
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always lawful evil;
+_ <b>SV:</b> Fort +28, Ref +20, Will +25;
+_ <b>Attributes:</b> Str 37, Dex 10, Con 27, Int 20, Wis 21, Cha 20;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Great Wyrm
+12,<b>Blue Dragon, Great Wyrm</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Gargantuan Dragon; 
+_ <b>CR:</b> 25; <b>HD:</b> 39d12+312 (565); <b>Init:</b> +0; <b>Spd:</b> 40 ft., burrow 20 ft., fly 200 ft. (clumsy); 
+_ <b>AC:</b> 44 (-4 Size, +38 natural), touch 6, flat-footed 44; 
+_ <b>BAB/Grapple:</b> +39/+65; 
+_ <b>Atk:</b> Bite +49 melee (4d6), Claws +49 melee (2d8), Wings +49 melee (2d6), Tail +49 melee (2d8), crush +49 melee (4d6),
+_ or tail sweep +49 melee (2d6), plus breath 24d8 (37); 
+_ <b>Full Atk:</b> Bite +49 melee (4d6) and 2 Claws +49 melee (2d8)and 2 Wings +49 melee (2d6) and Tail +49 melee (2d8) and crush +49 melee (4d6),
+_ and tail sweep +49 melee (2d6), plus breath 24d8 (37); 
+_ <b>Space/reach:</b> 20 ft./15 ft. (20 ft. with bite); 
+_ <b>SA:</b> Create/destroy water, Damage Resistance 20/Magic, Frightful Presense (35), Hallucinatory terrain, Immunity to electricity, 
+_ mirage arcana, sound imitation, Spell Resistance (31), veil, ventriloquism, 17th Level caster|SpellcasterID=6||CharacterLevel=17||RandomAttribute=22|; 
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always lawful evil;
+_ <b>SV:</b> Fort +29, Ref +21, Will +27;
+_ <b>Attributes:</b> Str 39, Dex 10, Con 27, Int 22, Wis 23, Cha 22;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+
+:GreenDragonStats
+# Wyrmling
+1,<b>Green Dragon, Wyrmling</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Small Dragon; 
+_ <b>CR:</b> 3; <b>HD:</b> 5d12+5 (37); <b>Init:</b> +0; <b>Spd:</b> 40 ft., fly 100 ft. (average), swim 40 ft.; 
+_ <b>AC:</b> 15 (+1 size, +4 natural), touch 11, flat-footed 15; 
+_ <b>BAB/Grapple:</b> +5/+2; 
+_ <b>Atk:</b> Bite +7 melee (1d6) or Claws +7 melee (1d4) plus breath 2d6 (13); 
+_ <b>Full Atk:</b> Bite +7 melee (1d6) and 2 Claws +7 melee (1d4) plus breath 2d6 (13); 
+_ <b>Space/reach:</b> 5 ft./5 ft.; 
+_ <b>SA:</b> Immunity to acid, water breathing; 
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always lawful evil;
+_ <b>SV:</b> Fort +5, Ref +4, Will +4;
+_ <b>Attributes:</b> Str 13, Dex 10, Con 13, Int 10, Wis 11, Cha 10; 
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats]
+# Very Young
+2,<b>Green Dragon, Very Young</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Medium Dragon; 
+_ <b>CR:</b> 4; <b>HD:</b> 8d12+16 (68); <b>Init:</b> +0; <b>Spd:</b> 40 ft., fly 150 ft. (poor), swim 40 ft.;
+_ <b>AC:</b> 17 (+7 natural), touch 10, flat-footed 17; 
+_ <b>BAB/Grapple:</b> +8/+10; 
+_ <b>Atk:</b> Bite +10 melee (1d8) and 2 Claws +10 melee (1d6) and 2 Wings +10 melee (1d4) plus breath 4d6 (16); 
+_ <b>Full Atk:</b> Bite +10 melee (1d8), Claws +10 melee (1d6), or Wings +10 melee (1d4) plus breath 4d6 (16); 
+_ <b>Space/reach:</b> 5 ft./5 ft.; 
+_ <b>SA:</b> Immunity to acid, water breathing;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always lawful evil;
+_ <b>SV:</b> Fort +8, Ref +6, Will +6;
+_ <b>Attributes:</b> Str 15, Dex 10, Con 15, Int 10, Wis 11, Cha 10; 
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats]
+# Young
+3,<b>Green Dragon, Young</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Medium Dragon; 
+_ <b>CR:</b> 5; <b>HD:</b> 11d12+22 (93); <b>Init:</b> +0; <b>Spd:</b> 40 ft., fly 150 ft. (poor), swim 40 ft.;
+_ <b>AC:</b> 20 (+10 natural), touch 10, flat-footed 20; 
+_ <b>BAB/Grapple:</b> +11/+14; 
+_ <b>Atk:</b> Bite +14 melee (1d8), Claws +14 melee (1d6), or Wings +14 melee (1d4) plus breath 6d6 (17); 
+_ <b>Full Atk:</b> Bite +14 melee (1d8) and 2 Claws +14 melee (1d6) and 2 Wings +14 melee (1d4) plus breath 6d6 (17); 
+_ <b>Space/reach:</b> 5 ft./5 ft.; 
+_ <b>SA:</b> Immunity to acid, water breathing;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always lawful evil;
+_ <b>SV:</b> Fort +9, Ref +7, Will +8;
+_ <b>Attributes:</b> Str 17, Dex 10, Con 15, Int 12, Wis 13, Cha 12; 
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats]
+# Juvenile
+4,<b>Green Dragon, Juvenile</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Large Dragon; 
+_ <b>CR:</b> 8; <b>HD:</b> 14d12+42 (133); <b>Init:</b> +0; <b>Spd:</b> 40 ft., fly 150 ft. (poor), swim 40 ft.;
+_ <b>AC:</b> 22 (-1 Size, +13 natural), touch 9, flat-footed 22; 
+_ <b>BAB/Grapple:</b> +14/+22; 
+_ <b>Atk:</b> Bite +17 melee (2d6), Claws +17 melee (1d8), Wings +17 melee (1d6), or Tail +17 melee (1d8), plus breath 8d6 (20); 
+_ <b>Full Atk:</b> Bite +17 melee (2d6) and 2 Claws +17 melee (1d8) and 2 Wings +17 melee (1d6) and Tail +17 melee (1d8), plus breath 8d6 (20); 
+_ <b>Space/reach:</b> 10 ft./5 ft. (10 ft. with bite); 
+_ <b>SA:</b> Immunity to acid, water breathing, 1st Level caster|SpellcasterID=6||CharacterLevel=1||RandomAttribute=14|; 
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always lawful evil;
+_ <b>SV:</b> Fort +12, Ref +9, Will +11;
+_ <b>Attributes:</b> Str 19, Dex 10, Con 17, Int 14, Wis 15, Cha 14;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Young Adult
+5,<b>Green Dragon, Young Adult</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Large Dragon; 
+_ <b>CR:</b> 11; <b>HD:</b> 17d12+68 (178); <b>Init:</b> +0; <b>Spd:</b> <b>Spd:</b> 40 ft., fly 150 ft. (poor), swim 40 ft.;
+_ <b>AC:</b> 25 (-1 Size, +16 natural), touch 9, flat-footed 25; 
+_ <b>BAB/Grapple:</b> +17/+27; 
+_ <b>Atk:</b> Bite +22 melee (2d6), Claws +22 melee (1d8), Wings +22 melee (1d6), or Tail +22 melee (1d8), plus breath 10d6 (22); 
+_ <b>Full Atk:</b> Bite +22 melee (2d6) and 2 Claws +22 melee (1d8) and 2 Wings +22 melee (1d6) and Tail +22 melee (1d8), plus breath 10d6 (22); 
+_ <b>Space/reach:</b> 10 ft./5 ft. (10 ft. with bite); 
+_ <b>SA:</b> Damage Resistance 5/Magic, Frightful Presense (20), Immunity to acid, water breathing, Spell Resistance (19),
+_ 3rd Level caster|SpellcasterID=6||CharacterLevel=3||RandomAttribute=14|; 
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always lawful evil;
+_ <b>SV:</b> Fort +14, Ref +10, Will +12;
+_ <b>Attributes:</b> Str 23, Dex 10, Con 19, Int 14, Wis 15, Cha 14;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Adult
+6,<b>Green Dragon, Adult</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Huge Dragon; 
+_ <b>CR:</b> 13; <b>HD:</b> 20d12+100 (230); <b>Init:</b> +0; <b>Spd:</b> 40 ft., fly 150 ft. (poor), swim 40 ft.;
+_ <b>AC:</b> 27 (-2 Size, +19 natural), touch 8, flat-footed 27; 
+_ <b>BAB/Grapple:</b> +20/+36; 
+_ <b>Atk:</b> Bite +26 melee (2d8), Claws +26 melee (2d6), Wings +26 melee (1d8), Tail +26 melee (2d6), or crush +26 melee (2d8),
+_ plus breath 12d6 (25); 
+_ <b>Full Atk:</b> Bite +26 melee (2d8) and 2 Claws +26 melee (2d6) and 2 Wings +26 melee (1d8) and Tail +26 melee (2d6) and crush +26 melee (2d8),
+_ plus breath 12d6 (25); 
+_ <b>Space/reach:</b> 15 ft./10 ft. (15 ft. with bite); 
+_ <b>SA:</b> Damage Resistance 5/Magic, Frightful Presense (23), Immunity to acid, suggestion, water breathing, Spell Resistance (21),
+_ 5th Level caster|SpellcasterID=6||CharacterLevel=5||RandomAttribute=16|; 
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always lawful evil;
+_ <b>SV:</b> Fort +17, Ref +12, Will +15;
+_ <b>Attributes:</b> Str 27, Dex 10, Con 21, Int 16, Wis 17, Cha 16;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Mature Adult
+7,<b>Green Dragon, Mature Adult</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Huge Dragon; 
+_ <b>CR:</b> 16; <b>HD:</b> 23d12+115 (264); <b>Init:</b> +0; <b>Spd:</b> 40 ft., fly 150 ft. (poor), swim 40 ft.; 
+_ <b>AC:</b> 30 (-2 Size, +22 natural), touch 8, flat-footed 30; 
+_ <b>BAB/Grapple:</b> +23/+40; 
+_ <b>Atk:</b> Bite +30 melee (2d8), Claws +30 melee (2d6), Wings +30 melee (1d8), Tail +30 melee (2d6), or crush +30 melee (2d8),
+_ plus breath 14d6 (26); 
+_ <b>Full Atk:</b> Bite +30 melee (2d8) and 2 Claws +30 melee (2d6) and 2 Wings +30 melee (1d8) and Tail +30 melee (2d6) and crush +30 melee (2d8),
+_ plus breath 14d6 (26); 
+_ <b>Space/reach:</b> 15 ft./10 ft. (15 ft. with bite); 
+_ <b>SA:</b> Damage Resistance 10/Magic, Frightful Presense (24), Immunity to acid, suggestion, water breathing, Spell Resistance (22),
+_ 7th Level caster|SpellcasterID=6||CharacterLevel=7||RandomAttribute=16|; 
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always lawful evil;
+_ <b>SV:</b> Fort +18, Ref +13, Will +16;
+_ <b>Attributes:</b> Str 29, Dex 10, Con 21, Int 16, Wis 17, Cha 16;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Old
+8,<b>Green Dragon, Old</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Huge Dragon; 
+_ <b>CR:</b> 18; <b>HD:</b> 26d12+156 (325); <b>Init:</b> +0; <b>Spd:</b> 40 ft., fly 150 ft. (poor), swim 40 ft.;
+_ <b>AC:</b> 33 (-2 Size, +25 natural), touch 8, flat-footed 33; 
+_ <b>BAB/Grapple:</b> +26/+44; 
+_ <b>Atk:</b> Bite +34 melee (2d8), Claws +34 melee (2d6), Wings +34 melee (1d8), Tail +34 melee (2d6), or crush +34 melee (2d8),
+_ plus breath 16d6 (29); 
+_ <b>Full Atk:</b> Bite +34 melee (2d8) and 2 Claws +34 melee (2d6) and 2 Wings +34 melee (1d8) and Tail +34 melee (2d6) and crush +34 melee (2d8),
+_ plus breath 16d6 (29); 
+_ <b>Space/reach:</b> 15 ft./10 ft. (15 ft. with bite); 
+_ <b>SA:</b> Damage Resistance 10/Magic, Frightful Presense (27), Immunity to acid, plant growth, suggestion, water breathing,
+_ Spell Resistance (24), 9th Level caster|SpellcasterID=6||CharacterLevel=9||RandomAttribute=18|;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always lawful evil;
+_ <b>SV:</b> Fort +21, Ref +15, Will +19;
+_ <b>Attributes:</b> Str 31, Dex 10, Con 23, Int 18, Wis 19, Cha 18;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Very Old
+9,<b>Green Dragon, Very Old</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Huge Dragon; 
+_ <b>CR:</b> 19; <b>HD:</b> 29d12+174 (362); <b>Init:</b> +0; <b>Spd:</b> 40 ft., fly 150 ft. (poor), swim 40 ft.;
+_ <b>AC:</b> 36 (-2 Size, +28 natural), touch 8, flat-footed 36; 
+_ <b>BAB/Grapple:</b> +29/+48; 
+_ <b>Atk:</b> Bite +38 melee (2d8), Claws +38 melee (2d6), Wings +38 melee (1d8), Tail +38 melee (2d6), or crush +38 melee (2d8),
+_ plus breath 18d6 (30); 
+_ <b>Full Atk:</b> Bite +38 melee (2d8) and 2 Claws +38 melee (2d6) and 2 Wings +38 melee (1d8) and Tail +38 melee (2d6) and crush +38 melee (2d8),
+_ plus breath 18d6 (30); 
+_ <b>Space/reach:</b> 15 ft./10 ft. (15 ft. with bite); 
+_ <b>SA:</b> Damage Resistance 15/Magic, Frightful Presense (28), Immunity to acid, plant growth, suggestion, water breathing,
+_ Spell Resistance (25), 11th Level caster|SpellcasterID=6||CharacterLevel=11||RandomAttribute=18|;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always lawful evil;
+_ <b>SV:</b> Fort +22, Ref +16, Will +20;
+_ <b>Attributes:</b> Str 33, Dex 10, Con 23, Int 18, Wis 19, Cha 18;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Ancient
+10,<b>Green Dragon, Ancient</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Gargantuan Dragon; 
+_ <b>CR:</b> 21; <b>HD:</b> 32d12+224 (432); <b>Init:</b> +0; <b>Spd:</b> 40 ft., fly 200 ft. (clumsy), swim 40 ft.;
+_ <b>AC:</b> 37 (-4 Size, +31 natural), touch 6, flat-footed 37; 
+_ <b>BAB/Grapple:</b> +32/+56; 
+_ <b>Atk:</b> Bite +40 melee (4d6), Claws +40 melee (2d8), Wings +40 melee (2d6), Tail +40 melee (2d8), crush +40 melee (4d6),
+_ or tail sweep +40 melee (2d6), plus breath 20d6 (33); 
+_ <b>Full Atk:</b> Bite +40 melee (4d6) and 2 Claws +40 melee (2d8) and 2 Wings +40 melee (2d6) and Tail +40 melee (2d8) and crush +40 melee (4d6),
+_ and tail sweep +40 melee (2d6), plus breath 20d6 (33); 
+_ <b>Space/reach:</b> 20 ft./15 ft. (20 ft. with bite); 
+_ <b>SA:</b> Damage Resistance 15/Magic, dominate person, Frightful Presense (31), Immunity to acid, plant growth, suggestion,
+_ water breathing, Spell Resistance (27), 13th Level caster|SpellcasterID=6||CharacterLevel=13||RandomAttribute=20|;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always lawful evil;
+_ <b>SV:</b> Fort +25, Ref +18, Will +23;
+_ <b>Attributes:</b> Str 35, Dex 10, Con 25, Int 20, Wis 21, Cha 20;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Wyrm
+11,<b>Green Dragon, Wyrm</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Gargantuan Dragon; 
+_ <b>CR:</b> 22; <b>HD:</b> 35d12+280 (507); <b>Init:</b> +0; <b>Spd:</b> 40 ft., fly 200 ft. (clumsy), swim 40 ft.;
+_ <b>AC:</b> 40 (-4 Size, +34 natural), touch 6, flat-footed 40; 
+_ <b>BAB/Grapple:</b> +35/+60; 
+_ <b>Atk:</b> Bite +44 melee (4d6), Claws +44 melee (2d8), Wings +44 melee (2d6), Tail +44 melee (2d8), crush +44 melee (4d6),
+_ or tail sweep +44 melee (2d6), plus breath 22d6 (32); 
+_ <b>Full Atk:</b> Bite +44 melee (4d6) and 2 Claws +44 melee (2d8) and Wings +44 melee (2d6) and Tail +44 melee (2d8) and crush +44 melee (4d6),
+_ and tail sweep +44 melee (2d6), plus breath 22d6 (32); 
+_ <b>Space/reach:</b> 20 ft./15 ft. (20 ft. with bite); 
+_ <b>SA:</b> Damage Resistance 20/Magic, dominate person, Frightful Presense (32), Immunity to acid, plant growth, suggestion,
+_ water breathing, Spell Resistance (28), 15th Level caster|SpellcasterID=6||CharacterLevel=15||RandomAttribute=20|;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always lawful evil;
+_ <b>SV:</b> Fort +27, Ref +19, Will +24;
+_ <b>Attributes:</b> Str 37, Dex 10, Con 27, Int 20, Wis 21, Cha 20;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Great Wyrm
+12,<b>Green Dragon, Great Wyrm</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Gargantuan Dragon; 
+_ <b>CR:</b> 24; <b>HD:</b> 38d12+304 (551); <b>Init:</b> +0; <b>Spd:</b> 40 ft., fly 200 ft. (clumsy), swim 40 ft.;
+_ <b>AC:</b> 43 (-4 Size, +37 natural), touch 6, flat-footed 43; 
+_ <b>BAB/Grapple:</b> +38/+64; 
+_ <b>Atk:</b> Bite +48 melee (4d6), Claws +48 melee (2d8), Wings +48 melee (2d6), Tail +48 melee (2d8), crush +48 melee (4d6),
+_ or tail sweep +48 melee (2d6), plus breath 24d6 (37); 
+_ <b>Full Atk:</b> Bite +48 melee (4d6) and 2 Claws +48 melee (2d8) and 2 Wings +48 melee (2d6) and Tail +48 melee (2d8) and crush +48 melee (4d6),
+_ and tail sweep +48 melee (2d6), plus breath 24d6 (37); 
+_ <b>Space/reach:</b> 20 ft./15 ft. (20 ft. with bite); 
+_ <b>SA:</b> Command plants, Damage Resistance 20/Magic, dominate person, Frightful Presense (35), Immunity to acid, plant growth,
+_ suggestion, water breathing, Spell Resistance (30), 17th Level caster|SpellcasterID=6||CharacterLevel=17||RandomAttribute=22|;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always lawful evil;
+_ <b>SV:</b> Fort +29, Ref +21, Will +27;
+_ <b>Attributes:</b> Str 39, Dex 10, Con 27, Int 22, Wis 23, Cha 22;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+
+:RedDragonStats
+# Wyrmling
+1,<b>Red Dragon, Wyrmling</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Medium Dragon; 
+_ <b>CR:</b> 4; <b>HD:</b> 7d12+14 (59); <b>Init:</b> +0; <b>Spd:</b> 40 ft., fly 150 ft. (poor);
+_ <b>AC:</b> 16 (+6 natural), touch 10, flat-footed 16; 
+_ <b>BAB/Grapple:</b> +7/+10; 
+_ <b>Atk:</b> Bite +10 melee (1d8), Claws +10 melee (1d6), or Wings +10 melee (1d4) plus breath 2d10 (15); 
+_ <b>Full Atk:</b> Bite +10 melee (1d8) and 2 Claws +10 melee (1d6) and 2 Wings +10 melee (1d4) plus breath 2d10 (15); 
+_ <b>Space/reach:</b> 5 ft./5 ft.; 
+_ <b>SA:</b> Immunity to fire, vulnerability to cold;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always chaotic evil;
+_ <b>SV:</b> Fort +7, Ref +5, Will +5;
+_ <b>Attributes:</b> Str 17, Dex 10, Con 15, Int 10, Wis 11, Cha 10; 
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats]
+# Very Young
+2,<b>Red Dragon, Very Young</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Large Dragon; 
+_ <b>CR:</b> 5; <b>HD:</b> 10d12+30 (95); <b>Init:</b> +0; <b>Spd:</b> 40 ft., fly 150 ft. (poor);
+_ <b>AC:</b> 18 (-1 Size, +9 natural), touch 9, flat-footed 18; 
+_ <b>BAB/Grapple:</b> +10/+19; 
+_ <b>Atk:</b> Bite +14 melee (2d6), Claws +14 melee (1d8), Wings +14 melee (1d6), or Tail +14 melee (1d8), plus breath 4d10 (18); 
+_ <b>Full Atk:</b> Bite +14 melee (2d6) and 2 Claws +14 melee (1d8) and 2 Wings +14 melee (1d6) and Tail +14 melee (1d8), plus breath 4d10 (18); 
+_ <b>Space/reach:</b> 10 ft./5 ft. (10 ft. with bite); 
+_ <b>SA:</b> Immunity to fire, vulnerability to cold;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always chaotic evil;
+_ <b>SV:</b> Fort +10, Ref +7, Will +8;
+_ <b>Attributes:</b> Str 21, Dex 10, Con 17, Int 12, Wis 13, Cha 12;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Young
+3,<b>Red Dragon, Young</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Large Dragon; 
+_ <b>CR:</b> 7; <b>HD:</b> 13d12+39 (123); <b>Init:</b> +0; <b>Spd:</b> 40 ft., fly 150 ft. (poor);
+_ <b>AC:</b> 21 (-1 Size, +12 natural), touch 9, flat-footed 21; 
+_ <b>BAB/Grapple:</b> +13/+24; 
+_ <b>Atk:</b> Bite +19 melee (2d6), Claws +19 melee (1d8), Wings +19 melee (1d6), or Tail +19 melee (1d8), plus breath 6d10 (19); 
+_ <b>Full Atk:</b> Bite +19 melee (2d6) and 2 Claws +19 melee (1d8) and 2 Wings +19 melee (1d6) and Tail +19 melee (1d8), plus breath 6d10 (19); 
+_ <b>Space/reach:</b> 10 ft./5 ft. (10 ft. with bite); 
+_ <b>SA:</b> Immunity to fire, vulnerability to cold, 1st Level caster|SpellcasterID=6||CharacterLevel=1||RandomAttribute=12|;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always chaotic evil;
+_ <b>SV:</b> Fort +11, Ref +8, Will +9;
+_ <b>Attributes:</b> Str 25, Dex 10, Con 17, Int 12, Wis 13, Cha 12;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Juvenile
+4,<b>Red Dragon, Juvenile</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Large Dragon; 
+_ <b>CR:</b> 10; <b>HD:</b> 16d12+64 (168); <b>Init:</b> +0; <b>Spd:</b> 40 ft., fly 150 ft. (poor);
+_ <b>AC:</b> 24 (-1 Size, +15 natural), touch 9, flat-footed 24; 
+_ <b>BAB/Grapple:</b> +16/+29; 
+_ <b>Atk:</b> Bite +24 melee (2d6), Claws +24 melee (1d8), Wings +24 melee (1d6), or Tail +24 melee (1d8), plus breath 8d10 (22); 
+_ <b>Full Atk:</b> Bite +24 melee (2d6) and 2 Claws +24 melee (1d8) and 2 Wings +24 melee (1d6) and Tail +24 melee (1d8), plus breath 8d10 (22); 
+_ <b>Space/reach:</b> 10 ft./5 ft. (10 ft. with bite); 
+_ <b>SA:</b> Immunity to fire, locate object, vulnerability to cold, 3rd Level caster|SpellcasterID=6||CharacterLevel=3||RandomAttribute=14|;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always chaotic evil;
+_ <b>SV:</b> Fort +14, Ref +10, Will +12;
+_ <b>Attributes:</b> Str 29, Dex 10, Con 19, Int 14, Wis 15, Cha 14;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Young Adult
+5,<b>Red Dragon, Young Adult</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Huge Dragon; 
+_ <b>CR:</b> 13; <b>HD:</b> 19d12+95 (218); <b>Init:</b> +0; <b>Spd:</b> 40 ft., fly 150 ft. (poor);
+_ <b>AC:</b> 26 (-2 Size, +18 natural), touch 8, flat-footed 26; 
+_ <b>BAB/Grapple:</b> +19/+37; 
+_ <b>Atk:</b> Bite +27 melee (2d8), Claws +27 melee (2d6), Wings +27 melee (1d8), Tail +27 melee (2d6), or crush +27 melee (2d8),
+_ plus breath 10d10 (24); 
+_ <b>Full Atk:</b> Bite +27 melee (2d8) and 2 Claws +27 melee (2d6) and 2 Wings +27 melee (1d8) and Tail +27 melee (2d6) and crush +27 melee (2d8),
+_ plus breath 10d10 (24); 
+_ <b>Space/reach:</b> 15 ft./10 ft. (15 ft. with bite); 
+_ <b>SA:</b> Damage Resistance 5/Magic, Frightful Presense (21), Immunity to fire, locate object, Spell Resistance (19),
+_ vulnerability to cold, 5th Level caster|SpellcasterID=6||CharacterLevel=5||RandomAttribute=14|;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always chaotic evil;
+_ <b>SV:</b> Fort +16, Ref +11, Will +13;
+_ <b>Attributes:</b> Str 31, Dex 10, Con 21, Int 14, Wis 15, Cha 14;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Adult
+6,<b>Red Dragon, Adult</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Huge Dragon; 
+_ <b>CR:</b> 15; <b>HD:</b> 22d12+110 (253); <b>Init:</b> +0; <b>Spd:</b> 40 ft., fly 150 ft. (poor);
+_ <b>AC:</b> 29 (-2 Size, +21 natural), touch 8, flat-footed 29; 
+_ <b>BAB/Grapple:</b> +22/+41; 
+_ <b>Atk:</b> Bite +31 melee (2d8), Claws +31 melee (2d6), Wings +31 melee (1d8), Tail +31 melee (2d6), or crush +31 melee (2d8),
+_ plus breath 12d10 (26); 
+_ <b>Full Atk:</b> Bite +31 melee (2d8) and 2 Claws +31 melee (2d6) and 2 Wings +31 melee (1d8) and Tail +31 melee (2d6) and crush +31 melee (2d8),
+_ plus breath 12d10 (26); 
+_ <b>Space/reach:</b> 15 ft./10 ft. (15 ft. with bite); 
+_ <b>SA:</b> Damage Resistance 5/Magic, Frightful Presense (24), Immunity to fire, locate object, Spell Resistance (21),
+_ vulnerability to cold, 7th Level caster|SpellcasterID=6||CharacterLevel=7||RandomAttribute=16|;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always chaotic evil;
+_ <b>SV:</b> Fort +18, Ref +13, Will +17;
+_ <b>Attributes:</b> Str 33, Dex 10, Con 21, Int 16, Wis 19, Cha 16;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Mature Adult
+7,<b>Red Dragon, Mature Adult</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Huge Dragon; 
+_ <b>CR:</b> 18; <b>HD:</b> 25d12+150 (312); <b>Init:</b> +0; <b>Spd:</b> 40 ft., fly 150 ft. (poor);
+_ <b>AC:</b> 32 (-2 Size, +24 natural), touch 8, flat-footed 32; 
+_ <b>BAB/Grapple:</b> +25/+44; 
+_ <b>Atk:</b> Bite +34 melee (2d8), Claws +34 melee (2d6), Wings +34 melee (1d8), Tail +34 melee (2d6), or crush +34 melee (2d8),
+_ plus breath 14d10 (28); 
+_ <b>Full Atk:</b> Bite +34 melee (2d8) and 2 Claws +34 melee (2d6) and 2 Wings +34 melee (1d8) and Tail +34 melee (2d6) and crush +34 melee (2d8),
+_ plus breath 14d10 (28); 
+_ <b>Space/reach:</b> 15 ft./10 ft. (15 ft. with bite); 
+_ <b>SA:</b> Damage Resistance 10/Magic, Frightful Presense (26), Immunity to fire, locate object, Spell Resistance (23),
+_ vulnerability to cold, 9th Level caster|SpellcasterID=6||CharacterLevel=9||RandomAttribute=18|;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always chaotic evil;
+_ <b>SV:</b> Fort +20, Ref +14, Will +18;
+_ <b>Attributes:</b> Str 33, Dex 10, Con 23, Int 18, Wis 19, Cha 18;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Old
+8,<b>Red Dragon, Old</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Gargantuan Dragon; 
+_ <b>CR:</b> 20; <b>HD:</b> 28d12+196 (378); <b>Init:</b> +0; <b>Spd:</b> 40 ft., fly 200 ft. (clumsy);
+_ <b>AC:</b> 33 (-4 Size, +27 natural), touch 6, flat-footed 33; 
+_ <b>BAB/Grapple:</b> +28/+52; 
+_ <b>Atk:</b> Bite +36 melee (4d6), Claws +36 melee (2d8), Wings +36 melee (2d6), Tail +36 melee (2d8), crush +36 melee (4d6),
+_ or tail sweep +36 melee (2d6), plus breath 16d10 (31); 
+_ <b>Full Atk:</b> Bite +36 melee (4d6) and 2 Claws +36 melee (2d8) and 2 Wings +36 melee (2d6) and Tail +36 melee (2d8) and crush +36 melee (4d6),
+_ and tail sweep +36 melee (2d6), plus breath 16d10 (31); 
+_ <b>Space/reach:</b> 20 ft./15 ft. (20 ft. with bite); 
+_ <b>SA:</b> Damage Resistance 10/Magic, Frightful Presense (29), Immunity to fire, locate object, suggestion, Spell Resistance (24),
+_ vulnerability to cold, 11th Level caster|SpellcasterID=6||CharacterLevel=11||RandomAttribute=20|;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always chaotic evil;
+_ <b>SV:</b> Fort +23, Ref +16, Will +21;
+_ <b>Attributes:</b> Str 35, Dex 10, Con 25, Int 20, Wis 21, Cha 20;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Very Old
+9,<b>Red Dragon, Very Old</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Gargantuan Dragon; 
+_ <b>CR:</b> 21; <b>HD:</b> 31d12+248 (449); <b>Init:</b> +0; <b>Spd:</b> 40 ft., fly 200 ft. (clumsy);
+_ <b>AC:</b> 36 (-4 Size, +30 natural), touch 6, flat-footed 36; 
+_ <b>BAB/Grapple:</b> +31/+56; 
+_ <b>Atk:</b> Bite +40 melee (4d6), Claws +40 melee (2d8), Wings +40 melee (2d6), Tail +40 melee (2d8), crush +40 melee (4d6),
+_ or tail sweep +40 melee (2d6), plus breath 18d10 (33); 
+_ <b>Full Atk:</b> Bite +40 melee (4d6) and 2 Claws +40 melee (2d8) and 2 Wings +40 melee (2d6) and Tail +40 melee (2d8) and crush +40 melee (4d6),
+_ and tail sweep +40 melee (2d6), plus breath 18d10 (33); 
+_ <b>Space/reach:</b> 20 ft./15 ft. (20 ft. with bite); 
+_ <b>SA:</b> Damage Resistance 15/Magic, Frightful Presense (31), Immunity to fire, locate object, suggestion, Spell Resistance (26),
+_ vulnerability to cold, 13th Level caster|SpellcasterID=6||CharacterLevel=13||RandomAttribute=22|;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always chaotic evil;
+_ <b>SV:</b> Fort +25, Ref +17, Will +23;
+_ <b>Attributes:</b> Str 37, Dex 10, Con 27, Int 22, Wis 23, Cha 22;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Ancient
+10,<b>Red Dragon, Ancient</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Gargantuan Dragon; 
+_ <b>CR:</b> 23; <b>HD:</b> 34d12+306 (527); <b>Init:</b> +0; <b>Spd:</b> 40 ft., fly 200 ft. (clumsy);
+_ <b>AC:</b> 39 (-4 Size, +33 natural), touch 6, flat-footed 39; 
+_ <b>BAB/Grapple:</b> +34/+60; 
+_ <b>Atk:</b> Bite +44 melee (4d6), Claws +44 melee (2d8), Wings +44 melee (2d6), Tail +44 melee (2d8), crush +44 melee (4d6),
+_ or tail sweep +44 melee (2d6), plus breath 20d10 (36); 
+_ <b>Full Atk:</b> Bite +44 melee (4d6) and 2 Claws +44 melee (2d8) and 2 Wings +44 melee (2d6) and Tail +44 melee (2d8) and crush +44 melee (4d6),
+_ and tail sweep +44 melee (2d6), plus breath 20d10 (36); 
+_ <b>Space/reach:</b> 20 ft./15 ft. (20 ft. with bite); 
+_ <b>SA:</b> Damage Resistance 15/Magic, find the path, Frightful Presense (34), Immunity to fire, locate object, suggestion,
+_ Spell Resistance (28), vulnerability to cold, 15th Level caster|SpellcasterID=6||CharacterLevel=15||RandomAttribute=24|;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always chaotic evil;
+_ <b>SV:</b> Fort +28, Ref +19, Will +26;
+_ <b>Attributes:</b> Str 39, Dex 10, Con 29, Int 24, Wis 25, Cha 24;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Wyrm
+11,<b>Red Dragon, Wyrm</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Gargantuan Dragon; 
+_ <b>CR:</b> 24; <b>HD:</b> 37d12+370 (610); <b>Init:</b> +0; <b>Spd:</b> 40 ft., fly 200 ft. (clumsy);
+_ <b>AC:</b> 42 (-4 Size, +36 natural), touch 6, flat-footed 42; 
+_ <b>BAB/Grapple:</b> +37/+64; 
+_ <b>Atk:</b> Bite +48 melee (4d6), Claws +48 melee (2d8), Wings +48 melee (2d6), Tail +48 melee (2d8), crush +48 melee (4d6),
+_ or tail sweep +48 melee (2d6), plus breath 22d10 (38); 
+_ <b>Full Atk:</b> Bite +48 melee (4d6) and 2 Claws +48 melee (2d8) and 2 Wings +48 melee (2d6) and Tail +48 melee (2d8) and crush +48 melee (4d6),
+_ and tail sweep +48 melee (2d6), plus breath 22d10 (38); 
+_ <b>Space/reach:</b> 20 ft./15 ft. (20 ft. with bite); 
+_ <b>SA:</b> Damage Resistance 20/Magic, find the path, Frightful Presense (35), Immunity to fire, locate object, suggestion,
+_ Spell Resistance (30), vulnerability to cold, 17th Level caster|SpellcasterID=6||CharacterLevel=17||RandomAttribute=24|;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always chaotic evil;
+_ <b>SV:</b> Fort +30, Ref +20, Will +27;
+_ <b>Attributes:</b> Str 41, Dex 10, Con 31, Int 24, Wis 25, Cha 24;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Great Wyrm
+12,<b>Red Dragon, Great Wyrm</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Colossal Dragon; 
+_ <b>CR:</b> 26; <b>HD:</b> 40d12+400 (660); <b>Init:</b> +0; <b>Spd:</b> 40 ft., fly 200 ft. (clumsy);
+_ <b>AC:</b> 41 (-8 Size, +39 natural), touch 2, flat-footed 41; 
+_ <b>BAB/Grapple:</b> +40/+73; 
+_ <b>Atk:</b> Bite +49 melee (4d8), Claws +49 melee (4d6), Wings +49 melee (2d8), Tail +49 melee (4d6), crush +49 melee (4d8),
+_ or tail sweep +49 melee (2d8), plus breath 24d10 (40); 
+_ <b>Full Atk:</b> Bite +49 melee (4d8) and 2 Claws +49 melee (4d6) and 2 Wings +49 melee (2d8) and Tail +49 melee (4d6) and crush +49 melee (4d8),
+_ and tail sweep +49 melee (2d8), plus breath 24d10 (40); 
+_ <b>Space/reach:</b> 30 ft./20 ft. (30 ft. with bite); 
+_ <b>SA:</b> Damage Resistance 20/Magic, discern location, find the path, Frightful Presense (38), Immunity to fire, locate object,
+_ suggestion, Spell Resistance (32), vulnerability to cold, 19th Level caster|SpellcasterID=6||CharacterLevel=19||RandomAttribute=26|;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always chaotic evil;
+_ <b>SV:</b> Fort +32, Ref +22, Will +30;
+_ <b>Attributes:</b> Str 45, Dex 10, Con 31, Int 26, Wis 27, Cha 26;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+
+:WhiteDragonStats
+# Wyrmling
+1,<b>White Dragon, Wyrmling</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Tiny Dragon; 
+_ <b>CR:</b> 2; <b>HD:</b> 3d12+3 (22); <b>Init:</b> +0; <b>Spd:</b> 60 ft., burrow 30 ft., fly 150 ft. (average), swim 60 ft.; 
+_ <b>AC:</b> 14 (+2 size,+2 natural), touch 12, flat-footed 14; 
+_ <b>BAB/Grapple:</b> +3/-5; 
+_ <b>Atk:</b> Bite +5 melee (1d4), Claws +5 melee (1d3) plus breath 1d6 (12); 
+_ <b>Full Atk:</b> Bite +5 melee (1d4) and 2 Claws +5 melee (1d3) plus breath 1d6 (12); 
+_ <b>Space/reach:</b> 2-1/2 ft./0 ft. (5 ft. with bite); 
+_ <b>SA:</b> Icewalking, immunity to cold, vulnerability to fire; 
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always chaotic evil;
+_ <b>SV:</b> Fort +5, Ref +4, Will +4;
+_ <b>Attributes:</b> Str 11, Dex 10, Con 13, Int 6, Wis 11, Cha 6; 
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats]
+# Very Young
+2,<b>White Dragon, Very Young</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Small Dragon; 
+_ <b>CR:</b> 3; <b>HD:</b> 6d12+6 (45); <b>Init:</b> +0; <b>Spd:</b> 60 ft., burrow 30 ft., fly 150 ft. (average), swim 60 ft.; 
+_ <b>AC:</b> 16 (+1 size,+5 natural), touch 11, flat-footed 16 
+_ <b>BAB/Grapple:</b> +6/+3; 
+_ <b>Atk:</b> Bite +8 melee (1d6), Claws +8 melee (1d4) plus breath 2d6 (14); 
+_ <b>Full Atk:</b> Bite +8 melee (1d6) and 2 Claws +8 melee (1d4) plus breath 2d6 (14); 
+_ <b>Space/reach:</b> 5 ft./5 ft.; 
+_ <b>SA:</b> Icewalking, immunity to cold, vulnerability to fire;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always chaotic evil;
+_ <b>SV:</b> Fort +6, Ref +5, Will +5;
+_ <b>Attributes:</b> Str 13, Dex 10, Con 13, Int 6, Wis 11, Cha 6; 
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats]
+# Young
+3,<b>White Dragon, Young</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Medium Dragon; 
+_ <b>CR:</b> 4; <b>HD:</b> 9d12+18 (76); <b>Init:</b> +0; <b>Spd:</b> 60 ft., burrow 30 ft., fly 200 ft. (average), swim 60 ft.; 
+_ <b>AC:</b> 18 (+8 natural), touch 10, flat-footed 18; 
+_ <b>BAB/Grapple:</b> +9/+11; 
+_ <b>Atk:</b> Bite +11 melee (1d8), Claws +11 melee (1d6), Wing +11 Melee (1d4) plus breath 3d6 (16); 
+_ <b>Full Atk:</b> Bite +11 melee (1d8) and 2 Claws +11 melee (1d6) and 2 Wings +11 Melee (1d4) plus breath 3d6 (16); 
+_ <b>Space/reach:</b> 5 ft./5 ft.; 
+_ <b>SA:</b> Icewalking, immunity to cold, vulnerability to fire;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always chaotic evil;
+_ <b>SV:</b> Fort +8, Ref +6, Will +6;
+_ <b>Attributes:</b> Str 15, Dex 10, Con 15, Int 6, Wis 11, Cha 6;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats]
+# Juvenile
+4,<b>White Dragon, Juvenile</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Medium Dragon; 
+_ <b>CR:</b> 6; <b>HD:</b> 12d12+24 (102); <b>Init:</b> +0; <b>Spd:</b> 60 ft., burrow 30 ft., fly 200 ft. (average), swim 60 ft.; 
+_ <b>AC:</b> 21 (+11 natural), touch 10, flat-footed 21; 
+_ <b>BAB/Grapple:</b> +12/+15; 
+_ <b>Atk:</b> Bite +15 melee (1d8), Claws +15 melee (1d6), Wing +15 Melee (1d4) plus breath 4d6 (18); 
+_ <b>Full Atk:</b> Bite +15 melee (1d8) and 2 Claws +15 melee (1d6) and 2 Wings +15 Melee (1d4) plus breath 4d6 (18); 
+_ <b>Space/reach:</b> 5 ft./5 ft.; 
+_ <b>SA:</b> Fog cloud, Icewalking, immunity to cold, vulnerability to fire;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always chaotic evil;
+_ <b>SV:</b> Fort +10, Ref +8, Will +8;
+_ <b>Attributes:</b> Str 17, Dex 10, Con 15, Int 8, Wis 11, Cha 8;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats]
+# Young Adult
+5,<b>White Dragon, Young Adult</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Large Dragon; 
+_ <b>CR:</b> 8; <b>HD:</b> 15d12+45 (142); <b>Init:</b> +0; <b>Spd:</b> 60 ft., burrow 30 ft., fly 200 ft. (average), swim 60 ft.; 
+_ <b>AC:</b> 23 (-1 size, +14 natural), touch 9, flat-footed 23; 
+_ <b>BAB/Grapple:</b> +15/+23; 
+_ <b>Atk:</b> Bite +18 melee (2d6), Claws +18 melee (1d8), Wing +18 Melee (1d6) and tail slap +18 melee (1d8) plus breath 5d6 (20); 
+_ <b>Full Atk:</b> Bite +18 melee (2d6) and 2 Claws +18 melee (1d8) and 2 Wings +18 Melee (1d6) and tail slap +18 melee (1d8) plus breath 5d6 (20); 
+_ <b>Space/reach:</b> 10 ft./5 ft. (10 ft. with bite); 
+_ <b>SA:</b> Damage Resistance 5/magic, Fog cloud, frightful presense (17), Icewalking, immunity to cold, Spell Resistance (16),
+_ vulnerability to fire;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always chaotic evil;
+_ <b>SV:</b> Fort +12, Ref +9, Will +9;
+_ <b>Attributes:</b> Str 19, Dex 10, Con 17, Int 8, Wis 11, Cha 10;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats]
+# Adult
+6,<b>White Dragon, Adult</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Large Dragon; 
+_ <b>CR:</b> 10; <b>HD:</b> 18d12+72 (189); <b>Init:</b> +0; <b>Spd:</b> 60 ft., burrow 30 ft., fly 200 ft. (average), swim 60 ft.; 
+_ <b>AC:</b> 26 (-1 size, +17 natural), touch 9, flat-footed 26; 
+_ <b>BAB/Grapple:</b> +18/+28; 
+_ <b>Atk:</b> Bite +23 melee (2d6), Claws +23 melee (1d8), Wing +23 Melee (1d6), tail slap +23 melee (1d8) plus breath 6d6 (23); 
+_ <b>Full Atk:</b> Bite +23 melee (2d6) and 2 Claws +23 melee (1d8) and 2 Wings +23 Melee (1d6) and tail slap +23 melee (1d8) plus breath 6d6 (23); 
+_ <b>Space/reach:</b> 10 ft./5 ft. (10 ft. with bite); 
+_ <b>SA:</b> Damage Resistance 5/magic, Fog cloud, frightful presense (20), gust of wind, Icewalking, immunity to cold,
+_ Spell Resistance (18), vulnerability to fire, 1st level caster|SpellcasterID=6||CharacterLevel=1||RandomAttribute=12|;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always chaotic evil;
+_ <b>SV:</b> Fort +15, Ref +11, Will +11;
+_ <b>Attributes:</b> Str 23, Dex 10, Con 19, Int 10, Wis 11, Cha 12;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats]
+# Mature Adult
+7,<b>White Dragon, Mature Adult</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Huge Dragon; 
+_ <b>CR:</b> 12; <b>HD:</b> 21d12+105 (241); <b>Init:</b> +0; <b>Spd:</b> 60 ft., burrow 30 ft., fly 200 ft. (average), swim 60 ft.; 
+_ <b>AC:</b> 28 (-2 Size, +20 natural), touch 9, flat-footed 26; 
+_ <b>BAB/Grapple:</b> +21/+37; 
+_ <b>Atk:</b> Bite +27 melee (2d8), Claws +27 melee (2d6), Wings +27 melee (1d8), Tail +27 melee (2d6), and crush +27 melee (2d8),
+_ plus breath 7d6 (25); 
+_ <b>Full Atk:</b> Bite +27 melee (2d8)and 2 Claws +27 melee (2d6) and 2 Wings +27 melee (1d8) and Tail +27 melee (2d6) and crush +27 melee (2d8),
+_ plus breath 7d6 (25); 
+_ <b>Space/reach:</b> 15 ft./10 ft. (15 ft. with bite); 
+_ <b>SA:</b> Damage Resistance 10/magic, Fog cloud, frightful presense (21), gust of wind, Icewalking, immunity to cold,
+_ Spell Resistance (20), vulnerability to fire, 3rd level caster|SpellcasterID=6||CharacterLevel=3||RandomAttribute=12|;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always chaotic evil;
+_ <b>SV:</b> Fort +17, Ref +12, Will +13;
+_ <b>Attributes:</b> Str 27, Dex 10, Con 21, Int 12, Wis 13, Cha 12;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Old
+8,<b>White Dragon, Old</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Huge Dragon; 
+_ <b>CR:</b> 15; <b>HD:</b> 24d12+120 (276); <b>Init:</b> +0; <b>Spd:</b> 60 ft., burrow 30 ft., fly 200 ft. (average), swim 60 ft.; 
+_ <b>AC:</b> 31 (-2 Size, +23 natural), touch 8, flat-footed 31; 
+_ <b>BAB/Grapple:</b> +24/+41;
+_ <b>Atk:</b> Bite +31 melee (2d8), Claws +31 melee (2d6), Wings +31 melee (1d8), Tail +31 melee (2d6), and crush +31 melee (2d8),
+_ plus breath 8d6 (27);
+_ <b>Full Atk:</b> Bite +31 melee (2d8) and 2 Claws +31 melee (2d6) and 2 Wings +31 melee (1d8) and Tail +31 melee (2d6) and crush +31 melee (2d8),
+_ plus breath 8d6 (27); 
+_ <b>Space/reach:</b> 15 ft./10 ft. (15 ft. with bite); 
+_ <b>SA:</b> Damage Resistance 10/magic, Fog cloud, freezing fog, frightful presense (23), gust of wind, Icewalking, immunity to cold,
+_ Spell Resistance (21), vulnerability to fire, 5th level caster|SpellcasterID=6||CharacterLevel=5||RandomAttribute=12|;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always chaotic evil;
+_ <b>SV:</b> Fort +19, Ref +14, Will +15;
+_ <b>Attributes:</b> Str 29, Dex 10, Con 21, Int 12, Wis 13, Cha 12;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Very Old
+9,<b>White Dragon, Very Old</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Huge Dragon; 
+_ <b>CR:</b> 17; <b>HD:</b> 27d12+162 (337); <b>Init:</b> +0; <b>Spd:</b> 60 ft., burrow 30 ft., fly 200 ft. (average), swim 60 ft.; 
+_ <b>AC:</b> 34 (-2 Size, +26 natural), touch 8, flat-footed 34; 
+_ <b>BAB/Grapple:</b> +27/+45;
+_ <b>Atk:</b> Bite +35 melee (2d8), Claws +35 melee (2d6), Wings +35 melee (1d8), Tail +35 melee (2d6), and crush +35 melee (2d8),
+_ plus breath 9d6 (29);
+_ <b>Full Atk:</b> Bite +35 melee (2d8) and 2 Claws +35 melee (2d6) and 2 Wings +35 melee (1d8) and Tail +35 melee (2d6) and crush +35 melee (2d8),
+_ plus breath 9d6 (29); 
+_ <b>Space/reach:</b> 15 ft./10 ft. (15 ft. with bite); 
+_ <b>SA:</b> Damage Resistance 15/magic, Fog cloud, freezing fog, frightful presense (25), gust of wind, Icewalking, immunity to cold,
+_ Spell Resistance (23), vulnerability to fire, 7th level caster|SpellcasterID=6||CharacterLevel=7||RandomAttribute=14|;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always chaotic evil;
+_ <b>SV:</b> Fort +21, Ref +15, Will +17;
+_ <b>Attributes:</b> Str 31, Dex 10, Con 23, Int 14, Wis 15, Cha 14;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Ancient
+10,<b>White Dragon, Ancient</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Huge Dragon; 
+_ <b>CR:</b> 18; <b>HD:</b> 30d12+180 (375); <b>Init:</b> +0; <b>Spd:</b> 60 ft., burrow 30 ft., fly 200 ft. (average), swim 60 ft.; 
+_ <b>AC:</b> 37 (-2 Size, +29 natural), touch 8, flat-footed 37; 
+_ <b>BAB/Grapple:</b> +30/+49;
+_ <b>Atk:</b> Bite +39 melee (2d8), Claws +39 melee (2d6), Wings +39 melee (1d8), Tail +39 melee (2d6), and crush +39 melee (2d8),
+_ plus breath 10d6 (31);
+_ <b>Full Atk:</b> Bite +39 melee (2d8) and 2 Claws +39 melee (2d6) and 2 Wings +39 melee (1d8) and Tail +39 melee (2d6) and crush +39 melee (2d8),
+_ plus breath 10d6 (31); 
+_ <b>Space/reach:</b> 15 ft./10 ft. (15 ft. with bite); 
+_ <b>SA:</b> Damage Resistance 15/magic, Fog cloud, freezing fog, frightful presense (27), gust of wind, Icewalking, immunity to cold,
+_ Spell Resistance (24), vulnerability to fire, wall of ice, 9th level caster|SpellcasterID=6||CharacterLevel=9||RandomAttribute=14|;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always chaotic evil;
+_ <b>SV:</b> Fort +23, Ref +17, Will +19;
+_ <b>Attributes:</b> Str 33, Dex 10, Con 23, Int 14, Wis 15, Cha 14;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Wyrm
+11,<b>White Dragon, Wyrm</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Gargantuan Dragon; 
+_ <b>CR:</b> 19; <b>HD:</b> 33d12+231 (445); <b>Init:</b> +0; <b>Spd:</b> 60 ft., burrow 30 ft., fly 200 ft. (average), swim 60 ft.; 
+_ <b>AC:</b> 38 (-4 size, +32 natural), touch 6, flat-footed 38; 
+_ <b>BAB/Grapple:</b> +33/+57; 
+_ <b>Atk:</b> Bite +41 melee (4d6), Claws +41 melee (2d8), Wing +41 Melee (2d6), tail slap +41 melee (2d8), Crush +41 Melee (4d6),
+_ tail sweep +41 melee (2d6), plus breath 11d6 (33); 
+_ <b>Full Atk:</b> Bite +41 melee (4d6) and 2 Claws +41 melee (2d8) and 2 Wings +41 Melee (2d6), and tail slap +41 melee (2d8)
+_ and Crush +41 Melee (4d6) and tail sweep +41 melee (2d6), plus breath 11d6 (33); 
+_ <b>Space/reach:</b> 20 ft./15 ft. (20 ft. with bite); 
+_ <b>SA:</b> Damage Resistance 20/magic, Fog cloud, freezing fog, frightful presense (29), gust of wind, Icewalking, immunity to cold,
+_ Spell Resistance (25), vulnerability to fire, wall of ice, 11th level caster|SpellcasterID=6||CharacterLevel=11||RandomAttribute=16|;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always chaotic evil;
+_ <b>SV:</b> Fort +25, Ref +18, Will +20;
+_ <b>Attributes:</b> Str 35, Dex 10, Con 25, Int 14, Wis 15, Cha 16;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats]
+# Great Wyrm
+12,<b>White Dragon, Great Wyrm</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Gargantuan Dragon; 
+_ <b>CR:</b> 21; <b>HD:</b> 36d12+288 (522); <b>Init:</b> +0; <b>Spd:</b> 60 ft., burrow 30 ft., fly 200 ft. (average), swim 60 ft.; 
+_ <b>AC:</b> 41 (-4 size, +35 natural), touch 6, flat-footed 41; 
+_ <b>BAB/Grapple:</b> +36/+61; 
+_ <b>Atk:</b> Bite +45 melee (4d6) Claws +45 melee (2d8), Wing +45 Melee (2d6), tail slap +45 melee (2d8), Crush +45 Melee (4d6),
+_ tail sweep +45 melee (2d6), plus breath 12d6 (36); 
+_ <b>Full Atk:</b> Bite +45 melee (4d6) and 2 Claws +45 melee (2d8) and 2 Wings +45 Melee (2d6) and tail slap +45 melee (2d8)
+_ and Crush +45 Melee (4d6) and tail sweep +45 melee (2d6), plus breath 12d6 (36); 
+_ <b>Space/reach:</b> 20 ft./15 ft. (20 ft. with bite); 
+_ <b>SA:</b> Control weather, Damage Resistance 20/magic, Fog cloud, freezing fog, frightful presense (32), gust of wind, Icewalking,
+_ immunity to cold, Spell Resistance (27), vulnerability to fire, wall of ice, 13th Level caster|SpellcasterID=6||CharacterLevel=13||RandomAttribute=18|;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always chaotic evil;
+_ <b>SV:</b> Fort +28, Ref +20, Will +24;
+_ <b>Attributes:</b> Str 37, Dex 10, Con 27, Int 18, Wis 19, Cha 18;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats]
+
+:BrassDragonStats
+# Wyrmling
+1,<b>Brass Dragon, Wyrmling</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Tiny Dragon; 
+_ <b>CR:</b> 3; <b>HD:</b> 4d12+4 (30); <b>Init:</b> +0; <b>Spd:</b> 60 ft., burrow 30 ft., fly 150 ft. (average); 
+_ <b>AC:</b> 15 (+2 size, +3 natural), touch 12, flat-footed 15; 
+_ <b>BAB/Grapple:</b> +4/-4; 
+_ <b>Atk:</b> Bite +6 melee (1d4) or Claws +6 melee (1d3) plus breath 1d6 (13); 
+_ <b>Full Atk:</b> Bite +6 melee (1d4) and 2 Claws +6 melee (1d3) plus breath 1d6 (13); 
+_ <b>Space/reach:</b> 2-1/2 ft./0 ft. (5 ft. with bite); 
+_ <b>SA:</b> Immunity to fire, speak with animals, vulnerability to cold; 
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always chaotic good;
+_ <b>SV:</b> Fort +5, Ref +4, Will +4;
+_ <b>Attributes:</b> Str 11, Dex 10, Con 13, Int 10, Wis 11, Cha 10; 
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats]
+# Very Young
+2,<b>Brass Dragon, Very Young</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Small Dragon; 
+_ <b>CR:</b> 4; <b>HD:</b> 7d12+7 (52); <b>Init:</b> +0; <b>Spd:</b> 60 ft., burrow 30 ft., fly 150 ft. (average); 
+_ <b>AC:</b> 17 (+1 size,+6 natural), touch 11, flat-footed 17 
+_ <b>BAB/Grapple:</b> +7/+4; 
+_ <b>Atk:</b> Bite +9 melee (1d6) or Claws +9 melee (1d4) plus breath 2d6 (14); 
+_ <b>Full Atk:</b> Bite +9 melee (1d6) and 2 Claws +9 melee (1d4) plus breath 2d6 (14); 
+_ <b>Space/reach:</b> 5 ft./5 ft.; 
+_ <b>SA:</b> Immunity to fire, speak with animals, vulnerability to cold;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always chaotic good;
+_ <b>SV:</b> Fort +6, Ref +5, Will +5;
+_ <b>Attributes:</b> Str 13, Dex 10, Con 13, Int 10, Wis 11, Cha 10; 
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats]
+# Young
+3,<b>Brass Dragon, Young</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Medium Dragon; 
+_ <b>CR:</b> 6; <b>HD:</b> 10d12+20 (85); <b>Init:</b> +0; <b>Spd:</b> 60 ft., burrow 30 ft., fly 200 ft. (poor); 
+_ <b>AC:</b> 19 (+9 natural), touch 10, flat-footed 19; 
+_ <b>BAB/Grapple:</b> +10/+12; 
+_ <b>Atk:</b> Bite +12 melee (1d8) Claws +12 melee (1d6), or Wing +12 Melee (1d4) plus breath 3d6 (17); 
+_ <b>Full Atk:</b> Bite +12 melee (1d8) and 2 Claws +12 melee (1d6) and 2 Wings +12 Melee (1d4) plus breath 3d6 (17); 
+_ <b>Space/reach:</b> 5 ft./5 ft.; 
+_ <b>SA:</b> Immunity to fire, speak with animals, vulnerability to cold, 1st level caster|SpellcasterID=6||CharacterLevel=1||RandomAttribute=12|;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always chaotic good;
+_ <b>SV:</b> Fort +9, Ref +7, Will +8;
+_ <b>Attributes:</b> Str 15, Dex 10, Con 15, Int 12, Wis 13, Cha 12;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats]
+# Juvenile
+4,<b>Brass Dragon, Juvenile</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Medium Dragon; 
+_ <b>CR:</b> 8; <b>HD:</b> 13d12+26 (110); <b>Init:</b> +0; <b>Spd:</b> 60 ft., burrow 30 ft., fly 200 ft. (poor); 
+_ <b>AC:</b> 22 (+12 natural), touch 10, flat-footed 22; 
+_ <b>BAB/Grapple:</b> +13/+16;
+_ <b>Atk:</b> Bite +16 melee (1d8) Claws +16 melee (1d6), or Wing +16 Melee (1d4) plus breath 4d6 (18);
+_ <b>Full Atk:</b> Bite +16 melee (1d8) and 2 Claws +16 melee (1d6) and 2 Wings +16 Melee (1d4) plus breath 4d6 (18); 
+_ <b>Space/reach:</b> 5 ft./5 ft.; 
+_ <b>SA:</b> Endure elements, Immunity to fire, speak with animals, vulnerability to cold, 3rd level caster|SpellcasterID=6||CharacterLevel=3||RandomAttribute=12|;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always chaotic good;
+_ <b>SV:</b> Fort +10, Ref +8, Will +9;
+_ <b>Attributes:</b> Str 17, Dex 10, Con 15, Int 12, Wis 13, Cha 12;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats]
+# Young Adult
+5,<b>Brass Dragon, Young Adult</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Large Dragon; 
+_ <b>CR:</b> 10; <b>HD:</b> 16d12+48 (152); <b>Init:</b> +0; <b>Spd:</b> 60 ft., burrow 30 ft., fly 200 ft. (poor);
+_ <b>AC:</b> 24 (-1 size, +15 natural), touch 9, flat-footed 24; 
+_ <b>BAB/Grapple:</b> +16/+24;
+_ <b>Atk:</b> Bite +19 melee (2d6) Claws +19 melee (1d8), Wings +19 Melee (1d6), tail slap +19 melee (1d8) plus breath 5d6 (21);
+_ <b>Full Atk:</b> Bite +19 melee (2d6) and 2 Claws +19 melee (1d8) and 2 Wings +19 Melee (1d6) and tail slap +19 melee (1d8)
+_ plus breath 5d6 (21); 
+_ <b>Space/reach:</b> 10 ft./5 ft. (10 ft. with bite); 
+_ <b>SA:</b> Damage resistance 5/magic, Endure elements, frightful presence (20), Immunity to fire, speak with animals,
+_ spell resistance (18), vulnerability to cold, 5th level caster|SpellcasterID=6||CharacterLevel=5||RandomAttribute=14|;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always chaotic good;
+_ <b>SV:</b> Fort +13, Ref +10, Will +12;
+_ <b>Attributes:</b> Str 19, Dex 10, Con 17, Int 14, Wis 15, Cha 14;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats]
+# Adult
+6,<b>Brass Dragon, Adult</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Large Dragon; 
+_ <b>CR:</b> 12; <b>HD:</b> 19d12+76 (199); <b>Init:</b> +0; <b>Spd:</b> 60 ft., burrow 30 ft., fly 200 ft. (poor);
+_ <b>AC:</b> 27 (-1 size, +18 natural), touch 9, flat-footed 27; 
+_ <b>BAB/Grapple:</b> +19/+29;
+_ <b>Atk:</b> Bite +24 melee (2d6) Claws +24 melee (1d8), Wings +24 Melee (1d6), tail slap +24 melee (1d8), plus breath 6d6 (23);
+_ <b>Full Atk:</b> Bite +24 melee (2d6) and 2 Claws +24 melee (1d8) and 2 Wings +24 Melee (1d6) and tail slap +24 melee (1d8),
+_ plus breath 6d6 (23); 
+_ <b>Space/reach:</b> 10 ft./5 ft. (10 ft. with bite); 
+_ <b>SA:</b> Damage resistance 5/magic, Endure elements, frightful presence (21), Immunity to fire, speak with animals,
+_ spell resistance (20), suggestion, vulnerability to cold, 7th level caster|SpellcasterID=6||CharacterLevel=7||RandomAttribute=14|;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always chaotic good;
+_ <b>SV:</b> Fort +15, Ref +11, Will +13;
+_ <b>Attributes:</b> Str 23, Dex 10, Con 19, Int 14, Wis 15, Cha 14;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats]
+# Mature Adult
+7,<b>Brass Dragon, Mature Adult</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Huge Dragon; 
+_ <b>CR:</b> 15; <b>HD:</b> 22d12+110 (253); <b>Init:</b> +0; <b>Spd:</b> 60 ft., burrow 30 ft., fly 200 ft. (poor);
+_ <b>AC:</b> 29 (-2 Size, +21 natural), touch 8, flat-footed 29; 
+_ <b>BAB/Grapple:</b> +22/+38; 
+_ <b>Atk:</b> Bite +28 melee (2d8), Claws +28 melee (2d6), Wings +28 melee (1d8), Tail Slap +28 melee (2d6), and crush +28 melee (2d8),
+_ plus breath 7d6 (26); 
+_ <b>Full Atk:</b> Bite +28 melee (2d8) and 2 Claws +28 melee (2d6) and 2 Wings +28 melee (1d8) and Tail Slap +28 melee (2d6) and
+_ crush +28 melee (2d8), plus breath 7d6 (26); 
+_ <b>Space/reach:</b> 15 ft./10 ft. (15 ft. with bite); 
+_ <b>SA:</b> Damage resistance 10/magic, Endure elements, frightful presence (24), Immunity to fire, speak with animals,
+_ spell resistance (22), suggestion, vulnerability to cold, 9th level caster|SpellcasterID=6||CharacterLevel=9||RandomAttribute=16|;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always chaotic good;
+_ <b>SV:</b> Fort +18, Ref +13, Will +16;
+_ <b>Attributes:</b> Str 27, Dex 10, Con 21, Int 16, Wis 17, Cha 16;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Old
+8,<b>Brass Dragon, Old</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Huge Dragon; 
+_ <b>CR:</b> 17; <b>HD:</b> 25d12+125 (287); <b>Init:</b> +0; <b>Spd:</b> 60 ft., burrow 30 ft., fly 200 ft. (poor);
+_ <b>AC:</b> 32 (-2 Size, +24 natural), touch 8, flat-footed 32; 
+_ <b>BAB/Grapple:</b> +25/+42; 
+_ <b>Atk:</b> Bite +32 melee (2d8), Claws +32 melee (2d6), Wings +32 melee (1d8), Tail Slap +32 melee (2d6), and crush +32 melee (2d8),
+_ plus breath 8d6 (27); 
+_ <b>Full Atk:</b> Bite +32 melee (2d8) and 2 Claws +32 melee (2d6) and 2 Wings +32 melee (1d8) and Tail Slap +32 melee (2d6) and
+_ crush +32 melee (2d8), plus breath 8d6 (27); 
+_ <b>Space/reach:</b> 15 ft./10 ft. (15 ft. with bite); 
+_ <b>SA:</b> Control winds, Damage resistance 10/magic, Endure elements, frightful presence (25), Immunity to fire, speak with animals,
+_ spell resistance (24), suggestion, vulnerability to cold, 11th level caster|SpellcasterID=6||CharacterLevel=11||RandomAttribute=16|;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always chaotic good;
+_ <b>SV:</b> Fort +19, Ref +14, Will +17;
+_ <b>Attributes:</b> Str 29, Dex 10, Con 21, Int 16, Wis 17, Cha 16;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Very Old
+9,<b>Brass Dragon, Very Old</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Huge Dragon; 
+_ <b>CR:</b> 19; <b>HD:</b> 28d12+168 (350); <b>Init:</b> +0; <b>Spd:</b> 60 ft., burrow 30 ft., fly 200 ft. (poor);
+_ <b>AC:</b> 35 (-2 Size, +27 natural), touch 8, flat-footed 35; 
+_ <b>BAB/Grapple:</b> +28/+46; 
+_ <b>Atk:</b> Bite +36 melee (2d8), Claws +36 melee (2d6), Wings +36 melee (1d8), Tail Slap +36 melee (2d6), and crush +36 melee (2d8),
+_ plus breath 9d6 (30); 
+_ <b>Full Atk:</b> Bite +36 melee (2d8) and 2 Claws +36 melee (2d6) and 2 Wings +36 melee (1d8) and Tail Slap +36 melee (2d6) and
+_ crush +36 melee (2d8), plus breath 9d6 (30); 
+_ <b>Space/reach:</b> 15 ft./10 ft. (15 ft. with bite); 
+_ <b>SA:</b> Control winds, Damage resistance 15/magic, Endure elements, frightful presence (28), Immunity to fire, speak with animals,
+_ spell resistance (25), suggestion, vulnerability to cold, 13th Level caster|SpellcasterID=6||CharacterLevel=13||RandomAttribute=18|;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always chaotic good;
+_ <b>SV:</b> Fort +22, Ref +16, Will +20;
+_ <b>Attributes:</b> Str 31, Dex 10, Con 23, Int 18, Wis 19, Cha 18;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Ancient
+10,<b>Brass Dragon, Ancient</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Huge Dragon; 
+_ <b>CR:</b> 20; <b>HD:</b> 31d12+186 (387); <b>Init:</b> +0; <b>Spd:</b> 60 ft., burrow 30 ft., fly 200 ft. (poor);
+_ <b>AC:</b> 38 (-2 Size, +30 natural), touch 8, flat-footed 38; 
+_ <b>BAB/Grapple:</b> +31/+50; 
+_ <b>Atk:</b> Bite +40 melee (2d8), Claws +40 melee (2d6), Wings +40 melee (1d8), Tail Slap +40 melee (2d6), and crush +40 melee (2d8),
+_ plus breath 10d6 (31); 
+_ <b>Full Atk:</b> Bite +40 melee (2d8) and 2 Claws +40 melee (2d6) and 2 Wings +40 melee (1d8) and Tail Slap +40 melee (2d6) and
+_ crush +40 melee (2d8), plus breath 10d6 (31); 
+_ <b>Space/reach:</b> 15 ft./10 ft. (15 ft. with bite); 
+_ <b>SA:</b> Control weather, Control winds, Damage resistance 15/magic, Endure elements, frightful presence (29), Immunity to fire,
+_ speak with animals, spell resistance (27), suggestion, vulnerability to cold, 15th Level caster|SpellcasterID=6||CharacterLevel=15||RandomAttribute=18|;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always chaotic good;
+_ <b>SV:</b> Fort +23, Ref +17, Will +21;
+_ <b>Attributes:</b> Str 33, Dex 10, Con 23, Int 18, Wis 19, Cha 18;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Wyrm
+11,<b>Brass Dragon, Wyrm</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Gargantuan Dragon; 
+_ <b>CR:</b> 21; <b>HD:</b> 34d12+238 (459); <b>Init:</b> +0; <b>Spd:</b> 60 ft., burrow 30 ft., fly 250 ft. (clumsy);
+_ <b>AC:</b> 39 (-4 size, +33 natural), touch 6, flat-footed 39; 
+_ <b>BAB/Grapple:</b> +34/+58; 
+_ <b>Atk:</b> Bite +42 melee (4d6) Claws +42 melee (2d8), Wings +42 Melee (2d6), tail slap +42 melee (2d8), Crush +42 Melee (4d6),
+_ tail sweep +42 melee (2d6), plus breath 11d6 (34); 
+_ <b>Full Atk:</b> Bite +42 melee (4d6) and 2 Claws +42 melee (2d8) and 2 Wings +42 Melee (2d6) and tail slap +42 melee (2d8) and
+_ Crush +42 Melee (4d6) and tail sweep +42 melee (2d6), plus breath 11d6 (34); 
+_ <b>Space/reach:</b> 20 ft./15 ft. (20 ft. with bite); 
+_ <b>SA:</b> Control weather, Control winds, Damage resistance 20/magic, Endure elements, frightful presence (32), Immunity to fire,
+_ speak with animals, spell resistance (28), suggestion, vulnerability to cold, 17th Level caster|SpellcasterID=6||CharacterLevel=17||RandomAttribute=20|;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always chaotic good;
+_ <b>SV:</b> Fort +26, Ref +19, Will +24;
+_ <b>Attributes:</b> Str 35, Dex 10, Con 25, Int 20, Wis 21, Cha 20;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats]
+# Great Wyrm
+12,<b>Brass Dragon, Great Wyrm</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Gargantuan Dragon; 
+_ <b>CR:</b> 23; <b>HD:</b> 37d12+296 (536); <b>Init:</b> +0; <b>Spd:</b> 60 ft., burrow 30 ft., fly 250 ft. (clumsy);
+_ <b>AC:</b> 42 (-4 size, +36 natural), touch 6, flat-footed 42; 
+_ <b>BAB/Grapple:</b> +37/+62; 
+_ <b>Atk:</b> Bite +46 melee (4d6) Claws +46 melee (2d8), Wings +46 Melee (2d6), tail slap +46 melee (2d8), Crush +46 Melee (4d6),
+_ tail sweep +46 melee (2d6), plus breath 12d6 (36); 
+_ <b>Full Atk:</b> Bite +46 melee (4d6) and 2 Claws +46 melee (2d8) and 2 Wings +46 Melee (2d6) and tail slap +46 melee (2d8) and 
+_ Crush +46 Melee (4d6) and tail sweep +46 melee (2d6), plus breath 12d6 (36); 
+_ <b>Space/reach:</b> 20 ft./15 ft. (20 ft. with bite); 
+_ <b>SA:</b> Control weather, Control winds, Damage resistance 20/magic, Endure elements, frightful presence (33), Immunity to fire,
+_ speak with animals, spell resistance (30), suggestion, summon dijinni, vulnerability to cold, 19th Level caster|SpellcasterID=6||CharacterLevel=19||RandomAttribute=20|;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always chaotic good;
+_ <b>SV:</b> Fort +28, Ref +20, Will +25;
+_ <b>Attributes:</b> Str 37, Dex 10, Con 27, Int 20, Wis 21, Cha 20;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats]
+
+:BronzeDragonStats
+# Wyrmling
+1,<b>Bronze Dragon, Wyrmling</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Small Dragon; 
+_ <b>CR:</b> 3; <b>HD:</b> 6d12+6 (45); <b>Init:</b> +0; <b>Spd:</b> 40 ft., fly 100 ft. (average), swim 60 ft.; 
+_ <b>AC:</b> 16 (+1 size, +5 natural), touch 11, flat-footed 16; 
+_ <b>BAB/Grapple:</b> +6/+3; 
+_ <b>Atk:</b> Bite +8 melee (1d6), Claws +8 melee (1d4), plus breath 2d6 (14); 
+_ <b>Full Atk:</b> Bite +8 melee (1d6) and 2 Claws +8 melee (1d4), plus breath 2d6 (14); 
+_ <b>Space/reach:</b> 5 ft./5 ft.; 
+_ <b>SA:</b> Immunity to electricity, water breathing, speak with animals; 
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always lawful good;
+_ <b>SV:</b> Fort +6, Ref +5, Will +7;
+_ <b>Attributes:</b> Str 13, Dex 10, Con 13, Int 14, Wis 15, Cha 14; 
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats]
+# Very Young
+2,<b>Bronze Dragon, Very Young</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Medium Dragon; 
+_ <b>CR:</b> 5; <b>HD:</b> 9d12+18 (76); <b>Init:</b> +0; <b>Spd:</b> 40 ft., fly 150 ft. (poor), swim 60 ft.; 
+_ <b>AC:</b> 18 (+8 natural), touch 10, flat-footed 18; 
+_ <b>BAB/Grapple:</b> +9/+11; 
+_ <b>Atk:</b> Bite +11 melee (1d8), Claws +11 melee (1d6), Wings +11 melee (1d4), plus breath 4d6 (16); 
+_ <b>Full Atk:</b> Bite +11 melee (1d8) and 2 Claws +11 melee (1d6) and 2 Wings +11 melee (1d4), plus breath 4d6 (16); 
+_ <b>Space/reach:</b> 5 ft./5 ft.; 
+_ <b>SA:</b> Immunity to electricity, water breathing, speak with animals; 
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always lawful good;
+_ <b>SV:</b> Fort +8, Ref +6, Will +8;
+_ <b>Attributes:</b> Str 15, Dex 10, Con 15, Int 14, Wis 15, Cha 14; 
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats]
+# Young
+3,<b>Bronze Dragon, Young</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Medium Dragon; 
+_ <b>CR:</b> 7; <b>HD:</b> 12d12+24 (102); <b>Init:</b> +0; <b>Spd:</b> 40 ft., fly 150 ft. (poor), swim 60 ft.; 
+_ <b>AC:</b> 21 (+11 natural), touch 10, flat-footed 21; 
+_ <b>BAB/Grapple:</b> +12/+15; 
+_ <b>Atk:</b> Bite +15 melee (1d8), Claws +15 melee (1d6), Wings +15 melee (1d4) plus breath 6d6 (18); 
+_ <b>Full Atk:</b> Bite +15 melee (1d8) and 2 Claws +15 melee (1d6) and 2 Wings +15 melee (1d4), plus breath 6d6 (18); 
+_ <b>Space/reach:</b> 5 ft./5 ft.; 
+_ <b>SA:</b> Alternate form, Immunity to electricity, water breathing, speak with animals, 1st level caster|SpellcasterID=6||CharacterLevel=1||RandomAttribute=16|; 
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always lawful good;
+_ <b>SV:</b> Fort +10, Ref +8, Will +1;
+_ <b>Attributes:</b> Str 17, Dex 10, Con 15, Int 16, Wis 17, Cha 16; 
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats]
+# Juvenile
+4,<b>Bronze Dragon, Juvenile</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Large Dragon; 
+_ <b>CR:</b> 9; <b>HD:</b> 15d12+45 (142); <b>Init:</b> +0; <b>Spd:</b> 40 ft., fly 150 ft. (poor), swim 60 ft.; 
+_ <b>AC:</b> 23 (-1 Size, +14 natural), touch 9, flat-footed 23; 
+_ <b>BAB/Grapple:</b> +15/+23; 
+_ <b>Atk:</b> Bite +18 melee (2d6), Claws +18 melee (1d8), Wings +18 melee (1d6), Tail Slap +18 melee (1d8), plus breath 8d6 (20); 
+_ <b>Full Atk:</b> Bite +18 melee (2d6) and 2 Claws +18 melee (1d8) and 2 Wings +18 melee (1d6) and Tail Slap +18 melee (1d8),
+_ plus breath 8d6 (20); 
+_ <b>Space/reach:</b> 10 ft./5 ft. (10 ft. with bite); 
+_ <b>SA:</b> Alternate form, Immunity to electricity, water breathing, speak with animals, 3rd level caster|SpellcasterID=6||CharacterLevel=3||RandomAttribute=18|;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always lawful good;
+_ <b>SV:</b> Fort +12, Ref +9, Will +13;
+_ <b>Attributes:</b> Str 19, Dex 10, Con 17, Int 18, Wis 19, Cha 18;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Young Adult
+5,<b>Bronze Dragon, Young Adult</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Large Dragon; 
+_ <b>CR:</b> 12; <b>HD:</b> 18d12+72 (189); <b>Init:</b> +0; <b>Spd:</b> 40 ft., fly 150 ft. (poor), swim 60 ft.; 
+_ <b>AC:</b> 26 (-1 Size, +17 natural), touch 9, flat-footed 26; 
+_ <b>BAB/Grapple:</b> +18/+28; 
+_ <b>Atk:</b> Bite +23 melee (2d6), Claws +23 melee (1d8), Wings +23 melee (1d6), Tail Slap +23 melee (1d8), plus breath 10d6 (23); 
+_ <b>Full Atk:</b> Bite +23 melee (2d6) and 2 Claws +23 melee (1d8) and 2 Wings +23 melee (1d6) and Tail Slap +23 melee (1d8),
+_ plus breath 10d6 (23); 
+_ <b>Space/reach:</b> 10 ft./5 ft. (10 ft. with bite); 
+_ <b>SA:</b> Alternate form, damage resistance 5/magic, frightful presence (23), Immunity to electricity, water breathing,
+_ speak with animals, spell resistance (20), 5th level caster|SpellcasterID=6||CharacterLevel=5||RandomAttribute=18|;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always lawful good;
+_ <b>SV:</b> Fort +15, Ref +11, Will +15;
+_ <b>Attributes:</b> Str 23, Dex 10, Con 19, Int 18, Wis 19, Cha 18;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Adult
+6,<b>Bronze Dragon, Adult</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Huge Dragon; 
+_ <b>CR:</b> 15; <b>HD:</b> 21d12+105 (241); <b>Init:</b> +0; <b>Spd:</b> 40 ft., fly 150 ft. (poor), swim 60 ft.; 
+_ <b>AC:</b> 28 (-2 Size, +20 natural), touch 8, flat-footed 28; 
+_ <b>BAB/Grapple:</b> +21/+37; 
+_ <b>Atk:</b> Bite +27 melee (2d8), Claws +27 melee (2d6), Wings +27 melee (1d8), Tail Slap +27 melee (2d6), or crush +27 melee (2d8),
+_ plus breath 12d6 (25); 
+_ <b>Full Atk:</b> Bite +27 melee (2d8) and 2 Claws +27 melee (2d6) and 2 Wings +27 melee (1d8) and Tail Slap +27 melee (2d6) and
+_ crush +27 melee (2d8), plus breath 12d6 (25); 
+_ <b>Space/reach:</b> 15 ft./10 ft. (15 ft. with bite); 
+_ <b>SA:</b> Alternate form, create food and water, fog cloud, damage resistance 5/magic, frightful presence (25), Immunity to electricity,
+_ water breathing, speak with animals, spell resistance (22), 7th level caster|SpellcasterID=6||CharacterLevel=7||RandomAttribute=20|;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always lawful good;
+_ <b>SV:</b> Fort +17, Ref +12, Will +17;
+_ <b>Attributes:</b> Str 27, Dex 10, Con 21, Int 20, Wis 21, Cha 20;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Mature Adult
+7,<b>Bronze Dragon, Mature Adult</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Huge Dragon; 
+_ <b>CR:</b> 17; <b>HD:</b> 24d12+120 (276); <b>Init:</b> +0; <b>Spd:</b> 40 ft., fly 150 ft. (poor), swim 60 ft.; 
+_ <b>AC:</b> 31 (-2 Size, +23 natural), touch 8, flat-footed 31; 
+_ <b>BAB/Grapple:</b> +24/+41; 
+_ <b>Atk:</b> Bite +31 melee (2d8), Claws +31 melee (2d6), Wings +31 melee (1d8), Tail Slap +31 melee (2d6), or crush +31 melee (2d8),
+_ plus breath 14d6 (27); 
+_ <b>Full Atk:</b> Bite +31 melee (2d8) and 2 Claws +31 melee (2d6) and 2 Wings +31 melee (1d8) and Tail Slap +31 melee (2d6) and
+_ crush +31 melee (2d8), plus breath 14d6 (27); 
+_ <b>Space/reach:</b> 15 ft./10 ft. (15 ft. with bite); 
+_ <b>SA:</b> Alternate form, create food and water, fog cloud, damage resistance 10/magic, frightful presence (27), Immunity to electricity,
+_ water breathing, speak with animals, spell resistance (23), 9th level caster|SpellcasterID=6||CharacterLevel=9||RandomAttribute=20|;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always lawful good;
+_ <b>SV:</b> Fort +19, Ref +14, Will +19;
+_ <b>Attributes:</b> Str 29, Dex 10, Con 21, Int 20, Wis 21, Cha 20;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Old
+8,<b>Bronze Dragon, Old</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Huge Dragon; 
+_ <b>CR:</b> 19; <b>HD:</b> 27d12+162 (337); <b>Init:</b> +0; <b>Spd:</b> 40 ft., fly 150 ft. (poor), swim 60 ft.; 
+_ <b>AC:</b> 34 (-2 Size, +26 natural), touch 8, flat-footed 34; 
+_ <b>BAB/Grapple:</b> +27/+45; 
+_ <b>Atk:</b> Bite +35 melee (2d8), Claws +35 melee (2d6), Wings +35 melee (1d8), Tail Slap +35 melee (2d6), or crush +35 melee (2d8),
+_ plus breath 16d6 (29); 
+_ <b>Full Atk:</b> Bite +35 melee (2d8) and 2 Claws +35 melee (2d6) and 2 Wings +35 melee (1d8) and Tail Slap +35 melee (2d6) and
+_ crush +35 melee (2d8), plus breath 16d6 (29); 
+_ <b>Space/reach:</b> 15 ft./10 ft. (15 ft. with bite); 
+_ <b>SA:</b> Alternate form, create food and water, detect thoughts, fog cloud, damage resistance 10/magic, frightful presence (29),
+_ Immunity to electricity, water breathing, speak with animals, spell resistance (25), 11th level caster|SpellcasterID=6||CharacterLevel=11||RandomAttribute=22|;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always lawful good;
+_ <b>SV:</b> Fort +21, Ref +15, Will +21;
+_ <b>Attributes:</b> Str 31, Dex 10, Con 23, Int 22, Wis 23, Cha 22;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Very Old
+9,<b>Bronze Dragon, Very Old</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Huge Dragon; 
+_ <b>CR:</b> 20; <b>HD:</b> 30d12+180 (375); <b>Init:</b> +0; <b>Spd:</b> 40 ft., fly 150 ft. (poor), swim 60 ft.; 
+_ <b>AC:</b> 37 (-2 Size, +29 natural), touch 8, flat-footed 37; 
+_ <b>BAB/Grapple:</b> +30/+49; 
+_ <b>Atk:</b> Bite +39 melee (2d8), Claws +39 melee (2d6), Wings +39 melee (1d8), Tail Slap +39 melee (2d6), or crush +39 melee (2d8),
+_ plus breath 18d6 (31); 
+_ <b>Full Atk:</b> Bite +39 melee (2d8) and 2 Claws +39 melee (2d6) and 2 Wings +39 melee (1d8) and Tail Slap +39 melee (2d6) and
+_ crush +39 melee (2d8), plus breath 18d6 (31); 
+_ <b>Space/reach:</b> 15 ft./10 ft. (15 ft. with bite); 
+_ <b>SA:</b> Alternate form, create food and water, detect thoughts, fog cloud, damage resistance 15/magic, frightful presence (31),
+_ Immunity to electricity, water breathing, speak with animals, spell resistance (26), 13th Level caster|SpellcasterID=6||CharacterLevel=13||RandomAttribute=22|;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always lawful good;
+_ <b>SV:</b> Fort +23, Ref +17, Will +23;
+_ <b>Attributes:</b> Str 33, Dex 10, Con 23, Int 22, Wis 23, Cha 22;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Ancient
+10,<b>Bronze Dragon, Ancient</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Gargantuan Dragon; 
+_ <b>CR:</b> 22; <b>HD:</b> 33d12+231 (445); <b>Init:</b> +0; <b>Spd:</b> 40 ft., fly 200 ft. (clumsy), swim 60 ft.; 
+_ <b>AC:</b> 38 (-4 Size, +32 natural), touch 6, flat-footed 38; 
+_ <b>BAB/Grapple:</b> +33/+57; 
+_ <b>Atk:</b> Bite +41 melee (4d6), Claws +41 melee (2d8), Wings +41 melee (2d6), Tail Slap +41 melee (2d8), crush +41 melee (4d6),
+_ or tail sweep +41 melee (2d6), plus breath 20d6 (33); 
+_ <b>Full Atk:</b> Bite +41 melee (4d6) and 2 Claws +41 melee (2d8) and 2 Wings +41 melee (2d6) and Tail Slap +41 melee (2d8) and
+_ crush +41 melee (4d6) and tail sweep +41 melee (2d6), plus breath 20d6 (33); 
+_ <b>Space/reach:</b> 20 ft./15 ft. (20 ft. with bite); 
+_ <b>SA:</b> Alternate form, control water, create food and water, detect thoughts, fog cloud, damage resistance 15/magic,
+_ frightful presence (33), Immunity to electricity, water breathing, speak with animals, spell resistance (28), 15th Level caster
+_ |SpellcasterID=6||CharacterLevel=15||RandomAttribute=24|;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always lawful good;
+_ <b>SV:</b> Fort +25, Ref +18, Will +25;
+_ <b>Attributes:</b> Str 35, Dex 10, Con 25, Int 24, Wis 25, Cha 24;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Wyrm
+11,<b>Bronze Dragon, Wyrm</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Gargantuan Dragon; 
+_ <b>CR:</b> 23; <b>HD:</b> 36d12+288 (522); <b>Init:</b> +0; <b>Spd:</b> 40 ft., fly 200 ft. (clumsy), swim 60 ft.; 
+_ <b>AC:</b> 41 (-4 Size, +35 natural), touch 6, flat-footed 41; 
+_ <b>BAB/Grapple:</b> +36/+61; 
+_ <b>Atk:</b> Bite +45 melee (4d6), Claws +45 melee (2d8), Wings +45 melee (2d6), Tail Slap +45 melee (2d8), crush +45 melee (4d6),
+_ or tail sweep +45 melee (2d6), plus breath 22d6 (36); 
+_ <b>Full Atk:</b> Bite +45 melee (4d6) and 2 Claws +45 melee (2d8) and 2 Wings +45 melee (2d6) and Tail Slap +45 melee (2d8) and
+_ crush +45 melee (4d6) and tail sweep +45 melee (2d6), plus breath 22d6 (36); 
+_ <b>Space/reach:</b> 20 ft./15 ft. (20 ft. with bite); 
+_ <b>SA:</b> Alternate form, control water, create food and water, detect thoughts, fog cloud, damage resistance 20/magic,
+_ frightful presence (36), Immunity to electricity, water breathing, speak with animals, spell resistance (29), 17th Level caster
+_ |SpellcasterID=6||CharacterLevel=17||RandomAttribute=26|;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always lawful good;
+_ <b>SV:</b> Fort +28, Ref +20, Will +28;
+_ <b>Attributes:</b> Str 37, Dex 10, Con 27, Int 26, Wis 27, Cha 26;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Great Wyrm
+12,<b>Bronze Dragon, Great Wyrm</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Gargantuan Dragon; 
+_ <b>CR:</b> 25; <b>HD:</b> 39d12+312 (565); <b>Init:</b> +0; <b>Spd:</b> 40 ft., fly 200 ft. (clumsy), swim 60 ft.; 
+_ <b>AC:</b> 44 (-4 Size, +38 natural), touch 6, flat-footed 44; 
+_ <b>BAB/Grapple:</b> +39/+65; 
+_ <b>Atk:</b> Bite +49 melee (4d6), Claws +49 melee (2d8), Wings +49 melee (2d6), Tail Slap +49 melee (2d8), crush +49 melee (4d6),
+_ or tail sweep +49 melee (2d6), plus breath 24d6 (37); 
+_ <b>Full Atk:</b> Bite +49 melee (4d6) and 2 Claws +49 melee (2d8) and 2 Wings +49 melee (2d6) and Tail Slap +49 melee (2d8) and
+_ crush +49 melee (4d6) and tail sweep +49 melee (2d6), plus breath 24d6 (37); 
+_ <b>Space/reach:</b> 20 ft./15 ft. (20 ft. with bite); 
+_ <b>SA:</b> Alternate form, control water, control weather, create food and water, Damage Resistance 20/Magic, detect thoughts,
+_ fog cloud, Frightful Presense (37), Immunity to electricity, speak with animals, Spell Resistance (31), water breathing,
+_ 19th Level caster|SpellcasterID=6||CharacterLevel=19||RandomAttribute=26|; 
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always lawful good;
+_ <b>SV:</b> Fort +29, Ref +21, Will +29;
+_ <b>Attributes:</b> Str 39, Dex 10, Con 27, Int 26, Wis 27, Cha 26;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+
+:CopperDragonStats
+# Wyrmling
+1,<b>Copper Dragon, Wyrmling</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Tiny Dragon; 
+_ <b>CR:</b> 3; <b>HD:</b> 5d12+5 (37); <b>Init:</b> +0; <b>Spd:</b> 40 ft., fly 100 ft. (average); 
+_ <b>AC:</b> 16 (+2 size, +4 natural), touch 12, flat-footed 16; 
+_ <b>BAB/Grapple:</b> +5/-3; 
+_ <b>Atk:</b> Bite +7 melee (1d4), Claws +7 melee (1d3), plus breath 2d4 (13); 
+_ <b>Full Atk:</b> Bite +7 melee (1d4) and 2 Claws +7 melee (1d3), plus breath 2d4 (13); 
+_ <b>Space/reach:</b> 2-1/2 ft./0 ft. (5 ft. with bite); 
+_ <b>SA:</b> Immunity to acid, spider climb; 
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always chaotic good;
+_ <b>SV:</b> Fort +5, Ref +4, Will +5;
+_ <b>Attributes:</b> Str 11, Dex 10, Con 13, Int 12, Wis 13, Cha 12; 
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats]
+# Very Young
+2,<b>Copper Dragon, Very Young</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Small Dragon; 
+_ <b>CR:</b> 5; <b>HD:</b> 8d12+8 (60); <b>Init:</b> +0; <b>Spd:</b> 40 ft., fly 100 ft. (average); 
+_ <b>AC:</b> 18 (+1 size,+7 natural), touch 11, flat-footed 18 
+_ <b>BAB/Grapple:</b> +8/+5; 
+_ <b>Atk:</b> Bite +10 melee (1d6), Claws +10 melee (1d4), plus breath 4d4 (15); 
+_ <b>Full Atk:</b> Bite +10 melee (1d6) and 2 Claws +10 melee (1d4), plus breath 4d4 (15); 
+_ <b>Space/reach:</b> 5 ft./5 ft.; 
+_ <b>SA:</b> Immunity to acid, spider climb; 
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always chaotic good;
+_ <b>SV:</b> Fort +7, Ref +6, Will +7;
+_ <b>Attributes:</b> Str 13, Dex 10, Con 13, Int 12, Wis 13, Cha 12; 
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats]
+# Young
+3,<b>Copper Dragon, Young</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Medium Dragon; 
+_ <b>CR:</b> 7; <b>HD:</b> 11d12+22 (93); <b>Init:</b> +0; <b>Spd:</b> 40 ft., fly 150 ft. (poor); 
+_ <b>AC:</b> 20 (+10 natural), touch 10, flat-footed 20; 
+_ <b>BAB/Grapple:</b> +11/+13; 
+_ <b>Atk:</b> Bite +13 melee (1d8), Claws +13 melee (1d6), Wings +13 Melee (1d4), plus breath 6d4 (17); 
+_ <b>Full Atk:</b> Bite +13 melee (1d8) and 2 Claws +13 melee (1d6) and 2 Wings +13 Melee (1d4), plus breath 6d4 (17); 
+_ <b>Space/reach:</b> 5 ft./5 ft.; 
+_ <b>SA:</b> Immunity to acid, spider climb, 1st level caster|SpellcasterID=6||CharacterLevel=1||RandomAttribute=14|;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always chaotic good;
+_ <b>SV:</b> Fort +9, Ref +7, Will +9;
+_ <b>Attributes:</b> Str 15, Dex 10, Con 15, Int 14, Wis 15, Cha 14;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats]
+# Juvenile
+4,<b>Copper Dragon, Juvenile</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Medium Dragon; 
+_ <b>CR:</b> 9; <b>HD:</b> 14d12+28 (119); <b>Init:</b> +0; <b>Spd:</b> 40 ft., fly 150 ft. (poor); 
+_ <b>AC:</b> 23 (+13 natural), touch 10, flat-footed 23; 
+_ <b>BAB/Grapple:</b> +14/+17; 
+_ <b>Atk:</b> Bite +17 melee (1d8), Claws +17 melee (1d6), Wings +17 Melee (1d4), plus breath 8d4 (19); 
+_ <b>Full Atk:</b> Bite +17 melee (1d8) and 2 Claws +17 melee (1d6) and 2 Wings +17 Melee (1d4), plus breath 8d4 (19); 
+_ <b>Space/reach:</b> 5 ft./5 ft.; 
+_ <b>SA:</b> Immunity to acid, spider climb, 3rd level caster|SpellcasterID=6||CharacterLevel=3||RandomAttribute=14|;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always chaotic good;
+_ <b>SV:</b> Fort +11, Ref +9, Will +11;
+_ <b>Attributes:</b> Str 17, Dex 10, Con 15, Int 14, Wis 15, Cha 14;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats]
+# Young Adult
+5,<b>Copper Dragon, Young Adult</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Large Dragon; 
+_ <b>CR:</b> 11; <b>HD:</b> 17d12+51 (161); <b>Init:</b> +0; <b>Spd:</b> 40 ft., fly 150 ft. (poor); 
+_ <b>AC:</b> 25 (-1 Size, +16 natural), touch 9, flat-footed 25; 
+_ <b>BAB/Grapple:</b> +17/+25; 
+_ <b>Atk:</b> Bite +20 melee (2d6), Claws +20 melee (1d8), Wings +20 melee (1d6), Tail Slap +20 melee (1d8), plus breath 10d4 (21); 
+_ <b>Full Atk:</b> Bite +20 melee (2d6) and 2 Claws +20 melee (1d8) and 2 Wings +20 melee (1d6) and Tail Slap +20 melee (1d8),
+_ plus breath 10d4 (21); 
+_ <b>Space/reach:</b> 10 ft./5 ft. (10 ft. with bite); 
+_ <b>SA:</b> Damage resistance 5/magic, frightful presense (21), Immunity to acid, spell resistance (19), spider climb,
+_ 5th level caster|SpellcasterID=6||CharacterLevel=5||RandomAttribute=16|;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always chaotic good;
+_ <b>SV:</b> Fort +13, Ref +10, Will +13;
+_ <b>Attributes:</b> Str 19, Dex 10, Con 17, Int 16, Wis 17, Cha 16;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Adult
+6,<b>Copper Dragon, Adult</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Large Dragon; 
+_ <b>CR:</b> 14; <b>HD:</b> 20d12+80 (210); <b>Init:</b> +0; <b>Spd:</b> 40 ft., fly 150 ft. (poor); 
+_ <b>AC:</b> 28 (-1 Size, +19 natural), touch 9, flat-footed 28; 
+_ <b>BAB/Grapple:</b> +20/+30; 
+_ <b>Atk:</b> Bite +25 melee (2d6), Claws +25 melee (1d8), Wings +25 melee (1d6), Tail Slap +25 melee (1d8), plus breath 12d4 (24); 
+_ <b>Full Atk:</b> Bite +25 melee (2d6) and 2 Claws +25 melee (1d8) and 2 Wings +25 melee (1d6) and Tail Slap +25 melee (1d8),
+_ plus breath 12d4 (24); 
+_ <b>Space/reach:</b> 10 ft./5 ft. (10 ft. with bite); 
+_ <b>SA:</b> Damage resistance 5/magic, frightful presense (23), Immunity to acid, spell resistance (21), spider climb, stone shape,
+_ 7th level caster|SpellcasterID=6||CharacterLevel=7||RandomAttribute=16|;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always chaotic good;
+_ <b>SV:</b> Fort +16, Ref +12, Will +15;
+_ <b>Attributes:</b> Str 23, Dex 10, Con 19, Int 16, Wis 17, Cha 16;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Mature Adult
+7,<b>Copper Dragon, Mature Adult</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Huge Dragon; 
+_ <b>CR:</b> 16; <b>HD:</b> 23d12+115 (264); <b>Init:</b> +0; <b>Spd:</b> 40 ft., fly 150 ft. (poor); 
+_ <b>AC:</b> 30 (-2 Size, +22 natural), touch 8, flat-footed 30; 
+_ <b>BAB/Grapple:</b> +23/+39; 
+_ <b>Atk:</b> Bite +29 melee (2d8), Claws +29 melee (2d6), Wings +29 melee (1d8), Tail Slap +29 melee (2d6), crush +29 melee (2d8),
+_ plus breath 14d4 (26); 
+_ <b>Full Atk:</b> Bite +29 melee (2d8) and 2 Claws +29 melee (2d6) and 2 Wings +29 melee (1d8) and Tail Slap +29 melee (2d6) and
+_ crush +29 melee (2d8), plus breath 14d4 (26); 
+_ <b>Space/reach:</b> 15 ft./10 ft. (15 ft. with bite); 
+_ <b>SA:</b> Damage resistance 10/magic, frightful presense (25), Immunity to acid, spell resistance (23), spider climb, stone shape,
+_ 9th level caster|SpellcasterID=6||CharacterLevel=9||RandomAttribute=18|;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always chaotic good;
+_ <b>SV:</b> Fort +18, Ref +13, Will +17;
+_ <b>Attributes:</b> Str 27, Dex 10, Con 21, Int 18, Wis 19, Cha 18;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Old
+8,<b>Copper Dragon, Old</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Huge Dragon; 
+_ <b>CR:</b> 19; <b>HD:</b> 26d12+130 (299); <b>Init:</b> +0; <b>Spd:</b> 40 ft., fly 150 ft. (poor); 
+_ <b>AC:</b> 33 (-2 Size, +25 natural), touch 8, flat-footed 33; 
+_ <b>BAB/Grapple:</b> +26/+43; 
+_ <b>Atk:</b> Bite +33 melee (2d8), Claws +33 melee (2d6), Wings +33 melee (1d8), Tail Slap +33 melee (2d6), crush +33 melee (2d8),
+_ plus breath 16d4 (28); 
+_ <b>Full Atk:</b> Bite +33 melee (2d8) and 2 Claws +33 melee (2d6) and 2 Wings +33 melee (1d8) and Tail Slap +33 melee (2d6) and
+_ crush +33 melee (2d8), plus breath 16d4 (28); 
+_ <b>Space/reach:</b> 15 ft./10 ft. (15 ft. with bite); 
+_ <b>SA:</b> Damage resistance 10/magic, frightful presense (27), Immunity to acid, spell resistance (25), spider climb, stone shape,
+_ transmute rock to mud/mud to rock, 11th level caster|SpellcasterID=6||CharacterLevel=11||RandomAttribute=18|;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always chaotic good;
+_ <b>SV:</b> Fort +20, Ref +15, Will +19;
+_ <b>Attributes:</b> Str 29, Dex 10, Con 21, Int 18, Wis 19, Cha 18;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Very Old
+9,<b>Copper Dragon, Very Old</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Huge Dragon; 
+_ <b>CR:</b> 20; <b>HD:</b> 29d12+174 (362); <b>Init:</b> +0; <b>Spd:</b> 40 ft., fly 150 ft. (poor); 
+_ <b>AC:</b> 36 (-2 Size, +28 natural), touch 8, flat-footed 36; 
+_ <b>BAB/Grapple:</b> +29/+47; 
+_ <b>Atk:</b> Bite +37 melee (2d8), Claws +37 melee (2d6), Wings +37 melee (1d8), Tail Slap +37 melee (2d6), crush +37 melee (2d8),
+_ plus breath 18d4 (30); 
+_ <b>Full Atk:</b> Bite +37 melee (2d8) and 2 Claws +37 melee (2d6) and 2 Wings +37 melee (1d8) and Tail Slap +37 melee (2d6) and
+_ crush +37 melee (2d8), plus breath 18d4 (30); 
+_ <b>Space/reach:</b> 15 ft./10 ft. (15 ft. with bite); 
+_ <b>SA:</b> Damage resistance 15/magic, frightful presense (29), Immunity to acid, spell resistance (26), spider climb, stone shape,
+_ transmute rock to mud/mud to rock, 13th Level caster|SpellcasterID=6||CharacterLevel=13||RandomAttribute=20|;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always chaotic good;
+_ <b>SV:</b> Fort +22, Ref +16, Will +21;
+_ <b>Attributes:</b> Str 31, Dex 10, Con 23, Int 20, Wis 21, Cha 20;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Ancient
+10,<b>Copper Dragon, Ancient</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Huge Dragon; 
+_ <b>CR:</b> 22; <b>HD:</b> 32d12+192 (400); <b>Init:</b> +0; <b>Spd:</b> 40 ft., fly 150 ft. (poor); 
+_ <b>AC:</b> 39 (-2 Size, +31 natural), touch 8, flat-footed 39; 
+_ <b>BAB/Grapple:</b> +32/+51; 
+_ <b>Atk:</b> Bite +41 melee (2d8), Claws +41 melee (2d6), Wings +41 melee (1d8), Tail Slap +41 melee (2d6), crush +41 melee (2d8),
+_ plus breath 20d4 (32); 
+_ <b>Full Atk:</b> Bite +41 melee (2d8) and 2 Claws +41 melee (2d6) and 2 Wings +41 melee (1d8) and Tail Slap +41 melee (2d6) and
+_ crush +41 melee (2d8), plus breath 20d4 (32); 
+_ <b>Space/reach:</b> 15 ft./10 ft. (15 ft. with bite); 
+_ <b>SA:</b> Damage resistance 15/magic, frightful presense (31), Immunity to acid, spell resistance (28), spider climb, stone shape,
+_ transmute rock to mud/mud to rock, wall of stone, 15th Level caster|SpellcasterID=6||CharacterLevel=15||RandomAttribute=20|;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always chaotic good;
+_ <b>SV:</b> Fort +24, Ref +18, Will +23;
+_ <b>Attributes:</b> Str 33, Dex 10, Con 23, Int 20, Wis 21, Cha 20;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats]
+# Wyrm
+11,<b>Copper Dragon, Wyrm</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Gargantuan Dragon; 
+_ <b>CR:</b> 23; <b>HD:</b> 35d12+245 (472); <b>Init:</b> +0; <b>Spd:</b> 40 ft., fly 200 ft. (clumsy);
+_ <b>AC:</b> 40 (-4 Size, +34 natural), touch 6, flat-footed 40; 
+_ <b>BAB/Grapple:</b> +35/+59; 
+_ <b>Atk:</b> Bite +43 melee (4d6), Claws +43 melee (2d8), Wings +43 melee (2d6), Tail Slap +43 melee (2d8), crush +43 melee (4d6),
+_ tail sweep +43 melee (2d6), plus breath 22d4 (34); 
+_ <b>Full Atk:</b> Bite +43 melee (4d6) and 2 Claws +43 melee (2d8) and 2 Wings +43 melee (2d6) and Tail Slap +43 melee (2d8) and
+_ crush +43 melee (4d6) and tail sweep +43 melee (2d6), plus breath 22d4 (34); 
+_ <b>Space/reach:</b> 20 ft./15 ft. (20 ft. with bite); 
+_ <b>SA:</b> Damage resistance 20/magic, frightful presense (33), Immunity to acid, spell resistance (29), spider climb, stone shape,
+_ transmute rock to mud/mud to rock, wall of stone, 17th Level caster|SpellcasterID=6||CharacterLevel=17||RandomAttribute=22|;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always chaotic good;
+_ <b>SV:</b> Fort +26, Ref +19, Will +25;
+_ <b>Attributes:</b> Str 35, Dex 10, Con 25, Int 22, Wis 23, Cha 22;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Great Wyrm
+12,<b>Copper Dragon, Great Wyrm</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Gargantuan Dragon; 
+_ <b>CR:</b> 25; <b>HD:</b> 38d12+304 (551); <b>Init:</b> +0; <b>Spd:</b> 40 ft., fly 200 ft. (clumsy);
+_ <b>AC:</b> 43 (-4 Size, +37 natural), touch 6, flat-footed 43; 
+_ <b>BAB/Grapple:</b> +38/+63; 
+_ <b>Atk:</b> Bite +47 melee (4d6), Claws +47 melee (2d8), Wings +47 melee (2d6), Tail Slap +47 melee (2d8), crush +47 melee (4d6),
+_ tail sweep +47 melee (2d6), plus breath 24d4 (37); 
+_ <b>Full Atk:</b> Bite +47 melee (4d6) and 2 Claws +47 melee (2d8) and 2 Wings +47 melee (2d6) and Tail Slap +47 melee (2d8) and
+_ crush +47 melee (4d6) and tail sweep +47 melee (2d6), plus breath 24d4 (37); 
+_ <b>Space/reach:</b> 20 ft./15 ft. (20 ft. with bite); 
+_ <b>SA:</b> Damage resistance 20/magic, frightful presense (35), Immunity to acid, move earth, spell resistance (31), spider climb,
+_ stone shape, transmute rock to mud/mud to rock, wall of stone, 19th Level caster|SpellcasterID=6||CharacterLevel=19||RandomAttribute=22|;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always chaotic good;
+_ <b>SV:</b> Fort +29, Ref +21, Will +27;
+_ <b>Attributes:</b> Str 37, Dex 10, Con 27, Int 22, Wis 23, Cha 22;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+
+:GoldDragonStats
+# Wyrmling
+1,<b>Gold Dragon, Wyrmling</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Medium Dragon; 
+_ <b>CR:</b> 5; <b>HD:</b> 8d12+16 (68); <b>Init:</b> +0; <b>Spd:</b> 60 ft., fly 200 ft. (poor), swim 60 ft.; 
+_ <b>AC:</b> 17 (+7 natural), touch 10, flat-footed 17; 
+_ <b>BAB/Grapple:</b> +8/+11; 
+_ <b>Atk:</b> Bite +11 melee (1d8), Claws +11 melee (1d6), Wings +11 Melee (1d4) plus breath 2d10 (16); 
+_ <b>Full Atk:</b> Bite +11 melee (1d8) and 2 Claws +11 melee (1d6) and 2 Wings +11 Melee (1d4), plus breath 2d10 (16); 
+_ <b>Space/reach:</b> 5 ft./5 ft.; 
+_ <b>SA:</b> Alternate form, Immunity to fire, vulnerability to cold, water breathing;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always lawful good;
+_ <b>SV:</b> Fort +8, Ref +6, Will +8;
+_ <b>Attributes:</b> Str 17, Dex 10, Con 15, Int 14, Wis 15, Cha 14;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats]
+# Very Young
+2,<b>Gold Dragon, Very Young</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Large Dragon; 
+_ <b>CR:</b> 7; <b>HD:</b> 11d12+33 (104); <b>Init:</b> +0; <b>Spd:</b> 60 ft., fly 200 ft. (poor), swim 60 ft.; 
+_ <b>AC:</b> 19 (-1 Size, +10 natural), touch 9, flat-footed 19; 
+_ <b>BAB/Grapple:</b> +11/+20; 
+_ <b>Atk:</b> Bite +15 melee (2d6), Claws +15 melee (1d8), Wings +15 melee (1d6), Tail Slap +15 melee (1d8), plus breath 4d10 (18); 
+_ <b>Full Atk:</b> Bite +15 melee (2d6) and 2 Claws +15 melee (1d8) and 2 Wings +15 melee (1d6) and Tail Slap +15 melee (1d8),
+_ plus breath 4d10 (18); 
+_ <b>Space/reach:</b> 10 ft./5 ft. (10 ft. with bite); 
+_ <b>SA:</b> Alternate form, Immunity to fire, vulnerability to cold, water breathing;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always lawful good;
+_ <b>SV:</b> Fort +10, Ref +7, Will +10;
+_ <b>Attributes:</b> Str 21, Dex 10, Con 17, Int 16, Wis 17, Cha 16;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Young
+3,<b>Gold Dragon, Young</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Large Dragon; 
+_ <b>CR:</b> 9; <b>HD:</b> 14d12+42 (133); <b>Init:</b> +0; <b>Spd:</b> 60 ft., fly 200 ft. (poor), swim 60 ft.; 
+_ <b>AC:</b> 22 (-1 Size, +13 natural), touch 9, flat-footed 22; 
+_ <b>BAB/Grapple:</b> +14/+25; 
+_ <b>Atk:</b> Bite +20 melee (2d6), Claws +20 melee (1d8), Wings +20 melee (1d6), Tail Slap +20 melee (1d8), plus breath 6d10 (20); 
+_ <b>Full Atk:</b> Bite +20 melee (2d6) and 2 Claws +20 melee (1d8) and 2 Wings +20 melee (1d6) and Tail Slap +20 melee (1d8),
+_ plus breath 6d10 (20); 
+_ <b>Space/reach:</b> 10 ft./5 ft. (10 ft. with bite); 
+_ <b>SA:</b> Alternate form, Immunity to fire, vulnerability to cold, water breathing, 1st level caster|SpellcasterID=6||CharacterLevel=1||RandomAttribute=16|;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always lawful good;
+_ <b>SV:</b> Fort +12, Ref +9, Will +12;
+_ <b>Attributes:</b> Str 25, Dex 10, Con 17, Int 16, Wis 17, Cha 16;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Juvenile
+4,<b>Gold Dragon, Juvenile</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Large Dragon; 
+_ <b>CR:</b> 11; <b>HD:</b> 17d12+68 (178); <b>Init:</b> +0; <b>Spd:</b> 60 ft., fly 200 ft. (poor), swim 60 ft.; 
+_ <b>AC:</b> 25 (-1 Size, +16 natural), touch 9, flat-footed 25; 
+_ <b>BAB/Grapple:</b> +17/+30; 
+_ <b>Atk:</b> Bite +25 melee (2d6), Claws +25 melee (1d8), Wings +25 melee (1d6), Tail Slap +25 melee (1d8), plus breath 8d10 (22); 
+_ <b>Full Atk:</b> Bite +25 melee (2d6) and 2 Claws +25 melee (1d8) and 2 Wings +25 melee (1d6) and Tail Slap +25 melee (1d8),
+_ plus breath 8d10 (22); 
+_ <b>Space/reach:</b> 10 ft./5 ft. (10 ft. with bite); 
+_ <b>SA:</b> Alternate form, bless, Immunity to fire, vulnerability to cold, water breathing, 3rd level caster|SpellcasterID=6||CharacterLevel=3||RandomAttribute=18|;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always lawful good;
+_ <b>SV:</b> Fort +14, Ref +10, Will +14;
+_ <b>Attributes:</b> Str 29, Dex 10, Con 19, Int 18, Wis 19, Cha 18;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Young Adult
+5,<b>Gold Dragon, Young Adult</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Huge Dragon; 
+_ <b>CR:</b> 14; <b>HD:</b> 20d12+100 (230); <b>Init:</b> +0; <b>Spd:</b> 60 ft., fly 200 ft. (poor), swim 60 ft.; 
+_ <b>AC:</b> 27 (-2 Size, +19 natural), touch 8, flat-footed 27; 
+_ <b>BAB/Grapple:</b> +20/+38; 
+_ <b>Atk:</b> Bite +28 melee (2d8), Claws +28 melee (2d6), Wings +28 melee (1d8), Tail Slap +28 melee (2d6), and crush +28 melee (2d8),
+_ plus breath 10d10 (25); 
+_ <b>Full Atk:</b> Bite +28 melee (2d8) and 2 Claws +28 melee (2d6) and 2 Wings +28 melee (1d8) and Tail Slap +28 melee (2d6) and
+_ crush +28 melee (2d8), plus breath 10d10 (25); 
+_ <b>Space/reach:</b> 15 ft./10 ft. (15 ft. with bite); 
+_ <b>SA:</b> Alternate form, bless, damage resistance 5/magic, frightful presense (24), Immunity to fire, spell resistance (21),
+_ vulnerability to cold, water breathing, 5th level caster|SpellcasterID=6||CharacterLevel=5||RandomAttribute=18|;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always lawful good;
+_ <b>SV:</b> Fort +17, Ref +12, Will +16;
+_ <b>Attributes:</b> Str 31, Dex 10, Con 21, Int 18, Wis 19, Cha 18;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Adult
+6,<b>Gold Dragon, Adult</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Huge Dragon; 
+_ <b>CR:</b> 16; <b>HD:</b> 23d12+115 (264); <b>Init:</b> +0; <b>Spd:</b> 60 ft., fly 200 ft. (poor), swim 60 ft.; 
+_ <b>AC:</b> 30 (-2 Size, +22 natural), touch 8, flat-footed 30; 
+_ <b>BAB/Grapple:</b> +23/+42; 
+_ <b>Atk:</b> Bite +32 melee (2d8), Claws +32 melee (2d6), Wings +32 melee (1d8), Tail Slap +32 melee (2d6), and crush +32 melee (2d8),
+_ plus breath 12d10 (26); 
+_ <b>Full Atk:</b> Bite +32 melee (2d8) and 2 Claws +32 melee (2d6) and 2 Wings +32 melee (1d8) and Tail Slap +32 melee (2d6) and
+_ crush +32 melee (2d8), plus breath 12d10 (26); 
+_ <b>Space/reach:</b> 15 ft./10 ft. (15 ft. with bite); 
+_ <b>SA:</b> Alternate form, bless, damage resistance 5/magic, frightful presense (26), Immunity to fire, luck bonus,
+_ spell resistance (23), vulnerability to cold, water breathing, 7th level caster|SpellcasterID=6||CharacterLevel=7||RandomAttribute=20|;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always lawful good;
+_ <b>SV:</b> Fort +18, Ref +13, Will +18;
+_ <b>Attributes:</b> Str 33, Dex 10, Con 21, Int 20, Wis 21, Cha 20;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Mature Adult
+7,<b>Gold Dragon, Mature Adult</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Huge Dragon; 
+_ <b>CR:</b> 19; <b>HD:</b> 26d12+156 (325); <b>Init:</b> +0; <b>Spd:</b> 60 ft., fly 200 ft. (poor), swim 60 ft.; 
+_ <b>AC:</b> 33 (-2 Size, +25 natural), touch 8, flat-footed 33; 
+_ <b>BAB/Grapple:</b> +26/+46; 
+_ <b>Atk:</b> Bite +36 melee (2d8), Claws +36 melee (2d6), Wings +36 melee (1d8), Tail Slap +36 melee (2d6), and crush +36 melee (2d8),
+_ plus breath 14d10 (29); 
+_ <b>Full Atk:</b> Bite +36 melee (2d8) and 2 Claws +36 melee (2d6) and 2 Wings +36 melee (1d8) and Tail Slap +36 melee (2d6) and
+_ crush +36 melee (2d8), plus breath 14d10 (29); 
+_ <b>Space/reach:</b> 15 ft./10 ft. (15 ft. with bite); 
+_ <b>SA:</b> Alternate form, bless, damage resistance 10/magic, frightful presense (28), Immunity to fire, luck bonus,
+_ spell resistance (25), vulnerability to cold, water breathing, 9th level caster|SpellcasterID=6||CharacterLevel=9||RandomAttribute=20|;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always lawful good;
+_ <b>SV:</b> Fort +21, Ref +15, Will +20;
+_ <b>Attributes:</b> Str 35, Dex 10, Con 23, Int 20, Wis 21, Cha 20;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Old
+8,<b>Gold Dragon, Old</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Gargantuan Dragon; 
+_ <b>CR:</b> 21; <b>HD:</b> 29d12+203 (391); <b>Init:</b> +0; <b>Spd:</b> 60 ft., fly 250 ft. (clumsy), swim 60 ft.; 
+_ <b>AC:</b> 34 (-4 Size, +28 natural), touch 6, flat-footed 34; 
+_ <b>BAB/Grapple:</b> +29/+55; 
+_ <b>Atk:</b> Bite +39 melee (4d6), Claws +39 melee (2d8), Wings +39 melee (2d6), Tail Slap +39 melee (2d8), crush +39 melee (4d6),
+_ tail sweep +39 melee (2d6), plus breath 16d10 (31); 
+_ <b>Full Atk:</b> Bite +39 melee (4d6) and 2 Claws +39 melee (2d8) and 2 Wings +39 melee (2d6) and Tail Slap +39 melee (2d8) and
+_ crush +39 melee (4d6), and tail sweep +39 melee (2d6), plus breath 16d10 (31); 
+_ <b>Space/reach:</b> 20 ft./15 ft. (20 ft. with bite); 
+_ <b>SA:</b> Alternate form, bless, damage resistance 10/magic, detect gems, frightful presense (31), geas/quest, Immunity to fire,
+_ luck bonus, spell resistance (27), vulnerability to cold, water breathing, 11th level caster|SpellcasterID=6||CharacterLevel=11||RandomAttribute=24|;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always lawful good;
+_ <b>SV:</b> Fort +23, Ref +16, Will +23;
+_ <b>Attributes:</b> Str 39, Dex 10, Con 25, Int 24, Wis 25, Cha 24;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Very Old
+9,<b>Gold Dragon, Very Old</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Gargantuan Dragon; 
+_ <b>CR:</b> 22; <b>HD:</b> 32d12+256 (464); <b>Init:</b> +0; <b>Spd:</b> 60 ft., fly 250 ft. (clumsy), swim 60 ft.; 
+_ <b>AC:</b> 37 (-4 Size, +31 natural), touch 6, flat-footed 37; 
+_ <b>BAB/Grapple:</b> +32/+59; 
+_ <b>Atk:</b> Bite +43 melee (4d6), Claws +43 melee (2d8), Wings +43 melee (2d6), Tail Slap +43 melee (2d8), crush +43 melee (4d6),
+_ tail sweep +43 melee (2d6), plus breath 18d10 (34); 
+_ <b>Full Atk:</b> Bite +43 melee (4d6) and 2 Claws +43 melee (2d8) and 2 Wings +43 melee (2d6) and Tail Slap +43 melee (2d8) and
+_ crush +43 melee (4d6) and tail sweep +43 melee (2d6), plus breath 18d10 (34); 
+_ <b>Space/reach:</b> 20 ft./15 ft. (20 ft. with bite); 
+_ <b>SA:</b> Alternate form, bless, damage resistance 15/magic, detect gems, frightful presense (34), geas/quest, Immunity to fire,
+_ luck bonus, spell resistance (28), vulnerability to cold, water breathing, 13th Level caster|SpellcasterID=6||CharacterLevel=13||RandomAttribute=26|;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always lawful good;
+_ <b>SV:</b> Fort +26, Ref +18, Will +26;
+_ <b>Attributes:</b> Str 41, Dex 10, Con 27, Int 26, Wis 27, Cha 26;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Ancient
+10,<b>Gold Dragon, Ancient</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Gargantuan Dragon; 
+_ <b>CR:</b> 24; <b>HD:</b> 35d12+315 (542); <b>Init:</b> +0; <b>Spd:</b> 60 ft., fly 250 ft. (clumsy), swim 60 ft.; 
+_ <b>AC:</b> 40 (-4 Size, +34 natural), touch 6, flat-footed 40; 
+_ <b>BAB/Grapple:</b> +35/+63; 
+_ <b>Atk:</b> Bite +47 melee (4d6), Claws +47 melee (2d8), Wings +47 melee (2d6), Tail Slap +47 melee (2d8), crush +47 melee (4d6),
+_ tail sweep +47 melee (2d6), plus breath 20d10 (36); 
+_ <b>Full Atk:</b> Bite +47 melee (4d6) and 2 Claws +47 melee (2d8) and 2 Wings +47 melee (2d6) and Tail Slap +47 melee (2d8) and
+_ crush +47 melee (4d6) and tail sweep +47 melee (2d6), plus breath 20d10 (36); 
+_ <b>Space/reach:</b> 20 ft./15 ft. (20 ft. with bite); 
+_ <b>SA:</b> Alternate form, bless, damage resistance 15/magic, detect gems, frightful presense (36), geas/quest, Immunity to fire,
+_ luck bonus, spell resistance (30), sunburst, vulnerability to cold, water breathing, 15th Level caster|SpellcasterID=6||CharacterLevel=15||RandomAttribute=28|;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always lawful good;
+_ <b>SV:</b> Fort +28, Ref +19, Will +28;
+_ <b>Attributes:</b> Str 43, Dex 10, Con 29, Int 28, Wis 29, Cha 28;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Wyrm
+11,<b>Gold Dragon, Wyrm</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Colossal Dragon; 
+_ <b>CR:</b> 25; <b>HD:</b> 38d12+380 (627); <b>Init:</b> +0; <b>Spd:</b> 60 ft., fly 250 ft. (clumsy), swim 60 ft.;
+_ <b>AC:</b> 39 (-8 Size, +37 natural), touch 2, flat-footed 39; 
+_ <b>BAB/Grapple:</b> +38/+71; 
+_ <b>Atk:</b> Bite +47 melee (4d8), Claws +47 melee (4d6), Wings +47 melee (2d8), Tail Slap +47 melee (4d6), crush +47 melee (4d8),
+_ tail sweep +47 melee (2d8), plus breath 22d10 (39); 
+_ <b>Full Atk:</b> Bite +47 melee (4d8) and 2 Claws +47 melee (4d6) and 2 Wings +47 melee (2d8) and Tail Slap +47 melee (4d6) and
+_ crush +47 melee (4d8) and tail sweep +47 melee (2d8), plus breath 22d10 (39); 
+_ <b>Space/reach:</b> 30 ft./20 ft. (30 ft. with bite); 
+_ <b>SA:</b> Alternate form, bless, damage resistance 20/magic, detect gems, frightful presense (39), geas/quest, Immunity to fire,
+_ luck bonus, spell resistance (31), sunburst, vulnerability to cold, water breathing, 17th Level caster|SpellcasterID=6||CharacterLevel=17||RandomAttribute=30|;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always lawful good;
+_ <b>SV:</b> Fort +31, Ref +21, Will +31;
+_ <b>Attributes:</b> Str 45, Dex 10, Con 31, Int 30, Wis 31, Cha 30;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Great Wyrm
+12,<b>Gold Dragon, Great Wyrm</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Colossal Dragon; 
+_ <b>CR:</b> 27; <b>HD:</b> 41d12+451 (717); <b>Init:</b> +0; <b>Spd:</b> 60 ft., fly 250 ft. (clumsy), swim 60 ft.;
+_ <b>AC:</b> 42 (-8 Size, +40 natural), touch 2, flat-footed 42; 
+_ <b>BAB/Grapple:</b> +41/+75; 
+_ <b>Atk:</b> Bite +51 melee (4d8), Claws +51 melee (4d6), Wings +51 melee (2d8), Tail Slap +51 melee (4d6), crush +51 melee (4d8),
+_ or tail sweep +51 melee (2d8), plus breath 24d10 (41); 
+_ <b>Full Atk:</b> Bite +51 melee (4d8) and 2 Claws +51 melee (4d6) and 2 Wings +51 melee (2d8) and Tail Slap +51 melee (4d6) and
+_ crush +51 melee (4d8) and tail sweep +51 melee (2d8), plus breath 24d10 (41); 
+_ <b>Space/reach:</b> 30 ft./20 ft. (30 ft. with bite); 
+_ <b>SA:</b> Alternate form, bless, damage resistance 20/magic, detect gems, foresight, frightful presense (41), geas/quest,
+_ Immunity to fire, luck bonus, spell resistance (33), sunburst, vulnerability to cold, water breathing, 19th Level caster|SpellcasterID=6|
+_ |CharacterLevel=19||RandomAttribute=32|;
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always lawful good;
+_ <b>SV:</b> Fort +33, Ref +22, Will +33;
+_ <b>Attributes:</b> Str 47, Dex 10, Con 33, Int 32, Wis 33, Cha 32;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+
+:SilverDragonStats
+# Wyrmling
+1,<b>Silver Dragon, Wyrmling</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Small Dragon; 
+_ <b>CR:</b> 4; <b>HD:</b> 7d12+7 (52); <b>Init:</b> +0; <b>Spd:</b> 40 ft., fly 100 ft. (average); 
+_ <b>AC:</b> 17 (+1 size,+6 natural), touch 11, flat-footed 17; 
+_ <b>BAB/Grapple:</b> +7/+4; 
+_ <b>Atk:</b> Bite +9 melee (1d6), Claws +9 melee (1d4), plus breath 2d8 (14); 
+_ <b>Full Atk:</b> Bite +9 melee (1d6) and 2 Claws +9 melee (1d4), plus breath 2d8 (14); 
+_ <b>Space/reach:</b> 5 ft./5 ft.; 
+_ <b>SA:</b> Alternate form, cloudwalking, Immunity to acid and cold, vulnerability to fire; 
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always lawful good;
+_ <b>SV:</b> Fort +6, Ref +5, Will +7;
+_ <b>Attributes:</b> Str 13, Dex 10, Con 13, Int 14, Wis 15, Cha 14; 
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats]
+# Very Young
+2,<b>Silver Dragon, Very Young</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Medium Dragon; 
+_ <b>CR:</b> 5; <b>HD:</b> 10d12+20 (85); <b>Init:</b> +0; <b>Spd:</b> 40 ft., fly 150 ft. (poor); 
+_ <b>AC:</b> 19 (+9 natural), touch 10, flat-footed 19; 
+_ <b>BAB/Grapple:</b> +10/+12; 
+_ <b>Atk:</b> Bite +12 melee (1d8), Claws +12 melee (1d6), Wings +12 Melee (1d4), plus breath 4d8 (17); 
+_ <b>Full Atk:</b> Bite +12 melee (1d8) and 2 Claws +12 melee (1d6) and 2 Wings +12 Melee (1d4), plus breath 4d8 (17); 
+_ <b>Space/reach:</b> 5 ft./5 ft.; 
+_ <b>SA:</b> Alternate form, cloudwalking, Immunity to acid and cold, vulnerability to fire; 
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always lawful good;
+_ <b>SV:</b> Fort +9, Ref +7, Will +9;
+_ <b>Attributes:</b> Str 15, Dex 10, Con 15, Int 14, Wis 15, Cha 14;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats]
+# Young
+3,<b>Silver Dragon, Young</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Medium Dragon; 
+_ <b>CR:</b> 7; <b>HD:</b> 13d12+26 (110); <b>Init:</b> +0; <b>Spd:</b> 40 ft., fly 150 ft. (poor); 
+_ <b>AC:</b> 22 (+12 natural), touch 10, flat-footed 22; 
+_ <b>BAB/Grapple:</b> +13/+16; 
+_ <b>Atk:</b> Bite +16 melee (1d8), Claws +16 melee (1d6), Wings +16 Melee (1d4), plus breath 6d8 (18); 
+_ <b>Full Atk:</b> Bite +16 melee (1d8) and 2 Claws +16 melee (1d6) and 2 Wings +16 Melee (1d4), plus breath 6d8 (18); 
+_ <b>Space/reach:</b> 5 ft./5 ft.; 
+_ <b>SA:</b> Alternate form, cloudwalking, Immunity to acid and cold, vulnerability to fire, 1st level caster|SpellcasterID=6||CharacterLevel=1||RandomAttribute=16|; 
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always lawful good;
+_ <b>SV:</b> Fort +10, Ref +8, Will +11;
+_ <b>Attributes:</b> Str 17, Dex 10, Con 15, Int 16, Wis 17, Cha 16;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats]
+# Juvenile
+4,<b>Silver Dragon, Juvenile</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Large Dragon; 
+_ <b>CR:</b> 10; <b>HD:</b> 16d12+48 (152); <b>Init:</b> +0; <b>Spd:</b> 40 ft., fly 150 ft. (poor); 
+_ <b>AC:</b> 24 (-1 Size, +15 natural), touch 9, flat-footed 24; 
+_ <b>BAB/Grapple:</b> +16/+24; 
+_ <b>Atk:</b> Bite +19 melee (2d6), Claws +19 melee (1d8), Wings +19 melee (1d6), Tail Slap +19 melee (1d8), plus breath 8d8 (21); 
+_ <b>Full Atk:</b> Bite +19 melee (2d6) and 2 Claws +19 melee (1d8) and 2 Wings +19 melee (1d6) and Tail Slap +19 melee (1d8),
+_ plus breath 8d8 (21); 
+_ <b>Space/reach:</b> 10 ft./5 ft. (10 ft. with bite); 
+_ <b>SA:</b> Alternate form, cloudwalking, featherfall, Immunity to acid and cold, vulnerability to fire, 3rd level caster|SpellcasterID=6|
+_ |CharacterLevel=3||RandomAttribute=18|; 
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always lawful good;
+_ <b>SV:</b> Fort +13, Ref +10, Will +14;
+_ <b>Attributes:</b> Str 19, Dex 10, Con 17, Int 18, Wis 19, Cha 18;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Young Adult
+5,<b>Silver Dragon, Young Adult</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Large Dragon; 
+_ <b>CR:</b> 13; <b>HD:</b> 19d12+76 (199); <b>Init:</b> +0; <b>Spd:</b> 40 ft., fly 150 ft. (poor); 
+_ <b>AC:</b> 27 (-1 Size, +18 natural), touch 9, flat-footed 27; 
+_ <b>BAB/Grapple:</b> +19/+29; 
+_ <b>Atk:</b> Bite +24 melee (2d6), Claws +24 melee (1d8), Wings +24 melee (1d6), Tail Slap +24 melee (1d8), plus breath 10d8 (23); 
+_ <b>Full Atk:</b> Bite +24 melee (2d6) and 2 Claws +24 melee (1d8) and 2 Wings +24 melee (1d6) and Tail Slap +24 melee (1d8),
+_ plus breath 10d8 (23); 
+_ <b>Space/reach:</b> 10 ft./5 ft. (10 ft. with bite); 
+_ <b>SA:</b> Alternate form, cloudwalking, damage resistance 5/magic, featherfall, frightful presence (23), Immunity to acid and cold,
+_ spell resistance (20), vulnerability to fire, 5th level caster|SpellcasterID=6||CharacterLevel=5||RandomAttribute=18|; 
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always lawful good;
+_ <b>SV:</b> Fort +15, Ref +11, Will +15;
+_ <b>Attributes:</b> Str 23, Dex 10, Con 19, Int 18, Wis 19, Cha 18;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Adult
+6,<b>Silver Dragon, Adult</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Huge Dragon; 
+_ <b>CR:</b> 15; <b>HD:</b> 22d12+110 (253); <b>Init:</b> +0; <b>Spd:</b> 40 ft., fly 150 ft. (poor); 
+_ <b>AC:</b> 29 (-2 Size, +21 natural), touch 8, flat-footed 29; 
+_ <b>BAB/Grapple:</b> +22/+38; 
+_ <b>Atk:</b> Bite +28 melee (2d8), Claws +28 melee (2d6), Wings +28 melee (1d8), Tail Slap +28 melee (2d6), crush +28 melee (2d8),
+_ plus breath 12d8 (26); 
+_ <b>Full Atk:</b> Bite +28 melee (2d8) and 2 Claws +28 melee (2d6) and 2 Wings +28 melee (1d8) and Tail Slap +28 melee (2d6) and
+_ crush +28 melee (2d8), plus breath 12d8 (26); 
+_ <b>Space/reach:</b> 15 ft./10 ft. (15 ft. with bite); 
+_ <b>SA:</b> Alternate form, cloudwalking, damage resistance 5/magic, featherfall, fog cloud, frightful presence (26),
+_ Immunity to acid and cold, spell resistance (22), vulnerability to fire, 7th level caster|SpellcasterID=6||CharacterLevel=7||RandomAttribute=20|; 
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always lawful good;
+_ <b>SV:</b> Fort +18, Ref +13, Will +18;
+_ <b>Attributes:</b> Str 27, Dex 10, Con 21, Int 20, Wis 21, Cha 20;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Mature Adult
+7,<b>Silver Dragon, Mature Adult</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Huge Dragon; 
+_ <b>CR:</b> 18; <b>HD:</b> 25d12+125 (287); <b>Init:</b> +0; <b>Spd:</b> 40 ft., fly 150 ft. (poor); 
+_ <b>AC:</b> 32 (-2 Size, +24 natural), touch 8, flat-footed 32; 
+_ <b>BAB/Grapple:</b> +25/+42; 
+_ <b>Atk:</b> Bite +32 melee (2d8), Claws +32 melee (2d6), Wings +32 melee (1d8), Tail Slap +32 melee (2d6), crush +32 melee (2d8),
+_ plus breath 14d8 (27); 
+_ <b>Full Atk:</b> Bite +32 melee (2d8) and 2 Claws +32 melee (2d6) and 2 Wings +32 melee (1d8) and Tail Slap +32 melee (2d6) and
+_ crush +32 melee (2d8), plus breath 14d8 (27); 
+_ <b>Space/reach:</b> 15 ft./10 ft. (15 ft. with bite); 
+_ <b>SA:</b> Alternate form, cloudwalking, damage resistance 10/magic, featherfall, fog cloud, frightful presence (27),
+_ Immunity to acid and cold, spell resistance (24), vulnerability to fire, 9th level caster|SpellcasterID=6||CharacterLevel=9||RandomAttribute=20|; 
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always lawful good;
+_ <b>SV:</b> Fort +19, Ref +14, Will +19;
+_ <b>Attributes:</b> Str 29, Dex 10, Con 21, Int 20, Wis 21, Cha 20;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Old
+8,<b>Silver Dragon, Old</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Huge Dragon; 
+_ <b>CR:</b> 20; <b>HD:</b> 28d12+168 (350); <b>Init:</b> +0; <b>Spd:</b> 40 ft., fly 150 ft. (poor); 
+_ <b>AC:</b> 35 (-2 Size, +27 natural), touch 8, flat-footed 35; 
+_ <b>BAB/Grapple:</b> +28/+46; 
+_ <b>Atk:</b> Bite +36 melee (2d8), Claws +36 melee (2d6), Wings +36 melee (1d8), Tail Slap +36 melee (2d6), crush +36 melee (2d8),
+_ plus breath 16d8 (30); 
+_ <b>Full Atk:</b> Bite +36 melee (2d8) and 2 Claws +36 melee (2d6) and 2 Wings +36 melee (1d8) and Tail Slap +36 melee (2d6) and
+_ crush +36 melee (2d8), plus breath 16d8 (30); 
+_ <b>Space/reach:</b> 15 ft./10 ft. (15 ft. with bite); 
+_ <b>SA:</b> Alternate form, cloudwalking, control winds, damage resistance 10/magic, featherfall, fog cloud, frightful presence (30),
+_ Immunity to acid and cold, spell resistance (26), vulnerability to fire, 11th level caster|SpellcasterID=6||CharacterLevel=11||RandomAttribute=22|; 
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always lawful good;
+_ <b>SV:</b> Fort +22, Ref +16, Will +22;
+_ <b>Attributes:</b> Str 31, Dex 10, Con 23, Int 22, Wis 23, Cha 22;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Very Old
+9,<b>Silver Dragon, Very Old</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Huge Dragon; 
+_ <b>CR:</b> 21; <b>HD:</b> 31d12+186 (387); <b>Init:</b> +0; <b>Spd:</b> <b>Spd:</b> 40 ft., fly 150 ft. (poor); 
+_ <b>AC:</b> 38 (-2 Size, +30 natural), touch 8, flat-footed 38; 
+_ <b>BAB/Grapple:</b> +31/+50; 
+_ <b>Atk:</b> Bite +40 melee (2d8), Claws +40 melee (2d6), Wings +40 melee (1d8), Tail Slap +40 melee (2d6), crush +40 melee (2d8),
+_ plus breath 18d8 (31); 
+_ <b>Full Atk:</b> Bite +40 melee (2d8) and 2 Claws +40 melee (2d6) and 2 Wings +40 melee (1d8) and Tail Slap +40 melee (2d6) and
+_ crush +40 melee (2d8), plus breath 18d8 (31); 
+_ <b>Space/reach:</b> 15 ft./10 ft. (15 ft. with bite); 
+_ <b>SA:</b> Alternate form, cloudwalking, control winds, damage resistance 15/magic, featherfall, fog cloud, frightful presence (32),
+_ Immunity to acid and cold, spell resistance (27), vulnerability to fire, 13th Level caster|SpellcasterID=6||CharacterLevel=13||RandomAttribute=24|; 
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always lawful good;
+_ <b>SV:</b> Fort +23, Ref +17, Will +24;
+_ <b>Attributes:</b> Str 33, Dex 10, Con 23, Int 24, Wis 25, Cha 24;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Ancient
+10,<b>Silver Dragon, Ancient</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Gargantuan Dragon; 
+_ <b>CR:</b> 23; <b>HD:</b> 34d12+238 (459); <b>Init:</b> +0; <b>Spd:</b> 40 ft., fly 200 ft. (clumsy); 
+_ <b>AC:</b> 39 (-4 Size, +33 natural), touch 6, flat-footed 39; 
+_ <b>BAB/Grapple:</b> +34/+58; 
+_ <b>Atk:</b> Bite +42 melee (4d6), Claws +42 melee (2d8), Wings +42 melee (2d6), Tail Slap +42 melee (2d8), crush +42 melee (4d6),
+_ tail sweep +42 melee (2d6), plus breath 20d8 (34); 
+_ <b>Full Atk:</b> Bite +42 melee (4d6) and 2 Claws +42 melee (2d8) and 2 Wings +42 melee (2d6) and Tail Slap +42 melee (2d8) and
+_ crush +42 melee (4d6) and tail sweep +42 melee (2d6), plus breath 20d8 (34); 
+_ <b>Space/reach:</b> 20 ft./15 ft. (20 ft. with bite); 
+_ <b>SA:</b> Alternate form, cloudwalking, control winds, control weather, damage resistance 15/magic, featherfall, fog cloud,
+_ frightful presence (35), Immunity to acid and cold, spell resistance (29), vulnerability to fire,
+_ 15th Level caster|SpellcasterID=6||CharacterLevel=15||RandomAttribute=26|; 
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always lawful good;
+_ <b>SV:</b> Fort +26, Ref +19, Will +27;
+_ <b>Attributes:</b> Str 35, Dex 10, Con 25, Int 26, Wis 27, Cha 26;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Wyrm
+11,<b>Silver Dragon, Wyrm</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Gargantuan Dragon; 
+_ <b>CR:</b> 24; <b>HD:</b> 37d12+333 (573); <b>Init:</b> +0; <b>Spd:</b> 40 ft., fly 200 ft. (clumsy); 
+_ <b>AC:</b> 42 (-4 Size, +36 natural), touch 6, flat-footed 42; 
+_ <b>BAB/Grapple:</b> +37/+63; 
+_ <b>Atk:</b> Bite +47 melee (4d6), Claws +47 melee (2d8), Wings +47 melee (2d6), Tail Slap +47 melee (2d8), crush +47 melee (4d6),
+_ tail sweep +47 melee (2d6), plus breath 22d8 (37); 
+_ <b>Full Atk:</b> Bite +47 melee (4d6) and 2 Claws +47 melee (2d8) and 2 Wings +47 melee (2d6) and Tail Slap +47 melee (2d8) and
+_ crush +47 melee (4d6) and tail sweep +47 melee (2d6), plus breath 22d8 (37); 
+_ <b>Space/reach:</b> 20 ft./15 ft. (20 ft. with bite); 
+_ <b>SA:</b> Alternate form, cloudwalking, control winds, control weather, damage resistance 20/magic, featherfall, fog cloud,
+_ frightful presence (37), Immunity to acid and cold, spell resistance (29), vulnerability to fire,
+_ 17th Level caster|SpellcasterID=6||CharacterLevel=17||RandomAttribute=28|; 
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always lawful good;
+_ <b>SV:</b> Fort +29, Ref +20, Will +29;
+_ <b>Attributes:</b> Str 39, Dex 10, Con 29, Int 28, Wis 29, Cha 28;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats] 
+# Great Wyrm
+12,<b>Silver Dragon, Great Wyrm</b>
+_ {If~%Ally4%>0 ? (%AllyCount4%)/ [NumberAppearing]}
+_: Colossal Dragon; 
+_ <b>CR:</b> 26; <b>HD:</b> 40d12+400 (660); <b>Init:</b> +0; <b>Spd:</b> 40 ft., fly 200 ft. (clumsy); 
+_ <b>AC:</b> 41 (-8 Size, +39 natural), touch 2, flat-footed 41; 
+_ <b>BAB/Grapple:</b> +40/+72; 
+_ <b>Atk:</b> Bite +48 melee (4d8), Claws +48 melee (4d6), Wings +48 melee (2d8), Tail Slap +48 melee (4d6), crush +48 melee (4d8),
+_ tail sweep +48 melee (2d8), plus breath 24d8 (40); 
+_ <b>Full Atk:</b> Bite +48 melee (4d8) and 2 Claws +48 melee (4d6) and 2 Wings +48 melee (2d8) and Tail Slap +48 melee (4d6) and
+_ crush +48 melee (4d8) and tail sweep +48 melee (2d8), plus breath 24d8 (40); 
+_ <b>Space/reach:</b> 30 ft./20 ft. (30 ft. with bite); 
+_ <b>SA:</b> Alternate form, cloudwalking, control winds, control weather, damage resistance 20/magic, featherfall, fog cloud,
+_ frightful presence (40), Immunity to acid and cold, reverse gravity, spell resistance (32), vulnerability to fire,
+_ 19th Level caster|SpellcasterID=6||CharacterLevel=19||RandomAttribute=30|; 
+_ <b>SQ:</b> Blindsense, Darkvision 120 ft., Keen Senses; <b>AL:</b> Always lawful good;
+_ <b>SV:</b> Fort +32, Ref +22, Will +32;
+_ <b>Attributes:</b> Str 43, Dex 10, Con 31, Int 30, Wis 31, Cha 30;
+_ <b>Skills:</b> [GenerateSkills]|CommaFlag=0|;
+_ <b>Feats:</b> [GenerateFeats]
+
+# --------------------------------------------------------------------------
+# Dragon Skills Section
+
+:CalculateAbilityAdds
+1,|StrBonus={Trunc~{Calc~(%Str%-10)/2}}|
+_ |DexBonus={Trunc~{Calc~(%Dex%-10)/2}}|
+_ |ConBonus={Trunc~{Calc~(%Con%-10)/2}}|
+_ |IntBonus={Trunc~{Calc~(%Int%-10)/2}}|
+_ |WisBonus={Trunc~{Calc~(%Wis%-10)/2}}|
+_ |ChaBonus={Trunc~{Calc~(%Cha%-10)/2}}|
+
+:GenerateSkills
+1,[CalculateTotalSkillPoints]
+_|SkillsString=[DragonClassSkillsByType=%DragonType%]|
+_|SkillsString&;|
+_
+_{Loop~%SkillCountAtMaxRanks%,
+_|SkillsString&{If~%CommaFlag%=1?;}[DragonClassSkillsByType=%DragonType%]|
+_|CommaFlag=1|
+_}
+_
+_|SkillsString={OrderAsc~";",%SkillsString%}|
+_|SkillsString={Replace~;,; ,%SkillsString%}|
+_|SkillsString={CommaReplace~1,;,%SkillsString%}|
+_%SkillsString%
+
+:CalculateTotalSkillPoints
+1,|TotalSkillPoints={Calc~((6 + %IntBonus%)*(%HitDice% + 3))}|
+_|MaxRanks={Calc~(%HitDice%+3)}|
+_|SkillCountAtMaxRanks={Trunc~{Calc~(%TotalSkillPoints% / %MaxRanks%)}}|
+
+# --------------------------------------------------------------------------
+# Dragon Feats Section
+
+:GenerateFeats
+1,[CalculateNumberOfFeats]
+_|FeatsString=[FeatsBranchByAge=%HitDice%]||FeatsString&;|
+_{Loop~%FeatsCount%,|FeatsString&{If~%CommaFlag%=1?;}[FeatsBranchByAge=%HitDice%]||CommaFlag=1|}
+_|FeatsString={OrderAsc~";",%FeatsString%}|
+_|FeatsString={Replace~;,; ,%FeatsString%}|
+_|FeatsString={CommaReplace~1,;,%FeatsString%}|
+_%FeatsString%
+
+:CalculateNumberOfFeats
+1,|FeatsCount={Trunc~{Calc~%HitDice% / 3}}|
+
+:FeatsBranchByAge
+1-15,{If~{Used~DragonGeneralFeats,0}=1?Toughness/[DragonGeneralFeats]}
+16-100,[Chanceof]{If~%Chance%>75?{If~{Used~DragonGeneralFeats,0}=1?Toughness/[DragonMetamagicFeats]}/
+_{If~{Used~DragonGeneralFeats,0}=1?Toughness/[DragonGeneralFeats]}}
+
+:!DragonGeneralFeats
+1,Alertness
+2,Blind-Fight
+3,{If~{Find~1,Power Attack,%FeatsString%}=0?{Unlock~DragonGeneralFeats,3}[DragonGeneralFeats]/Cleave}
+4,Flyby Attack
+5,Hover
+6,Improved Initiative
+7,{If~{Find~1,Power Attack,%FeatsString%}=0?{Unlock~DragonGeneralFeats,7}[DragonGeneralFeats]/Improved Sunder}
+8,Power Attack (+{Calc~(%HitDice%+%StrBonus%)})
+9,[Snatch=%DragonType%]
+10,Weapon Focus (claw)
+11,Weapon Focus (bite)
+12,Wingover
+
+# Needs Huge+
+:Snatch
+1,{If~%DragonAge%<7? {Unlock~DragonGeneralFeats,9}[DragonGeneralFeats]/Snatch}
+2,{If~%DragonAge%<6? {Unlock~DragonGeneralFeats,9}[DragonGeneralFeats]/Snatch}
+3,{If~%DragonAge%<6? {Unlock~DragonGeneralFeats,9}[DragonGeneralFeats]/Snatch}
+4,{If~%DragonAge%<5? {Unlock~DragonGeneralFeats,9}[DragonGeneralFeats]/Snatch}
+5,{If~%DragonAge%<7? {Unlock~DragonGeneralFeats,9}[DragonGeneralFeats]/Snatch}
+6,{If~%DragonAge%<7? {Unlock~DragonGeneralFeats,9}[DragonGeneralFeats]/Snatch}
+7,{If~%DragonAge%<6? {Unlock~DragonGeneralFeats,9}[DragonGeneralFeats]/Snatch}
+8,{If~%DragonAge%<7? {Unlock~DragonGeneralFeats,9}DragonGeneralFeats]/Snatch}
+9,{If~%DragonAge%<5? {Unlock~DragonGeneralFeats,9}[DragonGeneralFeats]/Snatch}
+10,{If~%DragonAge%<6? {Unlock~DragonGeneralFeats,9}[DragonGeneralFeats]/Snatch}
+
+:!DragonMetamagicFeats
+1,Empower Spell
+2,Enlarge Spell
+3,Extend Spell
+4,Heighten Spell
+5,Maximize Spell
+6,Quicken Spell
+7,Silent Spell
+8,Still Spell
+9,Widen Spell
+
+:DragonClassSkillsByType
+1,[BlackDragonSkills] [DragonSkillsList=%SkillID%]
+2,[BlueDragonSkills] [DragonSkillsList=%SkillID%]
+3,[GreenDragonSkills] [DragonSkillsList=%SkillID%]
+4,[RedDragonSkills] [DragonSkillsList=%SkillID%]
+5,[WhiteDragonSkills] [DragonSkillsList=%SkillID%]
+6,[BrassDragonSkills] [DragonSkillsList=%SkillID%]
+7,[BronzeDragonSkills] [DragonSkillsList=%SkillID%]
+8,[CopperDragonSkills] [DragonSkillsList=%SkillID%]
+9,[GoldDragonSkills] [DragonSkillsList=%SkillID%]
+10,[SilverDragonSkills] [DragonSkillsList=%SkillID%]
+
+:DetermineAbilities
+# Black
+1,[BlackAbilities=%DragonAge%]
+# Blue
+2,[BlueAbilities=%DragonAge%]
+# Green
+3,[GreenAbilities=%DragonAge%]
+# Red
+4,[RedAbilities=%DragonAge%]
+# White
+5,[WhiteAbilities=%DragonAge%]
+# Brass
+6,[BrassAbilities=%DragonAge%]
+# Bronze
+7,[BronzeAbilities=%DragonAge%]
+# Copper
+8,[CopperAbilities=%DragonAge%]
+# Gold
+9,[GoldAbilities=%DragonAge%]
+# Silver
+10,[SilverAbilities=%DragonAge%]
+
+:BlackAbilities
+1,|HitDice=4||Str=11||Dex=10||Con=13||Int=8||Wis=11||Cha=8|
+2,|HitDice=7||Str=13||Dex=10||Con=13||Int=8||Wis=11||Cha=8|
+3,|HitDice=10||Str=15||Dex=10||Con=15||Int=10||Wis=11||Cha=10|
+4,|HitDice=13||Str=17||Dex=10||Con=15||Int=10||Wis=11||Cha=10|
+5,|HitDice=16||Str=19||Dex=10||Con=17||Int=12||Wis=13||Cha=12|
+6,|HitDice=19||Str=23||Dex=10||Con=19||Int=12||Wis=13||Cha=12|
+7,|HitDice=22||Str=27||Dex=10||Con=21||Int=14||Wis=15||Cha=14|
+8,|HitDice=25||Str=29||Dex=10||Con=21||Int=14||Wis=15||Cha=14|
+9,|HitDice=28||Str=31||Dex=10||Con=23||Int=16||Wis=17||Cha=16|
+10,|HitDice=31||Str=33||Dex=10||Con=23||Int=16||Wis=17||Cha=16|
+11,|HitDice=34||Str=35||Dex=10||Con=25||Int=18||Wis=19||Cha=18|
+12,|HitDice=37||Str=37||Dex=10||Con=27||Int=20||Wis=21||Cha=20|
+
+:BlueAbilities
+1,|HitDice=6||Str=13||Dex=10||Con=13||Int=10||Wis=11||Cha=10|
+2,|HitDice=9||Str=15||Dex=10||Con=15||Int=10||Wis=11||Cha=10|
+3,|HitDice=12||Str=17||Dex=10||Con=15||Int=12||Wis=13||Cha=12|
+4,|HitDice=15||Str=19||Dex=10||Con=17||Int=15||Wis=14||Cha=15|
+5,|HitDice=18||Str=23||Dex=10||Con=19||Int=15||Wis=14||Cha=15|
+6,|HitDice=21||Str=27||Dex=10||Con=21||Int=16||Wis=17||Cha=16|
+7,|HitDice=24||Str=29||Dex=10||Con=21||Int=16||Wis=17||Cha=16|
+8,|HitDice=27||Str=31||Dex=10||Con=23||Int=18||Wis=19||Cha=18|
+9,|HitDice=30||Str=33||Dex=10||Con=23||Int=18||Wis=19||Cha=18|
+10,|HitDice=33||Str=35||Dex=10||Con=25||Int=20||Wis=21||Cha=20|
+11,|HitDice=36||Str=37||Dex=10||Con=27||Int=20||Wis=21||Cha=20|
+12,|HitDice=39||Str=39||Dex=10||Con=27||Int=22||Wis=23||Cha=22|
+
+:GreenAbilities
+1,|HitDice=5||Str=13||Dex=10||Con=13||Int=10||Wis=11||Cha=10|
+2,|HitDice=8||Str=15||Dex=10||Con=15||Int=10||Wis=11||Cha=10|
+3,|HitDice=11||Str=17||Dex=10||Con=15||Int=12||Wis=13||Cha=12|
+4,|HitDice=14||Str=19||Dex=10||Con=17||Int=14||Wis=15||Cha=14|
+5,|HitDice=17||Str=23||Dex=10||Con=19||Int=14||Wis=15||Cha=14|
+6,|HitDice=20||Str=27||Dex=10||Con=21||Int=16||Wis=17||Cha=16|
+7,|HitDice=23||Str=29||Dex=10||Con=21||Int=16||Wis=17||Cha=16|
+8,|HitDice=26||Str=31||Dex=10||Con=23||Int=18||Wis=19||Cha=18|
+9,|HitDice=29||Str=33||Dex=10||Con=23||Int=18||Wis=19||Cha=18|
+10,|HitDice=32||Str=35||Dex=10||Con=25||Int=20||Wis=21||Cha=20|
+11,|HitDice=35||Str=37||Dex=10||Con=27||Int=20||Wis=21||Cha=20|
+12,|HitDice=38||Str=39||Dex=10||Con=27||Int=22||Wis=23||Cha=22|
+
+:RedAbilities
+1,|HitDice=7||Str=17||Dex=10||Con=15||Int=10||Wis=11||Cha=10|
+2,|HitDice=10||Str=21||Dex=10||Con=17||Int=12||Wis=13||Cha=12|
+3,|HitDice=13||Str=25||Dex=10||Con=17||Int=12||Wis=13||Cha=12|
+4,|HitDice=16||Str=29||Dex=10||Con=19||Int=14||Wis=15||Cha=14|
+5,|HitDice=19||Str=31||Dex=10||Con=21||Int=14||Wis=15||Cha=14|
+6,|HitDice=22||Str=33||Dex=10||Con=21||Int=16||Wis=19||Cha=16|
+7,|HitDice=25||Str=33||Dex=10||Con=23||Int=18||Wis=19||Cha=18|
+8,|HitDice=28||Str=35||Dex=10||Con=25||Int=20||Wis=21||Cha=20|
+9,|HitDice=31||Str=37||Dex=10||Con=27||Int=22||Wis=23||Cha=22|
+10,|HitDice=34||Str=39||Dex=10||Con=29||Int=24||Wis=25||Cha=24|
+11,|HitDice=37||Str=41||Dex=10||Con=31||Int=24||Wis=25||Cha=24|
+12,|HitDice=40||Str=45||Dex=10||Con=31||Int=26||Wis=27||Cha=26|
+
+:WhiteAbilities
+1,|HitDice=3||Str=11||Dex=10||Con=13||Int=6||Wis=11||Cha=6|
+2,|HitDice=6||Str=13||Dex=10||Con=13||Int=6||Wis=11||Cha=6|
+3,|HitDice=9||Str=15||Dex=10||Con=15||Int=6||Wis=11||Cha=6|
+4,|HitDice=12||Str=17||Dex=10||Con=15||Int=8||Wis=11||Cha=8|
+5,|HitDice=15||Str=19||Dex=10||Con=17||Int=8||Wis=11||Cha=10|
+6,|HitDice=18||Str=23||Dex=10||Con=19||Int=10||Wis=11||Cha=12|
+7,|HitDice=21||Str=27||Dex=10||Con=21||Int=12||Wis=13||Cha=12|
+8,|HitDice=24||Str=29||Dex=10||Con=21||Int=12||Wis=13||Cha=12|
+9,|HitDice=27||Str=31||Dex=10||Con=23||Int=14||Wis=15||Cha=14|
+10,|HitDice=30||Str=33||Dex=10||Con=23||Int=14||Wis=15||Cha=14|
+11,|HitDice=33||Str=35||Dex=10||Con=25||Int=14||Wis=15||Cha=16|
+12,|HitDice=36||Str=37||Dex=10||Con=27||Int=18||Wis=19||Cha=18|
+
+:BrassAbilities
+1,|HitDice=4||Str=11||Dex=10||Con=13||Int=10||Wis=11||Cha=10|
+2,|HitDice=7||Str=13||Dex=10||Con=13||Int=10||Wis=11||Cha=10|
+3,|HitDice=10||Str=15||Dex=10||Con=15||Int=12||Wis=13||Cha=12|
+4,|HitDice=13||Str=17||Dex=10||Con=15||Int=12||Wis=13||Cha=12|
+5,|HitDice=16||Str=19||Dex=10||Con=17||Int=14||Wis=15||Cha=14|
+6,|HitDice=19||Str=23||Dex=10||Con=19||Int=14||Wis=15||Cha=14|
+7,|HitDice=22||Str=27||Dex=10||Con=21||Int=16||Wis=17||Cha=16|
+8,|HitDice=25||Str=29||Dex=10||Con=21||Int=16||Wis=17||Cha=16|
+9,|HitDice=28||Str=31||Dex=10||Con=23||Int=18||Wis=19||Cha=18|
+10,|HitDice=31||Str=33||Dex=10||Con=23||Int=18||Wis=19||Cha=18|
+11,|HitDice=34||Str=35||Dex=10||Con=25||Int=20||Wis=21||Cha=20|
+12,|HitDice=37||Str=37||Dex=10||Con=27||Int=20||Wis=21||Cha=20|
+
+:BronzeAbilities
+1,|HitDice=6||Str=13||Dex=10||Con=13||Int=14||Wis=15||Cha=14|
+2,|HitDice=9||Str=15||Dex=10||Con=15||Int=14||Wis=15||Cha=14|
+3,|HitDice=12||Str=17||Dex=10||Con=15||Int=16||Wis=17||Cha=16|
+4,|HitDice=15||Str=19||Dex=10||Con=17||Int=18||Wis=19||Cha=18|
+5,|HitDice=18||Str=23||Dex=10||Con=19||Int=18||Wis=19||Cha=18|
+6,|HitDice=21||Str=27||Dex=10||Con=21||Int=20||Wis=21||Cha=20|
+7,|HitDice=24||Str=29||Dex=10||Con=21||Int=20||Wis=21||Cha=20|
+8,|HitDice=27||Str=31||Dex=10||Con=23||Int=22||Wis=23||Cha=22|
+9,|HitDice=30||Str=33||Dex=10||Con=23||Int=22||Wis=23||Cha=22|
+10,|HitDice=33||Str=35||Dex=10||Con=25||Int=24||Wis=25||Cha=24|
+11,|HitDice=36||Str=37||Dex=10||Con=27||Int=26||Wis=27||Cha=26|
+12,|HitDice=39||Str=39||Dex=10||Con=27||Int=26||Wis=27||Cha=26|
+
+:CopperAbilities
+1,|HitDice=5||Str=11||Dex=10||Con=13||Int=12||Wis=13||Cha=12|
+2,|HitDice=8||Str=13||Dex=10||Con=13||Int=12||Wis=13||Cha=12|
+3,|HitDice=11||Str=15||Dex=10||Con=14||Int=14||Wis=15||Cha=14|
+4,|HitDice=14||Str=17||Dex=10||Con=14||Int=14||Wis=15||Cha=14|
+5,|HitDice=17||Str=19||Dex=10||Con=17||Int=16||Wis=17||Cha=16|
+6,|HitDice=20||Str=23||Dex=10||Con=19||Int=16||Wis=17||Cha=16|
+7,|HitDice=23||Str=27||Dex=10||Con=21||Int=18||Wis=19||Cha=18|
+8,|HitDice=26||Str=29||Dex=10||Con=21||Int=18||Wis=19||Cha=18|
+9,|HitDice=29||Str=31||Dex=10||Con=23||Int=20||Wis=21||Cha=20|
+10,|HitDice=32||Str=33||Dex=10||Con=23||Int=20||Wis=21||Cha=20|
+11,|HitDice=35||Str=35||Dex=10||Con=25||Int=22||Wis=23||Cha=22|
+12,|HitDice=38||Str=37||Dex=10||Con=27||Int=22||Wis=23||Cha=22|
+
+:GoldAbilities
+1,|HitDice=8||Str=17||Dex=10||Con=15||Int=14||Wis=15||Cha=14|
+2,|HitDice=11||Str=21||Dex=10||Con=17||Int=16||Wis=17||Cha=16|
+3,|HitDice=14||Str=25||Dex=10||Con=17||Int=16||Wis=17||Cha=16|
+4,|HitDice=17||Str=29||Dex=10||Con=19||Int=18||Wis=19||Cha=18|
+5,|HitDice=20||Str=31||Dex=10||Con=21||Int=18||Wis=19||Cha=18|
+6,|HitDice=23||Str=33||Dex=10||Con=21||Int=20||Wis=21||Cha=20|
+7,|HitDice=26||Str=35||Dex=10||Con=23||Int=20||Wis=21||Cha=20|
+8,|HitDice=29||Str=39||Dex=10||Con=25||Int=24||Wis=25||Cha=24|
+9,|HitDice=32||Str=41||Dex=10||Con=27||Int=26||Wis=27||Cha=26|
+10,|HitDice=35||Str=43||Dex=10||Con=29||Int=28||Wis=29||Cha=28|
+11,|HitDice=38||Str=45||Dex=10||Con=31||Int=30||Wis=31||Cha=30|
+12,|HitDice=41||Str=47||Dex=10||Con=33||Int=32||Wis=33||Cha=32|
+
+:SilverAbilities
+1,|HitDice=7||Str=13||Dex=10||Con=13||Int=14||Wis=15||Cha=14|
+2,|HitDice=10||Str=15||Dex=10||Con=15||Int=14||Wis=15||Cha=14|
+3,|HitDice=13||Str=17||Dex=10||Con=15||Int=16||Wis=17||Cha=16|
+4,|HitDice=16||Str=19||Dex=10||Con=17||Int=18||Wis=19||Cha=18|
+5,|HitDice=19||Str=23||Dex=10||Con=19||Int=18||Wis=19||Cha=18|
+6,|HitDice=22||Str=27||Dex=10||Con=21||Int=20||Wis=21||Cha=20|
+7,|HitDice=25||Str=29||Dex=10||Con=21||Int=20||Wis=21||Cha=20|
+8,|HitDice=28||Str=31||Dex=10||Con=23||Int=22||Wis=23||Cha=22|
+9,|HitDice=31||Str=33||Dex=10||Con=23||Int=24||Wis=25||Cha=24|
+10,|HitDice=34||Str=35||Dex=10||Con=25||Int=26||Wis=27||Cha=26|
+11,|HitDice=37||Str=39||Dex=10||Con=29||Int=28||Wis=29||Cha=28|
+12,|HitDice=40||Str=43||Dex=10||Con=31||Int=30||Wis=31||Cha=30|
+
+:DragonSkillsList
+1,Appraise [DragonSkillValue=%SkillID%]
+2,Bluff [DragonSkillValue=%SkillID%]
+3,Concentration [DragonSkillValue=%SkillID%]
+4,Diplomacy [DragonSkillValue=%SkillID%]
+5,Disguise [DragonSkillValue=%SkillID%]
+6,Escape Artist [DragonSkillValue=%SkillID%]
+7,Gather Information [DragonSkillValue=%SkillID%]
+8,Heal [DragonSkillValue=%SkillID%]
+9,Hide [DragonSkillValue=%SkillID%]
+10,Intimidate [DragonSkillValue=%SkillID%]
+11,Jump [DragonSkillValue=%SkillID%]
+12,Knowledge ([KnowledgeType]) [DragonSkillValue=%SkillID%]
+13,Listen [DragonSkillValue=%SkillID%]
+14,Move Silently [DragonSkillValue=%SkillID%]
+15,Search [DragonSkillValue=%SkillID%]
+16,Sense Motive [DragonSkillValue=%SkillID%]
+17,Spellcraft [DragonSkillValue=%SkillID%]
+18,Spot [DragonSkillValue=%SkillID%]
+19,Survival [DragonSkillValue=%SkillID%]
+20,Swim [DragonSkillValue=%SkillID%]
+21,Use Magic Device [DragonSkillValue=%SkillID%]
+
+:KnowledgeBranch
+1,|SkillID=12||RanksApplied=%MaxRanks%|
+
+:!KnowledgeType
+1,Arcana
+2,Architecture and engineering
+3,Dungeoneering
+4,Geography
+5,History
+6,Local
+7,Nature
+8,Nobility and royalty
+9,Religion
+10,The planes
+
+:!FavoredInitialSkills
+# Listen
+1,|SkillID=13||RanksApplied=%MaxRanks%|
+# Search
+2,|SkillID=15||RanksApplied=%MaxRanks%|
+# Spot
+3,|SkillID=18||RanksApplied=%MaxRanks%|
+
+:!TrueDragonSkills
+# Concentration
+1,|SkillID=3||RanksApplied=%MaxRanks%|
+# Diplomacy
+2,|SkillID=4||RanksApplied=%MaxRanks%|
+# Escape Artist
+3,|SkillID=6||RanksApplied=%MaxRanks%|
+# Intimidate
+4,|SkillID=10||RanksApplied=%MaxRanks%|
+# Sense Motive
+5,|SkillID=16||RanksApplied=%MaxRanks%|
+# Use Magic Device
+6,|SkillID=21||RanksApplied=%MaxRanks%|
+
+:!BlackClassSkills
+# Hide
+1,|SkillID=9||RanksApplied=%MaxRanks%|
+# Move Silently
+2,|SkillID=14||RanksApplied=%MaxRanks%|
+# Swim
+3,|SkillID=20||RanksApplied=%MaxRanks%|
+
+:!BlueClassSkills
+# Bluff
+1,|SkillID=2||RanksApplied=%MaxRanks%|
+# Hide
+2,|SkillID=9||RanksApplied=%MaxRanks%|
+# Spellcraft
+3,|SkillID=17||RanksApplied=%MaxRanks%|
+
+:!GreenClassSkills
+# Bluff
+1,|SkillID=2||RanksApplied=%MaxRanks%|
+# Hide
+2,|SkillID=9||RanksApplied=%MaxRanks%|
+# Move Silently
+3,|SkillID=14||RanksApplied=%MaxRanks%|
+
+:!RedClassSkills
+# Appraise
+1,|SkillID=1||RanksApplied=%MaxRanks%|
+# Bluff
+2,|SkillID=2||RanksApplied=%MaxRanks%|
+# Jump
+3,|SkillID=11||RanksApplied=%MaxRanks%|
+
+:!WhiteClassSkills
+# Hide
+1,|SkillID=9||RanksApplied=%MaxRanks%|
+# Move Silently
+2,|SkillID=14||RanksApplied=%MaxRanks%|
+# Swim
+3,|SkillID=20||RanksApplied=%MaxRanks%|
+
+:!BrassClassSkills
+# Bluff
+1,|SkillID=2||RanksApplied=%MaxRanks%|
+# Gather Information
+2,|SkillID=7||RanksApplied=%MaxRanks%|
+# Survival
+3,|SkillID=19||RanksApplied=%MaxRanks%|
+
+:!BronzeClassSkills
+# Disguise
+1,|SkillID=5||RanksApplied=%MaxRanks%|
+# Swim
+2,|SkillID=20||RanksApplied=%MaxRanks%|
+# Survival
+3,|SkillID=19||RanksApplied=%MaxRanks%|
+
+:!CopperClassSkills
+# Bluff
+1,|SkillID=2||RanksApplied=%MaxRanks%|
+# Hide
+2,|SkillID=9||RanksApplied=%MaxRanks%|
+# Jump
+3,|SkillID=11||RanksApplied=%MaxRanks%|
+
+:!GoldClassSkills
+# Disguise
+1,|SkillID=5||RanksApplied=%MaxRanks%|
+# Heal
+2,|SkillID=8||RanksApplied=%MaxRanks%|
+# Swim
+3,|SkillID=20||RanksApplied=%MaxRanks%|
+
+:!SilverClassSkills
+# Bluff
+1,|SkillID=2||RanksApplied=%MaxRanks%|
+# Disguise
+2,|SkillID=5||RanksApplied=%MaxRanks%|
+# Jump
+3,|SkillID=11||RanksApplied=%MaxRanks%|
+
+:BlackDragonSkills
+1,{If~{Used~FavoredInitialSkills,0}=1?[BlackDragonSkills=3]/[FavoredInitialSkills]}
+2,{If~{Used~BlackClassSkills,0}=1?[BlackDragonSkills=3]/[BlackClassSkills]}
+3,{If~{Used~TrueDragonSkills,0}=1?[BlackDragonSkills=4]/[TrueDragonSkills]}
+4,{If~{Used~KnowledgeType,0}=1?[EmptySkill]/[KnowledgeBranch]}
+
+:BlueDragonSkills
+1,{If~{Used~FavoredInitialSkills,0}=1?[BlueDragonSkills=3]/[FavoredInitialSkills]}
+2,{If~{Used~BlueClassSkills,0}=1?[BlueDragonSkills=3]/[BlueClassSkills]}
+3,{If~{Used~TrueDragonSkills,0}=1?[BlueDragonSkills=4]/[TrueDragonSkills]}
+4,{If~{Used~KnowledgeType,0}=1?[EmptySkill]/[KnowledgeBranch]}
+
+:GreenDragonSkills
+1,{If~{Used~FavoredInitialSkills,0}=1?[GreenDragonSkills=3]/[FavoredInitialSkills]}
+2,{If~{Used~GreenClassSkills,0}=1?[GreenDragonSkills=3]/[GreenClassSkills]}
+3,{If~{Used~TrueDragonSkills,0}=1?[GreenDragonSkills=4]/[TrueDragonSkills]}
+4,{If~{Used~KnowledgeType,0}=1?[EmptySkill]/[KnowledgeBranch]}
+
+:RedDragonSkills
+1,{If~{Used~FavoredInitialSkills,0}=1?[RedDragonSkills=3]/[FavoredInitialSkills]}
+2,{If~{Used~RedClassSkills,0}=1?[RedDragonSkills=3]/[RedClassSkills]}
+3,{If~{Used~TrueDragonSkills,0}=1?[RedDragonSkills=4]/[TrueDragonSkills]}
+4,{If~{Used~KnowledgeType,0}=1?[EmptySkill]/[KnowledgeBranch]}
+
+:WhiteDragonSkills
+1,{If~{Used~FavoredInitialSkills,0}=1?[WhiteDragonSkills=3]/[FavoredInitialSkills]}
+2,{If~{Used~WhiteClassSkills,0}=1?[WhiteDragonSkills=3]/[WhiteClassSkills]}
+3,{If~{Used~TrueDragonSkills,0}=1?[WhiteDragonSkills=4]/[TrueDragonSkills]}
+4,{If~{Used~KnowledgeType,0}=1?[EmptySkill]/[KnowledgeBranch]}
+
+:BrassDragonSkills
+1,{If~{Used~FavoredInitialSkills,0}=1?[BrassDragonSkills=3]/[FavoredInitialSkills]}
+2,{If~{Used~BrassClassSkills,0}=1?[BrassDragonSkills=3]/[BrassClassSkills]}
+3,{If~{Used~TrueDragonSkills,0}=1?[BrassDragonSkills=4]/[TrueDragonSkills]}
+4,{If~{Used~KnowledgeType,0}=1?[EmptySkill]/[KnowledgeBranch]}
+
+:BronzeDragonSkills
+1,{If~{Used~FavoredInitialSkills,0}=1?[BronzeDragonSkills=3]/[FavoredInitialSkills]}
+2,{If~{Used~BronzeClassSkills,0}=1?[BronzeDragonSkills=3]/[BronzeClassSkills]}
+3,{If~{Used~TrueDragonSkills,0}=1?[BronzeDragonSkills=4]/[TrueDragonSkills]}
+4,{If~{Used~KnowledgeType,0}=1?[EmptySkill]/[KnowledgeBranch]}
+
+:CopperDragonSkills
+1,{If~{Used~FavoredInitialSkills,0}=1?[CopperDragonSkills=3]/[FavoredInitialSkills]}
+2,{If~{Used~CopperClassSkills,0}=1?[CopperDragonSkills=3]/[CopperClassSkills]}
+3,{If~{Used~TrueDragonSkills,0}=1?[CopperDragonSkills=4]/[TrueDragonSkills]}
+4,{If~{Used~KnowledgeType,0}=1?[EmptySkill]/[KnowledgeBranch]}
+
+:GoldDragonSkills
+1,{If~{Used~FavoredInitialSkills,0}=1?[GoldDragonSkills=3]/[FavoredInitialSkills]}
+2,{If~{Used~GoldClassSkills,0}=1?[GoldDragonSkills=3]/[GoldClassSkills]}
+3,{If~{Used~TrueDragonSkills,0}=1?[GoldDragonSkills=4]/[TrueDragonSkills]}
+4,{If~{Used~KnowledgeType,0}=1?[EmptySkill]/[KnowledgeBranch]}
+
+:SilverDragonSkills
+1,{If~{Used~FavoredInitialSkills,0}=1?[SilverDragonSkills=3]/[FavoredInitialSkills]}
+2,{If~{Used~SilverClassSkills,0}=1?[SilverDragonSkills=3]/[SilverClassSkills]}
+3,{If~{Used~TrueDragonSkills,0}=1?[SilverDragonSkills=4]/[TrueDragonSkills]}
+4,{If~{Used~KnowledgeType,0}=1?[EmptySkill]/[KnowledgeBranch]}
+
+:EmptySkill
+1,XXXXXXX
+
+:DragonSkillValue
+1,+{Calc~%RanksApplied%+%IntBonus%}
+2,+{Calc~%RanksApplied%+%ChaBonus%}
+3,+{Calc~%RanksApplied%+%ConBonus%}
+4,+{Calc~%RanksApplied%+%ChaBonus%}
+5,+{Calc~%RanksApplied%+%ChaBonus%}
+6,+{Calc~%RanksApplied%+%DexBonus%}
+7,+{Calc~%RanksApplied%+%ChaBonus%}
+8,+{Calc~%RanksApplied%+%WisBonus%}
+9,+{Calc~%RanksApplied%+%DexBonus%}
+10,+{Calc~%RanksApplied%+%ChaBonus%}
+11,+{Calc~%RanksApplied%+%StrBonus%}
+12,+{Calc~%RanksApplied%+%IntBonus%}
+13,+{Calc~%RanksApplied%+%WisBonus%}
+14,+{Calc~%RanksApplied%+%DexBonus%}
+15,+{Calc~%RanksApplied%+%IntBonus%}
+16,+{Calc~%RanksApplied%+%WisBonus%}
+17,+{Calc~%RanksApplied%+%IntBonus%}
+18,+{Calc~%RanksApplied%+%WisBonus%}
+19,+{Calc~%RanksApplied%+%WisBonus%}
+20,+{Calc~%RanksApplied%+%StrBonus%}
+21,+{Calc~%RanksApplied%+%ChaBonus%}
+
+:DetermineDragonAge
+# Wyrmling
+1-5,|DragonAge=1|
+# Very Young
+6-10,|DragonAge=2|
+# Young
+11-15,|DragonAge=3|
+# Juvenile
+15-20,|DragonAge=4|
+# Young Adult
+21-25,|DragonAge=5|
+# Adult
+26-30,|DragonAge=6|
+# Mature Adult
+31-55,|DragonAge=7|
+# Old
+56-70,|DragonAge=8|
+# Very Old
+71-80,|DragonAge=9|
+# Ancient
+81-95,|DragonAge=10|
+# Wyrm
+96-98,|DragonAge=11|
+# Great Wyrm
+99-100,|DragonAge=12|
+
+:DragonAgeDescription
+1,Wyrmling
+2,Very Young
+3,Young
+4,Juvenile
+5,Young Adult
+6,Adult
+7,Mature Adult
+8,Old
+9,Very Old
+10,Ancient
+11,Wyrm
+12,Great Wyrm

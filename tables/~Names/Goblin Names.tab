@@ -1,0 +1,149 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder Jan 03, 2006.
+# ---------------------------------------------------
+#
+# Goblin Names
+#
+# Derived from the Wintertree table "Orc Names"
+# Original table copy 1995 by Wintertree Software
+#
+# Goblin Names: Bargrivyek, Khurgorbaeyag, Maglubiyet, Nomog-Gaeya, 
+#
+# Modified by Valminder, Jan 2006.
+#    Renamed "Goblin Names".
+#    Added to "Names Generator.tab".
+#
+
+%Gender%,3
+
+@Gender,3,Please choose a Gender,Male,Female,Random
+
+:Start
+1,{If~%Gender%=3? |Gender={Dice~1d2}|}[PickGender=%Gender%]
+
+:PickGender
+1,[Male]
+2,[Female]
+
+:Male
+1,[Name][Title]
+
+:Female
+1,[Name]
+
+:Name
+1,{Cap~[Cons]}[Vowel][Cons][Vowel][Cons][More]
+2,{Cap~[Vowel]}[Cons][Vowel][Cons][More]
+3-6,[Prefix][Vowel][Suffix][More]
+
+:More
+1-2,[Vowel][Suffix]
+3-5,
+
+;Prefix
+1,Magl
+1,Bar
+1,Bargr
+1,Gr
+1,Khurg
+1,Mog
+1,Gar
+
+;Cons
+1,b
+1,hr
+1,g
+1,gr
+1,gl
+1,gn
+1,gg
+1,k
+1,kh
+1,m
+1,n
+1,nk
+1,r
+1,rg
+1,y
+1,v
+
+;Vowel
+2,a
+1,aa
+1,ae
+1,o
+1,u
+1,uu
+2,e
+1,ee
+1,i
+
+;Suffix
+1,gek
+1,tru
+1,vek
+1,vet
+1,yet
+1,yek
+1,yag
+1,yar
+
+;Title
+2, {Cap~[Enemy]}
+1, {Cap~[Item]}
+1, the {Cap~[Character]}
+10,
+
+;Enemy
+2,dwarf [Enemy Action={Dice~1d5}]
+3,elf [Enemy Action={Dice~1d5}]
+3,gnome [Enemy Action={Dice~1d5}]
+2,human [Enemy Action={Dice~1d5}]
+
+;Enemy Action
+1,Murderer
+1,Killer
+1,Hunter
+1,Bane
+1,Slayer
+1,Backstabber
+
+;Item
+1,skull [Item Action={Dice~1d7}]
+1,head [Item Action={Dice~1d7}]
+1,neck [Item Action={Dice~1d3}]
+1,tooth [Item Action={Dice~1d4+3}]
+1,tongue [Item Action={Dice~1d4+8}]
+1,spine [Item Action={Dice~1d4}]
+1,bone [Item Action={Dice~1d4}]
+1,marrow [Item Action={Dice~1d2+7}]
+1,shield [Item Action={Dice~1d5+1}]
+1,helmet [Item Action={Dice~1d5+1}]
+1,helm [Item Action={Dice~1d5+1}]
+1,treasure [Item Action={Dice~1d2+10}]
+1,gold [Item Action={Dice~1d2+10}]
+
+;Item Action
+1,Snapper
+1,Breaker
+1,Crusher
+1,Cracker
+1,Crasher
+1,Basher
+1,Taker
+1,Splitter
+1,Eater
+1,Biter
+1,Taker
+1,Stealer
+
+;Character
+1,sneak
+1,backstabber
+1,thief
+1,trickster
+1,raider
+1,greedy
+1,pillager
+1,plunderer
+

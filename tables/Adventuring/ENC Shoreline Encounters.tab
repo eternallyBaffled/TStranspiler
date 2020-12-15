@@ -1,0 +1,51 @@
+# ------------------------------------------------------
+# Last Update: re-verified by Valminder Jan 10, 2012.
+# ------------------------------------------------------
+# ---------------------------------------------------
+# Last Update: modified by Valminder August 22, 2006.
+# ---------------------------------------------------
+#
+# Shoreline Encounters
+# Some original, some from TSR's 1984 D&D Module X6
+# E-mail additions to JimmyFlowers@bigfoot.com 
+#
+# Modified by Valminder April 2002
+#    I added some links to these other tables:
+#        Creatures.Humanoid
+#        Creatures.Start
+# Modified by Valminder Feb 2006
+#    Modified "Start" line.
+#    Slight modifications.
+# Modified by Valminder Aug 2006
+#    Added link to: Coin Hoard.Generate({Dice~1d3})
+#
+
+%Roll%,0
+
+:Start
+1,{Cap~[Generate]}
+
+;Generate
+1,a 15-foot-long, beached whale skeleton. Its white ribs curve toward the sky. Characters may use the ribs to build a shelter. If the characters dig up the whale's skull, they find a 200 pound ivory tusk worth 4,000 gp. The whale was a narwhal.
+3,a bottle containing a message.
+3,a broken bottle and some seaweed.
+1,a crusty anchor weighing 150 pounds. A rigid, <b>{Dice~1d20+10}</b>-foot length of chain is attached to the anchor. The chain weighs 50 pounds.
+5,a few (<b>{Dice~1d8+2}</b>) beautiful, but otherwise worthless, sea shells.
+3,a large, dead jellyfish. Even though it cannot attack, it inflicts 1d4 point(s) of damage to anyone who touches its tentacles.  A character touching the creature must also make a Fortitude save (DC<b>{Dice~1d10+10}</b>) or be paralyzed for <b>{Dice~1d6}</b> round(s).
+3,a large empty conch shell worth <b>{Dice~1d10}</b> gp.
+3,a mound of sand, 3 feet in diameter. If characters dig into the mound, they find <b>{Dice~1d20+20}</b> newly-laid sea turtle eggs.  Characters may eat these eggs.
+1,a primitive, 20-foot-diameter fishing net, rimmed by wooden floats.
+1,a recently constructed sand castle.
+5,a stray dog.
+5,a trail of footprints (<b>{Dice~1d4+1} {Plural~[Creatures.Humanoid]}</b>).
+1,a weather worn ship's figurehead of a mermaid.
+3,a wrecked, 3-foot-long ship's figurehead representing a [~Creatures.Start]. |Roll={Dice~1d100}|{If~%Roll%<20? This is actually a wood golem.}
+1,a wrecked native war canoe, holding <b>{Dice~1d6}</b> shrunken heads. The canoe cannot be repaired but does provide 1 day worth of firewood.
+3,an empty turtle shell.
+20,nothing of consequence.
+20,nothing save a dead sea gull.
+1,pirate skeleton buried in the sand.
+1,rotting wooden box containing <b>{Dice~1d20+1}</b> ancient gold pieces.
+5,traces of a boat that accosted on the beach. There are some tracks from <b>{Dice~1d4+2}</b> booted humanoids (<b>{Plural~[Creatures.Humanoid]}</b>).
+3,worthless seaweed mixed with harmless {If~{Dice~1d10}<8?green/[~Miscellaneous.ColorNoType]} slime.
+1,[Coin Hoard.Generate({Dice~1d3})]

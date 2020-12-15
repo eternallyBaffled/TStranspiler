@@ -1,0 +1,988 @@
+# ------------------------------------------------------
+# Last Update: modified by Valminder July 24, 2010.
+# ------------------------------------------------------
+#
+# I honestly can't remember I I was the author of this Table or if someone else created it but 
+# I know that I did work on this mainly because I loved this type of Table generation
+# I recently discovered this on the Yahoo Groups files section and fixed it up a bit
+# With the vast array of tables out the atm I sure that Tablesmith user might not have all the referenced material
+# for this table.  Let me know and I'll try to add everything into one zip file.
+# Thanks Bruce for a magnificent piece of software...It's come a long way from the gem 
+# you wrote (what it?) 10 years ago.
+# JB Willers
+# jaybee@tiscali.co.za
+#
+# A=VillageName
+# B=CityName
+# C=ProduceType 
+# D=ProduceSites
+# 
+# A=VillageName
+# B=CityName
+# C=ProduceType 
+# D=ProduceSites
+#
+# Modified by Valminder, August  2006.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+#    Renamed from "Volo.tab"
+#    Added link to:
+#       Creatures.Animal
+#       Creatures.Bird of Prey
+#       Creatures.Humanoid
+#       Creatures.Humanoid2
+#       Creatures.Insect
+#       Creatures.Monsters
+#       Creatures.Vermin
+#       Formal Names.Adjective
+#       Miscellaneous.ColorNoType
+#       Miscellaneous.Metal
+#       Miscellaneous.Traits
+#       Names Generator.NAME Random
+#       SITE Ruins.Generate
+#       Town Names.Generate (instead of Town Names.Start)
+#
+# Modified by Valminder, July 2010.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+#    Modified RoadName (for more names)
+#    MAJOR modifications, I added a LOT LOT LOT on informations and links.
+#
+# 
+
+/OverRideRolls 1
+
+%TownName%,
+%CityName%,
+%ProduceType%,
+%ProduceSite%,
+%E%,
+%ProduceVerb%,
+%G%,
+%VillageProduce%,
+%ProduceDesc%,
+%J%,
+%K%,
+%L%,
+%M%,None
+%N%,
+%O%,
+%P%,
+%Q%,
+%R%,
+%S%,
+%T%,
+%U%,
+%V%,
+%W%,
+%X%,
+%Y%,
+%Z%,
+
+:Start
+1,{Status~JB Willers, Valminder 2010}[Generate].
+
+:Generate
+1,|TownName=[Town Names.Generate]|<b><I>%TownName%</I></b>
+_<br><br>
+_The village of  <I>%TownName%</I> lies on the [RoadName],
+_ a [~RoadType] [~AmountWords] days' ride [~Direction] of the city of|CityName=[Town Names.Generate]| <I>%CityName%</I>. 
+_ About {1d400+100} folk call <I>%TownName%</I> home ({1d600+200}, if the population of outlying farms is included).
+_ Most are [~Folks], but there are [~Folks] and a smattering of [~Folks] and [~Folks].
+_ <I>%TownName%</I> is named for one of <I>%CityName%'s</I> early [~Ruler], {Note~<I>%TownName%</I>} [~ShortTitle], who had
+_ [~RulerProperty] here. [RulerHome] [RulerLegend].
+_<BR><BR>
+_In all seasons except deep winter, the village is patrolled by <I>%CityName%</I>'s [~Patrol] from an outpost in <i>[~Town Names.Generate]</i>.
+_ <I>%TownName%</I> is ruled by [~Names Generator.NAME FormalGen], a [~Miscellaneous.Personality3], [~Appearance] <b>[~Creatures.Humanoid2]</b>[~SpecialCharacteristic].
+_ The [~PreTitle] Warder swears fealty to [~Names Generator.NAME Random] of <I>%CityName%</I>.
+_ In return, the [~CityProNoun] provides [~CitySupport], a Warder's purse of {6d100+100}gp quarterly, and many orders for
+_|VillageProduce=[VillageProduce]| <I>%G%</I> <I>%VillageProduce%</I> from local <I>%ProduceType%</I>, notably the
+_|J=[Names Generator.NAME Random]| <I>%J%</I> <I>%ProduceSite%.</I>
+_<BR><BR>
+_<I>%TownName%</I> is [VillageDescription] place. By night or in a snowstorm, the traveler can mark it by [VillageMarker].
+_ This village is [~VillageDescription2]. In hot summer weather, though, it is only pleasant to <I>%E%</I>. 
+_ The folk of <I>%TownName%</I> are famous for the <I>%ProduceVerb%</I> of <I>%VillageProduce%</I>. 
+_ They have traditionally supplied the noble families and armies of <I>%CityName%</I> and the armies of [~Town Names.Generate],
+_ as well as merchants and satraps of [~Town Names.Generate] and [~Town Names.Generate].
+_<BR><BR>
+_Two of <I>%CityName%'s</I> more famous noble families have extensive holdings in the <I>%TownName%</I> area. 
+_ The <I>%J%</I> family, which produces <I>%ProduceDesc%</I>. The [~Names Generator.NAME Random] family makes more money than
+_ all other inhabitants of <I>%TownName%</I> combined. This clan dominates the chief business of <I>%TownName%</I>,
+_ the supply of <I>%VillageProduce%</I> to <I>%CityName%</I>. These <I>%VillageProduce%</I> are not same quality as
+_ <I>%VillageProduce%</I> from the <I>%J%</I> <I>%ProduceSite%</I> but are <I>%K%</I>. 
+_ Any local <I>%VillageProduce%</I> that don't come out of <I>%TownName%</I> <I>%ProduceSite%</I> are purchased by the
+_ family at fair market prices and carted to <I>%CityName%</I> in large, well-armed family caravans.
+_ These caravans are always on the road between <I>%TownName%</I> and <I>%CityName%</I>.
+_<BR><BR>
+_<I>%TownName%</I> is [~VillageDescription3]. <I>%TownName%</I> [~VillageSurroundings].
+_<BR><BR>
+_The town can be entered [~VillageEntrance]. [VillageFeature]
+_<BR><BR>
+_For a local spot of interest, [~SiteInterest1].
+_<BR><BR>
+_[~SiteInterest2]
+_<BR><BR>
+_At the [Direction] end of the village [~SiteInterest1].
+_<BR><BR>To the [~Direction] [~SiteInterest1].
+_<BR><BR>[~SiteInterest2]
+#
+#<BR><BR><BR><BR><BR><BR>a %TownName%<BR>b <I>%CityName%<BR>c <I>%ProduceType%<BR>d <I>%ProduceSite%
+#<BR>e <I>%E%<BR>f <I>%ProduceVerb%<BR>g <I>%G%<BR>h <I>%VillageProduce%<BR>i %ProduceDesc%<BR>j <I>%J%<BR>k <I>%K%<BR>l <I>%L%<BR>m #<I>%M%<BR>n <I>%N%<BR>o <I>%O%<BR>p <I>%P%<BR>q <I>%Q%<BR>r <I>%R%<BR>s <I>%S%<BR>t <I>%T%<BR>u <I>%U%<BR>v <I>%V%<BR>w %W%<BR>x #<I>%X%<BR>y <I>%Y%<BR>z <I>%Z%<BR>
+
+# -------------------------- ROADS --------------------------
+;RoadName
+6,[~RoadNameNAME] [~RoadNameType]
+4,[~Pests] [~RoadNameType]
+
+;RoadNameNAME
+1,{Cap~[Miscellaneous.Clarity]'s}
+1,{Cap~[Miscellaneous.ClassName]'s}
+1,{Cap~[Miscellaneous.ClassSpecialist]'s}
+1,{Cap~[Miscellaneous.ColorNoType]}
+1,{Cap~[Miscellaneous.DirectionErn]'s}
+1,{Cap~[Miscellaneous.Metal]}
+1,{Cap~[Miscellaneous.Occupations]'s}
+1,{Cap~[Miscellaneous.Ruler]'s}
+1,{Cap~[Miscellaneous.Shape]'s}
+1,{Cap~[Miscellaneous.Shop]'s}
+1,{Cap~[Miscellaneous.Stone]'s}
+1,{Cap~[Miscellaneous.Wood]'s}
+6,{Cap~[Names Generator.NAME Random]'s}
+
+;RoadNameType
+1,Corridor
+1,Gorge
+1,Highway
+1,Lane
+1,Pass
+1,Passage
+1,Path
+1,Road
+1,Route
+1,Trail
+1,Way
+
+;Pests
+1,{Cap~[Creatures.Animal2]'s}
+1,{Cap~[Creatures.AnimalPet]'s}
+1,{Cap~[Creatures.Bird of Prey]'s}
+1,{Cap~[Creatures.DragonNoAge]'s}
+1,{Cap~[Creatures.Familiar]'s}
+1,{Cap~[Creatures.Fantastic]'s}
+1,{Cap~[Creatures.Giant]'s}
+1,{Cap~[Creatures.Humanoid2]'s}
+1,{Cap~[Creatures.Humanoid3]'s}
+1,{Cap~[Creatures.Insect]'s}
+1,{Cap~[Creatures.Type]'s}
+1,{Cap~[Creatures.Undead]'s}
+
+# -------------------------- TRAVEL --------------------------
+
+;RoadType
+1,cumbersome
+1,dangerous
+1,easy-going
+1,good
+1,long
+1,nice
+1,strainious
+1,tense
+1,tiring
+1,winding
+1,[Pests] infested
+
+:AmountWords
+1,one
+2,two
+3,three
+4,four
+5,five
+
+:Direction
+1,north
+2,east
+3,west
+4,south
+5,north-east
+6,north-west
+7,south-east
+8,south-west
+
+# -------------------------- FOLKS --------------------------
+
+;Folks
+1,{Plural~[Folk]}
+
+;!Folk
+10,[OtherFolks]{Unlock~Folk,1-10}
+10,[FolksDwarves] dwarf
+10,[FolksElves] elf
+10,gnome
+10,[FolkHalflings]halfling
+50,human
+
+;FolksDwarves
+1,hill
+1,mountain
+
+;FolksElves
+1,gray
+1,high
+
+;FolkHalflings
+1,lightfoot 
+1,tallfellow 
+
+# Also modify Humanoid2 subtable in "Creatures.tab" if you modify this one.
+;!OtherFolks
+1,bugbear
+1,doppleganger
+1,deep dwarf
+1,derro dwarf
+1,duergar dwarf
+1,aquatic elf
+1,drow elf
+1,wild elf
+1,wild/grugach elf
+1,wood/sylvan elf
+1,arcane gnome
+1,forest gnome
+1,river gnome
+1,svifnerblin gnome
+1,goblin
+1,deep halfling
+1,half-dryad
+20,half-elf
+1,half-ogre
+1,half-orc
+1,half-satyr
+1,hobgoblin
+5,kender
+1,lizard folk
+1,orc
+1,[Planetouched]
+
+;Planetouched
+1,aasimar
+1,tiefling
+
+# -------------------------- FOUNDER --------------------------
+
+;Ruler
+1,mayors
+1,ministers
+1,patriachs
+1,warlords
+16,{LCase~[Miscellaneous.Titles]}
+
+;ShortTitle
+1,the Just
+1,the Wise
+4,the [JG Names.NICKNAME_M]
+4,the [Formal Names.Adjective]
+
+;RulerProperty
+1,a business
+1,businesses
+1,an estate
+1,estates
+1,a farm
+1,farmlands
+1,a land
+1,lands
+1,wildlands
+1,mines
+1,a large tract of lands
+1,a small tract of land
+
+;RulerHome
+1,Though all traces of his [~RulerHomeType] are long gone,
+1,Even if his [~RulerHomeType] is still standing,
+1,Even if the ruins of his [~RulerHomeType] are still standing,
+1,Though the ruins of his [~RulerHomeType] are long gone,
+
+;!RulerHomeType
+1,castle
+1,citadel
+1,farm
+1,fort
+1,homestead
+1,house
+1,keep
+1,manor
+1,ranch
+1,tower
+1,villa
+1,great [RulerHomeType]
+1,modest [RulerHomeType]
+1,hidden [RulerHomeType]
+
+;RulerLegend
+2,it is said that he [RulerWhen] [RulerWalk] the area in [RulerForm] form, [RulerHow] [RulerMonster] and [RulerMonster]
+2,legend has it that [RulerFortune] [RulerFortuneWhere] somewhere on his estate
+2,his [RulerForm] still haunts [RulerHaunt] seeking [RulerSeeking]
+1,the memory of his deed are still strong in the heart of the people
+1,his legend is still living here
+1,he is still loved by the people of the land
+2,it it said that [RulerFuture]
+1,legend says that he left for the Outer Planes
+1,legend has it that he became an Immortal
+2,history tends to show that he did not even exist
+
+;RulerWhen
+1,sometimes
+1,still
+
+;RulerWalk
+1,can be heard singing in
+1,can be seen in
+1,can be spotted
+1,dances in
+2,haunts
+3,rides
+1,searches
+3,walks in
+
+;RulerForm
+1,banshee
+4,ghost
+4,haunt
+4,phantom
+1,shadow
+4,spectre
+4,spirit
+1,vampire
+1,wight
+1,wraith
+1,zombie
+
+;RulerHow
+1,charming
+1,controlling
+1,destroying
+5,frightening away
+1,mesmerizing
+5,scaring away
+1,sending away
+
+;!RulerMonster
+1,[RulerMonsterKind]animals
+1,[RulerMonsterKind]bandits
+1,[RulerMonsterKind]giants
+1,[RulerMonsterKind]goblins
+1,[RulerMonsterKind]barbarians
+1,[RulerMonsterKind]ogres
+1,[RulerMonsterKind]orcs
+1,[RulerMonsterKind]trolls
+
+;!RulerMonsterKind
+10,{Unlock~RulerMonsterKind,1-10}
+1,dangerous 
+1,horrible 
+1,hostile 
+1,monstrous 
+1,nefarious 
+1,troublesome 
+
+;!RulerFortune
+1,an artifact is
+1,a fortune of gold is
+1,some treasures are
+1,some magic items are
+1,a magic item is
+1,a relic of [~Religion.Deities(2)] is
+1,a weapon of legend is
+1,a powerful item is
+1,a secret entrance to an underground dungeon is
+1,a gate to another plane ([~Countries.Planes]) is
+1,a gate to a dark and forbidden land is
+1,a way to the underdark is
+1,a way to the Hollow World is
+1,{Unlock~Folk,1-100}a dead [~Folk] is
+1,his most prized possession is
+1,his book of spells is
+1,his secret diary is
+1,his never found will is
+
+;RulerFortuneWhere
+4,buried
+4,hidden
+1,hexed
+1,magically sealed
+
+;RulerHaunt
+1,the streets
+1,his residence
+1,the hills
+1,the swamp
+1,the meadows
+1,the woods
+1,the forest
+1,the village
+1,the barns
+1,the vineyards
+1,the orchards
+1,his lands
+1,the roads
+1,the bridge
+1,the town square
+1,the mountain pass
+1,the market
+1,the dungeons
+
+;RulerSeeking
+1,a compatible body for his soul
+1,a wrong to be righted
+1,eternal rest
+1,his final rest
+1,his loved ones
+1,his murderer
+1,to be relieved of his sins
+1,retribution for a [RulerDeath] death
+1,vengence for a [RulerDeath] death
+1,peoples to give advices to
+
+;RulerDeath
+1,brutal
+1,poisoned
+1,unavenged
+1,undeserved
+1,unjust
+1,wronged
+
+;RulerFuture
+1,he will one day return
+1,he still protects his people
+1,he still protects the land
+1,his spirit will always be there
+1,even in death he still accomplishes great deeds
+1,he left all his land to an unknown inheritor
+1,he will come back to help the town when it is in dire need
+
+# -------------------------- MISCELLANEOUS --------------------------
+
+;Patrol
+3,army
+1,crusaders
+1,elite guardians
+1,enforcers
+1,guardians
+3,guards
+3,militia
+2,military units
+1,patrols
+1,priests
+1,vigilantes
+1,wizards
+
+;PreTitle
+2,{Cap~[Miscellaneous.Precious Metal]}
+3,Grand
+1,Great
+3,High
+3,Lord
+1,Master
+1,Saint
+1,Vice
+
+# -------------------------- RULER --------------------------
+
+;Appearance
+1,clean cut
+1,double chinned
+1,fat
+1,loose skinned
+1,muscular
+1,short
+1,skinny
+1,tall
+1,tanned
+1,trimbearded
+1,well dressed
+
+;SpecialCharacteristic
+3,
+1,, whose [Miscellaneous.ColorNoType]-colored eyes miss little
+1,, whose [Miscellaneous.ColorNoType]-colored eyes dart about everywhere
+1,, whose [Miscellaneous.ColorNoType]-colored eyes focus into your inner mind
+1,, with a sharp wit that makes him very likeable
+1,, with a sharp and cutting wit that makes this person very unlikeable
+1,, with a really peculiar voice
+1,, whose piercing stare can make the guilty scream out a confession
+1,, whose assurance is discernable
+1,, with a sad face that seem to hide years of sorrow and grief
+1,, with a happy face showing how kind this person seems to be
+1,, whose reputation is well known
+
+# -------------------------- CITY / VILLAGE --------------------------
+
+;CityProNoun
+3,Capital
+1,City of Clouds
+1,City of Merchants
+1,City of Splendors
+1,City of War
+3,Grand City
+3,High City
+2,Metropolis
+5,City of the [Formal Names.Adjective]
+
+;CitySupport
+1,a much needed market
+2,beneficial trade
+2,financial aid
+1,guidance
+2,independance
+1,laborers
+1,magical resources
+1,military strength
+1,military support
+1,much needed supplies
+1,naval protection
+2,protection
+1,religious guidance
+1,religious support
+1,slaves
+1,spiritual life
+1,total support
+1,transportation
+1,workers
+
+# -------------------------- PRODUCTION --------------------------
+
+# E= In hot summer weather, though, it is only pleasant to ...
+;VillageProduce
+4,[Equipment.Ale]|ProduceType=brewers||ProduceSite=brewery|
+_|E=those who don’t mind scores of drunken townsmen and the smell of fermenting alcohol|
+_|ProduceVerb=brewing and barreling||G=barreled|
+_|ProduceDesc=excellent[VPAle1] brews also sells some limited stock in town. [VPAle2]|
+_|K=refreshing and bitter|
+_|L=the infamous brewer, [~Names Generator.NAME Random], which is revered by more than a handful of followers in <I>%TownName%</I>. Transfixed in a perpetual drunken grin, the statue's eyes seem to hint at the fact that the brewer was a mischievious man. Although the statue is often decorated and dressed, vandals have been known to receive the full wrath of the village inhabitants, after trying to desecrate or steal the famous statue|
+_|S=The statue is a popular place to leave cryptic messages or love notes left inside its pockets, or another pre-arranged spot. It's also a common place for arranged meetings and starting point for marches and festivals|
+_|T=One of the more peculiar traditions in town is that any man that can finish a barrel of <I>%TownName%'s</I> famous stout, is crowned "king of the village" for a day and has all the rights and privilages that visiting royalty would get|
+4,arms and equipment|ProduceType=metal workers||ProduceSite=workshop|
+_|E=the few that don't mind the chocking black soot that hangs over the village like a blanket|
+_|ProduceVerb=design and manufacture||G=durable|
+_|ProduceDesc=razor sharp, well-balanced weapons and tough but comfortable armour. Special orders are not out of the ordinary but one must be prepared to pay the price, which can be up to {Dice~1d5*100}gp's more that the conventional sword or armour, you'd buy in a shop|
+_|K=tough and versatile|
+_|L=|
+_|S=|
+_|T=|
+4,[Equipment.Cheese]|ProduceType=cheesemakers||ProduceSite=milkery|
+_|E=those who don't mind the smell of manure and the incessant noises of the cows|
+_|ProduceVerb=milking and manufacturing||G=tasty|
+_|ProduceDesc=nice loafs, wheys, and wheelf of the nicest cheese, aged to perfection|
+_|K=nutritious and tasty|
+_|L=None|
+_|S=|
+_|T=|
+4,[VPCorn]|ProduceType=farmers||ProduceSite=farm|
+_|E=those who don't mind the everpresent thin layer of white flour dust that seem to cover everything|
+_|ProduceVerb=harvesting and milling||G=fresh|
+_|ProduceDesc=large cobs that fills even the hungriest campaigning soldier. <i>%TownName%'s</i> flour is quality controlled and some of the more elite (and richer) Knightly orders and garisons will only buy their flour here|
+_|K=filling and tasty|
+_|L=None|
+_|S=|
+_|T=|
+1,fruits|ProduceType=farmers||ProduceSite=orchard|
+_|E=those who like fruits and sweet pies|
+_|ProduceVerb=growing and harvesting||G=fresh|
+_|ProduceDesc=skilled fruit growers that maintain huge orchards and a fruit market where fruits of the most delicious are trade and sold. The <I>%J%</I> <I>%ProduceType%</I> are especially know for the succulent [Equipment.Fruits+4]|
+_|K=fresh with quantities that cater for the masses|
+_|L=None|
+_|S=|
+_|T=|
+2,fruits and vegetables|ProduceType=farmers||ProduceSite=farm and orchard|
+_|E=the noses and tastebuds of those who like boiled vegetables|
+_|ProduceVerb=growing and harvesting||G=fresh|
+_|ProduceDesc=skilled vegetables farmers that maintain a huge farm with a very impressive irrigation system and a green grocer market where greenery of the most delicious are trade and sold. The <I>%J%</I> <I>%ProduceType%</I> are especially know for the succulent [Equipment.Fruits] as well as their [Equipment.Vegetables]|
+_|K=fresh with quantities that cater for the masses|
+_|L=the [Names Generator.NAME Random] Stone. Nowadays resembling nothing more than a pointed rock, this statue was apparently the likeness of a young maiden called [Names Generator.NAME Random]|
+_|S=It is truly believed that touching the stone brings luck to even the unluckiest of men, and it is for this reason that the statue is so worn (+2 to all reaction bonusses for a day)|
+_|T=The stone is also blamed for the fact that no gambling is allowed anyware in <I>%TownName%</I> - since the house always seems to loose|
+4,hides and furs|ProduceType=furriers||ProduceSite=tannery|
+_|E=those who dont mind the stench of meat and the chaotic life of a frontier town|
+_|ProduceVerb=hunting and skinning||G=durable|
+_|ProduceDesc=skilled furriers, tanners, feltmakers, and skinners maintains a lot of shops and workshops around the town, without counting butchers and savage meat sellers. Rangers are also common in these parts as well as barbarians and more savages humanoids|
+_|K=tough and versitile|
+_|L=None|
+_|S=|
+_|T=|
+4,horses|ProduceType=horse breeders||ProduceSite=stables|
+_|E=the noses of those who don't mind the stench of horse manure|
+_|ProduceVerb=breeding and training||G=fresh|
+_|ProduceDesc=skilled animal tenders, maintains a farm where sick animals are nursed, and a shop where tack of the finest sort is made and sold  The Eagleshield harness is made for the lone rider's mount. It is of black leather, adorned with silver-plated studs bearing the spread-winged eagle that is the heart of the family blazon|
+_|K=tough and versitile|
+_|L=the Great [~Names Generator.NAME Random], a famous war stallion bred in <I>%TownName%</I> {Dice~1d30+20} winters ago. Gelded long ago by a prankster, the rearing horse image is often painted various hues by high-spirited locals. There is a local rule that allows children to use slings, flung stones, or hand crossbows to bring down birds perching on the statue, so it remains free of the usual bird-droppings. The children often climb it themselves, and perch precariously in the high, tilted saddle, waving their arms and commanding imaginary armies into battle.|
+_|S=The statue is a popular place to leave cryptic messages, either tucked under the hind hooves, or slid between the sculpted curls of the tail. It's also a common place for arranged signals, which are usually a bit of colored cloth tied to a particular part of the horse|
+_|T=Local lore holds that if the grim, ghostly figure of the [~Folk] [Hero]<I>%M%</I> <I>%N%</I>, a long-ago hero of <I>%TownName%</I>, is ever seen in the saddle, war will soon come to the town|
+4,meat|ProduceType=ranchers||ProduceSite=ranch|
+_|E=those who like wild expanses and fields of green|
+_|ProduceVerb=growing||G=tender and tasty|
+_|ProduceDesc=skilled ranchers, maintains a slaughterhouse where the cows carcasses are processed, and a shop where meat of the finest quality is smoked, stewed and dried.  The <I>%J%'s</I> famous mark of approval is a special branding on all its meats|
+_|K=large in portions and tasty|
+_|L=None|
+_|S=|
+_|T=|
+4,oil|ProduceType=oilmakers||ProduceSite=oilery|
+_|E=oilmakers who don't mind the being greasy and oily, and the constant smell of oil being burned|
+_|ProduceVerb=boiling and scooping||G=versatile|
+_|ProduceDesc=fine oil, mainly [VPOil] from fine and fresh grains or vegetables. The <I>%J%</I> <I>%ProduceSite%</I> prizes itself on good barrelling of its oils and that is why it never leaks|
+_|K=fresh and tasty|
+_|L=None|
+_|S=|
+_|T=|
+4,poultry|ProduceType=poultry farmers||ProduceSite=farm|
+_|E=those who don't mind the fould stench of boiled poultry and wet feathers|
+_|ProduceVerb=growing||G=fat and tender|
+_|ProduceDesc=skilled bird tenders, maintains a slaughterhouse where the bird carcasses are processed, and a shop where poultry of the finest quality is smoked, stewed and dried.  The <I>%J%'s</I> famous mark of approval is a [Miscellaneous.ColorNoType] ink emblem of a giant turkey on all its meats|
+_|K=large in portions and tasty|
+_|L=None|
+_|S=|
+_|T=|
+4,textiles|ProduceType=weavers||ProduceSite=weaver|
+_|E=those who like calm places where bright colors of every kind|
+_|ProduceVerb=design and manufacture||G=durable|
+_|ProduceDesc=cloths and textiles of everykind and every color, mainly [Equipment.ClothGen]. You can also find [VPClothJob] working in or around <i>%TownName%'s</i>|
+_|K=tough and versatile|
+_|L=None|
+_|S=|
+_|T=|
+4,timber|ProduceType=lumberjacks||ProduceSite=mill|
+_|E=lumberjacks who don't mind the noise from the mill and constant saw dust that seems to end up everywhere including food, drink and bedding|
+_|ProduceVerb=cutting and milling||G=versatile|
+_|ProduceDesc=fine grain but hard, heavy wood - mainly oak and teak. The <I>%J%</I> <I>%ProduceSite%</I> prize itself on good treatment of its wood and that is why it never bends or warps|
+_|K=tough and versitile|
+_|L=None|
+_|S=|
+_|T=|
+1,vegetables|ProduceType=farmers||ProduceSite=farm|
+_|E=the noses and tastebuds of those who like boiled vegetables|
+_|ProduceVerb=growing and harvesting||G=fresh|
+_|ProduceDesc=skilled vegetables farmers that maintain a huge farm with a very impressive irrigation system and a green grocer market where greenery of the most delicious are trade and sold. The <I>%J%</I> <I>%ProduceType%</I> are especially know for the succulent [Equipment.Vegetables+4]|
+_|K=fresh with quantities that cater for the masses|
+_|L=None|
+_|S=|
+_|T=|
+4,Wines and Spirits|ProduceType=stokers||ProduceSite=winery|
+_|E=those who don't mind the smell of sour grapes that somedays can turn even the stoutiest adventurer's stomach|
+_|ProduceVerb=stoking and barreling||G=barreled|
+_|ProduceDesc=an excellent array of wines, brandies and port - the most famous of which is the [~Equipment.Wines]. The [Miscellaneous.Precious Metal] [RndAnimal] crest find the tables of places as far of as the city of [Town Names.Generate]|
+_|K=sweet and intoxicating|
+_|L=the famous wine master, the [~Folk], [Names Generator.NAME Elf], is even remembered after a century of winemaking the most toasted person in all of <I>%TownName%</I>.  Holding his favorite puter goblet, the nobleman stares out over the winelands of %TownName%.  Although the statue is often decorated and dressed, vandals have been known to receive the full wrath of the village inhabitants, after trying to desecrate or steal the famous statue|
+_|S=The statue is a popular place to leave cryptic messages or love notes left inside the Nobleman's cup, or another pre-arranged spot.  It's also a common place for arranged meetings and starting point for marches and festivals|
+_|T=Tradition has it that the statue's cup is always filled to the brim with the best of the harvest and it is said that if the cup is empty the next morning, the selling price will be good|
+
+;VPAle1
+1,
+1, dwarvish
+1, elfish
+1, gnomish
+3, [~Countries.Peoples]
+
+;VPAle2
+1,Of the [AmountWords] hundred barrels produced each year only {Dice~1d10} will see the cellar of a local <I>%TownName%</I> pub
+1,Most of the barrels produced each year will be sold in <I>%CityName%</I> and further away
+
+;VPCorn
+1,Barley
+5,Buckwheat
+1,Chick Pea
+10,Corn
+1,Lentils
+3,Millet
+5,Oat
+1,Rice
+3,Rye
+10,Wheat
+
+;VPOil
+6,[VPOil1]
+3,[VPOil1], and [VPOil1]
+1,[VPOil1], [VPOil1], and [VPOil1]
+
+;!VPOil1
+1,Almond Oil
+1,Hazelnut Oil
+2,Mixed Herb Oil
+5,Olive Oil
+1,Rapeseed Oil
+1,Safflower Oil
+5,Sesame Oil
+5,Sunflower Oil
+5,Vegetable Oil
+1,Walnut Oil	
+
+;VPClothJob
+1,[VPClothJob1], and [VPClothJob1]
+3,[VPClothJob1], [VPClothJob1], and [VPClothJob1]
+1,[VPClothJob1], [VPClothJob1], [VPClothJob1], and [VPClothJob1]
+
+;!VPClothJob1
+2,bleachers
+2,broderers
+2,buttonmakers
+1,carpet makers
+2,clothiers
+2,clothing makers
+2,drapers
+2,dyers
+2,embroiderers
+2,fabrics dealers
+2,hatters
+1,laundresses
+2,linenspinners
+1,old-clothes dealerw
+2,sailmakers
+2,seamstresses
+2,stainers
+2,tailors
+2,tapestrymakers
+
+:Hero
+1,|M=[~Names Generator.NAME Random]| |N=[~Names Generator.NAME Random]||P=he||Q=his||R=male|
+2,|M=[~Names Generator.NAME Random]| |N=[~Names Generator.NAME Random]||P=she||Q=her||R=female|
+
+:RndAnimal
+1,[Creatures.Animal]
+2,[Creatures.Fantastic]
+3,[Creatures.Bird of Prey]
+
+# -------------------------- VILLAGE DESCRITION --------------------------
+
+;VillageDescription
+1,a quiet but [VillageDescription_Adjective]
+1,an unobtrusive and [VillageDescription_Adjective]
+1,a bristling and [VillageDescription_Adjective]
+
+;VillageDescription_Adjective
+1,active
+1,affable
+1,aggreable
+1,amoral
+1,animated
+1,annoying
+1,beautiful
+1,boring
+1,brooding
+1,calm
+1,caring
+1,casual
+1,charming
+1,cheerful
+1,clean
+1,confused
+1,conservative
+1,crude
+1,depraved
+1,dirty
+1,disreputable
+1,dull
+1,energetic
+1,gloomy
+1,happy
+1,lethargic
+1,modest
+1,mysterious
+1,peaceful
+1,pleasant
+1,practical
+1,quiet
+1,restless
+1,romantic
+1,serene
+1,snobbish
+1,superstitious
+1,thriving
+
+;VillageMarker
+1,the thick stands of [Miscellaneous.Wood]wood and [Miscellaneous.Wood] trees that cluster along the road
+1,the thick stands of [Miscellaneous.Wood] trees that cluster along the road
+2,the everburning light from a firewatch tower on a hill above the town that guide merchants and travelers alike to its gates
+1,the high spires of the Temple of [~Religion.Deities2(1)]
+1,the ruins of the Temple of [~Religion.Deities(1)]
+2,the great [Miscellaneous.Wood] tree perched atop a hill
+5,the many road markers found around the village
+2,by the lights coming from the lord's [RulerHome] located on top of a hill
+1,by the magical light coming from {AorAn~[RulerHome]} located on top of a hill
+1,by the ruins of {AorAn~[RulerHome]} located on top of a hill
+
+;VillageDescription2
+1,however a dirty place with no real sanitation services to speak of[GetUse]
+1,a dismal place for most visitors[GetUse]
+1,a nice looking village[Pleasant]
+1,a normal looking village with nothing out of the ordinary[Pleasant]
+1,a crowded and dirty place[GetUse]
+1,a crowded and clean village[Pleasant]
+1,a weird village with no logical purpose[Pleasant]
+1,a nice village with no logical purpose[Pleasant]
+1,a new and [Clean] village[Pleasant]
+1,an old but [Clean] village[Pleasant]
+1,a village where alleys are so crowded as to be a real maze where it's easy to get lost[GetUse]
+
+;Clean
+1,clean
+1,neat
+1,dirty
+1,smelly
+
+;GetUse
+1, but residents say that one does get used to it
+1, and residents say that one never get used to it
+3,
+
+;Pleasant
+1, where everybody seems happy
+1, which is pleasant to the eyes of all
+1, where living seems nice
+1, where living seems stressful
+1, where everybody seems gloomy
+1, which is unpleasant to the eyes
+5,
+
+;VillageDescription3
+1,a small but prosperous place, the sort of town a hurried traveler can ride through without noticing much of interest, thereby missing a great deal
+1,a fairly prosperous place, the sort of town you'll never forget after passing through
+1,a small but interesting place wher living is good and where retiring would be great
+1,a large and prosperous place, the sort of town you'll never forget after passing through
+1,a fairly large and busy community, but nothing compared to that of a city. Most people will admit that <i>%TownName%</i> will make a great place to retire
+1,a fairly large and busy community, but nothing compared to that of a city.
+1,nowadays bursting out of its seams, mainly because of the <i>%VillageProduce%</i> industry. Not a days goes by without a caravan pouring in to town to buy some <i>%VillageProduce%</i>
+
+;VillageSurroundings
+1,covers hill after hill of rolling farm fields, but the settlement itself is quite small
+1,is partially hidden by the high {If~{Dice~1d2}=1?mountains/cliffs} surrounding it
+1,is partially hidden is a thick forest of ancient oaks and thick underbrush
+1,is partially hidden is a thick forest of [~Miscellaneous.Wood] trees
+1,lays on the embankment of two clear, trout rich streams that meet here
+1,lays on the embankment of a great river
+1,lays on the embankment of a small navigable river
+1,lays on the shore of a lake
+1,lays by a smelly {If~{Dice~1d2}=1?swamp/bog}
+1,lays in the middle of great plains
+1,lays on the side of a great mountain range
+1,is nested in forested hill
+1,is located on a major trade route
+1,is located on a small road, away from a major trade route
+1,lays partially hidden my the great city located only a few miles away
+1,is located at the end of a trade route near {If~{Dice~1d2}=1?unexplored/savage} territories
+
+;VillageEntrance
+1,on an open space where the side streets meet the [RoadName]. This space is known as the [VillageEntrancePlaceName]ways. It took its name from [VillageShop] owned by the family of [Names Generator.NAME Random] that used to stand on the corner. Sadly, the shop was destroyed by fire about a decade ago
+1,on an open space where the side streets meet the [RoadName]. This space is known as the [VillageEntrancePlaceName]ways, and nobody remembers why
+1,on an open space where the side streets meet the [RoadName]
+1,only from the [Direction] where a large moat divides the village from the wilderness. The entrance is know as the {Cap~[Names Generator.NAME Random]} Gate and it is said that a long-forgotten ruler of <i>%CityName%</i> was born in the guardhouse of the gates when his family came to buy %VillageProduce%</i> here
+1,only from the [Direction] where a large moat divides the village from the wilderness. The entrance is know as the {Cap~[Names Generator.NAME Random]} Gate and nobody remembers why
+1,only from the [Direction] where a large moat divides the village from the wilderness
+1,from [AmountWords+1] gates where the unmistakable smell of <i>%G%</i> <i>%VillageProduce%</i> greets every merchant with a heavy purse
+
+;VillageEntrancePlaceName
+2,{Cap~[Shop Names.Generic]}
+1,{Cap~[Fantasy Names.Start]}
+1,{Cap~[Names Generator.NAME Random]}
+
+;VillageFeature
+2,
+1,{If~%L%!=None?[VillageFeature2]}
+
+;VillageFeature2
+1,At the main entrance of <i>%TownName%</i> stands a [~Miscellaneous.ColorNoType] [~Miscellaneous.Precious Material] statue of <i>%L%. %S%. %T%</i>.
+
+:Statue
+1,[Religion.Deities2]
+2,%TownName%
+
+;VillageShop
+1,{AorAn~[Miscellaneous.Shop]} 
+
+;!SiteInterest1
+2,you might try the [~Creatures.Animal+20] pond[PondGen]
+1,you should visit the disused temple to [~Religion.Deities2(2)]. It is rapidly becoming overgrown with ivy and creeping vines
+2,stands the burned ruin of the [~Inn and Tavern Names.Names] inn. It was destroyed by fire a few weeks ago
+1,stands the burned ruin of the [~Inn and Tavern Names.Names] inn. It was destroyed in a wild spell battle [AmountWords+1] winters ago[WizardBattle]
+2,you might take a look at [SITE Ruins.GenerateNoMap]
+1,you might take a look at ruins found nearby. [SITE Ravaged Ruins.Generate]
+2,you might look at [SITE Temples.GenerateNoMap]
+1,are the abandonned tunnels of a mine
+
+;PondGen
+1,
+1,. It's a placid, muddy home to frogs and water-lilies[PondGen2]
+1,. It's a placid, nice looking pond[PondGen2]
+
+;PondGen2
+3,.
+5,, and it is said that [RulerFortune={Dice~1d14}] hidden underwater
+1,. Local lore tells of a [RetiredHero] {If~{Dice~1d4}=1?[Hero]/{If~%M%=None?[Hero]}}<i>%M%</i> <i>%N%</i>, a %R% [Folk] who ruled here an age ago[PondGen3]
+ 
+;PondGen3
+1,
+1,. According to the tale, %P% sleeps forever on a stone bed, with a magical <i>%O%</i> on %Q% breast{If~{Dice~1d2}=1?[PondGen3a]{If~{Dice~1d2}=1?[PondGen3b]}{If~{Dice~1d2}=1?[PondGen3c]}}
+
+;PondGen3a
+1,. Adventurers have entered the pool several times looking for %Q% sunken tomb{If~{Dice~1d2}=1?, and at least one band did not return}
+
+;PondGen3b
+1,. Some years ago, a number of [Creatures.Undead] emerged from the pond and stalked through the village, killing several folk before the beasts were hacked apart
+
+;PondGen3c
+1,. The truth about what lies in the depths of the pond remains to be revealed. However, it is used daily, without incident, to water dirty, thirsty horses
+
+;WizardBattle
+1,. Nobody remembers who the mages were
+1,. The battle was between a mysterious masked mage whose skin was inkblack (some folk believe he was a drow) and the wizard [~Names Generator.NAME Random] who was blasted to bloodspray[WizardSurvive]
+1,. The battle was between two wizards, [~Names Generator.NAME Random] and [~Names Generator.NAME Random][WizardSurvive]
+1,. The battle was between the wizard [~Names Generator.NAME Random] and the sorcerer [~Names Generator.NAME Random][WizardSurvive]
+1,. The battle was between two sorcerers, [~Names Generator.NAME Random] and [~Names Generator.NAME Random][WizardSurvive]
+1,. The battle was between the wizard [~Names Generator.NAME Random] and a fiend[WizardSurvive]
+
+;WizardSurvive
+1,. No one knows what happened to them
+1,. It is not clear if either mage escaped the inferno of the inn
+1,. It is not clear if either mage escaped the inferno of the inn. Many, many bones, cracked by the heat, were found in the ashes. As the owner died in the conflagration, there is no great interest in rebuilding{If~{Dice~1d2}=1?. Local children love to play in the ruins, where many pieces of melted, puddled glass can be found. Somewhere under the charred timbers lie the inn's cellars, which may still contain some valuables. There's no way to get down there without doing a lot of digging that would have to be done in full view of the children and anyone passing on the road}
+ 
+;!SiteInterest2
+1,A small river winds through the nearby fields.
+1,A small lake is located [Direction] of the village.
+1,The woods of [Names Generator.NAME Random] are a good place to talk long walks.
+1,The [Miscellaneous.DirectionErn] fields are pleasant and fertiles.
+2,Nearby is the <i>%ProduceSite%</i> belonging to the retired [~Miscellaneous.ClassPC] [Hero]<i>%M% %N%</i>, perhaps the most successful business of <i>%TownName%</i>, after the <i>%J% %ProduceSite%</i>. <i>%M%</i> supplies <i>%G%</i> <i>%VillageProduce%</i> to travelers up and down the [RoadName]. <i>%N%'s %VillageProduce%</i> are distributed through places such as the [Inn and Tavern Names.Start] in [Town Names.Generate], which buys dozens of <i>%Q%</i> <i>%VillageProduce%</i> each year.
+1,There's also the Old Dead [Names Generator.NAME Random], a leafless tree whose trunk is as large as some cottages[Tree1][Tree5]
+1,As if all this wealth weren't enough, <i>%TownName%ans</i> all think the <i>%CityName%ian</i> nobles have chests upon chests of gold buried on <i>%TownName%ian</i> farms. Gossip heard at parties in <i>%CityName%</i> suggests that this rumor may be at least partially true.
+1,Nearby [SiteInterest1]
+
+;Tree1
+1,
+1,. Its forked top serves the locals as a lookout to the north[Tree2]
+1,[Tree2]
+1,[Tree3]
+
+;Tree2
+1,
+1,[Tree3]
+1,. The tree is a popular meeting place for locals, who sit on plank benches under its bare boughs and smoke pipes, sip cider, play at dice, or just chat[Tree3]
+
+;Tree3
+1,
+1,. Legend says that a sorceress of great power is buried under its roots, and her power keeps the tree from rotting[Tree4]
+
+;Tree4
+1,
+1,. Supposedly, this power sometimes heals sick folk who sleep atop the trunk's fork. Locals swear that they've seen it happen
+
+;Tree5
+1,
+1,. Local law dictates that anyone caught chopping at the tree will receive the same number of axe blows that the culprit dealt it
+
+;RetiredHero
+1,Fighter|O=sword|  
+1,Cleric|O=staff|
+1,Thief|O=dagger|
+1,Mage|O=spellbook|
+1,Paladin|O=sword|
+1,Druid|O=sickle|
+1,Monk|O=sai|
+1,Ranger|O=bow|
+1,Bard|O=musical instument|
+1,Illusionist|O=wand|
+

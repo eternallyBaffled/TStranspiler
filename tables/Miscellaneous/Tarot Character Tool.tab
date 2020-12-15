@@ -1,0 +1,530 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder Feb 28, 2006.
+# ---------------------------------------------------
+#
+#  Tarot Character Tool
+#  
+#  This tool uses the interpretation of Tarot cards (specifically
+#  those of the Rider-Waite-deck) to come up with rather nice NPC
+#  descriptions.
+#
+#  The "Shadow" is a dark side, which is great to reveal after some
+#  time, when the PCs already know the Self (and especially those 
+#  sides the NPC shows others) sufficiently well.
+#  
+#  The skill fields were chosen with the assupmtions that these
+#  fields were present in any RPG:
+#
+#  Combat (Wands): Weapon skills, siege, artillery and the like.
+#  Physical (Pentacles: Real physical skills like swimming, jumping,
+#            but also crafts and many art forms.
+#  Intellectual (Swords): Knowledge or lore skills, languages and spells.
+#  Social (Cups): Streetwise, Etiquette, Lying and similar skills, also
+#            poetry and music.
+#
+#  The fields were chosen due to the meaning, not by expressions in
+#  language (just to explain why swords are not combat etc.)
+#  
+#  The table really inspires me, and enables me to give each tiny
+#  (unimportant?) NPC a story and the possibility to gain greater
+#  influence throughout the game.
+#  
+#  One last note:
+#
+#  For those of you who despise of Tarot for this or that reason:
+#  It is but a game, a tool which allows humans to get a glimpse
+#  upon the "world soul" (cf. "The Alchemist" by Paulo Coelho).
+#  For those of you who like Tarot but despise of the use for
+#  roleplay: It is but a game.
+#
+#  Have fun, all of you. And keep in mind the comment at the end
+#  of the output.
+#  
+#  Jan P. Mueller
+#  
+#             send comments to janpmueller,at,ngi,dot,de
+#                              (SPAM safe notation)
+#
+# Modified by Valminder, Feb 2006.
+#    Adapted for TSv5.
+#    Added a slight modification to the subtables social,
+#       combat, intellectual, physical, where a complete
+#       list of numebrs is required from 1 to XX (ex: 1-36,)
+#       to display the correct card information.
+#
+
+/OverrideRolls 1
+
+
+%Path1%,<IMG SRC="Graphics\tarot\
+%Path2%," WIDTH="100" HEIGHT="165" BORDER="0">
+%Path3%," WIDTH="80" HEIGHT="132" BORDER="0">
+%card1%,0
+%card2%,0
+%card3%,0
+%card4%,0
+%card5%,0
+%card6%,0
+%combat%,0
+%physical%,0
+%intellectual%,0
+%social%,0
+
+%no%,0
+%mf%,1
+%shadow%,1
+
+@mf,1,Select a gender (Male is default),Male,Female
+@shadow,1,Choose wether this character has a dark side (very useful for NPCs) or not,Display Shadow,Don't display Shadow
+
+:Start
+1,<font size="4">Tarot Character Tool<font size="3"><br><hr>[go]
+_{Status~For info on the table and especially the skill "fields", view the tab-file, please!  }
+
+:go
+1,|card1=[no]||card2=[no]||card3=[wands]||card4=[swords]||card5=[pentacles]||card6=[cups]|
+_<table border="0" cellpadding="5">
+_<tr valign="top">
+_<td width="100">%Path1%[pic=%card1%].jpg%Path2%</td>
+_<td width="220"><b>The Self</b> [self=%card1%]</td>
+_[shad=%shadow%]
+_</tr>
+_<tr align="center" valign="top">
+_<td width="160">%Path1%[pic=%card3%].jpg%Path3%</td>
+_<td width="160">%Path1%[pic=%card5%].jpg%Path3%</td>
+_<td width="160">%Path1%[pic=%card4%].jpg%Path3%</td>
+_<td width="160">%Path1%[pic=%card6%].jpg%Path3%</td>
+_</tr><tr valign="top">
+_<td width="160"><b>Combat</b> [combat=%card3%]</td>
+_<td width="160"><b>Physical</b> [physical=%card5%]</td>
+_<td width="160"><b>Intellectual</b> [intellectual=%card4%]</td>
+_<td width="160"><b>Social</b> [social=%card6%]</td>
+_</tr>
+_</table><hr>
+_<i><font size ="2">The cards shown here are taken from the "Rider-Waite-Tarot". Though the cards are used in a gaming environment here, I encourage a certain respect for their mystical origin as well as their divinatory power.</i>
+
+:shad
+1,<td width="220"><b>The Shadow</b> [shadow=%card2%]</td>
+_<td width="100">%Path1%[pic=%card2%].jpg%Path2%</td>
+2,<td width="220"></td>
+_<td width="100"></td>
+
+:self
+1,(The Fool)<br>{Cap~[g1=%mf%]} is a naive guy, walking through the world as a child would. {Cap~[g1=%mf%]} is always open for new experiences and drinks them in as if they were ambrosia.
+2,(The Magician)<br>{Cap~[g1=%mf%]} believes in [g2=%mf%] abilities strongly and truly is quite adept at what [g1=%mf%] does.
+3,(The High Priestess)<br>{Cap~[g1=%mf%]} is very empathetic and wants to heal and help. {Cap~[g2=%mf%]} patience and sensibility are remarkable, and [g1=%mf%] is really one of the few you can definitely trust.
+4,(The Empress)<br>The motherly type, indeed. {Cap~[g1=%mf%]} seeks growth for [g3=%mf%] and the people around [g4=%mf%]. {Cap~[g1=%mf%]} is quite a creative person, without being lofty.
+5,(The Emperor)<br>The fatherly type, indeed. {Cap~[g1=%mf%]} likes [g2=%mf%] things in order, appreciates rules and safety and will demand discipline by followers and friends.
+6,(The Hierophant)<br>This [g0=%mf%] is rather faithful and will always ask for reason and sense of [g2=%mf%] doings as well as that of others. {Cap~[g1=%mf%]} is a constant source of good advise and a {If~%mf%=2?woman/man} to trust.
+7,(The Lovers)<br>Very passionate, this person will always be happy to assist. {Cap~[g1=%mf%]} would gladly die for a cause or close friends.
+8,(The Chariot)<br>{Cap~[g1=%mf%]} knows where [g1=%mf%] wants to go, and [g1=%mf%] goes there. Courageous, brave and decided, and never shy to take a risk.
+9,(Strength)<br>A passionate, courageous [g0=%mf%], highly energetic and easy to enthuse, though also quick to anger.
+10,(The Hermit)<br>A ranger? A lone wanderer? Anyway, [g1=%mf%] likes to be by [g3=%mf%], and a certain wisdom is almost tangible in [g2=%mf%] aura.
+11,(The Wheel of Fortune)<br>{Cap~[g1=%mf%]} is a really lucky person. The sun always shines at [g2=%mf%] birthday and [g1=%mf%] seems to be on the right path. Easy to like.
+12,(Justice)<br>{Cap~[g1=%mf%]} is just and fair, and would make a good judge or king. Objectivity will never leave [g2=%mf%] side, and [g2=%mf%] reasoning is always sound.
+13,(The Hanged Man)<br>Rather depressive, this person thinks a lot but always ends up with the same conclusion: {Cap~[g1=%mf%]}'s a victim, and this will never change. Poor [g0=%mf%].
+14,(Death)<br>Death accompanies this [g0=%mf%] wherever [g1=%mf%] goes. Probably lost important people as a child, [g1=%mf%] won't cling to anything to tight, in fear it might come to an end. {Cap~[g2=%mf%]} future seems dull and grey to [g4=%mf%].
+15,(Temperance)<br>{Cap~[g1=%mf%]} is always calm and complentative. A nice person, so at ease and so full of peace.
+16,(The Devil)<br>This [g0=%mf%] has met the dark side and has not only survived, but changed. {Cap~[g1=%mf%]} knows the evil side of man and has overcome it.
+17,(The Tower)<br>This [g0=%mf%] will never bear a thing that is even a minor irritation to [g4=%mf%]. {Cap~[g1=%mf%]} stands up for [g2=%mf%] rights, be it only the rights to put [g2=%mf%] in [g2=%mf%] pockets in a temple.
+18,(The Star)<br>Full of ambition and full of hope, this [g0=%mf%] awaits [g2=%mf%] future. Success has pampered [g4=%mf%] all [g2=%mf%] life, and will continue to do so. Lucky [g4=%mf%].
+19,(The Moon)<br>A craving and quickly frightened person, yet deeply feeling and selfaware. Cries easily.
+20,(The Sun)<br>An optimist without the like. {Cap~[g1=%mf%]} loves life, is a warm and gentle person, and will always brighten your day up.
+21,(Judgement)<br>A deep, deep [g0=%mf%] who is serious but kind and strives to gain a deeper understanding of the world. {If~{Dice~1d20}>16?Might eventually reach enlightenment.}
+22,(The World)<br>{Cap~[g1=%mf%]} has understood a lot about the world and is very content with it. {Cap~[g2=%mf%]} company is balm for the soul, and [g1=%mf%] exudes harmony and happiness alike.
+23,(Ace of Cups)<br>{Cap~[g1=%mf%]} carries great love for [g2=%mf%] surroundings, be it persons, things or deeds. A sincere happiness radiates from [g4=%mf%].
+24,(II Cups)<br>{Cap~[g1=%mf%]} falls in love quickly! Very nice [g0=%mf%], supportive and welcoming.
+25,(III Cups)<br>A successful [g0=%mf%], who shares [g2=%mf%] joy and [g2=%mf%] graciousness with everyone.
+26,(IV Cups)<br>This [g0=%mf%] is constantly in a bad mood, as if the world itself were insulting [g4=%mf%].
+27,(V Cups)<br>Sorrowful one. All hopes are gone from the mind of this pitiful [g0=%mf%].
+28,(VI Cups)<br>{Cap~[g1=%mf%]} kind of lives in the past. Sometimes [g1=%mf%] misses the old times, but more often [g1=%mf%] just loves to repeat the old stories again and again.
+29,(VII Cups)<br>{Cap~[g1=%mf%]} tends to be overly enthusiastic, loosing [g3=%mf%] in illusionary thoughts.
+30,(VIII Cups)<br>{Cap~[g1=%mf%]} has left something very important, and the farewell has not at all been easy.
+31,(IX Cups)<br>A very content, humourous and jolly [g0=%mf%]. {Cap~[g1=%mf%]} looks on the bright side of life indeed!
+32,(X Cups)<br>Quick to make new friends is this [g0=%mf%], because [g1=%mf%] needs harmony around [g4=%mf%] desperately.
+33,(Page of Cups)<br>A friendly and charming [g0=%mf%], who does not love to argue.
+34,(Knight of Cups)<br>A friendly and warm [g0=%mf%], spreading a secure feeling of harmony.
+35,(Queen of Cups)<br>A sentimental [g0=%mf%], always glad to help. {Cap~[g1=%mf%]} is very romantic and empathetic. {If~%mf%=1?He is rather feminine}
+36,(King of Cups)<br>An intuitive [g0=%mf%] with a soothing aura. Very romantic and sentimental. {If~%mf%=2?She is rather masculine}
+37,(Ace of Wands)<br>A lively person, striving and motivated. No sunny day without a trip for this [g0=%mf%]!
+38,(II Wands)<br>A rather neutral [g0=%mf%], almost lethargic. Will not side with anything quickly.
+39,(III Wands)<br>{Cap~[g1=%mf%]} walks the safe path, and walks it well. A business[g0=%mf%] that plans in advance.
+40,(IV Wands)<br>An open and jolly [g0=%mf%], polite and welcoming.
+41,(V Wands)<br>{Cap~[g1=%mf%]} is a person who seeks challenges. "Who's faster at the boathouse?" {Cap~[g1=%mf%]} will try to be it.
+42,(VI Wands)<br>A successfull and popular [g0=%mf%]. {Cap~[g2=%mf%]} self-esteem is almost tangible. A {If~%mf%=1?victor/victress}.
+43,(VII Wands)<br>A jealous person who tends to fight and argue. Holds grudges against many, and sympathy for few.
+44,(VIII Wands)<br>Bears good messages! Always there to lift the spirits of people with surprising news and tales.
+45,(IX Wands)<br>A perfectionist, sullen and defiant, often wrong-headed and unwilling to gain insights.
+46,(X Wands)<br>This [g0=%mf%] is almost crushed by [g2=%mf%] responsibility, and is short of losing [g2=%mf%] hopes.
+47,(Page of Wands)<br>{Cap~[g2=%mf%]} sweeping ideas are refreshing, indeed. Offers many chances to join the plan [g1=%mf%] had.
+48,(Knight of Wands)<br>An eager [g0=%mf%], quick to take risks, impatient and hot-blooded.
+49,(Queen of Wands)<br>A freelancer, independent and courageous. {Cap~[g1=%mf%]} is a proud and temperamental [g0=%mf%]. {If~%mf%=1?He is rather feminine}
+50,(King of Wands)<br>Dynamic and strong-minded, this [g0=%mf%] goes where [g1=%mf%] likes. Enjoys leadership. {If~%mf%=2?She is rather masculine}
+51,(Ace of Swords)<br>This level-headed [g0=%mf%] keeps the distance, but is clever and critical. {Cap~[g1=%mf%]} inspects everything skeptically.
+52,(II Swords)<br>Doubtful as this [g0=%mf%] is, gaining [g2=%mf%] trust is very difficult. A certain despair seems to stick to [g4=%mf%].
+53,(III Swords)<br>Heartsick, oh so heartsick. {Cap~[g2=%mf%]} disappointment and sadness almost make you cry, too.
+54,(IV Swords)<br>An ascetic. Keeps from many things that others may consider important - to [g4=%mf%], it is just a waste of energy.
+55,(V Swords)<br>A heartless and destructive [g0=%mf%]. His dastardly deeds overshadow all his personality.
+56,(VI Swords)<br>Unrooted but daring, this [g0=%mf%] is quick to start new projects, as the former ones did not fit [g2=%mf%] taste any longer.
+57,(VII Swords)<br>A cunning and guile [g0=%mf%]. You're never sure when and if [g1=%mf%] tells the truth.
+58,(VIII Swords)<br>A controlled and severe [g0=%mf%], victim of [g2=%mf%] own rules and principles.
+59,(IX Swords)<br>Plagued by nightmares of guilt and remorse, this [g0=%mf%] constantly martyrs [g3=%mf%].
+60,(X Swords)<br>This [g0=%mf%] has left all behind with a violent farewell. Abrupt and arbitrary [g1=%mf%] turned away from [g2=%mf%] former self.
+61,(Page of Swords)<br>Discussions, nothing but discussions with this [g0=%mf%]. Sometimes fertile, more often in vain.
+62,(Knight of Swords)<br>A cool and distanced [g0=%mf%], calculating and sometimes belligerent.
+63,(Queen of Swords)<br>Clever and shrewd, but never informal or close. {Cap~[g2=%mf%]} independence is [g2=%mf%] one and all. {If~%mf%=1?He is rather feminine}
+64,(King of Swords)<br>A smart and objective [g0=%mf%], independent and often cool, almost repelling. {If~%mf%=2?She is rather masculine}
+65,(Ace of Pentacles)<br>A successfull and well respected [g0=%mf%], probably rich and definitely quite content.
+66,(II Pentacles)<br>A flexible and carefree [g0=%mf%]. Worries seldom disturb [g2=%mf%] sleep, and [g1=%mf%] is easy to cope with.
+67,(III Pentacles)<br>This [g0=%mf%] has overcome [g2=%mf%] crises and has gained a new stability.
+68,(IV Pentacles)<br>A closefisted niggard, always afraid for his well-being. Will always choose the safest possible path.
+69,(V Pentacles)<br>An insecure and frightened [g0=%mf%]. {Cap~[g1=%mf%]} feels broken and shipwrecked, and [g1=%mf%] is right.
+70,(VI Pentacles)<br>A generous [g0=%mf%], tolerant and friendly. Enjoys helping those in need.
+71,(VII Pentacles)<br>A patient [g0=%mf%], waiting for the seeds [g1=%mf%] sowed to grow.
+72,(VIII Pentacles)<br>{Cap~[g1=%mf%]} is at the beginning of a new phase, which [g1=%mf%] is keen to experience.
+73,(IX Pentacles)<br>This [g0=%mf%] was surprised when [g1=%mf%] realized some time ago how well and lucky [g1=%mf%] is. This insight filled [g4=%mf%] with a certain joy.
+74,(X Pentacles)<br>A successful and down-to-earth business[g0=%mf%], who truelly enjoys what [g1=%mf%] does.
+75,(Page of Pentacles)<br>Always good for a handy advise, that is sure to work. Honest and down-to-earth.
+76,(Knight of Pentacles)<br>Hard-working and diligent [g0=%mf%], who is well aware that [g1=%mf%] built all [g1=%mf%] has now.
+77,(Queen of Pentacles)<br>An able and competent [g0=%mf%] you can rely on. {Cap~[g2=%mf%]} practical sense goes well with [g2=%mf%] energetic character. {If~%mf%=1?He is rather feminine}
+78,(King of Pentacles)<br>A [g0=%mf%] close to reality, competent and reliable. Knows to enjoy what [g1=%mf%] has and is a warm and trusty friend. {If~%mf%=2?She is rather masculine}
+
+
+:shadow
+1,(The Fool)<br>{Cap~[g1=%mf%]} just can't take responsibility. {Cap~[g1=%mf%]} will flee it, if [g1=%mf%] can, or abandon any duty given to [g4=%mf%].
+2,(The Magician)<br>A charlatan. A "Make-Believe" kind of person, that is fascinating, but might well betray you. Might.
+3,(The High Priestess)<br>Very wayward, not quite "here", in reality. May have medial qualities, and will certainly be talking a lot.
+4,(The Empress)<br>A certain greed sticks to this [g4=%mf%], and also [g1=%mf%] is rather unpredictable in [g2=%mf%] arbitrariness.
+5,(The Emperor)<br>Despotic and oppressive, quick to anger and hard to calm. "Feeling" is not a word [g1=%mf%] could spell right.
+6,(The Hierophant)<br>A hypocrite, proclaiming principles [g1=%mf%] may or may not heed. Also arrogant at times and insincere.
+7,(The Lovers)<br>An indecisive [g0=%mf%]. Has obviously chosen wrong once too often, and won't stick to any choice now.
+8,(The Chariot)<br>A sort of megalomania clings to [g4=%mf%] like the beard to a dwarf. Ruthless to a certain degree.
+9,(Strength)<br>{Cap~[g1=%mf%]} is brutal and cruel at times, and will usually be immoderate and excessive.
+10,(The Hermit)<br>The world never meant much to [g4=%mf%], and thus [g1=%mf%] sought isolation. Now [g1=%mf%] is quite a codger, with few hobbies and fewer friends.
+11,(The Wheel of Fortune)<br>A fatalist. Fears to develop, gives up easily.
+12,(Justice)<br>Prejudices mark this [g4=%mf%] as clearly as darkness marks the night. Too selfsure, too subjective.
+13,(The Hanged Man)<br>The crisis [g1=%mf%] is in seems to swallow [g4=%mf%] whole. But for some reason, [g1=%mf%] doesn't do anything about it.
+14,(Death)<br>{Cap~[g1=%mf%]} just won't evolve. Be it fear or inability, this [g0=%mf%] is not likely to start living as [g1=%mf%] should.
+15,(Temperance)<br>A lazy and uneven [g0=%mf%], rather bourgeois. Ambivalence is a sad state of mind, choosing extremes whenever possible is an annyoing habit.
+16,(The Devil)<br>This [g0=%mf%] has seen the dark side. Temptation was always strong for [g4=%mf%], and more than once [g1=%mf%] could not resist. Dependency and vice were close to [g4=%mf%] all [g2=%mf%] life.
+17,(The Tower)<br>{Cap~[g1=%mf%]} lost all [g1=%mf%] had, and due to that has also lost part of [g2=%mf%] self. {Cap~[g1=%mf%]} can't stand relying on anything that could vanish again and has become cruel and destructive.
+18,(The Star)<br>{Cap~[g1=%mf%]} will always be sure that any task imposed upon [g4=%mf%] might just as well be approached the next day. And the next, and the next,...
+19,(The Moon)<br>{Cap~[g1=%mf%]} is haunted by terrible fears, that sometimes even penetrate [g2=%mf%] sleep and send [g4=%mf%] nightmares. Easy to scare, this poor [g0=%mf%] never feels really safe.
+20,(The Sun)<br>{Cap~[g1=%mf%]} terribly overestimates [g3=%mf%] at times and is a real swank. It seems [g1=%mf%] does all that to plaster [g2=%mf%] barren and boring self.
+21,(Judgement)<br>This poor [g0=%mf%] is captive in [g2=%mf%] own web of self-deception. Also has a tendency to live in the past.
+22,(The World)<br>Goes errant in the world, has lost [g2=%mf%] path and is not able to find it again.
+23,(Ace of Cups)<br>{Cap~[g1=%mf%]} has little love for all around [g4=%mf%]. As [g1=%mf%] does not show it, [g1=%mf%] is really quite a hypocrite.
+24,(II Cups)<br>{Cap~[g1=%mf%]} is likely to pretend to like you, though [g1=%mf%] really doesn't. Personal relations are not [g2=%mf%] hobby...
+25,(III Cups)<br>Eager [g1=%mf%] is, but usually a little too quick about [g2=%mf%] successes, or not honest in [g2=%mf%] joy.
+26,(IV Cups)<br>{Cap~[g0=%mf%]} is constantly in a bad mood, as if the world itself were insulting [g4=%mf%].
+27,(V Cups)<br>Sorrowful one. All hopes are gone from the mind of this pitiful [g0=%mf%].
+28,(VI Cups)<br>{Cap~[g1=%mf%]} cannot let go of the old times and is therefore lost in memories of better times. That way, [g1=%mf%] flees the world.
+29,(VII Cups)<br>{Cap~[g1=%mf%]} has no strong relation to reality and won't see things clearly, even if they are straight ahead. {If~{Dice~1d20}>15?Is also a visionary, a medium!}
+30,(VIII Cups)<br>{Cap~[g1=%mf%]} is never really home. Constantly seeking and constantly frustrated not to find what [g1=%mf%]'s looking for made this [g0=%mf%]'s heart heavy.
+31,(IX Cups)<br>Subject to gluttony and craving for pleasure is this smug [g0=%mf%].
+32,(X Cups)<br>{Cap~[g1=%mf%]} is not a very agreeable person, seeks arguments and is pretty fuddy-duddy.
+33,(Page of Cups)<br>{Cap~[g1=%mf%]} is a pretender who is not to count on. {Cap~[g2=%mf%]} shifting loyalties make [g4=%mf%] all but trustworthy.
+34,(Knight of Cups)<br>A cunning and ambigous [g0=%mf%], sometimes sentimental and often a bootlicker.
+35,(Queen of Cups)<br>{Cap~[g1=%mf%]} is a depraved and vicious [g0=%mf%] without honor.
+36,(King of Cups)<br>{Cap~[g1=%mf%]} is a charlatan, [g2=%mf%] words and deeds often duplicitous and evil.
+37,(Ace of Wands)<br>An active [g0=%mf%], hot-tempered and rash, often overly ambitious.
+38,(II Wands)<br>{Cap~[g1=%mf%]} is faint-hearted and undecided, never one to frame [g2=%mf%] opinios aloud.
+39,(III Wands)<br>Lost in dreams of a splendid future, this [g0=%mf%] is a bit lofty.
+40,(IV Wands)<br>{Cap~[g1=%mf%]} is a snob, only pretending to be tolerant and open.
+41,(V Wands)<br>Constantly challenging and fighting, there is never peace with this [g0=%mf%], who often tricks [g2=%mf%] opponents, too.
+42,(VI Wands)<br>Boasting is [g2=%mf%] middle name, as it seems. Premature in decisions and when it comes down to it, very close to a coward.
+43,(VII Wands)<br>A jealous person who tends to fight and argue. Holds grudges against many, and sympathy for few.
+44,(VIII Wands)<br>A premature [g0=%mf%] who wastes [g2=%mf%] energy for the wrong entertainment, if you catch my meaning.
+45,(IX Wands)<br>A perfectionist, sullen and defiant, often wrong-headed and unwilling to gain insights.
+46,(X Wands)<br>This [g0=%mf%] is crushed by [g2=%mf%] responsibility, and, due to that, has lost all hope.
+47,(Page of Wands)<br>{Cap~[g2=%mf%]} tendency to take risks makes [g4=%mf%] hard to cope with. Often leads [g2=%mf%] friends astray, wether willing or not.
+48,(Knight of Wands)<br>An eager [g0=%mf%], quick to take risks, impatient and hot-blooded.
+49,(Queen of Wands)<br>Dramatic and temperamental [g1=%mf%]is, but also a mistrusting and cunning [g0=%mf%]. {If~%mf%=1?He is rather feminine}
+50,(King of Wands)<br>This dare-devil just <i>must</i> have the command, and [g1=%mf%] will strive for it without consideration. {If~%mf%=2?She is rather masculine}
+51,(Ace of Swords)<br>This cold-hearted as well as cold blooded [g0=%mf%] keeps [g2=%mf%] distance to people, because [g1=%mf%] bears skepticism towards anything.
+52,(II Swords)<br>A certain despair clings to this doubtful as well as dubious [g0=%mf%].
+53,(III Swords)<br>Heartsick, oh so heartsick. {Cap~[g2=%mf%]} disappointment and sadness almost make you cry, too.
+54,(IV Swords)<br>"The world has turned, and left me here". What better way to describe this [g0=%mf%]'s darker side. 
+55,(V Swords)<br>A heartless and destructive [g0=%mf%]. {Cap~[g2=%mf%]} dastardly deeds overshadow all [g2=%mf%] personality.
+56,(VI Swords)<br>A vagabond in [g2=%mf%] heart, [g1=%mf%] is constantly alert and ready to leave. Won't stick to one cause for long.
+57,(VII Swords)<br>A cunning and guile [g0=%mf%]. You're never sure when and if [g1=%mf%] tells the truth.
+58,(VIII Swords)<br>Too controlled and severe [g0=%mf%], tyrannised by [g2=%mf%] own rules and principles.
+59,(IX Swords)<br>Plagued by nightmares of guilt and remorse, this [g0=%mf%] constantly martyrs [g3=%mf%].
+60,(X Swords)<br>This [g0=%mf%] has left all behind with a violent farewell. Abrupt and arbitrary [g1=%mf%] left [g2=%mf%] former self behind.
+61,(Page of Swords)<br>Arguments, nothing but arguments with this vile and insincere [g0=%mf%].
+62,(Knight of Swords)<br>A cool and distanced [g0=%mf%]. A show-off, uncautious and sometimes belligerent.
+63,(Queen of Swords)<br>A cynic, cold-blooded and calculating. {If~%mf%=1?He is rather feminine}
+64,(King of Swords)<br>A repelling [g0=%mf%], cynical and sadistic, sometimes cruel. {If~%mf%=2?She is rather masculine}
+65,(Ace of Pentacles)<br>A greedy and closefisted materialist. Unenjoyable company, even less enjoyable trading partner.
+66,(II Pentacles)<br>{Cap~[g2=%mf%]} joy is only pretended, and the moods of this careless [g0=%mf%] are shifting as the tides. 
+67,(III Pentacles)<br>A haughty and presumptuous [g0=%mf%], silly and dull.
+68,(IV Pentacles)<br>A closefisted niggard, always afraid for [g2=%mf%] well-being. Will always choose the safest possible path.
+69,(V Pentacles)<br>An insecure and frightened [g0=%mf%]. {Cap~[g1=%mf%]} is broken and shipwrecked.
+70,(VI Pentacles)<br>{Cap~[g1=%mf%]} is lavish and unthrift, only playing [g2=%mf%] generosity and amiability.
+71,(VII Pentacles)<br>An impatient [g0=%mf%], but still apathic and thick-skinned.
+72,(VIII Pentacles)<br>Hollow amibition, botching and scamping where [g1=%mf%] can.
+73,(IX Pentacles)<br>{Cap~[g1=%mf%]} just has to win. Never happy to be second best, [g1=%mf%] constantly strives for more.
+74,(X Pentacles)<br>Thinks [g1=%mf%] is nothing without money. {Cap~[g1=%mf%]}'s captive in a "golden cage" and will never feel secure.
+75,(Page of Pentacles)<br>Cannot cope with riches and is insincere and dubious.
+76,(Knight of Pentacles)<br>Sticks to obsolete views, is lazy and unwieldy.
+77,(Queen of Pentacles)<br>Narrow-minded and corrupt, this [g0=%mf%] is materialistic and vile. {If~%mf%=1?He is rather feminine}
+78,(King of Pentacles)<br>A tyrant, corrupt and cumbersome, greedy and venal. {If~%mf%=2?She is rather masculine}
+
+:social
+1-22,
+23,(Ace)<br>An ace in social skills.
+24,(II)<br>Absolutely inapt in any social environment.
+25,(III)<br>Very low skilled in social skills, if [g1=%mf%] has any.
+26,(IV)<br>Few and very low social skills.
+27,(V)<br>Very few social skills.
+28,(VI)<br>Middle skill levels in few social skills.
+29,(VII)<br>Middle skill levels in some social skills.
+30,(VIII)<br>Quite good in few social skills.
+31,(IX)<br>Rather good in some social skills.
+32,(X)<br>Many social skills on a middle level.
+33,(Page)<br>Many good social skills.
+34,(Knight)<br>Very apt in many social skills.
+35,(Queen)<br>Amazingly social person. Many and well developed social skills.
+36,(King)<br>Born for this social stuff. High skill levels in very many social skills.
+
+:combat
+1-36,
+37,(Ace)<br>An ace at weapons. 
+38,(II)<br>Inapt at weapons. Pacifist? Cripple?
+39,(III)<br>Very poor skill level, mayhaps an inaptitude.
+40,(IV)<br>Very few if any weapon skills. Bad at them, too.
+41,(V)<br>Some combat knowledge, but not too good.
+42,(VI)<br>Middle weapon skill levels in very few skills.
+43,(VII)<br>Middle weapon skill levels in some skills, mayhaps one that is well known.
+44,(VIII)<br>Quite good at some arms.
+45,(IX)<br>Rather good in some weapon skills.
+46,(X)<br>Many weapon skills well known, possibly one mastered.
+47,(Page)<br>You name it, [g1=%mf%] takes it and kills with it.
+48,(Knight)<br>Would be a blademaster after some training.
+49,(Queen)<br>Would be a blademaster after amazingly short training.
+50,(King)<br>Born to fight.
+
+:intellectual
+1-50,
+51,(Ace)<br>A genius, multilingual and very smart.
+52,(II)<br>No knowledge skills. Knowledge is not how this [g0=%mf%] works.
+53,(III)<br>Very few knowledge skills on a very low level.
+54,(IV)<br>Few knowledge skills.
+55,(V)<br>Some knowledge skills, but not well developed.
+56,(VI)<br>Intermediate levels in a few knowledge skills.
+57,(VII)<br>Middle skill levels in some skills, maybe even some spells.
+58,(VIII)<br>Quite good in some knowledge skills, maybe good at 2 or 3 spells, too.
+59,(IX)<br>Quite many knowledge skills, and sufficiently well learned. Maybe a middle-class spell user.
+60,(X)<br>Many knowledge skills, well learned, and probably spells at hand, too.
+61,(Page)<br>Lots of knowledge skills at a good level. Works magic, mayhaps.
+62,(Knight)<br>Very high level in some, still very good in the other knowledge skills. Probably knows magic.
+63,(Queen)<br>Most likely a mage, and many knowledge skills on a very high level.
+64,(King)<br>Very many knowledge skills on a superb level. Most probably a mage.
+
+:physical
+1-64,
+65,(Ace)<br>A nifty crafts[g0=%mf%], and very athletic, too.
+66,(II)<br>No relation to [g2=%mf%] body, [g1=%mf%] has no physical skills, not to speak of a craft.
+67,(III)<br>Very few physical skills, inapt at them and no crafts known.
+68,(IV)<br>Few physical skills.
+69,(V)<br>Some physical skills, none of them on a high level.
+70,(VI)<br>Some physical skills on an intermediate level. Maybe a low-level craft.
+71,(VII)<br>Medium skill level for most physical skills, maybe one a little higher. Might be a craft.
+72,(VIII)<br>Rather good at some physical skills and a craft, better at some.
+73,(IX)<br>Broadly talented in many physical skills, at least one craft skill known.
+74,(X)<br>Really good levels in many physical or craft skills.
+75,(Page)<br>Very good physical skills, probably more than one craft known, or one really good.
+76,(Knight)<br>Some superb physical skills, still good at most of the others. Good crafts[g0=%mf%].
+77,(Queen)<br>An athlet, highly gifted in very many physical skills. At least one craft is known perfectly, probably another sufficiently good.
+78,(King)<br>Born for a craft, and born to use [g2=%mf%] body. Incredibly good physical skills.
+
+;!no
+1,1
+1,2
+1,3
+1,4
+1,5
+1,6
+1,7
+1,8
+1,9
+1,10
+1,11
+1,12
+1,13
+1,14
+1,15
+1,16
+1,17
+1,18
+1,19
+1,20
+1,21
+1,22
+14,[cups]
+14,[wands]
+14,[swords]
+14,[pentacles]
+
+;cups
+1,23
+1,24
+1,25
+1,26
+1,27
+1,28
+1,29
+1,30
+1,31
+1,32
+1,33
+1,34
+1,35
+1,36
+
+;wands
+1,37
+1,38
+1,39
+1,40
+1,41
+1,42
+1,43
+1,44
+1,45
+1,46
+1,47
+1,48
+1,49
+1,50
+
+;swords
+1,51
+1,52
+1,53
+1,54
+1,55
+1,56
+1,57
+1,58
+1,59
+1,60
+1,61
+1,62
+1,63
+1,64
+
+;pentacles
+1,65
+1,67
+1,68
+1,69
+1,70
+1,71
+1,72
+1,73
+1,74
+1,75
+1,76
+1,77
+1,78
+
+:pic
+1,fool
+2,magician
+3,highpriestess
+4,empress
+5,emperor
+6,hierophant
+7,lovers
+8,chariot
+9,strength
+10,hermit
+11,wheeloffortune
+12,justice
+13,hangedman
+14,death
+15,temperance
+16,devil
+17,tower
+18,star
+19,moon
+20,sun
+21,judgement
+22,world
+23,23
+24,24
+25,25
+26,26
+27,27
+28,28
+29,29
+30,30
+31,31
+32,32
+33,33
+34,34
+35,35
+36,36
+37,37
+38,38
+39,39
+40,40
+41,41
+42,42
+43,43
+44,44
+45,45
+46,46
+47,47
+48,48
+49,49
+50,50
+51,51
+52,52
+53,53
+54,54
+55,55
+56,56
+57,57
+58,58
+59,59
+60,60
+61,61
+62,62
+63,63
+64,64
+65,65
+66,66
+67,67
+68,68
+69,69
+70,70
+71,71
+72,72
+73,73
+74,74
+75,75
+76,76
+77,77
+78,78
+
+:g0
+1,man
+2,woman
+
+:g1
+1,he
+2,she
+
+:g2
+1,his
+2,her
+
+:g3
+1,himself
+2,herself
+
+:g4
+1,him
+2,her

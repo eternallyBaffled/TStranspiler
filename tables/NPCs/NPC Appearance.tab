@@ -1,0 +1,2050 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder May 28, 2018.
+# ---------------------------------------------------
+#
+# NPC Generator
+# 
+# -------------------------------------------------------------
+#
+# Permanently change the output parameter if you want a different
+# random output.
+#
+# 1 = Normal, totally random output. 
+# 2 = Easy to modify output with less re-roll tags. Also with
+#     places to add notes and to modify some random information.
+#
+# -------------------------------------------------------------------------
+#
+# To call this table from another one:
+#    [NPC Appearance.XXX(%Gender%,,%Race%,)
+#
+#    Parameters: (%Gender%,%Output%,%Race%,%SpecialRace%,%AL%)
+#
+#    Gender:       1= Male, 2= Female, 3= Random
+#    Output:       1= Normal, 2= Easy to modify with less re-roll tags
+#                  3= Bartender, 4= Creatures, 5= Demons, 6= GenMonster_ENC_URE
+#                  --- ONLY when calling this table by itself. If not, use XXX below.
+#    Race:         1= Random ALL ( Creatures.Humanoid2 )
+#                  2= Random PH3.5 (3-9 below)
+#                  3= Dwarf, 4= Elf, 5= Gnome, 6= Halfling, 7= Half Elf, 8= Half Orc, 9= Human, 10= OTHER (uses Human for now)
+#    SpecificName: (See "Names Generator.tab")
+#                  1= Human (M-F), 2= Dwarf (M-F), 3= Elf, 4= Gnome (M-F), 5= Gnome,Tinker, 6= Halfling, 
+#                  7= Formal Name (M-F) 8= Mercenary Name (M-F), 9= Noble Household, 
+#                  10= Arab (M-F), 11= Egyptian, 12= Oriental (M-F), 13= Roman (M-F), 14= Spanish (M-F), 15= Swahli (M-F), 16= Viking (M-F), 17= OTHER
+#                  18= Angel/Fallen Angel, 19= Bugbear (M-F), 20= Centaur (M-F), 21= Derro (Dwarf), 22= Dragon
+#                  23= Drow (M-F), 24= Duergar (M-F), 25= Githyanki (M-F), 26= Githzerai (M-F), 27= Gnoll (M-F)
+#                  28= Goblin (M-F), 29= Hobgoblin (M-F), 30= Kobold (M-F), 31= Illithid (Mind Flayer), 32= Infernal/Demon
+#                  33= Kuo-Toa, 34= Lizardfolk, 35= Lovecraft creature, 36= Minotaur (M-F), 37= Ogre (M-F), 38= Orc
+#                  39= Svirfneblin (Gnome) (M-F), 40= Troglodyte, 41= Troll (M-F), 42= Yuan-ti
+#                  43= [~Names Generator.NAME For All]
+#                  44= Giant, 45= Kender
+#                  ===>>> Addding a new type of Creature: Add here.
+#                         ENC Ultimate Random Encounter:  Add in -"FindRaceInMonsterName" subtable
+#                         Names Generator:                Add in -Parameter: "SpecificName" entry
+#                                                                -"FindRaceInMonsterName" subtable
+#                                                                -"SpecificName" subtable
+#                         NPC Appearance:                 Add in -Parameter: "SpecificName" entry
+#   ALFinal:       Alignment of Creature passed from "ENC Ultimate Random Encounter"
+#   ShowLand:      Show the lands where the God is found.
+#                  1= Yes, 2= No
+#   World:         Enter the World needed (mainly for Religion.tab]
+#
+#    XXX:                   Subtable
+#
+#    GenerateNoClass        Ex: Sadermian, a male Human, from Anywhere.
+#
+#    Generate               FULL. Mostly NPC Class creatures from this country.
+#       or NPC              --- with <br><br><hr><br>
+#    GenerateLessReRoll     FULL. Mostly NPC Class creatures from this country, with less re-roll tag and more Notes to modify.
+#    Generate2              FULL. Mostly NPC Class creatures from another country.
+#       or NPCForeign       --- with <br><br><hr><br>
+#    Generate3              FULL. Any class from another country.
+#       or NPCAdventurers   --- with <br><br><hr><br>
+#
+#    GenerateQuick          Short NPC, this country. Ex: Sadermian, a male Human, Expert from this country.
+#    GenerateQuick2         Short NPC, anywhere.     Ex: Sadermian, a male Human, Expert from Anywhere.
+#    GenerateQuick3         Short PC, anywhere.      Ex: Sadermian, a male Human, Wizard from Anywhere.
+#    GenerateQuick4         Short PC, this coutry.   Ex: Sadermian, a male Human, Wizard from this coutry.
+#    GenerateQuick5         Short PC.                Ex: Sadermian, a male Human, Wizard.
+#
+#    GenBartender           Generates a Bartender for "Inn Generator.tab".
+#                           (Age, Size, Hair, Eyes, Skin, Clothing, Special, Origin, Languages, Occupation, Recent Life Event, Things known)
+#
+#    GenCreature            Generates a Creature with a personality
+#                           (Name, AL, Initial Reaction, Quirk, Personality, Languages, Recent Life Events, Things Known)
+#       or Creature         --- with <br><br><hr><br>
+#    GenDemon               As above but with a demonic name.
+#    GenMonster_ENC_URE     As GenCreature without AL.
+#                           (Name, Initial Reaction, Quirk, Personality, Languages, Recent Life Events, Things Known)
+# -------------------------------------------------------------------------
+#
+# Created and modified by Valminder May 2003
+#    I added some links to these other tables:
+#        Countries.Start
+#        Creatures.Humanoid2
+#        Miscellaneous.Alignment2
+#        Miscellaneous.Class2
+#        Miscellaneous.Cloth
+#        Miscellaneous.OccupationsMeanings
+#        Miscellaneous.Personality
+#        Miscellaneous.Quirks
+#        Miscellaneous.Reaction
+#        Names Generator.NAME Random
+# Jan 2004: 
+#    I added the "GenBartender" subtable to work better with 
+#       "Inn Generator.tab".
+# Dec 2005: 
+#    Added recent events for NPCs. (From Johnn Four's book
+#       "NPC Essentials" at 
+#       http://gmmastery.com/index.php?page=pro&product_id=9)
+#    Added: Deity and link to [~Religion.Deities].
+#    Added: [GenDemon] subtable.
+# Jan 2006:
+#    Fixed minor errors.
+#    Added: Age, weight, recent injury, clothing type.
+#    Added link to: 
+#       Miscellaneous.Shape
+# Dec 2007
+#    I really use this quick NPC generator a lot to generate appearance
+#    of the NPCs encountered, and I had trouble when I wanted a specific
+#    class or name to save in the library. Now, you have the original output 
+#    and a new one with less re-roll tags, which lets you modify the result with
+#    Notes functions (the green output) and other Note outputs, the green
+#    ( --- ) fields, to enter some new informations or additional informations
+#    on the given output. Pass he mouse over to look at a boxed message
+#    telling you what kind of information to input there, using the
+#    HTML function abbr title.
+#       I also added a "Language" output, under GenLanguage subtable.
+#    This subtable generates from 1 to 7 random languages.
+# Sep 2015
+#    Added standard races and link for "ENC Ultimate Random Encounter"
+#    Improved the Gods (based on race or alignment)
+#    Improved the Names (based on race)
+#    Added Distinctive clothing elements (UltNPC1)
+#    Added "AgeEffect"
+# May 2018
+#    Added link to: Smells.tab
+#
+
+/OverrideRolls 1
+
+%comma%,0
+%Gender%,1
+%Meaning%,0
+%num%,0
+%temp%,0
+
+# --- update --- Sep 2015
+%Temp_ENC_URE%,0
+%Output%,0
+%Race%,0
+%SpecificName%,0
+%MonsterName%,0
+%ALFinal%,0
+%ShowLand%,0
+%World%,0
+%DeityRacial%,0
+%Unusual%,0
+%D%,0
+%T%,0
+%feetspecial%,0
+%HEDominant%,0
+%OrcishFeature%,No
+%SpecialNum%,0
+%ShowAgeEffect%,0
+%AgeEffect%,0
+
+@Gender,3,Choose gender,Male,Female,Random
+@Output,2,Choose Output,Normal,Easy to modify with less re-roll tags,Bartender,Creatures,Demons,GenMonster_ENC_URE
+@Race,1,Choose race,Random ALL,Random PH3.5,Dwarf,Elf,Gnome,Halfling,Half Elf,Half Orc,Human,OTHER (uses Human for now)
+@SpecificName,43,ONLY used with "GenMonster_ENC_URE",Human (M-F),Dwarf (M-F),Elf,Gnome (M-F),Gnome Tinker,Halfling (M-F),Formal Name (M-F),Mercenary Name (M-F),Noble Household,Arab (M-F),Egyptian,Oriental (M-F),Roman (M-F),Spanish (M-F),Swahli (M-F),Viking (M-F),OTHER,Angel-Fallen Angel,Bugbear (M-F),Centaur (M-F),Derro (Dwarf),Dragon,Drow (M-F),Duergar (M-F),Githyanki (M-F),Githzerai (M-F),Gnoll (M-F),Goblin (M-F),Hobgoblin (M-F),Kobold (M-F),Illithid (Mind Flayer),Infernal/Demon,Kuo-Toa,Lizardfolk,Lovecraft creature,Minotaur (M-F),Ogre (M-F),Orc,Svirfneblin (Gnome) (M-F),Troglodyte,Troll (M-F),Yuan-ti,RANDOM (NAMES For All),Giant,Kender
+@ALFinal,,ONLY used with "GenMonster_ENC_URE"
+@ShowLand,1,GODS: Show the lands where the God is found.,Yes,No
+@World,,Input the World needed (mainly for "Religion" table)
+@ShowAgeEffect,1,Show the stat modifiers for age?,Yes,No
+
+:Start
+1,{Status~By Valminder 2003-2004-2005-2006-2015}
+_[GenerateAPP=%Output%]
+
+:GenerateAPP
+1,<b><u>NPC Appearance Generator</u>:</b><br><br>[Generate]
+2,<b><u>NPC Appearance Generator</u>:</b><br><br>[GenerateLessReRoll]
+3,[GenBartender]
+4,[GenCreature]
+5,[GenDemon]
+6,[GenMonster_ENC_URE]
+
+# Sadermian, a male Human, from Anywhere.
+:GenerateNoClass
+1,[~Names Generator.NAME For All], a <b>[~Gender]</b> {Cap~[~Creatures.Humanoid2]}, from the [~Countries.Countries].
+
+# Generate mostly NPC Class creatures from this country.
+:Generate
+#1,Name: [~Names Generator.NAME For All]</b><br>
+1,[GenderRandom]
+_Name: [~Names Generator.SpecificName2(%Gender%,%SpecificName%)]</b><br>
+#_Race: [~Age] <b>[Gender]</b> {Cap~[~Creatures.Humanoid2]}<br>
+_{If~{Param~Race,%Race%}=Half Elf?{If~{Dice~1d2}=1?|HEDominant=Elf|/|HEDominant=Human|}}
+_Race: [~Age] <b>{Bold~{LCase~{Param~Gender,%Gender%}}}</b> [Race=%Race%]{If~{Param~Race,%Race%}=Half Elf?{If~%HEDominant%=Elf? (dominant elven ancestry)/ (dominant human ancestry)}}<br>
+#_Race: [~Age] <b>[Gender]</b> {If~%Race%=1?{Cap~[~Creatures.Humanoid2]}/{LCase~{Param~Race,%Race%}}}<br>
+_Alignment: |ALFinal=[~Miscellaneous.Alignment2]|%ALFinal%<br>
+_Class: {Cap~[~Miscellaneous.Class2]}   Level: <b>[~Level]</b><br>
+_[Deity]<br><br>
+_<u>Initial Reaction</u>: [~Miscellaneous.Reaction]<br><br>
+_Size: [~FRAME].{Space~5}Weight: [~Weight].<br>
+_Hair: [Hair]<br>
+_Eyes: [Eyes]<br>
+_Skin: [Skin]<br>
+# XXX Old version, removed the generate button and automatically added the description of the clothing.
+#_Clothing: [Clothing]. {Generate~0,<abbr title="Click to show the description of the clothing">---</abbr>,Clothing Show}<br>
+_Clothing: [Clothing].<br>
+_[Special]
+_Quirk: [~Miscellaneous.Quirks]<br>
+_Personality: [~Miscellaneous.Personality]<br><br>
+_Origin: [~Origin].<br>
+_Languages: [~GenLanguage]<br>
+_Occupation (past or present): [~Miscellaneous.OccupationsMeanings]<br>
+_Recent Life Event: [LifeEvent]<br><br>
+_<u>Things known</u>: {Loop~{Dice~1d6-4},<br>-[Rumors.Generate]}
+_[NOTES]
+
+# Generate mostly NPC Class creatures from this country, with less re-roll tag and more Notes to modify.
+:GenerateLessReRoll
+1,[GenderRandom]
+_Name: {Note~[~Names Generator.SpecificName2(%Gender%,%SpecificName%)]}</b><br>
+#_Name: {Note~[Names Generator.NAME For All]}</b><br>
+#_Race: [~Age] <b>[Gender]</b> {Note~{Cap~[Creatures.Humanoid2]}} ( {Note~<abbr title>---</abbr>} )<br>
+_{If~{Param~Race,%Race%}=Half Elf?{If~{Dice~1d2}=1?|HEDominant=Elf|/|HEDominant=Human|}}
+_Race: [~Age] <b>{Bold~{LCase~{Param~Gender,%Gender%}}}</b> {Note~[Race=%Race%]{If~{Param~Race,%Race%}=Half Elf?{If~%HEDominant%=Elf? (dominant elven ancestry)/ (dominant human ancestry)}}} ( {Note~---} )<br>
+_Alignment: |ALFinal=[Miscellaneous.Alignment2]|{Note~%ALFinal%}<br>
+_Class: {Note~{Cap~[Miscellaneous.Class2]}}   Level: <b>{Note~[Level]}</b><br>
+_[Deity] (  {Note~---} )<br><br>
+_<u>Initial Reaction</u>: [~Miscellaneous.Reaction]<br><br>
+_Size: [~FRAME].{Space~5}Weight: [~Weight].<br>
+_Hair: [Hair]<br>
+_Eyes: [Eyes]<br>
+_Skin: [Skin]<br>
+_Clothing: [Clothing].<br>
+_[Special]
+_Quirk: [~Miscellaneous.Quirks]<br>
+_Personality: [~Miscellaneous.Personality] ( {Note~<abbr title="Click to add some information on the description or personality of the NPC which is different from the one generated above">---</abbr>} )<br><br>
+_Origin: {Note~[Origin]}.<br>
+_Languages: [~GenLanguage] ( {Note~<abbr title="Click to add a new language known to this NPC">---</abbr>} )<br>
+_Occupation (past or present): [~Miscellaneous.OccupationsMeanings] ( {Note~<abbr title="Click to add some information on this occupation or a new non-random occupation">---</abbr>} )<br>
+_Recent Life Event: [LifeEvent] ( {Note~<abbr title="Click to add some informations">---</abbr>} )<br><br>
+_<u>Things known</u>: ( {Note~<abbr title="Click to add some things known to this NPC">---</abbr>} ) {Loop~{Dice~1d6-4},<br>-[Rumors.Generate]}
+_[NOTES]
+
+# Sadermian, a male Human, Expert from this country.
+:GenerateQuick
+1,[~Names Generator.NAME For All], a <b>[~Gender]</b> {Cap~[~Creatures.Humanoid2]}, {Cap~[~Miscellaneous.Class2]} from [~Origin]
+
+# Generate mostly NPC Class creatures from another country.
+:Generate2
+#1,Name: [~Names Generator.NAME For All]</b><br>
+1,[GenderRandom]
+_Name: [~Names Generator.SpecificName2(%Gender%,%SpecificName%)]</b><br>
+#_Race: [~Age] <b>[Gender]</b> {Cap~[~Creatures.Humanoid2]}<br>
+_{If~{Param~Race,%Race%}=Half Elf?{If~{Dice~1d2}=1?|HEDominant=Elf|/|HEDominant=Human|}}
+_Race: [~Age] <b>{Bold~{LCase~{Param~Gender,%Gender%}}}</b> [Race=%Race%]{If~{Param~Race,%Race%}=Half Elf?{If~%HEDominant%=Elf? (dominant elven ancestry)/ (dominant human ancestry)}}<br>
+_Alignment: |ALFinal=[~Miscellaneous.Alignment2]|%ALFinal%<br>
+_Class: {Cap~[~Miscellaneous.Class2]}   Level: <b>[~Level]</b><br><br>
+_[Deity]<br><br>
+_<u>Initial Reaction</u>: [~Miscellaneous.Reaction]<br><br>
+_Size: [~FRAME].{Space~5}Weight: [~Weight].<br>
+_Hair: [Hair]<br>
+_Eyes: [Eyes]<br>
+_Skin: [Skin]<br>
+_Clothing: [Clothing].<br>
+_[Special]
+_Quirk: [~Miscellaneous.Quirks]<br>
+_Personality: [~Miscellaneous.Personality]<br><br>
+_Origin: [~Countries.Countries].<br>
+_Languages: [~GenLanguage]<br>
+_Occupation (past or present): [~Miscellaneous.OccupationsMeanings]<br>
+_Recent Life Event: [LifeEvent]<br><br>
+_Things known: {Loop~{Dice~1d6-4},<br>-[Rumors.Generate]}
+_[NOTES]
+
+# Sadermian, a male Human, Expert from Anywhere.
+:GenerateQuick2
+1,[~Names Generator.NAME For All], a <b>[~Gender]</b> {Cap~[~Creatures.Humanoid2]}, {Cap~[~Miscellaneous.Class2]} from [~Countries.Countries].
+
+# Generate any class from another country.
+:Generate3
+#1,Name: [~Names Generator.NAME For All]</b><br>
+1,[GenderRandom]
+_Name: [~Names Generator.SpecificName2(%Gender%,%SpecificName%)]</b><br>
+#_Race: [~Age] <b>[Gender]</b> {Cap~[~Creatures.Humanoid2]}<br>
+_{If~{Param~Race,%Race%}=Half Elf?{If~{Dice~1d2}=1?|HEDominant=Elf|/|HEDominant=Human|}}
+_Race: [~Age] <b>{Bold~{LCase~{Param~Gender,%Gender%}}}</b> [Race=%Race%]{If~{Param~Race,%Race%}=Half Elf?{If~%HEDominant%=Elf? (dominant elven ancestry)/ (dominant human ancestry)}}<br>
+_Alignment: |ALFinal=[~Miscellaneous.Alignment2]|%ALFinal%<br>
+_Class: {Cap~[~Miscellaneous.ClassPC]}   Level: <b>[~Level+20]</b><br><br>
+_[Deity]<br><br>
+_<u>Initial Reaction</u>: [~Miscellaneous.Reaction]<br><br>
+_Size: [~FRAME].{Space~5}Weight: [~Weight].<br>
+_Hair: [Hair]<br>
+_Eyes: [Eyes]<br>
+_Skin: [Skin]<br>
+_Clothing: [Clothing].<br>
+_[Special]
+_Quirk: [~Miscellaneous.Quirks]<br>
+_Personality: [~Miscellaneous.Personality]<br><br>
+_Origin: [~Countries.Countries].<br>
+_Languages: [~GenLanguage]<br>
+_Occupation (past or present): Adventurer.<br>
+_Recent Life Event: [LifeEvent]<br><br>
+_Things known: {Loop~{Dice~1d6-4},<br>-[Rumors.Generate]}
+_[NOTES]
+
+# Sadermian, a male Human, Wizard from Anywhere.
+:GenerateQuick3
+1,[~Names Generator.NAME For All], a <b>[~Gender]</b> {Cap~[~Creatures.Humanoid2]}, {Cap~[~Miscellaneous.ClassPC]} from [~Countries.Countries].
+
+# Sadermian, a male Human, Wizard from this coutry.
+:GenerateQuick4
+1,[~Names Generator.NAME For All], a [~Gender] {Cap~[~Creatures.Humanoid2]}, {Cap~[~Miscellaneous.ClassPC]} from [~Origin].
+
+# Sadermian, a male Human, Wizard
+:GenerateQuick5
+1,[~Names Generator.NAME Random], a [~Gender] {Cap~[~Creatures.Humanoid2]}, {Cap~[~Miscellaneous.ClassPC]}
+
+# Generates a Bartender for "Inn Generator.tab".
+:GenBartender
+1,<b><u>Miscellaneous Description of Owner</u>:</b><br><br>
+_{If~{Param~Race,%Race%}=Half Elf?{If~{Dice~1d2}=1?|HEDominant=Elf|/|HEDominant=Human|}}
+_Age: [~Age].<br>
+_Size: [~FRAME].{Space~5}Weight: [~Weight].<br>
+_Hair: [Hair]<br>
+_Eyes: [Eyes]<br>
+_Skin: [Skin]<br>
+_Clothing: [Clothing].<br>
+_[Special]
+_Origin: [~Origin].<br>
+_Languages: [~GenLanguage]<br>
+_Occupation (past or present): [~Miscellaneous.OccupationsMeanings]<br>
+_Recent Life Event: [LifeEvent]<br><br>
+_<u>Things known</u>: ( {Note~---} ){Loop~{Dice~1d6-4},<br>-[Rumors.Generate]}
+_[NOTES]
+
+# Generates a Creature with a personality
+:GenCreature
+1,<b>Name:</b> [~Names Generator.NAME For All]<br>
+_Alignment: |ALFinal=[~Miscellaneous.Alignment2]|%ALFinal%<br>
+_[GenCreature2]
+
+# As above but with a demonic name.
+:GenDemon
+1,<b>Name:</b> {Cap~[~Names Generator.Demonic Names]} (True Name) / [~Infernal Names.UseName] (Use Name)<br>
+_Alignment: |ALFinal=[~Miscellaneous.Alignment E]|%ALFinal%<br>
+_[GenCreature2]
+
+:GenCreature2
+1,<u>Initial Reaction</u>: [~Miscellaneous.Reaction]<br>{If~%Temp_ENC_URE%!=1?<br>}
+_[Deity]<br>
+_{Generate~0,Click to show clothing.,GenCreature_Clothing}<br>
+_Quirk: [~Miscellaneous.Quirks]<br>
+_Personality: [~Miscellaneous.Personality]<br>
+_Languages{If~%Temp_ENC_URE%=1? (additional if applicable)}: [~GenLanguage2]<br>
+_Recent Life Event: [LifeEvent]<br><br>
+_<u>Things known</u>: ( {Note~---} ){Loop~{Dice~1d6-4},<br>-[Rumors.Generate]}
+_[NOTES]
+
+:GenCreature_Clothing
+1,Clothing (if applicable): [Clothing].
+
+# Aberration,Construct,Dragon,Elemental,Fey,Giant,Humanoid,Magical Beast,Monstrous HUMANOID,Outsider,Plant,Undead
+:GenMonster_ENC_URE
+1,<b>Name:</b> [GenderRandom][~Names Generator.SpecificName2(%Gender%,%SpecificName%)] ({If~%Gender%=1?M/F})<br>
+_|Temp_ENC_URE=1|[GenCreature2]
+
+:GenMonster_ENC_URE_Beasts
+1,<u>Initial Reaction</u>: [~Miscellaneous.Reaction]<br>
+_Quirk (if applicable): [~Miscellaneous.Quirks]<br>
+_Personality (if applicable): [~Miscellaneous.Personality]<br>
+_[NOTES]
+
+# Generates NPC's description for "ENC Ultimate Random Encounter".
+:Generate_ENC_URE
+#1,Name: [~Names Generator.NAME For All]</b><br>
+1,[GenderRandom]
+_{If~{Param~Race,%Race%}=Half Elf?{If~{Dice~1d2}=1?|HEDominant=Elf|/|HEDominant=Human|}}
+_Name: [~Names Generator.SpecificName2(%Gender%,%SpecificName%)]</b>[Tab]([~Age] <b>{Bold~{LCase~{Param~Gender,%Gender%}}}</b>{If~%Race%!=10? }[Race=%Race%]{If~{Param~Race,%Race%}=Half Elf?{If~%HEDominant%=Elf? (dominant elven ancestry)/ (dominant human ancestry)}})<br>
+_[Deity]<br><br>
+_<u>Initial Reaction</u>: [~Miscellaneous.Reaction]<br><br>
+_Size: [~FRAME].{Space~5}Weight: [~Weight].<br>
+_Hair: [Hair]<br>
+_Eyes: [Eyes]<br>
+_Skin: [Skin]<br>
+_Clothing: [Clothing].<br>
+_[Special]
+_Quirk: [~Miscellaneous.Quirks]<br>
+_Personality: [~Miscellaneous.Personality]<br><br>
+_Origin: [~Origin].{Space~5}Languages: [~GenLanguage]<br>
+_Occupation (past or present): [~Miscellaneous.OccupationsMeanings]<br>
+_Recent Life Event: [LifeEvent]<br><br>
+_<u>Things known</u>: {Loop~{Dice~1d6-4},<br>-[Rumors.Generate]}
+_[NOTES]
+
+# ---------------------------------------------------------------------------
+
+:Bartender
+1,<br><br><hr><br>[GenBartender]
+
+:NPC
+1,<br><br><hr><br>[Generate]
+
+:NPCForeign
+1,<br><br><hr><br>[Generate2]
+
+:NPCAdventurers
+1,<br><br><hr><br>[Generate3]
+
+:Creature
+1,<br><br><hr><br>[GenCreature]
+
+# ---------------------------------------------------------------------------
+
+:NPC_Info1
+1,<br>{Space~5}{Generate~0,INFORMATIONS: Click to generate the NPC's appearance and informations.,NPC_Info2=1}
+2,<br>{Space~5}{Generate~0,INFORMATIONS: Click to generate the leader's appearance and informations.,NPC_Info2=2}
+3,<br>{Space~5}{Generate~0,INFORMATIONS: Click to generate the main NPC's appearance and informations.,NPC_Info2=3}
+
+:NPC_Info2
+1,<br>[NPC Appearance.Generate_ENC_URE]<br>
+2,<br>Leader's [NPC Appearance.Generate_ENC_URE]<br>
+3,<br>Main NPC's [NPC Appearance.Generate_ENC_URE][NPC_Info3=1]
+
+:NPC_Info3
+1,<br>{Space~5}------------------------------
+_<br>{Space~5}{Generate~0,INFORMATIONS: Click to generate another NPC's appearance and informations.,NPC_Info3=2}
+2,<br>Other NPC's [NPC Appearance.Generate_ENC_URE][NPC_Info3=1]
+
+#[~Group Designer.StartArcane]
+#[~Group Designer.StartMystic]
+
+;Villain_Group
+1,[Orc Tribes.Generate]
+1,[Group Namer.BuildGroup]
+
+# ---------------------------------------------------------------------------
+
+:Race
+1,{Cap~[~Creatures.Humanoid2]}
+2,[Race={Dice~1d7+2}]
+3,dwarf
+4,elf
+5,gnome
+6,halfling
+7,half-elf
+8,half-orc
+9,human
+10,
+
+# ---------------------------------------------------------------------------
+
+:Tab
+1,{Space~5}
+
+# ---------------------------------------------------------------------------
+
+;Level
+55,{Dice~1d3}
+40,{Dice~1d8+2}
+5,{Dice~1d15+5}
+1,{Dice~1d20+10}
+
+# Added December 2007
+:GenLanguage
+1,|comma=1||temp=0||num={Dice~1d6-3}|
+_{If~%num%<1?|num=1|}{If~%num%=3?|num+{Dice~1d2}|}{If~%num%=5?|num+{Dice~1d2}|}
+_{Loop~%num%,|temp+1|{If~%temp%=%num%?|comma=0|}[Miscellaneous.Language Common]{If~%comma%=1?, /.}}
+
+# For demons and other creatures
+:GenLanguage2
+1,|comma=1||temp=0||num={Dice~1d6-3}|
+_{If~%num%<1?|num=1|}{If~%num%=3?|num+{Dice~1d3-1}|}{If~%num%=5?|num+{Dice~1d3-1}|}
+_{If~%Temp_ENC_URE%=1?|num-1|}
+_{If~%num%>0?{Loop~%num%,|temp+1|{If~%temp%=%num%?|comma=0|}[Miscellaneous.Language]{If~%comma%=1?, /.}}/none.}
+
+;Origin
+87,this country
+10,[Countries.Countries]
+2,from another plane
+1,from another planet or moon of the same crystal sphere
+
+# --------------------------------------------------------------------------
+# Physical Appearance
+
+:Age
+1,[Age2]{If~{And~%ShowAgeEffect%=1,%AgeEffect%!=0}=1?[Age_ShowAgeEffect]}
+
+;Age2
+5,Young|AgeEffect={Color~Red,-3 Str/Con; -1 Dex/Int/Wis/Cha}|
+20,Young adult|AgeEffect={Color~Red,-1 Str/Dex/Con/Int/Wis/Cha}|
+40,Adult|AgeEffect=0|
+20,Middle age|AgeEffect={Color~Red,-1 Str/Dex/Con}; {Color~Green,+1 Int/Wis/Cha}|
+10,Old|AgeEffect={Color~Red,-3 Str/Dex/Con}; {Color~Green,+2 Int/Wis/Cha}|
+5,Venerable|AgeEffect={Color~Red,-6 Str/Dex/Con}; {Color~Green,+3 Int/Wis/Cha}|
+
+:Age_ShowAgeEffect
+1, <font size=2>(%AgeEffect%)</font>
+
+:Gender
+1,{If~%Gender%=3?|Gender={Dice~1d2}|}[GenderShow]
+
+:GenderRandom
+1,{If~%Gender%=3?|Gender={Dice~1d2}|}
+
+:GenderShow
+1,{LCase~{Param~Gender,%Gender%}}
+
+:HeShe
+1,he
+2,she
+
+:HisHer
+1,his
+2,her
+
+;FRAME
+1,Small boned with fine features
+3,Medium build
+1,"Large boned" person
+
+;Weight
+50,Average
+20,Skinny
+20,Overweight
+5,Skin and bones
+5,Obese
+
+# ------------------- Hair --------------------
+:Hair
+1,|temp=0|[Hair2=%Race%]
+
+:Hair2
+# Random ALL
+1,[Hair_OTHER]
+# Random PH3,5
+2,[Hair2={Dice~1d7+2}]
+# dwarf
+3,[~Hair Colour_Dwarf][~Tinted], [~Hair_Dwarf]{If~{Dice~1d100}=1? (Special: [~Hair Special])}{If~%Gender%=1?[Facial Hair_Dwarf]/{If~{Dice~1d100}<=20?[Facial Hair_Dwarf]}}
+# elf
+4,[~Hair Colour_Elf][~Tinted], [~Hair_Elf]{If~{Dice~1d100}=1? (Special: [~Hair Special])}{If~{And~%Gender%=1,%temp%=1}=1?[Facial Hair_Human]}
+# gnome
+5,[~Hair Colour_Gnome][~Tinted], [~Hair_Gnome]{If~{Dice~1d100}=1? (Special: [~Hair Special])}{If~%Gender%=1?[Facial Hair_Gnome]}
+# halfling
+6,[~Hair Colour_Human][~Tinted], [~Hair_Human]{If~{Dice~1d100}=1? (Special: [~Hair Special])}{If~%Gender%=1?[Facial Hair_Human]}
+# Half-elf
+7,{If~%HEDominant%=Elf? (elven) [Hair2=4]/ (human) [Hair2=9]}
+# half-orc
+8,[~Hair Colour_HalfOrc][~Tinted], [~Hair_Human]{If~{Dice~1d100}=1? (Special: [~Hair Special])}
+_{If~%Gender%=1?{If~{Dice~1d100}<=75?<br>Facial Hair: None/[Facial Hair_Human]}}
+# human
+9,[~Hair Colour_Human][~Tinted], [~Hair_Human]{If~{Dice~1d100}=1? (Special: [~Hair Special])}{If~%Gender%=1?[Facial Hair_Human]}
+# OTHER
+10-100,[Hair_OTHER]
+
+;Hair_OTHER
+1,[~HairOLD]
+1,[Hair2=9]
+
+;!Hair_Human
+5,long (shoulder length) and [Type={Dice~1d8}],[Tied]
+3,{If~%Gender%=2?very long (mid-back to waist) and [Type={Dice~1d8}],[Tied+3]/{If~{Dice~1d10}=1?very long (mid-back to waist) and [Type={Dice~1d8}],[Tied+3]/[Hair_Human]}}
+5,{If~%Gender%=1?short and [Type]/{If~{Dice~1d2}=1?short and [Type]/[Hair_Human]}}
+2,{If~{And~%Gender%=2,%temp%=0}=1?|temp=1|{Unlock~Hair_Human,8}[Hair_Human]
+_                                /{If~{Dice~1d100}<=50?bald/balding ([Hair_Balding], [Hair_Human])}
+_}
+2,{If~%Gender%=1?crew-cut/{If~{Dice~1d10}=1?crew-cut/[Hair_Human]}}
+2,bowl cut
+# What is ornate hair ???? Ornate with what ??? XXX
+#1,ornate <font size=2>{Color~Green,(D+1)}</font>|D+1|
+1,[Hair_Unusual]
+
+;!Hair_Dwarf
+1,shaved
+3,very short and {If~{Dice~1d10}<=3?shaggy/[Type]}
+3,crew cut
+4,medium length and {If~{Dice~1d10}<=3?shaggy/[Type={Dice~1d8}]},[Tied={Dice~1d17}]
+3,shoulder length and {If~{Dice~1d10}<=3?shaggy/[Type={Dice~1d8}]},[Tied={Dice~1d17}]
+1,hacked/chopped
+1,waist length and {If~{Dice~1d10}<=3?shaggy/[Type={Dice~1d8}]},[Tied={Dice~1d17}]
+4,{If~{Dice~1d100}<=50?bald/balding ([Hair_Balding], [Hair_Dwarf])}
+1,[Hair_Unusual]
+
+;!Hair_Elf
+10,long (shoulder length) and [Type={Dice~1d5}],{If~{Dice~1d3}>1?[Tied={Dice~1d17}]/ loose and parted in middle}
+6,very long (mid-back to waist) and [Type={Dice~1d5}],{If~{Dice~1d3}>1?[Tied={Dice~1d17}]/ loose and parted in middle}
+3,{If~%Gender%=1?short and [Type={Dice~1d5}]/{If~{Dice~1d2}=1?short and [Type={Dice~1d5}]/[Hair_Elf]}}
+# What is ornate hair ???? Ornate with what ??? XXX
+#1,ornate <font size=2>{Color~Green,(D+1)}</font>|D+1|
+1,{If~{And~%Gender%=1,{Param~Race,%Race%}=Elf}=1?{If~{Dice~1d100}<=5?|temp=1|[Hair_Elf]/[Hair_Unusual]}
+_                                /{If~{And~%Gender%=1,{Param~Race,%Race%}=Half Elf}=1?{If~{Dice~1d100}<=10?|temp=1|[Hair_Elf]/[Hair_Unusual]}
+_                                                                /[Hair_Unusual]
+_}}
+
+;!Hair_Gnome
+5,very short and {If~{Dice~1d10}<=2?shaggy/[Type]}
+3,medium length and {If~{Dice~1d10}<=2?shaggy/[Type]},[Tied]
+4,shoulder length and {If~{Dice~1d10}<=2?shaggy/[Type]},[Tied]
+1,waist length and {If~{Dice~1d10}<=2?shaggy/[Type]},[Tied]
+6,{If~{Dice~1d100}<=50?bald/balding ([Hair_Balding], [Hair_Gnome])}
+1,[Hair_Unusual]
+
+:Hair_HalfOrc
+1,[Hair_Human]
+
+;Type
+# Long and Short
+2,straight
+2,wavy
+1,ragged
+1,wild and all over
+2,curly
+# Short
+1,loose curls
+1,tight curls
+
+# Leave the 4 first entries in this order 1-17 (for elves)
+;Tied
+5, untied
+5, tied in a ponytail
+5, braided {If~{Or~{Param~Race,%Race%}=Dwarf,{Param~Race,%Race%}=Gnome}=1?[Hair_Braid_Dwarf]/[Hair_Braid]}
+2,{If~%Gender%=2? tied in a french braid[TiedWith]/{If~{Dice~1d10}=1? tied in a french braid[TiedWith]/[Tied]}}
+#
+2,{If~%Gender%=2? tied in 2 bunches or pigtails[TiedWith]/{If~{Dice~1d10}=1? tied in 2 bunches or pigtails[TiedWith]/[Tied]}}
+5,{If~%Gender%=2? tied in a toque or bun[TiedWith]/{If~{Dice~1d10}=1? tied in a toque or bun[TiedWith]/[Tied]}}
+
+;TiedWith
+8,
+1, and decorated with {AorAn~[Miscellaneous.ColorNoType]} flower
+1, and decorated with [Miscellaneous.ColorNoType] flowers
+1, and laced with {AorAn~[Miscellaneous.ColorNoType]} ribbon
+1, and laced with [Miscellaneous.ColorNoType] ribbons
+
+;Hair_Balding
+1,receding hairline
+1,fringe or crown
+1,thinning
+1,‘comb over’
+
+;Hair_Braid
+3,(x1)
+2,(x2)
+1,(x{Dice~1d4+2}) <font size=2>{Color~Green,(D+1)}</font>|D+1|
+
+;Hair_Braid_Dwarf
+1,(x1)
+2,(x2)
+2,(x{Dice~1d4+1})
+1,(x{Dice~2d4+1}) <font size=2>{Color~Green,(D+1)}</font>|D+1|
+
+;Hair_Unusual
+1,[Hair_Unusual_Race=%Race%], burnt <font size=2>{Color~Green,(D+1)}</font>|D+1|
+1,[Hair_Unusual_Race=%Race%], beaded <font size=2>{Color~Green,(D+1)}</font>|D+1|
+1,[Hair_Unusual_Race=%Race%], wig <font size=2>({Color~Green,D+1} only if worn habitually and if the wig is somehow obvious or odd)</font>|D+1|
+1,exceptionally long (knee or ankle length) and [Type={Dice~1d8}],[Tied+3] <font size=2>{Color~Green,(D+2)}</font>|D+2|
+1,head half shaved (second half: [Hair_Unusual_Race=%Race%]) <font size=2>{Color~Green,(D+1)}</font>|D+1|
+1,[Hair_Unusual_Race=%Race%], rune or symbol shaved into head ([~Tatoo]) <font size=2>{Color~Green,(D+2)}</font>|D+2|
+1,taboo hairstyle – the character openly wears [HisHer=%Gender%] hair in a manner barred due to [HisHer=%Gender%] race, gender or profession <font size=2>{Color~Green,(D+1)}</font>|D+1|
+1,dual styles – half the head is one style ([~Hair_Unusual_Race=%Race%]), half another ([~Hair_Unusual_Race=%Race%]) <font size=2>{Color~Green,(D+1)}</font>|D+2|
+1,[Hair_Human], {If~{Dice~1d100}<=50?spiked/mohawk <font size=2>{Color~Green,(D+1)}</font>|D+1|}
+1,{If~{And~%Gender%=2,%Race%!=3}=1?[Hair_Unusual_Facial_Female]/[Hair_Unusual]}
+1,tonsure (Middle Ages monk style) <font size=2>{Color~Green,(D+1)}</font>|D+1|
+1,dreadlocks <font size=2>{Color~Green,(D+2)}</font>|D+2|
+1,afro <font size=2>{Color~Green,(D+1)}</font>|D+1|
+1,short with a rattail <font size=2>{Color~Green,(D+1)}</font>|D+1|
+1,combed in the form of {AorAn~[Creatures.All]} <font size=2>{Color~Green,(D+2)}</font>|D+2|
+1,cornrow
+1,missing a patch of hair from [HisHer=%Gender%] head (not just balding)
+
+:Hair_Unusual_Race
+# Random ALL
+1,[Hair_Unusual_Race]
+# Random PH3,5
+2,[Hair_Unusual_Race={Dice~1d7+2}]
+# dwarf
+3,[Hair_Dwarf]
+# elf
+4,[Hair_Elf]
+# gnome
+5,[Hair_Gnome]
+# halfling
+6,[Hair_Human]
+# Half-elf
+7,{If~%HEDominant%=Elf?[Hair_Elf]/[Hair_Human]}
+# half-orc
+8,[Hair_HalfOrc]
+# human
+9,[Hair_Human]
+# OTHER
+10-100,[Hair_Unusual_Race]
+
+:Hair_Unusual_Facial_Female
+1,<br>Facial Hair: [~Facial Hair_Human2={Dice~1d15+5}] <font size=2>{Color~Green,(D+2)}</font>|D+2|
+
+:Facial Hair_Human
+1,{If~{Param~Race,%Race%}=Elf?<br>Unusual Facial Hair: [~Facial Hair_Human2]
+_     /{If~{And~{Param~Race,%Race%}=Half Elf,%HEDominant%=Elf}=1?<br>Unusual Facial Hair (elven): [~Facial Hair_Human2]
+_     /<br>Facial Hair{If~{And~{Param~Race,%Race%}=Half Elf,%HEDominant%=Human}=1? (human)}: [~Facial Hair_Human2]
+_}}
+
+;Facial Hair_Human2
+8,{If~{Or~{Param~Race,%Race%}=Elf,%HEDominant%=Elf}=1?None, but can unusually grow a beard/None}
+8,Unshaven/stubble
+# About 47% chances to NOT have a beard/moustache/sideburns
+1,Sideburns, short{If~{Dice~1d100}<=30?, with a moustache ([Facial Hair_Human3])}
+1,Sideburns, medium{If~{Dice~1d100}<=30?, with a moustache ([Facial Hair_Human3])}
+1,Sideburns, long{If~{Dice~1d100}<=30?, with a moustache ([Facial Hair_Human3])}
+4,Moustache, [Facial Hair_Human3]
+1,Small goatee {If~{Dice~1d100}<=50?with a moustache ([Facial Hair_Human3])/{Bold~without} a moustache}
+1,Medium goatee {If~{Dice~1d100}<=50?with a moustache ([Facial Hair_Human3])/{Bold~without} a moustache}
+1,Long goatee[Braid] {If~{Dice~1d100}<=50?with a moustache ([Facial Hair_Human3])/{Bold~without} a moustache}
+2,Short beard (less than 1")[Braid], [Clean], {If~{Dice~1d100}<=75?with a moustache ([Facial Hair_Human3])/{Bold~without} a moustache}
+3,Medium beard ({Dice~1d2}")[Braid], [Clean], {If~{Dice~1d100}<=75?with a moustache ([Facial Hair_Human3])/{Bold~without} a moustache}
+2,Long beard ({Dice~1d10+2}")[Braid], [Clean], {If~{Dice~1d100}<=75?with a moustache ([Facial Hair_Human3])/{Bold~without} a moustache}
+1,Very long beard (12" to waist length) <font size=2>{Color~Green,(D+1)}</font>[Braid], [Clean], {If~{Dice~1d100}<=75?with a moustache ([Facial Hair_Human3])/{Bold~without} a moustache}|D+1|
+
+;Facial Hair_Human3
+1,dali (thin and curvy)
+1,english (pencil, straight and thin)
+1,handlebar (thick and curvy)
+1,horseshoe
+1,imperial (thick and really curvy)
+2,mexican
+1,toothbrush (small)
+3,small
+3,thick
+1,thick and falling over the lips
+1,long, thick and on the cheeks
+1,‘Fu Manchu’ <font size=2>{Color~Green,(D+1)}</font>[Braid]|D+1|
+
+;Braid
+5,
+1,, braided
+
+:Facial Hair_Dwarf
+1,<br>Facial Hair: {If~%Gender%=2?[~Facial Hair_Dwarf2={Dice~1d6}]/[~Facial Hair_Dwarf2]}
+_{If~%temp%=1?{If~{Dice~1d100}<=95? with matching moustache/{If~{Dice~1d2}=1? {Bold~without} a moustache/ with an {Bold~unmatching} moustache ([~Facial Hair_Human3])}}}
+_{If~{And~%temp%=1,{Dice~1d100}<=20}=1? (Distinctive feature: [~Facial Hair_Dwarf3])}
+
+;Facial Hair_Dwarf2
+1,|temp=1|Beard, trim
+3,|temp=1|Beard, short ({Dice~1d3+1}")
+6,|temp=1|Beard, medium ({Dice~1d4+4}")
+6,|temp=1|Beard, long ({Dice~1d4+8}")
+2,|temp=1|Beard, very long ({Dice~1d6+12}")
+2,|temp=1|Beard, extreme ({Dice~1d18+18}") <font size=2>{Color~Green,(D+1)}</font>[Braid]|D+1|
+1,|temp=0|No beard (caused by [Facial Hair_Dwarf_NoBeard])
+
+;Facial Hair_Dwarf3
+1,Beaded
+5,Braided ({Dice~1d6+2} braids)
+3,Parted
+2,Very ragged
+1,Extremely curly
+4,Very straight
+1,Different colour than head hair ([Hair Colour_Dwarf])
+1,Streak of lighter hair in centre of beard
+1,Streak of darker hair in centre of beard
+1,Asymmetric beard
+
+;Facial Hair_Dwarf_NoBeard
+1,a disease
+1,shame
+1,an oath to his clan
+1,a family's oath
+1,a curse
+1,exile
+1,judgment
+1,penitence
+
+:Facial Hair_Gnome
+1,<br>Facial Hair: [~Facial Hair_Gnome2]
+_{If~%temp%=1?{If~{Dice~1d100}<=50? with matching moustache
+_                                  /{If~{Dice~1d2}=1? {Bold~without} a moustache
+_                                                   / with an {Bold~unmatching} moustache ([~Facial Hair_Human3])}}
+_}
+_{If~{And~%temp%=1,{Dice~1d100}<=5}=1? (Distinctive feature: [~Facial Hair_Gnome3])}
+
+;Facial Hair_Gnome2
+10,|temp=0|None
+1,|temp=0|Thin moustache
+1,|temp=0|Thick moustache
+1,|temp=1|Goatee
+1,|temp=1|Beard, trim
+1,|temp=1|Beard, short ({Dice~1d3+1}")
+1,|temp=1|Beard, medium ({Dice~1d4+4}")
+1,|temp=1|Beard, long ({Dice~1d4+8}")
+1,|temp=1|Beard, very long ({Dice~1d6+12}")
+1,|temp=1|Beard, extreme ({Dice~1d18+18}") <font size=2>{Color~Green,(D+1)}</font>[Braid]|D+1|
+
+;Facial Hair_Gnome3
+1,Beaded
+5,Braided ({Dice~1d6+2} braids)
+3,Parted
+2,Very ragged
+1,Extremely curly
+4,Very straight
+1,Different colour than head hair ([Hair Colour_Gnome])
+1,Streak of lighter hair in centre of beard
+1,Streak of darker hair in centre of beard
+1,Asymmetric beard
+
+# Look "Recent Injry" subtable if oyu modify this subtable
+;Clean
+10,clean
+2,unkept
+2,greasy
+1,dirty
+1,dirty with {If~{Dice~1d2}=1?fleas/flies}
+1,dirty with food left over
+1,full of {If~{Dice~1d2}=1?grass/leaves and twigs}
+
+;!Hair Colour_Human
+# This is something which is usually very dependant on ethnicity and local culture. This table assumes
+# a setting where many different cultures have interbred.
+1,Light brown
+2,Brown
+1,Dark brown
+2,Black
+1,Light grey
+2,Grey
+1,Dark grey
+1,White
+1,Auburn (reddish-brown)
+1,Red
+2,Light blonde
+1,Sandy
+1,Strawberry blonde
+2,Dark blonde
+1,[Hair Colour_Human] with [Hair Colour_Human] highlights <font size=2>{Color~Green,(D+1)}</font>|D+1|
+1,[Unusual hair colour_Human] <font size=2>{Color~Green,(D+1)}</font>|D+1|
+
+;!Hair Colour_Dwarf
+2,Black
+3,Light brown
+3,Brown
+2,Dark brown
+1,Light grey
+2,Grey
+1,Dark grey
+1,Black and grey
+1,White
+1,Grey and white
+1,Dark auburn (reddish-brown)
+1,Light auburn (reddish-brown)
+1,[Unusual hair colour_Dwarf]
+
+;!Hair Colour_Gnome
+4,White
+2,Light blond
+2,Blonde
+2,Dark blond
+2,Light grey
+2,Dark grey
+2,Light brown
+2,Brown
+1,Auburn (reddish-brown)
+1,[Unusual hair colour_Gnome]
+
+;!Hair Colour_Elf
+1,White
+1,Light grey
+1,Grey
+1,Dark grey
+3,Light blonde
+3,Blonde
+3,Dark blonde
+1,Lavender
+1,Violet
+1,Light brown
+1,Dark brown
+1,Black
+1,[Hair Colour_Elf] with [Hair Colour_Elf] highlights <font size=2>{Color~Green,(D+1)}</font>|D+1|
+1,[Unusual hair colour_Human] <font size=2>{Color~Green,(D+1)}</font>|D+1|
+
+;!Hair Colour_HalfOrc
+10,Black
+2,Charcoal
+2,Grey
+1,Light grey
+1,Albino
+4,[Hair Colour_Human]
+
+;Tinted
+19,
+#1, (tinted, original color: {If~{Or~{Param~Race,%Race%}=Elf,{Param~Race,%Race%}=Half Elf}=1?[Hair Colour_Elf]/[Hair Colour_Human]})
+1, (tinted [~Miscellaneous.ColorNoType])
+
+;!Unusual hair colour_Human
+1,{Cap~[Miscellaneous.ColorNoType]}{Unlock~Unusual hair colour_Human,1}
+1,Bright red (apple/cherry)
+1,Deep blue
+1,Pale blue
+1,Light green
+1,Dark green
+1,Yellow (lemon)
+1,Orange
+1,Purple
+1,{If~{Or~{Param~Race,%Race%}=Elf,{Param~Race,%Race%}=Half Elf}=1?Auburn (reddish-brown)/Violet}
+1,{If~{Or~{Param~Race,%Race%}=Elf,{Param~Race,%Race%}=Half Elf}=1?Auburn (reddish-brown)/Lavender}
+1,Crimson
+1,[Unusual hair colour_Human] and [Unusual hair colour_Human]
+
+;!Unusual hair colour_Dwarf
+6,Dirty blonde <font size=2>{Color~Green,(D+1)}</font>|D+1|
+6,Blonde <font size=2>{Color~Green,(D+1)}</font>|D+1|
+2,Pale blonde <font size=2>{Color~Green,(D+1)}</font>|D+1|
+1,Red <font size=2>{Color~Green,(D+2)}</font>|D+2|
+1,Green <font size=2>{Color~Green,(D+2)}</font>|D+2|
+1,Blue <font size=2>{Color~Green,(D+2)}</font>|D+2|
+1,Orange <font size=2>{Color~Green,(D+2)}</font>|D+2|
+1,Violet <font size=2>{Color~Green,(D+2)}</font>|D+2|
+1,Crimson <font size=2>{Color~Green,(D+2)}</font>|D+2|
+
+;!Unusual hair colour_Gnome
+6,Dark brown
+6,Black <font size=2>{Color~Green,(D+1)}</font>|D+1|
+2,Pale blue <font size=2>{Color~Green,(D+1)}</font>|D+1|
+1,Red <font size=2>{Color~Green,(D+2)}</font>|D+2|
+1,Green <font size=2>{Color~Green,(D+2)}</font>|D+2|
+1,Blue <font size=2>{Color~Green,(D+2)}</font>|D+2|
+1,Orange <font size=2>{Color~Green,(D+2)}</font>|D+2|
+1,Violet <font size=2>{Color~Green,(D+2)}</font>|D+2|
+1,Crimson <font size=2>{Color~Green,(D+2)}</font>|D+2|
+
+;Hair Special
+1,Hair moves as if blows even in still weather <font size=2>{Color~Green,(D+2)}</font>|D+2|
+1,Hair always point toward the [Miscellaneous.Direction] <font size=2>{Color~Green,(D+2)}</font>|D+2|
+1,Hair is always freezing cold with small icicles
+1,Hair is always clean
+1,Hair is always wet <font size=2>{Color~Green,(D+1)}</font>|D+1|
+1,Hair has {AorAn~[Miscellaneous.Odor]} <font size=2>{Color~Green,(D+2)}</font>|D+2|
+1,Hair is made of fibres of [Miscellaneous.Material] <font size=2>{Color~Green,(D+2)}</font>|D+2|
+1,Hair is made of fibres of glass <font size=2>{Color~Green,(D+2)}</font>|D+2|
+1,Hair is made of fibres of [Miscellaneous.Metal] <font size=2>{Color~Green,(D+2)}</font>|D+2|
+1,Hair is made of light <font size=2>(shadow in 5' radius) {Color~Green,(D+3)}</font>|D+3|
+1,Hair changes colour with seasons (Summer: {Bold~as rolled first}, Spring: {Bold~[Hair Colour_Human]}, Fall: {Bold~[Hair Colour_Human]}, Winter: {Bold~[Hair Colour_Human]})
+1,Hair is translucent <font size=2>{Color~Green,(D+1)}</font>|D+1|
+1,Hair is invisible – character seems bald unless touched
+1,Hairstyle changes every 2d6 days, spontaneously <font size=2>{Color~Red,(D-1)}</font>|D-1|
+1,Hair length changes every 2d6 days, spontaneously <font size=2>{Color~Red,(D-1)}</font>|D-1|
+1,Hair cannot be cut except by magic weapons
+1,Hair grows to a set length in 1d4 hours, no matter how short it was cut
+1,Hair is made from living tiny vipers <font size=2>{Color~Green,(D+3)}</font>|D+3|
+1,{Cap~{AorAn~[Creatures.Familiar]}} lives in [HisHer=%Gender%] hair <font size=2>{Color~Green,(D+3)}</font>|D+3|
+1,Hair become static when magic is activated within 30'
+1,Hair become agitated when {AorAn~[Creatures.Type]} comes within 60'
+1,Hair pushes away anything put on the head
+1,Hair can never be combed
+
+;HairOLD
+2,No hairs
+2,Black, [Style][Tinted]
+3,Blond, [Style][Tinted]
+3,Brown, [Style][Tinted]
+3,Dark Brown, [Style][Tinted]
+1,Grey, [Style][Tinted]
+3,Light Brown, [Style][Tinted]
+2,Red, [Style][Tinted]
+1,Sandy, [Style][Tinted]
+1,Straw-colored, [Style][Tinted]
+1,White, [Style][Tinted]
+1,{Cap~[Miscellaneous.Color]}, [Style][Tinted]
+
+;Style
+2,short and wavy
+2,short and straight
+2,short and curly
+2,short and spiked
+3,moderate in length and wavy
+3,moderate in length and straight
+2,moderate in length and curly
+1,long and wavy, unbound
+1,long and wavy, tied in the back
+1,long and ratty
+1,long and straight, unbound
+1,long and straight, tied in the back
+1,long and curly, unbound
+1,long and curly, tied in the back
+1,mohawk
+2,wild and all over
+
+# ------------------- Eyes --------------------
+:Eyes
+1,|temp=0|[Eyes2=%Race%]
+
+:Eyes2
+# Random ALL
+1,[Eyes_OTHER]
+# Random PH3,5
+2,[Eyes2={Dice~1d7+2}]
+# dwarf
+3,[~Eyes_Dwarf]{If~{Dice~1d100}=1? (Special: [~Eyes Special])}
+# elf
+4,[~Eyes_Elf]{If~{Dice~1d100}=1? (Special: [~Eyes Special])}
+# gnome
+5,[~Eyes_Gnome]{If~{Dice~1d100}=1? (Special: [~Eyes Special])}
+# halfling
+6,[~Eyes_Human]{If~{Dice~1d100}=1? (Special: [~Eyes Special])}
+# Half-elf
+7,{If~%HEDominant%=Elf? (elven) [Eyes2=4]/ (human) [Eyes2=9]}
+# half-orc
+8,[~Eyes_HalfOrc]{If~{Dice~1d100}=1? (Special: [~Eyes Special])}
+# human
+9,[~Eyes_Human]{If~{Dice~1d100}=1? (Special: [~Eyes Special])}
+# OTHER
+10-100,[Eyes_OTHER]
+
+;Eyes_OTHER
+1,[~EyesOLD]
+1,[Eyes2=9]
+
+;!Eyes_Human
+1,[Eyes_Unusual_Human]{Unlock~Eyes_Human,1} <font size=2>{Color~Green,(D+1)}</font>|D+1|
+3,Light brown
+3,Brown
+3,Dark brown
+4,Black
+1,Light grey
+1,Grey
+1,Light blue
+2,Blue
+1,Green
+
+;!Eyes_Dwarf
+1,[Eyes_Unusual_Dwarf]{Unlock~Eyes_Dwarf,1} <font size=2>{Color~Green,(D+1)}</font>|D+1|
+3,Black
+1,Charcoal
+2,Light brown
+6,Brown
+1,Dark brown
+1,Light grey
+1,Dark grey
+2,Ash grey
+1,Light yellow
+1,Dark yellow
+
+;!Eyes_Elf
+1,[Eyes_Unusual_Elf]{Unlock~Eyes_Elf,1} <font size=2>{Color~Green,(D+1)}</font>|D+1|
+2,Light grey
+4,Grey
+2,Dark grey
+2,Light blue
+4,Blue
+2,Dark blue
+1,Light green
+2,Green
+
+;!Eyes_Gnome
+1,[Eyes_Unusual_Gnome]{Unlock~Eyes_Gnome,1} <font size=2>{Color~Green,(D+1)}</font>|D+1|
+5,Light blue
+2,Blue
+3,Dark blue
+1,Indigo
+1,Light green
+2,Green
+1,Dark green
+2,Black
+2,Dark grey
+
+;!Eyes_HalfOrc
+1,[Eyes_Unusual_Human]{Unlock~Eyes_HalfOrc,1} <font size=2>{Color~Green,(D+1)}</font>|D+1|
+10,Black
+3,Crimson
+1,Yellow
+2,Grey
+1,Dark grey
+1,Ash
+1,Light blue
+
+;Eyes_Unusual_Human
+5,One [Eyes_Human] and one [Eyes_Human]
+2,Bright green
+2,Red
+2,Yellow
+2,Purple
+2,Violet
+2,Lavender
+2,Pink
+2,Crimson
+2,White
+2,Indigo
+2,Gold
+2,Silver
+1,{Cap~[Miscellaneous.Color]}
+
+;Eyes_Unusual_Dwarf
+5,One [Eyes_Dwarf] and one [Eyes_Dwarf]
+4,Light blue
+4,Blue-grey
+6,Bright blue
+2,Gold
+2,Purple
+2,Violet
+2,Red
+6,Light green
+4,Green
+8,Dark green
+1,{Cap~[Miscellaneous.Color]}
+
+;Eyes_Unusual_Elf
+2,One [Eyes_Elf] and one [Eyes_Elf]
+2,Indigo
+2,Red
+2,Yellow
+2,Purple
+2,Violet
+2,Lavender
+2,Light brown
+2,Brown
+2,Dark brown
+2,Black
+2,Gold
+2,Silver
+1,{Cap~[Miscellaneous.Color]}
+
+;Eyes_Unusual_Gnome
+5,One [Eyes_Elf] and one [Eyes_Elf]
+4,Light grey
+4,Ash
+6,Dark grey
+2,Gold
+2,Purple
+2,Violet
+2,Red
+6,Light brown
+4,Brown
+8,Dark brown
+1,{Cap~[Miscellaneous.Color]}
+
+;Eyes Special
+1,Eyes are a solid colour <font size=2>{Color~Green,(D+2)}</font>|D+2|
+1,Eye colour changes rapidly <font size=2>{Color~Green,(D+1)}</font>|D+1|
+1,Eyes are slit-shaped <font size=2>{Color~Green,(D+2)}</font>|D+2|
+1,Eyes contain 2 or more colours ({Loop~{Dice~1d4+1},[~Eyes_Human], }) <font size=2>{Color~Green,(D+1)}</font>|D+1|
+1,Eyes have no pupils <font size=2>{Color~Green,(D+1)}</font>|D+1|
+1,Colour is translucent <font size=2>{Color~Green,(D+1)}</font>|D+1|
+1,Patterns or markings appear in eyes ([~Miscellaneous.Patterns]) <font size=2>{Color~Green,(D+2)}</font>|D+2|
+1,Eyes glow in darkness <font size=2>{Color~Green,(D+3)}</font>|D+3|
+1,Symbol on pupil ([~Miscellaneous.Shape]) <font size=2>{Color~Green,(D+1)}</font>|D+1|
+1,Rune on pupil ([~Rune Generator.GenRune]) <font size=2>{Color~Green,(D+1)}</font>|D+1|
+1,Has the eyes of a [~Creatures.Animal] <font size=2>{Color~Green,(D+3)}</font>|D+3|
+1,The white of the eyes are full of blood  <font size=2>{Color~Green,(D+1)}</font>|D+1|
+1,The white of the eyes is [~Miscellaneous.Color] colored <font size=2>{Color~Green,(D+2)}</font>|D+2|
+1,Eyes are made of [~Miscellaneous.Material] <font size=2>{Color~Green,(D+2)}</font>|D+2|
+1,Eyes are extemely small <font size=2>{Color~Green,(D+2)}</font>|D+2|
+1,Eyes are extremely large <font size=2>{Color~Green,(D+2)}</font>|D+2|
+1,Eyes have really long eyelashes <font size=2>{Color~Green,(D+1)}</font>|D+1|
+1,Eyes are so close together, they are almost touching <font size=2>{Color~Green,(D+3)}</font>|D+3|
+1,Eyes are really wide apart, almost on the side of [HisHer=%Gender%] head <font size=2>{Color~Green,(D+3)}</font>|D+3|
+1,No eyebrows
+1,Has wide and long eyebrow
+1,Has a third eye {If~{Dice~1d2}=1?in [HisHer=%Gender%] forehead/at the back of [HisHer=%Gender%] head} <font size=2>{Color~Green,(D+3)}</font>|D+3|
+1,Uneven eyes <font size=2>{Color~Green,(D+2)}</font>|D+2|
+
+;!EyesOLD
+10,Black
+10,Blue
+10,Brown
+10,Green
+10,Light Brown
+5,One [EyesOLD] and one [EyesOLD]
+1,{Cap~[Miscellaneous.Color]}
+
+# ------------------- Skin --------------------
+:Skin
+1,|temp=0|[Skin2=%Race%]
+
+:Skin2
+# Random ALL
+1,[Skin_OTHER]
+# Random PH3,5
+2,[Skin2={Dice~1d7+2}]
+# dwarf
+3,[~Skin_Texture_Human], [~Skin_Dwarf]{If~{Dice~1d100}=1? (Special: [~Skin Special])}
+# elf
+4,[~Skin_Texture_Elf], [~Skin_Elf]{If~{Dice~1d500}=1? (Special: [~Skin Special])}
+# gnome
+5,[~Skin_Texture_Human], [~Skin_Gnome]{If~{Dice~1d100}=1? (Special: [~Skin Special])}
+# halfling
+6,[~Skin_Texture_Human], [~Skin_Human]{If~{Dice~1d100}=1? (Special: [~Skin Special])}
+# Half-elf
+7,{If~%HEDominant%=Elf? (elven) [Skin2=4]/ (human) [Skin2=9]}
+# half-orc
+8,[~Skin_Texture_Human], [~Skin_HalfOrc]{If~{Dice~1d100}=1? (Special: [~Skin Special])}
+# human
+9,[~Skin_Texture_Human], [~Skin_Human]{If~{Dice~1d100}=1? (Special: [~Skin Special])}
+# OTHER
+10-100,[Skin_OTHER]
+
+;Skin_OTHER
+1,[~SkinOLD]
+1,[Skin2=9]
+
+;!Skin_Human
+1,[Skin_Unusual_Human]{Unlock~Skin_Human,1} <font size=2>{Color~Green,(D+2)}</font>|D+2|
+1,extremely pale (almost albino)
+1,pale
+1,light tan
+1,medium tan
+1,dark tan
+1,light brown
+1,brown
+1,dark brown
+1,very dark brown
+1,light red-brown
+1,dark red-brown
+
+;!Skin_Dwarf
+1,[Skin_Unusual_Human]{Unlock~Skin_Dwarf,1} <font size=2>{Color~Green,(D+2)}</font>|D+2|
+# XXX what is ruddy ????
+1,ruddy
+1,dark brown
+1,brown
+1,bronzed
+1,tan
+1,light red-brown
+1,dark red-brown
+
+:Skin_Elf
+1,{If~{Dice~1d100}<=5?unusually {If~{Dice~1d2}=1?light-/dark }skinned for [HisHer=%Gender%] people
+_     /{If~{Dice~1d100}<=10?unusually [Skin_Human]/'standard' colouration for [HisHer=%Gender%] elvish type}
+_}
+
+;!Skin_Gnome
+1,[Skin_Unusual_Human]{Unlock~Skin_Gnome,1} <font size=2>{Color~Green,(D+2)}</font>|D+2|
+1,very pale
+1,pale
+1,light tan
+1,tan
+1,dark tan
+# XXX what is ruddy ????
+1,ruddy
+1,light red-brown
+
+;!Skin_HalfOrc
+10,[Skin_Human]{Unlock~Skin_HalfOrc,1-10}
+2,Grey
+1,Grey-green
+1,Obsidian
+2,Albino
+1,Blue-grey
+1,Ash grey
+1,Light grey
+1,Pale pink
+
+;Skin_Unusual_Human
+2,albino
+2,ash grey
+2,blue
+2,gold
+2,green
+2,lemon
+2,obsidian
+2,orange
+2,purple
+2,scarlet
+2,silver
+2,violet
+2,[Miscellaneous.Color]
+1,[Miscellaneous.Material]
+
+;Skin_Texture_Human
+7,Smooth
+1,Freckled
+1,Greyish
+1,Pimply
+5,Rough
+1,Sickly
+1,Weather-beaten
+2,Wrinkled
+
+:Skin_Texture_Elf
+1,{If~{Dice~1d100}<=25?[Skin_Texture_Human]/Smooth}
+
+;Skin Special
+1,Translucent <font size=2>{Color~Green,(D+1)}</font>|D+1|
+1,Bi-coloured, previous and {Bold~[Skin_Human]} <font size=2>{Color~Green,(D+2)}</font>|D+2|
+1,Furred, {If~{Dice~1d4}=1?long/really short} <font size=2>{Color~Green,(D+3)}</font>|D+3|
+1,Scaled{If~{Dice~1d6}=1? ([~Miscellaneous.Color])} <font size=2>{Color~Green,(D+3)}</font>|D+3|
+1,Colour shifts every 1d4 days <font size=2>{Color~Green,(D+1)}</font>|D+1|
+1,Unreadable  symbols  appear  and  fade <font size=2>{Color~Green,(D+2)}</font>|D+2|
+
+:SkinOLD
+1,[~Skin_Texture_Human], [~Complexion]
+
+;Complexion
+1,pale
+1,sickly
+4,dark
+5,fair
+5,light
+5,tan
+1,greyish
+
+# ------------------- General Features --------------------
+
+:Features
+1,|temp=0||feetspecial=0|[Features2=%Race%]
+
+:Features2
+# Random ALL
+1,[Features2=9]
+# Random PH3,5
+2,[Features2={Dice~1d7+2}]
+# dwarf
+3,{If~{Dice~1d100}<=5?[Tab]-Arms: [~Arms Special]<br>}
+_{If~{Dice~1d100}<=1?[Tab]-Ears: [~Ears Special]<br>}
+_{If~{Dice~1d100}<=5?[Tab]-Feets: [~Feet Special]|feetspecial=1|<br>}
+_{If~{Dice~1d100}<=5?[Tab]-Hands: [~Hands Special]<br>}
+_{If~{Dice~1d100}<=5?[Tab]-Legs: [~Legs Special]<br>}
+_{If~{Dice~1d100}<=5?[Tab]-Mouth: [~Mouth Special]<br>}
+_{If~{Dice~1d100}<=25?[Tab]-Nose: [~Nose Special]<br>}
+# elf
+4,{If~{Dice~1d100}<=1?[Tab]-Arms: [~Arms Special]<br>}
+_{If~{Dice~1d100}<=20?[Ears Special_Elf1]}
+_{If~{Dice~1d100}<=1?[Tab]-Feets: [~Feet Special]|feetspecial=1|<br>}
+_{If~{Dice~1d100}<=1?[Tab]-Hands: [~Hands Special]<br>}
+_{If~{Dice~1d100}<=1?[Tab]-Legs: [~Legs Special]<br>}
+_{If~{Dice~1d100}<=1?[Tab]-Mouth: [~Mouth Special]<br>}
+_{If~{Dice~1d100}<=1?[Tab]-Nose: [~Nose Special]<br>}
+# gnome
+5,{If~{Dice~1d100}<=5?[Tab]-Arms: [~Arms Special]<br>}
+_{If~{Dice~1d100}<=15?[Tab]-Ears: [~Ears Special]<br>}
+_{If~{Dice~1d100}<=5?[Tab]-Feets: [~Feet Special]|feetspecial=1|<br>}
+_{If~{Dice~1d100}<=5?[Tab]-Hands: [~Hands Special]<br>}
+_{If~{Dice~1d100}<=5?[Tab]-Legs: [~Legs Special]<br>}
+_{If~{Dice~1d100}<=5?[Tab]-Mouth: [~Mouth Special]<br>}
+_{If~{Dice~1d100}<=40?[Tab]-Nose: [~Nose Special]<br>}
+# halfling
+6,{If~{Dice~1d100}<=5?[Tab]-Arms: [~Arms Special]<br>}
+_{If~{Dice~1d100}<=10?[Tab]-Ears: [~Ears Special]<br>}
+_{If~{Dice~1d100}<=5?[Tab]-Feets: [~Feet Special]|feetspecial=1|<br>}
+_{If~{Dice~1d100}<=5?[Tab]-Hands: [~Hands Special]<br>}
+_{If~{Dice~1d100}<=5?[Tab]-Legs: [~Legs Special]<br>}
+_{If~{Dice~1d100}<=5?[Tab]-Mouth: [~Mouth Special]<br>}
+_{If~{Dice~1d100}<=15?[Tab]-Nose: [~Nose Special]<br>}
+# Half-elf
+7,{If~%HEDominant%=Elf?[Features2=4]/[Features2=9]}
+# half-orc
+8,|OrcishFeature=No|
+_{If~{Dice~1d100}<=10?[Tab]-Arms: [~Arms Special]<br>}
+_{If~{Dice~1d100}<=20?[Tab]-Ears: [~Ears Special]<br>}
+_{If~{Dice~1d100}<=10?[Tab]-Feets: [~Feet Special]|feetspecial=1|<br>}
+_{If~{Dice~1d100}<=10?[Tab]-Hands: [~Hands Special]<br>}
+_{If~{Dice~1d100}<=10?[Tab]-Legs: [~Legs Special]<br>}
+_{If~{Dice~1d100}<=10?[Tab]-Mouth: [~Mouth Special]<br>}
+_{If~{Dice~1d100}<=30?[Tab]-Nose: [~Nose Special]<br>}
+_{If~{Dice~1d100}<=50?[Tab]-Orcish: [~Orcish Special]|OrcishFeature=Yes|<br>}
+# human
+9,{If~{Dice~1d100}<=5?[Tab]-Arms: [~Arms Special]<br>}
+_{If~{Dice~1d100}<=10?[Tab]-Ears: [~Ears Special]<br>}
+_{If~{Dice~1d100}<=5?[Tab]-Feets: [~Feet Special]|feetspecial=1|<br>}
+_{If~{Dice~1d100}<=5?[Tab]-Hands: [~Hands Special]<br>}
+_{If~{Dice~1d100}<=5?[Tab]-Legs: [~Legs Special]<br>}
+_{If~{Dice~1d100}<=5?[Tab]-Mouth: [~Mouth Special]<br>}
+_{If~{Dice~1d100}<=15?[Tab]-Nose: [~Nose Special]<br>}
+# OTHER
+10-100,[Features2=9]
+
+;!Arms Special
+6,Short
+8,Long
+2,Tend to stick out
+1,[Side] one twisted <font size=2>{Color~Green,(D+1)}</font>|D+1|
+1,[Side] one crippled <font size=2>{Color~Green,(D+1)}</font>|D+1|
+2,Different sizes (Right: {Bold~[Arms Special]}, Left: {Bold~[Arms Special]})
+
+;Ears Special
+1,Very small
+4,Small
+5,Large
+2,Very large
+2,Low
+1,Oddly shaped
+1,Missing [Side] ear <font size=2>{Color~Green,(D+1)}</font>|D+1|
+3,Scarred/cut
+1,Oddly angled
+1,Pointed ears <font size=2>{Color~Green,(D+2)}</font>|D+2|
+
+:Ears Special_Elf1
+1,[Tab]-Ears: [~Ears Special_Elf] <font size=2>{Color~Green,(D+1)}</font>|D+1|<br>
+
+;Ears Special_Elf
+1,Flared back
+1,Tilted outwards
+1,Extremely pointy
+1,Rounded
+1,Bent or angled
+1,Flat against skull
+1,Very short
+1,Very long
+
+;Feet Special
+# Note that feet are often covered by boots or shoes,  so  only  exceptionally  odd  feet  will  likely
+# be noticed by casual observation. If the person is habitually barefoot, odd feet give a T+1 modifier; 
+# otherwise, they have no impact on tracking except as noted below.
+4,Wide
+4,Narrow
+4,Long
+4,Short
+1,Prehensile toes
+1,Missing {Bold~{Dice~1d3}} toes on [Side] feet
+1,Extra {Bold~{Dice~1d3}} toes on [Side] feet
+1,Twisted/misshapen (cannot wear normal shoes) <font size=2>{Color~Green,(D+1)}</font>|D+1|) <font size=2>{Color~Brown,(T+2)}</font>|T+2|
+
+;Hands Special
+6,Splay fingered
+6,Stubby fingers
+2,Missing {Dice~1d3} finger(s) on [HisHer=%Gender%] [Side] hand <font size=2>{Color~Green,(D+1)}</font>|D+1|
+1,Mangled [Side] hand
+1,Broken [Side] hand
+2,Unusually long fingers
+2,Extra finger on [Side] hand <font size=2>{Color~Green,(D+1)}</font>|D+1|
+1,Webbed hands
+1,Prominent claws <font size=2>{Color~Green,(D+2)}</font>|D+2|
+
+;Legs Special
+3,Long <font size=2>{Color~Brown,(T+1)}</font>|T+1|
+3,Short <font size=2>{Color~Brown,(T+1)}</font>|T+1|
+2,Bow-legged <font size=2>{Color~Brown,(T+1)}</font>|T+1|
+1,Knock-kneed <font size=2>{Color~Brown,(T+1)}</font>|T+1|
+1,Odd gait <font size=2>{Color~Green,(D+1)}</font>|D+1| <font size=2>{Color~Brown,(T+2)}</font>|T+2|
+1,Very odd gait <font size=2>{Color~Green,(D+2)}</font>|D+2| <font size=2>{Color~Brown,(T+2)}</font>|T+2|
+1,Different sizes <font size=2>{Color~Green,(D+1)}</font>|D+1|) <font size=2>{Color~Brown,(T+2)}</font>|T+2|
+
+;Mouth Special
+5,Wide
+2,Crooked
+4,Thin-lipped
+2,Scarred
+2,Missing {Bold~{Dice~1d12}} teeth <font size=2>{Color~Green,(D+1)}</font>|D+1|
+2,Jagged teeth
+1,Perfect teeth <font size=2>{Color~Green,(D+1)}</font>|D+1|
+1,Pointy teeth <font size=2>{Color~Green,(D+1)}</font>|D+1|
+1,[~Miscellaneous.Metal] teeth
+1,Prominent fangs <font size=2>{Color~Green,(D+2)}</font>|D+2|
+1,Speech impediment due to odd throat structure <font size=2>{Color~Green,(D+2)}</font>|D+2|
+1,Speech impediment due to odd mouth structure <font size=2>{Color~Green,(D+2)}</font>|D+2|
+
+;Nose Special
+4,Long
+5,Short
+1,Tiny
+2,Wide
+4,Narrow
+2,Curved
+1,Hooked
+1,Flat
+1,Splayed nostrils
+1,Only one nostril
+1,Broken
+1,Extremely large <font size=2>{Color~Green,(D+1)}</font>|D+1|
+1,Missing <font size=2>{Color~Green,(D+2)}</font>|D+2|
+1,Pig nose <font size=2>{Color~Green,(D+2)}</font>|D+2|
+
+;Orcish Special
+1,Uneven eyes <font size=2>{Color~Green,(D+2)}</font>|D+2|
+4,Pointed ears <font size=2>{Color~Green,(D+2)}</font>|D+2|
+5,Prominent fangs <font size=2>{Color~Green,(D+2)}</font>|D+2|
+5,Prominent claws <font size=2>{Color~Green,(D+2)}</font>|D+2|
+2,Elongated face <font size=2>{Color~Green,(D+2)}</font>|D+2|
+1,Unusual muscle structure <font size=2>{Color~Green,(D+2)}</font>|D+2|
+1,Speech impediment due to odd throat structure <font size=2>{Color~Green,(D+2)}</font>|D+2|
+1,Speech impediment due to odd mouth structure <font size=2>{Color~Green,(D+2)}</font>|D+2|
+1,Pig nose <font size=2>{Color~Green,(D+2)}</font>|D+2|
+
+# ------------------- Clothing --------------------
+;Clothing
+1,[~ClothingClean], [~Clothing Type][Clothing Age]
+_{If~{Dice~1d100}<=10?[ClothingDistinctive]}
+
+;Clothing Age
+8,
+2, {Bold~[Clothing Age_Odd]}
+
+;Clothing Age_Odd
+3,(old style<i>[Clothing Age_Odd_Old]</i>)
+6,(foreign: [~Clothing Age_Odd_Foreign])
+1,(old style<i>[Clothing Age_Odd_Old]</i> and foreign: [~Clothing Age_Odd_Foreign])
+
+;Clothing Age_Odd_Foreign
+801,[Countries.Countries]
+99,other Plane ([Countries.Planes])
+99,other Crystal Sphere
+1,other dimension (ex: Modern)
+
+;Clothing Age_Odd_Old
+900,
+99, from last century
+1, from last millenium
+
+;ClothingClean
+5,clean
+1,spotlessly clean
+1,all torn-up
+1,dirty{If~{Dice~1d100}<90? with [Stains]}
+1,unkept
+
+:ClothingDistinctive
+1,<br>[Tab]|Unusual=0|-Distinctive Elements: <br>[ClothingDistinctive2]{If~%Unusual%=1?[ClothingDistinctiveElement_Unusual]}
+
+;ClothingDistinctive2
+50,{Space~10}[ClothingDistinctiveElement]
+25,{Space~10}[ClothingDistinctiveElement]<br>{Space~10}[ClothingDistinctiveElement]
+15,{Space~10}[ClothingDistinctiveElement]<br>{Space~10}[ClothingDistinctiveElement]<br>{Space~10}[ClothingDistinctiveElement]
+10,{Space~10}[ClothingDistinctiveElement]<br>{Space~10}[ClothingDistinctiveElement]<br>{Space~10}[ClothingDistinctiveElement]<br>{Space~10}[ClothingDistinctiveElement]
+
+;ClothingDistinctiveElement
+2,<u>Headcovering</u>: [ClothingDistinctiveElement_Headcovering]
+4,<u>Body/Torso</u>: [ClothingDistinctiveElement_Torso]
+1,<u>Sleeves</u>: [ClothingDistinctiveElement_Sleeves]
+1,<u>Leggings</u>: [ClothingDistinctiveElement_Leggings]
+1,<u>Shoes</u>: [ClothingDistinctiveElement_Shoes]
+1,<u>Other</u>: [ClothingDistinctiveElement_Other]
+
+:!ClothingDistinctiveElement_Headcovering
+01-25,none (where some type is usually required, or headcovering where none is the norm)
+26-30,unusually large
+31-35,unusually small
+36-50,exceptionally bright colour ([~Miscellaneous.ColorNoType])
+51-60,odd decoration (feathers, bright buttons, a gold coin affixed to the brim)
+61-65,incorrect gender (i.e. a man wearing what is normally a woman’s hat)
+66-67,worn backwards
+68-70,very new
+71-80,old and worn
+81-82,odd lining
+83-90,wrong racial style (wearing a [~Creatures.Humanoid2] style hat)
+91-95,falling off or otherwise poorly affixed
+96-100,wrong material
+
+:!ClothingDistinctiveElement_Torso
+01-20,improper colour ([~Miscellaneous.ColorNoType]; a beggar in a bright purple tunic or a noblewoman dressed in dull browns)
+21-25,badly ripped
+26-30,too tight
+31-35,too loose
+36-40,long
+41-45,short
+46-50,multi-coloured ([~Miscellaneous.ColorNoType=1] or single-coloured ([~Miscellaneous.ColorNoType]) if multi is the norm)
+51-64,odd decoration (medals, odd shaped or sized buttons, extra pockets)
+65-67,incorrect gender
+68-70,very new
+71-80,old and worn
+81-82,improper fabric
+83-86,rare or exotic fabric
+87-90,wrong racial style (wearing a [~Creatures.Humanoid2] style vestment)
+91-95,falling off or otherwise poorly affixed
+96-100,wrong material
+
+:!ClothingDistinctiveElement_Sleeves
+01-20,improper colour ([~Miscellaneous.ColorNoType]; a beggar in a bright purple tunic or a noblewoman dressed in dull browns)
+21-25,badly ripped
+26-30,too tight
+31-35,too loose
+36-40,long
+41-45,short
+46-50,multi-coloured ([~Miscellaneous.ColorNoType=1] or single-coloured ([~Miscellaneous.ColorNoType]) if multi is the norm)
+51-64,odd decoration (medals, odd shaped or sized buttons, extra pockets)
+65-67,incorrect gender
+68-70,very new
+71-80,old and worn
+81-82,improper fabric
+83-86,rare or exotic fabric
+87-90,wrong racial style (wearing a [~Creatures.Humanoid2] style vestment)
+91-95,falling off or otherwise poorly affixed
+96-100,wrong material
+
+:!ClothingDistinctiveElement_Leggings
+01-20,improper colour ([~Miscellaneous.ColorNoType]; a beggar in a bright purple tunic or a noblewoman dressed in dull browns)
+21-25,badly ripped
+26-30,too tight
+31-35,too loose
+36-40,long
+41-45,short
+46-50,multi-coloured ([~Miscellaneous.ColorNoType=1] or single-coloured ([~Miscellaneous.ColorNoType]) if multi is the norm)
+51-64,odd decoration (medals, odd shaped or sized buttons, extra pockets)
+65-67,incorrect gender
+68-70,very new
+71-80,old and worn
+81-82,improper fabric
+83-86,rare or exotic fabric
+87-90,wrong racial style (wearing a [~Creatures.Humanoid2] style vestment)
+91-95,falling off or otherwise poorly affixed
+96-100,wrong material
+
+:!ClothingDistinctiveElement_Shoes
+01-20,barefoot (or not barefoot if barefootedness is appropriate)
+21-25,wrong season (heavy winter boots in a hot summer)
+26-30,too large
+31-32,too small
+33-40,wrong or odd/exotic colour
+41-44,exotic material (dragon hide or tiger fur; [~Creatures.Start])
+45-60,badly worn/damaged
+61-62,very new
+63-70,wrong material
+71-74,wrong gender
+75-80,wrong racial style (i.e. an elf wearing heavy dwarven iron boots)
+81-100,mismatched
+
+;!ClothingDistinctiveElement_Other
+3,<i>unusual</i> cape/cloak|Unusual=1|
+3,<i>unusual</i> symbol or insignia prominently displayed ([~Tatoo])|Unusual=1|
+3,large or gaudy jewellery
+1,wholly inappropriate – wrong culture ([~Countries.Land])
+1,wholly inappropriate – wrong race ([~Creatures.Humanoid2])
+1,wholly inappropriate – wrong class ([~Miscellaneous.Class])
+3,full mask ([~Creatures.All])
+3,<i>unusual</i> gloves|Unusual=1|
+3,<i>unusual</i> belt|Unusual=1|
+3,many sacks or pouches
+3,<i>unusual</i> scarf or necktie|Unusual=1|
+3,religious vestments on layperson ([Religion.Deities(2)])
+3,ribbons or streamers bedecking clothing
+3,bells on clothing
+3,many hidden folds or pockets (+1 on Sleight of Hand checks)
+3,glowing
+3,translucent
+3,changing colours ([~Miscellaneous.ColorNoType=1])
+3,clothes or specific item ripples or moves under its own power
+3,item randomly changes shape or style every 1d6 minutes
+3,extremely odd decoration, such as petrified eyeballs
+3,clothing is only an illusion; dispel magic will render the wearer naked.
+
+:ClothingDistinctiveElement_Unusual
+1,<br>{Space~10}<font size=2>(<i>‘Unusual’</i> can mean ‘exists when it normally does not’ or ‘does not exist when it normally does’, in addition to being an odd variant)</font>
+
+:Clothing Show
+1,<font size=2>([Clothing Meaning=%Meaning%])</font>
+
+:Clothing Meaning
+# artisan
+1,shirt with buttons, skirt or pants with a drawstring, shoes{If~{Dice~1d2}=1?, and a {If~{Dice~1d2}=1?cap/hat}}.{If~{Dice~1d3}>1? It also include a {If~{Dice~1d3}=1?belt/{If~{Dice~1d2}=1?leather/cloth apron}} for carrying tools}
+# cleric
+2,ecclesiastical clothes for performing priestly functions, not for adventuring
+# cold
+3,wool coat, linen shirt, wool cap, heavy cloak, thick pants or skirt, and boots. This outfit grants a {Color~Green,+5 circumstance bonus} on Fortitude saving throws against exposure to cold weather
+# courtier
+4,fancy, tailored clothes in whatever fashion happens to be the current style in the courts of the nobles
+# entertainer
+5,flashy, perhaps even gaudy, clothes for entertaining. While the outfit looks whimsical, its practical design lets you tumble, dance, walk a tightrope, or just run (if the audience turns ugly)
+# explorer
+6,full set of clothes for someone who never knows what to expect. It includes sturdy boots, leather breeches or a {If~{Dice~1d2}=1?leather skirt/leather overtunic worn over a cloth skirt}, a belt, a shirt{If~{Dice~1d2}=1? with a {If~{Dice~1d2}=1?vest/jacket}}, gloves, and a cloak. The clothes have plenty of pockets (especially the cloak){If~{Dice~1d6}>1?. The outfit also includes {If~{Dice~1d3}=1?a scarf/{If~{Dice~1d2}=1?a wide-brimmed hat/a scarf and a wide-brimmed hat}}}
+# monk
+7,simple outfit includes sandals, loose breeches, and a loose shirt, and is all bound together with sashes. The outfit is designed to give you maximum mobility, and it’s made of high-quality fabric. You can hide small weapons in pockets hidden in the folds, and the sashes are strong enough to serve as short ropes
+# noble
+8,designed specifically to be expensive and to show it. Precious metals and gems are worked into the clothing. To fit into the noble crowd, every would-be noble also needs a signet ring (5 gp) and jewelry (worth at least 100 gp)
+# peasant
+9,loose shirt and baggy breeches, or a loose shirt and {If~{Dice~1d2}=1?skirt/overdress}. Cloth wrappings are used for shoes
+# royal
+10,this is just the clothing, not the royal scepter, crown, ring, and other accoutrements. Royal clothes are ostentatious, with gems, gold, silk, and fur in abundance
+# scholar
+11,a robe, a belt, a cap, {If~{Dice~1d3}>1?a cloak, }and soft shoes
+# traveler
+12,boots, a wool skirt or breeches, a sturdy belt, a shirt{If~{Dice~1d2}=1? with a {If~{Dice~1d2}=1?vest/jacket}}, and an ample cloak with a hood
+
+;Clothing Type
+50,artisan’s outfit|Meaning=1| <font size=2>([Clothing Meaning=%Meaning%])</font>
+5,cleric’s vestments|Meaning=2| <font size=2>([Clothing Meaning=%Meaning%])</font>
+20,cold weather outfit|Meaning=3| <font size=2>([Clothing Meaning=%Meaning%])</font>
+10,courtier’s outfit|Meaning=4| <font size=2>([Clothing Meaning=%Meaning%])</font>
+10,entertainer’s outfit|Meaning=5| <font size=2>([Clothing Meaning=%Meaning%])</font>
+50,explorer’s outfit|Meaning=6| <font size=2>([Clothing Meaning=%Meaning%])</font>
+25,monk’s outfit|Meaning=7| <font size=2>([Clothing Meaning=%Meaning%])</font>
+10,noble’s outfit|Meaning=8| <font size=2>([Clothing Meaning=%Meaning%])</font>
+50,peasant’s outfit|Meaning=9| <font size=2>([Clothing Meaning=%Meaning%])</font>
+1,royal outfit|Meaning=10| <font size=2>([Clothing Meaning=%Meaning%])</font>
+25,scholar’s outfit|Meaning=11| <font size=2>([Clothing Meaning=%Meaning%])</font>
+50,traveler’s outfit|Meaning=12| <font size=2>([Clothing Meaning=%Meaning%])</font>
+
+# ------------------- Injury --------------------
+;Recent Injury
+3,[Recent Injury Type 1] on [Body Part 1]
+1,[Recent Injury Type 1] on [Body Part 2]
+#2,bandaged ([Clean+1]) [Recent Injury Type 2] on [Body Part {Dice~1d2}]
+#1,bandaged ([Clean+1]) [Body Part 3]
+2,[Clean={Dice~1d10+5}] bandages for [Recent Injury Type 2] on [Body Part {Dice~1d2}]
+1,[Clean={Dice~1d10+5}] bandages on [Side] [Body Part 3]
+
+;!Recent Injury Type 1
+8,[Recent Injury Type 2]{Unlock~Recent Injury Type 1,1-8}
+1,bruises
+1,dried blood
+1,scratches
+1,welts
+1,weird [Miscellaneous.ColorNoType] spots
+6,[Stains]
+
+;!Stains
+1,mud stains
+1,[Miscellaneous.ColorNoType] paint stains
+1,tar stains
+1,blood stains
+1,dirt stains
+1,manure stains
+1,[Miscellaneous.ColorNoType] stains
+1,food stains
+1,wine stains
+
+;!Recent Injury Type 2
+1,a sword cut[Infected][Recent Injury Blood]
+1,a knife cut[Infected][Recent Injury Blood]
+1,weapon damage[Infected][Recent Injury Blood]
+1,deep scratches[Infected][Recent Injury Blood]
+1,claw marks[Infected][Recent Injury Blood]
+1,burn marks[Infected]
+1,[Recent Injury Energy] damage
+1,rashes[Infected]
+
+;Recent Injury Energy
+2,acid
+2,electric
+2,fire
+1,force
+2,frozen
+1,negative energy
+2,sonic
+
+;Infected
+30,
+9, (infected)
+1, (badly infected)
+
+;Recent Injury Blood
+10,
+9,, still lightly bleeding,
+1,, heavily bleeding,
+
+# ------------------- Special --------------------
+:Special
+1,Special:<br>[Features][SpecialNum]{If~{Dice~1d100}<=50?[Special1]}
+
+;SpecialNum
+6,|SpecialNum=1|
+3,|SpecialNum=2|
+1,|SpecialNum=3|
+
+:Special1
+1,{Loop~%SpecialNum%,[Tab]-[~Special2].<br>}
+
+;!Special2
+# Leave first entries here --->>> Unlock
+5,{Cap~[Recent Injury]}{Unlock~Special2,1}
+5,{Cap~[New]}, [Length_Scar], [Shape_Scar] scar on [HisHer=%Gender%] [Body Part 1] <font size=2>{Color~Green,(D+2)}</font>|D+2|{Unlock~Special2,6}
+5,{Cap~[New]}, [Length_Scar], [Shape_Scar] scar on [HisHer=%Gender%] [Body Part 2] <font size=2>{Color~Green,(D+1)}</font>|D+1|{Unlock~Special2,11}
+1,{Cap~[Birthmark_Size]} [Birthmark]-shaped {Bold~birthmark} on [HisHer=%Gender%] [Body Part 2]{Unlock~Special2,16}
+1,Missing [Side] [Body Part 3] <font size=2>{Color~Green,(D+2)}</font>|D+2|{Unlock~Special2,17}
+1,Permanent [Miscellaneous.ColorNoType] stain on [HisHer=%Gender%] [Body Part 2] <font size=2>{Color~Green,(D+1)}</font>|D+1|{Unlock~Special2,18}
+2,Non-visible tatoo on [HisHer=%Gender%] [Body Part 2] ([~Tatoo]) <font size=2>{Color~Green,(D+1)}</font>|D+1|{Unlock~Special2,19}
+2,Visible tatoo on [HisHer=%Gender%] [Body Part 1] ([~Tatoo]) <font size=2>{Color~Green,(D+1)}</font>|D+1|{Unlock~Special2,21}
+#
+1,Glasses
+1,Monocle ([Side={Dice~1d2}] eye)
+3,Eye patch ([Side={Dice~1d2}])
+1,Earring ([~Miscellaneous.Material]) in nose
+3,Earring ([EarringType]) on [Side2] ear(s)
+2,{If~%Gender%=2?Earring ([EarringType]) on [Side2] ear(s)/[Special2]}
+1,Elongated face <font size=2>{Color~Green,(D+1)}</font>|D+1|
+3,{If~%Gender%=2?Makeup/{If~{Dice~1d6}=1?Makeup/[Special2]}}
+1,{Cap~[Smell]}
+
+:Smell
+1,[Smells.Generate(1,1,1)]
+
+;Side
+10,left
+10,right
+1,both
+
+;Side2
+2,left
+2,right
+1,both
+
+;!Birthmark
+1,skull <font size=2>{Color~Green,(D+1)}</font>|D+1|
+1,sword <font size=2>{Color~Green,(D+1)}</font>|D+1|
+1,paw <font size=2>{Color~Green,(D+1)}</font>|D+1|
+1,claw <font size=2>{Color~Green,(D+1)}</font>|D+1|
+1,hand <font size=2>{Color~Green,(D+1)}</font>|D+1|
+1,crescent moon <font size=2>{Color~Green,(D+1)}</font>|D+1|
+1,lightning bolt <font size=2>{Color~Green,(D+1)}</font>|D+1|
+1,triangle <font size=2>{Color~Green,(D+1)}</font>|D+1|
+1,[Creatures.Animal] <font size=2>{Color~Green,(D+1)}</font>|D+1|
+1,[Creatures.Fantastic] <font size=2>{Color~Green,(D+1)}</font>|D+1|
+1,[Creatures.Bird of Prey] <font size=2>{Color~Green,(D+1)}</font>|D+1|
+1,[Rune Generator.GenRune] <font size=2>{Color~Green,(D+1)}</font>|D+1|
+2,[Miscellaneous.Shape] <font size=2>{Color~Green,(D+1)}</font>|D+1|
+20,irregular/blob
+2,round
+2,crescent
+2,{Dice~1d3+1} parallel lines
+2,spiral
+2,concentric circles
+
+;Birthmark_Size
+5,small (1/2" square)
+2,medium (1" square)
+2,large (2" square)
+1,very large (3" square)
+
+;!Body Part 1
+1,[Side={Dice~1d2}] cheek{Unlock~Body Part 1,1}
+1,[Side={Dice~1d2}] hand{Unlock~Body Part 1,2}
+1,forehead
+1,neck
+
+;!Body Part 2
+1,abdomen
+1,back
+1,chest
+1,[Side={Dice~1d2}] feet
+1,[Side={Dice~1d2}] hand
+1,neck
+1,[Side={Dice~1d2}] shoulder
+1,[Side={Dice~1d2}] thigh
+1,[Side={Dice~1d2}] calf
+1,[Side={Dice~1d2}] upper arm
+1,[Side={Dice~1d2}] wrist
+
+;Body Part 3
+1,arm
+1,feet
+3,hand
+1,leg
+2,ear
+1,eye
+
+;EarringType
+2,[EarringType2], made of [Miscellaneous.Material]
+1,{If~{Dice~1d6}=1?large/small} [Miscellaneous.Stone]
+
+;EarringType2
+1,ring
+1,[Birthmark]-shape
+
+;Length_Scar
+1,very small (<1/2")
+4,small ({Dice~1d2}")
+3,medium ({Dice~1d3+2}")
+1,large ({Dice~1d3+5}") <font size=2>{Color~Green,(D+1)}</font>|D+1|
+1,very large ({Dice~1d12+8}") <font size=2>{Color~Green,(D+2)}</font>|D+2|
+
+;Shape_Scar
+10,straight
+4,crescent-shaped
+1,jagged
+1,irregular
+1,circular
+2,area of [Recent Injury Energy] damage <font size=2>{Color~Green,(D+1)}</font>|D+1|
+1,unusually-shaped ([Miscellaneous.Shape]-shape) <font size=2>{Color~Green,(D+1)}</font>|D+1|
+
+;New
+1,new
+3,old
+
+;Tatoo
+5,[Rune Generator.GenRune]
+2,[Creatures.Bird of Prey]
+2,[Creatures.Fantastic]
+1,[Creatures.Animal]
+1,[Miscellaneous.Shape]-shape
+2,[Religion.Deities(4)] symbol
+1,magical symbol ([Miscellaneous.School] school)
+1,barbarian clan ([Orc Tribes.Generate])
+1,underworld order ([Rune Generator.GenRune], [Group Designer.Generate(4)])
+1,revered guild ([Rune Generator.GenRune], [Group Designer.Generate(5)])
+
+# -----------------------------------------------------------------------
+# This is taken from Johnn Four's book "NPC Essentials" found at
+# http://gmmastery.com/index.php?page=pro&product_id=9
+
+;LifeEvent
+5,None.
+4,[~LifeEventGen]
+1,{Loop~{Dice~1d3+1},<br>[Tab]-[~LifeEventGen]}
+
+;!LifeEventGen
+1,A feud (family or otherwise) {If~{Dice~1d100}<50? began/ended}.
+10,Acquaintance ([~LifeEventAcq]) [LifeEventAcqEv]. (Name: [~Names Generator.NAME Random]).
+5,Acquired a [~LifeEventGain].
+1,Adopted a child (named: [~Names Generator.NAME Random]).
+1,Attended a festival, fair, market, or sporting event.
+1,Broke off an engagement.
+1,Broke up a relationship with a friend (named: [~Names Generator.NAME Random]).
+1,Changed alignment.
+1,Changed job ([~Miscellaneous.OccupationsMeanings]).
+1,Discovered [HeShe=%Gender%] owned something valuable.
+1,Ended an intimate relationship.
+1,Enemy died.
+1,Evicted.
+1,Experienced a haunting or supernatural event.
+1,Failed to get a raise or promotion.
+1,Fended off recruitment (military, political party, press gang).
+1,Got a divorce.
+1,Got engaged.
+1,Got married.
+1,Got revenge.
+1,Great {If~{Dice~1d100}<50? performance done/masterpiece created}.
+1,Had a birthday.
+1,Had a child ([~Miscellaneous.Gender] named [~Names Generator.NAME Random]).
+1,{If~%Gender%=2?Had a miscarriage./[LifeEventGen]}
+1,Had a visitation from [HisHer=%Gender%] deity.
+1,Had an anniversary.
+1,Had to appear in court as a defendant, plaintiff, or witness.
+1,Had trouble with [HisHer=%Gender%] {If~{Dice~1d100}<50? boss/co-workers}.
+1,Home burned down.
+1,Homeless for a period.
+1,Inherited something {If~{Dice~1d100}<60? trivial/valuable}.
+1,Is expecting a baby.
+1,Lived through a change in government, union, guild policy, or law.
+1,Lived through a crime wave, uprising, revolt, rebellion, or Coup.
+1,Lived through riots, political unrest, or demonstrations.
+1,Loaned out money and was {If~{Dice~1d100}<70? never/recently} repaid.
+1,Lost money gambling.
+1,Lost [HisHer=%Gender%] job.
+1,Met a famous person, noble, or ambassador ([GenerateQuick3]).
+1,Moved to a better home.
+1,Nearly killed in a street fight.
+1,NPC died and was brought back from the dead.
+1,NPC died and was not brought back from the dead.
+1,Pet became lost and was {If~{Dice~1d100}<30? found/not found}.
+1,Pet died.
+1,Put on (academic, job, criminal) probation.
+1,Received a message from a distant acquaintance ([~LifeEventAcq] named: [~Names Generator.NAME Random]).
+1,Small fire at home, no major damage.
+1,Spent time as a convict.
+1,Started a new hobby.
+1,Stopped a crime (rape, extortion, blackmail, bribery, robbery, etc.).
+1,Stopped speaking to [~LifeEventAcq] (named: [~Names Generator.NAME Random]).
+1,Vegetable garden had an unusual yield.
+1,Was attacked by a monster or wild animal ([~Creatures.Start2]).
+1,Was interrogated by the inquisition or local authorities.
+1,Was recruited (military, political party, press gang).
+1,Was robbed of something [Robbed].
+1,Witnessed a murder ([GenerateQuick2]).
+1,Won a prize at the local fair.
+1,Won money gambling.
+
+;LifeEventAcq
+1,[Distance]friend
+1,best friend
+1,[Twin]brother
+1,[Twin]sister
+1,[Distance+3]cousin
+1,[Distance+3]aunt
+1,[Distance+3]uncle
+1,spouse/husband
+1,child
+1,grandchild
+1,father
+1,mother
+1,grandfather
+1,grandmother
+
+;Distance
+1,close 
+8,
+1,distant 
+
+;LifeEventAcqEv
+3,died
+2,had a life-threatening illness
+1,had a major accident
+3,had a minor accident
+1,was kidnapped
+
+;LifeEventGain
+1,new acquaintance ([~LifeEventAcq={Dice~1d7}] named: [~Names Generator.NAME Random])
+1,new class
+1,new enemy (named: [~Names Generator.NAME Random])
+1,new major enemy (named: [~Names Generator.NAME Random])
+1,new level
+1,new skill
+1,sum of money
+
+;Robbed
+1,trivial
+1,valuable
+1,with sentimental value
+
+;Twin
+99,
+1,twin 
+
+# -----------------------------------------------------------------------------------
+
+:Deity
+1,Deity|DeityRacial=0|
+_{If~{Or~{Param~Race,%Race%}=Dwarf,%SpecificName%=2}=1?|DeityRacial=Dwarf Gods|
+_/{If~{Or~{Param~Race,%Race%}=Elf,%SpecificName%=3}=1?|DeityRacial=Elf Gods|
+_/{If~{And~{Param~Race,%Race%}=Half Elf,%HEDominant%=Elf}=1?|DeityRacial=Elf Gods|
+_/{If~{Or~{Param~Race,%Race%}=Gnome,%SpecificName%=4}=1?|DeityRacial=Gnome Gods|
+_/{If~{Or~{Param~Race,%Race%}=Halfling,%SpecificName%=6}=1?|DeityRacial=Halfling Gods|
+_/{If~{Or~{Param~Race,%Race%}=Half Orc,%SpecificName%=38}=1?|DeityRacial=Orc Gods|
+_/{If~%SpecificName%=44?|DeityRacial=Giant Gods|
+_/{If~%SpecificName%=22?|DeityRacial=Dragon Gods|
+_/{If~%SpecificName%=45?|DeityRacial=Kender Gods|
+_/{If~%SpecificName%=34?|DeityRacial=Lizardfolk Gods|
+_}}}}}}}}}}
+# 30% for any creature to NOT have a racial god.
+_{If~%DeityRacial%!=0?{If~{Dice~1d100}<=30?|DeityRacial=0|}}
+# Ravenloft: 70% to have a Ravenloft Deity.
+_{If~%World%=Ravenloft?{If~{Dice~1d100}<=70?|DeityRacial=Ravenloft Gods|}}
+#
+_{If~%DeityRacial%!=0? (%DeityRacial%): [~Religion.%DeityRacial%(%ShowLand%)]
+_     /{If~{Find~1,E,%ALFinal%}>0? (Evil): [~Religion.Evil Gods(%ShowLand%)]
+_     /{If~{Find~1,G,%ALFinal%}>0? (Good): [~Religion.Good Gods(%ShowLand%)]
+_     / (Neutral): [~Religion.Neutral Gods(%ShowLand%)]
+_}}}
+
+# -----------------------------------------------------------------------------------
+
+:NOTES
+1,{If~{Or~%D%!=0,%T%!=0}=1?<br><br>/{If~{Or~%feetspecial%!=0,{Param~Race,%Race%}=Half Orc}=1?<br><br>}}
+_{If~%D%!=0?[Show_D]}
+_{If~{Or~%T%!=0,%feetspecial%!=0}=1?[Show_T]}
+_{If~{Or~%D%!=0,%T%!=0}=1?[Show_DT]}
+_{If~{Param~Race,%Race%}=Half Orc?[Show_HalfOrc]}
+
+:Show_D
+1,Distinctiveness modifier (D): {Color~{If~%D%>=0?Green/Red},{Bold~{If~%D%>=0?+}%D%}}. Added to the DC of disguising oneself as the person. Subtracted from any Disguise check made by the person.<br>
+#_[Tab]|D\2|{Bold~{If~%D%>=0?+}%D%} Gather Information to locate the person or to find out if someone has seen him recently.<br>
+_[Tab]{Color~{If~{Calc~%D%\2}>=0?Green/Red},{Bold~{If~{Calc~%D%\2}>=0?+}{Calc~%D%\2}}} Gather Information to locate the person or to find out if someone has seen him recently.<br>
+
+:Show_T
+#1,Tracking Modifier (T): {Color~{If~%T%>=0?Brown/Red},{Bold~{If~%T%>=0?+}%T%{If~%feetspecial%!=0? (+{Calc~%T%+1} if barefoot)}}}. Added to Track the person.<br>
+1,Tracking Modifier (T): {Color~{If~%T%>=0?Brown/Red},{Bold~{If~%T%>=0?+}%T%{If~%feetspecial%!=0? (add +1 if barefoot unless there is already a T modifier for the feet)}}}. Added to Track the person.<br>
+_{If~%feetspecial%!=0?[Show_FeetSpecial]}
+
+:Show_DT
+1,<font size=2>
+_[Tab]<i>Note</i>: A NPC who is very distinctive likely knows it and will take steps necessary to make himself less so, given access to reasonable tools and magic. <i>Potions of alter self</i>, a ring or amulet which changes hair colour or the like can be used. Even a moderate Disguise
+_ skill will usually overcome the distinctiveness penalty. Furthermore, a distinctive feature only matters if those involved with the character know about it.<br>
+_[Tab]<i>Limiting the Unusual</i>: It is generally recommended that no one has a distinctiveness modifier of more than +1 per every 3 character levels.<br>
+_</font>
+
+:Show_FeetSpecial
+1,<font size=2>
+_[Tab]{Color~Brown,<i>Feets</i>:} Feet are often covered by boots or shoes, so only exceptionally odd feet will likely be noticed by casual observation.
+_ If the person is habitually barefoot, odd feet give a {Color~Brown,T+1} modifier; otherwise, they have no impact on tracking except as noted above.
+_</font><br>
+
+:Show_HalfOrc
+1,<br><font size=2>
+_{If~%OrcishFeature%=Yes?[Show_HalfOrc2]}
+_{If~%OrcishFeature%=No?[Show_HalfOrc3]}
+_</font><br>
+
+:Show_HalfOrc2
+1,[Tab]<i>Half-Orcs, Orcish Special Features</i>: The orcish features are {Color~Green,D+1} in societies with many half-orcs, or {Color~Green,D+2} in mostly-human societies, modify accordingly.<br>
+_[Tab]<i>Half-Orcs disguising as a human</i>: {Bold~With [HisHer=%Gender%] orcish features}, [HeShe=%Gender%] cannot easily ‘pass’ for a human (without orcish features [HeShe=%Gender%] would only need a DC 5 disguise check).
+
+:Show_HalfOrc3
+1,[Tab]<i>Half-Orcs disguising as a human</i>: {Bold~Without orcish features}, [HeShe=%Gender%] may ‘pass’ for a human with only a DC 5 disguise check.
+
+

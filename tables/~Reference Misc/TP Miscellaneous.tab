@@ -1,0 +1,192 @@
+# ------------------------------------------------------
+# Last Update: verified by Valminder Jan 02, 2014.
+# ------------------------------------------------------
+#
+# Modified by Valminder, January 2014.
+#    Added link to: 
+#         Miscellaneous.Carving Material
+#
+
+%name%,0
+%weight%,0
+%value%,0
+%vmod%,1
+%wmod%,1
+%format%,0
+%appraisalDC%,12
+
+@format,1,Select format:,Human-readable,Delimited for other table
+
+;Start
+1,|vmod=1||wmod=1||name=[Item]||value*%vmod%||weight*%wmod%||weight={Round~1,%weight%}|[DisplayItem=%format%]
+
+# Format: name!value!weight
+:DisplayItem
+1,{Bold~{Cap~%name%}}{CR~}Value: %value% gp{CR~}Weight: %weight% lbs.
+2,%name%!%value%!%weight%!%appraisalDC%
+
+;Item
+1,[Kitchen Items]
+1,[Alchemical Items]
+1,[Literature and Writing]
+1,[Religious]
+1,[Tools]
+1,[Container]
+1,[Miscellaneous]
+
+;Kitchen Items
+1,[Material] bowl|value=0.5||weight=0.5|
+1,[Material] fork|value=0.04||weight=0.25|
+1,kettle|value=0.6||weight=3|
+1,butcher knife|value=0.8||weight=0.5|
+1,ladle|value=0.5||weight=0.5|
+1,[Material] cup|value=0.2||weight=0.25|
+1,goblet|value=0.8||weight=0.25|
+1,mug|value=0.5||weight=0.25|
+1,pitcher|value=0.4||weight=2|
+1,[Material] plate|value=0.2||weight=0.5|
+1,[Material] platter|value=0.3||weight=1|
+1,cooking pot|value=0.5||weight=3|
+1,[Material] spoon|value=0.04||weight=0.25|
+1,tankard|value=0.8||weight=1|
+1,wineglass|value=0.7||weight=0.25|
+
+;Material
+4,wooden
+3,metal
+1,ceramic
+2,[~Material2]
+
+;Material2
+1,{Cap~[Miscellaneous.Carving Material]}
+
+;Alchemical Items
+1,alembic|value=10||weight=5||appraisalDC=15|
+1,brazier|value=5||weight=3.5||appraisalDC=15|
+1,crucible|value=5||weight=2||appraisalDC=15|
+1,flask|value=0.1||weight=0.25||appraisalDC=15|
+1,funnel|value=0.05||weight=0.25||appraisalDC=15|
+1,mortar & pestle|value=5||weight=2||appraisalDC=15|
+1,prism|value=0.5||weight=0.25||appraisalDC=15|
+
+;Literature and Writing
+1,book - [LN~Book Titles.Start]|value={Dice~4d5*10}||weight=4||appraisalDC=20|
+1,letter of credit|value=0.1||weight=0|
+1,map|value={Dice~1d50*10}||weight=0|
+1,quill|value=0.05||weight=0|
+1,scroll tube|value=3||weight=1|
+1,stylus|value=0.05||weight=0|
+
+;Religious
+1,altar cloth|value=15||weight=4||appraisalDC=15|
+1,bell|value=3||weight=1||appraisalDC=15|
+1,candelabra|value=20||weight=4||appraisalDC=15|
+1,candle snuffer|value=5||weight=1||appraisalDC=15|
+1,incense burner|value=3||weight=1||appraisalDC=15|
+1,prayer book|value=10||weight=2||appraisalDC=15|
+1,prayer rug|value=5||weight=3||appraisalDC=15|
+
+;Tools
+1,awl|value=0.5||weight=0.25|
+1,bellows|value=5||weight=20|
+1,hammer|value=7||weight=5|
+1,tongs|value=3||weight=3|
+
+;Container
+1,bag of [Contents]|value=0.1||weight=0.25|
+1,basket of [Contents]|value=0.1||weight=0.25|
+1,bottle of |value=0.1||weight=0.25|[Liquid]
+1,box of [Contents]|value=0.1||weight=0.25|
+1,jar of [Contents]|value=0.1||weight=0.25|
+1,jug of |value=0.1||weight=0.25|[Liquid]
+1,keg of |value=0.1||weight=0.25|[Liquid]
+1,pouch filled with [Contents]|value=0.1||weight=0.25|
+1,urn filled with [Contents]|value=0.1||weight=0.25|
+1,vase|value=0.1||weight=0.25|
+1,decanter of |value=0.1||weight=0.25|[Liquid]
+
+;Contents
+1,ashes
+1,[Feathers] feathers
+1,bat guano
+1,beeswax
+1,black sand
+1,bone shards
+1,candle wax
+1,chalk
+1,charcoal|wmod=2|
+1,cloves of garlic
+1,coal
+1,coarse sand
+1,dried beans
+1,dried carrot
+1,dried peas
+1,dust
+1,eggshells
+1,fine sand
+1,glass beads
+1,granite dust
+1,incense
+1,iron filings|wmod=2|
+1,leaves of poison ivy
+1,leaves of poison oak
+1,licorice root
+1,nut shells
+1,powdered bone
+1,rose petals
+1,salt
+1,sealing wax
+1,sesame seeds
+1,small but straight pieces of iron|wmod=2|
+1,snake scales
+1,snake skin
+1,split dried peas
+1,strips of fine cloth
+1,tiny steel rods|wmod=2|
+1,wooden pegs
+
+;Liquid
+5,cheap wine
+5,fine wine|vmod*5|
+5,water
+5,ale|vmod*3|
+5,mead|vmod*3|
+5,grog|vmod*1.5|
+5,cider
+1,blood
+
+;Feathers
+1,eagle|vmod=2|
+1,hawk
+1,sparrow
+1,griffin|vmod=3|
+1,owl
+1,chicken
+
+;Miscellaneous
+1,bandages|value=0.1||weight=0|
+1,basin|value=3||weight=2|
+1,brush|value=0.01||weight=0.25|
+1,candle|value=0.01||weight=0.25|
+1,candlestick|value=0.1||weight=1|
+1,cane|value=0.05||weight=2|
+1,comb|value=0.01||weight=0|
+1,dice|value=0.1||weight=0|
+1,horn|value=1||weight=1|
+1,hourglass|value=7||weight=6|
+1,key|value=0||weight=0|
+1,lamp|value=3||weight=1.5|
+1,magnifying glass|value=2||weight=0.25|
+1,mirror|value=10||weight=0.5|
+1,needle|value=0||weight=0|
+1,pillow|value=1||weight=1|
+1,pipe, smoking|value=0.1||weight=0.25|
+1,hemp rope (50')|value=1||weight=10|
+1,silk rope (50')|value=10||weight=5|
+1,rug|value=0.05||weight=20|
+1,scissors|value=0.06||weight=0.25|
+1,thimble|value=0.01||weight=0|
+1,tinderbox|value=1||weight=0.5|
+1,whetstone|value=0.02||weight=1|
+1,wig|value=1||weight=0|
+1,yarn|value=0.01||weight=0|

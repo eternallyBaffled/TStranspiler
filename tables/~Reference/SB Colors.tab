@@ -1,0 +1,617 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder Dec 20, 2005.
+# ---------------------------------------------------
+#
+#----------------------------------------------------------------------------
+# Colors Table by ShadoBoox.
+#----------------------------------------------------------------------------
+#
+# To generate a color in a table, you can call this table with the
+# appropriate parameters.
+#
+# [SB Color.Start(%ColorType%,%ColorPosition%,%ColorBias%)]
+#
+# Parameter 1, %ColorType% (1-3)
+#      0 = Instructions
+#      1 = Any type of color
+#      2 = Color
+#      3 = Non-Color
+#
+# Parameter 2, %ColorPosition% (1-4)
+#      1 = Any position of color
+#      2 = Primary
+#      3 = Secondary
+#      4 = Other
+#
+# Parameter 3, %ColorBias% (1-6)
+#      1 = Any color bias
+#      2 = Chromatic
+#      3 = Crystalline
+#      4 = Metallic
+#      5 = Stone
+#      6 = Wooden
+#
+
+#----------------------------------------------------------------------------
+# Starting parameters.
+#----------------------------------------------------------------------------
+
+%ColorType%,0
+%ColorPosition%,1
+%ColorBias%,1
+
+@ColorType,0,Select color type: (0-3)
+@ColorPosition,1,Select color position: (1-4)
+@ColorBias,1,Select color bias: (1-6)
+
+;Start
+1,{If~%ColorType%=0 ? [Inst]/[Generate]}
+
+;Inst
+1,<p align="center"><font size="5" color="red">Welcome to ShadoBoox's Color Generator</font></p>
+_<p>Please make three of the following selections to generate color(s) of your choice:</p>
+_<p>1. Color Type (0-3):</p>
+_ <ul>
+_ <li>0 = This instruction page. (default)</li>
+_ <li>1 = Any type of color.</li>
+_ <li>2 = Color.</li>
+_ <li>3 = Non-Color.</li>
+_ </ul>
+_<p>2. Color Position (1-4):</p>
+_<ul>
+_<li>1 = Any position of color. (default)</li>
+_<li>2 = Primary.</li>
+_<li>3 = Secondary.</li>
+_<li>4 = Other.</li>
+_</ul>
+_<p>3. Color Bias (1-6):</p>
+_<ul>
+_<li>1 = Any color bias. (default)</li>
+_<li>2 = Chromatic.</li>
+_<li>3 = Crystalline.</li>
+_<li>4 = Metallic.</li>
+_<li>5 = Stone.</li>
+_<li>6 = Wooden.</li>
+_</ul>
+
+;Generate
+1,{If~%ColorType%<0? [TypeError]}
+_{If~%ColorType%>3? [TypeError]}
+_{If~%ColorPosition%<1? [PositionError]}
+_{If~%ColorPosition%>4? [PositionError]}
+_{If~%ColorBias%<1? [BiasError]}
+_{If~%ColorBias%>6? [BiasError]}
+_[GO]
+
+;TypeError
+1,{Stop~%ColorType% is not 0-3. Type}
+
+;PositionError
+1,{Stop~%ColorPosition% is not 1-4. Position}
+
+;BiasError
+1,{Stop~%ColorBias% is not 1-6. Bias}
+
+;GO
+1,[%ColorType%%ColorPosition%%ColorBias%]
+
+;346
+1,[Other Non Wooden]
+
+;345
+1,[Other Non Stone]
+
+;344
+1,[Other Non Metallic]
+
+;343
+1,[Other Non Crystalline]
+
+;342
+1,[Other Non Chromatic]
+
+;341
+1,[Other Non Chromatic]
+1,[Other Non Metallic]
+1,[Other Non Crystalline]
+1,[Other Non Wooden]
+1,[Other Non Stone]
+
+;336
+1,[Secondary Non Wooden]
+
+;335
+1,[Secondary Non Stone]
+
+;334
+1,[Secondary Non Metallic]
+
+;333
+1,[Secondary Non Crystalline]
+
+;332
+1,[Secondary Non Chromatic]
+
+;331
+1,[Secondary Non Chromatic]
+1,[Secondary Non Metallic]
+1,[Secondary Non Crystalline]
+1,[Secondary Non Wooden]
+1,[Secondary Non Stone]
+
+;326
+1,[Primary Non Wooden]
+
+;325
+1,[Primary Non Stone]
+
+;324
+1,[Primary Non Metallic]
+
+;323
+1,[Primary Non Crystalline]
+
+;322
+1,[Primary Non Chromatic]
+
+;321
+1,[Primary Non Chromatic]
+1,[Primary Non Metallic]
+1,[Primary Non Crystalline]
+1,[Primary Non Wooden]
+1,[Primary Non Stone]
+
+;316
+1,[Primary Non Wooden]
+1,[Secondary Non Wooden]
+1,[Other Non Wooden]
+
+;315
+1,[Primary Non Stone]
+1,[Secondary Non Stone]
+1,[Other Non Stone]
+
+;314
+1,[Primary Non Metallic]
+1,[Secondary Non Metallic]
+1,[Other Non Metallic]
+
+;313
+1,[Primary Non Crystalline]
+1,[Secondary Non Crystalline]
+1,[Other Non Crystalline]
+
+;312
+1,[Primary Non Chromatic]
+1,[Secondary Non Chromatic]
+1,[Other Non Chromatic]
+
+;311
+1,[Primary Non Chromatic]
+1,[Secondary Non Chromatic]
+1,[Other Non Chromatic]
+1,[Primary Non Metallic]
+1,[Secondary Non Metallic]
+1,[Other Non Metallic]
+1,[Primary Non Crystalline]
+1,[Secondary Non Crystalline]
+1,[Other Non Crystalline]
+1,[Primary Non Wooden]
+1,[Secondary Non Wooden]
+1,[Other Non Wooden]
+1,[Primary Non Stone]
+1,[Secondary Non Stone]
+1,[Other Non Stone]
+
+;246
+1,[Other Col Wooden]
+
+;245
+1,[Other Col Stone]
+
+;244
+1,[Other Col Metallic]
+
+;243
+1,[Other Col Crystalline]
+
+;242
+1,[Other Col Chromatic]
+
+;241
+1,[Other Col Chromatic]
+1,[Other Col Metallic]
+1,[Other Col Crystalline]
+1,[Other Col Wooden]
+1,[Other Col Stone]
+
+;236
+1,[Secondary Col Wooden]
+
+;235
+1,[Secondary Col Stone]
+
+;234
+1,[Secondary Col Metallic]
+
+;233
+1,[Secondary Col Crystalline]
+
+;232
+1,[Secondary Col Chromatic]
+
+;231
+1,[Secondary Col Chromatic]
+1,[Secondary Col Metallic]
+1,[Secondary Col Crystalline]
+1,[Secondary Col Wooden]
+1,[Secondary Col Stone]
+
+;226
+1,[Primary Col Wooden]
+
+;225
+1,[Primary Col Stone]
+
+;224
+1,[Primary Col Metallic]
+
+;223
+1,[Primary Col Crystalline]
+
+;222
+1,[Primary Col Chromatic]
+
+;221
+1,[Primary Col Chromatic]
+1,[Primary Col Metallic]
+1,[Primary Col Crystalline]
+1,[Primary Col Wooden]
+1,[Primary Col Stone]
+
+;216
+1,[Primary Col Wooden]
+1,[Secondary Col Wooden]
+1,[Other Col Wooden]
+
+;215
+1,[Primary Col Stone]
+1,[Secondary Col Stone]
+1,[Other Col Stone]
+
+;214
+1,[Primary Col Metallic]
+1,[Secondary Col Metallic]
+1,[Other Col Metallic]
+
+;213
+1,[Primary Col Crystalline]
+1,[Secondary Col Crystalline]
+1,[Other Col Crystalline]
+
+;212
+1,[Primary Col Chromatic]
+1,[Secondary Col Chromatic]
+1,[Other Col Chromatic]
+
+;211
+1,[Primary Col Chromatic]
+1,[Secondary Col Chromatic]
+1,[Other Col Chromatic]
+1,[Primary Col Metallic]
+1,[Secondary Col Metallic]
+1,[Other Col Metallic]
+1,[Primary Col Crystalline]
+1,[Secondary Col Crystalline]
+1,[Other Col Crystalline]
+1,[Primary Col Wooden]
+1,[Secondary Col Wooden]
+1,[Other Col Wooden]
+1,[Primary Col Stone]
+1,[Secondary Col Stone]
+1,[Other Col Stone]
+
+;146
+1,[Other Col Wooden]
+1,[Other Non Wooden]
+
+;145
+1,[Other Col Stone]
+1,[Other Non Stone]
+
+;144
+1,[Other Col Metallic]
+1,[Other Non Metallic]
+
+;143
+1,[Other Col Crystalline]
+1,[Other Non Crystalline]
+
+;142
+1,[Other Col Chromatic]
+1,[Other Non Chromatic]
+
+;141
+1,[Other Col Chromatic]
+1,[Other Non Chromatic]
+1,[Other Col Metallic]
+1,[Other Non Metallic]
+1,[Other Col Crystalline]
+1,[Other Non Crystalline]
+1,[Other Col Wooden]
+1,[Other Non Wooden]
+1,[Other Col Stone]
+1,[Other Non Stone]
+
+;136
+1,[Secondary Col Wooden]
+1,[Secondary Non Wooden]
+
+;135
+1,[Secondary Col Stone]
+1,[Secondary Non Stone]
+
+;134
+1,[Secondary Col Metallic]
+1,[Secondary Non Metallic]
+
+;133
+1,[Secondary Col Crystalline]
+1,[Secondary Non Crystalline]
+
+;132
+1,[Secondary Col Chromatic]
+1,[Secondary Non Chromatic]
+
+;131
+1,[Secondary Col Chromatic]
+1,[Secondary Non Chromatic]
+1,[Secondary Col Metallic]
+1,[Secondary Non Metallic]
+1,[Secondary Col Crystalline]
+1,[Secondary Non Crystalline]
+1,[Secondary Col Wooden]
+1,[Secondary Non Wooden]
+1,[Secondary Col Stone]
+1,[Secondary Non Stone]
+
+;126
+1,[Primary Col Wooden]
+1,[Primary Non Wooden]
+
+;125
+1,[Primary Col Stone]
+1,[Primary Non Stone]
+
+;124
+1,[Primary Col Metallic]
+1,[Primary Non Metallic]
+
+;123
+1,[Primary Col Crystalline]
+1,[Primary Non Crystalline]
+
+;122
+1,[Primary Col Chromatic]
+1,[Primary Non Chromatic]
+
+;121
+1,[Primary Col Chromatic]
+1,[Primary Non Chromatic]
+1,[Primary Col Metallic]
+1,[Primary Non Metallic]
+1,[Primary Col Crystalline]
+1,[Primary Non Crystalline]
+1,[Primary Col Wooden]
+1,[Primary Non Wooden]
+1,[Primary Col Stone]
+1,[Primary Non Stone]
+
+;116
+1,[Primary Col Wooden]
+1,[Primary Non Wooden]
+1,[Secondary Col Wooden]
+1,[Secondary Non Wooden]
+1,[Other Col Wooden]
+1,[Other Non Wooden]
+
+;115
+1,[Primary Col Stone]
+1,[Primary Non Stone]
+1,[Secondary Col Stone]
+1,[Secondary Non Stone]
+1,[Other Col Stone]
+1,[Other Non Stone]
+
+
+;114
+1,[Primary Col Metallic]
+1,[Primary Non Metallic]
+1,[Secondary Col Metallic]
+1,[Secondary Non Metallic]
+1,[Other Col Metallic]
+1,[Other Non Metallic]
+
+;113
+1,[Primary Col Crystalline]
+1,[Primary Non Crystalline]
+1,[Secondary Col Crystalline]
+1,[Secondary Non Crystalline]
+1,[Other Col Crystalline]
+1,[Other Non Crystalline]
+
+;112
+1,[Primary Col Chromatic]
+1,[Primary Non Chromatic]
+1,[Secondary Col Chromatic]
+1,[Secondary Non Chromatic]
+1,[Other Col Chromatic]
+1,[Other Non Chromatic]
+
+;111
+1,[Primary Col Chromatic]
+1,[Primary Non Chromatic]
+1,[Secondary Col Chromatic]
+1,[Secondary Non Chromatic]
+1,[Other Col Chromatic]
+1,[Other Non Chromatic]
+1,[Primary Col Metallic]
+1,[Primary Non Metallic]
+1,[Secondary Col Metallic]
+1,[Secondary Non Metallic]
+1,[Other Col Metallic]
+1,[Other Non Metallic]
+1,[Primary Col Crystalline]
+1,[Primary Non Crystalline]
+1,[Secondary Col Crystalline]
+1,[Secondary Non Crystalline]
+1,[Other Col Crystalline]
+1,[Other Non Crystalline]
+1,[Primary Col Wooden]
+1,[Primary Non Wooden]
+1,[Secondary Col Wooden]
+1,[Secondary Non Wooden]
+1,[Other Col Wooden]
+1,[Other Non Wooden]
+1,[Primary Col Stone]
+1,[Primary Non Stone]
+1,[Secondary Col Stone]
+1,[Secondary Non Stone]
+1,[Other Col Stone]
+1,[Other Non Stone]
+
+
+#----------------------------------------------------------------------------
+# Chromatic Colors.
+#----------------------------------------------------------------------------
+
+;Primary Col Chromatic
+1,blue (chromatic)
+1,red (chromatic)
+1,yellow (chromatic)
+
+;Primary Non Chromatic
+1,black (chromatic)
+1,white (chromatic)
+
+;Secondary Col Chromatic
+1,purple (chromatic)
+1,green (chromatic)
+1,orange (chromatic)
+
+;Secondary Non Chromatic
+1,gray (chromatic)
+
+;Other Col Chromatic
+1,brown (chromatic)
+
+;Other Non Chromatic
+1,clear (chromatic)
+
+#----------------------------------------------------------------------------
+# Metallic Colors.
+#----------------------------------------------------------------------------
+
+;Primary Col Metallic
+1,cobalt (metallic blue)
+1,iron (metallic red)
+1,gold (metallic yellow)
+
+;Primary Non Metallic
+1,titanium (metallic white)
+1,adamantium (metallic black)
+
+;Secondary Col Metallic
+1,mithril (metallic purple)
+1,copper (metallic green)
+1,brass (metallic orange)
+
+;Secondary Non Metallic
+1,silver (metallic gray)
+
+;Other Col Metallic
+1,bronze (metallic brown)
+
+;Other Non Metallic
+1,plasteel (metallic clear)
+
+#----------------------------------------------------------------------------
+# Crystalline Colors.
+#----------------------------------------------------------------------------
+
+;Primary Col Crystalline
+1,sapphire (crystalline blue)
+1,ruby (crystalline red)
+1,topaz (crystalline yellow)
+
+;Primary Non Crystalline
+1,salt (crystalline white)
+1,crystallite (crystalline black)
+
+;Secondary Col Crystalline
+1,amethyst (crystalline purple)
+1,emerald (crystalline green)
+1,octarine (crystalline orange)
+
+;Secondary Non Crystalline
+1,pearl (crystalline gray)
+
+;Other Col Crystalline
+1,psilite (crystalline brown)
+
+;Other Non Crystalline
+1,diamond (crystalline clear)
+
+#----------------------------------------------------------------------------
+# Wooden Colors.
+#----------------------------------------------------------------------------
+
+;Primary Col Wooden
+1,waterwood (wooden blue)
+1,cedar (wooden red)
+1,fir (wooden yellow)
+
+;Primary Non Wooden
+1,pine (wooden white)
+1,teak (wooden black)
+
+;Secondary Col Wooden
+1,punchwood (wooden purple)
+1,willow (wooden green)
+1,ironwood (wooden orange)
+
+;Secondary Non Wooden
+1,ash (wooden gray)
+
+;Other Col Wooden
+1,oak (wooden brown)
+
+;Other Non Wooden
+1,magwood (wooden clear)
+
+#----------------------------------------------------------------------------
+# Stone Colors.
+#----------------------------------------------------------------------------
+
+;Primary Col Stone
+1,skystone (stone blue)
+1,sandstone (stone red)
+1,slimestone (stone yellow)
+
+;Primary Non Stone
+1,granite (stone white)
+1,obsidian (stone black)
+
+;Secondary Col Stone
+1,pumice (stone purple)
+1,limestone (stone green)
+1,loadstone (stone orange)
+
+;Secondary Non Stone
+1,slate (stone gray)
+
+;Other Col Stone
+1,agate (stone brown)
+
+;Other Non Stone
+1,plascrete (stone clear)

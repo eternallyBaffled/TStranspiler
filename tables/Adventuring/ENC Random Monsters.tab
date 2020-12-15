@@ -1,0 +1,3126 @@
+# ------------------------------------------------------
+# Last Update: re-verified by Valminder Jan 10, 2012.
+# ------------------------------------------------------
+# ---------------------------------------------------
+# Last Update: modified by Valminder Sep 15, 2006.
+# ---------------------------------------------------
+#
+# Random 3rd Edition Monsters by Challenge Rating,
+# Terrain Type, or Creature Type
+#
+# -------------------------------------------------------------------------
+#
+# To call this table from another one:
+#    [ENC Random Monsters.Generate(%BookID%,%BookSubstitution%,%CR_Option%,%Instructions%)
+# ** [ENC Random Monsters.Alternate(%BookID%,%BookSubstitution%,%CR_Option%,%Instructions%)
+#
+#    Generate: Random CR generated from 1/10 to 28 with equal chances of each.
+#    Alternate: Random CR = generated from 1/10 to 28 with greater chances for low CR. 
+#
+#    Parameters: (%BookID%,%BookSubstitution%,%CR_Option%,%Instructions%)
+#
+#    BookID           (1) Select the Book desired:
+#                         1= Random
+#                         2= Monster Manual I (MM1)
+#                         3= Monster Manual II (MM2)
+#                         4= Creature Collection I (CC1)
+#                         5= Creature Collection II (CC2)
+#                         6= Tome of Horrors 1 (ToH1)
+#                         7= Monsters of Faerun (MonF)
+#                         8= Fiend Folio (FF)
+#    BookSubstitution (1) Use Book Substitution if there is not a monster listed at the desired CR
+#                         1= Yes         2= No 
+#    CR_Option        (1) Select a Challenge Rating Option:
+#                         1= Random
+#                         2= Challenge Rating Range (Input~)
+#                         3= CR Less than 1
+#                         4= Specify Exact Challenge Rating (Input~)
+#    Instructions     (2) Would you like to re-show the Instructions?
+#                         1= Yes
+#                         2= No
+#
+# -------------------------------------------------------------------------
+#
+# Verified by Valminder, Jan 2004.
+#    No un-supported functions.
+# Modified by Valminder, Sept 2006.
+#    Added Alternate subtable.
+#    Renamed "MonsterChallengeMain" subtable to "Generate".
+#    Added some instructions above.
+#
+
+# Declare Variables:
+%Instructions%,1
+%TempNumber%,0
+%ChallengeRating%,0
+%ChallengeRange%,0
+%HighestRange%,0
+%LowestRange%,0
+%CurrentRange%,0
+%CR_Option%,0
+%CreatureType%,0
+%SubType%,0
+%BookID%,0
+%BookSubstitution%,1
+%Page%,0
+%CR%,0
+
+# Parameter Display Lists: 
+@BookID,1,Please Select the Book desired:,Random,Monster Manual I,Monster Manual II,Creature Collection I,Creature Collection II,Tome of Horrors,Monsters of Faerun,Fiend Folio
+@BookSubstitution,1,Use Book Substitution if there is not a monster listed at the desired CR?,Yes,No 
+@CR_Option,1,Please select a Challenge Rating Option:,Random,Challenge Rating Range,CR Less than 1,Specify Exact Challenge Rating
+@Instructions,2,Would you like to re-show the Instructions?,Yes,No
+
+:Start
+1,{If~%Instructions%=1?[Instructions]/[Alternate]}
+
+:Instructions
+1,This table generates a random reference list of 3rd Edition D&D Monsters from seven D20 Monster Manuals - displaying the Monster Name,
+_ the Creature Type, the Challenge Rating, 
+_ the Manual Name and the page number for each selected monster.
+_<br><br>The Monster List itself may be derived from one or more of the following D20 Monster Manuals:
+_ the 3E D&D Core Rules Monster Manuals I and II, Forgotten Realms; Monsters of Faerun, and the Fiend Folio by <i><u>Wizards of the Coast Inc.</u></i>,
+_ the Creature Collections I and II by <i><u>Sword and Sorcery Games Inc.</u></i>, and the Tome of Horrors by <i><u>Necromancer Games Inc.</u></i>
+_<br><br>Use the Change Button located in the Lower Right-hand corner of the screen to select the Books to use
+_ and the Challenge Rating selection method desired.
+
+:Generate
+1,{If~%BookID%=1? |BookID={Dice~1d7+1}|}
+_[CR_OptionBranch=%CR_Option%]<b>[BookBranch=%BookID%];</b> [CreatureTypes=%CreatureType%]{If~%SubType% > 0 ? ([SubType=%SubType%])}
+_ {If~%CR% > 28 ? (CR[CR_StringLessThanOne=%CR%])/(CR%CR%)}
+_; Book: <i><u>[DetermineBookName=%BookID%]</u></i>, page %Page%.
+
+:Alternate
+1,{If~%BookID%=1? |BookID={Dice~1d7+1}|}
+_[CR_OptionBranchAlternate=%CR_Option%]<b>[BookBranch=%BookID%];</b> [CreatureTypes=%CreatureType%]{If~%SubType% > 0 ? ([SubType=%SubType%])}
+_ {If~%CR% > 28 ? (CR[CR_StringLessThanOne=%CR%])/(CR%CR%)}
+_; Book: <i><u>[DetermineBookName=%BookID%]</u></i>, page %Page%.
+
+:CR_OptionBranch
+1,|CR={Dice~1d39}|
+2,{Input~LowestRange,Enter Lowest Challenge Rating desired,1}
+_{Input~HighestRange,Enter Highest Challenge Rating desired,28}
+_[CalculateChallengeRange]
+3,|CR={Dice~1d6}||CR+28|
+4,{Input~CR,Enter the desired Challenge Rating (1-28),1}
+
+:CR_OptionBranchAlternate
+1,[RandomCR]
+2,{Input~LowestRange,Enter Lowest Challenge Rating desired,1}
+_{Input~HighestRange,Enter Highest Challenge Rating desired,28}
+_[CalculateChallengeRange]
+3,|CR={Dice~1d6}||CR+28|
+4,{Input~CR,Enter the desired Challenge Rating (1-28),1}
+
+;RandomCR
+20,|CR_Option=3|[CR_OptionBranch=%CR_Option%]
+20,|CR={Dice~1d3}|
+15,|CR={Dice~1d3+3}|
+10,|CR={Dice~1d3+6}|
+8,|CR={Dice~1d3+9}|
+6,|CR={Dice~1d3+12}|
+4,|CR={Dice~1d3+15}|
+4,|CR={Dice~1d3+18}|
+2,|CR={Dice~1d3+21}|
+2,|CR={Dice~1d3+24}|
+1,|CR=28|
+
+:BookBranch
+1,
+2,[MM_ChallengeBranch=%CR%]
+3,[MM2_ChallengeBranch=%CR%]
+4,[CC_ChallengeBranch=%CR%]
+5,[CC2_ChallengeBranch=%CR%]
+6,[ToH_ChallengeBranch=%CR%]
+7,[MoF_ChallengeBranch=%CR%]
+8,[FF_ChallengeBranch=%CR%]
+
+:DetermineBookName
+1,
+2,MM1
+3,MM2
+4,CC1
+5,CC2
+6,ToH
+7,MonF
+8,FF
+
+:DetermineBookNameOLD
+1,
+2,Monster Manual I
+3,Monster Manual II
+4,Creature Collection I
+5,Creature Collection II
+6,Tome of Horrors
+7,Monsters of Faerun
+8,Fiend Folio
+
+:CreatureTypes
+1,Aberration
+2,Animal
+3,Beast
+4,Construct
+5,Dire Animal
+6,Dragon
+7,Elemental
+8,Fey
+9,Giant
+10,Humanoid 
+11,Magical Beast
+12,Monstrous Humanoid
+13,Ooze
+14,Outsider
+15,Plant
+16,Shapechanger 
+17,Undead
+18,Vermin
+19,N/A
+
+:SubType
+1,Air
+2,Aquatic
+3,Cold
+4,Earth
+5,Electricity
+6,Fire
+7,Incorporeal
+8,Chaotic
+9,Evil
+10,Lawful
+11,Reptilian
+12,Shadow
+13,Water
+14,Good
+15,Extraplanar
+16,Swarm
+17,Symbiont
+18,Shapechanger
+
+:CR_StringLessThanOne
+29,1/10
+30,1/8
+31,1/6
+32,1/4
+33,1/3
+34,1/2
+
+:CalculateChallengeRange
+1,|ChallengeRange={Calc~((%HighestRange% - %LowestRange%)+1)}|
+_|TempNumber={Dice~1d%ChallengeRange%}|
+_|CR={Calc~((%TempNumber%+%LowestRange%)-1)}|
+_{If~%LowestRange% = %HighestRange% ? |CR=%LowestRange%|}
+
+#Monster Manual I
+
+:MM_ChallengeBranch
+1,[MM_CR1]|BookID=1||CR=1|
+2,[MM_CR2]|BookID=1||CR=2|
+3,[MM_CR3]|BookID=1||CR=3|
+4,[MM_CR4]|BookID=1||CR=4|
+5,[MM_CR5]|BookID=1||CR=5|
+6,[MM_CR6]|BookID=1||CR=6|
+7,[MM_CR7]|BookID=1||CR=7|
+8,[MM_CR8]|BookID=1||CR=8|
+9,[MM_CR9]|BookID=1||CR=9|
+10,[MM_CR10]|BookID=1||CR=10|
+11,[MM_CR11]|BookID=1||CR=11|
+12,[MM_CR12]|BookID=1||CR=12|
+13,[MM_CR13]|BookID=1||CR=13|
+14,[MM_CR14]|BookID=1||CR=14|
+15,[MM_CR15]|BookID=1||CR=15|
+16,[MM_CR16]|BookID=1||CR=16|
+17,[MM_CR17]|BookID=1||CR=17|
+18,[MM_CR18]|BookID=1||CR=18|
+19,[MM_CR19]|BookID=1||CR=19|
+20,[MM_CR20]|BookID=1||CR=20|
+21,[MM_CR21]|BookID=1||CR=21|
+22,[MM_CR22]|BookID=1||CR=22|
+23,[MM_CR23]|BookID=1||CR=23|
+24,[MM_CR24]|BookID=1||CR=24|
+25,[MM_CR25]|BookID=1||CR=25|
+26,[MM_CR26]|BookID=1||CR=26|
+27,[MM_CR27]|BookID=1||CR=27|
+28,{If~%BookSubstitution%=1?[BookSubstitution9]|BookID=1||CR=28|/|CreatureType=19|No CR 28 Monsters}
+29,[MM_CR_OneTenth]|BookID=1||CR=29|
+30,[MM_CR_OneEighth]|BookID=1||CR=30|
+31,[MM_CR_OneSixth]|BookID=1||CR=31|
+32,[MM_CR_OneFourth]|BookID=1||CR=32|
+33,[MM_CR_OneThird]|BookID=1||CR=33|
+34,[MM_CR_OneHalf]|BookID=1||CR=34|
+
+#Monster Manual II
+
+:MM2_ChallengeBranch
+1,[MM2_CR1]|BookID=2||CR=1|
+2,[MM2_CR2]|BookID=2||CR=2|
+3,[MM2_CR3]|BookID=2||CR=3|
+4,[MM2_CR4]|BookID=2||CR=4|
+5,[MM2_CR5]|BookID=2||CR=5|
+6,[MM2_CR6]|BookID=2||CR=6|
+7,[MM2_CR7]|BookID=2||CR=7|
+8,[MM2_CR8]|BookID=2||CR=8|
+9,[MM2_CR9]|BookID=2||CR=9|
+10,[MM2_CR10]|BookID=2||CR=10|
+11,[MM2_CR11]|BookID=2||CR=11|
+12,[MM2_CR12]|BookID=2||CR=12|
+13,[MM2_CR13]|BookID=2||CR=13|
+14,[MM2_CR14]|BookID=2||CR=14|
+15,[MM2_CR15]|BookID=2||CR=15|
+16,[MM2_CR16]|BookID=2||CR=16|
+17,[MM2_CR17]|BookID=2||CR=17|
+18,[MM2_CR18]|BookID=2||CR=18|
+19,[MM2_CR19]|BookID=2||CR=19|
+20,[MM2_CR20]|BookID=2||CR=20|
+21,[MM2_CR21]|BookID=2||CR=21|
+22,[MM2_CR22]|BookID=2||CR=22|
+23,[MM2_CR23]|BookID=2||CR=23|
+24,[MM2_CR24]|BookID=2||CR=24|
+25,[MM2_CR25]|BookID=2||CR=25|
+26,[MM2_CR26]|BookID=2||CR=26|
+27,[MM2_CR27]|BookID=2||CR=27|
+28,[MM2_CR28]|BookID=2||CR=28|
+29,{If~%BookSubstitution%=1?[BookSubstitution7]|BookID=2||CR=29|/|CreatureType=19|No CR 1/10 Monsters}
+30,{If~%BookSubstitution%=1?[BookSubstitution8]|BookID=2||CR=30|/|CreatureType=19|No CR 1/8 Monsters}
+31,{If~%BookSubstitution%=1?[BookSubstitution10]|BookID=2||CR=31|/|CreatureType=19|No CR 1/6 Monsters}
+32,[MM2_CR_OneFourth]|BookID=2||CR=32|
+33,[MM2_CR_OneThird]|BookID=2||CR=33|
+34,[MM2_CR_OneHalf]|BookID=2||CR=34|
+
+#Creature Collection I
+
+:CC_ChallengeBranch
+1,[CC_CR1]|BookID=3||CR=1|
+2,[CC_CR2]|BookID=3||CR=2|
+3,[CC_CR3]|BookID=3||CR=3|
+4,[CC_CR4]|BookID=3||CR=4|
+5,[CC_CR5]|BookID=3||CR=5|
+6,[CC_CR6]|BookID=3||CR=6|
+7,[CC_CR7]|BookID=3||CR=7|
+8,[CC_CR8]|BookID=3||CR=8|
+9,[CC_CR9]|BookID=3||CR=9|
+10,[CC_CR10]|BookID=3||CR=10|
+11,[CC_CR11]|BookID=3||CR=11|
+12,[CC_CR12]|BookID=3||CR=12|
+13,{If~%BookSubstitution%=1?[BookSubstitution3]|BookID=3||CR=13|/|CreatureType=19|No CR 13 Monsters}
+14,[CC_CR14]|BookID=3||CR=14|
+15,[CC_CR15]|BookID=3||CR=15|
+16,[CC_CR16]|BookID=3||CR=16|
+17,{If~%BookSubstitution%=1?[BookSubstitution3]|BookID=3||CR=17|/|CreatureType=19|No CR 17 Monsters}
+18,[CC_CR18]|BookID=3||CR=18|
+19,{If~%BookSubstitution%=1?[BookSubstitution6]|BookID=3||CR=19|/|CreatureType=19|No CR 19 Monsters}
+20,{If~%BookSubstitution%=1?[BookSubstitution3]|BookID=3||CR=20|/|CreatureType=19|No CR 20 Monsters}
+21,{If~%BookSubstitution%=1?[BookSubstitution6]|BookID=3||CR=21|/|CreatureType=19|No CR 21 Monsters}
+22,{If~%BookSubstitution%=1?[BookSubstitution6]|BookID=3||CR=22|/|CreatureType=19|No CR 22 Monsters}
+23,{If~%BookSubstitution%=1?[BookSubstitution6]|BookID=3||CR=23|/|CreatureType=19|No CR 23 Monsters}
+24,{If~%BookSubstitution%=1?[BookSubstitution6]|BookID=3||CR=24|/|CreatureType=19|No CR 24 Monsters}
+25,{If~%BookSubstitution%=1?[BookSubstitution6]|BookID=3||CR=25|/|CreatureType=19|No CR 25 Monsters}
+26,{If~%BookSubstitution%=1?[BookSubstitution6]|BookID=3||CR=26|/|CreatureType=19|No CR 26 Monsters}
+27,[CC_CR27]|BookID=3||CR=27|
+28,{If~%BookSubstitution%=1?[BookSubstitution9]|BookID=3||CR=28|/|CreatureType=19|No CR 28 Monsters}
+29,[CC_CR_OneTenth]|BookID=3||CR=29|
+30,[CC_CR_OneEighth]|BookID=3||CR=30|
+31,{If~%BookSubstitution%=1?[BookSubstitution10]|BookID=3||CR=31|/|CreatureType=19|No CR 1/6 Monsters}
+32,{If~%BookSubstitution%=1?[BookSubstitution12]|BookID=3||CR=32|/|CreatureType=19|No CR 1/4 Monsters}
+33,{If~%BookSubstitution%=1?[BookSubstitution2]|BookID=3||CR=33|/|CreatureType=19|No CR 1/3 Monsters}
+
+#Creature Collection II
+
+:CC2_ChallengeBranch
+1,[CC2_CR1]|BookID=4||CR=1|
+2,[CC2_CR2]|BookID=4||CR=2|
+3,[CC2_CR3]|BookID=4||CR=3|
+4,[CC2_CR4]|BookID=4||CR=4|
+5,[CC2_CR5]|BookID=4||CR=5|
+6,[CC2_CR6]|BookID=4||CR=6|
+7,[CC2_CR7]|BookID=4||CR=7|
+8,[CC2_CR8]|BookID=4||CR=8|
+9,[CC2_CR9]|BookID=4||CR=9|
+10,[CC2_CR10]|BookID=4||CR=10|
+11,[CC2_CR11]|BookID=4||CR=11|
+12,[CC2_CR12]|BookID=4||CR=12|
+13,[CC2_CR13]|BookID=4||CR=13|
+14,{If~%BookSubstitution%=1?[BookSubstitution4]|BookID=4||CR=14|/|CreatureType=19|No CR 14 Monsters}
+15,[CC2_CR15]|BookID=4||CR=15|
+16,{If~%BookSubstitution%=1?[BookSubstitution5]|BookID=4||CR=16|/|CreatureType=19|No CR 16 Monsters}
+17,[CC2_CR17]|BookID=4||CR=17|
+18,[CC2_CR18]|BookID=4||CR=18|
+19,{If~%BookSubstitution%=1?[BookSubstitution6]|BookID=4||CR=19|/|CreatureType=19|No CR 19 Monsters}
+20,[CC2_CR20]|BookID=4||CR=20|
+21,{If~%BookSubstitution%=1?[BookSubstitution6]|BookID=4||CR=21|/|CreatureType=19|No CR 21 Monsters}
+22,{If~%BookSubstitution%=1?[BookSubstitution6]|BookID=4||CR=22|/|CreatureType=19|No CR 22 Monsters}
+23,{If~%BookSubstitution%=1?[BookSubstitution6]|BookID=4||CR=23|/|CreatureType=19|No CR 23 Monsters}
+24,{If~%BookSubstitution%=1?[BookSubstitution6]|BookID=4||CR=24|/|CreatureType=19|No CR 24 Monsters}
+25,{If~%BookSubstitution%=1?[BookSubstitution6]|BookID=4||CR=25|/|CreatureType=19|No CR 25 Monsters}
+26,{If~%BookSubstitution%=1?[BookSubstitution6]|BookID=4||CR=26|/|CreatureType=19|No CR 26 Monsters}
+27,[CC2_CR27]|BookID=4||CR=27|
+28,{If~%BookSubstitution%=1?[BookSubstitution9]|BookID=4||CR=28|/|CreatureType=19|No CR 28 Monsters}
+29,{If~%BookSubstitution%=1?[BookSubstitution7]|BookID=4||CR=29|/|CreatureType=19|No CR 1/10 Monsters}
+30,[CC2_CR_OneEighth]|BookID=4||CR=30|
+31,{If~%BookSubstitution%=1?[BookSubstitution10]|BookID=4||CR=31|/|CreatureType=19|No CR 1/6 Monsters}
+32,[CC2_CR_OneFourth]|BookID=4||CR=32|
+33,[CC2_CR_OneThird]|BookID=4||CR=33|
+34,[CC2_CR_OneHalf]|BookID=4||CR=34|
+34,[CC_CR_OneHalf]|BookID=3||CR=34|
+
+#Tome of Horrors
+
+:ToH_ChallengeBranch
+1,[ToH_CR1]|BookID=5||CR=1|
+2,[ToH_CR2]|BookID=5||CR=2|
+3,[ToH_CR3]|BookID=5||CR=3|
+4,[ToH_CR4]|BookID=5||CR=4|
+5,[ToH_CR5]|BookID=5||CR=5|
+6,[ToH_CR6]|BookID=5||CR=6|
+7,[ToH_CR7]|BookID=5||CR=7|
+8,[ToH_CR8]|BookID=5||CR=8|
+9,[ToH_CR9]|BookID=5||CR=9|
+10,[ToH_CR10]|BookID=5||CR=10|
+11,[ToH_CR11]|BookID=5||CR=11|
+12,[ToH_CR12]|BookID=5||CR=12|
+13,[ToH_CR13]|BookID=5||CR=13|
+14,[ToH_CR14]|BookID=5||CR=14|
+15,[ToH_CR15]|BookID=5||CR=15|
+16,[ToH_CR16]|BookID=5||CR=16|
+17,[ToH_CR17]|BookID=5||CR=17|
+18,[ToH_CR18]|BookID=5||CR=18|
+19,[ToH_CR19]|BookID=5||CR=19|
+20,[ToH_CR20]|BookID=5||CR=20|
+21,[ToH_CR21]|BookID=5||CR=21|
+22,[ToH_CR22]|BookID=5||CR=22|
+23,[ToH_CR23]|BookID=5||CR=23|
+24,[ToH_CR24]|BookID=5||CR=24|
+25,[ToH_CR25]|BookID=5||CR=25|
+26,[ToH_CR26]|BookID=5||CR=26|
+27,[ToH_CR27]|BookID=5||CR=27|
+28,[ToH_CR28]|BookID=5||CR=28|
+29,[ToH_CR_OneTenth]|BookID=5||CR=29|
+30,[ToH_CR_OneEighth]|BookID=5||CR=30|
+31,[ToH_CR_OneSixth]|BookID=5||CR=31|
+32,[ToH_CR_OneFourth]|BookID=5||CR=32|
+33,[ToH_CR_OneThird]|BookID=5||CR=33|
+34,[ToH_CR_OneHalf]|BookID=5||CR=34|
+
+#Forgotten Realms Monsters: Monsters of Faerun
+
+:MoF_ChallengeBranch
+1,[MoF_CR1]|BookID=6||CR=1|
+2,[MoF_CR2]|BookID=6||CR=2|
+3,[MoF_CR3]|BookID=6||CR=3|
+4,[MoF_CR4]|BookID=6||CR=4|
+5,[MoF_CR5]|BookID=6||CR=5|
+6,[MoF_CR6]|BookID=6||CR=6|
+7,[MoF_CR7]|BookID=6||CR=7|
+8,[MoF_CR8]|BookID=6||CR=8|
+9,{If~%BookSubstitution%=1?[BookSubstitution1]|BookID=6||CR=9|/|CreatureType=19|No CR 9 Monsters}
+10,[MoF_CR10]|BookID=6||CR=10|
+11,[MoF_CR11]|BookID=6||CR=11|
+12,[MoF_CR12]|BookID=6||CR=12|
+13,[MoF_CR13]|BookID=6||CR=13|
+14,[MoF_CR14]|BookID=6||CR=14|
+15,[MoF_CR15]|BookID=6||CR=15|
+16,[MoF_CR16]|BookID=6||CR=16|
+17,[MoF_CR17]|BookID=6||CR=17|
+18,[MoF_CR18]|BookID=6||CR=18|
+19,[MoF_CR19]|BookID=6||CR=19|
+20,[MoF_CR20]|BookID=6||CR=20|
+21,[MoF_CR21]|BookID=6||CR=21|
+22,[MoF_CR22]|BookID=6||CR=22|
+23,[MoF_CR23]|BookID=6||CR=23|
+24,[MoF_CR24]|BookID=6||CR=24|
+25,{If~%BookSubstitution%=1?[BookSubstitution6]|BookID=6||CR=25|/|CreatureType=19|No CR 25 Monsters}
+26,{If~%BookSubstitution%=1?[BookSubstitution6]|BookID=6||CR=26|/|CreatureType=19|No CR 26 Monsters}
+27,[MoF_CR27]|BookID=6||CR=27|
+28,{If~%BookSubstitution%=1?[BookSubstitution9]|BookID=6||CR=28|/|CreatureType=19|No CR 28 Monsters}
+29,{If~%BookSubstitution%=1?[BookSubstitution7]|BookID=6||CR=29|/|CreatureType=19|No CR 1/10 Monsters}
+30,{If~%BookSubstitution%=1?[BookSubstitution8]|BookID=6||CR=30|/|CreatureType=19|No CR 1/8 Monsters}
+31,{If~%BookSubstitution%=1?[BookSubstitution10]|BookID=6||CR=31|/|CreatureType=19|No CR 1/6 Monsters}
+32,{If~%BookSubstitution%=1?[BookSubstitution1]|BookID=6||CR=32|/|CreatureType=19|No CR 1/4 Monsters}
+33,[MoF_CR_OneThird]|BookID=6||CR=33|
+34,[MoF_CR_OneHalf]|BookID=6||CR=34|
+
+#Fiend Folio
+
+:FF_ChallengeBranch
+1,[FF_CR1]|BookID=7||CR=1|
+2,[FF_CR2]|BookID=7||CR=2|
+3,[FF_CR3]|BookID=7||CR=3|
+4,[FF_CR4]|BookID=7||CR=4|
+5,[FF_CR5]|BookID=7||CR=5|
+6,[FF_CR6]|BookID=7||CR=6|
+7,[FF_CR7]|BookID=7||CR=7|
+8,[FF_CR8]|BookID=7||CR=8|
+9,[FF_CR9]|BookID=7||CR=9|
+10,[FF_CR10]|BookID=7||CR=10|
+11,[FF_CR11]|BookID=7||CR=11|
+12,[FF_CR12]|BookID=7||CR=12|
+13,[FF_CR13]|BookID=7||CR=13|
+14,[FF_CR14]|BookID=7||CR=14|
+15,[FF_CR15]|BookID=7||CR=15|
+16,[FF_CR16]|BookID=7||CR=16|
+17,[FF_CR17]|BookID=7||CR=17|
+18,[FF_CR18]|BookID=7||CR=18|
+19,[FF_CR19]|BookID=7||CR=19|
+20,[FF_CR20]|BookID=7||CR=20|
+21,[FF_CR21]|BookID=7||CR=21|
+22,[FF_CR22]|BookID=7||CR=22|
+23,{If~%BookSubstitution%=1?[BookSubstitution11]|BookID=7||CR=23|/|CreatureType=19|No CR 23 Monsters}
+24,{If~%BookSubstitution%=1?[BookSubstitution11]|BookID=7||CR=24|/|CreatureType=19|No CR 24 Monsters}
+25,[FF_CR25]|BookID=7||CR=25|
+26,{If~%BookSubstitution%=1?[BookSubstitution11]|BookID=7||CR=26|/|CreatureType=19|No CR 26 Monsters}
+27,[FF_CR27]|BookID=7||CR=27|
+28,{If~%BookSubstitution%=1?[BookSubstitution9]|BookID=7||CR=28|/|CreatureType=19|No CR 28 Monsters}
+29,{If~%BookSubstitution%=1?[BookSubstitution7]|BookID=7||CR=29|/|CreatureType=19|No CR 1/10 Monsters}
+30,[FF_CR_OneEighth]|BookID=7||CR=30|
+31,{If~%BookSubstitution%=1?[BookSubstitution10]|BookID=7||CR=31|/|CreatureType=19|No CR 1/6 Monsters}
+32,{If~%BookSubstitution%=1?[BookSubstitution12]|BookID=7||CR=32|/|CreatureType=19|No CR 1/4 Monsters}
+33,[FF_CR_OneThird]|BookID=7||CR=33|
+34,[FF_CR_OneHalf]|BookID=7||CR=34|
+
+;BookSubstitution1
+1,[MM_ChallengeBranch=%CR%]
+1,[MM2_ChallengeBranch=%CR%]
+1,[ToH_ChallengeBranch=%CR%]
+1,[CC_ChallengeBranch=%CR%]
+1,[CC2_ChallengeBranch=%CR%]
+1,[FF_ChallengeBranch=%CR%]
+
+;BookSubstitution2
+1,[MM_ChallengeBranch=%CR%]
+1,[MM2_ChallengeBranch=%CR%]
+1,[ToH_ChallengeBranch=%CR%]
+1,[MoF_ChallengeBranch=%CR%]
+1,[CC2_ChallengeBranch=%CR%]
+1,[FF_ChallengeBranch=%CR%]
+
+;BookSubstitution3
+1,[MM_ChallengeBranch=%CR%]
+1,[MM2_ChallengeBranch=%CR%]
+1,[ToH_ChallengeBranch=%CR%]
+1,[CC2_ChallengeBranch=%CR%]
+1,[FF_ChallengeBranch=%CR%]
+
+;BookSubstitution4
+1,[MM_ChallengeBranch=%CR%]
+1,[MM2_ChallengeBranch=%CR%]
+1,[ToH_ChallengeBranch=%CR%]
+1,[MoF_ChallengeBranch=%CR%]
+1,[CC_ChallengeBranch=%CR%]
+1,[FF_ChallengeBranch=%CR%]
+
+;BookSubstitution5
+1,[MM_ChallengeBranch=%CR%]
+1,[MM2_ChallengeBranch=%CR%]
+1,[ToH_ChallengeBranch=%CR%]
+1,[CC_ChallengeBranch=%CR%]
+1,[FF_ChallengeBranch=%CR%]
+
+;BookSubstitution6
+1,[MM_ChallengeBranch=%CR%]
+1,[MM2_ChallengeBranch=%CR%]
+1,[ToH_ChallengeBranch=%CR%]
+1,[FF_ChallengeBranch=%CR%]
+
+;BookSubstitution7
+1,[MM_ChallengeBranch=%CR%]
+1,[CC_ChallengeBranch=%CR%]
+1,[ToH_ChallengeBranch=%CR%]
+
+;BookSubstitution8
+1,[MM_ChallengeBranch=%CR%]
+1,[ToH_ChallengeBranch=%CR%]
+1,[CC_ChallengeBranch=%CR%]
+1,[CC2_ChallengeBranch=%CR%]
+1,[FF_ChallengeBranch=%CR%]
+
+;BookSubstitution9
+1,[MM2_ChallengeBranch=%CR%]
+1,[ToH_ChallengeBranch=%CR%]
+
+;BookSubstitution10
+1,[MM_ChallengeBranch=%CR%]
+1,[ToH_ChallengeBranch=%CR%]
+
+;BookSubstitution11
+1,[MM_ChallengeBranch=%CR%]
+1,[MM2_ChallengeBranch=%CR%]
+1,[ToH_ChallengeBranch=%CR%]
+
+;BookSubstitution12
+1,[MM_ChallengeBranch=%CR%]
+1,[MM2_ChallengeBranch=%CR%]
+1,[ToH_ChallengeBranch=%CR%]
+1,[CC_ChallengeBranch=%CR%]
+1,[CC2_ChallengeBranch=%CR%]
+
+#Monster Manual I
+
+;MM_CR_OneTenth
+1,bat|Page=193||CreatureType=2|
+1,toad|Page=203||CreatureType=2|
+
+;MM_CR_OneEighth
+1,monstrous centipede, tiny|Page=207||CreatureType=18|
+1,rat|Page=200||CreatureType=2|
+
+;MM_CR_OneSixth
+1,lizard|Page=198||CreatureType=2|
+1,monkey|Page=198||CreatureType=2|
+1,raven|Page=200||CreatureType=2|
+1,donkey|Page=196||CreatureType=2|
+1,kobold|Page=123||CreatureType=10||SubType=11|
+1,skeleton, tiny|Page=165||CreatureType=17|
+1,zombie, tiny|Page=191||CreatureType=17|
+
+;MM_CR_OneFourth
+1,cat|Page=195||CreatureType=2|
+1,goblin|Page=107||CreatureType=10|
+1,monstrous centipede, small|Page=207||CreatureType=18|
+1,monstrous scorpion, tiny|Page=207||CreatureType=18|
+1,monstrous spider, tiny|Page=208||CreatureType=18|
+1,owl|Page=199||CreatureType=2|
+1,pony|Page=199||CreatureType=2|
+1,pony, war|Page=199||CreatureType=2|
+1,skeleton, small|Page=165||CreatureType=17|
+1,weasel|Page=203||CreatureType=2|
+1,zombie, small|Page=191||CreatureType=17|
+
+;MM_CR_OneThird
+1,dire rat|Page=56||CreatureType=5|
+1,dog|Page=195||CreatureType=2|
+1,giant fire beetle|Page=206||CreatureType=18|
+1,hawk|Page=196||CreatureType=2|
+1,skeleton, medium sized|Page=165||CreatureType=17|
+1,snake, tiny viper|Page=200||CreatureType=2|
+
+;MM_CR_OneHalf
+1,aasimar|Page=151||CreatureType=14|
+1,abyssal dire rat|Page=56||CreatureType=11|
+1,animated object, tiny|Page=17||CreatureType=4|
+1,baboon|Page=193||CreatureType=2|
+1,badger|Page=193||CreatureType=2|
+1,dwarf, deep|Page=79||CreatureType=10|
+1,dwarf, hill|Page=79||CreatureType=10|
+1,dwarf, mountain|Page=79||CreatureType=10|
+1,eagle|Page=196||CreatureType=2|
+1,elf (any subrace but drow)|Page=85||CreatureType=10|
+1,giant bee|Page=206||CreatureType=18|
+1,gnome (forest or rock)|Page=106||CreatureType=10|
+1,halfling (any subrace)|Page=116||CreatureType=10|
+1,hobgoblin|Page=119||CreatureType=10|
+1,locathah|Page=129||CreatureType=10||SubType=2|
+1,merfolk|Page=135||CreatureType=10||SubType=2|
+1,monstrous centipede, med|Page=207||CreatureType=18|
+1,monstrous scorpion, small|Page=207||CreatureType=18|
+1,monstrous spider, small|Page=208||CreatureType=18|
+1,orc|Page=146||CreatureType=10|
+1,porpoise|Page=200||CreatureType=2||SubType=2|
+1,snake, small viper|Page=200||CreatureType=2|
+1,stirge|Page=173||CreatureType=3|
+1,tiefling|Page=151||CreatureType=14|
+1,worker (formian)|Page=90||CreatureType=14||SubType=10|
+1,zombie, medium sized|Page=191||CreatureType=17|
+
+;MM_CR1
+1,air elemental, small|Page=81||CreatureType=7||SubType=1|
+1,animated object, small|Page=17||CreatureType=4|
+1,camel|Page=195||CreatureType=2|
+1,darkmantle|Page=39||CreatureType=11|
+1,derro (dwarf)|Page=19||CreatureType=10|
+1,dog, riding|Page=196||CreatureType=2|
+1,drow (elf)|Page=86||CreatureType=10|
+1,dryad|Page=78||CreatureType=8|
+1,duergar|Page=81||CreatureType=10|
+1,earth elemental, small|Page=81||CreatureType=7||SubType=4|
+1,fire elemental, small|Page=81||CreatureType=7||SubType=6|
+1,ghoul|Page=97||CreatureType=17|
+1,giant ant worker|Page=205||CreatureType=18||SubType=16|
+1,gnoll|Page=105||CreatureType=10|
+1,grimlock|Page=114||CreatureType=12|
+1,heavy horse|Page=196||CreatureType=2|
+1,homunculus|Page=120||CreatureType=4|
+1,krenshar|Page=125||CreatureType=11|
+1,lemure|Page=48||CreatureType=2|
+1,light horse|Page=196||CreatureType=2|
+1,light warhorse|Page=196||CreatureType=2|
+1,lizardfolk|Page=128||CreatureType=10||SubType=2|
+1,monstrous centipede, large|Page=207||CreatureType=18|
+1,monstrous scorpion, medium|Page=207||CreatureType=18|
+1,monstrous spider, medium|Page=208||CreatureType=18|
+1,mule|Page=198||CreatureType=2|
+1,octopus|Page=199||CreatureType=2||SubType=2|
+1,pseudodragon|Page=152||CreatureType=6|
+1,shark, medium|Page=200||CreatureType=2||SubType=2|
+1,shrieker|Page=93||CreatureType=15|
+1,skeleton, large|Page=165||CreatureType=17|
+1,snake, medium viper|Page=200||CreatureType=2|
+1,sprite, grig|Page=172||CreatureType=8|
+1,sprite, nixie|Page=172||CreatureType=8|
+1,squid|Page=200||CreatureType=2||SubType=2|
+1,svirfneblin (gnome)|Page=107||CreatureType=10|
+1,troglodyte|Page=179||CreatureType=10||SubType=11|
+1,water elemental, small|Page=84||CreatureType=7||SubType=13|
+1,white dragon (wyrmling)|Page=68||CreatureType=6||SubType=3|
+1,wolf|Page=204||CreatureType=2|
+1,zombie, large|Page=191||CreatureType=17|
+
+;MM_CR2
+1,animated object, medium|Page=17||CreatureType=4|
+1,ape|Page=193||CreatureType=2|
+1,azer|Page=22||CreatureType=14||SubType=6|
+1,bison|Page=194||CreatureType=2|
+1,black bear|Page=193||CreatureType=2|
+1,black dragon (wyrmling)|Page=63||CreatureType=6||SubType=13|
+1,blink dog|Page=26||CreatureType=11|
+1,blue dragon (wyrmling)|Page=65||CreatureType=6||SubType=4|
+1,boar|Page=194||CreatureType=2|
+1,brass dragon (wyrmling)|Page=70||CreatureType=6||SubType=6|
+1,bronze dragon (wyrmling)|Page=71||CreatureType=6||SubType=13|
+1,bugbear|Page=27||CreatureType=10|
+1,cheetah|Page=195||CreatureType=2|
+1,choker|Page=36||CreatureType=1|
+1,copper dragon (wyrmling)|Page=72||CreatureType=6||SubType=4|
+1,crocodile|Page=195||CreatureType=2||SubType=2|
+1,dire badger|Page=56||CreatureType=5|
+1,dire bat|Page=56||CreatureType=5|
+1,dire weasel|Page=56||CreatureType=5|
+1,dretch|Page=41||CreatureType=14|
+1,giant ant queen|Page=205||CreatureType=18||SubType=16|
+1,giant ant soldier|Page=205||CreatureType=18||SubType=16|
+1,giant bombardier beetle|Page=206||CreatureType=18|
+1,giant lizard|Page=198||CreatureType=2|
+1,giant praying mantis|Page=206||CreatureType=18|
+1,green dragon (wyrmling)|Page=66||CreatureType=6||SubType=1|
+1,heavy warhorse|Page=196||CreatureType=2|
+1,hippogriff|Page=118||CreatureType=3|
+1,imp|Page=48||CreatureType=14||SubType=15|
+1,kuo-toa|Page=125||CreatureType=10||SubType=2|
+1,lantern archon|Page=29||CreatureType=14|
+1,leopard|Page=197||CreatureType=2|
+1,monstrous centipede, huge|Page=207||CreatureType=18|
+1,monstrous scorpion, large|Page=207||CreatureType=18|
+1,monstrous spider, large|Page=208||CreatureType=18|
+1,ogre|Page=144||CreatureType=9|
+1,sahuagin|Page=157||CreatureType=10||SubType=2|
+1,salamander, flamebrother|Page=159||CreatureType=14||SubType=6|
+1,satyr (no pipes)|Page=160||CreatureType=8|
+1,shark, large|Page=200||CreatureType=2||SubType=2|
+1,shocker, lizard|Page=164||CreatureType=11|
+1,skeleton, huge|Page=165||CreatureType=17|
+1,skum|Page=166||CreatureType=1||SubType=2|
+1,snake, constrictor|Page=200||CreatureType=2|
+1,snake, large viper|Page=200||CreatureType=2|
+1,thoqqua|Page=175||CreatureType=7||SubType=4|
+1,vargouille|Page=182||CreatureType=14||SubType=9|
+1,wererat|Page=219||CreatureType=16|
+1,white dragon (very young)|Page=68||CreatureType=6||SubType=3|
+1,wolverine|Page=204||CreatureType=2|
+1,worg|Page=184||CreatureType=11|
+
+;MM_CR3
+1,air elemental, medium|Page=81||CreatureType=7||SubType=1|
+1,air mephit|Page=132||CreatureType=14||SubType=1|
+1,allip|Page=16||CreatureType=17||SubType=7|
+1,animated object, large|Page=17||CreatureType=4|
+1,ankheg|Page=18||CreatureType=3|
+1,arrowhawk, juvenile|Page=19||CreatureType=14||SubType=1|
+1,assassin vine|Page=20||CreatureType=15|
+1,black dragon (very young)|Page=63||CreatureType=6||SubType=13|
+1,blue dragon (very young)|Page=65||CreatureType=6||SubType=4|
+1,brass dragon (very young)|Page=70||CreatureType=6||SubType=6|
+1,celestial lion|Page=211||CreatureType=11|
+1,centaur|Page=33||CreatureType=12|
+1,cockatrice|Page=38||CreatureType=11|
+1,deinonychus|Page=55||CreatureType=3|
+1,dire ape|Page=56||CreatureType=5|
+1,dire wolf|Page=56||CreatureType=5|
+1,doppleganger|Page=60||CreatureType=16|
+1,dust mephit|Page=132||CreatureType=14||SubType=1|
+1,earth elemental, medium|Page=82||CreatureType=7||SubType=4|
+1,earth mephit|Page=132||CreatureType=14||SubType=4|
+1,ethereal filcher|Page=87||CreatureType=1|
+1,ethereal marauder|Page=88||CreatureType=11|
+1,fire elemental, medium|Page=81||CreatureType=7||SubType=6|
+1,fire mephit|Page=132||CreatureType=14||SubType=6|
+1,gelatinous cube|Page=145||CreatureType=13|
+1,ghast|Page=97||CreatureType=17|
+1,giant eagle|Page=102||CreatureType=11|
+1,giant owl|Page=103||CreatureType=11|
+1,giant wasp|Page=206||CreatureType=18|
+1,green dragon (very young)|Page=66||CreatureType=6||SubType=1|
+1,grick|Page=112||CreatureType=1|
+1,hell hound|Page=118||CreatureType=14||SubType=9|
+1,howler|Page=121||CreatureType=14||SubType=8|
+1,ice mephit|Page=132||CreatureType=14||SubType=3|
+1,lion|Page=198||CreatureType=2|
+1,magma mephit|Page=132||CreatureType=14||SubType=6|
+1,magmin|Page=130||CreatureType=7||SubType=6|
+1,mummy|Page=138||CreatureType=17|
+1,ooze mephit|Page=132||CreatureType=14||SubType=13|
+1,pegasus|Page=148||CreatureType=11|
+1,phantom fungus|Page=149||CreatureType=15|
+1,quasit|Page=41||CreatureType=8|
+1,red dragon (wyrmling)|Page=67||CreatureType=6||SubType=6|
+1,rust monster|Page=157||CreatureType=1|
+1,salt mephit|Page=132||CreatureType=14||SubType=4|
+1,shadow|Page=161||CreatureType=17|
+1,silver dragon (wyrmling)|Page=75||CreatureType=6||SubType=1|
+1,snake, huge viper|Page=200||CreatureType=2|
+1,steam mephit|Page=132||CreatureType=14||SubType=6|
+1,tojanida, juvenile|Page=177||CreatureType=14||SubType=13|
+1,unicorn|Page=181||CreatureType=11|
+1,violet fungus|Page=93||CreatureType=15|
+1,warrior (formian)|Page=90||CreatureType=14||SubType=10|
+1,water elemental, medium|Page=84||CreatureType=7||SubType=13|
+1,water mephit|Page=133||CreatureType=14||SubType=13|
+1,wereboar|Page=219||CreatureType=16|
+1,werewolf|Page=220||CreatureType=16|
+1,white dragon (young)|Page=68||CreatureType=6||SubType=3|
+1,wight|Page=183||CreatureType=17|
+1,xorn, minor|Page=187||CreatureType=14||SubType=4|
+1,yeth hound|Page=188||CreatureType=14||SubType=9|
+1,zombie, huge|Page=191||CreatureType=17|
+
+;MM_CR4
+1,aranea|Page=19||CreatureType=16|
+1,barghest|Page=22||CreatureType=14||SubType=9|
+1,black dragon (young)|Page=63||CreatureType=6||SubType=13|
+1,bronze dragon (very young)|Page=71||CreatureType=6||SubType=13|
+1,brown bear|Page=193||CreatureType=2|
+1,carrion crawler|Page=29||CreatureType=1|
+1,copper dragon (very young)|Page=72||CreatureType=6||SubType=4|
+1,dire boar|Page=56||CreatureType=5|
+1,dire wolverine|Page=56||CreatureType=5|
+1,displacer beast|Page=59||CreatureType=11|
+1,ettercap|Page=88||CreatureType=1|
+1,gargoyle|Page=94||CreatureType=11||SubType=4|
+1,genie, janni|Page=94||CreatureType=14|
+1,giant crocodile|Page=195||CreatureType=2||SubType=2|
+1,giant stag beetle|Page=206||CreatureType=18|
+1,gold dragon (wyrmling)|Page=74||CreatureType=6||SubType=6|
+1,green dragon (young)|Page=66||CreatureType=6||SubType=1|
+1,grey ooze|Page=145||CreatureType=13|
+1,griffon|Page=113||CreatureType=3|
+1,half-celestial/half-unicorn|Page=214||CreatureType=14||SubType=8|
+1,half-dragon (red)/half-ogre|Page=215||CreatureType=6|
+1,harpy|Page=117||CreatureType=12|
+1,hound archon|Page=29||CreatureType=14|
+1,hydra, 5 heads|Page=121||CreatureType=3|
+1,mimic|Page=135||CreatureType=1|
+1,minotaur|Page=137||CreatureType=12|
+1,monstrous spider, huge|Page=208||CreatureType=18|
+1,otyugh|Page=147||CreatureType=1|
+1,owlbear|Page=148||CreatureType=3|
+1,polar bear|Page=194||CreatureType=2|
+1,red dragon (very young)|Page=67||CreatureType=6||SubType=6|
+1,rhinoceros|Page=200||CreatureType=2|
+1,satyr (with pipes)|Page=160||CreatureType=8|
+1,sea lion|Page=160||CreatureType=3|
+1,sea hag|Page=115||CreatureType=12||SubType=2|
+1,shark, huge|Page=200||CreatureType=2||SubType=2|
+1,silver dragon (very young)|Page=75||CreatureType=6||SubType=1|
+1,sprite, pixie|Page=172||CreatureType=8|
+1,tiger|Page=203||CreatureType=2|
+1,triton|Page=178||CreatureType=14||SubType=13|
+1,vampire spawn|Page=182||CreatureType=17|
+
+;MM_CR5
+1,achaierai|Page=15||CreatureType=14||SubType=9|
+1,air elemental, large|Page=81||CreatureType=7||SubType=1|
+1,animated object, huge|Page=17||CreatureType=4|
+1,arrowhawk, adult|Page=19||CreatureType=14||SubType=1|
+1,baleen whale|Page=203||CreatureType=2||SubType=2|
+1,barghest, greater|Page=22||CreatureType=14||SubType=9|
+1,basilisk|Page=23||CreatureType=11||SubType=11|
+1,blue dragon (young)|Page=65||CreatureType=6||SubType=4|
+1,brass dragon (young)|Page=70||CreatureType=6||SubType=6|
+1,cloaker|Page=37||CreatureType=1|
+1,dire lion|Page=56||CreatureType=5|
+1,earth elemental, large|Page=82||CreatureType=7||SubType=4|
+1,elasmosaurus|Page=55||CreatureType=3|
+1,ettin|Page=89||CreatureType=9|
+1,fire elemental, large|Page=83||CreatureType=7||SubType=6|
+1,genie, djinni|Page=94||CreatureType=14||SubType=1|
+1,gibbering mouther|Page=104||CreatureType=1|
+1,girallon|Page=104||CreatureType=3|
+1,green hag|Page=115||CreatureType=12|
+1,hieracosphinx|Page=170||CreatureType=11|
+1,hydra, 6 heads|Page=121||CreatureType=3|
+1,manticore|Page=130||CreatureType=11|
+1,nightmare|Page=140||CreatureType=14||SubType=9|
+1,ochre jelly|Page=145||CreatureType=13|
+1,orca whale|Page=204||CreatureType=2|
+1,phase spider|Page=150||CreatureType=11|
+1,rast|Page=154||CreatureType=14||SubType=6|
+1,ravid|Page=154||CreatureType=14|
+1,salamander, average|Page=159||CreatureType=14||SubType=6|
+1,shadow mastiff|Page=162||CreatureType=14||SubType=9|
+1,snake, giant constrictor|Page=200||CreatureType=2|
+1,spider eater|Page=171||CreatureType=11|
+1,tojanida, adult|Page=177||CreatureType=14||SubType=13|
+1,troll|Page=180||CreatureType=9|
+1,water elemental, large|Page=84||CreatureType=7||SubType=13|
+1,werebear|Page=219||CreatureType=16|
+1,weretiger|Page=220||CreatureType=16|
+1,winter wolf|Page=184||CreatureType=11||SubType=3|
+1,white dragon (juvenile)|Page=68||CreatureType=6||SubType=3|
+1,wraith|Page=185||CreatureType=17|
+1,yuan-ti, halfblood|Page=190||CreatureType=12|
+1,yuan-ti-pureblood|Page=190||CreatureType=12|
+
+;MM_CR6
+1,annis|Page=115||CreatureType=12|
+1,belker|Page=26||CreatureType=7||SubType=1|
+1,bronze dragon (young)|Page=71||CreatureType=6||SubType=13|
+1,cachalot whale|Page=204||CreatureType=2||SubType=2|
+1,copper dragon (young)|Page=72||CreatureType=6||SubType=4|
+1,digester|Page=54||CreatureType=11|
+1,gold dragon (very young)|Page=74||CreatureType=6||SubType=6|
+1,hydra, 7 heads|Page=121||CreatureType=3|
+1,hydra, pyro, 5 heads|Page=121||CreatureType=3||SubType=6|
+1,hydra, cryo, 5 heads|Page=121||CreatureType=3|
+1,kyton|Page=48||CreatureType=1|
+1,lamia|Page=126||CreatureType=11|
+1,megaraptor|Page=55||CreatureType=3|
+1,monstrous centipede, gargantuan|Page=207||CreatureType=18|
+1,monstrous scorpion, huge|Page=207||CreatureType=18|
+1,nymph|Page=143||CreatureType=8|
+1,osyluth|Page=48||CreatureType=14|
+1,red dragon (young)|Page=67||CreatureType=6||SubType=6|
+1,shambling mound|Page=162||CreatureType=15|
+1,silver dragon (young)|Page=75||CreatureType=6||SubType=1|
+1,tendriculos|Page=175||CreatureType=15|
+1,will-o'-wisp|Page=183||CreatureType=1||SubType=1|
+1,wyvern|Page=186||CreatureType=6|
+1,xill|Page=187||CreatureType=14||SubType=9|
+1,xorn, average|Page=187||CreatureType=14||SubType=4|
+1,zombie, gargantuan|Page=191||CreatureType=17|
+
+;MM_CR7
+1,aboleth|Page=15||CreatureType=1||SubType=2|
+1,air elemental, huge|Page=81||CreatureType=7||SubType=1|
+1,animated object, gargantuan|Page=17||CreatureType=4|
+1,athach|Page=21||CreatureType=1|
+1,barbazu|Page=48||CreatureType=14|
+1,black pudding|Page=145||CreatureType=13|
+1,black dragon (juvenile)|Page=63||CreatureType=6||SubType=13|
+1,blue dragon (juvenile)|Page=65||CreatureType=6||SubType=4|
+1,brass dragon (juvenile)|Page=70||CreatureType=6||SubType=6|
+1,bulette|Page=28||CreatureType=3|
+1,chaos beast|Page=34||CreatureType=14||SubType=8|
+1,chimera|Page=35||CreatureType=11|
+1,chuul|Page=36||CreatureType=1|
+1,criosphinx|Page=170||CreatureType=11|
+1,dire bear|Page=56||CreatureType=5|
+1,dragonne|Page=77||CreatureType=11|
+1,drider|Page=78||CreatureType=1|
+1,earth elemental, huge|Page=82||CreatureType=7||SubType=4|
+1,erinyes|Page=49||CreatureType=14|
+1,fire elemental, huge|Page=83||CreatureType=7||SubType=6|
+1,flesh golem|Page=108||CreatureType=4|
+1,ghost (5th level)|Page=212||CreatureType=17|
+1,green dragon (juvenile)|Page=66||CreatureType=6||SubType=1|
+1,hellcat|Page=48||CreatureType=14|
+1,hill giant|Page=98||CreatureType=9|
+1,hydra, 8 heads|Page=121||CreatureType=3|
+1,hydra, lernaean, 5 heads|Page=121||CreatureType=3|
+1,hydra, pyro, 6 heads|Page=121||CreatureType=3||SubType=6|
+1,hydra, crio, 6 heads|Page=121||CreatureType=3|
+1,invisible stalker|Page=123||CreatureType=7||SubType=1|
+1,lillend|Page=128||CreatureType=14||SubType=8|
+1,medusa|Page=131||CreatureType=12|
+1,monstrous spider, gargantuan|Page=208||CreatureType=18|
+1,phasm|Page=150||CreatureType=16|
+1,remorhaz|Page=155||CreatureType=11|
+1,skeleton, gargantuan|Page=165||CreatureType=17|
+1,slaad, red|Page=166||CreatureType=14||SubType=8|
+1,spectre|Page=169||CreatureType=17|
+1,taskmaster (formian)|Page=90||CreatureType=14||SubType=10|
+1,triceratops|Page=55||CreatureType=3|
+1,umber hulk|Page=180||CreatureType=1|
+1,vampire, 5th level|Page=222||CreatureType=17|
+1,vampire, 7th level|Page=221||CreatureType=17|
+1,water elemental, huge|Page=84||CreatureType=7||SubType=13|
+1,water naga|Page=138||CreatureType=1||SubType=2|
+1,white dragon (young adult)|Page=68||CreatureType=6||SubType=3|
+1,yuan-ti, abomination|Page=190||CreatureType=12|
+
+;MM_CR8
+1,arrowhawk, elder|Page=19||CreatureType=14||SubType=1|
+1,behir|Page=24||CreatureType=11||SubType=5|
+1,bodak|Page=27||CreatureType=17|
+1,black dragon (young adult)|Page=63||CreatureType=6||SubType=13|
+1,bronze dragon (juvenile)|Page=71||CreatureType=6||SubType=13|
+1,copper dragon (juvenile)|Page=72||CreatureType=6||SubType=4|
+1,dark naga|Page=138||CreatureType=1|
+1,destrachan|Page=47||CreatureType=1|
+1,dire tiger|Page=56||CreatureType=5|
+1,elephant|Page=197||CreatureType=2|
+1,genie, efreeti|Page=94||CreatureType=14||SubType=9|
+1,giant octopus|Page=199||CreatureType=2||SubType=2|
+1,gold dragon (young)|Page=74||CreatureType=6||SubType=6|
+1,gorgon|Page=111||CreatureType=11|
+1,grey render|Page=112||CreatureType=3|
+1,gynosphinx|Page=170||CreatureType=11|
+1,hamatula|Page=49||CreatureType=14|
+1,hydra, 9 heads|Page=121||CreatureType=3|
+1,hydra, lernaean, p/c 5 heads|Page=121||CreatureType=3|
+1,hydra, lernaean, 6 heads|Page=121||CreatureType=3|
+1,hydra, p/c, 7 heads|Page=121||CreatureType=3|
+1,lammasu|Page=127||CreatureType=11|
+1,mind flayer|Page=136||CreatureType=1|
+1,mohrg|Page=137||CreatureType=17|
+1,monstrous centipede, colossal|Page=207||CreatureType=18|
+1,ogre mage|Page=144||CreatureType=9|
+1,shield guardian|Page=163||CreatureType=4|
+1,slaad, blue|Page=166||CreatureType=14||SubType=8|
+1,stone giant|Page=98||CreatureType=9||SubType=4|
+1,treant|Page=178||CreatureType=15|
+1,tyrannosaurus|Page=55||CreatureType=3|
+1,xorn elder|Page=187||CreatureType=14||SubType=4|
+
+;MM_CR9
+1,air elemental, greater|Page=81||CreatureType=7||SubType=1|
+1,androsphynx|Page=170||CreatureType=11|
+1,avoral (guardinal)|Page=29||CreatureType=14|
+1,bebilith|Page=41||CreatureType=14|
+1,brass dragon (young adult)|Page=70||CreatureType=6||SubType=6|
+1,delver|Page=39||CreatureType=1|
+1,dire shark|Page=56||CreatureType=5||SubType=2|
+1,dragon turtle|Page=76||CreatureType=6||SubType=2|
+1,earth elemental, greater|Page=82||CreatureType=7||SubType=4|
+1,fire elemental, greater|Page=82||CreatureType=7||SubType=6|
+1,frost giant|Page=98||CreatureType=9||SubType=3|
+1,giant squid|Page=202||CreatureType=2||SubType=2|
+1,half-fiend/half-medusa|Page=216||CreatureType=14||SubType=9|
+1,hydra, 10 heads|Page=121||CreatureType=3|
+1,hydra, lernaean p/c, 6 heads|Page=121||CreatureType=3|
+1,hydra, lernaean, 7 heads|Page=121||CreatureType=3|
+1,hydra, p/c, 8 heads|Page=121||CreatureType=3|
+1,monstrous scorpion, gargantuan|Page=207||CreatureType=18|
+1,night hag|Page=140||CreatureType=14||SubType=9|
+1,rakshasa|Page=153||CreatureType=14||SubType=9|
+1,red dragon (juvenile)|Page=67||CreatureType=6||SubType=6|
+1,roc|Page=156||CreatureType=3|
+1,salamander, noble|Page=159||CreatureType=14||SubType=6|
+1,silver dragon (juvenile)|Page=75||CreatureType=6||SubType=1|
+1,skeleton, colossal|Page=165||CreatureType=17|
+1,slaad, green|Page=166||CreatureType=14||SubType=8|
+1,spirit naga|Page=138||CreatureType=1|
+1,succubus|Page=41||CreatureType=14|
+1,tojanida, elder|Page=177||CreatureType=14||SubType=13|
+1,water elemental, greater|Page=84||CreatureType=7||SubType=13|
+1,white dragon (adult)|Page=68||CreatureType=6||SubType=3|
+1,yrthak|Page=189||CreatureType=11|
+
+;MM_CR10
+1,animated object, colossal|Page=17||CreatureType=4|
+1,black dragon (adult)|Page=63||CreatureType=6||SubType=13|
+1,blue dragon (young adult)|Page=65||CreatureType=6||SubType=4|
+1,clay golem|Page=108||CreatureType=4|
+1,copper dragon (young adult)|Page=72||CreatureType=6||SubType=4|
+1,cornugon|Page=49||CreatureType=14|
+1,couatl|Page=38||CreatureType=14||SubType=14|
+1,fire giant|Page=98||CreatureType=9||SubType=6|
+1,gold dragon (juvenile)|Page=74||CreatureType=6||SubType=6|
+1,green dragon (young adult)|Page=66||CreatureType=6||SubType=1|
+1,guardian naga|Page=139||CreatureType=1|
+1,hydra, 11 heads|Page=121||CreatureType=3|
+1,hydra, lernaean p/c, 7 heads|Page=121||CreatureType=3|
+1,hydra, lernaean, 8 heads|Page=121||CreatureType=3|
+1,hydra p/c, 9 heads|Page=121||CreatureType=3|
+1,monstrous spider, colossal|Page=208||CreatureType=18|
+1,myrmarch (formian)|Page=90||CreatureType=14||SubType=10|
+1,retriever|Page=41||CreatureType=4|
+1,roper|Page=156||CreatureType=11|
+1,slaad, grey|Page=166||CreatureType=14||SubType=8|
+
+;MM_CR11
+1,air elemental, elder|Page=81||CreatureType=7||SubType=1|
+1,brass dragon (adult)|Page=70||CreatureType=6||SubType=6|
+1,bronze dragon (young adult)|Page=71||CreatureType=6||SubType=13|
+1,cloud giant|Page=98||CreatureType=9||SubType=1|
+1,devouerer|Page=53||CreatureType=17|
+1,earth elemental, elder|Page=82||CreatureType=7||SubType=4|
+1,fire elemental, elder|Page=82||CreatureType=7||SubType=6|
+1,hydra, 12 heads|Page=121||CreatureType=3|
+1,hydra, lernaean, p/c, 8 heads|Page=121||CreatureType=3|
+1,hydra, lernaean, 9 heads|Page=121||CreatureType=3|
+1,hydra, p/c, 10 heads|Page=121||CreatureType=3|
+1,monstrous scorpion, colossal|Page=207||CreatureType=18|
+1,stone golem|Page=108||CreatureType=4|
+1,water elemental, elder|Page=84||CreatureType=7||SubType=13|
+1,white dragon (mature adult)|Page=68||CreatureType=6||SubType=3|
+
+;MM_CR12
+1,frost worm|Page=92||CreatureType=11||SubType=3|
+1,green dragon (adult)|Page=66||CreatureType=6||SubType=1|
+1,hydra, lernaean, p/c, 9 heads|Page=121||CreatureType=3|
+1,hydra, lernaean, 10 heads|Page=121||CreatureType=3|
+1,hydra, p/c, 11 heads|Page=121||CreatureType=3|
+1,kraken|Page=124||CreatureType=11||SubType=2|
+1,purple worm|Page=152||CreatureType=3|
+1,red dragon (young adult)|Page=67||CreatureType=6||SubType=6|
+1,silver dragon (young adult)|Page=75||CreatureType=6||SubType=1|
+1,zombie, colossal|Page=191||CreatureType=17|
+
+;MM_CR13
+1,beholder|Page=24||CreatureType=1|
+1,black dragon (mature adult)|Page=63||CreatureType=6||SubType=13|
+1,blue dragon (adult)|Page=65||CreatureType=6||SubType=4|
+1,copper dragon (adult)|Page=72||CreatureType=6||SubType=4|
+1,gelugon|Page=49||CreatureType=14|
+1,ghaele (eladrin)|Page=30||CreatureType=14||SubType=8|
+1,gold dragon (young adult)|Page=74||CreatureType=6||SubType=6|
+1,hydra, lernaean, p/c, 10 heads|Page=121||CreatureType=3|
+1,hydra, lernaean, 11 heads|Page=121||CreatureType=3|
+1,hydra, p/c, 12 heads|Page=121||CreatureType=3|
+1,iron golem|Page=109||CreatureType=4|
+1,lich, 11th level|Page=217||CreatureType=17|
+1,lich,13h level +2|Page=217||CreatureType=17|
+1,slaad, death|Page=166||CreatureType=14||SubType=8|
+1,storm giant|Page=98||CreatureType=9||SubType=5|
+1,vrock|Page=41||CreatureType=14|
+
+;MM_CR14
+1,astral deva|Page=30||CreatureType=14||SubType=15|
+1,brass dragon (mature adult)|Page=70||CreatureType=6||SubType=6|
+1,bronze dragon (adult)|Page=71||CreatureType=6||SubType=13|
+1,hezrou|Page=42||CreatureType=14|
+1,hydra, lernaean, p/c, 11 heads|Page=121||CreatureType=3|
+1,hydra, lernaean, 12 heads|Page=121||CreatureType=3|
+1,nightwing|Page=141||CreatureType=17|
+1,red dragon (adult)|Page=67||CreatureType=6||SubType=6|
+1,silver dragon (adult)|Page=75||CreatureType=6||SubType=1|
+1,trumpet archon|Page=30||CreatureType=14|
+1,white dragon (old)|Page=68||CreatureType=6||SubType=3|
+
+;MM_CR15
+1,black dragon (old)|Page=63||CreatureType=6||SubType=13|
+1,blue dragon (mature adult)|Page=65||CreatureType=6||SubType=4|
+1,copper dragon (mature adult)|Page=72||CreatureType=6||SubType=4|
+1,glabrezu|Page=42||CreatureType=14|
+1,gold dragon (adult)|Page=74||CreatureType=6||SubType=6|
+1,green dragon (mature adult)|Page=66||CreatureType=6||SubType=1|
+1,hydra, learnian, p/c, 12 heads|Page=121||CreatureType=3|
+
+;MM_CR16
+1,brass dragon (old)|Page=70||CreatureType=6||SubType=6|
+1,bronze dragon (mature adult)|Page=71||CreatureType=6||SubType=13|
+1,nalfeshnee|Page=42||CreatureType=42|
+1,nightwalker|Page=141||CreatureType=17|
+1,pit fiend|Page=49||CreatureType=14|
+1,planetar|Page=30||CreatureType=14|
+1,white dragon (very old)|Page=68||CreatureType=6||SubType=3|
+
+;MM_CR17
+1,black dragon (very old)|Page=63||CreatureType=6||SubType=13|
+1,blue dragon (old)|Page=65||CreatureType=6||SubType=4|
+1,green dragon (old)|Page=66||CreatureType=6||SubType=1|
+1,marilith|Page=42||CreatureType=14|
+1,red dragon (mature adult)|Page=67||CreatureType=6||SubType=6|
+1,silver dragon (mature adult)|Page=75||CreatureType=6||SubType=1|
+1,white dragon (ancient)|Page=68||CreatureType=6||SubType=3|
+
+;MM_CR18
+1,balor|Page=42||CreatureType=14|
+1,black dragon (ancient)|Page=63||CreatureType=6||SubType=13|
+1,blue dragon (very old)|Page=65||CreatureType=6||SubType=4|
+1,brass dragon (very old)|Page=70||CreatureType=6||SubType=6|
+1,bronze dragon (old)|Page=71||CreatureType=6||SubType=13|
+1,copper dragon (old)|Page=72||CreatureType=6||SubType=4|
+1,gold dragon (mature adult)|Page=74||CreatureType=6||SubType=6|
+1,green dragon (very old)|Page=66||CreatureType=6||SubType=1|
+1,nightcrawler|Page=141||CreatureType=17|
+1,queen (formian)|Page=90||CreatureType=14||SubType=10|
+1,white dragon (wyrm)|Page=68||CreatureType=6||SubType=3|
+
+;MM_CR19
+1,black dragon (wyrm)|Page=63||CreatureType=6||SubType=13|
+1,brass dragon (ancient)|Page=70||CreatureType=6||SubType=6|
+1,bronze dragon (very old)|Page=71||CreatureType=6||SubType=13|
+1,copper dragon (very old)|Page=72||CreatureType=6||SubType=4|
+1,red dragon (old)|Page=67||CreatureType=6||SubType=6|
+1,silver dragon (old)|Page=75||CreatureType=6||SubType=1|
+1,solar|Page=30||CreatureType=14|
+
+;MM_CR20
+1,blue dragon (ancient)|Page=65||CreatureType=6||SubType=4|
+1,brass dragon (wyrm)|Page=70||CreatureType=6||SubType=6|
+1,gold dragon (old)|Page=74||CreatureType=6||SubType=6|
+1,green dragon (ancient)|Page=66||CreatureType=6||SubType=1|
+1,red dragon (very old)|Page=67||CreatureType=6||SubType=6|
+1,silver dragon (very old)|Page=75||CreatureType=6||SubType=1|
+1,tarrasque|Page=174||CreatureType=11|
+1,white dragon (great wyrm)|Page=68||CreatureType=6||SubType=3|
+
+;MM_CR21
+1,black dragon (great wyrm)|Page=63||CreatureType=6||SubType=13|
+1,bronze dragon (ancient)|Page=71||CreatureType=6||SubType=13|
+1,copper dragon (ancient)|Page=72||CreatureType=6||SubType=4|
+1,gold dragon (very old)|Page=74||CreatureType=6||SubType=6|
+1,green dragon (wyrm)|Page=66||CreatureType=6||SubType=1|
+1,titan|Page=21||CreatureType=14||SubType=8|
+
+;MM_CR22
+1,blue dragon (wyrm)|Page=65||CreatureType=6||SubType=4|
+1,brass dragon (great wyrm)|Page=70||CreatureType=6||SubType=6|
+1,bronze dragon (wyrm)|Page=71||CreatureType=6||SubType=13|
+1,copper dragon (wyrm)|Page=72||CreatureType=6||SubType=4|
+1,red dragon (ancient)|Page=67||CreatureType=6||SubType=6|
+1,silver dragon (ancient)|Page=75||CreatureType=6||SubType=1|
+
+;MM_CR23
+1,green dragon (great wyrm)|Page=66||CreatureType=6||SubType=1|
+1,gold dragon (ancient)|Page=74||CreatureType=6||SubType=6|
+1,red dragon (wyrm)|Page=67||CreatureType=6||SubType=6|
+1,silver dragon (wyrm)|Page=75||CreatureType=6||SubType=1|
+
+;MM_CR24
+1,blue dragon (great wyrm)|Page=65||CreatureType=6||SubType=4|
+1,bronze dragon (great wyrm)|Page=71||CreatureType=6||SubType=13|
+1,copper dragon (great wyrm)|Page=72||CreatureType=6||SubType=4|
+1,gold dragon (wyrm)|Page=74||CreatureType=6||SubType=6|
+
+;MM_CR25
+1,red dragon (great wyrm)|Page=67||CreatureType=6||SubType=6|
+1,silver dragon (great wyrm)|Page=75||CreatureType=6||SubType=1|
+
+;MM_CR26
+1,gold dragon (great wyrm)|Page=74||CreatureType=6||SubType=6|
+
+;MM_CR27
+1,|CreatureType=19|No CR 27 Monsters
+
+#Monster Manual II
+
+;MM2_CR_OneTenth
+1,|CreatureType=19|No CR 1/10 Monsters 
+
+;MM2_CR_OneEighth
+1,|CreatureType=19|No CR 1/8 Monsters 
+
+;MM2_CR_OneFourth
+1,moonrat|Page=151||CreatureType=11|
+1,neogi spawn|Page=158||CreatureType=1|
+
+;MM2_CR_OneThird
+1,twig blight|Page=197||CreatureType=15|
+
+;MM2_CR_OneHalf
+1,corollax|Page=50||CreatureType=11|
+1,jermlaine|Page=131||CreatureType=8|
+1,mycomoid (junior worker)|Page=154||CreatureType=15|
+
+;MM2_CR1
+1,ash rat|Page=24||CreatureType=11||SubType=6|
+1,average ixitxachitl|Page=128||CreatureType=1|
+1,bladeling|Page=31||CreatureType=14|
+1,bogun|Page=34||CreatureType=4|
+1,chaond|Page=170||CreatureType=14|
+1,ether scarab|Page=94||CreatureType=14|
+1,crested felldrake|Page=97||CreatureType=6|
+1,myconid (average worker)|Page=154||CreatureType=15|
+1,tatterdemanimal|Page=175||CreatureType=4|
+1,thri-kreen|Page=195||CreatureType=12|
+1,zenythri|Page=170||CreatureType=14|
+
+;MM2_CR2
+1,abeil (vassal)|Page=22||CreatureType=12|
+1,abyssal maw|Page=57||CreatureType=14||SubType=8|
+1,abyssal skulker|Page=57||CreatureType=14|
+1,cloaked ape|Page=46||CreatureType=11|
+1,crystal dragon (wyrmling)|Page=81||CreatureType=6||SubType=1|
+1,dire hawk|Page=74||CreatureType=5|
+1,dread guard|Page=87||CreatureType=4|
+1,emerald dragon (wyrmling)|Page=82||CreatureType=6||SubType=1|
+1,grimalkin|Page=122||CreatureType=16|
+1,loxo|Page=144||CreatureType=12|
+1,myconid (elder worker)|Page=154||CreatureType=15|
+1,needlefolk|Page=158||CreatureType=15|
+1,phase wasp|Page=168||CreatureType=11|
+1,sapphire dragon (wyrmling)|Page=84||CreatureType=6||SubType=4|
+1,spitting felldrake|Page=97||CreatureType=6|
+1,stone spike|Page=191||CreatureType=7||SubType=4|
+
+;MM2_CR3
+1,advespa|Page=67||CreatureType=14||SubType=9|
+1,amethyst dragon (wyrmling)|Page=79||CreatureType=6||SubType=4|
+1,boggle|Page=33||CreatureType=12|
+1,cervidal|Page=43||CreatureType=14||SubType=14|
+1,cryptoclidus|Page=70||CreatureType=3||SubType=2|
+1,crystal dragon (very young)|Page=81||CreatureType=6||SubType=1|
+1,desmodu bat (guard)|Page=65||CreatureType=2|
+1,desmodu bat (hunting)|Page=65||CreatureType=2|
+1,dire toad|Page=74||CreatureType=5|
+1,fihyr|Page=100||CreatureType=1|
+1,fire bat|Page=102||CreatureType=7||SubType=6|
+1,grell|Page=121||CreatureType=1|
+1,hammerer|Page=27||CreatureType=4|
+1,horned felldrake|Page=97||CreatureType=6|
+1,meenlock|Page=146||CreatureType=1|
+1,pulverizer|Page=27||CreatureType=4|
+1,raggamoffyn (common)|Page=174||CreatureType=4|
+1,topaz dragon (wyrmling)|Page=85||CreatureType=6||SubType=13|
+1,vampiric ixitxachitl|Page=128||CreatureType=1|
+1,wortling|Page=165||CreatureType=15|
+
+;MM2_CR4
+1,amethyst dragon (very young)|Page=79||CreatureType=6||SubType=4|
+1,asperi|Page=25||CreatureType=11|
+1,capured one (bugbear)|Page=204||CreatureType=10|
+1,crystal dragon (young)|Page=81||CreatureType=6||SubType=1|
+1,emerald dragon (very young)|Page=82||CreatureType=6||SubType=1|
+1,half-golem (clay)|Page=209||CreatureType=4|
+1,dire horse|Page=74||CreatureType=5|
+1,clockwork horror (electrum)|Page=47||CreatureType=4|
+1,half-golem (flesh)|Page=209||CreatureType=4|
+1,half-golem (iron)|Page=209||CreatureType=4|
+1,half-golem (stone)|Page=209||CreatureType=4|
+1,myconid (guard)|Page=154||CreatureType=15|
+1,neogi (adult)|Page=158||CreatureType=1|
+1,sapphire dragon (very young)|Page=84||CreatureType=6||SubType=4|
+1,spellstiched ghast|Page=215||CreatureType=17|
+1,topaz dragon (very young)|Page=85||CreatureType=6||SubType=13|
+1,yak folk|Page=200||CreatureType=12|
+
+;MM2_CR5
+1,abyssal ravager|Page=57||CreatureType=14||SubType=8|
+1,average psurlon|Page=171||CreatureType=1|
+1,chain golem|Page=44||CreatureType=4|
+1,desmodu bat (war)|Page=65||CreatureType=2|
+1,dire snake|Page=74||CreatureType=5|
+1,gambol|Page=108||CreatureType=11|
+1,clockwork horror (gold)|Page=47||CreatureType=4|
+1,guttersnipe|Page=175||CreatureType=4|
+1,half-fiend (durzagon)|Page=124||CreatureType=14||SubType=9|
+1,jovoc|Page=58||CreatureType=14||SubType=8|
+1,lupinal|Page=43||CreatureType=14||SubType=14|
+1,marrash|Page=145||CreatureType=14||SubType=9|
+1,morkoth|Page=152||CreatureType=1||SubType=2|
+1,reason stealer|Page=178||CreatureType=13|
+1,sirine|Page=185||CreatureType=8||SubType=2|
+1,spawn of kyuss|Page=186||CreatureType=17|
+1,stained glass golem|Page=115||CreatureType=4|
+1,sylph|Page=192||CreatureType=14||SubType=1|
+1,tauric hobgoblin-griffon|Page=216||CreatureType=12|
+1,warbeast rhinoceros|Page=219||CreatureType=3|
+1,wyste|Page=200||CreatureType=1|
+
+;MM2_CR6
+1,abeil (soldier)|Page=22||CreatureType=12|
+1,amethyst dragon (young)|Page=79||CreatureType=6||SubType=4|
+1,blood ape|Page=32||CreatureType=11|
+1,catoblepas|Page=41||CreatureType=1|
+1,emerald dragon (young)|Page=82||CreatureType=6||SubType=1|
+1,hook horror|Page=126||CreatureType=1|
+1,kopru|Page=134||CreatureType=12||SubType=2|
+1,legendary eagle|Page=136||CreatureType=2|
+1,minotaur of legend|Page=136||CreatureType=12|
+1,myconid (circle leader)|Page=154||CreatureType=15|
+1,neogi (great old master)|Page=158||CreatureType=18|
+1,ormyrr|Page=167||CreatureType=12|
+1,sapphire dragon (young)|Page=84||CreatureType=6||SubType=4|
+1,topaz dragon (young)|Page=85||CreatureType=6||SubType=13|
+
+;MM2_CR7
+1,allosaurus|Page=70||CreatureType=3|
+1,amnizu|Page=67||CreatureType=14||SubType=9|
+1,ankylosaurus|Page=70||CreatureType=3|
+1,breathdrinker|Page=39||CreatureType=7||SubType=1|
+1,crystal dragon (juvenile)|Page=81||CreatureType=6||SubType=1|
+1,darktentacles|Page=54||CreatureType=1|
+1,dire elk|Page=74||CreatureType=5|
+1,frost salamander|Page=107||CreatureType=11||SubType=3|
+1,legendary ape|Page=136||CreatureType=2|
+1,legendary wolf|Page=136||CreatureType=2|
+1,mudmaw|Page=153||CreatureType=11|
+1,myconid (sovereign)|Page=154||CreatureType=15|
+1,nimblewright|Page=162||CreatureType=4|
+1,clockwork horror (platinum)|Page=47||CreatureType=4|
+1,scorpionfolk|Page=221||CreatureType=12|
+1,shrapnyl|Page=175||CreatureType=4|
+1,swamplight lynx|Page=191||CreatureType=11|
+
+;MM2_CR8
+1,amethyst dragon (juvenile)|Page=79||CreatureType=6||SubType=4|
+1,emerald dragon (juvenile)|Page=82||CreatureType=6||SubType=1|
+1,glimmerskin|Page=114||CreatureType=14||SubType=7|
+1,gravorg|Page=119||CreatureType=11|
+1,legendary horse|Page=136||CreatureType=2|
+1,legendary snake|Page=136||CreatureType=2|
+1,nethersight mastiff|Page=160||CreatureType=11|
+1,palrethee|Page=58||CreatureType=14||SubType=8|
+1,quetzalcoatlus|Page=72||CreatureType=3|
+1,sapphire dragon (juvenile)|Page=84||CreatureType=6||SubType=4|
+
+;MM2_CR9
+1,clockwork horror (adamantine)|Page=47||CreatureType=4|
+1,braxat|Page=37||CreatureType=12|
+1,chimeric ankheg|Page=206||CreatureType=11|
+1,desmodu|Page=62||CreatureType=12|
+1,dune stalker|Page=88||CreatureType=14||SubType=4|
+1,elder psurlon|Page=171||CreatureType=1|
+1,galeb duhr|Page=107||CreatureType=7||SubType=4|
+1,immoth|Page=127||CreatureType=7||SubType=1|
+1,legendary bear|Page=136||CreatureType=2|
+1,malebranche|Page=67||CreatureType=14||SubType=9|
+1,rogue eidolon|Page=180||CreatureType=4|
+1,topaz dragon (juvenile)|Page=85||CreatureType=6||SubType=13|
+1,vaporighu|Page=197||CreatureType=14||SubType=9|
+1,zovvut|Page=58||CreatureType=14||SubType=8|
+
+;MM2_CR10
+1,avolakia|Page=28||CreatureType=1|
+1,brass golem|Page=115||CreatureType=4|
+1,bronze serpent|Page=40||CreatureType=4|
+1,crystal dragon (young adult)|Page=81||CreatureType=6||SubType=1|
+1,dire elephant|Page=74||CreatureType=5|
+1,greenvise|Page=120||CreatureType=15|
+1,leechwalker|Page=135||CreatureType=18|
+1,legendary shark|Page=136||CreatureType=2||SubType=2|
+1,legendary tiger|Page=136||CreatureType=2|
+1,marraenoloth|Page=203||CreatureType=14|
+1,mooncalf|Page=150||CreatureType=11|
+1,razor boar|Page=220||CreatureType=3|
+1,runic guardian|Page=182||CreatureType=4|
+1,sapphire dragon (young adult)|Page=84||CreatureType=6||SubType=4|
+1,spellweaver|Page=187||CreatureType=12|
+1,yagnoloth|Page=203||CreatureType=14|
+
+;MM2_CR11
+1,amethyst dragon (young adult)|Page=79||CreatureType=6||SubType=4|
+1,bone naga|Page=35||CreatureType=17|
+1,crimson death|Page=53||CreatureType=17||SubType=7|
+1,emerald dragon (young adult)|Page=82||CreatureType=6||SubType=1|
+1,fomorian|Page=105||CreatureType=9|
+1,forest giant|Page=109||CreatureType=9|
+1,forest sloth|Page=106||CreatureType=3|
+1,juggernaut|Page=132||CreatureType=4|
+1,megalodon|Page=147||CreatureType=3||SubType=2|
+
+;MM2_CR12
+1,abeil (queen)|Page=22||CreatureType=12|
+1,air weird|Page=91||CreatureType=7||SubType=1|
+1,crystal dragon (adult)|Page=81||CreatureType=6||SubType=1|
+1,earth weird|Page=91||CreatureType=7||SubType=4|
+1,ethereal slayer|Page=96||CreatureType=14||SubType=8|
+1,firbolg|Page=101||CreatureType=9|
+1,fire weird|Page=91||CreatureType=7||SubType=6|
+1,julajimus|Page=133||CreatureType=1|
+1,rampager|Page=177||CreatureType=3|
+1,seismosaurus|Page=70||CreatureType=3|
+1,shadow spider|Page=184||CreatureType=11|
+1,spellgaunt|Page=188||CreatureType=11|
+1,sun giant|Page=109||CreatureType=9||SubType=6|
+1,topaz dragon (young adult)|Page=85||CreatureType=6||SubType=13|
+1,water weird|Page=91||CreatureType=7||SubType=13|
+
+;MM2_CR13
+1,death knight|Page=207||CreatureType=17|
+1,dragonflesh golem|Page=115||CreatureType=4|
+1,grizzly mastodon|Page=123||CreatureType=2|
+1,jarilith|Page=60||CreatureType=14||SubType=8|
+1,red sundew|Page=179||CreatureType=15|
+1,sapphire dragon (adult)|Page=84||CreatureType=6||SubType=4|
+1,spinosaurus|Page=70||CreatureType=3|
+1,titanic toad|Page=217||CreatureType=2|
+
+;MM2_CR14
+1,amethyst dragon (adult)|Page=79||CreatureType=6||SubType=4|
+1,emerald dragon (adult)|Page=82||CreatureType=6||SubType=1|
+1,rukarazyll|Page=181||CreatureType=14||SubType=4|
+1,topaz dragon (adult)|Page=85||CreatureType=6||SubType=13|
+
+;MM2_CR15
+1,crystal dragon (mature adult)|Page=81||CreatureType=6||SubType=1|
+1,ethereal doppleganger|Page=94||CreatureType=16|
+1,giant psurlon|Page=171||CreatureType=1|
+1,great fihyr|Page=100||CreatureType=1|
+1,nightmare beast|Page=161||CreatureType=11||SubType=9|
+1,sapphire dragon (mature adult)|Page=84||CreatureType=6||SubType=4|
+1,windghost|Page=198||CreatureType=1|
+
+;MM2_CR16
+1,amethyst dragon (mature adult)|Page=79||CreatureType=6||SubType=4|
+1,cloud ray|Page=49||CreatureType=11|
+1,emerald dragon (mature adult)|Page=82||CreatureType=6||SubType=1|
+1,gravecrawler|Page=118||CreatureType=17||SubType=4|
+1,jahi|Page=130||CreatureType=17||SubType=7|
+1,moonbeast|Page=149||CreatureType=1|
+1,tempest|Page=193||CreatureType=7||SubType=1|
+1,teratomorph|Page=194||CreatureType=13|
+
+;MM2_CR17
+1,arcanaloth|Page=203||CreatureType=14|
+1,banshee|Page=30||CreatureType=17||SubType=7|
+1,crystal dragon (old)|Page=81||CreatureType=6||SubType=1|
+1,deathbringer|Page=55||CreatureType=17|
+1,effigy|Page=89||CreatureType=17||SubType=6|
+1,topaz dragon (mature adult)|Page=85||CreatureType=6||SubType=13|
+
+;MM2_CR18
+1,amethyst dragon (old)|Page=79||CreatureType=6||SubType=4|
+1,crystal dragon (very old)|Page=81||CreatureType=6||SubType=1|
+1,emerald dragon (old)|Page=82||CreatureType=6||SubType=1|
+1,kelvezu|Page=60||CreatureType=14||SubType=8|
+1,ocean strider|Page=163||CreatureType=8||SubType=2|
+1,sapphire dragon (old)|Page=84||CreatureType=6||SubType=4|
+
+;MM2_CR19
+1,amethyst dragon (very old)|Page=79||CreatureType=6||SubType=4|
+1,corpse gatherer|Page=51||CreatureType=17|
+1,emerald dragon (very old)|Page=82||CreatureType=6||SubType=1|
+1,famine spirit|Page=96||CreatureType=17|
+1,flesh jelly|Page=104||CreatureType=13|
+1,ocean giant|Page=109||CreatureType=9||SubType=2|
+1,ragewind|Page=173||CreatureType=17|
+1,sapphire dragon (very old)|Page=84||CreatureType=6||SubType=4|
+1,topaz dragon (old)|Page=85||CreatureType=6||SubType=13|
+
+;MM2_CR20
+1,crystal dragon (ancient)|Page=81||CreatureType=6||SubType=1|
+1,gray linnorm|Page=140||CreatureType=6|
+1,megapede|Page=148||CreatureType=18|
+1,spirit of the land|Page=189||CreatureType=8||SubType=7|
+1,orcwort|Page=165||CreatureType=15|
+1,topaz dragon (very old)|Page=85||CreatureType=6||SubType=13|
+
+;MM2_CR21
+1,amethyst dragon (ancient)|Page=79||CreatureType=6||SubType=4|
+1,bone ooze|Page=36||CreatureType=13|
+1,crystal dragon (wyrm)|Page=81||CreatureType=6||SubType=1|
+1,emerald dragon (ancient)|Page=82||CreatureType=6||SubType=1|
+1,sapphire dragon (ancient)|Page=84||CreatureType=6||SubType=4|
+
+;MM2_CR22
+1,chaos roc|Page=45||CreatureType=11|
+1,emerald dragon (wyrm)|Page=82||CreatureType=6||SubType=1|
+1,sapphire dragon (wyrm)|Page=84||CreatureType=6||SubType=4|
+1,topaz dragon (ancient)|Page=85||CreatureType=6||SubType=13|
+
+;MM2_CR23
+1,amethyst dragon (wyrm)|Page=79||CreatureType=6||SubType=4|
+1,crystal dragon (great wyrm)|Page=81||CreatureType=6||SubType=1|
+1,topaz dragon (wyrm)|Page=85||CreatureType=6||SubType=13|
+
+;MM2_CR24
+1,emerald dragon (great wyrm)|Page=82||CreatureType=6||SubType=1|
+1,pheonix|Page=168||CreatureType=11|
+1,sapphire dragon (great wyrm)|Page=84||CreatureType=6||SubType=4|
+
+;MM2_CR25
+1,amethyst dragon (great wyrm)|Page=79||CreatureType=6||SubType=4|
+1,dread linnorm|Page=140||CreatureType=6|
+1,leviathan|Page=139||CreatureType=11||SubType=2|
+1,topaz dragon (great wyrm)|Page=85||CreatureType=6||SubType=13|
+
+;MM2_CR26
+1,hellfire wyrm|Page=125||CreatureType=6||SubType=6|
+1,mountain giant|Page=109||CreatureType=9||SubType=4|
+
+;MM2_CR27
+1,|CreatureType=19|No CR 27 Monsters
+
+;MM2_CR28
+1,corpse tearer|Page=141||CreatureType=6|
+1,fiendwurm|Page=99||CreatureType=11|
+
+#Creature Catalog
+
+;CC_CR_OneTenth
+1,black lotus|Page=124||CreatureType=15|
+1,golden lotus|Page=124||CreatureType=15|
+1,green lotus|Page=125||CreatureType=15|
+1,blue lotus|Page=125||CreatureType=15|
+1,red lotus|Page=126||CreatureType=15|
+1,white lotus|Page=126||CreatureType=15|
+
+;CC_CR_OneEighth
+1,slarecian language virus|Page=178||CreatureType=11|
+
+;CC_CR_OneFourth
+1,charduni|Page=39||CreatureType=10|
+1,child trap|Page=43||CreatureType=15|
+1,coal goblin|Page=44||CreatureType=10|
+1,drowned lady|Page=62||CreatureType=2|
+1,halfling|Page=101||CreatureType=10|
+1,hookwing|Page=111||CreatureType=2|
+1,lard worm|Page=123||CreatureType=18|
+1,mere-lurker|Page=132||CreatureType=2|
+1,miser jackal|Page=135||CreatureType=2|
+1,night singer|Page=142||CreatureType=18|
+1,ratroo|Page=155||CreatureType=2|
+1,sentry crow|Page=168||CreatureType=2|
+1,sour grub|Page=185||CreatureType=18|
+1,young wyrmspawn|Page=217||CreatureType=11|
+
+;CC_CR_OneThird
+1,|CreatureType=19|No CR 1/3 Monsters 
+
+;CC_CR_OneHalf
+1,abandoned|Page=6||CreatureType=10|
+1,bat devil|Page=15||CreatureType=12||SubType=8|
+1,dwarf, forsaken|Page=64||CreatureType=10|
+1,elf, forsaken|Page=68||CreatureType=10|
+1,bone golem|Page=81||CreatureType=4|
+1,gore beetle|Page=87||CreatureType=18|
+1,ice weasel|Page=117||CreatureType=2|
+1,moon cat|Page=137||CreatureType=11|
+1,murdersprite|Page=139||CreatureType=8|
+1,ratman (slitherene)|Page=150||CreatureType=12|
+1,ratman (brown gorger)|Page=151||CreatureType=12|
+1,ratman (diseased)|Page=152||CreatureType=12|
+1,ratman (foamer)|Page=153||CreatureType=12|
+1,ratman, red witch|Page=154||CreatureType=12|
+1,runnk|Page=160||CreatureType=7||SubType=3|
+1,siren vulture|Page=170||CreatureType=3|
+1,solar scarab|Page=184||CreatureType=11|
+1,spider-eye goblin|Page=186||CreatureType=10|
+1,tokal tribesman|Page=199||CreatureType=10|
+
+;CC_CR1
+1,albadian battle dog|Page=7||CreatureType=1|
+1,brewer gnome|Page=23||CreatureType=8|
+1,cave moth|Page=35||CreatureType=13|
+1,charfiend|Page=42||CreatureType=12|
+1,crescent elk|Page=47||CreatureType=2|
+1,dread raven|Page=58||CreatureType=3|
+1,ebon eel|Page=67||CreatureType=2|
+1,frost ape|Page=78||CreatureType=2|
+1,ice ghoul|Page=115||CreatureType=10|
+1,morgaunt|Page=138||CreatureType=10|
+1,the proud|Page=148||CreatureType=10|
+1,seaspark|Page=167||CreatureType=7||SubType=6|
+1,tokal|Page=198||CreatureType=1|
+1,vrail|Page=211||CreatureType=2|
+
+;CC_CR2
+1,alley reaper|Page=8||CreatureType=17|
+1,asaatth|Page=12||CreatureType=10|
+1,belsamaug|Page=16||CreatureType=10|
+1,carnival krewe, plague wretch|Page=33||CreatureType=10|
+1,chardun-slain|Page=41||CreatureType=17|
+1,coreanic steed|Page=46||CreatureType=11|
+1,desert falcon|Page=48||CreatureType=2|
+1,exemplar|Page=71||CreatureType=10|
+1,harpy|Page=104||CreatureType=12|
+1,hill howler|Page=108||CreatureType=3||SubType=8|
+1,inn-wight|Page=118||CreatureType=17|
+1,manticora|Page=128||CreatureType=12|
+1,miredweller|Page=134||CreatureType=12|
+1,night terror|Page=143||CreatureType=2|
+1,scythe falcon|Page=165||CreatureType=2|
+1,strife elemental|Page=194||CreatureType=7|
+1,were-vulture|Page=213||CreatureType=11|
+1,adult wyrmspawn|Page=217||CreatureType=11|
+
+;CC_CR3
+1,angler ooze|Page=10||CreatureType=13|
+1,blade hood|Page=18||CreatureType=2|
+1,carnival krewe, alligator warrior|Page=30||CreatureType=10|
+1,cold slime|Page=45||CreatureType=13|
+1,dream snake|Page=59||CreatureType=11|
+1,dwarf hound|Page=65||CreatureType=2|
+1,great swan|Page=92||CreatureType=2|
+1,grippett|Page=93||CreatureType=3|
+1,hanid (spirit woman of the flower)|Page=103||CreatureType=8|
+1,manster|Page=127||CreatureType=11|
+1,mistwalker|Page=136||CreatureType=17|
+1,plaguecat|Page=147||CreatureType=2|
+1,red colony|Page=157||CreatureType=15|
+1,river nymph|Page=158||CreatureType=8|
+1,rumbler|Page=159||CreatureType=2|
+1,slarecian shadowman|Page=181||CreatureType=17|
+1,swamp gobbler|Page=195||CreatureType=12|
+1,thunder orb|Page=197||CreatureType=4|
+1,trogodon|Page=200||CreatureType=12|
+1,unholy child|Page=208||CreatureType=17|
+1,well spirit|Page=212||CreatureType=17|
+1,giant wolf spider|Page=215||CreatureType=3|
+1,woods haunt|Page=216||CreatureType=7|
+
+;CC_CR4
+1,bottle-imp|Page=22||CreatureType=17||SubType=15|
+1,butcher spirit|Page=25||CreatureType=17|
+1,cathedral beetle|Page=34||CreatureType=18|
+1,celestian|Page=37||CreatureType=9|
+1,dire monitor|Page=49||CreatureType=2|
+1,mock dragon|Page=50||CreatureType=2|
+1,fleshcrawler|Page=76||CreatureType=17|
+1,forge wight|Page=77||CreatureType=7|
+1,ice haunt|Page=116||CreatureType=17|
+1,keffiz|Page=122||CreatureType=11|
+1,memory-eater|Page=131||CreatureType=17|
+1,night tyrant|Page=144||CreatureType=18|
+1,orafaun|Page=145||CreatureType=11|
+1,serpent root|Page=169||CreatureType=15|
+1,skin devil|Page=171||CreatureType=10||SubType=8|
+1,slarecian ghoul|Page=177||CreatureType=17|
+1,sleet devil|Page=183||CreatureType=7||SubType=8|
+1,spire wyvern|Page=187||CreatureType=3|
+1,spirit of the plague|Page=188||CreatureType=17|
+1,ubantu tribesman|Page=201||CreatureType=10|
+1,undead ooze|Page=202||CreatureType=13|
+1,valraven|Page=209||CreatureType=2|
+1,vengaurak|Page=210||CreatureType=18|
+
+;CC_CR5
+1,aquantis|Page=11||CreatureType=3|
+1,berserker wasp|Page=17||CreatureType=18|
+1,blight wolf|Page=19||CreatureType=3|
+1,carnival krewe, blood kraken|Page=31||CreatureType=11||SubType=2|
+1,dune delver|Page=63||CreatureType=3|
+1,fatling|Page=73||CreatureType=1|
+1,firedrake|Page=75||CreatureType=3|
+1,silver golem|Page=85||CreatureType=4|
+1,wood golem|Page=86||CreatureType=4|
+1,high gorgon|Page=88||CreatureType=12|
+1,low gorgon|Page=90||CreatureType=3|
+1,cavern hag|Page=96||CreatureType=10|
+1,swamp hag|Page=100||CreatureType=10|
+1,hamadryad|Page=102||CreatureType=15|
+1,hollow knight|Page=109||CreatureType=4|
+1,hornsaw unicorn|Page=112||CreatureType=11|
+1,marrow knight|Page=130||CreatureType=17|
+1,narleth|Page=141||CreatureType=1|
+1,paragon crocodile|Page=146||CreatureType=3||SubType=2|
+1,pyre|Page=149||CreatureType=7||SubType=6|
+1,slarecian gargoyle|Page=175||CreatureType=4||SubType=4|
+1,slarecian muse|Page=179||CreatureType=4|
+1,steppe troll|Page=191||CreatureType=9|
+1,tanil's fox|Page=196||CreatureType=2|
+
+;CC_CR6
+1,amalthean ram|Page=9||CreatureType=11|
+1,bloodmare|Page=20||CreatureType=3|
+1,bone lord|Page=21||CreatureType=1|
+1,cave shrike|Page=36||CreatureType=13|
+1,seawrack dragon|Page=55||CreatureType=6|
+1,dweller at the crossroads|Page=66||CreatureType=14||SubType=9|
+1,emporer stag|Page=70||CreatureType=3|
+1,goblin bear|Page=80||CreatureType=2|
+1,copper golem|Page=82||CreatureType=4|
+1,brine hag|Page=95||CreatureType=10|
+1,ice hag|Page=97||CreatureType=10|
+1,ice basilisk|Page=114||CreatureType=11||SubType=11|
+1,sand burrower|Page=162||CreatureType=3|
+1,skyquill|Page=172||CreatureType=8|
+1,willow tree warrior|Page=214||CreatureType=15|
+
+;CC_CR7
+1,carnival krewe, necromantic golem|Page=32||CreatureType=4|
+1,storm hag|Page=99||CreatureType=10|
+1,sandmasker|Page=163||CreatureType=12|
+1,savant hydra|Page=164||CreatureType=14||SubType=9|
+1,storm kin|Page=193||CreatureType=7|
+1,unhallowed; false lover|Page=205||CreatureType=17|
+1,unhallowed; treachearous thief|Page=207||CreatureType=17|
+
+;CC_CR8
+1,barrow worm|Page=14||CreatureType=18|
+1,great harrier|Page=91||CreatureType=3|
+1,steel beetle|Page=189||CreatureType=4|
+1,unhallowed; faithless knight|Page=204||CreatureType=17|
+1,unhallowed; forsaken priest|Page=206||CreatureType=17|
+
+;CC_CR9
+1,cerulean roc|Page=38||CreatureType=11|
+1,moon hag|Page=98||CreatureType=10|
+1,herald of vangal|Page=106||CreatureType=14|
+1,mill slug|Page=133||CreatureType=18|
+1,muskhorn|Page=140||CreatureType=2|
+1,sage camel|Page=161||CreatureType=11|
+1,steel giant|Page=190||CreatureType=9|
+
+;CC_CR10
+1,carnival king, jack of tears|Page=29||CreatureType=14| |SubType=8|
+1,firewrack dragon|Page=54||CreatureType=6|
+1,dragonman|Page=57||CreatureType=10|
+1,huror (ice bear)|Page=113||CreatureType=3|
+1,iron tusker|Page=121||CreatureType=3|
+1,searing wind|Page=166||CreatureType=4|
+1,stick giant|Page=192||CreatureType=9|
+
+;CC_CR11
+1,lead golem|Page=83||CreatureType=4|
+
+;CC_CR12
+1,woodwrack dragon|Page=56||CreatureType=6|
+
+;CC_CR13
+1,|CreatureType=19|No CR 13 Monsters
+
+;CC_CR14
+1,garabrud, the obsidian hound|Page=79||CreatureType=2|
+1,inquisitor|Page=119||CreatureType=14|
+
+;CC_CR15
+1,tar dragon|Page=51||CreatureType=6|
+1,feral|Page=74||CreatureType=14||SubType=8|
+1,the reaver|Page=156||CreatureType=18|
+
+;CC_CR16
+1,drendari; demigodess of shadow|Page=60||CreatureType=14|
+
+;CC_CR17
+1,|CreatureType=19|No CR 17 Monsters
+
+;CC_CR18
+1,mithril golem|Page=84||CreatureType=4|
+
+;CC_CR19
+1,|CreatureType=19|No CR 19 Monsters
+
+;CC_CR20
+1,|CreatureType=19|No CR 20 Monsters
+
+;CC_CR21
+1,|CreatureType=19|No CR 21 Monsters
+
+;CC_CR22
+1,|CreatureType=19|No CR 22 Monsters
+
+;CC_CR23
+1,|CreatureType=19|No CR 23 Monsters
+
+;CC_CR24
+1,|CreatureType=19|No CR 24 Monsters
+
+;CC_CR25
+1,|CreatureType=19|No CR 25 Monsters
+
+;CC_CR26
+1,|CreatureType=19|No CR 26 Monsters
+
+;CC_CR27
+1,|CreatureType=19|No CR 27 Monsters
+
+#Creature Catalog II
+
+;CC2_CR_OneTenth
+1,|CreatureType=19|No CR 1/10 Monsters 
+
+;CC2_CR_OneEighth
+1,blood barnacles|Page=18||CreatureType=18|
+1,spectral plant|Page=170||CreatureType=17||SubType=7|
+1,swamp tyrant mite|Page=184||CreatureType=1|
+
+;CC2_CR_OneFourth
+1,blood moth|Page=21||CreatureType=18|
+1,deryth (disjoined)|Page=55||CreatureType=1|
+1,filcher|Page=71||CreatureType=12|
+1,flesh strippers|Page=74||CreatureType=3|
+1,pilfer sprite|Page=122||CreatureType=8|
+1,shadowraven|Page=147||CreatureType=14|
+1,skull worm|Page=161||CreatureType=18|
+
+;CC2_CR_OneThird
+1,carnival crewe (bone bosun)|Page=30||CreatureType=12|
+
+;CC2_CR_OneHalf
+1,blood maiden|Page=20||CreatureType=12|
+1,blood sprite|Page=24||CreatureType=8|
+1,grotesque|Page=87||CreatureType=1|
+1,sagon|Page=135||CreatureType=12|
+1,skin weaver|Page=157||CreatureType=14||SubType=9|
+1,tar beetle|Page=186||CreatureType=18|
+1,unlife|Page=201||CreatureType=13|
+
+;CC2_CR1
+1,acid shambler|Page=6||CreatureType=17|
+1,arcane symbiote|Page=8||CreatureType=1|
+1,blood sea jellyfish|Page=23||CreatureType=18|
+1,blood zombie|Page=25||CreatureType=17|
+1,blood fly|Page=26||CreatureType=18|
+1,shadowjester|Page=33||CreatureType=10|
+1,face stealer|Page=70||CreatureType=12|
+1,gallows vine|Page=78||CreatureType=15|
+1,venom golem|Page=86||CreatureType=4|
+1,lightning hawk|Page=107||CreatureType=11|
+1,pestilite|Page=121||CreatureType=1|
+1,preychaser|Page=129||CreatureType=11|
+1,daywalker ratman|Page=131||CreatureType=12|
+1,stalker ratman|Page=132||CreatureType=12|
+1,white wraith ratman|Page=133||CreatureType=12|
+1,boneman (seige undead)|Page=151||CreatureType=17|
+1,slime reaver|Page=168||CreatureType=10||SubType=2|
+1,stormchild|Page=175||CreatureType=14||SubType=1|
+1,sutak|Page=181||CreatureType=12|
+1,time killer|Page=193||CreatureType=14|
+1,totem of mormo|Page=194||CreatureType=4|
+1,vangal's chosen|Page=202||CreatureType=10|
+1,vermin host (rat)|Page=207||CreatureType=16|
+1,wolfrat|Page=213||CreatureType=3|
+
+;CC2_CR2
+1,abyssal larva (demon)|Page=50||CreatureType=14||SubType=8|
+1,assassin's bane|Page=111||CreatureType=11|
+1,carnival crewe (heron priest)|Page=31||CreatureType=12|
+1,dananshee|Page=46||CreatureType=8|
+1,hagling|Page=92||CreatureType=10|
+1,night-touched hound|Page=120||CreatureType=17|
+1,green piscean|Page=126||CreatureType=12||SubType=2|
+1,razorfin dolphin|Page=134||CreatureType=11|
+1,seeker's bane|Page=141||CreatureType=17||SubType=7|
+1,meatman (seige undead)|Page=152||CreatureType=17|
+1,sandman (seige undead)|Page=153||CreatureType=17|
+1,slarecian dragon (wyrmling)|Page=61||CreatureType=6|
+1,slarecian shadowspawn|Page=164||CreatureType=14||SubType=7|
+1,spined lizard|Page=171||CreatureType=3|
+1,stench toad|Page=172||CreatureType=14||SubType=9|
+1,stone zombie|Page=174||CreatureType=4|
+1,tatooed corpse|Page=187||CreatureType=17|
+1,tempus twin|Page=189||CreatureType=16|
+1,thought drinker|Page=190||CreatureType=1|
+1,vermin host (leech)|Page=206||CreatureType=16|
+1,vermin host (spider)|Page=208||CreatureType=16|
+1,vertigen|Page=209||CreatureType=10|
+
+;CC2_CR3
+1,blade beast|Page=17||CreatureType=11|
+1,bonewing|Page=28||CreatureType=17|
+1,carrion hound|Page=36||CreatureType=3|
+1,dreamwrack|Page=65||CreatureType=14|
+1,tar golem|Page=85||CreatureType=4|
+1,grotesque parasite|Page=90||CreatureType=14||SubType=9|
+1,iron dragon|Page=99||CreatureType=4|
+1,lurker below|Page=108||CreatureType=11||SubType=2|
+1,mist reaper|Page=111||CreatureType=17|
+1,sand mummy|Page=136||CreatureType=17|
+1,sand wyvern|Page=138||CreatureType=11|
+1,scar twin|Page=140||CreatureType=12|
+1,shadowcat|Page=146||CreatureType=11|
+1,shard spider|Page=148||CreatureType=11|
+1,shockbat|Page=149||CreatureType=3|
+1,skiver|Page=158||CreatureType=14||SubType=9|
+1,skull king|Page=159||CreatureType=17|
+1,slarecian dragon (very young)|Page=61||CreatureType=6|
+1,swamp tyrant (swampling)|Page=184||CreatureType=1|
+1,thunder kite|Page=192||CreatureType=7||SubType=1|
+1,touch corrupter|Page=195||CreatureType=12|
+1,vermin host (cockroach)|Page=205||CreatureType=16|
+1,wirebound berserker|Page=212||CreatureType=12|
+
+;CC2_CR4
+1,abyssal lamprey|Page=5||CreatureType=14||SubType=9|
+1,bane cloud|Page=14||CreatureType=7||SubType=1|
+1,burned ones|Page=29||CreatureType=17|
+1,dark harlequin|Page=32||CreatureType=10|
+1,corpse whisperer|Page=40||CreatureType=12|
+1,grisly minstrel daemon|Page=41||CreatureType=14||SubType=9|
+1,deryth (joined)|Page=57||CreatureType=10|
+1,heartclutch devil|Page=59||CreatureType=14||SubType=8|
+1,dreamfolk|Page=63||CreatureType=14|
+1,gauntling|Page=79||CreatureType=1|
+1,quicksilver golem|Page=82||CreatureType=4|
+1,night-touched controller|Page=119||CreatureType=17|
+1,skein|Page=154||CreatureType=12|
+1,slarecian worm|Page=166||CreatureType=14||SubType=7|
+1,swamp fisher|Page=183||CreatureType=12|
+1,tuscar|Page=197||CreatureType=9|
+1,unitaur|Page=200||CreatureType=12|
+1,windrider|Page=211||CreatureType=7||SubType=1|
+
+;CC2_CR5
+1,arcane devourer|Page=7||CreatureType=14||SubType=9|
+1,arch lurker|Page=10||CreatureType=1|
+1,bloodman|Page=27||CreatureType=1|
+1,grotesque herder|Page=88||CreatureType=14||SubType=9|
+1,hrinruuk's hound|Page=96||CreatureType=11|
+1,naga crown|Page=115||CreatureType=1|
+1,shadow lord|Page=144||CreatureType=17||SubType=7|
+1,skeletal host|Page=155||CreatureType=4|
+1,slarecian dragon (young)|Page=61||CreatureType=6|
+1,sundered woman|Page=178||CreatureType=8|
+1,ukrudan stalker|Page=199||CreatureType=12|
+
+;CC2_CR6
+1,carnivorous tree|Page=34||CreatureType=15|
+1,chaos globe|Page=37||CreatureType=4|
+1,chern's children|Page=38||CreatureType=18|
+1,cloudsting|Page=39||CreatureType=7||SubType=1|
+1,dark womb|Page=47||CreatureType=12|
+1,leonine demon|Page=53||CreatureType=14||SubType=8|
+1,flayed giant|Page=73||CreatureType=9||SubType=2|
+1,serpent golem|Page=83||CreatureType=4|
+1,hope|Page=94||CreatureType=14||SubType=14|
+1,quicksilver stalker|Page=130||CreatureType=1|
+1,surged giant|Page=180||CreatureType=9|
+
+;CC2_CR7
+1,plague angel daemon|Page=44||CreatureType=14||SubType=9|
+1,despair|Page=58||CreatureType=14||SubType=9|
+1,ioun beholder|Page=97||CreatureType=4|
+1,leeching willow|Page=103||CreatureType=15|
+1,black piscean|Page=125||CreatureType=10||SubType=2|
+1,slarecian dragon (juvenile)|Page=61||CreatureType=6|
+1,swamp tyrant|Page=184||CreatureType=1|
+1,tauron|Page=188||CreatureType=12|
+
+;CC2_CR8
+1,moon daemon|Page=42||CreatureType=14||SubType=9|
+1,gallows eye|Page=76||CreatureType=1|
+1,gaurak troll|Page=80||CreatureType=9|
+1,sword golem|Page=84||CreatureType=4|
+1,howling abomination|Page=95||CreatureType=14||SubType=9|
+1,shackledeath|Page=142||CreatureType=14||SubType=9|
+1,soul guardian|Page=169||CreatureType=14|
+1,sundered mage|Page=176||CreatureType=1|
+
+;CC2_CR9
+1,darkling sentinel|Page=49||CreatureType=14||SubType=9|
+1,dreamwraith|Page=66||CreatureType=14||SubType=7|
+1,elder larva|Page=68||CreatureType=14||SubType=9|
+1,keel crusher|Page=102||CreatureType=3|
+1,hollow naga|Page=117||CreatureType=1|
+1,thulkan|Page=191||CreatureType=14||SubType=6|
+1,tundra lord|Page=196||CreatureType=11|
+1,wickerman|Page=210||CreatureType=4|
+
+;CC2_CR10
+1,bitter tree|Page=15||CreatureType=15|
+1,blood horror demon|Page=52||CreatureType=14||SubType=8|
+1,blood reaper|Page=22||CreatureType=1|
+1,iron devil|Page=60||CreatureType=14||SubType=8|
+1,forest walker|Page=75||CreatureType=9|
+1,moon giant|Page=113||CreatureType=14||SubType=9|
+1,legion of one|Page=105||CreatureType=1|
+1,mirror fiend|Page=109||CreatureType=14||SubType=8|
+1,slarecian dragon (young adult)|Page=61||CreatureType=6|
+
+;CC2_CR11
+1,crystal golem|Page=81||CreatureType=4|
+
+;CC2_CR12
+1,blade demon|Page=51||CreatureType=14||SubType=8|
+1,locust demon|Page=54||CreatureType=14||SubType=8|
+1,flailing dreadnought|Page=72||CreatureType=1|
+1,red piscean|Page=129||CreatureType=10||SubType=2|
+1,slarecian gatekeeper|Page=163||CreatureType=14||SubType=10|
+
+;CC2_CR13
+1,guardian of the damned|Page=91||CreatureType=14||SubType=9|
+1,slarecian dragon (adult)|Page=61||CreatureType=6|
+
+;CC2_CR14
+1,|CreatureType=19|No CR 14 Monsters
+
+;CC2_CR15
+1,blood crone|Page=19||CreatureType=10|
+1,kadum's leviathan|Page=100||CreatureType=17||SubType=2|
+1,slarecian dragon (mature adult)|Page=61||CreatureType=6|
+
+;CC2_CR16
+1,|CreatureType=19|No CR 16 Monsters
+
+;CC2_CR17
+1,slarecian dragon (old)|Page=61||CreatureType=6|
+
+;CC2_CR18
+1,slarecian dragon (very old)|Page=61||CreatureType=6|
+
+;CC2_CR19
+1,|CreatureType=19|No CR 19 Monsters
+
+;CC2_CR20
+1,athentia, the great sphinx|Page=12||CreatureType=11|
+
+;CC2_CR21
+1,|CreatureType=19|No CR 21 Monsters
+
+;CC2_CR22
+1,|CreatureType=19|No CR 22 Monsters
+
+;CC2_CR23
+1,|CreatureType=19|No CR 23 Monsters
+
+;CC2_CR24
+1,|CreatureType=19|No CR 24 Monsters
+
+;CC2_CR25
+1,|CreatureType=19|No CR 25 Monsters
+
+;CC2_CR26
+1,|CreatureType=19|No CR 26 Monsters
+
+;CC2_CR27
+1,|CreatureType=19|No CR 27 Monsters
+
+#Forgotten Realms; Monsters of Faerun
+
+;MoF_CR_OneTenth
+1,|CreatureType=19|No CR 1/10 Monsters 
+
+;MoF_CR_OneEighth
+1,|CreatureType=19|No CR 1/8 Monsters 
+
+;MoF_CR_OneFourth
+1,|CreatureType=19|No CR 1/4 Monsters 
+
+;MoF_CR_OneThird
+1,crawling claw|Page=29||CreatureType=4|
+1,gibberling|Page=52||CreatureType=10|
+
+;MoF_CR_OneHalf
+1,aarakocra|Page=11||CreatureType=12|
+1,air genasi|Page=71||CreatureType=14|
+1,arctic dwarf|Page=47||CreatureType=10|
+1,beholderkin, eyeball|Page=23||CreatureType=1|
+1,chultan dwarf|Page=47||CreatureType=10|
+1,earth genasi|Page=71||CreatureType=14|
+1,fire genasi|Page=71||CreatureType=14|
+1,hairy spider|Page=79||CreatureType=18|
+1,shalarin|Page=76||CreatureType=10||SubType=2|
+1,water genasi|Page=71||CreatureType=14|
+1,wild dwarf|Page=48||CreatureType=10|
+
+;MoF_CR1
+1,asabi|Page=15||CreatureType=10||SubType=11|
+1,bullywug|Page=25||CreatureType=10||SubType=2|
+1,chitine|Page=26||CreatureType=12|
+1,dekanter goblin|Page=53||CreatureType=12|
+1,firenewt|Page=48||CreatureType=12||SubType=6|
+1,giant strider|Page=51||CreatureType=11||SubType=6|
+1,hybsil|Page=61||CreatureType=8|
+1,night hunter|Page=18||CreatureType=3|
+1,siv|Page=78||CreatureType=10||SubType=2|
+
+;MoF_CR2
+1,baneguard|Page=17||CreatureType=17|
+1,bonebat|Page=18||CreatureType=17|
+1,brown dragon (wyrmling)|Page=39||CreatureType=6||SubType=4|
+1,chosen one|Page=27||CreatureType=12|
+1,deep dragon (wyrmling)|Page=40||CreatureType=6||SubType=4|
+1,fang dragon (wyrmling)|Page=42||CreatureType=6||SubType=1|
+1,fey'ri|Page=72||CreatureType=14|
+1,groundling|Page=57||CreatureType=12|
+1,shadow dragon (wyrmling)|Page=43||CreatureType=6||SubType=12|
+1,song dragon (wyrmling)|Page=44||CreatureType=6||SubType=5|
+1,tanarukk|Page=72||CreatureType=14|
+1,urdunnir dwarf|Page=47||CreatureType=10|
+
+;MoF_CR3
+1,banedead|Page=16||CreatureType=17|
+1,black unicorn|Page=83||CreatureType=11|
+1,brown dragon (very young)|Page=39||CreatureType=6||SubType=4|
+1,dragonkin|Page=45||CreatureType=12||SubType=11|
+1,dread warrior|Page=46||CreatureType=17|
+1,fang dragon (very young)|Page=42||CreatureType=6||SubType=1|
+1,ice serpent|Page=62||CreatureType=7||SubType=3|
+1,phaerlin giant|Page=50||CreatureType=9||SubType=4|
+1,pterafolk|Page=74||CreatureType=16||SubType=11|
+1,quaggoth|Page=75||CreatureType=12|
+1,shadow dragon (very young)|Page=43||CreatureType=6||SubType=12|
+1,sinister|Page=18||CreatureType=3|
+1,stingtail abasi|Page=15||CreatureType=10||SubType=11|
+1,tyrantfog zombie|Page=85||CreatureType=17|
+1,wemic|Page=84||CreatureType=12|
+
+;MoF_CR4
+1,aballin|Page=11||CreatureType=13|
+1,alaghi|Page=14||CreatureType=12|
+1,choldrith|Page=27||CreatureType=1|
+1,darkenbeast|Page=30||CreatureType=11|
+1,deep dragon (very young)|Page=40||CreatureType=6||SubType=4|
+1,fang dragon (young)|Page=42||CreatureType=6||SubType=1|
+1,green warder|Page=57||CreatureType=15|
+1,hellhound of xvim|Page=86||CreatureType=14||SubType=9|
+1,leucrotta|Page=63||CreatureType=11|
+1,malaugrym|Page=64||CreatureType=16|
+1,meazel|Page=65||CreatureType=12|
+1,myrlochar|Page=66||CreatureType=14||SubType=8|
+1,song dragon (very young)|Page=44||CreatureType=6||SubType=5|
+1,spectral panther|Page=79||CreatureType=11||SubType=7|
+1,stinger|Page=80||CreatureType=12|
+1,werebat|Page=91||CreatureType=16|
+1,wereshark|Page=92||CreatureType=16||SubType=2|
+
+;MoF_CR5
+1,black abishai|Page=12||CreatureType=14||SubType=9|
+1,brown dragon (young)|Page=39||CreatureType=6||SubType=4|
+1,white abishai|Page=12||CreatureType=14||SubType=9|
+1,banelar|Page=18||CreatureType=11|
+1,broodguard|Page=94||CreatureType=10|
+1,draegloth|Page=57||CreatureType=14||SubType=8|
+1,ghaunadan|Page=49||CreatureType=16|
+1,ibrandlin|Page=62||CreatureType=6||SubType=6|
+1,nyth|Page=68||CreatureType=1|
+1,peryton|Page=69||CreatureType=11|
+1,phaerimm|Page=70||CreatureType=1|
+1,shadow dragon (young)|Page=43||CreatureType=6||SubType=12|
+1,sword spider|Page=79||CreatureType=18|
+1,tall mouther|Page=81||CreatureType=1|
+1,yochlol demon|Page=34||CreatureType=14||SubType=8|
+
+;MoF_CR6
+1,deep dragon (young)|Page=40||CreatureType=6||SubType=4|
+1,fang dragon (juvenile)|Page=42||CreatureType=6||SubType=1|
+1,green abishai|Page=12||CreatureType=14||SubType=9|
+1,curst|Page=87||CreatureType=17|
+1,nishruu|Page=67||CreatureType=14||SubType=8|
+1,sharn|Page=76||CreatureType=1|
+1,song dragon (young)|Page=44||CreatureType=6||SubType=5|
+1,tainted one|Page=94||CreatureType=10|
+1,werecrocodile|Page=92||CreatureType=16|
+
+;MoF_CR7
+1,blue abishai|Page=13||CreatureType=14||SubType=9|
+1,brown dragon (juvenile)|Page=39||CreatureType=6||SubType=4|
+1,cloaker lord|Page=28||CreatureType=1|
+1,darktree|Page=31||CreatureType=15|
+1,shadow dragon (juvenile)|Page=43||CreatureType=6||SubType=12|
+
+;MoF_CR8
+1,red abishai|Page=13||CreatureType=14||SubType=9|
+1,deep dragon (juvenile)|Page=40||CreatureType=6||SubType=4|
+1,deepspawn|Page=32||CreatureType=1|
+1,fang dragon (young adult)|Page=42||CreatureType=6||SubType=1|
+1,fog giant|Page=50||CreatureType=9||SubType=1|
+1,revenant|Page=94||CreatureType=17|
+1,song dragon (juvenile)|Page=44||CreatureType=6||SubType=5|
+1,thayan golem|Page=56||CreatureType=4|
+
+;MoF_CR9
+1,|CreatureType=19|No CR 9 Monsters
+
+;MoF_CR10
+1,brown dragon (young adult)|Page=39||CreatureType=6||SubType=4|
+1,fang dragon (adult)|Page=42||CreatureType=6||SubType=1|
+1,helmed horror|Page=60||CreatureType=4|
+1,shadow dragon (young adult)|Page=43||CreatureType=6||SubType=12|
+1,song dragon (young adult)|Page=44||CreatureType=6||SubType=5|
+
+;MoF_CR11
+1,beast of malar|Page=20||CreatureType=16|
+1,deathkiss beholderkin|Page=22||CreatureType=1|
+1,deep dragon (young adult)|Page=40||CreatureType=6||SubType=4|
+1,gouger beholderkin|Page=24||CreatureType=1|
+1,ruby golem|Page=53||CreatureType=4|
+
+;MoF_CR12
+1,diamond golem|Page=53||CreatureType=4|
+1,emerald golem|Page=53||CreatureType=4|
+1,fang dragon (mature adult)|Page=42||CreatureType=6||SubType=1|
+1,ghour demon|Page=33||CreatureType=14||SubType=8|
+1,greater doppleganger|Page=35||CreatureType=16||SubType=11|
+1,gulguthydra|Page=58||CreatureType=1|
+1,shadow dragon (adult)|Page=43||CreatureType=6||SubType=12|
+
+;MoF_CR13
+1,brown dragon (adult)|Page=39||CreatureType=6||SubType=4|
+1,song dragon (adult)|Page=44||CreatureType=6||SubType=5|
+
+;MoF_CR14
+1,deep dragon (adult)|Page=40||CreatureType=6||SubType=4|
+1,tomb tapper|Page=82||CreatureType=4|
+
+;MoF_CR15
+1,brown dragon (mature adult)|Page=39||CreatureType=6||SubType=4|
+1,fang dragon (old)|Page=42||CreatureType=6||SubType=1|
+1,shadow dragon (mature adult)|Page=43||CreatureType=6||SubType=12|
+1,song dragon (mature adult)|Page=44||CreatureType=6||SubType=5|
+
+;MoF_CR16
+1,deep dragon (mature adult)|Page=40||CreatureType=6||SubType=4|
+
+;MoF_CR17
+1,brown dragon (old)|Page=39||CreatureType=6||SubType=4|
+1,fang dragon (very old)|Page=42||CreatureType=6||SubType=1|
+1,shadow dragon (old)|Page=43||CreatureType=6||SubType=12|
+
+;MoF_CR18
+1,brown dragon (very old)|Page=39||CreatureType=6||SubType=4|
+1,deep dragon (old)|Page=40||CreatureType=6||SubType=4|
+1,fang dragon (ancient)|Page=42||CreatureType=6||SubType=1|
+1,shadow dragon (very old)|Page=43||CreatureType=6||SubType=12|
+1,song dragon (old)|Page=44||CreatureType=6||SubType=5|
+
+;MoF_CR19
+1,deep dragon (very old)|Page=40||CreatureType=6||SubType=4|
+1,fang dragon (wyrm)|Page=42||CreatureType=6||SubType=1|
+1,song dragon (very old)|Page=44||CreatureType=6||SubType=5|
+
+;MoF_CR20
+1,brown dragon (ancient)|Page=39||CreatureType=6||SubType=4|
+1,shadow dragon (ancient)|Page=43||CreatureType=6||SubType=12|
+
+;MoF_CR21
+1,deep dragon (ancient)|Page=40||CreatureType=6||SubType=4|
+1,fang dragon (great wyrm)|Page=42||CreatureType=6||SubType=1|
+1,shadow dragon (wyrm)|Page=43||CreatureType=6||SubType=12|
+1,song dragon (ancient)|Page=44||CreatureType=6||SubType=5|
+
+;MoF_CR22
+1,brown dragon (wyrm)|Page=39||CreatureType=6||SubType=4|
+1,deep dragon (wyrm)|Page=40||CreatureType=6||SubType=4|
+1,song dragon (wyrm)|Page=44||CreatureType=6||SubType=5|
+
+;MoF_CR23
+1,shadow dragon (great wyrm)|Page=43||CreatureType=6||SubType=12|
+
+;MoF_CR24
+1,brown dragon (great wyrm)|Page=39||CreatureType=6||SubType=4|
+1,deep dragon (great wyrm)|Page=40||CreatureType=6||SubType=4|
+1,song dragon (great wyrm)|Page=44||CreatureType=6||SubType=5|
+
+;MoF_CR25
+1,|CreatureType=19|No CR 25 Monsters
+
+;MoF_CR26
+1,|CreatureType=19|No CR 26 Monsters
+
+;MoF_CR27
+1,|CreatureType=19|No CR 27 Monsters
+
+;Tome of Horrors
+
+;ToH_CR_OneTenth
+1,floating eye|Page=139||CreatureType=3||SubType=2|
+1,bookworm|Page=29||CreatureType=18|
+1,hound of ill omen|Page=166||CreatureType=14|
+
+;ToH_CR_OneEighth
+1,clockwork drone|Page=41||CreatureType=4|
+1,wizard's shackle|Page=278||CreatureType=11|
+
+;ToH_CR_OneSixth
+1,killmoulis|Page=178||CreatureType=8|
+1,piercer|Page=214||CreatureType=18|
+1,skunk|Page=289||CreatureType=2|
+
+;ToH_CR_OneFourth
+1,barracuda (small)|Page=286||CreatureType=2||SubType=2|
+1,deer|Page=286||CreatureType=2|
+1,black-tailed deer|Page=286||CreatureType=2|
+1,common mite|Page=193||CreatureType=10|
+1,pestie mite|Page=193||CreatureType=10|
+1,muckdweller|Page=198||CreatureType=3|
+1,quipper|Page=288||CreatureType=2||SubType=2|
+1,sheep|Page=288||CreatureType=2|
+1,skull spider|Page=232||CreatureType=18|
+1,scarlet spider|Page=226||CreatureType=18|
+
+;ToH_CR_OneThird
+1,fox|Page=287||CreatureType=2|
+
+;ToH_CR_OneHalf
+1,blood hawk|Page=23||CreatureType=11|
+1,carbuncle|Page=32||CreatureType=1|
+1,clockwork overseer|Page=41||CreatureType=4|
+1,clockwork scout|Page=41||CreatureType=4|
+1,jaculi|Page=171||CreatureType=3|
+1,mandragora|Page=187||CreatureType=15|
+1,mantari|Page=188||CreatureType=3|
+1,vegepygmy commoner|Page=272||CreatureType=15|
+1,vilstrak|Page=273||CreatureType=1|
+1,tunnel thug|Page=273||CreatureType=1|
+1,vulchling|Page=274||CreatureType=3|
+1,death adder, small viper|Page=319||CreatureType=2|
+1,night adder, small viper|Page=319||CreatureType=2|
+1,puff adder, small viper|Page=319||CreatureType=2|
+1,asp, small viper|Page=319||CreatureType=2|
+1,red bellied black snake, small viper|Page=319||CreatureType=2|
+1,boomslang, small viper|Page=319||CreatureType=2|
+1,brown snake, small viper|Page=319||CreatureType=2|
+1,king brown snake, small viper|Page=319||CreatureType=2|
+1,bushmaster, small viper|Page=319||CreatureType=2|
+1,common cobra, small viper|Page=319||CreatureType=2|
+1,desert cobra, small viper|Page=319||CreatureType=2|
+1,copperhead, small viper|Page=319||CreatureType=2|
+1,coral snake, small viper|Page=319||CreatureType=2|
+1,cottenmouth, small viper|Page=319||CreatureType=2|
+1,banded krait, small viper|Page=319||CreatureType=2|
+1,blue krait, small viper|Page=319||CreatureType=2|
+1,desert rattlesnake, small viper|Page=319||CreatureType=2|
+1,dimondback rattlesnake, small viper|Page=319||CreatureType=2|
+1,rock rattlesnake, small viper|Page=319||CreatureType=2|
+1,tiger rattlesnake, small viper|Page=319||CreatureType=2|
+1,sea snake, small viper|Page=319||CreatureType=2||SubType=2|
+1,sidewinder, small viper|Page=319||CreatureType=2|
+1,tigersnake, small viper|Page=319||CreatureType=2|
+1,desert viper, small viper|Page=320||CreatureType=2|
+1,mountain viper, small viper|Page=320||CreatureType=2|
+1,saw-tooth viper, small viper|Page=320||CreatureType=2|
+1,tree viper, small viper|Page=320||CreatureType=2|
+
+;ToH_CR1
+1,al-mi'raj|Page=6||CreatureType=11|
+1,atomie|Page=12||CreatureType=8|
+1,barracuda (medium)|Page=286||CreatureType=2||SubType=2|
+1,baric|Page=15||CreatureType=3|
+1,brownie|Page=30||CreatureType=8|
+1,cave cricket|Page=35||CreatureType=18|
+1,clockwork parasite|Page=41||CreatureType=4|
+1,clockwork warrior|Page=41||CreatureType=4|
+1,clubnek|Page=44||CreatureType=3|
+1,nupperibo devil|Page=103||CreatureType=14||SubType=8|
+1,dire corby|Page=107||CreatureType=12|
+1,pedipalp|Page=134||CreatureType=3|
+1,flind|Page=138||CreatureType=10|
+1,flumph|Page=139||CreatureType=1|
+1,gas spore|Page=147||CreatureType=15|
+1,giant caribe|Page=32||CreatureType=2||SubType=2|
+1,giant marmoset|Page=189||CreatureType=2|
+1,giant tick|Page=256||CreatureType=18|
+1,gorbel|Page=154||CreatureType=1|
+1,grippli|Page=158||CreatureType=10|
+1,gryph|Page=160||CreatureType=3|
+1,iron cobra|Page=169||CreatureType=4|
+1,juju zombie (tiny)|Page=284||CreatureType=17|
+1,land lamprey|Page=180||CreatureType=3|
+1,mongrelman|Page=194||CreatureType=12|
+1,monstrous frog (killer)|Page=143||CreatureType=3|
+1,monstrous frog (poisonous)|Page=143||CreatureType=3|
+1,mudman|Page=198||CreatureType=7||SubType=4|
+1,half-ogre|Page=207||CreatureType=10|
+1,ogrillon|Page=208||CreatureType=10|
+1,orog|Page=210||CreatureType=10|
+1,brain rat|Page=220||CreatureType=11|
+1,shadow rat|Page=221||CreatureType=17||SubType=7|
+1,lesser shadow|Page=228||CreatureType=17||SubType=7|
+1,skulk|Page=231||CreatureType=10|
+1,slime crawler|Page=236||CreatureType=1|
+1,fire snake|Page=136||CreatureType=14||SubType=6|
+1,soul nibbler|Page=239||CreatureType=11|
+1,sprite|Page=241||CreatureType=8|
+1,sea sprite|Page=242||CreatureType=8|
+1,vegepygmy worker|Page=272||CreatureType=15|
+1,witherstench|Page=277||CreatureType=3|
+1,brine zombie|Page=283||CreatureType=17||SubType=2|
+1,yellow musk zombie|Page=317||CreatureType=15|
+1,night adder, medium viper|Page=319||CreatureType=2|
+1,puff adder, medium viper|Page=319||CreatureType=2|
+1,asp, medium viper|Page=319||CreatureType=2|
+1,red bellied black snake, medium viper|Page=319||CreatureType=2|
+1,boomslang, medium viper|Page=319||CreatureType=2|
+1,brown snake, medium viper|Page=319||CreatureType=2|
+1,king brown snake, medium viper|Page=319||CreatureType=2|
+1,bushmaster, medium viper|Page=319||CreatureType=2|
+1,common cobra, medium viper|Page=319||CreatureType=2|
+1,desert cobra, medium viper|Page=319||CreatureType=2|
+1,king cobra, medium viper|Page=319||CreatureType=2|
+1,spitting cobra, medium viper|Page=319||CreatureType=2|
+1,water cobra, medium viper|Page=319||CreatureType=2|
+1,yellow cobra, medium viper|Page=319||CreatureType=2|
+1,coral snake, medium viper|Page=319||CreatureType=2|
+1,cottenmouth, medium viper|Page=319||CreatureType=2|
+1,fer-de-lance, medium viper|Page=319||CreatureType=2|
+1,banded krait, medium viper|Page=319||CreatureType=2|
+1,blue krait, medium viper|Page=319||CreatureType=2|
+1,black mamba, medium viper|Page=319||CreatureType=2|
+1,green mamba, medium viper|Page=319||CreatureType=2|
+1,desert rattlesnake, medium viper|Page=319||CreatureType=2|
+1,dimondback rattlesnake, medium viper|Page=319||CreatureType=2|
+1,rock rattlesnake, medium viper|Page=319||CreatureType=2|
+1,tiger rattlesnake, medium viper|Page=319||CreatureType=2|
+1,sidewinder, medium viper|Page=319||CreatureType=2|
+1,taipan, medium viper|Page=319||CreatureType=2|
+1,tic-polonga, medium viper|Page=319||CreatureType=2|
+1,tigersnake, medium viper|Page=319||CreatureType=2|
+1,desert viper, medium viper|Page=320||CreatureType=2|
+1,gaboon viper, medium viper|Page=319||CreatureType=2|
+1,mountain viper, medium viper|Page=320||CreatureType=2|
+1,pit viper, medium viper|Page=319||CreatureType=2|
+1,rhinoceros viper, medium viper|Page=319||CreatureType=2|
+1,sand viper, medium viper|Page=319||CreatureType=2|
+1,sharp-nosed viper, medium viper|Page=319||CreatureType=2|
+1,tree viper, medium viper|Page=320||CreatureType=2|
+
+;ToH_CR2
+1,archer bush|Page=9||CreatureType=15|
+1,axe beak|Page=13||CreatureType=3|
+1,barracuda (giant)|Page=286||CreatureType=2||SubType=2|
+1,blindheim|Page=22||CreatureType=12|
+1,buckawn|Page=30||CreatureType=8|
+1,cave fisher|Page=35||CreatureType=18|
+1,cave moray|Page=36||CreatureType=18|
+1,giant clam|Page=40||CreatureType=18||SubType=2|
+1,clockwork swarm|Page=41||CreatureType=4|
+1,cooshee|Page=45||CreatureType=3|
+1,monstrous crab|Page=46||CreatureType=18||SubType=2|
+1,crabman|Page=47||CreatureType=12||SubType=2|
+1,dakon|Page=59||CreatureType=12|
+1,dark creeper|Page=59||CreatureType=10|
+1,death dog|Page=63||CreatureType=11|
+1,dire goat|Page=298||CreatureType=2|
+1,faerie dragon|Page=110||CreatureType=6|
+1,dragonfish|Page=113||CreatureType=3||SubType=2|
+1,electric eel|Page=287||CreatureType=2||SubType=2|
+1,executioner's hood|Page=131||CreatureType=1|
+1,poisonous pedipalp|Page=134||CreatureType=3|
+1,forlarren|Page=142||CreatureType=8|
+1,frost man|Page=145||CreatureType=10||SubType=3|
+1,ghoul-stirge|Page=148||CreatureType=17|
+1,giant fly|Page=140||CreatureType=18|
+1,giant hamster|Page=162||CreatureType=2|
+1,giant leech|Page=181||CreatureType=18|
+1,giant tiger barb|Page=256||CreatureType=2||SubType=2|
+1,purple moss|Page=217||CreatureType=15|
+1,hoar fox|Page=166||CreatureType=11|
+1,juju zombie (small)|Page=284||CreatureType=17|
+1,kampfult|Page=174||CreatureType=15|
+1,sinewy mugger|Page=174||CreatureType=15|
+1,spinal leech|Page=240||CreatureType=18|
+1,giant frog|Page=143||CreatureType=3|
+1,monstrous jellyfish|Page=172||CreatureType=18||SubType=2|
+1,necrophidius|Page=202||CreatureType=4|
+1,necrophidius (rattler)|Page=203||CreatureType=4|
+1,nilbog|Page=204||CreatureType=10|
+1,diger ooze|Page=106||CreatureType=13|
+1,poltergeist|Page=215||CreatureType=17||SubType=7|
+1,psionic elemental (small)|Page=124||CreatureType=7|
+1,ethereal rat|Page=220||CreatureType=11|
+1,sandling|Page=224||CreatureType=7||SubType=4|
+1,screaming devilkin|Page=227||CreatureType=11||SubType=8|
+1,marble snake|Page=189||CreatureType=3|
+1,stormwarden|Page=245||CreatureType=10|
+1,tabaxi|Page=250||CreatureType=12|
+1,taer|Page=251||CreatureType=12|
+1,therianthrope (asswere)|Page=307||CreatureType=16|
+1,therianthrope (foxwere)|Page=308||CreatureType=16|
+1,therianthrope (jackalwere)|Page=309||CreatureType=16|
+1,therianthrope (owlwere)|Page=311||CreatureType=16|
+1,thorny|Page=253||CreatureType=15|
+1,tri-flower frond|Page=259||CreatureType=15|
+1,tsathar|Page=264||CreatureType=12|
+1,ubue|Page=268||CreatureType=10|
+1,vegepygmy guard|Page=272||CreatureType=15|
+1,volt|Page=274||CreatureType=1||SubType=5|
+1,ghoul wolf|Page=279||CreatureType=17|
+1,yellow musk creeper|Page=282||CreatureType=15|
+1,brown snake, large viper|Page=319||CreatureType=2|
+1,bushmaster, large viper|Page=319||CreatureType=2|
+1,king cobra, large viper|Page=319||CreatureType=2|
+1,spitting cobra, large viper|Page=319||CreatureType=2|
+1,water cobra, large viper|Page=319||CreatureType=2|
+1,yellow cobra, large viper|Page=319||CreatureType=2|
+1,fer-de-lance, large viper|Page=319||CreatureType=2|
+1,black mamba, large viper|Page=319||CreatureType=2|
+1,green mamba, large viper|Page=319||CreatureType=2|
+1,taipan, large viper|Page=319||CreatureType=2|
+1,tic-polonga, large viper|Page=319||CreatureType=2|
+1,gaboon viper, large viper|Page=319||CreatureType=2|
+1,pit viper, large viper|Page=319||CreatureType=2|
+1,rhinoceros viper, large viper|Page=319||CreatureType=2|
+
+;ToH_CR3
+1,adherer|Page=4||CreatureType=1|
+1,babbler|Page=14||CreatureType=3|
+1,banderlog|Page=14||CreatureType=3|
+1,mobat|Page=18||CreatureType=11|
+1,boring beetle|Page=19||CreatureType=18|
+1,belabra|Page=21||CreatureType=1|
+1,bonesnapper|Page=28||CreatureType=3|
+1,bunyip|Page=31||CreatureType=3||SubType=2|
+1,caryatid column|Page=33||CreatureType=4|
+1,caterwaul|Page=34||CreatureType=11|
+1,coffer corpse|Page=45||CreatureType=17|
+1,monstrous crayfish|Page=48||CreatureType=18||SubType=2|
+1,barizou (demon)|Page=73||CreatureType=14||SubType=8|
+1,devil dog|Page=93||CreatureType=11||SubType=3|
+1,dire porcupine|Page=299||CreatureType=2|
+1,dire ram|Page=299||CreatureType=2|
+1,disenchanter|Page=107||CreatureType=11|
+1,cloud dragon (wyrmling)|Page=109||CreatureType=6|
+1,mist dragon (wyrmling)|Page=111||CreatureType=6|
+1,eblis|Page=122||CreatureType=11|
+1,eye killer|Page=131||CreatureType=11|
+1,solifugid|Page=134||CreatureType=3|
+1,flail snail|Page=138||CreatureType=18|
+1,foo dog|Page=301||CreatureType=14|
+1,gambado|Page=146||CreatureType=1|
+1,ear seeker|Page=122||CreatureType=18|
+1,phantom|Page=212||CreatureType=17|
+1,hippocampus|Page=165||CreatureType=3||SubType=2|
+1,huecuva|Page=167||CreatureType=17|
+1,inphidian|Page=168||CreatureType=1|
+1,jack-o-lantern|Page=170||CreatureType=15|
+1,juju zombie (medium)|Page=284||CreatureType=17|
+1,jupiter bloodsucker|Page=172||CreatureType=15|
+1,kech|Page=175||CreatureType=3|
+1,lava children|Page=181||CreatureType=10|
+1,quasi-elemental (lightning; small)|Page=123||CreatureType=7||SubType=1|
+1,rock-horned lizard|Page=184||CreatureType=2|
+1,blood lizard|Page=184||CreatureType=2|
+1,moose|Page=288||CreatureType=2|
+1,pech|Page=212||CreatureType=8||SubType=4|
+1,quickling|Page=218||CreatureType=8|
+1,dire shadow rat|Page=221||CreatureType=17||SubType=7|
+1,rock reptile|Page=222||CreatureType=3|
+1,sandman|Page=224||CreatureType=7||SubType=4|
+1,skulleton|Page=233||CreatureType=17|
+1,strangle weed|Page=246||CreatureType=15||SubType=2|
+1,therianthrope (wolfwere)|Page=312||CreatureType=16|
+1,ice troll|Page=260||CreatureType=9|
+1,swamp troll|Page=262||CreatureType=9|
+1,tsathar scourge|Page=264||CreatureType=12|
+1,vampire rose|Page=270||CreatureType=15|
+1,vegepygmy bodyguard|Page=272||CreatureType=15|
+1,shadow wolf|Page=279||CreatureType=17||SubType=7|
+1,slime zombie|Page=304||CreatureType=15|
+1,king cobra, huge viper|Page=319||CreatureType=2|
+1,black mamba, huge viper|Page=319||CreatureType=2|
+
+;ToH_CR4
+1,algoid|Page=6||CreatureType=15|
+1,amphisbaena|Page=7||CreatureType=3|
+1,barrow wight|Page=15||CreatureType=17|
+1,doombat|Page=17||CreatureType=3|
+1,slicer beetle|Page=20||CreatureType=18|
+1,bloody bones|Page=23||CreatureType=17|
+1,boalisk|Page=24||CreatureType=11|
+1,bone cobbler|Page=27||CreatureType=1|
+1,chrystone|Page=39||CreatureType=4|
+1,clockwork titan|Page=41||CreatureType=4|
+1,cobra flower|Page=44||CreatureType=15|
+1,dark stalker|Page=60||CreatureType=10|
+1,decapus|Page=64||CreatureType=1|
+1,dire hippopotamus|Page=298||CreatureType=2|
+1,behemoth|Page=298||CreatureType=2|
+1,cloud dragon (young)|Page=109||CreatureType=6|
+1,mist dragon (young)|Page=111||CreatureType=6|
+1,fire drake|Page=115||CreatureType=6||SubType=6|
+1,ice drake|Page=116||CreatureType=6||SubType=3|
+1,draug|Page=117||CreatureType=17||SubType=2|
+1,dust digger|Page=120||CreatureType=1|
+1,giant moray eel|Page=123||CreatureType=3||SubType=2|
+1,four-armed gargoyle|Page=146||CreatureType=11||SubType=4|
+1,green guardian|Page=146||CreatureType=11||SubType=4|
+1,giant dragonfly|Page=114||CreatureType=18|
+1,gloomwing|Page=150||CreatureType=14|
+1,stone guardian golem|Page=152||CreatureType=4|
+1,gorilla bear|Page=158||CreatureType=3|
+1,haunt|Page=163||CreatureType=17||SubType=7|
+1,olive slime|Page=210||CreatureType=13|
+1,rot grub|Page=222||CreatureType=18|
+1,symbiotic jelly|Page=248||CreatureType=13|
+1,throat leech|Page=254||CreatureType=18|
+1,hippopotamus|Page=287||CreatureType=2|
+1,kamadan|Page=174||CreatureType=11|
+1,kelpie|Page=176||CreatureType=15||SubType=2|
+1,khargra|Page=177||CreatureType=14||SubType=4|
+1,korred|Page=179||CreatureType=8|
+1,leprechaun|Page=182||CreatureType=8|
+1,giant dire frog|Page=143||CreatureType=2|
+1,mummy of the deep|Page=200||CreatureType=17||SubType=2|
+1,crystal ooze|Page=48||CreatureType=13|
+1,slithering ooze ???
+1,slithering tracker|Page=237||CreatureType=13|
+1,stunjelly|Page=247||CreatureType=13|
+1,phantom stalker|Page=213||CreatureType=7||SubType=6|
+1,phycomid|Page=214||CreatureType=15|
+1,protector|Page=216||CreatureType=14||SubType=10|
+1,psionic elemental (medium)|Page=124||CreatureType=7|
+1,pyrolisk|Page=217||CreatureType=11|
+1,spriggan|Page=240||CreatureType=10|
+1,stegocentipede|Page=243||CreatureType=18|
+1,stench kow|Page=243||CreatureType=14|
+1,stymphalian bird|Page=248||CreatureType=3|
+1,bronze beak|Page=248||CreatureType=3|
+1,tentamort|Page=252||CreatureType=1|
+1,thunder beast|Page=255||CreatureType=14|
+1,tigrilla|Page=291||CreatureType=3|
+1,vegepygmy subchief|Page=272||CreatureType=15|
+1,witherweed|Page=278||CreatureType=15|
+1,wolf-spider|Page=281||CreatureType=11|
+1,yeti|Page=283||CreatureType=12|
+
+;ToH_CR5
+1,ant lion|Page=8||CreatureType=18|
+1,basidirond|Page=16||CreatureType=15|
+1,blood golem|Page=151||CreatureType=1|
+1,bog beast|Page=25||CreatureType=3|
+1,carrion moth|Page=33||CreatureType=1|
+1,crypt thing|Page=50||CreatureType=17|
+1,crypt thing guardian|Page=51||CreatureType=17|
+1,crystalline horror|Page=49||CreatureType=1|
+1,alu-demon|Page=69||CreatureType=14||SubType=8|
+1,azizou (demon)|Page=73||CreatureType=14||SubType=8|
+1,drelb|Page=118||CreatureType=14||SubType=7|
+1,fen witch|Page=135||CreatureType=12|
+1,forester's bane|Page=141||CreatureType=15|
+1,snapper saw|Page=141||CreatureType=15|
+1,margoyle|Page=146||CreatureType=11||SubType=4|
+1,wood giant|Page=149||CreatureType=9|
+1,ice golem|Page=152||CreatureType=4|
+1,memory moss|Page=190||CreatureType=15|
+1,juju zombie (large)|Page=284||CreatureType=17|
+1,lion beast of chaos|Page=294||CreatureType=11|
+1,abyssal dire frog|Page=143||CreatureType=14|
+1,mercury ooze|Page=191||CreatureType=13|
+1,scarecrow|Page=225||CreatureType=4|
+1,therianthrope (lionwere)|Page=310||CreatureType=16|
+1,transposer|Page=257||CreatureType=16|
+1,cave troll|Page=259||CreatureType=9|
+1,wind walker|Page=277||CreatureType=7||SubType=1|
+
+;ToH_CR6
+1,ascomoid|Page=10||CreatureType=15|
+1,astral shark|Page=11||CreatureType=14|
+1,death watch beetle|Page=19||CreatureType=18|
+1,rhinocerous beetle|Page=20||CreatureType=18|
+1,bhuta|Page=21||CreatureType=17|
+1,bog mummy|Page=25||CreatureType=17|
+1,clockwork brain gear|Page=41||CreatureType=4|
+1,darnoc|Page=62||CreatureType=17||SubType=7|
+1,death worm|Page=63||CreatureType=11|
+1,demiurge|Page=65||CreatureType=17||SubType=7|
+1,cambion (demon)|Page=72||CreatureType=14||SubType=8|
+1,geruzou (demon)|Page=73||CreatureType=14||SubType=8|
+1,dire bison|Page=297||CreatureType=2|
+1,dire sloth|Page=300||CreatureType=2|
+1,cloud dragon (juvenile)|Page=109||CreatureType=6|
+1,mist dragon (juvenile)|Page=111||CreatureType=6|
+1,dragonnel|Page=114||CreatureType=3|
+1,fogwarden|Page=140||CreatureType=1|
+1,giant slug|Page=237||CreatureType=18|
+1,wood golem|Page=154||CreatureType=4|
+1,hangman tree|Page=162||CreatureType=15|
+1,russet mold|Page=223||CreatureType=15|
+1,hell moth|Page=164||CreatureType=1|
+1,poisonous kamadan|Page=174||CreatureType=11|
+1,quasi-elemental (lightning; medium)|Page=123||CreatureType=7||SubType=1|
+1,magnesium spirit|Page=186||CreatureType=14||SubType=9|
+1,midnight peddler|Page=192||CreatureType=14|
+1,mihstu|Page=192||CreatureType=7||SubType=1|
+1,nereid|Page=203||CreatureType=8||SubType=2|
+1,oliphant|Page=209||CreatureType=2|
+1,livestone ooze|Page=182||CreatureType=13|
+1,undead ooze|Page=269||CreatureType=13|
+1,psionic elemental (large)|Page=124||CreatureType=7|
+1,scythe tree|Page=227||CreatureType=15|
+1,shadow demon|Page=88||CreatureType=14||SubType=8|
+1,lead skeleton|Page=230||CreatureType=4|
+1,stone roper|Page=244||CreatureType=11|
+1,rock troll|Page=261||CreatureType=9|
+1,two-headed troll|Page=263||CreatureType=9|
+1,vegepygmy chief|Page=272||CreatureType=15|
+
+;ToH_CR7
+1,apparition|Page=8||CreatureType=17||SubType=7|
+1,greater basilisk|Page=17||CreatureType=11||SubType=11|
+1,bleeding horror (minotaur)|Page=296||CreatureType=17|
+1,boggart|Page=26||CreatureType=1||SubType=1|
+1,bonesucker|Page=28||CreatureType=1|
+1,black dracolisk|Page=108||CreatureType=6|
+1,blue dracolisk|Page=108||CreatureType=6|
+1,green dracolisk|Page=108||CreatureType=6|
+1,red dracolisk|Page=108||CreatureType=6|
+1,white dracolisk|Page=108||CreatureType=6|
+1,fire nymph|Page=136||CreatureType=14||SubType=6|
+1,firefiend|Page=137||CreatureType=7||SubType=6|
+1,groaning spirit|Page=159||CreatureType=17||SubType=7|
+1,guardian daemon|Page=160||CreatureType=14|
+1,twilight mushrooms|Page=267||CreatureType=15|
+1,lurker above|Page=184||CreatureType=1|
+1,lurker below|Page=185||CreatureType=11||SubType=2|
+1,brown pudding|Page=29||CreatureType=13|
+1,dun pudding|Page=119||CreatureType=13|
+1,magma ooze|Page=186||CreatureType=13||SubType=6|
+1,mustard jelly|Page=201||CreatureType=13|
+1,shedu|Page=229||CreatureType=11|
+1,soul eater|Page=238||CreatureType=14|
+1,tunnel worm|Page=265||CreatureType=3|
+1,trapper|Page=258||CreatureType=1|
+1,spectral troll|Page=306||CreatureType=17||SubType=7|
+
+;ToH_CR8
+1,aurumvorax|Page=12||CreatureType=3|
+1,hydrodaemon|Page=56||CreatureType=14||SubType=2|
+1,nerizo (demon)|Page=85||CreatureType=14||SubType=8|
+1,eye of the deep|Page=132||CreatureType=1||SubType=2|
+1,tallow golem|Page=153||CreatureType=4|
+1,gorgimera|Page=155||CreatureType=11|
+1,juju zombie (huge)|Page=284||CreatureType=17|
+1,kelp devil|Page=176||CreatureType=15||SubType=2|
+1,fire lizard|Page=135||CreatureType=11||SubType=6|
+1,greater medusa|Page=190||CreatureType=12|
+1,vampiric ooze|Page=270||CreatureType=13|
+1,owlephant|Page=291||CreatureType=3|
+1,psionic elemental (huge)|Page=125||CreatureType=7|
+1,quickwood|Page=219||CreatureType=15|
+1,squealer|Page=242||CreatureType=3|
+1,time elemental (common)|Page=126||CreatureType=7|
+1,wolf-in-sheep's-clothing|Page=280||CreatureType=1|
+1,tenebrous worm|Page=252||CreatureType=14|
+
+;ToH_CR9
+1,nabassu demon (lesser)|Page=83||CreatureType=14||SubType=8|
+1,tormentor of souls (devil)|Page=105||CreatureType=14||SubType=8|
+1,gharros (demon)|Page=80||CreatureType=14||SubType=8|
+1,cloud dragon (young adult)|Page=109||CreatureType=6|
+1,mist dragon (young adult)|Page=111||CreatureType=6|
+1,dragon horse|Page=112||CreatureType=11|
+1,salt drake|Page=116||CreatureType=6||SubType=4|
+1,quasi-elemental (lightning; large)|Page=123||CreatureType=7||SubType=1|
+1,moon dog|Page=196||CreatureType=14||SubType=14|
+1,obsidian minotaur|Page=206||CreatureType=4|
+1,greater shedu|Page=230||CreatureType=11|
+1,thessalisk|Page=315||CreatureType=1|
+1,giant snapping turtle|Page=266||CreatureType=3||SubType=2|
+
+;ToH_CR10
+1,aerial servant|Page=5||CreatureType=7||SubType=1|
+1,movanic deva|Page=38||CreatureType=14||SubType=15|
+1,derghodaemon|Page=55||CreatureType=14||SubType=9|
+1,aeshma (demon)|Page=68||CreatureType=14||SubType=8|
+1,white pudding|Page=276||CreatureType=13|
+1,psionic elemental (greater)|Page=125||CreatureType=7|
+
+;ToH_CR11
+1,piscodaemon|Page=58||CreatureType=14||SubType=9|
+1,daraka (demon)|Page=77||CreatureType=14||SubType=8|
+1,greater nabassu demon|Page=83||CreatureType=14||SubType=8|
+1,stirge demon|Page=90||CreatureType=14||SubType=8|
+1,thessalhydra|Page=314||CreatureType=3|
+
+;ToH_CR12
+1,monadic deva|Page=37||CreatureType=14||SubType=15|
+1,demonic knight|Page=92||CreatureType=14||SubType=8|
+1,cloud dragon (adult)|Page=109||CreatureType=6|
+1,mist dragon (adult)|Page=111||CreatureType=6|
+1,psionic elemental (elder)|Page=125||CreatureType=7|
+1,thessalgorgon|Page=314||CreatureType=1|
+
+;ToH_CR13
+1,cacodaemon|Page=52||CreatureType=14||SubType=9|
+1,charonadaemon|Page=54||CreatureType=14||SubType=9|
+1,tarry demodand|Page=67||CreatureType=14||SubType=8|
+1,froghemoth|Page=144||CreatureType=1|
+
+;ToH_CR14
+1,cat lord|Page=292||CreatureType=14|
+1,mouse lord|Page=293||CreatureType=14|
+1,cloud dragon (mature)|Page=109||CreatureType=6|
+1,sand giant|Page=149||CreatureType=9||SubType=4|
+1,skeleton warrior|Page=303||CreatureType=17|
+1,time elemental (noble)|Page=126||CreatureType=7|
+
+;ToH_CR15
+1,mist dragon (mature)|Page=111||CreatureType=6|
+
+;ToH_CR16
+1,slime demodand|Page=66||CreatureType=14||SubType=8|
+
+;ToH_CR17
+1,sonechard demon|Page=89||CreatureType=14||SubType=8|
+1,beluiri (demon)|Page=71||CreatureType=14||SubType=8|
+1,cloud dragon (adult)|Page=109||CreatureType=6|
+1,mist dragon (adult)|Page=111||CreatureType=6|
+1,time elemental (royal)|Page=126||CreatureType=7|
+
+;ToH_CR18
+1,shaggy demodand|Page=65||CreatureType=14||SubType=8|
+1,maphistal (demon)|Page=82||CreatureType=14||SubType=8|
+1,ghaddar (devil)|Page=98||CreatureType=14| |SubType=9|
+1,mist dragon (old)|Page=111||CreatureType=6|
+1,elemental dragon (air)|Page=127||CreatureType=7||SubType=1|
+1,elemental dragon (water)|Page=130||CreatureType=7||SubType=2|
+
+;ToH_CR19
+1,cloud dragon (old)|Page=109||CreatureType=6|
+1,mist dragon (very old)|Page=111||CreatureType=6|
+1,juju zombie (gargantuan)|Page=284||CreatureType=17|
+
+;ToH_CR20
+1,gorson (devil; duke)|Page=99||CreatureType=14||SubType=8|
+1,titivilus (devil; duke)|Page=104||CreatureType=14||SubType=8|
+1,cloud dragon (very old)|Page=109||CreatureType=6|
+1,mist dragon (ancient)|Page=111||CreatureType=6|
+1,elemental dragon (earth)|Page=128||CreatureType=7||SubType=4|
+;ToH_CR21
+1,bael (devil; duke)|Page=96||CreatureType=14||SubType=8|
+1,mist dragon (wyrm)|Page=111||CreatureType=6|
+
+;ToH_CR22
+1,baaphel (devil; duke)|Page=95||CreatureType=14||SubType=8|
+1,hutijin (devil; duke)|Page=100||CreatureType=14||SubType=8|
+1,cloud dragon (ancient)|Page=109||CreatureType=6|
+1,elemental dragon (fire)|Page=129||CreatureType=7||SubType=6|
+1,sthenno (gorgon)|Page=156||CreatureType=14||SubType=8|
+
+;ToH_CR23
+1,cloud dragon (wyrm)|Page=109||CreatureType=6|
+1,mist dragon (great wyrm)|Page=111||CreatureType=6|
+1,euryale (gorgon)|Page=156||CreatureType=14||SubType=8|
+
+;ToH_CR24
+1,amon (devil; duke)|Page=94||CreatureType=14||SubType=8|
+
+;ToH_CR25
+1,cerberus|Page=38||CreatureType=11||SubType=9|
+1,baphomet (demon; lord)|Page=70||CreatureType=14||SubType=8|
+1,cloud dragon (great wyrm)|Page=109||CreatureType=6|
+1,juju zombie (colossal)|Page=285||CreatureType=17|
+
+;ToH_CR26
+1,charon (daemon)|Page=53||CreatureType=14||SubType=9|
+1,kostchtchie (demon; lord)|Page=81||CreatureType=14||SubType=8|
+
+;ToH_CR27
+1,|CreatureType=19|No CR 27 Monsters
+
+;ToH_CR28
+1,the faceless lord (demon)|Page=79||CreatureType=14||SubType=8|
+1,moloch (arch devil)|Page=102||CreatureType=14||SubType=8|
+
+;ToH_CR29
+1,geryon (arch demon)|Page=97||CreatureType=14||SubType=8|
+
+;ToH_CR30
+1,dagon (demon; prince)|Page=76||CreatureType=14||SubType=8|
+1,fraz-urb'luu (demon; prince)|Page=78||CreatureType=14||SubType=8|
+1,slaad, lord of the insane|Page=235||CreatureType=14||SubType=8|
+
+;ToH_CR31
+1,pazuzu (demon; prince)|Page=87||CreatureType=14||SubType=8|
+
+;ToH_CR32
+1,slaad, lord of entropy|Page=233||CreatureType=14||SubType=8|
+
+;ToH_CR33
+1,tsathogga (demon; lord)|Page=91||CreatureType=14||SubType=8|
+
+;ToH_CR34
+1,|CreatureType=19|No CR 34 Monsters
+
+;ToH_CR35
+1,|CreatureType=19|No CR 35 Monsters
+
+;ToH_CR36
+1,oinodaemon (daemon)|Page=57||CreatureType=14||SubType=9|
+1,orcus (demon; prince)|Page=85||CreatureType=14||SubType=8|
+
+;ToH_CR37
+1,|CreatureType=19|No CR 37 Monsters
+
+;ToH_CR38
+1,|CreatureType=19|No CR 38 Monsters
+
+;ToH_CR39
+1,lucifer (arch devil)|Page=101||CreatureType=14||SubType=8|
+
+;Fiend Folio
+
+;FF_CR_OneEighth
+1,mind leech (cerebral symbiont)|Page=217||CreatureType=1||SubType=17|
+1,psionic sinew (cerebral symbiont)|Page=218||CreatureType=1||SubType=17|
+1,fiendish familiar (fiendish symbiont)|Page=219||CreatureType=14||SubType=15|
+1,gutworm (fiendish symbiont)|Page=220||CreatureType=14||SubType=15|
+1,soul tick (fiendish symbiont)|Page=220||CreatureType=14||SubType=15|
+;FF_CR_OneThird
+1,mongrelfolk|Page=125||CreatureType=10|
+
+;FF_CR_OneHalf
+1,blood hawk|Page=22||CreatureType=2|
+1,cerebral hood (cerebral symbiont)|Page=216||CreatureType=1||SubType=17|
+1,feytouched|Page=71||CreatureType=8|
+1,maeluth (planetouched)|Page=136||CreatureType=14|
+1,mechanitrix (planetouched)|Page=137||CreatureType=14|
+1,wispling (planetouched)|Page=139||CreatureType=14|
+1,yellow musk zombie (lvl 1 orc ftr)|Page=191||CreatureType=15|
+
+;FF_CR1
+1,abrian|Page=12||CreatureType=11||SubType=15|
+1,bloodbloater (aquatic ooze)|Page=16||CreatureType=13||SubType=2|
+1,minor flame snake|Page=73||CreatureType=11||SubType=6|
+1,kaorti|Page=108||CreatureType=14||SubType=15|
+1,varoot (nerra)|Page=130||CreatureType=14||SubType=15|
+1,shyft (planetouched)|Page=138||CreatureType=14|
+1,selkie|Page=148||CreatureType=10||SubType=2|
+1,shardar-kai|Page=150||CreatureType=8||SubType=15|
+1,shadow asp|Page=152||CreatureType=11|
+1,yurian|Page=198||CreatureType=12|
+
+;FF_CR2
+1,flotsom ooze (aquatic ooze)|Page=17||CreatureType=13||SubType=2|
+1,bacchae|Page=18||CreatureType=14||SubType=15|
+1,death dog|Page=41||CreatureType=11|
+1,ghostly visage (symbiont)|Page=221||CreatureType=17||SubType=7|
+1,filth imp|Page=100||CreatureType=14||SubType=15|
+1,iron cobra|Page=103||CreatureType=4|
+1,jackalwere|Page=107||CreatureType=11||SubType=18|
+1,necrophidious|Page=126||CreatureType=4|
+1,ophidian|Page=133||CreatureType=12||SubType=11|
+1,skulk|Page=154||CreatureType=12|
+1,cranium rat swarm (lesser)|Page=167||CreatureType=11||SubType=16|
+1,wasp swarm|Page=172||CreatureType=18||SubType=16|
+1,terlen|Page=174||CreatureType=11||SubType=15|
+
+;FF_CR3
+1,aoa droplet|Page=15||CreatureType=14||SubType=15|
+1,bloodthorn|Page=23||CreatureType=15||SubType=15|
+1,crypt thing|Page=36||CreatureType=17|
+1,dark creeper|Page=38||CreatureType=10|
+1,bloodbag imp|Page=98||CreatureType=14||SubType=15|
+1,euphoric imp|Page=99||CreatureType=14||SubType=15|
+1,khaasta|Page=115||CreatureType=12||SubType=15|
+1,maug|Page=121||CreatureType=4||SubType=15|
+1,kalareem (nerra)|Page=128||CreatureType=14||SubType=15|
+1,senmurv|Page=149||CreatureType=11|
+1,spriggan|Page=162||CreatureType=8|
+1,viper swarm|Page=172||CreatureType=2||SubType=16|
+1,skeroloth (yugoloth)|Page=197||CreatureType=14||SubType=9|
+
+;FF_CR4
+1,dark stalker|Page=38||CreatureType=10|
+1,skulvyn (demon)|Page=54||CreatureType=14||SubType=8|
+1,half-fey centaur|Page=89||CreatureType=12|
+1,half-illithid lizardfolk|Page=90||CreatureType=1|
+1,kuldurath|Page=116||CreatureType=11||SubType=15|
+1,terror bird|Page=175||CreatureType=2|
+1,vine horror|Page=185||CreatureType=15||SubType=2|
+1,vorr|Page=186||CreatureType=14||SubType=15|
+1,yellow musk creeper|Page=190||CreatureType=15|
+
+;FF_CR5
+1,haraknin (canomorph)|Page=26||CreatureType=14||SubType=15|
+1,fensir|Page=68||CreatureType=9||SubType=15|
+1,fossergrim|Page=79||CreatureType=8||SubType=2|
+1,plague ant swarm|Page=167||CreatureType=18||SubType=16|
+1,cranium rat swarm (average)|Page=168||CreatureType=11||SubType=16|
+1,ti-khana deinonychus|Page=177||CreatureType=11|
+
+;FF_CR6
+1,ahuizotl|Page=14||CreatureType=1||SubType=2|
+1,reekmurk (aquatic ooze)|Page=18||CreatureType=13||SubType=2|
+1,caryatid column|Page=30||CreatureType=4|
+1,formian (winged warrior)|Page=78||CreatureType=14||SubType=10|
+1,bog giant|Page=81||CreatureType=9||SubType=2|
+1,sillit (nerra)|Page=129||CreatureType=14||SubType=15|
+1,mud slaad|Page=157||CreatureType=14||SubType=15|
+1,rapture locust swarm|Page=170||CreatureType=18||SubType=16|
+1,lesser varrangoin|Page=183||CreatureType=11||SubType=15|
+1,windigo (lvl 4 human sor)|Page=186||CreatureType=8|
+
+;FF_CR7
+1,lesser flame snake|Page=74||CreatureType=11||SubType=6|
+1,huecuva (lvl 5 clr)|Page=94||CreatureType=17|
+1,keeper|Page=111||CreatureType=14||SubType=15|
+1,oread|Page=134||CreatureType=8||SubType=4|
+1,quth-maren|Page=139||CreatureType=17|
+1,slasrath|Page=158||CreatureType=1||SubType=15|
+1,swordwraith (lvl 5 human ftr)|Page=173||CreatureType=17|
+
+;FF_CR8
+1,fensir (rakka)|Page=70||CreatureType=9||SubType=15|
+1,armadon formian|Page=77||CreatureType=14||SubType=10|
+1,blood golem of hextor|Page=84||CreatureType=4|
+1,jackal lord|Page=105||CreatureType=12|
+1,megatherium|Page=124||CreatureType=2|
+1,bloodfiend locust swarm|Page=170||CreatureType=18||SubType=16|
+
+;FF_CR9
+1,bhut|Page=20||CreatureType=17||SubType=7|
+1,vultivor canomorph (lvl 5 rog)|Page=28||CreatureType=14||SubType=15|
+1,chwidencha|Page=34||CreatureType=1|
+1,maurezhi (demon)|Page=50||CreatureType=14||SubType=8|
+1,movanic deva|Page=57||CreatureType=14||SubType=15|
+1,dire rhinoceros|Page=61||CreatureType=5|
+1,red ethergaunt|Page=66||CreatureType=1||SubType=15|
+1,fhorge|Page=72||CreatureType=2||SubType=15|
+1,half-troll barbazu|Page=92||CreatureType=9|
+1,indricothere|Page=100||CreatureType=2|
+1,kelp angler|Page=112||CreatureType=15||SubType=2|
+1,ferrumach rilmani|Page=143||CreatureType=8|
+1,rukanyr|Page=144||CreatureType=1|
+1,piscoloth (yugoloth)|Page=196||CreatureType=14||SubType=9|
+
+;FF_CR10
+1,abyssal ghoul|Page=12||CreatureType=17||SubType=15|
+1,darkweaver|Page=39||CreatureType=1||SubType=15|
+1,ethereal ooze|Page=63||CreatureType=13||SubType=15|
+1,gathra|Page=80||CreatureType=11||SubType=15|
+1,brain golem|Page=85||CreatureType=4|
+1,kelpie|Page=114||CreatureType=8||SubType=2|
+1,maelephant|Page=120||CreatureType=14||SubType=15|
+1,shedu|Page=153||CreatureType=11|
+1,sporebat|Page=161||CreatureType=15|
+1,scarab beetle swarm|Page=171||CreatureType=18||SubType=16|
+1,varrangoin rager|Page=184||CreatureType=11||SubType=15|
+
+;FF_CR11
+1,shadurakul canomorph (lvl 6 ftr)|Page=27||CreatureType=14||SubType=15|
+1,farastu demodand|Page=42||CreatureType=14||SubType=15|
+1,formian observer|Page=77||CreatureType=14||SubType=10|
+1,phiuhl|Page=135||CreatureType=8|
+1,sarkrith (thane)|Page=146||CreatureType=12|
+1,spirit of the air|Page=160||CreatureType=11||SubType=1|
+1,cranium rat swarm (greater)|Page=169||CreatureType=11||SubType=16|
+1,ulgurstasta|Page=180||CreatureType=17|
+1,varrangoin arcanist|Page=182||CreatureType=11||SubType=15|
+1,wickerman|Page=188||CreatureType=4|
+
+;FF_CR12
+1,bonespear|Page=24||CreatureType=18||SubType=15|
+1,monadic deva|Page=56||CreatureType=14||SubType=15|
+1,octopus tree|Page=130||CreatureType=15|
+1,ocularon|Page=132||CreatureType=1|
+1,cupilach rilmani|Page=142||CreatureType=8|
+1,skybleeder|Page=155||CreatureType=1|
+
+;FF_CR13
+1,kelubar demodand|Page=44||CreatureType=14||SubType=15|
+1,white ethergaunt|Page=67||CreatureType=1||SubType=15|
+1,ironmaw|Page=104||CreatureType=15||SubType=15|
+1,living holocaust|Page=117||CreatureType=7||SubType=1|
+1,spelleater sarkrith|Page=145||CreatureType=12|
+1,steel predator|Page=163||CreatureType=14|
+
+;FF_CR14
+1,alkilith (demon)|Page=46||CreatureType=14||SubType=8|
+1,blood fiend (demon)|Page=47||CreatureType=17||SubType=8|
+1,sunwyrm|Page=164||CreatureType=6|
+
+;FF_CR15
+1,sphere aoa|Page=16||CreatureType=14||SubType=15|
+1,hullathion|Page=96||CreatureType=17|
+1,sea drake|Page=147||CreatureType=6||SubType=2|
+1,tunnel terror|Page=179||CreatureType=1|
+
+;FF_CR16
+1,shator demodand|Page=45||CreatureType=14||SubType=15|
+1,greater flame snake|Page=75||CreatureType=11||SubType=6|
+1,abyssal ant swarm|Page=166||CreatureType=1||SubType=16|
+1,zodar|Page=199||CreatureType=4|
+
+;FF_CR17
+1,wastrilith (demon)|Page=54||CreatureType=14||SubType=8|
+1,disenchanter|Page=62||CreatureType=11|
+1,black ethergaunt|Page=65||CreatureType=1||SubType=15|
+1,hellfire golem|Page=88||CreatureType=4||SubType=15|
+1,quarut (inevitable)|Page=102||CreatureType=4||SubType=15|
+1,lucent worm|Page=118||CreatureType=11|
+1,maulgoth|Page=123||CreatureType=1||SubType=4|
+1,aurumach rilmani|Page=140||CreatureType=8|
+1,spectral lurker|Page=158||CreatureType=1||SubType=7|
+
+;FF_CR18
+1,blackstone gigant|Page=21||CreatureType=4|
+1,xerfilstyx (devil)|Page=82||CreatureType=14||SubType=8|
+1,shadow giant|Page=82||CreatureType=9|
+1,demonflesh golem|Page=86||CreatureType=4||SubType=15|
+1,varakhut (inevitable)|Page=103||CreatureType=4||SubType=15|
+1,anathema yuan-ti|Page=193||CreatureType=1|
+
+;FF_CR19
+1,century worm|Page=31||CreatureType=18|
+1,chronotyryn|Page=33||CreatureType=11||SubType=15|
+
+;FF_CR20
+1,crawling head|Page=35||CreatureType=17|
+
+;FF_CR21
+1,myrmyxicus (demon)|Page=52||CreatureType=14||SubType=8|
+1,thunder worm|Page=176||CreatureType=11||SubType=7|
+
+;FF_CR22
+1,paeliryoth (devil)|Page=95||CreatureType=14||SubType=8|
+
+;FF_CR25
+1,klurichir (demon)|Page=48||CreatureType=14||SubType=8|
+
+;FF_CR27
+1,|CreatureType=19|No CR 27 Monsters
+
+

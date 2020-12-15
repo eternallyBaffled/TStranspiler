@@ -1,0 +1,306 @@
+# -----------------------------------------------------
+# Last Update: modified by Valminder Feb 28, 2006.
+# -----------------------------------------------------
+#
+# Calendar of Mystara and the Known World
+#
+# Made by Valminder, March 2002
+#
+#
+# ***************************************************************************
+#
+# Modify this table to permanently set the parameter value to use the
+# calendar of your choice.
+#
+#     1= Forgotten Realms
+#     2= Greyhawk
+#     3= Mystara
+#     4= Mythosan
+#     5= Real World Calendar
+#
+# ***************************************************************************
+#
+#
+# For your own game, create a calendar and name it "Calendar.tab"
+# Change the entries for the subtables below, but do not rename the
+# subtables since thay are called from other tables.
+# You'll then be able to dispose of this one or rename it
+# "Calendar MYSTARA" for later use.
+#
+# The start line is only a test, since the weekdays of the calendar
+# are stable year after year. For example, the 1st of every month is
+# always Lunadain.
+#
+# Mythosan Calendar: based off of the Mythosan calendar, found at
+#    http://www.mythosa.net (Copyright 2000 by Bruce A. Gulke)
+#
+# Seasons: By Dawn M. Burge (2004)
+#
+# Modified by Valminder, Feb 2006.
+#    I added Parameters. You only have to permanently change the
+#       parameter value to choose which calendar to use.
+#    Added seasons.
+# 
+
+%Var%,0
+%World%,3
+
+@World,3,Choose the Calendar to use,Forgotten Realms (Nothing Yet),Greyhawk,Mystara,Mythosan,Real World Calendar
+
+:Start
+1,<b><u>Calendar.tab</b></u><br><br>
+_Modify this table to permanently set the parameter value to use the calendar of your choice.<br><br>
+_1= Forgotten Realms<br>
+_2= Greyhawk<br>
+_3= Mystara<br>
+_4= Mythosan<br>
+_5= Real World Calendar<br>
+_<br><br>
+_[~Test]
+
+:Test
+1,<u>Months</u>: [Months]<br>
+_<u>Months and Days</u>: [Months and Days]<br>
+_<u>Weekdays</u>: [Weekdays]<br><br>
+_<u>Seasons</u>: [Seasons]<br>
+
+:SetVar
+1,FR
+2,GR
+3,MY
+4,MYTHO
+5,RW
+
+:Months
+1,|Var=[SetVar=%World%]|[Months%Var%]
+
+:Months and Days
+1,|Var=[SetVar=%World%]|[Months and Days%Var%]
+
+:Weekdays
+1,|Var=[SetVar=%World%]|[Weekdays%Var%]
+
+# ------------------------------------------------------------------------
+# Seasons
+
+:Seasons
+1-9,[Prefix][Season]
+10,[Season] [SpecialSeason]
+
+:Prefix
+1-2,the beginning of 
+3-5,early 
+6-9,
+10-11,mid
+12-15,
+16-18,late 
+19-20,the end of 
+
+:Season
+1,spring
+2,summer
+3,fall
+4,winter
+
+:SpecialSeason
+1,equinox
+2,solstice
+
+# ------------------------------------------------------------------------
+# ----------------------------- Calendars --------------------------------
+# ------------------------------------------------------------------------
+# Forgotten Realms
+
+# Nothing Yet
+
+# ------------------------------------------------------------------------
+# Greyhawk
+
+:MonthsGR
+1,[Special1]
+2,Readying
+3,Coldeven
+4,[Special2]
+5,Flocktime
+6,Wealsun
+7,[Special3]
+8,Goodmonth
+9,Harvester
+10,[Special4]
+11,Ready'reat
+12,Suns'ebb
+
+:Months and DaysGR
+1,[Special1b]
+2,Readying {Ordinal~{Dice~1d28}}
+3,Coldeven {Ordinal~{Dice~1d28}}
+4,[Special2b]
+5,Flocktime {Ordinal~{Dice~1d28}}
+6,Wealsun {Ordinal~{Dice~1d28}}
+7,[Special3b]
+8,Goodmonth {Ordinal~{Dice~1d28}}
+9,Harvester {Ordinal~{Dice~1d28}}
+10,[Special4b]
+11,Ready'reat {Ordinal~{Dice~1d28}}
+12,Suns'ebb {Ordinal~{Dice~1d28}}
+
+;Special1
+7,Needfest
+28,Fireseek
+
+;Special1b
+7,Needfest {Ordinal~{Dice~1d7}}
+28,Fireseek {Ordinal~{Dice~1d28}}
+
+;Special2
+7,Growfest
+28,Planting
+
+;Special2b
+7,Growfest {Ordinal~{Dice~1d7}}
+28,Planting {Ordinal~{Dice~1d28}}
+
+;Special3
+7,Richfest
+28,Reaping
+
+;Special3b
+7,Richfest {Ordinal~{Dice~1d7}}
+28,Reaping {Ordinal~{Dice~1d28}}
+
+;Special4
+7,Brewfest
+28,Patchwall
+
+;Special4b
+7,Brewfest {Ordinal~{Dice~1d7}}
+28,Patchwall {Ordinal~{Dice~1d28}}
+
+:WeekdaysGR
+1,Starday
+2,Sunday
+3,Moonday
+4,Godsday
+5,Waterday
+6,Earthday
+7,Freeday
+
+# ------------------------------------------------------------------------
+# Mystara
+
+:MonthsMY
+1,Nuwmont (1st month)
+2,Vatermont (2nd month)
+3,Thaumont (3rd month)
+4,Flaurmont (4th month)
+5,Yarthmont (5th month)
+6,Klarmont (6th month)
+7,Felmont (7th month)
+8,Firmont (8th month)
+9,Ambyrmont (9th month)
+10,Sviftmont (10th month)
+11,Eirmont (11th month)
+12,Caldmont (12th month)
+
+:Months and DaysMY
+1,Nuwmont {Ordinal~{Dice~1d28}}
+2,Vatermont {Ordinal~{Dice~1d28}}
+3,Thaumont {Ordinal~{Dice~1d28}}
+4,Flaurmont {Ordinal~{Dice~1d28}}
+5,Yarthmont {Ordinal~{Dice~1d28}}
+6,Klarmont {Ordinal~{Dice~1d28}}
+7,Felmont {Ordinal~{Dice~1d28}}
+8,Firmont {Ordinal~{Dice~1d28}}
+9,Ambyrmont {Ordinal~{Dice~1d28}}
+10,Sviftmont {Ordinal~{Dice~1d28}}
+11,Eirmont {Ordinal~{Dice~1d28}}
+12,Caldmont {Ordinal~{Dice~1d28}}
+
+:WeekdaysMY
+1,Lunadain
+2,Gromdain
+3,Tserdain
+4,Moldain
+5,Nytdain
+6,Loshdain
+7,Soladin
+
+# ------------------------------------------------------------------------
+# Mythosan
+
+:MonthsMYTHO
+1,Scordelos
+2,Theres
+3,Toresk
+4,Agahst
+5,Halember
+6,Klas
+7,Darfell
+8,Vesmer
+9,Malruik
+10,Lyhtan
+11,Jynval
+12,Ramas
+
+:Months and DaysMYTHO
+1,Scordelos {Ordinal~{Dice~1d30}}
+2,Theres {Ordinal~{Dice~1d31}}
+3,Toresk {Ordinal~{Dice~1d30}}
+4,Agahst {Ordinal~{Dice~1d30}}
+5,Halember {Ordinal~{Dice~1d31}}
+6,Klas {Ordinal~{Dice~1d30}}
+7,Darfell {Ordinal~{Dice~1d30}}
+8,Vesmer {Ordinal~{Dice~1d31}}
+9,Malruik {Ordinal~{Dice~1d30}}
+10,Lyhtan {Ordinal~{Dice~1d30}}
+11,Jynval {Ordinal~{Dice~1d31}}
+12,Ramas {Ordinal~{Dice~1d30}}
+
+:WeekdaysMYTHO
+1,Yarstahg
+2,Selstahg
+3,Anostahg
+4,Wyertahg
+5,Moratahg
+6,Gaestahg
+7,Taertahg
+
+# ------------------------------------------------------------------------
+# Real-World
+
+:MonthsRW
+1,January
+2,February
+3,March
+4,April
+5,May
+6,June
+7,July
+8,August
+9,September
+10,October
+11,November
+12,December
+
+:Months and DaysRW
+1,January {Ordinal~{Dice~1d31}}
+2,{If~{Dice~1d4}?=4 February {Ordinal~{Dice~1d29}}/February {Ordinal~{Dice~1d28}}}
+3,March {Ordinal~{Dice~1d31}}
+4,April {Ordinal~{Dice~1d30}}
+5,May {Ordinal~{Dice~1d31}}
+6,June {Ordinal~{Dice~1d30}}
+7,July {Ordinal~{Dice~1d31}}
+8,August {Ordinal~{Dice~1d31}}
+9,September {Ordinal~{Dice~1d30}}
+10,October {Ordinal~{Dice~1d31}}
+11,November {Ordinal~{Dice~1d30}}
+12,December {Ordinal~{Dice~1d31}}
+
+:WeekdaysRW
+1,Monday
+2,Tuesday
+3,Wednesday
+4,Thursday
+5,Friday
+6,Saturday
+7,Sunday

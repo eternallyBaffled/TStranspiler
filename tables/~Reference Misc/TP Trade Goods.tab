@@ -1,0 +1,84 @@
+# ------------------------------------------------------
+# Last Update: verified by Valminder Jan 12, 2014.
+# ------------------------------------------------------
+#
+
+%weight%,0
+%value%,0
+%quantity%,0
+%sizemod%,1
+%type%,0
+
+%format%,0
+%name%,0
+%value%,0
+%appraisalDC%,12
+
+@format,1,Select format:,Human-readable,Delimited for other table
+
+;Start
+1,|name=[Trade Good]|[DisplayItem=%format%]
+
+# Format: name!value!weight
+:DisplayItem
+1,{Bold~{Cap~%name%}}{CR~}Value: %value% gp{CR~}Weight: %weight% lbs.
+2,%name%!%value%!%weight%!%appraisalDC%
+
+
+# Additional value/weight for the barrels is the value/weight of the barrel itself
+# Same thing for the weight with crates
+;Trade Good
+1	,sack of [Grains] (%quantity% pounds)|weight=%quantity%|
+1	,|sizemod=1|small sack of [Herbs and Spices] (%quantity% pounds)|weight=%quantity%|
+1	,|sizemod=2|large sack of [Herbs and Spices] (%quantity% pounds)|weight=%quantity%|
+1	,|sizemod=1|small barrel of [Barrel Contents] (%quantity% pounds)|weight=%quantity%||weight+7||value+0.5|
+1	,|sizemod=4|medium-sized barrel of [Barrel Contents+1] (%quantity% pounds)|weight=%quantity%||weight+15||value+1|
+1	,|sizemod=8|large-sized barrel of [Barrel Contents+2] (%quantity% pounds)|weight=%quantity%||weight+30||value+2|
+1	,bolt of [Cloth] (%quantity% sq. yards)
+1	,crate of |type=[Ingot Metal]| %quantity% %type% ingots|weight=%quantity%||weight+5|
+1	,crate of |type=[Bar Metal]| %quantity% %type% bars|weight=%quantity%||weight+5|
+
+;Barrel Contents
+1	,[Herbs and Spices]
+1	,[Food]
+1	,[Grains]
+
+;Cloth
+6	,woolen cloth|quantity={Dice~4d4+4}||value={Calc~%quantity%*2}||weight={Calc~%quantity%*2}|
+8	,linen|quantity={Dice~4d4+4}||value={Calc~%quantity%*1}||weight={Calc~%quantity%*1}|
+1	,silk|quantity={Dice~4d4+4}||value={Calc~%quantity%*10}||weight={Calc~%quantity%*0.5}||appraisalDC=20|
+
+;Ingot Metal
+4	,iron|quantity={Dice~3d6+5}||value={Calc~%quantity%*0.1}|
+1	,copper|quantity={Dice~3d6+5}||value={Calc~%quantity%*0.5}|
+2	,lead|quantity={Dice~3d6+5}||value={Calc~%quantity%*0.2}|
+
+;Bar Metal
+4	,bronze|quantity={Dice~3d6+5}||value={Calc~%quantity%*0.7}|
+2	,brass|quantity={Dice~3d6+5}||value={Calc~%quantity%*0.6}|
+4	,iron|quantity={Dice~3d6+5}||value={Calc~%quantity%*0.1}|
+4	,steel|quantity={Dice~3d6+5}||value={Calc~%quantity%*0.6}|
+1	,gold|quantity={Dice~3d6+5}||value={Calc~%quantity%*50}|
+1	,silver|quantity={Dice~3d6+5}||value={Calc~%quantity%*5}|
+
+;Herbs and Spices
+4	,cinnamon|quantity={Dice~2d8+3}||quantity*%sizemod%||value={Calc~%quantity%*1}||appraisalDC=15|
+1	,cloves|quantity={Dice~1d8+3}||quantity*%sizemod%||value={Calc~%quantity%*15}||appraisalDC=20|
+1	,saffron|quantity={Dice~1d8+3}||quantity*%sizemod%||value={Calc~%quantity%*15}||appraisalDC=25|
+6	,salt|quantity={Dice~2d8+3}||quantity*%sizemod%||value={Calc~%quantity%*5}|
+4	,pepper|quantity={Dice~2d8+3}||quantity*%sizemod%||value={Calc~%quantity%*2}|
+2	,ginger|quantity={Dice~2d8+3}||quantity*%sizemod%||value={Calc~%quantity%*2}||appraisalDC=15|
+6	,sugar|quantity={Dice~2d8+3}||quantity*%sizemod%||value={Calc~%quantity%*10}|
+
+;Grains
+4	,flour|quantity={Dice~3d20}||quantity*%sizemod%||value={Calc~%quantity%*0.02}|
+1	,tea leaves|quantity={Dice~3d20}||quantity*%sizemod%||value={Calc~%quantity%*0.2}|
+1	,tobacco|quantity={Dice~3d20}||quantity*%sizemod%||value={Calc~%quantity%*0.5}|
+4	,wheat|quantity={Dice~3d20}||quantity*%sizemod%||value={Calc~%quantity%*0.01}|
+4	,rye|quantity={Dice~3d20}||quantity*%sizemod%||value={Calc~%quantity%*0.01}|
+4	,barley|quantity={Dice~3d20}||quantity*%sizemod%||value={Calc~%quantity%*0.01}|
+2	,rice|quantity={Dice~3d20}||quantity*%sizemod%||value={Calc~%quantity%*0.01}|
+
+;Food
+3	,dried fish|quantity={Dice~4d12}||quantity*%sizemod%||value={Calc~%quantity%*0.1}|
+1	,nuts|quantity={Dice~3d6+5}||quantity*%sizemod%||value={Calc~%quantity%*0.5}|

@@ -1,0 +1,723 @@
+# ------------------------------------------------------
+# Last Update: modified by Valminder Jan 15, 2015.
+# ------------------------------------------------------
+#
+# *************** 2nd EDITION AD&D table ***************
+#
+# Living Wall
+# 
+# CopyRight Kevin Donovan
+# ====>>> 2d Edition Monster, Pg. 224
+#
+# This table makes creating a "Living Wall" very fast...Awesome Creature.  
+# Very fun for the DM to play against a high level party.
+#
+# Modified by Valminder, January 2015.
+#    Added treasures from 3.5 Magic Item Compendium
+#    Added link to: 
+#       Treasure Generator MC.Start
+#    
+
+/OverRideRolls 1
+
+%Xp%,2000
+%Hp%,0
+%Ac%,8
+%Lvl%,0
+%A%,0
+%Plus%,0
+%B%,0
+%C%,0
+%D%,0
+%E%,0
+%F%,0
+%G%,0
+%Ability1%,Nothing
+%Ability2%,Nothing
+%Ability3%,Nothing
+# Added for Treasure Generator MC.tab
+%CR%,1
+%size%,1
+
+:Start
+1,{Status~By Kevin Donovan, Valminder 2015}
+_|Hp+{Dice~8d8}|<b><u>A Living Wall</u><br> 
+_[Age]</b><br>This creature has absorbed %A% entities which the Wall now uses as its attacks: <hr> 
+_|CR=%A%||CR*2||size={Dice~1d3+1}|{If~%CR%>20?|size+1|}|size<4||CR>10||CR<20|
+_{While~%A%,[Absorbed]} <hr> 
+# RandomMagic table cannot be found for 2E AD&D
+#_<u><b>Treasure:</B></u><br> [RandomMagic] <hr>
+_<u><b>Treasure (3.5E): (Magical Item Compendium)</B></u><br> [RandomMagic35E] <hr>
+_<b>The wall has %Hp% HPs. <br> The wall has an intelligence of {Dice~6d3}. <br>It's AC is |Plus\3| |Ac-%Plus%| %Ac%. <br>Magic resistance 20 percent. <br>It gives %Xp% XPs for killing it.</b>
+
+# RandomMagic table cannot be found for 2E AD&D
+#;RandomMagic
+#2,[RandomMagic.Start] <br>
+#1,[RandomMagic.Start] <br> [RandomMagic]
+#1,[RandomMagic.Start] <br> [RandomMagic.Start] <br> [RandomMagic]
+#1,[RandomMagic.Start] <br> [RandomMagic.Start] <br> [RandomMagic.Start] <br> [RandomMagic.Start] <br> [RandomMagic]
+
+;RandomMagic35E
+1,[Treasure Generator MC.Start(%CR%,%size%)]
+
+:Age
+1,This is a newly created wall and has seen a few years of life.|A+{Dice~3d2}|
+2-3,This beast has been alive for decades. |A+{Dice~4d3}|
+4-5,This is an Aged creature.  It has been alive for centuries. |A+{Dice~5d3}|
+7,This creature has been alive for Eons - An Ancient creature of special powers. |A+{Dice~6d3}|
+
+:Absorbed
+1-4,|Lvl+{1d15}||Hp+{%Lvl%d10}||Xp+{%Lvl%d280+500}|[Fighter]|A-1||Lvl=0||C=0||B=0| |Ability1=Nothing| |Ability2=Nothing| |Ability3=Nothing|<br>
+5-6,|Lvl+{1d13}||Hp+{%Lvl%d4}||Xp+{%Lvl%d1200+1700}|[Mage]|A-1||Lvl=0||C=0||B=0||Ability1=Nothing| |Ability2=Nothing| |Ability3=Nothing|<br>
+7-8,|Lvl+{1d13}||Hp+{%Lvl%d8}||Xp+{%Lvl%d1100+1000}|[Priest]|A-1||Lvl=0||C=0||B=0| |Ability1=Nothing| |Ability2=Nothing|  |Ability3=Nothing|<br>
+9-10,|Lvl+{1d15}||Hp+{%Lvl%d8}||Xp+{%Lvl%d750+500}|[Creature]|A-1||Lvl=0||C=0||B=0| |Ability1=Nothing| |Ability2=Nothing| |Ability3=Nothing|<br>
+
+:!Time
+1,recently
+2,long ago
+3,early in the wall's life
+4,some time ago
+5,a while ago
+6,of late
+7,in recent times
+8,a short time ago
+9,in ancient times
+10,in times of yore
+11,in an earlier period
+12,a moment ago
+13,only recently
+14,only a while ago
+15,only some time ago
+16,only of late
+17,only a short time ago
+18,only a little time ago
+19,a brief time ago
+20,after a prolonged time
+21,after an extensive period
+22,after an extended time
+23,after an extended period
+24,after a prolonged period
+25,after a long time
+26,after a long period
+27,after a long span
+28,after a brief passage of time
+
+:Fighter
+1,<b>* </b>A level %Lvl% Fighter was [Absorbverb] [Time]. THACO: {Calc~(20- %Lvl%+{1d5-1})} Weapon: [FighterWeapon] {If~%Lvl%>4?|Plus+{1d2}|/|Plus+0|} <br>
+2,<b>* </b>A level %Lvl% Fighter was [Absorbverb] [Time]. THACO: {Calc~(20- %Lvl%+{1d4-1})} Weapon: [FighterWeapon] {If~%Lvl%>4?|Plus+{1d2}|/|Plus+0|} <br>
+3,<b>* </b>A level %Lvl% Fighter was [Absorbverb] [Time]. THACO: {Calc~(20- %Lvl%+{1d4-1})} Weapon: [FighterWeapon] {If~%Lvl%>4?|Plus+{1d3}|/|Plus+0|} <br>
+4,<b>* </b>A level %Lvl% Fighter was [Absorbverb] [Time]. THACO: {Calc~(20- %Lvl%+{1d4-1})} Weapon: [FighterWeapon] {If~%Lvl%>4?|Plus+{1d2+1}|/|Plus+0|} <br>
+
+:!Absorbverb
+1,consumed
+2,absorbed
+3,assimilated
+4,merged
+5,eaten
+6,enveloped
+7,sucked in
+8,digested
+9,devoured
+10,gorged
+11,swallowed
+12,engulfed
+13,killed
+14,slaughtered
+15,mutilated
+16,pulverized
+17,taken in
+18,pulled in
+19,scooped up
+20,dragged in
+21,yanked in
+22-23,[Absorbverb] and [Absorbverb]
+24,converged
+
+:Mage
+1,<b>* </b>A level %Lvl% Mage was [Absorbverb] [Time]. |C=%Lvl%| |C\3| THACO: {Calc~(20-%C%)} Weapon: [MageWeapon] {If~%Lvl%>6?|Plus+{1d2}|/|Plus+0|} <br> <u>Spells: </u>[GetMageSpells] <br>
+2,<b>* </b>A level %Lvl% Mage was [Absorbverb] [Time]. |C=%Lvl%| |C\3| THACO: {Calc~(19-%C%)} Weapon: [MageWeapon] {If~%Lvl%>6?|Plus+{1d2}|/|Plus+0|} <br> <u>Spells: </u>[GetMageSpells] <br>
+
+:Priest
+1,<b>* </b>A level %Lvl% Priest was [Absorbverb] [Time]. {If~%Lvl%>3?|B+2|/|B+0|} {If~%Lvl%>6?|B+2|/|B+0|} {If~%Lvl%>9?|B+2|/|B+0|} {If~%Lvl%>12?|B+2|/|B+0|} THACO: {Calc~(20-%B%)} Weapon: [PriestWeapon] {If~%Lvl%>5?|Plus+{1d2}|/|Plus+0|} <br> <u>Spells: </u>[GetPrSpells] <br>
+1,<b>* </b>A level %Lvl% Priest was [Absorbverb] [Time]. {If~%Lvl%>3?|B+2|/|B+0|} {If~%Lvl%>6?|B+2|/|B+0|} {If~%Lvl%>9?|B+2|/|B+0|} {If~%Lvl%>12?|B+2|/|B+0|} THACO: {Calc~(19-%B%)} Weapon: [PriestWeapon] {If~%Lvl%>5?|Plus+{1d2}|/|Plus+0|} <br> <u>Spells: </u>[GetPrSpells] <br>
+
+:Creature
+1,<b>* </b>A [CreatureType] was [Absorbverb] [Time]. THACO: %B% Abilities: %Ability1%, %Ability2%, %Ability3% <br>
+
+:!CreatureType
+1,Bugbear |B=17| |Ability1=-2 Surprise| Weapon: [FighterMeelee]  
+2,Basilisk |B=15| |Ability1=Petrify Gaze| |Ability2=Poison Claws| |Ability3=Poison Breath|  
+3,Banshee |B=13| |Ability1=Fear| |Ability2=Wail| |Ability3=+1 to hit, 50 percent magic resist|  
+4,Beholder |B=11| |Ability1=Feeblemind Gaze| |Ability2=Paralyzation| |Ability3=Lightning Bolt|  
+5,Gnoll |B=19| Weapon: [FighterMeelee]  
+6,Goblin |B=20| Weapon: [FighterMeelee]  
+7,Hobgoblin |B=19| Weapon: [FighterMeelee]  
+8,Orc |B=19| Weapon: [FighterMeelee]  
+9,Mustard Jelly |B=13| |Ability1=Poison Vapor| |Ability2=Immune to normal weapons| |Ability3=Immune to electric|  
+10,Otyugh |B=15| |Ability1=Grab| |Ability2=Disease| |Ability3=Never surprised|  
+11,Rust Monster |B=15| |Ability1=Rust Metal|  
+12,Umber Hulk |B=13| |Ability1=Eyes cause Confusion|  
+13,Zombie |B=15| |Ability1=Save vs poison - causes weakness|  
+
+:FighterWeapon
+1-3,[FighterMeelee]
+4-5,[FighterMissile]
+
+:MageWeapon
+1-3,[MageMeelee]
+4-5,[MageMissile]
+
+:PriestWeapon
+1-3,[PriestMeelee]
+4-5,[PriestMissile]
+
+:!FighterMeelee
+1,<u>Arqubus</u>        
+2,<u>Battle Axe</u>  
+3,<u>Blowgun</u> 
+4,<u>Dagger or Dirk</u>  
+5-6,<u>Footman's Flail</u>  
+7-8,<u>Footman's Mace</u>   
+9-10,<u>Footman's Pick</u>  
+11-13,<u>Throwing Axe</u>  
+14,<u>Harpoon</u>   
+15-18,<u>Horseman's Flail</u>  
+19-20,<u>Horseman's Mace</u>   
+21,<u>Horseman's Pick</u>  
+22,<u>Javelin</u>  
+23,<u>Knife</u> 
+24,<u>Mancatcher</u>   
+25-28,<u>Morning Star</u> 
+29,<u>Awl Pike</u>  
+30,<u>Bardiche</u>   
+31,<u>Bec de Corbin</u>  
+32,<u>Bill-guisarme</u>   
+33,<u>Fauchard</u>   
+34,<u>Fauchard-fork</u>  
+35,<u>Glaive</u>   
+36,<u>Glaive-guisarme</u>   
+37,<u>Guisarme</u>   
+38,<u>Guisarme-voulge</u>  
+39,<u>Halberd</u>   
+40,<u>Hook Fauchard</u>   
+41,<u>Lucern Hammer</u>   
+42,<u>Military Fork</u>  
+43,<u>Partisan</u>   
+44,<u>Ranseur</u>  
+45,<u>Spectum</u>  
+46,<u>Voulge</u>  
+47,<u>Quarterstaff</u>  
+48,<u>Scourge</u> 
+49,<u>Sickle</u>  
+50-52,<u>Sword, Bastard</u>   
+53-54,<u>Sword, Broad</u> 
+55,<u>Khopesh</u>  
+56-58,<u>Sword, Long</u>  
+59-60,<u>Scimitar</u>   
+61-63,<u>Sword, Short</u> 
+64-66,<u>Sword, Two-handed</u> 
+67,<u>Trident</u>  
+68-70,<u>Warhammer</u>   
+
+:!FighterMissile
+1,<u>Bow, Short</u>  
+2,<u>Bow, Long</u> 
+3,<u>Bow, Composite Short</u> 
+4,<u>Bow, Composite Long</u>  
+5,<u>Crossbow, Hand</u>  
+6,<u>Crossbow, Light</u>  
+7,<u>Crossbow, Heavy</u>  
+8,<u>10x Dart</u>   
+9,<u>Sling</u>   
+10,<u>Spear</u>  
+11,<u>Staff Sling</u>   
+
+:MageMissile
+1,<u>10x Dart</u>  
+2,<u>Sling</u> 
+3,<u>Staff Sling</u>  
+ 
+:MageMeelee
+1,<u>Blowgun</u> 
+2,<u>Dagger or Dirk</u>  
+3,<u>Knife</u> 
+4,<u>Quarterstaff</u>  
+
+:PriestMeelee
+1,<u>Footman's Flail</u>  
+2,<u>Footman's Mace</u>   
+3,<u>Horseman's Flail</u>  
+4,<u>Horseman's Mace</u>   
+5,<u>Morning Star</u> 
+6,<u>Quarterstaff</u>  
+7,<u>Warhammer</u>   
+
+:PriestMissile
+1,<u>Sling</u>   
+2,<u>Hammer</u>  
+3,<u>Staff Sling</u>   
+
+:GetMageSpells
+1,{If~%Lvl%=1?|G=1||B=0||C=0||D=0||E=0||F=0|/ }
+_{If~%Lvl%=2?|G=2||B=0||C=0||D=0||E=0||F=0|/ }
+_{If~%Lvl%=3?|G=2||B=1||C=0||D=0||E=0||F=0|/ }
+_{If~%Lvl%=4?|G=3||B=2||C=0||D=0||E=0||F=0|/ }
+_{If~%Lvl%=5?|G=4||B=2||C=1||D=0||E=0||F=0|/ }
+_{If~%Lvl%=6?|G=4||B=2||C=2||D=0||E=0||F=0|/ }
+_{If~%Lvl%=7?|G=4||B=3||C=2||D=1||E=0||F=0|/ }
+_{If~%Lvl%=8?|G=4||B=3||C=3||D=2||E=0||F=0|/ }
+_{If~%Lvl%=9?|G=4||B=3||C=3||D=2||E=1||F=0|/ }
+_{If~%Lvl%=10?|G=4||B=4||C=3||D=2||E=2||F=0|/ }
+_{If~%Lvl%=11?|G=4||B=4||C=4||D=3||E=3||F=0|/ }
+_{If~%Lvl%=12?|G=4||B=4||C=4||D=4||E=4||F=1|/ }
+_{If~%Lvl%=13?|G=5||B=5||C=5||D=4||E=4||F=2|/ }
+_{If~%G%>0?{While~%G%,[MageLvl1]}/ }
+_{If~%B%>0?{While~%B%,[MageLvl2]}/ }
+_{If~%C%>0?{While~%C%,[MageLvl3]}/ }
+_{If~%D%>0?{While~%D%,[MageLvl4]}/ }
+_{If~%E%>0?{While~%E%,[MageLvl5]}/ }
+_{If~%F%>0?{While~%F%,[MageLvl6]}/ }
+
+:!MageLvl1
+1,-Affect Normal Fires|G-1| 
+2,-Alarm |G-1| 
+3,-Armor |G-1| 
+4,-Audible Glamer |G-1| 
+5,-Burning Hands |G-1| 
+6,-Cantrip |G-1| 
+7,-Change Self |G-1| 
+8,-Charm Person |G-1| 
+9,-Chill Touch |G-1| 
+10,-Color Spray |G-1| 
+11,-Comprehend Languages |G-1| 
+12,-Dancing Lights |G-1| 
+13,-Detect Magic |G-1| 
+14,-Detect Undead |G-1| 
+15,-Enlarge |G-1| 
+16,-Erase |G-1| 
+17,-Feather Fall |G-1| 
+18,-Find Familiar |G-1| 
+19,-Friends |G-1| 
+20,-Gaze Reflection |G-1| 
+21,-Grease |G-1| 
+22,-Hold Portal |G-1| 
+23,-Hypnotism |G-1| 
+24,-Identify |G-1| 
+25,-Jump |G-1| 
+26,-Light |G-1| 
+27-30,-Magic Missile |G-1| 
+31,-Mending |G-1| 
+32,-Message |G-1| 
+33,-Mount |G-1| 
+34,-Nystal's Magic Aura |G-1| 
+35,-Phantasmal Force |G-1| 
+36,-Protection From Evil |G-1| 
+37,-Read Magic |G-1| 
+38,-Shield Spell |G-1| 
+39,-Shocking Grasp |G-1| 
+40,-Sleep |G-1| 
+41,-Spider Climb |G-1| 
+42,-Spook |G-1| 
+43,-Taunt |G-1| 
+44,-Tenser's Floating Disc |G-1| 
+45,-Unseen Servant |G-1| 
+46,-Ventriloquism |G-1| 
+47,-Wall of Fog |G-1| 
+48,-Wizard Mark |G-1| 
+
+:!MageLvl2
+1,-Alter Self |B-1| 
+2,-Bind |B-1| 
+3,-Blindness |B-1| 
+4,-Blur |B-1| 
+5,-Continual Light |B-1| 
+6,-Darkness 15' Radius |B-1| 
+7,-Deafness |B-1| 
+8,-Deeppockets |B-1| 
+9,-Detect Evil |B-1| 
+10,-Detect Invisibility |B-1| 
+11,-ESP|B-1| 
+12,-Flaming Sphere |B-1| 
+13,-Fog Cloud |B-1| 
+14,-Fool's Gold |B-1| 
+15,-Forget |B-1| 
+16,-Glitterdust |B-1| 
+17,-Hypnotic Pattern |B-1| 
+18,-Improved Phantasmal Force |B-1| 
+19,-Invisibility |B-1| 
+20,-Irritation |B-1| 
+21,-Knock |B-1| 
+22,-Know Alignment |B-1| 
+23,-Leomund's Trap |B-1| 
+24,-Levitate |B-1| 
+25,-Locate Object |B-1| 
+26,-Magic Mouth |B-1| 
+27,-Melf's Acid Arrow |B-1| 
+28,-Mirror Image |B-1| 
+29,-Misdirection |B-1| 
+30,-Protection From Cantrips |B-1| 
+31,-Pyrotechnics |B-1| 
+32,-Ray of Enfeeblement |B-1| 
+33,-Rope Trick |B-1| 
+34,-Scare |B-1| 
+35,-Shatter |B-1| 
+36,-Spectral Hand |B-1| 
+37,-Stinking Cloud|B-1| 
+38,-Strength  |B-1| 
+39,-Summon Swarm |B-1| 
+40,-Tasha's Uncontrollable Hideous Laughter |B-1| 
+41,-Web |B-1| 
+42,-Whispering Wind |B-1| 
+43,-Wizard Lock |B-1| 
+
+:!MageLvl3
+1,-Blink |C-1| 
+2,-Clairaudience |C-1| 
+3,-Clairvoyance |C-1| 
+4,-Delude |C-1| 
+5,-Dispel Magic |C-1| 
+6,-Explosive Runes |C-1| 
+7,-Feign Death |C-1| 
+8,-Fireball |C-1| 
+9,-Flame Arrow |C-1| 
+10,-Fly |C-1| 
+11,-Gust of Wind |C-1| 
+12,-Haste |C-1| 
+13,-Hold Person |C-1| 
+14,-Hold Undead |C-1| 
+15,-Illusionary Script |C-1| 
+16,-Infravision |C-1| 
+17,-Invisibility, 10' Radius |C-1| 
+18,-Item |C-1| 
+19,-Leomund's Tiny Hut |C-1| 
+20,-Lightning Bolt |C-1| 
+21,-Melf's Minute Meteors |C-1| 
+22,-Monster Summoning I |C-1| 
+23,-Nondetection |C-1| 
+24,-Phantom Steed |C-1| 
+25,-Protection From Evil, 10' Radius |C-1| 
+26,-Protection From Normal Missiles |C-1| 
+27,-Secret Page |C-1| 
+28,-Sepia Snake Sigil |C-1| 
+29,-Slow |C-1| 
+30,-Spectral Force |C-1| 
+31,-Suggestion |C-1| 
+32,-Tongues |C-1| 
+33,-Vampiric Touch |C-1| 
+34,-Water Breathing |C-1| 
+35,-Wind Wall |C-1| 
+36,-Wraithform |C-1| 
+
+:!MageLvl4
+1,-Charm Monster |D-1| 
+2,-Confusion |D-1| 
+3,-Contagion |D-1|
+4,-Detect Scrying |D-1|
+5,-Dig |D-1|
+6,-Dimension Door |D-1|
+7,-Emotion |D-1|
+8,-Enchanted Weapon |D-1|
+9,-Enervation |D-1|
+10,-Evard's Black Tentacles |D-1|
+11,-Extension I |D-1|
+12,-Fear |D-1|
+13,-Fire Charm |D-1|
+14,-Fire Shield |D-1|
+15,-Fire Trap |D-1|
+16,-Fumble |D-1|
+17,-Hallucinatory Terrain |D-1|
+18,-Ice Storm |D-1|
+19,-Illusionary Wall |D-1|
+20,-Improved Invisibility |D-1|
+21,-Leomund's Secure Shelter |D-1|
+22,-Magic Mirror |D-1|
+23,-Massmorph |D-1|
+24,-Minor Creation |D-1|
+25,-Minor Globe of Invulnerability |D-1|
+26,-Monster Summoning II |D-1|
+27,-Otiliuke's Resilient Sphere |D-1|
+28,-Phantasmal Killer |D-1|
+29,-Plant Growth |D-1|
+30,-Polymorph Other |D-1|
+31,-Polymorph Self |D-1|
+32,-Rainbow Pattern |D-1|
+33,-Rary's Mnemonic Enhancer |D-1|
+34,-Remove Curse |D-1|
+35,-Shadow Monster |D-1|
+36,-Shout |D-1|
+37,-Solid Fog |D-1|
+38,-Stoneskin |D-1|
+39,-Vacancy |D-1|
+40,-Wall of Fire |D-1|
+41,-Wall of Ice |D-1|
+42,-Wizard Eye |D-1|
+
+:!MageLvl5
+1,-Advanced Illusion |E-1|
+2,-Airy Water |E-1|
+3,-Animal Growth |E-1|
+4,-Animate Dead |E-1|
+5,-Avoidance |E-1|
+6,-Bigby's Interposing Hand |E-1|
+7,-Chaos |E-1|
+8,-Cloudkill |E-1|
+9,-Cone of Cold |E-1|
+10,-Conjure Elemental |E-1|
+11,-Contact Other Plane |E-1|
+12,-Demishadow Monsters |E-1|
+13,-Dismissal |E-1|
+14,-Distance Distortion |E-1|
+15,-Domination |E-1|
+16,-Dream |E-1|
+17,-Extension II |E-1|
+18,-Fabricate |E-1|
+19,-False Vision |E-1|
+20,-Feeblemind |E-1|
+21,-Hold Monster |E-1|
+22,-Leomund's Lamentable Belaborment |E-1|
+23,-Leomund's Secret Chest |E-1|
+24,-Magic Jar |E-1|
+25,-Major Creation |E-1|
+26,-Monster Summoning III |E-1|
+27,-Mordenkainen's Faithful Hound |E-1|
+28,-Passwall |E-1|
+29,-Seeming |E-1|
+30,-Sending |E-1|
+31,-Shadow Door |E-1|
+32,-Shadow Magic |E-1|
+33,-Stone Shape |E-1|
+34,-Summon Shadow |E-1|
+35,-Telekinesis |E-1|
+36,-Teleport |E-1|
+37,-Transmute Rock to Mud |E-1|
+38,-Wall of Force |E-1|
+39,-Wall of Iron |E-1|
+40,-Wall of Stone |E-1|
+
+:!MageLvl6
+1,-Antimagic Shell |F-1|
+2,-Bigby's Forceful Hand |F-1|
+3,-Chain Lightning |F-1|
+4,-Conjure Animals |F-1|
+5,-Contingency |F-1|
+6,-Control Weather |F-1|
+7,-Death Fog |F-1|
+8,-Death Spell |F-1|
+9,-Demishadow Magic |F-1|
+10,-Disintegrate |F-1|
+11,-Enchant an Item |F-1|
+12,-Ensarement |F-1|
+13,-Extension III |F-1|
+14,-Eyebite |F-1|
+15,-Geas |F-1|
+16,-Glassee |F-1|
+17,-Globe of Invulnerability |F-1|
+18,-Guards and Wards |F-1|
+19,-Invisible Stalker |F-1|
+20,-Legend Lore |F-1|
+21,-Lower Water |F-1|
+22,-Mass Suggestion |F-1|
+23,-Mirage Arcana |F-1|
+24,-Mislead |F-1|
+25,-Monster Summoning IV |F-1|
+26,-Mordenkainen's Lucubration |F-1|
+27,-Move Earth |F-1|
+28,-Otiluke's Freezing Sphere |F-1|
+29,-Part Water |F-1|
+30,-Permanent Illusion |F-1|
+31,-Programmed Illusion |F-1|
+32,-Project Image |F-1|
+33,-Reincarnation |F-1|
+34,-Repulsion |F-1|
+35,-Shades |F-1|
+36,-Stone to Flesh |F-1|
+37,-Tenser's Tranformation |F-1|
+38,-Transmute Water to Dust |F-1|
+39,-True Seeing |F-1|
+40,-Veil |F-1|
+
+:GetPrSpells
+1,{If~%Lvl%=1?|G=1||B=0||C=0||D=0||E=0||F=0|/ }
+_{If~%Lvl%=2?|G=2||B=0||C=0||D=0||E=0||F=0|/ }
+_{If~%Lvl%=3?|G=2||B=1||C=0||D=0||E=0||F=0|/ }
+_{If~%Lvl%=4?|G=3||B=2||C=0||D=0||E=0||F=0|/ }
+_{If~%Lvl%=5?|G=3||B=3||C=1||D=0||E=0||F=0|/ }
+_{If~%Lvl%=6?|G=3||B=3||C=2||D=0||E=0||F=0|/ }
+_{If~%Lvl%=7?|G=3||B=3||C=2||D=1||E=0||F=0|/ }
+_{If~%Lvl%=8?|G=3||B=3||C=3||D=2||E=0||F=0|/ }
+_{If~%Lvl%=9?|G=4||B=4||C=3||D=2||E=1||F=0|/ }
+_{If~%Lvl%=10?|G=4||B=4||C=3||D=3||E=2||F=0|/ }
+_{If~%Lvl%=11?|G=5||B=4||C=4||D=3||E=2||F=1|/ }
+_{If~%Lvl%=12?|G=6||B=5||C=5||D=3||E=2||F=1|/ }
+_{If~%Lvl%=13?|G=6||B=6||C=6||D=4||E=2||F=2|/ }
+_{If~%G%>0?{While~%G%,[PrLvl1]}/ }
+_{If~%B%>0?{While~%B%,[PrLvl2]}/ }
+_{If~%C%>0?{While~%C%,[PrLvl3]}/ }
+_{If~%D%>0?{While~%D%,[PrLvl4]}/ }
+_{If~%E%>0?{While~%E%,[PrLvl5]}/ }
+_{If~%F%>0?{While~%F%,[PrLvl6]}/ }
+
+:!PrLvl1
+1,-Animal Friendship |G-1|
+2,-Bless |G-1|
+3,-Combine |G-1|
+4,-Command |G-1|
+5,-Create Water |G-1|
+6,-Cure Light Wounds |G-1|
+7,-Detect Evil |G-1|
+8,-Detect Magic |G-1|
+9,-Detect Poison |G-1|
+10,-Detect Snares and Pits |G-1|
+11,-Endure Cold/Endure Heat |G-1|
+12,-Entangle Spell |G-1|
+13,-Faerie Fire |G-1|
+14,-Invisibility to Animals |G-1|
+15,-Invisibility to Undead |G-1|
+16,-Light |G-1|
+17,-Locate Animals or Plants |G-1|
+18,-Magical Stone |G-1|
+19,-Pass Without Trace |G-1|
+20,-Protection From Evil |G-1|
+21,-Purify Food & Drink |G-1|
+22,-Remove Fear |G-1|
+23,-Sanctuary |G-1|
+24,-Shillelagh |G-1|
+
+:!PrLvl2
+1,-Aid |B-1|
+2,-Augury |B-1|
+3,-Barkskin |B-1|
+4,-Chant |B-1|
+5,-Charm Person |B-1|
+6,-Detect Charm |B-1|
+7,-Dust Devil |B-1|
+8,-Enthrall |B-1|
+9,-Find Traps |B-1|
+10,-Fire Trap |B-1|
+11,-Flame Blade |B-1|
+12,-Goodberry |B-1|
+13,-Heat Metal |B-1|
+14,-Hold Person |B-1|
+15,-Know Alignment |B-1|
+16,-Messenger |B-1|
+17,-Obscurement |B-1|
+18,-Produce Flame |B-1|
+19,-Resist Fire/Resist Cold |B-1|
+20,-Silence, 15' Radius |B-1|
+21,-Slow Poison |B-1|
+22,-Snake Charm |B-1|
+23,-Speak With Animals |B-1|
+24,-Spiritual Hammer |B-1|
+25,-Trip |B-1|
+26,-Warp Wood |B-1|
+27,-Withdraw |B-1|
+28,-Wyvern Watch |B-1|
+
+:!PrLvl3
+1,-Animate Dead |C-1|
+2,-Call Lightning |C-1|
+3,-Continual Light |C-1|
+4,-Create Food & Drink |C-1|
+5,-Cure Blindness |C-1|
+6,-Cure Disease |C-1|
+7,-Dispel Magic |C-1|
+8,-Feign Death |C-1|
+9,-Flame Walk |C-1|
+10,-Glyph of Warding |C-1|
+11,-Hold Animal |C-1|
+12,-Locate Object |C-1|
+13,-Magical Vestment |C-1|
+14,-Meld Into Stone |C-1|
+15,-Negative Plane Protection |C-1|
+16,-Plant Growth |C-1|
+17,-Prayer |C-1|
+18,-Protection From Fire |C-1|
+19,-Pyrotechnics |C-1|
+20,-Remove Curse |C-1|
+21,-Remove Paralysis |C-1|
+22,-Snare |C-1|
+23,-Speak With Dead |C-1|
+24,-Spike Growth |C-1|
+25,-Starshine |C-1|
+26,-Stone Shape |C-1|
+27,-Summon Insects|C-1|
+28,-Tree |C-1|
+29,-Water Breathing |C-1|
+30,-Water Walk |C-1|
+
+:!PrLvl4
+1,-Abjure |D-1|
+2,-Animal Summoning I |D-1|
+3,-Call Woodland Beings |D-1|
+4,-Cloak of Bravery |D-1|
+5,-Control Temperature, 10' Radius |D-1|
+6,-Cure Serious Wounds |D-1|
+7,-Detect Lie |D-1|
+8,-Divination |D-1|
+9,-Free Action |D-1|
+10,-Giant Insect |D-1|
+11,-Hallucinatory Forest |D-1|
+12,-Hold Plant |D-1|
+13,-Imbue With Spell Ability |D-1|
+14,-Lower Water |D-1|
+15,-Neutralize Poison |D-1|
+16,-Plant Door |D-1|
+17,-Produce Fire |D-1|
+18,-Protection From Evil, 10' Radius |D-1|
+19,-Protection From Lightning |D-1|
+20,-Reflecting Pool |D-1|
+21,-Repel Insects |D-1|
+22,-Speak With Plants |D-1|
+23,-Spell Immunity |D-1|
+24,-Sticks to Snakes |D-1|
+25,-Tongues |D-1|
+
+:!PrLvl5
+1,-Air Walk |E-1|
+2,-Animal Growth |E-1|
+3,-Animal Summoning II |E-1|
+4,-Anti-Plant Shell |E-1|
+5,-Atonement |E-1|
+6,-Commune |E-1|
+7,-Commune With Nature |E-1|
+8,-Control Winds |E-1|
+9,-Cure Critical Wounds |E-1|
+10,-Dispel Evil |E-1|
+11,-Flame Strike |E-1|
+12,-Insect Plague |E-1|
+13,-Magic Font |E-1|
+14,-Moonbeam |E-1|
+15,-Pass Plant |E-1|
+16,-Planr Shift |E-1|
+17,-Quest |E-1|
+18,-Rainbow |E-1|
+19,-Raise Dead |E-1|
+20,-Spike Stones |E-1|
+21,-Transmute Rock to Mud |E-1|
+22,-True Seeing |E-1|
+23,-Wall of Fire |E-1|
+
+:!PrLvl6
+1,-Aerial Servant |F-1|
+2,-Animal Summoning III |F-1|
+3,-Animate Object|F-1|
+4,-Anti-Animal Shell |F-1|
+5,-Blade Barrier |F-1|
+6,-Conjure Animals |F-1|
+7,-Conjure Fire Elemental |F-1|
+8,-Find the Path |F-1|
+9,-Fire Seeds |F-1|
+10,-Forbiddance |F-1|
+11,-Heal |F-1|
+12,-Heroes' Feast |F-1|
+13,-Liveoak |F-1|
+14,-Part Water |F-1|
+15,-Speak With Monsters |F-1|
+16,-Stone Tell|F-1|
+17,-Transmute Water to Dust|F-1|
+18,-Transport Via Plants |F-1|
+19,-Turn Wood |F-1|
+20,-Wall of Thorns |F-1|
+21,-Weather Summoning |F-1|
+22,-Word of Recall |F-1|
+

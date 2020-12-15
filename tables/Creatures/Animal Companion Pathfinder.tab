@@ -1,0 +1,868 @@
+# ------------------------------------------------------
+# Last Update: modified by Valminder Mar 26, 2018.
+# ------------------------------------------------------
+#
+# -------------------------------------------------------------------------
+#
+# To call this table from another one:
+#    [Animal Companion Pathfinder.Start(%CharacterLevel%)
+#
+#    Parameters: (%CompanionType%,%CharacterLevel%,%ChooseRanks%,%GroupFlag%,%MasterSize%,%MasterHeroic%,%Valminder%)
+#
+#    CompanionType:   1  1= Random
+#                        2= Animal Companion (Druid)
+#                        3= Paladin's Mount
+#                        4= Ranger's Animal Companion
+#    CharacterLevel: 99  1-20 (Druid Level)
+#                        99 = Random
+#                        0  = Input
+#    ChooseRanks:     1  1= Random
+#                        2= Choose a number of skills base on "INT+Skill Points" and max the ranks in them.
+#                        3= Buy each rank one at a time.
+#                        4= Buy a few ranks at a time (1-5 based on level).
+#    GroupFlag:       2  (DO NOT CHANGE) For "NPC Stat Block Pathfinder"
+#                        1= less line break. 2= normal line break.
+#    MasterSize:      5  5=Medium
+#                        1=Fine, 2=Diminutive, 3=Tiny, 4=Small
+#                        6=Large, 7=Huge, 8=Gargantuan, 9=Colossal
+#    MasterHeroic:    3  Heroic Master NPC? (The Animal Companion will be the same type as its master).
+#                        1=Heroic  2=Basic  3=Random
+#    SubraceMaster:  99  DO NOT MODIFY used with NPC Stat Block Pathfinder
+#    Valminder:       3  Apply Valminder's modifications?
+#                        1=Yes   2=No   3=LOAD from Permanent Variables
+#
+# -------------------------------------------------------------------------
+# This Table Links to these tables as required:
+#    Names Generator.tab
+#    Pathfinder Feats.tab
+#    Pathfinder Skills.tab
+#
+# -------------------------------------------------------------------------
+# This table is called by: (can be called by other tables also)
+#    NPC Stat Block Pathfinder.tab
+#
+# -------------------------------------------------------------------------
+
+# XXX TO TEST TABLE ... to be removed
+%TestLog%,0
+%TestVPWP%,0
+
+%AbScInc%,0
+%AC%,0
+%ACFF%,0
+%ACT%,0
+%AC_BAB%,0
+%AC_Fort%,0
+%AC_Ref%,0
+%AC_Will%,0
+%AC_Sk%,0
+%AC_Feats%,0
+%AC_Type%,0
+%AC_Size%,0
+%AC_MV%,0
+%AC_Att1%,0
+%AC_Att2%,0
+# Secondary Attack = hooves, tail, wing.
+%AC_Att2Secondary%,No
+%AC_AttAlt1%,0
+%AC_DmgAlt1%,0
+%AC_Dmg1%,0
+%AC_Dmg2%,0
+%AC_Rng1%,0
+%AC_RDmg1%,0
+%AC_RDmgSTR%,0
+%AttMod1%,0
+%AttMod2%,0
+%AttRng1%,0
+%AC_NumAtt%,0
+%CharacterLevel%,0
+%ChooseRanks%,0
+%CMB%,0
+%CMD%,0
+%STR%,0
+%DEX%,0
+%CON%,0
+%INT%,0
+%WIS%,0
+%CHA%,0
+%STRBonus%,0
+%DEXBonus%,0
+%CONBonus%,0
+%INTBonus%,0
+%WISBonus%,0
+%CHABonus%,0
+%AC_SA%,0
+%AC_SQ%,0
+%BonusTricks%,0
+%CharacterLevel%,0
+%CombatStyle%,0
+%CompanionType%,0
+%DEXModAC%,0
+%ExtraFeatsAny%,0
+%FeatsAll%,0
+%FeatsSkill%,0
+%FeatsString%,0
+%FamiliarSAString%,0
+%FamSkillBonus%,0
+%GroupFlag%,0
+%HD%,0
+%HDMod%,0
+%LanguageString%,0
+%MasterHeroic%,0
+%MasterSize%,0
+%NaturalArmor%,0
+%Profession%,0
+%ProficientWeapons%,0
+%ResizeNote%,0
+%Size%,0
+%SkillsString%,0
+%STRModAC%,0
+%SubraceMaster%,99
+%SzBABMod%,0
+%SzCMBMod%,0
+%SpaceReach%,0
+%Temp%,0
+%Temp1%,0
+%Temp2%,0
+%TempString%,0
+%TotalSkillPoints%,0
+%Tricks%,0
+%TricksString%,0
+%Valminder%,0
+%VP%,0
+%WP%,0
+
+# 1
+@CompanionType,1,Input Companion Type,Random,Animal Companion,Paladin's Mount,Ranger's Animal Companion
+# 99
+@CharacterLevel,99,Input Druid Level (99=Random; 0=Manually Input)
+@ChooseRanks,1,SKILLS: How do you want ranks to be chosen?,Random,Choose a number of skills base on "INT+Skill Points" and max the ranks in them.,Buy each rank one at a time.,Buy a few ranks at a time (1-5 based on level).
+@GroupFlag,2,Would you like to generate a Group of Characters?,Less line break,Regular line break
+@MasterSize,5,Enter Master's size,Fine,Diminutive,Tiny,Small,Medium,Large,Huge,Gargantuan,Colossal
+# 3
+@MasterHeroic,3,Heroic Master NPC? (The Animal Companion will be the same type as its master),Heroic,Basic,Random
+@SubraceMaster,99,DO NOT MODIFY used with NPC Stat Block Pathfinder
+# 3
+@Valminder,3,Apply Valminder's modifications,Yes,No,LOAD from Permanent Variables
+
+:Start
+1,{If~%CompanionType%=1?|CompanionType={Dice~1d3+1}|}
+_|ResizeNote=0|[Valminder]
+_{If~%MasterHeroic%=3?|MasterHeroic={Dice~1d2}|}
+_{If~%MasterSize%<3?|ResizeNote=%MasterSize%||MasterSize=3|}
+_{If~%MasterSize%>5?|ResizeNote=%MasterSize%||MasterSize=5|}
+_[Generate]
+
+:FontB
+1,<font size=1>
+2,<font size=2>
+3,<font size=3>
+
+:FontE
+1,</font>
+
+:Valminder
+1,{If~%Valminder%=3?|Valminder=[Permanent_Variables.Val_Rules]|}
+
+:Generate
+1,|AC_BAB=0||AC_Fort=0||AC_Ref=0||AC_Will=0||AC_Sk=0||AC_Feats=0||AC_Type=0||AC_Size=0||AC_MV=0|
+_|AC_Att1=0||AC_Att2=0||AC_Att2Secondary=No||AC_Dmg1=0||AC_Dmg2=0||STR=0||DEX=0||CON=0||INT=0||WIS=0||CHA=0||AC_SA=0||AC_SQ=0|
+_|AC_Rng1=0||AC_RDmg1=0||AC_RDmgSTR=No||AttRng1=0||AC_AttAlt1=0||AC_DmgAlt1=0|
+_|BonusTricks=0||DEXModAC=0||HD=0||NaturalArmor=0||STRModAC=0||FamiliarSAString=0||Tricks=0||TricksString=|
+_|AttMod2=0||AC_NumAtt=1||AbScInc=0|
+#
+_{If~%CharacterLevel%=99?|CharacterLevel={Dice~1d20}|
+_/{If~%CharacterLevel%=0?|CharacterLevel={InputText~Druid level,What is the Character's level?}|
+_}}
+_{If~%CharacterLevel%<1?|CharacterLevel=1|}
+#
+_{If~%TestLog%=1?
+_{Log~E:\log.txt,---------------------------------------- ANIMAL COMPANION}
+_{Log~E:\log.txt,-----1----- CL= %CharacterLevel%, ChooseRanks= %ChooseRanks%, GroupFlag= %GroupFlag%, MasterSz= %MasterSize%, MasterHeroic= %MasterHeroic%, Val= %Valminder%}
+_}
+_[AnimalCompanionStatsMods=%CharacterLevel%]
+_{If~%TestLog%=1?{Log~E:\log.txt,>>>>> After Stats Mods (AC)}}
+_[Companion=%CompanionType%]
+_{If~%TestLog%=1?{Log~E:\log.txt,>>>>> After Companion (%AC_Type%)}}
+_[AnimalCompanionSpecialAbilities=%CharacterLevel%]
+_{If~%TestLog%=1?{Log~E:\log.txt,>>>>> After CompanionSpecialAbilities (%FamiliarSAString%)}}
+_{If~%AbScInc%>0?{Loop~%AbScInc%,[AbScInc]}}
+_|STR+%STRModAC%||DEX+%DEXModAC%|
+_{If~%SubraceMaster%=Imperious?[AddPlusTwoModifier]}
+_[DetermineAttributeBonuses]
+#
+_|AC=10||AC+%DEXBonus%||AC+%NaturalArmor%|
+_|ACFF=10||ACFF+%NaturalArmor%||ACT=10||ACT+%DEXBonus%|
+#
+_{If~%AC_Size%=M?|Size=5||SzBABMod=0||SzCMBMod=0||SpaceReach=5 ft./5 ft.|
+_/{If~%AC_Size%=F?|Size=1||SzBABMod=8||SzCMBMod=-8||SpaceReach=0.5 ft./0|
+_/{If~%AC_Size%=D?|Size=2||SzBABMod=4||SzCMBMod=-4||SpaceReach=1 ft./0|
+_/{If~%AC_Size%=T?|Size=3||SzBABMod=2||SzCMBMod=-2||SpaceReach=2.5 ft./0|
+_/{If~%AC_Size%=S?|Size=4||SzBABMod=1||SzCMBMod=-1||SpaceReach=5 ft./5 ft.|
+_/{If~%AC_Size%=L?|Size=6||SzBABMod=-1||SzCMBMod=1||SpaceReach=10 ft./5-10 ft. (long-tall)|
+_/{If~%AC_Size%=H?|Size=7||SzBABMod=-2||SzCMBMod=2||SpaceReach=15 ft./10-15 ft. (long-tall)|
+_/{If~%AC_Size%=G?|Size=8||SzBABMod=-4||SzCMBMod=4||SpaceReach=20 ft./15-20 ft. (long-tall)|
+_/{If~%AC_Size%=C?|Size=9||SzBABMod=-8||SzCMBMod=8||SpaceReach=30 ft./20-30 ft. (long-tall)|
+_}}}}}}}}}
+#
+_|AC+%SzBABMod%||ACFF+%SzBABMod%||ACT+%SzBABMod%|
+#
+_|CMB=%AC_BAB%||CMB+%STRBonus%||CMB+%SzCMBMod%|
+_|CMD=10||CMD+%AC_BAB%||CMD+%STRBonus%||CMD+%DEXBonus%||CMD+%SzCMBMod%|
+_|AttMod1=%AC_BAB%||AttMod1+%STRBonus%||AttMod1+%SzBABMod%|
+_|AttRng1=%AC_BAB%||AttRng1+%DEXBonus%||AttRng1+%SzBABMod%|
+_{If~{Find~1,2,%AC_Att1%}>0?|AC_NumAtt=2|}
+_{If~{Length~%AC_Att2%}>2?|AC_NumAtt=2||AttMod2=%AC_BAB%||AttMod2+%STRBonus%||AttMod2+%SzBABMod%|{If~{And~%CharacterLevel%>=9,%AC_Att2Secondary%=Yes}=1?|AttMod2-2|/|AttMod2-5|}
+_   /{If~%CharacterLevel%>=9?|AttMod2=%AC_BAB%||AttMod2+%STRBonus%||AttMod2+%SzBABMod%||AC_Att2=%AC_Att1%||AC_Dmg2=%AC_Dmg1%||AttMod2-5|
+_}}
+_|AC_Fort+%CONBonus%||AC_Ref+%DEXBonus%||AC_Will+%WISBonus%|
+_{If~%INT%=1?|Tricks=3|/|Tricks=6|}|Tricks+%BonusTricks%|
+_{If~%TestLog%=1?{Log~E:\log.txt,>>>>> Before GenerateFeats (AC)}}
+_[GenerateFeats]
+_{If~%TestLog%=1?{Log~E:\log.txt,>>>>> After GenerateFeats (AC)}}
+_[GenerateSkills]
+_{If~%TestLog%=1?{Log~E:\log.txt,>>>>> After GenerateSkills (AC)}}
+_[GenerateTricks]
+_{If~%TestLog%=1?{Log~E:\log.txt,>>>>> After GenerateTricks (AC)}}
+#
+_<u><b>{Param~CompanionType,%CompanionType%}</u>:</b> 
+_{Cap~%AC_Type%} (lvl %CharacterLevel%) ({Italic~[~Names Generator.NAME Random]}) %AC_Size%, 
+_{Bold~HD:} [PrintHD]; 
+_{If~%TestLog%=1?{Log~E:\log.txt,>>>>> After PrintHD (AC)}}
+_{Bold~Init:} {If~%DEXBonus%>0?+%DEXBonus% Dex/{If~%DEXBonus%<0?%DEXBonus% Dex}}
+_{IIf~%CompanionType%=4?[FontB=1]{Color~DarkCyan, +Favored terrain bonus}[FontE]}
+_; 
+_{Bold~Spd:} %AC_MV%; 
+_{Bold~AC:} %AC%, touch %ACT%, flat-footed %ACFF% ({If~%SzBABMod%!=0?{If~%SzBABMod%>0?+%SzBABMod%/%SzBABMod%} size, }{If~%DEXBonus%>0?+%DEXBonus% Dex/{If~%DEXBonus%<0?%DEXBonus% Dex}}{If~{And~%DEXBonus%!=0,%NaturalArmor%>1}=1?, }{If~%NaturalArmor%>0?+%NaturalArmor% natural}); 
+_{Bold~BAB:} +%AC_BAB%; 
+_{Bold~CMB:} {If~%CMB%>=0?+}%CMB%; 
+_{Bold~CMD:} %CMD%; 
+#
+_{Bold~Full Atk Melee:} {If~%AttMod1%>=0?+}%AttMod1% %AC_Att1% 
+_(%AC_Dmg1%+
+_{If~{And~{Find~1,powerful bite,%AC_SA%}>0,%AC_Att1%=bite}=1?{Calc~%STRBonus%*2}/{If~%AC_NumAtt%=2?%STRBonus%/|Temp=%STRBonus%||Temp*3||Temp\2|%Temp%}}
+_)
+# Secondary Attack = hooves, tail, wing.
+_{If~{Length~%AC_Att2%}>2?, {If~%AttMod2%>=0?+}%AttMod2% %AC_Att2% 
+_(%AC_Dmg2%+
+_{If~{And~{Find~1,powerful bite,%AC_SA%}>0,%AC_Att1%=bite}=1?{Calc~%STRBonus%*2}
+_/{If~%AC_NumAtt%=1?|Temp=%STRBonus%||Temp*3||Temp\2|%Temp%/|Temp=%STRBonus%|{If~%AC_Att2Secondary%=Yes?|Temp\2|}%Temp%}
+_})}
+# Alternate Attack
+_{If~{Length~%AC_AttAlt1%}>2? or {If~%AttMod1%>=0?+}%AttMod1% %AC_AttAlt1% (%AC_DmgAlt1%+{If~%AC_NumAtt%=2?%STRBonus%/|Temp=%STRBonus%||Temp*3||Temp\2|%Temp%})}
+#
+_{IIf~%CompanionType%=4?[FontB=1]{Color~DarkCyan, +Favored enemy bonuses}[FontE]}
+_; 
+#
+_{If~%AC_Rng1%!=0?{Bold~Full Atk Range:} {If~%AttRng1%>=0?+}%AttRng1% %AC_Rng1% (%AC_RDmg1%{If~%AC_RDmgSTR%=Yes?+%STRBonus%}); }
+#
+_{Bold~Space/Reach:} %SpaceReach%.
+_{If~%GroupFlag%=2?{CR~}{Bold~Attributes:}}
+_ {Bold~Str: }%STR% ({If~%STRBonus%>=0?+}%STRBonus%), {Bold~Dex: }%DEX% ({If~%DEXBonus%>=0?+}%DEXBonus%), {Bold~Con: }%CON% ({If~%CONBonus%>=0?+}%CONBonus%), {Bold~Int: }%INT% ({If~%INTBonus%>=0?+}%INTBonus%), {Bold~Wis: }%WIS% ({If~%WISBonus%>=0?+}%WISBonus%), {Bold~Cha: }%CHA% ({If~%CHABonus%>=0?+}%CHABonus%). 
+_{If~%GroupFlag%=2?{CR~}}
+_{Bold~Saves:} {Bold~Fort:} {If~%AC_Fort%>=0?+}%AC_Fort%, {Bold~Ref:} {If~%AC_Ref%>=0?+}%AC_Ref%, {Bold~Will:} {If~%AC_Will%>=0?+}%AC_Will%.
+_{If~%GroupFlag%=2?{CR~}}
+_{Bold~Skills:} (%TotalSkillPoints%) %SkillsString%.
+_{IIf~%CompanionType%=4?[FontB=1]{Color~DarkCyan, +Favored enemy/terrain bonuses.}[FontE]}
+_{If~{Length~%LanguageString%}>=2? {Bold~Languages:} %LanguageString%. }
+_{If~%GroupFlag%=2?{CR~}}
+_{Bold~Feats:} {Color~Orange,(NOT included above)} %FeatsString%. 
+_{If~%GroupFlag%=2?{CR~}}
+_{Bold~Special:} {If~%AbScInc%>0?|FamiliarSAString&, Ability Score Increase (x%AbScInc%)|}%FamiliarSAString%. 
+_{If~{Find~1,STRBonusx2,%AC_SA%}>0?|AC_SA={Replace~STRBonusx2,{Calc~%STRBonus%*2},%AC_SA%}|}
+_{If~{Find~1,STRBonus32,%AC_SA%}>0?|AC_SA={Replace~STRBonus32,{Calc~%STRBonus%*3\2},%AC_SA%}|}
+_{If~{Find~1,STRBonus,%AC_SA%}>0?|AC_SA={Replace~STRBonus,%STRBonus%,%AC_SA%}|}
+_{If~%TestLog%=1?{Log~E:\log.txt,>>>>> Before ReplaceSA (AC) = %AC_SA%}}
+_{If~{Length~%AC_SA%}>2?{If~%GroupFlag%=2?{CR~}}{Bold~SA:} [ReplaceSA]%AC_SA%. }
+_{If~%TestLog%=1?{Log~E:\log.txt,>>>>> After ReplaceSA (AC) = %AC_SA%}}
+_{If~{Length~%AC_SQ%}>2?{If~%GroupFlag%=2?{CR~}}{Bold~SQ:} %AC_SQ%. }
+_{If~%GroupFlag%=2?{CR~}}
+_{Bold~Tricks:} %TricksString%.{If~%CompanionType%=3? {Color~Orange,These tricks are given as suggestions since the companion has a high Intelligence letting it make more choices than a regular animal.}}
+_{If~%CompanionType%=4?<br>{Italic~Note: A ranger's animal companion shares his favored enemy and favored terrain bonuses.}}
+_{IIf~%ResizeNote%!=0?<br><font size=2>{Color~Grey,[ResizeNote=%ResizeNote%]}</font>}
+
+:ReplaceSA
+1,{If~{Find~1,INSERTCHABONUS,%AC_SA%}>0?[INSERTCHABONUS]}
+
+:INSERTCHABONUS
+1,|AC_SA={Replace~INSERTCHABONUS,{Bold~{If~%CHABonus%>0?%CHABonus%/0}},%AC_SA%}|
+
+:AnimalCompanionStatsMods
+1,|HD=2||AC_BAB=1||AC_Fort=3||AC_Ref=3||AC_Will=0||AC_Sk=2||AC_Feats=1||NaturalArmor=0||STRModAC=0||DEXModAC=0||BonusTricks=1|
+2,|HD=3||AC_BAB=2||AC_Fort=3||AC_Ref=3||AC_Will=1||AC_Sk=3||AC_Feats=2||NaturalArmor=0||STRModAC=0||DEXModAC=0||BonusTricks=1|
+3,|HD=3||AC_BAB=2||AC_Fort=3||AC_Ref=3||AC_Will=1||AC_Sk=3||AC_Feats=2||NaturalArmor=2||STRModAC=1||DEXModAC=1||BonusTricks=2|
+4,|HD=4||AC_BAB=3||AC_Fort=4||AC_Ref=4||AC_Will=1||AC_Sk=4||AC_Feats=2||NaturalArmor=2||STRModAC=1||DEXModAC=1||BonusTricks=2|
+5,|HD=5||AC_BAB=3||AC_Fort=4||AC_Ref=4||AC_Will=1||AC_Sk=5||AC_Feats=3||NaturalArmor=2||STRModAC=1||DEXModAC=1||BonusTricks=2|
+6,|HD=6||AC_BAB=4||AC_Fort=5||AC_Ref=5||AC_Will=2||AC_Sk=6||AC_Feats=3||NaturalArmor=4||STRModAC=2||DEXModAC=2||BonusTricks=3|
+7,|HD=6||AC_BAB=4||AC_Fort=5||AC_Ref=5||AC_Will=2||AC_Sk=6||AC_Feats=3||NaturalArmor=4||STRModAC=2||DEXModAC=2||BonusTricks=3|
+8,|HD=7||AC_BAB=5||AC_Fort=5||AC_Ref=5||AC_Will=2||AC_Sk=7||AC_Feats=4||NaturalArmor=4||STRModAC=2||DEXModAC=2||BonusTricks=3|
+9,|HD=8||AC_BAB=6||AC_Fort=6||AC_Ref=6||AC_Will=2||AC_Sk=8||AC_Feats=4||NaturalArmor=6||STRModAC=3||DEXModAC=3||BonusTricks=4|
+10,|HD=9||AC_BAB=6||AC_Fort=6||AC_Ref=6||AC_Will=3||AC_Sk=9||AC_Feats=5||NaturalArmor=6||STRModAC=3||DEXModAC=3||BonusTricks=4|
+11,|HD=9||AC_BAB=6||AC_Fort=6||AC_Ref=6||AC_Will=3||AC_Sk=9||AC_Feats=5||NaturalArmor=6||STRModAC=3||DEXModAC=3||BonusTricks=4|
+12,|HD=10||AC_BAB=7||AC_Fort=7||AC_Ref=7||AC_Will=3||AC_Sk=10||AC_Feats=5||NaturalArmor=8||STRModAC=4||DEXModAC=4||BonusTricks=5|
+13,|HD=11||AC_BAB=8||AC_Fort=7||AC_Ref=7||AC_Will=3||AC_Sk=11||AC_Feats=6||NaturalArmor=8||STRModAC=4||DEXModAC=4||BonusTricks=5|
+14,|HD=12||AC_BAB=9||AC_Fort=8||AC_Ref=8||AC_Will=4||AC_Sk=12||AC_Feats=6||NaturalArmor=8||STRModAC=4||DEXModAC=4||BonusTricks=5|
+15,|HD=12||AC_BAB=9||AC_Fort=8||AC_Ref=8||AC_Will=4||AC_Sk=12||AC_Feats=6||NaturalArmor=10||STRModAC=5||DEXModAC=5||BonusTricks=6|
+16,|HD=13||AC_BAB=9||AC_Fort=8||AC_Ref=8||AC_Will=4||AC_Sk=13||AC_Feats=7||NaturalArmor=10||STRModAC=5||DEXModAC=5||BonusTricks=6|
+17,|HD=14||AC_BAB=10||AC_Fort=9||AC_Ref=9||AC_Will=4||AC_Sk=14||AC_Feats=7||NaturalArmor=10||STRModAC=5||DEXModAC=5||BonusTricks=6|
+18,|HD=15||AC_BAB=11||AC_Fort=9||AC_Ref=9||AC_Will=5||AC_Sk=15||AC_Feats=8||NaturalArmor=12||STRModAC=6||DEXModAC=6||BonusTricks=7|
+19,|HD=15||AC_BAB=11||AC_Fort=9||AC_Ref=9||AC_Will=5||AC_Sk=15||AC_Feats=8||NaturalArmor=12||STRModAC=6||DEXModAC=6||BonusTricks=7|
+20-100,|HD=16||AC_BAB=12||AC_Fort=10||AC_Ref=10||AC_Will=5||AC_Sk=16||AC_Feats=8||NaturalArmor=12||STRModAC=6||DEXModAC=6||BonusTricks=7|
+
+:AnimalCompanionSpecialAbilities
+1-2,|FamiliarSAString=Link, Share Spells|
+3,[AnimalCompanionSpecialAbilities=1]|FamiliarSAString&, Evasion|
+4-5,[AnimalCompanionSpecialAbilities=3]|AbScInc+1|
+6-8,[AnimalCompanionSpecialAbilities=4]|FamiliarSAString&, Devotion|
+9-13,[AnimalCompanionSpecialAbilities=6]|FamiliarSAString&, Multiattack||AbScInc+1|
+14,[AnimalCompanionSpecialAbilities=9]|AbScInc+1|
+15-19,[AnimalCompanionSpecialAbilities=14]|FamiliarSAString&, Improved Evasion|
+20-100,[AnimalCompanionSpecialAbilities=15]|AbScInc+1|
+
+;AddPlusTwoModifier
+5,|STR+2|
+5,|DEX+2|
+5,|CON+2|
+2,|INT+2|
+2,|WIS+2|
+1,|CHA+2|
+
+:DetermineAttributeBonuses
+1,|STRBonus={IIf~%STR%>=10?{Trunc~{Calc~(%STR%-10)/2}}:{Floor~{Calc~(%STR%-10)/2}}}|
+_|DEXBonus={IIf~%DEX%>=10?{Trunc~{Calc~(%DEX%-10)/2}}:{Floor~{Calc~(%DEX%-10)/2}}}|
+_|CONBonus={IIf~%CON%>=10?{Trunc~{Calc~(%CON%-10)/2}}:{Floor~{Calc~(%CON%-10)/2}}}|
+_|INTBonus={IIf~%INT%>=10?{Trunc~{Calc~(%INT%-10)/2}}:{Floor~{Calc~(%INT%-10)/2}}}|
+_|WISBonus={IIf~%WIS%>=10?{Trunc~{Calc~(%WIS%-10)/2}}:{Floor~{Calc~(%WIS%-10)/2}}}|
+_|CHABonus={IIf~%CHA%>=10?{Trunc~{Calc~(%CHA%-10)/2}}:{Floor~{Calc~(%CHA%-10)/2}}}|
+
+:Companion
+1,[Companion={Dice~1d3+1}]
+2,[AnimalCompanion]
+3,[PaladinMount{Param~MasterSize,%MasterSize%}]|INT>6|
+_{If~%CharacterLevel%>=11?[PaladinMountCelestial]}
+4,[RNGAnimalCompanion]
+
+:PaladinMountCelestial
+1,|AC_Type={Color~Olive,Celestial} %AC_Type%|
+_{If~{Find~1,darkvision,%AC_SQ%}=0?|AC_SQ&, {Color~Olive,darkvision 60'}|}
+_|Temp={If~%HD%>=11?15/{If~%HD%>=5?10/5}}|
+_|AC_SQ&, {Color~Olive,resist acid-cold-electricity {Bold~%Temp%}}|
+_|Temp={If~%HD%>=11?10/{If~%HD%>=5?5/0}}|
+_{IIf~%Temp%>0?|AC_SQ&, {Color~Olive,DR%Temp%/evil}|}
+_{If~%CharacterLevel%>=15?|AC_SQ&, {Color~Olive,SR{Bold~{Calc~%CharacterLevel%+11}}}|}
+_{If~%AC_SA%=0?|AC_SA=[PaladinMountCelestialSA]|/|AC_SA&, [PaladinMountCelestialSA]|}
+
+:PaladinMountCelestialSA
+1,{Color~Olive,
+_smite evil (SWIFT; 1/day; +INSERTCHABONUS (CHA) attack roll +{Bold~%HD%} damage vs evil foes until target is dead or mount rests)
+_}
+
+:AnimalCompanion
+1-6,|AC_Type=ape||AC_Size=M||AC_MV=30', climb 30'||NaturalArmor+1||AC_Att1=bite||AC_Dmg1=1d4||AC_Att2=2 claws||AC_Dmg2=1d4|
+_|STR=13||DEX=17||CON=10||INT=2||WIS=12||CHA=7|
+_|AC_SA=0||AC_SQ=low-light vision, scent|
+_{If~%CharacterLevel%>=4?|AC_Size=L||NaturalArmor+1||AC_Dmg1=1d6||AC_Dmg2=1d6||STR+8||DEX-2||CON+4|}
+7-9,|AC_Type=badger||AC_Size=S||AC_MV=30', burrow 10', climb 10'||NaturalArmor+2||AC_Att1=bite||AC_Dmg1=1d4||AC_Att2=2 claws||AC_Dmg2=1d3|
+_|STR=10||DEX=17||CON=15||INT=2||WIS=12||CHA=10|
+_|AC_SA=rage (6r/day)||AC_SQ=low-light vision, scent|
+_{If~%CharacterLevel%>=4?|AC_Size=M||AC_Dmg1=1d6||AC_Dmg2=1d4||STR+4||DEX-2||CON+2|}
+10-12,|AC_Type=wolverine||AC_Size=S||AC_MV=30', burrow 10', climb 10'||NaturalArmor+2||AC_Att1=bite||AC_Dmg1=1d4||AC_Att2=2 claws||AC_Dmg2=1d3|
+_|STR=10||DEX=17||CON=15||INT=2||WIS=12||CHA=10|
+_|AC_SA=rage (6r/day)||AC_SQ=low-light vision, scent|
+_{If~%CharacterLevel%>=4?|AC_Size=M||AC_Dmg1=1d6||AC_Dmg2=1d4||STR+4||DEX-2||CON+2|}
+13-18,|AC_Type=bear||AC_Size=S||AC_MV=40'||NaturalArmor+2||AC_Att1=bite||AC_Dmg1=1d4||AC_Att2=2 claws||AC_Dmg2=1d3|
+_|STR=15||DEX=15||CON=13||INT=2||WIS=12||CHA=6|
+_|AC_SA=0||AC_SQ=low-light vision, scent|
+_{If~%CharacterLevel%>=4?|AC_Size=M||AC_Dmg1=1d6||AC_Dmg2=1d4||STR+4||DEX-2||CON+2|}
+19-20,|AC_Type=eagle||AC_Size=S||AC_MV=10', fly 80' (average)||NaturalArmor+1||AC_Att1=bite||AC_Dmg1=1d4||AC_Att2=2 talons||AC_Dmg2=1d4|
+_|STR=10||DEX=15||CON=12||INT=2||WIS=14||CHA=6|
+_|AC_SA=0||AC_SQ=low-light vision|
+_{If~%CharacterLevel%>=4?|STR+2||CON+2|}
+21-22,|AC_Type=hawk||AC_Size=S||AC_MV=10', fly 80' (average)||NaturalArmor+1||AC_Att1=bite||AC_Dmg1=1d4||AC_Att2=2 talons||AC_Dmg2=1d4|
+_|STR=10||DEX=15||CON=12||INT=2||WIS=14||CHA=6|
+_|AC_SA=0||AC_SQ=low-light vision|
+_{If~%CharacterLevel%>=4?|STR+2||CON+2|}
+23-24,|AC_Type=owl||AC_Size=S||AC_MV=10', fly 80' (average)||NaturalArmor+1||AC_Att1=bite||AC_Dmg1=1d4||AC_Att2=2 talons||AC_Dmg2=1d4|
+_|STR=10||DEX=15||CON=12||INT=2||WIS=14||CHA=6|
+_|AC_SA=0||AC_SQ=low-light vision|
+_{If~%CharacterLevel%>=4?|STR+2||CON+2|}
+25-30,|AC_Type=boar||AC_Size=S||AC_MV=40'||NaturalArmor+6||AC_Att1=gore||AC_Dmg1=1d6|
+_|STR=13||DEX=12||CON=15||INT=2||WIS=13||CHA=4|
+_|AC_SA=0||AC_SQ=low-light vision, scent|
+_{If~%CharacterLevel%>=4?|AC_Size=M||AC_Dmg1=1d8||STR+4||DEX-2||CON+2||AC_SA=ferocity|}
+31-36,|AC_Type=camel||AC_Size=L||AC_MV=50'||NaturalArmor+1||AC_Att1=bite||AC_Dmg1=1d4||AC_Rng1=spit||AC_RDmg1=10'; ranged touch; sickened 1d4r||AC_RDmgSTR=No|
+_|STR=18||DEX=16||CON=14||INT=2||WIS=11||CHA=4|
+_|AC_SA=0||AC_SQ=low-light vision, scent|
+_{If~%CharacterLevel%>=4?|STR+2||CON+2|}
+37-39,|AC_Type=lion||AC_Size=M||AC_MV=40'||NaturalArmor+1||AC_Att1=bite||AC_Dmg1=1d6||AC_Att2=2 claws||AC_Dmg2=1d4|
+_|STR=13||DEX=17||CON=13||INT=2||WIS=15||CHA=10|
+_|AC_SA=rake (2x 1d4+STRBonus)||AC_SQ=low-light vision, scent|
+_{If~%CharacterLevel%>=7?|AC_Size=L||NaturalArmor+2||AC_Dmg1=1d8||AC_Dmg2=1d6||STR+8||DEX-2||CON+4||AC_SA=grab, pounce, rake (2x 1d6+STRBonus)|}
+40-42,|AC_Type=tiger||AC_Size=M||AC_MV=40'||NaturalArmor+1||AC_Att1=bite||AC_Dmg1=1d6||AC_Att2=2 claws||AC_Dmg2=1d4|
+_|STR=13||DEX=17||CON=13||INT=2||WIS=15||CHA=10|
+_|AC_SA=rake (2x 1d4+STRBonus)||AC_SQ=low-light vision, scent|
+_{If~%CharacterLevel%>=7?|AC_Size=L||NaturalArmor+2||AC_Dmg1=1d8||AC_Dmg2=1d6||STR+8||DEX-2||CON+4||AC_SA=grab, pounce, rake (2x 1d6+STRBonus)|}
+43-45,|AC_Type=cheetah||AC_Size=S||AC_MV=50'||NaturalArmor+1||AC_Att1=bite||AC_Dmg1=1d4||AC_Att2=2 claws||AC_Dmg2=1d2|
+_|STR=12||DEX=21||CON=13||INT=2||WIS=12||CHA=6|
+_|AC_SA=trip (bite)||AC_SQ=low-light vision, scent|
+_{If~%CharacterLevel%>=4?|AC_Size=M||AC_Dmg1=1d6||AC_Dmg2=1d3||STR+4||DEX-2||CON+2||AC_SA&, sprint|}
+46-48,|AC_Type=leopard||AC_Size=S||AC_MV=50'||NaturalArmor+1||AC_Att1=bite||AC_Dmg1=1d4||AC_Att2=2 claws||AC_Dmg2=1d2|
+_|STR=12||DEX=21||CON=13||INT=2||WIS=12||CHA=6|
+_|AC_SA=trip (bite)||AC_SQ=low-light vision, scent|
+_{If~%CharacterLevel%>=4?|AC_Size=M||AC_Dmg1=1d6||AC_Dmg2=1d3||STR+4||DEX-2||CON+2||AC_SA&, sprint|}
+49-54,|AC_Type=alligator||AC_Size=S||AC_MV=20', swim 30'||NaturalArmor+4||AC_Att1=bite||AC_Dmg1=1d6|
+_|STR=15||DEX=14||CON=15||INT=1||WIS=12||CHA=2|
+_|AC_SA=0||AC_SQ=hold breath, low-light vision|
+_{If~%CharacterLevel%>=4?|AC_Size=M||AC_Dmg1=1d8||AC_AttAlt1=tail slap||AC_DmgAlt1=1d12||STR+4||DEX-2||CON+2||AC_SA=death roll, grab, sprint|}
+55-56,|AC_Type=deinonychus (dinosaur)||AC_Size=S||AC_MV=60'||NaturalArmor+1||AC_Att1=2 talons||AC_Dmg1=1d6||AC_Att2=bite||AC_Dmg2=1d4|
+_|STR=11||DEX=7||CON=17||INT=2||WIS=12||CHA=14|
+_|AC_SA=0||AC_SQ=low-light vision, scent|
+_{If~%CharacterLevel%>=7?|AC_Size=M||NaturalArmor+2||AC_Dmg1=1d8||AC_Dmg2=1d6||STR+4||DEX-2||CON+2||AC_SA=pounce|}
+57-58,|AC_Type=velociraptor (dinosaur)||AC_Size=S||AC_MV=60'||NaturalArmor+1||AC_Att1=2 talons||AC_Dmg1=1d6||AC_Att2=bite||AC_Dmg2=1d4|
+_|STR=11||DEX=7||CON=17||INT=2||WIS=12||CHA=14|
+_|AC_SA=0||AC_SQ=low-light vision, scent|
+_{If~%CharacterLevel%>=7?|AC_Size=M||NaturalArmor+2||AC_Dmg1=1d8||AC_Dmg2=1d6||STR+4||DEX-2||CON+2||AC_SA=pounce|}
+59-64,|AC_Type=dog||AC_Size=S||AC_MV=40'||NaturalArmor+2||AC_Att1=bite||AC_Dmg1=1d4|
+_|STR=13||DEX=17||CON=15||INT=2||WIS=12||CHA=6|
+_|AC_SA=0||AC_SQ=low-light vision, scent|
+_{If~%CharacterLevel%>=4?|AC_Size=M||AC_Dmg1=1d6||STR+4||DEX-2||CON+2|}
+65-70,|AC_Type=horse||AC_Size=L||AC_MV=50'||NaturalArmor+4||AC_Att1=bite||AC_Dmg1=1d4||AC_Att2=2 hooves||AC_Dmg2=1d6||AC_Att2Secondary=Yes|
+_|STR=16||DEX=13||CON=15||INT=2||WIS=12||CHA=6|
+_|AC_SA=0||AC_SQ=low-light vision, scent|
+_{If~%CharacterLevel%>=4?|STR+2||CON+2||AC_SQ=combat trained, low-light vision, scent|}
+71-76,|AC_Type=pony||AC_Size=M||AC_MV=40'||NaturalArmor+2||AC_Att1=2 hooves||AC_Dmg1=1d3|
+_|STR=13||DEX=13||CON=12||INT=2||WIS=11||CHA=4|
+_|AC_SA=0||AC_SQ=low-light vision, scent|
+_{If~%CharacterLevel%>=4?|STR+2||CON+2||AC_SQ=combat trained, low-light vision, scent|}
+77-82,|AC_Type=shark||AC_Size=S||AC_MV=swim 60'||NaturalArmor+4||AC_Att1=bite||AC_Dmg1=1d4|
+_|STR=13||DEX=15||CON=15||INT=1||WIS=12||CHA=2|
+_|AC_SA=0||AC_SQ=low-light vision, scent|
+_{If~%CharacterLevel%>=4?|AC_Size=M||AC_Dmg1=1d6||STR+4||DEX-2||CON+2||AC_SQ=blindsense, low-light vision, scent|}
+83-88,|AC_Type=constrictor snake||AC_Size=M||AC_MV=20', climb 20', swim 20'||NaturalArmor+2||AC_Att1=bite||AC_Dmg1=1d3|
+_|STR=15||DEX=17||CON=13||INT=1||WIS=12||CHA=2|
+_|AC_SA=grab||AC_SQ=low-light vision, scent|
+_{If~%CharacterLevel%>=4?|AC_Size=L||NaturalArmor+1||AC_Dmg1=1d4||STR+8||DEX-2||CON+4||AC_SA=constrict (1d4+STRBonus32), grab|}
+89-94,|AC_Type=viper||AC_Size=S||AC_MV=20', climb 20', swim 20'||NaturalArmor+2||AC_Att1=bite||AC_Dmg1=1d3|
+_|STR=8||DEX=17||CON=11||INT=1||WIS=12||CHA=2|
+_|AC_SA=poison (bite; 1r, 1 CON, 1 save; DC||AC_SQ=low-light vision, scent|
+_{If~%CharacterLevel%>=4?|AC_Size=M||AC_Dmg1=1d4||STR+4||DEX-2||CON+2|}
+_|Temp=%HD%||Temp\2||Temp+10||AC_SA&{Bold~%Temp%+CON})|
+95-100,|AC_Type=wolf||AC_Size=M||AC_MV=50'||NaturalArmor+2||AC_Att1=bite||AC_Dmg1=1d6|
+_|STR=13||DEX=15||CON=15||INT=2||WIS=12||CHA=6|
+_|AC_SA=trip (bite)||AC_SQ=low-light vision, scent|
+_{If~%CharacterLevel%>=7?|AC_Size=L||NaturalArmor+2||AC_Dmg1=1d8||STR+8||DEX-2||CON+4|}
+# Bestiary 1
+101-102,|AC_Type=dire bat||AC_Size=M||AC_MV=20', fly 40' (good)||AC_Att1=bite||AC_Dmg1=1d6|
+_|STR=9||DEX=17||CON=9||INT=2||WIS=14||CHA=6|
+_|AC_SA=0||AC_SQ=blindsense 40'|
+_{If~%CharacterLevel%>=7?|AC_Size=L||NaturalArmor+3||AC_Dmg1=1d8||STR+8||DEX-2||CON+4|}
+103,|AC_Type=ankylosaurus (dinosaur)||AC_Size=M||AC_MV=30'||NaturalArmor+9||AC_Att1=tail||AC_Dmg1=1d6|
+_|STR=10||DEX=14||CON=9||INT=2||WIS=12||CHA=8|
+_|AC_SA=0||AC_SQ=low-light vision, scent|
+_{If~%CharacterLevel%>=7?|AC_Size=L||NaturalArmor+2||AC_Dmg1=2d6||STR+8||DEX-2||CON+4||Temp=%HD%||Temp\2||Temp+10||AC_SA=stun (tail; DC{Bold~%Temp%+STR} or dazed 1r (stun 1d4r on crit))|}
+104,|AC_Type=brachiosaurus (dinosaur)||AC_Size=M||AC_MV=30'||NaturalArmor+3||AC_Att1=tail||AC_Dmg1=2d4|
+_|STR=13||DEX=14||CON=11||INT=2||WIS=13||CHA=10|
+_|AC_SA=0||AC_SQ=low-light vision, scent|
+_{If~%CharacterLevel%>=7?|AC_Size=L||NaturalArmor+2||AC_Dmg1=2d6||STR+8||DEX-2||CON+4||Temp=%HD%||Temp\2||Temp+10||AC_SA=trample (1d8+STRBonus32; DC{Bold~%Temp%+STR})|}
+105,|AC_Type=elasmosaurus (dinosaur)||AC_Size=M||AC_MV=20', swim 50'||NaturalArmor+2||AC_Att1=bite||AC_Dmg1=1d8|
+_|STR=10||DEX=18||CON=12||INT=2||WIS=13||CHA=9|
+_|AC_SA=0||AC_SQ=low-light vision, scent|
+_{If~%CharacterLevel%>=4?|AC_Size=L||NaturalArmor+3||AC_Dmg1=2d6||STR+8||DEX-2||CON+4|}
+106,|AC_Type=pteranodon (dinosaur)||AC_Size=M||AC_MV=10', fly 50' (clumsy)||AC_Att1=bite||AC_Dmg1=1d8|
+_|STR=8||DEX=21||CON=10||INT=2||WIS=14||CHA=2|
+_|AC_SA=0||AC_SQ=low-light vision, scent|
+_{If~%CharacterLevel%>=7?|AC_Size=L||NaturalArmor+2||AC_Dmg1=2d6||STR+8||DEX-2||CON+4|}
+107,|AC_Type=stegosaurus||AC_Size=M||AC_MV=30'||NaturalArmor+6||AC_Att1=tail||AC_Dmg1=2d6|
+_|STR=10||DEX=18||CON=10||INT=2||WIS=12||CHA=10|
+_|AC_SA=0||AC_SQ=low-light vision, scent|
+_{If~%CharacterLevel%>=7?|AC_Size=L||NaturalArmor+3||AC_Dmg1=2d8||STR+8||DEX-2||CON+4|}
+108,|AC_Type=tyrannosaurus (dinosaur)||AC_Size=M||AC_MV=30'||NaturalArmor+4||AC_Att1=bite||AC_Dmg1=1d8|
+_|STR=14||DEX=16||CON=10||INT=2||WIS=15||CHA=10|
+_|AC_SA=0||AC_SQ=low-light vision, scent|
+_{If~%CharacterLevel%>=7?|AC_Size=L||NaturalArmor+3||AC_Dmg1=2d6||STR+8||DEX-2||CON+4||AC_SA=grab, powerful bite|}
+109,|AC_Type=triceratops (dinosaur)||AC_Size=M||AC_MV=30'||NaturalArmor+6||AC_Att1=gore||AC_Dmg1=1d8|
+_|STR=10||DEX=13||CON=11||INT=2||WIS=12||CHA=7|
+_|AC_SA=0||AC_SQ=low-light vision|
+_{If~%CharacterLevel%>=7?|AC_Size=L||NaturalArmor+3||AC_Dmg1=2d6||STR+8||DEX-2||CON+4||AC_SA=powerul charge (gore, 4d6+STRBonusx2)|}
+110-111,|AC_Type=orca||AC_Size=M||AC_MV=swim 80'||NaturalArmor+1||AC_Att1=bite||AC_Dmg1=1d6|
+_|STR=11||DEX=19||CON=10||INT=2||WIS=14||CHA=6|
+_|AC_SA=0||AC_SQ=hold breath, low-light vision|
+_{If~%CharacterLevel%>=7?|AC_Size=L||NaturalArmor+2||AC_Dmg1=1d8||STR+8||DEX-2||CON+4||AC_SQ=blindsight 120', %AC_SQ%|}
+112-113,|AC_Type=dolphin||AC_Size=M||AC_MV=swim 80'||NaturalArmor+1||AC_Att1=slam||AC_Dmg1=1d4|
+_|STR=12||DEX=15||CON=13||INT=2||WIS=12||CHA=6|
+_|AC_SA=0||AC_SQ=hold breath, low-light vision|
+_{If~%CharacterLevel%>=4?|STR+2||DEX+2||CON+2||AC_SQ=blindsight 120', %AC_SQ%|}
+114-116,|AC_Type=electric eel||AC_Size=S||AC_MV=5', swim 30'||AC_Att1=bite||AC_Dmg1=1d6|
+_|STR=12||DEX=14||CON=18||INT=1||WIS=10||CHA=6|
+_|AC_SA=0||AC_SQ=amphibious, low-light vision, electricity resistance 5|
+_{If~%CharacterLevel%>=4?|NaturalArmor+2||DEX+2||CON+2||AC_SQ=amphibious, low-light vision, electricity resistance 10||AC_SA=electricity (tail + touch; 1d6)|}
+117-119,|AC_Type=moray eel||AC_Size=M||NaturalArmor+5||AC_MV=swim 30'||AC_Att1=bite||AC_Dmg1=1d8|
+_|STR=14||DEX=16||CON=12||INT=1||WIS=12||CHA=8|
+_|AC_SA=grab||AC_SQ=low-light vision|
+_{If~%CharacterLevel%>=7?|AC_Size=L||NaturalArmor+3||AC_Dmg1=2d6||STR+8||DEX-2||CON+4||AC_SA&, gnaw|}
+120-121,|AC_Type=elephant||AC_Size=M||AC_MV=40'||NaturalArmor+4||AC_Att1=gore||AC_Dmg1=1d8||AC_Att2=slam||AC_Dmg2=1d6|
+_|STR=14||DEX=14||CON=13||INT=2||WIS=13||CHA=7|
+_|AC_SA=0||AC_SQ=low-light vision, scent|
+_{If~%CharacterLevel%>=7?|AC_Size=L||NaturalArmor+3||AC_Dmg1=2d6||AC_Dmg2=1d8||STR+8||DEX-2||CON+4||Temp=%HD%||Temp\2||Temp+10||AC_SA=trample (2d6+STRBonus32; DC{Bold~%Temp%+STR})|}
+122,|AC_Type=mastodon (dinosaur)||AC_Size=M||AC_MV=40'||NaturalArmor+4||AC_Att1=gore||AC_Dmg1=1d8||AC_Att2=slam||AC_Dmg2=1d6|
+_|STR=14||DEX=14||CON=13||INT=2||WIS=13||CHA=7|
+_|AC_SA=0||AC_SQ=low-light vision, scent|
+_{If~%CharacterLevel%>=7?|AC_Size=L||NaturalArmor+3||AC_Dmg1=2d6||AC_Dmg2=1d8||STR+8||DEX-2||CON+4||Temp=%HD%||Temp\2||Temp+10||AC_SA=trample (2d6+STRBonus32; DC{Bold~%Temp%+STR})|}
+123-125,|AC_Type=frog||AC_Size=M||AC_MV=30', swim 30'||NaturalArmor+1||AC_Att1=bite||AC_Dmg1=1d6|
+_|STR=15||DEX=13||CON=16||INT=1||WIS=9||CHA=6|
+_|AC_SA=tongue pull||AC_SQ=low-light vision, scent|
+_{If~%CharacterLevel%>=4?|STR+2||DEX+2||AC_SA&, swallow whole|}
+126-128,|AC_Type=goblin dog||AC_Size=S||AC_MV=50'||AC_Att1=bite||AC_Dmg1=1d4|
+_|STR=11||DEX=16||CON=11||INT=2||WIS=12||CHA=8|
+_|AC_SA=allergic reaction||AC_SQ=low-light vision, scent|
+_{If~%CharacterLevel%>=4?|AC_Size=M||NaturalArmor+1||AC_Dmg1=1d6||STR+4||DEX-2||CON+4|}
+129-131,|AC_Type=auroch||AC_Size=M||AC_MV=40'||NaturalArmor+1||AC_Att1=gore||AC_Dmg1=1d6|
+_|STR=14||DEX=12||CON=12||INT=2||WIS=11||CHA=4|
+_|AC_SA=0||AC_SQ=low-light vision, scent|
+_{If~%CharacterLevel%>=7?|AC_Size=L||NaturalArmor+3||AC_Dmg1=1d8||STR+8||DEX-2||CON+4||Temp=%HD%||Temp\2||Temp+10||AC_SA=stampede, trample (2d6+STRBonus32; DC{Bold~%Temp%+STR})|}
+132,|AC_Type=bison||AC_Size=M||AC_MV=40'||NaturalArmor+1||AC_Att1=gore||AC_Dmg1=1d6|
+_|STR=14||DEX=12||CON=12||INT=2||WIS=11||CHA=4|
+_|AC_SA=0||AC_SQ=low-light vision, scent|
+_{If~%CharacterLevel%>=7?|AC_Size=L||NaturalArmor+3||AC_Dmg1=1d8||STR+8||DEX-2||CON+4||Temp=%HD%||Temp\2||Temp+10||AC_SA=stampede, trample (2d6+STRBonus32; DC{Bold~%Temp%+STR})|}
+133-135,|AC_Type=hyena||AC_Size=S||AC_MV=50'||NaturalArmor+2||AC_Att1=bite||AC_Dmg1=1d4|
+_|STR=10||DEX=17||CON=13||INT=2||WIS=13||CHA=6|
+_|AC_SA=trip (bite)||AC_SQ=low-light vision, scent|
+_{If~%CharacterLevel%>=4?|AC_Size=M||AC_Dmg1=1d6||STR+4||DEX-2||CON+2|}
+136-141,|AC_Type=monitor lizard||AC_Size=S||AC_MV=30', swim 30'||NaturalArmor+1||AC_Att1=bite||AC_Dmg1=1d6|
+_|STR=13||DEX=17||CON=12||INT=2||WIS=12||CHA=6|
+_|AC_SA=grab (bite)||AC_SQ=low-light vision, scent|
+_{IIf~%CharacterLevel%>=7?|AC_Size=M||NaturalArmor+2||AC_Dmg1=1d8||STR+4||DEX-2||CON+4||Temp=%HD%||Temp\2||Temp+10||AC_SA&, poison (bite; onset 1 min, 1/hr x6, 1d2 Dex, 1 save, DC{Bold~%Temp%+CON})|}
+142-144,|AC_Type=octopus||AC_Size=S||AC_MV=20', swim 30', jet 200'||NaturalArmor+1||AC_Att1=bite||AC_Dmg1=1d3||AC_Att2=tentacles|
+_|STR=12||DEX=17||CON=14||INT=2||WIS=12||CHA=3|
+_|AC_SA=grab (tentacles)||AC_SQ=ink cloud, low-light vision|
+_{IIf~%CharacterLevel%>=4?|Temp=%HD%||Temp\2||Temp+10||AC_SA&, poison (bite; 1/r x6, 1 STR, 1 save, DC{Bold~%Temp%+CON})||STR+2||CON+2|}
+145-150,|AC_Type=dire rat||AC_Size=S||AC_MV=40', climb 20', swim 20'||AC_Att1=bite||AC_Dmg1=1d4|
+_|STR=10||DEX=17||CON=12||INT=2||WIS=12||CHA=4|
+_|AC_SA=0||AC_SQ=low-light vision, scent|
+_{IIf~%CharacterLevel%>=4?|STR+2||CON+2||Temp=%HD%||Temp\2||Temp+10||AC_SA=disease (bite; {Italic~filth fever}, onset 1d3 days, 1/day, 1d3 DEX/1d3 CON, 2 consecutive saves, DC{Bold~%Temp%+CON})|}
+151-153,|AC_Type=rhinoceros||AC_Size=M||AC_MV=40'||NaturalArmor+4||AC_Att1=gore||AC_Dmg1=1d8|
+_|STR=14||DEX=14||CON=15||INT=2||WIS=13||CHA=5|
+_|AC_SA=0||AC_SQ=low-light vision, scent|
+_{If~%CharacterLevel%>=7?|AC_Size=L||NaturalArmor+3||AC_Dmg1=2d6||STR+8||DEX-2||CON+4||AC_SA=powerful charge|}
+154-159,|AC_Type=roc||AC_Size=M||AC_MV=20', fly 80'||NaturalArmor+5||AC_Att1=2 talons||AC_Dmg1=1d4||AC_Att2=bite||AC_Dmg2=1d6|
+_|STR=12||DEX=19||CON=9||INT=2||WIS=13||CHA=11|
+_|AC_SA=0||AC_SQ=low-light vision|
+_{If~%CharacterLevel%>=7?|AC_Size=L||NaturalArmor+3||AC_Dmg1=1d6||AC_Dmg2=1d8||STR+8||DEX-2||CON+4|}
+160-162,|AC_Type=squid||AC_Size=M||AC_MV=swim 60', jet 240'||NaturalArmor+1||AC_Att1=tentacles||AC_Dmg1=1d4||AC_Att2=bite||AC_Dmg2=1d3|
+_|STR=14||DEX=15||CON=11||INT=2||WIS=12||CHA=2|
+_|AC_SA=grab (tentacles)||AC_SQ=ink cloud, low-light vision|
+_{If~%CharacterLevel%>=4?|STR+2||CON+2|}
+
+#;!PaladinMountFine
+
+#;!PaladinMountDiminutive
+
+;!PaladinMountTiny
+#badger S (4=M)
+5,{If~%CharacterLevel%<4?[AnimalCompanion=7]/[PaladinMountTiny]}
+#wolverine S (4=M)
+5,{If~%CharacterLevel%<4?[AnimalCompanion=10]/[PaladinMountTiny]}
+#bear S (4=M)
+5,{If~%CharacterLevel%<4?[AnimalCompanion=13]/[PaladinMountTiny]}
+#boar S (4=M)
+5,{If~%CharacterLevel%<4?[AnimalCompanion=25]/[PaladinMountTiny]}
+#cheetah S (4=M)
+3,{If~%CharacterLevel%<4?[AnimalCompanion=43]/[PaladinMountTiny]}
+#leopard S (4=M)
+3,{If~%CharacterLevel%<4?[AnimalCompanion=46]/[PaladinMountTiny]}
+#alligator S (4=M)
+3,{If~%CharacterLevel%<4?[AnimalCompanion=49]/[PaladinMountTiny]}
+#dog S (4=M)
+30,{If~%CharacterLevel%<4?[AnimalCompanion=59]/[PaladinMountTiny]}
+#shark S (4=M)
+1,{If~%CharacterLevel%<4?[AnimalCompanion=77]/[PaladinMountTiny]}
+#goblin dog S (4=M)
+1,{If~%CharacterLevel%<4?[AnimalCompanion=126]/[PaladinMountTiny]}
+#hyena S (4=M)
+3,{If~%CharacterLevel%<4?[AnimalCompanion=133]/[PaladinMountTiny]}
+#monitor lizard S (7=M)
+5,{If~%CharacterLevel%<7?[AnimalCompanion=136]/[PaladinMountTiny]}
+#eagle S
+5,[AnimalCompanion=19]
+#hawk S
+5,[AnimalCompanion=21]
+#owl S
+5,[AnimalCompanion=23]
+#dire rat S
+3,[AnimalCompanion=145]
+
+;!PaladinMountSmall
+#badger S (4=M)
+5,{If~%CharacterLevel%>=4?[AnimalCompanion=7]/[PaladinMountSmall]}
+#wolverine S (4=M)
+5,{If~%CharacterLevel%>=4?[AnimalCompanion=10]/[PaladinMountSmall]}
+#bear S (4=M)
+5,{If~%CharacterLevel%>=4?[AnimalCompanion=13]/[PaladinMountSmall]}
+#boar S (4=M)
+5,{If~%CharacterLevel%>=4?[AnimalCompanion=25]/[PaladinMountSmall]}
+#lion
+3,{If~%CharacterLevel%<7?[AnimalCompanion=37]/[PaladinMountSmall]}
+#tiger
+3,{If~%CharacterLevel%<7?[AnimalCompanion=40]/[PaladinMountSmall]}
+#cheetah S (4=M)
+3,{If~%CharacterLevel%>=4?[AnimalCompanion=43]/[PaladinMountSmall]}
+#leopard S (4=M)
+3,{If~%CharacterLevel%>=4?[AnimalCompanion=46]/[PaladinMountSmall]}
+#alligator S (4=M)
+3,{If~%CharacterLevel%>=4?[AnimalCompanion=49]/[PaladinMountSmall]}
+#deinonychus (dinosaur)
+1,{If~%CharacterLevel%>=7?[AnimalCompanion=55]/[PaladinMountSmall]}
+#velociraptor (dinosaur)
+1,{If~%CharacterLevel%>=7?[AnimalCompanion=57]/[PaladinMountSmall]}
+#dog S (4=M)
+30,{If~%CharacterLevel%>=4?[AnimalCompanion=59]/[PaladinMountSmall]}
+#pony M
+60,[AnimalCompanion=71]
+#shark S (4=M)
+1,{If~%CharacterLevel%>=4?[AnimalCompanion=77]/[PaladinMountSmall]}
+#wolf M (7=L)
+3,{If~%CharacterLevel%<7?[AnimalCompanion=95]/[PaladinMountSmall]}
+# Bestiary 1
+#ankylosaurus (dinosaur) M (7=L)
+1,{If~%CharacterLevel%<7?[AnimalCompanion=103]/[PaladinMountSmall]}
+#brachiosaurus (dinosaur) M (7=L)
+1,{If~%CharacterLevel%<7?[AnimalCompanion=104]/[PaladinMountSmall]}
+#elasmosaurus (dinosaur) M (4=L)
+1,{If~%CharacterLevel%<4?[AnimalCompanion=105]/[PaladinMountSmall]}
+#pteranodon (dinosaur) M (7=L)
+1,{If~%CharacterLevel%<7?[AnimalCompanion=106]/[PaladinMountSmall]}
+#stegosaurus M (7=L)
+1,{If~%CharacterLevel%<7?[AnimalCompanion=107]/[PaladinMountSmall]}
+#tyrannosaurus (dinosaur) M (7=L)
+1,{If~%CharacterLevel%<7?[AnimalCompanion=108]/[PaladinMountSmall]}
+#triceratops (dinosaur) M (7=L)
+1,{If~%CharacterLevel%<7?[AnimalCompanion=109]/[PaladinMountSmall]}
+#orca M (7=L)
+1,{If~%CharacterLevel%<7?[AnimalCompanion=110]/[PaladinMountSmall]}
+#dolphin M
+1,[AnimalCompanion=112]
+#elephant M (7=L)
+3,{If~%CharacterLevel%<7?[AnimalCompanion=120]/[PaladinMountSmall]}
+#mastodon (dinosaur) M (7=L)
+1,{If~%CharacterLevel%<7?[AnimalCompanion=122]/[PaladinMountSmall]}
+#frog M
+1,[AnimalCompanion=123]
+#goblin dog S (4=M)
+1,{If~%CharacterLevel%>=4?[AnimalCompanion=126]/[PaladinMountSmall]}
+#auroch M (7=L)
+1,{If~%CharacterLevel%<7?[AnimalCompanion=129]/[PaladinMountSmall]}
+#bison M (7=L)
+1,{If~%CharacterLevel%<7?[AnimalCompanion=132]/[PaladinMountSmall]}
+#hyena S (4=M)
+3,{If~%CharacterLevel%>=4?[AnimalCompanion=133]/[PaladinMountSmall]}
+#monitor lizard S (7=M)
+5,{If~%CharacterLevel%>=7?[AnimalCompanion=136]/[PaladinMountSmall]}
+#rhinoceros M (7=L)
+3,{If~%CharacterLevel%<7?[AnimalCompanion=151]/[PaladinMountSmall]}
+#roc M (7=L)
+3,{If~%CharacterLevel%<7?[AnimalCompanion=154]/[PaladinMountSmall]}
+
+;!PaladinMountMedium
+#camel L
+10,[AnimalCompanion=31]
+#lion
+3,{If~%CharacterLevel%>=7?[AnimalCompanion=37]/[PaladinMountMedium]}
+#tiger
+3,{If~%CharacterLevel%>=7?[AnimalCompanion=40]/[PaladinMountMedium]}
+#horse L
+80,[AnimalCompanion=65]
+#wolf M (7=L)
+3,{If~%CharacterLevel%>=7?[AnimalCompanion=95]/[PaladinMountMedium]}
+# Bestiary 1
+#ankylosaurus (dinosaur) M (7=L)
+1,{If~%CharacterLevel%>=7?[AnimalCompanion=103]/[PaladinMountMedium]}
+#brachiosaurus (dinosaur) M (7=L)
+1,{If~%CharacterLevel%>=7?[AnimalCompanion=104]/[PaladinMountMedium]}
+#elasmosaurus (dinosaur) M (4=L)
+1,{If~%CharacterLevel%>=4?[AnimalCompanion=105]/[PaladinMountMedium]}
+#pteranodon (dinosaur) M (7=L)
+1,{If~%CharacterLevel%>=7?[AnimalCompanion=106]/[PaladinMountMedium]}
+#stegosaurus M (7=L)
+1,{If~%CharacterLevel%>=7?[AnimalCompanion=107]/[PaladinMountMedium]}
+#tyrannosaurus (dinosaur) M (7=L)
+1,{If~%CharacterLevel%>=7?[AnimalCompanion=108]/[PaladinMountMedium]}
+#triceratops (dinosaur) M (7=L)
+1,{If~%CharacterLevel%>=7?[AnimalCompanion=109]/[PaladinMountMedium]}
+#orca M (7=L)
+1,{If~%CharacterLevel%>=7?[AnimalCompanion=110]/[PaladinMountMedium]}
+#elephant M (7=L)
+3,{If~%CharacterLevel%>=7?[AnimalCompanion=120]/[PaladinMountMedium]}
+#mastodon (dinosaur) M (7=L)
+1,{If~%CharacterLevel%>=7?[AnimalCompanion=122]/[PaladinMountMedium]}
+#auroch M (7=L)
+1,{If~%CharacterLevel%>=7?[AnimalCompanion=129]/[PaladinMountMedium]}
+#bison M (7=L)
+1,{If~%CharacterLevel%>=7?[AnimalCompanion=132]/[PaladinMountMedium]}
+#rhinoceros M (7=L)
+3,{If~%CharacterLevel%>=7?[AnimalCompanion=151]/[PaladinMountMedium]}
+#roc M (7=L)
+3,{If~%CharacterLevel%>=7?[AnimalCompanion=154]/[PaladinMountMedium]}
+
+#;!PaladinMountLarge
+
+#;!PaladinMountHuge
+
+#;!PaladinMountGargantuan
+
+#;!PaladinMountColossal
+
+# badger, bird, camel, cat (small), dir rat, dog, horse, pony, snake (viper+constrict), wolf, shark.
+;RNGAnimalCompanion
+6,[AnimalCompanion=7]
+2,[AnimalCompanion=19]
+2,[AnimalCompanion=21]
+2,[AnimalCompanion=23]
+6,[AnimalCompanion=31]
+3,[AnimalCompanion=43]
+3,[AnimalCompanion=46]
+2,[AnimalCompanion=101]
+6,[AnimalCompanion=59]
+6,[AnimalCompanion=65]
+6,[AnimalCompanion=71]
+6,[AnimalCompanion=83]
+6,[AnimalCompanion=89]
+6,[AnimalCompanion=95]
+# Shark
+6,[AnimalCompanion=77]
+
+:BLANK
+6,|AC_Type=||AC_Size=||AC_MV=30'||NaturalArmor+||AC_Att1=bite||AC_Dmg1=1d4||AC_Att2=2 claws||AC_Dmg2=1d4|
+_|STR=1||DEX=1||CON=1||INT=2||WIS=1||CHA=|
+_|AC_SA=0||AC_SQ=low-light vision, scent|
+_{If~%CharacterLevel%>=4?|AC_Size=||NaturalArmor+||AC_Dmg1=1d6||AC_Dmg2=1d4||STR+||DEX-2||CON+|}
+6,|AC_Type=||AC_Size=||AC_MV=30'||NaturalArmor+||AC_Att1=bite||AC_Dmg1=1d4||AC_Att2=2 claws||AC_Dmg2=1d4|
+_|STR=1||DEX=1||CON=1||INT=2||WIS=1||CHA=|
+_|AC_SA=0||AC_SQ=low-light vision, scent|
+_{If~%CharacterLevel%>=4?|AC_Size=||NaturalArmor+||AC_Dmg1=1d6||AC_Dmg2=1d4||STR+||DEX-2||CON+|}
+
+;AbScInc
+5,|STR+1|
+5,|DEX+1|
+5,|CON+1|
+1,|INT+1|
+2,|WIS+1|
+2,|CHA+1|
+
+:GenerateFeats
+1,|ProficientWeapons=0||ExtraFeatsAny=0||CombatStyle=0|
+_|TempString=[Pathfinder Feats.GenerateFeatsAnimalCompanion(,,,%HD%,%STR%,%DEX%,%CON%,%INT%,%WIS%,%CHA%,,%AC_BAB%,%AC_Feats%,2,0,99,2,,,%Valminder%)]|
+_{Split~TempString,"!",FeatsString,StartingFeats,ProficientWeapons}
+_|FeatsAll=%FeatsString%|{If~%StartingFeats%!=None?|FeatsAll&!! %StartingFeats%|}
+_|FeatsString={Replace~BONUS,[FontB=1](B)[FontE],%FeatsString%}|
+_
+_|FeatsString={Replace~BSkSF2,(%BSkSF2%),%FeatsString%}|
+_|FeatsString={Replace~BSkSF,(%BSkSF%),%FeatsString%}|
+_{If~{Find~1,WPNFOCUS,%FeatsString%}!=0?|FeatsString={Replace~WPNFOCUS,Weapon Focus,%FeatsString%}|}
+
+:GenerateSkills
+1,[FeatsSkill]
+_{If~%ChooseRanks%=1?|ChooseRanks={Dice~1d3+1}|}
+_{If~{Find~1,fly,%AC_MV%}!=0?|FeatsSkill& FLYING|}
+# FamiliarID = 13 (None)
+_|TempString=[Pathfinder Skills.GenerateSkillsAnimalCompanion(,,,%HD%,13,%STR%,%DEX%,%CON%,%INT%,%WIS%,%CHA%,%Size%,%ChooseRanks%,%FeatsSkill%)]|
+_{Split~TempString,"!",SkillsString,TotalSkillPoints,FamSkillBonus,LanguageString,Profession}
+
+:FeatsSkill
+1,{IIf~{Find~1,Acrobatic,%FeatsAll%}!=0?|FeatsSkill&;Acrobatic|}
+_{IIf~{Find~1,Athletic,%FeatsAll%}!=0?|FeatsSkill&;Athletic|}
+_{IIf~{Find~1,Stealthy,%FeatsAll%}!=0?|FeatsSkill&;Stealthy|}
+_{IIf~{Find~1,Intimidating Prowess,%FeatsAll%}!=0?|FeatsSkill&;Intimidating Prowess|}
+_{IIf~{Find~1,Alertness,%FeatsAll%}!=0?|FeatsSkill&;Alertness|}
+_{IIf~{Find~1,Dazzling Display,%FeatsAll%}!=0?|FeatsSkill&;Dazzling Display|}
+_{IIf~{Find~1,climb,%AC_MV%}!=0?|FeatsSkill&;CLIMBING|}
+_{IIf~{Find~1,swim,%AC_MV%}!=0?|FeatsSkill&;SWIMMING|}
+
+:GenerateTricks
+1,|TricksString&[GenerateTricksAttack];|
+_{While~%Tricks%,|TricksString&[GenerateTricks2]|{If~%Tricks%>0?|TricksString&;|}}
+_|TricksString={OrderAsc~";",%TricksString%}|
+_|TricksString={Replace~;,; ,%TricksString%}|
+_|TricksString={CommaReplace~1,;,%TricksString%}|
+
+;GenerateTricksAttack
+1,attack (standard)|Tricks-1|
+2,attack (all)|Tricks-2|
+
+:!GenerateTricks2
+1-5,come|Tricks-1|
+6-10,defend|Tricks-1|
+11-15,down|Tricks-1|
+16-20,fetch|Tricks-1|
+21-25,guard|Tricks-1|
+26-30,heal|Tricks-1|
+31-33,perform|Tricks-1|
+35-38,seek|Tricks-1|
+39-43,stay|Tricks-1|
+44-48,{If~{Find~1,scent,%AC_SQ%}>0?track|Tricks-1|/[GenerateTricks2]}
+49-51,work|Tricks-1|
+#
+52,aid|Tricks-1|
+53,ambush|Tricks-1|
+54,armor|Tricks-1|
+55,avoid|Tricks-1|
+56,{If~{Find~1,fly,%AC_MV%}!=0?bombard|Tricks-1|/[GenerateTricks2]}
+57,break out|Tricks-1|
+58,bury|Tricks-1|
+59,calm|Tricks-1|
+60,circle|Tricks-1|
+61,deliver|Tricks-1|
+62,exclusive|Tricks-1|
+63,{If~{And~{Find~1,seek,%TricksString%}>0,{Find~1,track,%TricksString%}>0}=1?find|Tricks-1|/{Unlock~GenerateTricks2,63}[GenerateTricks2]}
+64,flank|Tricks-1|
+65,flee|Tricks-1|
+66,get help|Tricks-1|
+67,hold|Tricks-1|
+68,home|Tricks-1|
+69,{If~{Find~1,Survival,%SkillsString%}>0?hunt|Tricks-1|/[GenerateTricks2]}
+70,mark|Tricks-1|
+71,{If~{Find~1,Stealth,%SkillsString%}>0?stalk|Tricks-1|/[GenerateTricks2]}
+72,subdue|Tricks-1|
+73,teamwork|Tricks-1|
+74,throw|Tricks-1|
+75,{If~%SzBABMod%<0?throw rider|Tricks-1|/[GenerateTricks2]}
+76,watch|Tricks-1|
+
+:ResizeNote
+1,No Fine size table, resized to Tiny.
+2,No Diminutive size table, resized to Tiny.
+3,ERROR
+4,ERROR
+5,ERROR
+6,No Large size table, resized to Medium.
+7,No Huge size table, resized to Medium.
+8,No Gargantuan size table, resized to Medium.
+9,No Colossal size table, resized to Medium.
+
+# ------------------------------------------------------
+:PrintHD
+1,|HDMod={Calc~%CONBonus%*%HD%}|
+_{If~%Valminder%=2?[PrintHDStandard]/[PrintHDValminder]}
+
+:PrintHDStandard
+1,%HD%d8+%HDMod% |Temp={Dice~%HD%d8}||Temp+%HDMod%|(%Temp% hp)
+
+# Valminder's VP/WP rule
+:PrintHDValminder
+1,|VP=0||WP=0|
+_%HD%d8+%HDMod% {Bold~VP:} 
+_{If~%MasterHeroic%=1?[SetWPHeroic]/[SetWPBasic]}
+_%VP%;
+_ Breather: {Calc~%HD%+%CONBonus%} VP; 
+_{Bold~WP:} %WP%/{If~%CONBonus%>0?-%CONBonus%/0}/-%CON%
+
+:SetWPHeroic
+1,|VP={Dice~%HD%d8}|{If~%TestVPWP%=1? --Z1 %VP% Tot:{Calc~%VP%+%HDMod%+%CON%}--}
+_|WP=%CON%|
+_{If~%HDMod%<0?|VP+%HDMod%|/|WP+%HDMod%|}{If~%VP%<0?|VP=0|}
+
+:SetWPBasic
+1,|Temp1={Dice~%HD%d8}|{If~%TestVPWP%=1? --Z %Temp1% Tot:{Calc~%Temp1%+%HDMod%}--}
+_|WP=0||VP=0||Temp1+%HDMod%||Temp2=%CON%||Temp2+%HDMod%||Temp2>%CON%|
+_{If~%TestVPWP%=1? <br>%Temp1% %WP%}
+_{While~{And~%Temp1%>0,%WP%<%Temp2%}=1,|Temp1-1||WP+1|{If~%TestVPWP%=1? <br>%Temp1% %WP%}}
+_{If~%Temp1%>0?|VP=%Temp1%|}|WP>%CON%|

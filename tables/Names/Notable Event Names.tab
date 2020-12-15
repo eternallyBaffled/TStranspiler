@@ -1,0 +1,238 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder August 8, 2006.
+# ---------------------------------------------------
+#
+# Notable Event Names
+#
+# by Larry Cormier
+#
+# ------------------------------------------------------------------
+#
+# To call this table from another one:
+#    [Notable Event Names.Generate(%Deity%)
+#
+#    Parameters: (%Deity%)
+#
+#    Deity:        1= Core Gods from PHB.
+#                  2= Religion.Deities (Gods from your world).
+#
+# -------------------------------------------------------------------------
+# This Table Links to these tables as required:
+#    Creatures.tab
+#    Miscellaneous.tab
+#    Names Generator.tab
+#    Religion.tab
+#    Town Names.tab
+#
+# -------------------------------------------------------------------------
+# This table is called by:
+#    Conflict Namer
+#
+# -------------------------------------------------------------------------
+#
+# Modified by Valminder, August  2006.
+#    I added parameters for Deities.
+#
+
+# Define Variables
+%Chance%,0
+%Deity%,0
+
+@Deity,2,Choose the deity you want to use,Core Gods of PHB,Religion.Deities
+
+:Start
+1,{Status~By Larry Cormier, Valminder 2006}[Generate]
+
+;Generate
+1,The {CapEachWord~[Miscellaneous.Occupations]}'s {CapEachWord~[GeneralEvents]}
+1,The {CapEachWord~[Miscellaneous.ClassName]}'s {CapEachWord~[GeneralEvents]}
+1,The {Cap~[Ruler]}'s {Cap~[NoteworthyEvents]}
+1,The {Cap~[Timeframe]} {Cap~[Festivities]}
+1,The {Cap~[Festivities]} of {CapEachWord~[Town Names.Generate]}
+1,{Cap~[Names Generator.NAME For All]}'s {Cap~[Festivities]}
+1,{Cap~[Festivities]} of the [Chanceof]{If~%Chance%>50?{CapEachWord~[LunarTimes]}/{CapEachWord~[SolsticeEquinox]}}
+1,{Cap~[Ruler]}'s {Cap~[SpecificTimes]}
+1,{Cap~[Names Generator.NAME For All]}'s {Cap~[SpecificTimes]}
+1,{Cap~[ChooseDeities=%Deity%]}'s {Cap~[Festivities]}
+1,[SpecificEvents]
+1,The [Chanceof]{If~%Chance%<50?{CapEachWord~[Miscellaneous.ColorNoType]}} {Plural~{CapEachWord~[Creatures.Animal+20]}} {Cap~[Festivities]}
+1,The [Chanceof]{If~%Chance%<50?{CapEachWord~[Miscellaneous.ColorNoType]}} {Plural~{CapEachWord~[Creatures.Fantastic+20]}} {Cap~[Festivities]}
+1,The [Chanceof]{If~%Chance%<50?{CapEachWord~[Miscellaneous.ColorNoType]}} {Plural~{CapEachWord~[Creatures.Bird of Prey]}} {Cap~[Festivities]}
+1,{Cap~[Seasons]} {Cap~[Festivities]}
+1,|Chance={Dice~1d5}| {Cap~[OrdinalLessThanSix=%Chance%]} {Cap~[NoteworthyEvents]}
+1,{CapEachWord~[SolsticeEquinox]}
+1,The {CapEachWord~[Flower]} {Cap~[Festivities]}
+1,[RevelBranch]revel
+
+:Chanceof
+1,|Chance={Dice~1d100}|
+
+;Festivities
+1,bazaar
+1,cavalcade
+1,carnival
+1,circus
+1,episode
+1,exhibition
+1,fair
+1,feast
+1,festival
+1,festivity
+1,fiesta
+1,gala
+1,holiday
+1,jamboree
+1,merriment
+1,pageant
+1,parade
+1,party
+1,revel
+
+;NoteworthyEvents
+1,anniversary
+1,banquet
+1,birthday
+1,celebration
+1,commemoration
+1,funeral
+1,wedding
+1,harvest
+1,birth
+1,death
+
+;GeneralEvents
+1,affair
+1,buffet
+1,event
+1,fête
+1,occasion
+1,trade event
+1,trade fair
+1,traveling fair
+1,harvest fair
+1,spring fair
+
+;SpecificEvents
+1,All Saint's Day
+1,All Soul's Day
+1,{Cap~[ChooseDeities=%Deity%]}'s Day
+
+;RevelBranch
+1,{CapEachWord~[Flower]}
+1,{Cap~[Timeframe]}
+1,{Cap~[Seasons]}
+1,{CapEachWord~[Miscellaneous.Occupations]}
+1,{Plural~{CapEachWord~[Creatures.Animal+20]}}
+1,{Plural~{CapEachWord~[Creatures.Fantastic+20]}}
+1,{Plural~{CapEachWord~[Creatures.Bird of Prey]}}
+1,Night
+
+;Flower
+1,apple blossom
+1,arbutus
+1,aster
+1,azalea
+1,bitterroot
+1,black-eyed susan
+1,bluebonnet
+1,blueberry
+1,camellia
+1,cardinal
+1,carnation
+1,chicory
+1,cholla
+1,clover
+1,columbine
+1,coryphantha
+1,crocus
+1,daisy
+1,desert star
+1,dogwood
+1,foam flower
+1,forget-me-not
+1,gentian
+1,geranium
+1,goldenrod
+1,grape
+1,hawthorne
+1,hepatica
+1,hibiscus
+1,hollyhock
+1,indian paintbrush
+1,iris
+1,jack-in-the-pulpit
+1,jessamine
+1,lace cactus
+1,lady’s slipper
+1,laurel
+1,lilac
+1,lily
+1,magnolia
+1,marigold
+1,mayflower
+1,mistletoe
+1,mullein dock
+1,orchid
+1,pasqueflower
+1,peach blossom
+1,plum flower
+1,poppy
+1,prickly pear
+1,primrose
+1,pussy willow
+1,queen anne’s lace
+1,rhododendron
+1,rose
+1,sagebrush
+1,saguaro
+1,sand dollar
+1,sedum
+1,snapdragon
+1,sunflower
+1,sweetpea
+1,syringe
+1,tulip
+1,violet
+1,yucca blossom
+1,zinnia
+
+;Timeframe
+1,bicentenary
+1,bicentennial
+1,centenary
+1,centennial
+
+;LunarTimes
+1,new moon
+1,full moon
+1,waning moon
+
+;SolsticeEquinox
+1,[Chanceof]{If~%Chance%<50?winter/summer} solstice
+1,[Chanceof]{If~%Chance%<50?spring/autumnal} equinox
+
+;SpecificTimes
+10,day
+5,week
+3,month
+1,year
+
+:Seasons
+1,winter
+1,spring
+1,summer
+1,autumn
+
+:OrdinalLessThanSix
+1,first
+2,second
+3,third
+4,fourth
+5,fifth
+
+;Ruler
+1,[Miscellaneous.Ruler]
+
+:ChooseDeities
+1,[~Religion.CoreGods]
+2,[~Religion.Deities(2)]

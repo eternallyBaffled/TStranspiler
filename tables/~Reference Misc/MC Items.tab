@@ -1,0 +1,2045 @@
+﻿# ------------------------------------------------------
+# Last Update: modified by Valminder Feb 03, 2015.
+# ------------------------------------------------------
+#
+# MC Treasure Generator (from Magic Compendium)
+#
+# 1,NAME!Source!Weight!Value
+#
+# MC Items
+#
+# When adding spells for scrolls/wands:
+#    search for "Spells level X"
+#    Scroll: 0-9 Cl x spell level x 25 gp
+#    Wand:   0-3 CL x spell level x 750 gp (x150 for 10 charges)
+#
+# Half - 1-50 gp (or mundane items)    14 - max 18,000 gp   +7000
+# 1    - 80-180                        15 - max 25,000 gp   +10000
+# 2    - 175-400                       16 - max 35,000 gp   +13000
+# 3    - max 800     +450              17 - max 48,000 gp   +16000
+# 4    - max 1250    +550              18 - max 64,000 gp   +16000
+# 5    - max 1800    +500              19 - max 80,000 gp   +20000
+# 6    - max 2300    +700              20 - max 100,000 gp  +20000
+# 7    - max 3000    +1000             21 - max 120,000 gp  +17500
+# 8    - max 4000    +1000             22 - max 137,500 gp  +22500
+# 9    - max 5000    +1500             23 - max 160,000 gp  +20000
+# 10   - max 6500    +1500             24 - max 180,000 gp  +31000
+# 11   - max 8000    +2000             25 - max 211,000 gp  +39000
+# 12   - max 10,000  +3000
+# 13   - max 13,000  +5000            
+#
+# EPIC: Treasure Value per ENC         26- max 250,000 gp    +40000
+# 21  87,000 gp   31  227,000 gp       27- max 290,000 gp    +45000
+# 22  96,000 gp   32  249,000 gp       28- max 335,000 gp    +45000
+# 23  106,000 gp  33  274,000 gp       29- max 380,000 gp    +60000
+# 24  116,000 gp  34  302,000 gp       30- max 440,000 gp    +60000
+# 25  128,000 gp  35  332,000 gp       31- max 500,000 gp    +70000
+# 26  141,000 gp  36  365,000 gp       32- max 570,000 gp    +80000
+# 27  155,000 gp  37  401,000 gp       33- max 650,000 gp    +90000
+# 28  170,000 gp  38  442,000 gp       34- max 740,000 gp    +100000
+# 29  187,000 gp  39  486,000 gp       35- max 840,000 gp    +110000
+# 30  206,000 gp  40  534,000 gp       36- max 950,000 gp    +120000
+#                                      37- max 1,070,000 gp  +130000
+#                                      38- max 1,200,000 gp  +140000
+#                                      39- max 1,340,000 gp  +150000
+#                                      40- max 1,490,000 gp  +160000
+#                                      41- max 1,650,000 gp  +170000
+#                                      42- max 1,820,000 gp  +180000
+#                                      43- max 2,000,000 gp  +190000
+#                                      44- max 2,190,000 gp  +200000
+#                                      45- max 2,290,000 gp  +210000
+#                                      46- max 2,500,000 gp  +220000
+#                                      47- max 2,720,000 gp  +230000
+#                                      48- max 2,950,000 gp  +240000
+#                                      49- max 3,190,000 gp  +250000
+#                                      50- max 3,440,000 gp  +260000
+#                                      51- max 3,700,000 gp  +270000
+#                                      52- max 3,970,000 gp  +280000
+#                                      53- max 4,250,000 gp  +290000
+#                                      54- max 4,540,000 gp  +300000
+#                                      55- max 4,840,000 gp  
+#
+# Modified by Valminder, Jan 2014
+#    Added above table for the value of the magical items.
+#    Modified all tables to include EternalWands/Oils/Potions/Scrolls/Wands subtables
+#       You can easily add spells from other books to these subtables.
+# Modified by Valminder, Feb 2015
+#    Added Informations for EPIC Values up to CR40 and level 55 for Items.
+#    Added Golems/Shield Guardian from MM1
+# Modified by Valminder, Jan 2017
+#    Added Parameter: Version
+#
+
+%level%,0
+%target%,0
+%Version%,0
+
+%temp%,0
+
+%name%,0
+%source%,0
+%weight%,0
+%value%,0
+
+@level,1,Enter level,H (1-50 gp),1 (51-150 gp),2 (151-400 gp),3 (401-800 gp),4 (801-1300 gp),5 (1301-1800 gp),6 (1801-2300 gp),7 (2301-3000 gp),8 (3001-4000 gp),9 (4001-5000 gp),10 (5001-6500 gp),11 (6501-8000 gp),12 (8001-10000 gp),13 (10001-13000 gp),14 (13001-18000 gp),15 (18001-25000 gp),16 (25001-35000 gp),17 (35001-48000 gp),18 (48001-64000 gp),19 (64001-80000 gp),20 (80001-100000 gp),21 (100001-120000 gp),22 (120001-140000 gp),23 (140001-160000 gp),24 (160001-180000 gp),25 (180001-200000 gp)
+@target,1,Human-readable or for another table?,Human,Table
+@Version,1,What version of d20 do you use?,LOAD from Permanent Variables,3.5,Pathfinder
+
+:Start
+1,|level-1|{If~%level%=0?|level=H|}
+_|temp=[ItemLevel%level%]|
+_[DisplayItem=%target%]
+
+:DisplayItem
+1,{Split~temp,"!",name,source,weight,value}
+_{Bold~{Cap~%name%}}{CR~}Value: %value% gp{CR~}Weight: %weight% lb.{CR~}Source: %source%
+2,%temp%
+
+1,[ItemLevel%level%]
+
+# 1-50 gp (or Mundane Items)
+;ItemLevelH
+3,oil of [OilsH]
+31,potion of [PotionsH]
+29,scroll of [ScrollsH]
+# 0,wand of [WandsH]
+1,acid!P128!1!10
+2,lantern, bullseye!P126!3!12
+2,alchemist's fire!P128!1!20
+3,rope, silk (100 ft.)!P127!10!20
+2,smokestick!P128!0.5!20
+2,holy symbol, silver!P130!1!25
+2,holy water!P128!1!25
+2,thunderstone!P129!1!30
+2,antitoxin!P128!0!50
+2,blessed bandage (5)!M152!0!50
+2,disguise kit!P130!8!50
+2,healer's kit!P130!1!50
+2,quaal's feather token, anchor!D264!0!50
+2,skill shard!M185!0!50
+2,tanglefoot bag!P128!4!50
+4,thieves' tools, masterwork!P130!2!100
+2,universal solvent!D268!0!50
+
+;OilsH
+3,magic weapon!P251!0!50
+
+;PotionsH
+9,cure light wounds!P215!0!50
+3,endure elements!P226!0!50
+3,enlarge person!P226!0!50
+3,mage armor!P249!0!50
+3,magic fang!P250!0!50
+3,protection from [MC Common.Align]!P266!0!50
+2,remove fear!P271!0!50
+2,shield of faith +2!P278!0!50
+3,lesser vigor!S229!0!50
+
+# Spells level 0
+# Spells level 1
+;ScrollsH
+1,caltrops (arcane)!S42!0!25
+1,create water (divine)!P215!0!25
+1,dancing lights (arcane)!P216!0!25
+1,dawn (divine)!S59!0!25
+1,detect magic ([MC Common.Type])!P219!0!25
+1,light ([MC Common.Type])!P248!0!25
+1,message (arcane)!P253!0!25
+1,purify food and drink (divine)!P267!0!25
+1,aspect of the wolf (divine)!S16!0!25
+1,benign transposition (arcane)!S27!0!25
+1,blessed aim (divine)!S31!0!25
+1,comprehend languages ([MC Common.Type])!P212!0!25
+5,cure light wounds (divine)!P215!0!25
+1,disguise self (arcane)!P222!0!25
+1,endure elements ([MC Common.Type])!P226!0!25
+1,hail of stone (arcane)!S108!0!25
+1,mount (arcane)!P256!0!25
+1,protection from chaos ([MC Common.Type])!P266!0!25
+1,protection from evil ([MC Common.Type])!P266!0!25
+1,protection from good ([MC Common.Type])!P266!0!25
+1,protection from law ([MC Common.Type])!P266!0!25
+1,remove fear ([MC Common.Type])!P271!0!25
+1,resurgence (divine)!S174!0!25
+1,sanctuary (divine)!P274!0!25
+1,sign (divine)!S189!0!25
+1,snake's swiftness (divine)!S193!0!25
+1,speak with animals (divine)!P281!0!25
+1,lesser vigor (divine)!S229!0!25
+
+;WandsH
+1,XXX!XXX!0!0
+
+# -----------------------------------------
+# 80-180 gp
+;ItemLevel1
+37,scroll of [Scrolls1]
+#0,potion of [Potions1]
+2,oil of [Oils1]
+39,wand of [Wands1]
+1,climber's kit!P130!5!80
+3,chain shirt!P124!25!100
+1,crystal of illumination, least!M64!0!100
+1,sleep arrow!D228!0!132
+2,everburning torch!P128!1!110
+1,daylight pellet!M156!0!150
+1,elixir of love!D255!0!150
+1,unguent of timelessness!D268!0!150
+1,light wooden shield, masterwork!P125!5!153
+1,heavy wooden shield, masterwork!P125!10!157
+1,light steel shield, masterwork!P125!6!159
+1,buckler, masterwork!P125!5!165
+1,leather, masterwork!P125!15!160
+1,hide armor, masterwork!P125!25!165
+1,heavy steel shield, masterwork!P125!15!170
+1,studded leather, masterwork!P126!20!175
+1,chainmail!P124!40!150
+1,tower shield, masterwork!P125!45!180
+
+;Oils1
+2,bless weapon!P205!0!100
+
+;Potions1
+1,XXX!XXX!0!0
+
+# Spells level 2
+;Scrolls1
+1,baleful transposition (arcane)!S23!0!150
+2,bear's endurance ([MC Common.Type])!P203!0!150
+1,bless weapon (divine)!P205!0!100
+2,bull's strength ([MC Common.Type])!P207!0!150
+2,cat's grace ([MC Common.Type])!P208!0!150
+3,cure moderate wounds (divine)!P216!0!150
+1,darkvision (arcane)!P216!0!150
+1,delay poison (divine)!P217!0!150
+1,earthbind ([MC Common.Type])!S76!0!150
+1,find traps (divine)!P230!0!150
+1,ghost touch armor ([MC Common.Type])!S102!0!150
+1,glitterdust (arcane)!P236!0!150
+4,identify (arcane)!P243!0!125
+2,invisibility (arcane)!P245!0!150
+4,knock (arcane)!P246!0!150
+3,remove paralysis (divine)!P271!0!150
+3,resist energy ([MC Common.Type])!P272!0!150
+2,lesser restoration (divine)!P272!0!150
+1,see invisibility (arcane)!P275!0!150
+1,silence (divine)!P279!0!150
+1,nightsnare ([MC Common.Type])!WSkyF!0!150
+1,plasma bolt (CL5; arcane)!WSkyF!0!125
+
+# Spells level 0
+# Spells level 1
+;Wands1
+4,detect magic (10 charges)!P219!0!75
+3,light (10 charges)!P248!0!75
+2,read magic (10 charges)!P269!0!75
+1,benign transposition (10 charges)!S27!0!150
+2,bless (10 charges)!P205!0!150
+8,cure light wounds (10 charges)!P215!0!150
+2,enlarge person (10 charges)!P226!0!150
+1,lesser vigor (10 charges)!S229!0!150
+4,mage armor (10 charges)!P249!0!150
+6,magic missile (cl 1st, 10 charges)!P251!0!150
+1,ray of enfeeblement (10 charges)!P269!0!150
+1,repair light damage (10 charges)!S173!0!150
+1,resurgence (10 charges)!S174!0!150
+2,shield (10 charges)!P278!0!150
+1,snake's swiftness (10 charges)!S193!0!150
+1,stonefall (10 charges, [MC Common.Type])!WSkyF!0!150
+
+# -----------------------------------------
+# 174-400
+;ItemLevel2
+1,oil of [Oils2]
+24,potion of [Potions2]
+26,scroll of [Scrolls2]
+#0,wand of [Wands2]
+1,crystal of lifekeeping, least!M25!0!200
+1,everfull mug!M160!0!200
+1,quaal's feather token, fan!D264!0!200
+1,skill shard, greater!M185!0!300
+1,tanglepatch!M188!1!200
+1,chain shirt, masterwork!P124!25!250
+1,darkwood shield!D221!5!257
+1,darkwood buckler!D221!2.5!205
+1,crystal of aquatic action, least!M25!0!250
+1,dust of tracelessness!D255!0!250
+1,elixir of hiding!D255!0!250
+1,elixir of sneaking!D255!0!250
+1,elixir of swimming!D255!0!250
+1,elixir of vision!D256!0!250
+1,incense of concentration!M162!0!250
+1,jumping caltrops!M162!2!250
+1,safewing emblem!M131!0!250
+1,silversheen!D266!0!250
+1,crystal of adamant armor, least!M24!0!300
+1,crystal of adamant weaponry, least!M64!0!300
+1,blight stone!M153!1!300
+1,crystal of return, least!M65!0!300
+1,crystal of security, least!M65!0!300
+1,crystal of stamina, least!M26!0!300
+1,elixir of flaming fists!M159!0!300
+1,fountainhead arrow!M52!0!306
+1,quaal's feather token, bird!D264!0!300
+1,stench stone!M186!0!300
+1,screaming bolt!D227!0!267
+3,masterwork weapon!M282!0!300
+1,silver dagger, masterwork!D228!1!322
+1,cold iron longsword, masterwork!D227!4!330
+1,breastplate, masterwork!P124!30!350
+2,everlasting rations!M160!2!350
+1,amulet of toxin delay!M70!0!400
+1,charm of countersong!M85!0!400
+1,crystal of illumination, lesser!M64!0!400
+1,crystal of life drinking, least!M64!0!400
+1,crystal of screening, least!M26!0!400
+2,electric eel elixir!M158!0!400
+1,essentia jewel!M159!0!400
+1,life ring!M163!5!400
+2,quaal's feather token, tree!D264!0!400
+1,revelation crystal, least!M66!0!400
+
+;Oils2
+# Oils worth 50 gp
+1,darkness!P216!0!300
+
+;Potions2
+# Potions worth 300 gp
+1,barkskin +2!P203!0!300
+1,bear's endurance!P203!0!300
+1,blur!P206!0!300
+1,bull's strength!P207!0!300
+1,cat's grace!P208!0!300
+4,cure moderate wounds!P216!0!300
+1,darkvision!P216!0!300
+1,delay poison!P217!0!300
+1,eagle's splendor!P225!0!300
+1,fox's cunning!P233!0!300
+1,invisibility!P245!0!300
+2,lesser restoration!P272!0!300
+1,levitate!P248!0!300
+1,owl's wisdom!P259!0!300
+2,remove paralysis!P271!0!300
+2,resist energy ([MC Common.Energy]) 10!P272!0!300
+1,shield of faith +3!P278!0!300
+1,spider climb!P283!0!300
+
+# Spells level 3
+;Scrolls2
+# Scrolls worth 175-375 gp
+1,arcane lock (arcane)!P200!0!175
+1,create food and water (divine)!P214!0!375
+2,cure serious wounds (divine)!P216!0!375
+1,daylight ([MC Common.Type])!P216!0!375
+1,dispel magic ([MC Common.Type])!P223!0!375
+1,fireball (arcane)!P231!0!375
+1,fly (arcane)!P232!0!375
+1,haste (arcane)!P239!0!375
+1,invisibility purge (divine)!P245!0!375
+1,lightning bolt (arcane)!P248!0!375
+1,magic circle against chaos ([MC Common.Type])!P249!0!375
+1,magic circle against evil ([MC Common.Type])!P249!0!375
+1,magic circle against good ([MC Common.Type])!P250!0!375
+1,magic circle against law ([MC Common.Type])!P250!0!375
+1,neutralize poison (divine)!P257!0!375
+1,protection from energy ([MC Common.Type])!P266!0!375
+1,remove blindness/deafness (divine)!P270!0!375
+1,remove curse (divine)!P270!0!375
+1,remove disease (divine)!P271!0!375
+1,mass snake's swiftness (divine)!S193!0!375
+1,speak with dead (divine)!P281!0!375
+1,tongues (arcane)!P294!0!375
+1,vigor (divine)!S229!0!375
+1,mass lesser vigor (divine)!S229!0!375
+1,water breathing ([MC Common.Type])!P300!0!375
+1,protection from plasma ([MC Common.Type])!WSkyF!0!375
+1,stonefall (CL10; [MC Common.Type])!WSkyF!0!250
+
+;Wands2
+1,XXX!XXX!0!0
+
+# -----------------------------------------
+# MAX 800 gp
+;ItemLevel3
+3,oil of [Oils3]
+19,potion of [Potions3]
+17,scroll of [Scrolls3]
+1,wand of [Wands3]
+1,glitter stone!M161!0!450
+1,quaal's feather token, swan boat!D264!0!450
+1,amber amulet of vermin, giant bee!M68!0!500
+1,amulet of aquatic salvation!M68!0!500
+1,arcanist's gloves!M72!0!500
+1,arrow (or bolt) of biting!M46!0!506
+1,boots of landing!M77!1!500
+1,brute gauntlets!M83!0!500
+1,chronocharm of the celestial wanderer!M85!0!500
+1,chronocharm of the fateweaver!M85!0!500
+1,chronocharm of the grand master!M86!0!500
+1,chronocharm of the horizon walker!M86!0!500
+1,chronocharm of the laughing rogue!M86!0!500
+1,chronocharm of the uncaring archmage!M86!0!500
+1,crystal of energy assault, least!M64!0!600
+1,clasp of energy protection, least!M24!0!500
+1,crystal of adaptation, least!M24!0!500
+1,crystal of arcane steel, least!M64!0!500
+1,crystal of arrow deflection, least!M25!0!500
+1,crystal of bent sight!M25!0!500
+1,crystal of glancing blows, least!M25!0!500
+1,crystal of mind cloaking, least!M25!0!500
+1,dust of dispersion!M158!0!500
+1,elixir of adamantine blood!M158!1!500
+1,elixir of truth!D256!0!500
+1,iron ward diamond, least!M26!0!500
+1,magic bedroll!M163!6!500
+1,phoenix ash threat, least!M65!0!500
+1,quaal's feather token, whip!D264!0!500
+1,reach gauntlets!M120!0!500
+1,restful crystal!M26!0!500
+1,rubicund frenzy, least!M26!0!500
+1,shiftweave!M133!5!500
+1,symbol of transfiguration!M139!0!500
+1,talisman of the disk!M188!0!500
+1,troll gut rope!M190!7!500
+1,watch lamp!M147!0!500
+1,necklace of copper dragon scales!M118!1!570
+1,boots of agile leaping!M76!2!600
+1,boots of stomping!M78!1!600
+1,lenses of bright vision!M113!0!600
+1,pearl of speech!M118!0!600
+1,wink brooch!M148!0!600
+1,amber amulet of vermin, giant praying mantis!M68!0!700
+1,amber amulet of vermin, giant queen ant!M68!0!700
+1,amber amulet of vermin, huge monstrous centipede!M68!0!700
+1,amber amulet of vermin, huge monstrous scorpion!M68!0!700
+1,amber amulet of vermin, large monstrous spider!M68!0!700
+1,soulvoid orb!M186!1!700
+1,crest of bravery!M90!0!750
+1,healing belt!M110!1!750
+1,powder of the black veil!M169!0!750
+1,scrying beacon!M184!0!750
+1,amber amulet of vermin, giant wasp!M68!0!800
+1,bag of endless caltrops!M151!2!800
+1,everlasting feedbag!M160!1!800
+1,armband of elusive action!M72!1!800
+1,ephod of authority!M215!2!800
+1,porcupine elixir!M169!0!800
+1,rope of stone!M176!5!800
+
+;Oils3
+# Oils worth 750 gp
+1,greater magic weapon +1!P251!0!750
+1,keen edge!P246!0!750
+1,magic vestment +1!P251!0!750
+
+;Potions3
+# Potions worth 750 gp
+1,barkskin +3!P203!0!600
+2,cure serious wounds!P216!0!750
+1,displacement!P223!0!750
+1,fly!P232!0!750
+1,gaseous form!P234!0!750
+1,greater magic fang +1!P250!0!750
+1,haste!P239!0!750
+1,heroism!P240!0!750
+1,magic circle against [MC Common.Align]!P249!0!750
+1,neutralize poison!P257!0!750
+1,protection from energy ([MC Common.Energy])!P266!0!750
+1,remove blindness/deafness!P270!0!750
+1,remove curse!P270!0!750
+1,remove disease!P271!0!750
+1,resist energy ([MC Common.Energy]) 20!P272!0!1100
+1,shield of faith +4!P278!0!600
+1,vigor!S229!0!750
+1,water breathing!P300!0!750
+
+# Spells level 4
+;Scrolls3
+# Scrolls worth 375-700 gp
+1,air walk (divine)!P196!0!700
+1,cure critical wounds (divine)!P215!0!700
+1,darkvision, mass (arcane)!S59!0!700
+1,death ward (divine)!P217!0!700
+1,dimensional anchor ([MC Common.Type])!P221!0!700
+1,dismissal (divine)!P222!0!700
+1,freedom of movement (divine)!P233!0!700
+1,ice storm (arcane)!P243!0!700
+1,greater invisibility (arcane)!P245!0!700
+1,know vulnerabilities (arcane)!S129!0!700
+1,leomund's secure shelter (arcane)!P247!0!700
+1,panacea (divine)!S152!0!700
+1,restoration (divine)!P272!0!800
+1,remove curse ([MC Common.Type])!P270!0!375
+1,revenance (divine)!S175!0!700
+1,sending (divine)!P275!0!700
+1,tongues (divine)!P294!0!700
+1,nightcrypt ([MC Common.Type])!WSkyF!0!700
+1,fiery stonefall (CL10; [MC Common.Type])!WSkyF!0!500
+1,veil of meteors ([MC Common.Type])!WSkyF!0!700
+
+;Wands3
+# Wands worth 750 gp
+1,magic missile (cl 5th, 10 charges)!P251!0!750
+1,plasma bolt (cl 5th, 10 charges)!WSkyF!0!750
+
+# -----------------------------------------
+# MAX 1250 gp
+;ItemLevel4
+8,eternal wand of [WandsEternal4]
+2,oil of [Oils4]
+5,potion of [Potions4]
+13,scroll of [Scrolls4]
+12,wand of [Wands4]
+1,dust of dryness!D255!0!850
+1,acrobat boots!M67!1!900
+1,bag of tricks, gray!D248!0!900
+1,blast disk!M152!0!900
+1,crystal of stamina, lesser!M26!0!900
+1,hand of the mage!D258!2!900
+1,pearl of brain lock!M167!0!900
+1,piercer cloak!M118!0!900
+1,bracers of armor +1!D250!1!1000
+1,brawler's gauntlets!M82!2!1000
+1,brooch of stability!M83!0!1000
+1,burning veil!M211!0!1000
+1,cloak of elemental protection!M87!1!1000
+1,cloak of resistance +1!D253!1!1000
+1,cognizance crystal, 1 point!M154!0!1000
+1,crystal of aquatic action, lesser!M25!0!1000
+1,crystal of illumination, greater!M64!0!1000
+1,crystal of lifekeeping, lesser!M25!0!1000
+1,crystal of return, lesser!M65!0!1000
+1,crystal of screening, lesser!M26!0!1000
+1,crystal of security, lesser!M65!0!1000
+1,demolition crystal, least!M65!0!1000
+1,dispelling cord!M94!0!1000
+1,drums of marching!M158!5!1100
+1,eagle claw talisman!M96!0!1000
+1,fiendslayer crystal, least!M65!0!1000
+1,gauntlets of energy transformation!M102!0!1000
+1,gloves of spell disruption!M107!0!1000
+1,gloves of the starry sky!M204!0!1100
+1,glyph seal!M161!0!1000
+1,lightning gauntlets!M113!0!1000
+1,pearl of power, 1st-level spell!D263!0!1000
+1,phylactery of faithfulness!D264!0!1000
+1,reliquary holy symbol!M120!0!1000
+1,replenishing skin!M173!4!1000
+1,revelation crystal, lesser!M66!0!1000
+1,ring of brief blessing!M122!0!1000
+1,salve of slipperiness!D266!0!1000
+1,third eye improvisation!M141!0!1000
+1,truedeath crystal, least!M66!0!1000
+1,vest of resistance +1!M147!0!1000
+9,{Replace~xxxxx,DMG/MIC,[MC Common.Magic Armor(1)]}
+1,mithral heavy shield!D221!5!1020
+1,mithral shirt!D220!10!1100
+1,elixir of fire breath!D255!0!1100
+1,pipes of the sewers!D264!3!1150
+1,amber amulet of vermin, giant stag beetle!M68!0!1200
+1,dragon's draught, brass!M157!0!1200
+1,dragon's draught, white!M157!0!1200
+1,dust of illusion!D255!0!1200
+1,goggles of minute seeing!D257!0!1250
+
+;Oils4
+1,greater magic weapon +2!P251!0!1200
+1,magic vestment +2!P251!0!1200
+
+;Potions4
+1,barkskin +4!P203!0!900
+1,barkskin +5!P203!0!1200
+1,good hope!P237!0!1050
+1,greater magic fang +2!P250!0!1200
+1,resist energy ([MC Common.Type]) 30!P272!0!1100
+
+# Spells level 5
+;Scrolls4
+1,break enchantment (arcane)!P207!0!1125
+1,contact other plane (arcane)!P212!0!1125
+1,dismissal (arcane)!P222!0!1125
+1,disrupting weapon (divine)!P223!0!1125
+1,fire shield, mass (arcane)!S92!0!1125
+1,greater dimension door (arcane)!S64!0!1125
+1,mass fly (arcane)!S96!0!1125
+1,Mordenkainen's private sanctum (arcane)!P256!0!1125
+1,plane shift (divine)!P262!0!1125
+1,sending (arcane)!P275!0!1125
+1,stoneskin (arcane)!P284!0!1375
+1,teleport (arcane)!P292!0!1125
+1,vigorous circle (divine)!S229!0!1125
+
+# Spells level 2 (10 charges)
+;Wands4
+1,bear's endurance (10 charges)!P203!0!900
+1,blur (10 charges)!P206!0!900
+1,bull's strength (10 charges)!P207!0!900
+1,cat's grace (10 charges)!P208!0!900
+1,cure moderate wounds (10 charges)!P216!0!900
+1,delay poison (10 charges)!P217!0!900
+1,invisibility (10 charges)!P245!0!900
+1,knock (10 charges)!P246!0!900
+1,mirror image (10 charges)!P254!0!900
+1,repair moderate damage (10 charges)!S173!0!900
+1,scorching ray (10 charges)!P274!0!900
+1,see invisibility (10 charges)!P275!0!900
+1,nightsnare (10 charges)!WSkyF!0!900
+1,fiery stonefall (10 charges, [MC Common.Type])!WSkyF!0!900
+
+# Spells level 1
+;WandsEternal4
+1,cure light wounds!P215!0!820
+1,enlarge person!P226!0!820
+1,mage armor!P249!0!820
+1,magic missile!P251!0!820
+1,protection from [MC Common.Align]!P266!0!820
+1,ray of enfeeblement!P269!0!820
+1,repair light damage!S173!0!820
+1,shield!P278!0!820
+1,stonefall ([MC Common.Type])!WSkyF!0!820
+
+# -----------------------------------------
+# MAX 1800 gp
+;ItemLevel5
+4,oil of [Oils5]
+1,potion of [Potions5]
+24,scroll of [Scrolls5]
+2,wand of [Wands5]
+1,beetle elixir!M151!0!1350
+1,fochlucan bandore!M161!3!1350
+1,medal of gallantry!M116!0!1350
+1,salve of minor spell resistance!M183!0.5!1350
+1,scrying shard!M184!1!1350
+1,snakeblood tooth!M136!0!1350
+1,wyrmfang amulet!M148!0!1350
+1,scroll of true seeing (divine)!P296!0!1375
+1,crystal of adamant armor, lesser!M24!0!1400
+1,crystal of adamant weaponry, lesser!M64!0!1400
+1,anklet of translocation!M71!0!1400
+1,arcane thieves' tools!M150!1!1400
+1,armband of confrontation!M195!0!1400
+1,badge of valor!M208!0!1400
+1,bag of boulders!M150!1!1400
+1,blighter's hex-eye!M75!0!1400
+1,bracers of quick strike!M81!1!1400
+1,cloak of predatory vigor!M87!2!1400
+1,cobra straps!M201!0!1400
+1,ehlonna's seed pouch!M158!4!1400
+1,lenses of revelation!M215!0!1400
+1,rod of frost!M174!5!1400
+1,rod of sliding!M175!3!1400
+2,sending stones (pair)!M184!1!1400
+1,spool of endless rope!M186!1!1400
+1,standard of valor!M197!4!1400
+1,steadfast boots!M138!1!1400
+1,aroma of dreams!M150!0!1500
+1,bracers of great collision!M80!0!1500
+1,brooch of shielding!D250!0!1500
+1,camouflage paint!M153!0.5!1500
+1,clasp of energy protection, lesser!M24!0!1500
+1,crystal of adaptation, lesser!M24!0!1500
+1,crystal of life drinking, lesser!M64!0!1500
+1,empowered spellshard, 1st-level spell!M96!0.25!1500
+1,enduring amulet!M97!0!1500
+1,exploding spike!M160!0.5!1500
+1,hammersphere!M161!0.5!1500
+1,inquisitor bracers!M113!1!1500
+1,javelin of lightning!D226!2!1500
+1,medal of steadfast honor!M196!0!1500
+1,memento magica, 1st-level spell!M164!0!1500
+1,artificer's monocle!M72!0!1500
+1,bear helm!M72!0!1500
+1,belt of one mighty blow!M74!1!1500
+1,boots of dragonstriding!M77!1!1500
+1,boots of the mountain king!M78!1!1500
+1,tome of worldly memory!M190!1!1500
+1,headband of the lorebinder!M110!0!1600
+1,rhino elixir!M173!0!1600
+1,full plate, masterwork!P124!50!1650
+1,necklace of fireballs type i!D263!0!1650
+1,dust of appearance!D255!0!1800
+1,githborn talisman!M105!0!1800
+1,hat of disguise!D258!0!1800
+1,pipes of sounding!D264!3!1800
+1,quiver of ehlonna!D265!2!1800
+1,sphere of awakening!M186!1!1800
+
+;Oils5
+1,greater magic weapon +3!P251!0!1800
+1,magic vestment +3!P251!0!1800
+
+;Potions5
+1,greater magic fang +3!P250!0!1800
+
+;Wands5
+1,magic missile (cl 9th, 10 charges)!P251!0!1350
+
+# Spells level 6
+;Scrolls5
+1,blade barrier (divine)!P205!0!1650
+1,chain lightning (arcane)!P208!0!1650
+1,cloak of the sea (arcane)!S48!0!1650
+1,disintegrate (arcane)!P222!0!1650
+3,greater dispel magic ([MC Common.Type])!P223!0!1650
+1,energy immunity (divine)!S80!0!1650
+1,find the path (divine)!P230!0!1650
+1,ghost trap (divine)!S103!0!1650
+1,harm (divine)!P239!0!1650
+5,heal (divine)!P239!0!1650
+1,shadow walk (arcane)!P277!0!1650
+1,stone to flesh (arcane)!P285!0!1650
+1,wind walk (divine)!P302!0!1650
+1,nightmare's stricture ([MC Common.Type])!WSkyF!0!1650
+1,veil of streaking meteors ([MC Common.Type])!WSkyF!0!1650
+
+# -----------------------------------------
+# MAX 2300 gp
+;ItemLevel6
+10,scroll of [Scrolls6]
+12,wand of [Wands6]
+1,adamantine mind blade gauntlets!M68!1!2000
+1,amulet of natural armor +1!D246!0!2000
+1,amulet of retributive healing!M69!1!2000
+1,amulet of teamwork!M70!0!2000
+1,belt of theft-healing!M74!1!2000
+1,boots of the battle charger!M76!2!2000
+1,bracers of the entangling blast!M80!1!2000
+1,caduceus bracers!M84!1!2000
+1,cape of the viper!M84!1!2000
+1,caustic veil!M212!0!2000
+1,crystal of arcane steel, lesser!M64!0!2000
+1,devastation gauntlets!M93!0!2000
+1,dimension stride boots!M94!1!2000
+1,dragon spirit amulet!M95!0!2000
+1,dragon spirit cincture!M95!0!2000
+1,field provisions box!M160!1!2000
+1,gauntlets of arrow reflection!M101!1!2000
+1,gauntlets of extended range!M103!0.5!2000
+1,gauntlets of giantfelling!M103!0!2000
+1,gauntlets of throwing!M104!0!2000
+1,gloves of fortunate striking!M105!0!2000
+1,gloves of lightning!M106!0!2000
+1,goggles of lifesight!M108!1!2000
+1,goodberry bracelet!M108!0!2000
+1,greatreach bracers!M108!5!2000
+1,headband of conscious effort!M109!0!2000
+1,helm of battle!M111!0!2000
+1,helm of tactics!M208!1!2000
+1,heward's handy haversack!D259!5!2000
+1,horn of fog!D259!1!2000
+1,iron ward diamond, lesser!M26!0!2000
+1,mask of sweet air!M116!0!2000
+1,orb of environmental adaptation!M167!0!2000
+1,pearl of breath crisis!M168!0!2000
+1,phoenix ash threat, lesser!M65!0!2000
+1,rearguard's cape!M120!3!2000
+1,ring of communication!M122!0!2000
+1,ring of floating!M123!0!2000
+1,ring of four winds!M124!0!2000
+1,ring of piercing spells!M126!0!2000
+1,ring of protection +1!D232!0!2000
+1,ring of the darkhidden!M122!0!2000
+1,ring of silent spells!M127!0!2000
+1,rock boots!M130!1!2000
+1,rod of grievous wounds!M174!3!2000
+1,rod of viscid globs!M176!2!2000
+1,rubicund frenzy, lesser!M26!0!2000
+1,sepulchral vest!M133!0!2000
+1,silkslick belt!M136!0!2000
+1,slashing sand!M185!0!2000
+1,spellsink scarab!M138!0!2000
+1,torc of displacement!M143!0!2000
+1,vest of defense!M146!1!2000
+7,{Replace~xxxxx,DMG/MIC,[MC Common.Magic Weapons(1)]}
+1,amulet of incarnum shielding!M69!1!2100
+1,enemy spirit pouch!M97!1!2100
+1,mac-fuirmidh cithern!M163!3!2100
+1,third eye surge!M143!0!2100
+1,shield of mercy!M21!15!2170
+1,gloves of agile striking!M105!0!2200
+1,ring of feather falling!D232!0!2200
+1,elemental gem!D255!0!2250
+1,healing salve!M162!0!2250
+1,slaying arrow!D228!0!2282
+1,amulet of tears!M70!0!2300
+1,bracers of arcane freedom!M80!0.5!2300
+1,bracers of opportunity!M81!0.5!2300
+1,brute ring!M83!0!2300
+1,cloak of weaponry!M89!1!2300
+1,rod of fumbling!M174!0!2300
+1,repelling gauntlets!M121!0!2300
+1,sandals of sprinting!M131!0.5!2300
+
+# Spells level 7
+;Scrolls6
+1,banishment (arcane)!P203!0!2275
+1,energy immunity (arcane)!S80!0!2275
+1,ethereal jaunt ([MC Common.Type])!P227!0!2275
+1,invisibility, mass (arcane)!P245!0!2275
+1,Mordenkainen's magnificent mansion (arcane)!P256!0!2275
+1,regenerate (divine)!P270!0!3825
+1,revivify (divine)!S176!0!2275
+1,spell turning (arcane)!P282!0!2275
+1,sunbeam (divine)!P289!0!2275
+1,teleport, greater (arcane)!P293!0!2275
+1,deathmare (divine)!WSkyF!0!2275
+1,minor meteorite ([MC Common.Type])!WSkyF!0!2125
+1,summon molten elemental([MC Common.Type])!WSkyF!0!2275
+
+# Spells level 3 (10 charges)
+;Wands6
+1,call lightning (cl 5th, 10 charges)!P207!0!2250
+1,cure serious wounds (10 charges)!P216!0!2250
+1,dispel magic (10 charges)!P223!0!2250
+1,displacement (10 charges)!P223!0!2250
+1,fireball (cl 5th, 10 charges)!P231!0!2250
+1,fly (10 charges)!P232!0!2250
+1,haste (10 charges)!P239!0!2250
+1,invisibility sphere (10 charges)!P245!0!2250
+1,lightning bolt (cl 5th, 10 charges)!P248!0!2250
+1,mass lesser vigor (divine)!S229!0!2250
+1,repair serious damage (10 charges)!S173!0!2250
+1,vigor (10 charges) (arcane)!S229!0!2250
+1,protection from plasma (10 charges, [MC Common.Type])!WSkyF!0!2250
+
+# -----------------------------------------
+# MAX 3000 gp
+;ItemLevel7
+4,oil of [Oils7]
+2,potion of [Potions7]
+17,scroll of [Scrolls7]
+1,wand of [Wands7]
+1,dragon's draught, black!M157!0!2400
+1,dragon's draught, copper!M157!0!2400
+1,robe of bones!D265!1!2400
+1,sovereign glue!D266!0!2400
+1,bag of holding type I!D248!15!2500
+1,boots of elvenkind!D250!1!2500
+1,boots of jumping!M77!2!2500
+1,boots of the winterlands!D250!1!2500
+1,candle of truth!D251!0.5!2500
+1,censer of the last breath!M153!1!2500
+1,cloak of elvenkind!D253!1!2500
+1,cloak of quills!M87!1!2500
+1,counterstrike bracers!M90!0!2500
+1,crystal anchor of alertness!M155!0.5!2500
+1,crystal mask of knowledge!M91!0.5!2500
+1,crystal mask of languages!M91!0.5!2500
+1,crystal of arrow deflection, lesser!M25!0!2500
+1,eyes of the eagle!D256!0!2500
+1,gloves of eldritch admixture!M105!0!2500
+1,goggles of foefinding!M108!0!2500
+1,golembane scarab!D266!0!2500
+1,icy strand of the north!M162!1!2500
+1,ring of climbing!D230!0!2500
+1,ring of jumping!D232!0!2500
+1,ring of sustenance!D233!0!2500
+1,ring of swimming!D233!0!2500
+1,spellsight spectacles!M138!0!2500
+1,third eye dampening!M141!0!2500
+1,third eye expose!M141!0!2500
+1,tunic of steady spellcasting!M144!1!2500
+1,vanisher cloak!M145!1!2500
+1,bands of blood rage!M202!2!2600
+1,third eye freedom!M141!0!2600
+1,crystal of energy assault, lesser!M64!0!3000
+1,crystal of stamina, greater!M26!0!2700
+1,metamagic rod, substitution, lesser!M165!3!2700
+1,necklace of fireballs type II!D263!0!2700
+1,panther mask!M201!0!2700
+1,stone of alarm!D267!2!2700
+1,aberrant sphere!M149!1!2800
+1,boots of desperation!M77!0!2800
+1,infinite scrollcase!M162!3!2800
+1,meteoric knife!M53!0.5!2802
+1,bag of tricks, rust!D248!0!3000
+1,bead of force!D248!0!3000
+1,belt of growth!M73!0!3000
+1,burnoose of 1,001 thorns!M83!2!3000
+1,chime of opening!D252!1!3000
+1,circlet of solace!M87!0!3000
+1,clasp of energy protection, greater!M24!0!3000
+1,contact medallion!M90!0!3000
+1,cord of favor!M215!1!3000
+1,corsair's eye patch!M90!0!3000
+1,crystal of adaptation, greater!M24!0!3000
+1,crystal of aquatic action, greater!M25!0!3000
+1,crystal of glancing blows, lesser!M25!0!3000
+1,crystal of screening, greater!M26!0!3000
+1,crystal of security, greater!M65!0!3000
+1,demolition crystal, lesser!M65!0!3000
+1,empowered spellshard, 2nd-level spell!M96!0.25!3000
+1,essentia helm!M97!3!3000
+1,fiendslayer crystal, lesser!M65!0!3000
+1,gloves of manual prowess!M106!0!3000
+1,gloves of object reading!M107!0!3000
+1,heartseeking amulet!M110!0!3000
+1,horseshoes of speed!D260!12!3000
+1,metamagic rod, enlarge, lesser!D236!5!3000
+1,metamagic rod, extend, lesser!D236!5!3000
+1,metamagic rod, sculpting, lesser!M165!3!3000
+1,metamagic rod, silent, lesser!D236!5!3000
+1,rope of climbing!D266!3!3000
+1,soulsmite gauntlets!M136!2!3000
+1,talisman of undead mastery!M188!0!3000
+1,third eye clarity!M141!0!3000
+1,adamantine dagger!D226!1!3002
+1,adamantine battleaxe!D226!6!3010
+1,engram wallet!WSkyF!0!3000
+
+;Oils7
+1,greater magic weapon +4!P251!0!2400
+1,greater magic weapon +5!P251!0!3000
+1,magic vestment +4!P251!0!2400
+1,magic vestment +5!P251!0!3000
+
+;Potions7
+1,greater magic fang +4!P250!0!2400
+1,greater magic fang +5!P250!0!3000
+
+# Spells level 8
+;Scrolls7
+1,brilliant aura (divine)!S39!0!3000
+1,cure critical wounds, mass (divine)!P215!0!3000
+1,death ward, mass (divine)!S61!0!3000
+1,dimensional lock ([MC Common.Type])!P221!0!3000
+1,discern location (divine)!P222!0!3000
+1,earthquake (divine)!P225!0!3000
+1,fire storm (divine)!P231!0!3000
+1,ghostform!S130!0!3000
+1,horrid wilting (arcane)!P242!0!3000
+1,invisibility, superior!S125!0!3000
+1,iron body (arcane)!P245!0!3000
+1,mind blank (arcane)!P253!0!3000
+1,greater plane shift (arcane)!S159!0!3000
+1,polar ray (arcane)!P262!0!3000
+1,restoration, mass (divine)!S174!0!3000
+1,revenance (arcane)!S175!0!3000
+1,sunburst (divine)!P289!0!3000
+1,deathmare (arcane)!WSkyF!0!3000
+1,nightseed (divine)!WSkyF!0!3000
+1,veil of fiery meteors ([MC Common.Type])!WSkyF!0!3000
+
+;Wands7
+1,searing light (cl 6th, 10 charges)!P275!0!2700
+
+# -----------------------------------------
+# MAX 4000 gp
+;ItemLevel8
+2,scroll of [Scrolls8]
+#0,wand of [Wands8]
+1,brooch of avoidance!M82!0!3100
+1,caster's shield!D221!5!3153
+1,chime of harmonic agony!M154!0.5!3100
+1,gloves of the uldra savant!M107!2!3100
+1,hexbands!M112!3!3100
+1,orb of mental renewal!M167!1!3100
+1,pipes of frenzied revelry!M168!1!3100
+1,rapidstrike bracers!M119!0!3100
+1,rod of bodily restoration!M173!4!3100
+1,summoner's totem!M187!2!3100
+1,vanguard treads!M145!2!3100
+1,bracers of the blast barrier!M80!1!3200
+1,eyes of expanded vision!M98!0!3200
+1,formless vest!M100!0!3200
+1,hellcat gauntlets!M111!0!3200
+1,rags of restraint!M119!0!3200
+1,skirmisher boots!M136!1!3200
+1,domain draught!M156!0!3300
+1,mask of blood!M115!1!3300
+1,reins of ascension!M120!1!3300
+1,spellmight bracers!M137!1!3300
+1,survival pouch!M187!5!3300
+1,torc of the titans!M143!1!3300
+1,dragonhide plate!D220!50!3300
+1,crystal of adamant armor, greater!M24!0!3400
+1,crystal of adamant weaponry, greater!M64!0!3400
+1,badge of glory!M214!1!3400
+1,bow of the wintermoon!M48!3!3400
+1,hair shirt of suffering!M109!1!3400
+1,scout's headband!M132!0!3400
+1,mithralmist shirt!M20!10!3400
+1,bag of flames!M151!0!3500
+1,crystal of alacrity!M195!0!3500
+1,dragon's draught, bronze!M157!0!3500
+1,dragon's draught, green!M157!0!3500
+1,dust of disappearance!D255!0!3500
+1,finned gauntlets!M100!1!3500
+1,lens of detection!D261!1!3500
+1,lockpicking ring!M114!0!3500
+1,mask of mastery!M193!1!3500
+1,quicksilver boots!M119!0!3500
+1,radiant sphere!M172!1!3500
+1,raptor's mask!M210!0!3500
+1,ring of mystic healing!M126!0!3500
+1,rod of escape!M173!2!3500
+1,shard of the sun!M185!1!3500
+1,sleeping spike!M185!0.5!3500
+1,true strike gauntlets!M144!0!3500
+1,belt of ultimate athleticism!M75!0!3600
+1,enveloping pit!M159!0!3600
+1,mirror of suggestion!M165!0.5!3600
+1,mithral bells!M117!1!3700
+1,rending gauntlets!M121!0!3610
+1,shadow maniple!M133!0!3700
+1,figurine of wondrous power, silver raven!D256!0!3800
+1,amulet of health +2!D246!0!4000
+1,boots of the unending journey!M79!1!4000
+1,bracers of accuracy!M79!1!4000
+1,bracers of armor +2!D250!1!4000
+1,bracers of repulsion!M81!0!4000
+1,cloak of charisma +2!D253!2!4000
+1,cloak of resistance +2!D253!1!4000
+1,cognizance crystal, 3 points!M154!1!4000
+1,crystal of mind cloaking, lesser!M25!0!4000
+1,crystal of return, greater!M65!0!4000
+1,dragon mask!M94!2!4000
+1,gauntlets of ghost fighting!M216!1!4000
+1,gauntlets of ogre power!D257!4!4000
+1,gauntlets of the talon!M103!2!4000
+1,gloves of arrow snaring!D257!0!4000
+1,gloves of dexterity +2!D257!0!4000
+1,glyph seal, greater!M161!0!4000
+1,goggles of the golden sun!M205!0!4000
+1,headband of intellect +2!D258!0!4000
+1,ioun stone, clear spindle!D260!0!4000
+1,keoghtom's ointment!D261!0.5!4000
+1,mask of mental armor!M115!0!4000
+1,mask of the tiger!M200!1!4000
+1,necklace of warning!M118!1!4000
+1,nolzur's marvelous pigments!D263!0!4000
+1,pearl of power, 2nd-level spell!D263!0!4000
+1,pendant of joy!M118!0!4000
+1,periapt of wisdom +2!D263!0!4000
+1,ring of counterspells!D230!0!4000
+1,rod of silence!M175!2!4000
+1,rod of sure striking!M175!3!4000
+1,scry shroud!M133!0!4000
+1,stone salve!D267!0!4000
+1,stormfire ring!M206!0!4000
+1,surcoat of valor!M139!1!4000
+1,torc of power preservation!M143!0!4000
+1,veil of storms!M213!0!4000
+1,vest of resistance +2!M147!1!4000
+1,wilding clasp!M190!0!4000
+4,{Replace~xxxxx,DMG/MIC,[MC Common.Magic Armor(2)]}!!!
+
+# Spells level 9
+;Scrolls8
+1,freedom (arcane)!P233!0!3825
+1,heal, mass (divine)!P239!0!3825
+1,meteorite ([MC Common.Type])!WSkyF!0!4000
+1,nightseed (arcane)!WSkyF!0!3825
+
+;Wands8
+1,XXX!XXX!0!0
+
+# -----------------------------------------
+# MAX 5000 gp
+;ItemLevel9
+8,eternal wand of [EternalWands9]
+2,scroll of [Scrolls9]
+14,wand of [Wands9]
+1,slaying arrow, greater!D228!0!4057
+1,armbands of might!M72!2!4100
+1,doss lute!M156!3!4100
+1,crystal echoblade!M49!4!4310
+1,elven chain!D220!20!4150
+1,barricade buckler!M16!5!4165
+1,circlet of wild surging!M87!1!4200
+1,white cloak of the spider!M148!1!4200
+1,shatterspike!D228!4!4315
+1,living chain!M53!10!4325
+1,necklace of fireballs type iii!D226!0!4350
+1,strand of lightning!M187!1!4350
+1,sacred scabbard!M183!1!4400
+1,thorn pouch!M188!1!4400
+1,aroma of curdled death!M150!0!4500
+1,barbs of retribution!M203!1!4500
+1,belt of the champion!M73!1!4500
+1,circlet of persuasion!D252!0!4500
+1,dragon's draught, blue!M157!0!4500
+1,dragon's draught, silver!M157!0!4500
+1,gem of the glitterdepth!M104!0!4500
+1,goggles of day!M107!0!4500
+1,helm of the purple plume!M111!4!4500
+1,mask of lies!M115!1!4500
+1,ring of vengeance!M128!0!4500
+1,shield of the severed hand!M22!10!4657
+1,bowstaff!M48!4!4600
+1,personal oasis!M168!3!4600
+1,bladed crossbow!M47!12!4660
+1,slippers of spider climbing!D266!0.5!4800
+1,incense of meditation!D260!1!4900
+1,amulet of fortune prevailing!M69!1!5000
+1,bag of holding type ii!D248!25!5000
+1,belt of hidden pouches!M74!1!5000
+1,bolt shirt!M75!0!5000
+1,boots of swift passage!M78!1!5000
+1,boots of tremorsense!M79!1!5000
+1,bracers of aerial combat!M194!1!5000
+1,bracers of archery, lesser!D250!1!5000
+1,bracers of blinding strike!M198!1!5000
+1,bracers of retaliation!M82!1!5000
+1,circlet of mages!M86!0!5000
+1,cloak of soulbound resistance!M88!1!5000
+1,collar of healing!M89!0!5000
+1,crimson dragonhide bracers!M90!1!5000
+1,crystal of arrow deflection, greater!M25!0!5000
+1,crystal of glancing blows, greater!M25!0!5000
+1,crystal of lifekeeping, greater!M25!0!5000
+1,truedeath crystal, lesser!M66!0!5000
+1,deathstrike bracers!M93!2!5000
+1,diamondskin decanter!M156!1!5000
+1,dragonscale cloak!M95!2!5000
+1,fiendslayer crystal, greater!M65!0!5000
+1,fiery tunic!M99!2!5000
+1,gauntlets of eldritch energy!M102!0.5!5000
+1,gauntlets of lassitude!M103!2!5000
+1,ghost shroud!M104!0!5000
+1,hand of the oak father!M109!1!5000
+1,helm of gazes!M111!3!5000
+1,horn of resilience!M208!0!5000
+1,immovable rod!D235!5!5000
+1,ioun stone, dusty rose prism!D260!0!5000
+1,ki straps!M113!0!5000
+1,mask of silent trickery!M116!0!5000
+1,noble pennon!M166!0!5000
+1,orb of blinding!M167!0!5000
+1,platinum helm!M119!3!5000
+1,portable foxhole!M169!0!5000
+1,reciprocal bracers!M120!0!5000
+1,revelation crystal, greater!M66!0!5000
+1,ring of arming!M122!0!5000
+1,ring of master artifice, lesser!M125!0!5000
+1,spider fang!M60!1!5302
+1,vampire torc!M144!0!5000
+1,vestments of ebonsilk!M147!1!5000
+1,witchlight reservoir!M66!0!5000
+
+# Spells level 2
+;EternalWands9
+1,blur!P206!0!4420
+1,cure moderate wounds!P216!0!4420
+1,invisibility!P245!0!4420
+1,mirror image!P254!0!4420
+1,repair moderate damage!S173!0!4420
+1,see invisibility!P275!0!4420
+1,snake's swiftness!S193!0!4420
+1,web!P301!0!4420
+1,nightsnare!WSkyF!0!4420
+1,fiery stonefall ([MC Common.Type])!WSkyF!0!4420
+
+;Scrolls9
+1,greater restoration (divine)!P272!0!4775
+1,teleportation circle (arcane)!P293!0!4825
+1,dream resurrection ([MC Common.Type])!WSkyF!0!4825
+
+# Spells level 3 (CL10, 10 charges)
+;Wands9
+2,cure critical wounds (10 charges)!P215!0!4200
+1,death ward (10 charges)!P217!0!4200
+2,dispel magic (cl 10th, 10 charges)!P223!0!4500
+2,fireball (cl 10th, 10 charges)!P231!0!4500
+1,freedom of movement (10 charges)!P233!0!4200
+1,greater invisibility (10 charges)!P245!0!4200
+1,ice storm (10 charges)!P243!0!4200
+2,lightning bolt (cl 10th, 10 charges)!P248!0!4420
+1,repair critical damage (cl 10, 10 charges)!S173!0!4200
+1,searing light (cl 10th, 10 charges)!P275!0!4420
+
+# -----------------------------------------
+# MAX 6500 gp
+;ItemLevel10
+3,scroll of [Scrolls10]
+#0,wand of [Wands10]
+1,raptor arrow!M56!0!6006
+1,ring of the forcewall!M123!0!5100
+1,gauntlets of the blood-lord!M101!2!5120
+1,hooked hammer of the hearthfire!M52!6!5120
+1,rhino hide!D220!25!5165
+1,helm of comprehend languages and read magic!D259!3!5200
+1,map of unseen lands!M164!0!5200
+1,vest of escape!D268!0!5200
+1,galeb duhr hammer!M52!15!5312
+1,assassin whip!M46!1!5301
+1,trident of serenity!M62!4!5315
+1,manticore greatsword!M53!0!5350
+1,eversmoking bottle!D256!1!5400
+1,Murlynd's spoon!D262!0!5400
+1,necklace of fireballs type iv!D263!0!5400
+1,boots of striding and springing!D250!1!5500
+1,dragon's draught, gold!M157!0!5500
+1,dragon's draught, red!M157!0!5500
+1,eyes of truth!M99!0!5500
+1,rope of climbing, superior!M176!3!5500
+1,tabard of the great crusade!M140!1!5500
+1,tome of ancient lore!M189!2!5500
+1,wind fan!D268!0!4400
+1,shield of the resolute!M21!7!5520
+1,spined shield!D221!15!5580
+1,helm of glorious recovery!M111!3!5600
+1,helm of heroes!M111!1!5600
+1,staff of the unyielding oak!M60!4!5600
+1,claw gloves!M199!1!5604
+1,necklace of fireballs type v!D263!0!5850
+1,amulet of emergency healing!M68!0!6000
+1,amulet of mighty fists +1!D246!0!6000
+1,amulet of wordtwisting!M71!0!6000
+1,belt of priestly might!M74!1!6000
+1,boots of big stepping!M76!2!6000
+1,boots of sidestepping!M78!0!6000
+1,cloak of the salamander!M88!1!6000
+1,conduit rod!M155!3!6000
+1,cornucopia of the needful!M155!8!6000
+1,crystal of arcane steel, greater!M64!0!6000
+1,crystal of life drinking, greater!M64!0!6000
+1,deathguardian bracers!M93!3!6000
+1,empowered spellshard, 3rd-level spell!M96!0.25!6000
+1,executioner's hood!M97!0!6000
+1,farspeaking amulet!M99!0!6000
+1,gauntlets of weaponry arcane!M104!1!6000
+1,globe of sunlight!M161!1!6000
+1,Gwaeron's boots!M109!1!6000
+1,horseshoes of a zephyr!D260!4!6000
+1,memento magica, 2nd-level spell!M164!0!6000
+1,periapt of the sullen sea!M205!0!6000
+1,crystal of energy assault, greater!M64!0!6000
+1,demolition crystal, greater!M65!0!6000
+1,phoenix ash threat, greater!M65!0!6000
+1,pipes of haunting!D264!3!6000
+1,psychoactive skin of the celestial!M169!2!6000
+1,psychoactive skin of ectoplasmic armor!M170!2!6000
+1,psychoactive skin of the fiend!M170!2!6000
+1,ring of adamantine touch!M121!0!6000
+1,ring of essentia!M123!0!6000
+1,ring of thunderclaps!M127!0!6000
+1,ring of water breathing!M128!0!6000
+1,rod of surprises!M58!2!6000
+1,rod of transposition!M175!3!6000
+1,rubicund frenzy, greater!M26!0!6000
+1,shackles of silence!M184!2!6000
+1,shirt of wraith stalking!M216!1!6000
+1,spectral dagger!M59!1!6000
+1,strongarm bracers!M139!1!6000
+1,tabard of the disembodied!M140!1!6000
+1,torc of heroic sacrifice!M143!0!6000
+1,toxic gloves!M144!0!6000
+1,transposer cloak!M144!0!6000
+1,unicorn pendant!M144!1!6000
+1,shield of vigor!M196!15!6170
+1,wrapped tower!M24!45!6180
+1,skull plaque!M136!2!6200
+1,gloves of swimming and climbing!D257!0!6250
+1,bag of tricks, tan!D248!0!6300
+1,gauntlets of the blazing arc!M101!0.5!6300
+1,whip of webs!M63!1!6301
+1,dagger of defiance!M50!1!6302
+1,scorpion kama!M201!2!6302
+1,viperblade!M63!1!6302
+1,death spike!M50!6!6304
+1,stonereaver!M60!12!6320
+1,swordbow, light!M61!2!6330
+1,swordbow!M61!3!6375
+1,circlet of blasting, minor!D252!0!6480
+1,gauntlet of infinite blades!M101!1!6500
+1,greater piwafwi!M108!1!6500
+1,helm of wounding sight!M193!1!6500
+1,horn of goodness/evil!D259!1!6500
+1,monocle of perusal!M117!0!6500
+1,phoenix helm!M118!3!6500
+1,phylactery of virtue!M215!0!6500
+1,robe of retaliation!M130!2!6500
+
+;Scrolls10
+3,raise dead (divine)!P268!0!6125
+
+;Wands10
+1,XXX!XXX!0!0
+
+# -----------------------------------------
+# MAX 8000 gp
+;ItemLevel11
+1,scroll of [Scrolls11]
+2,wand of [Wands11]
+1,gauntlets of destruction!M192!2!6610
+1,swordbow, great!M61!8!6775
+1,boots of skating!M78!2!7000
+1,gloves of endless javelins!M194!0!7000
+1,gloves of flame!M105!0.5!7000
+1,robe of useful items!D266!1!7000
+1,tomebound eye of boccob!M190!0!7000
+1,veil of whispers!M213!0!7000
+1,the fist!M51!0!7005
+1,armband of maximized healing!M72!1!7200
+1,folding boat!D249!4!7200
+1,cloak of the manta ray!D253!1!7200
+1,bottle of air!D250!2!7250
+1,morningstar of the many!M54!6!7308
+1,rod of defiance!M56!3!7312
+1,stunshot sling!M60!0!7800
+1,bag of holding type iii!D248!35!7400
+1,periapt of health!D263!0!7500
+1,boots of levitation!D250!1!7500
+1,dreaming blindfold!M96!0!7500
+1,harp of charming!D258!5!7500
+1,lore gem!M114!0!7500
+1,ring of mystic defiance!M125!0!7500
+1,ring of mystic fire!M125!0!7500
+1,ring of mystic lightning!M126!0!7500
+1,tome of the stilled tongue!M189!5!7500
+3,amulet of natural armor +2!D246!0!8000
+1,belt of the wide earth!M204!0!8000
+1,blast globes!M152!1!8000
+1,chasuble of fell power!M85!0!8000
+1,cloak of stone!M88!2!8000
+1,crystal of energy assault, greater!M64!0!6000
+1,flesh ring of scorn!M100!0!8000
+1,gauntlet of Gruumsh!M101!1!8302
+1,ghost net!M52!1!8320
+1,gloves of the balanced hand!M105!0!8000
+1,gloves of incarnum theft!M106!1!8000
+1,golem manual, flesh!D258!5!8000
+1,hand of glory!D258!2!8000
+1,horned helm!M112!1!8000
+3,ioun stone, deep red sphere!D260!0!8000
+3,ioun stone, incandescent blue sphere!D260!0!8000
+3,ioun stone, pale blue rhomboid!D260!0!8000
+3,ioun stone, pink and green sphere!D260!0!8000
+3,ioun stone, pink rhomboid!D260!0!8000
+3,ioun stone, scarlet and blue sphere!D260!0!8000
+1,iron ward diamond, greater!M26!0!8000
+1,lightning tunic!M114!1!8000
+1,mantle of the predator!M200!2!8000
+1,medallion of aerial defense!M195!0!8000
+1,mesmerist's gloves!M116!1!8000
+1,mindvault!M117!0!8000
+1,psionatrix!M119!0!8000
+1,ring of antivenom!M121!0!8000
+1,ring of entropic deflection!M123!0!8000
+1,ring of mind shielding!D232!0!8000
+4,ring of protection +2!D232!0!8000
+1,runestaff of charming!M177!4!8000
+1,scentblinder!M132!0!8000
+1,shirt of the leech!M135!1!8000
+1,talisman of undying fortitude!M188!0!8000
+1,third eye penetrate!M142!0!8000
+1,vambraces of warding!M144!1!8000
+17,{Replace~xxxxx,DMG/MIC,[MC Common.Magic Weapons(2)]}
+
+;Scrolls11
+1,uncertain provenance!M183!5!8000
+
+;Wands11
+2,stoneskin (10 charges)!P284!0!6700
+
+# -----------------------------------------
+# MAX 10,000 gp
+;ItemLevel12
+1,canaith mandolin!M153!3!8100
+1,deck of illusions!D254!0.5!8100
+1,necklace of fireballs type vi!D263!0!8100
+1,mace of the dark children!M53!8!8012
+1,millennial chainmail!M20!20!8150
+1,dragonfang gauntlets!M95!1!8610
+1,owlfeather armor!M20!15!8160
+1,fanged mask!M99!1!8300
+1,dagger of venom!D226!1!8302
+1,warlock's scepter!M63!3!8305
+1,blazing skylance!M48!10!8310
+1,forceful skylance!M52!10!8310
+1,axe of ancestral virtue!M46!8!8530
+1,candle of invocation!D251!0.5!8400
+1,runestaff of fire!M180!3!8400
+1,crown of flames!M209!0!8500
+1,ring of force shield!D232!0!8500
+1,ring of the ram!D232!0!8600
+1,necklace of fireballs type vii!D263!0!8700
+1,ankh of ascension!M71!3!9000
+1,battle bridle!M151!1!9000
+1,blindfold of true darkness!M75!0!9000
+1,bracers of armor +3!D250!1!9000
+1,cat's-eye brooch!M84!0!9000
+1,cloak of resistance +3!D253!1!9000
+1,cognizance crystal, 5 points!M154!1!9000
+1,daern's instant tent!M155!0.5!9000
+1,decanter of endless water!D254!2!9000
+1,helm of the hunter!M194!1!9000
+1,metamagic rod, empower, lesser!D236!5!9000
+1,metamagic rod, reach, lesser!M165!1!9000
+1,mirror of time hop!M165!0.5!9000
+1,necklace of adaptation!D263!0!9000
+1,pearl of power, 3rd-level spell!D263!0!9000
+1,retributive amulet!M121!0.5!9000
+1,rod of the recluse!M57!5!9305
+1,sandals of the light step!M198!1!9000
+1,scepter of the netherworld!M183!3!9000
+1,shirt of bone!M134!1!9000
+1,shirt of chains!M134!1!9000
+1,shirt of the treant!M136!1!9000
+1,stunning spike!M187!0.5!9000
+1,vest of resistance +3!M147!1!9000
+3,{Replace~xxxxx,DMG/MIC,[MC Common.Magic Armor(3)]}
+1,dwarf crusher!M51!8!9010
+1,figurine of wondrous power, serpentine owl!D256!0!9100
+1,wight hide shield!M23!6!9159
+1,lion's shield!D221!15!9170
+1,skewer-of-gnomes!M59!4!9302
+1,spear of retribution!M59!6!9302
+1,dawnstar!M50!2!9308
+1,pick of piercing!M54!6!9308
+1,sword of virtue beyond reproach!M61!4!9315
+1,rapier of desperate measures!M55!2!9320
+1,rapier of unerring direction!M55!2!9320
+1,sword of mighty thews!M60!8!9350
+1,strand of prayer beads, lesser!D267!0!9600
+1,angelhelm!M71!2!10000
+1,runestaff of the assassin!M177!3!10000
+1,bag of holding type iv!D248!60!10000
+1,bracers of wind!M82!1!10000
+1,crystal mask of detection!M90!0.5!10000
+1,crystal mask of discernment!M90!0.5!10000
+1,crystal mask of dread!M91!0.5!10000
+1,crystal mask of mindarmor!M92!0.5!10000
+1,crystal mask of psionic craft!M92!0.5!10000
+1,crystal mask of visual insight!M92!0.5!10000
+1,crystal of mind cloaking, greater!M25!0!10000
+1,druid's vestment!D268!0!10000
+1,eyes of power leech!M98!0!10000
+1,fiendhelm!M99!2!10000
+1,figurine of wondrous power, bronze griffon!D256!0!10000
+1,figurine of wondrous power, ebony fly!D256!0!10000
+1,ghoul gauntlets!M104!1!10000
+1,glove of storing!D257!0!10000
+1,ioun stone, dark blue rhomboid!D260!0!10000
+1,lenses of true form!M113!0!10000
+1,mind blade gauntlet, lesser!M117!1!10000
+1,psychoactive skin of power damping!M171!2!10000
+1,ring of avoidance!M122!0!10000
+1,ring of improved climbing!D230!0!10000
+1,ring of improved jumping!D232!0!10000
+1,ring of improved swimming!D233!0!10000
+1,ring of self-sufficiency!M126!0!10000
+1,ring of soulbound protection!M127!0!10000
+1,robe of mysterious conjuration!M130!2!10000
+1,rod of reversal!M174!5!10000
+1,rod of undead mastery!M175!3!10000
+1,sandals of springing!M131!1!10000
+1,soul anchor!M185!3!10000
+1,soulstone!M137!0!10000
+1,stone horse, courser!D267!6000!10000
+1,third eye aware!M140!0!10000
+1,third eye concentrate!M141!0!10000
+1,third eye gather!M141!0!10000
+1,third eye powerthieve!M142!0!10000
+1,truedeath crystal, greater!M66!0!10000
+1,vest of the master evoker!M146!2!10000
+
+# -----------------------------------------
+# MAX 13,000 gp
+;ItemLevel13
+12,eternal wand of [EternalWands13]
+3,scroll of [Scrolls13]
+1,cape of the mountebank!D252!1!10080
+1,trident of warning!D229!4!10115
+2,foxhide armor!M18!15!10160
+1,ghoul shell armor!M18!15!10160
+2,adamantine breastplate!D219!30!10200
+1,talon scepter!M210!4!10305
+1,axe of the sea reavers!M47!12!10320
+1,metamagic rod, substitution!M165!3!10500
+1,rod of metal and mineral detection!D236!5!10500
+1,rod of cats!M56!4!10600
+2,storm gauntlets!M139!1!10604
+1,strand of acid pearls!M187!1!10700
+1,ring of animal friendship!D230!0!10800
+1,amulet of inviolate form!M69!1!11000
+2,boots of tracklessness!M79!1!11000
+1,bracers of lightning!M206!1!11000
+1,cloak of turn resistance!M89!1!11000
+1,gauntlets of mindfire!M103!0.5!11000
+1,metamagic rod, enlarge!D236!5!11000
+1,metamagic rod, extend!D236!5!11000
+1,metamagic rod, sculpting!M165!3!11000
+1,metamagic rod, silent!D236!5!11000
+1,phylactery of undead turning!D264!0!11000
+1,rod of cancellation!D234!5!11000
+2,runestaff of eyes!M178!4!11000
+1,veil of doors!M212!0!11000
+1,gauntlet of rust!D257!2!11500
+2,ring of lightning flashes!M125!0!11500
+2,belt of battle!M73!0!12000
+1,blood claw choker!M203!0!12000
+2,boots of speed!D250!1!12000
+1,dove's harp!M156!3!12100
+1,flesheater!M160!3!12000
+1,goggles of night!D258!0!12000
+1,golem manual, clay!D258!5!12000
+1,horn of plenty!M162!2!12000
+1,mantle of second chances!M115!0!12000
+1,medallion of thoughts!D262!0!12000
+1,pipes of pain!D264!3!12000
+1,psychoactive skin of the claw!M170!2!12000
+1,riding boots!M121!2!12000
+3,ring of energy resistance, minor!D232!0!12000
+2,ring of spell-battle!M127!0!12000
+2,rod of wonder!D237!5!12000
+1,ruby cincture of immutability!M131!0!12000
+1,runestaff of entrapment!M178!4!12000
+1,runestaff of size alteration!M181!5!12000
+1,shirt of resilience!M135!3!12000
+1,spare hand!M137!5!12000
+2,vest of free movement!M198!0!12000
+1,wand bracelet!M147!0!12000
+1,water cloak!M148!1!12000
+2,winged vest!M195!2!12000
+1,serpent armor!M20!15!12160
+1,hawkfeather armor!M19!20!12175
+1,chromatic rod!M49!1!12308
+1,rogue blade!M58!2!12320
+1,bow of songs!M48!2!12330
+1,Boccob's blessed book!D249!1!12500
+1,hat of anonymity!M109!1!12500
+2,ring of chameleon power!D230!0!12700
+1,shifter's sorrow!D228!10!12780
+1,cannith goggles!M84!0.5!13000
+1,cloak of soulbound resistance, greater!M88!1!13000
+1,fireflower pendant!M100!0!13000
+1,gem of brightness!D257!0!13000
+1,lyre of building!D261!5!13000
+2,monk's belt!D248!1!13000
+1,python rod!D236!5!13000
+
+# Spells level 3
+;EternalWands13
+4,cure serious wounds!P216!0!10900
+1,displacement!P223!0!10900
+2,invisibility sphere!P245!0!10900
+3,lightning bolt!P248!0!10900
+1,mass snake's swiftness!S193!0!10900
+1,repair serious damage!S173!0!10900
+
+;Scrolls13
+3,resurrection (divine)!P272!0!12275
+
+# -----------------------------------------
+# MAX 18,000 gp
+;ItemLevel14
+1,kyton armor!M19!12!13100
+1,breastplate of terror!M192!30!13200
+1,memento magica, 3rd-level spell!M164!0!13500
+1,choker of life protection!M216!0!14000
+1,cloak of arachnida!D252!1!14000
+1,gloves of the titan's grip!M107!2!14000
+1,harrow rod!M162!3!14000
+1,metamagic rod, chaining, lesser!M165!3!14000
+1,metamagic rod, maximize, lesser!D236!0!14000
+1,runestaff of night!M181!4!14000
+1,tentacle rod!M61!3!14000
+1,veil of allure!M145!0!14000
+1,electric eel hide!M17!25!14165
+1,wight armor!M23!20!14175
+1,bearskin armor!M16!30!14350
+1,stone horse, destrier!D267!6000!14800
+1,belt of dwarvenkind!D248!1!14900
+1,badge of the svirfneblin!M72!0!15000
+1,banner of the storm's eye!M151!2!15000
+1,blindhelm!M75!0.5!15000
+1,circlet of rapid casting!M86!0!15000
+1,desperation chain!M93!5!15000
+1,incarnum focus (dm's choice)!M112!0!15000
+1,moonstone mask!M118!1!15000
+1,periapt of wound closure!D264!0!15000
+1,psychoactive skin of nimbleness!M171!2!15000
+1,psychoactive skin of the chameleon!M170!2!15000
+1,quiver of energy!M172!1!15000
+1,ring of water walking!D233!0!15000
+1,rod of flame extinguishing!D235!0!15000
+1,rod of whips!M58!2!15000
+1,runestaff of opening!M181!4!15000
+1,shirt of angels!M134!1!15000
+1,shirt of demonskin!M134!1!15000
+1,shirt of the fey!M134!1!15000
+1,shirt of the inevitable!M134!10!15000
+1,shirt of ironskin!M135!10!15000
+1,shirt of slaadskin!M135!1!15000
+1,shirt of the moon!M135!1!15000
+1,spider rod!M186!3!15000
+1,third eye repudiate!M142!0!15000
+1,horn of the tritons!D260!2!15100
+1,pearl of the sirines!D263!0!15300
+1,figurine of wondrous power, onyx dog!D256!0!15500
+1,amulet of catapsi!M68!0!16000
+1,amulet of health +4!D246!0!16000
+1,belt of giant strength +4!D248!1!16000
+1,bracers of armor +4!D250!1!16000
+1,cloak of charisma +4!D253!2!16000
+1,cloak of resistance +4!D253!1!16000
+1,cognizance crystal, 7 points!M154!1!16000
+1,gloves of dexterity +4!D257!0!16000
+1,goggles of draconic vision!M107!1!16000
+1,headband of intellect +4!D258!0!16000
+1,pearl of power, 4th-level spell!D263!0!16000
+1,periapt of wisdom +4!D263!0!16000
+1,ring of dragon friendship!M122!0!16000
+1,ring of greater counterspells!M124!0!16000
+1,runestaff of the undying!M182!5!16000
+1,runestaff of vision!M182!4!16000
+1,scabbard of keen edges!D266!1!16000
+1,serpent veil!M212!0!16000
+1,shadow veil!M133!0!16000
+1,vest of resistance +4!M147!1!16000
+1,war wizard cloak!M147!1!16000
+1,winged boots!D250!1!16000
+4,{Replace~xxxxx,DMG/MIC,[MC Common.Magic Armor(4)]}
+1,zombie hide armor!M24!25!16165
+1,figurine of wondrous power, golden lions!D256!0!16500
+1,dwarven plate!D220!50!16500
+1,staff of charming!D244!5!16500
+1,chime of interruption!D252!1!16800
+1,armor of the fallen leaves!M16!15!17350
+1,broom of flying!D250!3!17000
+1,figurine of wondrous power, marble elephant!D256!0!17000
+1,tigerskin armor!M22!25!17100
+1,winged shield!D221!10!17257
+1,amulet of natural armor +3!D246!0!18000
+1,chasuble of fell power, greater!M85!0!18000
+1,dragondoom scepter!M157!3!18000
+1,goggles of the ebon hunter!M108!0!18000
+1,ioun stone, iridescent spindle!D260!0!18000
+1,ring of divergence!M122!0!18000
+1,ring of the icy soul!M124!0!18000
+1,ring of protection +3!D232!0!18000
+1,ring of spell storing, minor!D233!0!18000
+1,rogue's vest!M130!1!18000
+1,runestaff of forced happiness!M180!3!18000
+1,surge crystal!M139!0!18000
+8,{Replace~xxxxx,DMG/MIC,[MC Common.Magic Weapons(3)]}
+1,bag of night terrors!WSkyF!0!21000
+
+# -----------------------------------------
+# MAX 25,000 gp
+;ItemLevel15
+1,assassin's dagger!D226!1!10302
+1,cli lyre!M154!3!18100
+1,dragonrider armor!M17!50!18300
+1,rod of enervating strike!M57!8!18312
+1,rod of freedom!M57!6!18402
+1,trident of fish command!D229!4!10115
+1,banded mail of luck!D220!35!18900
+1,bracelet of friends!D250!0!19000
+1,runestaff of illusion!M180!3!19000
+1,runestaff of transportation!M182!4!19000
+1,viper rod!D237!5!19000
+1,beholder crown!M73!1!20000
+1,bone ring!M75!0!20000
+2,carpet of flying, 5 ft. by 5 ft.!D252!8!20000
+2,casting glove!M84!0!20000
+1,crystal mask of insight!M91!0.5!20000
+1,eyes of power leech, vampiric!M98!0!20000
+1,horn of blasting!D259!1!20000
+2,ioun stone, pale lavender ellipsoid!D260!0!20000
+2,ioun stone, pearly white spindle!D260!0!20000
+1,lens of the desert!M163!0!20000
+2,portable hole!D264!0!20000
+1,ring of arcane might!M121!0!20000
+1,ring of invisibility!D232!0!20000
+1,ring of wizardry i!D233!0!20000
+1,runestaff of frost!M180!4!20000
+1,scarab of stabilization!M132!0!20000
+1,stone of good luck!D267!0!20000
+1,water whip!M63!2!20301
+1,dagger of denial!M50!1!6302
+1,ruby blade!M58!1!20302
+1,cudgel that never forgets!M49!8!20312
+1,chain of obeisance!M48!12!20400
+1,flame tongue!D226!4!20715
+1,figurine of wondrous power, ivory goats!D256!0!21000
+1,Gwaeron's belt!M109!1!21000
+1,robe of arcane might!M129!1!21000
+1,rope of entanglement!D266!5!21000
+1,runestaff of divination!M177!2!21000
+1,exoskeleton armor!M18!30!21350
+1,boots of the mountain king, greater!M78!1!21500
+1,cloak of battle!M87!1!22000
+1,golem manual, stone!D258!5!22000
+1,mask of the skull!D262!3!22000
+1,turquoise veil!M212!0!22000
+1,luck blade (0 wishes)!D227!2!22060
+1,lash of sands!M53!4!22301
+1,sword of subtlety!D228!2!22310
+1,sword of the planes!D228!4!22315
+1,celestial armor!D220!40!22400
+1,runestaff of the artisan!M176!5!23000
+1,nine lives stealer!D227!4!23057
+1,mattock of the titans!D262!120!23348
+1,rod of enemy detection!D235!5!23500
+1,circlet of blasting, major!D252!0!23760
+1,amulet of mighty fists +2!D246!0!24000
+1,cloak of displacement, minor!D253!1!24000
+1,helm of underwater action!D259!3!57000
+1,memento magica, 4th-level spell!M164!0!24000
+1,mind blade gauntlet!M117!1!24000
+1,psychoactive skin of celestial embrace!M170!2!24000
+1,psychoactive skin of fiendish embrace!M170!2!24000
+1,runestaff of earth and stone!M178!4!24000
+1,shroud of scales!M136!10!24000
+1,third eye sense!M142!0!24000
+1,overhead shield!M20!15!24170
+1,metamagic rod, substitution, greater!M165!3!24300
+1,metamagic rod, enlarge, greater!D236!5!24500
+1,metamagic rod, extend, greater!D236!5!24500
+1,metamagic rod, sculpting, greater!M165!3!24500
+1,metamagic rod, silent, greater!D236!5!24500
+1,quarterstaff of battle!M54!4!24600
+1,plate armor of the deep!D220!50!24650
+1,staff of swarming insects!D245!5!24750
+1,bracers of archery, greater!D250!1!25000
+1,bracers of armor +5!D250!1!25000
+2,cloak of resistance +5!D253!1!25000
+1,cognizance crystal, 9 points!M154!1!25000
+1,eyes of doom!D256!0!25000
+1,magic siphon!M164!3!25000
+1,pearl of power, 5th-level spell!D263!0!25000
+1,ring of evasion!D232!0!25000
+1,ring of master artifice!M125!0!25000
+1,ring of x-ray vision!D233!0!25000
+1,rod of splendor!D236!5!25000
+1,rod of withering!D237!5!25000
+1,runestaff of conjuration!M177!4!25000
+1,runestaff of evocation!M178!3!25000
+1,runestaff of transmutation!M182!4!25000
+1,vest of resistance +5!M147!0!25000
+4,{Replace~xxxxx,DMG/MIC,[MC Common.Magic Armor(5)]}
+1,flesh golem!MM1!500!20000
+1,knife of the plea!WSkyF!1!27900
+
+# -----------------------------------------
+# MAX 35,000 gp
+;ItemLevel16
+7,scroll of [Scrolls16]
+1,maul of the titans!D262!160!25305
+1,breastplate of command!D220!30!25400
+1,oathbow!D227!3!25600
+1,sword of life stealing!D228!4!25715
+1,bracers of dawn!M80!1!26000
+1,cloak of the bat!D252!1!26000
+1,cloak of thorns!M88!1!26000
+1,iron bands of Bilarro!D261!1!26000
+1,ring of soulbound protection, greater!M127!0!26000
+1,runestaff of cacophony!M177!3!26000
+1,scourge of pain!M59!2!26320
+1,mithral full plate of speed!D220!25!26500
+1,cube of frost resistance!D253!0!27000
+1,helm of telepathy!D259!3!27000
+1,periapt of proof against poison!D263!0!27000
+1,ring of blinking!D230!0!27000
+1,robe of scintillating colors!D265!1!27000
+1,runestaff of destruction!M177!3!27000
+2,manual of bodily health +1!D261!5!27500
+2,manual of gainful exercise +1!D262!5!27500
+2,manual of quickness in action +1!D262!5!27500
+2,tome of clear thought +1!D268!5!27500
+2,tome of leadership and influence +1!D268!5!27500
+2,tome of understanding +1!D268!5!27500
+2,staff of healing!D244!5!27750
+1,dimensional shackles!D255!5!28000
+2,ring of energy resistance, major!D232!0!28000
+1,figurine of wondrous power, obsidian steed!D256!0!28500
+2,staff of fire!D244!5!17750
+1,staff of size alteration!D245!5!29000
+1,drums of panic!D255!10!30000
+2,ioun stone, orange prism!D260!0!30000
+2,ioun stone, pale green prism!D260!0!30000
+2,lantern of revealing!D261!2!30000
+1,ring of vanishing!M128!0!30000
+2,rings of force armor (pair)!M128!0!30000
+1,robe of blending!D265!1!30000
+1,runestaff of the architect!M176!5!30000
+1,runestaff of ethereal action!M178!4!31300
+3,amulet of natural armor +4!D246!0!32000
+1,psychoactive skin of the defender!M170!2!32000
+3,ring of protection +4!D232!0!32000
+1,runestaff of abjuration!M176!4!32000
+1,runestaff of enchantment!M178!3!32000
+1,runestaff of necromancy!M180!4!32000
+17,{Replace~xxxxx,DMG/MIC,[MC Common.Magic Weapons(4)]}
+1,anstruth harp!M150!3!32100
+1,metamagic rod, empower!D236!5!32500
+1,metamagic rod, reach!M165!1!32500
+1,rod of thunder and lightning!D237!5!33000
+1,impervious vestment!M112!3!34000
+1,runestaff of illumination!M180!3!34500
+1,amulet of proof against detection and location!D247!0!35000
+2,carpet of flying, 5 ft. by 10 ft.!D252!10!35000
+1,golem manual, iron!D258!5!35000
+1,metamagic rod, quicken, lesser!D236!5!35000
+2,runestaff of time!M182!3!35000
+
+;Scrolls16
+7,true resurrection (divine)!P296!0!28825
+
+# -----------------------------------------
+# MAX 48,000 gp
+;ItemLevel17
+3,amulet of health +6!D246!0!36000
+3,belt of giant strength +6!D248!1!36000
+2,bracers of armor +6!D250!1!36000
+3,cloak of charisma +6!D253!2!36000
+1,cloak of the salamander, greater!M88!1!36000
+1,cognizance crystal, 11 points!M154!1!36000
+3,gloves of dexterity +6!D257!0!36000
+3,headband of intellect +6!D258!0!36000
+1,ioun stone, vibrant purple prism!D260!0!36000
+2,pearl of power, 6th-level spell!D263!0!36000
+3,periapt of wisdom +6!D263!0!36000
+2,ring of negative protection!M126!0!36000
+2,ring of positive protection!M126!0!36000
+30,truelight lantern!M190!3!36000
+9,{Replace~xxxxx,DMG/MIC,[MC Common.Magic Armor(6)]}
+1,vampire hide armor!M23!30!21175
+1,robe of the inferno!M129!1!37000
+2,rod of negation!D236!0!37000
+2,runestaff of the undead slayer!M182!5!37000
+2,memento magica, 5th-level spell!M164!0!37500
+2,robe of thunder!M206!1!38000
+2,scarab of protection!D266!0!38000
+1,explosive sling!M51!0!36300
+2,runestaff of power!M181!4!38300
+1,mace of terror!D227!8!38552
+2,rod of celestial might!M56!5!38600
+2,amulet of second chances!M70!0!40000
+3,ioun stone, lavender and green ellipsoid!D260!0!40000
+1,psychoactive skin of iron!M171!2!40000
+1,psychoactive skin of the spider!M172!2!40000
+1,ring gates!D265!1!40000
+6,ring of freedom of movement!D232!0!40000
+2,ring of wizardry ii!D233!0!40000
+2,scarab of invulnerability!M132!0!40000
+1,life-drinker!D227!12!40320
+2,earthplate armor!M17!70!41650
+1,crystal ball!D253!7!42000
+1,mind blade gauntlet, greater!M117!1!42000
+2,boots of temporal acceleration!M79!1!43000
+1,golem manual, greater stone!D258!5!44000
+5,ring of energy resistance, greater!D232!0!44000
+2,ring of nine lives!M126!0!45000
+2,strand of prayer beads!D267!0!25800
+3,runestaff of insanity!M180!5!46000
+2,sylvan scimitar!D229!4!22310
+1,orb of storms!D263!6!48000
+1,runestaff of fiendish darkness!M178!4!48000
+1,tentacle rod, greater!M62!6!36000
+1,clay golem!MM1!600!40000
+1,darkwand longsword!WSkyF!4!40100
+
+# -----------------------------------------
+# MAX 64,000 gp
+;ItemLevel18
+1,staff of illumination!D244!5!48250
+1,boots of teleportation!D250!3!49000
+3,bracers of armor +7!D250!1!49000
+1,cognizance crystal, 13 points!M154!1!49000
+1,pearl of power, 7th-level spell!D263!0!49000
+6,{Replace~xxxxx,DMG/MIC,[MC Common.Magic Armor(7)]}
+1,amulet of natural armor +5!D246!0!50000
+1,cloak of displacement, major!D253!1!50000
+1,cloudwalker anklets!M206!0!50000
+1,crystal ball with see invisibility!D253!7!50000
+1,horn of Valhalla!D260!2!50000
+1,phoenix cloak!M210!1!50000
+1,ring of friend shield (pair)!D232!0!50000
+4,ring of protection +5!D232!0!50000
+1,ring of shooting stars!D232!0!50000
+1,ring of spell storing!D233!0!50000
+1,rod of absorption!D234!5!50000
+1,rod of flailing!D235!5!50000
+14,{Replace~xxxxx,DMG/MIC,[MC Common.Magic Weapons(5)]}
+1,ollamh harp!M166!3!50100
+1,absorbing shield!D221!15!50170
+1,rapier of puncturing!D227!2!50320
+1,sun blade!D228!6!50335
+1,crystal ball with detect thoughts!D253!7!51000
+1,demon armor!D220!50!52260
+1,amulet of mighty fists +3!D246!0!54000
+1,memento magica, 6th-level spell!M164!0!54000
+1,metamagic rod, chaining!M165!0!54000
+2,metamagic rod, maximize!D236!5!54000
+1,wings of flying!D268!2!54000
+1,frost brand!D226!8!54475
+1,cloak of etherealness!D253!1!55000
+1,Daern's instant fortress!D254!0!55000
+1,dragon's eye amulet!M95!1!55000
+2,manual of bodily health +2!D261!5!55000
+3,manual of gainful exercise +2!D262!5!55000
+2,manual of quickness in action +2!D262!5!55000
+2,tome of clear thought +2!D268!5!55000
+2,tome of leadership and influence +2!D268!5!55000
+2,tome of understanding +2!D268!5!55000
+1,eyes of charming!D256!0!56000
+1,staff of frost!D244!5!56250
+1,robe of stars!D265!1!58000
+1,staff of defense!D244!5!58250
+2,carpet of flying, 10 ft. by 10 ft.!D252!15!60000
+1,darkskull!D254!5!60000
+1,psychoactive skin of fiery response!M171!2!60000
+3,ring of universal energy resistance, minor!M128!0!60000
+1,rod of force!M173!1!60000
+1,rod of rulership!D236!5!60000
+1,dwarven thrower!D226!5!60312
+1,psychoactive skin of the troll!M172!2!61000
+1,ring of master artifice, greater!M125!0!61000
+1,rod of security!D236!5!61000
+1,cube of force!D253!0!62000
+1,luck blade (1 wish)!D227!2!62360
+4,bracers of armor +8!D250!1!64000
+1,cognizance crystal, 15 points!M154!1!64000
+1,pearl of power, 8th-level spell!D263!0!64000
+5,{Replace~xxxxx,DMG/MIC,[MC Common.Magic Armor(8)]}
+
+# -----------------------------------------
+# MAX 80,000 gp
+;ItemLevel19
+3,staff of abjuration!D243!5!65000
+3,staff of conjuration!D244!5!65000
+3,staff of enchantment!D244!5!65000
+3,staff of evocation!D244!5!65000
+3,staff of illusion!D244!5!65000
+3,staff of necromancy!D244!5!65000
+3,staff of transmutation!D245!5!65000
+2,crystal ball with telepathy!D253!7!70000
+2,horn of blasting, greater!D259!1!70000
+3,pearl of power, two spells!D263!0!70000
+4,ring of wizardry iii!D233!0!70000
+4,rod of lordly might!D235!10!70000
+16,{Replace~xxxxx,DMG/MIC,[MC Common.Magic Weapons(6)]}
+4,metamagic rod, empower, greater!D236!5!73000
+4,metamagic rod, reach, greater!M165!1!73000
+2,helm of teleportation!D259!3!73500
+4,memento magica, 7th-level spell!M164!0!73500
+4,staff of divination!D244!5!73500
+3,gem of seeing!D257!0!75000
+4,ring of telekinesis!D233!0!75000
+4,robe of the archmagi!D265!1!75000
+4,runestaff of passage!M181!4!75000
+2,mace of smiting!D227!8!75312
+4,metamagic rod, quicken!D236!5!75500
+3,mantle of faith!D261!0!76000
+2,psychoactive skin of the hero!M171!2!77000
+4,crystal ball with true seeing!D253!7!80000
+1,staff of the astromancer!WSkyF!5!78890
+1,staff of the nightwalker!WSkyF!5!66500
+
+# -----------------------------------------
+# MAX 100,000 gp
+;ItemLevel20
+3,staff of earth and stone!D244!5!80500
+2,cognizance crystal, 17 points!M154!1!81000
+3,pearl of power, 9th-level spell!D263!0!81000
+6,{Replace~xxxxx,DMG/MIC,[MC Common.Magic Armor(9)]}
+1,well of many worlds!D268!0!82000
+4,manual of bodily health +3!D261!5!82500
+4,manual of gainful exercise +3!D262!5!82500
+4,manual of quickness in action +3!D262!5!82500
+4,tome of clear thought +3!D268!5!82500
+4,tome of leadership and influence +3!D268!5!82500
+4,tome of understanding +3!D268!5!82500
+3,rod of alertness!D234!5!85000
+1,apparatus of Kwalish!D247!500!90000
+4,mantle of spell resistance!D261!0!90000
+2,psychoactive skin of the psion!M172!2!90000
+4,ring of regeneration!D232!0!90000
+2,mirror of opposition!D262!45!92000
+2,strand of prayer beads, greater!D267!0!95800
+2,amulet of mighty fists +4!D246!0!96000
+2,memento magica, 8th-level spell!M164!0!96000
+4,ring of three wishes!D233!0!97950
+2,eyes of petrification!D256!0!98000
+15,{Replace~xxxxx,DMG/MIC,[MC Common.Magic Weapons(7)]}
+2,ring of spell turning!D233!0!98280
+2,bowl of commanding water elementals!D250!3!100000
+2,brazier of commanding fire elementals!D250!5!100000
+2,censer of controlling air elementals!D252!1!100000
+2,ring of wizardry iv!D233!0!100000
+2,stone of controlling earth elementals!D267!5!100000
+6,{Replace~xxxxx,DMG/MIC,[MC Common.Magic Armor(10)]}
+1,stone golem!MM1!2000!90000
+
+# -----------------------------------------
+# MAX 120,000 gp
+;ItemLevel21
+6,staff of the woodlands!D245!5!101250
+8,luck blade (2 wishes)!D227!2!102660
+9,manual of bodily health +4!D261!5!110000
+9,manual of gainful exercise +4!D262!5!110000
+9,manual of quickness in action +4!D262!5!110000
+9,tome of clear thought +4!D268!5!110000
+9,tome of leadership and influence +4!D268!5!110000
+9,tome of understanding +4!D268!5!110000
+6,amulet of the planes!D247!0!120000
+9,ring of universal energy resistance, major!M128!0!120000
+7,robe of eyes!D265!1!120000
+1,shield guardian!MM1!1200!120000
+5,third eye conceal!M141!0!120000
+5,third eye dominate!M141!0!120000
+1,starbody gauntlet!WSkyF!0!110000
+
+# -----------------------------------------
+# MAX 137,500 gp
+;ItemLevel22
+10,holy avenger!D226!4!120630
+5,memento magica, 9th-level spell!M164!0!121500
+5,metamagic rod, chaining, greater!M165!3!121500
+5,metamagic rod, maximize, greater!D236!5!121500
+4,helm of brilliance!D258!0!125000
+4,ring of djinni calling!D230!0!125000
+15,{Replace~xxxxx,DMG/MIC,[MC Common.Magic Weapons(8)]}
+7,manual of bodily health +5!D261!5!137500
+7,manual of gainful exercise +5!D262!5!137500
+7,manual of quickness in action +5!D262!5!137500
+7,tome of clear thought +5!D268!5!137500
+7,tome of leadership and influence +5!D268!5!137500
+7,tome of understanding +5!D268!5!137500
+
+# -----------------------------------------
+# MAX 160,000 gp
+;ItemLevel23
+25,luck blade (3 wishes)!D227!2!142960
+18,efreeti bottle!D255!1!145000
+20,amulet of mighty fists +5!D246!0!150000
+20,staff of life!D244!5!155750
+17,chaos diamond!D252!1!160000
+10,iron golem!MM1!5000!150000
+1,nightstrider mask ([nightstrider_mask])!WSkyF!0!144000
+
+;nightstrider_mask
+2,hungry dreamer CR5
+2,cruor CR13
+1,mournwrath CR8
+1,xenocrysth CR20
+
+# -----------------------------------------
+# MAX 180,000 gp
+;ItemLevel24
+30,{Replace~xxxxx,DMG/MIC,[MC Common.Magic Weapons(9)]}
+10,cubic gate!D254!0!164000
+11,iron flask!D261!1!170000
+10,metamagic rod, quicken, greater!D236!5!170000
+12,staff of passage!D245!5!170500
+8,mirror of mental prowess!D262!40!175000
+19,ring of universal energy resistance, greater!M128!0!180000
+
+# -----------------------------------------
+# MAX 211,000 gp
+;ItemLevel25
+8,mirror of life trapping!D262!50!500000
+8,ring of elemental command (air)!D231!0!200000
+8,ring of elemental command (earth)!D231!0!200000
+8,ring of elemental command (fire)!D231!0!200000
+8,ring of elemental command (water)!D231!0!200000
+10,ring of spell storing, major!D233!0!200000
+8,vest of the archmagi!M145!2!200000
+30,{Replace~xxxxx,DMG/MIC,[MC Common.Magic Weapons(10)]}
+12,staff of power!D245!5!211000
+5,greater stone golem!MM1!32000!196000
+1,starfall longsword!WSkyF!4!200000

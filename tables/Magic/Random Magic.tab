@@ -1,0 +1,3023 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder July 6, 2006.
+# ---------------------------------------------------
+#
+# Random Magic Items
+# by Larry Cormier
+#
+# Version 3.5 D&D Random Magic Generation Table with the option to select
+# specific Classes of Magic Items - such as Armor and Shields, Weapons,
+# Potions, Rings, Rods, Scrolls, Staves, Wands, and Wondrous Items, based
+# on the specified Magic Item Power desired when Generating the items
+# (Minor, Medium, or Major), as well as their indicated Value.
+# The Table can also be used to Randomly Generate Magic Items of any Type
+# or Power supported within the table.
+#
+# ---------------------------------------------------
+#
+# To call this table from another one:
+#    [Random Magic.Alternate(%ItemType%,%ItemPower%,2)
+#       This will send the item name: Rod of Power (10,000gp)
+#    [Random Magic.AlternateValue(%ItemType%,%ItemPower%,2)
+#       This will send the item name and Value to be Split~
+#           Rod of Power (10,000gp)!!!10000 (see below at 'AlternateValue')
+#
+#    ItemType:    10  1=Armor or Shield   2=Weapon   3=Potion
+#                     4=Ring   5=Rod   6=Scroll   7=Staff
+#                     8=Wand   9=Wondrous Item   10=Random
+#    ItemPower:    4  1=Minor   2=Medium   3=Major   4=Random
+#    Instructions: 2  1=Yes   2=No
+#
+# ---------------------------------------------------
+#
+# Modified by Valminder, Feb 2006.
+#    Adapted for TSv5.
+#    Changed Start line.
+#    Added "Alternate" subtable.
+#    Added link to:
+#       AddComma.Start(%Value%)
+#
+# *************************************************
+# To be done: Add link to "Spells.tab" or "Random Spells.tab" for the scrolls
+#    in a way to be able to generate more spells and to be able to put all
+#    spells in the same place. There is the spells database that could be
+#    useful for this. To generate scrolls (or potions), add a value for the
+#    cost of a focus or special material components.
+# Something good would be to take the "SPELLS 35E PHB.tsd" database of spells
+#    and modify it to be able to generate potions and scrolls by adding the
+#    cost of materials and/or focus. Also, it would need a way to know which
+#    spell can be made into a potion.
+# *************************************************
+
+# Declare Variables
+%Value%,0
+%ItemPower%,0
+%ItemType%,0
+%WeaponItemType%,0
+%ItemID%,0
+%SA_ID%,0
+%SpecificType%,0
+%SpecificID%,0
+%ProtectionType%,0
+%RandomFlag%,0
+%WeaponBonus%,0
+%WeaponType1%,0
+%WeaponType2%,0
+%OilFlag%,0
+%MetamagicFlag%,0
+%ScrollType%,0
+%ScrollFlag%,0
+%Specific_ID%,0
+%SpellCount%,0
+%SpellLevel%,0
+%CasterLevel%,0
+%Count%,0
+%Chance%,0
+%Instructions%,0
+
+# Parameter Query:
+@ItemType,10,What type of Magic Item would you like to generate?,Armor or Shield,Weapon,Potion,Ring,Rod,Scroll,Staff,Wand,Wondrous Item,Random
+@ItemPower,4,Power Rating for the Desired Item?,Minor,Medium,Major,Random
+@Instructions,2,Would you like to re-show the Instructions?,Yes,No
+
+:Start
+1,{Status~By Larry Cormier 2005, Valminder 2006}
+_{If~%Instructions%=1?[Instructions]/[MagicItemMain]}
+
+:Instructions
+1,This Table is designed to generate random Magical Items based on the designated Power of the Magic Item.<br><br>
+_ Use the Change Button located in the Lower Right-hand corner of the screen to enter the desired Power Rating to start.
+
+:MagicItemMain
+1,|Value=0|{If~%ItemType%=10 ? |RandomFlag=1||ItemType={Dice~1d9}|}
+_ {If~%ItemPower%=4 ? |ItemPower={Dice~1d3}|}
+_<b>[PowerDefinitions=%ItemPower%] Magic Item:</b>
+_{If~%RandomFlag%=1 ? [DetermineItemRandomly=%ItemPower%]/
+_ [MagicItemBranch=%ItemType%]}[MagicItemDescriptionBranch=%ItemType%]
+_{If~{And~%ItemID%=37,%ItemType%=5}=1 ? /{If~{And~%ItemID%=22,%ItemType%=7}=1 ? / ([AddComma] gp)}}
+
+:Alternate
+1,|Value=0|{If~%ItemType%=10?|RandomFlag=1||ItemType={Dice~1d9}|}
+_{If~%ItemPower%=4?|ItemPower={Dice~1d3}|}
+_{If~%RandomFlag%=1?[DetermineItemRandomly=%ItemPower%]/[MagicItemBranch=%ItemType%]}
+_[MagicItemDescriptionBranch=%ItemType%]
+_{If~{And~%ItemID%=37,%ItemType%=5}=1? /{If~{And~%ItemID%=22,%ItemType%=7}=1 ? / ([AddComma] gp)}}
+
+# This will send the name of the item and the value in the format below
+# NAME!!!Value
+# This way, you can extract the Value with Split~
+# First, you call this subtable:
+#    |TempString=[Random Magic.Alternate2(10,1,2)]|
+# Then you Split it
+# (TempString will not have "!!!%Value% anymore and only the NAME)
+#    {Split~TempString,"!!!",TempString,Value}
+# Now you can print %TempString% for the name of the item and %Value%
+:AlternateValue
+1,|Value=0|{If~%ItemType%=10?|RandomFlag=1||ItemType={Dice~1d9}|}
+_{If~%ItemPower%=4?|ItemPower={Dice~1d3}|}
+_{If~%RandomFlag%=1?[DetermineItemRandomly=%ItemPower%]/[MagicItemBranch=%ItemType%]}
+_[MagicItemDescriptionBranch=%ItemType%]
+_{If~{And~%ItemID%=37,%ItemType%=5}=1? /{If~{And~%ItemID%=22,%ItemType%=7}=1 ? / ([AddComma] gp)}}!!!%Value%
+
+:AddComma
+1,{If~%Value%={Trunc~%Value%}?[AddComma.Start(%Value%)]/%Value%}
+
+:Chanceof
+1,|Chance={Dice~1d100}|
+
+:DetermineItemRandomly
+1,[MinorItemDetermination]
+2,[MediumItemDetermination]
+3,[MajorItemDetermination]
+
+:MagicItemBranch
+1,[DetermineArmorShieldMain=%ItemPower%]
+2,[DetermineWeaponMain=%ItemPower%]
+3,[DeterminePotionMain=%ItemPower%]
+4,[DetermineRingMain=%ItemPower%]
+5,[DetermineRodMain=%ItemPower%]
+6,[DetermineScrollMain=%ItemPower%]
+7,[DetermineStaffMain=%ItemPower%]
+8,[DetermineWandMain=%ItemPower%]
+9,[DetermineWondrousItemMain=%ItemPower%]
+
+:MinorItemDetermination
+1-4,|ItemType=1|[DetermineArmorShieldMinor]
+5-9,|ItemType=2|[DetermineWeaponMinor]
+10-44,|ItemType=3|[DeterminePotionMinor]
+45-46,|ItemType=4|[DetermineRingMinor]
+47-81,|ItemType=6|[DetermineScrollMain=%ItemPower%]
+82-91,|ItemType=8|[DetermineWandMinor]
+92-100,|ItemType=9|[DetermineWondrousItemMain=%ItemPower%]
+
+:MediumItemDetermination
+1-10,|ItemType=1|[DetermineArmorShieldMedium]
+11-20,|ItemType=2|[DetermineWeaponMedium]
+21-30,|ItemType=3|[DeterminePotionMedium]
+31-40,|ItemType=4|[DetermineRingMedium]
+41-50,|ItemType=5|[DetermineRodMedium]
+51-65,|ItemType=6|[DetermineScrollMain=%ItemPower%]
+66-68,|ItemType=7|[DetermineStaffMedium]
+69-83,|ItemType=8|[DetermineWandMedium]
+84-100,|ItemType=9|[DetermineWondrousItemMain=%ItemPower%]
+
+:MajorItemDetermination
+1-10,|ItemType=1|[DetermineArmorShieldMajor]
+11-20,|ItemType=2|[DetermineWeaponMajor]
+21-25,|ItemType=3|[DeterminePotionMajor]
+26-35,|ItemType=4|[DetermineRingMajor]
+36-45,|ItemType=5|[DetermineRodMajor]
+46-55,|ItemType=6|[DetermineScrollMain=%ItemPower%]
+56-75,|ItemType=7|[DetermineStaffMajor]
+76-80,|ItemType=8|[DetermineWandMajor]
+81-100,|ItemType=9|[DetermineWondrousItemMain=%ItemPower%]
+
+:MagicItemDescriptionBranch
+1,[ArmorShieldDescription=%ItemID%]
+2,[WeaponDescription=%ItemID%]
+3,[PotionAndOilDescription=%ItemID%]
+4,[RingDescription=%ItemID%]
+5,[RodDescription=%ItemID%]
+6,[ScrollDescription=%ItemID%]
+7,[StaffDescription=%ItemID%]
+8,[WandDescription=%ItemID%]
+#9,[WondrousItemDescription=%ItemID%]
+9,[WondrousItemDescription=%ItemPower%]
+
+###################### Armor and Shields ###############################
+
+:DetermineArmorShieldMain
+1,[DetermineArmorShieldMinor]
+2,[DetermineArmorShieldMedium]
+3,[DetermineArmorShieldMajor]
+
+:DetermineArmorShieldMinor
+1-60,|ItemID=1|
+61-80,|ItemID=2|
+81-85,|ItemID=3|
+86-87,|ItemID=4|
+88-89,|ItemID=11|
+90-91,|ItemID=12|
+92-100,|ItemID=13|
+
+:DetermineArmorShieldMedium
+1-5,|ItemID=1|
+6-10,|ItemID=2|
+11-20,|ItemID=3|
+21-30,|ItemID=4|
+31-40,|ItemID=5|
+41-50,|ItemID=6|
+51-55,|ItemID=7|
+56-57,|ItemID=8|
+58-60,|ItemID=11|
+61-63,|ItemID=12|
+64-100,|ItemID=13|
+
+:DetermineArmorShieldMajor
+1-8,|ItemID=5|
+9-16,|ItemID=6|
+17-27,|ItemID=7|
+28-38,|ItemID=8|
+39-49,|ItemID=9|
+50-57,|ItemID=10|
+58-60,|ItemID=11|
+61-63,|ItemID=12|
+64-100,|ItemID=13|
+
+:ArmorShieldDescription
+1,<i>+1 [ShieldType] shield</i> |Value+1000|
+2,<i>+1 [ArmorType] armor</i> |Value+1000|
+3,<i>+2 [ShieldType] shield</i> |Value+4000|
+4,<i>+2 [ArmorType] armor</i> |Value+4000|
+5,<i>+3 [ShieldType] shield</i> |Value+9000|
+6,<i>+3 [ArmorType] armor</i> |Value+9000|
+7,<i>+4 [ShieldType] shield</i> |Value+16000|
+8,<i>+4 [ArmorType] armor</i> |Value+16000|
+9,<i>+5 [ShieldType] shield</i> |Value+25000|
+10,<i>+5 [ArmorType] armor</i> |Value+25000|
+# Specific Armor
+11,<i>|SpecificType=1|[SpecificProtectionByItemPower]</i>
+# Specific Shield
+12,<i>|SpecificType=2|[SpecificProtectionByItemPower]</i>
+# Special Ability and Roll again
+13,[Chanceof]<i>{If~%Chance%<50 ? |ProtectionType=1|[ArmorType] armor enhanced with [DetermineSA_ProtectionMain=%ProtectionType%]/
+_|ProtectionType=2| [ShieldType] shield enhanced with [DetermineSA_ProtectionMain=%ProtectionType%]}</i>
+
+:SpecificProtectionByItemPower
+1,{If~%SpecificType%=1 ? [DetermineSpecificArmorMinor][SpecificArmorDescription=%SpecificID%] /
+_ [DetermineSpecificShieldMinor][SpecificShieldDescription=%SpecificID%]}
+2,{If~%SpecificType%=1 ? [DetermineSpecificArmorMedium][SpecificArmorDescription=%SpecificID%] /
+_ [DetermineSpecificShieldMedium][SpecificShieldDescription=%SpecificID%]}
+3,{If~%SpecificType%=1 ? [DetermineSpecificArmorMajor][SpecificArmorDescription=%SpecificID%] /
+_ [DetermineSpecificShieldMajor][SpecificShieldDescription=%SpecificID%]}
+
+:DetermineSpecificArmorMinor
+1-50,|SpecificID=1|
+51-80,|SpecificID=2|
+81-100,|SpecificID=3|
+
+:DetermineSpecificArmorMedium
+1-25,|SpecificID=1|
+26-45,|SpecificID=2|
+46-57,|SpecificID=3|
+58-67,|SpecificID=4|
+68-82,|SpecificID=5|
+83-97,|SpecificID=6|
+98-100,|SpecificID=7|
+
+:DetermineSpecificArmorMajor
+1-10,|SpecificID=5|
+11-20,|SpecificID=6|
+21-32,|SpecificID=7|
+33-50,|SpecificID=8|
+51-60,|SpecificID=9|
+61-75,|SpecificID=10|
+76-90,|SpecificID=11|
+91-100,|SpecificID=12|
+
+:DetermineSpecificShieldMinor
+1-30,|SpecificID=1|
+31-80,|SpecificID=2|
+81-95,|SpecificID=3|
+96-100,|SpecificID=4|
+
+:DetermineSpecificShieldMedium
+1-20,|SpecificID=1|
+21-45,|SpecificID=2|
+46-70,|SpecificID=3|
+71-85,|SpecificID=4|
+86-90,|SpecificID=5|
+91-95,|SpecificID=6|
+96-100,|SpecificID=7|
+
+:DetermineSpecificShieldMajor
+1-20,|SpecificID=4|
+21-40,|SpecificID=5|
+41-60,|SpecificID=6|
+61-90,|SpecificID=7|
+91-100,|SpecificID=8|
+
+:DetermineSA_ProtectionMain
+1,{If~%ProtectionType%=1 ? [DetermineArmorSA_Minor][ArmorSpecialAbilityDescription] /
+_ [ShieldSpecialAbilityDescription][DetermineShieldSA_Minor] }
+2,{If~%ProtectionType%=1 ? [DetermineArmorSA_Medium][ArmorSpecialAbilityDescription] /
+_ [ShieldSpecialAbilityDescription][DetermineShieldSA_Medium] }
+3,{If~%ProtectionType%=1 ? [DetermineArmorSA_Major][ArmorSpecialAbilityDescription] /
+_ [ShieldSpecialAbilityDescription][DetermineShieldSA_Major] }
+
+:DetermineArmorSA_Minor
+1-25,|SA_ID=1|
+26-32,|SA_ID=2|
+33-52,|SA_ID=3|
+53-72,|SA_ID=4|
+73-92,|SA_ID=5|
+93-96,|SA_ID=6|
+97,|SA_ID=7|
+98,|SA_ID=8|
+99,|SA_ID=9|
+100,|SA_ID=38|
+
+:DetermineArmorSA_Medium
+1-5,|SA_ID=1|
+6-8,|SA_ID=2|
+9-11,|SA_ID=3|
+12-14,|SA_ID=4|
+15-17,|SA_ID=5|
+18-19,|SA_ID=6|
+20-29,|SA_ID=7|
+30-39,|SA_ID=8|
+40-49,|SA_ID=9|
+50-54,|SA_ID=10|
+55-59,|SA_ID=11|
+60-64,|SA_ID=12|
+65-69,|SA_ID=13|
+70-74,|SA_ID=14|
+75-79,|SA_ID=15|
+80-84,|SA_ID=16|
+85-89,|SA_ID=17|
+90-94,|SA_ID=18|
+95-99,|SA_ID=19|
+100,|SA_ID=38|
+
+:DetermineArmorSA_Major
+1-3,|SA_ID=1|
+4,|SA_ID=2|
+5-7,|SA_ID=7|
+8-10,|SA_ID=8|
+11-13,|SA_ID=9|
+14-16,|SA_ID=10|
+17-19,|SA_ID=11|
+20-22,|SA_ID=12|
+23-25,|SA_ID=13|
+26-28,|SA_ID=14|
+29-33,|SA_ID=15|
+34-35,|SA_ID=16|
+36-40,|SA_ID=17|
+41-42,|SA_ID=18|
+43,|SA_ID=19|
+44-48,|SA_ID=20|
+49-53,|SA_ID=21|
+54-58,|SA_ID=22|
+59-63,|SA_ID=23|
+64-68,|SA_ID=24|
+69-73,|SA_ID=25|
+74-78,|SA_ID=26|
+79-83,|SA_ID=27|
+84-88,|SA_ID=28|
+89,|SA_ID=29|
+90,|SA_ID=30|
+91-92,|SA_ID=31|
+93-94,|SA_ID=32|
+95,|SA_ID=33|
+96,|SA_ID=34|
+97,|SA_ID=35|
+98,|SA_ID=36|
+99,|SA_ID=37|
+100,|SA_ID=38|
+
+:DetermineShieldSA_Minor
+1-20,|SA_ID=1|
+21-40,|SA_ID=2|
+41-50,|SA_ID=3|
+51-75,|SA_ID=4|
+76-92,|SA_ID=5|
+93-97,|SA_ID=6|
+98-99,|SA_ID=7|
+100,|SA_ID=32|
+
+:DetermineShieldSA_Medium
+1-10,|SA_ID=1|
+11-20,|SA_ID=2|
+21-25,|SA_ID=3|
+26-40,|SA_ID=4|
+41-50,|SA_ID=5|
+51-57,|SA_ID=6|
+58-59,|SA_ID=7|
+60-63,|SA_ID=8|
+64-67,|SA_ID=9|
+68-71,|SA_ID=10|
+72-75,|SA_ID=11|
+76-79,|SA_ID=12|
+80-85,|SA_ID=13|
+86-95,|SA_ID=14|
+96-98,|SA_ID=15|
+99,|SA_ID=16|
+100,|SA_ID=32|
+
+:DetermineShieldSA_Major
+1-5,|SA_ID=1|
+6-8,|SA_ID=2|
+9-10,|SA_ID=3|
+11-15,|SA_ID=4|
+16-20,|SA_ID=5|
+21-25,|SA_ID=6|
+26-28,|SA_ID=8|
+29-31,|SA_ID=9|
+32-34,|SA_ID=10|
+35-37,|SA_ID=11|
+38-40,|SA_ID=12|
+41-46,|SA_ID=13|
+47-56,|SA_ID=14|
+57-58,|SA_ID=15|
+59,|SA_ID=16|
+60-64,|SA_ID=17|
+65-69,|SA_ID=18|
+70-74,|SA_ID=19|
+75-79,|SA_ID=20|
+80-84,|SA_ID=21|
+85-86,|SA_ID=22|
+87,|SA_ID=23|
+88-91,|SA_ID=24|
+92-93,|SA_ID=25|
+94,|SA_ID=26|
+95,|SA_ID=27|
+96,|SA_ID=28|
+97,|SA_ID=29|
+98,|SA_ID=30|
+99,|SA_ID=31|
+100,|SA_ID=32|
+
+:SpecificArmorDescription
+1,mithral shirt |Value=1100|
+2,dragonhide plate |Value=3300|
+3,elvin chain |Value=4150|
+4,<i>rhino hide</i> |Value=5165|
+5,andamantine breastplate |Value=10200|
+6,dwarven plate |Value=16500|
+7,<i>banded mail of luck</i> |Value=16500|
+8,<i>celestial armor</i> |Value=22400|
+9,<i>plate armor of the deep</i> |Value=24650|
+10,<i>breastplate of command</i> |Value=25400|
+11,<i>mithral full plate of speed</i> |Value=26500|
+12,<i>demon armor</i> |Value=52260|
+
+:SpecificShieldDescription
+1,darkwood buckler |Value=205|
+2,darkwood shield |Value=257|
+3,mithral heavy shield |Value=1020|
+4,<i>caster's shield</i> |Value=3153|
+5,<i>spined shield</i> |Value=5580|
+6,<i>lion's shield</i> |Value=9170|
+7,<i>winged shield</i> |Value=17257|
+8,<i>absorbing shield</i> |Value=50170|
+
+:ProtectionEnhancementValues
+1-5,
+6,|Value=36000|
+7,|Value=49000|
+8,|Value=64000|
+9,|Value=81000|
+10,|Value=100000|
+
+:ShieldType
+1-10,buckler |Value+165|
+11-15,light wooden |Value+153|
+16-20,light steel |Value+159|
+21-30,heavy wooden |Value+157|
+31-95,heavy steel |Value+170|
+96-100,tower |Value+180|
+
+:ArmorType
+1,padded |Value+155|
+2,leather |Value+160|
+3-17,studded leather |Value+175|
+18-32,chain shirt |Value+250|
+33-42,hide |Value+165|
+43,scale mail |Value+200|
+44,chainmail |Value+300|
+45-57,breastplate |Value+350|
+58,splint mail |Value+350|
+59,banded mail |Value+400|
+60,half-plate |Value+750|
+61-100,full plate |Value+1650|
+
+:!ArmorSpecialAbilityDescription
+1,glamour |Value+2700|
+2,light fortification|Value+1000|{Lockout~ArmorSpecialAbilityDescription,17,31}
+3,slick|Value+3750|{Lockout~ArmorSpecialAbilityDescription,7,20,32}
+4,shadow|Value+3750|{Lockout~ArmorSpecialAbilityDescription,8,21}
+5,silent moves |Value+3750|{Lockout~ArmorSpecialAbilityDescription,9,22}
+6,spell resistance (13)|Value+4000|{Lockout~ArmorSpecialAbilityDescription,18,28,32}
+7,improved slick|Value+15000|{Lockout~ArmorSpecialAbilityDescription,3,20,32}
+8,improved shadow|Value+15000|{Lockout~ArmorSpecialAbilityDescription,4,21}
+9,improved silent moves|Value+15000|{Lockout~ArmorSpecialAbilityDescription,5,22}
+10,acid resistance|Value+18000|{Lockout~ArmorSpecialAbilityDescription,23,33}
+11,cold resistance|Value+18000|{Lockout~ArmorSpecialAbilityDescription,24,34}
+12,electricity resistance|Value+18000|{Lockout~ArmorSpecialAbilityDescription,25,35}
+13,fire resistance|Value+18000|{Lockout~ArmorSpecialAbilityDescription,26,36}
+14,sonic resistance|Value+18000|{Lockout~ArmorSpecialAbilityDescription,27,37}
+15,ghost touch |Value+9000|
+16,invulnerability |Value+9000|
+17,moderate fortification|Value+9000|{Lockout~ArmorSpecialAbilityDescription,2,31}
+18,spell resistance (15)|Value+9000|{Lockout~ArmorSpecialAbilityDescription,6,28,32}
+19,wild |Value+9000|
+20,greater slick|Value+33750|{Lockout~ArmorSpecialAbilityDescription,3,7,32}
+21,greater shadow|Value+33750|{Lockout~ArmorSpecialAbilityDescription,4,8}
+22,greater silent moves|Value+33750|{Lockout~ArmorSpecialAbilityDescription,5,9}
+23,improved acid resistance|Value+42000|{Lockout~ArmorSpecialAbilityDescription,10,33}
+24,improved cold resistance|Value+42000|{Lockout~ArmorSpecialAbilityDescription,11,34}
+25,improved electricity resistance|Value+42000|{Lockout~ArmorSpecialAbilityDescription,12,35}
+26,improved fire resistance|Value+42000|{Lockout~ArmorSpecialAbilityDescription,13,36}
+27,improved sonic resistance|Value+42000|{Lockout~ArmorSpecialAbilityDescription,14,37}
+28,spell resistance (17)|Value+16000|{Lockout~ArmorSpecialAbilityDescription,6,18,32}
+29,etherealness |Value+49000|
+30,undead controlling |Value+49000|
+31,heavy fortification|Value+25000|{Lockout~ArmorSpecialAbilityDescription,2,31}
+32,spell resistance (19)|Value+25000|{Lockout~ArmorSpecialAbilityDescription,6,18,28}
+33,greater acid resistance|Value+66000|{Lockout~ArmorSpecialAbilityDescription,10,23}
+34,greater cold resistance|Value+66000|{Lockout~ArmorSpecialAbilityDescription,11,24}
+35,greater electricity resistance|Value+66000|{Lockout~ArmorSpecialAbilityDescription,12,25}
+36,greater fire resistance|Value+66000|{Lockout~ArmorSpecialAbilityDescription,13,26}
+37,greater sonic resistance|Value+66000|{Lockout~ArmorSpecialAbilityDescription,14,27}
+38,[ArmorSpecialAbilityDescription] and [ArmorSpecialAbilityDescription]
+
+:!ShieldSpecialAbilityDescription
+1,arrow catching |Value+1000|
+2,bashing |Value+1000|
+3,blinding |Value+1000|
+4,light fortification|Value+1000|{Lockout~ArmorSpecialAbilityDescription,14,24}
+5,arrow deflection |Value+4000|
+6,animated |Value+4000|
+7,spell resistance (13)|Value+4000|{Lockout~ArmorSpecialAbilityDescription,15,22,26}
+8,acid resistance|Value+18000|{Lockout~ArmorSpecialAbilityDescription,17,27}
+9,cold resistance|Value+18000|{Lockout~ArmorSpecialAbilityDescription,18,28}
+10,electricity resistance|Value+18000|{Lockout~ArmorSpecialAbilityDescription,19,29}
+11,fire resistance|Value+18000|{Lockout~ArmorSpecialAbilityDescription,20,30}
+12,sonic resistance|Value+18000|{Lockout~ArmorSpecialAbilityDescription,21,31}
+13,ghost touch |Value+9000|
+14,moderate fortification|Value+9000|{Lockout~ArmorSpecialAbilityDescription,4,24}
+15,spell resistance (15)|Value+9000|{Lockout~ArmorSpecialAbilityDescription,7,22,26}
+16,wild |Value+9000|
+17,improved acid resistance|Value+42000|{Lockout~ArmorSpecialAbilityDescription,8,27}
+18,improved cold resistance|Value+42000|{Lockout~ArmorSpecialAbilityDescription,9,28}
+19,improved electricity resistance|Value+42000|{Lockout~ArmorSpecialAbilityDescription,10,29}
+20,improved fire resistance|Value+42000|{Lockout~ArmorSpecialAbilityDescription,11,30}
+21,improved sonic resistance|Value+42000|{Lockout~ArmorSpecialAbilityDescription,12,31}
+22,spell resistance (17)|Value+16000|{Lockout~ArmorSpecialAbilityDescription,7,15,26}
+23,undead controlling |Value+49000|
+24,heavy fortification|Value+25000|{Lockout~ArmorSpecialAbilityDescription,14,24}
+25,reflecting |Value+25000|
+26,spell resistance (19)|Value+25000|{Lockout~ArmorSpecialAbilityDescription,7,15,22}
+27,greater acid resistance|Value+66000|{Lockout~ArmorSpecialAbilityDescription,8,22}
+28,greater cold resistance|Value+66000|{Lockout~ArmorSpecialAbilityDescription,9,18}
+29,greater electricity resistance|Value+66000|{Lockout~ArmorSpecialAbilityDescription,10,19}
+30,greater fire resistance|Value+66000|{Lockout~ArmorSpecialAbilityDescription,11,20}
+31,greater sonic resistance|Value+66000|{Lockout~ArmorSpecialAbilityDescription,12,21}
+32,[ShieldSpecialAbilityDescription] and [ShieldSpecialAbilityDescription]
+
+########################## Weapons ##################################
+
+:DetermineWeaponMain
+1,[DetermineWeaponMinor]
+2,[DetermineWeaponMedium]
+3,[DetermineWeaponMajor]
+
+:DetermineWeaponMinor
+1-70,|ItemID=1||WeaponBonus=1|
+71-85,|ItemID=2||WeaponBonus=2|
+86-90,|ItemID=6|
+91-100,|ItemID=7|
+
+:DetermineWeaponMedium
+1-10,|ItemID=1||WeaponBonus=1|
+11-29,|ItemID=2||WeaponBonus=2|
+30-58,|ItemID=3||WeaponBonus=3|
+59-62,|ItemID=4||WeaponBonus=4|
+63-68,|ItemID=6|
+69-100,|ItemID=7|
+
+:DetermineWeaponMajor
+1-20,|ItemID=3||WeaponBonus=3|
+21-38,|ItemID=4||WeaponBonus=4|
+39-49,|ItemID=5||WeaponBonus=5|
+50-63,|ItemID=6|
+64-100,|ItemID=7|
+
+:WeaponItemDetermination
+1-70,|WeaponItemType=1|
+71-80,|WeaponItemType=2|
+81-100,|WeaponItemType=3|
+
+:WeaponItemBranch
+1,[CommonMeleeWeaponDescription]
+2,[UncommonWeaponDescription]
+3,[CommonRangedWeaponDescription]
+
+:WeaponDescription
+1,<i>{If~%WeaponBonus%>0 ? +%WeaponBonus%} [WeaponItemDetermination][WeaponItemBranch=%WeaponItemType%]</i>|Value+2000|
+2,<i>{If~%WeaponBonus%>0 ? +%WeaponBonus%} [WeaponItemDetermination][WeaponItemBranch=%WeaponItemType%]</i>|Value+8000|
+3,<i>{If~%WeaponBonus%>0 ? +%WeaponBonus%} [WeaponItemDetermination][WeaponItemBranch=%WeaponItemType%]</i>|Value+18000|
+4,<i>{If~%WeaponBonus%>0 ? +%WeaponBonus%} [WeaponItemDetermination][WeaponItemBranch=%WeaponItemType%]</i>|Value+32000|
+5,<i>{If~%WeaponBonus%>0 ? +%WeaponBonus%} [WeaponItemDetermination][WeaponItemBranch=%WeaponItemType%]</i>|Value+50000|
+# Specific Weapon
+12,<i>[SpecificweaponByItemPower][SpecificWeapons=%Specific_ID%]</i>
+# Special Ability and Roll again
+13,<i> [WeaponItemDetermination][WeaponItemBranch=%WeaponItemType%] enhanced with [DetermineSA_Weapon=%WeaponItemType%]</i>
+
+:DetermineSA_Weapon
+1-2,[DetermineSA_MeleeWeapon=%ItemPower%]{Unlock~MeleeWeaponSpecialAbilities,%SA_ID%}[MeleeWeaponSpecialAbilities=%SA_ID%]
+3,[DetermineSA_RangedWeapon=%ItemPower%]{Unlock~RangedWeaponSpecialAbilities,%SA_ID%}[RangedWeaponSpecialAbilities=%SA_ID%]
+
+:SpecificweaponByItemPower
+1,[DetermineSpecificWeaponMinor]
+2,[DetermineSpecificWeaponMedium]
+3,[DetermineSpecificWeaponMajor]
+
+:DetermineSpecificWeaponMinor
+1-15,|Specific_ID=1|
+16-25,|Specific_ID=2|
+26-45,|Specific_ID=3|
+46-65,|Specific_ID=4|
+66-75,|Specific_ID=5|
+76-80,|Specific_ID=6|
+81-90,|Specific_ID=7|
+91-100,|Specific_ID=8|
+
+:DetermineSpecificWeaponMedium
+1-9,|Specific_ID=5|
+10-15,|Specific_ID=6|
+16-24,|Specific_ID=7|
+25-33,|Specific_ID=8|
+34-37,|Specific_ID=9|
+38-40,|Specific_ID=10|
+41-46,|Specific_ID=11|
+47-51,|Specific_ID=12|
+52-57,|Specific_ID=13|
+58-62,|Specific_ID=14|
+63-66,|Specific_ID=15|
+67-74,|Specific_ID=16|
+75-79,|Specific_ID=17|
+80-86,|Specific_ID=18|
+87-91,|Specific_ID=19|
+92-95,|Specific_ID=20|
+96-98,|Specific_ID=21|
+99-100,|Specific_ID=22|
+
+:DetermineSpecificWeaponMajor
+1-4,|Specific_ID=13|
+5-7,|Specific_ID=14|
+8-9,|Specific_ID=15|
+10-13,|Specific_ID=16|
+14-17,|Specific_ID=17|
+18-24,|Specific_ID=18|
+25-31,|Specific_ID=19|
+32-37,|Specific_ID=20|
+38-42,|Specific_ID=21|
+43-46,|Specific_ID=22|
+47-51,|Specific_ID=23|
+52-57,|Specific_ID=24|
+58-62,|Specific_ID=25|
+63-67,|Specific_ID=26|
+68-73,|Specific_ID=27|
+74-79,|Specific_ID=28|
+80-84,|Specific_ID=29|
+85-91,|Specific_ID=30|
+92-95,|Specific_ID=31|
+96-97,|Specific_ID=32|
+98-99,|Specific_ID=33|
+100,|Specific_ID=34|
+
+:DetermineSA_MeleeWeapon
+1,[DetermineMeleeWeaponSA_Minor]
+2,[DetermineMeleeWeaponSA_Medium]
+3,[DetermineMeleeWeaponSA_Major]
+
+:DetermineMeleeWeaponSA_Minor
+1-10,|SA_ID=1|
+11-17,|SA_ID=2|
+18-27,|SA_ID=3|
+28-37,|SA_ID=4|
+38-47,|SA_ID=5|
+48-56,|SA_ID=6|
+57-67,|SA_ID=7|
+68-71,|SA_ID=8|
+72-75,|SA_ID=9|
+76-82,|SA_ID=10|
+83-87,|SA_ID=11|
+88-91,|SA_ID=12|
+92-95,|SA_ID=13|
+96-99,|SA_ID=14|
+100,|SA_ID=28|
+
+:DetermineMeleeWeaponSA_Medium
+1-6,|SA_ID=1|
+7-12,|SA_ID=2|
+13-19,|SA_ID=3|
+20-26,|SA_ID=4|
+27-33,|SA_ID=5|
+34-38,|SA_ID=6|
+39-44,|SA_ID=7|
+45-48,|SA_ID=8|
+49-50,|SA_ID=9|
+51-54,|SA_ID=10|
+55-59,|SA_ID=11|
+60-63,|SA_ID=12|
+64-65,|SA_ID=13|
+66-69,|SA_ID=14|
+70-72,|SA_ID=15|
+73-75,|SA_ID=16|
+76-78,|SA_ID=17|
+79-81,|SA_ID=18|
+82-84,|SA_ID=19|
+85-87,|SA_ID=20|
+88-90,|SA_ID=21|
+91-93,|SA_ID=22|
+94-95,|SA_ID=23|
+96-100,|SA_ID=28|
+
+:DetermineMeleeWeaponSA_Major
+1-3,|SA_ID=1|
+4-6,|SA_ID=3|
+7-9,|SA_ID=4|
+10-12,|SA_ID=5|
+13-15,|SA_ID=6|
+16-19,|SA_ID=8|
+20-21,|SA_ID=10|
+22-24,|SA_ID=11|
+25-28,|SA_ID=12|
+29-32,|SA_ID=13|
+33-36,|SA_ID=14|
+37-41,|SA_ID=15|
+42-46,|SA_ID=16|
+47-49,|SA_ID=17|
+50-54,|SA_ID=18|
+55-59,|SA_ID=19|
+60-64,|SA_ID=20|
+65-69,|SA_ID=21|
+70-74,|SA_ID=22|
+75-78,|SA_ID=23|
+79-83,|SA_ID=24|
+84-86,|SA_ID=25|
+87-88,|SA_ID=26|
+89-90,|SA_ID=27|
+91-100,|SA_ID=28|
+
+:DetermineSA_RangedWeapon
+1,[DetermineRangedWeaponSA_Minor]
+2,[DetermineRangedWeaponSA_Medium]
+3,[DetermineRangedWeaponSA_Major]
+
+:DetermineRangedWeaponSA_Minor
+1-12,|SA_ID=1|
+13-25,|SA_ID=2|
+26-40,|SA_ID=3|
+41-55,|SA_ID=4|
+56-60,|SA_ID=5|
+61-68,|SA_ID=6|
+69-83,|SA_ID=7|
+84-93,|SA_ID=8|
+94-99,|SA_ID=9|
+100,|SA_ID=19|
+
+:DetermineRangedWeaponSA_Medium
+1-8,|SA_ID=1|
+9-16,|SA_ID=2|
+17-28,|SA_ID=3|
+29-40,|SA_ID=4|
+41-42,|SA_ID=5|
+43-47,|SA_ID=6|
+48-59,|SA_ID=7|
+60-64,|SA_ID=8|
+65-68,|SA_ID=9|
+69-71,|SA_ID=10|
+72-74,|SA_ID=11|
+75-79,|SA_ID=12|
+80-82,|SA_ID=13|
+83-87,|SA_ID=14|
+88-92,|SA_ID=15|
+93-95,|SA_ID=16|
+96-100,|SA_ID=19|
+
+:DetermineRangedWeaponSA_Major
+1-4,|SA_ID=1|
+5-8,|SA_ID=2|
+9-12,|SA_ID=3|
+13-16,|SA_ID=4|
+17-21,|SA_ID=6|
+22-25,|SA_ID=7|
+26-27,|SA_ID=8|
+28-29,|SA_ID=9|
+30-34,|SA_ID=10|
+35-39,|SA_ID=11|
+40-49,|SA_ID=12|
+50-54,|SA_ID=13|
+55-64,|SA_ID=14|
+65-74,|SA_ID=15|
+75-79,|SA_ID=16|
+80-84,|SA_ID=17|
+85-90,|SA_ID=18|
+91-100,|SA_ID=19|
+
+:CommonMeleeWeaponDescription
+1-4,dagger |Value+302||WeaponType1=P||WeaponType2=S|
+5-14,greataxe |Value+320||WeaponType1=S|
+15-24,greatsword |Value+350||WeaponType1=S|
+25-28,kama |Value+302||WeaponType1=S|
+29-41,longsword |Value+315||WeaponType1=S|
+42-45,light mace |Value+305||WeaponType1=B|
+46-50,heavy mace |Value+312||WeaponType1=B|
+51-54,nunchaku |Value+302||WeaponType1=B|
+55-57,quarterstaff |Value+600||WeaponType1=B|
+58-61,rapier |Value+320||WeaponType1=P|
+62-66,scimitar |Value+315||WeaponType1=S|
+67-70,shortspear |Value+302||WeaponType1=P|
+71-74,siangham |Value+303||WeaponType1=P|
+75-84,bastard sword |Value+335||WeaponType1=S|
+85-89,short sword |Value+310||WeaponType1=P|
+90-100,dwarven waraxe |Value+330||WeaponType1=S|
+
+:UncommonWeaponDescription
+1-3,orc double axe |Value+660||WeaponType1=S|
+4-7,battleaxe |Value+310||WeaponType1=S|
+8-10,spiked chain |Value+325||WeaponType1=P|
+11-12,club |Value+300||WeaponType1=B|
+13-16,hand crossbow |Value+400||WeaponType1=P|
+17-19,repeating crossbow |Value+550||WeaponType1=P|
+20-21,punching dagger |Value+302||WeaponType1=P|
+22-23,falchion |Value+375||WeaponType1=S|
+24-26,dire flail |Value+690||WeaponType1=B|
+27-31,heavy flail |Value+315||WeaponType1=B|
+32-35,light flail |Value+308||WeaponType1=B|
+36-37,gauntlet |Value+302||WeaponType1=B|
+38-39,spiked gauntlet |Value+305||WeaponType1=P|
+40-41,glaive |Value+308||WeaponType1=S|
+42-43,greatclub |Value+305||WeaponType1=B|
+44-45,guisarme |Value+309||WeaponType1=S|
+46-48,halberd |Value+310||WeaponType1=P||WeaponType2=S|
+49-51,halfspear |Value+301||WeaponType1=P|
+52-54,gnome hooked hammer |Value+620||WeaponType1=B||WeaponType2=P|
+55-56,light hammer |Value+301||WeaponType1=B|
+57-58,handaxe |Value+306||WeaponType1=S|
+59-61,kukri |Value+308||WeaponType1=S|
+62-64,lance |Value+310||WeaponType1=P|
+65-67,longspear |Value+305||WeaponType1=P|
+68-70,morningstar |Value+308||WeaponType1=B||WeaponType2=P|
+71-72,net |Value+320|
+73-74,heavy pick |Value+308||WeaponType1=P|
+75-76,light pick |Value+304||WeaponType1=P|
+77-78,ranseur |Value+310||WeaponType1=P|
+79-80,sap |Value+301||WeaponType1=B|
+81-82,scythe |Value+318||WeaponType1=P||WeaponType2=S|
+83-84,shuriken |Value+301||WeaponType1=P|
+85-86,sickle |Value+306||WeaponType1=S|
+87-89,two-bladed sword |Value+700||WeaponType1=S|
+90-91,trident |Value+315||WeaponType1=P|
+92-94,dwarven urgrosh |Value+650||WeaponType1=P||WeaponType2=S|
+95-97,warhammer |Value+312||WeaponType1=B|
+98-100,whip |Value+301||WeaponType1=S|
+
+:CommonRangedWeaponDescription
+1-10,[AmmunitionDescription]
+11-15,throwing axe |Value+308||WeaponType1=S|
+16-25,heavy crossbow |Value+350||WeaponType1=P|
+26-35,light crossbow |Value+335||WeaponType1=P|
+36-39,dart |Value+300||WeaponType1=P|
+40-41,javelin |Value+301||WeaponType1=P|
+42-46,shortbow |Value+330||WeaponType1=P|
+47-51,{If~%WeaponBonus%>0 ? [CommonRangedWeaponDescription]/composite shortbow |Value+375||WeaponType1=P|}
+52-56,{If~%WeaponBonus%>0 ? [CommonRangedWeaponDescription]/composite shortbow (+1 str bonus) |Value+450||WeaponType1=P|}
+57-61,{If~%WeaponBonus%>0 ? [CommonRangedWeaponDescription]/composite shortbow (+2 str bonus) |Value+525||WeaponType1=P|}
+62-65,sling |Value+300||WeaponType1=B|
+66-75,longbow |Value+375||WeaponType1=P|
+76-80,composite longbow |Value+400||WeaponType1=P|
+81-85,{If~%WeaponBonus%>0 ? [CommonRangedWeaponDescription]/composite longbow (+1 str bonus) |Value+500||WeaponType1=P|}
+86-90,{If~%WeaponBonus%>0 ? [CommonRangedWeaponDescription]/composite longbow (+2 str bonus) |Value+600||WeaponType1=P|}
+91-95,{If~%WeaponBonus%>0 ? [CommonRangedWeaponDescription]/composite longbow (+3 str bonus) |Value+700||WeaponType1=P|}
+96-100,{If~%WeaponBonus%>0 ? [CommonRangedWeaponDescription]/composite longbow (+4 str bonus) |Value+800||WeaponType1=P|}
+
+:AmmunitionDescription
+1-50,arrows (50) |Value+350||WeaponType1=P|
+51-80,crossbow bolts (50) |Value+350||WeaponType1=P|
+81-100,sling bullets (50) |Value+350||WeaponType1=B|
+
+:!MeleeWeaponSpecialAbilities
+1,bane ([DesignatedTypesOrSubtypes]) |Value+2000|
+2,defending |Value+2000|
+3,flaming |Value+2000|
+4,frost |Value+2000|
+5,shock |Value+2000|
+6,ghost touch |Value+2000|
+7,{If~{Or~%WeaponType1%=B,%WeaponType2%=B}=1 ? [MeleeWeaponSpecialAbilities]/keen |Value+2000|}
+8,ki focus |Value+2000|
+9,merciful |Value+2000|
+10,mighty cleaving |Value+2000|
+11,spell storing |Value+2000|
+12,throwing |Value+2000|
+13,thundering |Value+2000|
+14,vicious |Value+2000|
+15,anarchic |Value+8000|
+16,axiomatic |Value+8000|
+17,{If~{Or~%WeaponType1%=B,%WeaponType2%=B}=1 ? disruption |Value+8000|/[MeleeWeaponSpecialAbilities]}
+18,flaming burst |Value+8000|
+19,icy burst |Value+8000|
+20,holy |Value+8000|
+21,shocking burst |Value+8000|
+22,unholy |Value+8000|
+23,wounding |Value+8000|
+24,speed |Value+18000|
+25,brilliant energy |Value+32000|
+26,dancing |Value+32000|
+27,{If~{Or~%WeaponType1%=B,%WeaponType2%=B}=1 ? [MeleeWeaponSpecialAbilities]/vorpal |Value+50000|}
+28,[MeleeWeaponSpecialAbilities] and [MeleeWeaponSpecialAbilities]
+
+:!RangedWeaponSpecialAbilities
+1,bane |Value+2000|
+2,distance |Value+2000|
+3,flaming |Value+2000|
+4,frost |Value+2000|
+5,merciful |Value+2000|
+6,returning |Value+2000|
+7,shock |Value+2000|
+8,seeking |Value+2000|
+9,thundering |Value+2000|
+10,anarchic |Value+8000|
+11,axiomatic |Value+8000|
+12,flaming burst |Value+8000|
+13,holy |Value+8000|
+14,icy burst |Value+8000|
+15,shocking burst |Value+8000|
+16,unholy |Value+8000|
+17,speed |Value+18000|
+18,brilliant energy |Value+32000|
+19,[RangedWeaponSpecialAbilities] and [RangedWeaponSpecialAbilities]
+
+:!DesignatedTypesOrSubtypes
+1-5,aberrations
+6-9,animals
+10-16,constructs
+17-22,dragons
+23-27,elementals
+28-32,fey
+33-39,giants
+40,humanoids, aquatic
+41-42,humanoids, dwarf
+43-44,humanoids, elf
+45,humanoids, gnoll
+46,humanoids, gnome
+47-49,humanoids, goblinoid
+50,humanoids, halfling
+51-54,humanoids, human
+55-57,humanoids, reptilian
+58-60,humanoids, orc
+61-65,magical beasts
+66-70,monstrous humanoids
+71-72,oozes
+73,outsiders, air
+74-76,outsiders, chaotic
+77,outsiders, earth
+78-80,outsiders, evil
+81,outsiders, fire
+82-84,outsiders, good
+85-87,outsiders, lawful
+88,outsiders, water
+89-90,plants
+91-98,undead
+99-100,vermin
+
+:SpecificWeapons
+1,<i>sleep arrow</i> |Value=132|
+2,<i>screaming bolt</i> |Value=267|
+3,silver dagger masterwork |Value=322|
+4,cold iron longsword masterwork |Value=330|
+5,<i>javelin of lightning</i> |Value=1500|
+6,<i>arrow of slaying ([DesignatedTypesOrSubtypes])</i> |Value=2282|
+7,adamantine dagger |Value=3002|
+8,adamantine battleaxe |Value=3010|
+9,<i>arrow  of slaying (greater; [DesignatedTypesOrSubtypes])</i> |Value=4057|
+10,<i>shatterspike</i> |Value=4315|
+11,<i>dagger of venom</i> |Value=8302|
+12,<i>trident of warning</i> |Value=10115|
+13,<i>assassin's dagger</i> |Value=10302|
+14,<i>shifter's sorrow</i> |Value=12780|
+15,<i>trident of fish command</i> |Value=18650|
+16,<i>flame tongue</i> |Value=20715|
+17,<i>luck blade (0 wishes)</i> |Value=22060|
+18,<i>sword of subtlety</i> |Value=22310|
+19,<i>sword of the planes</i> |Value=22315|
+20,<i>nine lives stealer</i> |Value=23057|
+21,<i>sword of life stealing</i> |Value=25715|
+22,<i>oathbow</i> |Value=25600|
+23,<i>mace of terror</i> |Value=38552|
+24,<i>life-drinker</i> |Value=40320|
+25,<i>sylvan scimitar</i> |Value=47315|
+26,<i>rapier of puncturing</i> |Value=50320|
+27,<i>sun blade</i> |Value=50335|
+28,<i>frost brand</i> |Value=54475|
+29,<i>dwarven thrower</i> |Value=60312|
+30,<i>luck blade (1 wish)</i> |Value=62360|
+31,<i>mace of smiting</i> |Value=75312|
+32,<i>luck blade (2 wishes)</i> |Value=102660|
+33,<i>holy avenger</i> |Value=120630|
+34,<i>luck blade (3 wishes)</i> |Value=142960|
+
+:WeaponEnhancementValues
+1-5,
+6,|Value=72000|
+7,|Value=98000|
+8,|Value=128000|
+9,|Value=162000|
+10,|Value=200000|
+
+###################### Potions and Oils ###############################
+
+:DeterminePotionMain
+1,[DeterminePotionMinor]
+2,[DeterminePotionMedium]
+3,[DeterminePotionMajor]
+
+:DeterminePotionMinor
+01-10,|ItemID=1|
+11-13,|ItemID=2|
+14-15,|ItemID=3|
+16-17,|ItemID=4|
+18-19,|ItemID=5|
+20-22,|ItemID=6|
+23-25,|ItemID=7|
+26,|ItemID=8|
+27-29,|ItemID=9|
+30,|ItemID=10|
+31-32,|ItemID=11|
+33-34,|ItemID=12|
+35,|ItemID=13|
+36-38,|ItemID=14|
+39,|ItemID=15|
+40-41,|ItemID=16|
+42-44,|ItemID=17|
+45,|ItemID=18|
+46-47,|ItemID=19|
+48-50,|ItemID=20|
+51-53,|ItemID=21|
+54-56,|ItemID=22|
+57-59,|ItemID=23|
+60-62,|ItemID=24|
+63-67,|ItemID=25|
+68,|ItemID=26|
+69-71,|ItemID=27|
+72-74,|ItemID=28|
+75-76,|ItemID=29|
+77-78,|ItemID=30|
+79-81,|ItemID=31|
+82-84,|ItemID=32|
+85-86,|ItemID=33|
+87,|ItemID=34|
+88-89,|ItemID=35|
+90-91,|ItemID=36|
+92-93,|ItemID=37|
+94-96,|ItemID=38|
+97,|ItemID=39|
+98-99,|ItemID=40|
+100,|ItemID=41|
+
+:DeterminePotionMedium
+01-02,|ItemID=16|
+03-04,|ItemID=17|
+05,|ItemID=18|
+06,|ItemID=19|
+07,|ItemID=20|
+08-10,|ItemID=21|
+11-13,|ItemID=22|
+14-16,|ItemID=23|
+17-19,|ItemID=24|
+20-27,|ItemID=25|
+28,|ItemID=26|
+29-30,|ItemID=27|
+31,|ItemID=28|
+32-33,|ItemID=29|
+34-35,|ItemID=30|
+36-37,|ItemID=31|
+38,|ItemID=32|
+39,|ItemID=33|
+40,|ItemID=34|
+41-42,|ItemID=35|
+43,|ItemID=36|
+44,|ItemID=37|
+45-46,|ItemID=38|
+47-48,|ItemID=39|
+49,|ItemID=40|
+50,|ItemID=41|
+51,|ItemID=42|
+52,|ItemID=43|
+53-55,|ItemID=44|
+56-60,|ItemID=45|
+61,|ItemID=46|
+62-64,|ItemID=47|
+65,|ItemID=48|
+66-68,|ItemID=49|
+69,|ItemID=50|
+70-71,|ItemID=51|
+72-73,|ItemID=52|
+74-75,|ItemID=53|
+76-78,|ItemID=54|
+79-80,|ItemID=55|
+81,|ItemID=56|
+82-83,|ItemID=57|
+84-86,|ItemID=58|
+87-88,|ItemID=59|
+89-91,|ItemID=60|
+92-93,|ItemID=61|
+94,|ItemID=62|
+95,|ItemID=63|
+96,|ItemID=64|
+97,|ItemID=65|
+98-99,|ItemID=66|
+100,|ItemID=67|
+
+:DeterminePotionMajor
+01-02,|ItemID=22|
+03-07,|ItemID=25|
+08-09,|ItemID=27|
+10-11,|ItemID=31|
+12,|ItemID=32|
+13,|ItemID=37|
+14,|ItemID=39|
+15,|ItemID=41|
+16,|ItemID=42|
+17-18,|ItemID=43|
+19-20,|ItemID=44|
+21-28,|ItemID=45|
+29,|ItemID=46|
+30-32,|ItemID=47|
+33,|ItemID=48|
+34-38,|ItemID=49|
+39,|ItemID=50|
+40-41,|ItemID=53|
+42-44,|ItemID=54|
+45-46,|ItemID=55|
+47,|ItemID=56|
+48-50,|ItemID=58|
+51-52,|ItemID=59|
+53-54,|ItemID=60|
+55,|ItemID=61|
+56,|ItemID=62|
+57,|ItemID=63|
+58,|ItemID=64|
+59,|ItemID=65|
+60,|ItemID=66|
+61,|ItemID=67|
+62-63,|ItemID=68|
+64,|ItemID=69|
+65,|ItemID=70|
+66-68,|ItemID=71|
+69,|ItemID=72|
+70-73,|ItemID=73|
+74-77,|ItemID=74|
+78-81,|ItemID=75|
+82,|ItemID=76|
+83-85,|ItemID=77|
+86-88,|ItemID=78|
+89-91,|ItemID=79|
+92-93,|ItemID=80|
+94-95,|ItemID=81|
+96-97,|ItemID=82|
+98,|ItemID=83|
+99,|ItemID=84|
+100,|ItemID=85|
+
+:PotionAndOilDescription
+1,[CheckForOil=%ItemID%]<i>{If~%OilFlag%=1 ? oil of/potion of} [PotionAndOilNames=%ItemID%]</i>
+
+:CheckForOil
+1-7,|OilFlag=0|
+8-9,|OilFlag=1|
+10-14,|OilFlag=0|
+15-16,|OilFlag=1|
+17-25,|OilFlag=0|
+26,|OilFlag=1|
+27-30,|OilFlag=0|
+31,[Chanceof]{If~%Chance%>50 ? |OilFlag=1|}
+32,|OilFlag=0|
+33,[Chanceof]{If~%Chance%>50 ? |OilFlag=1|}
+34-45,|OilFlag=0|
+46,|OilFlag=1|
+47,|OilFlag=0|
+48,|OilFlag=1|
+49-51,|OilFlag=0|
+52,|OilFlag=1|
+53-54,|OilFlag=0|
+55,|OilFlag=1|
+56,|OilFlag=0|
+57,|OilFlag=1|
+58-73,|OilFlag=0|
+74-75,|OilFlag=1|
+76-77,|OilFlag=0|
+78-79,|OilFlag=1|
+80,|OilFlag=0|
+81-82,|OilFlag=1|
+83,|OilFlag=0|
+84-85,|OilFlag=1|
+
+:PotionAndOilNames
+1,cure light wounds |Value=50|
+2,endure elements |Value=50|
+3,hide from animals |Value=50|
+4,hide from undead |Value=50|
+5,jump |Value=50|
+6,mage armor |Value=50|
+7,magic fang |Value=50|
+8,magic stone |Value=50|
+9,magic weapon |Value=50|
+10,pass without trace |Value=50|
+11,protection from [SpellAlignment] |Value=50|
+12,remove fear |Value=50|
+13,sanctuary |Value=50|
+14,shield of faith +2 |Value=50|
+15,shillelagh |Value=50|
+16,bless weapon |Value=100|
+17,enlarge person |Value=250|
+18,reduce person |Value=250|
+19,aid |Value=300|
+20,barkskin +2 |Value=300|
+21,bear's endurance |Value=300|
+22,blur |Value=300|
+23,bull's strength |Value=300|
+24,cat's grace |Value=300|
+25,cure moderate wounds |Value=300|
+26,darkness |Value=300|
+27,darkvision |Value=300|
+28,delay poison |Value=300|
+29,eagle's splendor |Value=300|
+30,fox's cunning |Value=300|
+31,invisibility |Value=300|
+32,lesser restoration |Value=300|
+33,levitate |Value=300|
+34,misdirection |Value=300|
+35,owl's wisdom |Value=300|
+36,protection from arrows 10/magic |Value=300|
+37,remove paralysis |Value=300|
+38,resist energy ([EnergyType]) 10 |Value=300|
+39,shield of faith +3 |Value=300|
+40,spider climb |Value=300|
+41,undetectable alignment |Value=300|
+42,barkskin +3 |Value=600|
+43,shield of faith +4 |Value=600|
+44,resist energy ([EnergyType]) 20 |Value=700|
+45,cure serious wounds |Value=750|
+46,daylight |Value=750|
+47,displacement |Value=750|
+48,flame arrow |Value=750|
+49,fly |Value=750|
+50,gaseous form |Value=750|
+51,greater magic fang +1 |Value=750|
+52,greater magic weapon +1 |Value=750|
+53,haste |Value=750|
+54,heroism |Value=750|
+55,keen edge |Value=750|
+56,magic circle against [SpellAlignment] |Value=750|
+57,magic vestment +1 |Value=750|
+58,neutralize poison |Value=750|
+59,nondetection |Value=750|
+60,protection from energy ([EnergyType]) |Value=750|
+61,rage |Value=750|
+62,remove [Chanceof]{If~%Chance%>50 ? blindness/deafness} |Value=750|
+63,remove curse |Value=750|
+64,remove disease |Value=750|
+65,tongues |Value=750|
+66,water breathing |Value=750|
+67,water walk |Value=750|
+68,barkskin +4 |Value=900|
+69,shield of faith +5 |Value=900|
+70,good hope |Value=1050|
+71,resist energy ([EnergyType]) 30 |Value=1100|
+72,barkskin +5 |Value=1200|
+73,greater magic fang +2 |Value=1200|
+74,greater magic weapon +2 |Value=1200|
+75,magic vestment +2 |Value=1200|
+76,protection from arrows 15/magic |Value=1500|
+77,greater magic fang +3 |Value=1800|
+78,greater magic weapon +3 |OilFlag=1| |Value=1800|
+79,magic vestment +3 |OilFlag=1| |Value=1800|
+80,greater magic fang +4 |Value=2400|
+81,greater magic weapon +4 |OilFlag=1| |Value=2400|
+82,magic vestment +4 |OilFlag=1| |Value=2400|
+83,greater magic fang +5 |Value=3000|
+84,greater magic weapon +5 |OilFlag=1| |Value=3000|
+85,magic vestment +5 |OilFlag=1| |Value=3000|
+
+:SpellAlignment
+1,Law
+2,Chaos
+3,Good
+4,Evil
+
+:EnergyType
+1,acid
+2,cold
+3,electricity
+5,fire
+5,sonic
+
+########################### Rings ###################################
+
+:DetermineRingMain
+1,[DetermineRingMinor]
+2,[DetermineRingMedium]
+3,[DetermineRingMajor]
+
+:RingDescription
+1,<i>ring of [RingName=%ItemID%]</i>
+
+:DetermineRingMinor
+1-18,|ItemID=1|
+19-28,|ItemID=2|
+29-36,|ItemID=3|
+37-44,|ItemID=4|
+45-52,|ItemID=5|
+53-60,|ItemID=6|
+61-70,|ItemID=7|
+71-75,|ItemID=8|
+76-80,|ItemID=9|
+81-85,|ItemID=10|
+86-90,|ItemID=11|
+91-93,|ItemID=15|
+94-96,|ItemID=16|
+97-98,|ItemID=17|
+99-100,|ItemID=18|
+
+:DetermineRingMedium
+1-5,|ItemID=7|
+6-8,|ItemID=8|
+9-18,|ItemID=9|
+19-23,|ItemID=10|
+24-28,|ItemID=11|
+29-34,|ItemID=12|
+35-40,|ItemID=13|
+41-46,|ItemID=14|
+47-51,|ItemID=15|
+50-56,|ItemID=16|
+57-61,|ItemID=17|
+62-66,|ItemID=18|
+67-71,|ItemID=19|
+72-76,|ItemID=20|
+77-81,|ItemID=21|
+82-85,|ItemID=22|
+86-90,|ItemID=23|
+91-93,|ItemID=24|
+94-97,|ItemID=25|
+98-100,|ItemID=26|
+
+:DetermineRingMajor
+1-2,|ItemID=16|
+3-7,|ItemID=19|
+8-10,|ItemID=20|
+11-15,|ItemID=21|
+16-19,|ItemID=22|
+20-25,|ItemID=23|
+26-28,|ItemID=24|
+29-32,|ItemID=25|
+33-39,|ItemID=26|
+40-49,|ItemID=27|
+50-55,|ItemID=28|
+56-60,|ItemID=29|
+61-63,|ItemID=30|
+64-65,|ItemID=31|
+66-70,|ItemID=32|
+71-74,|ItemID=33|
+75-79,|ItemID=34|
+80-83,|ItemID=35|
+84-86,|ItemID=36|
+87-88,|ItemID=37|
+89,|ItemID=38|
+90-92,|ItemID=39|
+93-94,|ItemID=40|
+95,|ItemID=41|
+96,|ItemID=42|
+97,|ItemID=43|
+98,|ItemID=44|
+99,|ItemID=45|
+100,|ItemID=46|
+
+:RingName
+1,protection +1 |Value=2000|
+2,feather falling |Value=2200|
+3,sustenance |Value=2500|
+4,climbing |Value=2500|
+5,jumping |Value=2500|
+6,swimming |Value=2500|
+7,counterspells |Value=4000|
+8,mind shielding |Value=8000|
+9,protection +2 |Value=8000|
+10,force shield |Value=8500|
+11,the ram |Value=8600|
+12,improved climbing |Value=10000|
+13,improved jumping |Value=10000|
+14,improved swimming |Value=10000|
+15,animal friendship |Value=10800|
+16,minor energy resistance ([EnergyType])|Value=12000|
+17,chameleon power |Value=12700|
+18,water walking |Value=15000|
+19,protection +3 |Value=18000|
+20,spell storing minor |Value=18000|
+21,invisibility |Value=20000|
+22,wizardry (I) |Value=20000|
+23,evasion |Value=25000|
+24,x-ray vision |Value=25000|
+25,blinking |Value=27000|
+26,major energy resistance ([EnergyType])|Value=28000|
+27,protection +4 |Value=32000|
+28,wizardry (II) |Value=40000|
+29,freedom of movement |Value=40000|
+30,greater energy resistance ([EnergyType])|Value=44000|
+31,friend shield (pair) |Value=50000|
+32,protection +5 |Value=50000|
+33,shooting stars |Value=50000|
+34,spell storing |Value=50000|
+35,wizardry (III) |Value=70000|
+36,telekinesis |Value=75000|
+37,regeneration |Value=90000|
+38,three wishes |Value=97950|
+39,spell turning |Value=98280|
+40,wizardry (IV) |Value=100000|
+41,djinni calling |Value=125000|
+42,elemental command (air) |Value=200000|
+43,elemental command (earth) |Value=200000|
+44,elemental command (fire) |Value=200000|
+45,elemental command (water) |Value=200000|
+46,spell storing major |Value=200000|
+
+############################ Rods ###################################
+
+:DetermineRodMain
+1,[DetermineRodMinor]
+2,[DetermineRodMedium]
+3,[DetermineRodMajor]
+
+:RodDescription
+1,[CheckForMetamagic=%ItemID%]{If~%ItemID%=37 ? There are no Minor Rods/<i>rod of [RodName=%ItemID%]{If~%MetamagicFlag%=1 ? (metamagic) }</i>}
+
+:DetermineRodMinor
+1,|ItemID=37|
+
+:DetermineRodMedium
+1-7,|ItemID=1|
+8-14,|ItemID=2|
+15-21,|ItemID=3|
+22-28,|ItemID=4|
+29-35,|ItemID=5|
+36-42,|ItemID=6|
+43-53,|ItemID=7|
+54-57,|ItemID=8|
+58-61,|ItemID=9|
+62-65,|ItemID=10|
+66-71,|ItemID=11|
+72-79,|ItemID=12|
+80-83,|ItemID=13|
+84-89,|ItemID=14|
+90-97,|ItemID=15|
+98-99,|ItemID=22|
+100,|ItemID=24|
+
+:DetermineRodMajor
+1-4,|ItemID=7|
+5-6,|ItemID=8|
+7-8,|ItemID=9|
+9-10,|ItemID=10|
+11-14,|ItemID=11|
+15-18,|ItemID=12|
+19-21,|ItemID=14|
+22-25,|ItemID=15|
+26-30,|ItemID=16|
+31-36,|ItemID=17|
+37-42,|ItemID=18|
+43-48,|ItemID=19|
+49-53,|ItemID=20|
+54-58,|ItemID=21|
+59-64,|ItemID=22|
+65-69,|ItemID=23|
+70-73,|ItemID=24|
+74-77,|ItemID=25|
+78-80,|ItemID=26|
+81-84,|ItemID=27|
+85-86,|ItemID=28|
+87-88,|ItemID=29|
+89-90,|ItemID=30|
+91-92,|ItemID=31|
+93-94,|ItemID=32|
+95-96,|ItemID=33|
+97-98,|ItemID=34|
+99,|ItemID=35|
+100,|ItemID=36|
+
+:CheckForMetamagic
+1-3,|MetamagicFlag=1|
+4,|MetamagicFlag=0|
+5,|MetamagicFlag=1|
+6-7,|MetamagicFlag=0|
+8-10,|MetamagicFlag=1|
+11-12,|MetamagicFlag=0|
+13,|MetamagicFlag=1|
+14-16,|MetamagicFlag=0|
+17-19,|MetamagicFlag=1|
+20-21,|MetamagicFlag=0|
+22,|MetamagicFlag=1|
+23,|MetamagicFlag=0|
+24,|MetamagicFlag=1|
+25-27,|MetamagicFlag=0|
+28,|MetamagicFlag=1|
+29-31,|MetamagicFlag=0|
+32-33,|MetamagicFlag=1|
+34,|MetamagicFlag=0|
+35-36,|MetamagicFlag=1|
+37,|MetamagicFlag=0|
+
+:RodName
+1,lesser enlarge |Value=3000|
+2,lesser extend |Value=3000|
+3,lesser silent |Value=3000|
+4,immovable |Value=5000|
+5,lesser empower |Value=9000|
+6,metal and mineral detection |Value=10500|
+7,cancellation |Value=11000|
+8,enlarge |Value=11000|
+9,extend |Value=11000|
+10,silent |Value=11000|
+11,wonder |Value=12000|
+12,python |Value=13000|
+13,lesser maximize |Value=14000|
+14,flame extinguishing |Value=15000|
+15,viper |Value=19000|
+16,enemy detection |Value=23500|
+17,greater enlarge |Value=24500|
+18,greater extend |Value=24500|
+19,greater silent |Value=24500|
+20,splendor |Value=25000|
+21,withering |Value=25000|
+22,empower |Value=32500|
+23,thunder and lightning |Value=33000|
+24,lesser quicken |Value=35000|
+25,negation |Value=37000|
+26,absorption |Value=50000|
+27,flailing |Value=50000|
+28,maximize |Value=54000|
+29,rulership |Value=60000|
+30,security |Value=61000|
+31,lordly might |Value=70000|
+32,greater empower |Value=73000|
+33,quicken |Value=75500|
+34,alertness |Value=85000|
+35,greater maximize |Value=121500|
+36,greater quicken |Value=170000|
+
+########################## Scrolls ##################################
+
+:DetermineScrollMain
+1,[ScrollType][NumberOfSpellsOnScroll=%ItemPower%][DetermineScrollSpellLevel=%ItemPower%]
+2,[ScrollType][NumberOfSpellsOnScroll=%ItemPower%][DetermineScrollSpellLevel=%ItemPower%]
+3,[ScrollType][NumberOfSpellsOnScroll=%ItemPower%][DetermineScrollSpellLevel=%ItemPower%]
+
+:ScrollType
+1-70,|ScrollType=1|
+71-100,|ScrollType=2|
+
+:ScrollTypeName
+1,Arcane
+2,Divine
+
+:NumberOfSpellsOnScroll
+1,|SpellCount={Dice~1d3}|
+2,|SpellCount={Dice~1d4}|
+3,|SpellCount={Dice~1d6}|
+
+:DetermineScrollSpellLevel
+1,[DetermineScrollLevelMinor]
+2,[DetermineScrollLevelMedium]
+3,[DetermineScrollLevelMajor]
+
+:DetermineScrollLevelMinor
+1-5,|SpellLevel=0||CasterLevel=1||ItemID=1|
+6-50,|SpellLevel=1||CasterLevel=1||ItemID=2|
+51-95,|SpellLevel=2||CasterLevel=3||ItemID=3|
+96-100,|SpellLevel=3||CasterLevel=5||ItemID=4|
+
+:DetermineScrollLevelMedium
+1-5,|SpellLevel=2||CasterLevel=3||ItemID=1|
+6-65,|SpellLevel=3||CasterLevel=5||ItemID=2|
+66-95,|SpellLevel=4||CasterLevel=7||ItemID=3|
+96-100,|SpellLevel=5||CasterLevel=9||ItemID=4|
+
+:DetermineScrollLevelMajor
+1-5,|SpellLevel=4||CasterLevel=7||ItemID=1|
+6-50,|SpellLevel=5||CasterLevel=9||ItemID=2|
+51-70,|SpellLevel=6||CasterLevel=11||ItemID=3|
+71-85,|SpellLevel=7||CasterLevel=13||ItemID=4|
+86-95,|SpellLevel=8||CasterLevel=15||ItemID=5|
+71-85,|SpellLevel=9||CasterLevel=17||ItemID=6|
+
+:ScrollFinishingBranch
+1,[ScrollBranchMinor]
+2,[ScrollBranchMedium]
+1,[ScrollBranchMajor]
+
+:ScrollBranchMinor
+1,{If~%ScrollType%=1 ? [Level0ArcaneSpells]/[Level0DivineSpells]}
+2,{If~%ScrollType%=1 ? [Level1ArcaneSpells]/[Level1DivineSpells]}
+3,{If~%ScrollType%=1 ? [Level2ArcaneSpells]/[Level2DivineSpells]}
+4,{If~%ScrollType%=1 ? [Level3ArcaneSpells]/[Level3DivineSpells]}
+
+:ScrollBranchMedium
+1,{If~%ScrollType%=1 ? [Level2ArcaneSpells]/[Level2DivineSpells]}
+2,{If~%ScrollType%=1 ? [Level3ArcaneSpells]/[Level3DivineSpells]}
+3,{If~%ScrollType%=1 ? [Level4ArcaneSpells]/[Level4DivineSpells]}
+4,{If~%ScrollType%=1 ? [Level5ArcaneSpells]/[Level5DivineSpells]}
+
+:ScrollBranchMajor
+1,{If~%ScrollType%=1 ? [Level4ArcaneSpells]/[Level4DivineSpells]}
+2,{If~%ScrollType%=1 ? [Level5ArcaneSpells]/[Level5DivineSpells]}
+3,{If~%ScrollType%=1 ? [Level6ArcaneSpells]/[Level6DivineSpells]}
+4,{If~%ScrollType%=1 ? [Level7ArcaneSpells]/[Level7DivineSpells]}
+5,{If~%ScrollType%=1 ? [Level8ArcaneSpells]/[Level8DivineSpells]}
+6,{If~%ScrollType%=1 ? [Level9ArcaneSpells]/[Level9DivineSpells]}
+
+:ScrollDescription
+1,<i>{Ordinal~%SpellLevel%}-level [ScrollTypeName=%ScrollType%] scroll of {If~%SpellCount%=1 ? [ScrollFinishingBranch=%ItemPower%]/
+_{If~%SpellCount%=2 ? [ScrollFinishingBranch=%ItemPower%] and [ScrollFinishingBranch=%ItemPower%]/
+_[ScrollFinishingBranch=%ItemPower%]|SpellCount-1||Count+1|
+_{Loop~%SpellCount%,{If~%Count%=%SpellCount% ?, and /, }|Count+1|[ScrollFinishingBranch=%ItemPower%]}}}</i>
+
+################## Arcane Spell Scrolls ###########################
+
+:Level0ArcaneSpells
+1-4,acid splash |Value=12.5|
+5-8,arcane mark |Value=12.5|
+9-13,dancing lights |Value=12.5|
+14-17,daze |Value=12.5|
+18-24,detect magic |Value=12.5|
+25-28,detect poison |Value=12.5|
+29-32,disrupt undead |Value=12.5|
+33-37,flare |Value=12.5|
+38-42,ghost sound |Value=12.5|
+43-44,know direction |Value=12.5|
+45-50,light |Value=12.5|
+51-52,lullaby |Value=12.5|
+53-57,mage hand |Value=12.5|
+58-62,mending |Value=12.5|
+63-67,message |Value=12.5|
+68-72,open/close |Value=12.5|
+73-77,prestidigitation |Value=12.5|
+78-81,ray of frost |Value=12.5|
+82-87,read magic |Value=12.5|
+88-94,resistance |Value=12.5|
+95-96,summon instrument |Value=12.5|
+97-100,touch of fatigue |Value=12.5|
+
+:Level1ArcaneSpells
+1-3,alarm |Value=25|
+4-5,animate rope |Value=25|
+6-7,burning hands |Value=25|
+8-9,cause fear |Value=25|
+10-12,charm person |Value=25|
+13-14,chill touch |Value=25|
+15-16,color spray |Value=25|
+17-19,comprehend languages |Value=25|
+20,lesser confusion |Value=50|
+21,cure light wounds (+%CasterLevel%) |Value=50|
+22-24,detect secret doors |Value=25|
+25-26,detect undead |Value=25|
+27-29,disguise self |Value=25|
+30-32,endure elements |Value=25|
+33-35,enlarge person |Value=25|
+36-37,erase |Value=25|
+38-40,expeditious retreat |Value=25|
+41,feather fall |Value=25|
+42-43,grease |Value=25|
+44-45,hold portal |Value=25|
+46-47,hypnotism |Value=25|
+48-49,identify |Value=125|
+50-51,jump |Value=25|
+52-54,mage armor |Value=25|
+55-56,magic missile |Value=25|
+57-59,magic weapon |Value=25|
+60-62,mount |Value=25|
+63-64,magic aura |Value=25|
+65-66,obscuring mist |Value=25|
+67-74,protection from [SpellAlignment] |Value=25|
+75-76,ray of enfeeblement |Value=25|
+77-78,reduce person |Value=25|
+79-80,remove fear |Value=50|
+81-82,shield |Value=25|
+83-84,shocking grasp |Value=25|
+85-86,silent image |Value=25|
+87-88,sleep |Value=25|
+89-90,summon monster I |Value=25|
+91-93,floating disk |Value=25|
+94-95,true strike |Value=25|
+96,undetectable alignment |Value=50|
+97-98,unseen servant |Value=25|
+99-100,ventriloquism |Value=25|
+
+:Level2ArcaneSpells
+1,animal messenger |Value=200|
+2,animal trance |Value=200|
+3,arcane lock |Value=175|
+4-6,bear's endurance |Value=150|
+7-8,[Chanceof]{If~%Chance%<50 ? blindness/deafness} |Value=150|
+9-10,blur |Value=150|
+11-13,bull's strength |Value=150|
+14,calm emotions |Value=200|
+15-17,cat's grace |Value=150|
+18-19,command undead |Value=150|
+20,continual flame |Value=200|
+21,cure moderate wounds (+%CasterLevel%) |Value=200|
+22,darkness |Value=150|
+23-25,darkvision |Value=150|
+26,daze monster |Value=150|
+27,delay poison |Value=200|
+28-29,detect thoughts |Value=150|
+30-31,disguise self |Value=150|
+32-34,eagle's splendor |Value=150|
+35,enthrall |Value=200|
+36-37,false life |Value=150|
+38-39,flaming sphere |Value=150|
+40,fog cloud |Value=150|
+41-43,fox's cunning |Value=150|
+44,ghoul touch |Value=150|
+45-46,glitterdust |Value=150|
+47,gust of wind |Value=150|
+48-49,hypnotic pattern |Value=150|
+50-52,invisibility |Value=150|
+53-55,knock |Value=150|
+56,phantom trap |Value=200|
+57-58,levitate |Value=150|
+59,locate object |Value=150|
+60,magic mouth |Value=160|
+61-62,acid arrow |Value=150|
+63,minor image |Value=150|
+64-65,mirror image |Value=150|
+66,misdirection |Value=150|
+67,obscure object |Value=150|
+68-70,owl's wisdom |Value=150|
+71-73,protection from arrows |Value=150|
+74-75,pyrotechnics |Value=150|
+76-78,resist energy |Value=150|
+79,rope trick |Value=150|
+80,scare |Value=150|
+81-82,scorching ray |Value=150|
+83-85,see invisibility |Value=150|
+86,shatter |Value=150|
+87,silence |Value=200|
+88,sound burst |Value=200|
+89,spectral hand |Value=150|
+90-91,spider climb |Value=150|
+92-93,summon monster II |Value=150|
+94-95,summon swarm |Value=150|
+96,hideous laughter |Value=150|
+97,touch of idiocy |Value=150|
+98-99,web |Value=150|
+100,whispering wind |Value=150|
+
+:Level3ArcaneSpells
+1-2,arcane sight |Value=375|
+3-4,blink |Value=375|
+5-6,[Chanceof]{If~%Chance%<50 ? clairaudience/clairvoyance} |Value=375|
+7,cure serious wounds (+%CasterLevel%) |Value=525|
+8-10,daylight |Value=525|
+11-12,deep slumber |Value=375|
+13-15,dispel magic |Value=375|
+16-17,displacement |Value=375|
+18,explosive runes |Value=375|
+19-20,fireball |Value=375|
+21-22,flame arrow |Value=375|
+23-25,fly |Value=375|
+26-27,gaseous form |Value=375|
+28-29,gentle repose |Value=375|
+30,glibness |Value=525|
+31,good hope |Value=525|
+32-33,halt undead |Value=375|
+34-36,haste |Value=375|
+37-38,heroism |Value=375|
+39-40,hold person |Value=375|
+41,illusory script |Value=425|
+42-44,invisibility sphere |Value=375|
+45-47,keen edge |Value=375|
+48-49,tiny hut |Value=375|
+50-51,lightning bolt |Value=375|
+52-59,magic circle against [SpellAlignment] |Value=375|
+60-62,greater magic weapon |Value=375|
+63-64,major image |Value=375|
+65-66,nondetection |Value=425|
+67-68,phantom steed |Value=375|
+69-71,protection from energy |Value=375|
+72-73,rage |Value=375|
+74-75,ray of exhaustion |Value=375|
+76,sculpt sound |Value=525|
+77,secret page |Value=375|
+78,sepia snake sigil |Value=875|
+79,shrink item |Value=375|
+80-81,sleet storm |Value=375|
+82-83,slow |Value=375|
+84,speak with animals |Value=525|
+85-86,stinking cloud |Value=375|
+87-88,suggestion |Value=375|
+89-90,summon monster III |Value=375|
+91-93,tongues |Value=375|
+94-95,vampiric touch |Value=375|
+96-98,water breathing |Value=375|
+99-100,wind wall |Value=375|
+
+:Level4ArcaneSpells
+1-2,animate dead |Value=1050|
+3-5,arcane eye |Value=700|
+6-7,bestow curse |Value=700|
+8-10,charm monster |Value=700|
+11-13,confusion |Value=700|
+14-15,contagion |Value=700|
+16-17,crushing despair |Value=700|
+18,cure critical wounds (+%CasterLevel%) |Value=1000|
+19,detect scrying |Value=700|
+20-23,dimension door |Value=700|
+24-26,dimensional anchor |Value=700|
+27-28,enervation |Value=700|
+29-30,enlarge person mass |Value=700|
+31-32,black tentacles |Value=700|
+33-34,fear |Value=700|
+35-37,fire shield |Value=700|
+38-39,fire trap |Value=725|
+40-42,freedom of movement |Value=1000|
+43,geas lesser |Value=700|
+44-46,globe of invulnerability lesser |Value=700|
+47-48,hallucinatory terrain |Value=700|
+49-50,ice storm |Value=700|
+51-52,illusory wall |Value=700|
+53-55,greater invisibility |Value=700|
+56-57,secure shelter |Value=700|
+58,locate creature |Value=700|
+59-60,minor creation |Value=700|
+61,modify memory |Value=1000|
+62,neutralize poison |Value=1000|
+63-64,resilient sphere |Value=700|
+65-66,phantasmal killer |Value=700|
+67-68,polymorph |Value=700|
+69-70,rainbow pattern |Value=700|
+71,mnemonic enhancer |Value=700|
+72-73,mass reduce person |Value=700|
+74-76,remove curse |Value=700|
+77,repel vermin |Value=1000|
+78-79,scrying |Value=700|
+80-81,shadow conjuration |Value=700|
+82-83,shout |Value=700|
+84-85,solid fog |Value=700|
+86,speak with plants |Value=1000|
+87-88,stone shape |Value=700|
+89-91,stoneskin |Value=950|
+92-93,summon monster IV |Value=700|
+94-96,wall of fire |Value=700|
+97-99,wall of ice |Value=700|
+100,zone of silence |Value=1000|
+
+:Level5ArcaneSpells
+1-2,animal growth |Value=1125|
+3-5,baleful polymorph |Value=1125|
+6-7,interposing hand |Value=1125|
+8-9,blight |Value=1125|
+10-12,break enchantment |Value=1125|
+13-14,cloudkill |Value=1125|
+15-17,cone of cold |Value=1125|
+18-19,contact other plane |Value=1125|
+20,mass cure light wounds (+%CasterLevel%) |Value=1625|
+21-23,dismissal |Value=1125|
+24-26,greater dispel magic |Value=1625|
+27-28,dominate person |Value=1125|
+29,dream |Value=1125|
+30-31,fabricate |Value=1125|
+32-33,false vision |Value=1375|
+34-35,feeblemind |Value=1125|
+36-39,hold monster |Value=1125|
+40,secret chest |Value=1125|
+41,magic jar |Value=1125|
+42-43,major creation |Value=1125|
+44-45,mind fog |Value=1125|
+46-47,mirage arcana |Value=1125|
+48-49,mage's faithful hound |Value=1125|
+50-51,mage's private sanctum |Value=1125|
+52-53,nightmare |Value=1125|
+54-57,overland flight |Value=1125|
+58-60,passwall |Value=1125|
+61,permanency |Value=10125|
+62-63,persistent image |Value=1125|
+64-65,lesser planar binding |Value=1125|
+66-67,prying eyes |Value=1125|
+68-69,telepathic bond |Value=1125|
+70-71,seeming |Value=1125|
+72-74,sending |Value=1125|
+75-76,shadow evocation |Value=1125|
+77,song of discord |Value=1625|
+78-79,summon monster V |Value=1125|
+80,symbol of pain |Value=2125|
+81,symbol of sleep |Value=2125|
+82-83,telekinesis |Value=1125|
+84-88,teleport |Value=1125|
+89-90,transmute mud to rock |Value=1125|
+91-92,transmute rock to mud |Value=1125|
+93-95,wall of force |Value=1125|
+96-98,wall of stone |Value=1125|
+99-100,waves of fatigue |Value=1125|
+
+:Level6ArcaneSpells
+1-2,acid fog |Value=1650|
+3-5,analyze dweomer |Value=1650|
+6,animate objects |Value=2400|
+7-9,antimagic field |Value=1650|
+10-12,mass bear's endurance |Value=1650|
+13-14,forceful hand |Value=1650|
+15-17,mass bull's strength |Value=1650|
+18-20,mass cat's grace |Value=1650|
+21-23,chain lightning |Value=1650|
+24-25,circle of death |Value=2150|
+26,contingency |Value=1650|
+27-28,control water |Value=1650|
+29,create undead |Value=2350|
+30,mass cure moderate wounds (+%CasterLevel%) |Value=2400|
+31-33,disintegrate |Value=1650|
+34-37,greater dispel magic |Value=1650|
+38-40,mass eagle's splendor |Value=1650|
+41-42,eyebite |Value=1650|
+43,find the path |Value=2400|
+44-45,flesh to stone |Value=1650|
+46-48,mass fox's cunning |Value=1650|
+49,geas/quest |Value=1650|
+50-52,globe of invulnerability |Value=1650|
+53,guards and wards |Value=1650|
+54,heroes' feast |Value=2400|
+55-56,greater heroism |Value=1650|
+57,legend lore |Value=1900|
+58-59,mislead |Value=1650|
+60,mage's lucubration |Value=1650|
+61-62,move earth |Value=1650|
+63-64,freezing sphere |Value=1650|
+65-67,mass owl's wisdom |Value=1650|
+68-69,permanent image |Value=1650|
+70-71,planar binding |Value=1650|
+72-73,programmed image |Value=1675|
+74-75,repulsion |Value=1650|
+76-78,shadow walk |Value=1650|
+79-81,stone to flesh |Value=1650|
+82-83,mass suggestion |Value=1650|
+84-85,summon monster VI |Value=1650|
+86,symbol of fear |Value=2650|
+87,symbol of persuasion |Value=6650|
+88,sympathetic vibration |Value=2400|
+89-90,transformation |Value=1950|
+91-93,true seeing |Value=1900|
+94-95,undeath to death |Value=2150|
+96-97,veil |Value=1650|
+98-100,wall of iron |Value=1700|
+
+:Level7ArcaneSpells
+1-3,greater arcane sight |Value=2275|
+4-7,banishment |Value=2275|
+8-10,grasping hand |Value=2275|
+11-13,control undead |Value=2275|
+14-16,control weather |Value=2275|
+17-19,delayed blast fireball |Value=2275|
+20-21,instant summons |Value=3275|
+22-25,ethereal jaunt |Value=2275|
+26-28,finger of death |Value=2275|
+29-31,forcecage |Value=23775|
+32-35,mass hold person |Value=2275|
+36-38,insanity |Value=2275|
+39-42,invisibility mass |Value=2275|
+43,limited wish |Value=3775|
+44-45,mage's magnificent mansion |Value=2275|
+46-48,mage's sword |Value=2275|
+49-51,phase door |Value=2275|
+52-54,plane shift |Value=2275|
+55-57,power word blind |Value=2275|
+58-61,prismatic spray |Value=2275|
+62-64,project image |Value=2280|
+65-67,reverse gravity |Value=2275|
+68-70,scrying greater |Value=2275|
+71-73,sequester |Value=2275|
+74-76,greater shadow conjuration |Value=2275|
+77,simulacrum |Value=7275|
+78-80,spell turning |Value=2275|
+81-82,statue |Value=2275|
+83-85,summon monster VII |Value=2275|
+86,symbol of stunning |Value=7275|
+87,symbol of weakness |Value=7275|
+88-90,teleport object |Value=2275|
+91-95,teleport greater |Value=2275|
+96-97,vision |Value=2775|
+98-100,waves of exhaustion |Value=2275|
+
+:Level8ArcaneSpells
+1-2,antipathy |Value=3000|
+3-5,clenched fist |Value=3000|
+6-8,binding |Value=8500|
+9-12,mass charm monster |Value=3000|
+13,clone |Value=4000|
+14-16,create greater undead |Value=3000|
+17-19,demand |Value=3600|
+20-22,dimensional lock |Value=3000|
+23-26,discern location |Value=3000|
+27-29,horrid wilting |Value=3000|
+30-32,incendiary cloud |Value=3000|
+33-35,iron body |Value=3000|
+36-38,maze |Value=3000|
+39-41,mind blank |Value=3000|
+42-44,moment of prescience |Value=3000|
+45-48,telekinetic sphere |Value=3000|
+49-51,irresistible dance |Value=3000|
+52-54,greater planar binding |Value=3000|
+55-57,polar ray |Value=3000|
+58-60,polymorph any object |Value=3000|
+61-63,power word stun |Value=3000|
+64-66,prismatic wall |Value=3000|
+67-70,protection from spells |Value=3500|
+71-73,greater prying eyes |Value=3000|
+74-76,scintillating pattern |Value=3000|
+77-78,screen |Value=3000|
+79-81,greater shadow evocation |Value=3000|
+82-84,greater shout |Value=3000|
+85-87,summon monster VIII |Value=3000|
+88-90,sunburst |Value=3000|
+91,symbol of death |Value=8000|
+92,symbol of insanity |Value=8000|
+93-94,sympathy |Value=4500|
+95-98,temporal stasis |Value=3500|
+99-100,trap the soul |Value=13000|
+
+:Level9ArcaneSpells
+1-3,astral projection |Value=4870|
+4-7,crushing hand |Value=3825|
+8-12,dominate monster |Value=3825|
+13-16,energy drain |Value=3825|
+17-21,etherealness |Value=3825|
+22-25,foresight |Value=3825|
+26-31,freedom |Value=3825|
+32-36,gate |Value=8825|
+37-40,mass hold monster |Value=3825|
+41-44,imprisonment |Value=3825|
+45-49,meteor swarm |Value=3825|
+50-53,mage's disjunction |Value=3825|
+54-58,power word kill |Value=3825|
+59-62,prismatic sphere |Value=3825|
+63-66,refuge |Value=3825|
+67-70,shades |Value=3825|
+71-76,shapechange |Value=3825|
+77-79,soul bind |Value=3825|
+80-83,summon monster IX |Value=3825|
+84-86,teleportation circle |Value=4825|
+87-91,time stop |Value=3825|
+92-95,wail of the banshee |Value=3825|
+96-99,weird |Value=3825|
+100,wish |Value=28825|
+
+######################## Divine Spell Scrolls #################################
+
+:Level0DivineSpells
+1-7,create water |Value=12.5|
+8-14,cure minor wounds (+%CasterLevel%) |Value=12.5|
+15-22,detect magic |Value=12.5|
+23-29,detect poison |Value=12.5|
+30-36,flare |Value=12.5|
+37-43,guidance |Value=12.5|
+44-50,inflict minor wounds (+%CasterLevel%) |Value=12.5|
+51-57,know direction |Value=12.5|
+58-65,light |Value=12.5|
+66-72,mending |Value=12.5|
+73-79,purify food and drink |Value=12.5|
+80-86,read magic |Value=12.5|
+87-93,resistance |Value=12.5|
+94-100,virtue |Value=12.5|
+
+:Level1DivineSpells
+1,alarm |Value=100|
+2-3,bane |Value=25|
+4-6,bless |Value=25|
+7-9,bless water |Value=50|
+10,bless weapon |Value=100|
+11-12,calm animals |Value=25|
+13-14,cause fear |Value=25|
+15-16,charm animal |Value=25|
+17-19,command |Value=25|
+20-21,comprehend languages |Value=25|
+22-26,cure light wounds (+%CasterLevel%) |Value=25|
+27-28,curse water |Value=50|
+29-30,deathwatch |Value=25|
+31-32,detect animals or plants |Value=25|
+33-35,detect [SpellAlignment] |Value=25|
+36-37,detect snares and pits |Value=25|
+38-39,detect undead |Value=25|
+40-41,divine favor |Value=25|
+42-43,doom |Value=25|
+44-48,endure elements |Value=25|
+49-50,entangle |Value=25|
+51-52,entropic shield |Value=25|
+53-54,faerie fire |Value=25|
+55-56,goodberry |Value=25|
+57-58,hide from animals |Value=25|
+59-60,hide from undead |Value=25|
+61-62,inflict light wounds (+%CasterLevel%) |Value=25|
+63-64,jump |Value=25|
+65-66,longstrider |Value=25|
+67-68,magic fang |Value=25|
+69-72,magic stone |Value=25|
+73-74,magic weapon |Value=25|
+75-78,obscuring mist |Value=25|
+79-80,pass without trace |Value=25|
+81-82,produce flame |Value=25|
+83-86,protection from [SpellAlignment] |Value=25|
+87-88,remove fear |Value=25|
+89-90,sanctuary |Value=25|
+91-92,shield of faith |Value=25|
+93-94,shillelagh |Value=25|
+95-96,speak with animals |Value=25|
+97-98,summon monster I |Value=25|
+99-100,summon nature's ally I |Value=25|
+
+:Level2DivineSpells
+1,animal messenger |Value=150|
+2,animal trance |Value=150|
+3-4,augury |Value=175|
+5-6,barkskin |Value=150|
+7-9,bear's endurance |Value=150|
+10-12,bull's strength |Value=150|
+13-14,calm emotions |Value=150|
+15-17,cat's grace |Value=150|
+18,chill metal |Value=150|
+19-20,consecrate |Value=200|
+21-24,cure moderate wounds (+%CasterLevel%) |Value=150|
+25-26,darkness |Value=150|
+27,death knell |Value=150|
+28-30,delay poison |Value=150|
+31-32,desecrate |Value=200|
+33-35,eagle's splendor |Value=150|
+36-37,enthrall |Value=150|
+38-39,find traps |Value=150|
+40,fire trap |Value=175|
+41-42,flame blade |Value=150|
+43-44,flaming sphere |Value=150|
+45-46,fog cloud |Value=150|
+47,gentle repose |Value=150|
+48,gust of wind |Value=150|
+49,heat metal |Value=150|
+50-51,hold animal |Value=150|
+52-54,hold person |Value=150|
+55-56,inflict moderate wounds (+%CasterLevel%) |Value=150|
+57-58,make whole |Value=150|
+59-61,owl's wisdom |Value=150|
+62,reduce animal |Value=150|
+63-64,remove paralysis |Value=150|
+65-67,resist energy |Value=150|
+68-70,lesser restoration |Value=150|
+71-72,shatter |Value=150|
+73-74,shield other |Value=150|
+75-76,silence |Value=150|
+77,snare |Value=150|
+78,soften earth and stone |Value=150|
+79-80,sound burst |Value=150|
+81,speak with plants |Value=150|
+82-83,spider climb |Value=150|
+84-85,spiritual weapon |Value=150|
+86,status |Value=150|
+87-88,summon monster II |Value=150|
+89-90,summon nature's ally II |Value=150|
+91-92,summon swarm |Value=150|
+93,tree shape |Value=150|
+94-95,undetectable alignment |Value=150|
+96-97,warp wood |Value=150|
+98,wood shape |Value=150|
+99-100,zone of truth |Value=150|
+
+:Level3DivineSpells
+1-2,animate dead |Value=625|
+3-4,bestow curse |Value=375|
+5-6,[Chanceof]{If~%Chance%>50 ? blindness/deafness} |Value=375|
+7-8,call lightning |Value=375|
+9-10,contagion |Value=375|
+11-12,continual flame |Value=425|
+13-14,create food and water |Value=375|
+15-18,cure serious wounds (+%CasterLevel%) |Value=375|
+19,darkvision |Value=375|
+20-21,daylight |Value=375|
+22-23,deeper darkness |Value=375|
+24-25,diminish plants |Value=375|
+26-27,dispel magic |Value=375|
+28-29,dominate animal |Value=375|
+30-31,glyph of warding |Value=575|
+32,heal mount |Value=375|
+33-34,helping hand |Value=375|
+35-36,inflict serious wounds (+%CasterLevel%) |Value=375|
+37-38,invisibility purge |Value=375|
+39-40,locate object |Value=375|
+41-46,magic circle against [SpellAlignment] |Value=375|
+47-48,magic fang greater |Value=375|
+49-50,magic vestment |Value=375|
+51-52,meld into stone |Value=375|
+53-55,neutralize poison |Value=375|
+56-57,obscure object |Value=375|
+58-59,plant growth |Value=375|
+60-62,prayer |Value=375|
+63-64,protection from energy |Value=375|
+65-66,quench |Value=375|
+67-69,remove [Chanceof]{If~%Chance%>50 ? blindness/deafness} |Value=375|
+70-71,remove curse |Value=375|
+72-73,remove disease |Value=375|
+74-76,searing light |Value=375|
+77-78,sleet storm |Value=375|
+79-80,snare |Value=375|
+81-83,speak with dead |Value=375|
+84-85,speak with plants |Value=375|
+86-87,spike growth |Value=375|
+88-89,stone shape |Value=375|
+90-91,summon monster III |Value=375|
+92-93,summon nature's ally III |Value=375|
+94-96,water breathing |Value=375|
+97-98,water walk |Value=375|
+99-100,wind wall |Value=375|
+
+:Level4DivineSpells
+1-5,air walk |Value=700|
+6-7,antiplant shell |Value=700|
+8-9,blight |Value=700|
+10-11,break enchantment |Value=700|
+12-13,command plants |Value=700|
+14-15,control water |Value=700|
+16-21,cure critical wounds (+%CasterLevel%) |Value=700|
+22-26,death ward |Value=700|
+27-31,dimensional anchor |Value=700|
+32-34,discern lies |Value=700|
+35-37,dismissal |Value=700|
+38-39,divination |Value=725|
+40-42,divine power |Value=700|
+43-47,freedom of movement |Value=700|
+48-49,giant vermin |Value=700|
+50-51,holy sword |Value=700|
+52-54,imbue with spell ability |Value=700|
+55-57,inflict critical wounds (+%CasterLevel%) |Value=700|
+58-60,greater magic weapon |Value=700|
+61-62,nondetection |Value=750|
+63-64,lesser planar ally |Value=1200|
+65-67,poison |Value=700|
+68-69,reincarnate |Value=700|
+70-71,repel vermin |Value=700|
+72-76,restoration |Value=800|
+77-78,rusting grasp |Value=700|
+79-81,sending |Value=700|
+82-85,spell immunity |Value=700|
+86-87,spike stones |Value=700|
+88-90,summon monster IV |Value=700|
+91-93,summon nature's ally IV |Value=700|
+94-98,tongues |Value=700|
+99-100,tree stride |Value=700|
+
+:Level5DivineSpells
+1-3,animal growth |Value=1125|
+4-5,atonement |Value=3625|
+6,awaken |Value=2375|
+7-9,baleful polymorph |Value=1125|
+10-13,break enchantment |Value=1125|
+14-16,call lightning storm |Value=1125|
+17-20,greater command |Value=1125|
+21,commune |Value=1625|
+22,commune with nature |Value=1125|
+23-24,control winds |Value=1125|
+25-30,mass cure light wounds (+%CasterLevel%) |Value=1125|
+31-34,dispel [SpellAlignment] |Value=1125|
+35-38,disrupting weapon |Value=1125|
+39-41,flame strike |Value=1125|
+42-43,hallow |Value=6125|
+44-46,ice storm |Value=1125|
+47-49,mass inflict light wounds (+%CasterLevel%) |Value=1125|
+50-52,insect plague |Value=1125|
+53,mark of justice |Value=1125|
+54-56,plane shift |Value=1125|
+57-58,raise dead |Value=6125|
+59-61,righteous might |Value=1125|
+62-63,scrying |Value=1125|
+64-66,slay living |Value=1125|
+67-69,spell resistance |Value=1125|
+70-71,stoneskin |Value=1375|
+72-74,summon monster V |Value=1125|
+75-77,summon nature's ally V |Value=1125|
+78,symbol of pain |Value=2125|
+79,symbol of sleep |Value=2125|
+80-82,transmute mud to rock |Value=1125|
+83-85,transmute rock to mud |Value=1125|
+86-89,true seeing |Value=1375|
+90-91,unhallow |Value=6125|
+92-94,wall of fire |Value=1125|
+95-97,wall of stone |Value=1125|
+98-100,wall of thorns |Value=1125|
+
+:Level6DivineSpells
+1-3,animate objects |Value=1650|
+4-6,antilife shell |Value=1650|
+7-9,banishment |Value=1650|
+10-13,mass bear's endurance |Value=1650|
+14-16,blade barrier |Value=1650|
+17-20,mass bull's strength |Value=1650|
+21-24,mass cat's grace |Value=1650|
+25,create undead |Value=1650|
+26-29,mass cure moderate wounds (+%CasterLevel%) |Value=1650|
+30-33,greater dispel magic |Value=1650|
+34-37,mass eagle's splendor |Value=1650|
+38-40,find the path |Value=1650|
+41-43,fire seeds |Value=1650|
+44,forbiddance |Value=4650|
+45,geas/quest |Value=1650|
+46,greater glyph of warding |Value=1650|
+47-49,harm |Value=1650|
+50-52,heal |Value=1650|
+53-55,heroes' feast |Value=1650|
+56-58,mass inflict moderate wounds (+%CasterLevel%) |Value=1650|
+59-61,ironwood |Value=1650|
+62,liveoak |Value=1650|
+63-65,move earth |Value=1650|
+66-69,mass owl's wisdom |Value=1650|
+70-71,planar ally |Value=2400|
+72-74,repel wood |Value=1650|
+75-77,spellstaff |Value=1650|
+78-80,stone tell |Value=1650|
+81-83,summon monster VI |Value=1650|
+84-86,summon nature's ally VI |Value=1650|
+87,symbol of fear |Value=2650|
+88,symbol of persuasion |Value=6650|
+89-91,transport via plants |Value=1650|
+92-94,undeath to death |Value=2150|
+95-97,wind walk |Value=1650|
+98-100,word of recall |Value=1650|
+
+:Level7DivineSpells
+1-5,animate plants |Value=2275|
+6-9,blasphemy |Value=2275|
+10-14,changestaff |Value=2275|
+15-16,control weather |Value=2275|
+17-21,creeping doom |Value=2275|
+22-27,mass cure serious wounds (+%CasterLevel%) |Value=2275|
+28-32,destruction |Value=2275|
+33-36,dictum |Value=2275|
+37-41,ethereal jaunt |Value=2275|
+42-45,holy word |Value=2275|
+46-50,mass inflict serious wounds (+%CasterLevel%) |Value=2275|
+51-55,refuge |Value=3775|
+56-60,regenerate |Value=2275|
+61-65,repulsion |Value=2275|
+66-69,greater restoration |Value=4775|
+70-71,resurrection |Value=12275|
+72-76,greater scrying |Value=2275|
+77-81,summon monster VII |Value=2275|
+82-85,summon nature's ally VII |Value=2275|
+86-90,sunbeam |Value=2275|
+91,symbol of stunning |Value=7275|
+92,symbol of weakness |Value=7275|
+93-97,transmute metal to wood |Value=2275|
+98-100,word of chaos |Value=2275|
+
+:Level8DivineSpells
+1-4,animal shapes |Value=3000|
+5-10,antimagic field |Value=3000|
+11-13,cloak of chaos |Value=3000|
+14-17,control plants |Value=3000|
+18-20,create greater undead |Value=3600|
+21-27,mass cure critical wounds (+%CasterLevel%) |Value=3000|
+28-32,dimensional lock |Value=3000|
+33-36,discern location |Value=3000|
+37-41,earthquake |Value=3000|
+42-45,finger of death |Value=3000|
+46-49,fire storm |Value=3000|
+50-52,holy aura |Value=3000|
+53-56,mass inflict critical wounds (+%CasterLevel%) |Value=3000|
+57-60,greater planar ally |Value=5500|
+61-65,repel metal or stone |Value=3000|
+66-69,reverse gravity |Value=3000|
+70-72,shield of law |Value=3000|
+73-76,greater spell immunity |Value=3000|
+77-80,summon monster VIII |Value=3000|
+81-84,summon nature's ally VIII |Value=3000|
+85-89,sunburst |Value=3000|
+90-91,symbol of death |Value=8000|
+92-93,symbol of insanity |Value=8000|
+94-96,unholy aura |Value=3000|
+97-100,whirlwind |Value=3000|
+
+:Level9DivineSpells
+1-4,antipathy |Value=3825|
+5-7,astral projection |Value=4870|
+8-13,elemental swarm |Value=3825|
+14-19,energy drain |Value=3825|
+20-25,etherealness |Value=3825|
+26-31,foresight |Value=3825|
+32-37,gate |Value=8825|
+38-46,mass heal |Value=3825|
+47-53,implosion |Value=3825|
+54-55,miracle |Value=28825|
+56-61,regenerate |Value=3825|
+62-66,shambler |Value=3825|
+67-72,shapechange |Value=3825|
+73-77,soul bind |Value=3825|
+78-83,storm of vengeance |Value=3825|
+84-89,summon monster IX |Value=3825|
+90-95,summon nature's ally IX |Value=3825|
+96-99,sympathy |Value=5325|
+100,true resurrection |Value=28825|
+
+########################### Staves ##################################
+
+:DetermineStaffMain
+1,[DetermineStaffMinor]
+2,[DetermineStaffMedium]
+3,[DetermineStaffMajor]
+
+:StaffDescription
+1,{If~%ItemID%=22 ? There are no Minor Staves/<i>staff of [StaffName=%ItemID%]</i> ({Dice~5d10} charges)}
+
+:DetermineStaffMinor
+1,|ItemID=22|
+
+:DetermineStaffMedium
+1-15,|ItemID=1|
+16-30,|ItemID=2|
+31-40,|ItemID=3|
+41-60,|ItemID=4|
+61-75,|ItemID=5|
+76-90,|ItemID=6|
+91-95,|ItemID=7|
+96-100,|ItemID=8|
+
+:DetermineStaffMajor
+1-3,|ItemID=1|
+4-9,|ItemID=2|
+10-11,|ItemID=3|
+12-17,|ItemID=4|
+18-19,|ItemID=5|
+20-24,|ItemID=6|
+25-31,|ItemID=7|
+32-38,|ItemID=8|
+39-43,|ItemID=9|
+44-48,|ItemID=10|
+49-53,|ItemID=11|
+54-58,|ItemID=12|
+59-63,|ItemID=13|
+64-68,|ItemID=14|
+69-73,|ItemID=15|
+74-77,|ItemID=16|
+78-82,|ItemID=17|
+83-87,|ItemID=18|
+88-92,|ItemID=19|
+93-97,|ItemID=20|
+98-100,|ItemID=21|
+
+:StaffName
+1,charming |Value=16500|
+2,fire |Value=17750|
+3,swarming insects |Value=24750|
+4,healing |Value=27750|
+5,size alteration |Value=29000|
+6,illumination |Value=48250|
+7,frost |Value=56250|
+8,defense |Value=58250|
+9,abjuration |Value=65000|
+10,conjuration |Value=65000|
+11,enchantment |Value=65000|
+12,evocation |Value=65000|
+13,illusion |Value=65000|
+14,necromancy |Value=65000|
+15,transmutation |Value=65000|
+16,divination |Value=73500|
+17,earth and stone |Value=80500|
+18,woodlands |Value=101250|
+19,life |Value=155750|
+20,passage |Value=170500|
+21,power |Value=211000|
+
+############################ Wands ##################################
+
+:DetermineWandMain
+1,[DetermineWandMinor]
+2,[DetermineWandMedium]
+3,[DetermineWandMajor]
+
+:WandDescription
+1,<i>wand of [WandName=%ItemID%]</i> ({Dice~1d50} charges)
+
+:DetermineWandMinor
+1-2,|ItemID=1|
+3-4,|ItemID=2|
+5-7,|ItemID=3|
+8-10,|ItemID=4|
+11-13,|ItemID=5|
+14-16,|ItemID=6|
+17-19,|ItemID=7|
+20-22,|ItemID=8|
+23-25,|ItemID=9|
+26-28,|ItemID=10|
+29-31,|ItemID=11|
+32-34,|ItemID=12|
+35-36,|ItemID=13|
+37,|ItemID=14|
+38-40,|ItemID=15|
+41-43,|ItemID=16|
+44-46,|ItemID=17|
+47-49,|ItemID=18|
+50-51,|ItemID=19|
+52-54,|ItemID=20|
+55-57,|ItemID=21|
+58-60,|ItemID=22|
+61-63,|ItemID=23|
+64-66,|ItemID=24|
+67-68,|ItemID=25|
+69-71,|ItemID=26|
+72-74,|ItemID=27|
+75-77,|ItemID=28|
+78-80,|ItemID=29|
+81-83,|ItemID=30|
+84-86,|ItemID=31|
+87-89,|ItemID=32|
+90-91,|ItemID=33|
+92-94,|ItemID=34|
+95-97,|ItemID=35|
+98-100,|ItemID=36|
+
+:DetermineWandMedium
+1-3,|ItemID=14|
+4-7,|ItemID=15|
+8-11,|ItemID=16|
+12-15,|ItemID=17|
+16-20,|ItemID=18|
+21-22,|ItemID=19|
+23-24,|ItemID=20|
+25-27,|ItemID=21|
+28-31,|ItemID=22|
+32-33,|ItemID=23|
+34-37,|ItemID=24|
+38,|ItemID=25|
+39,|ItemID=26|
+40-42,|ItemID=27|
+43-44,|ItemID=28|
+45,|ItemID=29|
+46-47,|ItemID=30|
+48-49,|ItemID=31|
+50-53,|ItemID=32|
+54,|ItemID=33|
+55-56,|ItemID=34|
+57,|ItemID=35|
+58-59,|ItemID=36|
+60-62,|ItemID=37|
+63-64,|ItemID=38|
+65-67,|ItemID=39|
+68,|ItemID=40|
+69-70,|ItemID=41|
+71-74,|ItemID=42|
+75-77,|ItemID=43|
+78-81,|ItemID=44|
+82-83,|ItemID=45|
+84-87,|ItemID=46|
+88-89,|ItemID=47|
+90-91,|ItemID=48|
+92-94,|ItemID=49|
+95-97,|ItemID=50|
+98,|ItemID=51|
+99,|ItemID=52|
+100,|ItemID=53|
+
+:DetermineWandMajor
+1-2,|ItemID=37|
+3-5,|ItemID=38|
+6-7,|ItemID=39|
+8,|ItemID=40|
+9-10,|ItemID=41|
+11-13,|ItemID=42|
+14-15,|ItemID=43|
+16-17,|ItemID=44|
+18-19,|ItemID=45|
+20-21,|ItemID=46|
+22-23,|ItemID=47|
+24-25,|ItemID=48|
+26-27,|ItemID=49|
+28-29,|ItemID=50|
+30-31,|ItemID=51|
+32-33,|ItemID=52|
+34-35,|ItemID=53|
+36-37,|ItemID=54|
+38-39,|ItemID=55|
+40-41,|ItemID=56|
+42-45,|ItemID=57|
+46-50,|ItemID=58|
+51-52,|ItemID=59|
+53-55,|ItemID=60|
+56-59,|ItemID=61|
+60,|ItemID=62|
+61-65,|ItemID=63|
+66-68,|ItemID=64|
+69-72,|ItemID=65|
+73-74,|ItemID=66|
+75-77,|ItemID=67|
+78,|ItemID=68|
+79,|ItemID=69|
+80-82,|ItemID=70|
+83-86,|ItemID=71|
+87-90,|ItemID=72|
+91,|ItemID=73|
+92,|ItemID=74|
+93,|ItemID=75|
+94,|ItemID=76|
+95,|ItemID=77|
+96,|ItemID=78|
+97,|ItemID=79|
+98-99,|ItemID=80|
+100,|ItemID=81|
+
+:WandName
+1,detect magic |Value=375|
+2,light |Value=375|
+3,burning hands |Value=750|
+4,charm animal |Value=750|
+5,charm person |Value=750|
+6,color spray |Value=750|
+7,cure light wounds |Value=750|
+8,detect secret doors |Value=750|
+9,enlarge person |Value=750|
+10,magic missile (1st) |Value=750|
+11,shocking grasp |Value=750|
+12,summon monster I |Value=750|
+13,magic missile (3rd) |Value=2250|
+14,magic missile (5th) |Value=3750|
+15,bear's endurance |Value=4500|
+16,bull's strength |Value=4500|
+17,cat's grace |Value=4500|
+18,cure moderate wounds |Value=4500|
+19,darkness |Value=4500|
+20,daylight |Value=4500|
+21,delay poison |Value=4500|
+22,eagle's splendor |Value=4500|
+23,false life |Value=4500|
+24,fox's cunning |Value=4500|
+25,ghoul touch |Value=4500|
+26,hold person |Value=4500|
+27,invisibility |Value=4500|
+28,knock |Value=4500|
+29,levitate |Value=4500|
+30,acid arrow |Value=4500|
+31,mirror image |Value=4500|
+32,owl's wisdom |Value=4500|
+33,shatter |Value=4500|
+34,silence |Value=4500|
+35,summon monster II |Value=4500|
+36,web |Value=4500|
+37,magic missile (7th) |Value=5250|
+38,magic missile (9th) |Value=6750|
+39,call lightning (5th) |Value=11250|
+40,heightened charm person (3rd-level spell) |Value=11250|
+41,contagion |Value=11250|
+42,cure serious wounds |Value=11250|
+43,dispel magic |Value=11250|
+44,fireball (5th) |Value=11250|
+45,keen edge |Value=11250|
+46,lightning bolt (5th) |Value=11250|
+47,major image |Value=11250|
+48,slow |Value=11250|
+49,suggestion |Value=11250|
+50,summon monster III |Value=11250|
+51,fireball (6th) |Value=13500|
+52,lightning bolt (6th) |Value=13500|
+53,searing light (6th) |Value=13500|
+54,call lightning (8th) |Value=18000|
+55,fireball (8th) |Value=18000|
+56,lightning bolt (8th) |Value=18000|
+57,charm monster |Value=21000|
+58,cure critical wounds |Value=21000|
+59,dimensional anchor |Value=21000|
+60,fear |Value=21000|
+61,greater invisibility |Value=21000|
+62,heightened hold person (4th level) |Value=21000|
+63,ice storm |Value=21000|
+64,inflict critical wounds |Value=21000|
+65,neutralize poison |Value=21000|
+66,poison |Value=21000|
+67,polymorph |Value=21000|
+68,heightened ray of enfeeblement (4th level) |Value=21000|
+69,heightened suggestion (4th level) |Value=21000|
+70,summon monster IV |Value=21000|
+71,wall of fire |Value=21000|
+72,wall of ice |Value=21000|
+73,dispel magic (10th) |Value=22500|
+74,fireball (10th) |Value=22500|
+75,lightning bolt (10th) |Value=22500|
+76,chaos hammer (8th) |Value=24000|
+77,holy smite (8th) |Value=24000|
+78,order's wrath (8th) |Value=24000|
+79,unholy blight (8th) |Value=24000|
+80,restoration |Value=26000|
+81,stoneskin |Value=33500|
+
+###################### Wondrous Items ###############################
+
+:DetermineWondrousItemMain
+1-3,|ItemID={Dice~1d100}|
+
+:WondrousItemDescription
+1,<i>[MinorWondrousItemDescription=%ItemID%]</i>
+2,<i>[MediumWondrousItemDescription=%ItemID%]</i>
+3,<i>[MajorWondrousItemDescription=%ItemID%]</i>
+
+:MinorWondrousItemDescription
+1,quaal’s feather token, anchor |Value=50|
+2,universal solvent |Value=50|
+3,elixir of love |Value=150|
+4,unguent of timelessness |Value=150|
+5,quaal’s feather token, fan |Value=200|
+6,dust of tracelessness |Value=250|
+7,elixir of hiding |Value=250|
+8,elixir of sneaking |Value=250|
+9,elixir of swimming |Value=250|
+10,elixir of vision |Value=250|
+11,silversheen |Value=250|
+12,quaal’s feather token, bird |Value=300|
+13,quaal’s feather token, tree |Value=400|
+14,quaal’s feather token, swan boat |Value=450|
+15,elixir of truth |Value=500|
+16,quaal’s feather token, whip |Value=500|
+17,dust of dryness |Value=850|
+18,bag of tricks, gray |Value=900|
+19,hand of the mage |Value=900|
+20,bracers of armor +1 |Value=1000|
+21,cloak of resistance+1 |Value=1000|
+22,pearl of power, 1st-level spell |Value=1000|
+23,phylactery of faithfulness |Value=1000|
+24,salve of slipperiness |Value=1000|
+25,elixir of fire breath |Value=1100|
+26,pipes of the sewers |Value=1150|
+27,dust of illusion |Value=1200|
+28,goggles of minute seeing |Value=1250|
+29,brooch of shielding |Value=1500|
+30,necklace of fireballs type I |Value=1650|
+31,dust of appearance |Value=1800|
+32,hat of disguise |Value=1800|
+33,pipes of sounding |Value=1800|
+34,efficient quiver |Value=1800|
+35,amulet of natural armor +1 |Value=2000|
+36,handy haversack |Value=2000|
+37,horn of fog |Value=2000|
+38,elemental gem |Value=2250|
+39,robe of bones |Value=2400|
+40,sovereign glue |Value=2400|
+41,bag of holding type I |Value=2500|
+42,boots of elvenkind |Value=2500|
+43,boots of the winterlands |Value=2500|
+44,candle of truth |Value=2500|
+45,cloak of elvenkind |Value=2500|
+46,eyes of the eagle |Value=2500|
+47,scarab, golembane |Value=2500|
+48,necklace of fireballs type II |Value=2700|
+49,stone of alarm |Value=2700|
+50,bag of tricks, rust |Value=3000|
+51,bead of force |Value=3000|
+52,chime of opening |Value=3000|
+53,horseshoes of speed |Value=3000|
+54,rope of climbing |Value=3000|
+55,dust of disappearance |Value=3500|
+56,lens of detection |Value=3500|
+57,vestment, druid’s |Value=3750|
+58,figurine of wondrous power, silver raven |Value=3800|
+59,amulet of health +2 |Value=4000|
+60,bracers of armor +2 |Value=4000|
+61,cloak of charisma +2 |Value=4000|
+62,cloak of resistance+2 |Value=4000|
+63,gauntlets of ogre power |Value=4000|
+64,gloves of arrow snaring |Value=4000|
+65,gloves of dexterity +2 |Value=4000|
+66,headband of intellect +2 |Value=4000|
+67,ioun stone, clear spindle |Value=4000|
+68,restorative ointment |Value=4000|
+69,marvelous pigments |Value=4000|
+70,pearl of power, 2nd-level spell |Value=4000|
+71,periapt of wisdom +2 |Value=4000|
+72,stone salve |Value=4000|
+73,necklace of fireballs type III |Value=4350|
+74,circlet of persuasion |Value=4500|
+75,slippers of spider climbing |Value=4800|
+76,incense of meditation |Value=4900|
+77,bag of holding type II |Value=5000|
+78,bracers of archery, lesser |Value=5000|
+79,ioun stone, dusty rose prism |Value=5000|
+80,helm of comprehend languages and read magic |Value=5200|
+81,vest of escape |Value=5200|
+82,eversmoking bottle |Value=5400|
+83,sustaining spoon |Value=5400|
+84,necklace of fireballs type IV |Value=5400|
+85,boots of striding and springing |Value=5500|
+86,wind fan |Value=5500|
+87,amulet of mighty fists +1 |Value=6000|
+88,horseshoes of a zephyr |Value=6000|
+89,pipes of haunting |Value=6000|
+90,necklace of fireballs type V |Value=6150|
+91,gloves of swimming and climbing |Value=6250|
+92,bag of tricks, tan |Value=6300|
+93,circlet of blasting, minor |Value=6480|
+94,horn of goodness/evil |Value=6500|
+95,robe of useful items |Value=7000|
+96,boat, folding |Value=7200|
+97,cloak of the manta ray |Value=7200|
+98,bottle of air |Value=7250|
+99,bag of holding type III |Value=7400|
+100,periapt of health |Value=7400|
+
+:MediumWondrousItemDescription
+1,boots of levitation |Value=7500|
+2,harp of charming |Value=7500|
+3,amulet of natural armor +2 |Value=8000|
+4,golem manual, flesh |Value=8000|
+5,hand of glory |Value=8000|
+6,ioun stone, deep red sphere |Value=8000|
+7,ioun stone, incandescent blue sphere |Value=8000|
+8,ioun stone, pale blue rhomboid |Value=8000|
+9,ioun stone, pink and green sphere |Value=8000|
+10,ioun stone, pink rhomboid |Value=8000|
+11,ioun stone, scarlet and blue sphere |Value=8000|
+12,deck of illusions |Value=8100|
+13,necklace of fireballs type VI |Value=8100|
+14,candle of invocation |Value=8400|
+15,bracers of armor +3 |Value=9000|
+16,cloak of resistance+3 |Value=9000|
+17,decanter of endless water |Value=9000|
+18,necklace of adaptation |Value=9000|
+19,pearl of power, 3rd-level spell |Value=9000|
+20,talisman of the sphere |Value=9000|
+21,figurine of wondrous power, serpentine owl |Value=9100|
+22,necklace of fireballs type VII |Value=9150|
+23,strand of prayer beads, lesser |Value=9600|
+24,bag of holding type IV |Value=10000|
+25,figurine of wondrous power, bronze griffon |Value=10000|
+26,figurine of wondrous power, ebony fly |Value=10000|
+27,glove of storing |Value=10000|
+28,ioun stone, dark blue rhomboid |Value=10000|
+29,stone horse, courser |Value=10000|
+30,cape of the mountebank |Value=10080|
+31,phylactery of undead turning |Value=11000|
+32,gauntlet of rust |Value=11500|
+33,boots of speed |Value=12000|
+34,goggles of night |Value=12000|
+35,golem manual, clay |Value=12000|
+36,medallion of thoughts |Value=12000|
+37,pipes of pain |Value=12000|
+38,blessed book |Value=12500|
+39,belt, monk’s |Value=13000|
+40,gem of brightness |Value=13000|
+41,lyre of building |Value=13000|
+42,cloak of arachnida |Value=14000|
+43,stone horse, destrier |Value=14800|
+44,belt of dwarvenkind |Value=14900|
+45,periapt of wound closure |Value=15000|
+46,horn of the tritons |Value=15100|
+47,pearl of the sirines |Value=15300|
+48,figurine of wondrous power, onyx dog |Value=15500|
+49,amulet of health +4 |Value=16000|
+50,belt of giant strength +4 |Value=16000|
+51,boots, winged |Value=16000|
+52,bracers of armor +4 |Value=16000|
+53,cloak of charisma +4 |Value=16000|
+54,cloak of resistance+4 |Value=16000|
+55,gloves of dexterity +4 |Value=16000|
+56,headband of intellect +4 |Value=16000|
+57,pearl of power, 4th-level spell |Value=16000|
+58,periapt of wisdom +4 |Value=16000|
+59,scabbard of keen edges |Value=16000|
+60,figurine of wondrous power, golden lions |Value=16500|
+61,chime of interruption |Value=16800|
+62,broom of flying |Value=17000|
+63,figurine of wondrous power, marble elephant |Value=17000|
+64,amulet of natural armor +3 |Value=18000|
+65,ioun stone, iridescent spindle |Value=18000|
+66,bracelet of friends |Value=19000|
+67,carpet of flying, 5 ft. by 5 ft. |Value=20000|
+68,horn of blasting |Value=20000|
+69,ioun stone, pale lavender ellipsoid |Value=20000|
+70,ioun stone, pearly white spindle |Value=20000|
+71,portable hole |Value=20000|
+72,stone of good luck (luckstone) |Value=20000|
+73,figurine of wondrous power, ivory goats |Value=21000|
+74,rope of entanglement |Value=21000|
+75,golem manual, stone |Value=22000|
+76,mask of the skull |Value=22000|
+77,mattock of the titans |Value=23348|
+78,circlet of blasting, major |Value=23760|
+79,amulet of mighty fists +2 |Value=24000|
+80,cloak of displacement, minor |Value=24000|
+81,helm of underwater action |Value=24000|
+82,bracers of archery, greater |Value=25000|
+83,bracers of armor +5 |Value=25000|
+84,cloak of resistance+5 |Value=25000|
+85,eyes of doom |Value=25000|
+86,pearl of power, 5th-level spell |Value=25000|
+87,maul of the titans |Value=25305|
+88,strand of prayer beads |Value=25800|
+89,cloak of the bat |Value=26000|
+90,iron bands of binding |Value=26000|
+91,cube of frost resistance|Value=27000|
+92,helm of telepathy |Value=27000|
+93,periapt of proof against poison |Value=27000|
+94,robe of scintillating colors |Value=27000|
+95,manual of bodily health +1 |Value=27500|
+96,manual of gainful exercise +1 |Value=27500|
+97,manual of quickness in action +1 |Value=27500|
+98,tome of clear thought +1 |Value=27500|
+99,tome of leadership and influence +1 |Value=27500|
+100,tome of understanding +1 |Value=27500|
+
+:MajorWondrousItemDescription
+1,dimensional shackles |Value=28000|
+2,figurine of wondrous power, obsidian steed |Value=28500|
+3,drums of panic |Value=30000|
+4,ioun stone, orange |Value=30000|
+5,ioun stone, pale green prism |Value=30000|
+6,lantern of revealing |Value=30000|
+7,robe of blending |Value=30000|
+8,amulet of natural armor +4 |Value=32000|
+9,amulet of proof against detection and location |Value=35000|
+10,carpet of flying, 5 ft. by 10 ft. |Value=35000|
+11,golem manual, iron |Value=35000|
+12,amulet of health +6 |Value=36000|
+13,belt of giant strength +6 |Value=36000|
+14,bracers of armor +6 |Value=36000|
+15,cloak of charisma +6 |Value=36000|
+16,gloves of dexterity +6 |Value=36000|
+17,headband of intellect +6 |Value=36000|
+18,ioun stone, vibrant purple prism |Value=36000|
+19,pearl of power, 6th-level spell |Value=36000|
+20,periapt of wisdom +6 |Value=36000|
+21,scarab of protection |Value=38000|
+22,ioun stone, lavender and green ellipsoid |Value=40000|
+23,ring gates |Value=40000|
+24,crystal ball |Value=42000|
+25,golem manual, greater stone |Value=44000|
+26,orb of storms |Value=48000|
+27,boots of teleportation |Value=49000|
+28,bracers of armor +7 |Value=49000|
+29,pearl of power, 7th-level spell |Value=49000|
+30,amulet of natural armor +5 |Value=50000|
+31,cloak of displacement, major |Value=50000|
+32,crystal ball with see invisibility |Value=50000|
+33,horn of valhalla |Value=50000|
+34,crystal ball with detect thoughts |Value=51000|
+35,carpet of flying, 6 ft. by 9 ft. |Value=53000|
+36,amulet of mighty fists +3 |Value=54000|
+37,wings of flying |Value=54000|
+38,cloak of etherealness |Value=55000|
+39,instant fortress |Value=55000|
+40,manual of bodily health +2 |Value=55000|
+41,manual of gainful exercise +2 |Value=55000|
+42,manual of quickness in action +2 |Value=55000|
+43,tome of clear thought +2 |Value=55000|
+44,tome of leadership and influence +2 |Value=55000|
+45,tome of understanding +2 |Value=55000|
+46,eyes of charming |Value=56000|
+47,robe of stars |Value=58000|
+48,carpet of flying, 10 ft. by 10 ft. |Value=60000|
+49,darkskull |Value=60000|
+50,cube of force |Value=62000|
+51,bracers of armor +8 |Value=64000|
+52,pearl of power, 8th-level spell |Value=64000|
+53,crystal ball with telepathy |Value=70000|
+54,horn of blasting, greater |Value=70000|
+55,pearl of power, two spells |Value=70000|
+56,helm of teleportation |Value=73500|
+57,gem of seeing |Value=75000|
+58,robe of the archmagi |Value=75000|
+59,mantle of faith |Value=76000|
+60,crystal ball with true seeing |Value=80000|
+61,pearl of power, 9th-level spell |Value=81000|
+62,well of many worlds |Value=82000|
+63,manual of bodily health +3 |Value=82500|
+64,manual of gainful exercise +3 |Value=82500|
+65,manual of quickness in action +3 |Value=82500|
+66,tome of clear thought +3 |Value=82500|
+67,tome of leadership and influence +3 |Value=82500|
+68,tome of understanding +3 |Value=82500|
+69,apparatus of the crab |Value=90000|
+70,mantle of spell resistance |Value=90000|
+71,mirror of opposition |Value=92000|
+72,strand of prayer beads, greater |Value=95800|
+73,amulet of mighty fists +4 |Value=96000|
+74,eyes of petrification |Value=98000|
+75,bowl of commanding water elementals |Value=100000|
+76,brazier of commanding fire elementals |Value=100000|
+77,censer of controlling air elementals |Value=100000|
+78,stone of controlling earth elementals |Value=100000|
+79,manual of bodily health +4 |Value=110000|
+80,manual of gainful exercise +4 |Value=110000|
+81,manual of quickness in action +4 |Value=110000|
+82,tome of clear thought +4 |Value=110000|
+83,tome of leadership and influence +4 |Value=110000|
+84,tome of understanding +4 |Value=110000|
+85,amulet of the planes |Value=120000|
+86,robe of eyes |Value=120000|
+87,helm of brilliance |Value=125000|
+88,manual of bodily health +5 |Value=137500|
+89,manual of gainful exercise +5 |Value=137500|
+90,manual of quickness in action +5 |Value=137500|
+91,tome of clear thought +5 |Value=137500|
+92,tome of leadership and influence +5 |Value=137500|
+93,tome of understanding +5 |Value=137500|
+94,efreeti bottle |Value=145000|
+95,amulet of mighty fists +5 |Value=150000|
+96,chaos diamond |Value=160000|
+97,cubic gate |Value=164000|
+98,iron flask |Value=170000|
+99,mirror of mental prowess |Value=175000|
+100,mirror of life trapping |Value=200000|
+
+:PowerDefinitions
+1,Minor
+2,Medium
+3,Major
+

@@ -1,0 +1,112 @@
+# ----------------------------------------------
+# Last Update: Valminder July 31, 2003.
+# ----------------------------------------------
+# 
+# Formal Names
+# Use for full, grandiose names...
+#
+# Certain portions from the world of Mythosa
+# (http://www.mythosa.net)
+#
+# Copyright 1998 Bruce A. Gulke
+#
+# Modified by Valminder, July 2003 :
+#    If you play in Mythosa, change the "Place" name with the one called
+#    "Place of Myhtosa".
+#    I added stuff from "KS_FormalNames" Table by Ed Hastings.
+#    I added links to the "Oeridian" table, by EdHastings.
+#
+
+;Start
+1,[Names Generator.NAME Random] of [~Place]
+1,[Names Generator.NAME Random] [Names Generator.NAME Random] the {Cap~[Adjective]}
+1,[Names Generator.NAME Random] the {Cap~[Adjective]}
+1,[Names Generator.NAME Random] [Names Generator.NAME Random]
+1,[Names Generator.NAME Random] [Names Generator.NAME Random] [Sequential] 
+1,[Names Generator.NAME Random] [Names Generator.NAME Random] of [~Place]
+1,[Names Generator.NAME Random] of [Town Names.Group0]
+1,[Names Generator.NAME Random] [Town Names.Group0] of [~Place]
+1,[Names Generator.NAME Random] [Town Names.Group0] the {Cap~[ADV Instant Adventure Namer.Superlatives]}
+1,[Names Generator.NAME Random] the {Cap~[ADV Instant Adventure Namer.Superlatives]}
+1,[Oeridian.LordlyRandom]
+1,[Oeridian.MightyRandom]
+
+;Adjective
+1,Black
+1,Grey
+1,Red
+1,Blue
+1,White
+1,First
+1,Second
+1,Third
+1,Fourth
+1,Apprentice
+1,Brave
+1,Chaotic
+1,Coward
+1,Doombringer
+1,Elder
+1,Great
+1,Holy
+1,Hopeful
+1,Humble
+1,Just
+1,Lawful
+1,Learned
+1,Mad
+1,Magnificent
+1,Pious
+1,Powerful
+1,Righteous
+1,Shadow
+1,Shining Light
+1,Unholy
+1,Unwashed
+1,Vile
+1,Weak
+1,Wise
+1,Younger
+
+;Place
+1,the Wood
+1,the Desert
+1,the Hills
+1,the Plains
+1,the Mountains
+1,the Sea
+10,[Countries.Land]
+5,{Cap~[Countries.Generate]}
+
+:Place of Mythosa
+1,Ilmara
+2,Ulthia
+3,Yar
+4,Damaristan
+5,the Wood
+6,the Desert
+7,the Hills
+8,Zeldora
+9,Rhijad
+10,Gothmoor
+11,Aelorea
+12,Spÿre
+13,Stalis
+14,Talîsmarr
+15,Shesada
+16,Záyírà
+17,Ashford
+18,Carsìr
+19,Maràmyth
+20,Kyràthé
+21,the Plains
+22,the Mountains
+23,the Sea
+
+;Sequential
+2,I
+5,II
+1,III
+1,IV
+1,V
+

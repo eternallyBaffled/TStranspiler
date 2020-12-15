@@ -1,0 +1,1426 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder August 24, 2006.
+# ---------------------------------------------------
+#
+# This table is a ~Reference table for all "EQ" tables
+# like "EQ Armory.tab" and "EQ Bardic Items.tab".
+# It regroups all the tables that are often called by those tables.
+#
+# By Sean Hlousek and Valminder 2006.
+#
+# -------------------------------------------------------------------------
+#
+# This table is to be used with the Split~function.
+#
+# -------------------------------------------------------------------------
+#
+# Modified by Valminder, August  2006.
+#    Added subtables from all EQ tables.
+#
+
+%Temp%,0
+
+# This is not done yet and could be done in the future
+#
+# Books
+# A&A = Arms & Armor (Bastion Press)
+# A&E = Arms and Equipment Guide (WotC)
+# BOR = ???
+# BVD = Book of Vile Darkness (WotC)
+# CDiv = Complete Divine (WotC)
+# DMG3.5 = Diungeon Master's Guide 3.5E (WotC)
+# DOF = Defenders of the Faith (WotC) 
+# ITG = ???
+# KOK = ???
+# MOF = Magic of Faerun (WotC)
+# MOW = Masters of the Wild (WotC)
+# PHB3.0 = Player's Handbook 3E (WotC)
+# PHB3.5 = Player's Handbook 3.5E  (WotC)
+# RR1 = Relics and Rituals 1
+# RR2 = Relics and Rituals 2 
+# S&F = Sword & Fist (WotC)
+# S&S = Song and Silence (WotC)
+# SP&SC = ???
+# SHH = ???
+# T&B = Tome and Blood (WotC)
+# TA = ???
+# UEG = Ultimate Equipment Guide 
+# WBG = ???
+#
+# If you own the book, set the value at 1.
+#
+
+%A&A%,1
+%A&E%,1
+%BOR%,1
+%BVD%,1
+%CDiv%,1
+%DMG3.5%,1
+%DOF%,1
+%ITG%,0
+%KOK%,1
+%MOF%,1
+%MOW%,1
+%PHB3.0%,1
+%PHB3.5%,1
+%RR1%,1
+%RR2%,1
+%S&F%,1
+%S&S%,1
+%SP&SC%,1
+%SHH%,1
+%T&B%,1
+%TA%,1
+%UEG%,1
+%WBG%,1
+
+:Start
+1,This table is not a stand alone table. It is a ~Reference table for all "EQ" tables like "EQ Armory.tab" and "EQ Bardic Items.tab". It regroups all the tables that are often used.
+
+# -----------------------------------------------------------------------------------
+# To determine if you own the appropriate book
+#
+# This is not used now, but could be in the future.
+#
+
+:Books
+1,%A&A%!!!%A&E%!!!%BVD%!!!%DMG3.5%!!!%DOF%!!!%MOF%!!!%MOW%!!!%PHB3.5%!!!%RR2%!!!%S&S%!!!%UEG%
+
+# To get this table
+#;GetBooks
+#1,|GetData=[EQ_Main.GetBooks]|
+#_{Split~GetData,"!!!",A&A,A&E,BVD,DMG3.5,DOF,MOF,MOW,PHB3.5,RR2,S&S,UEG}
+
+# -----------------------------------------------------------------------------------
+# Miscellaneous Tables
+
+;Hand
+4,right hand
+4,left hand
+2,both hands
+
+# -----------------------------------------------------------------------------------
+# Clothing Colors and Other Colors
+# The 2 following tables are not called from another one, but put in the appropriate table.
+
+;RobeColors
+1,[~Miscellaneous.Color+1]
+
+;RobeColorsMix
+3,[~Miscellaneous.Color+1]
+6,[~Miscellaneous.Color+1] and [~Miscellaneous.Color+1]
+1,[~Miscellaneous.Color+1], [~Miscellaneous.Color+1], and [~Miscellaneous.Color+1]
+
+#-------
+;Accents
+8,!!!0
+2, There is embroidering in a [EmbroideringType] pattern!!!{Dice~1d20/100}
+1, |Temp=0|There is a fur, (in [Furs]) accent!!!%Temp%
+
+#;Accents
+#1,|GetData=[EQ_Main.Accents]|
+#_{Split~GetData,"!!!",DataName,DataPercentMod}
+#_|PercentGPMod+%DataPercentMod%|
+#_%DataName%
+
+#------------------
+;ColdWeatherAccents
+1,!!!0
+1, |Temp=0|This outfit includes extensive use of [Furs] fur!!!%Temp%
+
+#;ColdWeatherAccents
+#1,|GetData=[EQ_Main.ColdWeatherAccents]|
+#_{Split~GetData,"!!!",DataName,DataPercentMod}
+#_|PercentGPMod+%DataPercentMod%|
+#_%DataName%
+
+;EmbroideringType
+1,runic
+1,swirling
+1,angular
+1,geometric
+1,elvish
+1,dwarvish
+1,halfling
+1,floral
+5,[Miscellaneous.Shape]-shape
+
+#;Furs2
+#1,|GetData=[EQ_Main.Furs]!!!%Temp%|
+#_{Split~GetData,"!!!",DataName,DataPercentMod}
+#_|PercentGPMod+%DataPercentMod%|
+#_%DataName%
+
+;Furs
+50,skunk|Temp={Dice~1d20/100}|
+10,wolverine|Temp={Dice~3d20/100}|
+15,fisher|Temp={Dice~2d2/100}|
+75,racoon|Temp={Dice~1d20/100}|
+30,coyote|Temp={Dice~1d10/100}|
+10,bobcat|Temp={Dice~2d20/100}|
+25,buffalo|Temp={Dice~1d40/100}|
+40,goat|Temp=0|
+30,black bear|Temp={Dice~2d20/100}|
+50,beaver|Temp={Dice~1d10/100}|
+1,cheetah|Temp={Dice~5d20/100}|
+5,mountain lion|Temp={Dice~3d20/100}|
+5,ermine|Temp={Dice~10d20/100}|
+20,fox|Temp={Dice~1d20/100}|
+1,jaguar|Temp={Dice~5d20/100}|
+40,lamb|Temp=0|
+1,leopard|Temp={Dice~5d20/100}|
+1,snow leopard|Temp={Dice~5d20/100}|
+1,lion|Temp={Dice~5d20/100}|
+5,lynx|Temp={Dice~1d20/100}|
+10,marmot|Temp={Dice~1d40/100}|
+5,mink|Temp={Dice~10d20/100}|
+1,ocelot|Temp={Dice~5d20/100}|
+20,otter|Temp={Dice~2d20/100}|
+70,rabbit|Temp=0|
+1,sable|Temp={Dice~5d20/100}|
+10,seal|Temp={Dice~2d20/100}|
+1,tiger|Temp={Dice~5d20/100}|
+20,wolf|Temp=0|
+10,owlbear|Temp={Dice~5d20/100}|
+5,artic fox|Temp={Dice~2d20/100}|
+25,brown bear|Temp={Dice~2d20/100}|
+20,grizzly bear|Temp={Dice~3d20/100}|
+5,polar bear|Temp={Dice~5d20/100}|
+
+;Wines
+3, red [Inn Menu.Wine Name] 
+4, blush [Inn Menu.Wine Name]
+3, white [Inn Menu.Wine Name]
+
+;InkColor
+1,red|PercentGPMod+{Dice~1d10/100}|
+1,blue|PercentGPMod+{Dice~1d10/100}|
+1,green|PercentGPMod+{Dice~1d10/100}|
+6,black 
+1,[Miscellaneous.ColorNoType+1]
+
+;EnergyType
+3,acid
+5,cold
+4,electricity
+6,fire
+2,sonic
+
+;DragonsBreathType
+1,amethyst
+5,black
+5,blue
+5,brass
+5,bronze
+1,brown
+1,cloud
+5,copper
+1,crystal
+1,emerald
+1,fang
+5,gold
+5,green
+1,mist
+5,red
+1,sapphire
+1,shadow
+5,silver
+1,slarecian
+1,song
+1,topaz
+5,white
+
+# -----------------------------------------------------------------------------------
+# Conditions
+
+#--------------
+;ArmorCondition
+15,Poor!!!-{Dice~3d10/100}
+60,Fair!!!0
+20,Good!!!{Dice~3d10/100}
+5,Masterwork!!!150
+
+# The above table is called like this with %GetData%, %DataName%, %DataPercentMod%.
+#;ArmorCondition
+#1,|GetData=[EQ_Main.ArmorCondition]|
+#_{Split~GetData,"!!!",DataName,DataPercentMod}
+#_{If~%DataName%=Masterwork?|MWGPMod=%DataPercentMod%|/|PercentGPMod+%DataPercentMod%|}
+#_%DataName%
+
+#---------
+;Condition
+15,poor!!!-{Dice~3d10/100}
+60,fair!!!0
+20,good!!!{Dice~3d10/100}
+5,Masterwork!!!{Dice~20d10/100}
+
+# The above table is called like this with %GetData%, %DataName%, %DataPercentMod%.
+#;Condition
+#1,|GetData=[EQ_Main.Condition]|
+#_{Split~GetData,"!!!",DataName,DataPercentMod}
+#_|PercentGPMod+%DataPercentMod%|
+#_%DataName%
+
+#------------
+:NotFullFurCondition
+15,poor!!!-{Dice~3d10/100}!!!0
+60,fair!!!0!!!0
+25,good!!!{Dice~3d10/100}!!!0
+
+# The above table is called like this with %GetData%, %DataName%, %DataPercentMod%.
+#;NotFullFurCondition
+#1,|GetData=[EQ_Main.NotFullFurCondition]|
+#_{Split~GetData,"!!!",DataName,DataPercentMod}
+#_|PercentGPMod+%DataPercentMod%|
+#_%DataName%
+
+#------------
+:FurCondition
+15,poor!!!-{Dice~3d10/100}!!!0
+60,fair!!!0!!!0
+20,good!!!{Dice~3d10/100}!!!0
+5,Masterwork[MasterworkFurs]
+
+# The above table is called like this with %GetData%, %DataName%, %DataPercentMod%.
+#;FurCondition
+#1,|GetData=[EQ_Main.FurCondition]|
+#_{Split~GetData,"!!!",DataName,DataPercentMod,SpecialEffect}
+#_|PercentGPMod+%DataPercentMod%|
+#_%DataName%
+
+;MasterworkFurs
+3,!!!{Dice~20d10/500}!!![MasterworkFurExtras]
+1,!!!{Dice~20d10/250}!!![MasterworkFurExtras] and [MasterworkFurExtras]
+6,!!!{Dice~10d10/500}!!!0
+
+:!MasterworkFurExtras
+1,Alchemically treated for waterproofing
+2,Alchemically treated for toughness (+2 to saving throws for item)
+3,Albino
+4,Alchemically treated for fireproofing (+5 to saving throws versus fire for item)
+
+#-------------------
+;InstrumentCondition
+5,poor!!!-{Dice~3d10/100}!!!0
+30,fair!!!0!!!0
+60,good!!!{Dice~3d10/100}!!!0
+5,Masterwork[MasterworkInstruments]
+
+# The above table is called like this with %GetData%, %DataName%, %DataPercentMod%, %SpecialEffect%.
+#;InstrumentCondition
+#1,|GetData=[EQ_Main.InstrumentCondition]|
+#_{Split~GetData,"!!!",DataName,DataPercentMod,SpecialEffect}
+#_|PercentGPMod+%DataPercentMod%|
+#_%DataName%
+
+;MasterworkInstruments
+40,!!!{Dice~20d10/500}!!![Effects]
+15,!!!{Dice~20d10/250}!!![Effects] and [Effects]
+5,!!!{Dice~20d10/166}!!![Effects], [Effects], and [Effects]
+40,!!!{Dice~20d10/500}!!!0
+
+;!Effects
+20,Rich <font size=1>(UEG p37)</font>
+4,Expressive <font size=1>(UEG p37)</font>
+6,Prevailing <font size=1>(UEG p37)</font>
+5,Resonant <font size=1>(UEG p37)</font>
+3,Inspirational <font size=1>(UEG p37)</font>
+4,Pure <font size=1>(UEG p37)</font>
+4,Suggestive <font size=1> (UEG p37)</font>
+2,Beautiful <font size=1>(UEG p37)</font>
+1,Martial <font size=1>(UEG p37)</font>
+1,Superior <font size=1>(UEG p37)</font>
+
+#---------------
+;WeaponCondition
+15,poor!!!-{Dice~3d10/100}
+60,fair!!!0
+20,good!!!{Dice~3d10/100}
+5,Masterwork!!!300
+
+# The above table is called like this with %GetData%, %DataName%, %DataPercentMod%.
+#;WeaponCondition
+#1,|GetData=[EQ_Main.WeaponCondition]|
+#_{Split~GetData,"!!!",DataName,DataPercentMod}
+#_{If~%DataName%=Masterwork?|MWGPMod=%DataPercentMod%|/|PercentGPMod+%DataPercentMod%|}
+#_%DataName%
+
+# -----------------------------------------------------------------------------------
+# Tables Related to the Extra features of Items - Engravings and the like
+
+#---------
+;AnyExtrasMA
+7,!!!0
+3, [Extras]!!!{Dice~1d20/100}
+
+# The above table is called like this with %GetData%, %DataName%, %DataPercentMod%.
+#;AnyExtrasMA
+#1,|GetData=[EQ_Main.AnyExtrasMA]|
+#_{Split~GetData,"!!!",DataName,DataPercentMod}
+#_|PercentGPMod+%DataPercentMod%|
+#_%DataName%
+
+#---------
+;AnyExtrasMundane
+9,!!!0
+1, [Extras]!!!{Dice~1d20/100}
+
+# The above table is called like this with %GetData%, %DataName%, %DataPercentMod%.
+#;AnyExtrasMundane
+#1,|GetData=[EQ_Main.AnyExtrasMundane]|
+#_{Split~GetData,"!!!",DataName,DataPercentMod}
+#_|PercentGPMod+%DataPercentMod%|
+#_%DataName%
+
+;Extras
+5,It is [Design][Form] {AorAn~[Descript]} [Creature].
+3,It is [Design] in the likeness of [~Rune].
+2,It bears the sign of [~Religion.Deities(2)].
+
+;Design
+1,engraved with strange symbols
+1,engraved with concentric circles
+1,carved with a twisting, vine-like pattern
+1,enlaid with a pattern of [~Miscellaneous.Precious Metal]
+1,engraved with an ancient rune
+1,engraved with the image of a vague shape
+1,engraved with the likeness of an ancient hieroglyphic
+1,covered in a web-like pattern of lines
+1,engraved with an image
+
+;Form
+2, depicting
+2, forming
+2, resembling
+1, of
+
+;Descript
+1,rampant
+1,enraged
+1,lazy
+1,peaceful
+1,sad
+1,weeping
+1,mourning
+1,small
+1,baby
+1,adult
+1,ancient
+
+;Creature
+1,bear
+1,boar
+1,kitten
+1,cat
+1,forest cat
+1,mountain cat
+1,elk
+1,lion
+1,snake
+1,giant eagle
+1,tiger
+1,plains cat
+1,dragon
+1,griffin
+1,hydra
+1,phoenix
+1,unicorn
+1,wyvern
+1,eagle
+1,falcon
+1,hawk
+1,owl
+1,dog
+1,puppy
+1,demon
+1,angel
+25,[~Creatures.Start]
+
+;Rune
+1,[Rune Generator.GenRune]
+1,{AorAn~[Miscellaneous.Shape]}-shape
+
+#----------------------
+;ArcaneStaffTrimmings1
+3,|Temp=0|{Reset~ArcaneStaffTrimmings2}[ArcaneStaffTrimmings2]!!!%Temp%
+1,|Temp=0|{Reset~ArcaneStaffTrimmings2}[ArcaneStaffTrimmings2] and [ArcaneStaffTrimmings2]!!!%Temp%
+
+#;ArcaneStaffTrimmings1
+#1,|GetData=[EQ_Main.ArcaneStaffTrimmings1]|
+#_{Split~GetData,"!!!",DataName,DataPercentMod}
+#_|PercentGPMod+%DataPercentMod%|
+#_%DataName%
+
+;!ArcaneStaffTrimmings2
+1,painted [~Miscellaneous.Color+1]|Temp+{Dice~1d2/100}|
+1,carved into the likeness of [Carvings]|Temp+{Dice~1d6/100}|
+1,stripped|Temp+0|
+1,coated with a clear varnish|Temp+0|
+1,stained [StainColors]|Temp+{Dice~1d2/100}|
+
+;Carvings
+1,{AorAn~[Creatures.Animal]}
+1,{AorAn~[Creatures.Fantastic]}
+1,[Rune Generator.GenRune]
+1,a {AorAn~[Miscellaneous.Shape]}-shape
+1,the religious symbol of [~Religion.Deities(2)]
+
+;StainColors
+10,brown
+10,very dark brown
+10,dark brown
+5,rust
+5,charcoal gray
+5,dark gray
+5,pale gray
+2,smoke gray
+10,black
+2,dark purple
+5,red
+5,dark red
+5,burgundy
+5,dark burgundy
+25,[~Miscellaneous.Color]
+
+# -----------------------------------------------------------------------------------
+# Materials
+
+#-----------
+;WoodOrSteel
+6, made of [Woods]
+4, [WeaponMetals]
+
+# The above table is called like this with %GetData%, %DataName%, %DataPercentMod%.
+#;WoodOrSteel
+#1,|GetData=[EQ_Main.WoodOrSteel]|
+#_{Split~GetData,"!!!",DataName,DataPercentMod}
+#_|PercentGPMod+%DataPercentMod%|
+#_%DataName%
+
+#------------
+;WoodOrSteel2
+3, made of [Woods]
+7, [WeaponMetals]
+
+# The above table is called like this with %GetData%, %DataName%, %DataPercentMod%.
+#;WoodOrSteel2
+#1,|GetData=[EQ_Main.WoodOrSteel2]|
+#_{Split~GetData,"!!!",DataName,DataPercentMod}
+#_|PercentGPMod+%DataPercentMod%|
+#_%DataName%
+
+#--------
+;Wrapping
+4,!!!0
+1, The handle is wrapped with [HiltMaterial]
+
+# The above table is called like this with %GetData%, %DataName%, %DataPercentMod%.
+#;Wrapping
+#1,|GetData=[EQ_Main.Wrapping]|
+#_{Split~GetData,"!!!",DataName,DataPercentMod}
+#_|PercentGPMod+%DataPercentMod%|
+#_%DataName%
+
+#------------
+;HiltMaterial
+19, [~Miscellaneous.ColorNoType] [NormalLeather]
+1, streched [~Creatures.Animal] skin!!!{Dice~1d10/100}
+1, [SpecialHiltMaterial]
+5,{If~%Magic%=2? [SpecialHiltMaterial]/[HiltMaterial]}
+
+# The above table is called like this with %GetData%, %DataName%, %DataPercentMod%.
+#;HiltMaterial
+#1,|GetData=[EQ_Main.HiltMaterial]|
+#_{Split~GetData,"!!!",DataName,DataPercentMod}
+#_|PercentGPMod+%DataPercentMod%|
+#_%DataName%
+
+#------
+;MAHilt
+19, [~Miscellaneous.ColorNoType] [NormalLeather]
+1, streched [~Creatures.Animal] skin!!!{Dice~1d10/100}
+6, [SpecialHiltMaterial]
+
+# The above table is called like this with %GetData%, %DataName%, %DataPercentMod%.
+#;MAHilt
+#1,|GetData=[EQ_Main.MAHilt]|
+#_{Split~GetData,"!!!",DataName,DataPercentMod}
+#_|PercentGPMod+%DataPercentMod%|
+#_%DataName%
+
+#------
+;MAHilt2
+19, [~Miscellaneous.ColorNoType] [NormalLeather]
+1, [~Creatures.Animal] skin!!!{Dice~1d10/100}
+6, [SpecialHiltMaterial]
+
+# The above table is called like this with %GetData%, %DataName%, %DataPercentMod%.
+#;MAHilt2
+#1,|GetData=[EQ_Main.MAHilt2]|
+#_{Split~GetData,"!!!",DataName,DataPercentMod}
+#_|PercentGPMod+%DataPercentMod%|
+#_%DataName%
+
+;NormalLeather
+12,leather!!!0
+2,pigskin!!!0
+1,horsehide!!!0
+2,calfskin!!!{Dice~1d3/100}
+2,elkskin!!!{Dice~2d3/100}
+3,deerskin!!!{Dice~2d3/100}
+2,lizard skin!!!{Dice~1d3/100}
+3,snakeskin!!!{Dice~1d3/100}
+
+;SpecialHiltMaterial
+1,humanskin!!!-{Dice~2d10/100}
+1,elfskin!!!-{Dice~2d10/100}
+1,dwarfskin!!!-{Dice~2d10/100}
+1,halflingskin!!!-{Dice~2d10/100}
+2,demonskin!!!{Dice~10d20/100}
+2,celestialskin!!!{Dice~10d20/100}
+1,orcskin!!!-{Dice~2d10/100}
+1,goblinhide!!!-{Dice~2d10/100}
+1,ogrehide!!!-{Dice~2d10/100}
+5,streched [Creatures.DragonNoAge] hide!!!{Dice~10d20/100}
+5,streched [Creatures.Fantastic] hide!!!{Dice~10d10/100}
+5,[~Creatures.Humanoid]hide!!!-{Dice~2d10/100}
+2,[LeatherMonster] hide!!!{Dice~10d10/100}
+
+;LeatherMonster
+1,chimera
+1,firedrake
+1,wyvern
+1,basilisk
+1,catoblepas
+1,amphisbaena
+1,gargoyle
+1,hydra
+1,leucrota
+1,landshark
+1,manticore
+1,sea-monster
+
+#-----------
+;ChitOrSteel
+3, made of pieces of [Chiton]!!!{Calc~(%Temp%+{Dice~10d10/100})}
+6,[WeaponMetals]
+1, made of small pieces of rock!!!0
+
+#;ChitOrSteel
+#1,|GetData=[EQ_Main.ChitOrSteel]|
+#_{Split~GetData,"!!!",DataName,DataPercentMod}
+#_|PercentGPMod/5||PercentGPMod+%DataPercentMod%|
+#_%DataName%
+
+#------------
+;WeaponMetals
+80, made of steel!!!0
+30, made of iron!!!-{Dice~2d10/100}
+5, made of nickle!!!{Dice~1d5/100}
+5, made of nickle-silver!!!{Dice~4d10/100}
+1, made of copper!!!-{Dice~2d10/100}
+10, made of bronze!!!-{Dice~1d10/100}
+5, made of silver!!!{Dice~10d10/100}
+2, made of electrum!!!{Dice~20d10/100}
+1,[UncommonWeaponMetal]
+
+# The above table is called like this with %GetData%, %DataName%, %DataPercentMod%.
+#;WeaponMetals
+#1,|GetData=[EQ_Main.WeaponMetals]|
+#_{Split~GetData,"!!!",DataName,DataPercentMod}
+#_|PercentGPMod+%DataPercentMod%|
+#_%DataName%
+
+;UncommonWeaponMetal
+20, made of gold!!!{Calc~(5+{Dice~10d10/100})}
+15, made of platinum!!!{Calc~(10+{Dice~10d10/100})}
+30, made of mithral!!!{Calc~(15+{Dice~10d10/100})}
+30, made of adamantine!!!{Calc~(20+{Dice~10d10/100})}
+1,[RareWeaponMetal]
+
+;RareWeaponMetal
+1, made of tilferium!!!{Calc~(15+{Dice~10d10/100})}
+1, made of xagium!!!{Calc~(15+{Dice~10d10/100})}
+5, made of blended quartz!!!{Calc~(15+{Dice~10d10/100})}
+5, made of astral driftmetal!!!{Calc~(5+{Dice~10d10/100})}
+1, made of urdrukar!!!{Calc~(5+{Dice~10d10/100})}
+1, made of entropium!!!{Calc~(25+{Dice~10d10/100})}
+1, made of oracalcum!!!{Calc~(30+{Dice~10d10/100})}
+
+#----------
+;ToolMetals
+5, It is made of steel!!!0
+4, It is made of iron!!!-{Dice~2d10/100}
+1, It is[CommonRingMetal]
+
+# The above table is called like this with %GetData%, %DataName%, %DataPercentMod%.
+#;ToolMetals
+#1,|GetData=[EQ_Main.ToolMetals]|
+#_{Split~GetData,"!!!",DataName,DataPercentMod}
+#_|PercentGPMod+%DataPercentMod%|
+#_%DataName%
+
+#---------------
+;CommonRingMetal
+80, made of steel!!!0
+30, made of iron!!!-{Dice~2d10/100}
+5, made of lead!!!-{Dice~2d10/100}
+5, made of nickle!!!{Dice~1d5/100}
+5, made of nickle-silver!!!{Dice~4d10/100}
+1, made of copper!!!-{Dice~2d10/100}
+10, made of bronze!!!-{Dice~1d10/100}
+5, made of silver!!!{Dice~10d10/100}
+2, made of electrum!!!{Dice~20d10/100}
+5,[UncommonRingMetal]
+
+# The above table is called like this with %GetData%, %DataName%, %DataPercentMod%.
+#;CommonRingMetal
+#1,|GetData=[EQ_Main.CommonRingMetal]|
+#_{Split~GetData,"!!!",DataName,DataPercentMod}
+#_|PercentGPMod+%DataPercentMod%|
+#_%DataName%
+
+;UncommonRingMetal
+20, made of gold!!!{Calc~(5+{Dice~10d10/100})}
+15, made of platinum!!!{Calc~(10+{Dice~10d10/100})}
+30, made of mithral!!!{Calc~(15+{Dice~10d10/100})}
+30, made of adamantine!!!{Calc~(20+{Dice~10d10/100})}
+1, made of tilferium!!!{Calc~(15+{Dice~10d10/100})}
+1, made of xagium!!!{Calc~(15+{Dice~10d10/100})}
+1, made of oracalcum!!!{Calc~(30+{Dice~10d10/100})}
+
+#-------------
+;MAArrowExtras
+2,!!!0
+1, These arrows have tips [MAMaterial]
+1, These arrows are made of [Miscellaneous.Wood] wood and the tips are [MAMaterial]
+
+#;MAArrowExtras
+#1,|GetData=[EQ_Main.MAArrowExtras]|
+#_{Split~GetData,"!!!",DataName,DataPercentMod}
+#_|PercentGPMod+%DataPercentMod%|
+#_%DataName%
+
+#----------
+;MAMaterial
+80, made of steel!!!0
+5, made of nickle!!!{Dice~1d5/100}
+5, made of nickle-silver!!!{Dice~4d10/100}
+1, made of copper!!!-{Dice~2d10/100}
+10, made of bronze!!!-{Dice~1d10/100}
+5, made of silver!!!{Dice~10d10/100}
+2, made of electrum!!!{Dice~20d10/100}
+5,[OtherMetals]
+
+# The above table is called like this with %GetData%, %DataName%, %DataPercentMod%.
+#;MAMaterial
+#1,|GetData=[EQ_Main.MAMaterial]|
+#_{Split~GetData,"!!!",DataName,DataPercentMod}
+#_|PercentGPMod+%DataPercentMod%|
+#_%DataName%
+
+;OtherMetals
+20, made of gold!!!{Calc~(5+{Dice~10d10/100})}
+15, made of platinum!!!{Calc~(10+{Dice~10d10/100})}
+30, made of mithral!!!{Calc~(15+{Dice~10d10/100})}
+39, made of adamantine!!!{Calc~(20+{Dice~10d10/100})}
+1, made of tilferium!!!{Calc~(15+{Dice~10d10/100})}
+1, made of xagium!!!{Calc~(15+{Dice~10d10/100})}
+5,  made of astral driftmetal!!!{Calc~(5+{Dice~10d10/100})}
+5,  made of blended quartz!!!{Calc~(15+{Dice~10d10/100})}
+1,  made of entropium!!!{Calc~(25+{Dice~10d10/100})}
+1,  made of urdrakar!!!{Calc~(5+{Dice~10d10/100})}
+1, made of oracalcum!!!{Calc~(30+{Dice~10d10/100})}
+
+#---------------
+;HideKindMagical
+8, made out of [HiltMaterial]
+2, made from the plates of {AorAn~[Chiton]}!!!{Calc~(%Temp%+{Dice~10d10/100})}
+
+# The above table is called like this with %GetData%, %DataName%, %DataPercentMod%.
+#;HideKindMagical
+#1,|GetData=[EQ_Main.HideKindMagical]|
+#_{Split~GetData,"!!!",DataName,DataPercentMod}
+#_|PercentGPMod+%DataPercentMod%|
+#_%DataName%
+
+#---------------
+;HideKindMundane
+19, made out of [HiltMaterial]
+1, made from the plates of {AorAn~[Chiton]}!!!{Calc~(%Temp%+{Dice~10d10/100})}
+
+# The above table is called like this with %GetData%, %DataName%, %DataPercentMod%.
+#;HideKindMundane
+#1,|GetData=[EQ_Main.HideKindMundane]|
+#_{Split~GetData,"!!!",DataName,DataPercentMod}
+#_|PercentGPMod+%DataPercentMod%|
+#_%DataName%
+
+;Chiton
+5,giant wasp|Temp=0.25|
+5,giant scorpion|Temp=0.25|
+5,giant bee|Temp=0.25|
+10,giant ant|Temp=0.25|
+5,anhkeg|Temp=0.5|
+2,thri-kreen|Temp=0.5|
+10,giant crab|Temp=0.25|
+2,crabman|Temp=0.5|
+5,ant lion|Temp=0.25|
+5,giant centipede|Temp=0.25|
+2,megapede|Temp=0.5|
+10,giant lobster|Temp=0.25|
+5,giant dung beetle|Temp=0.25|
+2,giant rhino beetle|Temp=0.25|
+20,giant beetle|Temp=0.25|
+2,umberhulk|Temp=0.5|
+1,mecha gargoyle|Temp=0.5|
+1,demon|Temp=0.5|
+
+#-------  (Rarely called alone)
+;Chiton2
+5,giant wasp|Temp=0.25|!!!{Calc~(%Temp%+{Dice~10d10/100})}
+5,giant scorpion|Temp=0.25|!!!{Calc~(%Temp%+{Dice~10d10/100})}
+5,giant bee|Temp=0.25|!!!{Calc~(%Temp%+{Dice~10d10/100})}
+10,giant ant|Temp=0.25|!!!{Calc~(%Temp%+{Dice~10d10/100})}
+5,anhkeg|Temp=0.5|!!!{Calc~(%Temp%+{Dice~10d10/100})}
+2,thri-kreen|Temp=0.5|!!!{Calc~(%Temp%+{Dice~10d10/100})}
+10,giant crab|Temp=0.25|!!!{Calc~(%Temp%+{Dice~10d10/100})}
+2,crabman|Temp=0.5|!!!{Calc~(%Temp%+{Dice~10d10/100})}
+5,ant lion|Temp=0.25|!!!{Calc~(%Temp%+{Dice~10d10/100})}
+5,giant centipede|Temp=0.25|!!!{Calc~(%Temp%+{Dice~10d10/100})}
+2,megapede|Temp=0.5|!!!{Calc~(%Temp%+{Dice~10d10/100})}
+10,giant lobster|Temp=0.25|!!!{Calc~(%Temp%+{Dice~10d10/100})}
+5,giant dung beetle|Temp=0.25|!!!{Calc~(%Temp%+{Dice~10d10/100})}
+2,giant rhino beetle|Temp=0.25|!!!{Calc~(%Temp%+{Dice~10d10/100})}
+20,giant beetle|Temp=0.25|!!!{Calc~(%Temp%+{Dice~10d10/100})}
+2,umberhulk|Temp=0.5|!!!{Calc~(%Temp%+{Dice~10d10/100})}
+1,mecha gargoyle|Temp=0.5|!!!{Calc~(%Temp%+{Dice~10d10/100})}
+1,demon|Temp=0.5|!!!{Calc~(%Temp%+{Dice~10d10/100})}
+
+#;Chiton2
+#1,|GetData=[EQ_Main.Chiton]|
+#_{Split~GetData,"!!!",DataName,DataPercentMod}
+#_|PercentGPMod+%DataPercentMod%|
+#_%DataName%
+
+# -----------------------------------------------------------------------------------
+# Size Tables
+
+#--------
+;BodySize
+10,human!!!1
+3,dwarf!!!1
+2,gnome!!!0.5
+2,halfling!!!0.5
+1,orc!!!1.1
+1,ogre!!!2
+3,elvish!!!1
+1,[Humanoid]
+
+# The above table is called like this with %GetData%, %DataName%, %ArmorSizeMod%.
+#;BodySize
+#1,|GetData=[EQ_Main.BodySize]|
+#_{Split~GetData,"!!!",DataName,ArmorSizeMod}
+#_%DataName%
+
+# If you modify this subtable, you can also modify the one in "Creatures.tab"
+
+;Humanoid
+1,bugbear!!!1.5
+1,doppleganger!!!1
+1,[Creatures.Dwarf]!!!1
+1,[Creatures.Elf]!!!1
+1,[Creatures.Giant]!!!4
+1,gnoll!!!1.5
+1,[Creatures.Gnome]!!!0.5
+1,goblin!!!0.5
+1,[Creatures.Halfling]!!!0.5
+1,half-dryad!!!1
+1,half-elf!!!1
+1,half-ogre!!!2
+1,half-orc!!!1
+1,half-satyr!!!1
+1,hobgoblin!!!1
+1,human!!!1
+1,kender!!!0.5
+1,kobold!!!0.5
+1,lizard folk!!!1.5
+1,minotaur!!!2
+1,ogre!!!2
+1,orc!!!1.1
+1,[Creatures.Planetouched]!!!1
+1,troll!!!2
+1,[Creatures.Yuanti]!!!1.5
+
+#--------
+;ItemSize
+1,tiny!!!-{Dice~3d20/100}
+4,small!!!-{Dice~1d20/100}
+12,medium!!!0
+4,large!!!{Dice~10d10/100}
+1,huge!!!2
+
+# The above table is called like this with %GetData%, %DataName%, %DataPercentMod%.
+#;ItemSize
+#1,|GetData=[EQ_Main.ItemSize]|
+#_{Split~GetData,"!!!",DataName,DataPercentMod}
+#_|PercentGPMod+%DataPercentMod%|
+#_%DataName%
+
+# ----------------------------------------------------------------------------
+# Wood Tables
+
+#-----
+;Woods
+1,[TemperateWoods]
+
+# The above table is called like this with %GetData%, %DataName%, %DataPercentMod%.
+#;Woods
+#1,|GetData=[EQ_Main.Woods]|
+#_{Split~GetData,"!!!",DataName,DataPercentMod}
+#_|PercentGPMod+%DataPercentMod%|
+#_%DataName%
+
+#Temperate:  Use this Table for adjustments to items found in temperate zones. 
+;TemperateWoods
+2,apple wood!!!{Dice~2d3/100}
+5,ash wood!!!{Dice~1d3/100}
+2,basswood!!!-{Dice~1d3/100}
+2,beech wood!!!{Dice~2d3/100}
+5,[BirchType] birch wood!!!%Temp%
+10,[CedarType] cedar wood!!!{Dice~3d3/100}
+5,[CherryType] cherry wood!!!{Dice~3d3/100}
+10,chestnut wood!!!{Dice~2d3/100}
+2,devil's walkingstick wood!!!{Dice~1d3/100}
+2,ebony persimmon wood!!!{Dice~3d3/100}
+20,elm wood!!!-{Dice~2d4/100}
+2,hawthorn wood!!!{Dice~1d3/100}
+5,shagbark hickory wood!!!{Dice~1d3/100}
+5,ironwood wood!!!{Dice~3d10/100}
+5,[LocustType] locust wood!!!%Temp%
+30,[MapleType] maple wood!!!0
+30,[OakType] oak wood!!!%Temp%
+1,peach wood!!!{Dice~2d3/100}
+1,pear wood!!!{Dice~2d3/100}
+2,pecan wood!!!{Dice~3d3/100}
+1,plum wood!!!{Dice~3d3/100}
+2,prickly ash wood!!!{Dice~1d4/100}
+1,sequoia wood!!!{Dice~2d10/100}
+2,sycamore wood!!!{Dice~2d5/100}
+4,walnut wood!!!{Dice~3d3/100}
+3,[WillowType] willow wood!!!0
+2,yew wood!!!0
+5,[OtherWoods]
+
+;OtherWoods
+10,[BorealWoods]
+1,[DesertWoods]
+1,[RainforestWoods]
+3,[SwamplandWoods]
+1,[TropicalWoods]
+2,[GrasslandTrees]
+
+;BorealWoods
+5,[AlderType] alder wood!!!{Dice~1d4/100}
+5,[FirType] fir wood!!!-{Dice~2d3/100}
+2,larch wood!!!0
+10,[PineType] pine wood!!!-{Dice~2d6/100}
+5,[SpruceType] spruce wood!!!-{Dice~2d3/100}
+1,bog willow wood!!!-{Dice~2d3/100}
+1,[OtherWoods]
+
+;DesertWoods
+2,cholla cactus!!!-{Dice~2d3/100}
+2,giant cactus!!!-{Dice~2d3/100}
+1,joshua tree wood!!!-{Dice~2d3/100}
+5,juniper wood!!!{Dice~3d3/100}
+5,mesquite wood!!!{Dice~3d3/100}
+2,paloverde wood!!!0
+2,pinyon wood!!!{Dice~3d3/100}
+2,catclaw wood!!!0
+2,desert willow wood!!!-{Dice~2d3/100}
+
+;RainforestWoods
+2,almond wood!!!{Dice~4d4/100}
+5,balsa wood!!!-{Dice~2d8/100}
+5,brazilnut wood!!!{Dice~1d4/100}
+2,cacao wood!!!-{Dice~2d3/100}
+3,colatree wood!!!-{Dice~2d3/100}
+2,orchid wood!!!0
+3,purpleheart wood!!!{Dice~3d10/100}
+4,rubbertree wood!!!{Dice~2d3/100}
+1,saltree wood!!!0
+1,zebrawood wood!!!{Dice~3d10/100}
+
+;SwamplandWoods
+4,beefwood!!!0
+6,cypress wood!!!-{Dice~2d3/100}
+2,sea grape wood!!!-{Dice~2d3/100}
+6,water locust wood!!!{Dice~3d3/100}
+2,mangrove wood!!!{Dice~3d3/100}
+5,lime prickly ash wood!!!0
+7,ramin wood!!!{Dice~3d3/100}
+2,poison sumac wood!!!{Dice~2d3/100}
+4,black tupelo wood!!!{Dice~2d3/100}
+1,coastal willow wood!!!{Dice~2d3/100}
+1,swamp willow wood!!!{Dice~2d3/100}
+
+;TropicalWoods
+3,allspice wood!!!{Dice~2d3/100}
+2,avocado wood!!!{Dice~2d3/100}
+5,banyan wood!!!{Dice~3d10/100}
+2,camphor wood!!!0
+5,cashew wood!!!{Dice~2d3/100}
+3,cinnamon wood!!!{Dice~3d3/100}
+2,jacaranda wood!!!-{Dice~2d3/100}
+5,[MahoganyType] mahogany wood!!!{Dice~10d10/100}
+11,[PalmType] palm wood!!!%Temp%
+2,teak wood!!!{Dice~10d10/100}
+
+;GrasslandTrees
+20,cottonwood!!!{Dice~2d4/100}
+6,mesquite wood!!!{Dice~3d3/100}
+4,peppertree wood!!!{Dice~2d3/100}
+5,pinyon wood!!!{Dice~3d3/100}
+7,tamarind wood!!!-{Dice~2d3/100}
+3,[WillowType] willow wood!!!-{Dice~2d3/100}
+
+:AlderType
+1,common
+2,gray
+3,red
+
+:BirchType
+1,swamp|Temp=0|
+2,red|Temp=0|
+3,yellow|Temp=0|
+4,black|Temp={Dice~2d3/100}|
+5,paper|Temp={Dice~2d3/100}|
+6,white|Temp={Dice~2d3/100}|
+
+:CedarType
+1-2,white
+3-5,red
+
+:CherryType
+1,black
+2,sour
+
+:FirType
+1-3,balsam
+4-5,douglas
+
+:LocustType
+1-3,black|Temp={Dice~3d3/100}|
+4,honey|Temp=0|
+
+:MahoganyType
+1,
+2,bigleaf
+
+:MapleType
+1-2,northern
+3-5,sugar
+6-7,silver
+8-9,red
+10,vine
+
+:OakType
+1-4,red|Temp={Dice~2d3/100}|
+5-7,black|Temp={Dice~2d3/100}|
+8-9,white|Temp={Dice~2d3/100}|
+10,burr|Temp={Dice~2d3/100}|
+11,scarlet|Temp={Dice~2d3/100}|
+12,post|Temp={Dice~3d3/100}|
+
+:PalmType
+1-2,betel|Temp=0|
+3-8,cabbage|Temp=0|
+9-15,coconut|Temp=0|
+16-23,date|Temp={Dice~2d3/100}|
+24-26,ivory nut|Temp={Dice~2d3/100}|
+27-35,royal|Temp=0|
+36-37,sago|Temp=0|
+
+:PineType
+1,cembran
+2-4,red
+5-7,white
+
+:SpruceType
+1,northern
+2-3,blue
+
+:WillowType
+1,pussy
+2,weeping
+3,white
+
+# ---------------------------------------------------------------------
+
+#-------
+:PipeGen
+1,|Temp=0| A [PipeDesc] pipe with a [StemA] [StemB] stem and [StemC] The pipe is made of [~Miscellaneous.Wood] wood.!!!%Temp%
+
+# The above table is called like this with %GetData%, %DataName%, %DataPercentMod%.
+#;PipeGen
+#1,|GetData=[EQ_Main.PipeGen]|
+#_{Split~GetData,"!!!",DataName,DataPercentMod}
+#_|PercentGPMod+%DataPercentMod%|
+#_%DataName%
+
+;PipeDesc
+10,decent|Temp+0|
+10,fine|Temp+0|
+10,goodlooking|Temp={Dice~2d3/100}|
+5,classy|Temp={Dice~3d5/100}|
+3,good|Temp={Dice~4d5/100}|
+2,excellent looking|Temp={Dice~8d5/100}|
+1,grand|Temp={Dice~3d50/100}|
+
+;StemA
+1,short|Temp+{Dice~2d3/100}|
+5,medium|Temp+0|
+3,long|Temp+{Dice~2d5/100}|
+1,extra long|Temp+{Dice~4d5/100}|
+
+;StemB
+6,straight|Temp+0|
+3,curved|Temp+{Dice~2d5/100}|
+1,angled|Temp+{Dice~4d5/100}|
+
+;StemC
+3,a normal bowl.|Temp+0|
+3,a shallow bowl.|Temp+0|
+3,a deep bowl.|Temp+0|
+1,an engraved bowl. [Extras]|Temp+{Dice~1d20/100}|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# ------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------
+# To put in all tables.
+
+# -----------------------------------------------------------------------------------
+# Support Tables
+
+# -----------------------------------------------------------------------------------
+# Clothing Colors and Other Colors
+
+;RobeColors
+1,[~Miscellaneous.Color+1]
+
+;RobeColorsMix
+3,[~Miscellaneous.Color+1]
+6,[~Miscellaneous.Color+1] and [~Miscellaneous.Color+1]
+1,[~Miscellaneous.Color+1], [~Miscellaneous.Color+1], and [~Miscellaneous.Color+1]
+
+;Wines
+3,red [Inn Menu.Wine Name] 
+4,blush [Inn Menu.Wine Name]
+3,white [Inn Menu.Wine Name]
+
+;InkColor
+1,red|PercentGPMod+{Dice~1d10/100}|
+1,blue|PercentGPMod+{Dice~1d10/100}|
+1,green|PercentGPMod+{Dice~1d10/100}|
+6,black 
+1,[Miscellaneous.ColorNoType+1]
+
+;EnergyType
+3,acid
+5,cold
+4,electricity
+6,fire
+2,sonic
+
+;DragonsBreathType
+1,amethyst
+5,black
+5,blue
+5,brass
+5,bronze
+1,brown
+1,cloud
+5,copper
+1,crystal
+1,emerald
+1,fang
+5,gold
+5,green
+1,mist
+5,red
+1,sapphire
+1,shadow
+5,silver
+1,slarecian
+1,song
+1,topaz
+5,white
+
+# For clothes. Embroidery and fur. Calling: [Accents].
+# Complete phrase: There is ... 
+;Accents
+1,|GetData=[EQ_Main.Accents]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# For cold weather clothes which can include extensive use of furs. Calling: [ColdWeatherAccents].
+# Complete phrase: This outfit ... 
+;ColdWeatherAccents
+1,|GetData=[EQ_Main.ColdWeatherAccents]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# To generate only the type of fur.  Calling: [Furs]
+;Furs2
+1,|GetData=[EQ_Main.Furs]!!!%Temp%|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# -----------------------------------------------------------------------------------
+# Conditions
+
+;ArmorCondition
+1,|GetData=[EQ_Main.ArmorCondition]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_{If~%DataName%=Masterwork?|MWGPMod=%DataPercentMod%|/|PercentGPMod+%DataPercentMod%|}
+_%DataName%
+
+;Condition
+1,|GetData=[EQ_Main.Condition]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+;FurCondition
+1,|GetData=[EQ_Main.FurCondition]|
+_{Split~GetData,"!!!",DataName,DataPercentMod,SpecialEffect}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+;NotFullFurCondition
+1,|GetData=[EQ_Main.NotFullFurCondition]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+;InstrumentCondition
+1,|GetData=[EQ_Main.InstrumentCondition]|
+_{Split~GetData,"!!!",DataName,DataPercentMod,SpecialEffect}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+;WeaponCondition
+1,|GetData=[EQ_Main.WeaponCondition]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_{If~%DataName%=Masterwork?|MWGPMod=%DataPercentMod%|/|PercentGPMod+%DataPercentMod%|}
+_%DataName%
+
+# -----------------------------------------------------------------------------------
+# Tables Related to the Extra features of Items - Engravings and the like
+
+# Extras for magical items. Calling: [AnyExtrasMA]
+# Complete phrase: It is ... pattern.
+;AnyExtrasMA
+1,|GetData=[EQ_Main.AnyExtrasMA]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# Extras for mundane items. Calling: [AnyExtrasMundane]
+# Complete phrase: It is ... pattern.
+;AnyExtrasMundane
+1,|GetData=[EQ_Main.AnyExtrasMundane]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# For extras on staves and wood items.  Calling: [ArcaneStaffTrimmings1].
+# There will be 1 or 2 special description.
+;ArcaneStaffTrimmings1
+1,|GetData=[EQ_Main.ArcaneStaffTrimmings1]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# -----------------------------------------------------------------------------------
+# Materials
+
+# 60% woods / 40% metal.  Calling: [WoodOrSteel].
+# Output: made of XXX
+;WoodOrSteel
+1,|GetData=[EQ_Main.WoodOrSteel]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# 30% woods / 70% metal.  Calling: [WoodOrSteel2].
+# Output: made of XXX
+;WoodOrSteel2
+1,|GetData=[EQ_Main.WoodOrSteel2]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# For handles wrapped in something.  Calling: [Wrapping].
+# Output: (20%) The handle is wrapped with XXX
+;Wrapping
+1,|GetData=[EQ_Main.Wrapping]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# For a leathery material. Calling: [HiltMaterial]
+# Output: red leather / stretched bear skin / humanskin / stretched griffon hide
+;HiltMaterial
+1,|GetData=[EQ_Main.HiltMaterial]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# For a leathery material with more special ones. Calling: [MAHilt]
+# Output: humanskin / stretched griffon hide / red leather 
+;MAHilt
+1,|GetData=[EQ_Main.MAHilt]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# MAHilt2 == Removed, call MAHilt instead.
+
+# For studs and small metal or chitin items. Calling: [ChitOrSteel] or [ChitOrSteel].
+# Output: made of XXX 
+#-----------
+;ChitOrSteel
+1,|GetData=[EQ_Main.ChitOrSteel]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod/5||PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# To choose a type of metal. Calling: [WeaponMetals].
+# Output: made of XXX
+;WeaponMetals
+1,|GetData=[EQ_Main.WeaponMetals]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# To choose in what metal a tool is made of. Calling: [ToolMetals].
+# Output: It is made of XXX
+;ToolMetals
+1,|GetData=[EQ_Main.ToolMetals]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# As WeaponMetals but a little more chance for special metal. Calling: [CommonRingMetal].
+# Output: made of XXX
+;CommonRingMetal
+1,|GetData=[EQ_Main.CommonRingMetal]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# Description for special/magical arrows. Calling: [MAArrowExtras].
+# Output: These arrows ...
+;MAArrowExtras
+1,|GetData=[EQ_Main.MAArrowExtras]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# Metal for magical items. Calling: [MAMaterial].
+# Output: made of XXX
+;MAMaterial
+1,|GetData=[EQ_Main.MAMaterial]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# Type of hide/chitin for magical items. Calling: [HideKindMagical].
+# Output: made out of XXX / (20%) made from the plates of XXX
+;HideKindMagical
+1,|GetData=[EQ_Main.HideKindMagical]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# Type of hide/chitin for mundane items. Calling: [HideKindMundane].
+# Output: made out of XXX / (5%) made from teh plates of XXX
+;HideKindMundane
+1,|GetData=[EQ_Main.HideKindMundane]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# Gives a type of chitin. Calling: [Chiton2]
+# Output: giant wasp / crabman / giant beetle
+;Chiton2
+1,|GetData=[EQ_Main.Chiton]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# -----------------------------------------------------------------------------------
+# Size Tables
+
+# To give the size of an item and cost multiplier. Calling: [BodySize] size
+# Output: human / ogre / elvish
+;BodySize
+1,|GetData=[EQ_Main.BodySize]|
+_{Split~GetData,"!!!",DataName,ArmorSizeMod}
+_%DataName%
+
+# To give the size of an item and cost modifer. Calling: [ItemSize]
+# Output: tiny / small / medium / large / huge
+;ItemSize
+1,|GetData=[EQ_Main.ItemSize]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# ----------------------------------------------------------------------------
+# Wood Tables
+
+# Gives a type of wood. Calling: [Woods].
+# Output: apple wood / elm wood / red oak wood
+;Woods
+1,|GetData=[EQ_Main.Woods]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# ---------------------------------------------------------------------
+
+# To generate a pipe. Calling: [PipeGen]
+# Output: A decent pipe with a ... is made of XXX wood.
+;PipeGen
+1,|GetData=[EQ_Main.PipeGen]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+

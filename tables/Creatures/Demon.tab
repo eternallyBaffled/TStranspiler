@@ -1,0 +1,297 @@
+# ------------------------------------------------------
+# Last Update: updated by Valminder Nov 02, 2015.
+# ------------------------------------------------------
+#
+# Modified by Valminder, November 2015.
+#    Added link to: Notable Event Names.tab
+#
+
+;Start
+1,{Status~Modified by Valminder 2015}[Generate]
+
+:Generate
+1,This demon has a [~head] head with [~headAdornment]. Its [~visage] face has [~eyes], a [~nose] nose, [~ears], and a [~mouth] mouth.
+_ Attached to its [~torsoAdj1], [~torsoAdj2] [~bodyType] torso are [~arms] and [~legs] legs.
+_ [SkinSentence][wingtailChance][OdorSentence]
+
+;head
+1,bat-like
+1,bird-like
+1,crocodilian
+1,horse-like
+1,human-like
+1,monkey-like
+1,snake-like
+1,weasel-like
+42,[Creatures.All]-like
+
+;headAdornment
+1,antlers
+1,crest
+1,{Dice~1d4} horns
+1,knobs
+1,ridges
+1,ruff
+1,spines
+
+;visage
+1,gibbering
+5,drooling
+5,glaring
+5,menacing
+5,rotting
+5,skeletal
+5,twitching
+5,wrinkled
+1,seamed
+1,long
+1,oval
+1,chubby
+1,reddening
+1,sulky
+1,scowling
+1,earthy
+1,gtumpy
+1,square
+1,triangular
+1,angular
+1,evil-smiling
+1,purplish
+1,laughing
+1,tanned
+1,greyish
+1,crimson
+
+;ears
+1,[ears_size]dog-like ears
+1,[ears_size]elephant-like ears
+1,[ears_size]human-like ears
+5,[ears_size]trumpet-like ears
+6,no ears
+35,[ears_size][Creatures.All]-like ears
+
+;ears_size
+1,tiny 
+1,huge 
+8,
+
+;eyes
+1,one [eyeType] [eyeColor] eye
+2,two [eyeType] [eyeColor] eyes
+1,three [eyeType] [eyeColor] eyes
+1,four [eyeType] [eyeColor] eyes
+
+;eyeType
+1,small, multifaceted
+1,small, slitted
+1,swivel-socketed
+1,stalked
+1,huge flat
+1,huge protruding
+1,sunken
+
+;eyeColor
+1,red
+1,black
+1,amber
+1,blue
+1,green
+1,metallic
+1,yellow
+1,white
+22,[Miscellaneous.Color]
+
+;nose
+2,flat misshappen
+2,huge bulbous
+2,snouted
+2,tiny
+2,trunk-like
+2,missing
+1,burned
+2,non-existent
+
+;mouth
+1,[ears_size][mouthType]
+
+;mouthType
+1,fanged
+1,mandibled
+1,sucker-like
+1,small-toothed
+1,large-toothed
+1,tusked
+1,lipless
+1,toothless
+5,[Creatures.All]-like
+
+;bodyType
+4,[bipedalTorso]
+2,[otherTorso]
+14,[Creatures.All]-like
+
+;bipedalTorso
+1,ape-like
+1,bear-like
+1,bird-like
+1,humanoid
+1,pig-like
+1,rat-like
+
+;otherTorso
+1,ameboid
+1,bison-like
+1,cat-like
+1,crab-like
+1,horse-like
+1,insectoid
+1,serpentine
+1,reptilian
+1,spider-like
+
+;torsoAdj1
+1,fat
+1,long
+1,short
+1,thin
+1,regular
+
+;torsoAdj2
+1,broad
+1,muscled
+1,narrow
+1,rubbery
+1,blubbery
+1,slimy
+1,warty
+1,scaly
+1,furry
+1,leathery
+1,burned
+1,icy
+1,feathery
+1,spikey
+1,papery
+1,wooden
+1,leafy
+
+;arms
+3,two [armType] ending in [hands]
+2,four [armType] ending in [hands]
+1,six [armType] ending in [hands]
+
+;armType
+1,furry arms
+1,feathered arms
+5,humanoid ([Creatures.Humanoid]) arms
+1,insectoid arms
+1,tentacles
+1,scaled arms
+
+;hands
+1,claws
+7,humanoid ([Creatures.Humanoid]) hands
+1,pincers
+1,talons
+1,tentacle-fingered
+1,webbed hands
+1,withered and bony hands
+1,large toothy suckers
+1,three-fingered hands
+
+;legs
+1,clawed
+1,hooved
+1,[Creatures.Humanoid]
+1,insectoid
+1,taloned
+1,webbed
+1,hairy
+1,scaled
+2,[Creatures.All]
+
+;skin
+1,smooth skin
+1,fur
+1,bristled skin
+1,leathery skin
+1,leprous skin
+1,scaly skin
+1,slimy skin
+1,warty skin
+1,wrinkled skin
+
+;skinColor
+1,blackish
+1,bluish
+1,brownish
+1,grayish
+1,greenish
+1,orangy
+1,pinkish
+1,purplish
+1,reddish
+1,tannish
+5,[Miscellaneous.ColorNoType]
+
+;back
+1,hunched back
+1,maned back
+1,spiked back
+1,spined back
+1,ridged back
+
+;wingtailChance
+4, It has [~wings] wings and a [~tail] tail.
+2, It has [~wings] wings.
+2, It has a [~tail] tail.
+1,
+
+;wings
+1,bat-like
+1,bird-like
+1,insect-like
+1,membranous
+1,fan-like
+1,vestigial
+1,ruined
+
+;tail
+1,barbed
+1,dog-like
+1,goat-like
+1,horse-like
+1,lion-like
+1,pig-like
+1,prehensile
+1,stingered
+
+;odor
+1,bloody
+1,fishy
+1,fecal
+1,gangrenous
+1,moldy
+1,sweaty
+1,urine
+1,vomitous
+1,sulfurous
+1,acidic
+1,cloying
+10,[Miscellaneous.Odor]
+
+;SkinSentence
+3,Its whole body is covered with [~skinColor] [~skin].
+1,Its [~skinColor] [~skin] drips with foul ichor.
+1,When light manages to touch its [~skin], it gives off a [~skinColor] hue.
+1,Its [~skin] has an unnatural [~skinColor] tint to it.
+1,It has [~skin] that is mostly [~skinColor] but also [~skinColor] in parts.
+
+;OdorSentence
+1, It is surrounded by a strong [~odor] smell.
+1, The air around it is full of [~odor] pungency and fear.
+1, A foul [~odor] vapour emanates from it.
+1, The [~odor] smell around it is overwhelming.
+1, The air is thick with its [~odor] reek.
+1, It reeks of [~odor] death.
+1,

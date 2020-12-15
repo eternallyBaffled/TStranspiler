@@ -1,0 +1,551 @@
+﻿# ------------------------------------------------------
+# Last Update: modified by Valminder Jan 01, 2014.
+# ------------------------------------------------------
+#
+# MC Treasure Generator (from Magic Compendium)
+#
+# Magic Weapons
+#
+
+%type%,0
+%bonus%,0
+%target%,0
+%showSrc%,0
+%temp%,0
+
+%plus%,0
+%propsDS%,0
+%propsRaw%,0
+%props%,0
+%propNum%,0
+%ctr%,0
+
+%name%,0
+%page%,0
+
+%item%,0
+%value%,0
+%type%,0
+%thrown%,0
+%spear%,0
+%bow%,0
+%twoH%,0
+%btype%,0
+%ptype%,0
+%stype%,0
+%xbow%,0
+%light%,0
+%weight%,0
+
+@type,1,Melee or ranged?,Random,Melee,Ranged
+@bonus,11,Enter bonus value,1,2,3,4,5,6,7,8,9,10,Random
+@target,1,Human-readable or for another table?,Human,Table
+@showSrc,1,Show property source,No,Yes
+
+:Start
+1,[GenWeapon]
+_[DisplayItem=%target%]
+
+:GenWeapon
+1,|temp=[DetermineType=%type%]|
+_{If~%bonus%=11?|bonus={Dice~1d10}|}
+_{Split~temp,"!",item,value,type,thrown,spear,bow,twoH,btype,ptype,stype,xbow,light,weight}
+_|propsDS=|{DSCreate~propsDS,page,xxx,name,xxx}
+_[GenProps]
+_{DSSort~propsDS,name,0}
+_|props=[ListProps]|
+_|value={Calc~({Power~%bonus%^2}*2000)+%value%}|
+
+:DetermineType
+1,[Weapons]
+2,[Weapons={Dice~1d63}]
+3,[Weapons={Dice~1d36+63}]
+
+;GenProps
+1,|propsRaw=[Props%bonus%]|
+_|ctr={Find~1,#,%propsRaw%}|
+_{While~%ctr%,[ParseData]}
+
+;ParseData
+1,|temp={Left~{Calc~%ctr%-1},%propsRaw%}|
+_{Split~temp,"!",page,name}
+_|propsRaw={Right~{Calc~{Length~%propsRaw%}-%ctr%},%propsRaw%}|
+_|temp={DSAdd~propsDS,page,%page%,name,%name%}|
+_|ctr={Find~1,#,%propsRaw%}|
+
+# The "ShowProp" outside the loop is to prevent a hanging comma
+;ListProps
+1,|ctr=0|{While~%ctr%<{Calc~{DSCount~propsDS}-1},|temp={Calc~%ctr%+1}|[ShowProp], |ctr+1|}
+_|temp={DSCount~propsDS}|
+_{If~%temp%>0?[ShowProp]}
+
+;ShowProp
+1,{DSGet~propsDS,%temp%,name}{If~%showSrc%=2? ({DSGet~propsDS,%temp%,page})}
+
+:DisplayItem
+1,{Bold~{Cap~%item%} +%plus%{If~%plus%<%bonus%?, {Italic~%props%}}}{CR~}Value: %value% gp{CR~}Weight: %weight% lbs.
+2,%item% +%plus%{If~%plus%<%bonus%?, {Italic~%props%}}!xxxxx!%weight%!%value%
+
+# Format: item!value!type (1=melee, 2=ranged)!thrown!spear!bow!2H!B!P!S!xbow!light!weight
+;!Weapons
+2,bastard sword!335!1!0!0!0!0!0!0!1!0!0!6
+1,battleaxe!310!1!0!0!0!0!0!0!1!0!0!6
+1,club!300!1!1!0!0!0!1!0!0!0!0!3
+2,dagger!302!1!1!0!0!0!0!1!1!0!1!1
+1,dire flail!690!1!0!0!0!1!1!0!0!0!0!10
+1,dwarven urgrosh!650!1!0!0!0!1!0!1!1!0!0!12
+1,dwarven waraxe!330!1!0!0!0!0!0!0!1!0!0!8
+1,falchion!375!1!0!0!0!1!0!0!1!0!0!8
+1,gauntlet!302!1!0!0!0!0!1!0!0!0!0!1
+1,glaive!308!1!0!0!0!1!0!0!1!0!0!10
+1,gnome hooked hammer!620!1!0!0!0!1!1!1!0!0!0!6
+2,greataxe!320!1!0!0!0!1!0!0!1!0!0!12
+1,greatclub!305!1!0!0!0!1!1!0!0!0!0!8
+2,greatsword!350!1!0!0!0!1!0!0!1!0!0!8
+1,guisarme!309!1!0!0!0!0!0!0!1!0!0!12
+1,halberd!310!1!0!0!0!1!0!1!1!0!0!12
+1,handaxe!306!1!0!0!0!0!0!0!1!0!1!3
+1,heavy flail!315!1!0!0!0!1!1!0!0!0!0!10
+2,heavy mace!312!1!0!0!0!0!1!0!0!0!0!8
+1,heavy pick!308!1!0!0!0!0!0!1!0!0!0!6
+1,kama!302!1!0!0!0!0!0!0!1!0!1!2
+1,kukri!308!1!0!0!0!0!0!0!1!0!1!2
+1,lance!310!1!0!0!0!1!0!1!0!0!0!10
+1,light flail!308!1!0!0!0!0!1!0!0!0!0!5
+1,light hammer!301!1!1!0!0!0!1!0!0!0!1!2
+1,light mace!305!1!0!0!0!0!1!0!0!0!1!4
+1,light pick!304!1!0!0!0!0!0!1!0!0!1!3
+1,longspear!305!1!0!1!0!0!0!1!0!0!0!9
+2,longsword!315!1!0!0!0!0!0!0!1!0!0!4
+1,morningstar!308!1!0!0!0!0!1!1!0!0!0!6
+1,nunchaku!302!1!0!0!0!0!1!0!0!0!1!2
+1,orc double axe!660!1!0!0!0!1!0!0!1!0!0!15
+1,punching dagger!302!1!0!0!0!0!0!1!0!0!1!1
+2,quarterstaff!600!1!0!0!0!1!1!0!0!0!0!4
+1,ranseur!310!1!0!0!0!1!0!1!0!0!0!12
+2,rapier!320!1!0!0!0!0!0!1!0!0!0!2
+1,sai!301!1!1!0!0!0!1!0!0!0!1!1
+1,sap!301!1!0!0!0!0!1!0!0!0!1!2
+2,scimitar!315!1!0!0!0!0!0!0!1!0!0!4
+1,scythe!318!1!0!0!0!1!0!1!1!0!0!10
+2,short sword!310!1!0!0!0!0!0!1!0!0!1!2
+2,shortspear!301!1!1!1!0!0!0!1!0!0!0!3
+1,siangham!303!1!0!0!0!0!0!1!0!0!1!1
+1,sickle!306!1!0!0!0!0!0!0!1!0!1!2
+1,spear!302!1!1!1!0!1!0!1!0!0!0!6
+1,spiked chain!325!1!0!0!0!1!0!1!0!0!0!10
+1,spiked gauntlet!305!1!0!0!0!0!0!1!0!0!1!1
+1,throwing axe!308!1!1!0!0!0!0!0!1!0!1!2
+1,trident!315!1!1!0!0!0!0!1!0!0!0!4
+1,two-bladed sword!700!1!0!0!0!1!0!0!1!0!0!10
+1,warhammer!312!1!0!0!0!0!1!0!0!0!0!5
+1,whip!301!1!0!0!0!0!0!0!1!0!0!2
+2,arrows (50)!350!2!0!0!0!0!0!1!0!0!0!3
+1,bolas!305!2!0!0!0!0!1!0!0!0!0!2
+1,composite longbow (+0 str bonus)!400!2!0!0!1!0!0!1!0!0!0!3
+1,composite longbow (+1 str bonus)!500!2!0!0!1!0!0!1!0!0!0!3
+1,composite longbow (+2 str bonus)!600!2!0!0!1!0!0!1!0!0!0!3
+1,composite longbow (+3 str bonus)!700!2!0!0!1!0!0!1!0!0!0!3
+1,composite longbow (+4 str bonus)!800!2!0!0!1!0!0!1!0!0!0!3
+1,composite longbow (+5 str bonus)!900!2!0!0!1!0!0!1!0!0!0!3
+1,composite shortbow (+0 str bonus)!375!2!0!0!1!0!0!1!0!0!0!2
+1,composite shortbow (+1 str bonus)!450!2!0!0!1!0!0!1!0!0!0!2
+1,composite shortbow (+2 str bonus)!525!2!0!0!1!0!0!1!0!0!0!2
+1,composite shortbow (+3 str bonus)!625!2!0!0!1!0!0!1!0!0!0!2
+1,composite shortbow (+4 str bonus)!725!2!0!0!1!0!0!1!0!0!0!2
+1,composite shortbow (+5 str bonus)!825!2!0!0!1!0!0!1!0!0!0!2
+2,crossbow bolts (50)!350!2!0!0!0!0!0!1!0!0!0!1
+1,dart!300!2!1!0!0!0!0!1!0!0!0!0.5
+1,hand crossbow!400!2!0!0!0!0!0!1!0!1!0!2
+2,heavy crossbow!350!2!0!0!0!0!0!1!0!1!0!8
+1,javelin!301!2!1!0!0!0!0!1!0!0!0!2
+2,light crossbow!335!2!0!0!0!0!0!1!0!1!0!4
+2,longbow!375!2!0!0!1!0!0!1!0!0!0!3
+1,net!320!2!1!0!0!0!0!0!0!0!0!6
+1,repeating heavy crossbow!700!2!0!0!0!0!0!1!0!1!0!12
+1,repeating light crossbow!550!2!0!0!0!0!0!1!0!1!0!6
+2,shortbow!330!2!0!0!1!0!0!1!0!0!0!2
+1,shuriken!301!2!1!0!0!0!0!1!0!0!0!0.5
+2,sling!300!2!0!0!0!0!1!0!0!0!0!0
+2,sling bullets (50)!350!2!0!0!0!0!1!0!0!0!0!5
+1,other/dm’s choice!0!1!1!0!0!0!1!1!1!0!0!0
+
+:Props1
+1,|plus=1|
+
+:Props2
+1-62,|plus=2|
+63-100,|plus=1||propNum=1|[GenProp]
+
+:Props3
+1-44,|plus=3|
+45-79,|plus=2||propNum=1|[GenProp]
+80-91,|plus=1||propNum=2|[GenProp]
+92-100,|plus=1||propNum=1|[GenProp][GenProp]
+
+:Props4
+1-44,|plus=4|
+45-79,|plus=3||propNum=1|[GenProp]
+80-91,|plus=2||propNum=2|[GenProp]
+92-100,|plus=1||propNum=3|[GenProp]
+
+:Props5
+1-40,|plus=5|
+41-75,|plus=4||propNum=1|[GenProp]
+76-88,|plus=3||propNum=2|[GenProp]
+89-95,|plus=2||propNum=3|[GenProp]
+96-100,|plus=1||propNum=4|[GenProp]
+
+:Props6
+1-43,|plus=5||propNum=1|[GenProp]
+44-77,|plus=4||propNum=2|[GenProp]
+78-89,|plus=3||propNum=3|[GenProp]
+90-95,|plus=2||propNum=4|[GenProp]
+96-100,|plus=1||propNum=5|[GenProp]
+
+:Props7
+1-47,|plus=5||propNum=2|[GenProp]
+48-79,|plus=4||propNum=3|[GenProp]
+80-92,|plus=3||propNum=4|[GenProp]
+93-100,|plus=2||propNum=5|[GenProp]
+
+:Props8
+1-52,|plus=5||propNum=3|[GenProp]
+53-85,|plus=4||propNum=4|[GenProp]
+86-100,|plus=3||propNum=5|[GenProp]
+
+:Props9
+1-52,|plus=5||propNum=4|[GenProp]
+53-85,|plus=4||propNum=3|[GenProp]|propNum=2|[GenProp]
+86-100,|plus=4||propNum=5|[GenProp]
+
+:Props10
+1-50,|plus=5||propNum=3|[GenProp]|propNum=2|[GenProp]
+51-85,|plus=5||propNum=5|[GenProp]
+86-100,|plus=4||propNum=3|[GenProp][GenProp]
+
+# Dynamically creates the name of the table to call:
+# XXXXPropsY where XXXX is "Melee" or "Ranged" and "Y" is 1 to 5
+;GenProp
+1,[{Param~type,{Calc~%type%+1}}Props%propNum%]
+
+;EnergyType
+1,acid
+1,cold
+1,electricity
+1,fire
+1,sonic
+
+;!BaneTarget
+5,aberrations
+4,animals
+7,constructs
+6,dragons
+5,elementals
+5,fey
+7,giants
+1,humanoids - aquatic
+2,humanoids - dwarf
+2,humanoids - elf
+1,humanoids - gnoll
+1,humanoids - gnome
+3,humanoids - goblinoid
+1,humanoids - halfling
+4,humanoids - human
+3,humanoids - reptilian
+3,humanoids - orc
+5,magical beasts
+5,monstrous humanoids
+2,oozes
+1,outsiders - air
+3,outsiders - chaotic
+1,outsiders - earth
+3,outsiders - evil
+1,outsiders - fire
+3,outsiders - good
+3,outsiders - lawful
+1,outsiders - water
+2,plants
+8,undead
+2,vermin
+
+;!MeleeProps1
+1,M36!illuminating#
+1,M28!aquatic#
+2,{If~%spear%=1?M31!changeling#/[MeleeProps1]}
+1,M34!everbright#
+1,M36!hideaway#
+1,M43!shadowstrike#
+2,M43!sizing#
+2,M43!slow burst#
+2,D224!bane ([BaneTarget])#
+1,{If~%twoH%=1?M29!berserker#/[MeleeProps1]}
+1,M29!binding#
+1,M29!blessed#
+2,M29!bloodfeeding#
+1,M29!bloodstone#
+1,M30!brash#
+1,M30!brutal surge#
+1,M31!chargebreaker#
+1,M31!charging#
+2,M31!corrosive#
+1,M32!deadly precision#
+2,D224!defending#
+1,M32!defensive surge#
+1,M32!dessicating#
+2,M32!dislocator#
+1,M33!dispelling#
+1,M33!divine wrath#
+1,M33!dragondoom#
+2,M34!eager#
+3,D224!flaming#
+3,D224!frost#
+2,D224!ghost touch#
+1,M35!harmonizing#
+2,M36!heavenly burst#
+1,M36!hunting#
+1,M36!illusion bane#
+2,{If~%btype%=1?M37!impact#/[MeleeProps1]}
+1,{If~%ptype%=1?M37!impaling#/[MeleeProps1]}
+4,{If~{Or~%ptype%=1,%stype%=1}=1?D225!keen#/[MeleeProps1]}
+1,D225!ki focus#
+1,M38!knockback#
+2,M38!lucky#
+1,M38!magebane#
+1,M38!maiming#
+1,D225!merciful#
+2,D225!mighty cleaving#
+1,M39!mighty smiting#
+1,M39!mindfeeder#
+2,{If~{Or~%melee%=1,%thrown%=1}=1?M39!morphing#/[MeleeProps1]}
+1,M39!paralyzing#
+1,M40!power storing#
+1,M40!profane#
+1,M41!psychokinetic#
+1,M42!resounding#
+1,M42!revealing#
+1,M42!sacred#
+1,M42!screaming#
+1,M43!shattermantle#
+1,{If~%light%=1?M43!shielding#/[MeleeProps1]}
+3,D225!shock#
+1,M43!soulbound#
+3,D225!spell storing#
+1,M44!spellstrike#
+1,M44!stunning surge#
+1,M44!stygian#
+1,M44!sundering#
+1,M44!sweeping#
+1,D226!throwing#
+1,D225!thundering#
+1,M45!venomous#
+2,D226!vicious#
+1,M46!warning#
+1,M46!weakening#
+1,M46!whirling#
+
+;!RangedProps1
+1,M36!illuminating#
+1,M28!aquatic#
+1,M34!everbright#
+2,M36!hideaway#
+2,M43!shadowstrike#
+2,M43!sizing#
+2,M43!slow burst#
+2,{If~%bow%=1?M28!arcane might#/[RangedProps1]}
+2,D224!bane ([BaneTarget])#
+1,M29!binding#
+2,M29!blessed#
+2,M31!corrosive#
+2,M32!deadly precision#
+2,M32!dessicating#
+1,M32!dislocator#
+2,M33!dispelling#
+2,D224!distance#
+2,M33!divine wrath#
+2,M33!dragonhunter#
+3,D224!flaming#
+3,D224!frost#
+2,M36!heavenly burst#
+2,M36!hunting#
+2,M36!illusion bane#
+2,{If~%btype%=1?M37!impact#/[MeleeProps1]}
+2,M38!knockback#
+2,M38!lucky#
+2,M38!magebane#
+2,M38!maiming#
+1,D225!merciful#
+2,M39!mindfeeder#
+2,{If~{Or~%melee%=1,%thrown%=1}=1?M39!morphing#/[RangedProps1]}
+1,M40!power storing#
+3,M40!precise#
+2,M40!profane#
+2,M41!psychokinetic#
+3,{If~%xbow%=1?M41!quick loading#/[RangedProps1]}
+2,D225!returning#
+2,M42!revealing#
+2,M42!sacred#
+2,M42!screaming#
+2,D225!seeking#
+2,M43!shattermantle#
+2,D225!shock#
+1,M43!soulbound#
+1,M44!spellstrike#
+2,M44!stunning surge#
+2,M44!stygian#
+3,D225!thundering#
+2,M45!venomous#
+2,M46!warning#
+2,M46!weakening#
+
+;!MeleeProps2
+1,M45!vanishing#
+1,M38!manifester#
+2,M28!acidic burst#
+2,D223!anarchic#
+1,M28!aquan#
+1,M28!auran#
+2,D223!axiomatic#
+2,M28!banishing#
+2,M29!blindsighted#
+2,M29!blurstrike#
+2,M31!collision#
+2,M31!consumptive#
+2,M32!dessicating burst#
+1,M32!disarming#
+2,M33!great dislocator#
+2,M33!greater dispelling#
+2,{If~%btype%=1?D224!disruption#/[MeleeProps2]}
+2,M33!domineering#
+2,M33!doom burst#
+2,M34!energy aura#
+2,M34!energy surge ([EnergyType])#
+2,M34!enervating#
+2,M35!fiercebane#
+3,D224!flaming burst#
+2,{If~{Or~%ptype%=1,%stype%=1}=1?M35!fleshgrinding#/[MeleeProps2]}
+2,M35!ghost strike#
+3,D225!holy#
+3,D225!icy burst#
+1,M36!ignan#
+2,M37!impedance#
+2,M38!incorporeal binding#
+2,M38!metalline#
+2,M39!mindcrusher#
+2,M39!paralytic burst#
+2,M40!parrying#
+2,M40!profane burst#
+2,M41!psibane#
+2,M41!psychic#
+2,M41!psychokinetic burst#
+2,M42!sacred burst#
+2,M42!screaming burst#
+4,D225!shocking burst#
+3,M44!stunning#
+2,M45!terran#
+3,M45!transmuting#
+2,D226!unholy#
+2,M45!vampiric#
+3,D226!wounding#
+2,|propNum=1|[GenProp][GenProp]
+2,WSkyF!voidwrought#
+
+;!RangedProps2
+1,M38!manifester#
+3,M28!acidic burst#
+2,D223!anarchic#
+1,M28!aquan#
+1,M28!auran#
+2,D223!axiomatic#
+2,M28!banishing#
+3,M29!blindsighted#
+2,M31!collision#
+2,M31!consumptive#
+2,M32!dessicating burst#
+2,M32!disarming#
+3,M33!great dislocator#
+2,M33!greater dispelling#
+2,M33!domineering#
+3,M33!doom burst#
+3,M34!energy aura#
+2,M34!enervating#
+2,M35!fiercebane#
+5,D224!flaming burst#
+3,M35!force#
+3,D225!holy#
+5,D225!icy burst#
+1,M36!ignan#
+3,M37!impedance#
+3,M38!metalline#
+2,M39!mindcrusher#
+2,M39!paralytic burst#
+2,M40!parrying#
+2,M40!profane burst#
+2,M41!psibane#
+2,M41!psychic#
+2,M41!psychokinetic burst#
+2,M42!sacred burst#
+3,M42!screaming burst#
+6,D225!shocking burst#
+3,M44!stunning#
+1,M45!terran#
+4,M45!transmuting#
+2,D226!unholy#
+2,|propNum=1|[GenProp][GenProp]
+2,WSkyF!voidwrought#
+
+;!MeleeProps3
+9,M40!prismatic burst#
+8,M30!bodyfeeder#
+8,M31!cursespewing#
+7,M34!ethereal reaver#
+7,M36!holy surge#
+8,M37!implacable#
+7,M39!necrotic focus#
+3,M43!greater soulbound#
+4,M44!soulbreaker#
+5,M44!souldrinking#
+10,D225!speed#
+8,M45!unholy surge#
+8,M37!illusion theft#
+8,|propNum=2|[GenProp]|propNum=1|[GenProp]
+2,WSkyF!starshine#
+
+;!RangedProps3
+12,M40!prismatic burst#
+11,M30!bodyfeeder#
+9,M31!cursespewing#
+13,M37!implacable#
+8,M43!greater soulbound#
+6,M44!soulbreaker#
+5,M44!souldrinking#
+14,D225!speed#
+11,M37!illusion theft#
+11,|propNum=2|[GenProp]|propNum=1|[GenProp]
+2,WSkyF!starshine#
+
+;!MeleeProps4
+19,D224!brilliant energy#
+22,D224!dancing#
+23,|propNum=3|[GenProp]|propNum=1|[GenProp]
+19,|propNum=2|[GenProp][GenProp]
+17,|propNum=2|[GenProp]|propNum=1|[GenProp][GenProp]
+
+;!RangedProps4
+31,D224!brilliant energy#
+30,|propNum=3|[GenProp]|propNum=1|[GenProp]
+21,|propNum=2|[GenProp][GenProp]
+18,|propNum=2|[GenProp]|propNum=1|[GenProp][GenProp]
+
+;!MeleeProps5
+20,{If~%stype%=1?D226!vorpal#/[MeleeProps5]}
+20,|propNum=4|[GenProp]|propNum=1|[GenProp]
+20,|propNum=3|[GenProp]|propNum=2|[GenProp]
+20,|propNum=2|[GenProp][GenProp]|propNum=1|[GenProp]
+20,|propNum=2|[GenProp]|propNum=1|[GenProp][GenProp][GenProp]
+
+;!RangedProps5
+38,|propNum=4|[GenProp]|propNum=1|[GenProp]
+33,|propNum=3|[GenProp]|propNum=2|[GenProp]
+20,|propNum=2|[GenProp][GenProp]|propNum=1|[GenProp]
+9,|propNum=2|[GenProp]|propNum=1|[GenProp][GenProp][GenProp]

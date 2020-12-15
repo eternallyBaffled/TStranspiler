@@ -1,0 +1,316 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder August 28, 2006.
+# ---------------------------------------------------
+#
+# Magic Rings
+#
+# Sean Hlousek
+#
+# -------------------------------------------------------------------------
+#
+# To call this table from another one:
+#    [EQ Magic Rings.Generate(%Rolls%)
+#
+#    Parameters: (%Rolls%)
+#
+#    Rolls:    (1) Enter the number of items needed.
+#
+# -------------------------------------------------------------------------
+#
+# Modified by Valminder, August  2006.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+#    I heavily modified this table. I could modify it more by
+#       removing all the variables for the cost, but it would
+#       be too long. For now, it works fine.
+#    The final price need to be adjusted for some items, but it
+#       seems relatively OK.
+#    I diminished the price variation in [Store].
+#    Cost of Items: Put the cost in GP, the output will modify it
+#       for gp, sp, or cp.
+#       1 sp = 0.1 gp
+#       1 cp = 0.01 gp
+#
+
+# The prices of rings from the DMG3.5 are Ok, so I assume
+# the others are good. Usually, the cost of an item was 1/2
+# its regular price in this series of tables.
+%RingofProtection+1%,2000
+%RingofFeatherFalling%,2200
+%RingofSustenance%,2500
+%RingofClimbing%,2500
+%RingofJumping%,2500
+%RingofSwimming%,2500
+%RingofCounterspells%,4000
+%RingofMindShielding%,8000
+%RingofProtection+2%,8000
+%RingofForceShield%,8500
+%RingoftheRam%,8600
+%RingofImprovedClimbing%,10000
+%RingofImprovedJumping%,10000
+%RingofImprovedSwimming%,10000
+%RingofAnimalFriendship%,10800
+%RingofMinorEnergyResistance%,12000
+%RingofChameleonPower%,12700
+%RingofWaterWalking%,15000
+%RingofProtection+3%,18000
+%RingofMinorSpellStoring%,18000
+%RingofInvisibility%,20000
+%RingofWizardry1%,20000
+%RingofEvasion%,25000
+%RingofX-RayVision%,25000
+%RingofBlinking%,27000
+%RingofMajorEnergyResistance%,28000
+%RingofProtection+4%,32000
+%RingofWizardry2%,40000
+%RingofFreedomofMovement%,44000
+%RingofGreaterEnergyResistance%,50000
+%RingofFriendShield(pair)%,50000
+%RingofProtection+5%,50000
+%RingofShootingStars%,50000
+%RingofSpellStoring%,50000
+%RingofWizardry3%,70000
+%RingofTelekinesis%,75000
+%RingofThreeWishes%,97950
+%RingofSpellTurning%,98280
+%RingofWizardry4%,100000
+%RingofDjinniCalling%,125000
+%RingofElementalCommand(air)%,200000
+%RingofElementalCommand(earth)%,200000
+%RingofElementalCommand(fire)%,200000
+%RingofElementalCommand(water)%,200000
+%RingofMajorSpellStoring%,200000
+%RingofRegeneration%,90000
+%RingofArborealMastery%,57000
+%RingofMageArmor%,12000
+%RingofShockingBlows%,13000
+%MasterRing%,40600
+%RingofWeeping%,3000
+%SlaveRing%,500
+%VileWeaponRing%,20000
+%VileSpellRing%,15000
+%PurpleDragonRing%,2125
+%RingofMight%,4000
+%Ring:TheDarkhidden%,6700
+%RingofDiseaseImmunity%,8000
+%RingofLore%,23250
+%RingofDragons%,25000
+%BoneRing%,36000
+%Aribeth'sRing%,50000
+%RingofSpell-Battle%,67600
+%RingofNineLives%,70000
+%Commander'sRing%,120000
+%RingoftheEel'sTouch%,10000
+%ClothingRing%,11000
+%RingofSoulProtection%,12000
+%RingofTurning%,12000
+%RingoftheCovenant%,18000
+%RingofBurokTorn%,20000
+%RingofSovereignty%,20180
+%RingofAgelessness%,21000
+%RingofRivening%,25000
+%RingofPoison%,27500
+%RingofImmaculateForm%,33600
+%RingoftheLoremasters%,38000
+%ForsakenRingofLafeWarding%,68400
+%Necromancer'sRing%,70000
+%AnimalRingofVera-Tre%,75000
+%RingofMesos%,100000
+%OathRings(pair)%,147840 
+
+### Was %Base%
+%PercentGPMod%,1
+### This is the Store modifier on all its prices 70% to 200% (normal 95% - 105%)
+%STVR%,0
+### How many items to roll
+%Rolls%,0
+#### Was %Base1%
+%MagicalGPMod%,0
+
+# New variables Aug 2006.
+%Item%,0
+# Put Book=2 in the item's description if you do not want books to appear.
+%Book%,0
+%Cost%,0
+%Condition%,0
+%GenItem%,0
+# 1= Mundane Item, 2= Magical Item
+%Magic%,1
+%MWGPMod%,0
+%ArmorSizeMod%,1
+# To be used with "EQ_Main.tab"
+%GetData%,0
+%DataName%,0
+%DataPercentMod%,0
+%SpecialEffect%,0
+%BodySize%,0
+%MoneyType%,gp
+%Temp%,0
+
+@Rolls,10,How many Items are in this Shop?
+#@GenItem,9,What do you want to generate
+
+:Start
+1,{Status~By Sean Hlousek, Valminder 2006}[Generate]
+
+:Generate
+1,|STVR=1|[Store]
+#_[Multiplier]
+_{Loop~%Rolls%,|BodySize=0||PercentGPMod=0||MagicalGPMod=0||Magic=2||MWGPMod=0||ArmorSizeMod=1||SpecialEffect=0|
+_|Condition=n/a|
+_[RingType][Print=%Magic%]}
+
+:Print
+1,<b>Item:</b> <i><font color="Purple">%Item%</font></i>[Print2]
+2,<b>Item:</b> <i><font color="Blue">(Magic) %Item%</font></i>[Print2]
+
+:Print2
+1,{If~%SpecialEffect%!=0? [PrintExtraMW]}
+_{IIf~%Book%!=2?  <font size=1>(%Book%)</font>}
+#If you do not want BodySize for everything put |BodySize=0| above and |BodySize=1| in item's description.
+_{If~%BodySize%=1? ([BodySize] size)}
+_|Cost+%MagicalGPMod%||Cost+%MWGPMod%|{If~%Magic%=1?|Cost*%ArmorSizeMod%|}
+_[Calculate Cost]
+_ (%Condition%, [AddComma.Start(%Cost%)] %MoneyType%)<br>
+
+:PrintExtraMW
+1,<u>Extra MW Effect</u>: %SpecialEffect%.
+
+# This will give a modifier to the cost of the items.
+;Store
+2,|STVR-{Calc~({Dice~1d10+20}/100)}|
+4,|STVR-{Calc~({Dice~1d10+10}/100)}|
+8,|STVR-{Calc~({Dice~1d10+5}/100)}|
+15,|STVR-{Calc~({Dice~1d5}/100)}|
+70,|STVR=1|
+30,|STVR+{Calc~({Dice~1d5}/100)}|
+15,|STVR+{Calc~({Dice~1d10+5}/100)}|
+8,|STVR+{Calc~({Dice~1d10+10}/100)}|
+4,|STVR+{Calc~({Dice~1d15+20}/100)}|
+2,|STVR+{Calc~({Dice~1d25+35}/100)}|
+1,|STVR+{Calc~({Dice~1d50+50}/100)}|
+
+:Multiplier
+1,Price Multiplier: %STVR%<br>
+
+:Calculate Cost
+1,|Cost={Calc~((%STVR%+%PercentGPMod%)*%Cost%)}|
+_{If~%Cost%>=5?|Cost={Trunc~%Cost%}||MoneyType=gp|}
+_{If~{And~%Cost%>=1,%Cost%<5}=1?{If~%Cost%={Trunc~%Cost%}?|MoneyType=gp|/|Cost={Round~1,%Cost%}||Cost*10||MoneyType=sp|}}
+_{If~%Cost%<0.1?|Cost*100||Cost={Trunc~%Cost%}|{If~%Cost%=0?|Cost=1|}|MoneyType=cp|/{If~%Cost%<1?|Cost*10||Cost={Trunc~%Cost%}|{If~%Cost%=0?|Cost=1|}|MoneyType=sp|}}
+
+# ---------------------------------------------------------------
+;RingType
+50,|Item=Ring of Protection +1</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=DMG3.5||Cost=%RingofProtection+1%|
+20,|Item=Ring of Feather Falling</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=DMG3.5||Cost=%RingofFeatherFalling%|
+30,|Item=Ring of Sustenance</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=DMG3.5||Cost=%RingofSustenance%|
+20,|Item=Ring of Climbing</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=DMG3.5||Cost=%RingofClimbing%|
+20,|Item=Ring of Jumping</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=DMG3.5||Cost=%RingofJumping%|
+20,|Item=Ring of Swimming</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=DMG3.5||Cost=%RingofSwimming%|
+15,|Item=Ring of Counterspells</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=DMG3.5||Cost=%RingofCounterspells%|
+10,|Item=Ring of Mind Shielding</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=DMG3.5||Cost=%RingofMindShielding%|
+40,|Item=Ring of Protection +2</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=DMG3.5||Cost=%RingofProtection+2%|
+25,|Item=Ring of Force Shield</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=DMG3.5||Cost=%RingofForceShield%|
+20,|Item=Ring of  the Ram</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=DMG3.5||Cost=%RingoftheRam%|
+10,|Item=Ring of Improved Climbing</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=DMG3.5||Cost=%RingofImprovedClimbing%|
+10,|Item=Ring of Improved Jumping</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=DMG3.5||Cost=%RingofImprovedJumping%|
+10,|Item=Ring of Improved Swimming</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=DMG3.5||Cost=%RingofImprovedSwimming%|
+10,|Item=Ring of Animal Friendship</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=DMG3.5||Cost=%RingofAnimalFriendship%|
+10,|Item=Ring of Minor Energy Resistance</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=DMG3.5||Cost=%RingofMinorEnergyResistance%|
+10,|Item=Ring of Chameleon Power</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=DMG3.5||Cost=%RingofChameleonPower%|
+10,|Item=Ring of Water Walking</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=DMG3.5||Cost=%RingofWaterWalking%|
+30,|Item=Ring of Protection +3</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=DMG3.5||Cost=%RingofProtection+3%|
+10,|Item=Ring of Minor Spell Storing</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=DMG3.5||Cost=%RingofMinorSpellStoring%|
+1,|Item=Ring of Invisibility</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=DMG3.5||Cost=%RingofInvisibility%|
+20,|Item=Ring of Wizardry 1</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=DMG3.5||Cost=%RingofWizardry1%|
+20,|Item=Ring of Evasion</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=DMG3.5||Cost=%RingofEvasion%|
+10,|Item=Ring of X-Ray Vision</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=DMG3.5||Cost=%RingofX-RayVision%|
+15,|Item=Ring of Blinking</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=DMG3.5||Cost=%RingofBlinking%|
+5,|Item=Ring of Major Energy Resistance</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=DMG3.5||Cost=%RingofMajorEnergyResistance%|
+20,|Item=Ring of Protection +4</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=DMG3.5||Cost=%RingofProtection+4%|
+10,|Item=Ring of Wizardry 2</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=DMG3.5||Cost=%RingofWizardry2%|
+10,|Item=Ring of Freedom of Movement</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=DMG3.5||Cost=%RingofFreedomofMovement%|
+5,|Item=Ring of Greater Energy Resistance</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=DMG3.5||Cost=%RingofGreaterEnergyResistance%|
+2,|Item=Ring of Friend Shield (pair)</font></i> both [MagicalRingMetals][AnyExtrasMA]||Book=DMG3.5||Cost=%RingofFriendShield(pair)%|
+5,|Item=Ring of Protection +5</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=DMG3.5||Cost=%RingofProtection+5%|
+5,|Item=Ring of Shooting Stars</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=DMG3.5||Cost=%RingofShootingStars%|
+5,|Item=Ring of Spell Storing</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=DMG3.5||Cost=%RingofSpellStoring%|
+5,|Item=Ring of Wizardry 3</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=DMG3.5||Cost=%RingofWizardry3%|
+2,|Item=Ring of Telekinesis</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=DMG3.5||Cost=%RingofTelekinesis%|
+1,|Item=Ring of Three Wishes</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=DMG3.5||Cost=%RingofThreeWishes%|
+2,|Item=Ring of Spell Turning</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=DMG3.5||Cost=%RingofSpellTurning%|
+2,|Item=Ring of Wizardry 4</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=DMG3.5||Cost=%RingofWizardry4%|
+1,|Item=Ring of Djinni Calling</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=DMG3.5||Cost=%RingofDjinniCalling%|
+1,|Item=Ring of Elemental Command (air)</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=DMG3.5||Cost=%RingofElementalCommand(air)%|
+1,|Item=Ring of Elemental Command (earth)</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=DMG3.5||Cost=%RingofElementalCommand(earth)%|
+1,|Item=Ring of Elemental Command (fire)</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=DMG3.5||Cost=%RingofElementalCommand(fire)%|
+1,|Item=Ring of Elemental Command (water)</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=DMG3.5||Cost=%RingofElementalCommand(water)%|
+1,|Item=Ring of Major Spell Storing</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=DMG3.5||Cost=%RingofMajorSpellStoring%|
+5,|Item=Ring of Regeneration</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=DMG3.5||Cost=%RingofRegeneration%|
+5,|Item=Ring of Arboreal Mastery</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=ITG||Cost=%RingofArborealMastery%|
+20,|Item=Ring of Mage Armor</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=S&F||Cost=%RingofMageArmor%|
+20,|Item=Ring of Shocking Blows</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=S&F||Cost=%RingofShockingBlows%|
+1,|Item=Master Ring</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=BVD||Cost=%MasterRing%|
+5,|Item=Ring of Weeping</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=BVD||Cost=%RingofWeeping%|
+1,|Item=Slave Ring</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=BVD||Cost=%SlaveRing%|
+5,|Item=Vile Weapon Ring</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=BVD||Cost=%VileWeaponRing%|
+5,|Item=Vile Spell Ring</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=BVD||Cost=%VileSpellRing%|
+5,|Item=Purple Dragon Ring</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=MOF||Cost=%PurpleDragonRing%|
+10,|Item=Ring of Might</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=MOF||Cost=%RingofMight%|
+5,|Item=Ring: The Darkhidden</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=MOF||Cost=%Ring:TheDarkhidden%|
+15,|Item=Ring of Disease Immunity</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=MOF||Cost=%RingofDiseaseImmunity%|
+10,|Item=Ring of Lore</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=MOF||Cost=%RingofLore%|
+2,|Item=Ring of Dragons</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=MOF||Cost=%RingofDragons%|
+5,|Item=Bone Ring</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=MOF||Cost=%BoneRing%|
+5,|Item=Aribeth's Ring</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=MOF||Cost=%Aribeth'sRing%|
+2,|Item=Ring of Spell-Battle</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=MOF||Cost=%RingofSpell-Battle%|
+1,|Item=Ring of Nine Lives</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=MOF||Cost=%RingofNineLives%|
+1,|Item=Commander's Ring</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=MOF||Cost=%Commander'sRing%|
+10,|Item=Ring of the Eel's Touch</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=RR2||Cost=%RingoftheEel'sTouch%|
+30,|Item=Clothing Ring</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=RR2||Cost=%ClothingRing%|
+10,|Item=Ring of Soul Protection</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=RR2||Cost=%RingofSoulProtection%|
+10,|Item=Ring of Turning</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=RR2||Cost=%RingofTurning%|
+5,|Item=Ring of the Covenant</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=RR2||Cost=%RingoftheCovenant%|
+2,|Item=Ring of Burok Torn</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=RR2||Cost=%RingofBurokTorn%|
+5,|Item=Ring of Sovereignty</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=RR2||Cost=%RingofSovereignty%|
+1,|Item=Ring of Agelessness</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=RR2||Cost=%RingofAgelessness%|
+2,|Item=Ring of Rivening</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=RR2||Cost=%RingofRivening%|
+5,|Item=Ring of Poison</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=RR2||Cost=%RingofPoison%|
+7,|Item=Ring of Immaculate Form</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=RR2||Cost=%RingofImmaculateForm%|
+5,|Item=Ring of the Loremasters</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=RR2||Cost=%RingoftheLoremasters%|
+2,|Item=Forsaken Ring of Life Warding</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=RR2||Cost=%ForsakenRingofLafeWarding%|
+5,|Item=Necromancer's Ring</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=RR2||Cost=%Necromancer'sRing%|
+2,|Item=Animal Ring of Vera-Tre</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=RR2||Cost=%AnimalRingofVera-Tre%|
+1,|Item=Ring of Mesos</font></i> [MagicalRingMetals][AnyExtrasMA]||Book=RR2||Cost=%RingofMesos%|
+1,|Item=Oath Rings (pair)</font></i> both [MagicalRingMetals][AnyExtrasMA]||Book=RR2||Cost=%OathRings(pair)%|
+
+;MagicalRingMetals
+30, made of solid polished steel.
+8, made of solid steel.
+5, made of iron.
+10, made of solid nickle.
+30, made of solid nickle-silver. 
+20, made of solid copper. 
+10, made of solid bronze. 
+30, made of solid silver. 
+10, made of solid electrum. 
+10,[OtherMagicalRingMetals] 
+
+;OtherMagicalRingMetals
+30, made of solid gold. 
+10, made of solid platinum. 
+10, made of solid mithral.
+5, made of solid adamantine.
+4, made of solid tilferium. <i><font color="Maroon">Ask DM for Special Rules associated with this material.</i></font>
+6, made of solid xagium. <i><font color="Maroon">Ask DM for Special Rules associated with this material.</i></font>
+7,  made of solid Astral Driftmetal.<i><font color="Maroon">Ask DM for Special Rules associated with this material.</i></font>
+5,  made of solid Blended Quartz.<i><font color="Maroon">Ask DM for Special Rules associated with this material.</i></font>
+2,  made of solid Entropium. <i><font color="Maroon">Ask DM for Special Rules associated with this material.</i></font>
+8,  made of solid Urdrakar. <i><font color="Maroon">Ask DM for Special Rules associated with this material.</i></font>
+1, made of solid Oracalcum. <i><font color="Maroon">Ask DM for Special Rules associated with this material.</i></font>
+
+;AnyExtrasMA
+1,|GetData=[EQ_Main.AnyExtrasMA]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+0|
+_%DataName%

@@ -1,0 +1,54 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder Mar 23, 2018.
+# ---------------------------------------------------
+#
+# Random Place Names
+# 
+# by Valminder, April 2002.
+#
+# -------------------------------------------------------------------------
+# This Table Links to these tables as required:
+#    Some tables hidden in the " ~Names " folder.
+#
+# -------------------------------------------------------------------------
+# This table is called by:
+#    Conflict Names.tab
+#
+# -------------------------------------------------------------------------
+#
+# June 2003:
+#   -Added the "Duergar Place Names" from the "Underdark (D281)" table
+# Oct 2003:
+#   -Added the "Names Sites" table by Robert Maxwell.
+# Feb 2006:
+#   -Added "Alternate" subtable for "Conflict Namer.tab"
+#
+
+/OverrideRolls 1
+
+:Start
+1,<b><u>Random Place Names</u>:</b><br><br>
+_<u>Random</u>: [~Generate]<br><br><br>
+_<u>Bretonnian</u>: [~Bretonnian Place Names.Generate]<br>
+_<u>Duergar</u>: [~Underdark.DuergarPlace]<br>
+_<u>Dwarven</u>: [~Dwarven Place Names.Generate]<br>
+_<u>Elven</u>: [~Elvish Place Names.Generate]<br>
+_<u>Empire</u>: [~Empire Place Names.Generate]<br>
+_<u>Miscellaneous</u>: [~Names Sites.Generate]<br>
+
+;Generate
+2,[Bretonnian Place Names.Generate] (French Place)
+1,[Underdark.DuergarPlace] (Duergar Place)
+2,[Dwarven Place Names.Generate] (Dwarven Place)
+2,[Elvish Place Names.Generate] (Elven Place)
+2,[Empire Place Names.Generate] (German Place)
+2,[Names Sites.Generate] (Miscellaneous)
+
+;Alternate
+2,[Bretonnian Place Names.Generate]
+1,[Underdark.DuergarPlace]
+2,[Dwarven Place Names.Generate]
+2,[Elvish Place Names.Generate]
+2,[Empire Place Names.Generate]
+2,[Names Sites.Generate]
+

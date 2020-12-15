@@ -1,0 +1,3236 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder Jan 10, 2006.
+# ---------------------------------------------------
+#
+# Weather Forecast
+#
+# by Larry Cormier
+#
+# This table generates an Earth-like Weather Conditions based on the
+# Parameters you provide.
+# It can be used to quickly generate a Weather Forecast to address the
+# countless hours of travel your Players may undertake to get to their final
+# destination.
+#
+# Derived from TSR's Wilderness Survival Guide.
+#
+# Modified by Valminder, Jan 2006.
+#    Added Metric (Celsius/Kph) and associated Parameters.
+#   
+# This version works with TSv4. In TSv5, the {Round~} function was changed.
+#
+
+# Define Variables
+%Region%,0
+%RegionName%,0
+%Terrain%,0
+%TerrainName%,0
+%TerrainByRegion%,0
+%Month%,0
+%MonthName%,0
+%DaysInMonth%,0
+%TotalDaysWanted%,0
+%CurrentYear%,0
+%FirstDay%,0
+%DayCount%,0
+%Counter%,0
+%Temp1%,0
+%Temp2%,0
+%HighTemp%,0
+%HighMean%,0
+%BaseMean%,0
+%TodaysHigh%,0
+%MonthlyHigh%,0
+%HighCode%,0
+%LowTemp%,0
+%LowMean%,0
+%TodaysLow%,0
+%MonthlyLow%,0
+%LowCode%,0
+%TempCode%,0
+%CurrentTemp%,0
+%DiceRoll1%,0
+%DiceRoll2%,0
+%DailyChange%,0
+%PrecipFlag%,0
+%Precipitation%,0
+%PrecipVariation%,0
+%PrecipVariable%,0
+%ExtremePrecip%,0
+%RainAmount%,0
+%SnowAmount%,0
+%RainOrSnow%,0
+%HailSize%,0
+%IceThickness%,0
+%Season%,0
+%SeasonName%,0
+%SkipFlag%,0
+%WindSpeed%,0
+%WindSpeedLimit%,0
+%WindDirection%,0
+%PreviousWindSpeed%,0
+%WindVelocity%,0
+%SpecialWeather%,0
+%SpecialWeatherCode%,0
+%ColdSpellFlag%,0
+%ColdSpellCount%,0
+%ColdSpellDuration%,0
+%WarmSpellFlag%,0
+%WarmSpellCount%,0
+%WarmSpellDuration%,0
+%HurricaneFlag%,0
+%DroughtFlag%,0
+%DroughtCount%,0
+%DroughtDuration%,0
+%TempNumber%,0
+%HighNumber%,0
+%LowNumber%,0
+%Minutes%,0
+%Hours%,0
+%RandomFlag%,0
+%Chance%,0
+%Instructions%,0
+
+# Metric
+%Metric%,3
+%MonthlyHighCelsius%,0
+%MonthlyLowCelsius%,0
+%HighMeanCelsius%,0
+%LowMeanCelsius%,0
+%TempFeet%,0
+%TempMeter%,0
+%TempInch%,0
+%TempMM%,0
+%TempMiles%,0
+%TempKM%,0
+%TempWind%,0
+%TempWindKPH%,0
+%TodaysHighCelsius%,0
+%TodaysLowCelsius%,0
+%WindSpeedKPH%,0
+%WindVelocityKPH%,0
+
+# Parameter Display Lists: 6 8 13 31 1 1005 3 1
+@Region,6,What Geographic Region will you need this Weather for?,Arctic,Subarctic,Temperate,Subtropical,Tropical,Random
+@Terrain,8,What sort of Terrain will you be traveling through?,Desert,Forest,Hills,Mountains,Plains,Seacoast,Swamp,Random
+@Month,13,What Month would you like to begin your Weather generation from?,January,February,March,April,May,June,July,August,September,October,November,December,Random
+@TotalDaysWanted,31,Please Enter the Number of Days of Weather you would like generated:
+@FirstDay,1,Please enter the day you would like to Start:
+@CurrentYear,1005,Please enter the Year that you would like to Start:
+@Metric,3,Do you want in,Farenheit / mph / in,Celsius / kph / mm,Both
+@Instructions,2,Would you like to re-show the Instructions?,Yes,No
+
+:Start
+1,{If~%Instructions%=1? [Instructions] / [WeatherMain]}
+
+:Instructions
+1,<b><u>Weather Forecast</b></u>&nbsp&nbsp&nbsp(by Larry Cormier)<br><br>
+_This table generates an Earth-like Weather Conditions based on the Parameters you provide.<br><br>
+_It can be used to quickly generate a Weather Forecast to address the countless hours of travel your Players may undertake to get to their final destination.<br><br>
+_Use the Parameters Button located in the upper Left-hand corner of the screen to select the initial parameters to get started.<br><br><br><br>
+_<u>Geographic Region</u>: Arctic, Subarctic, Temperate, Subtropical, Tropical, Random<br><br>
+_<u>Terrain</u>: Desert, Forest, Hills, Mountains, Plains, Seacoast, Swamp, Random<br><br>
+_<u>Month</u>: (1-12) 13= Random.
+_You can choose the output as Imperial or Metric format.<br><br>
+
+:Chanceof
+1,|Chance={Dice~1d100}|
+
+:WeatherMain
+1,{If~%Region%=6? |RandomFlag=1||Region={Dice~1d5}|/|RandomFlag=0|}[DetermineRegionName=%Region%]
+_{If~%Terrain%=8? |Terrain={Dice~1d7}|}
+_{If~%Region%=1? {If~%RandomFlag%=1 ? {If~{Or~%Terrain%=2,%Terrain%=7}=1 ? |Terrain-1|}}/|RandomFlag=2|}
+_[DetermineTerrainName=%Terrain%]
+_{If~%Month%=13 ? |Month={Dice~1d12}|}[ValidateDaysInMonth][DaysInMonth=%Month%][MonthName=%Month%]
+_[DetermineMonthlyTemperatures]
+_[DisplaySetupInfo]
+
+:DetermineMonthlyTemperatures
+1,[DetermineTemperatureVariation=%Region%]
+_|MonthlyHigh=%HighTemp%||MonthlyLow=%LowTemp%|
+_[DetermineCurrentConditions]
+
+:DisplaySetupInfo
+1,Weather Forecast for <b>%RegionName% %TerrainName%.</b><br>
+_The Forecast covers %TotalDaysWanted% days beginning on the {Ordinal~%FirstDay%}
+_ day of %MonthName% ([SeasonName=%Month%]) in the Year %CurrentYear%.
+_|TotalDaysWanted+1||FirstDay-1|<br><br>
+_[CalcMonthlyTempCelcius][ShowMonthlyTemp=%Metric%]
+_<b><u>%MonthName%; Year %CurrentYear% ([SeasonName=%Month%])</u></b><br><br>
+_|DayCount=%FirstDay%|
+_{Status~Generating Weather Forecast. Please Wait.}
+_{Loop~%TotalDaysWanted%,{If~%DayCount%=%DaysInMonth% ? [IncrementMonth]|DayCount-1|<br>/
+_|Counter+1||DayCount+1|<b>%DayCount%:</b> [DailyWeather]<br>}}
+_{Status~}
+
+:DetermineCurrentConditions
+1,|TempNumber={Calc~(%MonthlyHigh%-%MonthlyLow%)}|
+_|TodaysHigh={Calc~(%LowMean%+{Dice~1d%TempNumber%})}|
+_{If~%TodaysHigh%>%MonthlyHigh% ? |TodaysHigh=%MonthlyHigh%||TempCode+1|}
+_|TodaysLow={Calc~(%TodaysHigh%-{Dice~1d%TempNumber%})}|
+_{If~%TodaysLow%<%MonthlyLow% ? |TodaysLow=%MonthlyLow%||TempCode-1|}
+_{If~%TodaysLow%>%TodaysHigh% ? |TempNumber=%TodaysLow%||TodaysLow=%TodaysHigh%||TodaysHigh=%TempNumber%|}
+_|CurrentTemp={Calc~(%TodaysLow%+{Dice~1d%TempNumber%})}|
+
+:DailyWeather
+1,|DiceRoll1={Dice~1d6}||DiceRoll2={Dice~1d6}||DailyChange={Calc~(%DiceRoll1%+%DiceRoll2%)}|
+_[TerrainByRegion][DayToDayChange=%DailyChange%][CheckTemperatureRange]
+_{If~%Precipitation%=1 ? [SetPrecipVariation]}
+_[WindConditions=%DailyChange%]
+_|WindSpeed={Calc~(%PreviousWindSpeed% + %WindSpeed%)}|
+_{If~%WindSpeed% > %WindSpeedLimit% ? |WindSpeed=%WindSpeedLimit%|}
+_{If~%WindSpeed% < 0 ? |WindSpeed=0|}
+_{If~%DroughtFlag%=1 ? [DroughtDuration]}
+_{If~{Or~%ColdSpellFlag%=1,%WarmSpellFlag%=1}=1 ? 
+_{If~%ColdSpellFlag%=1 ? [ColdSpellDuration]/[WarmSpellDuration]}/[DetermineCurrentConditions]}
+_<u>Today's Temperatures</u>: [CalcTodayHighLowCelsius][ShowHighLowTemp=%Metric%]
+#_<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Conditions:
+_ <u>Conditions</u>:
+_ [BasicConditions][PrecipitationDescription=%PrecipVariable%] [AirMovement]
+_{If~%DroughtFlag% = -1 ? The dry spell has ended.|DroughtFlag=0|}
+_{If~%ColdSpellFlag% = -1 ? The cold spell has ended.|ColdSpellFlag=0|}
+_{If~%WarmSpellFlag% = -1 ? The warm spell has ended.|WarmSpellFlag=0|}
+_<br>
+
+# -------------------------------------------------------------------
+# Metric
+
+:CalcTodayHighLowCelsius
+1,|TodaysHighCelsius={Ceil~{Calc~((%TodaysHigh%-32)*5/9)}}|
+_|TodaysLowCelsius={Ceil~{Calc~((%TodaysLow%-32)*5/9)}}|
+
+:CalcMonthlyTempCelcius
+1,|MonthlyHighCelsius={Ceil~{Calc~((%MonthlyHigh%-32)*5/9)}}|
+_|MonthlyLowCelsius={Ceil~{Calc~((%MonthlyLow%-32)*5/9)}}|
+_|HighMeanCelsius={Ceil~{Calc~((%HighMean%-32)*5/9)}}|
+_|LowMeanCelsius={Ceil~{Calc~((%LowMean%-32)*5/9)}}|
+
+:ShowHighLowTemp
+1,High: <font color=red>%TodaysHigh% F</font>; Low: <font color=blue>%TodaysLow% F</font>;
+2,High: <font color=red>%TodaysHighCelsius% C</font>; Low: <font color=blue>%TodaysLowCelsius% C</font>;
+3,High: <font color=red>%TodaysHigh% F / %TodaysHighCelsius% C</font>; Low: <font color=blue>%TodaysLow% F / %TodaysLowCelsius% C</font>;
+
+:ShowMonthlyTemp
+1,Monthly High: <font color=red>%MonthlyHigh% F</font> ; Monthly Low: <font color=blue>%MonthlyLow% F</font><br>
+_Mean High: <font color=red>%HighMean% F</font> ; Mean Low: <font color=blue>%LowMean% F</font><br><br>
+2,Monthly High: <font color=red>%MonthlyHighCelsius% C</font> ; Monthly Low: <font color=blue>%MonthlyLowCelsius% C</font><br>
+_Mean High: <font color=red>%HighMeanCelsius% C</font> ; Mean Low: <font color=blue>%LowMeanCelsius% C</font><br><br>
+3,Monthly High: <font color=red>%MonthlyHigh% F / %MonthlyHighCelsius% C </font> ; Monthly Low: <font color=blue>%MonthlyLow% F / %MonthlyLowCelsius% C</font><br>
+_Mean High: <font color=red>%HighMean% F / %HighMeanCelsius% C</font> ; Mean Low: <font color=blue>%LowMean% F / %LowMeanCelsius% C</font><br><br>
+
+:CalcWindSpeedKPH
+1,|WindSpeedKPH={Ceil~{Calc~(%WindSpeed%/0.6093)}}|
+
+:ShowLess
+1,1 mph
+2,2 kph
+3,1 mph / 2 kph
+
+:PrintWindSpeed
+1,%TempWind% mph
+2,|TempWindKPH={Ceil~{Calc~(%TempWind%*1.60931)}}|%TempWindKPH% kph
+3,|TempWindKPH={Ceil~{Calc~(%TempWind%*1.60931)}}|%TempWind% mph / %TempWindKPH% kph
+
+:PrintInchMM
+1,{Round~%TempInch%,2}"
+2,|TempMM={Ceil~{Calc~(%TempInch%*25.4)}}|%TempMM% mm
+3,|TempMM={Ceil~{Calc~(%TempInch%*25.4)}}|{Round~%TempInch%,2}" / %TempMM% mm
+
+:PrintFeetMeter
+1,{Ceil~%TempFeet%}'
+2,|TempMeter={Round~{Calc~(%TempFeet%*0.3048)},1}|%TempMeter% m
+3,|TempMeter={Round~{Calc~(%TempFeet%*0.3048)},1}|{Ceil~%TempFeet%}' / %TempMeter% m
+
+:PrintMilesKM
+1,%TempMiles% miles
+2,|TempKM={Ceil~{Calc~(%TempMiles%*1.60931)}}|%TempKM% km
+3,|TempKM={Ceil~{Calc~(%TempMiles%*1.60931)}}|%TempMiles% miles / %TempKM% km
+
+# -------------------------------------------------------------------
+
+:IncrementMonth
+1,{If~{Calc~(%Month%+1)} > 12 ? |Month=1||CurrentYear+1|/|Month+1|}
+_[MonthName=%Month%]
+_[DetermineMonthlyTemperatures]
+_|DayCount=1|<br>
+_<b><u>%MonthName%; Year %CurrentYear% ([SeasonName=%Month%])</u></b><br>
+
+:ValidateDaysInMonth
+1,[DaysInMonth=%Month%]
+_{If~%FirstDay%>%DaysInMonth% ? |FirstDay=%DaysInMonth%|}
+_{If~%FirstDay%<1 ? |FirstDay=1|}
+
+:DayToDayChange
+2,|TempCode-3||Precipitation=1|
+3,|TempCode-2||Precipitation=0|
+4,|TempCode-2||Precipitation=1|
+5,|TempCode-1||Precipitation=0|
+6,|TempCode-1||Precipitation=1|
+7,
+8,|TempCode+1||Precipitation=1|
+9,|TempCode+1||Precipitation=0|
+10,|TempCode+2||Precipitation=1|
+11,|TempCode+2||Precipitation=0|
+12,|TempCode+3||Precipitation=1|
+
+:CheckTemperatureRange
+1,{If~%TempCode%>%HighCode% ? |TempCode=%HighCode%|}
+_{If~%TempCode%<%LowCode% ? |TempCode=%LowCode%|}
+_{If~%TempCode%<1 ? |TempCode=1|}
+_{If~%TempCode%>26 ? |TempCode=26|}
+_[TemperatureRange=%TempCode%]
+
+############################# Basic Conditions #############################
+
+:BasicConditions
+1,{If~%PrecipVariable%=1 ? [ConditionDescription={Dice~1d100}]/[ConditionDescription={Dice~1d75}]}
+
+:ConditionDescription
+1-25,Overcast,
+26-75,Partly Cloudy,
+76-100,Sunny,
+
+############################### Precipitation ###############################
+
+:PrecipitationDescription
+1, with no precipitation indicated.
+2,|RainAmount={Calc~({Dice~1d2}*0.0625)}|
+_ |SnowAmount={Calc~({Dice~1d8}*0.0625)}|
+_ [RainSleetOrSnow]
+3,|RainAmount={Calc~({Dice~1d8}*0.0625)}|
+_ |SnowAmount={Calc~({Dice~1d16}*0.0625)}|
+_ [RainSleetOrSnow]
+4,|RainAmount={Calc~({Dice~1d12}*0.0625)}|
+_ |SnowAmount={Calc~({Dice~1d32}*0.0625)}|
+_ [RainSleetOrSnow]
+5,|RainAmount={Calc~({Dice~1d24}*0.0625)}|
+_ |SnowAmount={Calc~({Dice~1d64}*0.0625)}|
+_ [RainSleetOrSnow]
+6,|RainAmount={Dice~1d24}|
+_ |SnowAmount={Dice~1d60}|
+_ [RainSleetOrSnow]
+
+:RainSleetOrSnow
+1,{If~%RainAmount% < 0.009 ? [SkipPrecipitation]}
+_{If~%SnowAmount% < 0.009 ? [SkipPrecipitation]}
+_{If~%CurrentTemp% < 30 ? |RainOrSnow=2|}
+_{If~%CurrentTemp% > 36 ? |RainOrSnow=3|}
+_{If~{And~%CurrentTemp%>30,%CurrentTemp%<36}=1 ? |RainOrSnow=1|}
+_[DetermineRainOrSnow=%RainOrSnow%]
+
+:SkipPrecipitation
+1,|SkipFlag=1||RainOrSnow=0|
+
+:DetermineRainOrSnow
+1,[Chanceof]{If~%Chance%<50 ? |TempInch=%RainAmount%|[PrintInchMM=%Metric%] of sleet./|TempInch=%SnowAmount%|[PrintInchMM=%Metric%] of[SnowType] snow.}
+2,|TempInch=%SnowAmount%|[PrintInchMM=%Metric%] of[SnowType] snow.
+3,|TempInch=%RainAmount%|[PrintInchMM=%Metric%] of[RainType] rain.
+
+;RainType
+15, a steady, misty
+10, a light, drizzling
+25, a steady, soaking
+10, an abrupt, heavy
+50,[Chanceof]{If~%Chance% < 75 ? an intermittant/ a constant
+_[Chanceof]{If~%Chance% < 50 ?, light/, heavy}}
+
+;SnowType
+10, light, fluffy
+10, heavy, wet
+3, corn
+5, icy, crystalline needles of
+5, light, icy flakes of
+10, [Chanceof]{If~%Chance% < 75 ? soft/icy} pellets of
+
+:SetPrecipVariation
+1,{If~%DiceRoll1% > %DiceRoll2% ? |PrecipVariation=1|}
+_{If~%DiceRoll1%=%DiceRoll2% ? |PrecipVariation=2|}
+_{If~%DiceRoll1% < %DiceRoll2% ? |PrecipVariation=3|}
+_[SeasonBreakout=%Month%][SetPrecipVariable=%Season%]
+
+:SetPrecipVariable
+# By %Season%
+1,[WinterPrecipitationBranch=%PrecipVariation%]
+2,[SpringPrecipitationBranch=%PrecipVariation%]
+3,[SummerPrecipitationBranch=%PrecipVariation%]
+4,[AutumnPrecipitationBranch=%PrecipVariation%]
+
+:WinterPrecipitationBranch
+# By %PrecipVariation%
+1,[WinterPrecipVariationA=%TerrainByRegion%]
+2,[WinterPrecipVariationB=%TerrainByRegion%]
+3,[WinterPrecipVariationC=%TerrainByRegion%]
+
+:SpringPrecipitationBranch
+# By %PrecipVariation%
+1,[SpringPrecipVariationA=%TerrainByRegion%]
+2,[SpringPrecipVariationB=%TerrainByRegion%]
+3,[SpringPrecipVariationC=%TerrainByRegion%]
+
+:SummerPrecipitationBranch
+# By %PrecipVariation%
+1,[SummerPrecipVariationA=%TerrainByRegion%]
+2,[SummerPrecipVariationB=%TerrainByRegion%]
+3,[SummerPrecipVariationC=%TerrainByRegion%]
+
+:AutumnPrecipitationBranch
+# By %PrecipVariation%
+1,[AutumnPrecipVariationA=%TerrainByRegion%]
+2,[AutumnPrecipVariationB=%TerrainByRegion%]
+3,[AutumnPrecipVariationC=%TerrainByRegion%]
+
+:WinterPrecipVariationA
+# Arctic
+1,|PrecipVariable=1|
+2,|PrecipVariable=1|
+3,|PrecipVariable=1|
+4,|PrecipVariable=1|
+5,|PrecipVariable=1|
+# SubArctic
+6,|PrecipVariable=1|
+7,|PrecipVariable=1|
+8,|PrecipVariable=1|
+9,|PrecipVariable=1|
+10,|PrecipVariable=1|
+11,|PrecipVariable=1|
+12,|PrecipVariable=1|
+# Temperate
+13,|PrecipVariable=1|
+14,|PrecipVariable=2|
+15,|PrecipVariable=2|
+16,|PrecipVariable=1|
+17,|PrecipVariable=1|
+18,|PrecipVariable=3|
+19,|PrecipVariable=2|
+# SubTropical
+20,|PrecipVariable=1|
+21,|PrecipVariable=4|
+22,|PrecipVariable=2|
+23,|PrecipVariable=2|
+24,|PrecipVariable=1|
+25,|PrecipVariable=2|
+26,|PrecipVariable=2|
+# Tropical
+27,|PrecipVariable=1|
+28,|PrecipVariable=4|
+29,|PrecipVariable=1|
+30,|PrecipVariable=2|
+31,|PrecipVariable=1|
+32,|PrecipVariable=1|
+33,|PrecipVariable=1|
+
+:WinterPrecipVariationB
+# Arctic
+1,|PrecipVariable=2|
+2,|PrecipVariable=1|
+3,|PrecipVariable=1|
+4,|PrecipVariable=2|
+5,|PrecipVariable=2|
+# SubArctic
+6,|PrecipVariable=2|
+7,|PrecipVariable=3|
+8,|PrecipVariable=2|
+9,|PrecipVariable=2|
+10,|PrecipVariable=3|
+11,|PrecipVariable=2|
+12,|PrecipVariable=3|
+# Temperate
+13,|PrecipVariable=2|
+14,|PrecipVariable=4|
+15,|PrecipVariable=4|
+16,|PrecipVariable=4|
+17,|PrecipVariable=3|
+18,|PrecipVariable=5|
+19,|PrecipVariable=4|
+# SubTropical
+20,|PrecipVariable=2|
+21,|PrecipVariable=5|
+22,|PrecipVariable=3|
+23,|PrecipVariable=4|
+24,|PrecipVariable=3|
+25,|PrecipVariable=4|
+26,|PrecipVariable=3|
+# Tropical
+27,|PrecipVariable=2|
+28,|PrecipVariable=6|
+29,|PrecipVariable=2|
+30,|PrecipVariable=4|
+31,|PrecipVariable=2|
+32,|PrecipVariable=2|
+33,|PrecipVariable=3|
+
+:WinterPrecipVariationC
+# Arctic
+1,|PrecipVariable=1|
+2,|PrecipVariable=2|
+3,|PrecipVariable=2|
+4,|PrecipVariable=2|
+5,|PrecipVariable=1|
+# SubArctic
+6,|PrecipVariable=1|
+7,|PrecipVariable=2|
+8,|PrecipVariable=2|
+9,|PrecipVariable=2|
+10,|PrecipVariable=2|
+11,|PrecipVariable=2|
+12,|PrecipVariable=2|
+# Temperate
+13,|PrecipVariable=1|
+14,|PrecipVariable=3|
+15,|PrecipVariable=3|
+16,|PrecipVariable=3|
+17,|PrecipVariable=2|
+18,|PrecipVariable=4|
+19,|PrecipVariable=3|
+# SubTropical
+20,|PrecipVariable=1|
+21,|PrecipVariable=5|
+22,|PrecipVariable=3|
+23,|PrecipVariable=3|
+24,|PrecipVariable=2|
+25,|PrecipVariable=3|
+26,|PrecipVariable=3|
+# Tropical
+27,|PrecipVariable=1|
+28,|PrecipVariable=5|
+29,|PrecipVariable=1|
+30,|PrecipVariable=3|
+28,|PrecipVariable=1|
+29,|PrecipVariable=1|
+30,|PrecipVariable=2|
+
+:SpringPrecipVariationA
+# Arctic
+1,|PrecipVariable=1|
+2,|PrecipVariable=1|
+3,|PrecipVariable=1|
+4,|PrecipVariable=1|
+5,|PrecipVariable=1|
+# SubArctic
+6,|PrecipVariable=1|
+7,|PrecipVariable=2|
+8,|PrecipVariable=1|
+9,|PrecipVariable=2|
+10,|PrecipVariable=2|
+11,|PrecipVariable=1|
+12,|PrecipVariable=2|
+# Temperate
+13,|PrecipVariable=1|
+14,|PrecipVariable=3|
+15,|PrecipVariable=3|
+16,|PrecipVariable=1|
+17,|PrecipVariable=3|
+18,|PrecipVariable=2|
+19,|PrecipVariable=3|
+# SubTropical
+20,|PrecipVariable=1|
+21,|PrecipVariable=4|
+22,|PrecipVariable=3|
+23,|PrecipVariable=3|
+24,|PrecipVariable=2|
+25,|PrecipVariable=3|
+26,|PrecipVariable=2|
+# Tropical
+27,|PrecipVariable=1|
+28,|PrecipVariable=4|
+29,|PrecipVariable=1|
+30,|PrecipVariable=4|
+31,|PrecipVariable=3|
+32,|PrecipVariable=3|
+33,|PrecipVariable=4|
+
+:SpringPrecipVariationB
+# Arctic
+1,|PrecipVariable=2|
+2,|PrecipVariable=1|
+3,|PrecipVariable=1|
+4,|PrecipVariable=3|
+5,|PrecipVariable=3|
+# SubArctic
+6,|PrecipVariable=1|
+7,|PrecipVariable=4|
+8,|PrecipVariable=3|
+9,|PrecipVariable=4|
+10,|PrecipVariable=4|
+11,|PrecipVariable=3|
+12,|PrecipVariable=4|
+# Temperate
+13,|PrecipVariable=2|
+14,|PrecipVariable=5|
+15,|PrecipVariable=5|
+16,|PrecipVariable=4|
+17,|PrecipVariable=5|
+18,|PrecipVariable=4|
+19,|PrecipVariable=5|
+# SubTropical
+20,|PrecipVariable=2|
+21,|PrecipVariable=6|
+22,|PrecipVariable=5|
+23,|PrecipVariable=5|
+24,|PrecipVariable=5|
+25,|PrecipVariable=5|
+26,|PrecipVariable=4|
+# Tropical
+27,|PrecipVariable=3|
+28,|PrecipVariable=6|
+29,|PrecipVariable=3|
+30,|PrecipVariable=5|
+31,|PrecipVariable=5|
+32,|PrecipVariable=6|
+33,|PrecipVariable=5|
+
+:SpringPrecipVariationC
+# Arctic
+1,|PrecipVariable=1|
+2,|PrecipVariable=2|
+3,|PrecipVariable=2|
+4,|PrecipVariable=2|
+5,|PrecipVariable=2|
+# SubArctic
+6,|PrecipVariable=2|
+7,|PrecipVariable=3|
+8,|PrecipVariable=2|
+9,|PrecipVariable=3|
+10,|PrecipVariable=3|
+11,|PrecipVariable=2|
+12,|PrecipVariable=3|
+# Temperate
+13,|PrecipVariable=1|
+14,|PrecipVariable=4|
+15,|PrecipVariable=4|
+16,|PrecipVariable=3|
+17,|PrecipVariable=4|
+18,|PrecipVariable=3|
+19,|PrecipVariable=3|
+# SubTropical
+20,|PrecipVariable=1|
+21,|PrecipVariable=5|
+22,|PrecipVariable=4|
+23,|PrecipVariable=4|
+24,|PrecipVariable=3|
+25,|PrecipVariable=4|
+26,|PrecipVariable=3|
+# Tropical
+27,|PrecipVariable=2|
+28,|PrecipVariable=5|
+29,|PrecipVariable=2|
+30,|PrecipVariable=5|
+28,|PrecipVariable=4|
+29,|PrecipVariable=4|
+30,|PrecipVariable=5|
+
+:SummerPrecipVariationA
+# Arctic
+1,|PrecipVariable=1|
+2,|PrecipVariable=1|
+3,|PrecipVariable=1|
+4,|PrecipVariable=1|
+5,|PrecipVariable=1|
+# SubArctic
+6,|PrecipVariable=1|
+7,|PrecipVariable=2|
+8,|PrecipVariable=2|
+9,|PrecipVariable=2|
+10,|PrecipVariable=2|
+11,|PrecipVariable=2|
+12,|PrecipVariable=2|
+# Temperate
+13,|PrecipVariable=1|
+14,|PrecipVariable=3|
+15,|PrecipVariable=3|
+16,|PrecipVariable=1|
+17,|PrecipVariable=3|
+18,|PrecipVariable=1|
+19,|PrecipVariable=3|
+# SubTropical
+20,|PrecipVariable=1|
+21,|PrecipVariable=4|
+22,|PrecipVariable=3|
+23,|PrecipVariable=3|
+24,|PrecipVariable=2|
+25,|PrecipVariable=3|
+26,|PrecipVariable=2|
+# Tropical
+27,|PrecipVariable=1|
+28,|PrecipVariable=4|
+29,|PrecipVariable=2|
+30,|PrecipVariable=2|
+31,|PrecipVariable=4|
+32,|PrecipVariable=5|
+33,|PrecipVariable=4|
+
+:SummerPrecipVariationB
+# Arctic
+1,|PrecipVariable=2|
+2,|PrecipVariable=1|
+3,|PrecipVariable=1|
+4,|PrecipVariable=4|
+5,|PrecipVariable=3|
+# SubArctic
+6,|PrecipVariable=1|
+7,|PrecipVariable=4|
+8,|PrecipVariable=3|
+9,|PrecipVariable=3|
+10,|PrecipVariable=4|
+11,|PrecipVariable=4|
+12,|PrecipVariable=3|
+# Temperate
+13,|PrecipVariable=2|
+14,|PrecipVariable=4|
+15,|PrecipVariable=5|
+16,|PrecipVariable=3|
+17,|PrecipVariable=5|
+18,|PrecipVariable=3|
+19,|PrecipVariable=5|
+# SubTropical
+20,|PrecipVariable=1|
+21,|PrecipVariable=6|
+22,|PrecipVariable=5|
+23,|PrecipVariable=4|
+24,|PrecipVariable=4|
+25,|PrecipVariable=6|
+26,|PrecipVariable=5|
+# Tropical
+27,|PrecipVariable=2|
+28,|PrecipVariable=6|
+29,|PrecipVariable=4|
+30,|PrecipVariable=4|
+31,|PrecipVariable=5|
+32,|PrecipVariable=6|
+33,|PrecipVariable=5|
+
+:SummerPrecipVariationC
+# Arctic
+1,|PrecipVariable=1|
+2,|PrecipVariable=2|
+3,|PrecipVariable=2|
+4,|PrecipVariable=3|
+5,|PrecipVariable=2|
+# SubArctic
+6,|PrecipVariable=2|
+7,|PrecipVariable=3|
+8,|PrecipVariable=3|
+9,|PrecipVariable=2|
+10,|PrecipVariable=3|
+11,|PrecipVariable=3|
+12,|PrecipVariable=3|
+# Temperate
+13,|PrecipVariable=1|
+14,|PrecipVariable=4|
+15,|PrecipVariable=4|
+16,|PrecipVariable=2|
+17,|PrecipVariable=4|
+18,|PrecipVariable=2|
+19,|PrecipVariable=4|
+# SubTropical
+20,|PrecipVariable=1|
+21,|PrecipVariable=5|
+22,|PrecipVariable=4|
+23,|PrecipVariable=4|
+24,|PrecipVariable=3|
+25,|PrecipVariable=4|
+26,|PrecipVariable=3|
+# Tropical
+27,|PrecipVariable=1|
+28,|PrecipVariable=5|
+29,|PrecipVariable=3|
+30,|PrecipVariable=3|
+31,|PrecipVariable=4|
+32,|PrecipVariable=6|
+33,|PrecipVariable=4|
+
+:AutumnPrecipVariationA
+# Arctic
+1,|PrecipVariable=1|
+2,|PrecipVariable=1|
+3,|PrecipVariable=1|
+4,|PrecipVariable=1|
+5,|PrecipVariable=1|
+# SubArctic
+6,|PrecipVariable=1|
+7,|PrecipVariable=2|
+8,|PrecipVariable=1|
+9,|PrecipVariable=1|
+10,|PrecipVariable=2|
+11,|PrecipVariable=1|
+12,|PrecipVariable=2|
+# Temperate
+13,|PrecipVariable=1|
+14,|PrecipVariable=3|
+15,|PrecipVariable=2|
+16,|PrecipVariable=1|
+17,|PrecipVariable=2|
+18,|PrecipVariable=3|
+19,|PrecipVariable=1|
+# SubTropical
+20,|PrecipVariable=1|
+21,|PrecipVariable=4|
+22,|PrecipVariable=2|
+23,|PrecipVariable=2|
+24,|PrecipVariable=1|
+25,|PrecipVariable=1|
+26,|PrecipVariable=2|
+# Tropical
+27,|PrecipVariable=1|
+28,|PrecipVariable=4|
+29,|PrecipVariable=1|
+30,|PrecipVariable=4|
+31,|PrecipVariable=3|
+32,|PrecipVariable=1|
+33,|PrecipVariable=3|
+
+:AutumnPrecipVariationB
+# Arctic
+1,|PrecipVariable=2|
+2,|PrecipVariable=1|
+3,|PrecipVariable=1|
+4,|PrecipVariable=2|
+5,|PrecipVariable=3|
+# SubArctic
+6,|PrecipVariable=2|
+7,|PrecipVariable=3|
+8,|PrecipVariable=3|
+9,|PrecipVariable=3|
+10,|PrecipVariable=3|
+11,|PrecipVariable=3|
+12,|PrecipVariable=3|
+# Temperate
+13,|PrecipVariable=1|
+14,|PrecipVariable=4|
+15,|PrecipVariable=4|
+16,|PrecipVariable=4|
+17,|PrecipVariable=4|
+18,|PrecipVariable=5|
+19,|PrecipVariable=4|
+# SubTropical
+20,|PrecipVariable=2|
+21,|PrecipVariable=5|
+22,|PrecipVariable=4|
+23,|PrecipVariable=4|
+24,|PrecipVariable=3|
+25,|PrecipVariable=3|
+26,|PrecipVariable=3|
+# Tropical
+27,|PrecipVariable=2|
+28,|PrecipVariable=6|
+29,|PrecipVariable=2|
+30,|PrecipVariable=5|
+31,|PrecipVariable=5|
+32,|PrecipVariable=3|
+33,|PrecipVariable=4|
+
+:AutumnPrecipVariationC
+# Arctic
+1,|PrecipVariable=1|
+2,|PrecipVariable=2|
+3,|PrecipVariable=2|
+4,|PrecipVariable=2|
+5,|PrecipVariable=2|
+# SubArctic
+6,|PrecipVariable=1|
+7,|PrecipVariable=2|
+8,|PrecipVariable=2|
+9,|PrecipVariable=2|
+10,|PrecipVariable=2|
+11,|PrecipVariable=2|
+12,|PrecipVariable=3|
+# Temperate
+13,|PrecipVariable=1|
+14,|PrecipVariable=4|
+15,|PrecipVariable=3|
+16,|PrecipVariable=3|
+17,|PrecipVariable=3|
+18,|PrecipVariable=4|
+19,|PrecipVariable=3|
+# SubTropical
+20,|PrecipVariable=1|
+21,|PrecipVariable=5|
+22,|PrecipVariable=3|
+23,|PrecipVariable=3|
+24,|PrecipVariable=2|
+25,|PrecipVariable=2|
+26,|PrecipVariable=3|
+# Tropical
+27,|PrecipVariable=1|
+28,|PrecipVariable=5|
+29,|PrecipVariable=1|
+30,|PrecipVariable=5|
+31,|PrecipVariable=4|
+32,|PrecipVariable=2|
+33,|PrecipVariable=4|
+
+############################### Wind Related ###############################
+
+:AirMovement
+1, Northerly
+_{If~%WindSpeed% < 10 ? breezes blowing/ Winds gusting}{If~%WindSpeed% < 1 ? at less than [ShowLess=%Metric%]/ up to |TempWind=%WindSpeed%|[PrintWindSpeed=%Metric%]}.
+2, Southerly
+_{If~%WindSpeed% < 10 ? breezes blowing/ Winds gusting}{If~%WindSpeed% < 1 ? at less than [ShowLess=%Metric%]/ up to |TempWind=%WindSpeed%|[PrintWindSpeed=%Metric%]}.
+3, Westerly
+_{If~%WindSpeed% < 10 ? breezes blowing/ Winds gusting}{If~%WindSpeed% < 1 ? at less than [ShowLess=%Metric%]/ up to |TempWind=%WindSpeed%|[PrintWindSpeed=%Metric%]}.
+4, Easternly
+_{If~%WindSpeed% < 10 ? breezes blowing/ Winds gusting}{If~%WindSpeed% < 1 ? at less than [ShowLess=%Metric%]/ up to |TempWind=%WindSpeed%|[PrintWindSpeed=%Metric%]}.
+5,[SpecialWeather][SpecialWeatherDescription=%SpecialWeather%]
+
+:WindConditions
+#Wind Directions#(1) North, (2) South, (3) West, (4) East, (5) Special Weather
+2,|WindDirection=5|
+3,|WindDirection=1||WindSpeed={Dice~1d15}|
+4,|WindDirection=1||WindSpeed={Dice~1d10}|
+5,[PrevailingDirection=%Region%]|WindSpeed={Dice~1d15}|
+6,[PrevailingDirection=%Region%]|WindSpeed={Dice~1d10}|
+7,
+8,[PrevailingDirection=%Region%]|WindSpeed - {Dice~1d10}|
+9,[PrevailingDirection=%Region%]|WindSpeed - {Dice~1d15}|
+10,|WindDirection=2||WindSpeed - {Dice~1d10}|
+11,|WindDirection=2||WindSpeed - {Dice~1d15}|
+12,|WindDirection=5|
+
+:PrevailingDirection
+#Wind Directions#(1) North, (2) South, (3) West, (4) East, (5) Special Weather
+#Arctic
+1,|WindDirection=4||WindSpeedLimit=20|
+#SubArctic
+2,[Chanceof]{If~%Chance% < 75 ? |WindDirection=1|/|WindDirection=3|}|WindSpeedLimit=45|
+#Temperate
+3,|WindDirection={Dice~1d3}||WindSpeedLimit=45|
+#SubTropical
+4,[Chanceof]{If~%Chance% < 75 ? |WindDirection=4|/|WindDirection=2|}|WindSpeedLimit=45|
+#Tropical
+5,[Chanceof]{If~%Chance% < 50 ? |WindDirection=2|/|WindDirection=4|}|WindSpeedLimit=10|
+
+############################## Special Weather ##############################
+
+:SpecialWeather
+1,[SeasonBreakout=%Month%]|DiceRoll2={Dice~2d6}|
+_{If~%DiceRoll1%=2 ? [SpecialWeather1=%DiceRoll2%]}
+_{If~%DiceRoll1%=12 ? [SpecialWeather2=%DiceRoll2%]}
+_{If~%SpecialWeatherCode% < 1 ? |SpecialWeatherCode=1|}
+_{If~%HurricaneFlag%=1 ? |SpecialWeatherCode+{Dice~1d3}|}
+_{If~%SpecialWeatherCode% > 5 ? |SpecialWeatherCode=5|}
+_[SetSpecialWeather=%Season%]
+
+:SpecialWeather1
+2-4,|SpecialWeatherCode=1|
+5-6,|SpecialWeatherCode=2|
+7,|SpecialWeatherCode=3|
+8-12,|SpecialWeatherCode=5|
+
+:SpecialWeather2
+2-6,|SpecialWeatherCode=5|
+7-9,|SpecialWeatherCode=3|
+10-12,|SpecialWeatherCode=4|
+
+:SetSpecialWeather
+# By %Season%
+1,[WinterSpecialWeatherBranch=%SpecialWeatherCode%]
+2,[SpringSpecialWeatherBranch=%SpecialWeatherCode%]
+3,[SummerSpecialWeatherBranch=%SpecialWeatherCode%]
+4,[AutumnSpecialWeatherBranch=%SpecialWeatherCode%]
+
+:WinterSpecialWeatherBranch
+# By %SpecialWeatherCode%
+1,[WinterSpecialWeather1=%TerrainByRegion%]
+2,[WinterSpecialWeather2=%TerrainByRegion%]
+3,[WinterSpecialWeather3=%TerrainByRegion%]
+4,[WinterSpecialWeather4=%TerrainByRegion%]
+5,[WinterSpecialWeather5=%TerrainByRegion%]
+
+:SpringSpecialWeatherBranch
+# By %SpecialWeatherCode%
+1,[SpringSpecialWeather1=%TerrainByRegion%]
+2,[SpringSpecialWeather2=%TerrainByRegion%]
+3,[SpringSpecialWeather3=%TerrainByRegion%]
+4,[SpringSpecialWeather4=%TerrainByRegion%]
+5,[SpringSpecialWeather5=%TerrainByRegion%]
+
+:SummerSpecialWeatherBranch
+# By %SpecialWeatherCode%
+1,[SummerSpecialWeather1=%TerrainByRegion%]
+2,[SummerSpecialWeather2=%TerrainByRegion%]
+3,[SummerSpecialWeather3=%TerrainByRegion%]
+4,[SummerSpecialWeather4=%TerrainByRegion%]
+5,[SummerSpecialWeather5=%TerrainByRegion%]
+
+:AutumnSpecialWeatherBranch
+# By %SpecialWeatherCode%
+1,[AutumnSpecialWeather1=%TerrainByRegion%]
+2,[AutumnSpecialWeather2=%TerrainByRegion%]
+3,[AutumnSpecialWeather3=%TerrainByRegion%]
+4,[AutumnSpecialWeather4=%TerrainByRegion%]
+5,[AutumnSpecialWeather5=%TerrainByRegion%]
+
+#:TerrainByRegion
+#1,|CurrentRegionVariable={Calc~(%Region%-1)}|
+#_|TempNumber={Calc~(6*%CurrentRegionVariable%)}|
+#_|TerrainByRegion={Calc~(%Terrain%+%TempNumber%)}|
+
+:TerrainByRegion
+# Arctic
+1,|TerrainByRegion=%Terrain%|
+# SubArctic
+2,|TerrainByRegion={Calc~(%Terrain%+5)}|
+# Temperate
+3,|TerrainByRegion={Calc~(%Terrain%+12)}|
+# SubTropical
+4,|TerrainByRegion={Calc~(%Terrain%+19)}|
+# Tropical
+5,|TerrainByRegion={Calc~(%Terrain%+26)}|
+
+:WinterSpecialWeather1
+# Arctic
+1,|SpecialWeather=4|
+2,|SpecialWeather=4|
+3,|SpecialWeather=4|
+4,|SpecialWeather=4|
+5,|SpecialWeather=4|
+# SubArctic
+6,|SpecialWeather=4|
+7,|SpecialWeather=4|
+8,|SpecialWeather=4|
+9,|SpecialWeather=4|
+10,|SpecialWeather=4|
+11,|SpecialWeather=4|
+12,|SpecialWeather=1|
+# Temperate
+13,|SpecialWeather=1|
+14,|SpecialWeather=1|
+15,|SpecialWeather=1|
+16,|SpecialWeather=1|
+17,|SpecialWeather=1|
+18,|SpecialWeather=1|
+19,|SpecialWeather=1|
+# SubTropical
+20,|SpecialWeather=1|
+21,|SpecialWeather=8|
+22,|SpecialWeather=1|
+23,|SpecialWeather=1|
+24,|SpecialWeather=1|
+25,|SpecialWeather=1|
+26,|SpecialWeather=1|
+# Tropical
+27,|SpecialWeather=1|
+28,|SpecialWeather=8|
+29,|SpecialWeather=1|
+30,|SpecialWeather=1|
+31,|SpecialWeather=4|
+32,|SpecialWeather=8|
+33,|SpecialWeather=1|
+
+:WinterSpecialWeather2
+# Arctic
+1,|SpecialWeather=1|
+2,|SpecialWeather=1|
+3,|SpecialWeather=1|
+4,|SpecialWeather=1|
+5,|SpecialWeather=1|
+# SubArctic
+6,|SpecialWeather=1|
+7,|SpecialWeather=1|
+8,|SpecialWeather=1|
+9,|SpecialWeather=1|
+10,|SpecialWeather=1|
+11,|SpecialWeather=1|
+12,|SpecialWeather=8|
+# Temperate
+13,|SpecialWeather=6|
+14,|SpecialWeather=8|
+15,|SpecialWeather=8|
+16,|SpecialWeather=8|
+17,|SpecialWeather=4|
+18,|SpecialWeather=8|
+19,|SpecialWeather=8|
+# SubTropical
+20,|SpecialWeather=6|
+21,|SpecialWeather=1|
+22,|SpecialWeather=8|
+23,|SpecialWeather=8|
+24,|SpecialWeather=8|
+25,|SpecialWeather=6|
+26,|SpecialWeather=8|
+# Tropical
+27,|SpecialWeather=6|
+28,|SpecialWeather=8|
+29,|SpecialWeather=4|
+30,|SpecialWeather=8|
+31,|SpecialWeather=8|
+32,|SpecialWeather=1|
+33,|SpecialWeather=8|
+
+:WinterSpecialWeather3
+# Arctic
+1,|SpecialWeather=3|
+2,|SpecialWeather=3|
+3,|SpecialWeather=3|
+4,|SpecialWeather=3|
+5,|SpecialWeather=3|
+# SubArctic
+6,|SpecialWeather=3|
+7,|SpecialWeather=3|
+8,|SpecialWeather=5|
+9,|SpecialWeather=3|
+10,|SpecialWeather=5|
+11,|SpecialWeather=5|
+12,|SpecialWeather=5|
+# Temperate
+13,|SpecialWeather=3|
+14,|SpecialWeather=5|
+15,|SpecialWeather=5|
+16,|SpecialWeather=5|
+17,|SpecialWeather=3|
+18,|SpecialWeather=5|
+19,|SpecialWeather=5|
+# SubTropical
+20,|SpecialWeather=3|
+21,|SpecialWeather=5|
+22,|SpecialWeather=3|
+23,|SpecialWeather=3|
+24,|SpecialWeather=3|
+25,|SpecialWeather=3|
+26,|SpecialWeather=3|
+# Tropical
+27,|SpecialWeather=3|
+28,|SpecialWeather=5|
+29,|SpecialWeather=3|
+30,|SpecialWeather=5|
+31,|SpecialWeather=3|
+32,|SpecialWeather=3|
+33,|SpecialWeather=9|
+
+:WinterSpecialWeather4
+# Arctic
+1,|SpecialWeather=3|
+2,|SpecialWeather=3|
+3,|SpecialWeather=3|
+4,|SpecialWeather=3|
+5,|SpecialWeather=3|
+# SubArctic
+6,|SpecialWeather=3|
+7,|SpecialWeather=9|
+8,|SpecialWeather=3|
+9,|SpecialWeather=5|
+10,|SpecialWeather=3|
+11,|SpecialWeather=9|
+12,|SpecialWeather=9|
+# Temperate
+13,|SpecialWeather=9|
+14,|SpecialWeather=9|
+15,|SpecialWeather=9|
+16,|SpecialWeather=3|
+17,|SpecialWeather=9|
+18,|SpecialWeather=9|
+19,|SpecialWeather=9|
+# SubTropical
+20,|SpecialWeather=9|
+21,|SpecialWeather=9|
+22,|SpecialWeather=9|
+23,|SpecialWeather=9|
+24,|SpecialWeather=9|
+25,|SpecialWeather=9|
+26,|SpecialWeather=9|
+# Tropical
+27,|SpecialWeather=9|
+28,|SpecialWeather=9|
+29,|SpecialWeather=9|
+30,|SpecialWeather=9|
+31,|SpecialWeather=9|
+32,|SpecialWeather=9|
+33,|SpecialWeather=3|
+
+:WinterSpecialWeather5
+# Arctic
+1,|SpecialWeather=10|
+2,|SpecialWeather=10|
+3,|SpecialWeather=10|
+4,|SpecialWeather=10|
+5,|SpecialWeather=10|
+# SubArctic
+6,|SpecialWeather=10|
+7,|SpecialWeather=10|
+8,|SpecialWeather=10|
+9,|SpecialWeather=10|
+10,|SpecialWeather=10|
+11,|SpecialWeather=10|
+12,|SpecialWeather=10|
+# Temperate
+13,|SpecialWeather=10|
+14,|SpecialWeather=10|
+15,|SpecialWeather=10|
+16,|SpecialWeather=10|
+17,|SpecialWeather=10|
+18,|SpecialWeather=10|
+19,|SpecialWeather=10|
+# SubTropical
+20,|SpecialWeather=10|
+21,|SpecialWeather=10|
+22,|SpecialWeather=10|
+23,|SpecialWeather=10|
+24,|SpecialWeather=10|
+25,|SpecialWeather=10|
+26,|SpecialWeather=10|
+# Tropical
+27,|SpecialWeather=10|
+28,|SpecialWeather=10|
+29,|SpecialWeather=10|
+30,|SpecialWeather=10|
+31,|SpecialWeather=10|
+32,|SpecialWeather=10|
+33,|SpecialWeather=10|
+
+:SpringSpecialWeather1
+# Arctic
+1,|SpecialWeather=4|
+2,|SpecialWeather=4|
+3,|SpecialWeather=4|
+4,|SpecialWeather=1|
+5,|SpecialWeather=1|
+# SubArctic
+6,|SpecialWeather=4|
+7,|SpecialWeather=1|
+8,|SpecialWeather=1|
+9,|SpecialWeather=1|
+10,|SpecialWeather=1|
+11,|SpecialWeather=4|
+12,|SpecialWeather=1|
+# Temperate
+13,|SpecialWeather=4|
+14,|SpecialWeather=4|
+15,|SpecialWeather=1|
+16,|SpecialWeather=1|
+17,|SpecialWeather=1|
+18,|SpecialWeather=2|
+19,|SpecialWeather=4|
+# SubTropical
+20,|SpecialWeather=4|
+21,|SpecialWeather=8|
+22,|SpecialWeather=1|
+23,|SpecialWeather=1|
+24,|SpecialWeather=8|
+25,|SpecialWeather=2|
+26,|SpecialWeather=2|
+# Tropical
+27,|SpecialWeather=4|
+28,|SpecialWeather=8|
+29,|SpecialWeather=4|
+30,|SpecialWeather=1|
+28,|SpecialWeather=4|
+29,|SpecialWeather=1|
+30,|SpecialWeather=4|
+
+:SpringSpecialWeather2
+# Arctic
+1,|SpecialWeather=1|
+2,|SpecialWeather=1|
+3,|SpecialWeather=1|
+4,|SpecialWeather=4|
+5,|SpecialWeather=4|
+# SubArctic
+6,|SpecialWeather=1|
+7,|SpecialWeather=8|
+8,|SpecialWeather=4|
+9,|SpecialWeather=8|
+10,|SpecialWeather=8|
+11,|SpecialWeather=1|
+12,|SpecialWeather=8|
+# Temperate
+13,|SpecialWeather=6|
+14,|SpecialWeather=8|
+15,|SpecialWeather=8|
+16,|SpecialWeather=8|
+17,|SpecialWeather=8|
+18,|SpecialWeather=8|
+19,|SpecialWeather=8|
+# SubTropical
+20,|SpecialWeather=6|
+21,|SpecialWeather=4|
+22,|SpecialWeather=8|
+23,|SpecialWeather=8|
+24,|SpecialWeather=4|
+25,|SpecialWeather=8|
+26,|SpecialWeather=8|
+# Tropical
+27,|SpecialWeather=6|
+28,|SpecialWeather=8|
+29,|SpecialWeather=8|
+30,|SpecialWeather=8|
+28,|SpecialWeather=8|
+29,|SpecialWeather=8|
+30,|SpecialWeather=8|
+
+:SpringSpecialWeather3
+# Arctic
+1,|SpecialWeather=3|
+2,|SpecialWeather=3|
+3,|SpecialWeather=3|
+4,|SpecialWeather=3|
+5,|SpecialWeather=5|
+# SubArctic
+6,|SpecialWeather=3|
+7,|SpecialWeather=3|
+8,|SpecialWeather=3|
+9,|SpecialWeather=5|
+10,|SpecialWeather=3|
+11,|SpecialWeather=5|
+12,|SpecialWeather=5|
+# Temperate
+13,|SpecialWeather=3|
+14,|SpecialWeather=5|
+15,|SpecialWeather=9|
+16,|SpecialWeather=5|
+17,|SpecialWeather=7|
+18,|SpecialWeather=5|
+19,|SpecialWeather=5|
+# SubTropical
+20,|SpecialWeather=3|
+21,|SpecialWeather=9|
+22,|SpecialWeather=3|
+23,|SpecialWeather=9|
+24,|SpecialWeather=9|
+25,|SpecialWeather=5|
+26,|SpecialWeather=5|
+# Tropical
+27,|SpecialWeather=3|
+28,|SpecialWeather=9|
+29,|SpecialWeather=3|
+30,|SpecialWeather=5|
+31,|SpecialWeather=3|
+32,|SpecialWeather=5|
+33,|SpecialWeather=9|
+
+:SpringSpecialWeather4
+# Arctic
+1,|SpecialWeather=3|
+2,|SpecialWeather=5|
+3,|SpecialWeather=5|
+4,|SpecialWeather=5|
+5,|SpecialWeather=9|
+# SubArctic
+6,|SpecialWeather=3|
+7,|SpecialWeather=9|
+8,|SpecialWeather=9|
+9,|SpecialWeather=9|
+10,|SpecialWeather=9|
+11,|SpecialWeather=9|
+12,|SpecialWeather=9|
+# Temperate
+13,|SpecialWeather=9|
+14,|SpecialWeather=9|
+15,|SpecialWeather=7|
+16,|SpecialWeather=9|
+17,|SpecialWeather=9|
+18,|SpecialWeather=9|
+19,|SpecialWeather=9|
+# SubTropical
+20,|SpecialWeather=9|
+21,|SpecialWeather=5|
+22,|SpecialWeather=7|
+23,|SpecialWeather=5|
+24,|SpecialWeather=7|
+25,|SpecialWeather=9|
+26,|SpecialWeather=9|
+# Tropical
+27,|SpecialWeather=9|
+28,|SpecialWeather=5|
+29,|SpecialWeather=9|
+30,|SpecialWeather=9|
+31,|SpecialWeather=9|
+32,|SpecialWeather=9|
+33,|SpecialWeather=5|
+
+:SpringSpecialWeather5
+# Arctic
+1,|SpecialWeather=10|
+2,|SpecialWeather=10|
+3,|SpecialWeather=10|
+4,|SpecialWeather=10|
+5,|SpecialWeather=10|
+# SubArctic
+6,|SpecialWeather=10|
+7,|SpecialWeather=10|
+8,|SpecialWeather=10|
+9,|SpecialWeather=10|
+10,|SpecialWeather=10|
+11,|SpecialWeather=10|
+12,|SpecialWeather=10|
+# Temperate
+13,|SpecialWeather=10|
+14,|SpecialWeather=10|
+15,|SpecialWeather=10|
+16,|SpecialWeather=10|
+17,|SpecialWeather=10|
+18,|SpecialWeather=10|
+19,|SpecialWeather=10|
+# SubTropical
+20,|SpecialWeather=10|
+21,|SpecialWeather=10|
+22,|SpecialWeather=10|
+23,|SpecialWeather=10|
+24,|SpecialWeather=10|
+25,|SpecialWeather=10|
+26,|SpecialWeather=10|
+# Tropical
+27,|SpecialWeather=10|
+28,|SpecialWeather=10|
+29,|SpecialWeather=10|
+30,|SpecialWeather=10|
+31,|SpecialWeather=10|
+32,|SpecialWeather=10|
+33,|SpecialWeather=10|
+
+:SummerSpecialWeather1
+# Arctic
+1,|SpecialWeather=4|
+2,|SpecialWeather=4|
+3,|SpecialWeather=4|
+4,|SpecialWeather=8|
+5,|SpecialWeather=4|
+# SubArctic
+6,|SpecialWeather=1|
+7,|SpecialWeather=8|
+8,|SpecialWeather=1|
+9,|SpecialWeather=1|
+10,|SpecialWeather=9|
+11,|SpecialWeather=8|
+12,|SpecialWeather=8|
+# Temperate
+13,|SpecialWeather=4|
+14,|SpecialWeather=4|
+15,|SpecialWeather=1|
+16,|SpecialWeather=1|
+17,|SpecialWeather=8|
+18,|SpecialWeather=2|
+19,|SpecialWeather=4|
+# SubTropical
+20,|SpecialWeather=4|
+21,|SpecialWeather=8|
+22,|SpecialWeather=8|
+23,|SpecialWeather=8|
+24,|SpecialWeather=8|
+25,|SpecialWeather=2|
+26,|SpecialWeather=2|
+# Tropical
+27,|SpecialWeather=4|
+28,|SpecialWeather=8|
+29,|SpecialWeather=4|
+30,|SpecialWeather=8|
+31,|SpecialWeather=6|
+32,|SpecialWeather=2|
+33,|SpecialWeather=8|
+
+:SummerSpecialWeather2
+# Arctic
+1,|SpecialWeather=1|
+2,|SpecialWeather=1|
+3,|SpecialWeather=1|
+4,|SpecialWeather=1|
+5,|SpecialWeather=1|
+# SubArctic
+6,|SpecialWeather=6|
+7,|SpecialWeather=1|
+8,|SpecialWeather=8|
+9,|SpecialWeather=8|
+10,|SpecialWeather=1|
+11,|SpecialWeather=1|
+12,|SpecialWeather=1|
+# Temperate
+13,|SpecialWeather=6|
+14,|SpecialWeather=8|
+15,|SpecialWeather=8|
+16,|SpecialWeather=8|
+17,|SpecialWeather=4|
+18,|SpecialWeather=8|
+19,|SpecialWeather=8|
+# SubTropical
+20,|SpecialWeather=6|
+21,|SpecialWeather=8|
+22,|SpecialWeather=4|
+23,|SpecialWeather=4|
+24,|SpecialWeather=4|
+25,|SpecialWeather=8|
+26,|SpecialWeather=8|
+# Tropical
+27,|SpecialWeather=6|
+28,|SpecialWeather=8|
+29,|SpecialWeather=8|
+30,|SpecialWeather=4|
+31,|SpecialWeather=8|
+32,|SpecialWeather=8|
+33,|SpecialWeather=4|
+
+:SummerSpecialWeather3
+# Arctic
+1,|SpecialWeather=3|
+2,|SpecialWeather=3|
+3,|SpecialWeather=5|
+4,|SpecialWeather=3|
+5,|SpecialWeather=5|
+# SubArctic
+6,|SpecialWeather=3|
+7,|SpecialWeather=9|
+8,|SpecialWeather=9|
+9,|SpecialWeather=9|
+10,|SpecialWeather=9|
+11,|SpecialWeather=9|
+12,|SpecialWeather=9|
+# Temperate
+13,|SpecialWeather=3|
+14,|SpecialWeather=5|
+15,|SpecialWeather=3|
+16,|SpecialWeather=3|
+17,|SpecialWeather=3|
+18,|SpecialWeather=5|
+19,|SpecialWeather=5|
+# SubTropical
+20,|SpecialWeather=3|
+21,|SpecialWeather=9|
+22,|SpecialWeather=3|
+23,|SpecialWeather=9|
+24,|SpecialWeather=3|
+25,|SpecialWeather=5|
+26,|SpecialWeather=5|
+# Tropical
+27,|SpecialWeather=3|
+28,|SpecialWeather=9|
+29,|SpecialWeather=3|
+30,|SpecialWeather=9|
+31,|SpecialWeather=9|
+32,|SpecialWeather=5|
+33,|SpecialWeather=5|
+
+:SummerSpecialWeather4
+# Arctic
+1,|SpecialWeather=3|
+2,|SpecialWeather=9|
+3,|SpecialWeather=9|
+4,|SpecialWeather=9|
+5,|SpecialWeather=9|
+# SubArctic
+6,|SpecialWeather=3|
+7,|SpecialWeather=3|
+8,|SpecialWeather=3|
+9,|SpecialWeather=3|
+10,|SpecialWeather=3|
+11,|SpecialWeather=5|
+12,|SpecialWeather=5|
+# Temperate
+13,|SpecialWeather=9|
+14,|SpecialWeather=9|
+15,|SpecialWeather=9|
+16,|SpecialWeather=9|
+17,|SpecialWeather=9|
+18,|SpecialWeather=9|
+19,|SpecialWeather=9|
+# SubTropical
+20,|SpecialWeather=9|
+21,|SpecialWeather=5|
+22,|SpecialWeather=9|
+23,|SpecialWeather=3|
+24,|SpecialWeather=9|
+25,|SpecialWeather=9|
+26,|SpecialWeather=9|
+# Tropical
+27,|SpecialWeather=9|
+28,|SpecialWeather=5|
+29,|SpecialWeather=9|
+30,|SpecialWeather=5|
+31,|SpecialWeather=3|
+32,|SpecialWeather=9|
+33,|SpecialWeather=9|
+
+:SummerSpecialWeather5
+# Arctic
+1,|SpecialWeather=10|
+2,|SpecialWeather=10|
+3,|SpecialWeather=10|
+4,|SpecialWeather=10|
+5,|SpecialWeather=10|
+# SubArctic
+6,|SpecialWeather=10|
+7,|SpecialWeather=10|
+8,|SpecialWeather=10|
+9,|SpecialWeather=10|
+10,|SpecialWeather=10|
+11,|SpecialWeather=10|
+12,|SpecialWeather=10|
+# Temperate
+13,|SpecialWeather=10|
+14,|SpecialWeather=10|
+15,|SpecialWeather=10|
+16,|SpecialWeather=10|
+17,|SpecialWeather=10|
+18,|SpecialWeather=10|
+19,|SpecialWeather=10|
+# SubTropical
+20,|SpecialWeather=10|
+21,|SpecialWeather=10|
+22,|SpecialWeather=10|
+23,|SpecialWeather=10|
+24,|SpecialWeather=10|
+25,|SpecialWeather=10|
+26,|SpecialWeather=10|
+# Tropical
+27,|SpecialWeather=10|
+28,|SpecialWeather=10|
+29,|SpecialWeather=10|
+30,|SpecialWeather=10|
+31,|SpecialWeather=10|
+32,|SpecialWeather=10|
+33,|SpecialWeather=10|
+
+:AutumnSpecialWeather1
+# Arctic
+1,|SpecialWeather=4|
+2,|SpecialWeather=4|
+3,|SpecialWeather=4|
+4,|SpecialWeather=4|
+5,|SpecialWeather=4|
+# SubArctic
+6,|SpecialWeather=4|
+7,|SpecialWeather=1|
+8,|SpecialWeather=4|
+9,|SpecialWeather=4|
+10,|SpecialWeather=4|
+11,|SpecialWeather=1|
+12,|SpecialWeather=1|
+# Temperate
+13,|SpecialWeather=6|
+14,|SpecialWeather=1|
+15,|SpecialWeather=1|
+16,|SpecialWeather=8|
+17,|SpecialWeather=8|
+18,|SpecialWeather=1|
+19,|SpecialWeather=1|
+# SubTropical
+20,|SpecialWeather=4|
+21,|SpecialWeather=1|
+22,|SpecialWeather=1|
+23,|SpecialWeather=8|
+24,|SpecialWeather=4|
+25,|SpecialWeather=2|
+26,|SpecialWeather=2|
+# Tropical
+27,|SpecialWeather=4|
+28,|SpecialWeather=8|
+29,|SpecialWeather=4|
+30,|SpecialWeather=1|
+31,|SpecialWeather=4|
+32,|SpecialWeather=8|
+33,|SpecialWeather=8|
+
+:AutumnSpecialWeather2
+# Arctic
+1,|SpecialWeather=1|
+2,|SpecialWeather=1|
+3,|SpecialWeather=1|
+4,|SpecialWeather=1|
+5,|SpecialWeather=1|
+# SubArctic
+6,|SpecialWeather=1|
+7,|SpecialWeather=8|
+8,|SpecialWeather=1|
+9,|SpecialWeather=1|
+10,|SpecialWeather=1|
+11,|SpecialWeather=4|
+12,|SpecialWeather=8|
+# Temperate
+13,|SpecialWeather=4|
+14,|SpecialWeather=8|
+15,|SpecialWeather=8|
+16,|SpecialWeather=1|
+17,|SpecialWeather=1|
+18,|SpecialWeather=8|
+19,|SpecialWeather=8|
+# SubTropical
+20,|SpecialWeather=6|
+21,|SpecialWeather=8|
+22,|SpecialWeather=8|
+23,|SpecialWeather=1|
+24,|SpecialWeather=1|
+25,|SpecialWeather=8|
+26,|SpecialWeather=8|
+# Tropical
+27,|SpecialWeather=6|
+28,|SpecialWeather=8|
+29,|SpecialWeather=4|
+30,|SpecialWeather=4|
+31,|SpecialWeather=8|
+32,|SpecialWeather=1|
+33,|SpecialWeather=1|
+
+:AutumnSpecialWeather3
+# Arctic
+1,|SpecialWeather=3|
+2,|SpecialWeather=3|
+3,|SpecialWeather=3|
+4,|SpecialWeather=3|
+5,|SpecialWeather=5|
+# SubArctic
+6,|SpecialWeather=3|
+7,|SpecialWeather=5|
+8,|SpecialWeather=5|
+9,|SpecialWeather=5|
+10,|SpecialWeather=3|
+11,|SpecialWeather=5|
+12,|SpecialWeather=5|
+# Temperate
+13,|SpecialWeather=3|
+14,|SpecialWeather=5|
+15,|SpecialWeather=3|
+16,|SpecialWeather=3|
+17,|SpecialWeather=3|
+18,|SpecialWeather=5|
+19,|SpecialWeather=5|
+# SubTropical
+20,|SpecialWeather=3|
+21,|SpecialWeather=5|
+22,|SpecialWeather=9|
+23,|SpecialWeather=9|
+24,|SpecialWeather=3|
+25,|SpecialWeather=3|
+26,|SpecialWeather=3|
+# Tropical
+27,|SpecialWeather=3|
+28,|SpecialWeather=5|
+29,|SpecialWeather=9|
+30,|SpecialWeather=5|
+31,|SpecialWeather=9|
+32,|SpecialWeather=9|
+33,|SpecialWeather=5|
+
+:AutumnSpecialWeather4
+# Arctic
+1,|SpecialWeather=3|
+2,|SpecialWeather=3|
+3,|SpecialWeather=5|
+4,|SpecialWeather=9|
+5,|SpecialWeather=9|
+# SubArctic
+6,|SpecialWeather=3|
+7,|SpecialWeather=3|
+8,|SpecialWeather=3|
+9,|SpecialWeather=3|
+10,|SpecialWeather=9|
+11,|SpecialWeather=9|
+12,|SpecialWeather=9|
+# Temperate
+13,|SpecialWeather=9|
+14,|SpecialWeather=9|
+15,|SpecialWeather=9|
+16,|SpecialWeather=9|
+17,|SpecialWeather=9|
+18,|SpecialWeather=9|
+19,|SpecialWeather=9|
+# SubTropical
+20,|SpecialWeather=9|
+21,|SpecialWeather=9|
+22,|SpecialWeather=5|
+23,|SpecialWeather=5|
+24,|SpecialWeather=9|
+25,|SpecialWeather=9|
+26,|SpecialWeather=9|
+# Tropical
+27,|SpecialWeather=9|
+28,|SpecialWeather=9|
+29,|SpecialWeather=3|
+30,|SpecialWeather=9|
+31,|SpecialWeather=3|
+32,|SpecialWeather=5|
+33,|SpecialWeather=9|
+
+:AutumnSpecialWeather5
+# Arctic
+1,|SpecialWeather=10|
+2,|SpecialWeather=10|
+3,|SpecialWeather=10|
+4,|SpecialWeather=10|
+5,|SpecialWeather=10|
+# SubArctic
+6,|SpecialWeather=10|
+7,|SpecialWeather=10|
+8,|SpecialWeather=10|
+9,|SpecialWeather=10|
+10,|SpecialWeather=10|
+11,|SpecialWeather=10|
+12,|SpecialWeather=10|
+# Temperate
+13,|SpecialWeather=10|
+14,|SpecialWeather=10|
+15,|SpecialWeather=10|
+16,|SpecialWeather=10|
+17,|SpecialWeather=10|
+18,|SpecialWeather=10|
+19,|SpecialWeather=10|
+# SubTropical
+20,|SpecialWeather=10|
+21,|SpecialWeather=10|
+22,|SpecialWeather=10|
+23,|SpecialWeather=10|
+24,|SpecialWeather=10|
+25,|SpecialWeather=10|
+26,|SpecialWeather=10|
+# Tropical
+27,|SpecialWeather=10|
+28,|SpecialWeather=10|
+29,|SpecialWeather=10|
+30,|SpecialWeather=10|
+31,|SpecialWeather=10|
+32,|SpecialWeather=10|
+33,|SpecialWeather=10|
+
+:SpecialWeatherDescription
+1,{If~%ColdSpellFlag%=0 ? |ColdSpellFlag=1||ColdSpellDuration={Dice~1d6+2}|A period of unseasonably cold temperatures will begin today.}
+2,[StormDetermination=%Terrain%] will reach your character's location [TimeOfDay]|WindVelocity={Calc~({Dice~1d6*20}+60)}|, packing winds of |TempWind=%WindVelocity%|[PrintWindSpeed=%Metric%]. It will pummel characters with up to |TempInch={Dice~6d4}|[PrintInchMM=%Metric%] of Torrential rain and |TempInch={Dice~3d4}|[PrintInchMM=%Metric%] of hail of up to [HailSize] |TempInch=%HailSize%|[PrintInchMM=%Metric%] in diameter over a <b>{Dice~2d3}</b> hour period of time, threatening Characters with deadly, flying debris as well as lightning. PCs braving the storm will need to make Strength Checks [StrengthCheck=%WindVelocity%] and Reflex Saves [ReflexSave=%WindVelocity%] to retain their footing, and/or avoid airborne debris. There is only a <b>{Dice~1d10} percent</b> chance that any particular lightning strike will actually Strike close enough to the Players to offer any potential threat to their personal safety, however. It will then abate for approximately <b>{Dice~3d3*10}</b> minutes as the wind dies down, the sky clears, and the eye passes over. At that point, the storm will once again renew it's assault with for at least <b>{Dice~2d3}</b> more hours. Characters and/or Creatures who are not in places of secure shelter while the storm passes are in danger of being severely injured or possibly even blown away! |HurricaneFlag=1|
+3,{If~%DroughtFlag%=0 ? |DroughtFlag=1||DroughtDuration={Dice~2d6+2}|
+_ A period of unusually low precipitation will begin today.}
+4,A Gale will begin to pick up [TimeOfDay]. The wind increases to |WindVelocity={Calc~({Dice~1d6*5}+40)}||TempWind=%WindVelocity%| [PrintWindSpeed=%Metric%], causing PCs braving the storm to make Strength Checks [StrengthCheck=%WindVelocity%] and Reflex Saves [ReflexSave=%WindVelocity%] to retain their footing.
+_[Chanceof]{If~%Chance% < 75 ? Shortly thereafter, [StormType=%Terrain%] begins to form. [DustStorm]/The storm} will last for <b>{Dice~1d6+1}</b> hours, then begin to die down.
+5,{If~%RainOrSnow%=0 ? However,/[Chanceof]{If~%Chance% < 25 ? A Mist begins to form [FogMist]/ A Fog rolls up [FogMist]}} and will last for <b>{Dice~1d4}</b> hours before dissipating.
+6,{If~%Region%=1 ? {Cap~[StormType=4]}/{Cap~[StormType=%Terrain%]}} [WindStormStats]
+7,A Tornado will occur [TimeOfDay] today. It will move in
+_ [PrevailingDirection=%Region%][CurrentDirection=%WindDirection%] Direction.
+_ Winds will be extremely strong for|TempNumber={Dice~1d3}| <b>%TempNumber%</b>
+_ {If~%TempNumber%=1 ? hour/hours} before the Tornado strikes, with |TempInch={Dice~3d4}|[PrintInchMM=%Metric%] of Heavy Rain,[Chanceof]{If~%Chance% < 75 ? |TempInch={Dice~1d4}|[PrintInchMM=%Metric%] of Hail,} and Wind Speeds in excess of |WindVelocity={Calc~({Dice~1d2}*100+{Dice~1d100})}|
+_|TempWind=%WindVelocity%|[PrintWindSpeed=%Metric%] at the Height of the storm. PCs braving the storm will need to make Strength Checks [StrengthCheck=%WindVelocity%] and Reflex Saves [ReflexSave=%WindVelocity%] to retain their footing, and/or avoid airborne debris. The Tornado will reach |TempFeet={Calc~({Dice~1d100}*100)}|[PrintFeetMeter=%Metric%] in width and will have cut a path |TempMiles={Dice~3d5}|[PrintMilesKM=%Metric%] long once the violent storm has finally ended. 
+8,[ExtremePrecipitation]
+9,{If~%WarmSpellFlag%=0 ? |WarmSpellFlag=1||WarmSpellDuration={Dice~1d6+2}|
+_ A period of unseasonably warm temperatures will begin today.}
+10,{If~%DiceRoll1%=2 ? [HighWind]/[SlightWind]}
+
+:ExtremePrecipitation
+1,|ExtremePrecip={Dice~1d6}|[RegionalPrecip=%Region%]
+
+:RegionalPrecip
+1-3,{If~%CurrentTemp% < 1 ? [SnowOrIceOnly]/[TemperatePrecip=%CurrentTemp%]}
+4-6,{If~%CurrentTemp% < 30 ? |CurrentTemp=30|/
+_ {If~%CurrentTemp%>150 ? |CurrentTemp=150|}} [TropicalPrecip=%CurrentTemp%]
+
+:TemperatePrecip
+1-25,[Chanceof]{If~%Chance% < 80 ? [SevereSnow]}
+26-29,[Chanceof]{If~%Chance% < 80 ? [SevereSnow]/[IceStorm]}
+30-35,{If~%ExtremePrecip%=6 ? [IceStorm]}
+_{If~%ExtremePrecip%=5 ? [HailStorm]/[SevereSnow]}
+36-49,[Chanceof]{If~%Chance% < 70 ? [LightningStorm]/[HailStorm]}
+50-74,[Chanceof]{If~%Chance% < 80 ? [LightningStorm]/[HailStorm]}
+75-150,[LightningStorm]
+
+:TropicalPrecip
+1-29,
+30-35,[HailStorm]
+36-49,[Chanceof]{If~%Chance% < 80 ? [LightningStorm]/[HailStorm]}
+50-150,[LightningStorm]
+
+:HailStorm
+1,{If~%RainOrSnow%=0 ? However, a/A} hail storm will occur [TimeOfDay] today. The storm itself will last {Dice~1d6+4} minutes, and will pellet Players with Hailstones as large as[HailSize] |TempInch=%HailSize%|[PrintInchMM=%Metric%] in diameter if they cannot find shelter in time to avoid the storm.
+
+:HailSize
+1,|HailSize={Calc~(({Dice~1d300}*.10) / 16)}|
+
+:IceThickness
+1,|IceThickness={Calc~(({Dice~1d75}*.10) / 16)}|
+
+:IceStorm
+1,{If~%RainOrSnow%=0 ? However, an/An} ice storm will occur [TimeOfDay] today, coating virtually everything it touches with nearly [IceThickness]|TempInch=%IceThickness%|[PrintInchMM=%Metric%] of ice before the storm ends. This particular storm will last|Minutes={Dice~1d100+20}|{If~%Minutes% > 60 ? [ConvertToHours]} %Hours% hours and {Abs~%Minutes%} minutes, and any Player caught out in the storm may need to make periodic Reflex Saves while traversing the icy terrain until the Ice melts.
+
+:LightningStorm
+1,{If~%RainOrSnow%=0 ? However, a/A} severe Thunderstorm will occur [TimeOfDay] today, drenching unprotected players with a good |TempInch={Calc~(({Dice~1d100}+50)*.01)}|[PrintInchMM=%Metric%] of Rain, as well as providing them with an impressive lightning and sound show for at least <b>{Calc~({Dice~1d10}+25)}</b> minutes before the storm dissipates.
+_[Chanceof]{If~%Chance% < 25 ? [IncidentalHail]} There is only a {Dice~1d10}/% chance that any particular lightning strike will actually Strike close enough to the Players to offer any potential threat to their personal safety, however.
+
+:IncidentalHail
+1, They will also have to contend with an incidental Hailstorm that will pellet them with Hailstones as large as[HailSize] |TempInch=%HailSize%|[PrintInchMM=%Metric%] in Diameter for the first <b>{Dice~1d6+4}</b> minutes of the storm if they cannot find shelter in time to avoid the Hail.
+
+:SevereSnow
+1,{If~%RainOrSnow%=0 ? However, a/ A} severe snowstorm will begin to fall [TimeOfDay] today. The storm will dump at least |TempInch={Calc~({Dice~1d6}+4)}|[PrintInchMM=%Metric%] of Snow on the ground, falling at a rate of |TempInch=1|[PrintInchMM=%Metric%] Per hour until the final depth indicated has been reached. Wind will be very strong for the first hour or so, gusting up to |TempWind={Dice~1d20+20}| [PrintWindSpeed=%Metric%] at times, but will taper off to about |TempWind={Calc~({Dice~1d5+15})}|[PrintWindSpeed=%Metric%] once the initial fury of the storm has dissipated.
+
+:SnowOrIceOnly
+1-3,[SevereSnow]
+4-6,
+
+:FogMist
+1-4,at sunrise
+5-6,at dusk
+
+:StormType
+1,a sandstorm
+2,[Chanceof]{If~%Chance% < 50 ? a duststorm/a sandstorm}
+3-4,[Chanceof]{If~%Chance% < 25 ? a duststorm/a blizzard}
+5,a sandstorm
+
+:WindStormStats
+1,begins to pick up [TimeOfDay]. It is driven by |TempWind={Calc~({Dice~1d6*5}+40)}|[PrintWindSpeed=%Metric%] winds that will last for a period of {Dice~1d4+1} hours. [DustStorm]
+
+:DustStorm
+1,the storm itself will hinder movement, and will reduce visibility substantially. Also, it has the potential to do |TempNumber={Dice~1d4}|%TempNumber% Hit {If~%TempNumber%=1 ? Point/Points} of damage per hour to unprotected skin should your Characters choose to challenge the full fury of the storm.
+
+:HighWind
+1,[Chanceof]{If~%Chance% < 50 ? [PrevailingDirection=%Region%]/|WindDirection=1|
+_|WindSpeedLimit=45|} There are occasional high
+_ [CurrentDirection=%WindDirection%] Winds gusting up to |TempWind=45|[PrintWindSpeed=%Metric%] throughout the day today.
+
+:SlightWind
+1,[Chanceof]{If~%Chance% < 50 ? [PrevailingDirection=%Region%]/
+_|WindDirection={Dice~1d4}||WindSpeedLimit=5|} There is virtually no Wind, except an occasional [CurrentDirection=%WindDirection%] breeze that will reach |TempWind={Dice~1d5}|[PrintWindSpeed=%Metric%].
+
+:StormDetermination
+1,A Cyclone
+2,{If~%Region%<3 ? An Arctic Cyclone/[Chanceof]{If~%Chance% < 25 ? A Hurricane/A Typhoon}}
+3-5,A Cyclone
+6,{If~%Region%<3 ? An Arctic Cyclone/[Chanceof]{If~%Chance% < 75 ? A Hurricane/A Typhoon}}
+
+:ColdSpellDuration
+1,|ColdSpellCount+1||TempCode-4|[CheckTemperatureRange]|TodaysHigh-{Dice~1d10}||TodaysLow-{Dice~1d10}|
+_[CheckTempValidity]
+_{If~%ColdSpellCount% > %ColdSpellDuration% ? |ColdSpellFlag = -1||ColdSpellDuration=0||ColdSpellCount=0|/|ColdSpellFlag=1|}
+
+:WarmSpellDuration
+1,|WarmSpellCount+1||TempCode+4|[CheckTemperatureRange]|TodaysHigh+{Dice~1d10}||TodaysLow+{Dice~1d10}|
+_[CheckTempValidity]
+_{If~%WarmSpellCount% > %WarmSpellDuration% ? |WarmSpellFlag = -1||WarmSpellDuration=0||WarmSpellCount=0|/|WarmSpellFlag=1|}
+
+:CheckTempValidity
+1,{If~%TodaysHigh%>%MonthlyHigh% ? |TodaysHigh=%MonthlyHigh%|}
+_{If~%TodaysLow%<%MonthlyLow% ? |TodaysLow=%MonthlyLow%|}
+_{If~%TodaysLow%>=%TodaysHigh% ? |TodaysLow={Calc~(%TodaysHigh%-{Dice~1d5})}|}
+_{If~%TodaysHigh%<=%TodaysLow% ? |TodaysHigh={Calc~(%TodaysLow%+{Dice~1d5})}|}
+
+:DroughtDuration
+1,|Precipitation=0||PrecipVariable=1||DroughtCount+1|
+_{If~%DroughtCount% > %DroughtDuration% ? |DroughtFlag = -1||DroughtDuration=0||DroughtCount=0|}
+
+:HurricaneLimits
+1,|HurricaneLimit+1|
+_{If~%HurricaneLimit% > 30 ? |HurricaneFlag=0||HurricaneLimit=0|}
+
+############################# Temperature Setup #############################
+
+:TemperatureRange
+# High/Low
+1,|Temp1=-20||Temp2=-40|
+2,|Temp1=-15||Temp2=-30|
+3,|Temp1=-5||Temp2=-20|
+4,|Temp1=0||Temp2=-10|
+5,|Temp1=10||Temp2=0|
+6,|Temp1=18||Temp2=10|
+7,|Temp1=25||Temp2=10|
+8,|Temp1=30||Temp2=15|
+9,|Temp1=35||Temp2=15|
+10,|Temp1=40||Temp2=20|
+11,|Temp1=50||Temp2=30|
+12,|Temp1=60||Temp2=40|
+13,|Temp1=65||Temp2=45|
+14,|Temp1=70||Temp2=50|
+15,|Temp1=70||Temp2=55|
+16,|Temp1=75||Temp2=55|
+17,|Temp1=80||Temp2=60|
+18,|Temp1=80||Temp2=65|
+19,|Temp1=85||Temp2=65|
+20,|Temp1=85||Temp2=70|
+21,|Temp1=90||Temp2=70|
+22,|Temp1=90||Temp2=75|
+23,|Temp1=95||Temp2=75|
+24,|Temp1=100||Temp2=80|
+25,|Temp1=105||Temp2=80|
+26,|Temp1=115||Temp2=85|
+
+:SetLowTemp
+1,|LowTemp=%Temp2%||LowCode=%TempNumber%|
+
+:SetMeanTemp
+1,|HighMean=%Temp1%||LowMean=%Temp2%|[SetTempCode]
+
+:SetHighTemp
+1,|HighTemp=%Temp1%||HighCode=%TempNumber%|
+
+:SetTempCode
+1,|TempCode=%TempNumber%|
+
+:DetermineTemperatureVariation
+1,[ArcticTerrainBranch=%Terrain%]
+2,[SubarcticTerrainBranch=%Terrain%]
+3,[TemperateTerrainBranch=%Terrain%]
+4,[SubtropicalTerrainBranch=%Terrain%]
+5,[TropicalTerrainBranch=%Terrain%]
+
+:ArcticTerrainBranch
+1,[ArcticDesertBranch=%Month%]
+# (No Arctic Forests)
+2-3,[ArcticHillsBranch=%Month%]
+4,[ArcticMountainsBranch=%Month%]
+5,[ArcticPlainsBranch=%Month%]
+6,[ArcticSeacoastBranch=%Month%]
+
+:SubarcticTerrainBranch
+1,[SubarcticDesertBranch=%Month%]
+2,[SubarcticForestBranch=%Month%]
+3,[SubarcticHillsBranch=%Month%]
+4,[SubarcticMountainsBranch=%Month%]
+5,[SubarcticPlainsBranch=%Month%]
+6,[SubarcticSeacoastBranch=%Month%]
+
+:TemperateTerrainBranch
+1,[TemperateDesertBranch=%Month%]
+2,[TemperateForestBranch=%Month%]
+3,[TemperateHillsBranch=%Month%]
+4,[TemperateMountainsBranch=%Month%]
+5,[TemperatePlainsBranch=%Month%]
+6,[TemperateSeacoastBranch=%Month%]
+
+:SubtropicalTerrainBranch
+1,[SubtropicalDesertBranch=%Month%]
+2,[SubtropicalForestBranch=%Month%]
+3,[SubtropicalHillsBranch=%Month%]
+4,[SubtropicalMountainsBranch=%Month%]
+5,[SubtropicalPlainsBranch=%Month%]
+6,[SubtropicalSeacoastBranch=%Month%]
+
+:TropicalTerrainBranch
+1,[TropicalDesertBranch=%Month%]
+2,[TropicalForestBranch=%Month%]
+3,[TropicalHillsBranch=%Month%]
+4,[TropicalMountainsBranch=%Month%]
+5,[TropicalPlainsBranch=%Month%]
+6,[TropicalSeacoastBranch=%Month%]
+
+:ArcticDesertBranch
+# High/Low/Mean Temperatures By Month
+1,[TemperatureRange=1][SetLowTemp]
+_ [TemperatureRange=2][SetMeanTemp]
+_ [TemperatureRange=7][SetHighTemp]
+2,[TemperatureRange=1][SetLowTemp]
+_ [TemperatureRange=2][SetMeanTemp]
+_ [TemperatureRange=8][SetHighTemp]
+3,[TemperatureRange=1][SetLowTemp]
+_ [TemperatureRange=3][SetMeanTemp]
+_ [TemperatureRange=8][SetHighTemp]
+4,[TemperatureRange=1][SetLowTemp]
+_ [TemperatureRange=5][SetMeanTemp]
+_ [TemperatureRange=8][SetHighTemp]
+5,[TemperatureRange=3][SetLowTemp]
+_ [TemperatureRange=7][SetMeanTemp]
+_ [TemperatureRange=11][SetHighTemp]
+6,[TemperatureRange=6][SetLowTemp]
+_ [TemperatureRange=10][SetMeanTemp]
+_ [TemperatureRange=12][SetHighTemp]
+7,[TemperatureRange=10][SetLowTemp]
+_ [TemperatureRange=11][SetMeanTemp]
+_ [TemperatureRange=14][SetHighTemp]
+8,[TemperatureRange=10][SetLowTemp]
+_ [TemperatureRange=11][SetMeanTemp]
+_ [TemperatureRange=13][SetHighTemp]
+9,[TemperatureRange=6][SetLowTemp]
+_ [TemperatureRange=8][SetMeanTemp]
+_ [TemperatureRange=11][SetHighTemp]
+10,[TemperatureRange=4][SetLowTemp]
+_ [TemperatureRange=7][SetMeanTemp]
+_ [TemperatureRange=10][SetHighTemp]
+11,[TemperatureRange=1][SetLowTemp]
+_ [TemperatureRange=4][SetMeanTemp]
+_ [TemperatureRange=8][SetHighTemp]
+12,[TemperatureRange=1][SetLowTemp]
+_ [TemperatureRange=2][SetMeanTemp]
+_ [TemperatureRange=8][SetHighTemp]
+
+:ArcticHillsBranch
+# High/Low/Mean Temperatures By Month
+1,[TemperatureRange=1][SetLowTemp]
+_ [TemperatureRange=2][SetMeanTemp]
+_ [TemperatureRange=5][SetHighTemp]
+2,[TemperatureRange=1][SetLowTemp]
+_ [TemperatureRange=2][SetMeanTemp]
+_ [TemperatureRange=4][SetHighTemp]
+3,[TemperatureRange=1][SetLowTemp]
+_ [TemperatureRange=3][SetMeanTemp]
+_ [TemperatureRange=6][SetHighTemp]
+4,[TemperatureRange=1][SetLowTemp]
+_ [TemperatureRange=4][SetMeanTemp]
+_ [TemperatureRange=7][SetHighTemp]
+5,[TemperatureRange=2][SetLowTemp]
+_ [TemperatureRange=5][SetMeanTemp]
+_ [TemperatureRange=9][SetHighTemp]
+6,[TemperatureRange=3][SetLowTemp]
+_ [TemperatureRange=6][SetMeanTemp]
+_ [TemperatureRange=9][SetHighTemp]
+7,[TemperatureRange=4][SetLowTemp]
+_ [TemperatureRange=7][SetMeanTemp]
+_ [TemperatureRange=12][SetHighTemp]
+8,[TemperatureRange=4][SetLowTemp]
+_ [TemperatureRange=7][SetMeanTemp]
+_ [TemperatureRange=11][SetHighTemp]
+9,[TemperatureRange=3][SetLowTemp]
+_ [TemperatureRange=6][SetMeanTemp]
+_ [TemperatureRange=10][SetHighTemp]
+10,[TemperatureRange=3][SetLowTemp]
+_ [TemperatureRange=5][SetMeanTemp]
+_ [TemperatureRange=8][SetHighTemp]
+11,[TemperatureRange=2][SetLowTemp]
+_ [TemperatureRange=5][SetMeanTemp]
+_ [TemperatureRange=8][SetHighTemp]
+12,[TemperatureRange=1][SetLowTemp]
+_ [TemperatureRange=3][SetMeanTemp]
+_ [TemperatureRange=5][SetHighTemp]
+
+:ArcticMountainsBranch
+# High/Low/Mean Temperatures By Month
+1,[TemperatureRange=1][SetLowTemp]
+_ [TemperatureRange=2][SetMeanTemp]
+_ [TemperatureRange=5][SetHighTemp]
+2,[TemperatureRange=1][SetLowTemp]
+_ [TemperatureRange=2][SetMeanTemp]
+_ [TemperatureRange=4][SetHighTemp]
+3,[TemperatureRange=1][SetLowTemp]
+_ [TemperatureRange=3][SetMeanTemp]
+_ [TemperatureRange=6][SetHighTemp]
+4,[TemperatureRange=1][SetLowTemp]
+_ [TemperatureRange=4][SetMeanTemp]
+_ [TemperatureRange=7][SetHighTemp]
+5,[TemperatureRange=2][SetLowTemp]
+_ [TemperatureRange=5][SetMeanTemp]
+_ [TemperatureRange=9][SetHighTemp]
+6,[TemperatureRange=3][SetLowTemp]
+_ [TemperatureRange=6][SetMeanTemp]
+_ [TemperatureRange=9][SetHighTemp]
+7,[TemperatureRange=4][SetLowTemp]
+_ [TemperatureRange=7][SetMeanTemp]
+_ [TemperatureRange=12][SetHighTemp]
+8,[TemperatureRange=4][SetLowTemp]
+_ [TemperatureRange=7][SetMeanTemp]
+_ [TemperatureRange=11][SetHighTemp]
+9,[TemperatureRange=3][SetLowTemp]
+_ [TemperatureRange=6][SetMeanTemp]
+_ [TemperatureRange=10][SetHighTemp]
+10,[TemperatureRange=3][SetLowTemp]
+_ [TemperatureRange=5][SetMeanTemp]
+_ [TemperatureRange=8][SetHighTemp]
+11,[TemperatureRange=2][SetLowTemp]
+_ [TemperatureRange=5][SetMeanTemp]
+_ [TemperatureRange=8][SetHighTemp]
+12,[TemperatureRange=1][SetLowTemp]
+_ [TemperatureRange=3][SetMeanTemp]
+_ [TemperatureRange=5][SetHighTemp]
+
+:ArcticPlainsBranch
+# High/Low/Mean Temperatures By Month
+1,[TemperatureRange=1][SetLowTemp]
+_ [TemperatureRange=2][SetMeanTemp]
+_ [TemperatureRange=7][SetHighTemp]
+2,[TemperatureRange=1][SetLowTemp]
+_ [TemperatureRange=2][SetMeanTemp]
+_ [TemperatureRange=8][SetHighTemp]
+3,[TemperatureRange=1][SetLowTemp]
+_ [TemperatureRange=3][SetMeanTemp]
+_ [TemperatureRange=8][SetHighTemp]
+4,[TemperatureRange=1][SetLowTemp]
+_ [TemperatureRange=5][SetMeanTemp]
+_ [TemperatureRange=8][SetHighTemp]
+5,[TemperatureRange=3][SetLowTemp]
+_ [TemperatureRange=7][SetMeanTemp]
+_ [TemperatureRange=11][SetHighTemp]
+6,[TemperatureRange=6][SetLowTemp]
+_ [TemperatureRange=10][SetMeanTemp]
+_ [TemperatureRange=12][SetHighTemp]
+7,[TemperatureRange=10][SetLowTemp]
+_ [TemperatureRange=11][SetMeanTemp]
+_ [TemperatureRange=14][SetHighTemp]
+8,[TemperatureRange=10][SetLowTemp]
+_ [TemperatureRange=11][SetMeanTemp]
+_ [TemperatureRange=13][SetHighTemp]
+9,[TemperatureRange=6][SetLowTemp]
+_ [TemperatureRange=8][SetMeanTemp]
+_ [TemperatureRange=11][SetHighTemp]
+10,[TemperatureRange=4][SetLowTemp]
+_ [TemperatureRange=7][SetMeanTemp]
+_ [TemperatureRange=10][SetHighTemp]
+11,[TemperatureRange=1][SetLowTemp]
+_ [TemperatureRange=4][SetMeanTemp]
+_ [TemperatureRange=8][SetHighTemp]
+12,[TemperatureRange=1][SetLowTemp]
+_ [TemperatureRange=2][SetMeanTemp]
+_ [TemperatureRange=8][SetHighTemp]
+
+:ArcticSeacoastBranch
+# High/Low/Mean Temperatures By Month
+1,[TemperatureRange=1][SetLowTemp]
+_ [TemperatureRange=3][SetMeanTemp]
+_ [TemperatureRange=8][SetHighTemp]
+2,[TemperatureRange=1][SetLowTemp]
+_ [TemperatureRange=2][SetMeanTemp]
+_ [TemperatureRange=8][SetHighTemp]
+3,[TemperatureRange=1][SetLowTemp]
+_ [TemperatureRange=3][SetMeanTemp]
+_ [TemperatureRange=8][SetHighTemp]
+4,[TemperatureRange=1][SetLowTemp]
+_ [TemperatureRange=5][SetMeanTemp]
+_ [TemperatureRange=10][SetHighTemp]
+5,[TemperatureRange=3][SetLowTemp]
+_ [TemperatureRange=7][SetMeanTemp]
+_ [TemperatureRange=11][SetHighTemp]
+6,[TemperatureRange=6][SetLowTemp]
+_ [TemperatureRange=10][SetMeanTemp]
+_ [TemperatureRange=14][SetHighTemp]
+7,[TemperatureRange=10][SetLowTemp]
+_ [TemperatureRange=11][SetMeanTemp]
+_ [TemperatureRange=16][SetHighTemp]
+8,[TemperatureRange=10][SetLowTemp]
+_ [TemperatureRange=11][SetMeanTemp]
+_ [TemperatureRange=14][SetHighTemp]
+9,[TemperatureRange=5][SetLowTemp]
+_ [TemperatureRange=9][SetMeanTemp]
+_ [TemperatureRange=12][SetHighTemp]
+10,[TemperatureRange=3][SetLowTemp]
+_ [TemperatureRange=7][SetMeanTemp]
+_ [TemperatureRange=10][SetHighTemp]
+11,[TemperatureRange=1][SetLowTemp]
+_ [TemperatureRange=5][SetMeanTemp]
+_ [TemperatureRange=9][SetHighTemp]
+12,[TemperatureRange=1][SetLowTemp]
+_ [TemperatureRange=3][SetMeanTemp]
+_ [TemperatureRange=9][SetHighTemp]
+
+:SubarcticDesertBranch
+# High/Low/Mean Temperatures By Month
+1,[TemperatureRange=1][SetLowTemp]
+_ [TemperatureRange=4][SetMeanTemp]
+_ [TemperatureRange=9][SetHighTemp]
+2,[TemperatureRange=1][SetLowTemp]
+_ [TemperatureRange=4][SetMeanTemp]
+_ [TemperatureRange=10][SetHighTemp]
+3,[TemperatureRange=2][SetLowTemp]
+_ [TemperatureRange=5][SetMeanTemp]
+_ [TemperatureRange=10][SetHighTemp]
+4,[TemperatureRange=3][SetLowTemp]
+_ [TemperatureRange=7][SetMeanTemp]
+_ [TemperatureRange=10][SetHighTemp]
+5,[TemperatureRange=6][SetLowTemp]
+_ [TemperatureRange=11][SetMeanTemp]
+_ [TemperatureRange=13][SetHighTemp]
+6,[TemperatureRange=10][SetLowTemp]
+_ [TemperatureRange=12][SetMeanTemp]
+_ [TemperatureRange=14][SetHighTemp]
+7,[TemperatureRange=11][SetLowTemp]
+_ [TemperatureRange=13][SetMeanTemp]
+_ [TemperatureRange=17][SetHighTemp]
+8,[TemperatureRange=10][SetLowTemp]
+_ [TemperatureRange=13][SetMeanTemp]
+_ [TemperatureRange=17][SetHighTemp]
+9,[TemperatureRange=7][SetLowTemp]
+_ [TemperatureRange=11][SetMeanTemp]
+_ [TemperatureRange=17][SetHighTemp]
+10,[TemperatureRange=6][SetLowTemp]
+_ [TemperatureRange=8][SetMeanTemp]
+_ [TemperatureRange=13][SetHighTemp]
+11,[TemperatureRange=3][SetLowTemp]
+_ [TemperatureRange=5][SetMeanTemp]
+_ [TemperatureRange=12][SetHighTemp]
+12,[TemperatureRange=1][SetLowTemp]
+_ [TemperatureRange=3][SetMeanTemp]
+_ [TemperatureRange=9][SetHighTemp]
+
+:SubarcticForestBranch
+# High/Low/Mean Temperatures By Month
+1,[TemperatureRange=1][SetLowTemp]
+_ [TemperatureRange=5][SetMeanTemp]
+_ [TemperatureRange=10][SetHighTemp]
+2,[TemperatureRange=1][SetLowTemp]
+_ [TemperatureRange=5][SetMeanTemp]
+_ [TemperatureRange=9][SetHighTemp]
+3,[TemperatureRange=2][SetLowTemp]
+_ [TemperatureRange=7][SetMeanTemp]
+_ [TemperatureRange=11][SetHighTemp]
+4,[TemperatureRange=4][SetLowTemp]
+_ [TemperatureRange=10][SetMeanTemp]
+_ [TemperatureRange=12][SetHighTemp]
+5,[TemperatureRange=8][SetLowTemp]
+_ [TemperatureRange=11][SetMeanTemp]
+_ [TemperatureRange=14][SetHighTemp]
+6,[TemperatureRange=10][SetLowTemp]
+_ [TemperatureRange=12][SetMeanTemp]
+_ [TemperatureRange=16][SetHighTemp]
+7,[TemperatureRange=11][SetLowTemp]
+_ [TemperatureRange=13][SetMeanTemp]
+_ [TemperatureRange=18][SetHighTemp]
+8,[TemperatureRange=10][SetLowTemp]
+_ [TemperatureRange=13][SetMeanTemp]
+_ [TemperatureRange=18][SetHighTemp]
+9,[TemperatureRange=9][SetLowTemp]
+_ [TemperatureRange=11][SetMeanTemp]
+_ [TemperatureRange=16][SetHighTemp]
+10,[TemperatureRange=5][SetLowTemp]
+_ [TemperatureRange=10][SetMeanTemp]
+_ [TemperatureRange=12][SetHighTemp]
+11,[TemperatureRange=2][SetLowTemp]
+_ [TemperatureRange=8][SetMeanTemp]
+_ [TemperatureRange=11][SetHighTemp]
+12,[TemperatureRange=1][SetLowTemp]
+_ [TemperatureRange=6][SetMeanTemp]
+_ [TemperatureRange=10][SetHighTemp]
+
+:SubarcticHillsBranch
+# High/Low/Mean Temperatures By Month
+1,[TemperatureRange=1][SetLowTemp]
+_ [TemperatureRange=4][SetMeanTemp]
+_ [TemperatureRange=9][SetHighTemp]
+2,[TemperatureRange=1][SetLowTemp]
+_ [TemperatureRange=4][SetMeanTemp]
+_ [TemperatureRange=9][SetHighTemp]
+3,[TemperatureRange=2][SetLowTemp]
+_ [TemperatureRange=6][SetMeanTemp]
+_ [TemperatureRange=10][SetHighTemp]
+4,[TemperatureRange=3][SetLowTemp]
+_ [TemperatureRange=7][SetMeanTemp]
+_ [TemperatureRange=10][SetHighTemp]
+5,[TemperatureRange=6][SetLowTemp]
+_ [TemperatureRange=11][SetMeanTemp]
+_ [TemperatureRange=14][SetHighTemp]
+6,[TemperatureRange=10][SetLowTemp]
+_ [TemperatureRange=12][SetMeanTemp]
+_ [TemperatureRange=14][SetHighTemp]
+7,[TemperatureRange=10][SetLowTemp]
+_ [TemperatureRange=13][SetMeanTemp]
+_ [TemperatureRange=16][SetHighTemp]
+8,[TemperatureRange=9][SetLowTemp]
+_ [TemperatureRange=13][SetMeanTemp]
+_ [TemperatureRange=16][SetHighTemp]
+9,[TemperatureRange=7][SetLowTemp]
+_ [TemperatureRange=11][SetMeanTemp]
+_ [TemperatureRange=13][SetHighTemp]
+10,[TemperatureRange=4][SetLowTemp]
+_ [TemperatureRange=10][SetMeanTemp]
+_ [TemperatureRange=12][SetHighTemp]
+11,[TemperatureRange=2][SetLowTemp]
+_ [TemperatureRange=7][SetMeanTemp]
+_ [TemperatureRange=11][SetHighTemp]
+12,[TemperatureRange=1][SetLowTemp]
+_ [TemperatureRange=4][SetMeanTemp]
+_ [TemperatureRange=10][SetHighTemp]
+
+:SubarcticMountainsBranch
+# High/Low/Mean Temperatures By Month
+1,[TemperatureRange=1][SetLowTemp]
+_ [TemperatureRange=3][SetMeanTemp]
+_ [TemperatureRange=9][SetHighTemp]
+2,[TemperatureRange=1][SetLowTemp]
+_ [TemperatureRange=4][SetMeanTemp]
+_ [TemperatureRange=9][SetHighTemp]
+3,[TemperatureRange=1][SetLowTemp]
+_ [TemperatureRange=6][SetMeanTemp]
+_ [TemperatureRange=10][SetHighTemp]
+4,[TemperatureRange=2][SetLowTemp]
+_ [TemperatureRange=8][SetMeanTemp]
+_ [TemperatureRange=12][SetHighTemp]
+5,[TemperatureRange=5][SetLowTemp]
+_ [TemperatureRange=10][SetMeanTemp]
+_ [TemperatureRange=13][SetHighTemp]
+6,[TemperatureRange=9][SetLowTemp]
+_ [TemperatureRange=11][SetMeanTemp]
+_ [TemperatureRange=13][SetHighTemp]
+7,[TemperatureRange=10][SetLowTemp]
+_ [TemperatureRange=12][SetMeanTemp]
+_ [TemperatureRange=14][SetHighTemp]
+8,[TemperatureRange=9][SetLowTemp]
+_ [TemperatureRange=13][SetMeanTemp]
+_ [TemperatureRange=15][SetHighTemp]
+9,[TemperatureRange=7][SetLowTemp]
+_ [TemperatureRange=11][SetMeanTemp]
+_ [TemperatureRange=13][SetHighTemp]
+10,[TemperatureRange=4][SetLowTemp]
+_ [TemperatureRange=10][SetMeanTemp]
+_ [TemperatureRange=12][SetHighTemp]
+11,[TemperatureRange=2][SetLowTemp]
+_ [TemperatureRange=6][SetMeanTemp]
+_ [TemperatureRange=11][SetHighTemp]
+12,[TemperatureRange=1][SetLowTemp]
+_ [TemperatureRange=4][SetMeanTemp]
+_ [TemperatureRange=10][SetHighTemp]
+
+:SubarcticPlainsBranch
+# High/Low/Mean Temperatures By Month
+1,[TemperatureRange=1][SetLowTemp]
+_ [TemperatureRange=4][SetMeanTemp]
+_ [TemperatureRange=9][SetHighTemp]
+2,[TemperatureRange=1][SetLowTemp]
+_ [TemperatureRange=4][SetMeanTemp]
+_ [TemperatureRange=10][SetHighTemp]
+3,[TemperatureRange=2][SetLowTemp]
+_ [TemperatureRange=5][SetMeanTemp]
+_ [TemperatureRange=10][SetHighTemp]
+4,[TemperatureRange=3][SetLowTemp]
+_ [TemperatureRange=7][SetMeanTemp]
+_ [TemperatureRange=10][SetHighTemp]
+5,[TemperatureRange=6][SetLowTemp]
+_ [TemperatureRange=11][SetMeanTemp]
+_ [TemperatureRange=13][SetHighTemp]
+6,[TemperatureRange=10][SetLowTemp]
+_ [TemperatureRange=12][SetMeanTemp]
+_ [TemperatureRange=14][SetHighTemp]
+7,[TemperatureRange=11][SetLowTemp]
+_ [TemperatureRange=13][SetMeanTemp]
+_ [TemperatureRange=17][SetHighTemp]
+8,[TemperatureRange=10][SetLowTemp]
+_ [TemperatureRange=13][SetMeanTemp]
+_ [TemperatureRange=17][SetHighTemp]
+9,[TemperatureRange=7][SetLowTemp]
+_ [TemperatureRange=11][SetMeanTemp]
+_ [TemperatureRange=17][SetHighTemp]
+10,[TemperatureRange=6][SetLowTemp]
+_ [TemperatureRange=8][SetMeanTemp]
+_ [TemperatureRange=13][SetHighTemp]
+11,[TemperatureRange=3][SetLowTemp]
+_ [TemperatureRange=5][SetMeanTemp]
+_ [TemperatureRange=12][SetHighTemp]
+12,[TemperatureRange=1][SetLowTemp]
+_ [TemperatureRange=3][SetMeanTemp]
+_ [TemperatureRange=9][SetHighTemp]
+
+:SubarcticSeacoastBranch
+# High/Low/Mean Temperatures By Month
+1,[TemperatureRange=2][SetLowTemp]
+_ [TemperatureRange=6][SetMeanTemp]
+_ [TemperatureRange=11][SetHighTemp]
+2,[TemperatureRange=2][SetLowTemp]
+_ [TemperatureRange=7][SetMeanTemp]
+_ [TemperatureRange=11][SetHighTemp]
+3,[TemperatureRange=3][SetLowTemp]
+_ [TemperatureRange=8][SetMeanTemp]
+_ [TemperatureRange=11][SetHighTemp]
+4,[TemperatureRange=4][SetLowTemp]
+_ [TemperatureRange=10][SetMeanTemp]
+_ [TemperatureRange=13][SetHighTemp]
+5,[TemperatureRange=8][SetLowTemp]
+_ [TemperatureRange=11][SetMeanTemp]
+_ [TemperatureRange=14][SetHighTemp]
+6,[TemperatureRange=10][SetLowTemp]
+_ [TemperatureRange=12][SetMeanTemp]
+_ [TemperatureRange=18][SetHighTemp]
+7,[TemperatureRange=11][SetLowTemp]
+_ [TemperatureRange=13][SetMeanTemp]
+_ [TemperatureRange=18][SetHighTemp]
+8,[TemperatureRange=11][SetLowTemp]
+_ [TemperatureRange=13][SetMeanTemp]
+_ [TemperatureRange=18][SetHighTemp]
+9,[TemperatureRange=10][SetLowTemp]
+_ [TemperatureRange=12][SetMeanTemp]
+_ [TemperatureRange=16][SetHighTemp]
+10,[TemperatureRange=5][SetLowTemp]
+_ [TemperatureRange=11][SetMeanTemp]
+_ [TemperatureRange=13][SetHighTemp]
+11,[TemperatureRange=3][SetLowTemp]
+_ [TemperatureRange=8][SetMeanTemp]
+_ [TemperatureRange=12][SetHighTemp]
+12,[TemperatureRange=1][SetLowTemp]
+_ [TemperatureRange=6][SetMeanTemp]
+_ [TemperatureRange=11][SetHighTemp]
+
+:TemperateDesertBranch
+# High/Low/Mean Temperatures By Month
+1,[TemperatureRange=11][SetLowTemp]
+_ [TemperatureRange=13][SetMeanTemp]
+_ [TemperatureRange=19][SetHighTemp]
+2,[TemperatureRange=11][SetLowTemp]
+_ [TemperatureRange=13][SetMeanTemp]
+_ [TemperatureRange=20][SetHighTemp]
+3,[TemperatureRange=12][SetLowTemp]
+_ [TemperatureRange=13][SetMeanTemp]
+_ [TemperatureRange=20][SetHighTemp]
+4,[TemperatureRange=13][SetLowTemp]
+_ [TemperatureRange=14][SetMeanTemp]
+_ [TemperatureRange=23][SetHighTemp]
+5,[TemperatureRange=13][SetLowTemp]
+_ [TemperatureRange=16][SetMeanTemp]
+_ [TemperatureRange=24][SetHighTemp]
+6,[TemperatureRange=16][SetLowTemp]
+_ [TemperatureRange=16][SetMeanTemp]
+_ [TemperatureRange=26][SetHighTemp]
+7,[TemperatureRange=21][SetLowTemp]
+_ [TemperatureRange=25][SetMeanTemp]
+_ [TemperatureRange=26][SetHighTemp]
+8,[TemperatureRange=21][SetLowTemp]
+_ [TemperatureRange=25][SetMeanTemp]
+_ [TemperatureRange=26][SetHighTemp]
+9,[TemperatureRange=17][SetLowTemp]
+_ [TemperatureRange=23][SetMeanTemp]
+_ [TemperatureRange=25][SetHighTemp]
+10,[TemperatureRange=14][SetLowTemp]
+_ [TemperatureRange=19][SetMeanTemp]
+_ [TemperatureRange=24][SetHighTemp]
+11,[TemperatureRange=12][SetLowTemp]
+_ [TemperatureRange=18][SetMeanTemp]
+_ [TemperatureRange=24][SetHighTemp]
+12,[TemperatureRange=11][SetLowTemp]
+_ [TemperatureRange=13][SetMeanTemp]
+_ [TemperatureRange=18][SetHighTemp]
+
+:TemperateForestBranch
+# High/Low/Mean Temperatures By Month
+1,[TemperatureRange=3][SetLowTemp]
+_ [TemperatureRange=6][SetMeanTemp]
+_ [TemperatureRange=12][SetHighTemp]
+2,[TemperatureRange=2][SetLowTemp]
+_ [TemperatureRange=6][SetMeanTemp]
+_ [TemperatureRange=11][SetHighTemp]
+3,[TemperatureRange=5][SetLowTemp]
+_ [TemperatureRange=11][SetMeanTemp]
+_ [TemperatureRange=16][SetHighTemp]
+4,[TemperatureRange=8][SetLowTemp]
+_ [TemperatureRange=12][SetMeanTemp]
+_ [TemperatureRange=16][SetHighTemp]
+5,[TemperatureRange=11][SetLowTemp]
+_ [TemperatureRange=14][SetMeanTemp]
+_ [TemperatureRange=21][SetHighTemp]
+6,[TemperatureRange=13][SetLowTemp]
+_ [TemperatureRange=16][SetMeanTemp]
+_ [TemperatureRange=22][SetHighTemp]
+7,[TemperatureRange=13][SetLowTemp]
+_ [TemperatureRange=19][SetMeanTemp]
+_ [TemperatureRange=24][SetHighTemp]
+8,[TemperatureRange=13][SetLowTemp]
+_ [TemperatureRange=19][SetMeanTemp]
+_ [TemperatureRange=24][SetHighTemp]
+9,[TemperatureRange=12][SetLowTemp]
+_ [TemperatureRange=16][SetMeanTemp]
+_ [TemperatureRange=22][SetHighTemp]
+10,[TemperatureRange=10][SetLowTemp]
+_ [TemperatureRange=14][SetMeanTemp]
+_ [TemperatureRange=18][SetHighTemp]
+11,[TemperatureRange=6][SetLowTemp]
+_ [TemperatureRange=10][SetMeanTemp]
+_ [TemperatureRange=12][SetHighTemp]
+12,[TemperatureRange=4][SetLowTemp]
+_ [TemperatureRange=10][SetMeanTemp]
+_ [TemperatureRange=12][SetHighTemp]
+
+:TemperateHillsBranch
+# High/Low/Mean Temperatures By Month
+1,[TemperatureRange=2][SetLowTemp]
+_ [TemperatureRange=9][SetMeanTemp]
+_ [TemperatureRange=12][SetHighTemp]
+2,[TemperatureRange=3][SetLowTemp]
+_ [TemperatureRange=10][SetMeanTemp]
+_ [TemperatureRange=13][SetHighTemp]
+3,[TemperatureRange=5][SetLowTemp]
+_ [TemperatureRange=11][SetMeanTemp]
+_ [TemperatureRange=16][SetHighTemp]
+4,[TemperatureRange=9][SetLowTemp]
+_ [TemperatureRange=12][SetMeanTemp]
+_ [TemperatureRange=18][SetHighTemp]
+5,[TemperatureRange=10][SetLowTemp]
+_ [TemperatureRange=15][SetMeanTemp]
+_ [TemperatureRange=20][SetHighTemp]
+6,[TemperatureRange=10][SetLowTemp]
+_ [TemperatureRange=17][SetMeanTemp]
+_ [TemperatureRange=24][SetHighTemp]
+7,[TemperatureRange=12][SetLowTemp]
+_ [TemperatureRange=20][SetMeanTemp]
+_ [TemperatureRange=25][SetHighTemp]
+8,[TemperatureRange=12][SetLowTemp]
+_ [TemperatureRange=20][SetMeanTemp]
+_ [TemperatureRange=25][SetHighTemp]
+9,[TemperatureRange=11][SetLowTemp]
+_ [TemperatureRange=17][SetMeanTemp]
+_ [TemperatureRange=23][SetHighTemp]
+10,[TemperatureRange=10][SetLowTemp]
+_ [TemperatureRange=14][SetMeanTemp]
+_ [TemperatureRange=20][SetHighTemp]
+11,[TemperatureRange=6][SetLowTemp]
+_ [TemperatureRange=11][SetMeanTemp]
+_ [TemperatureRange=16][SetHighTemp]
+12,[TemperatureRange=3][SetLowTemp]
+_ [TemperatureRange=10][SetMeanTemp]
+_ [TemperatureRange=13][SetHighTemp] 
+
+:TemperateMountainsBranch
+# High/Low/Mean Temperatures By Month
+1,[TemperatureRange=1][SetLowTemp]
+_ [TemperatureRange=9][SetMeanTemp]
+_ [TemperatureRange=12][SetHighTemp]
+2,[TemperatureRange=2][SetLowTemp]
+_ [TemperatureRange=9][SetMeanTemp]
+_ [TemperatureRange=13][SetHighTemp]
+3,[TemperatureRange=3][SetLowTemp]
+_ [TemperatureRange=10][SetMeanTemp]
+_ [TemperatureRange=14][SetHighTemp]
+4,[TemperatureRange=5][SetLowTemp]
+_ [TemperatureRange=11][SetMeanTemp]
+_ [TemperatureRange=17][SetHighTemp]
+5,[TemperatureRange=6][SetLowTemp]
+_ [TemperatureRange=12][SetMeanTemp]
+_ [TemperatureRange=19][SetHighTemp]
+6,[TemperatureRange=11][SetLowTemp]
+_ [TemperatureRange=15][SetMeanTemp]
+_ [TemperatureRange=22][SetHighTemp]
+7,[TemperatureRange=12][SetLowTemp]
+_ [TemperatureRange=17][SetMeanTemp]
+_ [TemperatureRange=24][SetHighTemp]
+8,[TemperatureRange=11][SetLowTemp]
+_ [TemperatureRange=17][SetMeanTemp]
+_ [TemperatureRange=23][SetHighTemp]
+9,[TemperatureRange=9][SetLowTemp]
+_ [TemperatureRange=14][SetMeanTemp]
+_ [TemperatureRange=21][SetHighTemp]
+10,[TemperatureRange=5][SetLowTemp]
+_ [TemperatureRange=12][SetMeanTemp]
+_ [TemperatureRange=19][SetHighTemp]
+11,[TemperatureRange=3][SetLowTemp]
+_ [TemperatureRange=11][SetMeanTemp]
+_ [TemperatureRange=18][SetHighTemp]
+12,[TemperatureRange=2][SetLowTemp]
+_ [TemperatureRange=10][SetMeanTemp]
+_ [TemperatureRange=12][SetHighTemp] 
+
+:TemperatePlainsBranch
+# High/Low/Mean Temperatures By Month
+1,[TemperatureRange=2][SetLowTemp]
+_ [TemperatureRange=8][SetMeanTemp]
+_ [TemperatureRange=13][SetHighTemp]
+2,[TemperatureRange=3][SetLowTemp]
+_ [TemperatureRange=8][SetMeanTemp]
+_ [TemperatureRange=14][SetHighTemp]
+3,[TemperatureRange=4][SetLowTemp]
+_ [TemperatureRange=11][SetMeanTemp]
+_ [TemperatureRange=17][SetHighTemp]
+4,[TemperatureRange=7][SetLowTemp]
+_ [TemperatureRange=12][SetMeanTemp]
+_ [TemperatureRange=19][SetHighTemp]
+5,[TemperatureRange=11][SetLowTemp]
+_ [TemperatureRange=14][SetMeanTemp]
+_ [TemperatureRange=21][SetHighTemp]
+6,[TemperatureRange=12][SetLowTemp]
+_ [TemperatureRange=16][SetMeanTemp]
+_ [TemperatureRange=24][SetHighTemp]
+7,[TemperatureRange=13][SetLowTemp]
+_ [TemperatureRange=19][SetMeanTemp]
+_ [TemperatureRange=25][SetHighTemp]
+8,[TemperatureRange=13][SetLowTemp]
+_ [TemperatureRange=19][SetMeanTemp]
+_ [TemperatureRange=25][SetHighTemp]
+9,[TemperatureRange=11][SetLowTemp]
+_ [TemperatureRange=16][SetMeanTemp]
+_ [TemperatureRange=23][SetHighTemp]
+10,[TemperatureRange=7][SetLowTemp]
+_ [TemperatureRange=12][SetMeanTemp]
+_ [TemperatureRange=19][SetHighTemp]
+11,[TemperatureRange=5][SetLowTemp]
+_ [TemperatureRange=11][SetMeanTemp]
+_ [TemperatureRange=17][SetHighTemp]
+12,[TemperatureRange=3][SetLowTemp]
+_ [TemperatureRange=10][SetMeanTemp]
+_ [TemperatureRange=13][SetHighTemp] 
+
+:TemperateSeacoastBranch
+# High/Low/Mean Temperatures By Month
+1,[TemperatureRange=5][SetLowTemp]
+_ [TemperatureRange=10][SetMeanTemp]
+_ [TemperatureRange=13][SetHighTemp]
+2,[TemperatureRange=6][SetLowTemp]
+_ [TemperatureRange=11][SetMeanTemp]
+_ [TemperatureRange=14][SetHighTemp]
+3,[TemperatureRange=9][SetLowTemp]
+_ [TemperatureRange=11][SetMeanTemp]
+_ [TemperatureRange=17][SetHighTemp]
+4,[TemperatureRange=11][SetLowTemp]
+_ [TemperatureRange=12][SetMeanTemp]
+_ [TemperatureRange=19][SetHighTemp]
+5,[TemperatureRange=11][SetLowTemp]
+_ [TemperatureRange=13][SetMeanTemp]
+_ [TemperatureRange=20][SetHighTemp]
+6,[TemperatureRange=12][SetLowTemp]
+_ [TemperatureRange=15][SetMeanTemp]
+_ [TemperatureRange=23][SetHighTemp]
+7,[TemperatureRange=13][SetLowTemp]
+_ [TemperatureRange=16][SetMeanTemp]
+_ [TemperatureRange=24][SetHighTemp]
+8,[TemperatureRange=13][SetLowTemp]
+_ [TemperatureRange=16][SetMeanTemp]
+_ [TemperatureRange=23][SetHighTemp]
+9,[TemperatureRange=12][SetLowTemp]
+_ [TemperatureRange=15][SetMeanTemp]
+_ [TemperatureRange=23][SetHighTemp]
+10,[TemperatureRange=11][SetLowTemp]
+_ [TemperatureRange=12][SetMeanTemp]
+_ [TemperatureRange=20][SetHighTemp]
+11,[TemperatureRange=7][SetLowTemp]
+_ [TemperatureRange=11][SetMeanTemp]
+_ [TemperatureRange=16][SetHighTemp]
+12,[TemperatureRange=5][SetLowTemp]
+_ [TemperatureRange=11][SetMeanTemp]
+_ [TemperatureRange=13][SetHighTemp]
+
+:SubtropicalDesertBranch
+# High/Low/Mean Temperatures By Month
+1,[TemperatureRange=12][SetLowTemp]
+_ [TemperatureRange=16][SetMeanTemp]
+_ [TemperatureRange=20][SetHighTemp]
+2,[TemperatureRange=12][SetLowTemp]
+_ [TemperatureRange=16][SetMeanTemp]
+_ [TemperatureRange=21][SetHighTemp]
+3,[TemperatureRange=13][SetLowTemp]
+_ [TemperatureRange=19][SetMeanTemp]
+_ [TemperatureRange=23][SetHighTemp]
+4,[TemperatureRange=14][SetLowTemp]
+_ [TemperatureRange=20][SetMeanTemp]
+_ [TemperatureRange=24][SetHighTemp]
+5,[TemperatureRange=15][SetLowTemp]
+_ [TemperatureRange=20][SetMeanTemp]
+_ [TemperatureRange=24][SetHighTemp]
+6,[TemperatureRange=18][SetLowTemp]
+_ [TemperatureRange=22][SetMeanTemp]
+_ [TemperatureRange=25][SetHighTemp]
+7,[TemperatureRange=20][SetLowTemp]
+_ [TemperatureRange=24][SetMeanTemp]
+_ [TemperatureRange=26][SetHighTemp]
+8,[TemperatureRange=20][SetLowTemp]
+_ [TemperatureRange=24][SetMeanTemp]
+_ [TemperatureRange=26][SetHighTemp]
+9,[TemperatureRange=18][SetLowTemp]
+_ [TemperatureRange=21][SetMeanTemp]
+_ [TemperatureRange=25][SetHighTemp]
+10,[TemperatureRange=16][SetLowTemp]
+_ [TemperatureRange=21][SetMeanTemp]
+_ [TemperatureRange=25][SetHighTemp]
+11,[TemperatureRange=14][SetLowTemp]
+_ [TemperatureRange=19][SetMeanTemp]
+_ [TemperatureRange=24][SetHighTemp]
+12,[TemperatureRange=13][SetLowTemp]
+_ [TemperatureRange=16][SetMeanTemp]
+_ [TemperatureRange=23][SetHighTemp]
+
+:SubtropicalForestBranch
+# High/Low/Mean Temperatures By Month
+1,[TemperatureRange=12][SetLowTemp]
+_ [TemperatureRange=20][SetMeanTemp]
+_ [TemperatureRange=21][SetHighTemp]
+2,[TemperatureRange=12][SetLowTemp]
+_ [TemperatureRange=20][SetMeanTemp]
+_ [TemperatureRange=22][SetHighTemp]
+3,[TemperatureRange=13][SetLowTemp]
+_ [TemperatureRange=20][SetMeanTemp]
+_ [TemperatureRange=22][SetHighTemp]
+4,[TemperatureRange=14][SetLowTemp]
+_ [TemperatureRange=20][SetMeanTemp]
+_ [TemperatureRange=23][SetHighTemp]
+5,[TemperatureRange=14][SetLowTemp]
+_ [TemperatureRange=20][SetMeanTemp]
+_ [TemperatureRange=24][SetHighTemp]
+6,[TemperatureRange=16][SetLowTemp]
+_ [TemperatureRange=21][SetMeanTemp]
+_ [TemperatureRange=24][SetHighTemp]
+7,[TemperatureRange=16][SetLowTemp]
+_ [TemperatureRange=21][SetMeanTemp]
+_ [TemperatureRange=24][SetHighTemp]
+8,[TemperatureRange=16][SetLowTemp]
+_ [TemperatureRange=21][SetMeanTemp]
+_ [TemperatureRange=24][SetHighTemp]
+9,[TemperatureRange=15][SetLowTemp]
+_ [TemperatureRange=21][SetMeanTemp]
+_ [TemperatureRange=23][SetHighTemp]
+10,[TemperatureRange=14][SetLowTemp]
+_ [TemperatureRange=21][SetMeanTemp]
+_ [TemperatureRange=23][SetHighTemp]
+11,[TemperatureRange=13][SetLowTemp]
+_ [TemperatureRange=19][SetMeanTemp]
+_ [TemperatureRange=22][SetHighTemp]
+12,[TemperatureRange=12][SetLowTemp]
+_ [TemperatureRange=19][SetMeanTemp]
+_ [TemperatureRange=22][SetHighTemp]
+
+:SubtropicalHillsBranch
+# High/Low/Mean Temperatures By Month
+1,[TemperatureRange=11][SetLowTemp]
+_ [TemperatureRange=14][SetMeanTemp]
+_ [TemperatureRange=17][SetHighTemp]
+2,[TemperatureRange=11][SetLowTemp]
+_ [TemperatureRange=15][SetMeanTemp]
+_ [TemperatureRange=18][SetHighTemp]
+3,[TemperatureRange=12][SetLowTemp]
+_ [TemperatureRange=17][SetMeanTemp]
+_ [TemperatureRange=21][SetHighTemp]
+4,[TemperatureRange=13][SetLowTemp]
+_ [TemperatureRange=19][SetMeanTemp]
+_ [TemperatureRange=22][SetHighTemp]
+5,[TemperatureRange=14][SetLowTemp]
+_ [TemperatureRange=20][SetMeanTemp]
+_ [TemperatureRange=23][SetHighTemp]
+6,[TemperatureRange=15][SetLowTemp]
+_ [TemperatureRange=21][SetMeanTemp]
+_ [TemperatureRange=24][SetHighTemp]
+7,[TemperatureRange=16][SetLowTemp]
+_ [TemperatureRange=21][SetMeanTemp]
+_ [TemperatureRange=24][SetHighTemp]
+8,[TemperatureRange=16][SetLowTemp]
+_ [TemperatureRange=21][SetMeanTemp]
+_ [TemperatureRange=25][SetHighTemp]
+9,[TemperatureRange=14][SetLowTemp]
+_ [TemperatureRange=19][SetMeanTemp]
+_ [TemperatureRange=24][SetHighTemp]
+10,[TemperatureRange=13][SetLowTemp]
+_ [TemperatureRange=17][SetMeanTemp]
+_ [TemperatureRange=22][SetHighTemp]
+11,[TemperatureRange=12][SetLowTemp]
+_ [TemperatureRange=16][SetMeanTemp]
+_ [TemperatureRange=19][SetHighTemp]
+12,[TemperatureRange=11][SetLowTemp]
+_ [TemperatureRange=14][SetMeanTemp]
+_ [TemperatureRange=18][SetHighTemp] 
+
+:SubtropicalMountainsBranch
+# High/Low/Mean Temperatures By Month
+1,[TemperatureRange=11][SetLowTemp]
+_ [TemperatureRange=13][SetMeanTemp]
+_ [TemperatureRange=16][SetHighTemp]
+2,[TemperatureRange=11][SetLowTemp]
+_ [TemperatureRange=13][SetMeanTemp]
+_ [TemperatureRange=17][SetHighTemp]
+3,[TemperatureRange=12][SetLowTemp]
+_ [TemperatureRange=16][SetMeanTemp]
+_ [TemperatureRange=19][SetHighTemp]
+4,[TemperatureRange=12][SetLowTemp]
+_ [TemperatureRange=16][SetMeanTemp]
+_ [TemperatureRange=20][SetHighTemp]
+5,[TemperatureRange=13][SetLowTemp]
+_ [TemperatureRange=17][SetMeanTemp]
+_ [TemperatureRange=21][SetHighTemp]
+6,[TemperatureRange=14][SetLowTemp]
+_ [TemperatureRange=17][SetMeanTemp]
+_ [TemperatureRange=21][SetHighTemp]
+7,[TemperatureRange=14][SetLowTemp]
+_ [TemperatureRange=16][SetMeanTemp]
+_ [TemperatureRange=20][SetHighTemp]
+8,[TemperatureRange=14][SetLowTemp]
+_ [TemperatureRange=15][SetMeanTemp]
+_ [TemperatureRange=18][SetHighTemp]
+9,[TemperatureRange=12][SetLowTemp]
+_ [TemperatureRange=15][SetMeanTemp]
+_ [TemperatureRange=18][SetHighTemp]
+10,[TemperatureRange=12][SetLowTemp]
+_ [TemperatureRange=14][SetMeanTemp]
+_ [TemperatureRange=17][SetHighTemp]
+11,[TemperatureRange=12][SetLowTemp]
+_ [TemperatureRange=14][SetMeanTemp]
+_ [TemperatureRange=17][SetHighTemp]
+12,[TemperatureRange=11][SetLowTemp]
+_ [TemperatureRange=13][SetMeanTemp]
+_ [TemperatureRange=16][SetHighTemp] 
+
+:SubtropicalPlainsBranch
+# High/Low/Mean Temperatures By Month
+1,[TemperatureRange=12][SetLowTemp]
+_ [TemperatureRange=14][SetMeanTemp]
+_ [TemperatureRange=18][SetHighTemp]
+2,[TemperatureRange=11][SetLowTemp]
+_ [TemperatureRange=15][SetMeanTemp]
+_ [TemperatureRange=19][SetHighTemp]
+3,[TemperatureRange=13][SetLowTemp]
+_ [TemperatureRange=18][SetMeanTemp]
+_ [TemperatureRange=21][SetHighTemp]
+4,[TemperatureRange=14][SetLowTemp]
+_ [TemperatureRange=19][SetMeanTemp]
+_ [TemperatureRange=24][SetHighTemp]
+5,[TemperatureRange=18][SetLowTemp]
+_ [TemperatureRange=22][SetMeanTemp]
+_ [TemperatureRange=24][SetHighTemp]
+6,[TemperatureRange=19][SetLowTemp]
+_ [TemperatureRange=23][SetMeanTemp]
+_ [TemperatureRange=25][SetHighTemp]
+7,[TemperatureRange=20][SetLowTemp]
+_ [TemperatureRange=23][SetMeanTemp]
+_ [TemperatureRange=26][SetHighTemp]
+8,[TemperatureRange=20][SetLowTemp]
+_ [TemperatureRange=23][SetMeanTemp]
+_ [TemperatureRange=26][SetHighTemp]
+9,[TemperatureRange=19][SetLowTemp]
+_ [TemperatureRange=22][SetMeanTemp]
+_ [TemperatureRange=25][SetHighTemp]
+10,[TemperatureRange=17][SetLowTemp]
+_ [TemperatureRange=22][SetMeanTemp]
+_ [TemperatureRange=25][SetHighTemp]
+11,[TemperatureRange=13][SetLowTemp]
+_ [TemperatureRange=18][SetMeanTemp]
+_ [TemperatureRange=21][SetHighTemp]
+12,[TemperatureRange=12][SetLowTemp]
+_ [TemperatureRange=16][SetMeanTemp]
+_ [TemperatureRange=19][SetHighTemp] 
+
+:SubtropicalSeacoastBranch
+# High/Low/Mean Temperatures By Month
+1,[TemperatureRange=12][SetLowTemp]
+_ [TemperatureRange=13][SetMeanTemp]
+_ [TemperatureRange=21][SetHighTemp]
+2,[TemperatureRange=11][SetLowTemp]
+_ [TemperatureRange=13][SetMeanTemp]
+_ [TemperatureRange=22][SetHighTemp]
+3,[TemperatureRange=11][SetLowTemp]
+_ [TemperatureRange=15][SetMeanTemp]
+_ [TemperatureRange=23][SetHighTemp]
+4,[TemperatureRange=12][SetLowTemp]
+_ [TemperatureRange=16][SetMeanTemp]
+_ [TemperatureRange=24][SetHighTemp]
+5,[TemperatureRange=13][SetLowTemp]
+_ [TemperatureRange=17][SetMeanTemp]
+_ [TemperatureRange=24][SetHighTemp]
+6,[TemperatureRange=13][SetLowTemp]
+_ [TemperatureRange=19][SetMeanTemp]
+_ [TemperatureRange=25][SetHighTemp]
+7,[TemperatureRange=14][SetLowTemp]
+_ [TemperatureRange=19][SetMeanTemp]
+_ [TemperatureRange=25][SetHighTemp]
+8,[TemperatureRange=14][SetLowTemp]
+_ [TemperatureRange=19][SetMeanTemp]
+_ [TemperatureRange=25][SetHighTemp]
+9,[TemperatureRange=13][SetLowTemp]
+_ [TemperatureRange=18][SetMeanTemp]
+_ [TemperatureRange=24][SetHighTemp]
+10,[TemperatureRange=12][SetLowTemp]
+_ [TemperatureRange=17][SetMeanTemp]
+_ [TemperatureRange=23][SetHighTemp]
+11,[TemperatureRange=11][SetLowTemp]
+_ [TemperatureRange=15][SetMeanTemp]
+_ [TemperatureRange=21][SetHighTemp]
+12,[TemperatureRange=11][SetLowTemp]
+_ [TemperatureRange=13][SetMeanTemp]
+_ [TemperatureRange=21][SetHighTemp] 
+
+:TropicalDesertBranch
+# High/Low/Mean Temperatures By Month
+1,[TemperatureRange=16][SetLowTemp]
+_ [TemperatureRange=18][SetMeanTemp]
+_ [TemperatureRange=21][SetHighTemp]
+2,[TemperatureRange=16][SetLowTemp]
+_ [TemperatureRange=19][SetMeanTemp]
+_ [TemperatureRange=20][SetHighTemp]
+3,[TemperatureRange=16][SetLowTemp]
+_ [TemperatureRange=20][SetMeanTemp]
+_ [TemperatureRange=23][SetHighTemp]
+4,[TemperatureRange=16][SetLowTemp]
+_ [TemperatureRange=21][SetMeanTemp]
+_ [TemperatureRange=24][SetHighTemp]
+5,[TemperatureRange=17][SetLowTemp]
+_ [TemperatureRange=22][SetMeanTemp]
+_ [TemperatureRange=25][SetHighTemp]
+6,[TemperatureRange=20][SetLowTemp]
+_ [TemperatureRange=23][SetMeanTemp]
+_ [TemperatureRange=26][SetHighTemp]
+7,[TemperatureRange=22][SetLowTemp]
+_ [TemperatureRange=25][SetMeanTemp]
+_ [TemperatureRange=26][SetHighTemp]
+8,[TemperatureRange=22][SetLowTemp]
+_ [TemperatureRange=25][SetMeanTemp]
+_ [TemperatureRange=26][SetHighTemp]
+9,[TemperatureRange=21][SetLowTemp]
+_ [TemperatureRange=24][SetMeanTemp]
+_ [TemperatureRange=25][SetHighTemp]
+10,[TemperatureRange=21][SetLowTemp]
+_ [TemperatureRange=22][SetMeanTemp]
+_ [TemperatureRange=24][SetHighTemp]
+11,[TemperatureRange=18][SetLowTemp]
+_ [TemperatureRange=21][SetMeanTemp]
+_ [TemperatureRange=23][SetHighTemp]
+12,[TemperatureRange=17][SetLowTemp]
+_ [TemperatureRange=19][SetMeanTemp]
+_ [TemperatureRange=22][SetHighTemp]
+
+:TropicalForestBranch
+# High/Low/Mean Temperatures By Month
+1,[TemperatureRange=13][SetLowTemp]
+_ [TemperatureRange=21][SetMeanTemp]
+_ [TemperatureRange=23][SetHighTemp]
+2,[TemperatureRange=12][SetLowTemp]
+_ [TemperatureRange=21][SetMeanTemp]
+_ [TemperatureRange=23][SetHighTemp]
+3,[TemperatureRange=13][SetLowTemp]
+_ [TemperatureRange=21][SetMeanTemp]
+_ [TemperatureRange=23][SetHighTemp]
+4,[TemperatureRange=15][SetLowTemp]
+_ [TemperatureRange=21][SetMeanTemp]
+_ [TemperatureRange=24][SetHighTemp]
+5,[TemperatureRange=15][SetLowTemp]
+_ [TemperatureRange=21][SetMeanTemp]
+_ [TemperatureRange=24][SetHighTemp]
+6,[TemperatureRange=17][SetLowTemp]
+_ [TemperatureRange=21][SetMeanTemp]
+_ [TemperatureRange=24][SetHighTemp]
+7,[TemperatureRange=17][SetLowTemp]
+_ [TemperatureRange=21][SetMeanTemp]
+_ [TemperatureRange=24][SetHighTemp]
+8,[TemperatureRange=17][SetLowTemp]
+_ [TemperatureRange=21][SetMeanTemp]
+_ [TemperatureRange=24][SetHighTemp]
+9,[TemperatureRange=17][SetLowTemp]
+_ [TemperatureRange=21][SetMeanTemp]
+_ [TemperatureRange=24][SetHighTemp]
+10,[TemperatureRange=16][SetLowTemp]
+_ [TemperatureRange=21][SetMeanTemp]
+_ [TemperatureRange=24][SetHighTemp]
+11,[TemperatureRange=15][SetLowTemp]
+_ [TemperatureRange=21][SetMeanTemp]
+_ [TemperatureRange=23][SetHighTemp]
+12,[TemperatureRange=13][SetLowTemp]
+_ [TemperatureRange=21][SetMeanTemp]
+_ [TemperatureRange=23][SetHighTemp]
+
+:TropicalHillsBranch
+# High/Low/Mean Temperatures By Month
+1,[TemperatureRange=13][SetLowTemp]
+_ [TemperatureRange=16][SetMeanTemp]
+_ [TemperatureRange=18][SetHighTemp]
+2,[TemperatureRange=14][SetLowTemp]
+_ [TemperatureRange=16][SetMeanTemp]
+_ [TemperatureRange=20][SetHighTemp]
+3,[TemperatureRange=14][SetLowTemp]
+_ [TemperatureRange=16][SetMeanTemp]
+_ [TemperatureRange=20][SetHighTemp]
+4,[TemperatureRange=16][SetLowTemp]
+_ [TemperatureRange=18][SetMeanTemp]
+_ [TemperatureRange=21][SetHighTemp]
+5,[TemperatureRange=16][SetLowTemp]
+_ [TemperatureRange=20][SetMeanTemp]
+_ [TemperatureRange=24][SetHighTemp]
+6,[TemperatureRange=17][SetLowTemp]
+_ [TemperatureRange=21][SetMeanTemp]
+_ [TemperatureRange=25][SetHighTemp]
+7,[TemperatureRange=19][SetLowTemp]
+_ [TemperatureRange=23][SetMeanTemp]
+_ [TemperatureRange=26][SetHighTemp]
+8,[TemperatureRange=19][SetLowTemp]
+_ [TemperatureRange=23][SetMeanTemp]
+_ [TemperatureRange=26][SetHighTemp]
+9,[TemperatureRange=19][SetLowTemp]
+_ [TemperatureRange=22][SetMeanTemp]
+_ [TemperatureRange=25][SetHighTemp]
+10,[TemperatureRange=17][SetLowTemp]
+_ [TemperatureRange=20][SetMeanTemp]
+_ [TemperatureRange=13][SetHighTemp]
+11,[TemperatureRange=15][SetLowTemp]
+_ [TemperatureRange=18][SetMeanTemp]
+_ [TemperatureRange=21][SetHighTemp]
+12,[TemperatureRange=14][SetLowTemp]
+_ [TemperatureRange=17][SetMeanTemp]
+_ [TemperatureRange=20][SetHighTemp] 
+
+:TropicalMountainsBranch
+# High/Low/Mean Temperatures By Month
+1,[TemperatureRange=13][SetLowTemp]
+_ [TemperatureRange=16][SetMeanTemp]
+_ [TemperatureRange=18][SetHighTemp]
+2,[TemperatureRange=14][SetLowTemp]
+_ [TemperatureRange=16][SetMeanTemp]
+_ [TemperatureRange=19][SetHighTemp]
+3,[TemperatureRange=14][SetLowTemp]
+_ [TemperatureRange=17][SetMeanTemp]
+_ [TemperatureRange=20][SetHighTemp]
+4,[TemperatureRange=15][SetLowTemp]
+_ [TemperatureRange=17][SetMeanTemp]
+_ [TemperatureRange=20][SetHighTemp]
+5,[TemperatureRange=15][SetLowTemp]
+_ [TemperatureRange=17][SetMeanTemp]
+_ [TemperatureRange=21][SetHighTemp]
+6,[TemperatureRange=15][SetLowTemp]
+_ [TemperatureRange=17][SetMeanTemp]
+_ [TemperatureRange=21][SetHighTemp]
+7,[TemperatureRange=14][SetLowTemp]
+_ [TemperatureRange=16][SetMeanTemp]
+_ [TemperatureRange=20][SetHighTemp]
+8,[TemperatureRange=14][SetLowTemp]
+_ [TemperatureRange=16][SetMeanTemp]
+_ [TemperatureRange=20][SetHighTemp]
+9,[TemperatureRange=14][SetLowTemp]
+_ [TemperatureRange=16][SetMeanTemp]
+_ [TemperatureRange=20][SetHighTemp]
+10,[TemperatureRange=14][SetLowTemp]
+_ [TemperatureRange=16][SetMeanTemp]
+_ [TemperatureRange=19][SetHighTemp]
+11,[TemperatureRange=13][SetLowTemp]
+_ [TemperatureRange=16][SetMeanTemp]
+_ [TemperatureRange=19][SetHighTemp]
+12,[TemperatureRange=13][SetLowTemp]
+_ [TemperatureRange=16][SetMeanTemp]
+_ [TemperatureRange=19][SetHighTemp] 
+
+:TropicalPlainsBranch
+# High/Low/Mean Temperatures By Month
+1,[TemperatureRange=13][SetLowTemp]
+_ [TemperatureRange=16][SetMeanTemp]
+_ [TemperatureRange=18][SetHighTemp]
+2,[TemperatureRange=14][SetLowTemp]
+_ [TemperatureRange=17][SetMeanTemp]
+_ [TemperatureRange=20][SetHighTemp]
+3,[TemperatureRange=14][SetLowTemp]
+_ [TemperatureRange=18][SetMeanTemp]
+_ [TemperatureRange=21][SetHighTemp]
+4,[TemperatureRange=16][SetLowTemp]
+_ [TemperatureRange=18][SetMeanTemp]
+_ [TemperatureRange=21][SetHighTemp]
+5,[TemperatureRange=18][SetLowTemp]
+_ [TemperatureRange=23][SetMeanTemp]
+_ [TemperatureRange=25][SetHighTemp]
+6,[TemperatureRange=20][SetLowTemp]
+_ [TemperatureRange=23][SetMeanTemp]
+_ [TemperatureRange=25][SetHighTemp]
+7,[TemperatureRange=20][SetLowTemp]
+_ [TemperatureRange=23][SetMeanTemp]
+_ [TemperatureRange=26][SetHighTemp]
+8,[TemperatureRange=20][SetLowTemp]
+_ [TemperatureRange=23][SetMeanTemp]
+_ [TemperatureRange=26][SetHighTemp]
+9,[TemperatureRange=20][SetLowTemp]
+_ [TemperatureRange=23][SetMeanTemp]
+_ [TemperatureRange=25][SetHighTemp]
+10,[TemperatureRange=18][SetLowTemp]
+_ [TemperatureRange=22][SetMeanTemp]
+_ [TemperatureRange=25][SetHighTemp]
+11,[TemperatureRange=16][SetLowTemp]
+_ [TemperatureRange=19][SetMeanTemp]
+_ [TemperatureRange=23][SetHighTemp]
+12,[TemperatureRange=14][SetLowTemp]
+_ [TemperatureRange=18][SetMeanTemp]
+_ [TemperatureRange=21][SetHighTemp] 
+
+:TropicalSeacoastBranch
+# High/Low/Mean Temperatures By Month
+1,[TemperatureRange=16][SetLowTemp]
+_ [TemperatureRange=19][SetMeanTemp]
+_ [TemperatureRange=21][SetHighTemp]
+2,[TemperatureRange=16][SetLowTemp]
+_ [TemperatureRange=19][SetMeanTemp]
+_ [TemperatureRange=22][SetHighTemp]
+3,[TemperatureRange=15][SetLowTemp]
+_ [TemperatureRange=20][SetMeanTemp]
+_ [TemperatureRange=23][SetHighTemp]
+4,[TemperatureRange=17][SetLowTemp]
+_ [TemperatureRange=20][SetMeanTemp]
+_ [TemperatureRange=24][SetHighTemp]
+5,[TemperatureRange=17][SetLowTemp]
+_ [TemperatureRange=20][SetMeanTemp]
+_ [TemperatureRange=24][SetHighTemp]
+6,[TemperatureRange=18][SetLowTemp]
+_ [TemperatureRange=20][SetMeanTemp]
+_ [TemperatureRange=25][SetHighTemp]
+7,[TemperatureRange=18][SetLowTemp]
+_ [TemperatureRange=20][SetMeanTemp]
+_ [TemperatureRange=24][SetHighTemp]
+8,[TemperatureRange=18][SetLowTemp]
+_ [TemperatureRange=20][SetMeanTemp]
+_ [TemperatureRange=24][SetHighTemp]
+9,[TemperatureRange=18][SetLowTemp]
+_ [TemperatureRange=20][SetMeanTemp]
+_ [TemperatureRange=23][SetHighTemp]
+10,[TemperatureRange=17][SetLowTemp]
+_ [TemperatureRange=19][SetMeanTemp]
+_ [TemperatureRange=22][SetHighTemp]
+11,[TemperatureRange=17][SetLowTemp]
+_ [TemperatureRange=19][SetMeanTemp]
+_ [TemperatureRange=22][SetHighTemp]
+12,[TemperatureRange=16][SetLowTemp]
+_ [TemperatureRange=18][SetMeanTemp]
+_ [TemperatureRange=22][SetHighTemp]
+
+############################### Miscellaneous ###############################
+
+:DetermineRegionName
+1,|RegionName=Arctic|
+2,|RegionName=Subarctic|
+3,|RegionName=Temperate|
+4,|RegionName=Subtropical|
+5,|RegionName=Tropical|
+
+:DetermineTerrainName
+1,|TerrainName=Desert|
+2,{If~%RandomFlag%=2 ? |TerrainName=Forest|/{If~%Region%=1 ? {Input~Terrain,There are no Arctic Forests. Please select another Terrain Type.
+_ (1-Desert; 3-Hills; 4-Mountains; 5-Plains; 6-Seacoast),3}[DetermineTerrainName=%Terrain%]}}
+3,|TerrainName=Hills|
+4,|TerrainName=Mountains|
+5,|TerrainName=Plains|
+6,|TerrainName=Seacoast|
+7,{If~%RandomFlag%=2 ? |TerrainName=Swamp|/{If~%Region%=1 ? {Input~Terrain,There are no Arctic Swamps. Please select another Terrain Type.
+_ (1-Desert; 3-Hills; 4-Mountains; 5-Plains; 6-Seacoast),6}[DetermineTerrainName=%Terrain%]}}
+
+:DaysInMonth
+1,|DaysInMonth=31|
+2,|DaysInMonth=28|
+3,|DaysInMonth=31|
+4,|DaysInMonth=30|
+5,|DaysInMonth=31|
+6,|DaysInMonth=30|
+7,|DaysInMonth=31|
+8,|DaysInMonth=31|
+9,|DaysInMonth=30|
+10,|DaysInMonth=31|
+11,|DaysInMonth=30|
+12,|DaysInMonth=31|
+
+:MonthName
+1,|MonthName=January|
+2,|MonthName=February|
+3,|MonthName=March|
+4,|MonthName=April|
+5,|MonthName=May|
+6,|MonthName=June|
+7,|MonthName=July|
+8,|MonthName=August|
+9,|MonthName=September|
+10,|MonthName=October|
+11,|MonthName=November|
+12,|MonthName=December|
+
+:SeasonBreakout
+1-3,|Season=1|
+4-6,|Season=2|
+7-9,|Season=3|
+10-12,|Season=4|
+
+:SeasonName
+1-3,Winter
+4-6,Spring
+7-9,Summer
+10-12,Autumn
+
+:TimeOfDay
+1-10,early in the morning
+11-25,late in the morning
+26-50,early in the afternoon
+51-75,late in the afternoon
+76-90,early in the evening
+91-100,late in the evening
+
+:ConvertToHours
+1,|Hours={Ceil~{Calc~(%Minutes% / 60)}}||TempNumber={Calc~(%Hours%*60)}|
+_|Minutes={Calc~(%Minutes%-%TempNumber%)}|
+
+:CurrentDirection
+1,northerly
+2,southerly
+3,westerly
+4,easterly
+
+:StrengthCheck
+1-50,(DC 15)
+51-60,(DC 17)
+61-70,(DC 19)
+71-80,(DC 21)
+81-90,(DC 22)
+91-100,(DC 24)
+101-110,(DC 26)
+110-120,(DC 28)
+121-130,(DC 30)
+131-140,(DC 32)
+141-150,(DC 34)
+151-160,(DC 36)
+161-170,(DC 38)
+171-180,(DC 40)
+180-190,(DC 42)
+191-200,(DC 44)
+
+:ReflexSave
+1-50,(DC 11)
+51-60,(DC 12)
+61-70,(DC 13)
+71-80,(DC 14)
+81-90,(DC 15)
+91-100,(DC 16)
+101-110,(DC 17)
+110-120,(DC 18)
+121-130,(DC 19)
+131-140,(DC 20)
+141-150,(DC 21)
+151-160,(DC 22)
+161-170,(DC 23)
+171-180,(DC 24)
+180-190,(DC 25)
+191-200,(DC 26)

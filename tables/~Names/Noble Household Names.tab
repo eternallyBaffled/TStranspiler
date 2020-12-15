@@ -1,0 +1,97 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder May 23, 2018.
+# ---------------------------------------------------
+# 
+# Noble Household
+#
+# Copyright 1998 Bruce A. Gulke
+#
+# -------------------------------------------------------------------------
+# To call this table from another one:
+#    [Noble Household Names.Start
+#    [Noble Household Names.Male
+#    [Noble Household Names.Female
+#
+# -------------------------------------------------------------------------
+# This Table Links to these tables as required:
+#    Formal Names.Start
+#    Miscellaneous.TitlesBoth
+#    Names Generator.NAME Random
+#
+# -------------------------------------------------------------------------
+# This table is called by:
+#    Names Generator.tab
+#    NPC Stat Block Pathfinder (to create names for Aristocrats)
+#
+# -------------------------------------------------------------------------
+# Modified by Valminder, Oct 2005
+#    -Added some titles.
+#    -Added link to [Miscellaneous.TitlesBoth]
+#
+
+:Start
+1-65,[Male], and his house.
+66-100,[Female], and her house.
+
+:Start2
+1-65,[Male]
+66-100,[Female]
+
+:Male
+1,[Male Title] [Formal Names.Start], [Male Title II] of [Names Generator.NAME Random]
+
+:Female
+1,[Female Title] [Formal Names.Start], [Female Title II] of [Names Generator.NAME Random]
+
+:Male Title
+1,Lord
+2,Sir
+3,Master
+4,Champion
+
+:Female Title
+1,Lady
+2,Dame
+3,Milady
+4,Mistress
+
+;Male Title II
+50,[Miscellaneous.TitlesBoth]
+50,Baron
+20,Master
+1,King
+2,Prince
+10,Earl
+5,Duke
+10,Marquis
+10,Count
+1,Archduke
+1,Caliph
+1,Emir
+5,Governor
+1,Maharajah
+5,Patriarch
+1,Pharaoh
+1,Sheik
+1,Shah
+1,Sultan
+1,Tsar/Czar
+1,Viceroy
+1,Vizier
+
+;Female Title II
+50,[Miscellaneous.TitlesBoth]
+50,Baroness
+20,Mistress
+1,Queen
+2,Princess
+5,Duchess
+10,Marquessa
+10,Countess
+1,Archduchess
+5,Governess
+5,Lady-in-Waiting
+5,Matriarch
+1,Sultana
+1,Tsarevna/Czarina
+1,Vicequeen

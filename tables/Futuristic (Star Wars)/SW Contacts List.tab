@@ -1,0 +1,225 @@
+# ------------------------------------------------------
+# Last Update: re-verified by Valminder Jan 10, 2012.
+# ------------------------------------------------------
+# ---------------------------------------------------
+# Last Update: modified by Valminder August 10, 2006.
+# ---------------------------------------------------
+#
+# Contacts
+#
+# Created by Patrick Hodak
+# Last Updated: 10-14-05
+#
+# Uses images barX.jpg in the directory "SW Contacts"
+# References: Fantasy Names, SW NPC Gen
+#
+# Modified by Valminder, Jan 2006.
+#    Adapted for TSv5.
+#    I modified the Graphics folder to "SW Contacts".
+#    Added link to:
+#       Miscellaneous.Personality
+#       Names Generator.NAME Random
+# Modified by Valminder, August  2006.
+#    Added ling to: SW Planet Names.tab
+#
+
+%Path1%,<IMG SRC="Graphics\SW Contacts\
+%Path2%," WIDTH=200 HEIGHT=20 ALIGN=TEXTTOP>
+
+%Sex%,0
+%Will%,0
+%Job%,0
+
+%temp1%,0
+%temp2%,0
+
+:Start
+1,{Status~by Patrick Hodak 2005, Valminder 2006}<b><u>Starwars Contacts</u></b></br>
+_<b>Name: </b>[~Names Generator.NAME Random]</br>
+_<b>Race: </b>[~SW NPC Gen.RandomRace]</br>
+_<b>Sex: </b>[Sex]</br>
+_<b>Profession: </b>[job]</br>
+_<b>Personality: </b>[~Miscellaneous.Personality]</br>
+_<b>Planet:</b> [~SW Planet Names.Start(3,1)]</br>
+_<b>Affiliation: </b>[~Affil%Sex%]</br>
+_<b>Willingness to help: </b>[Help={Dice~1d%Will%}]</br>
+
+#We're going to assume that the PC is male.
+;Sex
+3,Male |Sex=Male|
+1,Female |Sex=Female|
+
+#---Profession-------------------
+;job
+5,[Admin] Administrator (I,R)|Job=1|
+1,Assassin (I,E)|Job=2|
+1,Bounty Hunter (I,E)|Job=3|
+5,Con Artist (I,R)|Job=4|
+5,Crime Lord (I,R)|Job=5|
+5,Doctor (I,R)|Job=6|
+1,[Faction] Elite Trooper (I,E,R)|Job=7|
+5,Fence (I,R)|Job=8|
+5,Gambler (I)|Job=9|
+#2,Independant Droid (I,E)
+5,Medic (E)|Job=10|
+5,Mercenary (I,E)|Job=11|
+2,[Faction] Military Officer (I,R)|Job=12|
+5,Outlaw (I,R)|Job=13|
+5,Peace Officer (I)|Job=14|
+5,[Group] Pilot (I,E)|Job=15|
+5,[Organization] Pirate (I,E)|Job=16|
+3,[Group] Ship Captain (I,R)|Job=17|
+5,Slicer (I,E)|Job=18|
+5,Smuggler (I,R)|Job=19|
+5,[Group] Spacehand (I,E)|Job=20|
+5,Starship Dock Attendant (I,R)|Job=21|
+3,Information Broker (I)|Job=22|
+5,[Group] Starfighter Pilot (E)|Job=23|
+5,Technician (E)|Job=24|
+5,Thief (I,E,R)|Job=25|
+5,Thug (I,E)|Job=26|
+5,[Deal] Dealer (I,R)
+10,[Commoner]
+5,[Expert]
+5,[Diplomat]
+1,[Famed] (I)
+3,[Gang] Member (I,R)|Job=27|
+
+# -------------------------------
+# Additional Profession Information
+# -------------------------------
+;Admin
+1,Business|temp1=Business|
+1,Shipyard|temp1=Shipyard|
+
+;Deal
+1,Equipment|Job=28||temp1=Equipment|
+1,Arms|Job=28||temp1=Arms|
+1,Illegal Arms|Job=29|
+1,Spice|Job=30||temp1=Spice|
+1,Starship|Job=28||temp1=Starship|
+1,Starship Parts|Job=28||temp1=Starship Parts|
+1,Droid|Job=28||temp1=Droid|
+1,Droid Parts|Job=28||temp1=Droid Parts|
+1,Small Parts|Job=28||temp1=Small Parts|
+1,Vehicle|Job=28||temp1=Vehicle|
+1,Vehicle Parts|Job=28||temp1=Vehicle Parts|
+
+;Commoner
+1,Bartender (I,R)|Job=31|
+1,Clerk (I)|Job=32|
+1,Entertainer (I)|Job=33|
+1,Street Urchin (I)|Job=34|
+1,Farmhand (I)|Job=35|
+1,Spacer (I)|Job=36|
+
+;Expert
+1,Engineer (I,E)|Job=37|
+1,Mechanic (I,E)|Job=38|
+1,Scholar (I,E)|Job=39|
+1,Scientist (I,E)|Job=40|
+
+;Diplomat
+1,Corporate Executive (I,R)|Job=41|
+1,Bureaucrat (I,R)|Job=42|
+1,Politician (I,R)|Job=43|
+1,Reporter (I)|Job=44|
+
+;Famed
+1,Holovid Star|Job=45|
+1,Musician|Job=46|
+1,Shock Boxer|Job=47|
+1,Smashball Player|Job=48||temp1=Smashball|
+1,Shockball Player|Job=48||temp1=Shockball|
+1,Mag-ball Player|Job=48||temp1=Mag-ball|
+1,Pod-racer|Job=49||temp1=Pod|
+1,Swoop-racer|Job=49||temp1=Swoop|
+1,Zone-ball Player|Job=49||temp1=Zone-ball|
+
+;Gang
+1,Criminal Syndicate|temp1=Syndicate|
+2,Speeder-bike Gang|temp1=Speeder-bike Gang|
+3,Local Gang|temp1=Local Gang|
+
+;Faction
+1,Imperial
+1,Rebellion
+1,{Note~Other Faction}
+
+;Organization
+5,Steelfist
+1,Shadow Wing
+1,{Note~Other Pirate Clan}
+
+;Group
+1,[Faction]
+2,[Organization]
+5,Independant
+5,
+
+# -------------------------------
+# Male Affiliation
+# -------------------------------
+;AffilMale
+5,{Note~Insert Affiliation}|Will=10|
+5,Casual Acquaintence|Will=6|
+5,Owed {Dice~1d5*100} credits from character|Will=5|
+3,Owes {Dice~1d5*100} credits to character|Will=8+2|
+2,Owed {Dice~1d20*250} credits from character|Will=3|
+1,Owes {Dice~1d20*100} credits to character|Will=5+5|
+1,Distant Relative (possibly very distant)|Will=6+1|
+2,Previous Contact|Will=8|
+5,Former cohort|Will=7+1|
+5,Former employer|Will=10|
+2,Owes character his life|Will=4+6|
+3,Saved character's life|Will=8+2|
+1,Male admirer (i.e. Gay)|Will=5+5|
+2,Long-time friend|Will=7+3|
+5,Childhood friend|Will=6+3|
+5,Old drinking buddy|Will=8+2|
+3,Long-time rival|Will=6|
+3,Bitter enemy|Will=3|
+
+# -------------------------------
+# Female Affiliations
+# -------------------------------
+;AffilFemale
+5,{Note~Insert Affiliation}|Will=10|
+5,Casual Acquaintence|Will=6|
+5,Owed {Dice~1d5*100} credits from character|Will=5|
+3,Owes {Dice~1d5*100} credits to character|Will=8+2|
+2,Owed {Dice~1d20*250} credits from character|Will=3|
+1,Owes {Dice~1d20*100} credits to character|Will=5+5|
+1,Distant Relative (possibly very distant)|Will=6+1|
+2,Previous Contact|Will=8|
+5,Former cohort|Will=7+1|
+5,Former employer|Will=10|
+2,Owes character her life|Will=4+6|
+3,Saved character's life|Will=8+2|
+5,Love interest|Will=5+5|
+5,Previous love interest|Will=6+2|
+3,Scorned lover|Will=5|
+2,Long-time friend|Will=7+3|
+5,Childhood friend|Will=6+3|
+5,Old drinking buddy|Will=8+2|
+3,Long-time rival|Will=6|
+
+# -------------------------------
+# Willingness to help graphics
+# -------------------------------
+:Help
+1,%Path1%bar1.jpg%Path2%
+2,%Path1%bar2.jpg%Path2%
+3,%Path1%bar3.jpg%Path2%
+4,%Path1%bar4.jpg%Path2%
+5,%Path1%bar5.jpg%Path2%
+6,%Path1%bar6.jpg%Path2%
+7,%Path1%bar7.jpg%Path2%
+8,%Path1%bar8.jpg%Path2%
+9,%Path1%bar9.jpg%Path2%
+10,%Path1%bar10.jpg%Path2%
+
+#---------------------------------
+#Administrator
+;Job1
+1,Loves his job as a [temp1] Executive.

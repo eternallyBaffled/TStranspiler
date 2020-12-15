@@ -1,0 +1,49 @@
+# Last Update: verified by Valminder Dec 20, 2005.
+# 
+# Normal (Modern 2002) Name Generator
+# Assembled by Anthony Pham - rocketturtle@pex.net
+#
+# Not all human players come from far away galaxies or magical kindgoms.
+# For humans from good old Earth (or something similar) here is set of tables
+# that will generate random names of the current modern era (as of AD 2002 
+# anyway).
+#
+# Be careful when generating last names, there are quite a few
+# entries so there will be a noticible slowdown while Tablesmith
+# accesses them.  So if you only need a first name, just use the
+# First name scripts.
+#
+# These name lists were taken from the US Census
+# First filtered through:
+# http://www.kleimo.com/random/name.cfm
+#
+# I'm assuming this is public property, however any lawyers out 
+# there please let me know if I'm breaking the law so I can
+# pull these from the downloads section.
+#
+# Modified by Valminder, Nov 2003.
+#    I created this Main Table from "Last Names.tab" and divided 
+#    "Last Names.tab" in many smaller tables called
+#    "Modern Last Names X.tab" to try to make it faster to roll.
+#
+
+:Start
+1-3,{Cap~{LCase~[LastName1]}}
+4-5,{Cap~{LCase~[LastName2]}}
+6,{Cap~{LCase~[LastName3]}}
+
+;LastName1
+1,[Modern Last Names 1.Start]
+1,[Modern Last Names 2.Start]
+1,[Modern Last Names 3.Start]
+
+;LastName2
+1,[Modern Last Names 4.Start]
+1,[Modern Last Names 5.Start]
+1,[Modern Last Names 6.Start]
+
+;LastName3
+1,[Modern Last Names 7.Start]
+1,[Modern Last Names 8.Start]
+1,[Modern Last Names 9.Start]
+

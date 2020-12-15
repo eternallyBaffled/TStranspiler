@@ -1,0 +1,341 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder Sept 14, 2006.
+# ---------------------------------------------------
+#
+# 11/05/03
+# City Backstreets Generator
+# using modified city geomorphs from
+# "Lankhmar City of Adventure" TSR9162
+#
+# by KHEFEREN, Nov 2003
+#
+# Modified by Valminder, Nov 2003
+#    Fixed it to work with "Any".
+#
+# Modified by Valminder, Jan 2006.
+#    Adapted for TSv5.
+#    Added link to "Town Names.Generate"
+#    Removed "CityName" parameter.
+#    Added color to the graphics.
+#    Added some graphics.
+#    Added "Alternate" to be able to link this table to another one.
+# Modified by Valminder, Sept 2006.
+#    Renamed "MAP City District.tab" to be consistent with other MAP tables.
+#
+
+/OverrideRolls 1
+/OutputType HTML
+
+%Path1%,<IMG SRC="Graphics\CityDistGeomorphs\
+#%Path2%," WIDTH="288" HEIGHT="288" BORDER="0">
+%Path2%," WIDTH="330" HEIGHT="330" BORDER="0">
+
+%CityName%,0
+%District%,0
+%DistrictName%,0
+%A1%,0
+%A2%,0
+%B1%,0
+%B2%,0
+%GeoList%,0
+%tmp%,0
+%AltSize%,2
+
+@District,2,Select a city district for geomorphs,Show Instructions,Random,Upper Class,Middle Class,Lower Class,Trade,Civil
+#@CityName,Enter City Name,Enter the name of the City
+@AltSize,1,Choose Big map,Yes,No
+
+:Start
+1,{Status~By Kheferen 2003, Valminder 2003-2006, Lankhmar City of Adventure TSR9162}
+_{If~%District%=2 ? |District={Dice~1d5+2}|}
+_|DistrictName={Param~District,%District%}|
+_{If~%District% = 1 ? [Instructions] / [GenMap]}
+
+# -------------------------------------------------------------------------
+
+:Instructions
+1,This table generates a random map for the backstreets of a city. To use it, change the parameters (click the button in the upper left corner) to enter the city name and district, then click the 'Roll' button.
+
+# -------------------------------------------------------------------------
+
+# This is to call this table from another one.
+:Alternate
+1,{If~%District%=2?|District={Dice~1d5+2}|}
+_{If~%District%=1?|District={Dice~1d5+2}|}
+_|DistrictName={Param~District,%District%}|
+_[GenMap]
+
+# -------------------------------------------------------------------------
+
+;Tab
+1,{Loop~5,&nbsp;} 
+
+# -------------------------------------------------------------------------
+
+:GenMap
+1,<center>
+_{If~%AltSize%=2? |Path2=" WIDTH="288" HEIGHT="288" BORDER="0">|/|Path2=" WIDTH="330" HEIGHT="330" BORDER="0">|}
+##_<table border=1 align=center width=640>
+#_<table border=1 align=center width=670>
+_{If~%AltSize%=2? <table border=1 align=center width=610> / <table border=1 align=center width=670>}
+_<tr>
+##_<th colspan=3>City Geomorph for the backstreets of the city of {Note~%CityName%} (%DistrictName%)</th>
+_<th colspan=3>City Geomorph for the backstreets of the city of {Note~[Town Names.Generate]} (%DistrictName%)</th>
+_</tr>
+_<tr>
+##_<td width=40></td>
+#_<td width=10></td>
+_{If~%AltSize%=2? <td width=40> / <td width=10>}</td>
+##_<th width=288>A</th>
+##_<th width=288>B</th>
+#_<th width=330>A</th>
+#_<th width=330>B</th>
+_{If~%AltSize%=2? <th width=288> / <th width=330>}A</th>
+_{If~%AltSize%=2? <th width=288> / <th width=330>}B</th>
+_</tr>
+_<tr>
+_<td align=center><b>1</b></td>
+##_<td colspan=2 width=576 rowspan=2>[GetGeo]</td>
+#_<td colspan=2 width=660 rowspan=2>[GetGeo]</td>
+_{If~%AltSize%=2? <td colspan=2 width=576 rowspan=2> / <td colspan=2 width=660 rowspan=2>}[GetGeo]</td>
+_</tr>
+_<tr>
+_<td align=center><b>2</b></td>
+_</tr>
+##_<tr><td colspan=3 align=center><b>%DistrictName% District:</b>  
+##_</td></tr>
+_<tr>
+_<td colspan=3>
+_<b>Area:  A1</b>[Tab]<b>Geomorph:</b>  [GeoName=1]%tmp%
+_</td>
+_</tr>
+_<tr>
+_<td colspan=3>
+_<b>Area:  B1</b>[Tab]<b>Geomorph:</b>  [GeoName=2]%tmp%
+_</td>
+_</tr>
+_<tr>
+_<td colspan=3>
+_<b>Area:  A2</b>[Tab]<b>Geomorph:</b>  [GeoName=3]%tmp%
+_</td>
+_</tr>
+_<tr>
+_<td colspan=3>
+_<b>Area:  B2</b>[Tab]<b>Geomorph:</b>  [GeoName=4]%tmp%
+_</td>
+_</tr>
+_</table></center>
+#_{Debug~caption}
+
+# -------------------------------------------------------------------------
+
+:GetGeo
+1,|A1=%Path1%[%DistrictName%].gif%Path2%|%A1%
+_|B1=%Path1%[%DistrictName%].gif%Path2%|%B1%
+_|A2=%Path1%[%DistrictName%].gif%Path2%|%A2%
+_|B2=%Path1%[%DistrictName%].gif%Path2%|%B2%
+
+:GeoName
+1,|tmp=0||tmp={Find~1,.gif,%A1%}||tmp-34||tmp={Mid~%tmp%,38,%A1%}|
+2,|tmp=0||tmp={Find~1,.gif,%B1%}||tmp-34||tmp={Mid~%tmp%,38,%B1%}|
+3,|tmp=0||tmp={Find~1,.gif,%A2%}||tmp-34||tmp={Mid~%tmp%,38,%A2%}|
+4,|tmp=0||tmp={Find~1,.gif,%B2%}||tmp-34||tmp={Mid~%tmp%,38,%B2%}|
+
+# -------------------------------------------------------------------------
+
+:Upper Class
+1-80,[Wealthy]
+81-90,[Well]
+91-100,[Park]
+
+:Middle Class
+1-60,[Neighborhood]
+61-80,[MarketPlace]
+81-90,[Well]
+91-93,[Park]
+94-96,[Wealthy]
+97-100,[OpenField]
+
+:Lower Class
+1-40,[Slum]
+41-50,[Neighborhood]
+51-60,[MarketPlace]
+61-65,[Ruin]
+66-70,[Well]
+71-85,[OpenField]
+86-100,[BlackMarket]
+
+:Trade
+1-60,[MarketPlace]
+61-80,[BlackMarket]
+81-90,[Well]
+91-93,[Slum]
+94-98,[Neighborhood]
+99-100,[OpenField]
+
+:Civil
+1-40,[Wealthy]
+41-65,[Well]
+66-80,[MarketPlace]
+81-90,[Park]
+91-95,[OpenField]
+96-100,[Neighborhood]
+
+# -------------------------------------------------------------------------
+
+:!Neighborhood
+1,neigh1
+2,neigh2
+3,neigh3
+4,neigh4
+5,neigh5
+6,neigh6
+7,neigh7
+8,neigh8
+9,neigh9
+10,neigh10
+
+:!OpenField
+1,openfield1
+2,openfield2
+3,openfield3
+4,openfield4
+5,openfield5
+6,openfield6
+7,openfield7
+8,openfield8
+
+:!Park
+1,park1
+2,park2
+3,park3
+4,park4
+
+:!Well
+1,well1
+2,well2
+3,well3
+4,well4
+
+:!Wealthy
+1,wealthy1
+2,wealthy2
+3,wealthy3
+4,wealthy4
+5,wealthy5
+6,wealthy6
+7,wealthy7
+
+:!MarketPlace
+1,MarketPlace1
+2,MarketPlace2
+3,MarketPlace3
+4,MarketPlace4
+5,MarketPlace5
+6,MarketPlace6
+
+:!BlackMarket
+1,Blackmarket1
+2,Blackmarket2
+3,Blackmarket3
+4,Blackmarket4
+5,Blackmarket5
+6,Blackmarket6
+7,Blackmarket7
+8,Blackmarket8
+9,Blackmarket9
+10,Blackmarket10
+
+:!Ruin
+1,Ruin1
+2,Ruin2
+3,Ruin3
+
+:!Slum
+1,Slum1
+2,Slum2
+3,Slum3
+4,Slum4
+5,Slum5
+6,Slum6
+7,Slum7
+8,Slum8
+9,Slum9
+10,Slum10
+11,Slum11
+12,Slum12
+13,Slum13
+14,Slum14
+15,Slum15
+16,Slum16
+
+:!GeoList
+1,neigh1
+2,neigh2
+3,neigh3
+4,neigh4
+5,neigh5
+6,neigh6
+7,neigh7
+8,neigh8
+9,neigh9
+10,neigh10
+11,openfield1
+12,openfield2
+13,openfield3
+14,openfield4
+15,openfield5
+16,park1
+17,park2
+18,park3
+19,park4
+20,well1
+21,well2
+22,well3
+23,well4
+24,wealthy1
+25,wealthy2
+26,wealthy3
+27,wealthy4
+28,wealthy5
+29,MarketPlace1
+30,MarketPlace2
+31,MarketPlace3
+32,MarketPlace4
+33,Blackmarket1
+34,Blackmarket2
+35,Blackmarket3
+36,Blackmarket4
+37,Blackmarket5
+38,Blackmarket6
+39,Ruin1
+40,Ruin2
+41,Ruin3
+42,Slum1
+43,Slum2
+44,Slum3
+45,Slum4
+46,Slum5
+47,Slum6
+48,Slum7
+49,Slum8
+50,Slum9
+51,Slum10
+52,Slum11
+53,Slum12
+# New Tiles Jan 2006 (Valminder)
+54,Blackmarket7
+55,Blackmarket8
+56,Blackmarket9
+57,Blackmarket10
+58,MarketPlace5
+59,MarketPlace6
+60,openfield6
+61,openfield7
+62,openfield8
+63,wealthy6
+64,wealthy7
+65,Slum13
+66,Slum14
+67,Slum15
+68,Slum16

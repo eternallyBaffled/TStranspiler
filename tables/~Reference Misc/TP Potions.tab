@@ -1,0 +1,181 @@
+# ------------------------------------------------------
+# Last Update: modified by Valminder Jan 02, 2014.
+# ------------------------------------------------------
+#
+# Note for customizing: Each table assumes that
+# the items are listed in order of value.
+#
+# Modified by Valminder, January 2014.
+#    Added link to: 
+#         Miscellaneous.ColorNoType
+#         Miscellaneous.Metal
+#         Miscellaneous.Odor2
+#         Miscellaneous.Stone
+#
+
+%minVal%,0
+%maxVal%,99999999
+%power%,0
+%format%,0
+%tries%,0
+%maxTries%,0
+%temp%,0
+%inRange%,0
+%group%,0
+%item%,0
+%name%,0
+%value%,0
+%desc%,0
+%aura%,0
+%valMinItem%,0
+%valMaxItem%,0
+%itemsDS%,0
+%index%,0
+%potiontype%,0
+
+@minVal,0,Enter minimum value (in gp):
+@maxVal,99999999,Enter maximum value (in gp):
+@power,4,Degree of Power:,Minor,Medium,Major,Random
+@format,1,Select format:,Human-readable,Delimited for other table
+@maxTries,10,Number of attempts:
+
+:Start
+1,{DSRead~itemsDS,TP Potions}
+_|temp=[CheckParams]|{If~%temp%=OK?[Continue]/ %temp%}
+_{Status~}
+
+:Continue
+1,|tries=0|{While~%tries%<%maxTries%,[GenItem][CheckValueInRange]{If~%inRange%=yes?|tries=maxTries|/|tries+1|}}
+_{If~%inRange%=no?[Error=4]/ [DisplayItem=%format%]}
+
+:GenItem
+1,|group={Iif~%power%=4?{Param~power,{Dice~1d3}}:{Param~power,%power%}}|
+_{Status~Attempt POTION #{Calc~%tries%+1} of %maxTries%}
+_|index={DSRoll~itemsDS,{LCase~%group%}roll}|
+_|potiontype={If~{DSGet~itemsDS,%index%,oil}=1?oil/potion}|
+_|name=%potiontype% of {DSGet~itemsDS,%index%,name}|
+_|value={DSGet~itemsDS,%index%,value}|
+_|aura={DSGet~itemsDS,%index%,aura}|
+_|desc=[GenDesc]|
+
+#
+# Note: The "0" in entry 2 below is for weight; potions are considered to
+# have no weight, but this is a placeholder to fit the item standard used
+# by other tables.
+#
+:DisplayItem
+1,{Bold~{Cap~%name%}}
+_{CR~}Description: {Cap~%desc%}{CR~}Value: %value% gp
+_{CR~}Aura: {Italic~%aura%}
+2,%name%!%value%!0!%aura%!%desc%
+
+
+# ----------------------------------------------------
+# Initialization and parameter validation
+:CheckParams
+1,{If~%minVal%<=%maxVal%?OK/ [Error=1]}
+
+:CheckValueInRange
+1,|inRange={If~{And~%minVal%<=%value%,%value%<=%maxVal%}=1?yes/no}|
+
+:Error
+1,ERR001: Invalid min and/or max values
+2,ERR002: Minimum value given greater than maximum value for selected group
+3,ERR003: Maximum value given less than minimum value for selected group
+4,ERR005: Couldn't generate item in %tries% tries
+
+# ----------------------------------------------------
+
+;Alignment
+1,law
+1,chaos
+1,good
+1,evil
+
+;Energy
+1,sonic
+1,acid
+1,fire
+1,electricity
+1,cold
+
+:GenDesc
+1,[Container] [Containing] {AorAn~[Color]}, [Odor], [Viscosity] [Liquid]
+
+;Container
+1,[Material] [ContainerType]
+
+;Containing
+1,containing
+1,filled with
+1,full of
+1,which contains
+
+;Material
+1,crystal
+2,porcelain
+7,glass
+1,[Metal]
+1,[Stone]
+5,ceramic
+
+;Metal
+5,copper
+5,tin
+5,steel
+1,silver
+1,brass
+10,[~Metal2]
+
+;Metal2
+1,{Cap~[Miscellaneous.Metal]}
+
+;Stone
+5,soapstone
+3,bloodstone
+1,ivory
+4,[~Stone2]
+
+;Stone2
+1,{Cap~[Miscellaneous.Stone]}
+
+;ContainerType
+1,bottle
+1,vial
+1,phial
+1,flask
+
+;Color
+1,red
+1,blue
+1,green
+1,black
+1,white
+1,yellow
+1,orange
+10,[~Miscellaneous.ColorNoType]
+
+;Odor
+5,odorless
+1,smoky-smelling
+1,pungent
+1,flowery-smelling
+1,almond-smelling
+1,musty-smelling
+20,[~Miscellaneous.Odor2]-smelling
+
+;Viscosity
+1,milky
+1,watery
+1,pulpy
+1,thick
+1,oily
+1,thin
+
+;Liquid
+1,liquid
+1,fluid
+1,elixir
+1,solution
+1,substance
+1,material

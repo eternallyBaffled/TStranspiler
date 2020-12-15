@@ -1,0 +1,295 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder July 04, 2018.
+# ---------------------------------------------------
+#
+# SRD Traps
+# by Larry Cormier
+#
+# Fully Described Trap Stat Block as derived from the D&D version 3.5 SRD
+#
+# -------------------------------------------------------------------------
+# This Table Links to these tables as required:
+#    None
+#
+# -------------------------------------------------------------------------
+# This table is called by: (can be called by other tables also)
+#    Traps.tab
+#
+# -------------------------------------------------------------------------
+#
+# Modified by Valminder, Dec 2005
+# Modified by Valminder, July 2018
+#    Added version for "Pathfinder".
+#    Added Pathfinder traps in "SRD Traps.tab"
+#    Changed max CR to 20.
+#
+
+# Define Variables
+%Instructions%,0
+%LowValue%,0
+%HighValue%,0
+%CR%,0
+%CR_Range%,0
+%TempNumber%,0
+%Version%,0
+
+@LowValue,1,Enter the Lowest Challenge Rating Desired (1-20):
+@HighValue,20,Enter the Highest Challenge Rating Desired (1-20):
+@Version,1,What version of d20 do you use?,LOAD from Permanent Variables,3.5,Pathfinder
+@Instructions,1,Would you like to re-show the Instructions?,Yes,No
+
+:Start
+1,{If~%Instructions%=1? [Instructions]/[DetermineTrap]}
+
+:Instructions
+1,This table generates a Random list of D&D 3.5 Edition Traps based on the Challenge Rating Desired.
+_<br><br>Use the Parameter Button located in the Upper Left-hand corner of the screen to Input the Challenge Rating ranges desired to get started.
+
+:VersionNeeded
+1,{If~%Version%=1?|Version=[Permanent_Variables.Version]|}
+
+:DetermineTrap
+1,[VersionNeeded][CalculateCR_Range][TrapBranch=%CR%]
+
+:CalculateCR_Range
+1,{If~%LowValue%>%HighValue% ? [ReverseRanges]}
+_{If~%LowValue%<1?|LowValue=1|}{If~%HighValue%>20?|HighValue=20|}
+_ |CR_Range={Calc~((%HighValue%-%LowValue%)+1)}|
+_ |TempNumber={Dice~1d%CR_Range%}|
+_ |CR={Calc~((%TempNumber%+%LowValue%)-1)}|
+_ {If~%LowValue%=%HighValue% ? |CR=%LowValue%|}
+
+:ReverseRanges
+1,|TempNumber=%LowValue%||LowValue=%HighValue%||HighValue=%TempNumber%|
+
+:TrapBranch
+1,[CR1Trap]
+2,[CR2Trap]
+3,[CR3Trap]
+4,[CR4Trap]
+5,[CR5Trap]
+6,[CR6Trap]
+7,[CR7Trap]
+8,[CR8Trap]
+9,[CR9Trap]
+10,[CR10Trap]
+
+:CR1Trap
+1,[VersionNeeded]{If~%Version%=2?{Bold~Basic Arrow Trap: (3.5E)} CR 1; mechanical; proximity trigger; manual reset; Atk +10 ranged (1d6[Slash]x3, arrow); Search DC 20; Disable Device DC 20. Market Price: 2,000 gp.
+_/{Bold~Arrow Trap: (PF)} CR 1; mechanical; touch trigger; no reset; Atk +15 ranged (1d8+1[Slash]x3, arrow); Perception DC 20; Disable Device DC 20. Market Price: 2,000 gp.}
+2,[VersionNeeded]{Bold~Camouflaged Pit Trap: (3.5E)} CR 1; mechanical; location trigger; manual reset; DC 20 Reflex save avoids; 10 ft. deep (1d6, fall); {If~%Version%=2?Search/Perception} DC 24; Disable Device DC 20. Market Price: 1,800 gp.
+3,[VersionNeeded]{If~%Version%=2?{Bold~Deeper Pit Trap: (3.5E)} CR 1; mechanical; location trigger; manual reset; hidden switch bypass (Search DC 25); DC 15 Reflex save avoids; 20 ft. deep (2d6, fall); multiple targets (first target in each of two adjacent 5-ft. squares); Search DC 20; Disable Device DC 23. Market Price: 1,300 gp.
+_/{Bold~Pit Trap: (PF)} CR 1; mechanical; location trigger; manual reset; hidden switch bypass (Perception DC 25); DC 20 Reflex save avoids; 20 ft. deep (2d6, fall); multiple targets (all targets in a 10' square area); Perception DC 20; Disable Device DC 20. Market Price: 1,300 gp.}
+4,[VersionNeeded]{Bold~Fusillade of Darts: (3.5E)} CR 1; mechanical; location trigger; manual reset; Atk +10 ranged (1d4+1, dart); multiple targets (fires 1d4 darts at each target in two adjacent 5-ft. squares); {If~%Version%=2?Search/Perception} DC 14; Disable Device DC 20. Market Price: 500 gp.
+5,[VersionNeeded]{Bold~Poison Dart Trap: (3.5E)} CR 1; mechanical; location trigger; manual reset; Atk +8 ranged (1d4 plus poison, dart); poison (bloodroot, {If~%Version%=2?DC 12 Fortitude save resists, 0[Slash]1d4 Con plus 1d3 Wis/DC12 (onset 1r) 1 CON +1 WIS, 1[Slash]r for 4r (1 save)}); {If~%Version%=2?Search/Perception} DC 20; Disable Device DC 18. Market Price: 700 gp.
+6,[VersionNeeded]{If~%Version%=2?{Bold~Poison Needle Trap: (3.5E)} CR 1; mechanical; touch trigger; manual reset; Atk +8 ranged (1 plus greenblood oil poison); Search DC 22; Disable Device DC 20. Market Price: 1,300 gp.
+_/{Bold~Poison Dart Trap: (PF)} CR 1; mechanical; touch trigger; no reset; Atk +10 ranged (1d3 plus greenblood oil poison, DC13, 1 CON, 1[Slash]r for 4 r (1 save)); Perception DC 20; Disable Device DC 20. Market Price: 1,300 gp.}
+7,[VersionNeeded]{Bold~Portcullis Trap: (3.5E)} CR 1; mechanical; location trigger; manual reset; Atk +10 melee (3d6); {If~%Version%=2?Search/Perception} DC 20; Disable Device DC 20. Note: Damage applies only to those underneath the portcullis. Portcullis blocks passageway. Market Price: 1,400 gp.
+8,[VersionNeeded]{Bold~Razor-Wire across Hallway: (3.5E)} CR 1; mechanical; location trigger; no reset; Atk +10 melee (2d6, wire); multiple targets (first target in each of two adjacent 5-ft. squares); {If~%Version%=2?Search/Perception} DC 22; Disable Device DC 15. Market Price: 400 gp.
+9,[VersionNeeded]{Bold~Rolling Rock Trap: (3.5E)} CR 1; mechanical; location trigger; manual reset; Atk +10 melee (2d6, rock); {If~%Version%=2?Search/Perception} DC 20; Disable Device DC 22. Market Price: 1,400 gp.
+10,[VersionNeeded]{If~%Version%=2?{Bold~Scything Blade Trap: (3.5E)} CR 1; mechanical; location trigger; automatic reset; Atk +8 melee (1d8[Slash]x3); Search DC 21; Disable Device DC 20. Market Price: 1,700 gp.
+_/{Bold~Swinging Axe Trap: (PF)} CR 1; mechanical; location trigger; manual reset; Atk +10 melee (1d8+1[Slash]x3, all targets in a 10' line); Perception DC 20; Disable Device DC 20. Market Price: 1,700 gp.}
+11,[VersionNeeded]{Bold~Spear Trap: (3.5E)} CR 1; mechanical; location trigger; manual reset; Atk +12 ranged (1d8[Slash]x3, spear); {If~%Version%=2?Search/Perception} DC 20; Disable Device DC 20. Note: 200-ft. max range, target determined randomly from those in its path. Market Price: 1,200 gp.
+12,[VersionNeeded]{Bold~Swinging Block Trap: (3.5E)} CR 1; mechanical; touch trigger; manual reset; Atk +5 melee (4d6, stone block); {If~%Version%=2?Search/Perception} DC 20; Disable Device DC 20. Market Price: 500 gp.
+13,[VersionNeeded]{Bold~Wall Blade Trap: (3.5E)} CR 1; mechanical; touch trigger; automatic reset; hidden switch bypass ({If~%Version%=2?Search/Perception} DC 25); Atk +10 melee (2d4[Slash]x4, scythe); {If~%Version%=2?Search/Perception} DC 22; Disable Device DC 22. Market Price: 2,500 gp.
+
+:CR2Trap
+1,[VersionNeeded]{Bold~Box of Brown Mold: (3.5E)} CR 2; mechanical; touch trigger (opening the box); automatic reset; 5-ft. cold aura (3d6, cold nonlethal); {If~%Version%=2?Search/Perception} DC 22; Disable Device DC 16. Market Price: 3,000 gp.
+2,[VersionNeeded]{Bold~Bricks from Ceiling: (3.5E)} CR 2; mechanical; touch trigger; repair reset; Atk +12 melee (2d6, bricks); multiple targets (all targets in two adjacent 5-ft. squares); {If~%Version%=2?Search/Perception} DC 20; Disable Device DC 20. Market Price: 2,400 gp.
+3,[VersionNeeded]{If~%Version%=2?{Bold~Burning Hands Trap: (3.5E)} CR 2; magic device; proximity trigger ({Italic~alarm}); automatic reset; spell effect ({Italic~burning hands}, 1st-level wizard, 1d4 fire, DC 11 Reflex half); Search DC 26; Disable Device DC 26. Cost: 500 gp{If~%Version%=2?, 40 XP}.
+_/{Bold~Burning Hands Trap: (PF)} CR 2; magic device; proximity trigger ({Italic~alarm}); none; spell effect ({Italic~burning hands}, 2d4 Fire, DC 11 Reflex half, all targets in 15' cone); Perception DC 26; Disable Device DC 26. Cost: 500 gp.}
+4,[VersionNeeded]{Bold~Camouflaged Pit Trap: (3.5E)} CR 2; mechanical; location trigger; manual reset; DC 20 Reflex save avoids; 20 ft. deep (2d6, fall); multiple targets (first target in each of two adjacent 5-ft. squares); {If~%Version%=2?Search/Perception} DC 24; Disable Device DC 19. Market Price: 3,400 gp.
+5,[VersionNeeded]{Bold~Inflict Light Wounds Trap: (3.5E)} CR 2; magic device; touch trigger; automatic reset; spell effect ({Italic~inflict light wounds}, 1st-level cleric, 1d8+1, DC 11 Will half); {If~%Version%=2?Search/Perception} DC 26; Disable Device DC 26. Cost: 500 gp{If~%Version%=2?, 40 XP}.
+6,[VersionNeeded]{If~%Version%=2?{Bold~Javelin Trap: (3.5E)} CR 2; mechanical; location trigger; manual reset; Atk +16 ranged (1d6+4, javelin); Search DC 20; Disable Device DC 18. Market Price: 4,800 gp.
+_/{Bold~Javelin Trap: (PF)} CR 2; mechanical; location trigger; none; Atk +15 ranged (1d6+6, javelin); Perception DC 20; Disable Device DC 20. Market Price: 4,800 gp.}
+7,[VersionNeeded]{Bold~Large Net Trap: (3.5E)} CR 2; mechanical; location trigger; manual reset; Atk +5 melee (see note); {If~%Version%=2?Search/Perception} DC 20; Disable Device DC 25. Note: Characters in 10-ft. square are grappled by net (Str 18) if they fail a DC 14 Reflex save. Market Price: 3,000 gp.
+8,[VersionNeeded]{Bold~Pit Trap: (3.5E)} CR 2; mechanical, location trigger; manual reset; DC 20 Reflex save avoids; 40 ft. deep (4d6, fall); {If~%Version%=2?Search/Perception} DC 20; Disable Device DC 20. Market Price: 2,000 gp.
+9,[VersionNeeded]{Bold~Poison Needle Trap: (3.5E)} CR 2; mechanical; touch trigger; repair reset; lock bypass (Open Lock DC 30); Atk +17 melee (1 plus poison, needle); poison (blue whinnis, {If~%Version%=2?DC 14 Fortitude save resists (poison only), 1 Con[Slash]unconsciousness/DC14, 1 CON +Unconscious 1d3h, 1[Slash]r for 2r (1 save)}); {If~%Version%=2?Search/Perception} DC 22; Disable Device DC 17. Market Price: 4,720 gp.
+10,[VersionNeeded]{If~%Version%=2?{Bold~Spiked Pit Trap: (3.5E)} CR 2; mechanical; location trigger; automatic reset; DC 20 Reflex save avoids; 20 ft. deep (2d6, fall); multiple targets (first target in each of two adjacent 5-ft. squares); pit spikes (Atk +10 melee, 1d4 spikes per target for 1d4+2 each); Search DC 18; Disable Device DC 15. Market Price: 1,600 gp.
+_/{Bold~Spiked Pit Trap: (PF)} CR 2; mechanical; location trigger; manual reset; DC 20 Reflex save avoids; 10 ft. deep (1d6, fall); multiple targets (all in a 10' aquare area); pit spikes (Atk +10 melee, 1d4 spikes per target for 1d4+2 each); Perception DC 20; Disable Device DC 20. Market Price: 1,600 gp.}
+11,[VersionNeeded]{Bold~Tripping Chain: (3.5E)} CR 2; mechanical; location trigger; automatic reset; multiple traps (tripping and melee attack); Atk +15 melee touch (trip), Atk +15 melee (2d4+2, spiked chain); {If~%Version%=2?Search/Perception} DC 15; Disable Device DC 18. Market Price: 3,800 gp. Note: This trap is really one CR 1 trap that trips and a second CR 1 trap that attacks with a spiked chain. If the tripping attack succeeds, a +4 bonus applies to the spiked chain attack because the opponent is prone.
+12,[VersionNeeded]{Bold~Well-Camouflaged Pit Trap: (3.5E)} CR 2; mechanical; location trigger; repair reset; DC 20 Reflex save avoids; 10 ft. deep (1d6, fall); {If~%Version%=2?Search/Perception} DC 27; Disable Device DC 20. Market Price: 4,400 gp.
+# New
+13,[VersionNeeded]{Bold~Summon Monster I Trap: ({If~%Version%=2?3.5E/PF})} CR 2; magic device; proximity trigger ({Italic~alarm}); no reset; spell effect ({Italic~summon monster I} ({If~%Version%=2?[~Creatures.SumMon1]/[~Creatures.SumMonPF1]}), 1st-level wizard), {If~%Version%=2?Search/Perception} DC 26; Disable Device DC 26. Cost: ??? gp.
+
+:CR3Trap
+1,[VersionNeeded]{Bold~Burning Hands Trap: (3.5E)} CR 3; magic device; proximity trigger ({Italic~alarm}); automatic reset; spell effect ({Italic~burning hands}, 5th-level wizard, 5d4 fire, DC 11 Reflex half); {If~%Version%=2?Search/Perception} DC 26; Disable Device DC 26. Cost: 2,500 gp{If~%Version%=2?, 200 XP}.
+2,[VersionNeeded]{If~%Version%=2?{Bold~Camouflaged Pit Trap: (3.5E)} CR 3; mechanical; location trigger; manual reset; DC 20 Reflex save avoids; 30 ft. deep (3d6, fall); multiple targets (first target in each of two adjacent squares); Search DC 24; Disable Device DC 18. Market Price: 4,800 gp.
+_/{Bold~Camouflaged Pit Trap: (PF)} CR 3; mechanical; location trigger; manual reset; DC 20 Reflex save avoids; 30 ft. deep (3d6, fall); multiple targets (all targets in a 10' square); Perception DC 25; Disable Device DC 20. Market Price: 4,800 gp.}
+3,[VersionNeeded]{Bold~Ceiling Pendulum: (3.5E)} CR 3; mechanical; timed trigger; automatic reset; Atk +15 melee (1d12+8[Slash]x3, greataxe); {If~%Version%=2?Search/Perception} DC 15; Disable Device DC 27. Market Price: 14,100 gp.
+4,[VersionNeeded]{Bold~Fire Trap: (3.5E)} CR 3; spell; spell trigger; no reset; spell effect (fire trap, 3rd-level druid, 1d4+3 fire, DC 13 Reflex half); {If~%Version%=2?Search/Perception} DC 27; Disable Device DC 27. Cost: 85 gp to hire NPC spellcaster.
+5,[VersionNeeded]{Bold~Extended Bane Trap: (3.5E)} CR 3; magic device; proximity trigger (detect good); automatic reset; spell effect (extended {Italic~bane}, 3rd-level cleric, DC 13 Will save negates); {If~%Version%=2?Search/Perception} DC 27; Disable Device DC 27. Cost: 3,500 gp{If~%Version%=2?, 280 XP}.
+6,[VersionNeeded]{Bold~Ghoul Touch Trap: (3.5E)} CR 3; magic device; touch trigger; automatic reset; spell effect ({Italic~ghoul touch}, 3rd-level wizard, DC 13 Fortitude save negates); {If~%Version%=2?Search/Perception} DC 27; Disable Device DC 27. Cost: 3,000 gp{If~%Version%=2?, 240 XP}. 
+7,[VersionNeeded]{Bold~Hail of Needles: (3.5E)} CR 3; mechanical; location trigger; manual reset; Atk +20 ranged (2d4); {If~%Version%=2?Search/Perception} DC 22; Disable Device DC 22. Market Price: 5,400 gp.
+8,[VersionNeeded]{If~%Version%=2?{Bold~Acid Arrow Trap: (3.5E)} CR 3; magic device; proximity trigger ({Italic~alarm}); automatic reset; Atk +2 ranged touch; spell effect ({Italic~acid arrow}, 3rd-level wizard, 2d4 acid[Slash]round for 2 rounds); Search DC 27; Disable Device DC 27. Cost: 3,000 gp{If~%Version%=2?, 240 XP}.
+_/{Bold~Acid Arrow Trap: (PF)} CR 3; magic device; proximity trigger ({Italic~alarm}); none; Atk +2 ranged touch; spell effect ({Italic~acid arrow}, 2d4 acid[Slash]round for 4 rounds); Perception DC 27; Disable Device DC 27. Cost: 3,000 gp.}
+9,[VersionNeeded]{Bold~Pit Trap: (3.5E)} CR 3; mechanical, location trigger; manual reset; DC 20 Reflex save avoids; 60 ft. deep (6d6, fall); {If~%Version%=2?Search/Perception} DC 20; Disable Device DC 20. Market Price: 3,000 gp.
+10,[VersionNeeded]{Bold~Poisoned Arrow Trap: (3.5E)} CR 3; mechanical; touch trigger; manual reset; lock bypass (Open Lock DC 30); Atk +12 ranged (1d8 plus poison, arrow); poison (Large monstrous scorpion venom, {If~%Version%=2?DC 14 Fortitude save resists, 1d4 Con[Slash]1d4 Con/DC17, 1d2 STR, 1[Slash]r for 6r (1 save)}); {If~%Version%=2?Search/Perception} DC 19; Disable Device DC 15. Market Price: 2,900 gp.
+11,[VersionNeeded]{Bold~Spiked Pit Trap: (3.5E)} CR 3; mechanical; location trigger; manual reset; DC 20 Reflex save avoids; 20 ft. deep (2d6, fall); multiple targets (first target in each of two adjacent 5-ft. squares); pit spikes (Atk +10 melee, 1d4 spikes per target for 1d4+2 each); {If~%Version%=2?Search/Perception} DC 21; Disable Device DC 20. Market Price: 3,600 gp.
+12,[VersionNeeded]{Bold~Stone Blocks from Ceiling: (3.5E)} CR 3; mechanical; location trigger; repair reset; Atk +10 melee (4d6, stone blocks); {If~%Version%=2?Search/Perception} DC 25; Disable Device DC 20. Market Price: 5,400 gp.
+# New
+13,[VersionNeeded]{Bold~Summon Monster II Trap: ({If~%Version%=2?3.5E/PF})} CR 3; magic device; proximity trigger ({Italic~alarm}); no reset; spell effect ({Italic~summon monster II} ({If~%Version%=2?[~Creatures.SumMon2]/[~Creatures.SumMonPF2]}), 3rd-level wizard), {If~%Version%=2?Search/Perception} DC 27; Disable Device DC 27. Cost: ??? gp.
+
+:CR4Trap
+1,[VersionNeeded]{Bold~Bestow Curse Trap: (3.5E)} CR 4; magic device; touch trigger (detect chaos); automatic reset; spell effect ({Italic~bestow curse}, 5th-level cleric, DC 14 Will save negates); {If~%Version%=2?Search/Perception} DC 28; Disable Device DC 28. Cost: 8,000 gp{If~%Version%=2?, 640 XP}.
+2,[VersionNeeded]{Bold~Camouflaged Pit Trap: (3.5E)} CR 4; mechanical; location trigger; manual reset; DC 20 Reflex save avoids; 40 ft. deep (4d6, fall); multiple targets (first target in each of two adjacent 5-ft. squares); {If~%Version%=2?Search/Perception} DC 25; Disable Device DC 17. Market Price: 6,800 gp. 
+3,[VersionNeeded]{Bold~Collapsing Column: (3.5E)} CR 4; mechanical; touch trigger (attached); no reset; Atk +15 melee (6d6, stone blocks); {If~%Version%=2?Search/Perception} DC 20; Disable Device DC 24. Market Price: 8,800 gp.
+4,[VersionNeeded]{Bold~Glyph of Warding (Blast): (3.5E)} CR 4; spell; spell trigger; no reset; spell effect (glyph of warding (blast), 5th-level cleric, 2d8 acid, DC 14 Reflex half); multiple targets (all targets within 5 ft.); {If~%Version%=2?Search/Perception} DC 28; Disable Device DC 28. Cost: 350 gp to hire NPC spellcaster.
+5,[VersionNeeded]{Bold~Lightning Bolt Trap: (3.5E)} CR 4; magic device; proximity trigger ({Italic~alarm}); automatic reset; spell effect ({Italic~lightning bolt}, 5th-level wizard, 5d6 electricity, DC 14 Reflex half); {If~%Version%=2?Search/Perception} DC 28; Disable Device DC 28. Cost: 7,500 gp{If~%Version%=2?, 600 XP}.
+6,[VersionNeeded]{Bold~Pit Trap: (3.5E)} CR 4; mechanical, location trigger; manual reset; DC 20 Reflex save avoids; 80 ft. deep (8d6, fall); {If~%Version%=2?Search/Perception} DC 20; Disable Device DC 20. Market Price: 4,000 gp.
+7,[VersionNeeded]{Bold~Poisoned Dart Trap: (3.5E)} CR 4; mechanical; location trigger; manual reset; Atk +15 ranged (1d4+4 plus poison, dart); multiple targets (1 dart per target in a 10-ft.-by-10-ft. area); poison (Small monstrous centipede poison, {If~%Version%=2?DC 10 Fortitude save resists, 1d2 Dex[Slash]1d2 Dex/DC11, 1 DEX, 1[Slash]r for 4r (1 save)}); {If~%Version%=2?Search/Perception} DC 21; Disable Device DC 22. Market Price: 12,090 gp.
+8,[VersionNeeded]{Bold~Sepia Snake Sigil Trap: (3.5E)} CR 4; spell; spell trigger; no reset; spell effect (sepia snake sigil, 5th-level wizard, DC 14 Reflex save negates); {If~%Version%=2?Search/Perception} DC 28; Disable Device DC 28. Cost: 650 gp to hire NPC spellcaster.
+9,[VersionNeeded]{Bold~Spiked Pit Trap: (3.5E)} CR 4; mechanical; location trigger; automatic reset; DC 20 Reflex save avoids; 60 ft. deep (6d6, fall); pit spikes (Atk +10 melee, 1d4 spikes per target for 1d4+5 each); {If~%Version%=2?Search/Perception} DC 20; Disable Device DC 20. Market Price: 4,000 gp. 
+10,[VersionNeeded]{If~%Version%=2?{Bold~Wall Scythe Trap: (3.5E)} CR 4; mechanical; location trigger; automatic reset; Atk +20 melee (2d4+8[Slash]x4, scythe); Search DC 21; Disable Device DC 18. Market Price: 17,200 gp.
+_/{Bold~Wall Scythe Trap: (PF)} CR 4; mechanical; location trigger; automatic reset; Atk +20 melee (2d4+6[Slash]x4, scythe); Perception DC 21; Disable Device DC 20. Market Price: 17,200 gp.}
+11,[VersionNeeded]{Bold~Water-Filled Room Trap: (3.5E)} CR 4; mechanical; location trigger; automatic reset; multiple targets (all targets in a 10-ft.-by-10-ft. room); never miss; onset delay (5 rounds); liquid; {If~%Version%=2?Search/Perception} DC 17; Disable Device DC 23. Market Price: 11,200 gp.
+12,[VersionNeeded]{Bold~Wide-Mouth Spiked Pit Trap: (3.5E)} CR 4; mechanical; location trigger; manual reset; DC 20 Reflex save avoids; 20 ft. deep (2d6, fall); multiple targets (first target in each of two adjacent 5-ft. squares); pit spikes (Atk +10 melee, 1d4 spikes per target for 1d4+2 each); {If~%Version%=2?Search/Perception} DC 18; Disable Device DC 25. Market Price: 7,200 gp.
+13,[VersionNeeded]{Bold~Electricity Arc: (PF)} CR 4; mechanical; touch; no reset; electricity arc, 4d6 electricity, DC 20 Reflex half); Perception DC 25; Disable Device DC 20. Cost: ??? gp.
+# New
+14,[VersionNeeded]{Bold~Summon Monster III Trap: ({If~%Version%=2?3.5E/PF})} CR 4; magic device; proximity trigger ({Italic~alarm}); no reset; spell effect ({Italic~summon monster III} ({If~%Version%=2?[~Creatures.SumMon3]/[~Creatures.SumMonPF3]}), 5th-level wizard), {If~%Version%=2?Search/Perception} DC 28; Disable Device DC 28. Cost: ??? gp.
+
+:CR5Trap
+1,[VersionNeeded]{Bold~Camouflaged Pit Trap: (3.5E)} CR 5; mechanical; location trigger; manual reset; DC 20 Reflex save avoids; 50 ft. deep (5d6, fall); multiple targets (first target in each of two adjacent 5-ft. squares); {If~%Version%=2?Search/Perception} DC 25; Disable Device DC 17. Market Price: 8,500 gp.
+2,[VersionNeeded]{Bold~Doorknob Smeared with Contact Poison: (3.5E)} CR 5; mechanical; touch trigger (attached); manual reset; poison (nitharit, {If~%Version%=2?DC 13 Fortitude save resists, 0[Slash]3d6 Con/DC13 (onset 1 minute) 1d3 CON, 1[Slash]min for 6 min (1 save)}); {If~%Version%=2?Search/Perception} DC 25; Disable Device DC 19. Market Price: 9,650 gp.
+3,[VersionNeeded]{If~%Version%=2?{Bold~Falling Block Trap: (3.5E)} CR 5; mechanical; location trigger; manual reset; Atk +15 melee (6d6); multiple targets (can strike all characters in two adjacent specified squares); Search DC 20; Disable Device DC 25. Market Price: 15,000 gp.
+_/{Bold~Falling Block Trap: (PF)} CR 5; mechanical; location trigger; manual reset; Atk +15 melee (6d6); multiple targets (all targets in a 10' square); Perception DC 20; Disable Device DC 20. Market Price: 15,000 gp.}
+4,[VersionNeeded]{Bold~Fire Trap: (3.5E)} CR 5; spell; spell trigger; no reset; spell effect (fire trap, 7th-level wizard, 1d4+7 fire, DC 16 Reflex half); {If~%Version%=2?Search/Perception} DC 29; Disable Device DC 29. Cost: 305 gp to hire NPC spellcaster.
+5,[VersionNeeded]{If~%Version%=2?{Bold~Fireball Trap: (3.5E)} CR 5; magic device; touch trigger; automatic reset; spell effect ({Italic~fireball}, 8th-level wizard, 8d6 fire, 20' radius, DC 14 Reflex half); Search DC 28; Disable Device DC 28. Cost: 12,000 gp{If~%Version%=2?, 960 XP}.
+_/{Bold~Fireball Trap: (PF)} CR 5; magic device; proximity trigger ({Italic~alarm}); no reset; spell effect ({Italic~fireball}, 6th-level wizard, 6d6 fire, 20' radius, DC 14 Reflex half); Perception DC 28; Disable Device DC 28. Cost: 12,000 gp.}
+6,[VersionNeeded]{Bold~Flooding Room Trap: (3.5E)} CR 5; mechanical; proximity trigger; automatic reset; no attack roll necessary (see note below); {If~%Version%=2?Search/Perception} DC 20; Disable Device DC 25. Note: Room floods in 4 rounds. Market Price: 17,500 gp.
+7,[VersionNeeded]{Bold~Fusillade of Darts: (3.5E)} CR 5; mechanical; location trigger; manual reset; Atk +18 ranged (1d4+1, dart); multiple targets (1d8 darts per target in a 10-ft.-by-10-ft. area); {If~%Version%=2?Search/Perception} DC 19; Disable Device DC 25. Market Price: 18,000 gp.
+8,[VersionNeeded]{Bold~Moving Executioner Statue: (3.5E)} CR 5; mechanical; location trigger; automatic reset; hidden switch bypass ({If~%Version%=2?Search/Perception} DC 25); Atk +16 melee (1d12+8[Slash]x3, greataxe); multiple targets (both arms attack); {If~%Version%=2?Search/Perception} DC 25; Disable Device DC 18. Market Price: 22,500 gp.
+9,[VersionNeeded]{Bold~Phantasmal Killer Trap: (3.5E)} CR 5; magic device; proximity trigger ({Italic~alarm} covering the entire room); automatic reset; spell effect ({Italic~phantasmal killer}, 7th-level wizard, DC 16 Will save for disbelief and DC 16 Fort save for partial effect); {If~%Version%=2?Search/Perception} DC 29; Disable Device DC 29. Cost: 14,000 gp{If~%Version%=2?, 1120 XP}.
+10,[VersionNeeded]{Bold~Pit Trap: (3.5E)} CR 5; mechanical, location trigger; manual reset; DC 20 Reflex save avoids; 100 ft. deep (10d6, fall); {If~%Version%=2?Search/Perception} DC 20; Disable Device DC 20. Market Price: 5,000 gp.
+11,[VersionNeeded]{Bold~Poison Wall Spikes: (3.5E)} CR 5; mechanical; location trigger; manual reset; Atk +16 melee (1d8+4 plus poison, spike); multiple targets (closest target in each of two adjacent 5-ft. squares); poison (Medium monstrous spider venom, {If~%Version%=2?DC 12 Fortitude save resists, 1d4 Str[Slash]1d4 Str/DC14, 1d2 STR, 1[Slash]r for 4r (1 save)}); {If~%Version%=2?Search/Perception} DC 17; Disable Device DC 21. Market Price: 12,650 gp.
+12,[VersionNeeded]{Bold~Spiked Pit Trap: (3.5E)} CR 5; mechanical; location trigger; manual reset; DC 25 Reflex save avoids; 40 ft. deep (4d6, fall); multiple targets (first target in each of two adjacent 5-ft. squares); pit spikes (Atk +10 melee, 1d4 spikes per target for 1d4+4 each); {If~%Version%=2?Search/Perception} DC 21; Disable Device DC 20. Market Price: 13,500 gp.
+13,[VersionNeeded]{Bold~Spiked Pit Trap (80 Ft. Deep): (3.5E)} CR 5; mechanical; location trigger, manual reset; DC 20 Reflex save avoids; 80 ft. deep (8d6, fall), pit spikes (Atk +10 melee, 1d4 spikes for 1d4+5 each); {If~%Version%=2?Search/Perception} DC 20; Disable Device DC 20. Market Price: 5,000 gp. 
+14,[VersionNeeded]{Bold~Ungol Dust Vapor Trap: (3.5E)} CR 5; mechanical; location trigger; manual reset; gas; multiple targets (all targets in a 10-ft.-by-10-ft. room); never miss; onset delay (2 rounds); poison (ungol dust, {If~%Version%=2?DC 15 Fortitude save resists, 1 Cha[Slash]1d6 Cha plus 1 Cha drain/DC15, 1 CHA drain +1d2 CHA, 1[Slash]r for 4r (1 save)}); {If~%Version%=2?Search/Perception} DC 20; Disable Device DC 16. Market Price: 9,000 gp.
+# New
+15,[VersionNeeded]{Bold~Symbol of Pain Trap: (3.5E)} CR 5; magical; proximity trigger (pass over the glyph); no reset; spell effect ({Italic~symbol of pain}, 20th-level sorcerer, as the spell, Will DC 21 negates); {If~%Version%=2?Search/Perception} DC 30; Disable Device 30.
+16,[VersionNeeded]{Bold~Summon Monster IV Trap: ({If~%Version%=2?3.5E/PF})} CR 5; magic device; proximity trigger ({Italic~alarm}); no reset; spell effect ({Italic~summon monster IV} ({If~%Version%=2?[~Creatures.SumMon4]/[~Creatures.SumMonPF4]}), 7th-level wizard), {If~%Version%=2?Search/Perception} DC 29; Disable Device DC 29. Cost: ??? gp.
+
+:CR6Trap
+1,[VersionNeeded]{Bold~Built-to-Collapse Wall: (3.5E)} CR 6; mechanical; proximity trigger; no reset; Atk +20 melee (8d6, stone blocks); multiple targets (all targets in a 10-ft.-by-10-ft. area); {If~%Version%=2?Search/Perception} DC 14; Disable Device DC 16. Market Price: 15,000 gp.
+2,[VersionNeeded]{Bold~Compacting Room: (3.5E)} CR 6; mechanical; timed trigger; automatic reset; hidden switch bypass ({If~%Version%=2?Search/Perception} DC 25); walls move together (12d6, crush); multiple targets (all targets in a 10-ft.-by- 10-ft. room); never miss; onset delay (4 rounds); {If~%Version%=2?Search/Perception} DC 20; Disable Device DC 22. Market Price: 25,200 gp.
+3,[VersionNeeded]{If~%Version%=2?{Bold~Flame Strike Trap: (3.5E)} CR 6; magic device; proximity trigger ({Italic~detect magic}); automatic reset; spell effect ({Italic~flame strike}, 9th-level cleric, 9d6 fire, DC 17 Reflex half); Search DC 30; Disable Device DC 30. Cost: 22,750 gp{If~%Version%=2?, 1820 XP}.
+_/{Bold~Flame Strike Trap: (PF)} CR 6; magic device; proximity trigger ({Italic~detect magic}); no reset; spell effect ({Italic~flame strike}, 8th-level cleric, 8d6 fire (10' radius cylinder), DC 17 Reflex half); Perception DC 30; Disable Device DC 30. Cost: 22,750 gp.}
+4,[VersionNeeded]{Bold~Fusillade of Spears: (3.5E)} CR 6; mechanical; proximity trigger; repair reset; Atk +21 ranged (1d8, spear); multiple targets (1d6 spears per target in a 10 ft.-by-10-ft. area); {If~%Version%=2?Search/Perception} DC 26; Disable Device DC 20. Market Price: 31,200 gp.
+5,[VersionNeeded]{Bold~Glyph of Warding (Blast): (3.5E)} CR 6; spell; spell trigger; no reset; spell effect (glyph of warding (blast), 16th-level cleric, 8d8 sonic, DC 14 Reflex half); multiple targets (all targets within 5 ft.); {If~%Version%=2?Search/Perception} DC 28; Disable Device DC 28. Cost: 680 gp to hire NPC spellcaster.
+6,[VersionNeeded]{Bold~Lightning Bolt Trap: (3.5E)} CR 6; magic device; proximity trigger ({Italic~alarm}); automatic reset; spell effect ({Italic~lightning bolt}, 10th-level wizard, 10d6 electricity, DC 14 Reflex half); {If~%Version%=2?Search/Perception} DC 28; Disable Device DC 28. Cost: 15,000 gp{If~%Version%=2?, 1200 XP}
+7,[VersionNeeded]{Bold~Spiked Blocks from Ceiling: (3.5E)} CR 6; mechanical; location trigger; repair reset; Atk +20 melee (6d6, spikes); multiple targets (all targets in a 10-ft.-by-10-ft. area); {If~%Version%=2?Search/Perception} DC 24; Disable Device DC 20. Market Price: 21,600 gp.
+8,[VersionNeeded]{Bold~Spiked Pit Trap (100 Ft. Deep): (3.5E)} CR 6; mechanical; location trigger, manual reset; DC 20 Reflex save avoids; 100 ft. deep (10d6, fall); pit spikes (Atk +10 melee, 1d4 spikes per target for 1d4+5 each); {If~%Version%=2?Search/Perception} DC 20; Disable Device DC 20. Market Price: 6,000 gp.
+9,[VersionNeeded]{Bold~Whirling Poison Blades: (3.5E)} CR 6; mechanical; timed trigger; automatic reset; hidden lock bypass ({If~%Version%=2?Search/Perception} DC 25, Open Lock DC 30); Atk +10 melee (1d4+4[Slash]19–20 plus poison, dagger); poison (purple worm poison, {If~%Version%=2?DC 24 Fortitude save resists, 1d6 Str[Slash]2d6 Str/DC24, 1d3 STR, 1[Slash]r for 6r (2 saves)}); multiple targets (one target in each of three preselected 5-ft. squares); {If~%Version%=2?Search/Perception} DC 20; Disable Device DC 20. Market Price: 30,200 gp.
+10,[VersionNeeded]{Bold~Wide-Mouth Pit Trap: (3.5E)} CR 6; mechanical; location trigger, manual reset; DC 25 Reflex save avoids; 40 ft. deep (4d6, fall); multiple targets (all targets within a 10-ft.-by-10-ft. area); {If~%Version%=2?Search/Perception} DC 26; Disable Device DC 25. Market Price: 28,200 gp.
+11,[VersionNeeded]{If~%Version%=2?{Bold~Wyvern Arrow Trap: (3.5E)} CR 6; mechanical; proximity trigger; manual reset; Atk +14 ranged (1d8 plus poison, arrow); poison (wyvern poison, DC 17 Fortitude save resists, 2d6 Con[Slash]2d6 Con); Search DC 20; Disable Device DC 16. Market Price: 17,400 gp. 
+_/{Bold~Wyvern Arrow Trap: (PF)} CR 6; mechanical; location trigger; no reset; Atk +15 ranged (1d6[Slash]x3 plus poison, arrow); poison (wyvern poison, 1d4 CON (DC17), 1[Slash]r for 6r, 2 consecutive saves); Perception DC 20; Disable Device DC 20. Market Price: 17,400 gp.}
+# New
+12,[VersionNeeded]{Bold~Summon Monster V Trap: ({If~%Version%=2?3.5E/PF})} CR 6; magic device; proximity trigger ({Italic~alarm}); no reset; spell effect ({Italic~summon monster V} ({If~%Version%=2?[~Creatures.SumMon5]/[~Creatures.SumMonPF5]}), 9th-level wizard), {If~%Version%=2?Search/Perception} DC 30; Disable Device DC 30. Cost: ??? gp.
+
+:CR7Trap
+1,[VersionNeeded]{Bold~Acid Fog Trap: (3.5E)} CR 7; magic device; proximity trigger ({Italic~alarm}); automatic reset; spell effect ({Italic~acid fog}, 11th-level wizard, 2d6[Slash]round acid for 11 rounds); {If~%Version%=2?Search/Perception} DC 31; Disable Device DC 31. Cost: 33,000 gp{If~%Version%=2?, 2640 XP}.
+2,[VersionNeeded]{Bold~Blade Barrier Trap: (3.5E)} CR 7; magic device; proximity trigger ({Italic~alarm}); automatic reset; spell effect ({Italic~blade barrier}, 11th-level cleric, 11d6 slashing, DC 19 Reflex half); {If~%Version%=2?Search/Perception} DC 31; Disable Device DC 31. Cost: 33,000 gp{If~%Version%=2?, 2640 XP}.
+3,[VersionNeeded]{Bold~Burnt Othur Vapor Trap: (3.5E)} CR 7; mechanical; location trigger; repair reset; gas; multiple targets (all targets in a 10-ft.-by-10-ft. room); never miss; onset delay (3 rounds); poison (burnt othur fumes, {If~%Version%=2?DC 18 Fortitude save resists, 1 Con drain[Slash]3d6 Con/DC18, 1 CON drain +1d3 CON, 1[Slash]r for 6r (2 saves)}); {If~%Version%=2?Search/Perception} DC 21; Disable Device DC 21. Market Price: 17,500 gp.
+4,[VersionNeeded]{Bold~Chain Lightning Trap: (3.5E)} CR 7; magic device; proximity trigger ({Italic~alarm}); automatic reset; spell effect ({Italic~chain lightning}, 11th-level wizard, 11d6 electricity to target nearest center of trigger area plus 5d6 electricity to each of up to eleven secondary targets, DC 19 Reflex half); {If~%Version%=2?Search/Perception} DC 31; Disable Device DC 31. Cost: 33,000 gp{If~%Version%=2?, 2640 XP}. 
+5,[VersionNeeded]{Bold~Black Tentacles Trap: (3.5E)} CR 7; magic device; proximity trigger ({Italic~alarm}); no reset; spell effect ({Italic~black tentacles}, 7th-level wizard, 1d4+7 tentacles, Atk +7 melee (1d6+4, tentacle)); multiple targets (up to six tentacles per target in each of two adjacent 5-ft. squares); {If~%Version%=2?Search/Perception} DC 29; Disable Device DC 29. Cost: 1,400 gp{If~%Version%=2?, 1120 XP}.
+6,[VersionNeeded]{Bold~Fusillade of Greenblood Oil Darts: (3.5E)} CR 7; mechanical; location trigger; manual reset; Atk +18 ranged (1d4+1 plus poison, dart); poison (greenblood oil, {If~%Version%=2?DC 13 Fortitude save resists, 1 Con[Slash] 1d2 Con/DC13, 1 CON, 1[Slash]r for 4r (1 save)}); multiple targets (1d8 darts per target in a 10-ft.-by-10-ft. area); {If~%Version%=2?Search/Perception} DC 25; Disable Device DC 25. Market Price: 33,000 gp.
+7,[VersionNeeded]{Bold~Lock Covered in Dragon Bile: (3.5E)} CR 7; mechanical; touch trigger (attached); no reset; poison (dragon bile, {If~%Version%=2?DC 26 Fortitude save resists, 3d6 Str[Slash]0/DC26, 1d3 STR, 1[Slash]r for 6r (no cure)}); {If~%Version%=2?Search/Perception} DC 27; Disable Device DC 16. Market Price: 11,300 gp.
+8,[VersionNeeded]{If~%Version%=2?{Bold~Summon Monster VI Trap: (3.5E)} CR 7; magic device; proximity trigger ({Italic~alarm}); no reset; spell effect ({Italic~summon monster VI} ([~Creatures.SumMon6]), 11th-level wizard), Search DC 31; Disable Device DC 31. Cost: 3,300 gp{If~%Version%=2?, 2640 XP}.
+_/{Bold~Summon Monster VI Trap: (PF)} CR 7; magic device; proximity trigger ({Italic~alarm}); no reset; spell effect ({Italic~summon monster VI} ([~Creatures.SumMonPF6]), 11th-level wizard), Perception DC 31; Disable Device DC 31. Cost: 3,300 gp.}
+9,[VersionNeeded]{Bold~Water-Filled Room: (3.5E)} CR 7; mechanical; location trigger; manual reset; multiple targets (all targets in a 10-ft.-by-10-ft. room); never miss; onset delay (3 rounds); water; {If~%Version%=2?Search/Perception} DC 20; Disable Device DC 25. Market Price: 21,000 gp. 
+10,[VersionNeeded]{Bold~Well-Camouflaged Pit Trap: (3.5E)} CR 7; mechanical; location trigger; repair reset; DC 25 Reflex save avoids; 70 ft. deep (7d6, fall); multiple targets (first target in each of two adjacent 5-ft. squares); {If~%Version%=2?Search/Perception} DC 27; Disable Device DC 18. Market Price: 24,500 gp. 
+# New
+11,[VersionNeeded]{Bold~Control Winds Trap: (3.5E)} CR 7; magical; location trigger; automatic reset; spell effect ({Italic~control winds}, hurricane force, Fortitude DC 15 negates; multiple targets (all targets within a 10-ft.-by-10-ft. area); {If~%Version%=2?Search/Perception} DC 30; Disable Device DC 30. Characters flying or levitating in these spaces trigger the second trap, which causes the ceiling to open up and triggers a {Italic~control winds} spell at hurricane force to blow the creature up and out of the dungeon. Characters blown out through the top of the dungeon fall (20d6 dmg) unless they are under the effects of a fly or similar spell.
+12,[VersionNeeded]{Bold~Symbol of Weakness Trap: (3.5E)} CR 7; magical; proximity trigger (pass through the door); no reset; spell effect ({Italic~symbol of weakness}, 13th-level cleric, 3d6 Strength, Will DC 20 negates); {If~%Version%=2?Search/Perception} DC 32; Disable Device DC 32.
+# New PF
+13,[VersionNeeded]{Bold~Frost Fangs Trap: (PF)} CR 7; mechanical; location trigger; 3r duration; no reset; jets of freezing water (3d6 cold, Refelx DC20 half; all targets in a 40' square chamber); {If~%Version%=2?Search/Perception} DC 25; Disable Device DC 20.
+
+:CR8Trap
+1,[VersionNeeded]{Bold~Deathblade Wall Scythe: (3.5E)} CR 8; mechanical; touch trigger; manual reset; Atk +16 melee (2d4+8 plus poison, scythe); poison (deathblade, {If~%Version%=2?DC 20 Fortitude save resists, 1d6 Con[Slash]2d6 Con/DC20, 1d3 CON, 1[Slash]r for 6r (2 saves)}); {If~%Version%=2?Search/Perception} DC 24; Disable Device DC 19. Market Price: 31,400 gp.
+2,[VersionNeeded]{Bold~Destruction Trap: (3.5E)} CR 8; magic device; touch trigger ({Italic~alarm}); automatic reset; spell effect ({Italic~destruction}, 13th-level cleric, {If~%Version%=3?130 damage, }DC 20 Fortitude save for 10d6 damage); {If~%Version%=2?Search/Perception} DC 32; Disable Device DC 32. Cost: 45,500 gp{If~%Version%=2?, 2640 XP}.
+3,[VersionNeeded]{Bold~Earthquake Trap: (3.5E)} CR 8; magic device; proximity trigger ({Italic~alarm}); automatic reset; spell effect ({Italic~earthquake}, 13th-level cleric, 65-ft. radius, DC 15 or 20 Reflex save, depending on terrain); {If~%Version%=2?Search/Perception} DC 32; Disable Device DC 32. Cost: 45,500 gp{If~%Version%=2?, 3640 XP}.
+4,[VersionNeeded]{If~%Version%=2?{Bold~Insanity Mist Vapor Trap: (3.5E)} CR 8; mechanical; location trigger; repair reset; gas; never miss; onset delay (1 round); poison (insanity mist, DC 15 Fortitude save resists, 1d4 Wis[Slash]2d6 Wis); multiple targets (all targets in a 10-ft.-by-10-ft. room); Search DC 25; Disable Device DC 20. Market Price: 23,900 gp.
+_/{Bold~Insanity Mist Trap: (PF)} CR 8; mechanical; location trigger; repair reset; gas; never miss; onset delay (1 round); poison (insanity mist, inhaled (DC15) 1d3 WIS, 1[Slash]r for 6r, 1 save; multiple targets (all targets in a 10-ft.-by-10-ft. room); Perception DC 25; Disable Device DC 20. Market Price: 23,900 gp.}
+5,[VersionNeeded]{Bold~Acid Arrow Trap: (3.5E)} CR 8; magic device; visual trigger ({Italic~true seeing}); automatic reset; multiple traps (two simultaneous {Italic~acid arrow} traps); Atk +9 ranged touch and +9 ranged touch; spell effect ({Italic~acid arrow}, 18th-level wizard, 2d4 acid damage for 7 rounds); {If~%Version%=2?Search/Perception} DC 27; Disable Device DC 27. Cost: 83,500 gp{If~%Version%=2?, 4680 XP}. Note: This trap is really two CR 6 {Italic~acid arrow} traps that fire simultaneously, using the same trigger and reset.
+6,[VersionNeeded]{Bold~Power Word Stun Trap: (3.5E)} CR 8; magic device; touch trigger; no reset; spell effect ({Italic~power word stun}, 13th-level wizard), {If~%Version%=2?Search/Perception} DC 32; Disable Device DC 32. Cost: 4,550 gp, 364 XP.
+7,[VersionNeeded]{Bold~Prismatic Spray Trap: (3.5E)} CR 8; magic device; proximity trigger ({Italic~alarm}); automatic reset; spell effect ({Italic~prismatic spray}, 13th-level wizard, DC 20 Reflex, Fortitude, or Will save, depending on effect); {If~%Version%=2?Search/Perception} DC 32; Disable Device DC 32. Cost: 45,500 gp{If~%Version%=2?, 3640 XP}.
+8,[VersionNeeded]{Bold~Reverse Gravity Trap: (3.5E)} CR 8; magic device; proximity trigger ({Italic~alarm}, 10-ft. area); automatic reset; spell effect ({Italic~reverse gravity}, 13th-level wizard, 6d6 fall (upon hitting the ceiling of the 60-ft.- high room), then 6d6 fall (upon falling 60 ft. to the floor when the spell ends), DC 20 Reflex save avoids damage); {If~%Version%=2?Search/Perception} DC 32; Disable Device DC 32. Cost: 45,500 gp{If~%Version%=2?, 3640 XP}.
+9,[VersionNeeded]{Bold~Well-Camouflaged Pit Trap: (3.5E)} CR 8; mechanical; location trigger; repair reset; DC 20 Reflex save avoids; 100 ft. deep (10d6, fall); {If~%Version%=2?Search/Perception} DC 27; Disable Device DC 18. Market Price: 16,000 gp.
+10,[VersionNeeded]{Bold~Word of Chaos Trap: (3.5E)} CR 8; magic device; proximity trigger ({Italic~detect law}); automatic reset; spell effect ({Italic~word of chaos}, 13th-level cleric); {If~%Version%=2?Search/Perception} DC 32; Disable Device DC 32. Cost: 46,000 gp{If~%Version%=2?, 3680 XP}.
+# New PF
+11,[VersionNeeded]{Bold~Camouflaged Spiked Pit Trap: (PF)} CR 8; mechanical; location trigger; manual reset; 50' pit (5d6, all targets in a 10' square area, Reflex DC20 avoids), 1d4 spikes +15 melee 1d6+5 dmg; {If~%Version%=2?Search/Perception} DC 25; Disable Device DC 20. Cost: 46,000 gp.
+# New
+12,[VersionNeeded]{Bold~Summon Monster VII Trap: ({If~%Version%=2?3.5E/PF})} CR 8; magic device; proximity trigger ({Italic~alarm}); no reset; spell effect ({Italic~summon monster VII} ({If~%Version%=2?[~Creatures.SumMon7]/[~Creatures.SumMonPF7]}), 13th-level wizard), {If~%Version%=2?Search/Perception} DC 32; Disable Device DC 32. Cost: ??? gp.
+
+:CR9Trap
+1,[VersionNeeded]{Bold~Drawer Handle Smeared with Contact Poison: (3.5E)} CR 9; mechanical; touch trigger (attached); manual reset; poison (black lotus extract, {If~%Version%=2?DC 20 Fortitude save resists, 3d6 Con[Slash]3d6 Con/DC20,(onset 1 min) 1d6 CON, 1[Slash]r for 6r (2 saves)}); {If~%Version%=2?Search/Perception} DC 18; Disable Device DC 26. Market Price: 21,600 gp. 
+2,[VersionNeeded]{Bold~Dropping Ceiling: (3.5E)} CR 9; mechanical; location trigger; repair reset; ceiling moves down (12d6, crush); multiple targets (all targets in a 10-ft.-by-10-ft. room); never miss; onset delay (1 round); {If~%Version%=2?Search/Perception} DC 20; Disable Device DC 16. Market Price: 12,600 gp. 
+3,[VersionNeeded]{Bold~Incendiary Cloud Trap: (3.5E)} CR 9; magic device; proximity trigger ({Italic~alarm}); automatic reset; spell effect ({Italic~incendiary cloud}, 15th-level wizard, 4d6[Slash]round for 15 rounds, DC 22 Reflex half); {If~%Version%=2?Search/Perception} DC 33; Disable Device DC 33. Cost: 60,000 gp{If~%Version%=2?, 4800 XP}. 
+4,[VersionNeeded]{Bold~Wide-Mouth Pit Trap: (3.5E)} CR 9; mechanical; location trigger; manual reset; DC 25 Reflex save avoids; 100 ft. deep (10d6, fall); multiple targets (all targets within a 10-ft.-by-10-ft. area); {If~%Version%=2?Search/Perception} DC 25; Disable Device DC 25. Market Price: 40,500 gp. 
+5,[VersionNeeded]{Bold~Wide-Mouth Spiked Pit with Poisoned Spikes: (3.5E)} CR 9; mechanical; location trigger; manual reset; hidden lock bypass  ({If~%Version%=2?Search/Perception} DC 25, Open Lock DC 30); DC 20 Reflex save avoids; 70 ft. deep (7d6, fall); multiple targets (all targets within a 10-ft.-by-10-ft. area); pit spikes (Atk +10 melee, 1d4 spikes per target for 1d4+5 plus poison each); poison (giant wasp poison, {If~%Version%=2?DC 14 Fortitude save resists, 1d6 Dex[Slash]1d6 Dex/DC18, 1d2 DEX, 1[Slash]r for 6r (1 save)}); {If~%Version%=2?Search/Perception} DC 20; Disable Device DC 20. Market Price: 11,910 gp.
+6,[VersionNeeded]{Bold~Hail of Arrows: (PF)} CR 9; mechanical; visual (arcane eye); repair reset; Atk +20 ranged (6d6, all targets in a 20' line); {If~%Version%=2?Search/Perception} DC 25; Disable Device DC 25. Market Price: ??? gp.
+7,[VersionNeeded]{Bold~Shocking Floor Trap: (PF)} CR 9; magic; proximity ({Italic~alarm}); no reset; 1d6r duration; {Italic~shocking grasp} +6 (4d6 electric), all targets in a 40' square room); {If~%Version%=2?Search/Perception} DC 26; Disable Device DC 26. Market Price: ??? gp.
+# New
+8,[VersionNeeded]{Bold~Summon Monster VIII Trap: ({If~%Version%=2?3.5E/PF})} CR 9; magic device; proximity trigger ({Italic~alarm}); no reset; spell effect ({Italic~summon monster VIII} ({If~%Version%=2?[~Creatures.SumMon8]/[~Creatures.SumMonPF8]}), 15th-level wizard), {If~%Version%=2?Search/Perception} DC 33; Disable Device DC 33. Cost: ??? gp.
+
+:CR10Trap
+1,[VersionNeeded]{Bold~Crushing Room: (3.5E)} CR 10; mechanical; location trigger; automatic reset; walls move together (16d6, crush); multiple targets (all targets in a 10-ft.-by-10-ft. room); never miss; onset delay (2 rounds); {If~%Version%=2?Search/Perception} DC 22; Disable Device DC 20. Market Price: 29,000 gp.
+2,[VersionNeeded]{Bold~Crushing Wall Trap: (3.5E)} CR 10; mechanical; location trigger; automatic reset; no attack roll required (18d6, crush); {If~%Version%=2?Search/Perception} DC 20; Disable Device DC 25. Market Price: 25,000 gp. 
+3,[VersionNeeded]{If~%Version%=2?{Bold~Energy Drain Trap: (3.5E)} CR 10; magic device; visual trigger ({Italic~true seeing}); automatic reset; Atk +8 ranged touch; spell effect ({Italic~energy drain}, 17th-level wizard, 2d4 negative levels for 24 hours, DC 23 Fortitude save negates); Search DC 34; Disable Device DC 34. Cost: 124,000 gp{If~%Version%=2?, 7920 XP}.
+_/{Bold~Energy Drain Trap: (PF)} CR 10; magic device; visual trigger ({Italic~true seeing}); no reset; Atk +10 ranged touch; spell effect ({Italic~energy drain}, 17th-level wizard, 2d4 temporary negative levels, DC 23 Fortitude save negates after 24h); Perception DC 34; Disable Device DC 34. Cost: 124,000 gp.}
+4,[VersionNeeded]{Bold~Forcecage and Summon Monster VII trap: (3.5E)} CR 10; magic device; proximity trigger ({Italic~alarm}); automatic reset; multiple traps (one {Italic~forcecage} trap and one {Italic~summon monster VII} trap that summons a {If~%Vewrsion%=2?hamatula/bebilith} or {If~%Version%=2?[~Creatures.SumMon7]/[~Creatures.SumMonPF7]}); spell effect ({Italic~forcecage}, 13th-level wizard), spell effect ({Italic~summon monster VII}, 13th-level wizard, {If~%Vewrsion%=2?hamatula/bebilith}); {If~%Version%=2?Search/Perception} DC 32; Disable Device DC 32. Cost: 241,000 gp{If~%Version%=2?, 7280 XP}. Note: This trap is really one CR 8 trap that creates a {Italic~forcecage} and a second CR 8 trap that summons a {If~%Vewrsion%=2?hamatula/bebilith} in the same area. If both succeed, the {If~%Vewrsion%=2?hamatula/bebilith} appears inside the {Italic~forcecage}. These effects are independent of each other.
+5,[VersionNeeded]{Bold~Poisoned Spiked Pit Trap: (3.5E)} CR 10; mechanical; location trigger; manual reset; hidden lock bypass ({If~%Version%=2?Search/Perception} DC 25, Open Lock DC 30); DC 20 Reflex save avoids; 50 ft. deep (5d6, fall); multiple targets (first target in each of two adjacent 5-ft. squares); pit spikes (Atk +10 melee, 1d4 spikes per target for 1d4+5 plus poison each); poison (purple worm poison, {If~%Version%=2?DC 24 Fortitude save resists, 1d6 Str[Slash]2d6 Str/DC24, 1d3 STR, 1[Slash]r for 6r (2 saves)}); {If~%Version%=2?Search/Perception} DC 16; Disable Device DC 25. Market Price: 19,700 gp. 
+6,[VersionNeeded]{Bold~Wail of the Banshee Trap: (3.5E)} CR 10; magic device; proximity trigger ({Italic~alarm}); automatic reset; spell effect ({Italic~wail of the banshee}, 17th-level wizard, DC 23 Fortitude save negates); multiple targets (up to 17 creatures); {If~%Version%=2?Search/Perception} DC 34; Disable Device DC 34. Cost: 76,500 gp{If~%Version%=2?, 6120 XP}.
+# New
+7,[VersionNeeded]{Bold~Prismatic Wall Trap: (3.5E)} CR10; magic device; proximity trigger; automatic reset; spell effect ({Italic~prismatic wall}, CL15th); {If~%Version%=2?Search/Perception} DC33; Disable Device DC33. A {Italic~prismatic wall} trap stretches across the entrance of the room, activating 2 rounds after the first person crosses its threshold.
+# New PF
+8,[VersionNeeded]{Bold~Chamber of Blades Trap: (PF)} CR 10; mechanical; location trigger; repair reset; 1d4r duration; +20 melee (3d8+3, all targets in a 20' square chamber); {If~%Version%=2?Search/Perception} DC 25; Disable Device DC 20. Market Price: ??? gp.
+# New
+9,[VersionNeeded]{Bold~Summon Monster IX Trap: ({If~%Version%=2?3.5E/PF})} CR 10; magic device; proximity trigger ({Italic~alarm}); no reset; spell effect ({Italic~summon monster IX} ({If~%Version%=2?[~Creatures.SumMon9]/[~Creatures.SumMonPF9]}), 17th-level wizard), {If~%Version%=2?Search/Perception} DC 34; Disable Device DC 34. Cost: ??? gp.
+
+:CR11Trap
+1,[VersionNeeded]{Bold~Open-Air Pit Trap: (3.5E)} CR 11; magic device; location trigger; automatic reset; spell effect ({Italic~teleport}, CL15th); Reflex DC 25 avoids; 20d6, fall; multiple targets (all targets within a 10-ft.-by-10-ft. area); {If~%Version%=2?Search/Perception} DC 25; Disable Device DC 25. The PCs falling in the pit are teleported hundreds of feet above the ground and fall  (20d6 dmg) unless they are under the effects of a fly or similar spell.
+# New PF
+2,[VersionNeeded]{Bold~Cone of Cold Trap: (PF)} CR 11; magic; proximity trigger ({Italic~alarm}); no reset; {Italic~cone of cold}, 60' cone, 16d6, Reflex half DC17; {If~%Version%=2?Search/Perception} DC 30; Disable Device DC 30. Market Price: ??? gp.
+
+:CR12Trap
+# New PF
+1,[VersionNeeded]{Bold~Poisoned Spiked Pit Trap: (PF)} CR 12; mechanical; location trigger; manual reset; DC25 Reflex avoids; 50' deep (5d6, fall); multiple targets (all targets in 10' square); pit spikes (Atk +15 melee, 1d4 spikes per target for 1d6+5 plus poison each); poison (shadow essence, {If~%Version%=2?DC 17 Fortitude save resists, 1 perm STR[Slash]2d6 Str/DC24, 1 STR drain +1d2 STR, 1[Slash]r for 6r (1 save)}); {If~%Version%=2?Search/Perception} DC 25; Disable Device DC 20. Market Price: ??? gp. 
+
+:CR13Trap
+# New PF
+1,[VersionNeeded]{Bold~Maximized Fireball Trap: (PF)} CR 13; magic device; proximity trigger ({Italic~alarm}); no reset; spell effect ({Italic~fireball}, 10th-level wizard, 60 fire, 20' radius, DC 14 Reflex half); {If~%Version%=2?Search/Perception} DC 31; Disable Device DC 31. Cost: ??? gp.
+
+:CR14Trap
+# New PF
+1,[VersionNeeded]{Bold~Harm Trap: (PF)} CR 14; magic device; touch; no reset; spell effect ({Italic~harm}, 13th-level wizard, +6 melee touch, 130 dmg (not under 1 hp), DC 19 Will half); {If~%Version%=2?Search/Perception} DC 31; Disable Device DC 31. Cost: ??? gp.
+
+:CR15Trap
+# New PF
+1,[VersionNeeded]{Bold~Crushing Stone Trap: (PF)} CR 15; mechanical; location trigger; manual reset; stone falls on targets (+15 melee, 16d6); multiple targets (all targets in a 10-ft square); {If~%Version%=2?Search/Perception} DC 30; Disable Device DC 20. Market Price: ??? gp.
+
+:CR16Trap
+# New PF
+1,[VersionNeeded]{Bold~Empowered Disintegrate Trap: (PF)} CR 16; magic device; sight ({Italic~true seeing}); no reset; spell effect ({Italic~disintegrate}, 17th-level wizard, +9 ranged touch, 30d6 +50[Percent], DC 19 Fort = 5d6+50[Percent]); {If~%Version%=2?Search/Perception} DC 33; Disable Device DC 33. Cost: ??? gp.
+
+:CR17Trap
+# New PF
+1,[VersionNeeded]{Bold~Lightning Bolt Gallery Trap: (PF)} CR 17; magic device; proximity trigger ({Italic~alarm}); no reset; 1d6r duration; spell effect (heightened {Italic~lightning bolt}, 8th-level wizard, 8d6 electricity, DC 16 Reflex half); {If~%Version%=2?Search/Perception} DC 29; Disable Device DC 29. Cost: ??? gp.
+
+:CR18Trap
+# New PF
+1,[VersionNeeded]{Bold~Deadly Spear Trap: (PF)} CR 18; mechanical; sight ({Italic~true seeing}); manual reset; Atk +20 ranged (1d8+6[Slash]x3 +poison, spear); poison (black lotus extract, {If~%Version%=2?DC 20 Fortitude save resists, 3d6 Con[Slash]3d6 Con/DC20,(onset 1 min) 1d6 CON, 1[Slash]r for 6r (2 saves)}); {If~%Version%=2?Search/Perception} DC 30; Disable Device DC 30. Note: 200-ft. max range, target determined randomly from those in its path. Market Price: ??? gp.
+
+:CR19Trap
+# New PF
+1,[VersionNeeded]{Bold~Meteor Swarm Trap: (PF)} CR 19; magic device; sight ({Italic~true seeing}); no reset; spell effect ({Italic~meteor swarm}, 9th-level wizard, 4 separate targets (all within 40'), +9 ranged touch, 2d6 +6d6 Fire (-4 save on a hit), +18d6 Fire form other meteors, DC 23 Reflex half (fire damage only, roll for both fire damage)); {If~%Version%=2?Search/Perception} DC 34; Disable Device DC 34. Cost: ??? gp.
+
+:CR20Trap
+# New PF
+1,[VersionNeeded]{Bold~Heightened Destruction Trap: (PF)} CR 20; magic device; proximity trigger ({Italic~alarm}); no reset; spell effect (heightened {Italic~destruction}, 19th-level cleric, {If~%Version%=3?190 damage, }DC 23 Fortitude save for 10d6 damage); {If~%Version%=2?Search/Perception} DC 34; Disable Device DC 34. Cost: ??? gp.
+
+:Slash
+1,/
+
+:Percent
+1,/%

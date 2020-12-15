@@ -1,0 +1,113 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder Jan 30, 2006.
+# ---------------------------------------------------
+#
+# Random names for Countries, and governments
+#
+# Tim Dugger: Wednesday, October 14, 1998
+#
+# Modified by Valminder July 2003
+#     Start line to use the standard "Generate"
+#
+# Modified by Valminder, Jan 2006.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+#
+
+:Start
+1,{Status~by Tim Dugger 1998, Valminder 2003-2006}
+_[Generate]
+
+;Generate
+3,[Table 1] [Table 2] of [Name]
+3,[Table 1] [Table 2] of [Name] [Name]
+2,[Table 1] [Name][Suffix] [Table 2]
+1,[Name][Suffix]
+
+:Table 1
+1,Supreme
+2,People's
+3,Independent
+4,Imperial
+5,Sovereign
+6,Democratic
+7,Popular
+8,Socialist
+9,Federal
+10,Grand
+11,United
+12,Constitutional
+
+:Table 2
+1,Principality
+2,Empire
+3,Republic
+4,State
+5,Commonwealth
+6,Kingdom
+7,Federation
+8,Confederacy
+9,Sultanate
+10,Caliphate
+11,Emirate
+12,City-State
+13,Dominion
+14,Hegemony
+15,Protectorate
+
+:Suffix
+1,[Con]ic
+2,[Con]ian
+3,[Con]ose
+4,[Con]ate
+
+:Name
+1-2,[First][Mid][Mid][End]
+3-5,[First][Mid][End]
+6-7,[First][End]
+
+:First
+1-5,{Cap~[Con]}[Vowel]
+6-7,{Cap~[Vowel]}[Con]
+
+:Mid
+1-8,[Con][Vowel]
+9,[Con]'[Con][Vowel]
+10,-{Cap~[Con]}[Vowel]
+11,[Vowel][Con]
+12,[Vowel][Vowel][Con]
+
+:End
+1-9,[Mid]
+10,ia
+
+:Vowel
+1-4,a
+5-8,e
+9-12,i
+13-16,o
+17-20,u
+21,y
+
+:Con
+1,b
+2,c
+3,d
+4,f
+5,g
+6,h
+7,j
+8,k
+9,l
+10,m
+11,n
+12,p
+13,q
+14,r
+15,s
+16,t
+17,v
+18,w
+19,x
+20,y
+21,z

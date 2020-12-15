@@ -1,0 +1,174 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder August 22, 2006.
+# ---------------------------------------------------
+#
+# table:	Dagger Descriptor.tab
+# by:		Kheferen
+# date:		11/17/04
+# version:	1.0
+#
+# DESCRIPTION:
+# The table will generate random dagger descriptions.
+#
+# Modified by Valminder, August  2006.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+#    Added links to:
+#       Creatures.DragonNoAge
+#       Creatures.Start
+#       Miscellaneous.ColorNoType
+#       Miscellaneous.Metal
+#       Sword Descriptions.Crafted
+#       Sword Descriptions.CrystalColor
+#       Sword Descriptions.Describe Blade Shape
+#       Sword Descriptions.GripDecoration
+#       Sword Descriptions.Grip Decoration Wire
+#       Sword Descriptions.Grip Decoration WoodType 
+#       Sword Descriptions.Grip Decoration WrapType
+#       Sword Descriptions.LeatherMonster
+#       Sword Descriptions.NormalLeather
+#
+# Modified by Valminder, Dec 2013.
+#    Added link to "Magic Weapon Names.tab"
+#
+
+%WpnType%,dagger
+
+;Start
+1,{Status~By Kheferen 2004, Valminder 2006}[Generate]
+
+:Generate
+1,The |WpnType=[Equipment.Knives]|%WpnType% [~DgrBlade] [Forged] [~Material]. [DgrAttached] [~DgrHilt] [~Decoration].
+_ [Sword Descriptions.Describe Blade] [Sword Descriptions.Crafted]
+_[Name]
+
+;DgrBlade
+4,has an ordinary shaped blade
+1,is a short knife with a sturdy and stocky one-edged blade
+1,is a short knife with a thin and pointed blade
+2,has a short double-edged blade
+1,is a short but heavy dagger with a curved blade sharpened only on the outer part
+1,is a short and rough knife
+1,has a short and jagged double-edged blade
+1,is a long knife with a sturdy and stocky one-edged blade
+1,is long with a thin and pointed blade
+1,is a long and heavy dagger with a curved blade sharpened only on the outer part
+1,is a long and rough knife
+2,has a long double-edged blade
+1,has a long double-curved and double-edged blade
+1,has a long curved and double-edged blade
+1,has a long and jagged double-edged blade
+1,has a very curved blade, similar to that of a sickle
+1,is a great dagger with one-edged sturdy blade
+1,has an ornate blade in serpentine shape
+
+;Forged
+1,forged from
+1,forged in
+1,made from
+
+;Material
+10,black steel
+10,grayish steel
+10,steel
+1,dark gray meteoritic iron
+1,silvery meteoritic iron
+1,meteoritic iron
+1,an alloy of steel and copper
+2,solid iron
+2,stout iron
+1,an alloy of steel and silver
+1,a strange alloy of steel and light green copper
+1,volcanic iron
+1,yellowish steel
+1,adamantite
+1,glass steel
+5,brass
+4,bronze
+2,silver
+1,adamantium
+1,gold
+10,[Miscellaneous.Metal]
+
+;DgrAttached
+1,The blade is fixed to a
+1,The blade is fixed on a
+1,The dagger also has a
+
+;DgrHilt
+1,straight [Color] hilt
+1,simple hilt of [Color] metal
+1,hilt of [Color] metal
+1,circular hilt sculpted from the [Sculpted]
+1,rich [Color] metal hilt
+1,rich hilt of [Color] metal
+1,golden hilt
+1,hilt
+1,massive hilt
+1,beautiful hilt sculpted in the shape of [Creatures.Start]
+
+;Color
+1,ebony
+1,dark
+1,black
+1,silvery
+1,shinning silver
+1,shinning gold
+1,gold
+5,[Miscellaneous.ColorNoType]
+
+:Name
+1,<br>[Tab]Optional weapon name: [~Magic Weapon Names.GenerateWpnType(%WpnType%)]
+
+;Tab
+1,{Loop~5,&nbsp;}
+
+;Sculpted
+1,horn of a deer
+1,horn of an elk
+1,tusk of an elephant
+1,horn of a ram
+1,tusk of a giant boar
+1,horn of a [Creatures.DragonNoAge]
+1,ivory of a whale
+1,ivory of an elephant
+1,ivory of a walrus
+
+;Decoration
+4,
+6,covered in [Binding]
+1,decorated with tiny [Gems] gems
+1,encrusted with small [Gems] gems
+1,encrusted with precious gems of various colors
+2,inlayed with gold and platinum
+1,with a grip which is made from [~Miscellaneous.Other Material]
+1,with a [Sword Descriptions.GripDecoration] grip made of [~Sword Descriptions.Grip Decoration WoodType]
+1,with a [Sword Descriptions.GripDecoration] grip made of [Sword Descriptions.CrystalColor] crystal
+1,a grip wrapped in [Sword Descriptions.Grip Decoration WrapType] and wound with [Sword Descriptions.Grip Decoration Wire] wire
+
+;!Gems
+1,blood red
+1,red
+1,yellow
+1,white
+1,green
+1,dark green
+1,light green
+1,blue
+1,dark blue
+1,[Gems] and [Gems]
+
+;Binding
+4,ordinary leather
+3,brown leather
+2,black leather
+2,red leather
+1,black dragon hide
+1,red dragon hide
+1,blue dragon hide
+1,demon hide
+2,[Sword Descriptions.NormalLeather]
+1,[Sword Descriptions.LeatherMonster]
+
+
+

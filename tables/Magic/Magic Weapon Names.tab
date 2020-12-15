@@ -1,0 +1,558 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder Dec 10, 2013.
+# ---------------------------------------------------
+#
+# MAGIC WEAPON NAMES
+#
+# This file generates names for magic weapons,
+# a staple of fantasy campaigns. 
+#
+# Copyright 1997, 2001, 2007 Bruce A. Gulke
+#
+# -------------------------------------------------------------------------
+#
+# To call this table from another one:
+#    [Magic Weapon Names.Generate
+#       Generates a RANDOM type and name.
+#
+#    [Magic Weapon Names.GenerateWpnType
+#       Generates ONLY a name.
+#
+#    [Magic Weapon Names.GenerateWpnType(%WpnType%)
+#       Generates a name with the weapon type passed to this table.
+#
+# -------------------------------------------------------------------------
+# This Table Links to these tables as required:
+#    Creatures
+#    Miscellaneous
+#    Religion
+#
+# -------------------------------------------------------------------------
+# This table is called by:
+#    NPC Stat Block Pathfinder
+#
+# -------------------------------------------------------------------------
+#
+# Modified by Valminder April 2002
+#    I changed the "START" line.
+#    I added some links to these other tables:
+#        Miscellaneous.Color
+#        Miscellaneous.Metal
+#        Miscellaneous.Weapons
+#        Religion.Evil Gods
+#        Religion.Good Gods
+#        Religion.Neutral Gods
+#
+# Modified by Valminder, Jan 2006.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+#
+# Modified by Valminder, Dec 2013.
+#    I merged the "Magic Weapon Names 2007" with this one.
+#    Added "Parameter"
+#    Added link to:
+#        Creatures.All
+#        Miscellaneous.ColorNoType
+#        Miscellaneous.Material
+
+%WpnType%,XXX
+
+@WpnType,weapon,Enter weapon type.
+
+;Start
+1,{Status~By Bruce A. Gulke 2001-2007, Valminder 2002-2006-2013}{Cap~[GenerateWpnType]}
+
+:Generate
+1,[Gen1]
+2,[Gen2]
+
+:GenerateWpnType
+1,[GenWT1]
+2,[GenWT2]
+
+;Gen1
+3,the {Cap~[Miscellaneous.Weapons]} of [Descriptor]
+3,[Title1] {Cap~[Miscellaneous.Weapons]} of [Descriptor]
+1,the Holy {Cap~[Miscellaneous.Weapons]} of[Title2][~Religion.Good Gods]
+1,the Unholy {Cap~[Miscellaneous.Weapons]} of[Title2][~Religion.Evil Gods]
+1,the {Cap~[Miscellaneous.Weapons]} of[Title2][~Religion.Neutral Gods]
+
+;Gen2
+5,[~Title] [~Noun]
+1,[~CapAdj] [~CapPower]
+5,[~Title] [~CapSuffix]
+1,[~CapPower]'s [~CapSuffix]
+5,[~CapPower][~Suffix]
+10,{If~{Dice~1d10}=1?[~CapAdj] }[~Prefix][~Suffix]
+5,[~CapAdj] [~CapSuffix]{Select~{Dice~1d10},1, of the [~CapBeing],2, of [~CapPower],}
+1,{If~{Dice~1d10}=1?[~Title] }[~CapSuffix] of {If~{Dice~1d2}=1?[~CapPower]/the [~CapBeing]}
+1,{Select~{Dice~1d8},1,,2,[~Title] ,[~CapAdj] }[~CapBeing]'s [~CapSuffix]
+1,{Select~{Dice~1d3},1,[~CapAdj] ,2,[~Title] ,}[~CapBeing]'s [~CapSuffix] of [~CapPower]
+1,[~CapBeing]'s {If~{Dice~1d2}=1?[~CapAdj]/[~Title]} [~CapSuffix] {If~{Dice~1d2}=1? of [~CapPower]}
+1,[~CapSuffix] of the {Select~{Dice~1d3},1,[~Title] ,2,[~CapAdj] ,}[~CapBeing]
+
+;GenWT1
+3,the {CapEachWord~%WpnType%} of [Descriptor]
+3,[Title1] {CapEachWord~%WpnType%} of [Descriptor]
+1,the Holy {CapEachWord~%WpnType%} of[Title2][~Religion.Good Gods]
+1,the Unholy {CapEachWord~%WpnType%} of[Title2][~Religion.Evil Gods]
+1,the {CapEachWord~%WpnType%} of[Title2][~Religion.Neutral Gods]
+
+;GenWT2
+5,[~Title] [~Noun]
+1,[~CapAdj] [~CapPower]
+5,[~Title] [~CapSuffix2]
+1,[~CapPower]'s [~CapSuffix2]
+5,[~CapPower][~Suffix2]
+10,{If~{Dice~1d10}=1?[~CapAdj] }[~Prefix][~Suffix2]
+5,[~CapAdj] [~CapSuffix2]{Select~{Dice~1d10},1, of the [~CapBeing],2, of [~CapPower],}
+1,{If~{Dice~1d10}=1?[~Title] }[~CapSuffix2] of {If~{Dice~1d2}=1?[~CapPower]/the [~CapBeing]}
+1,{Select~{Dice~1d8},1,,2,[~Title] ,[~CapAdj] }[~CapBeing]'s [~CapSuffix2]
+1,{Select~{Dice~1d3},1,[~CapAdj] ,2,[~Title] ,}[~CapBeing]'s [~CapSuffix2] of [~CapPower]
+1,[~CapBeing]'s {If~{Dice~1d2}=1?[~CapAdj]/[~Title]} [~CapSuffix2] {If~{Dice~1d2}=1? of [~CapPower]}
+1,[~CapSuffix2] of the {Select~{Dice~1d3},1,[~Title] ,2,[~CapAdj] ,}[~CapBeing]
+
+;CapAdj
+1,{Cap~[Adj]}
+
+;CapSuffix
+1,{Cap~[Suffix]}
+
+;CapSuffix2
+1,{Cap~[Suffix2]}
+
+;CapPower
+1,{Cap~[Power]}
+
+;CapBeing
+1,{Cap~[Being]}
+
+;Adj
+10,[Miscellaneous.ColorNoType]
+20,[Miscellaneous.Material]
+1,adamantium
+1,ancient
+1,black
+1,bleeding
+1,blue
+1,bloody
+1,bone
+1,bright
+1,broken
+1,burning
+1,cold
+1,crystal
+1,cursed
+1,dancing
+1,dawn
+1,dark
+1,diamond
+1,dusk
+1,emerald
+1,evil
+1,flaming
+1,gold[en]
+1,good
+1,great
+1,green
+1,icy
+1,invisible
+1,iron
+1,ivory
+1,lost
+1,lucky
+1,magic[al]
+1,mithril
+1,quick
+1,red
+1,royal
+1,ruby
+1,rusty
+1,silver
+1,singing
+1,steel
+1,stinging
+1,wooden
+1,yellow
+
+;al
+1,al
+1,
+
+;en
+1,en
+1,
+
+;s
+1,s
+1,
+
+;Unh
+1,Unh
+1,H
+
+;Being
+1,archer
+1,assassin
+1,bard
+1,bear
+1,bull
+1,cat
+1,dead
+1,demon
+1,devil
+1,dragon
+1,dryad
+1,dwarf
+1,eagle
+1,elf
+1,fighter
+1,giant
+1,gladiator
+1,goblin
+1,god
+1,ghoul
+1,hawk
+1,hobgoblin
+1,imp
+1,king
+1,knight
+1,lich
+1,lion
+1,lord
+1,mermaid
+1,minotaur
+1,monarch
+1,mummy
+1,ogre
+1,orc
+1,priest
+1,prince
+1,raven
+1,snake
+1,skeleton
+1,sorceror
+1,troll
+1,thief
+1,undead
+1,vampire
+1,warrior
+1,wraith
+1,wizard
+1,zombie
+20,[Creatures.All]
+
+;Descriptor
+1,the Ancients
+1,Anihilation
+1,Chaos
+1,Darkness
+1,Death
+1,Defiling
+1,Destruction
+1,Doom
+1,Energy
+1,Evil
+1,Flame
+1,Fury
+1,the Gods
+1,Good
+1,Ice
+1,Immortalily
+1,Kings
+1,Law
+1,Life
+1,Life-giving
+1,Light
+1,Might
+1,the Moon
+1,the Night
+1,the Planes
+1,Power
+1,Preservation
+1,Revenge
+1,the Saviors
+1,Shadow
+1,Storms
+1,Vengeance
+1,the Warlords
+
+;Holy
+1,holy 
+1,unholy 
+3,
+
+;Noun
+1,Ascendence
+1,Avenger
+1,Defender
+1,Destiny
+1,Destroyer
+1,Devastator
+1,Executor
+1,Fate
+1,Fury
+1,Glory
+1,Guardian
+1,Justice
+1,Maelstrom
+1,Nemesis
+1,Predator
+1,Protector
+1,Ravager
+1,Redemption
+1,Storm
+1,Subjugator
+1,Tempest
+1,Triumph
+1,Tyrant
+1,Vengeance
+1,Vindicator
+1,Violence
+1,Wrath
+
+;Power
+1,acid
+1,air
+1,burning
+1,chaos
+1,cold
+1,darkness
+1,death
+1,destruction
+1,doom
+1,dream[s]
+1,earth
+1,evil
+1,fire
+1,flame
+1,flight
+1,frost
+1,good
+1,[Holy]might
+1,ice
+1,justice
+1,kings
+1,law
+1,light
+1,lightning
+1,magic
+1,pain
+1,piercing
+1,power
+1,protection
+1,shadow
+1,sorrow
+1,speed
+1,storms
+1,tears
+1,the Ancients
+1,the Elements
+1,the Gods
+1,the Moon
+1,the Sea
+1,the Stars
+1,the Sun
+1,the Warlords
+1,the Void
+1,water
+1,wind
+
+;Prefix
+1,Acid
+1,Barrow
+1,Battle
+1,Beast
+1,Black
+1,Chaos
+1,Dark
+1,Death
+1,Demon
+1,Devil
+1,Doom
+1,Drake
+1,Fiend
+1,Flame
+1,Foe
+1,Frost
+1,Ghoul
+1,Giant
+1,Goblin
+1,Hawk
+1,Heart
+1,Ice
+1,King
+1,Law
+1,Light
+1,Moon
+1,Night
+1,Orc
+1,River
+1,Serpent
+1,Shadow
+1,Skull
+1,Sky
+1,Spirit
+1,Star
+1,Steel
+1,Stone
+1,Storm
+1,Sun
+1,Venom
+1,Vermin
+1,Void
+1,War
+1,Wave
+1,Wind
+1,Wraith
+
+;Suffix
+1,axe
+1,bane
+1,biter
+1,blade
+1,breaker
+1,bringer
+1,claw
+1,cleaver
+1,crusher
+1,cutter
+1,doom
+1,fang
+1,grinder
+1,hammer
+1,haunter
+1,hew
+1,killer
+1,lance
+1,piercer
+1,razor
+1,reaper
+1,reaver
+1,ruin
+1,scourge
+1,slasher
+1,slayer
+1,slicer
+1,smasher
+1,spear
+1,splitter
+1,staff
+1,sword
+1,thorn
+1,tooth
+1,wrack
+
+;Suffix2
+10,%WpnType%
+1,bane
+1,beak
+1,biter
+1,breaker
+1,bringer
+1,claw
+1,crusher
+1,cutter
+1,doom
+1,fang
+1,grinder
+1,haunter
+1,killer
+1,piercer
+1,reaper
+1,ruin
+1,scourge
+1,slasher
+1,slayer
+1,slicer
+1,smasher
+1,splitter
+1,thorn
+1,wrack
+
+;Title
+1,Abyssal
+1,Accursed
+1,Astral
+1,Bitter
+1,Black
+1,Blessed
+1,Brilliant
+1,Brutal
+1,Celestial
+1,Corrupt
+1,Cursed
+1,Damned
+1,Dark
+1,Deadly
+1,Deathly
+1,Demonic
+1,Divine
+1,Eldritch
+1,Elysian
+1,Empyrean
+1,Endless
+1,Eternal
+1,Exalted
+1,Fallen
+1,Fell
+1,Fiendish
+1,Foul
+1,Glorious
+1,Golden
+1,Hallowed
+1,Heavenly
+1,Hellish
+1,Infernal
+1,Just
+1,Legendary
+1,Living
+1,Luminous
+1,Magic[al]
+1,Malefic
+1,Malevolent
+1,Malign
+1,Merciless
+1,Mighty
+1,Mystic[al]
+1,Profane
+1,Radiant
+1,Righteous
+1,Sacred
+1,Saintly
+1,Savage
+1,Screaming
+1,Shadow
+1,Silent
+1,Spectral
+1,Splendid
+1,Supreme
+1,Triumphant
+1,True
+1,[Unh]oly
+1,Venomous
+1,Vicious
+1,Vile
+1,Wicked
+1,Wondrous
+
+;Title1
+1,the Cursed
+1,the Damned
+1,the Decadent
+1,the Fouled
+1,the Golden
+1,the Great
+1,the Exalted
+1,the Legendary
+1,the Magnificient
+1,the Mighty
+1,the Pure
+1,the Radiant
+1,the [~Miscellaneous.Color]
+1,the [~Miscellaneous.Metal]
+
+;Title2
+1, [Title] 
+4, 
+

@@ -1,0 +1,242 @@
+# ------------------------------------------------------
+# Last Update: re-verified by Valminder Jan 10, 2012.
+# ------------------------------------------------------
+# ---------------------------------------------------
+# Last Update: modified by Valminder Feb 28, 2006.
+# ---------------------------------------------------
+#
+# Leisure Time Activities
+# by Larry Cormier
+#
+# Generates Random Leisure Time Activities
+#
+# OK, so you're walking down the hall of a nice manor house, peeking
+# into the rooms you pass, to see what's going on. With this table, you
+# can pique you curiosity, and maybe even get into a bit of dicing or 
+# knife practice to pass the time. But where are you supposed to meet?
+#
+# Modified by Valminder, Feb 2006.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+#    Added "Alternate" subtable for "Dreams.tab"
+#    Added links to: 
+#       Creatures.Humanoid2
+#
+
+#Define Variables
+%OccupantType%,0
+%AnimalsPresent%,0
+%MultipleAnimals%,0
+%NoTotal%,0
+%Chance%,0
+%Count%,0
+
+:Start
+1,{Status~By Larry Cormier and Valminder 2006}[Generate]
+
+:Chanceof
+1,|Chance={Dice~1d100}|
+
+:Generate
+1,[Chanceof]{If~%Chance%<25? This room is currently empty./The room contains [OccupantRace].
+_ They are [OccupantActivityBranch=%OccupantType%].}
+_{If~%AnimalsPresent%>0?|Count=%AnimalsPresent%| The {If~%Count%>1?animals are/animal is} [AnimalActivities].}
+
+# Created for "Dreams.tab"
+# This can used like this "You dreamt about [Leisure Time Activities.Alternate]." 
+:Alternate
+1,[OccupantRace] [OccupantActivityBranch=%OccupantType%]
+
+# -------------------------------------------------------------------------
+
+;OccupantRace
+2,[Gender] humans[Chanceof]{If~%Chance%<20?, as well as [Companions]/}
+1,[Gender] [~Creatures.Humanoid2][Chanceof]{If~%Chance%<20?, as well as [Companions]/}
+1,[Gender] humans, plus [Gender] [~Creatures.Humanoid2][Chanceof]{If~%Chance%<20?, as well as [Companions]/}
+1,[Gender] [~Creatures.Humanoid2], plus [Gender] [~Creatures.Humanoid2][Chanceof]{If~%Chance%<20?, as well as [Companions]/}
+
+;Gender
+2,|Count={Dice~1d5+1}|%Count% male |OccupantType=1|
+1,|Count={Dice~1d3+1}|%Count% female |OccupantType=2|
+1,|OccupantType=3|[Chanceof]{If~%Chance%<75? {Dice~1d5+1} male and {Dice~1d3+1} female/ {Dice~1d5+1} female and {Dice~1d3+1} male}
+
+# -------------------------------------------------------------------------
+
+;Companions
+50,|Count={Dice~1d3}||AnimalsPresent=%Count%| %Count% [Chanceof]{If~%Chance%<75? Large [~LargeCanines]/ Small [~SmallCanines]}
+_{If~%Count%>1? companions/ companion}
+25,|Count={Dice~1d3}||AnimalsPresent=%Count%| %Count% [Chanceof]{If~%Chance%<75? Large [~LargeFelines]/ Small [~SmallFelines]}
+_{If~%Count%>1? companions/ companion}
+20,|Count={Dice~1d2}||AnimalsPresent=%Count%| %Count% [~Birds]
+_{If~%Count%>1? companions/ companion}
+5,|Count={Dice~1d2}||AnimalsPresent=%Count%| %Count% [~OtherCompanions]
+_{If~%Count%>1? companions/ companion}
+
+;LargeCanines
+1,Bloodhound
+1,Boxer
+1,Colly
+1,Dalmatian
+1,Eskimo dog
+1,German Shepherd dog
+1,Giant Schnauzer
+1,Great Dane
+1,Greyhound
+1,Husky
+1,Labrador Retriever
+2,mongrel dog
+2,riding dog
+2,Rottweiler
+1,Saint Bernard
+5,war dog
+5,Wolfhound
+
+;SmallCanines
+5,Basset hound
+1,Beagle
+1,Bulldog
+1,Chihuahua
+2,Foxhound
+2,mongrel dog
+1,Poodle
+1,Pug
+1,Schnauzer
+1,Shih Tzu
+
+;LargeFelines
+2,black panther
+1,cheetah
+1,couger
+1,leopard
+1,lion
+1,mountain lion
+5,tiger
+
+;SmallFelines
+2,bobcat
+2,burmese cat
+1,calico cat
+5,siamese cat
+
+;Birds
+1,eagle
+2,hawk
+1,owl
+3,parrot
+2,raven
+
+;OtherCompanions
+1,cameleon
+2,ferret
+1,iguana
+2,lizard
+1,monkey
+2,rat
+1,tarantula spider
+1,toad
+4,weasel
+1,{Dice~2d6}-foot long boa constrictor
+1,{Dice~2d8}-foot long python
+
+# -------------------------------------------------------------------------
+
+:OccupantActivityBranch
+1,[MaleActivities]
+2,[FemaleActivities]
+3,[MaleActivities]. The females are [FemaleActivities]
+
+;!MaleActivities
+10,[GenericActivities]
+5,rolling dice[Chanceof]{If~%Chance%<75? against the wall/ on a table in the room}
+_[Chanceof]{IIf~%Chance%<90? and gambling. The pot currently holds <b>{Dice~5d6}</b> Gold Pieces}
+2,throwing knives[Chanceof]{If~%Chance%<75? at a practice target/ at the wall unconcernedly}
+2,engaged in an arm wrestling contest [Chanceof]{If~%Chance%<60? and wagering on the outcome}
+1,Wrestling[Chanceof]{If~%Chance%<60? and wagering on the outcome}
+1,engaged in a fist-fight[Chanceof]{If~%Chance%<30? and wagering on the outcome}
+5,engaged in [PracticeSession] training practice
+10,sharpening weapons
+
+;!FemaleActivities
+10,[GenericActivities]
+3,serving wine
+5,serving a meal
+5,dancing
+4,sewing
+2,knitting
+1,quilting
+1,dying clothing
+3,doing laundry
+8,brushing their hair
+3,weaving
+1,weaving baskets
+1,throwing pots
+15,doing needlework
+3,cross stiching
+
+;!GenericActivities
+1,making Jewelry
+3,sleeping
+10,eating
+1,passed out in a drunken stupor, empty bottles laying beside them
+1,shackled to the wall[Chanceof]{If~%Chance%<50? and gagged}
+10,playing cards[Chanceof]{IIf~%Chance%<90? and gambling. The pot currently holds <b>{Dice~5d6}</b> Gold Pieces}
+5,studying [StudyType]
+1,taking a sponge bath
+1,bathing in a steaming tub
+1,{If~%OccupantType%=3? attempting to initiate sexual activities, some are [GenericActivities]/ engaged in sexual activities}
+6,cleaning Armor
+6,repairing Armor
+10,mending clothing
+2,cobbling [Chanceof]{If~%Chance%<75?shoes/boots}
+50,engaged in [ConversationTypes]
+3,whittling
+5,scribing a document of some sort
+1,dressing
+1,undressing
+3,meditating
+10,drinking
+7,smoking
+25,doing nothing at the moment
+15,singing [SingingType]
+
+;!SingingType
+15,a [Chanceof]{If~%Chance%<25?tragic/lusty} ballad
+10,a rousing folk song
+5,a cheerful song of nonsense
+2,a lullaby
+7,a well-known love song
+1,a sharp marching song
+
+;!PracticeSession
+25,sword
+10,knife
+10,dagger
+1,polearm
+3,battle axe
+5,quarterstaff
+10,hand-to-hand combat
+
+;!StudyType
+10,some maps
+5,a spell book
+25,some unidentifiable scrolls
+50,some common books
+
+;!ConversationTypes
+3,a heated argument
+10,a quiet conversation
+10,an earnest conversation
+5,a bout of shameless Gossip
+2,a boasting contest
+9,the recitation of a favorite folk tale
+5,an animated debate
+
+# -------------------------------------------------------------
+
+;!AnimalActivities
+5,sleeping
+15,playing with {If~{And~%AnimalsPresent%=1,%Count%=1}=1? it's master/their masters}
+10,grooming {If~{And~%AnimalsPresent%=1,%Count%=1}=1? itself/themselves}
+4,investigating the room
+7,playing in a corner
+

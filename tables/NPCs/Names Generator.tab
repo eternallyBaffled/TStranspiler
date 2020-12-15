@@ -1,0 +1,906 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder Feb 06, 2019.
+# ---------------------------------------------------
+#
+# This is a complete Name Generator using all the NAMES files
+# available from Tablesmith.
+#
+# -------------------------------------------------------------------------
+#
+# To call this table from another one:
+#    [Names Generator.NAME Random
+#    [Names Generator.SpecificName2(3,%SpecificName%)
+#
+#    Gender:        3  1=Male, 2=Female, 3=Random
+#    SpecificName: 43  ONLY with "NPC Appearance.GenMonster_ENC URE"
+#                      1= Human (M-F), 2= Dwarf (M-F), 3= Elf, 4= Gnome (M-F), 5= Gnome,Tinker, 6= Halfling, 
+#                      7= Formal Name (M-F) 8= Mercenary Name (M-F), 9= Noble Household, 
+#                     10= Arab (M-F), 11= Egyptian, 12= Oriental (M-F), 13= Roman (M-F), 14= Spanish (M-F), 15= Swahli (M-F), 16= Viking (M-F), 17= OTHER
+#                     18= Angel/Fallen Angel, 19= Bugbear (M-F), 20= Centaur (M-F), 21= Derro (Dwarf), 22= Dragon
+#                     23= Drow (M-F), 24= Duergar (M-F), 25= Githyanki (M-F), 26= Githzerai (M-F), 27= Gnoll (M-F)
+#                     28= Goblin (M-F), 29= Hobgoblin (M-F), 30= Kobold (M-F), 31= Illithid (Mind Flayer), 32= Infernal/Demon
+#                     33= Kuo-Toa, 34= Lizardfolk, 35= Lovecraft creature, 36= Minotaur (M-F), 37= Ogre (M-F), 38= Orc
+#                     39= Svirfneblin (Gnome) (M-F), 40= Troglodyte, 41= Troll (M-F), 42= Yuan-ti
+#                     43= [~Names Generator.NAME For All]
+#                     44= Giant, 45= Kender
+#                  ===>>> Addding a new type of Creature: Add here.
+#                         ENC Ultimate Random Encounter:  Add in -"FindRaceInMonsterName" subtable
+#                         Names Generator:                Add in -Parameter: "SpecificName" entry
+#                                                                -"FindRaceInMonsterName" subtable
+#                                                                -"SpecificName" subtable
+#                         NPC Appearance:                 Add in -Parameter: "SpecificName" entry
+#
+# -------------------------------------------------------------------------
+# This Table Links to these tables as required:
+#    ALL names generator tables.
+#
+# -------------------------------------------------------------------------
+# This table is called by:
+#    Too many to account for.
+#
+# -------------------------------------------------------------------------
+#
+# Made by Valminder in April 2002.
+# Modified by Valminder, Oct 2003/Jan 2004.
+# Modified by Valminder, Oct 2005
+#    -I temporarily removed Andemon's name table because of too many errors.
+#    -Link to [Oeridian.LordlyRandom]
+#             [Oeridian.MightyRandom]
+# Modified by Valminder, Nov 2005
+#    -Added subtable "NAME FormalGen" to replace 
+#     [Noble Household Names.Start] in some table (to give more results).
+#    -Added Lizardfolk Names.tab
+#    -Added Demon Names.tab (linked with Infernal).
+# Modified by Valminder, Jan 2006
+#    -Added: Bugbear Names.tab
+#            Centaur Names.tab
+#            Drow Names II.tab
+#            Githyanki Names.tab
+#            Githzerai Names.tab
+#            Gnoll Names.tab
+#            Goblin Names.tab
+#            Hobgoblin Names.tab
+#            Kobold Names.tab
+#            Lizardfolk Names II.tab
+#            Mindflayer Names.tab
+#            Minotaur Names.tab
+#            Ogre Names.tab
+#            Troglodyte Names.tab
+#            Troll Names.tab
+#            Yuanti Names.tab
+# Modified by Valminder, Feb 2006
+#    I fixed the output. Maybe I'll create 2 tables instead of only one.
+#                        The future will tell me.
+#    Added link to:
+#       AnotherHalflingNamer.Generate
+#       Tinker Gnome Names.Generate
+# Modified by Valminder, August 2006.
+#    Added links to:
+#       Arab.tab
+#       Cornish.tab
+#       Dwarven.tab
+#       Nordic.tab
+#       Roman.tab
+#       Spanish.tab
+#       Sumerian.tab
+#       Wolfen.Start
+# Modified by Valminder, August 2007.
+#    Added 'Celestial Names' subtable (for future use).
+#    Added link to:
+#       Angel Names.tab
+# Modified by Valminder, September 2007.
+#    Added links to:
+#       NamesModernJapanese.tab
+#       Townfolk.tab
+# Improved by Valminder, August 2015.
+#    Added "SpecificName" subtable.
+#          Gender
+# Modified by Valminder, February 2019.
+#    Added Aasimar, Tiefling.
+#
+
+/OverrideRolls 1
+
+%Gender%,0
+%MonsterName%,0
+%SpecificName%,0
+%Temp%,0
+
+@Gender,3,Choose gender,Male,Female,Random
+@SpecificName,43,ONLY with "NPC Appearance.GenMonster_ENC URE",Human (M-F),Dwarf (M-F),Elf,Gnome (M-F),Gnome Tinker,Halfling (M-F),Formal Name (M-F),Mercenary Name (M-F),Noble Household,Arab (M-F),Egyptian,Oriental (M-F),Roman (M-F),Spanish (M-F),Swahli (M-F),Viking (M-F),OTHER,Angel-Fallen Angel,Bugbear (M-F),Centaur (M-F),Derro (Dwarf),Dragon,Drow (M-F),Duergar (M-F),Githyanki (M-F),Githzerai (M-F),Gnoll (M-F),Goblin (M-F),Hobgoblin (M-F),Kobold (M-F),Illithid (Mind Flayer),Infernal/Demon,Kuo-Toa,Lizardfolk,Lovecraft creature,Minotaur (M-F),Ogre (M-F),Orc,Svirfneblin (Gnome) (M-F),Troglodyte,Troll (M-F),Yuan-ti,RANDOM (NAMES For All),Giant,Kender
+#@MonsterName,,ONLY with "ENC Ultimate Random Encounter.tab" and "NPC Appearance.GenMonster_ENC URE"
+
+:Start
+#1,<b><u>NAME GENERATOR</u>:</b>{Status~by Valminder, 2002, 2005, 2006, 2010.}<br>
+1,{Status~by Valminder, 2002, 2005, 2006, 2010.}
+_<b>Human:</b> [NAME Human Male] (M) / [NAME Human Female] (F)<br><hr>
+_<b>Dwarf:</b> [NAME Dwarf Male] (M) / [NAME Dwarf Female] (F)<br>
+_<b>Elf:</b> [NAME Elf]<br>
+_<b>Gnome:</b> {Cap~[NAME Gnome Male]} (M) / [NAME Gnome Female] (F)<br>
+_<b>Gnome, Tinker:</b> {CapEachWord~[Tinker Gnome Names.Generate]}<br>
+_<b>Halfling:</b> [NAME Halfling Male] (M) / [NAME Halfling Female] (F)<br><hr>
+_<b>Formal Name:</b> [NAME Formal]<br>
+_<b>Mercenary Name:</b> [Townfolk.MercNameMF=1] / [Townfolk.MercNameMF=2]<br>
+_<b>Noble Household:</b> [Noble Household Names.Start]<br><hr>
+#
+#_<b><u>Miscellaneous Names</b></u><br>
+_<b>Arab:</b> [Arab.Start(1)] (M) / [Arab.Start(2)] (F)<br>
+_<b>Egyptian:</b> [Egyptian Names.Start]<br>
+_<b>Oriental:</b> [NAME Oriental Male] (M) / [NAME Oriental Female] (F)<br>
+_<b>Roman:</b> [Roman.Start(1)] (M) / [Roman.Start(2)] (F)<br>
+_<b>Spanish:</b> [Spanish.Start(1)] (M) / [Spanish.Start(2)] (F)<br>
+_<b>Swahli / Tribal:</b> [NAME Tribal Male] (M) / [NAME Tribal Female] (F)<br>
+_<b>Viking:</b> [Nordic.Start(1)] (M) / [Nordic.Start(2)] (F)<br>
+_<b>OTHER:</b> [NAME Other]<hr>
+#
+_<b>Aasimar:</b> [NAME Aasimar Male] (M) / [NAME Aasimar Female] (F)<br>
+_<b>Angel/Fallen Angel:</b> [Angel Names.Start]<br>
+_<b>Bugbear:</b> [Bugbear Names Male] (M) / [Bugbear Names Female] (F)<br>
+_<b>Centaur:</b> [Centaur Names Male] (M) / [Centaur Names Female] (F)<br>
+_<b>Derro (Dwarf):</b> [Underdark.DerroNoMeaning]<br>
+_<b>Dragon:</b> [NAME Dragon]<br>
+_<b>Drow:</b> [NAME Drow Male] (M) / [NAME Drow Female] (F)<br>
+_<b>Duergar (Dwarf):</b> [Underdark.DuergarMaleNoMeaning] (M) / [Underdark.DuergarFemaleNoMeaning] (F)<br>
+_<b>Githyanki:</b> [Githyanki Names.Male] (M) / [Githyanki Names.Female] (F)<br>
+_<b>Githzerai:</b> [Githzerai Names.Male] (M) / [Githzerai Names.Female] (F)<br>
+_<b>Gnoll:</b> [Gnoll Names.Male] (M) / [Gnoll Names.Female] (F)<br>
+_<b>Goblin:</b> [Goblin Names.Male] (M) / [Goblin Names.Female] (F)<br>
+_<b>Hobgoblin:</b> [Hobgoblin Names.Male] (M) / [Hobgoblin Names.Female] (F)<br>
+_<b>Kobold:</b> [Kobold Names.Male] (M) / [Kobold Names.Female] (F)<br>
+_<b>Illithid (Mind Flayer):</b> [NAME Illithid]<br>
+_<b>Infernal/Demon:</b> {Cap~[Demonic Names]} (True Name) / [Infernal Names.UseName] (Use Name)<br>
+_<b>Kuo-Toa:</b> [Underdark.KuoToaNoMeaning]<br>
+_<b>Lizardfolk:</b> [NAME Lizardfolk]<br>
+_<b>Lovecraft creature:</b> [Lovecraft.Start]<br>
+_<b>Minotaur:</b> [Minotaur Names.Male] (M) / [Minotaur Names.Female] (F)<br>
+_<b>Ogre:</b> [Ogre Names.Male] (M) / [Ogre Names.Female] (F)<br>
+_<b>Orc:</b> [NAME Orc]<br>
+_<b>Svirfneblin (Gnome):</b> [Underdark.SvifneblinMaleNoMeaning] (M) / [Underdark.SvifneblinFemaleNoMeaning] (F)<br>
+_<b>Tiefling:</b> [NAME Tiefling Male] (M) / [NAME Tiefling Female] (F)<br>
+_<b>Troglodyte:</b> [Troglodyte Names.Start]<br>
+_<b>Troll:</b> [Troll Names.Male] (M) / [Troll Names.Female] (F)<br>
+_<b>Yuan-ti:</b> [Yuanti Names.Start]<br>
+
+;Bugbear Names Male
+1,[Bugbear Names.Male]
+
+;Bugbear Names Female
+1,[Bugbear Names.Female]
+
+;Celestial Names
+1,[Angel Names.Start]
+
+;Centaur Names Male
+1,[Centaur Names.Male]
+
+;Centaur Names Female
+1,[Centaur Names.Female]
+
+;Demonic Names
+1,[Demon Names.Start]
+1,[Infernal Names.TrueName]
+
+;NAME Aasimar Male
+1,[NAME Human Male]
+1,[Aasimar Male] [Aasimar Last]
+1,[Celestial Names]
+
+;NAME Aasimar Female
+1,[NAME Human Female]
+1,[Aasimar Female] [Aasimar Last]
+1,[Celestial Names]
+
+;NAME Dragon
+1,[Names Dragon.Start]
+
+;NAME Drow Male
+1,[Drow Names.Start]
+1,[Drow Names II.Start(1,2)]
+
+;NAME Drow Female
+1,[Drow Names.Start]
+1,[Drow Names II.Start(2,2)]
+
+;NAME Dwarf Male
+2,[Male Dwarven Names.Start]
+2,[Dwarven.Start(1)]
+2,[Dwarven Names.Start]
+1,[Dwarven Names II.Start]
+2,[Male Dwarf Names II.Start]
+1,[NAME For All]
+
+;NAME Dwarf Female
+2,[Dwarven.Start(2)]
+2,[Female Dwarf Names.Start]
+2,[Female Dwarf Names II.Start]
+1,[NAME For All]
+
+;NAME Elf
+2,[Elven Names.Start]
+2,[Elven Names II.Start]
+2,[Elven Names III.Start]
+2,[Elven Names IV.Alternate]
+1,[NAME For All]
+
+# Also see "NAME FormalGen" below
+;NAME Formal
+6,[JG Names.Male Title] (M) / [JG Names.Female Title] (F)
+4,[Oeridian.LordlyRandom]
+4,[Oeridian.MightyRandom]
+1,[Noble Household Names.Start2]
+4,[Formal Names.Start]
+2,[Townfolk.FormalNameMF=1] / [Townfolk.FormalNameMF=2]
+
+;NAME Gnome Male
+2,[Gnome Names.Male]
+1,[NAME For All]
+
+;NAME Gnome Female
+2,[Gnome Names.Fem]
+1,[NAME For All]
+
+;NAME Halfling Male
+2,[Halfling Names.Male]
+2,[Halfling Names II.Name Options=1]
+1,[NAME For All]
+1,[AnotherHalflingNamer.Generate]
+
+;NAME Halfling Female
+2,[Halfling Names.Fem]
+2,[Halfling Names II.Name Options=2]
+1,[NAME For All]
+
+;NAME Human Male
+#1,[Andemon's Names.Male Name]
+3,[JG Names.Male Common]
+2,[Oeridian.CommonMale]
+1,[Tolkien Male Names.Start]
+1,[Townfolk.MaleName]
+10,[NAME For All]
+
+;NAME Human Female
+#1,[Andemon's Names.Female Name]
+3,[JG Names.Female Common]
+2,[Oeridian.CommonFemale]
+1,[Real MiddleEarth Female Names.Start]
+1,[Townfolk.FemaleName]
+5,[NAME For All]
+
+;NAME Illithid
+2,[Underdark.IllithidNoMeaning]
+1,[Mindflayer Names.Start]
+
+;NAME Lizardfolk
+9,[Lizardfolk Names.BuildLizardfolkName]
+1,[Lizardfolk Names II.Start]
+
+;NAME Orc
+5,[Orc Names.Start]
+1,[Orc Names II.Start]
+3,[Orc Names III.Start]
+3,[Orc Names IV.Start]
+2,[MiddleEarth Names II Black Speech.Start]
+1,[NAME For All]
+
+;NAME Oriental Male
+3,[KS_JapaneseNames.male]
+3,[KS_OrientalAdventures.Male]
+3,[KS_Rokugan.Male]
+3,[NamesModernJapanese.GenMale]
+1,[Oriental Names.Start]
+3,[Real Japanese.male]
+
+;NAME Oriental Female
+1,[KS_JapaneseNames.female]
+1,[KS_OrientalAdventures.Female]
+1,[KS_Rokugan.Female]
+3,[NamesModernJapanese.GenFemale]
+3,[Real Japanese.female]
+
+;NAME Other
+1,[Dying Earth Names.Start]
+1,[MiddleEarth Names II Black Speech.Start]
+1,[Suel.Start]
+1,[Wolfen.Start]
+
+;NAME Tiefling Male
+1,[NAME Human Male]
+1,[Tiefling Male] [Tiefling Last]
+1,[Infernal Names.UseName]
+
+;NAME Tiefling Female
+1,[NAME Human Female]
+1,[Tiefling Female] [Tiefling Last]
+1,[Infernal Names.UseName]
+
+;NAME Tribal Female
+3,[Real Swahli.Female Name]
+1,[Wolfen.Start]
+
+;NAME Tribal Male
+3,[Real Swahli.Male Name]
+1,[Wolfen.Start]
+
+# ---------------------------------------------------------------------------
+
+;NAME For All
+4,[4000 Names.Start]
+4,[Fantasy Names.Start]
+4,[Fantasy Names II.Start]
+4,[Fantasy Names III.Start]
+1,[Human Names 1.Start]
+1,[Human Names 2.Start]
+1,[Human Names 3.Start]
+5,[JG Names.Alternate]
+4,[MiddleEarth Names.Start]
+1,[Names from Conan.Start]
+4,[Olde English Names.Start]
+4,[Real Marrish.Start]
+1,[Sumerian.Start]
+1,[Townfolk.Name]
+
+# ---------------------------------------------------------------------------
+# This subtable is to replace [Noble Household Names.Start] in some tables.
+
+;NAME FormalGen
+4,[Formal Names.Start]
+3,[JG Names.Male Title]
+3,[JG Names.Female Title]
+4,[Oeridian.LordlyRandom]
+4,[Oeridian.MightyRandom]
+1,[Townfolk.FormalNameMF=1]
+1,[Townfolk.FormalNameMF=2]
+10,[Noble Household Names.Start2]
+
+# ---------------------------------------------------------------------------
+
+;NAME Random
+70,[Name Common]
+25,[Name Uncommon]
+5,[Name Rare]
+
+;Name Common
+1,[4000 Names.Start]
+#1,[Andemon's Names.Male Name]
+#1,[Andemon's Names.Female Name]
+9,[Fantasy Names.Start]
+9,[Fantasy Names III.Start]
+3,[Human Names 1.Start]
+3,[Human Names 2.Start]
+3,[Human Names 3.Start]
+5,[MiddleEarth Names.Start]
+2,[Oeridian.CommonRandom]
+3,[Olde English Names.Start]
+
+;Name Uncommon
+1,[Arab.Start(3)]
+1,[Cornish.Start(3)]
+1,[MiddleEarth Names II Black Speech.Start]
+1,[Real MiddleEarth Female Names.Start]
+1,[Tolkien Male Names.Start]
+2,[Names from Conan.Start]
+1,[Male Dwarven Names.Start]
+1,[Dwarven.Start(3)]
+1,[Dwarven Names.Start]
+1,[Dwarven Names II.Start]
+1,[Male Dwarf Names II.Start]
+2,[Dying Earth Names.Start]
+1,[Female Dwarf Names.Start]
+1,[Female Dwarf Names II.Start]
+1,[Elven Names.Start]
+1,[Elven Names II.Start]
+1,[Elven Names III.Start]
+1,[Elven Names IV.Alternate]
+6,[NAME Formal]
+1,[Gnome Names.Male]
+1,[Gnome Names.Fem]
+1,[Goblin Names.Start]
+1,[Halfling Names.Male]
+1,[Halfling Names.Fem]
+1,[Halfling Names II.Name Options=3]
+1,[AnotherHalflingNamer.Generate]
+1,[Hobgoblin Names.Start]
+1,[Nordic.Start(3)]
+1,[Ogre Names.Start]
+1,[Orc Names.Start]
+1,[Orc Names II.Start]
+1,[Orc Names III.Start]
+1,[Orc Names IV.Start]
+1,[Real Japanese.male]
+1,[Real Japanese.female]
+1,[Real Marrish.Start]
+1,[Roman.Start(3)]
+1,[Spanish.Start(3)]
+2,[Sumerian.Start]
+1,[Townfolk.MercNameMF=1]
+1,[Townfolk.MercNameMF=2]
+
+;Name Rare
+1,[Angel Names.Start]
+1,[Bugbear Names.Start]
+1,[Centaur Names.Start]
+1,[Drow Names.Start]
+1,[Drow Names II.Start(3,1)]
+1,[Egyptian Names.Start]
+1,[Githyanki Names.Start]
+1,[Githzerai Names.Start]
+1,[Gnoll Names.Start]
+1,[Kobold Names.Start]
+1,[KS_JapaneseNames.male]
+1,[KS_OrientalAdventures.Male]
+1,[KS_JapaneseNames.female]
+1,[KS_OrientalAdventures.Female]
+1,[KS_Rokugan.Male]
+1,[KS_Rokugan.Female]
+1,[Minotaur Names.Start]
+1,[NamesModernJapanese.Generate]
+1,[Noble Household Names.Start]
+1,[Oriental Names.Start]
+1,[Real Swahli.Female Name]
+1,[Real Swahli.Male Name]
+1,[Suel.Start]
+1,[Tinker Gnome Names.Generate]
+1,[Troglodyte Names.Start]
+1,[Troll Names.Male]
+1,[Troll Names.Female]
+1,[Underdark.DerroNoMeaning]
+1,[Underdark.DuergarNoMeaning]
+1,[Underdark.IllithidNoMeaning]
+1,[Underdark.KuoToaNoMeaning]
+1,[Underdark.SvifneblinMaleNoMeaning]
+1,[Underdark.SvifneblinFemaleNoMeaning]
+1,[Wolfen.Start]
+
+# -------------------------------------------------------------------------------------------------
+
+;Aasimar Male
+1,Aialon
+1,Alwinar
+1,Aramil
+1,Arannis
+1,Berrian
+1,Cassius
+1,Dayereth
+1,Elarahal
+1,Eladio
+1,Erevan
+1,Galinndan
+1,Hadarai
+1,Immeral
+1,Jiardem
+1,Laern
+1,Lelyrian
+1,Lephyrr
+1,Loray
+1,Mindartis
+1,Paelias
+1,Quarion
+1,Riardon
+1,Sayadar
+1,Soveliss
+1,Talonien
+1,Vaerlan
+1,Xoneras
+1,Zaquivir
+1,Adiah
+1,Ansis
+1,Ayab
+1,Bavak
+1,Beriah
+1,Eben
+1,Elyas
+1,Galad
+1,Gamal
+1,Hiyal
+1,Iannes
+1,Kerem
+1,Mahar
+1,Marach
+1,Mathas
+1,Natan
+1,Nehem
+1,Oris
+1,Raham
+1,Ronen
+1,Samel
+1,Sered
+1,Tavar
+1,Vered
+1,Zachar
+
+;Aasimar Female
+1,Allyria
+1,Althaea
+1,Anastrianna
+1,Andraste
+1,Ayrdra
+1,Aylwin
+1,Bethrynna
+1,Caelynna
+1,Deneth
+1,Elseone
+1,Etherea
+1,Jelenneth
+1,Istiria
+1,Karanwyn
+1,Lavinia
+1,Leandra
+1,Leshanna
+1,Levana
+1,Lieryn
+1,Meriele
+1,Naivara
+1,Ondine
+1,Orianna
+1,Ravel
+1,Quelenna
+1,Sariel
+1,Shanairra
+1,Sidonie
+1,Sinariel
+1,Sydri
+1,Taris
+1,Theirastra
+1,Turue
+1,Vacquiel
+1,Valenae
+1,Valendra
+1,Abea
+1,Adara
+1,Asha
+1,Chana
+1,Danel
+1,Darah
+1,Davi
+1,Elka
+1,Eranah
+1,Hania
+1,Hava
+1,Idria
+1,Isa
+1,Jael
+1,Kana
+1,Kayah
+1,Lihi
+1,Mahel
+1,Marek
+1,Noma
+1,Navah
+1,Paziah
+1,Ravah
+1,Riya
+1,Sada
+1,Shara
+1,Tirah
+
+;Aasimar Last
+1,Aelius
+1,Lantherval
+1,Lorhalien
+1,Maldranthe
+1,Shalbarain
+1,Sirothian
+1,Starfeon
+1,Zolerii
+1,Azule
+1,Berius
+1,Callan
+1,Duhma
+1,Etoile
+1,Falam
+1,Goultar
+1,Hysiris
+1,Iolten
+1,Jelard
+1,Kaam
+1,Landal
+1,Muzul
+1,Nuterus
+1,Osstin
+1,Perol
+1,Qintz
+1,Rahmsas
+1,Selar
+1,Typhos
+1,Ulbras
+1,Valis
+1,Wordis
+1,Ximack
+1,Yahoon
+1,Zanbas
+
+# -------------------------------------------------------------------------------------------------
+
+;Tiefling Male
+1,Akmenos
+1,Amnon
+1,Ankhus
+1,Arkadi
+1,Armarius
+1,Armillius
+1,Archidius
+1,Balmoloch
+1,Barakas
+1,Calderax
+1,Cavian
+1,Cenereth
+1,Chorum
+1,Corynax
+1,Dacian
+1,Daelius
+1,Damaceus
+1,Damakos
+1,Decimeth
+1,Demedor
+1,Demerian
+1,Dynachus
+1,Ekemon
+1,Grassus
+1,Halius
+1,Heleph
+1,Iados
+1,Incirion
+1,Kairon
+1,Kalaradian
+1,Kamien
+1,Kazimir
+1,Kzandro
+1,Leucis
+1,Machem
+1,Maetheus
+1,Malfias
+1,Marchion
+1,Melech
+1,Menerus
+1,Morthos
+1,Namazeus
+1,Nensis
+1,Pelaios
+1,Prismeus
+1,Pyranikus
+1,Razortail
+1,Sejanus
+1,Severian
+1,Skamos
+1,Suffer
+1,Syken
+1,Tarkus
+1,Therai
+1,Vaius
+1,Xerek
+1,Zeth
+1,Zevon
+
+;Tiefling Female
+1,Affyria
+1,Akta
+1,Bryseis
+1,Cataclysmia
+1,Damaia
+1,Domitia
+1,Dorethau
+1,Ea
+1,Excellence
+1,Felicity
+1,Hacari
+1,Iritra
+1,Kallista
+1,Lachira
+1,Lerissa
+1,Levatra
+1,Makaria
+1,Mecretia
+1,Milvia
+1,Nemeia
+1,Nericia
+1,Orianna
+1,Phelaia
+1,Precious
+1,Rain
+1,Revelation
+1,Rieta
+1,Samantia
+1,Sunshine
+1,Tenerife
+1,Traya
+1,Velavia
+1,Zaidi
+1,Zethaya
+
+;Tiefling Last
+1,Amarzian
+1,Carnago
+1,Domarien
+1,Iscitan
+1,Meluzan
+1,Menetrian
+1,Paradas
+1,Romazi
+1,Sarzan
+1,Serechor
+1,Shadowhorn
+1,Szereban
+1,Torzalan
+1,Trelenus
+1,Trevethor
+1,Tryphon
+1,Vadu
+1,Vrago
+
+# -------------------------------------------------------------------------------------------------
+
+# Needs a %MonsterName%
+# SEE this same table in "ENC Ultimate Random Encounter"
+:FindRaceInMonsterName
+1,|Temp=43||MonsterName={LCase~%MonsterName%}|
+_{If~%MonsterName%=0?[SpecificName=43]/[FindSpecificName2][SpecificName=%Temp%]}
+
+:FindRaceInMonsterName2
+1,{If~{Find~1,mercenary,%TempNPCApp%}>0?|TempNPCApp3=8|
+_    /{If~{Find~1,formal,%TempNPCApp%}>0?|TempNPCApp3=7|
+_    /{If~{Find~1,noble,%TempNPCApp%}>0?|TempNPCApp3=9|
+#
+_    /{If~{Find~1,derro,%TempNPCApp%}>0?|TempNPCApp3=21|
+_    /{If~{Find~1,duergar,%TempNPCApp%}>0?|TempNPCApp3=24|
+_    /{If~{Find~1,dwarf,%TempNPCApp%}>0?|TempNPCApp3=2|
+_    /{If~{Find~1,drow,%TempNPCApp%}>0?|TempNPCApp3=23|
+_    /{If~{Find~1,elf,%TempNPCApp%}>0?|TempNPCApp3=3|
+_    /{If~{Find~1,svirfneblin,%TempNPCApp%}>0?|TempNPCApp3=39|
+_    /{If~{Find~1,gnome,%TempNPCApp%}>0?|TempNPCApp3=4|
+_    /{If~{Find~1,halfling,%TempNPCApp%}>0?|TempNPCApp3=6|
+_    /{If~{Find~1,tinker,%TempNPCApp%}>0?|TempNPCApp3=5|
+#
+_    /{If~{Find~1,arab,%TempNPCApp%}>0?|TempNPCApp3=10|
+_         /{If~{Find~1,sind,%TempNPCApp%}>0?|TempNPCApp3=10|
+_         /{If~{Find~1,ylaruam,%TempNPCApp%}>0?|TempNPCApp3=10|
+_    /{If~{Find~1,egypt,%TempNPCApp%}>0?|TempNPCApp3=11|
+_         /{If~{Find~1,nythia,%TempNPCApp%}>0?|TempNPCApp3=11|
+_    /{If~{Find~1,oriental,%TempNPCApp%}>0?|TempNPCApp3=12|
+_         /{If~{Find~1,kara-tur,%TempNPCApp%}>0?|TempNPCApp3=12|
+_         /{If~{Find~1,ochalea,%TempNPCApp%}>0?|TempNPCApp3=12|
+_         /{If~{Find~1,jen,%TempNPCApp%}>0?|TempNPCApp3=12|
+_    /{If~{Find~1,roman,%TempNPCApp%}>0?|TempNPCApp3=13|
+_         /{If~{Find~1,thyatis,%TempNPCApp%}>0?|TempNPCApp3=13|
+_         /{If~{Find~1,thyatian,%TempNPCApp%}>0?|TempNPCApp3=13|
+_         /{If~{Find~1,isle of dawn,%TempNPCApp%}>0?|TempNPCApp3=13|
+_    /{If~{Find~1,spanish,%TempNPCApp%}>0?|TempNPCApp3=14|
+_         /{If~{Find~1,spain,%TempNPCApp%}>0?|TempNPCApp3=14|
+_         /{If~{Find~1,glantri,%TempNPCApp%}>0?|TempNPCApp3=14|
+_    /{If~{Find~1,spanish,%TempNPCApp%}>0?|TempNPCApp3=15|
+_    /{If~{Find~1,viking,%TempNPCApp%}>0?|TempNPCApp3=16|
+_         /{If~{Find~1,vestland,%TempNPCApp%}>0?|TempNPCApp3=16|
+_         /{If~{Find~1,ostland,%TempNPCApp%}>0?|TempNPCApp3=16|
+_         /{If~{Find~1,soderfjord,%TempNPCApp%}>0?|TempNPCApp3=16|
+_    /{If~{Find~1,human,%TempNPCApp%}>0?|TempNPCApp3=1|
+#
+_    /{If~{Find~1,angel,%TempNPCApp%}>0?|TempNPCApp3=18|
+_         /{If~{Find~1,archon,%TempNPCApp%}>0?|TempNPCApp3=18|
+_         /{If~{Find~1,eladrin,%TempNPCApp%}>0?|TempNPCApp3=18|
+_         /{If~{Find~1,guardinal,%TempNPCApp%}>0?|TempNPCApp3=18|
+#
+_    /{If~{Find~1,bugbear,%TempNPCApp%}>0?|TempNPCApp3=19|
+_    /{If~{Find~1,centaur,%TempNPCApp%}>0?|TempNPCApp3=20|
+_    /{If~{Find~1,githyanki,%TempNPCApp%}>0?|TempNPCApp3=25|
+_    /{If~{Find~1,githzerai,%TempNPCApp%}>0?|TempNPCApp3=26|
+_    /{If~{Find~1,gnoll,%TempNPCApp%}>0?|TempNPCApp3=27|
+_    /{If~{Find~1,hobgoblin,%TempNPCApp%}>0?|TempNPCApp3=29|
+_    /{If~{Find~1,goblin,%TempNPCApp%}>0?|TempNPCApp3=28|
+_    /{If~{Find~1,kobold,%TempNPCApp%}>0?|TempNPCApp3=30|
+_    /{If~{Find~1,illithid,%TempNPCApp%}>0?|TempNPCApp3=31|
+_         /{If~{Find~1,mind flayer,%TempNPCApp%}>0?|TempNPCApp3=31|
+_    /{If~{Find~1,demon,%TempNPCApp%}>0?|TempNPCApp3=32|
+_       /{If~{Find~1,tanar'ri,%TempNPCApp%}>0?|TempNPCApp3=32|
+_       /{If~{Find~1,devil,%TempNPCApp%}>0?|TempNPCApp3=32|
+_       /{If~{Find~1,baatezu,%TempNPCApp%}>0?|TempNPCApp3=32|
+_    /{If~{Find~1,kuo-toa,%TempNPCApp%}>0?|TempNPCApp3=33|
+_    /{If~{Find~1,lizardfolk,%TempNPCApp%}>0?|TempNPCApp3=34|
+_    /{If~{Find~1,yugoloth,%TempNPCApp%}>0?|TempNPCApp3=35|
+_    /{If~{Find~1,minotaur,%TempNPCApp%}>0?|TempNPCApp3=36|
+_    /{If~{Find~1,ogre,%TempNPCApp%}>0?|TempNPCApp3=37|
+_    /{If~{Find~1,troglodyte,%TempNPCApp%}>0?|TempNPCApp3=40|
+_    /{If~{Find~1,troll,%TempNPCApp%}>0?|TempNPCApp3=40|
+_    /{If~{Find~1,yuan,%TempNPCApp%}>0?|TempNPCApp3=40|
+#
+_    /{If~{Find~1,giant,%TempNPCApp%}>0?|TempNPCApp3=44|
+_    /{If~{Find~1,kender,%TempNPCApp%}>0?|TempNPCApp3=45|
+# ORC is there because there is a problem with Sorcerer (where "orc" is found)
+_    /{If~{Find~1,orc,%TempNPCApp%}>0?|TempNPCApp3=38|
+# Dragon is last because of half-dragons and others like this.
+_    /{If~{Find~1,dragon,%TempNPCApp%}>0?|TempNPCApp3=22|
+_    /|TempNPCApp3=43|
+_}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}
+
+:SpecificName2
+1,[SpecificName=%SpecificName%]
+
+:SpecificName
+#1= Human (M-F)
+1,{If~%Gender%=1?[NAME Human Male]/[NAME Human Female]}
+#2= Dwarf (M-F)
+2,{If~%Gender%=1?[NAME Dwarf Male]/[NAME Dwarf Female]}
+#3= Elf
+3,[NAME Elf]
+#4= Gnome (M-F)
+4,{If~%Gender%=1?{Cap~[NAME Gnome Male]}/[NAME Gnome Female]}
+#5= Gnome,Tinker
+5,{CapEachWord~[Tinker Gnome Names.Generate]}
+#6= Halfling, 
+6,{If~%Gender%=1?[NAME Halfling Male]/[NAME Halfling Female]}
+#
+#7= Formal Name (M-F) 
+7,[NAME Formal]
+#8= Mercenary Name (M-F), 
+8,{If~%Gender%=1?[Townfolk.MercNameMF=1]/[Townfolk.MercNameMF=2]}
+#9= Noble Household, 
+9,[Noble Household Names.Start]
+#
+#10= Arab (M-F), 
+10,{If~%Gender%=1?[Arab.Start(1)]/[Arab.Start(2)]}
+#11= Egyptian, 
+11,[Egyptian Names.Start]
+#12= Oriental (M-F), 
+12,{If~%Gender%=1?[NAME Oriental Male]/[NAME Oriental Female]}
+#13= Roman (M-F), 
+13,{If~%Gender%=1?[Roman.Start(1)]/[Roman.Start(2)]}
+#14= Spanish (M-F), 
+14,{If~%Gender%=1?[Spanish.Start(1)]/[Spanish.Start(2)]}
+#15= Swahli (M-F), 
+15,{If~%Gender%=1?[NAME Tribal Male]/[NAME Tribal Female]}
+#16= Viking (M-F), 
+16,{If~%Gender%=1?[Nordic.Start(1)]/[Nordic.Start(2)]}
+#17= OTHER
+17,[NAME Other]<hr>
+#               
+#18= Angel/Fallen Angel, 
+18,[Angel Names.Start]
+#19= Bugbear (M-F), 
+19,{If~%Gender%=1?[Bugbear Names Male]/[Bugbear Names Female]}
+#20= Centaur (M-F), 
+20,{If~%Gender%=1?[Centaur Names Male]/[Centaur Names Female]}
+#21= Derro (Dwarf), 
+21,[Underdark.DerroNoMeaning]
+#22= Dragon                  
+22,[NAME Dragon]
+#23= Drow (M-F), 
+23,{If~%Gender%=1?[NAME Drow Male]/[NAME Drow Female]}
+#24= Duergar (M-F), 
+24,{If~%Gender%=1?[Underdark.DuergarMaleNoMeaning]/[Underdark.DuergarFemaleNoMeaning]}
+#25= Githyanki (M-F), 
+25,{If~%Gender%=1?[Githyanki Names.Male]/[Githyanki Names.Female]}
+#26= Githzerai (M-F), 
+26,{If~%Gender%=1?[Githzerai Names.Male]/[Githzerai Names.Female]}
+#27= Gnoll (M-F)                  
+27,{If~%Gender%=1?[Gnoll Names.Male]/[Gnoll Names.Female]}
+#28= Goblin (M-F), 
+28,{If~%Gender%=1?[Goblin Names.Male]/[Goblin Names.Female]}
+#29= Hobgoblin (M-F), 
+29,{If~%Gender%=1?[Hobgoblin Names.Male]/[Hobgoblin Names.Female]}
+#30= Kobold (M-F), 
+30,{If~%Gender%=1?[Kobold Names.Male]/[Kobold Names.Female]}
+#31= Illithid (Mind Flayer), 
+31,[NAME Illithid]
+#32= Infernal/Demon                  
+32,{Cap~[Demonic Names]} (True Name) / [Infernal Names.UseName] (Use Name)
+#33= Kuo-Toa, 
+33,[Underdark.KuoToaNoMeaning]
+#34= Lizardfolk, 
+34,[NAME Lizardfolk]
+#35= Lovecraft creature, 
+35,[Lovecraft.Start]
+#36= Minotaur (M-F), 
+36,{If~%Gender%=1?[Minotaur Names.Male]/[Minotaur Names.Female]}
+#37= Ogre (M-F), 
+37,{If~%Gender%=1?[Ogre Names.Male]/[Ogre Names.Female]}
+#38= Orc                  
+38,[NAME Orc]
+#39= Svirfneblin (Gnome) (M-F), 
+39,{If~%Gender%=1?[Underdark.SvifneblinMaleNoMeaning]/[Underdark.SvifneblinFemaleNoMeaning]}
+#40= Troglodyte, 
+40,[Troglodyte Names.Start]
+#41= Troll (M-F), 
+41,{If~%Gender%=1?[Troll Names.Male]/[Troll Names.Female]}
+#42= Yuan-ti
+42,[Yuanti Names.Start]
+43-100,[~Names Generator.NAME For All]
+#44 Giant
+#45 Kender

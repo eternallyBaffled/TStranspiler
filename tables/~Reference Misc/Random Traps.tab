@@ -1,0 +1,2109 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder Nov 15, 2018.
+# ---------------------------------------------------
+#
+# Random Traps
+#
+# Converted from TableMaster: Copyright 1995 by Wintertree Software
+#
+# -------------------------------------------------------------------------
+# This Table Links to these tables as required:
+#    Creatures.tab
+#    Dice Reroll.tab
+#    Equipment.tab
+#    ENC Ultimate Random Encounter.tab
+#    Miscellaneous.tab
+#    Names Generator.tab
+#    Permanent_Variables.tab
+#    URE_Monsters.Random_Traps_Lurking_Monster
+#
+# -------------------------------------------------------------------------
+# This table is called by: (can be called by other tables also)
+#    None
+#
+# -------------------------------------------------------------------------
+#
+# Modified by Valminder, Nov 2005.
+#    Added a lot of traps and modifications.
+#    Added links to:
+#       Creatures.Fantastic
+#       Creatures.Undead
+#       Creatures.Vermin
+#       Equipment.tab (for Poisons)
+#       Miscellaneous.Color
+#       Miscellaneous.Language
+#    This table is used by "Traps.tab".
+#    Added a lot of "spells" traps.
+#    Added "Lock" for the self-locking lid.
+# Modified by Valminder, Jul 2018.
+#    Added "Version" for Pathfinder.
+#    Added "CR" with subtables (CRAttBonusX, CRDamage, CRSeDiSv)
+#    Added spells informations.
+# Modified by Valminder, Nov 2018
+#    Added Larry Cormier's traps from "Traps.tab" to be able add a CR.
+#
+
+# Note: the "X" after the variable is to prevent a mixed-up between tables
+
+%TestTable%,0
+
+%AddLockCR%,Yes
+%Bypass%,0
+%Chance%,0
+%CL%,1
+%Coins%,No
+%Count%,0
+%CR%,0
+%CRAlt%,0
+%CRAltMM%,0
+%CRHigh%,0
+%CRLow%,0
+%CRSpell%,0
+%CRSpellCond%,0
+%Di%,0
+%FallNL%,0
+%FallNLWater%,0
+%GasType%,0
+%HitZone%,0
+%Liquid%,0
+%MonsterTypeNeeded%,0
+%NumLock%,0
+%Onset%,0
+%OnsetGas%,0
+%PCLevel%,0
+%PitDepth%,0
+%SaveNote%,0
+%Se%,0
+%SeDiMod%,0
+%SpikeDamage%,No
+%SummonType%,0
+%Reset%,0
+%Temp%,0
+%Temp1%,0
+%Temp2%,0
+%TempDice%,0
+%TrapKind%,1
+%TempLock%,0
+%Trap%,0
+%TrapLevel%,0
+%TrapLevelMod%,0
+%TrapType%,0
+%TrapTypeName%,0
+%Trigger%,0
+%Version%,0
+%WaterDepth%,0
+
+%AttackType%,0
+%FallDamage%,0
+%GasDamage%,0
+%NumOfDice%,1
+# Level variable includes spell level + minimum ability score modifier to cast this spell
+%Level%,0
+%Scythe%,0
+%WeaponType%,0
+
+# For Equipment.tab
+%Book%,0
+%Cost%,0
+%EQTable%,0
+%Item%,0
+%piece%,0
+%TempX%,0
+%TempXX%,0
+
+# For the poisons
+%CRMod%,0
+%CRVal%,0
+%CRValLook%,0
+%Damage%,0
+%MagEffect%,0
+%Type%,0
+%TypeNeeded%,0
+%ShowSave%,Yes
+
+# For the attacks
+%Attack%,0
+%d20X%,0
+%d20ResultX%,0
+%AttBonusX%,0
+%CritX%,20
+%MultX%,1
+%NumAttacksX%,1
+%OtherDamageX%,0
+%OtherDamageXAvg%,0
+%Restart%,No
+%VerifyBook%,0
+
+@TrapLevel,4,Choose Trap Level Required,Beginner's (1-3),Low (4-6),Low Average (7-9),Average (10-12),High (13-15),Deadly (16-18),Hellish (19+)
+@VerifyBook,2,BOOK: Do you want to verify if you own the appropriate book (Need to modify "Permanent_Variables.tab"),Yes,No
+@Version,1,What version of d20 do you use?,LOAD from Permanent Variables,3.5,Pathfinder
+@TrapKind,5,Choose type of trap,Any,Ceiling,Chemical,Door,Pit,Room (Any),Room (Dump Trap),Room (Weird Architecture)
+
+:Start
+1,{Status~Wintertree Software 1995, Valminder 2018}[Generate]
+_[PrintTrap]
+
+:Generate
+1,[VersionNeeded]|CR=0||CRAlt=0||CRAltMM=0||CRSpell=0||Level=None||CRSpellCond=0|
+_|Attack=0||AttBonusX=None||OtherDamageX=0||OtherDamageXAvg=0||NumAttacksX=0||SpikeDamage=No|
+_|FallNL=0||FallNLWater=0||TempLock=0||TrapType=mechanical||SaveNote=0||AddLockCR=Yes||Onset=0||OnsetGas=0|
+_|ShowSave=Yes|
+_[TrapLevelMod=%TrapLevel%]
+_{If~%PCLevel%=0?|CRLow=[TerribleMonsterLevel=%TrapLevel%]||CRHigh=%CRLow%|}
+_|Trap=[TrapKind=%TrapKind%]|
+_{If~%Attack%!=0?[CalcAttBonusX=%Attack%]}
+_|Trap={Replace~ATTBONUSX,{If~%AttBonusX%>=0?+}%AttBonusX%,%Trap%}|
+_[SeDi]
+_{If~{Length~%Bypass%}<=2?{If~{Find~1,magic,%TrapType%}=0?|Bypass=[Bypass]|/|Bypass=[BypassMagic]|}}
+_{If~%AttBonusX%!=None?{If~%AttBonusX%<=0?|CR-2|
+_{If~%TestTable%=1? {Color~Purple,(Att= %CR%)}}
+_/|CR+[CRAttBonusX=%AttBonusX%]|
+_{If~%TestTable%=1? {Color~Purple,(Att= %CR%)}}
+_}}
+#
+_{If~%OtherDamageX%!=0?|Temp={Calc~%OtherDamageXAvg%*%NumAttacksX%}||Temp={Trunc~%Temp%}|
+_{If~%SpikeDamage%=Yes?|Temp\2|}
+_|Temp1=0|
+_{If~%Temp%>0?|Temp1=[CRDamage=%Temp%]|}
+_{If~%CRSpellCond%!=0?{If~%Temp1%>=%CRSpellCond%?|CR+%Temp1%|/|CR+%CRSpellCond%|}/|CR+%Temp1%|}
+_{If~%TestTable%=1? {Color~Purple,(Dmg= %CR%)}}
+_}
+
+
+:PrintTrap
+1,<br>{Bold~%TrapTypeName%:} {Bold~CR} [PrintCR]{CR~}
+_{Bold~Type:} %TrapType%; {Bold~{If~%Version%=2?Search/Perception}} DC%Se%; {Bold~Disable Device} DC{If~%Di%<%Se%?%Se%/%Di%}.<br>
+_{Bold~Trigger:} %Trigger%; {Bold~Reset:} %Reset%.<br>
+_{If~%Bypass%!=0?{Bold~Bypass:} %Bypass%.{CR~}}
+_{If~%Onset%!=0?{Bold~Onset:} Trap will activate in {Bold~%Onset%} round{If~%Onset%>1?s}.{CR~}}
+_{If~%OnsetGas%!=0?{Bold~Gas Onset:} Gas or liquid will be released {Bold~%OnsetGas%} round{If~%OnsetGas%>1?s} after trap is activated.{CR~}}
+_{Bold~Effect:} {Cap~%Trap%}.
+_{If~%Attack%!=0?<br>[WriteAttack]}
+_{If~%CRAltMM%>0?[PitsAddMonster3]}
+
+:VersionNeeded
+1,{If~%Version%=1?|Version=[Permanent_Variables.Version]|}
+
+:TrapLevelMod
+1,|TrapLevelMod=-4|
+2,|TrapLevelMod=-2|
+3,|TrapLevelMod=-1|
+4,|TrapLevelMod=0|
+5,|TrapLevelMod=1|
+6,|TrapLevelMod=2|
+7,|TrapLevelMod=4|
+
+# TEST 20
+:TrapLevelMod_Table20
+1,1
+2-3,2
+4-7,4
+8-13,6 (6-15) 1d10+5   (5-16) 1d12+4  (4-17) 1d14+3
+14-17,4
+18-19,2
+20,1
+
+# TEST 16
+:TrapLevelMod_Table16
+1,1
+2-3,2
+4-6,3
+7-10,4 (6-11) 1d6+5 (5-12) 1d8+4  (4-13) 1d10+3
+11-13,3
+14-15,2
+16,1
+
+# TEST 13
+:TrapLevelMod_Table13
+1,1
+2-3,2
+4-5,2
+6-8,3 (5-9) 1d5+4 (4-10) 1d7+3
+9-10,2
+11-12,2
+13,1
+
+# TEST 8
+:TrapLevelMod_Table8
+1,1
+2,1
+3,1
+4-5,2 (3-6) 1d4+2
+6,1
+7,1
+8,1
+
+:Chanceof
+1,|Chance={Dice~1d100}|
+
+:ChanceofHigh
+1,|Chance={Dice~1d100}||Chance+{Calc~8*%TrapLevelMod%}|
+
+# If you modify the values below, you must modify the "TrapKind" subtable.
+:Trap
+1-5,|TrapTypeName=Pit Trap||Trigger=location||Reset=manual|{Cap~{AorAn~[PitTrap]}}
+6-7,|TrapTypeName=Alchemical Trap||Trigger=location||Reset=repair|{AorAn~[ChemicalTrap]} [ByTrigger+%TrapLevelMod%]
+8-10,|TrapTypeName=Weapon Trap||Trigger=location||Reset=repair|[WeaponTrap] [ByTrigger+%TrapLevelMod%]
+11,|TrapTypeName=Noise Trap||Trigger=location||Reset=automatic|{AorAn~[NoiseNature] [NoisyTrap] [ByTrigger+%TrapLevelMod%]}
+12,|TrapTypeName=Magical trap||Trigger=location||Reset=no reset||TrapType=magic|{AorAn~[MagicalTrap]}. The trap is set on [TrapPlace]
+13-14,|TrapTypeName=Magical trap||Trigger=location||Reset=no reset||TrapType=magic|
+_{AorAn~[AnotherMagicalTrap={Calc~{Dice~1d4+2}+%TrapLevelMod%}]}
+_{If~%TestTable%=1? {Color~Orange,(SPELL CRSpell= %CRSpell%)}}
+_ [ByTrigger+%TrapLevelMod%]
+15-16,|TrapTypeName=Door trap||Trigger=location||Reset=manual||TrapType=mechanical|
+_[DoorTrap]
+_{If~{And~%TestTable%=1,%CRSpell%>0}=1? {Color~Orange,(SPELL CRSpell= %CRSpell%)}}
+17,|TrapTypeName=Weird Architecture||Trigger=location||Reset=automatic||TrapType=magic|
+_[CalcCL]{AorAn~[WeirdArchitecture]}  (CL%CL%)
+18,|Coins=No||TrapTypeName=Dump Trap||Trigger=location||Reset=manual||TrapType=mechanical|
+_[DumpTrap] fills the room [ByTrigger+%TrapLevelMod%]
+_{If~%Coins%=Yes?. These coins are false, but a {If~%Version%=2?Search/Perception} check (as above) and {Bold~{Dice~1d6+2}} hours of work can uncover |Temp={Dice~1d1000}||Temp+{Calc~%TrapLevelMod%*100} ||Temp>{Dice~1d10}|{Bold~%Temp%} real coins}
+_|CR+2|{If~%TestTable%=1? {Color~Purple,(Never Miss= %CR%)}}
+19,|TrapTypeName=Monster trap||Trigger=location||Reset=no reset|
+_A monster is released [Chanceof]{If~%Chance%<50? into area|TrapType=mechanical|/from stasis|TrapType=magic|} [ByTrigger+%TrapLevelMod%]
+_<br><hr>[~TerribleMonster]
+_|CR+%CRLow%|{If~%TestTable%=1? {Color~Purple,(Never Miss= %CR%)}}
+20-22,|TrapTypeName=Architecture||Trigger=location||Reset=none||TrapType=mechanical|
+_{If~%TrapKind%=2?[BuiltTrap=1]/[BuiltTrap]}. The trap is activated [ByTrigger+%TrapLevelMod%]
+
+:TrapKind
+1,[Trap]
+# Ceiling
+2,[Trap=20]
+# Chemical
+3,[Trap=6]
+# Door
+4,[Trap=15]
+# Pit
+5,[Trap=1]
+# Room (Any)
+6,[Trap=20]
+# Room (Dump Trap)
+7,[Trap=18]
+# Room (Weird Architecture)
+8,[Trap=17]
+
+:CRAttBonusX
+1-5,-1
+6-10,0
+11-16,1
+17-2000,2
+
+:PrintCR
+1,|CR+%CRSpell%|
+_{If~{And~%CRAlt%>0,%CRAlt%>%CR%}=1?|CR=%CRAlt%||CRAlt=0|}
+_{IIf~%CR%=0?1/2
+_:{IIf~%CR%=-1?1/3
+_:{IIf~%CR%=-2?1/4
+_:{IIf~%CR%=-3?1/6
+_:{IIf~%CR%<=-4?1/10
+_:{IIf~%CRAlt%>0?[PrintCR2]
+_:%CR%
+_}}}}}}
+
+:PrintCR2
+1,({Color~Orange,%CR%}) 
+_{If~%CRAlt%=%CR%?|CR+2|
+_/{If~%CRAlt%={Calc~%CR%+1}?|CR+1|
+_/{If~%CRAlt%={Calc~%CR%-1}?|CR+1|
+_}}}
+_%CR%
+
+:VerifyBook
+1,|Restart=No|
+_{If~{And~%Book%!=0,%Book%!=1}=1?|Temp=[Permanent_Variables.%Book%]|/|Temp=1|}
+_{If~%Temp%!=1?|Restart=Yes|{If~%TestTable%=1?{Color~Red, Book (%Book%)}}}
+
+# ---------------------------------------------------------------------------
+# Poison Call
+# Choose any type of poison of any CR (also transfers the CR of the poison)
+
+:ChoosePoisonAny
+1,[EQCallPoisonAny]%Item% (%Type%; %Damage%{If~%MagEffect%!=0?; [PrintMag]}; CR%CRValLook%)|CR+%CRValLook%|
+_{If~%TestTable%=1? {Color~Purple,(Poison= %CR%)}}
+
+:PrintMag
+1,<u>Magical Poison</u>: %MagEffect%
+
+:EQCallPoisonAny
+1,|Item=ERROR||Cost=0||Book=1||MagEffect=0|
+_|TempX=[Equipment.PoisonsCheckerCRVal(,,%VerifyBook%,,%Version%)]|
+_{Split~TempX,",",Item,CRValLook,Cost,Book,Type,Damage,MagEffect}
+#_{If~%Book%=0?[EQCallPoisonAny]/{If~%Type%=Ingested? [EQCallPoisonAny]}}
+_{If~%VerifyBook%=1?[VerifyBook]/|Restart=No|}
+_{If~%Restart%=Yes?[EQCallPoisonAny]/{If~%Type%=Ingested?[EQCallPoisonAny]}}
+
+
+# XXXXXXXXXX UNUSED in this table XXXXXXXXXXXXXXX
+# Choose poison by CR
+:ChoosePoisonCR
+1,[EQCallPoisonCR]%Item% (<u>Type</u>: %Type%. <u>Damage</u>: %Damage%. {If~%MagEffect%!=0? [PrintMag]})
+
+# To find any type of poison by CR (1-10)
+:EQCallPoisonCR
+1,|Item=ERROR||Cost=0||Book=1||MagEffect=0|
+_|TempX=[Equipment.PoisonsCheckerCRVal(%CRMod%,,%VerifyBook%,,%Version%)]|
+_{Split~TempX,",",Item,CRValLook,Cost,Book,Type,Damage,MagEffect}
+#_{If~%Book%=0 ? [EQCallPoisonCR]/{If~%CRVal%!=%CRValLook%? [EQCallPoisonCR]}}
+_{If~%VerifyBook%=1?[VerifyBook]/|Restart=No|}
+_{If~%Restart%=Yes?[EQCallPoisonCR]/{If~%CRVal%!=%CRValLook%?[EQCallPoisonCR]}}
+
+;RandomPoison
+1,[~ChooseContact]
+1,[~ChooseIngested]
+1,[~ChooseInhaled]
+1,[~ChooseInjury]
+
+# Choose poison by Type (no CR)
+:ChooseContact
+1,|TypeNeeded=Contact|[ChoosePoisonType]
+
+:ChooseIngested
+1,|TypeNeeded=Ingested|[ChoosePoisonType]
+
+:ChooseInhaled
+1,|TypeNeeded=Inhaled|[ChoosePoisonType]
+
+:ChooseInjury
+1,|TypeNeeded=Injury|[ChoosePoisonType]
+
+:ChoosePoisonType
+1,[EQCallPoisonType]
+_[Print Poisons]
+
+:EQCallPoisonType
+1,|Item=ERROR||Cost=0||Book=1||MagEffect=0|
+_|TempX=[Equipment.PoisonsCheckerType({Calc~(%TrapLevelMod%+6)},%TypeNeeded%,%VerifyBook%,,%Version%)]|
+#_|TempX=[Equipment.PoisonsCheckerType(0,%TypeNeeded%,%VerifyBook%,,%Version%)]|
+_{Split~TempX,",",Item,CRValLook,Cost,Book,Type,Damage,MagEffect}
+#_%Count%..
+#_{If~%Book%=0 ? [EQCallPoisonType]}
+_{If~%VerifyBook%=1?[VerifyBook]/|Restart=No|}
+_{If~%Restart%=Yes?[EQCallPoisonType]}
+
+
+
+# XXXXXXXXXX UNUSED in this table XXXXXXXXXXXXXX
+# Choose poison by Type and CR
+:ChooseContactCR
+1,|TypeNeeded=Contact|[ChoosePoisonTypeCR]
+
+:ChooseIngestedCR
+1,|TypeNeeded=Ingested|[ChoosePoisonTypeCR]
+
+:ChooseInhaledCR
+1,|TypeNeeded=Inhaled|[ChoosePoisonTypeCR]
+
+:ChooseInjuryCR
+1,|TypeNeeded=Injury|[ChoosePoisonTypeCR]
+
+:ChoosePoisonTypeCR
+1,|Count=0|{If~%CRVal%>10? |CRVal=10|}
+_|CRMod={Round~0,%CRMod%}|{If~%CRVal%>8? |CRMod+3|}
+_[EQCallPoisonCRType]
+_[Print Poisons]
+
+:Print Poisons
+1,%Item% (<u>Type</u>: %Type%. <u>Damage</u>: %Damage%. {If~%MagEffect%!=0? [PrintMag]} CR%CRValLook%)|CR+%CRValLook%|
+_{If~%TestTable%=1? {Color~Purple,(Poison= %CR%)}}
+
+:EQCallPoisonCRType
+1,|Item=ERROR||Cost=0||Book=1||MagEffect=0||Count+1|
+_|TempX=[Equipment.PoisonsCheckerTypeCRVal(%CRMod%,%TypeNeeded%,%VerifyBook%,,%Version%)]|
+_{Split~TempX,",",Item,CRValLook,Cost,Book,Type,Damage,MagEffect}
+#_%Count%..
+#_{If~%Count%=31? [Rerouting]/ {If~%Book%=0 ? [EQCallPoisonCRType]/{If~%CRVal%!=%CRValLook%? [EQCallPoisonCRType]}}}
+_{If~%VerifyBook%=1?[VerifyBook]/|Restart=No|}
+_{If~%Count%=31?[Rerouting]/{If~%Restart%=Yes?[EQCallPoisonCRType]/{If~%CRVal%!=%CRValLook%? [EQCallPoisonCRType]}}}
+
+# Sends the CR and type to prevent error in TS.
+:Rerouting
+1,|Count=0||Item=ERROR||Cost=0||Book=1||MagEffect=0|
+_|TempX=[Equipment.PoisonsDefaultChecker(%CRVal%,%TypeNeeded%,%VerifyBook%,,%Version%)]|
+_{Split~TempX,",",Item,CRValLook,Cost,Book,Type,Damage,MagEffect}
+_{If~%VerifyBook%=1?[VerifyBook]/|Restart=No|}
+_{If~%Restart%=Yes?[Rerouting]}
+
+# ---------------------------------------------------------------------------
+# Attack Sequence
+#
+# Weapons must use those variables: (1d6 dmg, 20/x3)
+# |OtherDamageX=1d6||CritX=20||MultX=3|
+#
+# Note: the "X" after the variable is to prevent a mixed-up between tables
+#
+# %d20X%        - d20 roll.
+# %d20ResultX%  - to determine if it's 1, 20 or Threat
+# %AttBonusX%   - The attack roll modifer to the d20.
+# %CritX%       - The threat range (ex: 19 for 19-20, 18 for 18-20)
+# %MultX%       - Damage multiplier on a critical hit.
+# %NumAttacksX% - Number of attacks to roll
+# %OtherDamageX%- Damage of the weapon
+#
+# If you do not want to roll the damage, enter "0" as the "OtherDamage".
+#
+
+:Attack
+1,<dd>{PluralIf~%NumAttacksX%,ATTACK}:
+_{Loop~%NumAttacksX%,|d20X={Dice~1d20}|<br><dd>[AttackRoll]}
+
+:CRDamage
+1-9,0
+10-19,1
+20-29,2
+30-39,3
+40-49,4
+50-59,5
+60-69,6
+70-79,7
+80-89,8
+90-99,9
+100-109,10
+110-119,11
+120-129,12
+130-139,13
+140-149,14
+150-159,15
+160-169,16
+170-179,17
+180-189,18
+190-199,19
+200-1000,20
+
+:AttackRoll
+1,|d20ResultX=0| <font color=green>AC {Calc~(%d20X%+%AttBonusX%)}</font>[Threat]
+_ {If~%OtherDamageX%!=0? for [DamageRoll]}
+_{If~%d20ResultX%=Threat? [RollThreat]}
+
+:DamageRoll
+1, <font color=red>{Dice~%OtherDamageX%} dmg</font>
+
+:Threat
+1,{If~%d20X%>=20? (Rolled a 20)}
+_{If~%d20X%>=%CritX%? |d20ResultX=Threat| (%d20ResultX%)}
+_{If~%d20X%=1? |d20ResultX=0| (Rolled a 1)}
+
+:RollThreat
+1,|d20X={Dice~1d20}|<br><dd>--> <u>Critical Roll (x2)</u> <font color=orange>AC {Calc~(%d20X%+%AttBonusX%)}</font>
+_ {If~%OtherDamageX%!=0? for [DamageRoll]}
+_{If~{And~%MultX%=3,%OtherDamageX%!=0}=1? [RollThreatx3]}
+_{If~{And~%MultX%=4,%OtherDamageX%!=0}=1? [RollThreatx3][RollThreatx4]}
+
+:RollThreatx3
+1,<br><dd>--> <u>Critical Roll (x3)</u> <font color=red>{Dice~%OtherDamageX%} dmg</font>
+
+:RollThreatx4
+1,<br><dd>--> <u>Critical Roll (x4)</u> <font color=red>{Dice~%OtherDamageX%} dmg</font>
+
+:RollDice
+1,{Dice~%TempXX%}
+
+# ---------------------------------------------------------------------------
+
+:WriteAttack
+1,<br>{Generate~0,Click to roll attacks,ChooseAttack}
+
+:CalcAttBonusX
+1,|AttBonusX={Dice~2d5+2}||AttBonusX+{Calc~2*%TrapLevelMod%}||AttBonusX>0|
+2,
+3-4,|AttBonusX={Dice~2d5+2}||AttBonusX+{Calc~2*%TrapLevelMod%}||AttBonusX>0|
+5,|AttBonusX=%CL%||AttBonusX+{Dice~1d3+2}||AttBonusX+3|
+6,|AttBonusX={Calc~((%CL%\2)+{Dice~1d4})}|
+7,|AttBonusX={Calc~(%CL%+4+1)}|
+8,|AttBonusX=10|
+9,|AttBonusX=%CL%||AttBonusX+9|
+10,|AttBonusX=%CL%||AttBonusX+11|
+11,|AttBonusX={Calc~((%CL%*2\3)+{Dice~1d4})}|
+12,|AttBonusX=%CL%||AttBonusX+4||AttBonusX+{Dice~1d3-1}||AttBonusX+11||AttBonusX-1|
+13,|AttBonusX=%CL%||AttBonusX+13|
+
+:ChooseAttack
+1,[RollAttack=%Attack%][WriteAttack]
+
+:RollAttack
+1,|NumAttacksX={Dice~1d4}||CritX=20||MultX=2|[~SpikePit]
+2,[~Weapon]
+3,[~Scythe]
+4,[~FloorSpikes]
+5,|OtherDamageX=4d6+3||CritX=19||MultX=2|[~MageSword]
+6,|CritX=20||MultX=2|[~Ray]
+7,
+8,|OtherDamageX=2d6+3||OtherDamageXAvg=10||CritX=20||MultX=2|[~MageHound]
+9,[~BullRush]
+10,[~GrappleBullRush]
+11,|CritX=19||MultX=2|[~MageSword]
+12,|CritX=20||MultX=2|[~ClenchedFist]
+
+:NumAttacksX
+1-11,|NumAttacksX=1|
+12-100,|NumAttacksX=2|
+
+:NumAttacksXClr
+1-7,|NumAttacksX=1|
+8-15,|NumAttacksX=2|
+15-100,|NumAttacksX=3|
+
+:OtherDamageXSpikes
+1,|Temp={Dice~1d6+4}||Temp+%TrapLevelMod%||Temp>1|[OtherDamageXSpikes2=%Temp%]
+_%OtherDamageX%
+
+;OtherDamageXSpikes2
+2,|OtherDamageX=1d4||OtherDamageXAvg=2.5|
+3,|OtherDamageX=1d4+1||OtherDamageXAvg=3.5|
+4,|OtherDamageX=1d4+2||OtherDamageXAvg=4.5|
+2,|OtherDamageX=1d4+3||OtherDamageXAvg=5.5|
+2,|OtherDamageX=1d4+4||OtherDamageXAvg=6.5|
+1,|OtherDamageX=1d4+5||OtherDamageXAvg=7.5|
+
+:BullRush
+1,{Bold~1} bullrush (+%AttBonusX% CMB).[Attack]
+
+:ClenchedFist
+1,{Bold~%NumAttacksX%} {PluralIf~%NumAttacksX%,attack} causing {Bold~%OtherDamageX%} dmg each (+%AttBonusX% attack roll) and stunned 1r.[Attack]
+
+:FloorSpikes
+1,{Bold~%NumAttacksX%} {PluralIf~%NumAttacksX%,spike} causing {Bold~%OtherDamageX%} dmg (+%AttBonusX% attack roll).[Attack]
+
+:GrappleBullRush
+1,{Bold~1} grapple or bullrush (+%AttBonusX% CMB).[Attack]
+
+:MageSword
+1,{Bold~%NumAttacksX%} force weapon causing {Bold~%OtherDamageX%} dmg (+%AttBonusX% attack roll).[Attack]
+
+:MageHound
+1,{Bold~%NumAttacksX%} Mage's Faithful Hound causing {Bold~%OtherDamageX%} dmg (+%AttBonusX% attack roll)  Invisible: +2 vs sighted oppoenents and ignore DEX to AC.[Attack]
+
+:Scythe
+1,{Bold~%NumAttacksX%} %WeaponType% causing {Bold~%OtherDamageX%} dmg (+%AttBonusX% attack roll).[Attack]
+
+:SpikePit
+1,{Bold~%NumAttacksX%} {PluralIf~%NumAttacksX%,spike} causing {Bold~%OtherDamageX%} dmg each (+%AttBonusX% attack roll).[Attack]
+
+:Weapon
+1,{Bold~%NumAttacksX%} {PluralIf~%NumAttacksX%,attack} causing {Bold~%OtherDamageX%} dmg each (+%AttBonusX% attack roll).[Attack]
+
+:Ray
+1,{Bold~Ray/Touch Attack:} {Bold~%NumAttacksX%} {PluralIf~%NumAttacksX%,attack} (+%AttBonusX% attack roll).[Attack]
+
+# ---------------------------------------------------------------------------
+
+:PitDamage
+1, (falling dmg: {If~%PitDepth%>0?%PitDepth%d6=|Temp1=%PitDepth%|[CalcDamage]}[PrintFallNLWater])
+_|Temp={Calc~%PitDepth%*3.5}||Temp={Trunc~%Temp%}||CR+[CRDamage=%Temp%]|
+_{If~%TestTable%=1? {Color~Purple,(Pit dmg= %CR%)}}
+
+# PitDepth 10 max
+:WaterDamage
+1-2,|PitDepth=0||FallNLWater=-1|
+3,|PitDepth=0||FallNLWater=1|
+4,|PitDepth=0||FallNLWater=2|
+5,|PitDepth=1||FallNLWater=2|
+6,|PitDepth=2||FallNLWater=2|
+7,|PitDepth=3||FallNLWater=2|
+8,|PitDepth=4||FallNLWater=2|
+9,|PitDepth=5||FallNLWater=2|
+10,|PitDepth=6||FallNLWater=2|
+
+:PrintFallNLWater
+1,{If~%FallNLWater%!=0?
+_{If~%FallNLWater%<0?no damage when falling in water
+_/{If~%FallNLWater%>0?{If~%PitDepth%>0?, }%FallNLWater%d3=[FallDamageNLWater] nonlethal (%Liquid% reduces falling damage)
+_}}}
+ 
+:CalcDamage
+#1,{Dice~%PitDepth%d6}
+1,[~Dice Reroll.%Temp1%d6]
+
+:FallDamageNL
+1,{Dice~%FallNL%d6}
+
+:FallDamageNLWater
+#1,{Dice~%FallNLWater%d3}
+1,[~Dice Reroll.%FallNLWater%d3]
+
+:MMDamage
+1-2,1d4+1|OtherDamageX=1d4+1||OtherDamageXAvg=3.5||NumAttacksX=1||CRSpell>1| = [~MMDamageRoll1]
+3-4,2x 1d4+1|OtherDamageX=1d4+1||OtherDamageXAvg=3.5||NumAttacksX=2||CRSpell>1| = [~MMDamageRoll2]
+5-6,3x 1d4+1|OtherDamageX=1d4+1||OtherDamageXAvg=3.5||NumAttacksX=3| = [~MMDamageRoll3]
+7-8,4x 1d4+1|OtherDamageX=1d4+1||OtherDamageXAvg=3.5||NumAttacksX=4| = [~MMDamageRoll4]
+9-1000,5x 1d4+1|OtherDamageX=1d4+1||OtherDamageXAvg=3.5||NumAttacksX=5| = [~MMDamageRoll5]
+
+:MMDamageRoll1
+1,{Loop~1, {Dice~1d4+1}}
+
+:MMDamageRoll2
+1,{Loop~2, {Dice~1d4+1}}
+
+:MMDamageRoll3
+1,{Loop~3, {Dice~1d4+1}}
+
+:MMDamageRoll4
+1,{Loop~4, {Dice~1d4+1}}
+
+:MMDamageRoll5
+1,{Loop~5, {Dice~1d4+1}}
+
+:OnePerTwo
+1,0
+2-3,1
+4-5,2
+6-7,3
+8-9,4
+10-11,5
+12-13,6
+14-15,7
+16-17,8
+18-19,9
+20-21,10
+22,11
+
+:OnePerThree
+1-2,0
+3-5,1
+6-8,2
+9-11,3
+12-14,4
+15-17,5
+18-20,6
+21-22,7
+
+:CHMetalDamage
+1,Damage round 1 to 7 = 0  {Bold~{Dice~1d4}}  {Bold~{Dice~2d4}}  {Bold~{Dice~2d4}}  {Bold~{Dice~2d4}}  {Bold~{Dice~1d4}}  0
+
+;Command
+1,approach
+2,drop
+2,fall
+2,flee
+1,halt
+
+:DispelCheck
+1,Dispel Check: 1d20+%NumOfDice% = {Dice~1d20+%NumOfDice%}
+
+;Energy
+2,acid
+2,cold
+2,electricity
+2,fire
+1,sonic
+
+;Monster
+4,monster
+1,nature's ally
+
+:SeDi
+#1,<font size=1>|Se={Calc~({Dice~1d16+9}+%SeDiMod%)}||Di={Calc~({Dice~1d16+9}+%SeDiMod%)}|(Search DC%Se%; Disable Device DC{If~%Di%<%Se%?%Se%/%Di%})</font>
+1,{If~%Level%=None?|Se={Calc~({Dice~1d16+9}+%SeDiMod%)}|/|Se=25||Se+%Level%|}
+_{If~%Level%=None?|CR+[CRSeDiSv=%Se%]|
+_{If~%TestTable%=1? {Color~Purple,(Se (%Se%)= %CR%)}}
+_}
+_{If~%Level%=None?|Di={Calc~({Dice~1d16+9}+%SeDiMod%)}|/|Di=25||Di+%Level%|}
+_{If~%Level%=None?|CR+[CRSeDiSv=%Di%]|
+_{If~%TestTable%=1? {Color~Purple,(Di (%Di%)= %CR%)}}
+_}
+
+# CR for Perception/Search, Disable Device, Save.
+:CRSeDiSv
+1-15,-1
+16-20,0
+21-25,1
+26-29,2
+30-1000,3
+
+;Swarm
+1,bats
+1,rats
+1,spiders
+
+:RollNumOfDiced4
+1,{Dice~%NumOfDice%d4}
+
+:RollNumOfDiced4Mod
+1,{Dice~%NumOfDice%d4+%TempXX%}
+
+:RollNumOfDiced6
+1,{Dice~%NumOfDice%d6}
+
+:RollNumOfDiced6Mod
+1,{Dice~%NumOfDice%d6+%TempXX%}
+
+:RollNumOfDicedPlusHalf6
+1,|TempXX={Dice~%NumOfDice%d6}|%TempXX% |TempXX/2|Half= {Round~0,%TempXX%}
+
+:RollNumOfDiced8
+1,{Dice~%NumOfDice%d8}
+
+:Save
+1,[SaveCalc]
+_{If~%TestTable%=1? {Color~Purple,(Sv= %CR%)}}
+_(DC{Bold~%Temp%}[AddSaveNote])
+
+:SaveFort
+1,[SaveCalc]
+_{If~%TestTable%=1? {Color~Purple,(Fort= %CR%)}}
+_(Fortitude DC{Bold~%Temp%}[AddSaveNote])
+
+:SaveReflex
+1,[SaveCalc]
+_{If~%TestTable%=1? {Color~Purple,(Ref= %CR%)}}
+_(Reflex DC{Bold~%Temp%}[AddSaveNote])
+
+:SaveWill
+1,[SaveCalc]
+_{If~%TestTable%=1? {Color~Purple,(Will= %CR%)}}
+_(Will DC{Bold~%Temp%}[AddSaveNote])
+
+:SaveCalc
+1,|Temp={Dice~1d17+10}||Temp+{Calc~2*%TrapLevelMod%}||Temp>10||CR+[CRSeDiSv=%Temp%]|
+
+;SaveRnd
+1,[SaveFort]
+2,[SaveReflex]
+3,[SaveWill]
+
+:SaveSpell
+1,[SaveSpellCalc]
+_{If~%TestTable%=1? {Color~Purple,(SvL= %CR%)}}
+_(save DC{Bold~%Temp%}[AddSaveNote])
+
+:SaveSpellFort
+1,[SaveSpellCalc]
+_{If~%TestTable%=1? {Color~Purple,(SvLFort= %CR%)}}
+_(Fort DC{Bold~%Temp%}[AddSaveNote])
+
+:SaveSpellRef
+1,[SaveSpellCalc]
+_{If~%TestTable%=1? {Color~Purple,(SvLRef= %CR%)}}
+_(Reflex DC{Bold~%Temp%}[AddSaveNote])
+
+:SaveSpellWill
+1,[SaveSpellCalc]
+_{If~%TestTable%=1? {Color~Purple,(SvLWill= %CR%)}}
+_(Will DC{Bold~%Temp%}[AddSaveNote])
+
+:SaveSpellCalc
+1,|Temp={Dice~1d4}||Temp+%TrapLevelMod%||Temp>0|
+_{If~%Level%>=8?|Temp>4|
+_/{If~%Level%>=6?|Temp>3|
+_/{If~%Level%>=4?|Temp>2|
+_/{If~%Level%>=2?|Temp>1|
+_}}}}
+_|Temp+10||Temp+%Level%|
+
+:AddSaveNote
+1,{If~%SaveNote%!=0? %SaveNote%}
+
+# ---------------------------------------------------------------------------
+
+;PitTrap
+16,[PitDepth] [PitWidth] pit [ChanceofHigh]{If~%Chance%>=50? with [PitAdds] at the bottom[PitDamage]/[PitDamage]}. The pit is covered by {AorAn~[PitLid+%TrapLevelMod%]} |SaveNote=avoids|[SaveReflex]|SaveNote=0|
+4,[PitTrapCover] |CR-2|
+_{If~%TestTable%=1? {Color~Purple,(Open pit= %CR%)}}
+_[PitDepth] [PitWidth] pit [ChanceofHigh]{If~%Chance%>=50? with [PitAdds] at the bottom}[PitDamage] |SaveNote=avoids|[SaveReflex]|SaveNote=0|
+1,[TrapdoorBelow]
+
+# If "PitDepth" changes to be higher than 10, change "WaterDamage" subtable.
+:PitDepth
+1,|PitDepth={Dice~1d8}||PitDepth+%TrapLevelMod%||PitDepth>1||PitDepth<10|{Calc~%PitDepth%*10}' deep
+
+:PitWidth
+1,([PitWidth2={Calc~{Dice~1d4+2}+%TrapLevelMod%}])
+_{If~%TestTable%=1? {Color~Purple,(Pit width= %CR%)}}
+
+:PitWidth2
+1-4,5' wide
+6-10,10' wide|CR+1|
+11-12,{Calc~{Dice~1d4+2}*5}' wide|CR+1|
+
+;PitTrapCover
+1,uncovered
+1,non-hidden
+1,already sprung
+1,broken
+
+;PitAdds
+1,{AorAn~[SlimeColor] [Slime] (non dangerous)}
+1,{Dice~2d5}' of mud
+8,[PitAddsSpikes+%TrapLevelMod%]
+2,{AorAn~[PitAddsSwarm+{Calc~2*%TrapLevelMod%}]}
+5,[PitAddsWater]
+3000,a lurking monster [PitsAddMonster={Calc~{Dice~1d4+3}+%TrapLevelMod%}]|CRAlt=%CRAltMM%|(CR%CRAltMM%)
+1,an underground river [PitAddsRiver]
+1,a random teleporter {Italic~(destination: [PitAddsTeleporter+%TrapLevelMod%][PitAddsTeleporter2+%TrapLevelMod%])}
+_{If~%TrapType%=mechanical?|TrapType& and magic|}
+2,|GasType=gas|[Gas+{Calc~2*%TrapLevelMod%}]|GasType=0||CR+2|
+_{If~%TestTable%=1? {Color~Purple,(Gas= %CR%)}}
+_|OnsetGas=[OnsetDelay]|
+_ [SaveFort]
+
+;PitAddsSpikes
+7,spikes (1d4 spikes, ATTBONUSX melee for [OtherDamageXSpikes] dmg)|Attack=1||CR+1|
+_{If~%TestTable%=1? {Color~Purple,(Spikes= %CR%)}}
+3,poisoned spikes (1d4 spikes, ATTBONUSX melee for [OtherDamageXSpikes] dmg + poison: [~ChooseInjury])|Attack=1||CR+1|
+_{If~%TestTable%=1? {Color~Purple,(Spikes= %CR%)}}
+
+;PitAddsSwarm
+5,spider swarm (CR1)|CRAlt=1|
+5,ravenous rat swarm (CR2)|CRAlt=2|
+3,{If~%Version%=3?wasp swarm (CR3)|CRAlt=3|/[PitAdds]}
+3,locust swarm (CR3)|CRAlt=3|
+2,centipede swarm (CR4)|CRAlt=4|
+2,{If~%Version%=3?crab swarm (CR4)|CRAlt=4|/[PitAdds]}
+2,{If~%Version%=3?leech swarm in a pool of stagnant water (CR4)|CRAlt=4|/[PitAdds]}
+2,{If~%Version%=3?army ant swarm (CR5)|CRAlt=5|/[PitAdds]}
+1,hellwasp swarm (CR8)|CRAlt=8|
+
+;PitAddsWater
+8,|WaterDepth={Dice~3d6}||WaterDepth+%TrapLevelMod%||Liquid=water|%WaterDepth%' of scummy water
+_{If~{And~%PitDepth%>1,%WaterDepth%>7}=1?|CR+1|
+_{If~%TestTable%=1? {Color~Purple,(Fall in liquid= %CR%)}}
+_}
+_{If~%WaterDepth%>=10?[WaterDamage=%PitDepth%]}
+_ [Chanceof]{If~%Chance%<50? infested with [WaterCreatures+%TrapLevelMod%]}
+1,a |WaterDepth={Dice~3d6}||WaterDepth+%TrapLevelMod%||Liquid=acid|%WaterDepth%' deep pool of [PitAddsAcid={Calc~{Dice~1d4+2}+%TrapLevelMod%}]
+_{If~%TestTable%=1? {Color~Purple,(Acid= %CR%)}}
+_{If~{And~%PitDepth%>1,%WaterDepth%>7}=1?|CR+1|
+_{If~%TestTable%=1? {Color~Purple,(Fall in liquid= %CR%)}}
+_}
+_{If~%WaterDepth%>=10?[WaterDamage=%PitDepth%]}
+1,a |WaterDepth={Dice~3d6}||WaterDepth+%TrapLevelMod%||Liquid=ice cold water|%WaterDepth%' deep pool of [PitAddsIceColdWater={Calc~{Dice~1d4+2}+%TrapLevelMod%}]
+_{If~%TestTable%=1? {Color~Purple,(Cold= %CR%)}}
+_{If~{And~%PitDepth%>1,%WaterDepth%>7}=1?|CR+1|
+_{If~%TestTable%=1? {Color~Purple,(Fall in liquid= %CR%)}}
+_}
+_{If~%WaterDepth%>=10?[WaterDamage=%PitDepth%]}
+1,a |WaterDepth={Dice~3d6}||WaterDepth+%TrapLevelMod%||Liquid=lava|%WaterDepth%' deep pool of [PitAddsLava={Calc~{Dice~1d4+2}+%TrapLevelMod%}]
+_{If~%TestTable%=1? {Color~Purple,(Lava= %CR%)}}
+_{If~{And~%PitDepth%>1,%WaterDepth%>7}=1?|CR+1|
+_{If~%TestTable%=1? {Color~Purple,(Fall in liquid= %CR%)}}
+_}
+_{If~%WaterDepth%>=10?[WaterDamage=%PitDepth%]}
+
+;PitAddsAcid
+1,weak acid mixed with water (1d6/r =[~Dice Reroll.1d6])|CR+1|
+1,weak acid (2d6/r =[~Dice Reroll.2d6])|CR+3|
+1,below average acid (4d6/r =[~Dice Reroll.5d6])|CR+5|
+3,average acid (5d6/r =[~Dice Reroll.5d6])|CR+6|
+1,above average acid (8d6/r =[~Dice Reroll.5d6])|CR+8|
+1,strong acid (10d6/r =[~Dice Reroll.10d6])|CR+9|
+
+;PitAddsIceColdWater
+1,cool water (1d6/r =[~Dice Reroll.1d6])|CR+1|
+1,cold water (2d6/r =[~Dice Reroll.2d6])|CR+3|
+1,ice cold water (4d6/r =[~Dice Reroll.5d6])|CR+5|
+3,ice cold water (5d6/r =[~Dice Reroll.5d6])|CR+6|
+1,freezing water (8d6/r =[~Dice Reroll.5d6])|CR+8|
+1,elementally cold water (10d6/r =[~Dice Reroll.10d6])|CR+9|
+
+;PitAddsLava
+1,almost totally cooled lava (1d6/r =[~Dice Reroll.1d6])|CR+1|
+1,cooled lava (2d6/r =[~Dice Reroll.2d6])|CR+3|
+1,cooling lava (4d6/r =[~Dice Reroll.5d6])|CR+5|
+3,lava (5d6/r =[~Dice Reroll.5d6])|CR+6|
+1,elementally hot lava (8d6/r =[~Dice Reroll.5d6])|CR+8|
+1,hellishly hot lava (10d6/r =[~Dice Reroll.10d6])|CR+9|
+
+:PitsAddMonster
+1,|CRAltMM=1|
+2,|CRAltMM=2|
+3,|CRAltMM=3|
+4,|CRAltMM=4|
+5,|CRAltMM=5|
+6,|CRAltMM=6|
+7,|CRAltMM=7|
+8,|CRAltMM=8|
+9,|CRAltMM=9|
+10,|CRAltMM=10|
+
+;PitsAddMonster2
+# 1=RND 2=Aberr 3=Animal 4=Construct 5=Dragon 6=Elemental 7=Fey 8=Giant 9=Humanoid 10=Magical Beast 11=Monstrous HUMANOID
+# 12=Ooze 13=Outsider 14=Plant 15=Undead 16=Vermin
+1,|MonsterTypeNeeded=2|
+5,|MonsterTypeNeeded=4|
+5,|MonsterTypeNeeded=6|
+1,|MonsterTypeNeeded=10|
+5,|MonsterTypeNeeded=12|
+5,|MonsterTypeNeeded=15|
+5,|MonsterTypeNeeded=16|
+
+:PitsAddMonster3
+1,<br>{Generate~0,Click to generate lurking monster,PitsAddMonster4}
+
+:PitsAddMonster4
+1,[PitsAddMonster2]
+#_<hr>[ENC Ultimate Random Encounter.Start(0,%CRAltMM%,%CRAltMM%,%MonsterTypeNeeded%,1,1,1,2,1,1,14,,,1,2,1,,,,,,4,3,3,1,2,2,2,3,1,1,1,3,2,,2,1,2,1,,,,,,,,,,2,2,2,,,,,,,,,,,,%Version%,,,,2,,%VerifyBook%,2)]
+_<hr>[URE_Monsters.Random_Traps_Lurking_Monster(%CRAltMM%,%CRAltMM%,%MonsterTypeNeeded%,%Version%,%VerifyBook%)]
+_<hr>{Generate~0,Click to generate an alternate lurking monster,PitsAddMonster4}
+
+:PitAddsRiver
+1,|WaterDepth={Dice~3d6}||WaterDepth+%TrapLevelMod%||Liquid=water|%WaterDepth%' deep
+_{If~{And~%PitDepth%>1,%WaterDepth%>7}=1?|CR+1|
+_{If~%TestTable%=1? {Color~Purple,(Fall in river= %CR%)}}
+_}
+_{If~%WaterDepth%>=10?[WaterDamage=%PitDepth%]}
+_ {Italic~([PitAddsRiver2+%TrapLevelMod%] current
+_{If~%TestTable%=1? {Color~Purple,(River current= %CR%)}}
+_ exiting [PitAddsRiver3+%TrapLevelMod%])}
+_{If~%TestTable%=1? {Color~Purple,(River exit= %CR%)}}
+
+;PitAddsRiver2
+6,slow
+3,average|CR+1|
+1,fast|CR+2|
+
+;PitAddsRiver3
+6,in another room on a lower level
+3,in another room on a lower level but far away
+1,outside the dungeon|CR+1|
+
+;PitAddsTeleporter
+6,nearby room
+6,nearby jail room (lock: |TempLock=0|[LockGen={Dice~1d4+6}])
+3,hidden room at the bottom|CR+1|
+3,far away room|CR+1|
+1,out of the dungeon|CR+2|
+1,another plane|CR+3|
+
+;PitAddsTeleporter2
+5,
+5, with a lurking monster [PitsAddMonster={Calc~{Dice~1d4+1}+%TrapLevelMod%}]|CRAlt=%CRAltMM%|(CR%CRAltMM%)
+
+;SlimeColor
+10,[~Miscellaneous.Color]
+1,black
+1,brown
+1,red
+1,orange
+1,yellow
+1,green
+1,blue
+1,violet
+1,grey
+1,white
+1,silver
+1,mottled
+1,tan
+1,ochre
+1,mustard
+1,olive
+1,[Chanceof]{If~%Chance%<80? translucent/invisible}
+
+;Slime
+1,slime
+1,jelly
+1,goo
+1,ooze
+1,mold
+1,fungus
+1,creeper
+
+;!TrapdoorBelow
+1,{Lockout~TrapdoorBelow,1}pit trap opens |Temp=0|into a|Temp1={Dice~1d100+10}| {Bold~%Temp1%}|Temp1/10||Temp1={Round~0,%Temp1%}|' long chute that [ChanceofHigh]{If~%Chance%<75? [TrapDoorBelowChute]/dumps the character in another [TrapdoorBelow].} 
+_The pit is covered by {AorAn~[PitLid+%TrapLevelMod%]} |SaveNote=avoids|[SaveReflex]|SaveNote=0|
+1,|Temp=1'||Temp2=1d6||Temp1=wading in the acid|[ChanceofHigh]{If~%Chance%>90? |Temp=20'||Temp2=10d6||Temp1=completely immersed|}pit trap [PitWidth] which opens into a %Temp% deep pool of acid (10'x10' room; 10' to top of pit) causing <b>%Temp2%</b> ([~Dice Reroll.%Temp2%]) acid damage per round while %Temp1%. No damage from the fall. The pit is covered by {AorAn~[PitLid+%TrapLevelMod%]} |SaveNote=avoids|[SaveReflex]|SaveNote=0|
+_{If~%Temp2%=10d6?|CR+3|{If~%TestTable%=1? {Color~Purple,(Acid 10d6= %CR%)}}}
+1,pit trap [PitWidth] which opens into a 20' deep pool of rancid, fetid water (10'x10' room; 10' to top of pit). No damage from the fall. The pit is covered by {AorAn~[PitLid+%TrapLevelMod%]} [ChanceofHigh]{If~%Chance%>90?. This pit also contains a piranha swarm|CR+2|{If~%TestTable%=1? {Color~Purple,(Piranha= %CR%)}}} |SaveNote=avoids|[SaveReflex]|SaveNote=0|
+
+:TrapDoorBelowChute
+1,has been lined with knives and spikes, and will cause an additional {Loop~%Temp1%,|Temp+{Dice~1d4}|} {Bold~%Temp%} of damage as the characters slide over the knives before dumping them in a [TrapdoorBelow]
+
+;WaterCreatures
+2,leeches (non dangerous)
+2,small white blind fishes (non dangerous)
+2,small [Miscellaneous.Color] fishes (non dangerous)
+2,water bugs (non dangerous)
+1,poisonous frogs ([WaterCreaturesFrogs+{Calc~{Dice~1d4+2}+%TrapLevelMod%}])
+1,a piranha swarm (CR3)|CRAlt=3|
+1,{If~%Version%=3?a leech swarm (CR4)|CRAlt=4|/[WaterCreatures+%TrapLevelMod%]}
+
+;WaterCreaturesFrogs
+1,2 (CR1)|CRAlt=1|
+2,3 (CR2)|CRAlt=2|
+2,4 (CR3)|CRAlt=3|
+2,6 (CR4)|CRAlt=4|
+1,8 (CR5)|CRAlt=5|
+
+;PitLid
+1,[PitLidFragile]
+1,permanent illusion of a normal floor
+_{If~%TrapType%=mechanical?|TrapType& and magic|}
+1,pivoting lid
+4,trapdoor lid[PitLidWeight]
+2,drop lid activated [ByTrigger+%TrapLevelMod%]
+1,self-locking lid activated [ByTrigger+%TrapLevelMod%]. [Lock]
+
+;PitLidFragile
+1,fragile lid of false rock
+1,pile of straw
+1,pile of leaves
+1,pile of twigs
+1,pile of garbage
+1,large rug
+
+;PitLidWeight
+1, ({Calc~{Dice~1d4+4}*10}lbs placed on it)
+
+;ByTrigger
+2,when {AorAn~[ControlTrigger]}|CR-1||Trigger=touch|
+_{If~%TestTable%=1? {Color~Purple,(Control trig= %CR%)}}
+2,when a tripwire is touched{If~%Reset%!=no reset?|Reset=repair|}|CR-1||Trigger=touch|
+_{If~%TestTable%=1? {Color~Purple,(Tripwire= %CR%)}}
+3,when a trigger stone is stepped on
+5,when anyone steps on the trapped area
+1,when a magical trigger is set off ({Italic~[ByTriggerMagical+%TrapLevelMod%]})
+_{If~%TrapType%=mechanical?|TrapType& and magic|}
+2,when [Sense+%TrapLevelMod%] is detected|CR+1||Trigger=proximity|
+_{If~%TrapType%=mechanical?|TrapType& and magic|}
+_{If~%TestTable%=1? {Color~Purple,(Sense Trig= %CR%)}}
+
+;ByTriggerMagical
+1,detect [~Alignment]|Trigger=proximity ({Italic~detect alignment})|
+2,alarm ([CL])|CR+1||Trigger=proximity ({Italic~alarm})|
+_{If~%TestTable%=1? {Color~Purple,(Alarm= %CR%)}}
+2,detect magic ([CL])|CR+1||Trigger=proximity ({Italic~detect magic})|
+_{If~%TestTable%=1? {Color~Purple,(DetMag= %CR%)}}
+1,clairvoyance[ByTriggerMagicalDarkvision] ([CL], on one selected location, +15 {If~%Version%=2?Spot/Perception}=[~Dice Reroll.1d20p15])|CR+2||Trigger=proximity ({Italic~clairvoyance})|
+_{If~%TestTable%=1? {Color~Purple,(Clairvoyance= %CR%)}}
+2,arcane eye[ByTriggerMagicalDarkvision] ([CL], line of sight, unlimited range, +20 {If~%Version%=2?Spot/Perception}=[~Dice Reroll.1d20p20])|CR+2||Trigger=proximity ({Italic~arcane eye})|
+_{If~%TestTable%=1? {Color~Purple,(Arcane Eye= %CR%)}}
+2,true seeing ([CL], line of sight, 120', +30 {If~%Version%=2?Spot/Perception}=[~Dice Reroll.1d20p30])|CR+2||Trigger=proximity ({Italic~true seeing})|
+_{If~%TestTable%=1? {Color~Purple,(True Seeing= %CR%)}}
+
+;ByTriggerMagicalDarkvision
+4,
+1, and darkvision (60')
+
+;Alignment
+1,chaos
+1,evil
+2,good
+2,law
+
+;ControlTrigger
+4,lever is moved
+1,button is pushed
+3,chain is pulled
+1,door is opened
+1,knob is turned
+
+;Gas
+1,darkness[Gas2]
+1,nerve[Gas2] (-2 all checks {IIf~%Version%=2?for 1d6 min.:1/min. for 6 min., 1 save})
+1,nauseating[Gas2] ({IIf~%Version%=2?1d6 min.:1/min. for 6 min., 1 save})|CR+1|
+1,feeblemindness[Gas2] ({IIf~%Version%=2?1d6 Int:1 INT, 1/r for 6r, 1 save})
+1,hallucinogenic[Gas2] ({IIf~%Version%=2?1d6 Wis:1 WIS, 1/r for 6r, 1 save})
+1,mustard[Gas2] ({IIf~%Version%=2?1d6 Cha:1 CHA, 1/r for 6r, 1 save})
+1,chlorine[Gas2] ({IIf~%Version%=2?1d6 Str:1 STR, 1/r for 6r, 1 save})|CR+1|
+1,paralyzing[Gas2] ({IIf~%Version%=2?1d6 Dex:1 DEX, 1/r for 6r, 1 save})|CR+1|
+1,corrosive[Gas2] (destroy metal items)|CR+2|
+1,explosive[Gas2] |NumOfDice={Dice~2d5}|(%NumOfDice%d6 fire=[~Dice Reroll.%NumOfDice%d6])|Temp={Calc~%NumOfDice%*3.5}||Temp={Trunc~%Temp%}||CR+[CRDamage=%Temp%]|
+_{If~%TestTable%=1? {Color~Purple,(Dmg= %CR%)}}
+1,dissolving[Gas2] |NumOfDice={Dice~2d5}|(%NumOfDice%d6 acid=[~Dice Reroll.%NumOfDice%d6])|Temp={Calc~%NumOfDice%*3.5}||Temp={Trunc~%Temp%}||CR+[CRDamage=%Temp%]|
+_{If~%TestTable%=1? {Color~Purple,(Dmg= %CR%)}}
+1,freezing[Gas2] |NumOfDice={Dice~2d5}|(%NumOfDice%d6 cold=[~Dice Reroll.%NumOfDice%d6])|Temp={Calc~%NumOfDice%*3.5}||Temp={Trunc~%Temp%}||CR+[CRDamage=%Temp%]|
+_{If~%TestTable%=1? {Color~Purple,(Dmg= %CR%)}}
+1,shocking[Gas2] |NumOfDice={Dice~2d5}|(%NumOfDice%d6 electric=[~Dice Reroll.%NumOfDice%d6]))|Temp={Calc~%NumOfDice%*3.5}||Temp={Trunc~%Temp%}||CR+[CRDamage=%Temp%]|
+_{If~%TestTable%=1? {Color~Purple,(Dmg= %CR%)}}
+1,sonic[Gas2] |NumOfDice={Dice~2d5}|(%NumOfDice%d6 sonic=[~Dice Reroll.%NumOfDice%d6])|Temp={Calc~%NumOfDice%*3.5}||Temp={Trunc~%Temp%}||CR+[CRDamage=%Temp%]|
+_{If~%TestTable%=1? {Color~Purple,(Dmg= %CR%)}}
+1,blinding[Gas2] ({IIf~%Version%=2?1d6 min.:1/min. for 6 min., 1 save})|CR+3|
+1,confusion[Gas2] ({IIf~%Version%=2?1d6 min.:1/min. for 6 min., 1 save})|CR+3|
+1,paralysis[Gas2] ({IIf~%Version%=2?1d6 min.:1/min. for 6 min., 1 save})|CR+3|
+1,rotting[Gas2] ({IIf~%Version%=2?1d6 Con:1 CON, 1/r for 6r, 1 save})|CR+3|
+1,sleep[Gas2] ({IIf~%Version%=2?1d6 min.:1/min. for 6 min., 1 save})|CR+3|
+10,poisonous[Gas2] ({If~%GasType%=liquid?[~ChooseContact]/[~ChooseInhaled]})|ShowSave=No|
+
+:Gas2
+1,{If~%GasType%!=0? %GasType%}
+
+;Spray
+1,poisonous liquid ([~ChooseContact])|CR+2||ShowSave=No|
+_{If~%TestTable%=1? {Color~Purple,(Poison liquid= %CR%)}}
+10,|GasType=liquid|[Gas+{Calc~2*%TrapLevelMod%}]|GasType=0||CR+2|
+_{If~%TestTable%=1? {Color~Purple,(Gas liquid= %CR%)}}
+_|OnsetGas=[OnsetDelay]|
+
+:Lock
+1,|TempLock=0|<br><u>Lock</u>: [LockGen]
+
+;LockGen
+6,none.[ArcaneLock+%TrapLevelMod%]
+3,standard key-type lock[KeyLock+%TrapLevelMod%] ([LockQuality+{Calc~2*%TrapLevelMod%}]).[ArcaneLock+%TrapLevelMod%]
+1,[ManyLocks]
+
+;ArcaneLock
+7,
+2, It will be held shut by a {Italic~Hold Portal} spell (caster level |TempLock={Dice~1d12}||TempLock+{Calc~2*%TrapLevelMod%}||TempLock>1|%TempLock%) for %TempLock% minutes (+5 DC to force open).|CRSpell>1|
+_{If~%TestTable%=1? {Color~Orange,(HoldP CRSpell= %CRSpell%)}}
+1, It will be {Italic~Arcane Locked} (caster level |TempLock={Dice~1d10+2}||TempLock+{Calc~2*%TrapLevelMod%}||TempLock>3|%TempLock%).|CRSpell>2|
+_{If~%TestTable%=1? {Color~Orange,(ArcLock CRSpell= %CRSpell%)}}
+
+;KeyLock
+9, [DoorSwing+%TrapLevelMod%]
+1,[KeyLockBroken+%TrapLevelMod%]
+
+;KeyLockBroken
+6, with a {Bold~broken dagger tip in} the lock|TempLock+2| [DoorSwing+%TrapLevelMod%]
+3, with a {Bold~broken key} in the lock|TempLock+4| [DoorSwing+%TrapLevelMod%]
+1, with a {Bold~broken lockpick} in the lock|TempLock+6| [DoorSwing+%TrapLevelMod%]
+
+;DoorSwing
+8, on your side of the door
+2, on the other side of the door
+
+;LockQuality
+1,rudimentary[SpecialLock] DC{Calc~%TempLock%+15}
+4,very simple[SpecialLock] DC{Calc~%TempLock%+20}
+_{If~%AddLockCR%=Yes?
+_|CR+1|
+_{If~%TestTable%=1? {Color~Purple,(Lock= %CR%)}}
+_}
+8,average[SpecialLock] DC{Calc~%TempLock%+25}
+_{If~%AddLockCR%=Yes?
+_|CR+1|
+_{If~%TestTable%=1? {Color~Purple,(Lock= %CR%)}}
+_}
+4,good[SpecialLock] DC{Calc~%TempLock%+30}
+_{If~%AddLockCR%=Yes?
+_|CR+1|
+_{If~%TestTable%=1? {Color~Purple,(Lock= %CR%)}}
+_}
+2,pretty good[SpecialLock] DC{Calc~%TempLock%+35}
+_{If~%AddLockCR%=Yes?
+_|CR+2|
+_{If~%TestTable%=1? {Color~Purple,(Lock= %CR%)}}
+_}
+1,amazing[SpecialLock] DC{Calc~%TempLock%+40}
+_{If~%AddLockCR%=Yes?
+_|CR+3|
+_{If~%TestTable%=1? {Color~Purple,(Lock= %CR%)}}
+_}
+
+;SpecialLock
+18,
+1,[Rusted]
+1, but broken and cannot be relocked
+
+;Rusted
+8, but slightly damaged|TempLock+2|
+4, but rusted|TempLock+5|
+2, but damaged by acid|TempLock+10||CR+1|
+_{If~%TestTable%=1? {Color~Purple,(AcidDmgLock= %CR%)}}
+1, but totally smashed|TempLock+50||CR+2|
+_{If~%TestTable%=1? {Color~Purple,(SmaDmgLock= %CR%)}}
+
+;ManyLocks
+1,it has |NumLock={Dice~1d3+1}|{Bold~%NumLock%} key-type locks ({Loop~%NumLock%,|TempLock=0|[LockQuality+{Calc~2*%TrapLevelMod%}]; })[DoorSwing+%TrapLevelMod%]. All must be unlocked.[ArcaneLock+%TrapLevelMod%]
+2,it has one standard key-type lock[KeyLock+%TrapLevelMod%] ([LockQuality+{Calc~2*%TrapLevelMod%}]) <u>and</u> one other lock|TempLock=0|[KeyLock+%TrapLevelMod%] ([LockQuality+{Calc~2*%TrapLevelMod%}]). All must be unlocked.[ArcaneLock+%TrapLevelMod%]
+
+# ---------------------------------------------------------------------------
+
+;ChemicalTrap
+2,vent emits |GasType=liquid|{AorAn~[Gas+{Calc~2*%TrapLevelMod%}]}|GasType=0||CR+2|
+_{If~%TestTable%=1? {Color~Purple,(Gas vent= %CR%)}}
+_ [SaveFort]|OnsetGas=[OnsetDelay]|
+1,gas bomb (|GasType=0|[Gas+{Calc~2*%TrapLevelMod%}]|CR+2|) drops
+_{If~%TestTable%=1? {Color~Purple,(Gas bomb= %CR%)}}
+_ [SaveFort]|OnsetGas=[OnsetDelay]|
+2,[Spray] sprays a 10'x10' area{If~%ShowSave%=Yes? [SaveReflex]/|ShowSave=Yes|}
+1,[Chanceof]{If~%Chance%<30? trickle of/torrent of} [Chanceof]{If~%Chance%<50? alchemical frost|Temp=cold|/alchemical fire|Temp=fire|} pours from the ceiling 
+_|Temp1={Dice~1d8}||Temp1+%TrapLevelMod%||Temp1>1||Temp1<10|(%Temp1%d6 %Temp%=[CalcDamage])
+_|Temp={Calc~%Temp1%*3.5}||Temp={Trunc~%Temp%}||CR+[CRDamage=%Temp%]|
+_{If~%TestTable%=1? {Color~Purple,(Pit dmg= %CR%)}}
+_|CR+2|{If~%TestTable%=1? {Color~Purple,(Auto hit= %CR%)}}
+_ |SaveNote=half|[SaveReflex]|SaveNote=0|
+
+# ---------------------------------------------------------------------------
+
+;WeaponTrap
+2,|Reset=[ResetChoose+%TrapLevelMod%]|[WeaponType]{Bold~%NumAttacksX%}[ChanceofHigh]{If~%Chance%>=75? poisoned ([~Choose%TypeNeeded%])} {Bold~{PluralIf~%NumAttacksX%,%WeaponType%}} (ATTBONUSX range for %OtherDamageX% dmg ([CritX]/x%MultX%)) fired from [WeaponPlace]|Attack=2|
+2,|Reset=[ResetChoose+{Calc~8+%TrapLevelMod%}]|a [WeaponType2]%WeaponType% (ATTBONUSX melee for %OtherDamageX% dmg ([CritX]/x%MultX%)) %AttackType% from |NumAttacksX=1|[WeaponPlace]{If~%HitZone%!=0?[HitZonePrint]}|Attack=3|
+1,|Reset=[ResetChoose+%TrapLevelMod%]||NumAttacksX={Dice~2d25}|[NumAttMod=2]{Bold~%NumAttacksX%}
+_|OtherDamageX=1d4||OtherDamageXAvg=2.5||CritX=20|[OtherDamageModSpike]|MultX=2|
+_ {PluralIf~%NumAttacksX%,spike} (ATTBONUSX melee for %OtherDamageX% dmg ([CritX]/x%MultX%)) thrust upward from the floor|Attack=4|
+
+;WeaponType
+1,|NumAttacksX={Dice~2d10}|[NumAttMod=1]|AttBonusX={Dice~2d5+2}||AttBonusX+{Calc~2*%TrapLevelMod%}||AttBonusX>0||OtherDamageX=1d6||OtherDamageXAvg=3.5||CritX=20||MultX=3||WeaponType=arrow||TypeNeeded=Injury|
+1,|NumAttacksX={Dice~2d6}|[NumAttMod=1]|AttBonusX={Dice~2d5+2}||AttBonusX+{Calc~2*%TrapLevelMod%}||AttBonusX>0||OtherDamageX=1d8||OtherDamageXAvg=4.5||CritX=20||MultX=2||WeaponType=bolt||TypeNeeded=Injury|
+1,|NumAttacksX={Dice~4d10}|[NumAttMod=2]|AttBonusX={Dice~2d5+2}||AttBonusX+{Calc~2*%TrapLevelMod%}||AttBonusX>0||OtherDamageX=1d4||OtherDamageXAvg=2.5||CritX=20||MultX=2||WeaponType=bullet||TypeNeeded=Contact|
+1,|NumAttacksX={Dice~4d10}|[NumAttMod=2]|AttBonusX={Dice~2d5+2}||AttBonusX+{Calc~2*%TrapLevelMod%}||AttBonusX>0||OtherDamageX=1d4||OtherDamageXAvg=2.5||CritX=20||MultX=2||WeaponType=dart||TypeNeeded=Injury|
+1,|NumAttacksX={Dice~5d10}|[NumAttMod=2]|AttBonusX={Dice~2d5}||AttBonusX+{Calc~2*%TrapLevelMod%}||AttBonusX>0||OtherDamageX=1d3||OtherDamageXAvg=2||CritX=20||MultX=2||WeaponType=rock||TypeNeeded=Contact|
+1,|NumAttacksX={Dice~5d10}|[NumAttMod=2]|AttBonusX={Dice~2d5+2}||AttBonusX+{Calc~2*%TrapLevelMod%}||AttBonusX>0||OtherDamageX=1d2||OtherDamageXAvg=1.5||CritX=20||MultX=2||WeaponType=shuriken||TypeNeeded=Injury|
+
+:NumAttMod
+1,|NumAttacksX+%TrapLevelMod%||NumAttacksX>1|
+2,|NumAttacksX+{Calc~2*%TrapLevelMod%}||NumAttacksX>1|
+
+;WeaponType2
+1,|WeaponType=battleaxe blade||AttackType=sweeps||OtherDamageX=1d8||OtherDamageXAvg=4.5||CritX=20|[OtherDamageMod]|MultX=3||HitZone=10' line|
+1,|WeaponType=greataxe blade||AttackType=sweeps||OtherDamageX=1d12||OtherDamageXAvg=6.5||CritX=20|[OtherDamageMod]|MultX=3||HitZone=10' line|
+1,|WeaponType=long blade||AttackType=strikes||OtherDamageX=2d6||OtherDamageXAvg=7||CritX=19|[OtherDamageMod]|MultX=2||HitZone=10' line|
+1,|WeaponType=rapier-like blade||AttackType=stabs||OtherDamageX=1d6||OtherDamageXAvg=3.5||CritX=18|[OtherDamageMod]|MultX=2||HitZone=0|
+1,|WeaponType=shortsword||AttackType=slashes||OtherDamageX=1d6||OtherDamageXAvg=3.5||CritX=19|[OtherDamageMod]|MultX=2||HitZone=0|
+3,|WeaponType=scythe blade||AttackType=swings||OtherDamageX=2d4||OtherDamageXAvg=5||CritX=20|[OtherDamageMod]|MultX=3||HitZone=10' line|
+2,|WeaponType=spear||AttackType=stabs||OtherDamageX=1d8||OtherDamageXAvg=4.5||CritX=20|[OtherDamageMod]|MultX=3||HitZone=0|
+
+:OtherDamageMod
+1,|Temp=[OtherDamageMod2={Calc~{Dice~1d4+2}+%TrapLevelMod%}]|{If~%Temp%!=0?|OtherDamageX&+%Temp%||OtherDamageXAvg+%Temp%|}
+_[ChanceofHigh]{If~%Chance%>=70?[OtherDamageModKeen]}
+
+:OtherDamageModSpike
+1,|SpikeDamage=Yes||Temp=[OtherDamageModSpike2={Calc~{Dice~1d4+2}+%TrapLevelMod%}]|{If~%Temp%!=0?|OtherDamageX&+%Temp%||OtherDamageXAvg+%Temp%|}
+_[ChanceofHigh]{If~%Chance%>=70?[OtherDamageModKeen]}
+
+:OtherDamageModKeen
+1,|WeaponType=keen %WeaponType%|
+_{If~%TrapType%=mechanical?|TrapType& and magic|}
+_{If~%CritX%=20?|CritX=19|
+_/{If~%CritX%=19?|CritX=17|
+_/{If~%CritX%=18?|CritX=15|
+_}}}
+
+:OtherDamageMod2
+1,0
+2,1
+3,2
+4-5,3
+6,4
+7,5
+8,6
+
+:OtherDamageModSpike2
+1-3,0
+4-6,1
+7,2
+8,3
+
+:HitZonePrint
+1, (%HitZone%)
+_{If~%TestTable%=1? {Color~Purple,(Multiple targets= %CR%)}}
+
+;WeaponPlace
+4,one wall
+2,both walls|NumAttacksX+1|
+3,the ceiling
+2,the floor
+
+# ---------------------------------------------------------------------------
+
+;BuiltTrap
+4,[CeilingTraps]
+1,|Reset=timer|crushing walls move together
+_|NumOfDice={Dice~1d6+6}||NumOfDice+{Calc~2*%TrapLevelMod%}||NumOfDice>2| (%NumOfDice%d6=[~Dice Reroll.%NumOfDice%d6]) |SaveNote=half|[SaveFort]|SaveNote=0|
+_|NumAttacksX=1||OtherDamageX=%NumOfDice%d6||OtherDamageXAvg={Calc~%NumOfDice%*3.5}|
+1,collapsing floor caves in, dropping them in a [PitDepth] pit [PitDamage] |SaveNote=negates|[SaveReflex]|SaveNote=0|
+1,|Reset=manual|scoop net is activated |SaveNote=negates and Escape Artist|[SaveReflex]|SaveNote=0|
+1,the corridor [Chanceof]{If~%Chance%<50? turns into a chute [SaveReflex] / tilts [SaveReflex], leading to a [PitTrap]}
+1,the stairway [Chanceof]{If~%Chance%<50? turns into a chute [SaveReflex] / collapses [SaveReflex], leading to a [PitTrap]}
+
+;CeilingTraps
+1,weighted net is activated |SaveNote=negates and Escape Artist|[SaveReflex]|SaveNote=0|
+1,|Reset=automatic|crushing ceiling descends
+_|NumOfDice={Dice~1d6+8}||NumOfDice+{Calc~2*%TrapLevelMod%}||NumOfDice>2| (%NumOfDice%d6=[~Dice Reroll.%NumOfDice%d6]) |SaveNote=half|[SaveFort]|SaveNote=0|
+_|NumAttacksX=1||OtherDamageX=%NumOfDice%d6||OtherDamageXAvg={Calc~%NumOfDice%*3.5}|
+1,a huge block falls in the area
+_|NumOfDice={Dice~2d6}||NumOfDice+{Calc~2*%TrapLevelMod%}||NumOfDice>2| (%NumOfDice%d6=[~Dice Reroll.%NumOfDice%d6]) |SaveNote=half|[SaveReflex]|SaveNote=0|
+_|NumAttacksX=1||OtherDamageX=%NumOfDice%d6||OtherDamageXAvg={Calc~%NumOfDice%*3.5}|
+1,a deadfall drops and can trap victims
+_|NumOfDice={Dice~1d6}||NumOfDice+{Calc~2*%TrapLevelMod%}||NumOfDice>2| (%NumOfDice%d6=[~Dice Reroll.%NumOfDice%d6]) |SaveNote=half and not trapped|[SaveReflex]|SaveNote=0|
+_|NumAttacksX=1||OtherDamageX=%NumOfDice%d6||OtherDamageXAvg={Calc~%NumOfDice%*3.5}|
+1,the ceiling collapses and can trap victims 
+_|NumOfDice={Dice~2d8}||NumOfDice+{Calc~2*%TrapLevelMod%}||NumOfDice>2||NumOfDice<20| (%NumOfDice%d8=[~Dice Reroll.%NumOfDice%d8]) |SaveNote=half and not trapped|[SaveReflex]|SaveNote=0|
+_|NumAttacksX=1||OtherDamageX=%NumOfDice%d8||OtherDamageXAvg={Calc~%NumOfDice%*4.5}|
+
+# ---------------------------------------------------------------------------
+
+;NoisyTrap
+4,gong sounds
+4,bell rings
+2,metallic chime sounds
+2,wooden chime sounds
+1,[~Miscellaneous.Sound] sound is heard
+
+;NoiseNature
+1,nearby
+1,close
+1,distant
+1,far
+1,loud
+1,faint
+
+# ---------------------------------------------------------------------------
+
+;MagicalTrap
+6,magical [Symbol] ([CL]) is [SymbolWritten] and will cause this effect when read[SymbolRange={Calc~{Dice~1d4+2}+%TrapLevelMod%}]: {Italic~[SymbolEffect]}|SeDiMod={Dice~2d5-1}|
+_|Reset=[ResetMagic={Calc~{Dice~1d4+2}+%TrapLevelMod%}]|
+1,{Italic~screamer} magical effect ([CL], [~Creatures.AllNonHumanoid]¸ {If~%Version%=2?Listen/Perception} DC-10) is activated when a Tiny or larger creature enters or touches the warded area|CRSpell>1|
+_{If~%TestTable%=1? {Color~Orange,(Screamer CRSPell= %CRSpell%)}}
+_|Reset=[ResetMagic={Calc~{Dice~1d4+4}+%TrapLevelMod%}]|
+1,[~AlarmSpell] {Italic~alarm} spell ([CL]) is activated when a Tiny or larger creature enters or touches the warded the area (20' radius)|CRSpell>1|
+_{If~%TestTable%=1? {Color~Orange,(Alarm CRSPell= %CRSpell%)}}
+_|Bypass=[BypassMagic=1]||Reset=[ResetMagic={Calc~{Dice~1d4+4}+%TrapLevelMod%}]|
+4,{Italic~magic mouth} spell ([CL], [Says] "[Speech]" in [~Miscellaneous.Language])|CRSpell>1|
+_{If~%TestTable%=1? {Color~Orange,(MMouth CRSPell= %CRSpell%)}}
+_|Reset=[ResetMagic={Calc~{Dice~1d4+2}+%TrapLevelMod%}]|
+
+:CL
+1,|Temp={Dice~2d6+3}||Temp+{Calc~2*%TrapLevelMod%}||Temp>1||Temp<20|CL{Bold~%Temp%}
+
+:CalcCL
+1,|CL={Dice~2d6+3}||CL+{Calc~2*%TrapLevelMod%}||CL>1|
+
+;Symbol
+2,symbol ([Wizard Symbols.Generate])
+1,glyph
+1,rune
+1,drawing ([~Rune Generator.GenRune])
+
+;SymbolWritten
+3,inscribed
+5,carved crudely
+2,carved expertly
+1,written with a [~Miscellaneous.ColorNoType] ink
+2,written in blood
+10,written with charcoal
+5,written with white chalk
+5,written in black ink
+2,written on a piece of scrap paper
+2,written on a piece of scrap cloth
+
+:SymbolRange
+1-3, (reader only)
+4-6, (all in 10'x10' area)|CR+1|
+_{If~%TestTable%=1? {Color~Purple,(Symbol area= %CR%)}}
+8, (all in sight)|CR+1|
+_{If~%TestTable%=1? {Color~Purple,(Symbol area= %CR%)}}
+
+;SymbolEffect
+14,|GasType=magical effect|[Gas+{Calc~2*%TrapLevelMod%}]|GasType=0||CR+2|
+_{If~%TestTable%=1? {Color~Purple,(Gas symbol= %CR%)}}
+_ [SaveRnd]|Onset=[OnsetDelay]|
+1,death magical effect|CR+10|
+_{If~%TestTable%=1? {Color~Purple,(Death symbol= %CR%)}}
+_ [SaveRnd]
+5,poison |CR+2|
+_{If~%TestTable%=1? {Color~Purple,(Poison symbol= %CR%)}}
+_([~ChoosePoisonAny])
+
+:!TrapPlace
+1,{Lockout~TrapPlace,4-7}a trapdoor on [TrapPlace]
+2,a plastered/repaired part of [TrapPlace]
+3,a [~Miscellaneous.ColorNoType] painted area on [TrapPlace]
+4-7,a door
+8-13,a wall
+14-19,the floor
+20-21,the ceiling
+22-23,a chest
+24-25,a grate
+
+;AlarmSpell
+4,audible (60', loud bell)
+1,mental (caster only)
+
+;Says
+1,says
+2,cries
+3,shouts
+2,screams
+2,shrieks
+
+;Speech
+4,Intruders!
+1,Help!
+2,Attack! Attack!
+2,Invaders!
+1,Oh goody, guests!
+4,Intruder alert!
+2,Surrender or die!
+1,They're here!
+1,Honey, I'm home!
+
+# ---------------------------------------------------------------------------
+
+:AnotherMagicalTrap
+1,|Level=0|[CalcCL]|CL>1|[ANL0] (CL{Bold~%CL%})|SeDiMod=0|
+2,|Level=1|[CalcCL]|CL>1|[ANL1] (CL{Bold~%CL%})|SeDiMod=1|
+3,|Level=2|[CalcCL]|CL>3|[ANL2] (CL{Bold~%CL%})|SeDiMod=2|
+4,|Level=3|[CalcCL]|CL>5|[ANL3] (CL{Bold~%CL%})|SeDiMod=3|
+5,|Level=4|[CalcCL]|CL>7|[ANL4] (CL{Bold~%CL%})|SeDiMod=4|
+6,|Level=5|[CalcCL]|CL>9|[ANL5] (CL{Bold~%CL%})|SeDiMod=5|
+7,|Level=6|[CalcCL]|CL>11|[ANL6] (CL{Bold~%CL%})|SeDiMod=6|
+8,|Level=7|[CalcCL]|CL>13|[ANL7] (CL{Bold~%CL%})|SeDiMod=7|
+9,|Level=8|[CalcCL]|CL>15|[ANL8] (CL{Bold~%CL%})|SeDiMod=8|
+10,|Level=9|[CalcCL]|CL>17|[ANL9] (CL{Bold~%CL%})|SeDiMod=9|
+
+:RngClose
+1,|Temp=%CL%||Temp\2||Temp*5||Temp+25|%Temp%'
+
+:RngMedium
+1,|Temp=%CL%||Temp*10||Temp+100|%Temp%'
+
+:RngLong
+1,|Temp=%CL%||Temp*40||Temp+400|%Temp%'
+
+;ANL0
+1,{Italic~arcane mark} spell is applied (ATTBONUSX touch, permanent, no save, no SR)|NumAttacksX=1||OtherDamageXAvg=0||Attack=6||CRSpell>0|
+1,{Italic~daze} spell is activated ([RngClose], 1 target max 4HD, 1r) |SaveNote=negates|[SaveSpellWill]|SaveNote=0||CRSpell>0|
+1,{Italic~flare} spell is activated ([RngClose], 1 target, dazzled 1 minute) |SaveNote=negates|[SaveSpellFort]|SaveNote=0||CRSpell>0|
+2,{Italic~lullaby} spell is activated ([RngMedium], 10' rad, %CL% {PluralIf~%CL%,round} (D)) |SaveNote=negates|[SaveSpellWill]|SaveNote=0||CRSpell>0|
+2,{Italic~ray of frost} spell is activated ([RngClose], ATTBONUSX touch, 1d3 = [~Dice Reroll.1d3] Cold)|NumAttacksX=1||Attack=6||OtherDamageX=1d3||OtherDamageXAvg=2||CR+1|
+_{If~%TestTable%=1? {Color~Purple,(Touch= %CR%)}}
+2,{Italic~ray of fire} spell is activated ([RngClose], ATTBONUSX touch, 1d3 = [~Dice Reroll.1d3] Fire)|NumAttacksX=1||Attack=6||OtherDamageX=1d3||OtherDamageXAvg=2||CR+1|
+_{If~%TestTable%=1? {Color~Purple,(Touch= %CR%)}}
+2,{Italic~ray of lightning} spell is activated ([RngClose], ATTBONUSX touch, 1d3 = [~Dice Reroll.1d3] Electric)|NumAttacksX=1||Attack=6||OtherDamageX=1d3||OtherDamageXAvg=2||CR+1|
+_{If~%TestTable%=1? {Color~Purple,(Touch= %CR%)}}
+2,{Italic~orb of acid} spell is activated ([RngClose], ATTBONUSX touch, 1d3 = [~Dice Reroll.1d3] Acid)|NumAttacksX=1||Attack=6||OtherDamageX=1d3||OtherDamageXAvg=2||CR+1|
+_{If~%TestTable%=1? {Color~Purple,(Touch= %CR%)}}
+2,{Italic~ray of sound} spell is activated ([RngClose], ATTBONUSX touch, 1d3 = [~Dice Reroll.1d3] Sonic)|NumAttacksX=1||Attack=6||OtherDamageX=1d3||OtherDamageXAvg=2||CR+1|
+_{If~%TestTable%=1? {Color~Purple,(Touch= %CR%)}}
+2,{Italic~touch of fatigue} spell is activated (ATTBONUSX touch, %CL% {PluralIf~%CL%,round}) |CR+1||CRSpell>0|
+_{If~%TestTable%=1? {Color~Purple,(Touch= %CR%)}}
+_|SaveNote=negates|[SaveSpellFort]|SaveNote=0||NumAttacksX=1||Attack=6|
+
+;ANL1
+2,{Italic~bane} spell is activated (50' rad, %CL% {PluralIf~%CL%,minute}) |SaveNote=negates|[SaveSpellWill]|SaveNote=0||CRSpell>1|
+2,{Italic~burning hands} spell is activated (15' cone, |NumOfDice={If~%CL%>5?5/%CL%}|%NumOfDice%d4 fire =[~Dice Reroll.%NumOfDice%d4]) |SaveNote=half|[SaveSpellRef]|SaveNote=0|
+_{If~%CL%<4?|CRSpell>1|}
+_|Temp={Calc~%NumOfDice%*2.5}||Temp={Trunc~%Temp%}||CR+[CRDamage=%Temp%]|
+_{If~%TestTable%=1? {Color~Purple,(Burning hands dmg= %CR%)}}
+2,{Italic~cause fear} spell is activated ([RngClose], 1 target max 5HD, frightened 1d4r ([~Dice Reroll.1d4]) or shaken 1r) |SaveNote=partial|[SaveSpellWill]|SaveNote=0||CRSpell>1|
+2,{Italic~charm person} spell is activated ([RngClose], 1 target, %CL% {PluralIf~%CL%,hour}) |SaveNote=negates|[SaveSpellWill]|SaveNote=0||CRSpell>1|
+2,{Italic~chill touch} spell is activated (%CL% {PluralIf~%CL%,attack}, ATTBONUSX touch, 1d6=[~Dice Reroll.1d6] +1 STR) |SaveNote=negates STR, undead Will or flee 1d4+%CL%r|[SaveSpellFort]|SaveNote=0|
+_|CR+1|{If~%TestTable%=1? {Color~Purple,(Touch= %CR%)}}
+_|NumAttacksX=%CL%||Attack=6||OtherDamageX=1d6||OtherDamageXAvg=3.5||CRSpellCond=1|
+2,{Italic~color spray} spell is activated (15' cone) |SaveNote=negates|[SaveSpellWill]|SaveNote=0||CRSpell>1|
+2,{Italic~command} spell is activated ([RngClose], 1 target, [~Command] for 1r) |SaveNote=negates|[SaveSpellWill]|SaveNote=0||CRSpell>1|
+2,{Italic~lesser confusion} spell is activated ([RngClose], 1 target, 1r) |SaveNote=negates|[SaveSpellWill]|SaveNote=0||CRSpell>1|
+2,{Italic~doom} spell is activated ([RngMedium], 1 living target, %CL% {PluralIf~%CL%,minute}) |SaveNote=negates|[SaveSpellWill]|SaveNote=0||CRSpell>1|
+2,{Italic~entangle} spell is activated ([RngLong], 40' rad, %CL% {PluralIf~%CL%,minute} (D), no SR) |SaveNote=partial|[SaveSpellRef]|SaveNote=0||CRSpell>1|
+1,{Italic~faerie fire} spell is activated ([RngLong], 5' rad, %CL% {PluralIf~%CL%,minute} (D), No Save)|CRSpell>1|
+2,{Italic~grease} spell is activated ([RngClose], 10' square, %CL% {PluralIf~%CL%,minute} (D), no SR) |SaveNote=special|[SaveSpellRef]|SaveNote=0||CRSpell>1|
+1,{Italic~hypnotism} spell is activated ([RngClose], 2d4=[~Dice Reroll.2d4]HD all within 30', 2d4=[~Dice Reroll.2d4]r)|SaveNote=negates|[SaveSpellWill]|SaveNote=0||CRSpell>1|
+2,{Italic~inflict light wounds} spell is activated (ATTBONUSX touch, |Temp={If~%CL%>5?5/%CL%}|1d8+%Temp%)
+_|NumAttacksX=1||Attack=6||OtherDamageX=1d8+%Temp%||OtherDamageXAvg=4.5||OtherDamageXAvg+%Temp%| |SaveNote=half (cures undeads)|[SaveSpellWill]|SaveNote=0||CRSpell>1|
+_|CR+1|{If~%TestTable%=1? {Color~Purple,(Touch= %CR%)}}
+2,{Italic~magic missiles} spell is fired ([RngMedium], [MMDamage=%CL%], no save)
+_|CR+2|{If~%TestTable%=1? {Color~Purple,(Auto hit= %CR%)}}|CRSpellCond=1|
+1,{Italic~obscuring mist} spell is activated (20' rad, %CL% {PluralIf~%CL%,minute} (D), no save, no SR)|CRSpell>1|
+2,{Italic~ray of enfeeblement} spell is activated ([RngClose], ATTBONUSX ray, |Temp=[OnePerTwo=%CL%]||Temp<5|1d6{If~%Temp%>0?+%Temp%} STR)
+_|NumAttacksX=1||Attack=6||OtherDamageX=1d6+%Temp%||OtherDamageXAvg=0||CRSpell>1| |SaveNote=half|[SaveSpellFort]|SaveNote=0|
+_|CR+1|{If~%TestTable%=1? {Color~Purple,(Touch= %CR%)}}
+1,{Italic~reduce person} spell is activated ([RngClose], 1 humanoid, %CL% {PluralIf~%CL%,minute})|SaveNote=negates|[SaveSpellFort]|SaveNote=0||CRSpell>1|
+2,{Italic~shocking grasp} spell is activated (ATTBONUSX touch ({Italic~add +3 vs metal}), |Temp={If~%CL%>5?5/%CL%}|%Temp%d6 Electric, No save)
+_|NumAttacksX=1||Attack=6||OtherDamageX=%Temp%d6||OtherDamageXAvg=3.5||OtherDamageXAvg*%Temp%|
+_{If~%CL%<3?|CRSpell>1|}
+_|CR+1|{If~%TestTable%=1? {Color~Purple,(Touch= %CR%)}}
+1,{Italic~silent image} spell is activated ([RngLong], max {Bold~{Calc~4+%CL%}}x 10-ft. cubes (S), 1 round, no SR)|SaveNote=disbelief (if interacted with)|[SaveSpellWill]|SaveNote=0||CRSpell>1|
+2,{Italic~sleep} spell is activated ([RngMedium], 10' rad, 4 HD of creatures, %CL% {PluralIf~%CL%,minute}) |SaveNote=negates|[SaveSpellWill]|SaveNote=0||CRSpell>1|
+2,{Italic~summon |SummonType=[Monster]|%SummonType%{If~%SummonType%=nature's ally? |SummonType=NatAll|/|SummonType=Mon|}{If~%Version%=3?|SummonType&PF|} I} spell is activated ([RngClose], %CL% {PluralIf~%CL%,round} (D), [~Creatures.Sum%SummonType%1], no SR)|CRSpell>1|
+
+;ANL2
+2,{Italic~acid arrow} spell is activated ([RngLong], ATTBONUSX touch, |Temp=[OnePerThree=%CL%]||Temp+1|2d4 Acid for {Bold~%Temp%} {PluralIf~%Temp%,round} ({Bold~see below for 1st round then:{Loop~{Calc~(%Temp%-1)}, {Dice~2d4}}}))
+_|NumAttacksX=1||Attack=6||OtherDamageX=2d4||OtherDamageXAvg=0||CRSpell>2|
+_|CR+1|{If~%TestTable%=1? {Color~Purple,(Touch= %CR%)}}
+1,{Italic~{If~{Dice~1d10}=1?deafness/blindness}} spell is activated ([RngMedium], permanent (D))|SaveNote=negates|[SaveSpellFort]|SaveNote=0||CRSpell>2|
+1,{Italic~calm emotions} spell is activated ([RngMedium], 20' rad, %CL% {PluralIf~%CL%,round} (D))|SaveNote=negates|[SaveSpellWill]|SaveNote=0||CRSpell>2|
+2,{Italic~chill metal} spell is activated ([RngClose], 7 rounds, [~CHMetalDamage] Cold)|SaveNote=negates|[SaveSpellWill]|SaveNote=0||CRSpell>2|
+1,{Italic~darkness} spell is activated (20' rad, %CL% {PluralIf~%CL%,minute} (D))|SaveNote=0||CRSpell>2|
+1,{Italic~daze monster} spell is activated ([RngMedium], 1 target max 6HD, 1r)|SaveNote=negates|[SaveSpellWill]|SaveNote=0||CRSpell>2|
+2,{Italic~flame blade} spell is activated (ATTBONUSX touch, |Temp=%CL%||Temp\2|1d8+%Temp% Fire, %CL% {PluralIf~%CL%,minute} (D), no save)
+_[NumAttacksX=%CL%]|Attack=6||OtherDamageX=1d8+%Temp%||OtherDamageXAvg=4||OtherDamageXAvg+%Temp%|
+_|CRSpellCond>2|
+_|CR+1|{If~%TestTable%=1? {Color~Purple,(Touch= %CR%)}}
+2,{Italic~flaming sphere} spell |NumOfDice={If~%Version%=2?2/3}|([RngMedium], 5' sphere 30'MV, %CL% {PluralIf~%CL%,round}, %NumOfDice%d6 fire = [~Dice Reroll.%NumOfDice%d6])|SaveNote=half|[SaveSpellRef]|SaveNote=0||CRSpell>2|
+1,{Italic~fog cloud} spell is activated ([RngMedium], 20' rad, {Calc~10*%CL%} minutes, no save, no SR)|CRSpell>2|
+1,{Italic~ghoul touch} spell is activated (ATTBONUSX, 1d6+2r ({Bold~{Dice~1d6+2}}))|CR+1|
+_{If~%TestTable%=1? {Color~Purple,(Touch= %CR%)}}
+_|SaveNote=negates|[SaveSpellFort]|SaveNote=0||NumAttacksX=1||Attack=6||CRSpell>2|
+1,{Italic~gust of wind} spell is activated (60' line)|SaveNote=negates|[SaveSpellFort]|SaveNote=0||CRSpell>2|
+2,{Italic~heat metal} spell is activated ([RngClose], 7 rounds, [~CHMetalDamage] Fire)|SaveNote=negates|[SaveSpellWill]|SaveNote=0||CRSpell>2|
+1,{Italic~hideous laughter} spell is activated ([RngClose], 1 target, %CL% rounds)|SaveNote=negates|[SaveSpellWill]|SaveNote=0||CRSpell>2|
+1,{Italic~hold person} spell is activated ([RngMedium], 1 humanoid, %CL% rounds (D))|SaveNote=negates|[SaveSpellWill]|SaveNote=0||CRSpell>2|
+2,{Italic~inflict moderate wounds} spell is activated (ATTBONUSX touch, |Temp={If~%CL%>10?10/%CL%}|2d8+%Temp%)
+_|NumAttacksX=1||Attack=6||OtherDamageX=2d8+%Temp%||OtherDamageXAvg=9||OtherDamageXAvg+%Temp%| |SaveNote=half (cures undeads)|[SaveSpellWill]|SaveNote=0||CRSpellCond>2|
+_|CR+1|{If~%TestTable%=1? {Color~Purple,(Touch= %CR%)}}
+1,{Italic~minor image} spell is activated ([RngLong], max {Bold~{Calc~4+%CL%}}x 10-ft. cubes (S), 2 rounds, no SR)|SaveNote=disbelief (if interacted with)|[SaveSpellWill]|SaveNote=0||CRSpell>2|
+2,{Italic~scare} spell is activated ([RngMedium], |Temp=%CL%||Temp\3|%Temp% {PluralIf~%Temp%,target} max 6HD each, frightened %CL%r or shaken 1r)|SaveNote=partial|[SaveSpellWill]|SaveNote=0||CRSpell>2|
+2,{Italic~scorching ray} spell is activated ([RngClose], ATTBONUSX touch, |Temp={If~%CL%>=11?3/{If~%CL%>=7?2/1}}|%Temp% {PluralIf~%Temp%,ray}, 4d6 Fire)
+_|NumAttacksX=%Temp%||Attack=6||OtherDamageX=4d6||OtherDamageXAvg=14||CRSpellCond>2|
+_|CR+1|{If~%TestTable%=1? {Color~Purple,(Touch= %CR%)}}
+1,{Italic~shatter} spell is activated ([RngClose], 5' rad (max %CL% lbs/object) or one item (max %CL%0 lbs) or one crystalline creature (any weight, |NumOfDice=%CL%||NumOfDice<10|%NumOfDice%d6 = [~Dice Reroll.%NumOfDice%d6]))|SaveNote=negates (object)|[SaveSpellWill]|SaveNote=0| or |SaveNote=half (creature)|[SaveSpellFort]|SaveNote=0||CRSpell>2|
+1,{Italic~silence} spell is activated ([RngLong], 20' rad, %CL% rounds (D))|SaveNote=negates|[SaveSpellWill]|SaveNote=0||CRSpell>2|
+1,{Italic~soften earth and stone} spell is activated ([RngClose], %CL%0' x %CL%0', moderate collapse 3d6 = [~Dice Reroll.3d6] (Ref DC15 half), no SR)|SaveNote=usually none except to prevent getting caught for 1d2r|[SaveSpellRef]|SaveNote=0||CRSpell>2|
+1,{Italic~sound burst} spell ([RngClose], 10' rad, 1d8 sonic ([~Dice Reroll.1d8]) and stunned 1r)|SaveNote=partial (stun)|[SaveSpellFort]|SaveNote=0||CRSpell>2|
+2,{Italic~spiritual weapon} spell is activated ([RngMedium], ATTBONUSX touch, |Temp=%CL%||Temp\3||Temp<5|1d8+%Temp% Force, %CL% rounds (D), no save)
+_[NumAttacksXClr=%CL%]|Attack=11||OtherDamageX=1d8+%Temp%||OtherDamageXAvg=4||OtherDamageXAvg+%Temp%|
+_|CRSpellCond>2|
+1,{Italic~summon |SummonType=[Monster]|%SummonType%{If~%SummonType%=nature's ally? |SummonType=NatAll|/|SummonType=Mon|}{If~%Version%=3?|SummonType&PF|} II} spell is activated ([RngClose], %CL% {PluralIf~%CL%,round} (D), [~Creatures.Sum%SummonType%2], no SR)|CRSpell>2|
+1,{Italic~summon swarm} spell is activated ([RngClose], 1 swarm of [~Swarm], %CL% rounds, no SR)|CRSpell>2|
+1,{Italic~touch of idiocy} spell is activated (ATTBONUSX touch, 1d6 ([~Dice Reroll.1d6]) penalty to Int/Wis/Cha (min 1), %CL%0 minutes, no Save)
+_|NumAttacksX=1||Attack=6||CRSpell>2|
+_|CR+1|{If~%TestTable%=1? {Color~Purple,(Touch= %CR%)}}
+1,{Italic~web} spell is activated ([RngMedium], 20' rad, %CL%0 minutes (D), no SR)|SaveNote=negates|[SaveSpellRef]|SaveNote=0||CRSpell>2|
+
+;ANL3
+1,{Italic~bestow curse} spell is activated (ATTBONUSX touch, Curse = [~bestow curse effect], Permanent)|SaveNote=negates|[SaveSpellWill]|SaveNote=0|
+_|NumAttacksX=1||Attack=6||CRSpell>3|
+_|CR+1|{If~%TestTable%=1? {Color~Purple,(Touch= %CR%)}}
+2,{Italic~call lightning} spell is activated ([RngMedium], |Temp=%CL%||Temp<10|%Temp% bolts, 3d6 Electric ([~Dice Reroll.3d6]) or 3d10 ([~Dice Reroll.3d10]), %CL% minutes)|SaveNote=half|[SaveSpellRef]|SaveNote=0||CRSpell>3|
+1,{Italic~contagion} spell is activated (ATTBONUSX touch, Disease = [~contagion effect] (no onset))|SaveNote=negates|[SaveSpellFort]|SaveNote=0|
+_|NumAttacksX=1||Attack=6||CRSpell>3|
+_|CR+1|{If~%TestTable%=1? {Color~Purple,(Touch= %CR%)}}
+2,{Italic~deep slumber} spell is activated ([RngClose], 10' rad, 10 HD of creatures, %CL% {PluralIf~%CL%,minute}) |SaveNote=negates|[SaveSpellWill]|SaveNote=0||CRSpell>3|
+1,{Italic~deeper darkness} spell is activated (60' rad, %CL%0 minutes (D))|SaveNote=0||CRSpell>3|
+1,{Italic~dispel magic} is activated ([RngMedium], {If~%Version%=2?20' rad/one target}) |NumOfDice=%CL%|{If~%Version%=2?|NumOfDice<10|}([~DispelCheck])|CRSpell>3|
+# explosive runes
+2,{Italic~fireball} spell explodes ([RngLong], 20' rad, |NumOfDice={If~%CL%>10?10/%CL%}|%NumOfDice%d6 Fire = [~Dice Reroll.%NumOfDice%d6])|SaveNote=half|[SaveSpellRef]|SaveNote=0||CRSpell>3|
+1,{Italic~glyph of warding (blast)} spell is activated (5' rad, |NumOfDice={If~%CL%>10?5/[OnePerTwo=%CL%]}|%NumOfDice%d8 [~Energy] = [~RollNumOfDiced8])|SaveNote=half|[SaveSpellRef]|SaveNote=0||CRSpell>3|
+1,{Italic~hold person} spell is activated ([RngMedium], %CL% rounds (D))|SaveNote=negates|[SaveSpellWill]|SaveNote=0||CRSpell>3|
+2,{Italic~inflict serious wounds} spell is activated (ATTBONUSX touch, |Temp={If~%CL%>15?15/%CL%}|3d8+%Temp%)
+_|NumAttacksX=1||Attack=6||OtherDamageX=3d8+%Temp%||OtherDamageXAvg=13||OtherDamageXAvg+%Temp%| |SaveNote=half (cures undeads)|[SaveSpellWill]|SaveNote=0||CRSpellCond>3|
+_|CR+1|{If~%TestTable%=1? {Color~Purple,(Touch= %CR%)}}
+2,{Italic~lightning bolt} is fired (120' line, |NumOfDice={If~%CL%>10?10/%CL%}|%NumOfDice%d6 Electric = [~Dice Reroll.%NumOfDice%d6])|SaveNote=half|[SaveSpellRef]|SaveNote=0||CRSpell>3|
+1,{Italic~major image} spell is activated ([RngLong], max {Bold~{Calc~4+%CL%}}x 10-ft. cubes (S), 3 rounds, no SR)|SaveNote=disbelief (if interacted with)|[SaveSpellWill]|SaveNote=0||CRSpell>3|
+1,{Italic~ray of exhaustion} spell is activated ([RngClose], ATTBONUSX touch, %CL% minutes)|SaveNote=negates|[SaveSpellFort]|SaveNote=0|
+_|NumAttacksX=1||Attack=6||CRSpell>3|
+2,{Italic~searing light} spell is activated ([RngMedium], ATTBONUSX touch, |NumOfDice={If~%CL%>10?5/[OnePerTwo=%CL%]}|%NumOfDice%d8 = [~RollNumOfDiced8]; |Temp=%CL%||Temp<10|vs undeads %Temp%d6 = {Bold~{Dice~%Temp%d6}}; |Temp=%CL%||Temp<10|vs undeads vulnerable to light %Temp%d8 = {Bold~{Dice~%Temp%d8}}; vs constructs or objects |Temp={If~%CL%>10?5/[OnePerTwo=%CL%]}|%Temp%d6 = {Bold~{Dice~%Temp%d6}}, no Save)
+_|NumAttacksX=1||Attack=6||CRSpell>3|
+1,{Italic~sleet storm} spell is activated ([RngLong], 40' rad x 20' high, %CL% rounds, no Save, no SR)|CRSpell>3|
+1,{Italic~slow} spell is activated ([RngClose], %CL% creatures (within 30'), %CL% rounds)|SaveNote=negates|[SaveSpellWill]|SaveNote=0||CRSpell>3|
+1,{Italic~spike growth} spell is activated on the surrounding vegetation ([RngLong], {Bold~%CL%}x20-ft. squares, %CL% hours)|SaveNote=partial|[SaveSpellRef]|SaveNote=0||CRSpell>3|
+1,{Italic~stinking cloud} spell is activated ([RngMedium], 20' rad x 20' high, %CL% rounds, no SR)|SaveNote=negates|[SaveSpellFort]|SaveNote=0||CRSpell>3|
+1,{Italic~suggestion} spell is activated ([RngClose], %CL% hours)|SaveNote=negates|[SaveSpellWill]|SaveNote=0||CRSpell>3|
+1,{Italic~summon |SummonType=[Monster]|%SummonType%{If~%SummonType%=nature's ally? |SummonType=NatAll|/|SummonType=Mon|}{If~%Version%=3?|SummonType&PF|} III} spell is activated ([RngClose], %CL% {PluralIf~%CL%,round} (D), [~Creatures.Sum%SummonType%3], no SR)|CRSpell>3|
+1,{Italic~vampiric touch} spell is activated (ATTBONUSX touch, no Save, |NumOfDice=[OnePerTwo=%CL%]||NumOfDice<10|%NumOfDice%d6=[~Dice Reroll.%NumOfDice%d6])|NumAttacksX=1||Attack=6||CRSpell>3|
+_|CR+1|{If~%TestTable%=1? {Color~Purple,(Touch= %CR%)}}
+
+;bestow curse effect
+1,-6 [RndStat] (min 1)
+1,-4 attack rolls, saves, ability checks, and skill checks
+1,each round, 50[Percent] to act normally otherwise no action
+
+;contagion effect
+1,blinding sickness (DC16, 1/day, 1d4 Str (if > 2 Str damage = save or permanently blinded); 2 consecutive saves)
+1,bubonic plague (DC17, 1/day, 1d4 Con + 1 Cha and fatigued; 2 consecutive saves)
+1,cackle fever (DC16, 1/day, 1d6 Wis; 2 consecutive saves)
+1,filth fever (DC 12, 1/day, 1d3 Dex + 1d3 Con; 2 consecutive saves)
+1,leprosy (DC 20, 1/week, 1d2 Cha; 2 consecutive saves)
+1,mindfire (DC 12, 1/day, 1d4 Int; 2 consecutive saves)
+1,red ache (DC 15, 1/day, 1d6 Str; 2 consecutive saves)
+1,the shakes (DC 13, 1/day, 1d8 Dex; 2 consecutive saves)
+1,slimy doom (DC 14, 1/day, 1d4 Con and must make 2nd save or 1 of the damage is drain instead; 2 consecutive saves)
+
+;RndStat
+1,Str
+1,Dex
+1,Con
+1,Int
+1,Wis
+1,Cha
+
+;ANL4
+2,{Italic~{If~%Version%=2?Evard's }black tentacles} spell is activated ([RngMedium], 20' rad, ATTBONUSX CMB (once per round), %CL% rounds (D), no Save, no SR)
+_|NumAttacksX=1||Attack=7||CRSpell>4|
+1,{Italic~chaos hammer} spell is activated ([RngMedium], 20' rad, vs Non-Chaotic = |Temp=[OnePerTwo=%CL%]||Temp<5|%Temp%d8 ([~Dice Reroll.%Temp%d8]) (half vs NG/N/NE) (or |NumOfDice=%CL%||NumOfDice<10|%NumOfDice%d6 ([~Dice Reroll.%NumOfDice%d6]) vs lawful outsiders); slows Lawful creatures 1d6r ([~Dice Reroll.1d6]r))
+_|SaveNote=partial|[SaveSpellWill]|SaveNote=0||CRSpell>4|
+2,{Italic~charm monster} spell is activated ([RngClose], 1 target, %CL% days) |SaveNote=negates|[SaveSpellWill]|SaveNote=0||CRSpell>4|
+2,{Italic~confusion} spell is activated ([RngMedium], 15' rad, %CL% rounds) |SaveNote=negates|[SaveSpellWill]|SaveNote=0||CRSpell>4|
+1,{Italic~crushing despair} spell is activated (30' cone, %CL% minutes) |SaveNote=negates|[SaveSpellWill]|SaveNote=0||CRSpell>4|
+2,{Italic~enervation} spell is activated ([RngClose], ATTBONUSX touch, 1d4 Negative Level ([~Dice Reroll.1d4]) for %CL% hours, no Save)
+_|NumAttacksX=1||Attack=6||CRSpell>4|
+_|CR+1|{If~%TestTable%=1? {Color~Purple,(Touch= %CR%)}}
+2,{Italic~fear} spell is activated (30' cone, panicked %CL% rounds or shaken 1r) |SaveNote=partial|[SaveSpellWill]|SaveNote=0||CRSpell>4|
+1,{Italic~fire trap} spell is activated (5' rad,  |NumOfDice=1||TempXX={If~%CL%>20?20/%CL%}|%NumOfDice%d4+%TempXX% fire=[~RollNumOfDiced4Mod]) |SaveNote=half|[SaveSpellRef]|SaveNote=0||CRSpell>4|
+1,{Italic~hallucinatory terrain} spell is activated ([RngLong], {Bold~%CL%}x30' cubes (S), {Calc~2*%CL%} hours (D), no SR) |SaveNote=disbelief|[SaveSpellWill]|SaveNote=0||CRSpell>4|
+1,{Italic~holy smite} spell is activated ([RngMedium], 20' rad, vs Non-Good = |Temp=[OnePerTwo=%CL%]||Temp<5|%Temp%d8 ([~Dice Reroll.%Temp%d8]) (half vs LN/N/CN) (or |NumOfDice=%CL%||NumOfDice<10|%NumOfDice%d6 ([~Dice Reroll.%NumOfDice%d6]) vs evil outsiders); blinds evil creatures 1r)
+_|SaveNote=partial|[SaveSpellWill]|SaveNote=0||CRSpell>4|
+1,{Italic~ice storm} spell is activated ([RngLong], 20' rad x 40' high, %CL% rounds (D), {Bold~{Dice~3d6}} bludgeoning +{Bold~{Dice~2d6}} cold once, no Save)|CRSpell>4|
+1,{Italic~illusory wall} spell is activated ([RngClose], 1'x10'x10', permanent, no SR) |SaveNote=disbelief|[SaveSpellWill]|SaveNote=0||CRSpell>4|
+1,{Italic~lesser geas} spell is activated ([RngClose], one living target max 7HD, %CL% days or until discharged (D)) |SaveNote=negates|[SaveSpellWill]|SaveNote=0||CRSpell>4|
+2,{Italic~inflict critical wounds} spell is activated (ATTBONUSX touch, |Temp={If~%CL%>20?20/%CL%}|4d8+%Temp%)
+_|NumAttacksX=1||Attack=6||OtherDamageX=4d8+%Temp%||OtherDamageXAvg=18||OtherDamageXAvg+%Temp%| |SaveNote=half (cures undeads)|[SaveSpellWill]|SaveNote=0||CRSpellCond>4|
+_|CR+1|{If~%TestTable%=1? {Color~Purple,(Touch= %CR%)}}
+#1,{Italic~modify memory} spell is activated ([RngClose], one living target, permanent)|SaveNote=negates|[SaveSpellWill]|SaveNote=0||CRSpell>4|
+1,{Italic~phantasmal killer} spell is activated ([RngMedium], one living creature, if Fort save succeeds 3d6 ([~Dice Reroll.3d6]) damage) |SaveNote=disbelief|[SaveSpellWill]|SaveNote=0| then |SaveNote=partial|[SaveSpellFort]|SaveNote=0||CRSpell>4|
+1,{Italic~poison} spell is activated (ATTBONUSX touch, {If~%Version%=2?[Poison3E]/[PoisonPF]}) |SaveNote=negates|[SaveSpellFort]|SaveNote=0|
+_|NumAttacksX=1||Attack=6||CRSpell>4|
+1,{Italic~mass reduce person} spell is activated ([RngClose], %CL% humanoids within 30', %CL% minutes (D)) |SaveNote=negates|[SaveSpellFort]|SaveNote=0||CRSpell>4|
+1,{Italic~order's wrath} spell is activated ([RngMedium], 20' rad, vs Non-Lawful = |Temp=[OnePerTwo=%CL%]||Temp<5|%Temp%d8 ([~Dice Reroll.%Temp%d8]) (half vs NG/N/NE) (or |NumOfDice=%CL%||NumOfDice<10|%NumOfDice%d6 ([~Dice Reroll.%NumOfDice%d6]) vs chaotic outsiders); Chaotic creatures are dazed 1r)
+_|SaveNote=partial|[SaveSpellWill]|SaveNote=0||CRSpell>4|
+1,{Italic~rainbow pattern} spell is activated ([RngMedium], 20' rad, 24 HD, %CL% rounds (D)) |SaveNote=negates|[SaveSpellWill]|SaveNote=0||CRSpell>4|
+1,{Italic~shout} spell is activated (30' cone, |NumOfDice={If~%CL%>15?15/%CL%}|Deafened {Bold~{Dice~2d6}} rounds and {Bold~{Dice~5d6}} sonic dmg; vs brittle or crystalline items: %NumOfDice%d6 sonic=[~Dice Reroll.%NumOfDice%d6])
+_ |SaveNote=partial|[SaveSpellFort]|SaveNote=0| or |SaveNote=negates (object)|[SaveSpellRef]|SaveNote=0||CRSpell>4|
+1,{Italic~solid fog} spell is activated ([RngMedium], 20' rad, %CL% minutes, no save, no SR)|CRSpell>4|
+1,{Italic~spike stones} spell is activated ([RngLong], {Bold~%CL%}x20-ft. squares, %CL% hours (D))|SaveNote=partial|[SaveSpellRef]|SaveNote=0||CRSpell>4|
+1,{Italic~summon |SummonType=[Monster]|%SummonType%{If~%SummonType%=nature's ally? |SummonType=NatAll|/|SummonType=Mon|}{If~%Version%=3?|SummonType&PF|} IV} spell is activated ([~Creatures.Sum%SummonType%4], no SR)|CRSpell>4|
+1,{Italic~unholy blight} spell is activated ([RngMedium], 20' rad, vs Non-Evil = |Temp=[OnePerTwo=%CL%]||Temp<5|%Temp%d8 ([~Dice Reroll.%Temp%d8]) (half vs LN/N/CN) (or |NumOfDice=%CL%||NumOfDice<10|%NumOfDice%d6 ([~Dice Reroll.%NumOfDice%d6]) vs good outsiders); good creatures are sickened 1d4r ([~Dice Reroll.1d4]r))
+_|SaveNote=partial|[SaveSpellWill]|SaveNote=0||CRSpell>4|
+1,{Italic~wall of fire} spell is activated ([RngMedium], 20' high, either {Bold~{Calc~%CL%*20}'} long or |Temp=%CL%||Temp\2|{Bold~{Calc~5*%Temp%}'} rad, 2d4 ([~Dice Reroll.2d4]) Fire within 10', 1d4 ([~Dice Reroll.1d4]) Fire within 20', 
+_|NumOfDice=2||TempXX={If~%CL%>20?20/%CL%}|%NumOfDice%d6+%TempXX% ([~RollNumOfDiced6Mod]) passing through, %CL% rounds, no save)|CRSpell>4|
+1,{Italic~wall of ice} spell is activated ([RngMedium], either {Bold~%CL%}x10' squares or hemisphere {Bold~{Calc~3+%CL%}'} rad, break Strength DC{Bold~{Calc~15+%CL%}}, passing through broken ice = 1d6+%CL% Cold) |SaveNote=negates (see text)|[SaveSpellRef]|SaveNote=0||CRSpell>4|
+
+:Poison3E
+1,1d10 ([~Dice Reroll.1d10]) Con / 1d10 ([~Dice Reroll.1d10]) Con in 1 minute
+
+:PoisonPF
+1,1d3 Con / round for 6 rounds (round 1= [~Dice Reroll.1d3], 2= [~Dice Reroll.1d3], 3= [~Dice Reroll.1d3], 4= [~Dice Reroll.1d3], 5= [~Dice Reroll.1d3], 6= [~Dice Reroll.1d3])
+
+;ANL5
+1,{Italic~baleful polymorph} spell is activated ([RngClose], one creature) |SaveNote=negates|[SaveSpellFort]|SaveNote=0| and |SaveNote=partial (see text)|[SaveSpellWill]|SaveNote=0||CRSpell>5|
+2,{Italic~call lightning storm} spell is activated ([RngLong], |Temp=%CL%||Temp<15|%Temp% bolts, 5d6 Electric ([~Dice Reroll.5d6]) or 5d10 ([~Dice Reroll.5d10]), %CL% minutes)|SaveNote=half|[SaveSpellRef]|SaveNote=0||CRSpell>4|
+2,{Italic~cloudkill} spell is activated ([RngMedium], 20' rad x 20' high, 0-3 HD = Death (no save), 4-6 HD = Death or 1d4 ([~Dice Reroll.1d4]) Con/round in cloud, 7+ HD = 1d4 ([~Dice Reroll.1d4]) Con/round (save 1/2), %CL% minutes, no SR) |SaveNote=partial|[SaveSpellFort]|SaveNote=0||CRSpell>5|
+2,{Italic~cone of cold} spell is activated (60' cone, |NumOfDice={If~%CL%>15?15/%CL%}|%NumOfDice%d6 Cold=[~Dice Reroll.%NumOfDice%d6]) |SaveNote=half|[SaveSpellRef]|SaveNote=0||CRSpell>5|
+2,{Italic~dominate person} spell is activated ([RngClose], 1 humanoid, %CL% days) |SaveNote=negates|[SaveSpellWill]|SaveNote=0||CRSpell>5|
+1,{Italic~feeblemind} spell is activated ([RngMedium], 1 target) |SaveNote=negates (see text)|[SaveSpellWill]|SaveNote=0||CRSpell>5|
+2,{Italic~flame strike} spell is activated ([RngMedium], 10' rad x 40' high, |NumOfDice={If~%CL%>15?15/%CL%}|%NumOfDice%d6 Fire and Divine=[~Dice Reroll.%NumOfDice%d6]) |SaveNote=half|[SaveSpellRef]|SaveNote=0||CRSpell>5|
+2,{Italic~greater command} spell is activated ([RngClose], %CL% targets all within 30', [~Command] for %CL% rounds) |SaveNote=negates|[SaveSpellWill]|SaveNote=0||CRSpell>5|
+1,{Italic~feeblemind} spell |SaveNote=negates|[SaveSpellWill]|SaveNote=0| is activated|CRSpell>5|
+1,{Italic~hold monster} spell is activated ([RngMedium], 1 target, %CL% rounds (D))|SaveNote=negates|[SaveSpellWill]|SaveNote=0||CRSpell>5|
+2,{Italic~insect plague} spell is activated ([RngLong], |Temp=[OnePerThree=%CL%]||Temp<6| %Temp% swarms of {If~%Version%=2?locust/wasps}, %CL% minutes, no Save, no SR)|CRSpell>5|
+1,{Italic~interposing hand} spell is activated ([RngMedium], hp = |Temp1=%CL%|{If~%Version%=2?|Temp1*3|/|Temp1*4|}{Bold~%Temp1%}, no Save)|CRSpell>5|
+2,{Italic~mage's faithful hound} spell is activated ([RngClose], %CL% rounds, 1/round = +10 bite (magic) 2d6+3 piercing, no Save, no SR)
+_|NumAttacksX=1||Attack=8||CRSpell>5|
+2,{Italic~mass inflict light wounds} spell is activated ([RngClose], %CL% creatures all within 30', |Temp=%CL%||Temp<25|1d8+%Temp% = {Bold~{Dice~1d8+%Temp%}}) |SaveNote=half (cures undeads)|[SaveSpellWill]|SaveNote=0||CRSpell>5|
+1,{Italic~mind fog} spell is activated ([RngMedium], 20' rad, 30 minutes and 2d6r ([~Dice Reroll.2d6]r)) |SaveNote=negates|[SaveSpellWill]|SaveNote=0||CRSpell>5|
+1,{Italic~mirage arcana} spell is activated ([RngLong], {Bold~%CL%}x20' cubes (S), %CL% hours (D), no SR) |SaveNote=disbelief|[SaveSpellWill]|SaveNote=0||CRSpell>5|
+2,{Italic~persistent image} spell is activated ([RngLong], max {Bold~{Calc~4+%CL%}}x 10-ft. cubes (S), %CL% minutes (D), no SR) |SaveNote=disbelief (if interacted with)|[SaveSpellWill]|SaveNote=0||CRSpell>5|
+2,{Italic~slay living} spell is activated (ATTBONUSX touch, 12d6+%CL% ({Bold~{Dice~12d6+%CL%}}) or 3d6+%CL% ({Bold~{Dice~3d6+%CL%}}) if save) |SaveNote=partial|[SaveSpellFort]|SaveNote=0|
+_|NumAttacksX=1||Attack=6||CRSpell>5|
+_|CR+1|{If~%TestTable%=1? {Color~Purple,(Touch= %CR%)}}
+2,{Italic~song of discord} spell is activated ([RngMedium], 20' rad, %CL% rounds) |SaveNote=negates|[SaveSpellWill]|SaveNote=0||CRSpell>5|
+1,{Italic~summon |SummonType=[Monster]|%SummonType%{If~%SummonType%=nature's ally? |SummonType=NatAll|/|SummonType=Mon|}{If~%Version%=3?|SummonType&PF|} V} spell is activated ([RngClose], %CL% {PluralIf~%CL%,round} (D), [~Creatures.Sum%SummonType%5], no SR)|CRSpell>5|
+1,{Italic~symbol of pain} spell is activated (60' rad, 1 hour) |SaveNote=negates|[SaveSpellFort]|SaveNote=0||CRSpell>5|
+1,{Italic~symbol of sleep} spell is activated (60' rad, max 10HD, active %CL%0 minutes, sleep 3d6x10 ([~Dice Reroll.3d6x10]) minutes) |SaveNote=negates|[SaveSpellFort]|SaveNote=0||CRSpell>5|
+1,{Italic~transmute rock to mud} spell is activated on the |Temp1=0|{If~{Dice~1d100}<60?ceiling|Temp1=1|/floor} ([RngMedium], {Calc~2*%CL%}x 10' cubes (S){If~%Temp1%=1?, Falling ceiling: 8d6 ([~Dice Reroll.8d6]) bludgeoning }, permanent) {If~%Temp1%=1?|SaveNote=half (falling ceiling)|[SaveSpellRef]|SaveNote=0|}|CRSpell>5|
+1,{Italic~wall of force} spell is activated ([RngClose], {Bold~%CL%}x 10' squares, %CL% rounds (D), no Save, no SR)|CRSpell>5|
+1,{Italic~wall of stone} spell is activated ([RngMedium], {Bold~%CL%}x 5' squares x |Temp=%CL%||Temp\4|%Temp%" thick, permanent, no Save, no SR)|CRSpell>5|
+1,{Italic~waves of fatigue} spell is activated (30' cone, no Save)|CRSpell>5|
+
+;ANL6
+2,{Italic~acid fog} spell is activated ([RngMedium], 20' rad x 20' high, %CL% rounds, 2d6 acid = [~Dice Reroll.2d6] each creature and object, each round, no Save, no SR)|CRSpell>6|
+1,{Italic~antilife shell} spell is activated (10' rad, %CL% minutes (D), no Save)|CRSpell>6|
+1,{Italic~antimagic field} spell is activated (10' rad, %CL%0 minutes (D), no Save)|CRSpell>6|
+2,{Italic~blade barrier} spell is activated ([RngMedium], 20' high, either {Bold~{Calc~20*%CL%}}' long or ringed wall |Temp=%CL%||Temp\2||Temp*5|{Bold~%Temp%}' rad, |NumOfDice={If~%CL%>15?15/%CL%}|%NumOfDice%d6 Force = [~Dice Reroll.%NumOfDice%d6], %CL% minutes) |SaveNote=half|[SaveSpellRef]|SaveNote=0||CRSpell>6|
+2,{Italic~chain lightning} spell is activated |NumOfDice={If~%CL%>20?20/%CL%}|([RngLong], primary target +{Bold~%CL%} secondary targets within 30', %NumOfDice%d6 Electric = {If~%Version%=2?[~RollNumOfDicedPlusHalf6]/[~Dice Reroll.%NumOfDice%d6] to all targets}) |SaveNote=half (-2 DC vs secondary targets)|[SaveSpellRef]|SaveNote=0||CRSpell>6|
+2,{Italic~circle of death} spell is activated ([RngMedium], 40' rad, |NumOfDice={If~%CL%>20?20/%CL%}|%NumOfDice%d4 HD = [~RollNumOfDiced4] HD, max 9HD) |SaveNote=negates|[SaveSpellFort]|SaveNote=0||CRSpell>6|
+2,{Italic~disintegrate} spell is activated |NumOfDice={If~%CL%>20?20/%CL%}||NumOfDice*2|([RngMedium], ATTBONUSX touch, %NumOfDice%d6 ([~Dice Reroll.%NumOfDice%d6]) or 5d6 ([~Dice Reroll.5d6])) |SaveNote=partial (object)|[SaveSpellFort]|SaveNote=0|
+_|NumAttacksX=1||Attack=6||OtherDamageX=%NumOfDice%d6||OtherDamageXAvg=3.5||OtherDamageXAvg*%NumOfDice%||CRSpellCond=6|
+_|CR+1|{If~%TestTable%=1? {Color~Purple,(Touch= %CR%)}}
+1,{Italic~eyebite} spell is activated ([RngClose], 1 target/round, 10+HD = Sickened %CL%0 minutes, 5-9HD = Panicked 1d4r ([~Dice Reroll.1d4]) and Sickened %CL%0 minutes, 0-4HD= Comatose %CL%0 minutes, %CL% rounds) |SaveNote=negates|[SaveSpellFort]|SaveNote=0||CRSpell>6|
+1,{Italic~flesh to stone} spell is activated ([RngMedium], 1 target) |SaveNote=negates|[SaveSpellFort]|SaveNote=0||CRSpell>6|
+1,{Italic~forceful hand} spell is activated ([RngMedium], hp = |Temp1=%CL%|{If~%Version%=2?|Temp1*3|/|Temp1*4|}{Bold~%Temp1%}, 1 bullrush/round (ATTBONUSX CMB), no Save)
+_|NumAttacksX=1||Attack=9||CRSpell>5|
+1,{Italic~geas/quest} spell is activated ([RngClose], one living target, %CL% days or until discharged (D), no Save)|CRSpell>6|
+1,{Italic~greater dispel magic} is activated ([RngMedium], 20' rad, |NumOfDice=%CL%|{If~%Version%=2?|NumOfDice<20|}[~DispelCheck])|CRSpell>6|
+1,{Italic~greater glyph of warding (blast)} spell is activated (5' rad, |NumOfDice={If~%CL%>20?10/[OnePerTwo=%CL%]}|%NumOfDice%d8 [~Energy] = [~RollNumOfDiced8])|SaveNote=half|[SaveSpellRef]|SaveNote=0||CRSpell>6|
+1,{Italic~guards and wards} is activated (|Temp1=%CL%||Temp1*200|{Bold~%Temp1%} sq.ft., |Temp1\100|{Bold~%Temp1%} hours, + [~Guards_Wards]) |SaveNote=negates (stinking cloud or gust of wind)|[SaveSpellFort]|SaveNote=0| |SaveNote=negates (web)|[SaveSpellRef]|SaveNote=0| |SaveNote=disbelief (lost doors) or negates (suggestion)|[SaveSpellWill]|SaveNote=0||CRSpell>6|
+1,{Italic~harm} spell is activated (ATTBONUSX touch, |NumOfDice={If~%CL%>15?15/%CL%}||NumOfDice*10|%NumOfDice% damage) |SaveNote=half|[SaveSpellWill]|SaveNote=0|
+_|NumAttacksX=1||Attack=6||CRSpell>6|
+_|CR+1|{If~%TestTable%=1? {Color~Purple,(Touch= %CR%)}}
+2,{Italic~mass inflict moderate wounds} spell is activated ([RngClose], %CL% creatures all within 30', |Temp=%CL%||Temp<30|2d8+%Temp% = {Bold~{Dice~2d8+%Temp%}}) |SaveNote=half (cures undeads)|[SaveSpellWill]|SaveNote=0||CRSpell>6|
+2,{Italic~{If~%Version%=2?otiluke's }freezing sphere} spell is activated |NumOfDice={If~%CL%>15?15/%CL%}|([RngLong], 40' radius, %NumOfDice%d6=[~Dice Reroll.%NumOfDice%d6] cold (vs Water Elemental %NumOfDice%d8=[~RollNumOfDiced8])) |SaveNote=half|[SaveSpellRef]|SaveNote=0||CRSpell>6|
+1,{Italic~permanent image} spell is activated ([RngLong], max 1x 20-ft. cube + {Bold~%CL%}x 10-ft. cubes (S), permanent, no SR)|SaveNote=disbelief (if interacted with)|[SaveSpellWill]|SaveNote=0||CRSpell>6|
+1,{Italic~programmed image} spell |SaveNote=negates|[SaveSpellWill]|SaveNote=0| is activated|CRSpell>6|
+1,{Italic~mass suggestion} spell is activated ([RngMedium], %CL% creatures within 30', %CL% hours) |SaveNote=negates|[SaveSpellWill]|SaveNote=0||CRSpell>6|
+1,{Italic~summon |SummonType=[Monster]|%SummonType%{If~%SummonType%=nature's ally? |SummonType=NatAll|/|SummonType=Mon|}{If~%Version%=3?|SummonType&PF|} VI} spell is activated ([RngClose], %CL% {PluralIf~%CL%,round} (D), [~Creatures.Sum%SummonType%6], no SR)|CRSpell>6|
+1,{Italic~symbol of fear} spell is activated (60' rad, active 1 hour, panicked %CL% rounds) |SaveNote=negates|[SaveSpellWill]|SaveNote=0||CRSpell>6|
+1,{Italic~symbol of persuasion} spell is activated (60' rad, active %CL%0 minutes, charmed %CL% hours) |SaveNote=negates|[SaveSpellWill]|SaveNote=0||CRSpell>6|
+1,{Italic~wall of iron} spell is activated ([RngMedium], {Bold~%CL%}x 5' squares x |Temp=%CL%||Temp\4|%Temp%" thick, permanent, 10d6 ([~Dice Reroll.10d6]) if wall falls on someone, no SR) |SaveNote=half (falling wall)|[SaveSpellRef]|SaveNote=0||CRSpell>6|
+
+;Guards_Wards
+1,{Italic~dancing lights} in 4 corridors
+1,{Italic~magic mouth} in 2 places
+1,{Italic~stinking cloud} in 2 places
+1,{Italic~gust of wind} in 1 corridor or room
+1,{Italic~suggestion} in one place 
+
+;ANL7
+2,{Italic~blasphemy} spell is activated (40' rad; Non-Evil based on HD)
+_{CR~}{Space~5}(HD>%CL% = Unaffected; %CL% HD = Dazed 1r, {Calc~%CL%-4}-{Calc~%CL%-1} HD = Weakened - dazed 1r, {Calc~%CL%-9}-{Calc~%CL%-5} HD = Paralyzed - weakened - dazed 1r, 1-{Calc~%CL%-10} HD = Killed - paralyzed - weakened - dazed 1r)
+_{CR~}{Space~5}(Weakened = 2d6 ([~Dice Reroll.2d6]) STR for 2d4r ([~Dice Reroll.2d4]); Paralyzed = 1d10 ([~Dice Reroll.1d10]) minutes); Killed = Death or 3d6+%CL% ({Bold~{Dice~3d6+%CL%}}))
+_{CR~}{Space~5}(If on your home plane = banishes extraplanar creatures)
+_{CR~}{Space~5}|SaveNote=Dazed (negates), Weakened (half), Paralyzed (1r only), Killed (partial), Banishment (negates with -4 save penalty)|[SaveSpellWill]|SaveNote=0||CRSpell>7|
+2,{Italic~creeping doom} spell is activated ([RngClose], %CL% rounds, no SR) |SaveNote=partial|[SaveSpellFort]|SaveNote=0||CRSpell>5|
+2,{Italic~delayed blast fireball} spell explodes ([RngLong], 20' rad, no delay, |NumOfDice={If~%CL%>20?20/%CL%}|%NumOfDice%d6 Fire = [~Dice Reroll.%NumOfDice%d6])|SaveNote=half|[SaveSpellRef]|SaveNote=0||CRSpell>7|
+2,{Italic~destruction} spell is activated ([RngClose], {If~%Version%=2?|NumOfDice=10|%NumOfDice%d6=[~Dice Reroll.%NumOfDice%d6] if save/{Bold~%CL%0} unholy damage or 10d6 ([~Dice Reroll.10d6]) on save}) |SaveNote={If~%Version%=2?negates/partial}|[SaveSpellFort]|SaveNote=0||CRSpell>7|
+1,{Italic~dictum} spell is activated (40' rad; Non-Lawful based on HD)
+_{CR~}{Space~5}(HD>%CL% = Unaffected; %CL% HD = Deafened, {Calc~%CL%-4}-{Calc~%CL%-1} HD = Staggered - deafened, {Calc~%CL%-9}-{Calc~%CL%-5} HD = Paralyzed - staggered - deafened, 1-{Calc~%CL%-10} HD = Killed - paralyzed - staggered - deafened)
+_{CR~}{Space~5}(Deafened 1d4r ([~Dice Reroll.1d4]), Staggered = 2d4r ([~Dice Reroll.2d4]); Paralyzed = 1d10 ([~Dice Reroll.1d10]) minutes); Killed = Death or 3d6+%CL% ({Bold~{Dice~3d6+%CL%}}))
+_{CR~}{Space~5}(If on your home plane = banishes extraplanar creatures)
+_{CR~}{Space~5}|SaveNote=Deafened (negates), Staggered (half), Paralyzed (1r only), Killed (partial), Banishment (negates with -4 save penalty)|[SaveSpellWill]|SaveNote=0||CRSpell>7|
+2,{Italic~finger of death} spell is activated ([RngClose], {If~%Version%=2?|NumOfDice=3||TempXX={If~%CL%>25?25/%CL%}|%NumOfDice%d6+%TempXX%=[~RollNumOfDiced6Mod] if save/{Bold~%CL%0} damage or 3d6+%CL% ({Bold~{Dice~3d6+%CL%}}) on save}) |SaveNote={If~%Version%=2?negates/partial}|[SaveSpellFort]|SaveNote=0||CRSpell>7|
+2,{Italic~forcecage} spell is activated ([RngClose], {If~{Dice~1d100}<50? Barred cage 20' cube/Windowless cell 10' cube}, %CL% rounds (D), no SR) |SaveNote=negates|[SaveSpellRef]|SaveNote=0||CRSpell>7|
+1,{Italic~grasping hand} spell is activated ([RngMedium], hp = |Temp1=%CL%|{If~%Version%=2?|Temp1*3|/|Temp1*4|}{Bold~%Temp1%}, 1 grapple/round (ATTBONUSX CMB), no Save)
+_|NumAttacksX=1||Attack=10||CRSpell>7|
+2,{Italic~mage's sword} spell is activated ([RngClose], ATTBONUSX touch, 4d6+3 Force, %CL% rounds (D), no save)
+_|NumAttacksX=1||Attack=5||OtherDamageX=4d6+3||CRSpell>7|
+1,{Italic~mass hold person} spell is activated ([RngMedium], %CL% humanoids within 30', %CL% rounds (D))|SaveNote=negates|[SaveSpellWill]|SaveNote=0||CRSpell>7|
+1,{Italic~holy word} spell is activated (40' rad; Non-Good based on HD)
+_{CR~}{Space~5}(HD>%CL% = Unaffected; %CL% HD = Deafened, {Calc~%CL%-4}-{Calc~%CL%-1} HD = Blinded - deafened, {Calc~%CL%-9}-{Calc~%CL%-5} HD = Paralyzed - blinded - deafened, 1-{Calc~%CL%-10} HD = Killed - paralyzed - blinded - deafened)
+_{CR~}{Space~5}(Deafened 1d4r ([~Dice Reroll.1d4]), Blinded = 2d4r ([~Dice Reroll.2d4]); Paralyzed = 1d10 ([~Dice Reroll.1d10]) minutes); Killed = Death or 3d6+%CL% ({Bold~{Dice~3d6+%CL%}}))
+_{CR~}{Space~5}(If on your home plane = banishes extraplanar creatures)
+_{CR~}{Space~5}|SaveNote=Deafened (negates), Blinded (half), Paralyzed (1r only), Killed (partial), Banishment (negates with -4 save penalty)|[SaveSpellWill]|SaveNote=0||CRSpell>7|
+2,{Italic~mass inflict serious wounds} spell is activated ([RngClose], %CL% creatures all within 30', |Temp=%CL%||Temp<35|3d8+%Temp% = {Bold~{Dice~3d8+%Temp%}}) |SaveNote=half (cures undeads)|[SaveSpellWill]|SaveNote=0||CRSpell>7|
+1,{Italic~insanity} spell is activated ([RngMedium], 1 living creature, continuous confusion) |SaveNote=negates|[SaveSpellWill]|SaveNote=0||CRSpell>7|
+1,{Italic~power word blind} spell is activated ([RngClose], 1 creature, 1-50 hp = Permanent; 51-100 hp = 1d4+1 ({Bold~{Dice~1d4+1}}) minutes;  101-200 hp = 1d4+1 ({Bold~{Dice~1d4+1}}) rounds, no Save)|CRSpell>7|
+2,{Italic~prismatic spray} spell is activated (60' cone, [~PrismaticSpray] (roll each target) and 1-8HD = Blinded 2d4r ([~Dice Reroll.2d4]) (no save)) |SaveNote=varies|[SaveSpell]|SaveNote=0||CRSpell>7|
+2,{Italic~reverse gravity} spell is activated ([RngMedium], %CL% 10-foot cubes (D), %CL% rounds (D),
+_[Chanceof]{If~%Chance%<30? onto spiked ceiling: 1d4 spikes, ATTBONUSX melee for [OtherDamageXSpikes] dmg,|Attack=1|}
+_|NumOfDice={Dice~1d4+1}| %NumOfDice%0' fall (%NumOfDice%d6) = [~Dice Reroll.%NumOfDice%d6], no Save, no SR)|CRSpell>7|
+1,{Italic~summon |SummonType=[Monster]|%SummonType%{If~%SummonType%=nature's ally? |SummonType=NatAll|/|SummonType=Mon|}{If~%Version%=3?|SummonType&PF|} VII} spell is activated ([RngClose], %CL% {PluralIf~%CL%,round} (D), [~Creatures.Sum%SummonType%7], no SR)|CRSpell>7|
+1,{Italic~sunbeam} spell is activated |NumOfDice={If~%CL%>20?20/%CL%}|(60' line, %CL% rounds or all |Temp=[OnePerThree=%CL%]||Temp<6|{Bold~%Temp%} beams used, Vs undead: %NumOfDice%d6=[~Dice Reroll.%NumOfDice%d6] OR Damage: {Bold~{Loop~%Temp%, {Dice~4d6}}} (x2 vs "sunlight" affected) and blinded) |SaveNote=negates and half|[SaveSpellRef]|SaveNote=0||CRSpell>7|
+1,{Italic~symbol of stunning} spell is activated (60' rad, 150 hp, Stunned 1d6 ([~Dice Reroll.1d6]) rounds) |SaveNote=negates|[SaveSpellWill]|SaveNote=0||CRSpell>7|
+2,{Italic~symbol of weakness} spell is activated (60' rad, no hp limit, %CL%0 minutes, 3d6 ([~Dice Reroll.3d6]) STR damage, 1/creature) |SaveNote=negates|[SaveSpellFort]|SaveNote=0||CRSpell>7|
+2,{Italic~transmute metal to wood} spell is activated ([RngLong], 40' rad, no Save)|CRSpell>7|
+2,{Italic~transmute rock to mud} spell is activated on the |Temp1=0|{If~{Dice~1d100}<60?ceiling|Temp1=1|/floor} followed immedialety by a {Italic~transmute mud to rock} spell ([RngMedium], {Calc~2*%CL%}x 10' cubes (S){If~%Temp1%=1?, Falling ceiling: 8d6 ([~Dice Reroll.8d6]) bludgeoning }, permanent) |SaveNote={If~%Temp1%=1?half (falling ceiling) and a 2nd one to }avoid being caught|[SaveSpellRef]|SaveNote=0||CRSpell>7|
+2,{Italic~waves of exhaustion} spell is activated (60' cone, no Save)|CRSpell>7|
+1,{Italic~word of chaos} spell is activated (40' rad; Non-Chaotic based on HD)
+_{CR~}{Space~5}(HD>%CL% = Unaffected; %CL% HD = Deafened, {Calc~%CL%-4}-{Calc~%CL%-1} HD = Stunned 1r - deafened, {Calc~%CL%-9}-{Calc~%CL%-5} HD = Paralyzed - stunned 1r - deafened, 1-{Calc~%CL%-10} HD = Killed - paralyzed - stunned 1r - deafened)
+_{CR~}{Space~5}(Deafened 1d4r ([~Dice Reroll.1d4]); Paralyzed = 1d10 ([~Dice Reroll.1d10]) minutes); Killed = Death or 3d6+%CL% ({Bold~{Dice~3d6+%CL%}}))
+_{CR~}{Space~5}(If on your home plane = banishes extraplanar creatures)
+_{CR~}{Space~5}|SaveNote=Deafened (negates), Stunned (negates), Paralyzed (1r only), Killed (partial), Banishment (negates with -4 save penalty)|[SaveSpellWill]|SaveNote=0||CRSpell>7|
+
+:PrismaticSpray
+1,Red (20 Fire, Reflex half)
+2,Orange (40 Acid, Reflex half)
+3,Yellow (80 Electric, Reflex half)
+4,Green (Poison, 1/r for 6r, Death + 1 CON/r, 2 Fortitude saves)
+5,Blue (Flesh to Stone, Fortitude negates)
+6,Indigo (Insanity spell, Will negates)
+7,Violet (Sent to another Plane, Will negates)
+8,|Temp={Dice~1d7}|[PrismaticSpray=%Temp%] and [PrismaticSpray2][PrismaticSpray=%Temp1%]
+
+:PrismaticSpray2
+1,|Temp1={Dice~1d7}|{If~%Temp1%=%Temp%?[PrismaticSPray2]}
+
+;ANL8
+2,{Italic~antipathy} spell is activated ([RngClose], [~AntipathyChoice], {Bold~{Calc~%CL%*2}} hours (D)) |SaveNote=partial|[SaveSpellWill]|SaveNote=0||CRSpell>8|
+2,{Italic~mass charm monster} spell is activated ([RngClose], {Bold~{Calc~%CL%*2}} HD all within 30', %CL% days) |SaveNote=negates|[SaveSpellWill]|SaveNote=0||CRSpell>8|
+2,{Italic~clenched fist} spell is activated ([RngMedium], hp = |Temp1=%CL%|{If~%Version%=2?|Temp1*3|/|Temp1*4|}{Bold~%Temp1%}, ATTBONUSX melee, no Save) |SaveNote=negates stun|[SaveSpellFort]|SaveNote=0|
+_|NumAttacksX=1||OtherDamageX=1d8+11||Attack=12||CRSpell>8|
+1,{Italic~earthquake} spell is activated ([RngLong], 80' radius (S), 1r, Collapsing Roof/Cliff landslide: 8d6 ([~Dice Reroll.8d6]) bludgeoning, special Saves, no SR)|CRSpell>8|
+2,{Italic~fire storm} spell is activated ([RngMedium], {Bold~{Calc~%CL%*2}}x 10' cubes (S), |NumOfDice={If~%CL%>20?20/%CL%}|(%NumOfDice%d6 fire=[~Dice Reroll.%NumOfDice%d6], does not affect plants, Failed save = catch fire 4d6/round ([~Dice Reroll.4d6]), Reflex DC20 to extinguish)|SaveNote=half|[SaveSpellRef]|SaveNote=0||CRSpell>8|
+2,{Italic~horrid wilting} spell is activated ([RngLong], living creatures within 60', |NumOfDice={If~%CL%>20?20/%CL%}|%NumOfDice%d6=[~Dice Reroll.%NumOfDice%d6] (vs Plants %NumOfDice%d8=[~Dice Reroll.%NumOfDice%d8])) |SaveNote=half|[SaveSpellFort]|SaveNote=0||CRSpell>8|
+2,{Italic~incendiary cloud} spell is activated ([RngMedium], 20' rad 20' high, 6d6 fire=[~Dice Reroll.6d6], %CL% rounds (D)) |SaveNote=half, see text|[SaveSpellRef]|SaveNote=0||CRSpell>8|
+2,{Italic~mass inflict critical wounds} spell is activated ([RngClose], %CL% creatures all within 30', |Temp=%CL%||Temp<40|4d8+%Temp% = {Bold~{Dice~4d8+%Temp%}}) |SaveNote=half (cures undeads)|[SaveSpellWill]|SaveNote=0||CRSpell>8|
+1,{Italic~maze} spell is activated ([RngClose], 1 target, no Save)|CRSpell>8|
+1,{Italic~{If~%Version%=2?Otto's }irrisistible dance} spell is activated (ATTBONUSX touch, one target) |SaveNote=partial|[SaveSpellWill]|SaveNote=0|
+_|NumAttacksX=1||Attack=6||CRSpell>8|
+_|CR+1|{If~%TestTable%=1? {Color~Purple,(Touch= %CR%)}}
+1,{Italic~polar ray} spell is activated |NumOfDice={If~%CL%>25?25/%CL%}|([RngMedium], ATTBONUSX ray, %NumOfDice%d6 cold=[~Dice Reroll.%NumOfDice%d6]{If~%Version%=3? and 1d4 ([~Dice Reroll.1d4]) DEX drain})
+_|NumAttacksX=1||Attack=6||CRSpell>8|
+_|CR+1|{If~%TestTable%=1? {Color~Purple,(Touch= %CR%)}}
+1,{Italic~polymorph any object} spell is activated ([RngClose], 1 creature or 1 nonmagical object (max %CL%00 cu.ft.), variable duration) |SaveNote=negates (object) see text|[SaveSpellFort]|SaveNote=0||CRSpell>8|
+1,{Italic~power word stun} spell is activated ([RngClose], 1 creature max 150 hp, 1-50 hp = 4d4 ([~Dice Reroll.4d4]) rounds; 51-100 hp = 2d4 ([~Dice Reroll.2d4]) rounds;  101-150 hp = 1d4 ([~Dice Reroll.1d4]) rounds, no Save)|CRSpell>8|
+1,{Italic~prismatic wall} spell is activated ([RngClose], max {Bold~{Calc~%CL%*4}}' wide x {Bold~{Calc~%CL%*2}}' high, %CL%0 minutes (D); <8HD within 20' = blinded 2d4 ([~Dice Reroll.2d4]) rounds) [SaveSpell]|CRSpell>8|
+2,{Italic~scintillating pattern} spell is activated ([RngClose], 20' rad, %CL% rounds, effect varies: Unconscious (0-6 HD) 1d4 ([~Dice Reroll.1d4]) rounds then Stunned (0-12 HD) 1d4 ([~Dice Reroll.1d4]) rounds then Confused (any HD) 1d4 ([~Dice Reroll.1d4]) rounds, no Save)|CRSpell>8|
+1,{Italic~greater shout} spell is activated (60' cone, |NumOfDice={If~%CL%20?20/%CL%}|Stunned 1r, Deafened {Bold~{Dice~4d6}} rounds, and {Bold~{Dice~10d6}} sonic dmg; vs brittle or crystalline items: %NumOfDice%d6 sonic=[~Dice Reroll.%NumOfDice%d6])
+_ |SaveNote=partial|[SaveSpellFort]|SaveNote=0| or |SaveNote=negates (object)|[SaveSpellRef]|SaveNote=0||CRSpell>8|
+1,{Italic~summon |SummonType=[Monster]|%SummonType%{If~%SummonType%=nature's ally? |SummonType=NatAll|/|SummonType=Mon|}{If~%Version%=3?|SummonType&PF|} VIII} spell is activated ([RngClose], %CL% {PluralIf~%CL%,round} (D), [~Creatures.Sum%SummonType%8], no SR)|CRSpell>8|
+1,{Italic~sunburst} spell is activated ([RngLong], 80' rad, Blinded and 6d6=[~Dice Reroll.6d6] (x2 if sunlight is harmful or unnatural); |NumOfDice={If~%CL%>25?25/%CL%}|Vs undead, slimes, oozes, molds, fungi: %NumOfDice%d6=[~Dice Reroll.%NumOfDice%d6] (destroys undeads harmed by bright light on failed save)) |SaveNote=half and not blinded|[SaveSpellRef]|SaveNote=0||CRSpell>8|
+2,{Italic~symbol of death} spell is activated (60' rad, 150 hp total or %CL%0 minutes) |SaveNote=negates|[SaveSpellFort]|SaveNote=0||CRSpell>8|
+2,{Italic~symbol of insanity} spell is activated (60' rad, continuous confusion, %CL%0 minutes) |SaveNote=negates|[SaveSpellWill]|SaveNote=0||CRSpell>8|
+1,{Italic~sympathy} spell is activated ([RngClose], max %CL%x 10' cubes, {Calc~%CL%*2} hours (D)) |SaveNote=negates|[SaveSpellWill]|SaveNote=0||CRSpell>8|
+1,{Italic~trap the soul} spell is activated ([RngClose], 1 creature, permanent) |SaveNote=negates|[SaveSpellWill]|SaveNote=0||CRSpell>8|
+1,{Italic~whirlwind} spell is activated ([RngLong], cyclone 10' wide base x 30' wide top x 30' high, %CL% rounds (D))|SaveNote=negates, see text|[SaveSpellRef]|SaveNote=0||CRSpell>8|
+
+;AntipathyChoice
+9,location (up to {Bold~%CL%}x 10-ft. cubes)
+1,object
+
+;ANL9
+1,{Italic~crushing hand} spell is activated ([RngMedium], hp = |Temp1=%CL%|{If~%Version%=2?|Temp1*3|/|Temp1*4|}{Bold~%Temp1%}, 1 grapple/round (ATTBONUSX CMB, 2d6+12), no Save)
+_|NumAttacksX=1||OtherDamageX=2d6+12||Attack=13||CRSpell>9|
+2,{Italic~dominate monster} spell is activated ([RngClose], 1 creature, %CL% days) |SaveNote=negates|[SaveSpellWill]|SaveNote=0||CRSpell>9|
+1,{Italic~elemental swarm} spell is activated ([RngMedium], [~SwarmType], {Dice~2d4} Large, 10 minutes later {Dice~1d4} Huge, 10 minutes after 1 Greater, no Save, no SR)|CRSpell>9|
+2,{Italic~energy drain} spell is activated ([RngClose], ATTBONUSX touch, 2d4 Negative Levels ([~Dice Reroll.2d4])) |SaveNote=partial (roll for each negative level after 24 hours)|[SaveSpellFort]|SaveNote=0|
+_|NumAttacksX=1||Attack=6||CRSpell>9|
+_|CR+1|{If~%TestTable%=1? {Color~Purple,(Touch= %CR%)}}
+2,{Italic~implosion} spell is activated ([RngClose], {If~%Version%=2?max 4 creatures/1 corporeal creature per round (max once each), max {Bold~{Calc~%CL%\2}} rounds}, %CL%0 damage) |SaveNote=negates|[SaveSpellFort]|SaveNote=0||CRSpell>9|
+1,{Italic~mass hold monster} spell is activated ([RngMedium], %CL% creatures within 30', %CL% rounds (D))|SaveNote=negates|[SaveSpellWill]|SaveNote=0||CRSpell>9|
+1,{Italic~imprisonment} spell is activated (ATTBONUSX touch, one target) |SaveNote=negates|[SaveSpellWill]|SaveNote=0|
+_|NumAttacksX=1||Attack=6||CRSpell>9|
+_|CR+1|{If~%TestTable%=1? {Color~Purple,(Touch= %CR%)}}
+2,{Italic~mage's disjunction} spell is activated ([RngClose], 40' radius burst, %CL% minutes (objects), no SR) |SaveNote=negates (object)|[SaveSpellWill]|SaveNote=0| |CRSpell>9|
+2,{Italic~meteor swarm} spell is activated ([RngLong], 4x meteors + 40' radius spread each (6d6 Fire = [~Dice Reroll.6d6], [~Dice Reroll.6d6], [~Dice Reroll.6d6], [~Dice Reroll.6d6]), ATTBONUSX touch) |SaveNote=; none (vs meteor) or half (vs each spread, -4 if hit by meteor)|[SaveSpellRef]|SaveNote=0|
+_|NumAttacksX=4||Attack=6||OtherDamageX=2d6||CRSpell>9|
+1,{Italic~power word kill} spell is activated ([RngClose], one target max 100 hp, no Save)|CRSpell>9|
+1,{Italic~prismatic sphere} spell is activated ([RngClose], 10' radius sphere, %CL%0 minutes (D); <8HD within 20' = blinded 2d4x10 ([~Dice Reroll.2d4x10]) minutes) [SaveSpell]|CRSpell>9|
+1,{Italic~shambler} spell is activated ([RngLong], {Bold~{Dice~1d4+2}} {If~%Version%=2?11HD/advanced (template)} shambling mounds, 7 months for guard duty, no Save, no SR) |CRSpell>9|
+1,{Italic~storm of vengeance} spell is activated ([RngLong], 360' rad, 10 rounds; Deafened [~Dice Reroll.1d4x10] minutes, R2- 1d6 ([~Dice Reroll.1d6]) acid (No Save); R3- Lightning bolts: 10d6 ({Loop~6,[~Dice Reroll.10d6]; }) electric dmg (different targets); R4- hail 5d6 ([~Dice Reroll.5d6]) dmg (no save); R5-10- Violent Rain) |SaveNote=negates (deafness)|[SaveSpellFort]|SaveNote=0| |SaveNote=half (lightning bolt)|[SaveSpellRef]|SaveNote=0||CRSpell>9|
+1,{Italic~summon |SummonType=[Monster]|%SummonType%{If~%SummonType%=nature's ally? |SummonType=NatAll|/|SummonType=Mon|}{If~%Version%=3?|SummonType&PF|} IX} spell is activated ([RngClose], %CL% {PluralIf~%CL%,round} (D), [~Creatures.Sum%SummonType%9], no SR)|CRSpell>9|
+1,{Italic~teleportation circle} spell is activated (5' rad, no Save)|CRSpell>9|
+2,{Italic~wail of the banshee} spell is activated ([RngClose], %CL% living creatures in 40' rad spread, %CL%0 damage) |SaveNote=negates|[SaveSpellFort]|SaveNote=0||CRSpell>9|
+2,{Italic~weird} spell is activated ([RngMedium], all living creature within 30', if Fort save succeeds 3d6 ([~Dice Reroll.3d6]) damage + stunned 1r + 1d4 ([~Dice Reroll.1d4]) STR damage) |SaveNote=disbelief|[SaveSpellWill]|SaveNote=0| then |SaveNote=partial|[SaveSpellFort]|SaveNote=0||CRSpell>4|
+
+;SwarmType
+1,Air
+1,Earth
+1,Fire
+1,Water
+
+:NOTHING
+1,{Italic~} spell is activated |NumOfDice={If~%CL%>25?25/%CL%}|(%NumOfDice%d6 electric=[~Dice Reroll.%NumOfDice%d6])[SaveSpell](No Save)
+
+;Sense
+3,loud noise
+2,bright light
+2,magic use
+2,any light
+1,any sound (+15 {If~%Version%=2?Listen/Perception}=[~Dice Reroll.1d20p15])
+
+# ---------------------------------------------------------------------------
+
+;DoorTrap
+3,|NumAttacksX=1||Temp={Dice~2d4}||Temp+%TrapLevelMod%||Temp>1||OtherDamageX=%Temp%d6||OtherDamageXAvg={Calc~%Temp%*3.5}||AttBonusX={Dice~2d5+2}||AttBonusX+{Calc~2*%TrapLevelMod%}||AttBonusX>0||Attack=2|
+_a falling door topples toward anyone [~MessingWith] it (+%AttBonusX% melee, %OtherDamageX% blunt)
+3,[CalcCL]|CL>3|a door explodes when [~MessedWith]: [DoorExplodes+%TrapLevelMod%] (CL%CL%)
+_|TrapTypeName=Magical trap||TrapType=magic||CRSpell>%Level%|
+_|Bypass=[BypassMagic=1]||Reset=[ResetMagic={Calc~{Dice~1d4+4}+%TrapLevelMod%}]|
+1,the door is filled with [Chanceof]{If~%Chance%<30? {AorAn~[Spray]}/compressed |GasType=gas|[Gas+{Calc~2*%TrapLevelMod%}]|GasType=0||OnsetGas=[OnsetDelay]||CR+2|{If~%TestTable%=1? {Color~Purple,(Gas compressed= %CR%)}}}
+_{If~%ShowSave%=Yes? [SaveFort]/|ShowSave=Yes|}
+1,a spiked door ({If~{Dice~1d2}=1?slams open/shoots some darts}) when [~MessedWith]. 
+_|NumAttacksX={Dice~1d7+1}|[NumAttMod=1]
+_{Bold~%NumAttacksX%} spikes might puncture you
+_|OtherDamageX=1d4||OtherDamageXAvg=2.5||CritX=20|[OtherDamageModSpike]|MultX=2|
+_|Attack=4|
+1,a door activates {AorAn~[NoiseNature] [Noise]}
+1,the door's keyhole squirts [Spray] when [~MessedWith]{If~%ShowSave%=Yes? [SaveReflex]/|ShowSave=Yes|}
+5,[~MessingWith] the door opens {AorAn~[PitTrap]} 
+1,a false door covers {AorAn~[MagicalTrap]} on [Chanceof]{If~%Chance%<90? wall/real door}
+2,a false door covers a [Chanceof]{If~%Chance%<1? vent that emits |GasType=gas|[Gas+{Calc~2*%TrapLevelMod%}]|CR+2||GasType=0|
+_{If~%TestTable%=1? {Color~Purple,(Touch= %CR%)}}
+_|OnsetGas=[OnsetDelay]|
+_/ [Spray]} sprayer [SaveReflex]
+# By Larry Cormier, from "Traps.tab"
+1,|Reset=[ResetChoose+%TrapLevelMod%]||NumAttacksX=1||AttBonusX={Dice~2d5+2}||AttBonusX+{Calc~2*%TrapLevelMod%}||AttBonusX>0||OtherDamageX=0||OtherDamageXAvg=0||CritX=20||MultX=2||WeaponType=needle||TypeNeeded=Injury|
+_there is a poisoned {PluralIf~%NumAttacksX%,needle} in the handle  (ATTBONUSX melee, [~Choose%TypeNeeded%])|Attack=2|
+2,after passing through this door, and closing the door behind them, they will be peppered with
+_|Reset=[ResetChoose+%TrapLevelMod%]||NumAttacksX={Dice~1d6+2}|[NumAttMod=1]|AttBonusX={Dice~2d5+2}||AttBonusX+{Calc~2*%TrapLevelMod%}||AttBonusX>0||OtherDamageX=0||OtherDamageXAvg=0||CritX=20||MultX=2||WeaponType=[Projectiles]||TypeNeeded=Injury|
+_ <b>%NumAttacksX%</b> <b>%WeaponType%</b> causing <b>%OtherDamageX%</b> dmg each (ATTBONUSX range)[ChanceofHigh]{If~%Chance%>=75?. The %WeaponType% are also poisoned ([~Choose%TypeNeeded%])}|Attack=2|
+2,|Reset=[ResetChoose+%TrapLevelMod%]||NumAttacksX={Dice~2d3}|[NumAttMod=1]|AttBonusX={Dice~2d5+2}||AttBonusX+{Calc~2*%TrapLevelMod%}||AttBonusX>0||OtherDamageX=0||OtherDamageXAvg=0||CritX=20||MultX=2||WeaponType=[Projectiles]||TypeNeeded=Injury|
+_there are <b>%NumAttacksX%</b> <b>%WeaponType%</b> shot from hidden ports in the wall [FrontBeyond] causing <b>%OtherDamageX%</b> dmg each (ATTBONUSX range)[ChanceofHigh]{If~%Chance%>=75?.  The %WeaponType% are also poisoned ([~ChoosePoisonAny])}|Attack=2|
+5,opening this door causes a trapdoor to open [FrontBeyond] dropping the characters in {AorAn~[PitTrap]} 
+5,opening this door causes a trapdoor to open above the persons [FrontBeyond] dropping [DumpTrap]
+_|CR+2|{If~%TestTable%=1? {Color~Purple,(Never Miss Door= %CR%)}}
+1,this door is actually a mimic ({If~%Version%=2?MM1/PFB1})
+_|CR+4|{If~%TestTable%=1? {Color~Purple,(Mimic= %CR%)}}
+1,this door is filled with hidden pockets of [Mold+%TrapLevelMod%]
+3,there is an open pit on the other side of the door.<br>{Space~5}{Bold~Pit:}  [PitTrap]
+
+:FrontBeyond
+1,[Chanceof]{If~%Chance%<50? in front of the door,/beyond the door after the characters have moved through it,}
+
+;!Mold
+4,<b>brown mold (CR2)</b>. Brown mold feeds on warmth, drawing heat from anything arount it. Any undue force will cause the hidden pockets to burst. The temperature will become cold in a 30' radius around the door. Living creatures within 5' of it take 3d6 ([~Dice Reroll.3d6]) nonlethal Cold damage. Fire brought within 5' of brown mold causes it to instantly double in size. Cold damage instantly destroys it
+_|CR+2|{If~%TestTable%=1? {Color~Purple,(Mold= %CR%)}}
+4,<b>green slime (CR4)</b>. Any undue force will cause the hidden pockets to burst in a 5-foot square that deals 1d6 ([~Dice Reroll.1d6]) CON damage per round as it devours flesh. On the first round of contact, the slime can be scraped off (most likely destroying the scraping device), but ater that it must be frozen, burned, or cut away (dealing damage to the victim as well). Anything that deals cold or fire damage, sunlight, or a {Italic~remove disease} spell destroys a patch of green slime. Against wood or metal, green slime deals 2d6 ([~Dice Reroll.2d6]) damage per round, ignoring metal's hardness but not that of wood. It does not harm stone
+_|CR+4|{If~%TestTable%=1? {Color~Purple,(Mold= %CR%)}}
+4,<b>dust of sneezing and choking</b>. Any undue force will cause the hidden pockets to burst, showering everyone in a 20' spread. The victims fall into fits of sneezing and coughing. Fortitude DC15 or {If~%Version%=2?2d6 ([~Dice Reroll.2d6]) CON damage, second save in 1 minute for 1d6 ([~Dice Reroll.1d6]) CON damage/3d6 ([~Dice Reroll.3d6]) CON damage immediately}. Those who succeed on either save are nontheless disabled by choking (treat as stunned) for 5d4 ([~Dice Reroll.5d4]) rounds. (Faint conjuration, CL 7th)
+_|CR+5|{If~%TestTable%=1? {Color~Purple,(Mold= %CR%)}}
+2,<b>russet mold (PFB1, CR6)</b>. When approached within 5' = cloud 5' radius, Fort DC15, 2 CON/round (save each round until success). If a Small or larger creature is killed, a vegepygmy (PFB1, CR1/2) will erupt from the victim's body afte 24 hours (+1/size over Small). {Italic~Remove disease} and similar effects can halt the growth as well as exposure to sunlight. Plants are immune
+_|CR+6|{If~%TestTable%=1? {Color~Purple,(Mold= %CR%)}}
+2,<b>yellow mold (CR6)</b>. Any undue force will cause the hidden pockets to burst in a 5-foot square, showering the victim with poisonous spores. All within 10' of the mold must make a DC15 Fortitude save or take {If~%Version%=2?1d6 ([~Dice Reroll.1d6]) CON damage. Another DC15 Fortitude save is required 1 minute later - even by those who succeeded the first save - to avoid taking 2d6 points of Constitution damage/1d3 ([~Dice Reroll.1d3]) CON damage, another save 1[Slash]r for 5r for 1d3 ([~Dice Reroll.1d3]) CON damage; a successful save ends this effect}. Fire destroys yellow mold, and sunlight renders it dormant
+_|CR+6|{If~%TestTable%=1? {Color~Purple,(Mold= %CR%)}}
+
+;Projectiles
+1,flight arrows|OtherDamageX=1d6||OtherDamageXAvg=3.5||CritX=20||MultX=3|
+1,sheaf arrows|OtherDamageX=1d8||OtherDamageXAvg=4.5||CritX=20||MultX=3|
+1,javelins|OtherDamageX=1d6||OtherDamageXAvg=3.5||CritX=20||MultX=2|
+1,daggers|OtherDamageX=1d4||OtherDamageXAvg=2.5||CritX=19||MultX=2|
+1,spears|OtherDamageX=1d6||OtherDamageXAvg=3.5||CritX=20||MultX=3|
+1,darts|OtherDamageX=1d2||OtherDamageXAvg=1.5||CritX=20||MultX=2|
+1,rocks|OtherDamageX=1d3||OtherDamageXAvg=2||CritX=20||MultX=2|
+
+;DoorExplodes
+4,{Italic~Glyph of warding (blast)} spell is activated (5' rad, |NumOfDice={If~%CL%>10?5/[OnePerTwo=%CL%]}||NumOfDice>1|%NumOfDice%d8 [~Energy]=[~RollNumOfDiced8]) |Level=3||SaveNote=half|[SaveSpellRef]|SaveNote=0|
+1,{If~%CL%<11?[DoorExplodes=1]/
+_{Italic~Greater Glyph of warding (blast)} spell is activated (5' rad, |NumOfDice={If~%CL%>20?10/[OnePerTwo=%CL%]}||NumOfDice>1|%NumOfDice%d8 [~Energy]=[~RollNumOfDiced8]) |Level=6||SaveNote=half|[SaveSpellRef]|SaveNote=0|
+_}
+
+;Noise
+1,chime
+2,gong
+5,bell
+1,cacophony
+1,alarm
+
+;MessingWith
+1,touching
+1,tampering with
+1,attempting to open
+
+;MessedWith
+1,touched
+1,tampered with
+1,opened
+
+# ---------------------------------------------------------------------------
+
+;WeirdArchitecture
+2,distance-distortion corridor that appears to be [Chanceof]{If~%Chance%<50? 2 times its actual length / {Dice~1d4+1} times its actual length}|SeDiMod={Dice~1d6+3}|
+2,|TrapType=mechanical|rotating room opens [Chanceof]{If~%Chance%<75? to an apparently identical corridor/to a visibly different corridor {Dice~1d3*90} degrees from original direction}
+1,|TrapType=mechanical|elevator room shifts |Count={Dice~1d3}|{If~%Count%>1? %Count% levels/ %Count% level} [Chanceof]{If~%Chance%<80? down/up}
+1,[~WeirdArchitecture2] going up but appearing to go down
+1,[~WeirdArchitecture2] going down but appearing to go up
+1,corridor going right but appearing to go left
+1,corridor going left but appearing to go right
+1,|CL>9|corridor appearing to continue [~WeirdArchitecture3] but teleporting you farther away
+
+;WeirdArchitecture2
+1,staircase
+1,corriror
+
+;WeirdArchitecture3
+2,straight
+2,left
+2,right
+1,up
+1,down
+
+# ---------------------------------------------------------------------------
+
+# Added some of Larry Cormier's "TrapdoorAbove" from "Traps.tab"
+;DumpTrap
+1,an avalance of [Chanceof]{If~%Chance%<10? ancient} [~Coins]|SaveNote=half|[DumpDamage]|SaveNote=0||Coins=Yes|
+4,a flood of [Chanceof]|Chance-{Calc~15*%TrapLevelMod%}|{If~%Chance%<15? acid |SaveNote=half|[DumpDamage]|SaveNote=0|/water |Temp={Dice~2d10+4}||Temp+{Calc~2*%TrapLevelMod%}||Temp>5|({If~%Version%=2?Balance/Acrobatics} DC%Temp% or go with the flow for |Temp={Dice~1d10}||Temp+%TrapLevelMod%||Temp>1|%Temp%0')}
+2,sand |SaveNote=half and avoids being buried and to suffocate|[DumpDamage2]|SaveNote=0|
+4,[DumpTrap2] |SaveNote=half and avoids being buried|[DumpDamage]|SaveNote=0|
+4,an avalanche of |Temp1=0|[Chanceof]|Chance-{Calc~15*%TrapLevelMod%}|{If~%Chance%<30? parasite-infested|Temp1=1|} garbage |SaveNote=half|[DumpDamage]|SaveNote=0|{If~%Temp1%=1? (poison: [RandomPoison])}
+1,a ton of [Garbage] |Temp={Dice~1d6}||Temp+%TrapLevelMod%||Temp>1||SaveNote=half and avoid being buried alive and to suffocate|[DumpDamage3]|SaveNote=0|
+1,a large quantity of [~Garbage] |Temp={Dice~1d6}||Temp+%TrapLevelMod%||Temp>1||SaveNote=half and avoid being nauseated {Bold~%Temp%}r|[DumpDamage3]|SaveNote=0|
+1,a seething mass of grubs |Temp={Dice~1d6}||Temp+%TrapLevelMod%||Temp>1||SaveNote=half and avoid being nauseated {Bold~%Temp%}r|[DumpDamage3]|SaveNote=0|
+2,[SlimeColor] [Slime] |SaveNote=half|[DumpDamage2]|SaveNote=0| |Temp={Dice~2d10+4}||Temp+{Calc~2*%TrapLevelMod%}||Temp>5|({If~%Version%=2?Balance/Acrobatics} DC%Temp% to move faster than 1/2 speed without falling)
+2,oil which might ignite if they carry open flame
+2,gallons of acid (1d6/round ([~Dice Reroll.1d6]) thereafter until the acid is washed off or the character dies) |SaveNote=half|[DumpDamage2]|SaveNote=0|
+2,{Bold~{Dice~10d4}} poisonous snakes ([~ChooseInjury])
+
+:DumpDamage
+1,|Level={Dice~3d4}|[SaveReflex] |NumOfDice={Dice~2d4+2}||NumOfDice+%TrapLevelMod%||NumOfDice>1|(damage: %NumOfDice%d6=[~Dice Reroll.%NumOfDice%d6])
+_|NumAttacksX=1||OtherDamageX=%NumOfDice%d6||OtherDamageXAvg={Calc~%NumOfDice%*3.5}|
+
+:DumpDamage2
+1,|Level={Dice~3d4}|[SaveReflex] |NumOfDice={Dice~1d4+1}||NumOfDice+%TrapLevelMod%||NumOfDice>1|(damage: %NumOfDice%d6=[~Dice Reroll.%NumOfDice%d6])
+_|NumAttacksX=1||OtherDamageX=%NumOfDice%d6||OtherDamageXAvg={Calc~%NumOfDice%*3.5}|
+
+:DumpDamage3
+1,|Level={Dice~3d4}|[SaveFort] |NumOfDice={Dice~1d4+1}||NumOfDice+%TrapLevelMod%||NumOfDice>1|(damage: %NumOfDice%d6=[~Dice Reroll.%NumOfDice%d6])
+_|NumAttacksX=1||OtherDamageX=%NumOfDice%d6||OtherDamageXAvg={Calc~%NumOfDice%*3.5}|
+
+;DumpTrap2
+1,fist-sized stones
+1,stones
+1,pebbles
+1,gravel
+
+;Garbage
+1,carrion
+1,offal
+1,garbage
+
+;!Coins
+70,copper coins
+10,silver coins
+1,electrum coins
+2,gold coins
+1,platinum coins
+16,coins ([Coins] and [Coins])
+
+# ---------------------------------------------------------------------------
+
+;Bypass
+4,0
+1,[Bypass2]
+
+;BypassMagic
+6,[Password]
+3,0
+1,[Bypass2]
+
+;Bypass2
+5,hidden switch ({If~%Version%=2?Search/Perception} DC{Calc~{Dice~1d10+20}+%TrapLevelMod%})
+3,standard key-type lock (|AddLockCR=No|[LockQuality+{Calc~2*%TrapLevelMod%}]|AddLockCR=Yes|)
+1,hidden key-type lock ({If~%Version%=2?Search/Perception} DC{Calc~{Dice~1d10+20}+%TrapLevelMod%}; |AddLockCR=No|[LockQuality+{Calc~2*%TrapLevelMod%}]|AddLockCR=Yes|)
+
+:Password
+1,password ([~Names Generator.NAME Random])
+
+# ---------------------------------------------------------------------------
+
+:OnsetDelay
+1,|Temp=0|[OnsetDelay2={Calc~{Dice~1d4+2}+%TrapLevelMod%}]
+_{If~{And~%Temp%!=0,%TestTable%=1}=1? %CR%|CR+%Temp%|{Color~Purple,(Onset= %CR%)}}
+
+:OnsetDelay2
+1,4|Temp-1|
+2,3
+3,2
+4-5,2
+6,2
+7,1
+8,1
+
+# ---------------------------------------------------------------------------
+
+:ResetChoose
+1,no reset
+2-4,repair
+5-7,manual
+8,automatic|CR+1|
+_{If~%TestTable%=1? {Color~Purple,(Auto reset= %CR%)}}
+
+:ResetMagic
+1-6,no reset (one use)
+7-8,automatic (permanent)|CR+1|
+_{If~%TestTable%=1? {Color~Purple,(Permanent= %CR%)}}
+
+# ---------------------------------------------------------------------------
+
+:CritX
+1,{If~%CritX%=20?%CritX%/%CritX%-20}
+
+# ---------------------------------------------------------------------------
+
+# 4 = Output Monster
+# 2,2,2 = ShowEncDistances,ShowMap,ShowMonsterActivity
+# 2 = ShowTerrain
+# 1,2 = LargeGroups, MultipleMMSearch
+:TerribleMonster
+1,[ENC Ultimate Random Encounter.RandomMonster(0,%CRLow%,%CRHigh%,,,,,,,,,U8,,,,,U7,,,,U1,4,,,,2,2,2,,,,,,,2,U2,,,2,2,U3,,,,,U4,,,U5,,,,,U6,,,,,,U10,,,U9,%Version%,,,,,,%VerifyBook%,2)]
+
+:TerribleMonsterLevel
+1,{Dice~1d3}
+2,{Dice~1d3+3}
+3,{Dice~1d3+6}
+4,{Dice~1d3+9}
+5,{Dice~1d3+12}
+6,{Dice~1d3+15}
+7,{Dice~1d6+18}
+
+;TerribleMonster2
+5,[Creatures.Fantastic]
+30,[Creatures.Undead]
+20,[Creatures.Vermin]
+1,basilisk
+1,troll
+1,cockatrice
+1,medusa
+1,hydra
+1,carnivorous worm
+1,rust monster
+1,invisible stalker
+1,giant venomous snake
+1,swarm of giant wasps
+1,huge swarm of killer bees
+1,pack of {Dice~2d6} giant rats
+1,walking skeleton
+1,zombie
+1,manticore
+1,giant toad
+1,gargoyle
+
+# ------------------------------------------
+# Leave at the end
+
+:Percent
+1,/%
+
+:Slash
+1,/

@@ -1,0 +1,411 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder Feb 28, 2006.
+# ---------------------------------------------------
+#
+# Herb Names
+#
+# Copyright 1999 Bruce A. Gulke
+#
+# -------------------------------------------------------------------------
+#
+# To call this table from another one:
+#    [Herb Names.ChooseKind=%Kind%
+#    [Herb Names.Start(1,1)
+#
+#     Kind: 1= Any
+#           2= Random New Herb
+#           3= Role Master only (RMSS)
+#           4= Real-World Herbs only
+#
+# -------------------------------------------------------------------------
+#
+# Table Calling this one
+#    Zombie Appearance
+#
+# Modified by Valminder April 2002
+#    I changed the "START" line.
+#    I added some links to these other tables:
+#        Miscellaneous.Color
+#        Names Generator.NAME Random
+# July 2003:
+#    Added the "Herbs" table written by Penn Davies,
+#    from the RMSS Treasure Companion
+#
+# Modified by Valminder, Feb 2006.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+#    Changed: "Miscellaneous.Color" to "Miscellaneous.ColorNoType"
+#    Added parameters.
+#    Added link to "Random Herbs.Start"
+# Modified by Valminder, Nov 2011
+#    Added some information above.
+#
+
+%Kind%,0
+%Meaning%,0
+%ShowMeaning%,0
+
+# To work with other tablesm the default output "ShowMeaning"
+# does not show the purpose of the herb.
+@ShowMeaning,1,Include the Herb's Purported Uses in the display?,Yes,No
+@Kind,1,Choose kind of herbs to roll,Any,Create a Random New Herb,Role Master only (RMSS),Real-World Herbs only
+ 
+:Start
+1,{Status~By Bruce A. Gulke, 1999, Valminder 2002-2003-2006}[ChooseKind=%Kind%]
+
+:ChooseKind
+1,[Generate]
+2,[Generate={Dice~1d32}]
+3,[HerbsRMSS]{If~%ShowMeaning%=1? %Meaning%}
+4,{If~%ShowMeaning%=1? [Random Herbs.Start(1)]/[Random Herbs.Start(2)]}
+
+;Generate
+1,St. [Names Generator.NAME Random]'s {Cap~[Misc]}[Meaning]
+1,{Cap~[Creatures.Animal]}'s {Cap~[Misc]}[Meaning]
+1,{Cap~[Creatures.Fantastic]}'s {Cap~[Misc]}[Meaning]
+1,{Cap~[Creatures.Bird of Prey]}'s {Cap~[Misc]}[Meaning]
+1,{Cap~[Thing]}'s {Cap~[Misc]}[Meaning]
+1,{Cap~[Adjective]} {Cap~[Misc]}[Meaning]
+2,{Cap~[Miscellaneous.ColorNoType]} {Cap~[Misc]}[Meaning]
+10,{Cap~[Part I]}[Part II][Meaning]
+8,{Cap~[Part I]}[Part II][Part II][Meaning]
+2,{Cap~[Miscellaneous.ColorNoType]} {Cap~[Part I]}[Part II][Meaning]
+2,{Cap~[Miscellaneous.ColorNoType]} {Cap~[Part I]}[Part II][Part II][Meaning]
+2,{Cap~[Miscellaneous.ColorNoType]}[Part II][Meaning]
+50,[HerbsRMSS]{If~%ShowMeaning%=1? %Meaning%}
+50,{If~%ShowMeaning%=1? [Random Herbs.Start(1)]/[Random Herbs.Start(2)]}
+
+:Meaning
+1,{If~%ShowMeaning%=1? ([~Random Herbs.PurportedUses])}
+
+:Thing
+1,spring
+2,mountain
+3,oak
+4,demon
+5,angel
+6,hangman
+7,bishop
+8,king
+
+:Adjective
+1,sweet
+2,bitter
+
+:Part I
+1,ad
+2,ado
+3,agri
+4,al
+5,aleth
+6,alka
+7,amb
+8,ani
+9,ans
+10,ar
+11,asara
+12,ath
+13,ati
+14,bar
+15,bas
+16,bel
+17,bil
+18,bor
+19,bur
+20,caf
+21,caff
+22,cal
+23,cal
+24,cala
+25,cel
+26,chamo
+27,cher
+28,col
+29,com
+30,dit
+31,ed
+32,el
+33,eld
+34,els
+35,fen
+36,fetha
+37,fumi
+38,gar
+39,jan
+40,jin
+41,jinn
+42,jun
+43,kal
+44,kel
+45,kla
+46,lar
+47,lor
+48,lung
+49,man
+50,mari
+51,marjer
+52,mug
+53,mull
+54,nap
+55,night
+56,pe
+57,peri
+58,sad
+59,saff
+60,san
+61,sera
+62,sor
+63,stra
+64,tama
+65,tamar
+66,teph
+67,thu
+68,val
+69,valer
+70,ver
+71,wan
+72,win
+73,yar
+74,zal
+75,zul
+
+:Part II
+1,aas
+2,aca
+3,acca
+4,ach
+5,age
+6,ali
+7,ana
+8,any
+9,bate
+10,bena
+11,berry
+12,cana
+13,cena
+14,dock
+15,drake
+16,el
+17,ell
+18,few
+19,frey
+20,gal
+21,gana
+22,gul
+23,ian
+24,iar
+25,ica
+26,icle
+27,il
+28,ilia
+29,in
+30,ind
+31,indes
+32,iper
+33,lic
+34,mile
+35,mony
+36,mus
+37,nel
+38,net
+39,nis
+40,oe
+41,ome
+42,ony
+43,osa
+44,osia
+45,per
+46,pias
+47,ram
+48,rans
+49,ray
+50,rel
+51,rome
+52,ron
+53,rosia
+54,row
+55,sali
+56,se
+57,shade
+58,tany
+59,thal
+60,ther
+61,thin
+62,url
+63,us
+64,usar
+65,vil
+66,vir
+67,wort
+
+:Misc
+1,wort
+2,root
+3,rose
+4,tongue
+5,feather
+6,weed
+7,tail
+8,spike
+9,crown
+10,bane
+11,thorn
+
+# -------------------------------------------------------------------------
+# Written by Penn Davies, from the RMSS Treasure Companion
+#
+
+;HerbsRMSS
+10,Arnuminas|Meaning=(Muscle Repair)|
+10,Arthond|Meaning=(General Purpose)|
+10,Darsurion|Meaning=(Concussion Relief)|
+10,Aloe|Meaning=(Burn Relief)|
+3,Thurl|Meaning=(Concussion Relief)|
+3,Ulginor|Meaning=(Enchanted Bread)|
+3,Akbutege|Meaning=(Concussion Relief)|
+2,Arlan|Meaning=(Concussion Relief)|
+2,Delrean|Meaning=(General Purpose)|
+2,Draaf|Meaning=(Concussion Relief)|
+2,Sorel Nut|Meaning=(Antidote)|
+2,Yaran|Meaning=(Physical Alteration)|
+2,Megillos|Meaning=(Physical Alteration)|
+2,Rewk|Meaning=(Concussion Relief)|
+2,Alambas|Meaning=(Burn Relief)|
+2,Jojojopo|Meaning=(Burn Relief)|
+2,Latha|Meaning=(General Purpose)|
+2,Trudurs|Meaning=(General Purpose)|
+2,Ukur|Meaning=(General Purpose)|
+2,Veldurak|Meaning=(Burn Relief)|
+2,Afrandas|Meaning=(Bone Repair)|
+2,Agaath|Meaning=(Physical Alteration)|
+2,Cram|Meaning=(Enchanted Bread)|
+2,Silmaana|Meaning=(Reduction Poison)|
+2,Dugmuther|Meaning=(Concussion Relief)|
+2,Suranie|Meaning=(Stun Relief)|
+2,Terbas|Meaning=(Nerve Repair)|
+2,Attanar|Meaning=(General Purpose)|
+2,Vinuk|Meaning=(Stun Relief)|
+1,Grapeleaf|Meaning=(Physical Alteration)|
+1,Sharkasar|Meaning=(Circulatory Poison)|
+5,[herbs2]
+
+;herbs2
+1,Alshanak|Meaning=(Enchanted Bread)|
+1,Berterin|Meaning=(Organ Repair)|
+2,Dynallca|Meaning=(Muscle Poison)|
+2,Gariig|Meaning=(Concussion Relief)|
+2,Hesguratu|Meaning=(Enchanted Bread)|
+2,Joef|Meaning=(Physical Alteration)|
+2,Kathkusa|Meaning=(Physical Alteration)|
+2,Kelventari|Meaning=(Burn Relief)|
+2,Klagul|Meaning=(Physical Alteration)|
+2,Kykykyl|Meaning=(Enchanted Bread)|
+2,Mirenna|Meaning=(Concussion Relief)|
+2,Mook|Meaning=(Antidote)|
+2,Ondokamba|Meaning=(Conversion Poison)|
+2,Reglen|Meaning=(Concussion Relief)|
+2,Tartharsul|Meaning=(Enchanted Bread)|
+1,Uraana|Meaning=(Respiratory Poison)|
+1,Arkasu|Meaning=(General Purpose)|
+1,Atigax|Meaning=(Physical Alteration)|
+1,Breldiar|Meaning=(Physical Alteration)|
+1,Carnegurth|Meaning=(Circulatory Poison)|
+1,Culkas|Meaning=(Burn Relief)|
+1,Ebur|Meaning=(Muscle Repair)|
+1,Eldaana|Meaning=(Antidote)|
+1,Febfendu|Meaning=(Organ Repair)|
+1,Jitsu|Meaning=(Respiratory Poison)|
+1,Klytun|Meaning=(Circulatory Poison)|
+1,Muilfana|Meaning=(Conversion Poison)|
+1,Pathur|Meaning=(Life Preservation)|
+1,Splayfoot|Meaning=(Physical Alteration)|
+1,Vuraana|Meaning=(Respiratory Poison)|
+1,Zulsendura|Meaning=(Physical Alteration)|
+1,Zur|Meaning=(Physical Alteration)|
+1,Argsbargies|Meaning=(Antidote)|
+1,Arpsusar|Meaning=(Muscle Repair)|
+1,Dagmathar|Meaning=(Muscle Repair)|
+1,Gefnul|Meaning=(Concussion Relief)|
+1,Hith-i-Girith|Meaning=(Respiratory Poison)|
+1,Jegga|Meaning=(Respiratory Poison)|
+1,Jeggarukh|Meaning=(Circulatory Poison)|
+1,Juth|Meaning=(Nerve Poison)|
+1,Menelar|Meaning=(Antidote)|
+1,Nimnaur|Meaning=(Reduction Poison)|
+1,Ondohithui|Meaning=(Reduction Poison)|
+1,Siriena|Meaning=(Organ Repair)|
+1,Taynaga|Meaning=(Conversion Poison)|
+1,Yavethalion|Meaning=(Concussion Relief)|
+1,Anserke|Meaning=(Circulatory Repair)|
+1,Belramba|Meaning=(Nerve Repair)|
+1,Cathaana|Meaning=(Nerve Poison)|
+1,Fek|Meaning=(Circulatory Repair)|
+1,Gylvir|Meaning=(Physical Alteration)|
+1,Januk-ty|Meaning=(Stun Relief)|
+1,Kakduram|Meaning=(Organ Repair)|
+1,Marku|Meaning=(Physical Alteration)|
+1,Rud-tekma|Meaning=(Physical Alteration)|
+1,Shen|Meaning=(Antidote)|
+1,Siran|Meaning=(Organ Repair)|
+1,Witav|Meaning=(Stun Relief)|
+1,Acaana|Meaning=(Nerve Poison)|
+1,Asgurash|Meaning=(Nerve Poison)|
+1,Blue Eyes|Meaning=(Physical Alteration)|
+1,Curfalaka|Meaning=(Muscle Repair)|
+1,Cusamar|Meaning=(Concussion Relief)|
+1,Degiik|Meaning=(Life Preservation)|
+1,Elben's Basket|Meaning=(Physical Alteration)|
+1,Gursamel|Meaning=(Bone Repair)|
+1,Kaktu|Meaning=(Muscle Poison)|
+1,Kilmakur|Meaning=(Physical Alteration)|
+1,Quilmufur|Meaning=(Antidote)|
+1,Ruth-i-Iaur|Meaning=(Nerve Poison)|
+1,Sharduvaak|Meaning=(Circulatory Poison)|
+1,Slota|Meaning=(Reduction Poison)|
+1,Tarfeg|Meaning=(Muscle Repair)|
+1,Wek-baas|Meaning=(Nerve Poison)|
+1,Welwal|Meaning=(Stun Relief)|
+1,Wifurwif|Meaning=(Nerve Repair)|
+1,Edram|Meaning=(Bone Repair)|
+1,Hegheg|Meaning=(Muscle Repair)|
+1,Henuial|Meaning=(Conversion Poison)|
+1,Merrig|Meaning=(Stat Modifier)|
+1,Pasamar|Meaning=(Organ Repair)|
+1,Slird|Meaning=(Nerve Poison)|
+1,Trusa|Meaning=(Muscle Poison)|
+1,Yuth|Meaning=(Antidote)|
+5,[herbs3]
+
+;herbs3
+2,Tarnas|Meaning=(Organ Repair)|
+3,Kafar|Meaning=(Circulatory Poison)|
+4,Athelas|Meaning=(General Purpose)|
+4,Carcatu|Meaning=(Life Preservation)|
+4,Felmather|Meaning=(General Purpose)|
+4,Kly|Meaning=(Respiratory Poison)|
+4,Galenaana|Meaning=(Respiratory Poison)|
+4,Harfy|Meaning=(Circulatory Repair)|
+4,Jitsutyr|Meaning=(Respiratory Poison)|
+4,Lhugruth|Meaning=(Reduction Poison)|
+4,Olvar|Meaning=(Life Preservation)|
+4,Wek-wek|Meaning=(Organ Repair)|
+4,Zaganzar|Meaning=(Reduction Poison)|
+4,Ankii|Meaning=(Physical Alteration)|
+4,Hugburtun|Meaning=(Circulatory Repair)|
+4,Winclamit|Meaning=(Concussion Relief)|
+4,Baalak|Meaning=(Bone Repair)|
+4,Baldakur|Meaning=(Organ Repair)|
+4,Bragolith|Meaning=(Conversion Poison)|
+4,Bursthelas|Meaning=(Bone Repair)|
+5,Nur-oiolosse|Meaning=(Life Preservation)|
+4,Oiolosse|Meaning=(Life Preservation)|
+5,Ul-Naza|Meaning=(Antidote)|
+3,Laurelin|Meaning=(Life Preservation)|
+3,Lestagii|Meaning=(Stat Modifier)|
+5,[herb24]
+
+;herbs4
+47,Ul-acaana|Meaning=(Nerve Poison)|
+27,Tyr-fira|Meaning=(Life Preservation)|
+35,Vulcurax|Meaning=(Life Preservation)|
+

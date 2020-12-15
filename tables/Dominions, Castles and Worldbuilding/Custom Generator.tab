@@ -1,0 +1,233 @@
+# ------------------------------------------------------
+# Last Update: re-verified by Valminder Jan 10, 2012.
+# ------------------------------------------------------
+# ---------------------------------------------------
+# Last Update: modified by Valminder August 8, 2006.
+# ---------------------------------------------------
+#
+# Custom Generator
+#
+# Based on the Travelor guidebooks: Grand Census, p. 45 and
+# the World Builder's Handbook p. 77
+# originally translated to TableSmith by Michael Taylor
+# modified by Joey Joe Joe
+#
+# This table is useful to quickly create features that will make each culture 
+# in your world/universe have its own character. Take the generated response 
+# and ask: Why? If this is true, what else would follow? How does this affect
+# the daily life of citizens? and flesh out a unique society.
+#
+# Modified by Valminder, Feb 2006.
+#    Adapted for TSv5.
+#    Changed variables name for a better understanding.
+#    Fixed some syntax.
+#    Added some ~
+#    Added links to:
+#       Creatures.Humanoid
+#       Miscellaneous.ColorNoType
+#       Miscellaneous.Gender
+#       Miscellaneous.Occupations
+#       Religion.Deities(2)
+# Modified by Valminder, August  2006.
+#    Added link to: Notable Event Names.tab
+#    Added Deity parameter.
+#
+
+%Tech%,1
+%Instructions%,1
+%Deity%,0
+
+@Tech,1,Choose the type of technology of this society?,Pre-Modern (Medieval),Modern
+@Deity,2,Choose the deity you want to use,Core Gods of PHB,Religion.Deities
+@Instructions,2,Show Instructions,Yes,No
+
+:Start
+1,{Status~By Michael Taylor, Joey Joe Joe, Valminder 2006}
+_{If~%Instructions%=1? [DISPLAY]/[Generate]}
+
+:Generate
+1,{If~%Tech%<2?{Lockout~MiscellaneousCustoms1,1-7}}[Intro] [AlienCustoms].
+
+;DISPLAY
+1,This table will give broad parameters of a particular culture. You may set 
+_the table to generate an ancient culture, or a modern/futuristic culture.
+_To change the parameters, press the "Parameter button" in the upper left corner.  
+
+;Intro
+1,The culture is widely known for the custom of
+1,Many regard this culture as [~Rate] because of the policy of
+1,The most famous feature of this culture is
+1,This is one of the few cultures that practice
+1,{If~%Tech%<2?Sages/Anthropologists} have long been studying this culture's practice of
+1,This is one of many related cultures that have
+1,This culture immediately comes to mind when one speaks of
+1,Popular culture has misinterpreted this group's practice of
+1,Outsiders have yet to understand the significance of
+
+;Rate
+1,a barbaric race
+1,a shining example
+1,a curious oddity
+1,fascinating
+1,repulsive
+
+;AlienCustoms
+10,[MiscellaneousCustoms1]
+10,[MiscellaneousCustoms2]
+5,[MiscellaneousCustoms2] [Connector] [MiscellaneousCustoms1]
+2,[MiscellaneousCustoms1] [~WhatModified]
+2,[MiscellaneousCustoms2] [~WhatModified]
+
+;Connector
+1,, however the culture also secretly practices
+1,, but only members of the culture know of the practice of
+1,, as well as
+1,, although it is also well known for
+1,, but even many indigenous members of the culture are not aware of
+1,, but only the most traditional members still practice
+1,, while members of the culture still fight to overcome the stereortype of
+1,, but many foreigners are not aware of the new trend of
+
+;WhatModified
+2,at [Descriptor] time(s)
+2,in [Descriptor] location(s)
+1,at [Descriptor] orientation(s)
+2,for [Descriptor] duration(s)
+2,in [Descriptor] conditions(s)
+
+;!Descriptor
+4,unusual
+1,particular
+2,specific
+2,odd
+3,notable
+3,certain
+2,peculiar
+1,singular
+
+;Permission
+1,allowed
+1,prohibited
+1,required
+1,taboo
+1,prescribed
+1,commonplace
+
+;!MiscellaneousCustoms1
+1,cloning which is [~Permission] for [~PracticingGroups]
+1,robots are [~Permission] for [~PracticingGroups]
+1,offworld contact is [~Permission] for [~PracticingGroups]
+1,[Descriptor] significance of computers for [~PracticingGroups]
+1,[Descriptor] significance of robots for [~PracticingGroups]
+1,[Descriptor] significance of technology for [~PracticingGroups]
+1,high-tech which is [~Permission] for [~PracticingGroups]
+1,low-tech required for [~PracticingGroups]
+2,sleeping [~WhatModified] for [~PracticingGroups]
+3,special language{If~%Tech%=1? ([~Miscellaneous.Language])} for [~PracticingGroups]
+1,sacred symbols for [~PracticingGroups]
+1,[Descriptor] duties for [~PracticingGroups]
+1,[Descriptor] adornment/beautification practices for [~PracticingGroups]
+1,anonimity required for [~PracticingGroups]
+1,drinking alchool which is [~Permission] for [~PracticingGroups]
+1,using drugs which is [~Permission] for [~PracticingGroups]
+1,bodily abuse which is [~Permission] for [~PracticingGroups]
+1,special privileges for [~PracticingGroups]
+3,[Descriptor] family structures for [~PracticingGroups]
+1,certain privileges prohibited for [~PracticingGroups]
+1,[Descriptor] greetings for [~PracticingGroups]
+1,[Descriptor] inheritance customs for [~PracticingGroups]
+1,[Descriptor] mannerisms for [~PracticingGroups]
+1,[Descriptor] leave-takings for [~PracticingGroups]
+1,[Descriptor] secret societies for [~PracticingGroups]
+1,closed meetings taboo for [~PracticingGroups]
+1,psionics allowed for [~PracticingGroups]
+1,psionics mean instant death for [~PracticingGroups]
+1,[Descriptor] gift-giving customs for [~PracticingGroups]
+3,[Descriptor] communication practices between [~PracticingGroups] and [~PracticingGroups]
+4,[Descriptor] social status for [~PracticingGroups]
+3,[Descriptor] death rituals for [~PracticingGroups]
+1,[Descriptor] beliefs about the afterlife among [~PracticingGroups]
+3,[Descriptor] birth rituals for [~PracticingGroups]
+3,[Descriptor] methods of settling disputes for [~PracticingGroups]
+
+;!MiscellaneousCustoms2
+1,{Lockout~PracticingGroups,1,2} [Descriptor] relationships between [~PracticingGroups] and [~PracticingGroups]
+1,free food which is [~Permission] for [~PracticingGroups]
+1,free clothing which is [~Permission] for [~PracticingGroups]
+1,free education which is [~Permission] for [~PracticingGroups]
+1,[Descriptor] punishment required for [~PracticingGroups]
+1,certain punishments prohibited for [~PracticingGroups]
+1,[Descriptor] training required for [~PracticingGroups]
+2,certain training which is [~Permission] for [~PracticingGroups]
+4,[Descriptor] responsibilities for [~PracticingGroups]
+1,fixed times for visiting [~PracticingGroups]
+3,[Descriptor] food customs for [~PracticingGroups]
+1,bargaining or haggling that is [~Permission] for [~PracticingGroups]
+1,slavery is [~Permission] for [~PracticingGroups]
+3,travelling far away which is [~Permission] for [~PracticingGroups]
+3,[Descriptor] holidays for [~PracticingGroups]
+1,no holidays for [~PracticingGroups]
+1,[Descriptor] leisure activities for [~PracticingGroups]
+1,[Descriptor] rites of passage for [~PracticingGroups]
+1,[Descriptor] attitudes towards [~PracticingGroups]
+1,[Descriptor] significance of weather linked to [~PracticingGroups]
+1,[Descriptor] significance of flora linked to [~PracticingGroups]
+1,[Descriptor] significance of fauna linked to [~PracticingGroups]
+1,[Descriptor] significance of smell liked to [~PracticingGroups]
+1,[Descriptor] significance of sound (or music) linked to [~PracticingGroups]
+1,[Descriptor] significance of color ([~Miscellaneous.ColorNoType]) linked for [~PracticingGroups]
+1,[Descriptor] significance of air linked for [~PracticingGroups]
+1,[Descriptor] significance of earth linked for [~PracticingGroups]
+1,[Descriptor] significance of electricity linked for [~PracticingGroups]
+1,[Descriptor] significance of energy linked for [~PracticingGroups]
+1,[Descriptor] significance of fire linked for [~PracticingGroups]
+1,[Descriptor] significance of water linked for [~PracticingGroups]
+1,[Descriptor] significance of light linked for [~PracticingGroups]
+1,[Descriptor] significance of clothing linkd for [~PracticingGroups]
+1,[Descriptor] significance of art linked for [~PracticingGroups]
+1,[Descriptor] significance of superstition linked for [~PracticingGroups]
+3,[Descriptor] method of tracing kinship for [~PracticingGroups]
+1,daytime (siesta) rest period that is [~Permission] for [~PracticingGroups]
+3,[Descriptor] requirements for citizenship for [~PracticingGroups]
+3,[Descriptor] rituals held on the day of [~Notable Event Names.Generate]
+
+;!PracticingGroups
+2,{Lockout~PracticingGroups,1,2}[~PracticingGroups], [~PracticingGroups] and [~PracticingGroups]
+2,{Lockout~PracticingGroups,1,2}[~PracticingGroups] and [~PracticingGroups]
+3,certain political groups
+3,certain geographic regions
+3,certain members of the family structure
+3,certain sex ([~Miscellaneous.Gender])
+1,every member of the household
+1,enforcement figures
+1,entertainment figures
+2,heroic figures
+2,athletic figures
+4,certain races{If~%Tech%=1? ([~Creatures.Humanoid])}
+1,close friends
+2,religious leaders{If~%Tech%=1? of [ChooseDeities=%Deity%]}
+3,religious practitioners{If~%Tech%=1? of [ChooseDeities=%Deity%]}
+2,military leaders
+2,military rank and file
+2,certain occupations{If~%Tech%=1? ([~Miscellaneous.Occupations])}
+2,political figures
+1,medical figures
+3,certain age groups
+1,younglings
+1,adults
+1,elders
+1,scientific figures
+3,everyone in public
+1,academic leaders
+2,students
+3,low social class
+3,high social class
+1,convicted criminals
+1,suspected criminals
+1,outsiders and foreigners
+1,citizens
+1,religious representatives{If~%Tech%=1? of [ChooseDeities=%Deity%]}
+
+:ChooseDeities
+1,[~Religion.CoreGods]
+2,[~Religion.Deities(2)]

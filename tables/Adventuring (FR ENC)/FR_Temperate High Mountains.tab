@@ -1,0 +1,90 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder Oct 30, 2003.
+# ---------------------------------------------------
+#
+# SMS
+# 06/21/03
+# Forgotten Realms Table 30: Temperate High Mountains (EL 7-14) random encounter tables
+#
+# Corrected by Valminder, Oct 2003
+#   -{If~} and {Dice~}
+#
+#Variables
+
+%Time%,0
+%Temp%,0
+
+#Parameters
+
+@Time,3,Select a time of day,Day,Night,_
+
+#
+#  Starts by putting up the instructions
+#
+
+:Start
+1,{If~%Time% = 3 ? [Instructions]/[Temperate High Mountains %Time%]}
+
+;Instructions
+1,<b>Forgotten Realms Table 30: Temperate High Mountains (EL 7-14)</b></br></br><h3>Instructions:</h3>
+_<b>Determine whether an encounter should occur before using this table. The chance of an encounter is based on terrain type and travel (chance per hour):</b><br>
+_<table border=1><tr><th>Terrain</th><th>Normal Travel</th><th>Cautious Travel</th><th>Hiding</th></tr>
+_<tr><td>Desolate/wasteland</td><td>5/%</td><td>2/%</td><td>1/%</td></tr>
+_<tr><td>Frontier/wilderness</td><td>8/%</td><td>4/%</td><td>2/%</td></tr>
+_<tr><td>Verdant/civilized area</td><td>10/%</td><td>5/%</td><td>2/%</td></tr>
+_<tr><td>Heavily traveled</td><td>12/%</td><td>6/%</td><td>3/%</td></tr>
+_</table>
+_<ul><li>Use the Parameter Box (below) to indicate whether it is day or night. Selecting the "_" shows these instructions (no locality specific entries)</li></ul><br>
+
+# 1 corresponds to time="Day"
+:Temperate High Mountains 1
+01-05,Aarakocra Patrol: {Dice~1d4+4} aarakocra and {Dice~1d2} level {Dice~1d4+1} rangers
+06-08,{Dice~1d3+1} Athach
+09-12,{Dice~1d3+1} Cloud giant
+13-15,{Dice~1d2} Death kiss Beholderkin (MoF)
+16-23,Dragon: [THM_Dragon]
+24-28,{Dice~1d3+2} Ettin
+29-34,{Dice~1d3+2} Fire giant
+35-38,{Dice~1d2} Giant eagle
+39-43,Goblin war party: {Dice~1d10+5} goblins, {Dice~1d2+1} worgs, {Dice~1d2+1} level {Dice~1d3} fighters, {Dice~1d2+1} level {Dice~1d3+1} adepts, led by a level {Dice~1d4+2} [FR_Misc.Goblin_Class]
+44-48,{Dice~1d12+2} Dekanter goblin (MoF)
+49-58,Gold Dwarf Patrol: {Dice~1d4+4} 1st level fighters, {Dice~1d2} level {Dice~1d4} cleric of [Religion.Dwarf Gods],  {Dice~1d2} level {Dice~1d4} sorcerers, led by a level {Dice~1d4+2} [FR_Misc.GoldDwarf_Class]
+59-61,Gray render
+62-66,Hill Giant Raiders: {Dice~1d6+5} Hill giants and {Dice~1d3+1} dire wolves
+67-80,<b>NPCs:</b><br>{Loop~{Dice~1d3+2},[FR_Random_NPC.FR_SM_NPC]}
+81-84,{Dice~1d2} Roc
+85-89,{Dice~1d3+2} Stone Giant
+90-93,{Dice~1d6+5} Worg
+94-96,{Dice~1d4} Wyvern
+97-100,{Dice~1d3} Yrthak
+
+# 2 corresponds to time="Night"
+:Temperate High Mountains 2
+01-03,{Dice~1d4+4} Abishai, red (MoF)
+04-05,{Dice~1d3+1} Athach
+06-09,{Dice~1d3+1} Cloud giant
+10-12,{Dice~1d2} Death kiss Beholderkin (MoF)
+13-21,Dragon: [THM_Dragon]
+22-24,{Dice~1d3+2} Ettin
+25-33,{Dice~1d3+2} Fire giant
+34-38,Goblin war party: {Dice~1d10+5} goblins, {Dice~1d2+1} worgs, {Dice~1d2+1} level {Dice~1d3} fighters, {Dice~1d2+1} level {Dice~1d3+1} adepts, led by a level {Dice~1d4+2} [FR_Misc.Goblin_Class]
+39-43,{Dice~1d12+2} Dekanter goblin (MoF)
+44-47,Gold Dwarf Patrol: {Dice~1d4+4} 1st level fighters, {Dice~1d2} level {Dice~1d4} cleric of [Religion.Dwarf Gods],  {Dice~1d2} level {Dice~1d4} sorcerers, led by a level {Dice~1d4+2} [FR_Misc.GoldDwarf_Class]
+48-49,Gray render
+50-54,Hill Giant Raiders: {Dice~1d6+5} Hill giants and {Dice~1d3+1} dire wolves
+55-69,<b>NPCs:</b><br>{Loop~{Dice~1d3+2},[FR_Random_NPC.FR_SM_NPC]}
+70-73,Nightwing (nightshade)
+74-79,{Dice~1d3+2} Stone Giant
+80-81,{Dice~1d2} Vampire
+82-84,Vampire Troupe: {Dice~1d2} vampires and {Dice~1d4+1} vampire spawn
+85-90,{Dice~1d6+5} Worg
+91-95,{Dice~1d4} Wyvern
+96-100,{Dice~1d3} Yrthak
+
+:THM_Dragon
+01-10,Copper, adult
+11-30,Fang, old (MoF)
+31-37,Gold, adult
+38,Dracolich, Red, young adult (FRCS)
+39-75,Red, adult
+76-100,Silver, adult

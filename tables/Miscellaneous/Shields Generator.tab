@@ -1,0 +1,204 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder Feb 28, 2006.
+# ---------------------------------------------------
+#
+# Shield Generator II   By: Robert Maxwell (wht_knght@yahoo.com)
+#
+##########################################################################
+# >>>>>>> OVER 1800 SHIELDS CAN BE MADE WITH THIS GENERATOR!!! <<<<<<<   #
+##########################################################################
+#
+# This Generator intended to make your customized shields.
+# 
+# HTML output requires a browser that supports Cascading Style Sheets
+# as the shield picture elements are positioned absolutely (one on top of
+# the other) to form the full shield image.  Consequently, you have to use
+# a screen capture or ALT-PRINT SCREEN (which copies the image to your
+# clipboard so you can past it into your favorite Paint program) if you
+# want to save the images you make here.  (I use Jasc Paint Shop Pro for
+# screen captures whenever I need one.)  http://www.jasc.com
+#
+# Also Note, this table can only do one shield at a time.  Making more than
+# one shield will display the same design over and over.  You can, however,
+# change different items of the shield to see how it looks with different
+# backgrounds, decorations, and icons.
+#
+# Try this:  "x" color background with "x" color decoration and any icon.
+# This will give you what appears to be a solid field with an icon for your
+# shield.  You can also use one color for background, a different color for
+# the decoration and no icon for another effect.  Great system here!
+#
+##########################################################################
+# >>>>>>> OVER 1800 SHIELDS CAN BE MADE WITH THIS GENERATOR!!! <<<<<<<   #
+##########################################################################
+#
+# -------------------------------------------------------------------------
+#
+# To call this table from another one:
+#    [Shields Generator.Start(%b%,%c%,%d%,%i%,%size%,%instruction%)
+#
+#    b = Background color : 1=black, 2=blue, 3=cyan, 4=green, 5=orange,
+#                           6=red, 7=white, 8=yellow, 9=Random
+#    c = Decoration color : 1=black, 2=blue, 3=cyan, 4=green, 5=orange,
+#                           6=red, 7=white, 8=yellow, 9=Random
+#    d = decoration       : 1=bend, 2=bow, 3=bullshead, 4=chevron, 
+#                           5=chf, 6=chfc, 7=crescent, 8=cross, 9=crown,
+#                           10=dagger, 11=diamond, 12=dragon, 13=eagle,
+#                           14=eye, 15=fangs, 16=fleur, 17=hammer,
+#                           18=key, 19=lion, 20=pale, 21=pile, 22=rondlets,
+#                           23=rose, 24=sun, 25=tower, 26=unicorn, 27=Random
+#    i = icon used        : 1=boat, 2=bolt, 3=crossbones, 4=fire, 5=fist,
+#                           6=mountain, 7=skull, 8=sun, 9=tree, 10=None,
+#                           11=Random
+#    size                 : 1=Small, 2=Medium, 3=Large
+#    instruction          : 1=Show instructions
+#                           2=Do not show instructions
+#
+# -------------------------------------------------------------------------
+#
+# Modified by Valminder, Feb 2006.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+#    I merged "Shields Custom.tab" and "Shields Random.tab" in one table.
+#    I added Random to the background color, the color of the decoration,
+#       the decoration, and the icon used.
+#    I added a "size" parameter if you want a bigger output (but it's in
+#       low-res and so it's less beautiful to look at the bigger it is)
+#    I added a parameter to display or not the instructions.
+#
+
+/OverrideRolls 1
+
+%b%,1
+%c%,1
+%d%,1
+%i%,1
+%size%,1
+%instruction%,1
+
+@b,9,What Background would you like to use?, black, blue, cyan, green, orange, red, white, yellow, Random
+@c,9,What color of decoration would you like to use?, black, blue, cyan, green, orange, red, white, yellow, Random
+@d,27,What decoration would you like to use?, bend, bow, bullshead, chevron, chf, chfc, crescent, cross, crown, dagger, diamond, dragon, eagle, eye, fangs, fleur, hammer, key, lion, pale, pile, rondlets, rose, sun, tower, unicorn, Random
+@i,11,What icon would you like to use?, boat, bolt, crossbones, fire, fist, mountain, skull, sun, tree, None, Random
+@size,3,Choose size (Large size=low res),Small,Medium,Large
+@instruction,1,Show instructions?,Yes,No
+
+%Path11%,<IMG SRC="Graphics\RobertsGraphics\
+%Path12%," BORDER="0" Bordercolor="Red" style="z-index:1; position: absolute; left: 5px;[Size=%size%]">
+
+%Path21%,<IMG SRC="Graphics\RobertsGraphics\
+%Path22%," BORDER="0" Bordercolor="Red" style="z-index:2; position: absolute; left: 5px;[Size=%size%]">
+
+%Path31%,<IMG SRC="Graphics\RobertsGraphics\
+%Path32%," BORDER="0" Bordercolor="Red" style="z-index:3; position: absolute; left: 5px;[Size=%size%]">
+
+:Start
+1,{Status~By Robert Maxwell, Valminder 2006}
+_{If~%instruction%=1?[Generate]/[Alternate]}
+
+:Size
+1,
+2, HEIGHT=50
+3, HEIGHT=100
+
+:SizeShow
+1,50px
+2,70px
+3,100px
+
+:Generate
+1,{If~%b%=9?|b={Dice~1d8}|}
+_{If~%c%=9?|c={Dice~1d8}|}
+_{If~%d%=27?|d={Dice~1d26}|}
+_{If~%i%=11?|i={Dice~1d25}|}
+#_<p style="z-index:1; position: absolute; left: 50px;">
+_<p style="z-index:1; position: absolute; left: [SizeShow=%size%];">
+_{Note~Click Here to change the note about whose shield this is. Type in one space to erase this message.
+_ Also Note, this table can only do one shield at a time. Making more than one shield will display the
+_ same shield over and over. You can, however, change certain items of the shield to see how it looks with
+_ different backgrounds or whatever.<br><br>
+_Change the parameters to generate a specific shield or you can use this table from the outside by
+_ calling this table using the parameters (Shields Generator.Start(b,c,d,i,size,instruction))<br>
+_<b>b = Background color :</b> 1=black, 2=blue, 3=cyan, 4=green, 5=orange, 6=red, 7=white, 8=yellow, 9=Random<br>
+_<b>c = Decoration color :</b> 1=black, 2=blue, 3=cyan, 4=green, 5=orange, 6=red, 7=white, 8=yellow, 9=Random<br>
+_<b>d = decoration :</b> 1=bend, 2=bow, 3=bullshead, 4=chevron, 5=chf, 6=chfc, 7=crescent, 8=cross, 9=crown, 10=dagger, 11=diamond, 12=dragon, 13=eagle, 14=eye, 15=fangs, 16=fleur, 17=hammer, 18=key, 19=lion, 20=pale, 21=pile, 22=rondlets, 23=rose, 24=sun, 25=tower, 26=unicorn, 27=Random<br>
+_<b>i = icon used :</b> 1=boat, 2=bolt, 3=crossbones, 4=fire, 5=fist, 6=mountain, 7=skull, 8=sun, 9=tree, 10=None, 11=Random<br>
+_<b>size :</b> 1=Small, 2=Medium, 3=Large<br>
+_<b>instruction :</b> 1=Show instructions, 2=Do not show instructions.<br><br>
+_<b>YOU CAN'T SAVE THESE SHIELD IMAGES BY RIGHT CLICKING ON THEM!!</b><br>
+_You will have to use ALT-PRINT SCREEN to copy the image to your clipboard and paste it into a
+_ paint program or do a screen capture with an outside program.
+_ (I use Jasc Paint Shop Pro for screen captures when necessary.)<br><br>
+_This table generates only 1 output unless you remove the "/OverrideRolls" command}</p>
+# The following line was to help test the table
+#_<h3>Background={Param~b,%b%} Color={Param~c,%c%} Deco={Param~d,%d%} Item={Param~i,%i%}</h3>
+_%Path11%[Bg=%b%]%Path12%%Path21%[Color=%c%]-[Decoration=%d%].gif%Path22%[Icon=%i%]<br><br><br><br><br><br>
+
+:Alternate
+1,{If~%b%=9?|b={Dice~1d8}|}
+_{If~%c%=9?|c={Dice~1d8}|}
+_{If~%d%=27?|d={Dice~1d26}|}
+_{If~%i%=11?|i={Dice~1d25}|}
+# The following line was to help test the table
+#_<h3>Background={Param~b,%b%} Color={Param~c,%c%} Deco={Param~d,%d%} Item={Param~i,%i%}</h3>
+_%Path11%[Bg=%b%]%Path12%%Path21%[Color=%c%]-[Decoration=%d%].gif%Path22%[Icon=%i%]<br><br><br><br>
+
+:Bg
+1,shield-bg-black.gif
+2,shield-bg-blue.gif
+3,shield-bg-cyan.gif
+4,shield-bg-green.gif
+5,shield-bg-orange.gif
+6,shield-bg-red.gif
+7,shield-bg-white.gif
+8,shield-bg-yellow.gif
+
+:Color
+1,black
+2,blue
+3,cyan
+4,green
+5,orange
+6,red
+7,white
+8,yellow
+
+:Decoration
+1,bend
+2,bow
+3,bullshead
+4,chevron
+5,chf
+6,chfc
+7,crescent
+8,cross
+9,crown
+10,dagger
+11,diamond
+12,dragon
+13,eagle
+14,eye
+15,fangs
+16,fleur
+17,hammer
+18,key
+19,lion
+20,pale
+21,pile
+22,rondlets
+23,rose
+24,sun
+25,tower
+26,unicorn
+
+:Icon
+1,%Path31%icon-boat.gif%Path32%
+2,%Path31%icon-bolt.gif%Path32%
+3,%Path31%icon-crossbones.gif%Path32%
+4,%Path31%icon-fire.gif%Path32%
+5,%Path31%icon-fist.gif%Path32%
+6,%Path31%icon-mountain.gif%Path32%
+7,%Path31%icon-skull.gif%Path32%
+8,%Path31%icon-sun.gif%Path32%
+9,%Path31%icon-tree.gif%Path32%
+10-25,

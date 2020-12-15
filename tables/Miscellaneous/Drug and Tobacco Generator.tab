@@ -1,0 +1,563 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder August 20, 2006.
+# ---------------------------------------------------
+#
+# Tobacco & Drug Shop
+#
+# Sean A. Hlousek
+#
+# Modified by Valminder, August  2006.
+#    Adapted for TSv5.
+#    I changed the "START" line to generate only 1 item.
+#    Renamed from "Tobacco Shop.tab"
+#    Added Instructions.
+#    Added choice of Drug
+#    Added links to:
+#       Creatures.Start
+#       Poison.PoisonDescriptor
+#       Poison.PoisonName
+#
+
+%AddictionRating%,0
+%aff%,0
+%basegp%,0
+%cost%,0
+%CR%,0
+%Damage%,0
+%InitialEffectGPmod%,0
+%SecondaryEffectGPmod%,0
+%DeliveryGPmod%,0
+%dcGPmod%,0
+%DC%,0
+%Drug%,0
+%Kind%,0
+%Rules%,0
+%Satiation%,0
+%text%,0
+%ZeroDmg%,0
+
+@Kind,3,Choose item to generate,Drug,Tobacco,Both
+@AddictionRating,7,Choose the Addiction Rating,Negligible (DC4),Low (DC6),Medium (DC10),High (DC14),Extreme (DC25),Vicious (DC36),Random
+@Rules,1,Show Rules,Yes,No
+
+:Start
+1,{Status~By Sean A. Hlousek, Valminder 2006}
+_{If~%Rules%=1?[Instructions]/[Start2]}
+
+:Start2
+1,{If~%Kind%=3?|Kind={Dice~1d2}|}
+_[Generate=%Kind%]
+
+;Tab
+1,{Loop~5,&nbsp;}
+
+:Generate
+1,|Drug=1|
+_<b>Drug:</b> [~DrugNames]<br>
+_<i>[Poison.PoisonDescriptor]</i><br>
+_[DrugGameStats]<br>
+#############################################
+# This needs to be fixed to give a good text.
+#_{If~%text%!=0?Story Use: [DisplayAff2]<br>}
+#############################################
+2,|Drug=0||basegp=5|
+_<b>Tobacco:</b> [~TobaccoNames]<br>
+_[Tab]<u>Effects</u>: [Tobacco Effects].<br>
+_[Tab]<u>Side Effects</u>: [Tobacco SideEffects].<br>
+_[Tab]<u>Cost</u>: {If~%basegp%<1?|basegp=1|}%basegp% sp<br>
+
+# ----------------------------------------------------------------
+# Drug and Tobacco names
+
+;DrugNames
+1,[Herb Names.Generate(0,0)]
+2,[Poison.PoisonName]
+
+;TobaccoNames
+1,[Geo]'s [Flavor]
+7,[Prof]'s [Flavor]
+4,[Adjective] [Prof]
+4,[~Names Generator.NAME Random]'s [Adjective]
+2,[Geo]'s brand
+1,[Creatures.Start]
+4,[Adjective] [Creatures.Start]
+
+;Geo
+20,[~Countries.Land]
+1,Chamberton
+1,Erynland
+1,Sherborn
+1,Corbin
+1,Munns
+1,Dunbury
+1,Ellingwood
+1,Embermound
+1,Renns
+1,Fendrickton
+1,Northland
+1,Western
+1,Eastern
+1,Southern
+1,Northern
+1,Borderland
+1,Frontier
+1,Milepost
+1,Crossroad
+1,Sea
+
+;Flavor
+1,Vanilla
+1,Raspberry 
+1,Coca
+5,Cherry
+1,Strawberry
+1,Apple
+
+;Prof
+1,Sailor
+1,Cooper
+1,Cartwright
+1,Smith
+1,Blacksmith
+1,Armoror
+1,Guard
+1,Pirate
+1,Rogue
+1,Wench
+1,Mason
+1,Leatherman
+1,Carpenter
+1,Fighter
+1,Wizard
+1,Sorcerer
+1,Warrior
+1,King
+1,Prince
+1,Knight
+1,Cleric
+1,Priest
+1,Begger
+1,Thief
+1,Ruffian
+1,Brigand
+1,Scoudrel
+1,Paladin
+1,Ranger
+1,Scout
+1,General
+1,Captian
+1,Sergant
+1,Colonel
+1,Scribe
+1,Sage
+1,Monk
+1,Barbarian
+1,Bard
+1,Magician
+1,Jester
+1,Acrobat
+1,Duelist
+1,Adventurer
+1,Druid
+
+;Adjective
+1,Special
+1,Smooth
+1,Sweet
+1,Cool
+1,Fragrant
+1,Robust
+1,Adventerous
+1,Spicey
+1,Magic
+1,Fuzzy
+1,Harsh
+1,Best
+1,Greatest
+1,Glorious
+1,Nobel
+1,Valorous
+1,Sneaky
+1,Charming
+1,Warm
+1,Stoic
+
+# ----------------------------------------------------------------
+# Drug stats
+
+;DrugGameStats
+1,[Tab]<u>Addiction Rating</u>: [AddictionRating=%AddictionRating%]<br>
+_[Tab]<u>Drug Delivery</u> [DrugDelivery]<br>
+_[Tab]<u>Satiation</u>: %Satiation%[Tab]<u>Damage</u>: %Damage%<br>
+_[Tab]<u>Initial Effect</u>: [InitialDrugEffect] [DisplayAff1]<br>
+_[Tab]<u>Secondary Effect</u>: {Reset~Stat}[SecondaryDrugEffect][DisplayAff1]<br>
+_[Tab]<u>Side Effects</u>: {Reset~Stat}[SideEffects]<br>
+_[Tab]<u>Overdose</u>: {Reset~Stat}[Overdose]<br>
+_[Tab]<u>Save</u>: Fortitude (DC[DC] %DC%)<br>
+_[Tab]<u>Cost</u>: |cost={Calc~(%basegp%+%InitialEffectGPmod%+%DeliveryGPmod%+%SecondaryEffectGPmod%+%dcGPmod%)}|[AddComma.Start(%cost%)] gp<br>
+_[Tab]<u>CR</u>: {If~%CR%>{Calc~(%DC%/2)}?|CR={Ceil~{Calc~(%DC%/2)}}|}{If~%CR%>10?|CR=10|}{If~%CR%<1?|CR=1|}%CR%
+
+:AddictionRating
+1,Negligible|basegp=5||CR-2||DC=4||Satiation=1 day||Damage=1d3-2 Dex (minimum 0)|
+2,Low|basegp=10||CR-1||DC=6||Satiation=10 days||Damage=1d3 Dex|
+3,Medium|basegp=20||CR+0||DC=10||Satiation=5 days||Damage=1d4 Dex, 1d4 Wis|
+4,High|basegp=40||CR+1||DC=14||Satiation=2 days||Damage=1d6 Dex/Wis, 1d2 Con|
+5,Extreme|basegp=80||CR+2||DC=25||Satiation=1 day||Damage=1d6 Dex/Wis/Con|
+6,Vicious|basegp=160||CR+3||DC=36||Satiation=1 day||Damage=1d8 Dex/Wis,1d6 Con/Str|
+7,[AddictionRatingRandom][AddictionRating=%AddictionRating%]
+
+;AddictionRatingRandom
+# Negligible
+8,|AddictionRating=1|
+# Low
+8,|AddictionRating=2|
+# Medium
+8,|AddictionRating=3|
+# High
+4,|AddictionRating=4|
+# Extreme
+2,|AddictionRating=5|
+# Vicious
+1,|AddictionRating=6|
+
+;DrugDelivery
+1,Contact|DeliveryGPmod=150||CR+1|
+2,Ingestion|DeliveryGPmod=50||CR+0|
+2,Inhaled|DeliveryGPmod=400||CR+2|
+1,Injury|DeliveryGPmod=50||CR+0|
+
+;InitialDrugEffect
+2,User is [~Condition1] for 1d4+1 rounds and can only take partial actions for 1d{Dice~2d6} minutes after that.|ZeroDmg=1|
+2,User is [~Condition2] for 1d4+1 minutes.|ZeroDmg=1|
+2,1d{Dice~1d3+1} points of temporary [Stat] damage|CR+2||ZeroDmg=0|
+5,1 point of temporary [Stat] damage|ZeroDmg=0|
+1,1 point of temporary ability damage to all ability scores[affrandom]|CR+5||ZeroDmg=0|
+5,Exotic visions of incredible beauty enthrall the user for the next 1d20+10 minutes. During this time the user has a 50 <b>percent</b> chance to loose any action he attempts, as described in the <i>bestow curse</i> spell.|InitialEffectGPmod+100||CR+1||ZeroDmg=1|
+1,{If~%AddictionRating%>=3?[Effect1]/[InitialDrugEffect]}
+1,{If~%AddictionRating%>=2?[Effect2]/[InitialDrugEffect]}
+1,{If~%AddictionRating%>=4?[Effect3]/[InitialDrugEffect]}
+1,+2 alchemical bonus on Intimidate checks and saving throws against fear effects for 1d4 hours.|InitialEffectGPmod+25||CR+0||ZeroDmg=1|
+1,+2 alchemical bonus to Listen/Search/Spot for 1d4 hours.|InitialEffectGPmod+75||CR+0||ZeroDmg=1|
+1,+2 to Balance/Tumble for 1d4 hours.|InitialEffectGPmod+50||CR+0||ZeroDmg=1|
+1,+2 to Bluff/Diplomacy for 1d4 hours.|InitialEffectGPmod+50||CR+0||ZeroDmg=1|
+1,+2 to Climb/Jump for 1d4 hours.|InitialEffectGPmod+50||CR+0||ZeroDmg=1|
+1,+2 to Concentration for 1d4 hours.|InitialEffectGPmod+25||CR+0||ZeroDmg=1|
+1,+2 to Escape Artist for 1d4 hours.|InitialEffectGPmod+25||CR+0||ZeroDmg=1|
+1,+2 to Disguise/Perform for 1d4 hours.|InitialEffectGPmod+35||CR+0||ZeroDmg=1|
+10,None|InitialEffectGPmod+0||CR-1||ZeroDmg=1|
+
+:Effect1
+1,+2 alchemical bonus to [Stat] and [Stat] for 1 hour.|InitialEffectGPmod+100||CR+1||ZeroDmg=2|
+
+:Effect2
+1,+2 alchemical bonus to [Stat] for 1 hour.|InitialEffectGPmod+75||CR+0||ZeroDmg=2|
+
+:Effect3
+1,+2 alchemical bonus to effective caster level for 1d20+20 minutes.|InitialEffectGPmod+75||CR+1||ZeroDmg=1|
+
+:Effect4
+1,1d4+1 enhancement bonus to [Stat] for 1d10+{If~{Dice~1d60}=1?50/15} minutes|ZeroDmg=2||SecondaryEffectGPmod+100||CR+2|
+
+:Effect5
+1,+2 alchemical bonus to [Stat] for 1d{Dice~1d3+1} hours|ZeroDmg=2||SecondaryEffectGPmod+250||CR+1|
+
+:Effect6
+1,+2 alchemical bonus to all ability scores for 1d2 hours|ZeroDmg=2||SecondaryEffectGPmod+250||CR+5|
+
+;affrandom
+1,|aff=str|
+1,|aff=dex|
+1,|aff=con|
+1,|aff=int|
+1,|aff=wis|
+1,|aff=cha|
+
+;Condition1
+2,dazed|InitialEffectGPmod+50||CR+0||aff=stun|
+1,frightened|InitialEffectGPmod+100||CR+1||aff=fear|
+2,nauseated|InitialEffectGPmod+75||CR+1||aff=sick|
+1,panicked|InitialEffectGPmod+200||CR+2||aff=fear|
+1,paralyzed|InitialEffectGPmod+200||CR+2||aff=temppara|
+2,stunned|InitialEffectGPmod+100||CR+1||aff=stun|
+
+;Condition2
+1,blinded|InitialEffectGPmod+100||CR+1||aff=blind|
+1,dazzled|InitialEffectGPmod+50||CR+0||aff=blind|
+1,deafened|InitialEffectGPmod+25||CR+0||aff=deaf|
+1,exhausted|InitialEffectGPmod+100||CR+1||aff=fatigued|
+1,fatigued|InitialEffectGPmod+50||CR+0||aff=fatigued|
+1,shaken|InitialEffectGPmod+50||CR+0||aff=fear|
+1,sickened|InitialEffectGPmod+50||CR+0||aff=sick|
+
+;!Stat
+1,Strength|InitialEffectGPmod+50|{If~%aff%!=con?|aff=str||CR+0|}
+1,Dexterity|InitialEffectGPmod+50|{If~%aff%!=con?|aff=dex||CR+0|}
+1,Constitution|InitialEffectGPmod+150||aff=con||CR+2|
+1,Intelligence|InitialEffectGPmod+50|{If~%aff%!=con?|aff=int||CR+0|}
+1,Wisdom|InitialEffectGPmod+50|{If~%aff%!=con?|aff=wis||CR+0|}
+1,Charisma|InitialEffectGPmod+50|{If~%aff%!=con?|aff=cha||CR+0|}
+
+;SecondaryDrugEffect
+2,{If~%AddictionRating%>=2?[Effect4]/[SecondaryDrugEffect]}
+5,{If~%AddictionRating%>=3?[Effect5]/[SecondaryDrugEffect]}
+1,{If~%AddictionRating%>=4?[Effect6]/[SecondaryDrugEffect]}
+2,1d{Dice~1d3+1} points of temporary [Stat] damage|ZeroDmg=0||CR+2|
+1,1d{Dice~1d3+1} points of temporary [Stat] damage and 1d{Dice~1d3+1} points of temporary [Stat] damage|ZeroDmg=0||CR+3|
+5,{Dice~1d2} point of temporary [Stat] damage|ZeroDmg=0||CR+1|
+1,As a move-equivalent action, the user may focus his attention upon a particular creature. If he follows that action with an attack against the creature, he gains a +4 competence bonus on the attack roll. This ability lasts 10 minutes.|ZeroDmg=1||SecondaryEffectGPmod+50||CR+0|
+1,The user becomes numbed to pain for 1d4 hours, immune to pain-induced penalties (such as from a <i>symbol of pain</i>).|ZeroDmg=1||SecondaryEffectGPmod+50||CR+0|
+1,-4 penalty on Diplomacy and Bluff checks for 2d4 hours.|ZeroDmg=1||SecondaryEffectGPmod+50||CR+1|
+1,None|ZeroDmg=0||SecondaryEffectGPmod+0||CR-1|
+
+;DC
+4,|DC-2||dcGPmod=-25||CR-1|
+8,|DC-1||dcGPmod=-10||CR+0|
+8,|DC+0||dcGPmod=0||CR+0|
+8,|DC+1||dcGPmod=10||CR+0|
+4,|DC+3||dcGPmod=100||CR+1|
+2,|DC+5||dcGPmod=500||CR+2|
+1,|DC+10||dcGPmod=3000||CR+3|
+
+;SideEffects
+1,Feelings of intense pleasure last for 1d4 hours.|SecondaryEffectGPmod+0||CR+0|
+1,Those under the effect of this drug take a -4 circumstance penalty on saving throws involving illusions for 2d4 hours after using this mild hallucinogen.|SecondaryEffectGPmod+25||CR+0|
+1,A creature under the effect of this drug is easily confused and acts skittish (treat as <i>shaken</i>).|SecondaryEffectGPmod+50||CR+1|
+1,For the first minute of application, the user feels intense pain. During the time the secondary effect is in effect, the user is immune to pain (including the effects of spells such as <i>symbol of pain</i>). The character takes damage as normal, but may not react normally to that damage.|SecondaryEffectGPmod+25||CR+0|
+1,The creature under the effect of this drug has some incredibly beautiful and poignant visions. His normal life seems drab and futile in comparison, and he aches to experience the transcendent beauty of his drug-induced dreams again. When the dose wears off, the user must succeed at a Will save (DC 17) or fall under the compulsion to do whatever is necessary to repeat the dreammist dose (treat this as a compulsion similar to that of a <i>suggestion</i> spell). This compulsion lasts for 1d4 hours before fading.|SecondaryEffectGPmod+50||CR+0|
+1,This is a mild hallucinogen. The user take a -2 alchemical penalty to Wisdom for 1d4 hours and a -2 alchemical penalty to Strength and Constitution for 2d4 hours.|SecondaryEffectGPmod+100||CR+2|
+1,This causes euphoria. While the drug is in effect, the user takes a -2 penalty on all initiative checks.|SecondaryEffectGPmod+25||CR+0|
+1,Mild euphoria and fierce confidence while the drug is in effect.|SecondaryEffectGPmod+0||CR+0|
+3,None
+
+;Overdose
+1,If more than one dose is taken in a 24-hour period, the user immediately falls unconscious for 1d4 hours (Fort DC 18 negates).|SecondaryEffectGPmod-50|
+1,If more than one dose is taken in a 24-hour period, the user immediately takes 2d6 points of damage and the side effect is doubled.|SecondaryEffectGPmod-0|
+1,Those who take this drug more than once in 24 hours must make a separate save (Fort DC 25 negates) or die in terrible pain.|SecondaryEffectGPmod-100|
+1,If two doses are taken within the space of an hour, or if it is taken in another way than the delivery method, the drug is a deadly poison (DC 17, 1d10 Con/1d10 Con). The addicts often throw out the drug as soon as they take it and make sure that only one dose is available at a time in order to make sure they cannot overdose on the deadly drug.|SecondaryEffectGPmod-100|
+1,If more than one dose is taken in a 12-hour period, the user takes 2d6 points of damage. Using it four or more times in a 24-hour period deals 4d6 points of damage and paralyzes the user for 2d4 hours.|SecondaryEffectGPmod-50|
+1,Taking a second dose before the first has worn off causes the user to be nauseated for 1d4 x 10 minutes.|SecondaryEffectGPmod-0|
+1,A second dose taken while the first dose is still in effect causes a numbing stupor for 2d4 hours. The user can only take partial actions until the stupor wears off.|SecondaryEffectGPmod-50|
+1,If more than one dose is taken in a 8-hour period, the user immediately takes 1 point of temporary [Stat] damage.|SecondaryEffectGPmod-0|
+1,If more than one dose is taken in a 4-hour period, the user becomes catatonic (Fort DC 15 negates).|SecondaryEffectGPmod-50|
+2,None
+
+;DisplayAff1
+1, {If~%text%=0?{If~%ZeroDmg%=0?[LoadText1]}|ZeroDmg=0|/ {If~%ZeroDmg%=0?[LoadText2]}|ZeroDmg=0|}
+
+:LoadText1
+1,|text={If~%aff%=dex?{If~%ZeroDmg%=2?the victim feels fast and agile/[AffDex]}}
+_{If~%aff%=str?{If~%ZeroDmg%=2?the victim feels strong and proud/[AffStr]}}
+_{If~%aff%=con?{If~%ZeroDmg%=2?the victim feels full of healt and energy/[AffCon]}}
+_{If~%aff%=wis?{If~%ZeroDmg%=2?the victim feels wise and calm/[AffWis]}}
+_{If~%aff%=int?{If~%ZeroDmg%=2?the victim feels intelligent and competent/[AffInt]}}
+_{If~%aff%=cha?{If~%ZeroDmg%=2?the victim feels beautiful and charismatic/[AffCha]}}
+_{If~%aff%=permpara?[AffPermParalysis]}{If~%aff%=temppara?[AffTempParalysis]}{If~%aff%=stun?[AffStun]}
+_{If~%aff%=sick?[AffSick]}{If~%aff%=fear?[AffFear]}{If~%aff%=blind?[AffBlind]}
+_{If~%aff%=deaf?[AffDeaf]}{If~%aff%=fatigued?[AffFatigued]}
+_|
+
+:LoadText2
+1,|text=%text% [And] 
+_{If~%aff%=dex?{If~%ZeroDmg%=2?the victim feels fast and agile/[AffDex]}}
+_{If~%aff%=str?{If~%ZeroDmg%=2?the victim feels strong and proud/[AffStr]}}
+_{If~%aff%=con?{If~%ZeroDmg%=2?the victim feels full of healt and energy/[AffCon]}}
+_{If~%aff%=wis?{If~%ZeroDmg%=2?the victim feels wise and calm/[AffWis]}}
+_{If~%aff%=int?{If~%ZeroDmg%=2?the victim feels intelligent and competent/[AffInt]}}
+_{If~%aff%=cha?{If~%ZeroDmg%=2?the victim feels beautiful and charismatic/[AffCha]}}
+_{If~%aff%=permpara?[AffPermParalysis]}{If~%aff%=temppara?[AffTempParalysis]}{If~%aff%=stun?[AffStun]}
+_{If~%aff%=sick?[AffSick]}{If~%aff%=fear?[AffFear]}{If~%aff%=blind?[AffBlind]}
+_{If~%aff%=deaf?[AffDeaf]}{If~%aff%=fatigued?[AffFatigued]}
+_|
+
+;And
+1,Secondarily,
+1,Also,
+1,Afterward,
+1,Following the primary effect,
+1,There is a side effect,
+
+;DisplayAff2
+1,<i>{Cap~%text%}</i>
+
+;!AffDex
+1,the victim feels sluggishy, his mind clouded, and his responses slowed.
+1,the victim develops a twitch which slows their response time.
+1,the victim becomes less aware of his body, and slows his response time.
+1,the victim begins to shake, slowing his eye-hand coordination.
+1,the victim feels dizzy and loses some of its balance.
+1,the victim sees the world moving around himself, preventing him from reacting rapidly.
+1,the victim feels heavy and has slower reflexes.
+
+;!AffStr
+1,the victim's muscles mass quickly atrophies, and is not capable of feats of strength.
+1,the victim's muscles begin to ache and bring pain making them incapable of producing any strength.
+1,the victim's muscles spasm incontrollably causing them to be unable to produce any strength.
+1,the victim feels really tired, feeling really weak.
+1,the victim is greatly weakened.
+1,the victim has stomach pains which prevents him from using all his strength.
+1,the victime laughs uncontrolably, weakening him. 
+
+;!AffCon
+1,the victim's immune systems is debilitated.
+1,the victim develops a shortness of breath and a feeling of tiredness.
+1,the victim's body becomes tired and less able to deal with normal physical situations.
+1,the victim feels exhausted and weak.
+1,the victim is nauseated and looks sick.
+1,the victim's breath is loud and heavy, showing how strong the poison is affecting him.
+1,the victim feels dizzy and weak.
+1,the victim has pain all over his body, weakening him greatly.
+
+;!AffInt
+1,the poison affects blood, and strikes the victim stupid.
+1,by imparing the oxygen to the braim, the victim is less able to make their mind fully functional.
+1,the victim is no longer capable of focusing their mind on any tasks.
+1,an incredible headache prevents the victim from focusing his thoughts.
+1,voices in the victim's head prevents him from thinking straight.
+1,partly feebleminded, the victim has trouble focusing his thoughts.
+1,the victim feels confused and lost.
+
+;!AffWis
+1,by heigtening the victims senses, they become overloaded and less able to deal rationally.
+1,weird thoughts assail the mind of the victim, preventing rational reasoning.
+1,the victim is confused, and has a hard time differenciating the good and the bad.
+1,the victim's brain is in chaos, rendering him less able to think rationally.
+1,the victim has a strange headache at the back of the head, preventing rational thoughts.
+
+;!AffCha
+1,the victim becomes uncontrollably agitated.
+1,the victim's facial muscles are contorted, causing monsterious faces.
+1,the victim's olafactory glands kick into hyperactive mode, making the victim reek.
+1,the victim's skin rashes uncontrollably, causing weird acts of scratching.
+1,the victim has an unnatural headache, causing him to yell in pain.
+1,the victim's nose and mouth are leaking greatly, causing him to swallow and to clean himself all the time.
+1,the victim cannot control his innards and sullies itself.
+
+;!AffPermParalysis
+1,the victim's veins become constricted and they become unable to move their body.
+1,the victim's muscles are non responsive and begin to detoriate.
+1,the victim weakens so much that his body is non responsive.
+1,the victim feels unconnected from his body, unable to make it response.
+
+;!AffTempParalysis
+1,the victim's body becomes unresponsive.
+1,the victim is too weak to act.
+1,the victim's brain cannot control his body.
+
+;!AffStun
+1,the victim's body begins to spasm, and they are unable to react to any outside stimulus.
+1,the victim's body shutsdown and becomes unresponsive for a short period of time.
+1,the victim is assaulted by a non-lethal pain which is overwhelming and prevents them from reacting.
+
+;!AffSick
+1,the victim's body begins to spasm and he feels nauseated.
+1,the victim's body begins to sweat intensively, his head burns and he suffers from a terrible headache.
+1,the victim suffers from a terrible headache preventing him from responding adequaltely.
+1,the victim's body itches uncontrolably.
+
+;!AffFear
+1,the victim sees hallucinations of his worst fears.
+1,the victim feels persecuted by everyone around him.
+1,the victim knows they're out to get him.
+1,the victim is dying, he mustact quickly to overcome death.
+
+;!AffBlind
+1,black spots dance in front of the victim's eyes.
+1,a bright light seems to block the victim's sight.
+1,random colors ([~Miscellaneous.ColorNoType] and [~Miscellaneous.ColorNoType]) dance before the victim's eyes.
+1,the victim sees only blackness.
+
+;!AffDeaf
+1,loud ringing are heard by the victim.
+1,the victim hears nothing short of its own breath.
+1,the victim hears a low humming sound which masks all other sounds.
+1,the victim hears the sound of [~Creatures.Start]
+
+;!AffFatigued
+1,the victim feels fatigued and unresponsive.
+1,the victim feels weak.
+1,the victim's body is hard to move and hard to control.
+
+# -------------------------------------------------------------------
+
+;!Tobacco Effects
+61,None
+20,Calming|basegp+1|
+1,+1 to Balance for 10 minutes|basegp+10|
+1,+1 to Bluff for 10 minutes|basegp+10|
+1,+1 to Concentration for 10 minutes|basegp+10|
+1,+1 to Diplomacy for 10 minutes|basegp+10|
+1,+1 to Listen for 10 minutes|basegp+10|
+1,+1 to Perform for 10 minutes|basegp+10|
+1,+1 to Search for 10 minutes|basegp+10|
+1,+1 to Spot for 10 minutes|basegp+10|
+1,+2 to Strength for [Time]|basegp+100|
+1,+2 to Dexterity for [Time]|basegp+100|
+1,+2 to Wisdom for [Time]|basegp+100|
+1,+2 to Intelligence for [Time]|basegp+100|
+1,+2 to Constitution for [Time]|basegp+100|
+1,+2 to Charisma for [Time]|basegp+200|
+5,{Lockout~Tobacco Effects,1-61}[Tobacco Effects] <b>and</b> [Tobacco Effects]
+
+;Time
+6,1 minute
+3,3 minutes
+1,5 minutes
+
+;!Tobacco SideEffects
+47,None
+20,Headache|basegp-1|
+4,Upset Stomach|basegp-1|
+3,Sore Muscles (Fatigued {Dice~1d3*10} minutes)|basegp-4|
+2,Watery Eyes|basegp-1|
+1,Dizzy|basegp-1|
+1,-1 to Balance for 1 hour|basegp-4|
+1,-1 to Bluff for 1 hour|basegp-4|
+1,-1 to Concentration for 1 hour|basegp-4|
+1,-1 to Diplomacy for 1 hour|basegp-4|
+1,-1 to Escape Artist for 1 hour|basegp-4|
+1,-1 to Listen for 1 hour|basegp-4|
+1,-1 to Move Silently for 1 hour|basegp-4|
+1,-1 to Perform for 1 hour|basegp-4|
+1,-1 to Sleight of Hands for 1 hour|basegp-4|
+1,-1 to Search for 1 hour|basegp-4|
+1,-1 to Spot for 1 hour|basegp-4|
+1,-1 to Swim for 1 hour|basegp-4|
+1,-2 to Strength for 10 minutes|basegp-4|
+1,-2 to Dexterity for 10 minutes|basegp-4|
+1,-2 to Wisdom for 10 minutes|basegp-4|
+1,-2 to Intelligence for 10 minutes|basegp-4|
+1,-2 to Constitution for 5 minutes|basegp-4|
+1,-2 to Charisma for 10 minutes|basegp-4|
+5,{Lockout~Tobacco SideEffects,1-47}[Tobacco SideEffects] <b>and</b> [Tobacco SideEffects]
+
+# ----------------------------------------------------------------------
+
+:Instructions
+1,<b>Drugs:</b> (RULES) Drugs function like poisons, allowing the imbiber an initial and a secondary saving throws to resist their effects. <i>Delay poison, neutralize poison</i>, and similar effects negate or end a drug's effects, but they do not restore hit points, ability scores, or other damage caused by the substance.<br>
+_[Tab]A creature that willingly takes a drug automatically fails both saving throws. It is not possible to intentionally fail the initial save but attempt a save against the secondary damage, or vice versa. DCs are provided for situations in which a character is drugged against his will.<br>
+_[Tab]<u>Drugs in Your Campaign</u>: Depending upon your campaign, drugs may be difficult or easy to obtain—the decision is a matter of taste. However, whether drugs are illegal (as might be the case in a restrictive but good-aligned civilization) or commonplace, pushers will exist.<br>
+_[Tab]Pushers are those directly or indirectly want to see a drug dispersed into a population. Usually profit motivates them. A pusher's typical tactic is to offer a drug at only 1/10 of its normal price (or even free) to potential new customers, in hopes of addicting the customer to the drug. Once the customer seeks out the pusher for the drug (usually, once he is addicted), then the pusher charges full price for the drug, or even a premium.<br>
+_[Tab]Adding drugs into your campaign is probably most easily accomplished through a non-player character (NPC) pusher. Player characters (PCs) can expect to run into pushers illicitly in a civilization where drugs are outlawed, or in bazaars in a society where drugs are common. In a society where magic potions are commonplace, drugs might be legal, too.<br>
+_[Tab]Drug addition functions much like diseases as described in the DMG. Upon initial exposure (anytime a character imbibes or applies a drug with an addiction rating), the character must succeed at a Fortitude save or become addicted, as shown below. Addiction proceeds like a disease—while addicted, the character takes ability score damage each day unless he succeeds at a Fortitude save against the given DC.<br>
+_<table border=4>
+_<tr><td><b>Addictions Table</b></td></tr>
+_<tr><td><b>Addiction Rating</b></td><td><b>Fort DC</b></td><td><b>Satiation</b></td><td><b>Damage</b></td></tr>
+_<tr><td>Negligible</td><td>4</td><td>1 day</td><td>1d3-2 Dex (minimum 0)</td></tr>
+_<tr><td>Low</td><td>6</td><td>10 days</td><td>1d3 Dex</td></tr>
+_<tr><td>Medium</td><td>10</td><td>5 days</td><td>1d4 Dex, 1d4 Wis</td></tr>
+_<tr><td>High</td><td>14</td><td>2 days</td><td>1d6 Dex/Wis, 1d2 Con</td></tr>
+_<tr><td>Extreme</td><td>25</td><td>1 day</td><td>1d6 Dex/Wis/Con</td></tr>
+_<tr><td>Vicious</td><td>36</td><td>1 day</td><td>1d8 Dex/Wis,1d6 Con/Str</td></tr>
+_</table>
+_[Tab]<u>Addiction Rating</u>: Drugs are rated according to their addictive potential. For example, many popular stimulant drinks have a negligible addiction rating, but have addictive qualities all the same. Sometimes, an individual's long-term addiction increases a drug's addiction rating for that individual. Drugs with a negligible rating are not subject to this change. Stronger drugs increase their rating by one step for every two full months a character remains addicted to the drug. A character that recovers from an addiction and later becomes addicted again does so at the addiction rating the drug had just prior to his recovery.<br>
+_[Tab]<u>Satiation</u>: Each time a user takes a drug to which he is addicted, he is satisfied and staves off withdrawal symptoms for the given period of time. After the satiation period wears off, the DC of the Fortitude save to resist the effects of addiction increases by +5. The dose in which a character becomes addicted counts for satiation. For example, a character unfortunate enough to become addicted to devilweed (low addiction) on his first use of the drug must succeed at a Fortitude save every day or take 1d3 points of Dexterity damage. As long as he continues to smoke devilweed every 10 days, his saving throw DC is only 6. If he stops smoking devilweed for more than 10 days, the DC of the addiction saving throw increases to 11. If he starts using it again, the DC drops back to 6.<br>
+_[Tab]<u>Damage</u>: Addiction deals the listed damage each day unless the character succeeds at a Fortitude saving throw or is satiated. Ability score damage is temporary, and characters naturally heal 1 point in each ability score per day.<br>
+_[Tab]<u>Recovery</u>: If a character makes two successful saving throws in a row, he has fought off his addiction and recovers, taking no more damage. Of course, he can always become addicted again later by taking another dose of the drug and failing his Fortitude save to resist addiction.<br>
+_[Tab]A <i>lesser restoration</i> or <i>restoration</i> spell may negate some or all the ability score damage caused by an addiction, but on the next day the victim may accrue more ability score damage if he continues to fail his Fortitude saves. <i>Remove disease</i> immediately causes the user to recover from the addiction, but it does not restore lost ability score points. <i>Greater restoration</i> or <i>heal</i> causes recovery and restores all ability score damage from the addiction.<br>
+_[Tab]Some characteristics of drugs are summarized in the Drugs Table above.<br>
+_[Tab]Other characteristics are spelled out in a text entry for each drug. After a general description of the drug, the following characteristics are provided.<br>
+_[Tab]<u>Initial Effect</u>: The effect of the drug if the initial saving throw is failed. If multiple effects are given, the result of one saving throw indicates whether all or none of these effects occur.<br>
+_[Tab]<u>Secondary Effect</u>: The effect of the drug if the secondary saving throw is failed. If multiple effects are given, the result of one saving throw indicates whether all or none of these effects occur.<br>
+_[Tab]<u>Side Effects</u>: Side effects, if any. These occur immediately upon taking the drug.<br>
+_[Tab]<u>Overdose</u>: What constitutes an overdose and the effects of the same.<br>
+

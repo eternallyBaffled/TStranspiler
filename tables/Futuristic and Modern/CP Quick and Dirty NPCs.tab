@@ -1,0 +1,270 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder Jan 30, 2006.
+# ---------------------------------------------------
+#
+# Quick and Dirty NPCs (Cyberpunk 2020)
+#
+# Modified by Valminder, Jan 2006.
+#    Adapted for TSv5.
+#    Added "Gender" parameter.
+#
+
+/OverrideRolls 1
+
+%MA%,0
+%Run%,0
+%EMP%,0
+%Role%,0
+%NR%,0
+%Gender%,0
+
+@Gender,3,Choose gender:,Male,Female,Random
+
+:Start
+1,{If~%Gender%=3?|Gender={Dice~1d2}|}
+_[~CP Life Path.Ethnicity(%Gender%)] ({LCase~{Param~Gender,%Gender%}}){CR~}
+_[~CP Life Path.Origins(%Gender%)]{CR~}
+_PERSONALITY -- [~CP Life Path.Personality]{CR~}{CR~}
+_[Stats]{CR~}
+_[Role]{CR~}
+_[Cyberware]{CR~}
+_Armor and Weapons: - [~Armor and Weapons]
+
+;Tab
+1,{Loop~5,&nbsp;}
+
+:Stats
+1,INT = [~STATROLL][Tab]
+_REF = [~STATROLL][Tab]
+_COOL = [~STATROLL][Tab]
+_TECH = [~STATROLL][Tab]
+_LUCK = [~STATROLL][Tab]
+_ATT = [~STATROLL]{CR~}
+_MOVE ALLOW = [~STATROLL1]
+_EMPATHY = [~STATROLL2]
+_BODY TYPE = [~Body Type]{CR~}
+
+:STATROLL
+#1,{Dice~2d5}{CR~}
+1,{Dice~2d5}
+
+:STATROLL1
+1,|MA={Dice~2d5}|%MA% -- Run = |Run={Calc~%MA%*3}|%Run%, -- Leap = {Calc~%Run%/4} {CR~}
+
+:STATROLL2
+1,|EMP={Dice~2d5}|%EMP% -- Humanity = {Calc~%EMP%*10}{CR~}
+
+:Body Type
+1,Error
+2, 2  -- Very Weak
+3-4,{Dice~1d2+2} -- Weak
+5-7,{Dice~1d3+4} -- Average
+8-9,{Dice~1d2+7} -- Strong
+10,10 -- Very Strong
+
+:Role
+1,|Role=1|{Bold~SOLO}{CR~}[SOLO]
+2,|Role=2|{Bold~NOMAD}{CR~}[NOMAD]
+3,|Role=0|{Bold~ROCKERBOY}{CR~}[ROCKERBOY]
+4,|Role=0|{Bold~NETRUNNER}{CR~}[NETRUNNER]
+5,|Role=0|{Bold~CORPORATE}{CR~}[CORPORATE]
+6,|Role=0|{Bold~TECHIE}{CR~}[TECHIE]
+7,|Role=0|{Bold~MED TECH}{CR~}[MED TECH]
+8,|Role=0|{Bold~MEDIA}{CR~}[MEDIA]
+9,|Role=2|{Bold~COP}{CR~}[COP]
+10,|Role=0|{Bold~FIXER}{CR~}[FIXER]
+
+:SOLO
+1,{Bold~Combat Sense} - {Dice~2d5}{CR~}
+_Awareness/Notice - [Skill Level]{CR~}
+_Handgun - [Skill Level]{CR~}
+_[Brawling or Martial Arts] - [Skill Level]{CR~}
+_Melee - [Skill Level]{CR~}
+_Weapons Tech - [Skill Level]{CR~}
+_Rifle - [Skill Level]{CR~}
+_Athletics - [~Skill Level]{CR~}
+_Submachinegun - [~Skill Level]{CR~}
+_Stealth - [~Skill Level]{CR~}
+
+:Brawling or Martial Arts
+1,Brawling
+2,Martial Arts
+
+:NOMAD
+1,{Bold~Family} - {Dice~2d5}{CR~}
+_Awareness/Notice - [~Skill Level]{CR~}
+_Endurance - [~Skill Level]{CR~}
+_Melee - [~Skill Level]{CR~}
+_Rifle - [~Skill Level]{CR~}
+_Driving - [~Skill Level]{CR~}
+_Basic Tech - [~Skill Level]{CR~}
+_Wilderness Survival - [~Skill Level]{CR~}
+_Brawling - [~Skill Level]{CR~}
+_Athletics - [~Skill Level]{CR~}
+
+:ROCKERBOY
+1,{Bold~Charismatic Leadership} - {Dice~2d5}{CR~}
+_Awareness/Notice - [~Skill Level]{CR~}
+_Perform - [~Skill Level]{CR~}
+_Wardrobe & Style - [~Skill Level]{CR~}
+_Composition - [~Skill Level]{CR~}
+_Brawling[~Skill Level]{CR~}
+_Play Instrument[~Skill Level]{CR~}
+_Streetwise[~Skill Level]{CR~}
+_Persuasion[~Skill Level]{CR~}
+_Seduction[~Skill Level]{CR~}
+
+:NETRUNNER
+1,{Bold~Interface} - {Dice~2d5}{CR~}
+_Awareness/Notice[~Skill Level]{CR~}
+_Basic Tech[~Skill Level]{CR~}
+_Education[~Skill Level]{CR~}
+_System Knowledge[~Skill Level]{CR~}
+_CyberTech[~Skill Level]{CR~}
+_Cyberdeck Design[~Skill Level]{CR~}
+_Composition[~Skill Level]{CR~}
+_Electronics[~Skill Level]{CR~}
+_Programming[~Skill Level]{CR~}
+
+:CORPORATE
+1,{Bold~Resources} - {Dice~2d5}{CR~}
+_Awareness/Notice[~Skill Level]{CR~}
+_Human Perception[~Skill Level]{CR~}
+_Education[~Skill Level]{CR~}
+_Library Search[~Skill Level]{CR~}
+_Social[~Skill Level]{CR~}
+_Persuasion[~Skill Level]{CR~}
+_Stock Market[~Skill Level]{CR~}
+_Wardrobe & Style[~Skill Level]{CR~}
+_Personal Grooming[~Skill Level]{CR~}
+
+:TECHIE
+1,{Bold~Jury Rig} - {Dice~2d5}{CR~}
+_Awareness/Notice[~Skill Level]{CR~}
+_Basic Tech[~Skill Level]{CR~}
+_CyberTech[~Skill Level]{CR~}
+_Teaching[~Skill Level]{CR~}
+_Education[~Skill Level]{CR~}
+_Electronics[~Skill Level]{CR~}
+_[Pick Three]
+
+:Pick Three
+1,{Loop~3,[~Choices]}
+
+:!Choices
+1,Gyro [~Skill Level]{CR~}
+2,Aero[~Skill Level]{CR~}
+3,Weaponsmith[~Skill Level]{CR~}
+4,Electronic Security[~Skill Level]{CR~}
+
+:MED TECH
+1,{Bold~Medical Tech} - {Dice~2d5}{CR~}
+_Awareness/Notice[~Skill Level]{CR~}
+_Basic Tech[~Skill Level]{CR~}
+_Diagnose[~Skill Level]{CR~}
+_Education[~Skill Level]{CR~}
+_Cryotank Operation[~Skill Level]{CR~}
+_Library Search[~Skill Level]{CR~}
+_Pharmaceuticals[~Skill Level]{CR~}
+_Zoology[~Skill Level]{CR~}
+_Human Perception[~Skill Level]{CR~}
+
+:MEDIA
+1,{Bold~Credibility} - {Dice~2d5}{CR~}
+_Awareness/Notice[~Skill Level]{CR~}
+_Composition[~Skill Level]{CR~}
+_Education[~Skill Level]{CR~}
+_Persuasion[~Skill Level]{CR~}
+_Human Perception[~Skill Level]{CR~}
+_Social[~Skill Level]{CR~}
+_Streetwise[~Skill Level]{CR~}
+_Photo & Film[~Skill Level]{CR~}
+_Interview[~Skill Level]{CR~}
+
+:COP
+1,{Bold~Authority} - {Dice~2d5}{CR~}
+_Awareness/Notice[~Skill Level]{CR~}
+_Handgun[~Skill Level]{CR~}
+_Human Perception[~Skill Level]{CR~}
+_Athletics[~Skill Level]{CR~}
+_Education[~Skill Level]{CR~}
+_Brawling[~Skill Level]{CR~}
+_Melee[~Skill Level]{CR~}
+_Interrogation[~Skill Level]{CR~}
+_Streetwise[~Skill Level]{CR~}
+
+:FIXER
+1,{Bold~Streetdeal} - {Dice~2d5}{CR~}
+_Awareness/Notice[~Skill Level]{CR~}
+_Forgery[~Skill Level]{CR~}
+_Handgun[~Skill Level]{CR~}
+_Brawling[~Skill Level]{CR~}
+_Melee[~Skill Level]{CR~}
+_Pick Lock[~Skill Level]{CR~}
+_Pick Pocket[~Skill Level]{CR~}
+_Intimidate[~Skill Level]{CR~}
+_Persuasion[~Skill Level]{CR~}
+
+:Skill Level
+1,--{Dice~1d10}
+
+:Cyberware
+1,{If~%Role%=1 ? |NR=6| / |NR=3|}[GoLoop]
+
+:GoLoop
+1,{Loop~%NR%,[~Program]}
+
+:Program
+1,Cyberoptics--[Cyberoptics]{CR~}
+2,Cyberarm with gun--[Cyberarm with gun] {CR~}
+3,Cyberaudio--[Cyberaudio] {CR~}
+4-10,[Rest]
+
+:!Rest
+1,Big Knucks{CR~}
+2,Rippers{CR~}
+3,Vampires{CR~}
+4,Slice n'dice{CR~}
+5,Reflex boost (Kerenzikov){CR~}
+6,Reflex Boost (Sandevistan){CR~}
+7,Nothing{CR~}
+
+:!Cyberoptics
+1,Infrared
+2,Lowlight
+3,Camera
+4,Dartgun
+5,Antidazzle
+6,Targeting scope
+
+:!Cyberarm with gun
+1,Med. Pistol
+2,Light Pistol
+3,Med. Pistol
+4,Light Submachiengun
+5,Very Heavy Pistol
+6,Heavy Pistol
+
+:!Cyberaudio
+1,Wearman tm
+2,Radio Splice
+3,Phone Link
+4,Amplified Hearing
+5,Sound Editing
+6,Digital Recording Link
+
+:Armor and Weapons
+1,{If~%Role%=1? [Weapon+3] / {If~%Role%=2 ? [Weapon+2] / [Weapon]}}
+
+:Weapon
+1,Heavy Leather, Knife 
+2,Armor Vest, Light Pistol 
+3,Light Armor Jacket, Medium Pistol 
+4,Light Armor Jacket, Heavy Pistol 
+5,Medium. Armor Jacket, Heavy Pistol 
+6,Medium Armor Jacket, Light SMG 
+7,Medium Armor Jacket, Light Assault Riffle 
+8,Heavy Armor Jacket, Medium Assault Riffle 
+9,Heavy Armor Jacket, Heavy Assault Riffle 
+10-13,Metal Gear ™, Heavy Assault Riffle 
+

@@ -1,0 +1,51 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder August 7, 2006.
+# ---------------------------------------------------
+#
+# Sewer Labyrinth
+# From the Star Wars d20 Galatic Campaign Guide
+#
+# This table can generate passages in a sewer system
+# or an entire randomly generated plan of sewer
+# sections, service chambers, and access points.
+# The table add +2 if you follow the flow or substracts
+# -2 if you trudge upstream. The effluent level of
+# the last sewer tunnel persists into the next
+# chamber encountered.
+#
+#
+# Modified by Valminder, August  2006.
+#    Fixed the table to roll 2d20.
+#    I added "Direction" parameter.
+#
+
+%Roll%,0
+%Direction%,0
+
+@Direction,1,Which direction do you take in the sewers,You follow the flow,You trudge upstreams
+
+:Start
+1,[Direction=%Direction%]
+
+:Direction
+1,|Roll={Dice~2d20+2}|{Status~The characters are following the flow.}[Generate=%Roll%]
+2,|Roll={Dice~2d20-2}|{If~%Roll%<1?|Roll= 1|}{Status~The characters are trudging upstreams}[Generate=%Roll%]
+
+:Generate
+1-8,{Bold~Sewer tunnel, low flow}: A small, trickling stream of effluent flows down the center of a standard-sized sewer tunnel.
+9-12,{Bold~Sewer tunnel, moderate flow}: Waste water fills the tunnel up to one-third of its height as it gently flows downstream.
+13-14,{Bold~Sewer tunnel, flooded}: A torrent of effluent rushes down the tunnel, filling it halfway and carrying along anything that doesn't have a firm grip.
+15-16,{Bold~T-intersection}: one sewer tunnel intersects antoher at a "T" juncture, p resenting two other ways to proceed.
+17,{Bold~Four-way intersection}: Four passages intersect, though the sewage only flows down one of them.
+18,{Bold~Vermin nest}: A breach in the tunnel wall seethes with angry vermin who have made a nest here.
+19-20,{Bold~Inflow chamber}: Several inflow tubes gush effluent into this chamber from their valves in the ceiling.
+21-22,{Bold~Street grate}: A narrow vent upward allows air and runoff to enter the sewer system from the street.
+23-24,{Bold~Strainer hatch}: A heavy, grilled hatch allows liquid to pass but holds back solid debris, though the corroded panel nearby can open it.
+25-26,{Bold~Sediment pool}: A large pond of still water allows sediments to settle to the bottom while liquid eventually flows down another passage.
+27-28,{Bold~Filtration falls}: The tunnel drops in several unexpected steps; the falls churn the water, which aerates it and separates solid matter.
+29-30,{Bold~Skimmer chamber}: A circular-moving metal rake skims and chuirns the surface of this pond to sift out floating debris.
+31-32,{Bold~Sludge trap}: Although the surface appears to be still water, just beneath lurks a deep level of sludge accumulated from waste-water processing.
+33-34,{Bold~Outflow port}: Sewage flows out of the system and into open cesspools, swamps, or natural bodies of water through a grilled port.
+35-37,{Bold~Access hatch, street}: A grill allows runoff from streest, sidwalks, and other outdoor areas into the system.
+38-39,{Bold~Access hatch, maintenance}: A sealed hatch allows sewer access from within the facility  or structure above.
+40-42,{Bold~Access hatch, station}: A sealed hatch allows sewer access from within a waste-processing station above.

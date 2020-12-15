@@ -1,0 +1,1218 @@
+# ------------------------------------------------------
+# Last Update: re-verified by Valminder Jan 10, 2012.
+# ------------------------------------------------------
+# ---------------------------------------------------
+# Last Update: modified by Valminder Jan 20, 2006.
+# ---------------------------------------------------
+#
+# This table randomly produces Cargo for the SW game
+#
+# Copyright 2004 Jon Larsen
+# Edited by Patrick Hodak 10-23-05
+#
+# Modified by Valminder, Jan 2006.
+#    Adapted for TSv5.
+#    I put the "Cargo type" parameter in alphabetical order
+#
+
+%contain%,20
+%quant%,0
+%value%,0
+%valper%,0
+%unitcost%,0
+%numper%,0
+
+%temp%,0
+%temp2%,0
+%a%,0
+%b%,0
+%c%,0
+%d%,0
+%DR%,0
+
+%choose%,1
+
+#@choose,1,Select a cargo type,Random,Foodstuffs,Ore,Medical,Electronics,Equipment,Parts,Chemicals,Materials,Beverages,Luxury Goods,Creatures,Passengers,Droids,Weapons,Armor,Grenades,Vehicles,Starships
+@choose,1,Select a cargo type,Random,Armor,Beverages,Chemicals,Creatures,Droids,Electronics,Equipment,Foodstuffs,Grenades,Luxury Goods,Materials,Medical,Ore,Parts,Passengers,Starships,Vehicles,Weapons
+
+:Start
+1,{Status~By Jon Larsen 2004, Patrick Hodak 2005, Valminder 2006}
+_<b>Contents:</b> {If~%choose%=1? [contents]/[contentselect=%choose%]}<br>
+_<b>Container:</b> [container=%contain%]{If~%DR%>0? ([DR=%DR%])}<br>
+_<b>Number of Containers:</b> %quant%<br>
+_<b>Value per Container:</b> {If~%valper%=0? |valper=Varies|}{If~%valper% = Varies ? Varies / [AddComma.Start(%valper%)]}{If~%valper% = Varies ? / credits}<br>
+_<b>Total Value: </b> {If~%value%=0? |value=Varies|}{If~%value%=Varies? Varies / [AddComma.Start(%value%)] credits}<br>
+_<font size="-1">* <i>Containers are 100 kg, unless otherwise specified</i></font>
+
+:container
+1-2,None, {If~{Dice~1d2}=1?piled/stacked} on {If~{Dice~1d2}=1?floor/palettes}|DR=1|
+3-5,{If~{Dice~1d2}=1?Sacks/Bundles}|DR=2|
+6-12,Duraplast crates|DR=3|
+13-14,Durasteel crates|DR=4|
+15-16,Durasteel drums|DR=5|
+17-18,Sealed in shipping foam|DR=6|
+19,Encased in Carbonite|DR=7|
+20,None|DR=0|
+21,Individually Caged|DR=8|
+22,Refrigerated Duraplast crates|DR=4|
+
+# Was "20" in the Galactic Campaign Guide d20.
+#|temp2={Dice~1d20}|{If~%temp2%=20?[container20]/[container=%temp2%]}
+
+:container20
+1,living host (depending on nature of cargo: if cargo is {Bold~Large}, host might be wearing it, carrying it, or escorting it. If cargo is {Smaller}, the host might have it implanted in his body in some fashion. Use your imagination.)
+
+:DR
+1,{Bold~DR:} -- / {Bold~WP:} -- / {Bold~Break DC:} --
+2,{Bold~DR:} 0 / {Bold~WP:} 2 / {Bold~Break DC:} 10
+3,{Bold~DR:} 5 / {Bold~WP:} 5 / {Bold~Break DC:} 15
+4,{Bold~DR:} 10 / {Bold~WP:} 15 / {Bold~Break DC:} 30
+5,{Bold~DR:} 10 / {Bold~WP:} 15 / {Bold~Break DC:} 30
+6,{Bold~DR:} -- / {Bold~WP:} 1 / {Bold~Break DC:} 5
+7,{Bold~DR:} 15 / {Bold~WP:} 180 / {Bold~Break DC:} 45
+8,{Bold~DR:} 10 / {Bold~WP:} 40 / {Bold~Break DC:} 28
+
+# Value is in Price per container
+;contents
+# Armor
+2,|temp=[SW Weapon Gen.Cargo2]|{Split~temp,",",a,b,c,d,unitcost}|numper={Dice~5d4*2}|
+_[SW Weapon Gen.Namez=%a%] (%numper% per container)
+_|contain=13||quant={Dice~1d10}||valper=%unitcost%||valper*%numper%||value=%quant%||value*%valper%|
+5,[Beverages] (100 liters per drum)|contain=15||numper=100||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|
+5,[Beverages] (%numper% bottles per crate)|contain=6||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|
+5,[Chemicals]
+2,[Creatures]
+2,[Droids]|contain=13||quant={Dice~5d10}||valper=%unitcost%||value=%unitcost%||value*%quant%|
+5,[Electronics]
+5,[Equipment]
+10,[Foodstuffs]
+2,[Grenades]
+2,[LuxuryGoods]
+5,[Material]
+5,[Medical]
+10,[Ore]
+5,[Parts]
+2,|contain=20|[Passengers]
+1,|temp=[SW Starship Gen.Cargo=1]|{Split~temp,",",a,valper}%a%|contain=20||quant={Dice~1d10}|
+_|value={Calc~%valper%*%quant%}|
+1,|temp=[SW Vehicle Gen.Cargo]|{Split~temp,",",a,valper}%a%|contain=20||quant={Dice~1d25}|
+_|value={Calc~%valper%*%quant%}|
+2,|temp=[SW Weapon Gen.Cargo1]|{Split~temp,",",a,b,c,d,unitcost}|numper={Dice~5d4*2}|
+_[SW Weapon Gen.Names=%a%] (%numper% per container)
+_|contain=13||quant={Dice~1d10}||valper=%unitcost%||valper*%numper%||value=%quant%||value*%valper%|
+1,|temp=[SW Starship Gen.Cargo=2]|{Split~temp,",",a,valper}%a%|contain=20||quant={Dice~1d5}|
+_|value={Calc~%valper%*%quant%}|
+5,Empty Crates|contain=6||quant={Dice~10d4}||valper=100||value=%quant%||value*%valper%|
+3,Livestock/Domesticated animals|contain=21||quant={Dice~5d5}||valper=1500||value=%quant%||value*%valper%|
+3,Fuel|contain=15||quant={Dice~10d5}||valper=250||value=%quant%||value*%valper%|
+#5,Sundries|contain=6||quant={Dice~10d4}||valper=200||value=%quant%||value*%valper%|
+
+:contentselect
+1,
+# Armor
+2,|temp=[SW Weapon Gen.Cargo2]|{Split~temp,",",a,b,c,d,unitcost}|numper={Dice~5d4*2}|
+_[SW Weapon Gen.Namez=%a%] (%numper% per container)
+_|contain=13||quant={Dice~1d10}||valper=%unitcost%||valper*%numper%||value=%quant%||value*%valper%|
+3,[Beverages](%numper% bottles per crate)|contain=6||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|
+4,[Chemicals]
+5,[Creatures]
+6,[Droids]|contain=13||quant={Dice~5d10}||valper=%unitcost%||value=%unitcost%||value*%quant%|
+7,[Electronics]
+8,[Equipment]
+9,[Foodstuffs]
+10,[Grenades]
+11,[LuxuryGoods]
+12,[Material]
+13,[Medical]
+14,[Ore]
+15,[Parts]
+16,|contain=20|[Passengers]
+17,|temp=[SW Starship Gen.Cargo=1]|{Split~temp,",",a,valper}%a%|contain=20||quant={Dice~1d10}|
+_|value={Calc~%valper%*%quant%}|
+18,|temp=[SW Vehicle Gen.Cargo]|{Split~temp,",",a,valper}%a%|contain=20||quant={Dice~1d25}|
+_|value={Calc~%valper%*%quant%}|
+19,|temp=[SW Weapon Gen.Cargo1]|{Split~temp,",",a,b,c,d,unitcost}|numper={Dice~5d4*2}|
+_[SW Weapon Gen.Names=%a%] (%numper% per container)
+_|contain=13||quant={Dice~1d10}||valper=%unitcost%||valper*%numper%||value=%quant%||value*%valper%|
+
+# -----------------------------------------------------------------------
+
+:Foodstuffs
+5,Grain|contain=3||quant={Dice~10d10}||valper=175||value=%quant%||value*%valper%|
+5,Water|contain=15||quant={Dice~10d10}||valper=175||value=%quant%||value*%valper%|
+2,Organic Vegetable|contain=6||quant={Dice~10d8}||valper=300||value=%quant%||value*%valper%|
+5,Synthetic Vegetable|contain=6||quant={Dice~10d8}||valper=250||value=%quant%||value*%valper%|
+5,Low Grade Meat|contain=22||quant={Dice~5d10}||valper=400||value=%quant%||value*%valper%|
+1,High Grade Meat|contain=22||quant={Dice~5d10}||valper=700||value=%quant%||value*%valper%|
+10,[Food]
+
+:!LuxuryGoods
+5,Exotic Foods|contain=6||quant={Dice~5d5}||valper=2500||value=%quant%||value*%valper%|
+2,Furs|contain=13||quant={Dice~5d5}||valper=3000||value=%quant%||value*%valper%|
+1,Jewelry|contain=15||quant={Dice~5d5}||valper=5000||value=%quant%||value*%valper%|
+2,Art|contain=17||quant={Dice~5d5}||valper=4000||value=%quant%||value*%valper%|
+2,Silks|contain=13||quant={Dice~5d5}||valper=2500||value=%quant%||value*%valper%|
+
+;Ore
+10,[SW Ore.Industrial Ore]|contain=13||quant={Dice~10d5}||valper=600||value=%quant%||value*%valper%|
+10,[SW Ore.Industrial Gem]|contain=13||quant={Dice~10d5}||valper=800||value=%quant%||value*%valper%|
+3,[SW Ore.Strategic Ore]|contain=13||quant={Dice~10d5}||valper=1000||value=%quant%||value*%valper%|
+2,[SW Ore.Strategic Gem]|contain=13||quant={Dice~10d5}||valper=1200||value=%quant%||value*%valper%|
+4,[Lowgrade]
+1,[SemiPrecious Gem]
+1,[SW Ore.Precious Gem]|contain=13||quant={Dice~10d5}||valper=10000||value=%quant%||value*%valper%|
+
+;Lowgrade
+4,{CapEachWord~[SW Ore.Gem1]} - an ornamental gem|contain=13||quant={Dice~2d5}||valper=2000||value=%quant%||value*%valper%|
+3,{CapEachWord~[SW Ore.Gem2]} - a semi-precious stone|contain=13||quant={Dice~2d5}||valper=2500||value=%quant%||value*%valper%|
+2,{CapEachWord~[SW Ore.Gem3]} - a fancy stone|contain=13||quant={Dice~2d5}||valper=3000||value=%quant%||value*%valper%|
+1,{CapEachWord~[SW Ore.Gem4]} - a precious stone|contain=13||quant={Dice~2d5}||valper=6000||value=%quant%||value*%valper%|
+
+;SemiPrecious Gem
+3,{CapEachWord~[SW Ore.Gem5]} - a gem|contain=13||quant={Dice~1d5}||valper=12000||value=%quant%||value*%valper%|
+1,{CapEachWord~[SW Ore.Gem6]} - a jewel|contain=13||quant={Dice~1d5}||valper=18000||value=%quant%||value*%valper%|
+3,{CapEachWord~[SW Ore.Gem7]} - hardstone|contain=13||quant={Dice~1d5}||valper=2000||value=%quant%||value*%valper%|
+
+;Medical
+10,Assorted Medical Supplies|contain=6||quant={Dice~5d10}||valper=1000||value=%quant%||value*%valper%|
+3,Medkits |contain=6||quant={Dice~5d10}||numper={Dice~5d10*2}||unitcost=25||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+3,Pharmaceuticals|contain=6||quant={Dice~5d10}||valper=3000||value=%quant%||value*%valper%|
+2,Bacta (100 liters per container)|contain=15||quant={Dice~5d5}||valper=10000||value=%quant%||value*%valper%|
+3,Medpacs |contain=6||quant={Dice~5d10}||numper={Dice~5d10*2}||unitcost=100||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+1,Bacta tanks|contain=17||quant={Dice~1d2}||valper=100000||value=%quant%||value*%valper%|
+1,Adrenal Stimulant|contain=6||quant={Dice~5d10}||valper=1500||value=%quant%||value*%valper%|
+2,Vitapills|contain=6||quant={Dice~5d10}||valper=2500||value=%quant%||value*%valper%|
+2,Surgery Kits |contain=6||quant={Dice~5d5}||numper={Dice~5d10*2}||unitcost=1000||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+3,Athakam II Med Units |contain=6||quant={Dice~5d5}||numper=5||unitcost=3000||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+2,BioTech FastFlesh Medpacs |contain=6||quant={Dice~5d5}||numper={Dice~10d10*2}||unitcost=600||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+1,BioTech RFX/K Medisensors |contain=6||quant={Dice~5d5}||numper={Dice~10d10*2}||unitcost=1100||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+3,Chiewab Amalgamated Pharmaceuticals Company ECM-59B Medical Backpacks |contain=6||quant={Dice~5d5}||numper={Dice~5d2*2}||unitcost=600||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+5,Fabreth Medical Biochemicals Shock Cloths |contain=6||quant={Dice~5d5}||numper={Dice~5d10*2}||unitcost=250||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+3,Nilar Med/Tech Corporation Field Cauterizers |contain=6||quant={Dice~5d5}||numper={Dice~50d5*2}||unitcost=200||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+5,Synthtech Medtech Corporation MDS-50 Med-Sensors |contain=6||quant={Dice~5d5}||numper={Dice~50d5*2}||unitcost=75||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+
+;Electronics
+5,Comlinks |contain=6||quant={Dice~5d5}||numper={Dice~50d5*2}||unitcost=200||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+1,Datapads |contain=6||quant={Dice~5d5}||numper={Dice~5d3*2}||unitcost=1000||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+1,Blank Credit Chips |contain=13||quant={Dice~5d5}||numper={Dice~50d5*2}||unitcost=100||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+5,Blank Data cards |contain=6||quant={Dice~5d5}||numper={Dice~50d5*2}||unitcost=10||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+5,Data cards, 1 program |contain=6||quant={Dice~5d5}||numper={Dice~50d5*2}||unitcost=300||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+1,Electrobinoculars |contain=6||quant={Dice~5d5}||numper={Dice~5d10*2}||unitcost=1000||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+5,Fusion Lantern |contain=6||quant={Dice~5d5}||numper={Dice~5d5*2}||unitcost=25||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+5,Glow Rods |contain=6||quant={Dice~5d5}||numper={Dice~50d5*2}||unitcost=10||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+1,Holoprojectors, personal |contain=13||quant={Dice~5d5}||numper={Dice~10d10*2}||unitcost=1000||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+1,Holorecorders |contain=13||quant={Dice~5d5}||numper={Dice~5d10*2}||unitcost=3000||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+2,Macrobinoculars |contain=6||quant={Dice~5d5}||numper={Dice~5d10*2}||unitcost=600||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+5,Power packs |contain=6||quant={Dice~5d5}||numper={Dice~50d5*2}||unitcost=25||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+5,Energy Cells |contain=6||quant={Dice~5d5}||numper={Dice~50d5*2}||unitcost=10||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+2,Recording Rods |contain=6||quant={Dice~5d5}||numper={Dice~5d10*2}||unitcost=500||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+1,Sensor Packs |contain=6||quant={Dice~5d5}||numper=25||unitcost=1500||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+1,Blank Code Cylinders |contain=13||quant={Dice~5d5}||numper={Dice~50d5*2}||unitcost=500||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+1,SoroSuub Hush-98 Comlinks |contain=13||quant={Dice~2d5}||numper={Dice~10d10*2}||unitcost=4000||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+2,VargeCorp Pocket Scrambler PS-xqt9s |contain=13||quant={Dice~5d5}||numper={Dice~10d10*2}||unitcost=400||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+1,Courier Communications Scanner |contain=13||quant={Dice~5d5}||numper={Dice~5d10*2}||unitcost=4500||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+5,ChandrilTech PX-7 Heat Sensor |contain=6||quant={Dice~5d5}||numper={Dice~40d5*2}||unitcost=250||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+2,Cryoncorp EnhanceScan General Purpose Scanner |contain=13||quant={Dice~5d5}||numper={Dice~5d3*2}||unitcost=2000||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+3,Dalabar Micro-Electronics SDS-632 Surveillance Detector |contain=6||quant={Dice~5d5}||numper={Dice~10d10*2}||unitcost=450||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+2,Ealewon Electronics DCD-4800 Cryptographic Coders |contain=13||quant={Dice~5d5}||numper=20||unitcost=2000||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+5,Locris Syndicated Securities MLC-50 Magnolocks |contain=6||quant={Dice~5d5}||numper={Dice~5d10*2}||unitcost=250||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+3,Novaplex Monofilament Screen Guards |contain=6||quant={Dice~5d5}||numper={Dice~5d5*2}||unitcost=250||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+
+:Parts
+1-8,Computer [Computer]
+9-14,Droid [Droid Parts]
+15-18,Vehicle [Vehicle Parts]
+19-20,Starship [Starship Parts]
+
+;Computer
+1,Monitors |contain=6||quant={Dice~5d5}||numper=30||unitcost=500||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+1,Keypads |contain=6||quant={Dice~5d5}||numper=50||unitcost=300||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+2,Memory cores |contain=6||quant={Dice~5d5}||numper=50||unitcost=750||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+1,Sub-complinks |contain=6||quant={Dice~5d5}||numper=75||unitcost=500||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+
+;Droid Parts
+2,Comlinks |contain=13||quant={Dice~5d5}||numper={Dice~50d5*2}||unitcost=250||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+2,Diagnostics Packages |contain=13||quant={Dice~5d5}||numper=25||unitcost=250||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+2,Electroshock Probes |contain=13||quant={Dice~5d5}||numper={Dice~5d10*2}||unitcost=400||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+5,Fire Extinguishers |contain=6||quant={Dice~5d5}||numper=30||unitcost=50||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+2,Flame Throwers |contain=13||quant={Dice~5d5}||numper=25||unitcost=400||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+5,Audiorecorders |contain=6||quant={Dice~5d5}||numper=50||unitcost=100||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+3,Videorecorders |contain=6||quant={Dice~5d5}||numper=25||unitcost=250||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+5,Restraining Bolts |contain=6||quant={Dice~5d5}||numper={Dice~50d5*2}||unitcost=5||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+2,Batteries |contain=6||quant={Dice~5d5}||numper=25||unitcost=400||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+5,Sensors, Basic |contain=13||quant={Dice~5d5}||numper={Dice~5d10*2}||unitcost=50||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+5,Sensors, Infrared |contain=13||quant={Dice~5d5}||numper=75||unitcost=150||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+3,Sensors, Low-light |contain=13||quant={Dice~5d5}||numper=50||unitcost=200||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+5,Sensors, Sonic |contain=13||quant={Dice~5d5}||numper={Dice~5d10*2}||unitcost=100||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+2,Shield Generators, DR 3 |contain=13||quant={Dice~4d5}||numper=10||unitcost=5000||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+1,Shield Generators, DR 6 |contain=13||quant={Dice~4d5}||numper=5||unitcost=10000||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+1,Shield Generators, DR 9 |contain=13||quant={Dice~4d5}||numper=3||unitcost=15000||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+2,Repulsorleft Units (Fine) |contain=6||quant={Dice~5d5}||numper={Dice~5d10*2}||unitcost=400||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+2,Repulsorleft Units (Diminutive) |contain=6||quant={Dice~5d5}||numper=50||unitcost=1000||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+2,Repulsorleft Units (Tiny) |contain=6||quant={Dice~5d5}||numper=25||unitcost=2000||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+2,Repulsorleft Units (Small) |contain=6||quant={Dice~5d5}||numper=10||unitcost=4000||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+1,Repulsorleft Units (Medium) |contain=6||quant={Dice~5d5}||numper=10||unitcost=4000||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+1,Repulsorleft Units (Large) |contain=6||quant={Dice~5d5}||numper=10||unitcost=4000||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+1,Chasis |contain=6||quant={Dice~5d5}||numper=10||unitcost=500||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+2,Legs |contain=6||quant={Dice~5d5}||numper=25||unitcost=250||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+2,Tracks |contain=6||quant={Dice~5d5}||numper=10||unitcost=400||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+2,Wheels |contain=6||quant={Dice~5d5}||numper=25||unitcost=300||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+2,Vocubulators |contain=13||quant={Dice~5d5}||numper=50||unitcost=50||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+2,Appendages |contain=6||quant={Dice~5d5}||numper=50||unitcost=200||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+2,Memory cores |contain=6||quant={Dice~5d5}||numper={Dice~5d10*2}||unitcost=500||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+
+;Vehicle Parts
+2,Power Cells |contain=13||quant={Dice~5d5}||numper=20||unitcost=800||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+1,Repulsors |contain=13||quant={Dice~5d5}||numper=1||unitcost=3000||valper=Varies||value=Varies|
+1,Engine blocks |contain=13||quant={Dice~5d5}||numper=1||unitcost=3000||valper=Varies||value=Varies|
+5,Power regulators |contain=6||quant={Dice~5d5}||numper={Dice~5d10*2}||unitcost=200||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+
+;Starship Parts
+2,Power Cells |contain=13||quant={Dice~2d5}||numper=2||unitcost=8000||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+2,Repulsor Parts |contain=6||quant={Dice~5d5}||numper=1||unitcost=5000||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|
+2,Thrusters |contain=17||quant={Dice~5d5}||numper=1||unitcost=3000||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|
+2,Ion Engine Parts |contain=13||quant={Dice~3d5}||numper=1||unitcost=7500||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|
+5,Power regulators |contain=6||quant={Dice~5d5}||numper=25||unitcost=750||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+2,Targeting systems |contain=13||quant={Dice~5d5}||numper=1||unitcost=3000||valper=Varies||value=Varies|
+1,Shield generators |contain=1||quant={Dice~5d5}||numper=1||unitcost=500||valper=Varies||value=Varies|
+5,Hull plates |contain=1||quant={Dice~10d20}||unitcost=200||valper=%unitcost%||value=%quant%||value*%valper%|(%quant%)
+
+;Chemicals
+#,Inert Chemicals|contain=15||quant={Dice~5d10}||valper=400||value=%quant%||value*%valper%|
+8,[Inert]|contain=15||value=%quant%||value*%valper%|
+2,Flammable liquids|contain=15||quant={Dice~5d10}||valper=600||value=%quant%||value*%valper%|
+2,[Explosive]|value=%quant%||value*%valper%|
+2,Corrosive substances|contain=15||quant={Dice~5d10}||valper=800||value=%quant%||value*%valper%|
+2,[Corrosive]|contain=15||quant={Dice~5d10}||valper=800||value=%quant%||value*%valper%|
+3,Lubricants|contain=15||quant={Dice~5d10}||valper=400||value=%quant%||value*%valper%|
+1,[Solvent]|contain=15||quant={Dice~5d10}||valper=400||value=%quant%||value*%valper%|
+#,Adhesives|contain=15||quant={Dice~5d10}||valper=450||value=%quant%||value*%valper%|
+5,[Adhesive]|contain=15||quant={Dice~5d10}||valper=450||value=%quant%||value*%valper%|
+#,Controlled Substances|contain=15||quant={Dice~5d10}||valper=5000||value=%quant%||value*%valper%|
+2,[Toxic]|value=%quant%||value*%valper%|
+3,[Controlled]|value=%quant%||value*%valper%|
+3,[Medicinal]|value=%quant%||value*%valper%|
+8,[Legal]|value=%quant%||value*%valper%|
+
+;Equipment
+3,Tool Kits |contain=6||quant={Dice~10d4}||numper={Dice~5d10*2}||unitcost=250||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+2,Field Kits |contain=6||quant={Dice~5d4}||numper=10||unitcost=1000||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+3,Flight Suits |contain=6||quant={Dice~10d4}||numper=30||unitcost=250||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+5,BlasTech Ramtek Powerpack Rechargers |contain=6||quant={Dice~5d5}||numper={Dice~10d10*2}||unitcost=750||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+2,Merr-Sonn NonSonic Silencers/Flass Suppressors |contain=13||quant={Dice~3d5}||numper={Dice~10d10*2}||unitcost=900||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+5,Merr-Sonn Targeter Ranging Scopes |contain=13||quant={Dice~5d5}||numper={Dice~10d10*2}||unitcost=750||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+1,Novaless Soni-Optics Target Imagers |contain=13||quant={Dice~3d5}||numper={Dice~10d10*2}||unitcost=3000||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+5,Ayelixe/Krongbing Textiles Camouflage Ponchos |contain=6||quant={Dice~5d5}||numper={Dice~5d10*2}||unitcost=250||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+5,Pacnorval Sonic Dampening Helmets |contain=6||quant={Dice~5d5}||numper={Dice~5d10*2}||unitcost=600||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+5,A99 Aquata Breathers |contain=6||quant={Dice~5d5}||numper={Dice~25d5*2}||unitcost=350||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+5,Gandorthral Atomspherics Oxidizer |contain=6||quant={Dice~5d5}||numper={Dice~25d5*2}||unitcost=350||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+5,Gandorthral Atomspherics Roamer-S Breath Mask |contain=6||quant={Dice~5d5}||numper={Dice~10d10*2}||unitcost=400||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+5,VargeCorp Easy Breathing Breath-Masks |contain=6||quant={Dice~5d5}||numper={Dice~5d10*2}||unitcost=50||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+2,Adventure Hiker/Hunter DuraShelters |contain=6||quant={Dice~5d5}||numper={Dice~10d10*2}||unitcost=500||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+10,Adventure Hiker/Hunter Ration Packs |contain=6||quant={Dice~5d5}||numper={Dice~50d5*2}||unitcost=5||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+2,Meredex Atmospherics EMS-90 Bubble Cloaks |contain=6||quant={Dice~5d5}||numper={Dice~5d10*2}||unitcost=800||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+5,Mos Espa Coolth Backpacks |contain=6||quant={Dice~5d5}||numper=75||unitcost=200||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+5,Saladar Systems PED-21 Distress Beacons |contain=6||quant={Dice~5d5}||numper=50||unitcost=200||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+10,SurvivalGear Water JugFilters |contain=6||quant={Dice~5d5}||numper={Dice~10d10*2}||unitcost=100||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+10,Alliwon Electronics Vennoc-x Chronometers |contain=6||quant={Dice~5d5}||numper={Dice~50d5*2}||unitcost=50||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+5,BlasTech Blaster Repair Kits |contain=6||quant={Dice~5d5}||numper=50||unitcost=125||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+
+;Grenades
+5,Merr-Sonn C-16 Frag Grenades |contain=13||quant={Dice~5d5}||numper=50||unitcost=500||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+5,Merr-Sonn C-10 Stun Grenades |contain=13||quant={Dice~5d5}||numper=50||unitcost=600||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+1,Thermal Detonators |contain=13||quant={Dice~2d5}||numper=50||unitcost=2000||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+2,Czerka Spore/B Stun Grenades |contain=13||quant={Dice~5d5}||numper=50||unitcost=700||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+5,Greff-Timms 0033X Grenades |contain=13||quant={Dice~5d5}||numper=50||unitcost=400||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+5,Merr-Sonn C-14A Stun Grenades |contain=13||quant={Dice~5d5}||numper=50||unitcost=500||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+3,Merr-Sonn C-22 Frag Grenades |contain=13||quant={Dice~5d5}||numper=50||unitcost=700||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+5,Merr-Sonn G-20 Glop Grenades |contain=13||quant={Dice~5d5}||numper=50||unitcost=600||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+2,Merr-Sonn WW-41 Cryoban Grenades |contain=13||quant={Dice~5d5}||numper=50||unitcost=800||valper={Calc~%numper%*%unitcost%}||value=%quant%||value*%valper%|(%numper% per container)
+
+;Creatures
+1,Acklay (1)|contain=21||quant={Dice~2d5}||valper=12000||value=%quant%||value*%valper%|
+4,Bantha (1)|contain=21||quant={Dice~5d5}||valper=4000||value=%quant%||value*%valper%|
+3,Dewback (1)|contain=21||quant={Dice~5d5}||valper=1500||value=%quant%||value*%valper%|
+1,Gundark (1)|contain=21||quant={Dice~5d5}||valper=2500||value=%quant%||value*%valper%|
+1,Massifs (2)|contain=21||quant={Dice~5d5}||valper=1800||value=%quant%||value*%valper%|
+1,Nexu (1)|contain=21||quant={Dice~5d5}||valper=4000||value=%quant%||value*%valper%|
+1,Rancor (1)|contain=21||quant={Dice~1d5}||valper=16000||value=%quant%||value*%valper%|
+2,Reek (1)|contain=21||quant={Dice~3d5}||valper=4400||value=%quant%||value*%valper%|
+1,Tauntaun (1)|contain=21||quant={Dice~5d5}||valper=1200||value=%quant%||value*%valper%|
+
+;Passengers
+1,Wealthy Travellers ({Dice~2d10})
+5,Travellers ({Dice~5d10})
+2,Merchants ({Dice~3d10})
+2,Refugees ({Dice~10d20})
+1,Imperial Troops ({Dice~5d10})
+1,Rebellion Troops ({Dice~3d10})
+2,Prisoners ({Dice~5d10})|contain=21|
+1,Slaves ({Dice~5d10})|contain=21|
+1,Stow-aways ({Dice~1d5})
+1,Outlaws ({Dice~1d10})
+1,Medical Evacuees ({Dice~2d10})
+
+;Droids
+10,[SW Droid Gen.Type=1]|unitcost=3000|
+10,[SW Droid Gen.Type=2]|unitcost=3500|
+20,[SW Droid Gen.Type=3]|unitcost=4500|
+6,[SW Droid Gen.Type=4]|unitcost=10000|
+20,[SW Droid Gen.Type=5]|unitcost=2500|
+20,[SW Droid Gen.Type=6]|unitcost=1500|
+20,[SW Droid Gen.Type=7]|unitcost=6000|
+3,[SW Droid Gen.Type=8]|unitcost=8000|
+10,[SW Droid Gen.Type=9]|unitcost=12000|
+10,[SW Droid Gen.Type=10]|unitcost=7000|
+20,[SW Droid Gen.Type=11]|unitcost=2200|
+20,[SW Droid Gen.Type=12]|unitcost=2000|
+20,[SW Droid Gen.Type=13]|unitcost=3000|
+20,[SW Droid Gen.Type=14]|unitcost=3000|
+20,[SW Droid Gen.Type=15]|unitcost=4000|
+20,[SW Droid Gen.Type=16]|unitcost=5500|
+20,[SW Droid Gen.Type=17]|unitcost=2500|
+20,[SW Droid Gen.Type=18]|unitcost=2600|
+20,[SW Droid Gen.Type=19]|unitcost=3000|
+20,[SW Droid Gen.Type=20]|unitcost=2750|
+20,[SW Droid Gen.Type=21]|unitcost=2000|
+20,[SW Droid Gen.Type=22]|unitcost=2000|
+10,[SW Droid Gen.Type=23]|unitcost=4500|
+1,[SW Droid Gen.Type=24]|unitcost=80000|
+5,[SW Droid Gen.Type=25]|unitcost=18000|
+5,[SW Droid Gen.Type=26]|unitcost=4500|
+10,[SW Droid Gen.Type=27]|unitcost=18000|
+10,[SW Droid Gen.Type=28]|unitcost=7000|
+20,[SW Droid Gen.Type=29]|unitcost=4000|
+20,[SW Droid Gen.Type=30]|unitcost=7000|
+3,[SW Droid Gen.Type=31]|unitcost=15000|
+2,[SW Droid Gen.Type=32]|unitcost=16000|
+5,[SW Droid Gen.Type=33]|unitcost=4000|
+10,[SW Droid Gen.Type=34]|unitcost=2000|
+20,[SW Droid Gen.Type=35]|unitcost=8000|
+20,[SW Droid Gen.Type=36]|unitcost=4000|
+20,[SW Droid Gen.Type=37]|unitcost=800|
+20,[SW Droid Gen.Type=38]|unitcost=2000|
+20,[SW Droid Gen.Type=39]|unitcost=1000|
+20,[SW Droid Gen.Type=40]|unitcost=2000|
+20,[SW Droid Gen.Type=41]|unitcost=750|
+20,[SW Droid Gen.Type=42]|unitcost=3500|
+5,[SW Droid Gen.Type=43]|unitcost=35000|
+10,[SW Droid Gen.Type=44]|unitcost=10000|
+10,[SW Droid Gen.Type=45]|unitcost=2000|
+20,[SW Droid Gen.Type=46]|unitcost=4300|
+2,[SW Droid Gen.Type=47]|unitcost=4000|
+20,[SW Droid Gen.Type=48]|unitcost=2350|
+10,[SW Droid Gen.Type=49]|unitcost=1800|
+10,[SW Droid Gen.Type=50]|unitcost=3300|
+5,[SW Droid Gen.Type=51]|unitcost=21000|
+2,[SW Droid Gen.Type=52]|unitcost=18500|
+20,[SW Droid Gen.Type=53]|unitcost=1000|
+20,[SW Droid Gen.Type=54]|unitcost=1200|
+20,[SW Droid Gen.Type=55]|unitcost=6250|
+
+:Food
+1,Carbosyrup - a thick, sugary liquid
+_|contain=6||quant={Dice~10d10}||valper=420||value=%quant%||value*%valper%|
+2,Bepp - a genetically-grown food created in Bith hydroponics tanks. Bepp is grown 
+_into a 6-centimeter pink cube, and is nutritious but tasteless
+_|contain=6||quant={Dice~10d10}||valper=325||value=%quant%||value*%valper%|
+3,Chintassa Grass - a thin grass that is often seasoned and boiled as a food source.
+_|contain=6||quant={Dice~10d10}||valper=325||value=%quant%||value*%valper%|
+4,Chuff - a gelatinous food source.
+_|contain=6||quant={Dice~10d10}||valper=400||value=%quant%||value*%valper%|
+5,Drapsha - this cellulose-based foodstuff is digestable to certain species that can assimillate it.
+_|contain=6||quant={Dice~10d10}||valper=400||value=%quant%||value*%valper%|
+6,Flangth  - this nutritional food is hated by many young children for its lack of taste.
+_|contain=6||quant={Dice~10d10}||valper=325||value=%quant%||value*%valper%|
+7,Flatbread - this Alderaanian foodstuff is a tasty, crusty, cracker-like bread.
+_|contain=6||quant={Dice~10d10}||valper=325||value=%quant%||value*%valper%|
+8,Gamorrean Snack-cracker - this tasty snack food is often dunked in malted drinks.
+_|contain=6||quant={Dice~10d10}||valper=440||value=%quant%||value*%valper%|
+9,Gumes - this food is often served as an accompanyment to nerf meat.
+_|contain=6||quant={Dice~10d10}||valper=325||value=%quant%||value*%valper%|
+10,Habbis - a plant whose root is eaten for food.
+_|contain=6||quant={Dice~10d10}||valper=300||value=%quant%||value*%valper%|
+11,Happy-patty - this quickly-cooked food is a favorite among children.
+_|contain=22||quant={Dice~10d10}||valper=400||value=%quant%||value*%valper%|
+12,Hard-biscuit - a Drallish food, these small cakes are very tasty, if they can be chewed. 
+_The Drall jaw structure is incredibly strong, and these biscuits are used for exercise as 
+_well as nourishment. Humans have been known to chip their teeth on hard-biscuits.
+_|contain=6||quant={Dice~10d10}||valper=325||value=%quant%||value*%valper%|
+13,Insta-Meal - produced by SoroSuub, the Insta-Meal is a processed food which is used in 
+_survival packs. It usually comes in block form, from which pieces can be broken off and 
+_consumed. It contains large amount of essential nutrients in a small, easily transported form.
+_|contain=6||quant={Dice~10d10}||valper=450||value=%quant%||value*%valper%|
+14,Kiwip - a grass which can be prepared as food.
+_|contain=6||quant={Dice~10d10}||valper=290||value=%quant%||value*%valper%|
+15,Mounder Potato Rice - this staple food is found within, and as a side dish to, many Corellian meals.
+_|contain=6||quant={Dice~10d10}||valper=380||value=%quant%||value*%valper%|
+16,Mundis - a foodstuff grown on Cilpar.
+_|contain=6||quant={Dice~10d10}||valper=325||value=%quant%||value*%valper%|
+17,Noryath Meatbread - a brown, bread-like food.
+_|contain=22||quant={Dice~10d10}||valper=400||value=%quant%||value*%valper%|
+18,Ooglata Eggs - this creature’s eggs are considered a food source, and are often served 
+_scrambled. Ooglata are native to the planet Ithor.
+_|contain=22||quant={Dice~10d10}||valper=400||value=%quant%||value*%valper%|
+19,Ormachek - a food source used by the Mon Calamari. It is often frozen and shipped off-planet.
+_|contain=22||quant={Dice~10d10}||valper=430||value=%quant%||value*%valper%|
+20,Parwan Nutricake - a healthful bread-like food that is often served spiced.
+_|contain=6||quant={Dice~10d10}||valper=325||value=%quant%||value*%valper%|
+21,Ploth Meat - a creature whose meat is prepared as food. When propoerly prepared, it is a very succulent meal.
+_|contain=22||quant={Dice~10d10}||valper=500||value=%quant%||value*%valper%|
+22,Pseudo-chudde - this food was detested by many young children.
+_|contain=6||quant={Dice~10d10}||valper=325||value=%quant%||value*%valper%|
+23,Puk - a foodstuff grown in many Tatooine hydroponics gardens.
+_|contain=6||quant={Dice~10d10}||valper=325||value=%quant%||value*%valper%|
+24,Pyollian Cake - a sweet dessert food.
+_|contain=6||quant={Dice~10d10}||valper=400||value=%quant%||value*%valper%|
+25,Spetzna - this cellulose-based foodstuff is highly indigestible to those species that have trouble assimilating cellulose.
+_|contain=6||quant={Dice~10d10}||valper=325||value=%quant%||value*%valper%|
+26,Trimpian - this food source is often cooked in slices, and is often served with miasra sauce. It had a tangy taste.
+_|contain=6||quant={Dice~10d10}||valper=420||value=%quant%||value*%valper%|
+27,Vitamin Syrup - a food substitute, it was what Ken survived on which living in the Lost City of the Jedi.
+_|contain=6||quant={Dice~10d10}||valper=380||value=%quant%||value*%valper%|
+28,Vodokrene - this food is a stable in the Ho'Din diet, and is used throughout their cooking styles.
+_|contain=6||quant={Dice~10d10}||valper=325||value=%quant%||value*%valper%|
+29,Spame - A cheaply-made, gelatinous, synthetic meat product which is surprisingly tastey when grilled. 
+_Contains no nutritional value whatsoever, and usually causes indigestion for any species.
+_|contain=6||quant={Dice~10d10}||valper=200||value=%quant%||value*%valper%|
+30,Deneelian Fizz-pudding - a desert best served cold.
+_|contain=6||quant={Dice~10d10}||valper=350||value=%quant%||value*%valper%|
+31,Dianoga Pie - a disgusting meat pie made from dianoga flesh.
+_|contain=22||quant={Dice~10d10}||valper=375||value=%quant%||value*%valper%|
+32,Domit Pie - a Kitonak delicacy.
+_|contain=6||quant={Dice~10d10}||valper=350||value=%quant%||value*%valper%|
+33,Drezzle Sauce - this rich sauce is often used as a salad dressing.
+_|contain=6||quant={Dice~10d10}||valper=325||value=%quant%||value*%valper%|
+34,Dioche Sauce - an accompaniment often served with bantha meat.
+_|contain=6||quant={Dice~10d10}||valper=350||value=%quant%||value*%valper%|
+35,Algae Sugar - this sweetener is created from the dried extracts of certain forms of algae. It is often dissovled in water and fermented, then consumed as a alcoholic beverage.
+_|contain=6||quant={Dice~10d10}||valper=250||value=%quant%||value*%valper%|
+36,Blap-biscuit - a foodstuff often served with carbosyrup.
+_|contain=6||quant={Dice~10d10}||valper=220||value=%quant%||value*%valper%|
+37,Blob Candy - a sweet treat sold on Umgul.
+_|contain=6||quant={Dice~10d10}||valper=275||value=%quant%||value*%valper%|
+38,Bofa Treat - a sweet, dried, fruit-like snackfood.
+_|contain=6||quant={Dice~10d10}||valper=250||value=%quant%||value*%valper%|
+39,Brightgum - this chewable food acts as a stimulant.
+_|contain=6||quant={Dice~10d10}||valper=275||value=%quant%||value*%valper%|
+40,Chyntuck - this onion-like vegetable is native to the planet Kashyyyk, and is used by Wookiees in cooking.
+_|contain=6||quant={Dice~10d10}||valper=230||value=%quant%||value*%valper%|
+41,Citros Snow Cake - a tasty pastry.
+_|contain=22||quant={Dice~10d10}||valper=325||value=%quant%||value*%valper%|
+42,Cracknel - an appetizer.
+_|contain=6||quant={Dice~10d10}||valper=300||value=%quant%||value*%valper%|
+43,Cranker - this plant’s roots are a delicacy to the Rodians, especially when they are deeply oiled.
+_|contain=6||quant={Dice~10d10}||valper=325||value=%quant%||value*%valper%|
+44,Crispic - this fried snack is often served at cantinas.
+_|contain=6||quant={Dice~10d10}||valper=350||value=%quant%||value*%valper%|
+45,Endwa - this meat is a Corellian staple and, like most Corellian foods, is best served fried. It is said that properly-cooked endwa slides down the throat slowly.
+_|contain=22||quant={Dice~10d10}||valper=450||value=%quant%||value*%valper%|
+46,Exosquidra - this Calamari ocean creature is considered a delicacy.
+_|contain=22||quant={Dice~10d10}||valper=375||value=%quant%||value*%valper%|
+47,Farrberry - a galactic delicacy, farrberries are prized for their fine scent and invigorating effect when eaten. The finest farrberries are grown in the Xorth System.
+_|contain=22||quant={Dice~10d10}||valper=350||value=%quant%||value*%valper%|
+48,Felbar - a baked dessert.
+_|contain=6||quant={Dice~10d10}||valper=280||value=%quant%||value*%valper%|
+49,Flounut - a legume from which a flavorful oil is extracted and whipped into butter.
+_|contain=6||quant={Dice~10d10}||valper=250||value=%quant%||value*%valper%|
+50,Forest Honey - this is a form of honey created by the Wookiees.
+_|contain=6||quant={Dice~10d10}||valper=275||value=%quant%||value*%valper%|
+51,Fringe Cake - this liquid-extract dessert is a Corellian favorite.
+_|contain=6||quant={Dice~10d10}||valper=250||value=%quant%||value*%valper%|
+52,Godon Frezzes - this snackfood comes packaged in a foil wrapper.
+_|contain=6||quant={Dice~10d10}||valper=300||value=%quant%||value*%valper%|
+53,Gorrnar - this is the name of a frozen desert created by Wookiee chefs.
+_|contain=6||quant={Dice~10d10}||valper=325||value=%quant%||value*%valper%|
+54,Gumbah Pudding - a form of custard.
+_|contain=22||quant={Dice~10d10}||valper=240||value=%quant%||value*%valper%|
+55,Gwouch - this foodstuff contains various nutritional attributes, but it is detested by young children. It is often stewed, resulting in poor palatability.
+_|contain=6||quant={Dice~10d10}||valper=225||value=%quant%||value*%valper%|
+56,Imush - the roots of this plant are often used in cooking. They are chopped and sauteed for use as a side-dish.
+_|contain=6||quant={Dice~10d10}||valper=225||value=%quant%||value*%valper%|
+57,Kanali Wafers - these tasty pastries are made by the natives of Eiattu.
+_|contain=6||quant={Dice~10d10}||valper=300||value=%quant%||value*%valper%|
+58,Karkan Ribenes - this rack of meaty ribs is often served seasoned with tomo spice.
+_|contain=22||quant={Dice~10d10}||valper=350||value=%quant%||value*%valper%|
+59,Kibla - this leafy vegetable is hated by most young children.
+_|contain=6||quant={Dice~10d10}||valper=230||value=%quant%||value*%valper%|
+60,Largess Cakes - a small pastry.
+_|contain=6||quant={Dice~10d10}||valper=325||value=%quant%||value*%valper%|
+61,Pkneb - a delicacy often served caramelized.
+_|contain=6||quant={Dice~10d10}||valper=380||value=%quant%||value*%valper%|
+62,Puff Cake - a small dessert pastry.
+_|contain=6||quant={Dice~10d10}||valper=310||value=%quant%||value*%valper%|
+63,Redor Sauce - this tangy sauce is often served with nerf meat.
+_|contain=6||quant={Dice~10d10}||valper=275||value=%quant%||value*%valper%|
+64,Rollock - this type of candy is lozenge-shaped, and comes in cylindrical packages. They were often mint-flavored.
+_|contain=6||quant={Dice~10d10}||valper=290||value=%quant%||value*%valper%|
+65,Ryshcate - a dark brown, Corellian sweetbread served for birthdays and other special occasions. It is made with vweliu nuts and Corellian whiskey.
+_|contain=6||quant={Dice~10d10}||valper=325||value=%quant%||value*%valper%|
+66,Scale-5 Syrup - a sugary syrup.
+_|contain=6||quant={Dice~10d10}||valper=290||value=%quant%||value*%valper%|
+67,Soypro - a meat substitute.
+_|contain=6||quant={Dice~10d10}||valper=230||value=%quant%||value*%valper%|
+68,Sweetmallow - a sticky candy. 
+_|contain=6||quant={Dice~10d10}||valper=325||value=%quant%||value*%valper%|
+
+;Beverages
+10,[Ale]
+5,[Wine]
+5,[Brandy]
+2,[Other Alcohol]
+5,[Soft Drinks]
+
+:Ale
+1,Chagarian Ale - an alcoholic beverage
+_|quant={Dice~10d5}||numper=96||unitcost=15|
+2,Corellian Ale - a full-bodied brew.
+_|quant={Dice~10d5}||numper=96||unitcost=10|
+3,Corellian Spiced Ale - one of Han's favorite beverages.
+_|quant={Dice~10d5}||numper=96||unitcost=20|
+4,Blue Ale - A generic ale, made across the universe. Has a blue coloration.
+_|quant={Dice~10d5}||numper=96||unitcost=8|
+5,Alderaanian Ale - this fermented, alcoholic beverage was brewed from the fragrant grains once native to Alderaan.
+_|quant={Dice~1d5}||numper=96||unitcost=400|
+6,Andoan Ale - green, alcoholic beverage.
+_|quant={Dice~10d5}||numper=96||unitcost=15|
+7,Dalkash Ale - a flavorful ale brewed on the planet Lianna.
+_|quant={Dice~10d5}||numper=96||unitcost=15|
+8,Elba Beer - a brew that Chewbacca likes to drink.
+_|quant={Dice~10d5}||numper=96||unitcost=20|
+9,Fox Beer - a malted beverage created in the Outer Rim.
+_|quant={Dice~10d5}||numper=96||unitcost=15|
+10,Forvish ale - an interstellar brew
+_|quant={Dice~10d5}||numper=96||unitcost=12|
+11,Gizer Ale - this fermented beverage is blue in color.
+_|quant={Dice~10d5}||numper=96||unitcost=15|
+12,Gizer Pale Blue Ale - a lighter version of Gizer ale, Luke Skywalker kept a supply for visits from Han Solo.
+_|quant={Dice~10d5}||numper=96||unitcost=18|
+13,Hapan Ale - a mildly-intoxicating beverage brewed in the Hapes cluster.
+_|quant={Dice~10d5}||numper=96||unitcost=25|
+14,Lomin-ale - this bitter, spicy beverage produces a foamy, green head when poured. It is best served chilled.
+_|quant={Dice~10d5}||numper=96||unitcost=20|
+15,Megavegiton Ale - this alcoholic beverage is favored by Yarblok Yemm.
+_|quant={Dice~10d5}||numper=96||unitcost=18|
+16,Osskum Ale - an alcoholic beverage.
+_|quant={Dice~10d5}||numper=96||unitcost=15|
+17,Polaris Ale - an alcoholic brew favored by Muftak the Talz, it is best served tepid.
+_|quant={Dice~10d5}||numper=96||unitcost=18|
+18,Polanis Ale - a heady brew.
+_|quant={Dice~10d5}||numper=96||unitcost=15|
+19,Potwa Beer - an alcoholic brew created by the Gamorreans.
+_|quant={Dice~10d5}||numper=96||unitcost=12|
+20,Tyrellian Ale - a brew favored by the inhabitants of the planet Yelsain.
+_|quant={Dice~10d5}||numper=96||unitcost=15|
+21,Ebranite Lu-ramin Oilmead - this beverage is created with lu-ramin as its base.
+_|quant={Dice~10d5}||numper=96||unitcost=18|
+22,Ottegan Mead - this slightly-sweet malted beverage is created in the Ottega System.
+_|quant={Dice~10d5}||numper=96||unitcost=15|
+23,Dresselian Beer - a foul-smelling, cheap beer.
+_|quant={Dice~10d5}||numper=96||unitcost=6|
+24,Jawa Beer - a cheap, quickly-brewed concoction created by the Jawas.
+_|quant={Dice~10d5}||numper=96||unitcost=8|
+25,Ryll Beer - this fine lager is created with a touch of ryll spice.
+_|quant={Dice~10d5}||numper=96||unitcost=25|
+26,Thuris Stout - this dark, heavy-bodied beer is brewed in Thuris Sector.
+_|quant={Dice~10d5}||numper=96||unitcost=18|
+
+:Brandy
+1,Cassandrian Brandy - one of the finest brandies created in the galaxy. It is created with arcane 
+_procedures, and is well-worth the effort and expense.
+_|quant={Dice~10d5}||numper=45||unitcost=150|
+2,Cassandrian Choholl - another of the renowned Cassandran spirits, it is better even than Cassandran Brandy
+_|quant={Dice~10d5}||numper=45||unitcost=225|
+3,Corellian Brandy - an interstellar spirit
+_|quant={Dice~10d5}||numper=45||unitcost=75|
+4,Corellian Double-Brandy - a twice-fermented version of the basic Corellian brandy.
+_|quant={Dice~10d5}||numper=45||unitcost=125|
+5,Doth Brandy - This well-aged alcoholic spirit is considered a delicacy by the 
+_rich and powerful. It compliments the taste of tranna nougat, and is often consumed with the sweet candy.
+_|quant={Dice~10d5}||numper=45||unitcost=250|
+6,Dornean Brandy - a fine, distilled liquor created on Dornea.
+_|quant={Dice~10d5}||numper=45||unitcost=100|
+7,Corellian Whiskey - a highly-intoxicating beverage.
+_|quant={Dice~10d5}||numper=45||unitcost=75|
+8,Churban Brandy - a wonderful fermented spirit from the Churba System.
+_|quant={Dice~10d5}||numper=45||unitcost=90|
+9,Luranian Brandy - a fine fermentation of fruit, often served in a deep, wide-bottomed snifter.
+_|quant={Dice~10d5}||numper=45||unitcost=85|
+10,Menkooro Whiskey - an interstellar bourbon.
+_|quant={Dice~10d5}||numper=45||unitcost=65|
+11,Savareen Brandy - this brandy is created with arcane procedures, and is well worth the time and expense.
+_|quant={Dice~10d5}||numper=45||unitcost=125|
+12,Thikkiian Brandy - this potent alcoholic beverages is created by Wookiees.
+_|quant={Dice~10d5}||numper=45||unitcost=100|
+13,Vasarian Brandy - an intoxicating beverage favored by Trackan Sal-Solo.
+_|quant={Dice~10d5}||numper=45||unitcost=95|
+14,Zadarian Brandy - a smooth, fermented alcohol.
+_|quant={Dice~10d5}||numper=45||unitcost=85|
+16,Dodbri Whiskey - this is an awesomely strong spirit.
+_|quant={Dice~10d5}||numper=45||unitcost=75|
+17,Corellian Reserve - a vintage of whiskey fermented on Corellia.
+_|quant={Dice~10d5}||numper=45||unitcost=105|
+18,Corellian Rum - an interstellar spirit
+_|quant={Dice~10d5}||numper=45||unitcost=95|
+19,Ergesh Rum - this highly-priced spirit is fermented on Ergesh.
+_|quant={Dice~10d5}||numper=45||unitcost=250|
+20,Kibshae brandale - an interstellar spirit. '48 was a good vintage.
+_|quant={Dice~10d5}||numper=45||unitcost=230|
+
+:Wine
+1,Gorimn Wine - this fermented Wookiee beverage is considered mild, although it packs a wallop to humans.
+_|quant={Dice~10d5}||numper=45||unitcost=100|
+2,Polanis Wine - a full-bodied red wine.
+_|quant={Dice~10d5}||numper=45||unitcost=90|
+3,Renan Wine - a fine, fermented vintage.
+_|quant={Dice~10d5}||numper=45||unitcost=95|
+4,T'ill-t'iil - a sparkling alcoholic drink similar to champagne, served chilled for best flavor.
+_|quant={Dice~10d5}||numper=45||unitcost=135|
+5,Zeltronian Spiced Wine - Dengar had drunk too much of this the night before Jabba died, 
+_and so he missed the trip to the Pit of Carkoon.
+_|quant={Dice~10d5}||numper=45||unitcost=110|
+6,Algarine - a wine best served at 50 degrees, in a 40-degree glass
+_|quant={Dice~10d5}||numper=45||unitcost=225|
+7,Celanon Semi-Dry - an excellent, but unrefined, wine.
+_|quant={Dice~10d5}||numper=45||unitcost=80|
+8,Derellium Wine - a native Lianna vintage of wine.
+_|quant={Dice~10d5}||numper=45||unitcost=85|
+9,Doan Wine - this good spirit induces a state of shock when imbibed in great quantities.
+_|quant={Dice~10d5}||numper=45||unitcost=110|
+10,Drilbian Wine - a tasty fermentation enjoyed by Siene Symm.
+_|quant={Dice~10d5}||numper=45||unitcost=90|
+11,Green Champagne - a green-colored, sparkling wine.
+_|quant={Dice~10d5}||numper=45||unitcost=95|
+12,Nectarwine - this wine is fermented from the fabled fruit fields of the planet Nepoy.
+_|quant={Dice~10d5}||numper=45||unitcost=120|
+13,Necr'ygor Omic - an interstellar wine ('47, '49, '50, and '52 were good vintages).
+_|quant={Dice~10d5}||numper=45||unitcost=110|
+14,Veronian Berry Wine - a non-alcoholic drink.
+_|quant={Dice~10d5}||numper=45||unitcost=75|
+15,Bespin Port - one of the finest port wines created in the galaxy.
+_|quant={Dice~10d5}||numper=45||unitcost=100|
+
+:Other Alcohol
+1,Cortyg - A strong, alcoholic beverage made by the Wookies
+_|quant={Dice~10d5}||numper=45||unitcost=210|
+2,Bantha-blood Fizz - an alcoholic drink made from clarified bantha blood.
+_|quant={Dice~10d5}||numper=45||unitcost=195|
+3,Bantha Blaster - a green and pink alcoholic drink that fizzes and pops as it goes down your throat.
+_|quant={Dice~10d5}||numper=45||unitcost=80|
+4,Abrax Cognac - a pale blue, alcoholic distilled spirit.
+_|quant={Dice~10d5}||numper=45||unitcost=100|
+5,Danaru - this rich, tasty beverage is fermented from terrberries, spicy nuts, 
+_and stored in Parein Sweetgreen fruit shells. At first, the drink is highly 
+_refreshing. However, the alcohol content hits you hard about a hlaf-hour later. 
+_It originated on Parein II 4.
+_|quant={Dice~10d5}||numper=45||unitcost=225|
+6,Dorian Quill - A alcoholic beverage aged 12 years or more.
+_|quant={Dice~10d5}||numper=45||unitcost=245|
+7,Blue Dwarf - an alcoholic beverage.
+_|quant={Dice~10d5}||numper=45||unitcost=90|
+8,Gralinyn Juice - this fermented Wookiee beverage is considered mild enough for humans to drink.
+_|quant={Dice~10d5}||numper=45||unitcost=110|
+9,Halmad Prime - this grain alcohol was one of the primary exports of the planet Halmad. 
+_It was regarded as the best, and most expensive, alcohol produced on Halmad, and was only 
+_available on its world of distillation through the black market. Almost all Halmad Prime 
+_was shipped off to Imperial worlds.
+_|quant={Dice~10d5}||numper=45||unitcost=365|
+10,Isothane - this alcoholic beverage is often served with water and ice.
+_|quant={Dice~10d5}||numper=45||unitcost=95|
+11,Ksaa - a red drink favored by the Ssi-ruuvi, its contents are not known
+_|quant={Dice~10d5}||numper=45||unitcost=145|
+12,Mad Mrelf - this is a strong, Corellian liqour. Many a spacer would go on drinking binges 
+_and consume more Mad Mrelf than they could hold, and they ended up in Imperial labor camps for their conduct.
+_|quant={Dice~10d5}||numper=45||unitcost=120|
+13,Merenzane Gold - a subtle, sweet-tasting alcoholic beverage that has been brewed in the 
+_galaxy for thousands of years. Depending on the vintage, it can be quite expensive. 
+_It was the favored beverage of Kardue’sai’Malloc, who consumed it under the alias of Labria.
+_|quant={Dice~10d5}||numper=45||unitcost=95|
+14,Lum - a powerfully intoxicating beverage favored in the Corellian System but found throughout the galaxy.
+_|quant={Dice~10d5}||numper=45||unitcost=85|
+15,Nikta - this frothy, powerful alcoholic beverage was created by the Nikto race.
+_|quant={Dice~10d5}||numper=45||unitcost=120|
+16,Norvanian Grog - an old, expensive intoxicating beverage. A 400-year-old bottle is exquisite. 
+_It is produced on the island of N'van on the planet Ban-Satir II.
+_|quant={Dice~10d5}||numper=45||unitcost=1800|
+17,Narcolethe - this Mandalorian alcohol is famous in the Outer Rim Territories
+_|quant={Dice~10d5}||numper=45||unitcost=300|
+18,Orryxian Catsblood - an alcoholic beverage favored in the Outer Rim.
+_|quant={Dice~10d5}||numper=45||unitcost=120|
+19,Rummy Tonic - an alcoholic beverage.
+_|quant={Dice~10d5}||numper=45||unitcost=85|
+20,Rhuvian Fizz - an alcoholic drink.
+_|quant={Dice~10d5}||numper=45||unitcost=75|
+21,Sullustan Gin - an intergalactic alcoholic spirit.
+_|quant={Dice~10d5}||numper=45||unitcost=95|
+22,Spice Liquor - a potent form of alcohol made from fermented spice extracts.
+_|quant={Dice~10d5}||numper=45||unitcost=105|
+23,Snillik - a thick liquer that Lando often orders when a sabacc match requires alcoholic 
+_consumption. He chooses snillik because it tastes awful, so he must sip it slowly. 
+_It is produced somewhere in the Core Systems.
+_|quant={Dice~10d5}||numper=45||unitcost=85|
+24,Skannbult Likker - this alcoholic drink is made from surplus dust-corn and dry gene 
+_wheat on the planet Skann. It has been described as the galaxy's most volatile form of fire-water.
+_|quant={Dice~10d5}||numper=45||unitcost=75|
+25,Ugorian Spore-gruel - this is the preferred alcoholic beverage of the Ugor race.
+_|quant={Dice~10d5}||numper=45||unitcost=85|
+26,Vishay Water - this is a mildly alcoholic, carbonated beverage.
+_|quant={Dice~10d5}||numper=45||unitcost=75|
+27,Vlizz-kick - a fermented drink favored by the Quarren, it is made from the seaweed 
+_native to the Calamarian seas. It has a barely palatable taste, but it really packs a wallop.
+_|quant={Dice~10d5}||numper=45||unitcost=95|
+28,Red Dwarf - a potent drink.
+_|quant={Dice~10d5}||numper=45||unitcost=75|
+29,Accarrgm - this is a potent Wookiee liquor.
+_|quant={Dice~10d5}||numper=45||unitcost=95|
+30,KyLessian Fruit Distillate - a fine spirit enjoyed throughout the Outer Rim.
+_|quant={Dice~10d5}||numper=45||unitcost=105|
+31,Pludris - a fermented spirit.
+_|quant={Dice~10d5}||numper=45||unitcost=85|
+32,Shesharilian Vodka - this powerful liquor is fermented and bottled in the Shesharile System.
+_|quant={Dice~10d5}||numper=45||unitcost=85|
+33,Vaschean Rye - a fermented spirit created on Vasch.
+_|quant={Dice~10d5}||numper=45||unitcost=95|
+
+:Soft Drinks
+1,Calamari Xinphar
+_|quant={Dice~10d5}||numper=96||unitcost=45|
+2,Caf - A stimulating beverage
+_|quant={Dice~10d5}||numper=96||unitcost=15|
+3,Caffa - A stimulating beverage best served hot
+_|quant={Dice~10d5}||numper=96||unitcost=20|
+4,Chav - a drink with a euphoric taste.
+_|quant={Dice~10d5}||numper=96||unitcost=25|
+5,Charde - this refreshing beverage is best served cold.
+_|quant={Dice~10d5}||numper=96||unitcost=20|
+6,Coffeine - a strong, hot, stimulating beverage.
+_|quant={Dice~10d5}||numper=96||unitcost=30|
+7,Blue Milk - this nutrient-rich beverage is served on worlds where natural resources 
+_are scarse. Planets such as Tatooine consume blue milk to supplement the water-poor 
+_diets of its inhabitants. Blue milk is also rumored to have medicinal value.
+_|quant={Dice~10d5}||numper=96||unitcost=45|
+8,Anoat Malted - this is a rich, sweet beverage has a deep, smoky flavor.
+_|quant={Dice~10d5}||numper=96||unitcost=40|
+9,Elba Water - a non-alcoholic beverage created from elba.
+_|quant={Dice~10d5}||numper=96||unitcost=25|
+10,Endrolian Ground-apple Juice - this beverage is supposedly non-alcoholic, but it 
+_can be quickly fermented into a fine spirit.
+_|quant={Dice~10d5}||numper=96||unitcost=20|
+11,Fizz-Pop - this is a carbonated beverage enjoyed throughout the galaxy. 
+_The Squibs use empty Fizz-Pop cans as the badges of their most trusted diplomats.
+_|quant={Dice~10d5}||numper=96||unitcost=15|
+12,Fizzyglug - an intergalactic carbonated beverage favored on Nar Shaddaa and many backwater worlds.
+_|quant={Dice~10d5}||numper=96||unitcost=18|
+13,Fruit Fizz - a non-alcoholic drink favored by many of the New Republic’s starfighter pilots.
+_|quant={Dice~10d5}||numper=96||unitcost=20|
+14,Gav - a drink favored by the Mon Calamari.
+_|quant={Dice~10d5}||numper=96||unitcost=25|
+15,Jaar - this is a drink given to Wookiee children. It is fermented from alcoari milk and 
+_vineberry extract, and is very sweet to the taste.
+_|quant={Dice~10d5}||numper=96||unitcost=30|
+16,Naris-bud Tea - a stimulating drink.
+_|quant={Dice~10d5}||numper=96||unitcost=15|
+17,Orgone Bubbler - this beverage is characterized by a frothy, purple head.
+_|quant={Dice~10d5}||numper=96||unitcost=25|
+18,Orotay - a barely-palateble beverage, orotay found acceptance among the armed forces because 
+_it helped them stay alert. Ronks were found to be allergic to it. Following the Battle of 
+_Endor, orotay production fell off, and the price began to rise.
+_|quant={Dice~10d5}||numper=96||unitcost=40|
+19,Pawei Juice - a tart drink.
+_|quant={Dice~10d5}||numper=96||unitcost=15|
+20,Paricha - a drink brewed from the paricha root, usually served spiced. It is described as having a soft flavor.
+_|quant={Dice~10d5}||numper=96||unitcost=20|
+21,Rush - a highly-charged, carbonated beverage, Rush contained enough natural stimulants 
+_to keep the average human wide awake for several days.
+_|quant={Dice~10d5}||numper=96||unitcost=25|
+22,Retsa - a strong drink often imbibed by Lando Calrissian.
+_|quant={Dice~10d5}||numper=96||unitcost=45|
+23,Ruby Bliel - this non-alcoholic drink is a favorite of young children.
+_|quant={Dice~10d5}||numper=96||unitcost=15|
+24,Single-celery Soda - this is a favored beverage of the Ugor race.
+_|quant={Dice~10d5}||numper=96||unitcost=12|
+25,Skoa - this refreshing beverage is best served cold.
+_|quant={Dice~10d5}||numper=96||unitcost=15|
+26,Stim Tea - a strong, steeped beverage that has the side effect of raising a person's alertness, much like coffeine.
+_|quant={Dice~10d5}||numper=96||unitcost=20|
+27,TGM Protein Fruit Concentrate Refresher - this beverage, produced by the technology 
+_corporation TransGalMeg Industries, is a staple of the company’s employees.
+_|quant={Dice~10d5}||numper=96||unitcost=12|
+28,Ti’il Tea - this is a hot beverage brewed from the t’iil plant’s leaves.
+_|quant={Dice~10d5}||numper=96||unitcost=20|
+29,Vayerbok - this drink is served warm.
+_|quant={Dice~10d5}||numper=96||unitcost=15|
+30,Doxxen Tea - a steeped brew favored by the Shashay.
+_|quant={Dice~10d5}||numper=96||unitcost=15|
+31,Aitha - this protein drink is consumed by spacers to keep their bodies healthy during long runs. It is served hot.
+_|quant={Dice~10d5}||numper=96||unitcost=20|
+32,Jeru Tea - a syrupy, sweet tea that has a calming effect when imbibed.
+_|quant={Dice~10d5}||numper=96||unitcost=18|
+33,Tarine Tea - a drink brewed on Kuan, it has been made for many generations. Custom dictates that the leaves be first scraped, then arranged in a certain pattern in the pot before boiling water is added and the leaves steeped.
+_|quant={Dice~10d5}||numper=96||unitcost=20|
+
+:Inert
+1,Corthel - this highly-reflective gas was mined for a number of reasons. Its presence in the atmosphere of a planet made the planet appear to sparkle and flash when viewed from space.
+_|quant={Dice~5d10}||valper=450|
+2,Courenth - this gaseous substance is used as an engine coolant.
+_|quant={Dice~5d10}||valper=500|
+3,Culsion Gas - a gas used in many manufacturing processes.
+_|quant={Dice~5d10}||valper=400|
+4,Eleton - this gaseous substance is found in large quantities on the planet Caaraz. It can be refined for use as a fuel source for weapons power packs. It was for this reason that the Empire garrisoned Caaraz during the Galactic Civil War.
+_|quant={Dice~5d10}||valper=600|
+5,Heglum - a very light, synthetic gas used in dirigibles.
+_|quant={Dice~5d10}||valper=400|
+6,Helixell - a key ingredient in Duro hyperdrive fuel.
+_|quant={Dice~5d10}||valper=600|
+7,Injectrine - this fuel additive is used to activated the power fluids used by racing engines.
+_|quant={Dice~5d10}||valper=750|
+8,Inoxide - this substance is used in identity probes. Based on the results of the identity probe, the inoxide in the tip of the probe can be set to a positive of negative polarity. When inserted into a special reader, the inoxide’s state can be used to determine success or failure.
+_|quant={Dice~5d10}||valper=450|
+9,Kaylon - this gas is often used in fluorescent-style lighting.
+_|quant={Dice~5d10}||valper=350|
+10,Methanogen - Grannans need to breathe this gas in order to survive. It was found in the proper quantities on the planet Polneye.
+_|quant={Dice~5d10}||valper=450|
+11,Orveth - this gas is one of the most common gases used for blasters.
+_|quant={Dice~5d10}||valper=400|
+12,Prothium - this gas, used in the manufacture of blasters, is mined on Bespin as well as in the Killaniri System.
+_|quant={Dice~5d10}||valper=425|
+13,Quold Runium - this fuel additive is used to pressurize power fluids prior to activation.
+_|quant={Dice~5d10}||valper=550|
+14,Sig - this gas is one of the most common gases used for blasters.
+_|quant={Dice~5d10}||valper=350|
+15,Skevon - this gas is one of the most common gases used for blasters.
+_|quant={Dice~5d10}||valper=375|
+16,Tibanna gas - a gas found in the atmosphere of many gas giants, it is useful because it can produce large amounts of energy when light passes through it. Thus, it can be used in large blasters to multiply the weapon's output. It also has certain anti-gravitional properties, and has exceptional properties as a hyperdrive coolant. The best tibanna gas is compressed and spin-sealed, since this kind of tibanna is four times as powerful as regular tibanna. Spin-sealing requires a great deal of energy to do artificially. Fortunately for many weapons manufacturers, the tibanna found in the atmosphere of Bespin is naturally spin-sealed.
+_|quant={Dice~5d10}||valper=650|
+17,Tolium - this gas is one of the most common gases used for blasters.
+_|quant={Dice~5d10}||valper=400|
+18,Ves - this gaseous substance is often used as engine coolant.
+_|quant={Dice~5d10}||valper=450|
+19,Living Ice - this unique substance is often used in sculpture. It never melts, and holds its form indefinitely.
+_|quant={Dice~5d10}||valper=400|
+
+:Explosive
+1,JL-12-F - this explosive was manufactured by one of I’att Armaments’ competitors. It was used by a group of Ranats which tried to blow up Silver Station. Tinian I’att was able to track them down by following the smell of the explosive.
+_|contain=13||quant={Dice~5d10}||valper=800|
+2,Megonite - this moss, found on the planet Phelarion, was a heat-sensitive species that was harvested for the Empire by Lady Tarkin. The moss had intense explosive properties when heated, and could be manipulated into detonation devices. It had to be harvested by workers with special boots and gloves that kept the megonite cold. Storage and transportation facilities required refrigeration equipment.
+_|contain=22||quant={Dice~5d10}||valper=1200|
+3,Phospha - this substance is used by detonation experts. It ignites on impact, and can be used to trigger larger explosives.
+_|contain=13||quant={Dice~5d10}||valper=900|
+4,Proton Fuel - a highly-volatile type of fuel.
+_|contain=15||quant={Dice~5d10}||valper=750|
+5,Rutgar-4 - a high-density exlosive found only on the planetoid Jatee, it was used by the Empire during the Galactic Civil War.
+_|contain=13||quant={Dice~5d10}||valper=1500|
+6,Thermex - a highly-combustible explosive.
+_|contain=13||quant={Dice~5d10}||valper=850|
+7,Vomm Powder - this was a vinegary-smelling explosive.
+_|contain=13||quant={Dice~5d10}||valper=725|
+15,Detonite - the most common explosive used in grenades and detonators. It is produced in moldable, fist-sized cubes.
+_|contain=13||quant={Dice~5d10}||valper=700|
+16,Chepatite - an impact explosive.
+_|contain=13||quant={Dice~5d10}||valper=725|
+17,Negatron - an explosive substance used in bombs and other detonation devices.
+_|contain=13||quant={Dice~5d10}||valper=750|
+18,Nergon-14 - an unstable, highly-explosive element used in Imperial proton torpedoes. It is blue when inert, and changes to red, then white, when it explodes.
+_|contain=13||quant={Dice~5d10}||valper=900|
+
+:Corrosive
+1,Plank Gas - a chemical weapon that is highly corrosive.
+2,Xenoboric Acid - a strong acid that, when concentrated, is extremely powerful. It has the strange property of reacting with the bodily fluids of many races, causing a build-up of gas inside the body. If not counteracted, the reaction causes the victim to literally explode.
+3,Plasticene Thermite - this grey-white gel was moldable into a variety of shapes, allowing it to be placed in a variety of locations and applications. It burned quickly when lit, destroying whatever material it adhered to. It was also durable when formed and dried, and could be used to form trapdoors in a pinch.
+
+:Toxic
+1,Dioxis Gas - this green gas is deadly to most carbon-based life forms.
+_|contain=15||quant={Dice~5d10}||valper=500|
+2,Bilal - this gaseous substance is used in chemical warfare.
+_|contain=15||quant={Dice~5d10}||valper=800|
+3,Chemtrox - an extremely lethal form of gas used in chemical warfare, Chemtrox produces an incredibly horrible death.
+_|contain=15||quant={Dice~5d10}||valper=1200|
+4,Cordioline Trehansicol - this chemical is used to combat infestations of insects such as metalmites. It is sold under the brand name CorTrehan. It must be laid out in such a way that the insects can move around it, but encounter it wherever they feed. The most often used pattern is a series of curlicues leading to a central food source. It has a thick, sweet-sour smell, and takes almost two weeks to effectively kill off a metalmite brood.
+_|contain=15||quant={Dice~5d10}||valper=550|
+5,CryoBan - a chemical used in battle, it can be launched in a canister-type projectile. When dispersed, it freezes on contact, incapacitating those affected.
+_|contain=15||quant={Dice~5d10}||valper=1500|
+6,Cyanogen - this dense, yellowish gas is deadly to most any species which survives in oxygen atmospheres. Certain creatures do live in cyanogen-based atmospheres, but are unable to survive in oxygen.
+_|contain=15||quant={Dice~5d10}||valper=800|
+7,Fex-M3 - a chemical weapon, Fex-M3 is a potent nerve gas that causes death when inhaled.
+_|contain=15||quant={Dice~5d10}||valper=950|
+8,Korfaise gas - a lighter-than-air gas used as a hyperdrive coolant. It is highly poisonous.
+_|contain=15||quant={Dice~5d10}||valper=800|
+9,Lexonite - this powder-like substance is a deadly poison created on the planet Nigel IV. It was used by several Imperial terrorist factions to attack New Republic worlds.
+_|contain=15||quant={Dice~5d10}||valper=1200|
+10,RX-8 - a highly poisonous gas, RX-8 was the preferred "weapon" of the assassin Kyr Laron.
+_|contain=15||quant={Dice~5d10}||valper=875|
+11,Sennari - a deadly poison often used to coat the end of darts and arrows.
+_|contain=15||quant={Dice~5d10}||valper=750|
+12,Somniject - this poison was a fast-acting sedative that rendered the victim unconscious in a few seconds. It was never fatal, and could be counteracted by the injection of an anti-toxin.
+_|contain=15||quant={Dice~5d10}||valper=900|
+13,Spore/B - a biological weapon, Spore/B uses Bothan stun spores. Spore/B is launched in a canister projectile, and when inhaled it causes unconsciousness.
+_|contain=15||quant={Dice~5d10}||valper=850|
+14,T-238 - a chemical weapon that induces severe nausea when dispersed.
+_|contain=15||quant={Dice~5d10}||valper=650|
+15,Thetametabuterin - this tasteless, chemical powder was used by the best poisoners in the galaxy. When added to certain meats, like the flesh of the Wroonian flycatcher, it could create a subtle poison that affected the mental stability of a human eater.
+_|contain=13||quant={Dice~5d10}||valper=750|
+16,Obah Gas - this nerve gas causes permanent nervous system disability in creatures smaller than Wookiees or Trandoshans.
+_|contain=15||quant={Dice~5d10}||valper=900|
+17,Rokna Blue - this deadly poison is collected from the rokna tree on the Forest Moon of Endor. In very small quantities, it can induce exquisite states of bliss in its users. A microgram can cause death, so the recreational use of rokna blue is highly dangerous. Prolonged use of rokna blue causes severe memory loss.
+_|contain=15||quant={Dice~5d10}||valper=1000|
+
+:Solvent
+1,Berko-8 - this is a high-quality solvent used to cleanse the valve nozzles on the blaster-gas canisters.
+2,Fettzoil - Droid de-greasing oil.
+3,Swab-n-Glo - Starship cleaning agent.
+4,Rug Refresh - Non-toxic carpet cleaner. Good for Wookies too.
+
+:Adhesive
+1,Instant Adhesive - this bonding agent claimed to be able to secure two materials together with amazing adhesive properties.
+2,Pohl - a form of adhesive used in securing optical components, such as focusing lenses and beam gems.
+3,Polydex-9 - this substance is the only known compound that can fully repair the magnetic bottle on a starship's drive.
+4,Spatch-Cote - a substance carried on most small starships. It is used to fill and seal small hull dmage.
+
+:Controlled
+1,Mirth Gas - this gas is used to immobilize beings by causing them to view everything as funny and without care.
+_|contain=15||quant={Dice~5d10}||valper=1000|
+2,Regvis - this element is a key component of the truth serum Bavo Six.
+_|contain=15||quant={Dice~5d10}||valper=800|
+3,Rush Gas - this chemical is used in warfare to disable an enemy from afar.
+_|contain=15||quant={Dice~5d10}||valper=900|
+4,R7Bo3Kr2 - this is the most probable elemental composition of the truth serum Bavo Six.
+_|contain=15||quant={Dice~5d10}||valper=800|
+5,Dontworry - an illegal hallucinagenic drug.
+_|contain=13||quant={Dice~5d10}||valper=3000|
+6,Andris - this white spice variety is found on the planet Sevarcos. It is much more abundant than the black, Carsunum variety. Andris is used as a flavor enhancer and preservative, although it has been claimed that the spice can induce euphoric feelings. It was discovered that andris which was stored in deep, intense cold had enhanced effects.
+_|contain=22||quant={Dice~5d10}||valper=3500|
+7,Avabush Spice - a spice which acts as a truth serum. When administered, it induces sleepiness in the patient. It comes from a thorny plant.
+_|contain=13||quant={Dice~5d10}||valper=1500|
+8,Bavo Six - this truth serum is used by IT-0 interrogation droids. It is administered with a greatly-enlarged needle, to increase the fear of the prison and make the serum work better and faster. It is a compound of regvis and bospridium, with trace elements in the composition R7Bo3Kr2. It induces paranoia and visual exaggeration, causing the victim to become afraid of everything.
+_|contain=15||quant={Dice~5d10}||valper=8000|
+9,Black Hole - a highly-hallucinogenic drug used by Emperor Palpatine to discover the fears of alien races.
+_|contain=15||quant={Dice~5d10}||valper=5000|
+10,Brain-jagger - an addictive stimulant and hallucinogen.
+_|contain=15||quant={Dice~5d10}||valper=4000|
+11,Carsunum - this rare, black form of spice is mined on Sevarcos. When consumed, it induces a feeling of euphoria and heightened abilities. When the effects wear off, the user experiences lethargy and listlessness. The spice also has a toxic effect on the user’s metabolism, and withdrawal often results in death because the body can’t react fast enough to the change.
+_|contain=13||quant={Dice~5d10}||valper=6000|
+12,Chak-root - this bright green, fern-like plant is native to the planet Erysthes. The plant’s large, reddish roots are dried and ground up to make an illegal substance often smuggled for a large profit. It is used for smoking or chewing, much like tobacco.
+_|contain=13||quant={Dice~5d10}||valper=1500|
+13,Eldratz - this form of spice is so deadly that even the Hutts refuse to sell it.
+_|contain=13||quant={Dice~5d10}||valper=800|
+14,Glitterstim - the form of spice mined on Kessel, it is a byproduct of the digestion of the spice grub. In its inert form, it is carried in small, transparent, black fibers. The fibers are almost alive, and twist and curl after being removed from their rocky veins. It takes a delicate hand to uncurl the fibers, because - although they are flexible - are also very brittle. Individual fibers are stored in light-tight containers. This work is time- and labor-intensive, and contributes directly to the high cost of glitterstim on the market. When exposed to light it ripens, becoming a pearly-blue color when ready for use. When consumed, it crackles and sparks due to contact with the light and saliva. It is the only known form of spice which heightens the user's latent mental powers. A user who consumes too much glitterstim often goes blind, and the substance is known to drive a Bith mad.
+_|contain=13||quant={Dice~5d10}||valper=8000|
+15,Gree Spice - a purple form of the sensory-enhancing spice.
+_|contain=13||quant={Dice~5d10}||valper=4000|
+16,Gy'lan Spice - one of the many forms of illegal, addictive spice.
+_|contain=13||quant={Dice~5d10}||valper=3000|
+17,Hokuum - this stimulating drug causes its users to kill each other after about three days of use.
+_|contain=13||quant={Dice~5d10}||valper=1500|
+18,Hypospray - a drug used by the Ssi-ruuk to hypnotize their captives.
+_|contain=15||quant={Dice~5d10}||valper=3000|
+19,Lesai - a highly-addictive, very illegal drug produced in the Zebitrope System, lesai is created from the purple mold which grows on the back of a certain species of lizards on Zebitrpoe IV. The drug has a number of properties. It can eliminate the need for sleep in humans, as well as extending their lifespan by one-third. It also doesn't affect the human brain, so the hallucinations and delusions that result from other drugs is avoided. However, the drug makes its addicts very mechanical and amoral. They act without emotion, and don't have any care as to the consequences of their actions.
+_|contain=13||quant={Dice~5d10}||valper=4000|
+20,Lotiramine - this substance is often used by crimelords to keep their subordinates from revealing too much information if arrested or captured. By itself, lotiramine is harmless. However, when it interacts with certain interrogation drugs, such as skirtopanol, the combination induces chemical amnesia. If too much of one or the other is taken or administered, the prisoner can die of the chemical interaction, which can take the form of severe convulsions or internal hemorraging.
+_|contain=15||quant={Dice~5d10}||valper=4500|
+21,Love-Wallop - a drug dispensed in pill form used as an aphrodisiac.
+_|contain=13||quant={Dice~5d10}||valper=1500|
+22,Lumni-spice - the rarest form of spice in the galaxy, it is found only on Hoth, deep in the caves of the dragon-slug. The combination of Hoth's environment and the presence of the dragon-slug make lumni-spice difficult to harvest and expensive to purchase.
+_|contain=13||quant={Dice~5d10}||valper=10000|
+23,Magsol - a drug used by the Ssi-ruuvi to help attune a human brain to their entechment chairs. It allows them to electromagnetically capture brain energy.
+_|contain=15||quant={Dice~5d10}||valper=4000|
+24,Marcan Herb - this dried plant material is often used by Hutts in their water hookahs. It induces a mildly euphoric feeling.
+_|contain=13||quant={Dice~5d10}||valper=2000|
+25,Narco-spice - a highly-addictive form of spice which found widespread use in the Minos Cluster.
+_|contain=13||quant={Dice~5d10}||valper=3500|
+26,Oobalah - this illegal substance was consumed by many inhabitants of the planet Corellia.
+_|contain=13||quant={Dice~5d10}||valper=2000|
+27,OV600 - this truth serum, created by ‘Geneering Products, detects the physical symptoms of a lie and reacts to them. OV600 causes the victim’s flesh to break out in a painful rash. If the lies are strong enough, the drug has the capabability to induce so much pain that the victim dies.
+_|contain=15||quant={Dice~5d10}||valper=7500|
+28,Pryodase - this synthetic drug is used as a mood enhancer, and was extremely effective for lowering the guard of an individual. For a time, it was used extensively at Coruscant dinner parties among the nobility, as a way to counteract the increase in duels. It was non-addictive.
+_|contain=15||quant={Dice~5d10}||valper=3000|
+29,Pryodene - this is a synthetic, mood-enhancing drug.
+_|contain=13||quant={Dice~5d10}||valper=2500|
+30,Pyrepenol - this drug is often used by addicts and other abusers. It often helps make the user feel invincible, ready to take on the very Fates that control his or her life.
+_|contain=15||quant={Dice~5d10}||valper=3000|
+31,Ryll - a mineral that generates a type of spice, but not the same variety as glitterstim. It is mined on the planet Ryloth, and is used in a number of medicinal ways. It is also illegally smuggled around the galaxy as a recreational drug. In any form or usage, ryll is highly addictive and very dangerous.
+_|contain=13||quant={Dice~5d10}||valper=6000|
+32,Savorium - A large, tree-like plant with leaves which, when consumed, produce the illusion of rapture. The users of the drug, known as Smilers, are locked in a perpetual state of bliss, and often require protection.
+_|contain=13||quant={Dice~5d10}||valper=4500|
+33,Skirtopanol - a drug which is used to reduce a prisoner's resistance to any interrogation. When it reacts with the drig lotiramine, it causes chemical amnesia and, sometimes, death in the prisoner.
+_|contain=15||quant={Dice~5d10}||valper=7500|
+34,Sweetblossom - this flower’s extract, while not addicting, is often used by drug addicts who wish to escape from life. It causes the user to be completely aware of their surroundings, but gives them a "who cares...I’l take care of it tomorrow" attitude.
+_|contain=13||quant={Dice~5d10}||valper=3500|
+35,Tehno-root - the extract of this plant is used as a mind-altering drug in some areas of the galaxy.
+_|contain=13||quant={Dice~5d10}||valper=2500|
+36,Telezan - a depressant drug.
+_|contain=13||quant={Dice~5d10}||valper=1500|
+37,Thionarx - an illegal substance sold in the Corporate Sector.
+_|contain=13||quant={Dice~5d10}||valper=2000|
+38,Tirefin - this is a valuable form of spice.
+_|contain=13||quant={Dice~5d10}||valper=3000|
+39,Waste-It - this form of narcotic drug was available in the form of sticks.
+_|contain=13||quant={Dice~5d10}||valper=4000|
+40,Werrjuice - an extremely potent narcotic.
+_|contain=15||quant={Dice~5d10}||valper=3000|
+41,Yarrock - an addictive, hallucinogenic drug.
+_|contain=13||quant={Dice~5d10}||valper=2500|
+
+:Medicinal
+1,Chromostring - this patented synthetic chemical was created by BioTech, and is used in synthflesh. It quickly determines the victim’s genetic structure and modifies itself to match it. This allows skin grafts to grow quicker, and greatlt reduces the chance of rejection.
+_|contain=15||quant={Dice~5d10}||valper=3500|
+2,Kavam - this chemical is essential to the creation of bacta. It works with alazhi to form the thick, healing fluid.
+_|contain=15||quant={Dice~5d10}||valper=4000|
+3,Lu-ramin - this oil is mined in the Grythsurin canyon of the planet Ebra. It is vital in the production of certain medicines, and is a primary component in Ebran L-uramin Oilmead.
+_|contain=15||quant={Dice~5d10}||valper=2000|
+4,A Vrassa - this pleasure-causing drug is standard in most medical kits.
+_|contain=15||quant={Dice~5d10}||valper=2500|
+5,Dipill - a stress-reliever
+_|contain=13||quant={Dice~5d10}||valper=3000|
+6,Antishock - a drug administered to counteract the effects of physical shock or trauma.
+_|contain=15||quant={Dice~5d10}||valper=3500|
+7,Clondex - this medicine was instrumental in keeping the sufferers of Zithrom's Disease alive, although the drug was not a cure.
+_|contain=15||quant={Dice~5d10}||valper=5000|
+8,Comaren  - a re-orientive drug.
+_|contain=15||quant={Dice~5d10}||valper=1500|
+9,Conergin - this medicinal drug is a strong anesthetic.
+_|contain=15||quant={Dice~5d10}||valper=1500|
+10,Cordine - this medicine is often administered via a patch applied to the skin. It is prescribed for patients of Zithrom's Disease, to help hold off the degenerative effects of the disease.
+_|contain=13||quant={Dice~5d10}||valper=4000|
+11,Endogenous Steroid - this body-enhancing medicine is used to help elderly patients build up their strength while fighting diseases such as Zithrom's Disease.
+_|contain=15||quant={Dice~5d10}||valper=4500|
+12,Gylocal - a powerful pain-killing drug and stimulant. It is manufactured from highly-toxic materials, and decomposes into its components after ten years.
+_|contain=13||quant={Dice~5d10}||valper=5000|
+13,Hypnocane - a pain-killing drug that also helps doctors soothe a patient by inducing a semi-hypnotic trance state.
+_|contain=15||quant={Dice~5d10}||valper=4000|
+14,Nyex - a sleep-inducing drug.
+_|contain=13||quant={Dice~5d10}||valper=1500|
+15,Obliviane - this medical drug is used to keep severely-injured patients in a quiet state of unconsciousness while their injuried heal.
+_|contain=15||quant={Dice~5d10}||valper=2000|
+16,Paravacc 1.X - this parasite-repelling vaccine was developed by Uukaablian MedCorp. The vaccine is transported in a cylinder of polished metal. One end of the cylinder is placed against a victim’s neck, and a stud at the other end injects the vaccine. Paravacc 1.X causes a slightheadache, but other ill effects are encountered if used as directed. Prolonged use (more than three consecutive days) has been found to cause damaging effects on the user’s nervous system.
+_|contain=15||quant={Dice~5d10}||valper=3000|
+17,Perigen - a non-narcotic painkiller which reduces concentration as a side-effect.
+_|contain=13||quant={Dice~5d10}||valper=2000|
+18,Phosovane Salts - this substance is used as a base for creating painkillers, and was created on Attahox.
+_|contain=13||quant={Dice~5d10}||valper=1000|
+19,Pleezer - this pleasure-inducing drug is often found in medical kits.
+_|contain=15||quant={Dice~5d10}||valper=3500|
+20,Stimpills - drugs that stimulate the body and keep the user awake
+_|contain=13||quant={Dice~5d10}||valper=1500|
+21,Alazhi - this organic material, grown by the Vratix on Thyferra, is the primary component that is refined into bacta.
+_|contain=13||quant={Dice~5d10}||valper=4000|
+22,Bonemer - a synthetic material used to replace, repair, or augment natural bone tissue.
+_|contain=13||quant={Dice~5d10}||valper=3000|
+
+:Legal
+1,Armudu Spice - an additive that compliments the flavor of the carababba tabac.
+_|contain=13||quant={Dice~5d10}||valper=450|
+2,Bassel Sea Salt - this is a strong form of salt-like spice.
+_|contain=13||quant={Dice~5d10}||valper=300|
+3,Boonta Spice - a heavy spice used in Giju stew.
+_|contain=13||quant={Dice~5d10}||valper=350|
+4,Carababba tabac - dried leaves of the Carababba plant for smoking
+_|contain=13||quant={Dice~5d10}||valper=500|
+5,Cigarillo - a small Star Wars cigarette.
+_|contain=13||quant={Dice~5d10}||valper=350|
+6,Cigarra - a Star Wars cigarette
+_|contain=13||quant={Dice~5d10}||valper=400|
+7,Ju powder - a spice used to modify the taste of aric tongue.
+_|contain=13||quant={Dice~5d10}||valper=450|
+8,Promhassic Triaxli - this is a harmless, legal substance imported to many industrial worlds.
+_|contain=13||quant={Dice~5d10}||valper=400|
+9,Serrian Salt - a strong spice.
+_|contain=13||quant={Dice~5d10}||valper=450|
+10,SoroSuub Chew - this tobacco-like substance was produced in a chewable form favored by the pirate Quist. 
+_|contain=13||quant={Dice~5d10}||valper=500|
+11,T'bac - a leaf that is dried and smoked for the nic-i-tain rush it provides.
+_|contain=13||quant={Dice~5d10}||valper=300|
+12,Tomo - this spice is often used to season karkan ribenes.
+_|contain=13||quant={Dice~5d10}||valper=350|
+
+;Material
+5,[IndustrialMetal]|contain=15||quant={Dice~5d10}||valper=1000||value=%quant%||value*%valper%|
+1,[StrategicMetal]|contain=15||quant={Dice~5d10}||valper=3000||value=%quant%||value*%valper%|
+5,[BuildingMaterial]|contain=15||quant={Dice~5d10}||valper=800||value=%quant%||value*%valper%|
+3,[OtherMaterial]|contain=6||quant={Dice~5d10}||value=%quant%||value*%valper%|
+
+:IndustrialMetal
+1,Duralloy - a metal that is used to plate starship hulls.
+2,Duranium - a metal with an incredibly high tensile strength, often used to make the bars for prison cells or cages.
+3,Ditanium - a natural element used in the armor-like plating that covers military buildings.
+4,Dolovite - a metal mined on Nkllon
+5,Doonium - a heavy metal used by the Empire in most of the construction of its war machines.
+6,Alumabronze - an alloy used in making door casings and other interior structures.
+7,Alusteel - an alloy used in making starship hulls.
+8,Burthan - this element is often extruded into thin threads, which are used to reinforce metals and ferrocrete structures. It is a light-weight material.
+9,Ceramisteel - this hard, dense material is manufactured for use in starship hulls.
+10,Cerillium - this metallic compound is often used in droid plating, especially for droids designed for combat. It has a dark, lustrous appearance.
+11,Codoran - this valuable metal was often used in jewelry.
+12,Flexsteel - a material that has metallic characteristics, but is very plaible as well. It is often used to make flexcord, and was used by Beryl Chiffonage to form the tow cable of a power harpoon. It is often referred to as flexi-steel.
+13,Hfredium - one of the primary metals mined on Nkllon by the Nomad City Mining Company. Hfredium could also be found in certain asteroid belts, such as Tava Yagen.
+14,Kammris - a metal mined on Nkllon.
+15,Kelsh - a bronze-colored metal often used to decorate clothing.
+16,Kiirium - a very common metal used in the formation of artificial shielding, kiirium is transported in large ingots for smelting.
+17,Meleenium - found only on the planet Af'El, meleenium is the primary component of durasteel.
+18,Mullinine - a metallic substance which holds an edge extremely well.
+19,Mythra - this is a valuable metal often used in jewelry settings.
+20,Neutronium - an heavy metallic element used in the formation of dura-armor and durasteel.
+21,Protosteel - a material used to build the hulls of large starships.
+22,Quadanium Steel - a dense, strong alloy of steel used in starship hulls.
+23,Rhodium - this metal is used to plate weapons.
+24,SlipSheet - this thin sheet of metal has many uses.
+25,Synth-steel - a material used in construction, synth-steel was as strong as pure steel, but less costly.
+
+:StrategicMetal
+1,Durinium - this alloy is resistant to sensor scans, and is valued by smugglers for lining suitcases and small hiding areas.
+2,Di-crome - this reflective material is often used on camouflage coverings, such as tents and shelters. When inert, a fabric impregnated woth di-crome reflects all light around it. When electrically charged, however, the di-crome coating absorbs ambient light. The fabric then appears to take on an exact duplicate of the environment around it, blending in and becoming almost imperceptible.
+3,Dolfrimia - a valuable substance often smuggled around the galaxy.
+4,Bronzium - this metal was quite dense, and was often used in the creation of structures where radiation might be a threat. One of is most prominent uses was in the case-hardened bulbs which held the reactor core of the Trade Federation’s droidekas.
+5,Byrothsis - in its natural form, byrothsis is extremely rare. It was used to build infrared camera lenses, but it forced camera manufacturers to charge large sums of credits for their cameras. ResSystems discovered how to create synthetic byrothsis, and allowed the use of the element in more esoteric applications.
+6,Carbonite - a strong metal alloy used to preserve Tibanna gas and other valuable materials.
+7,Ferro-magnesium Ceramic - a metallic-based colloid used in the hulls of ships which must pass through a planet's atmosphere, such as emergency life pods.
+8,Mandalorian Iron - a metal that is virtually indestructible, even to a lightsaber blade. Jedi Master Arca hid Freedon Nadd's Sith artifacts in a storehouse built from Mandalorian Iron in an effort to seal it forever, but Exar Kun used the Dark Side of The Force to penetrate it.
+9,Phobium - a metal that was used to coat the power core of the Death Star. It is mined on the planet Gargon.
+10,Quadranium - this incredbily strong and durable element was used in the manufacture of starship fuel tanks.
+11,Reflec - this substance is used by many commando groups to plate their armor suits. Reflec has the natural ability to absorb the energy waves emitted by most sensors, effectively removing the substance from a sensor sweep. When coated with a fine mesh of reflec, personal body armor is virtually undetectable, as are the life signs of the wearer. Imperial commandos were among the prime users of reflec plating.
+12,Trimantium - this material is used to plate starship hulls. It is extremely durable, and provides a great deal of protection when used in combination with shields.
+13,Ytterbium - a key element in the production of laser cannons, much of the galaxy's ytterbium came from the Sarrahban System.
+
+:BuildingMaterial
+1,Duracrete - a building material that can be poured into forms. It then hardens into a nearly impervious surface.
+2,Durasteel - a building material created from lommite, meleenium, neutronium, and zersium.
+3,Allacrete - this bulding material was strong yet lightweight, being composed of synthetic concrete and aluminum.
+4,Ferrocarbon - this incredibly strong, durable material was used to form the deepest structural sections of the buildings on Coruscant.
+5,Ferroconcrete - a material used to form walkways, ferrocrete is made from a mixture of concrete and steel-like materials which are bonded at the molecular level.
+6,Fiberplast - this incredibly strong material is used to make doors and other building materials.
+7,Flowstone - a building material
+8,Formex - a surfacing material used on spaceport landing pads and on roads.
+9,Permacite - a building material.
+10,Permacrete - a building material. 
+11,Permex - a building material.
+12,Plasteel - a building material.
+13,Plasticrete - a building material which uses crushed stone and plastic polymers to create strong yet flexible structures.
+14,Pourstone - a building material used whenever speed was required in erecting a structure. It could be poured into virtually any shape, and maintained structural strength in many forms. It was often used in desert or cold environments, since it had excellent insulating properties.
+
+:OtherMaterial
+1,Durafab - a strong fabric used to make tents and portable shelters.|valper=800|
+2,Duranex - this strong, lightweight material is used in the creation of jumpsuits and work coveralls. It is very tough, and withstands the harshest uses.|valper=800|
+3,Duraplas - a material used to make protective gear such as helmets and light armor.|valper=800|
+4,Duraplast - this strong, lightweight material is used to manufacture shipping crates.|valper=800|
+5,Duraplex - this strong, transparent material is used for windscreens on landspeeders and swoops.|valper=800|
+6,Durasheet - a strong paper-like substance.|valper=800|
+7,Duroplastic - a high-density plastic.|valper=800|
+8,Denscris - a material with an incredibly high melting point.|valper=800|
+9,Carbon Glass - this tough, resilient material is used to create transparent partitions.|valper=800|
+10,Ceraglass - a transparent ceramic alloy that is extremely tough and durable, ceraglass is often used for viewports in military land vehicles like the Mekuun Hoverscout.|valper=800|
+11,Flimsiplast - this material resembles sheets of plastic that can be written on. Used for conveying messages, flimsiplast can be impregnated with chemicals that allow the writing to remain hidden until it contacts a being’s specific chemical makeup. It can also be set to burn up after the message has been activated, thereby ensuring the message is read and them destroyed.|valper=800|
+12,Glassine - a material used to form starship viewports.|valper=800|
+13,Impervium - a brand-name of the plasteel used to create stormtrooper armor. It is designed with extra-vehicular safety in mind. Thus, only glancing bolts from a blaster are deflected. Any direct hits pass right through it.|valper=1500|
+14,Lexoplast - a durable, stain-repellant substance used for kitchen counters and bars.|valper=800|
+15,Loveti Moth Fiber - this sheer, lightweight material is very expensive, and is used to create some of the galaxy's most beautiful dresses.|valper=4000|
+16,Malium - this trace element is found only on the planet Cerea. It exists in the atmosphere in just a few parts per trillion, but this concentration is just right for the growth of tecave. The export of malium from Cerea is prohibited, but an underworld business in its collection sprung up when offworlders discovered the euphoric effects of guilea, which is made from tecave.|valper=800|
+17,Naorstrachem - this substance is highly flexible, and is often used in netting or webbing. Synthetic naorstrachem was used by Merr-Sonn to fabricate the webbing shot from the Tangle Gun 7. The synthetic form combined more readily with the shrinking agent required to contract the webbing around the target.|valper=800|
+18,Neocel - a thin material which is used to make heat-retaining bodysuits. It can also be extruded into thin fibers for use in carpeting.|valper=800|
+19,Plasarmor - this material was used to create the armor worn by Imperial stormtroopers.|valper=800|
+20,Plasboard - this is a building material made from a combination of wood, paper, and plastic.|valper=800|
+21,Plascloth - this material was woven from specially-formulated plastic fibers, and resembled thick cloth. It was used to form the wings of paragliders and other similar vehicles.|valper=800|
+22,Plast - a lightweight, multi-purpose material.|valper=800|
+23,Plastene - a sturdy material used to make anything from drink cups to work clothes.|valper=800|
+24,Plastine - a substance used to create vacuum-seal storage pouches.|valper=800|
+25,Plexi - a transparent material used in windows.|valper=800|
+26,Polyfibe - an inexpensive fabric used to make cheap clothing.|valper=800|
+27,Polyweave - a strong material used to make protective straps and belts for starfighter cockpits.|valper=800|
+28,Transparisteel - the strong, clear material used for windows on spaceships. It has the unique property of adjusting to the external lighting conditions, darkening the light is brighter and clearing when the light is lower.|valper=1200|
+

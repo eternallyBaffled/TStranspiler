@@ -1,0 +1,1905 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder May 23, 2018.
+# ---------------------------------------------------
+#
+# Pathfinder Feats, by Larry Cormier.
+#
+# For single class characters ... and Core Rule Feats Only ... for now.
+#
+# This table is called by "NPC Stat Block Pathfinder.tab"
+#
+# -------------------------------------------------------------------------
+#
+# If you add something new, search for:
+#    Class : ### NEW CLASS ###
+#    Race  : ### NEW RACE ###
+#
+# -------------------------------------------------------------------------
+#
+# To call this table from another one:
+#    [Pathfinder Feats.GenerateFeats(%Race%,%Class%,%CharacterLevel%,
+#     %STR%,%DEX%,%CON%,%INT%,%WIS%,%CHA%,%MeleeWeaponID%,99,99,2,,,%LeadershipFeat%,%ExpertTypeCode%,%FeatOption%,%Valminder%)
+#
+#                        ### NEW RACE ###
+#    Race:          20   1=Human  2=Dwarf  3=Elf  4=Gnome  5=Half-Elf  6=Half-Orc  7=Halfling
+#                        8=Aasimar  9=Drow  10=Drow Noble  11=Duergar  12=Goblin  13=Hobgoblin  14=Kobold  15=Merfolk  16=Orc  17=Svirfneblin  18=Tengu  19=Tiefling
+#                        20=RANDOM
+#    Subrace:       99   DO NOT MODIFY: Used with "NPC Stat Block Pathfinder"
+#                        ### NEW CLASS ###
+#    Class:         17   1=Fighter  2=Barbarian  3=Bard  4=Cleric
+#                        5=Druid  6=Monk  7=Paladin  8=Ranger  9=Rogue
+#                        10=Sorcerer  11=Wizard  12=Adept  13=Aristocrat
+#                        14=Commoner  15=Expert  16=Warrior 17=Random
+#    CharacterLevel 20   Enter character level 1-20.
+#    STR:           99   Input Strength
+#    DEX:           99   Input Dexterity
+#    CON:           99   Input Constitution
+#    INT:           99   Input Intelligence
+#    WIS:           99   Input Wisdom
+#    CHA:           99   Input Charisma
+#    MeleeWeaponID: 99   (DO NOT CHANGE) Only used when called from Stats
+#                        Block Generator.
+#    SendBAB:       99   (DO NOT CHANGE) Only used when called from another
+#                        table. Useful when creating feats for multiclass.
+#                        99: This table determines the BAB.
+#    SendNumFeats:  99   (DO NOT CHANGE) Only used when called from another
+#                        table. Useful when you need a fixed number of feat.
+#                        Input the type of class above to choose the kind of
+#                        feats.
+#                        99: This table determines the number of base feats.
+#    SetWeaponFocus: 1   Choose the weapon of Weapon Focus
+#                        1=Yes, 2=No
+#    ExtraFeats:     0   (DO NOT CHANGE) (Feat) Only used when called from another table.
+#                        This adds an extra number of random feats.
+#    ClassFeats:    99   (DO NOT CHANGE) (Feat) Only used when called from another table (mainly NPC Stat Block Pathfinder to
+#                        send class feats chosen in it.
+#                        Feats chosen in another program and forced into this one (ex: Ranger/Monk Class Feats from "NPC Stat Block Pathfinder")
+#    LeadershipFeat: 1   Allows Leadership feat.
+#                        1=Yes, 2=No
+#    ExpertTypeCode: 1    --- DO NOT MODIFY used with NPC Stat Block Pathfinder (from UltNPC1).
+#                        ### NEW CLASS ### Expert (New Type)
+#                        1=Random    2=Standard    3=Blacksmith    4=Courtesan  5=Fence
+#                        6=Jeweller  7=Pawnbroker  8=Sage_Scholar  9=Locksmith 10=Merchant
+#    FeatOption:     1   Choose Feats options:
+#                        1= Standard PF
+#                        2= 1/level (PCs only)
+#                        3= 1/level (Only 1% of heroic NPCs)
+#                        4= 1/level + racial at levels 3-6-9-12-15-18 (PCs only)
+#                        5= 1/level + racial at levels 3-6-9-12-15-18 (Only 1% of heroic NPCs)
+#    AL:            99   (DO NOT CHANGE) Sends Alignment for some feat requirements.
+#    Valminder:      3   Apply Valminder's modifications? Feat options will be (3)
+#                        1=Yes   2=No   3=LOAD from Permanent Variables
+#
+# -------------------------------------------------------------------------
+# This Table Links to these tables as required:
+#    Equipment.tab  (ExoticWeaponsList / MartialWeaponsList / MeleeDescription=%MeleeWeaponID% / SimpleWeaponsList)
+#    NPC Stat Block Pathfinder.tab (FighterBonusFeats / DetermineBonusWizardFeats2)
+#    Pathfinder Skills.tab (SkillsList)
+#
+# -------------------------------------------------------------------------
+# This table is called by:
+#    Animal Companion Pathfinder.tab
+#    NPC Stat Block Pathfinder.tab
+#
+# -------------------------------------------------------------------------
+#
+# Modified by Valminder, March 2006.
+#    This table was taken from the Stats Block generator by Larry Cormier.
+#    Adapted for TSv5.
+#    Heavily modified.
+#    Now adds +1 feat for humans.
+#
+# Modified by Larry Cormier, February 2013.
+#    Adapted to work with the Pathfinder Stat Block Table
+#
+# Modified by Larry & Vance (Mostly Vance) to create a more streamlined
+#    Table to provide usable Pathfinder Feats
+#
+# Modified by Larry, March 2013 (As suggested by Vance) to 'Make a more
+#    Believable Character', by weighing the probabilities of which Feats
+#    are regularly called, therefore forcing the table to lean towards
+#    viable usage as dictated by the fact that some of the 'Higher' feats
+#    require more specific prerequisites before they really become available,
+#    as opposed to just rolling up the optional Feats completly randomly.
+# Modified by Valminder Jan 2017
+#    Fixed: Extra Ki/Performance/Rage
+#    Number of Feats were not calculated correctly.
+#    Added "Channel" variable for Clerics and Paladins
+# Modified by Valminder Jan 2017
+#    Added a maximum of "Skill Feats".
+# Modiied by Valminder Sep 2017
+#    Added Animal Companion
+# Modidied by Valminder Jan 2018
+#    Necromancer (Wizard) : Channel=2
+# Modidied by Valminder Mar 2018
+#    ALTERNATE: Feats 1/level
+#                        1/level + racial at 3-6-9-12-15-18
+#       Added Racial Feats.
+#       Added Alternate Item Creation feat Rules (Valminder=Yes must be activated)
+#
+
+# TEST
+%TestTable%,0
+%TestLog%,0
+
+%AL%,99
+%AllKnowledge%,No
+%Arcane%,0
+%BAB%,0
+%BAB1%,0
+%BAB2%,0
+%BAB3%,0
+%BAB4%,0
+%BonusFeatsFTR%,0
+%BonusFeatsWIZ%,0
+%BullRushFlag%,0
+%Channel%,0
+%CharacterLevel%,1
+%Class%,0
+%ClassFeats%,0
+%CommaFlag%,0
+%Count%,0
+%CountF%,0
+%CriticalFocus%,0
+%Divine%,0
+%DwarfSkillFocusDUN%,0
+%DwarfSkillFocusCRA%,0
+%ExpandedResistance%,0
+%ExpertTypeCode%,0
+%ExtraFeats%,0
+%Feat%,0
+%FeatsAll%,0
+%FeatsCount%,0
+%FeatLook%,0
+%FeatOption%,1
+%FeatsString%,0
+%FindCautiousFighter%,No
+%FindPowerAttack%,No
+%GreaterWeaponFocusFlag%,0
+%HumanSkillFocus%,0
+%HumanSkillMastery%,0
+%HumanSkillPerfection%,0
+%InputValue%,0
+%LeadershipFeat%,1
+%MeleeWeaponID%,0
+%ParamClass%,0
+%ParamRace%,0
+%ProficientWeapons%,0
+%Pos%,0
+%Race%,0
+%RacialCount%,0
+%RacialStartingFeats%,0
+%Result%,0
+%ResultRange%,0
+%SendBAB%,0
+%SendNumFeats%,0
+%SetWeaponFocus%,0
+%SkillFeats%,0
+%SpellCasterFlag%,0
+%SpellSchool%,0
+%StartingFeats%,0
+%StartingValue%,0
+%Subrace%,0
+%Temp%,0
+%TwoWeaponFlag%,0
+%ImprovedTwoWeaponFlag%,0
+%Valminder%,0
+%WeaponFocusFlag%,0
+%WeaponFocusWpn%,0
+%WeaponNewE%,0
+%WeaponNewM%,0
+%WeaponNewS%,0
+%WeaponSpecial%,0
+
+# To determine the Weapon Focus
+# This is to store the "Proficient Weapons"
+%Weapon1%,0
+%Weapon2%,0
+%Weapon3%,0
+%Weapon4%,0
+%Weapon5%,0
+%Weapon6%,0
+%Weapon7%,0
+%Weapon8%,0
+%Weapon9%,0
+%Weapon10%,0
+%Weapon11%,0
+%Weapon12%,0
+%Weapon13%,0
+%Weapon14%,0
+%Weapon15%,0
+%Weapon16%,0
+%Weapon17%,0
+%Weapon18%,0
+%Weapon19%,0
+%Weapon20%,0
+%Weapon21%,0
+%Weapon22%,0
+%Weapon23%,0
+%Weapon24%,0
+%Weapon25%,0
+%Weapon26%,0
+%Weapon27%,0
+%Weapon28%,0
+# This is for Martial Weapons
+%Weapon29%,0
+# This is for Simple Weapons
+%Weapon30%,0
+
+%STR%,10
+%DEX%,10
+%CON%,10
+%INT%,10
+%WIS%,10
+%CHA%,10
+%STRBonus%,0
+%DEXBonus%,0
+%CONBonus%,0
+%INTBonus%,0
+%WISBonus%,0
+%CHABonus%,0
+
+################ Reset Race to 8, Character level to 20 and Class to 12 when done #################
+# PFB1:   8=Aasimar  9=Drow  10=Drow Noble  11=Duergar  12=Goblin  13=Hobgoblin  14=Kobold  15=Merfolk  16=Orc  17=Svirfneblin  18=Tengu  19=Tiefling
+
+### NEW RACE ###
+# PFCore: 1=Human  2=Dwarf  3=Elf  4=Gnome   5=Half Elf  6=Half Orc   7=Halfling  
+# PFB1:   8=Aasimar  9=Drow  10=Drow Noble  11=Duergar  12=Goblin  13=Hobgoblin  14=Kobold  15=Merfolk  16=Orc  17=Svirfneblin  18=Tengu  19=Tiefling
+# 20=RANDOM
+@Race,20,Please choose a Race (Groups are usually random),Human,Dwarf,Elf,Gnome,Half Elf,Half Orc,Halfling,Aasimar,Drow,Drow Noble,Duergar,Goblin,Hobgoblin,Kobold,Merfolk,Orc,Svirfneblin,Tengu,Tiefling,Random
+@Subrace,99,DO NOT MODIFY: Used with "NPC Stat Block Pathfinder"
+### NEW CLASS ### Set random
+# 17
+@Class,17,Choose a Class,Fighter,Barbarian,Bard,Cleric,Druid,Monk,Paladin,Ranger,Rogue,Sorcerer,Wizard,Adept,Aristocrat,Commoner,Expert,Warrior,Random
+@CharacterLevel,20,Enter the Character Level.
+@STR,99,Input Strength
+@DEX,99,Input Dexterity
+@CON,99,Input Constitution
+@INT,99,Input Intelligence
+@WIS,99,Input Wisdom
+@CHA,99,Input Charisma
+@MeleeWeaponID,99,(DO NOT CHANGE) (WPN) Only used when called from Stats Block Generator.
+@SendBAB,99,(DO NOT CHANGE) (BAB) Only used when called from another table.
+@SendNumFeats,99,(DO NOT CHANGE) (Feat) Only used when called from another table. 
+@SetWeaponFocus,1,Choose the weapon of Weapon Focus,Yes,No
+@ExtraFeats,0,(DO NOT CHANGE) (Feat) Only used when called from another table.
+# Feats chosen in another program and forced into this one (ex: Ranger/Monk Class Feats from "NPC Stat Block Pathfinder")
+@ClassFeats,99,(DO NOT CHANGE) (Feat) Only used when called from another table.
+@LeadershipFeat,1,Allow the Leadership feat? (Always NO for cohorts or group of NPCs),Yes,No
+### NEW CLASS ### Expert (New Type)
+# 1=Random    2=Standard    3=Blacksmith    4=Courtesan  5=Fence
+# 6=Jeweller  7=Pawnbroker  8=Sage_Scholar  9=Locksmith 10=Merchant
+@ExpertTypeCode,1,Expert type --- DO NOT MODIFY used with NPC Stat Block Pathfinder (from UltNPC1).,Random,Standard,Blacksmith,Courtesan,Fence,Jeweller,Pawnbroker,Sage_Scholar,Locksmith,Merchant
+# 1
+@FeatOption,2,Choose Feats options.,Standard Pathfinder,1/level (PCs only),1/level (only 1% for Heroic NPCs),1/level + racial at levels 3-6-9-12-15-18 (PCs only),1/level + racial at levels 3-6-9-12-15-18 (only 1% for Heroic NPCs)
+@AL,99,(DO NOT CHANGE) Sends Alignment from "NPC Stat Block Pathfinder" for some feat requirements.
+@Valminder,3,Apply Valminder's modifications,Yes,No,LOAD from Permanent Variables
+
+:Start
+### NEW RACE ###
+1,{If~{Param~Race,%Race%}=Random?|Race={Dice~1d19}|}
+### NEW CLASS ###
+_{If~{Param~Class,%Class%}=Random?|Class={Dice~1d16}|}
+_{If~%CharacterLevel%=99?|CharacterLevel={Dice~1d20}|}
+###XXX_|ParamClass={Param~Class,%Class%}|
+###XXX_|ParamRace={Param~Race,%Race%}|
+_[GenerateFeats]
+
+:FontB
+1,<font size=1>
+2,<font size=2>
+
+:FontE
+1,</font>
+
+:DetermineAttributeBonuses
+1,|STRBonus={If~%STR%>=10?{Trunc~{Calc~(%STR%-10)/2}}/{Floor~{Calc~(%STR%-10)/2}}}|
+_|DEXBonus={If~%DEX%>=10?{Trunc~{Calc~(%DEX%-10)/2}}/{Floor~{Calc~(%DEX%-10)/2}}}|
+_|CONBonus={If~%CON%>=10?{Trunc~{Calc~(%CON%-10)/2}}/{Floor~{Calc~(%CON%-10)/2}}}|
+_|INTBonus={If~%INT%>=10?{Trunc~{Calc~(%INT%-10)/2}}/{Floor~{Calc~(%INT%-10)/2}}}|
+_|WISBonus={If~%WIS%>=10?{Trunc~{Calc~(%WIS%-10)/2}}/{Floor~{Calc~(%WIS%-10)/2}}}|
+_|CHABonus={If~%CHA%>=10?{Trunc~{Calc~(%CHA%-10)/2}}/{Floor~{Calc~(%CHA%-10)/2}}}|
+
+:GenerateFeats
+1,|ParamClass={Param~Class,%Class%}|
+_|ParamRace={Param~Race,%Race%}|
+_{Reset~SpellSchool}{Reset~ExpertFeats_BlacksmithRnd}
+### NEW CLASS ###
+_{If~{And~%ParamClass%=Expert,%ExpertTypeCode%=1}=1?|ExpertTypeCode={Dice~1d9+1}|}
+_[GenerateFeatsContinue]
+
+:GenerateFeatsAnimalCompanion
+1,|Race=99||Class=99||ParamClass=AnimalCompanion||ParamRace=AnimalCompanion|
+_{If~%CharacterLevel%=1?|SendBAB=0|}
+_[GenerateFeatsContinue]
+
+:Valminder
+1,{If~%Valminder%=3?|Valminder=[Permanent_Variables.Val_Rules]|}
+
+:GenerateFeatsContinue
+1,[Valminder]
+#UNUSED [AllKnowledge=%Class%]
+_{If~%TestLog%=1?{Log~E:\log.txt,-----1----- ParamRace=%ParamRace%   ParamClass=%ParamClass%{If~%ExpertTypeCode%!=1? ({Param~ExpertTypeCode,%ExpertTypeCode%})}}}
+_|RacialCount=0||FeatsCount=0|
+_|DwarfSkillFocusCRA=0||DwarfSkillFocusDUN=0||HumanSkillFocus=0||HumanSkillMastery=0||HumanSkillPerfection=0|
+_|FindCautiousFighter=No||FindPowerAttack=No|
+_{Reset~Pathfinder Skills.KnowledgeList}{Reset~Equipment.ExoticWeaponsMelee}{Reset~Equipment.ExoticWeaponsRange}
+_{Reset~Equipment.MartialWeaponsMelee}{Reset~Equipment.MartialWeaponsRange}{Reset~Equipment.SimpleWeaponsMelee}{Reset~Equipment.SimpleWeaponsRange}
+_{IIf~%SendBAB%=99?[DetermineBABs=%Class%]:[SetFixedBAB]}
+_{If~%SendNumFeats%=99?[FeatsCount=%Class%]/|FeatsCount=%SendNumFeats%|}
+_{If~%TestLog%=1?{Log~E:\log.txt,-----2----- BAB=%BAB% Feats=%FeatsCount%}}
+_{If~%STR%=99?|STR={Dice~3d6}|}{If~%DEX%=99?|DEX={Dice~3d6}|}{If~%CON%=99?|CON={Dice~3d6}|}
+_{If~%INT%=99?|INT={Dice~3d6}|}{If~%WIS%=99?|WIS={Dice~3d6}|}{If~%CHA%=99?|CHA={Dice~3d6}|}
+_[DetermineAttributeBonuses]
+_{If~%TestLog%=1?{Log~E:\log.txt,-----3----- S=%STR% D=%DEX% C=%CON% I=%INT% W=%WIS% C=%CHA%}}
+_
+_|Arcane=0||Divine=0||Channel=0||SkillFeats=0|
+_
+_|FeatsString=||FeatsAll=||CommaFlag=0|
+# This must be set after setting " FeatsCount "
+_|StartingFeats=[SetClassStartingFeats=%Class%]|
+# FeatsAll includes the starting feats.
+_{If~%StartingFeats%!=None?|FeatsAll&%StartingFeats%|}
+_{If~%TestLog%=1?{Log~E:\log.txt,-----4----- STARTING FEATS = %FeatsAll%}}
+_
+_|RacialStartingFeats=[SetRaceStartingFeats=%Race%]|
+_{If~%RacialStartingFeats%!=None?|FeatsAll&;%RacialStartingFeats%|{If~%StartingFeats%!=None?|StartingFeats&;%RacialStartingFeats%|/|StartingFeats=%RacialStartingFeats%|}}
+_{If~%TestLog%=1?{Log~E:\log.txt,-----5----- +RACIAL STARTING FEATS = %FeatsAll%}}
+_
+# Feats chosen in another program and forced into this one (ex: Ranger/Monk Class Feats from "NPC Stat Block Pathfinder")
+_{If~%ClassFeats%!=99?
+_{If~{Find~1,$,%ClassFeats%}!=0?
+_|ClassFeats={Replace~$$$$,)),%ClassFeats%}|
+_|ClassFeats={Replace~$$,),%ClassFeats%}|
+_|ClassFeats={Replace~$,(,%ClassFeats%}|
+_}
+_|FeatsAll&;%ClassFeats%||FeatsString=%ClassFeats%||CommaFlag=1|
+_}
+_{If~%TestLog%=1?{Log~E:\log.txt,-----6----- +CLASS FEATS = %FeatsAll%}}
+_{If~%ExtraFeats%>0?|FeatsCount+%ExtraFeats%|}
+_{If~%TestLog%=1?{Log~E:\log.txt,-----7----- NEW: FeatsCount= %FeatsCount% (Extra included= %ExtraFeats%)    RacialCount= %RacialCount%   FTR= %BonusFeatsFTR%   WIZ= %BonusFeatsWIZ%}}
+_
+_|ExpandedResistance=0|{If~%RacialCount%>0?[FindRacial]}
+_{If~%TestLog%=1?{Log~E:\log.txt,-----8----- +IMPROVED FEAT RULE = %FeatsAll%}}
+_{If~%FindCautiousFighter%=Yes?|FeatsString&{If~%CommaFlag%=1?;}Cautious Fighter||CommaFlag=1||FindCautiousFighter=No||FeatsCount-1|}
+_{If~%FindPowerAttack%=Yes?|FeatsString&{If~%CommaFlag%=1?;}Power Attack||CommaFlag=1||FindPowerAttack=No||FeatsCount-1|}
+_
+######################## Here is where we start our changes! #######################
+_{Loop~%FeatsCount%,
+# The new group FeatFind is a While loop to get a valid feat.
+# Regular Feats
+_|Feat=[FeatFind=1]|
+#_{If~%TestLog%=1?{Log~E:\log.txt,+++++ %Feat%}}
+_[SkillFeats]
+_|FeatsString&{If~%CommaFlag%=1?;}%Feat%||CommaFlag=1|
+_|FeatsAll&;%Feat%|
+_{If~%ExtraFeats%>0?|FeatsString& BONUS||ExtraFeats-1|}
+_{If~%TestLog%=1?{Log~E:\log.txt,>>>>>>>>>> %FeatsAll% }}
+_}
+# Bonus Fighter Feats
+_{If~%BonusFeatsFTR%>0?{Loop~%BonusFeatsFTR%,
+_|Feat=[FeatFind=2]|
+_|FeatsString&;%Feat% BONUS|
+_|FeatsAll&;%Feat%|
+_{If~%TestLog%=1?{Log~E:\log.txt,***** Fighter (%BonusFeatsFTR%) %FeatsAll% }}
+_}}
+# Bonus Wizard Feats
+_{If~%BonusFeatsWIZ%!=ERROR?{Loop~%BonusFeatsWIZ%,
+_|Feat=[FeatFind=3]|
+_|FeatsString&;%Feat% BONUS|
+_|FeatsAll&;%Feat%|
+_{If~%TestLog%=1?{Log~E:\log.txt,????? Wizard (%BonusFeatsWIZ%) %FeatsAll% }}
+_}}
+_{If~{Find~1,ELEMENTAL SPELL,%FeatsString%}!=0?|FeatsString={Replace~ELEMENTAL SPELL,Elemental Spell ([~ElementalSpell]),%FeatsString%}|}
+_
+_{If~%TestLog%=1?{Log~E:\log.txt,XXXXX before WPNFOCUS XXXXX (SetWpnFoc=%SetWeaponFocus%) %FeatsString%}}
+_{If~{And~{Find~1,WPNFOCUS,%FeatsString%}!=0,%SetWeaponFocus%=1}=1?{If~%ParamRace%=AnimalCompanion?[AddWeaponFocusAnimalCompanion]/[AddWeaponFocus]}}
+#XXX_%ParamRace% %ParamClass%{If~%ExpertTypeCode%!=1? ({Param~ExpertTypeCode,%ExpertTypeCode%})}<br>
+#XXX#_%FeatsAll%<hr>
+#XXX_%FeatsCount%<hr>
+#XXX_%FeatsString%<hr>
+_{If~%TestLog%=1?{Log~E:\log.txt,YYYYY after WPNFOCUS YYYYY %FeatsString%}}
+_
+_|FeatsString={OrderAsc~";",%FeatsString%}|
+_|FeatsString={Replace~;,; ,%FeatsString%}|
+_|FeatsString={CommaReplace~1,;,%FeatsString%}|
+_
+_|StartingFeats={OrderAsc~";",%StartingFeats%}|
+_|StartingFeats={Replace~;,; ,%StartingFeats%}|
+_|StartingFeats={CommaReplace~1,;,%StartingFeats%}|
+_
+_|ProficientWeapons={OrderAsc~";",%ProficientWeapons%}|
+_|ProficientWeapons={Replace~;,; ,%ProficientWeapons%}|
+_|ProficientWeapons={CommaReplace~1,;,%ProficientWeapons%}|
+_
+_%FeatsString%!%StartingFeats%!%ProficientWeapons%
+_
+_{If~%TestTable%=1?[TestTable]}
+
+:FindRacial
+1,{Loop~%RacialCount%,
+_|Feat=[FeatFind=4]|
+_[SkillFeats]
+_[FeatFindRacial2=%Race%]
+_|FeatsString&{If~%CommaFlag%=1?;}%Feat%||CommaFlag=1|
+_|FeatsAll&;%Feat%|
+_|FeatsString& RACIAL|
+_}
+
+# -----------------------------------------------------------------------
+# To test this table, activate [TestTable] above changing the %TestTable%
+# variable to 1
+
+:TestTable
+1,<br><br>
+_{Bold~Table testing:}<br>
+_<b>Race:</b> %ParamRace%<br>
+_<b>Class:</b> %ParamClass% %CharacterLevel%<br><br>
+_<b>Stats:</b> Str %STR% (%STRBonus%), Dex %DEX% (%DEXBonus%), Con %CON% (%CONBonus%), Int %INT% (%INTBonus%), Wis %WIS% (%WISBonus%), Cha %CHA% (%CHABonus%)<br><br>
+_<b>BAB:</b> %BAB% (+%BAB1%/+%BAB2%/+%BAB3%/+%BAB4%)<br><br>
+_<b>Feats: ({If~%ParamRace%!=Human?%FeatsCount%/{Calc~%FeatsCount%-1}+1}{If~%RacialCount%>0?+%RacialCount% racial})</b> %FeatsString%<br><br>
+_<b>Starting Feats:</b> %StartingFeats%<br>
+_{IIf~%ProficientWeapons%!=0?<b>Proficient with</b> %ProficientWeapons%}<br>
+#_<b>All Feats:</b> %FeatsAll%
+
+# -----------------------------------------------------------------------
+# Determines the number of feats.
+#    FeatOption:  1= Standard PF
+#                 2= 1/level (PCs only)
+#                 3= 1/level (Only 1% of heroic NPCs)
+#                 4= 1/level + racial at levels 3-6-9-12-15-18 (PCs only)
+#                 5= 1/level + racial at levels 3-6-9-12-15-18 (Only 1% of heroic NPCs)
+
+### NEW CLASS ###
+:FeatsCount
+# Fighter
+1,[FeatsCount2=%FeatOption%]|BonusFeatsFTR=[NPC Stat Block Pathfinder.FighterBonusFeats=%CharacterLevel%]|
+# Barbarian, Bard, Cleric, Druid, Monk, Paladin, Ranger, Rogue, Sorcerer
+2-10,[FeatsCount2=%FeatOption%]
+# Wizard
+11,[FeatsCount2=%FeatOption%]|BonusFeatsWIZ=[NPC Stat Block Pathfinder.DetermineBonusWizardFeats2=%CharacterLevel%]|
+### NEW CLASS ###
+# Adept, Aristocrat, Commoner, Expert, Warrior
+12-16,[FeatsCount2=%FeatOption%]
+17-98,
+# Animal Companion
+99,[FeatsCount2=1]
+
+:FeatsCount2
+1,|FeatsCount={Ceil~{Calc~(%CharacterLevel% / 2)}}|
+2,|FeatsCount=%CharacterLevel%|
+3,{If~{And~%Heroic%=1,{Dice~1d100}=1}=1?[FeatsCount2=2]/[FeatsCount2=1]}
+4,[FeatsCount3=%CharacterLevel%]
+5,{If~{And~%Heroic%=1,{Dice~1d100}=1}=1?[FeatsCount2=4]/[FeatsCount2=1]}
+
+# (IMPROVED FEAT RULE)
+:FeatsCount3
+1,|FeatsCount=1||RacialCount=0|
+2,|FeatsCount=2||RacialCount=0|
+3,|FeatsCount=2||RacialCount=1|
+4,|FeatsCount=3||RacialCount=1|
+5,|FeatsCount=4||RacialCount=1|
+6,|FeatsCount=4||RacialCount=2|
+7,|FeatsCount=5||RacialCount=2|
+8,|FeatsCount=6||RacialCount=2|
+9,|FeatsCount=6||RacialCount=3|
+10,|FeatsCount=7||RacialCount=3|
+11,|FeatsCount=8||RacialCount=3|
+12,|FeatsCount=8||RacialCount=4|
+13,|FeatsCount=9||RacialCount=4|
+14,|FeatsCount=10||RacialCount=4|
+15,|FeatsCount=10||RacialCount=5|
+16,|FeatsCount=11||RacialCount=5|
+17,|FeatsCount=12||RacialCount=5|
+18,|FeatsCount=12||RacialCount=6|
+19,|FeatsCount=13||RacialCount=6|
+20-100,|FeatsCount=14||RacialCount=6|
+
+:SetClassStartingFeats
+# Fighter
+1,Armor Proficiency (Light);Armor Proficiency (Medium);Armor Proficiency (Heavy);Shield Proficiency;Tower Shield Proficiency;Simple Weapon Proficiency;Martial Weapon Proficiency
+# Barbarian
+2,Armor Proficiency (Light);Armor Proficiency (Medium);Shield Proficiency;Simple Weapon Proficiency;Martial Weapon Proficiency
+# Bard
+3,|SpellCasterFlag=1||Arcane=1|
+_Armor Proficiency (Light);Shield Proficiency;Simple Weapon Proficiency|ProficientWeapons=longsword;rapier;sap;short sword;shortbow;whip|
+# Cleric
+4,|SpellCasterFlag=1||Divine=1||Channel=1|
+#_Armor Proficiency (Light);Armor Proficiency (Medium);Armor Proficiency (Heavy);Shield Proficiency;Simple Weapon Proficiency
+_Armor Proficiency (Light);Armor Proficiency (Medium);Shield Proficiency;Simple Weapon Proficiency|ProficientWeapons=favored weapon of their deity|
+# Druid
+5,|SpellCasterFlag=1||Divine=1|
+_Armor Proficiency (Light);Armor Proficiency (Medium);Shield Proficiency|ProficientWeapons=club;dagger;dart;quarterstaff;scimitar;scythe;sickle;shortspear;sling;spear;natural attacks|
+# Monk
+6,Improved Unarmed Strike;Stunning Fist|ProficientWeapons=club;light crossbow;heavy crossbow;dagger;handaxe;javelin;kama;nunchaku;quarterstaff;sai;shortspear;short sword;shuriken;siangham;sling;spear|
+# Paladin
+7,|SpellCasterFlag=1||Divine=1|{If~%CharacterLevel%>=4?|Channel=1|}
+_Armor Proficiency (Light);Armor Proficiency (Medium);Armor Proficiency (Heavy);Shield Proficiency;Simple Weapon Proficiency;Martial Weapon Proficiency
+# Ranger
+8,|SpellCasterFlag=1||Divine=1|
+_Armor Proficiency (Light);Armor Proficiency (Medium);Shield Proficiency;Simple Weapon Proficiency;Martial Weapon Proficiency
+_{If~%CharacterLevel%>=3?;Endurance}
+# Rogue
+9,Armor Proficiency (Light);Simple Weapon Proficiency|ProficientWeapons=hand crossbow;rapier;sap;shortbow;short sword|
+# Sorcerer
+10,|SpellCasterFlag=1||Arcane=1|
+_Simple Weapon Proficiency;Eschew Materials
+# Wizard
+11,|SpellCasterFlag=1||Arcane=1|{If~{Or~{Find~1,Command Undead,%ClassFeats%}!=0,{Find~1,Turn Undead,%ClassFeats%}!=0}=1?|Channel=2|}
+_{If~%Valminder%=2?Scribe Scroll/Craft Spell Completion Items}|ProficientWeapons=club;dagger;heavy crossbow;light crossbow;quarterstaff|
+# Adept
+12,|SpellCasterFlag=1||Divine=1|Simple Weapon Proficiency
+# Aristocrat
+13,Armor Proficiency (Light);Armor Proficiency (Medium);Armor Proficiency (Heavy);Shield Proficiency;Simple Weapon Proficiency;Martial Weapon Proficiency
+# Commoner
+14,Simple Weapon Proficiency
+# Expert
+15,Armor Proficiency (Light);Simple Weapon Proficiency
+_{If~{Param~ExpertTypeCode,%ExpertTypeCode%}=Blacksmith?{If~%STR%<13?{Lockout~ExpertFeats_BlacksmithRnd,1}}[ExpertFeats_Blacksmith]}
+# Warrior
+16,Armor Proficiency (Light);Armor Proficiency (Medium);Armor Proficiency (Heavy);Shield Proficiency;Simple Weapon Proficiency;Martial Weapon Proficiency
+### NEW CLASS ###
+17-98,
+# Animal Companion
+99,None
+
+:ExpertFeats_Blacksmith
+1,{If~%FeatsCount%>0?[ExpertFeats_BlacksmithRnd]}
+_{If~{And~{Used~ExpertFeats_BlacksmithRnd,0}=0,%FeatsCount%>0}=1?{If~{Dice~1d4}>1?[ExpertFeats_Blacksmith]}}
+
+# Leave Power Attack as #1 below.
+;!ExpertFeats_BlacksmithRnd
+1,;{Color~DarkCyan,Power Attack}|FeatsCount-1|
+1,;{Color~DarkCyan,Martial Weapon Proficiency}|FeatsCount-1|
+1,;{Color~DarkCyan,Skill Focus (Craft)}|FeatsCount-1|
+
+# PFCore: 1=Human  2=Dwarf  3=Elf  4=Gnome   5=Half Elf  6=Half Orc   7=Halfling  
+### NEW RACE ###
+# Be sure to have "all XXX-named weapons" correctly written if you add more races (this table will look for "named weapons").
+:SetRaceStartingFeats
+# Human
+1,{If~%Subrace%=Cosmopolitain?[HumanFocusedStudy]
+_   /{If~%Subrace%=Country Folk?[HumanFocusedStudy]
+_   /{If~%Subrace%=Gutter Rat?None
+_   /{If~%Subrace%=Imperious?None
+_   /{If~%Subrace%=Trailblazer?None
+_   /|FeatsCount+1|None
+_}}}}}
+# Dwarf
+2,None
+_{If~%ProficientWeapons%=0?|ProficientWeapons=battleaxe;heavy pick;warhammer;all dwarven-named weapons are considered martial weapons|/|ProficientWeapons&;battleaxe;heavy pick;warhammer;all dwarven-named weapons are considered martial weapons|}
+# Elf
+3,None
+_{If~%Subrace%=Savage?
+_/{If~%Subrace%=Tower?
+_/{If~{Or~%Subrace%=Dusk,%Subrace%=Shadow}=1?
+_/{If~%Subrace%=Desert?{If~%ProficientWeapons%=0?|ProficientWeapons=scimitar;rapier;shortbow;composite shortbow;all elven-named weapons are considered martial weapons|/|ProficientWeapons&;scimitar;rapier;shortbow;composite shortbow;all elven-named weapons are considered martial weapons|}
+_/{If~%ProficientWeapons%=0?|ProficientWeapons=longsword;rapier;longbow;shortbow;composite longbow;composite shortbow;all elven-named weapons are considered martial weapons|/|ProficientWeapons&;longsword;rapier;longbow;shortbow;composite longbow;composite shortbow;all elven-named weapons are considered martial weapons|}
+_}}}}
+# Gnome
+4,None
+_{If~%ProficientWeapons%=0?|ProficientWeapons={If~%Subrace%=Gear?any weapon they have personally crafted;}all gnome-named weapons are considered martial weapons|/|ProficientWeapons&;{If~%Subrace%=Gear?any weapon they have personally crafted;}all gnome-named weapons are considered martial weapons|}
+# Half Elf
+# XXX OPTION XXX 5,{If~%Subrace%=Elf-Raised?{If~%Valminder%=1?Ancestral Weapon Mastery/Exotic Weapon Proficiency|WeaponNewE=[~Equipment.ExoticWeaponsList]| (suggestion: %WeaponNewE%)}
+5,{If~%Subrace%=Elf-Raised?Exotic Weapon Proficiency|WeaponNewE=[~Equipment.ExoticWeaponsList]| (suggestion: %WeaponNewE%)
+_/{If~%Subrace%=Jungle?None
+_/{If~%Subrace%!=Drow-Descended?Skill Focus ([~Pathfinder Skills.SkillsList])|SkillFeats+1|
+_/None
+_}}}
+# Half Orc
+6,{If~%Subrace%=Mystic?Endurance
+_/{If~%Subrace%=Desert?Run
+_/None}}
+#
+_{If~%Subrace%=Arena-Bred?{If~%ProficientWeapons%=0?|ProficientWeapons=longsword;whip|/|ProficientWeapons&;longsword;whip|}
+_/{If~%ProficientWeapons%=0?|ProficientWeapons=greataxe;falchion;all orc-named weapons are considered martial weapons|/|ProficientWeapons&;greataxe;falchion;all orc-named weapons are considered martial weapons|}
+_}
+# Halfling
+7,None
+_{If~%Subrace%=Jungle?{If~%ProficientWeapons%=0?|ProficientWeapons=handaxe;throwing axe;composite shortbow;shortbow;sling;all halfling-named weapons are considered martial weapons|/|ProficientWeapons&;handaxe;throwing axe;composite shortbow;shortbow;sling;all halfling-named weapons are considered martial weapons|}
+_/{If~%ProficientWeapons%=0?|ProficientWeapons=sling;all halfling-named weapons are considered martial weapons|/|ProficientWeapons&;sling;all halfling-named weapons are considered martial weapons|}
+_}
+#
+### NEW RACE ###
+# PFB1:   8=Aasimar  9=Drow  10=Drow Noble  11=Duergar  12=Goblin  13=Hobgoblin  14=Kobold  15=Merfolk  16=Orc  17=Svirfneblin  18=Tengu  19=Tiefling
+8,None
+9-10,None
+_{If~%ProficientWeapons%=0?|ProficientWeapons=hand crossbow;rapier;short sword;all drow-named weapons are considered martial weapons|/|ProficientWeapons&;hand crossbow;rapier;short sword;all drow-named weapons are considered martial weapons|}
+11-13,None
+14,{If~%Subrace%=Jungle?Agile Athlete/None}
+15,None
+16,{If~%Subrace%=Desert?Endurance
+_/{If~%Subrace%=Jungle?Self-Sufficient
+_/None}}
+_{If~%ProficientWeapons%=0?|ProficientWeapons=greataxe;falchion;all orc-named weapons are considered martial weapons|/|ProficientWeapons&;greataxe;falchion;all orc-named weapons are considered martial weapons|}
+17,None
+18,None
+_{If~%ProficientWeapons%=0?|ProficientWeapons=bastard sword;dagger;elven curve blade;falchion;greatsword;kukri;longsword;punching dagger;rapier;scimitar;short sword;two-bladed sword|/|ProficientWeapons&;bastard sword;dagger;elven curve blade;falchionl;greatsword;kukri;longsword;punching dagger;rapier;scimitar;short sword;two-bladed sword|}
+19,None
+20-98,None
+# Animal Companion
+99,None
+
+:HumanFocusedStudy
+1,Skill Focus ([~Pathfinder Skills.SkillsList]){If~%CharacterLevel%>=8?;Skill Focus ([~Pathfinder Skills.SkillsList])}{If~%CharacterLevel%>=16?;Skill Focus ([~Pathfinder Skills.SkillsList])}
+
+##################### FeatFind will be doing most of the work now #################
+# The help on While~ is poorly written....
+# {While~X,Text} 
+# Think of X more as a logic "0" or not "0" or in other words "false" or "not false"
+# Text can be any combination of text and operations that are done over and over until
+#   the condition = "0"
+#
+:FeatFind
+# Normal Feat find
+1,
+# Set FeatLook to a default value
+_|FeatLook=NEXT|
+# Keep getting feats until you find a legal one and FeatLook is not NEXT
+_{While~%FeatLook%=NEXT,
+# This line gets a choice, it will either come back with a feat or NEXT
+#_|FeatLook=[FeatsFor%ParamClass%]|
+_{If~{And~%ParamRace%=AnimalCompanion,%INT%>=3}=1?|FeatLook=[FeatsForAnimalCompanionInt3]|
+_/|FeatLook=[FeatsFor%ParamClass%]|
+_}
+_{If~%TestLog%=1?{Log~E:\log.txt,+++++ %FeatLook%}}
+# Check to see if a feat has been chosen, ELSE continue the loop
+_{If~%Featlook%!=NEXT?
+# If %FeatLook% is a duplicate, set variable to NEXT to keep loop going
+#    ELSE leave it as the feat name and break out of the loop
+#    This eliminates the FeatFind group
+_{IIf~{Find~1,%FeatLook%,%FeatsAll%}!=0?|FeatLook=NEXT|:}/
+_}
+_}
+# Outside the loop, the name of the feat is passed back to the Feat variable
+_%FeatLook%
+# Bonus Fighter Feats
+2,|FeatLook=NEXT|
+_{While~%FeatLook%=NEXT,
+_|FeatLook=[FeatsForFighterBonus]|
+_{If~%Featlook%!=NEXT?
+_{IIf~{Find~1,%FeatLook%,%FeatsAll%}!=0?|FeatLook=NEXT|:}/
+_}
+_}
+_%FeatLook%
+# Bonus Wizard Feats
+3,|FeatLook=NEXT|
+_{While~%FeatLook%=NEXT,
+_|FeatLook=[FeatsForWizardBonus]|
+_{If~%Featlook%!=NEXT?
+_{IIf~{Find~1,%FeatLook%,%FeatsAll%}!=0?|FeatLook=NEXT|:}/
+_}
+_}
+_%FeatLook%
+#4,|FeatLook=NEXT|<br>F: %HumanSkillFocus%   M: %HumanSkillMastery%    P: %HumanSkillPerfection%<br>
+#_{While~%FeatLook%=NEXT,|FeatLook=[Feats%ParamRace%]|{If~%Featlook%!=NEXT?[FeatFindRacial=%Race%]/}}
+#_%FeatLook%
+# Racial Feats (IMPROVED FEAT RULE)
+4,|FeatLook=NEXT|
+_{While~%FeatLook%=NEXT,|FeatLook=[Feats%ParamRace%]|{If~%Featlook%!=NEXT?[FeatFindRacial=%Race%]/}}
+_%FeatLook%
+
+
+### NEW RACE ###
+# PFCore: 1=Human  2=Dwarf  3=Elf  4=Gnome   5=Half Elf  6=Half Orc   7=Halfling  
+# PFB1:   8=Aasimar  9=Drow  10=Drow Noble  11=Duergar  12=Goblin  13=Hobgoblin  14=Kobold  15=Merfolk  16=Orc  17=Svirfneblin  18=Tengu  19=Tiefling
+# 20=RANDOM
+# Racial Feats (IMPROVED FEAT RULE) a race can have more than once
+:FeatFindRacial
+1,[FeatFindRacialHuman]
+2,[FeatFindRacialDwarf]
+3-10,{IIf~{Find~1,%FeatLook%,%FeatsAll%}!=0?|FeatLook=NEXT|:}
+11,[FeatFindRacialDwarf]
+12-100,{IIf~{Find~1,%FeatLook%,%FeatsAll%}!=0?|FeatLook=NEXT|:}
+
+:FeatFindRacialDwarf
+1,{If~{Find~1,Skill Focus,%FeatLook%}!=0?
+_/{IIf~{Find~1,%FeatLook%,%FeatsAll%}!=0?|FeatLook=NEXT|
+_:}}
+
+:FeatFindRacialHuman
+1,{If~{Find~1,Skill Focus,%FeatLook%}!=0?
+_/{If~%FeatLook%=Skill Mastery?
+_/{If~%FeatLook%=Skill Perfection?
+_/{If~{Find~1,%FeatLook%,%FeatsAll%}!=0?|FeatLook=NEXT|
+_/}}}}
+
+### NEW RACE ###
+# PFCore: 1=Human  2=Dwarf  3=Elf  4=Gnome   5=Half Elf  6=Half Orc   7=Halfling  
+# PFB1:   8=Aasimar  9=Drow  10=Drow Noble  11=Duergar  12=Goblin  13=Hobgoblin  14=Kobold  15=Merfolk  16=Orc  17=Svirfneblin  18=Tengu  19=Tiefling
+# 20=RANDOM
+:FeatFindRacial2
+1,[FeatFindRacialHuman2]
+2,[FeatFindRacialDwarf2]
+3,
+4,{If~{Find~1,ExpandedResistance,%Feat%}!=0?|ExpandedResistance=1|}
+5,
+6,{If~{Find~1,Doorkicker,%Feat%}!=0?|FindPowerAttack=Yes|}
+7,{If~{Find~1,Desperate Swing,%Feat%}!=0?|FindCautiousFighter=Yes|}
+8-10,
+11,[FeatFindRacialDwarf2]
+12-100,
+
+:FeatFindRacialHuman2
+1,{If~{Find~1,Skill Focus,%Feat%}!=0?|HumanSkillFocus+1|
+_/{If~%Feat%=Skill Mastery?|HumanSkillMastery+1|
+_/{If~%Feat%=Skill Perfection?|HumanSkillPerfection+1|
+_}}}
+
+:FeatFindRacialDwarf2
+1,{If~{And~{Find~1,Skill Focus,%Feat%}!=0,{Find~1,Dungeoneering,%Feat%}!=0}=1?|DwarfSkillFocusDUN=1|
+_/{If~{And~{Find~1,Skill Focus,%Feat%}!=0,{Find~1,Craft,%Feat%}!=0}=1?|DwarfSkillFocusCRA=1|
+_}}
+
+### NEW FEATS ###
+### NEW SKILL FEATS ###
+:SkillFeats
+1,{If~%Feat%=Acrobatic?|SkillFeats+1|
+_/{If~%Feat%=Alertness?|SkillFeats+1|
+_/{If~%Feat%=Animal Affinity?|SkillFeats+1|
+_/{If~%Feat%=Athletic?|SkillFeats+1|
+_/{If~%Feat%=Deceitful?|SkillFeats+1|
+_/{If~%Feat%=Deft Hands?|SkillFeats+1|
+_/{If~%Feat%=Intimidating Prowess?|SkillFeats+1|
+_/{If~%Feat%=Master Craftsman?|SkillFeats+1|
+_/{If~%Feat%=Persuasive?|SkillFeats+1|
+_/{If~%Feat%=Self-Sufficient?|SkillFeats+1|
+_/{If~%Feat%=Stealthy?|SkillFeats+1|
+_/{If~{Find~1,Skill Focus,%Feat%}!=0?|SkillFeats+1|
+_/{If~%Feat%=Skill Mastery?|SkillFeats+1|
+_/{If~%Feat%=Skill Perfection?|SkillFeats+1|
+_/{If~%Feat%=Cosmopolitain?|SkillFeats+1|
+_/{If~%Feat%=Open Minded|SkillFeats+1|
+_/{If~%Feat%=Master Trapmaker|SkillFeats+1|
+_/{If~%Feat%=Peak Hopper|SkillFeats+1|
+_/{If~%Feat%=Treetopper|SkillFeats+1|
+_/{If~%Feat%=Treefriend|SkillFeats+1|
+_/{If~%Feat%=Artist|SkillFeats+1|
+_/{If~%Feat%=Burrow Friend|SkillFeats+1|
+_/{If~%Feat%=Education|SkillFeats+1|
+_/{If~%Feat%=Trivial Knowledge|SkillFeats+1|
+_/{If~%Feat%=Wisdom of Ages|SkillFeats+1|
+_/{If~%Feat%=Negotiator|SkillFeats+1|
+_/{If~%Feat%=Sociable Personality|SkillFeats+1|
+_/{If~%Feat%=Survivor|SkillFeats+1|
+_/{If~%Feat%=Hunter|SkillFeats+1|
+_/{If~%Feat%=Menacing Demeanor|SkillFeats+1|
+_/{If~%Feat%=Thug|SkillFeats+1|
+_/{If~%Feat%=Agile Athlete|SkillFeats+1|
+_/{If~%Feat%=Quick Reconnoiter|SkillFeats+1|
+_/{If~%Feat%=Sacred Vow|SkillFeats+1|
+_/{If~%Feat%=Nimbus of Light|SkillFeats+1|
+_/{If~%Feat%=Stonelord|SkillFeats+1|
+_/{If~%Feat%=Blooded|SkillFeats+1|
+_/{If~%Feat%=Willing Deformity|SkillFeats+1|
+_/{If~%Feat%=Wolf Master|SkillFeats+1|
+_/{If~%Feat%=Eye for Detail|SkillFeats+1|
+_/{If~%Feat%=Keen Vision|SkillFeats+1|
+_/{If~%Feat%=Sage Wisdom|SkillFeats+1|
+_/{If~%Feat%=Dexterous Climb|SkillFeats+1|
+_/{If~%Feat%=Shadow|SkillFeats+1|
+_/{If~%Feat%=Otherworldly|SkillFeats+1|
+_/{If~%Feat%=Street Smart|SkillFeats+1|
+_/{If~%Feat%=Oath of Uwe|SkillFeats+1|
+_/{If~%Feat%=Brewmaster|SkillFeats+1|
+_/{If~%Feat%=Human Spirit|SkillFeats+1|
+_}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}
+
+# -------------------------------------------------------------------------
+# List of feats per class.
+#
+# NOTE: The name of the classes must be identical to the one
+#       found in the parameters.
+
+### NEW CLASS ###
+;FeatsForFighter
+10,[Armor Feats]
+50,[Defense Feats]
+200,[Melee Feats]
+150,[Range Feats]
+50,[Misc Feats]
+10,[Magic Feats Fighter]
+200,[Weapon Feats]
+1,{IIf~%SkillFeats%<2?[Skill Feats]:[FeatsForFighter]}
+
+;FeatsForFighterBonus
+10,[Armor Feats]
+50,[Defense Feats]
+200,[Melee Feats]
+150,[Range Feats]
+1,[Misc Feats Fighter Bonus]
+1,[Skill Feats Fighter Bonus]
+200,[Weapon Feats]
+1,[Magic Feats Fighter]
+
+;FeatsForAdept
+1,[Armor Feats]
+3,[Defense Feats]
+5,[Melee Feats]
+5,[Range Feats]
+3,[Misc Feats]
+1,[Weapon Feats]
+1,{IIf~%SkillFeats%<2?[Skill Feats]:[FeatsForAdept]}
+3,{If~%Valminder%=2?[Item Creation Feats]/[Item Creation Feats Valminder]}
+3,[Magic Feats]
+3,[Metamagic Feats]
+
+;FeatsForAnimalCompanion
+# Armor Feats
+1,Armor Proficiency (Light)
+10,{If~{Find~1,Armor Proficiency (Light),%FeatsAll%}!=0?Armor Proficiency (Medium)/NEXT}
+20,{If~{Find~1,Armor Proficiency (Medium),%FeatsAll%}!=0?Armor Proficiency (Heavy)/NEXT}
+# Defense Feats
+1,{If~%DEX%>=13?Dodge/NEXT}
+10,{If~{Find~1,Dodge,%FeatsAll%}!=0?Mobility/NEXT}
+20,{If~{Find~1,Mobility,%FeatsAll%}!=0?Spring Attack/NEXT}
+1,Improved Initiative
+1,Improved Natural Armor
+# Melee Feats
+1,Blind-Fight
+1,{If~%DEX%>=12?Combat Reflexes/NEXT}
+1,{If~%STR%>=13?Power Attack/NEXT}
+10,{If~{Find~1,Power Attack,%FeatsAll%}!=0?Improved Bull Rush|BullRushFlag+1|/NEXT}
+10,{If~{Find~1,Power Attack,%FeatsAll%}!=0?Improved Overrun/NEXT}
+1,Improved Natural Attack
+1,{If~{And~%BAB%>=1,%DEXBonus%>=%STRBonus%}=1?Weapon Finesse/NEXT}
+1,{If~{And~{Find~1,WPNFOCUS,%FeatsAll%}=0,%BAB%>=1}=1?WPNFOCUS/NEXT}
+# Misc Feats
+1,Endurance
+10,{If~{Find~1,Endurance,%FeatsAll%}!=0?Diehard/NEXT}
+1,Great Fortitude
+10,{If~{Find~1,Great Fortitude,%FeatsAll%}!=0?Improved Great Fortitude/NEXT}
+1,Iron Will
+10,{If~{Find~1,Iron Will,%FeatsAll%}!=0?Improved Iron Will/NEXT}
+1,Lightning Reflexes
+10,{If~{Find~1,Lightning Reflexes,%FeatsAll%}!=0?Improved Lightning Reflexes/NEXT}
+1,Run
+1,Toughness
+# Skill Feats
+1,Acrobatic
+1,{If~%DEXBonus%>%STRBonus%?Agile Maneuvers/NEXT}
+1,Athletic
+1,{If~%STR%>=14?Intimidating Prowess/NEXT}
+5,Skill Focus ([~Pathfinder Skills.SkillsList])
+1,Stealthy
+
+;FeatsForAnimalCompanionInt3
+50,[Defense Feats]
+200,[Melee Feats]
+50,[Misc Feats]
+10,[Magic Feats Fighter]
+200,[Weapon Feats]
+1,{IIf~%SkillFeats%<2?[Skill Feats]:[FeatsForAnimalCompanion]}
+
+;FeatsForAristocrat
+5,[Armor Feats]
+25,[Defense Feats]
+100,[Melee Feats]
+75,[Range Feats]
+50,[Misc Feats]
+100,[Weapon Feats]
+1,{IIf~%SkillFeats%<2?[Skill Feats]:[FeatsForAristocrat]}
+
+;FeatsForBarbarian
+1,[Armor Feats]
+6,[Defense Feats]
+10,[Melee Feats]
+8,[Range Feats]
+6,[Misc Feats]
+6,[Weapon Feats]
+1,{IIf~%SkillFeats%<2?[Skill Feats]:[FeatsForBarbarian]}
+
+;FeatsForBard
+1,[Armor Feats]
+6,[Defense Feats]
+5,[Melee Feats]
+5,[Range Feats]
+6,[Misc Feats]
+2,[Weapon Feats]
+1,{IIf~%SkillFeats%<3?[Skill Feats]:[FeatsForBard]}
+1,{If~%Valminder%=2?[Item Creation Feats]/[Item Creation Feats Valminder]}
+2,[Magic Feats]
+1,[Metamagic Feats]
+
+;FeatsForCleric
+1,[Armor Feats]
+3,[Defense Feats]
+5,[Melee Feats]
+5,[Range Feats]
+3,[Misc Feats]
+1,[Weapon Feats]
+1,{IIf~%SkillFeats%<2?[Skill Feats]:[FeatsForCleric]}
+3,[Divine Feats]
+3,{If~%Valminder%=2?[Item Creation Feats]/[Item Creation Feats Valminder]}
+3,[Magic Feats]
+3,[Metamagic Feats]
+
+;FeatsForCommoner
+1,[Armor Feats]
+5,[Defense Feats]
+20,[Melee Feats]
+15,[Range Feats]
+50,[Misc Feats]
+20,[Weapon Feats]
+50,{IIf~%SkillFeats%<3?[Skill Feats]:[FeatsForCommoner]}
+
+;FeatsForDruid
+1,[Armor Feats]
+3,[Defense Feats]
+5,[Melee Feats]
+5,[Range Feats]
+3,[Misc Feats]
+1,[Weapon Feats]
+1,{IIf~%SkillFeats%<2?[Skill Feats]:[FeatsForDruid]}
+#3,[Divine Feats]
+3,{If~%Valminder%=2?[Item Creation Feats]/[Item Creation Feats Valminder]}
+3,[Magic Feats]
+3,[Metamagic Feats]
+
+;FeatsForExpert
+1,[Armor Feats]
+5,[Defense Feats]
+20,[Melee Feats]
+15,[Range Feats]
+50,[Misc Feats]
+20,[Weapon Feats]
+50,{IIf~%SkillFeats%<3?[Skill Feats]:[FeatsForExpert]}
+
+;FeatsForMonk
+3,[Defense Feats]
+5,[Melee Feats]
+4,[Range Feats]
+3,[Misc Feats]
+1,[Weapon Feats]
+1,{IIf~%SkillFeats%<3?[Skill Feats]:[FeatsForMonk]}
+
+;FeatsForPaladin
+1,[Armor Feats]
+4,[Defense Feats]
+6,[Melee Feats]
+5,[Range Feats]
+3,[Misc Feats]
+3,[Weapon Feats]
+1,{IIf~%SkillFeats%<2?[Skill Feats]:[FeatsForPaladin]}
+2,[Divine Feats]
+1,{If~%CharacterLevel%>=5?{If~%Valminder%=2?[Item Creation Feats]/[Item Creation Feats Valminder]}/[FeatsForPaladin]}
+1,[Magic Feats]
+1,{IIf~%CharacterLevel%>=10?[Metamagic Feats]:[FeatsForPaladin]}
+
+;FeatsForRanger
+1,[Armor Feats]
+3,[Defense Feats]
+5,[Melee Feats]
+5,[Range Feats]
+3,[Misc Feats]
+1,[Weapon Feats]
+1,{IIf~%SkillFeats%<2?[Skill Feats]:[FeatsForRanger]}
+#1,[Divine Feats]
+1,{If~%CharacterLevel%>=5?{If~%Valminder%=2?[Item Creation Feats]/[Item Creation Feats Valminder]}/[FeatsForRanger]}
+1,[Magic Feats]
+1,{IIf~%CharacterLevel%>=10?[Metamagic Feats]:[FeatsForRanger]}
+
+;FeatsForRogue
+1,[Armor Feats]
+4,[Defense Feats]
+4,[Melee Feats]
+4,[Range Feats]
+4,[Misc Feats]
+1,[Weapon Feats]
+1,{IIf~%SkillFeats%<3?[Skill Feats]:[FeatsForRogue]}
+
+;FeatsForSorcerer
+1,[Armor Feats]
+5,[Defense Feats]
+3,[Melee Feats]
+3,[Range Feats]
+3,[Misc Feats]
+1,[Weapon Feats]
+1,{IIf~%SkillFeats%<2?[Skill Feats]:[FeatsForSorcerer]}
+5,{If~%Valminder%=2?[Item Creation Feats]/[Item Creation Feats Valminder]}
+5,[Magic Feats]
+10,[Metamagic Feats]
+
+;FeatsForWarrior
+10,[Armor Feats]
+50,[Defense Feats]
+200,[Melee Feats]
+150,[Range Feats]
+50,[Misc Feats]
+10,[Magic Feats Fighter]
+200,[Weapon Feats]
+1,{IIf~%SkillFeats%<2?[Skill Feats]:[FeatsForFighter]}
+
+;FeatsForWizard
+1,[Armor Feats]
+5,[Defense Feats]
+3,[Melee Feats]
+3,[Range Feats]
+3,[Misc Feats]
+1,[Weapon Feats]
+1,{IIf~%SkillFeats%<2?[Skill Feats]:[FeatsForWizard]}
+#5,{If~%Valminder%=2?[Item Creation Feats]/[Item Creation Feats Valminder]}
+5,[Magic Feats]
+10,[Metamagic Feats]
+
+;FeatsForWizardBonus
+1,{If~%ParamClass%=Wizard?Spell Mastery/NEXT}
+49,{If~%Valminder%=2?[Item Creation Feats]/[Item Creation Feats Valminder]}
+50,[Metamagic Feats]
+
+# -------------------------------------------------------------------------
+# List of feats per category.
+#    Armor Feats : Armor (L,M,H) Shield + Shield Focus / Imp. Shield Bash
+#    Defense Feats : Dodge+++, Improved Initiative
+#    Melee Feats : Blind-Fight, Catch Off-guard+++, Combat Expertise+++, Combat Reflexes+++, Critical Focus+++, Improved Unarmed Strike+++
+#                  Disruptive/Spellbreaker, Mounted Combat+++, Power Attack+++, Quick Draw
+#    Range Feats : PBS+++, Rapid Reload, Throw Anything, Deadly Aim
+#    Misc Feats : Nimble Moves+, Endurance+, Fleet, Great Fortitude+, Iron Will+, Lightning Reflexes+, Run,
+#                 Extra Ki, Extra Performance, Extra Rage, Step Up, Toughness
+#    Skill Feats : Acrobatic, Agile Maneuvers, Alertness, Animal Affinity, Athletic, Deceitful, Deft Hands, Intimidating Prowess,
+#                  Persuasive, Self-Sufficient, Skill Focus, Stealthy
+#    Weapon Feats : Simple, Martial, Exotic, Improved Critical, Two-Weapon Fighting+++, Vital Strike++, Weapon Finesse, Weapon Focus+++,
+#                   Penetrating Strike+, Weapon Specialization+, 
+#
+#    Divine Feats : Command/Turn Undead, Extra Lay on Hands, Extra Mercy
+#    Item Creation Feats
+#    Magic Feats : Augment Summoning, Combat Casting, Eschew Materials, Improved Counterspell, Magical Aptitude, Natural Spell, 
+#                  Spell Focus+, Spell Mastery, Spell Penetration+, CHANNEL: Alignment, Elemental, Extra, Improved, Channel Smite,
+#                  Selective Channeling, Improved Familiar, Arcane Strike
+#    Metamagic Feats
+#    SpellSchool (to be used with the Spell Focus feat)
+#
+# Now that all the variable manipulation is contained in the While loop,
+# I have removed the |FeatLook=xxx| and the redirect [xxx]. Now, all this section has to do is give
+#    the name of a feat or leave it as NEXT.
+
+;Armor Feats
+# Armor Proficiency
+1,Armor Proficiency (Light)
+10,{If~{And~{Find~1,Armor Proficiency (Light),%FeatsAll%}!=0,%CharacterLevel%>=3}=1?{If~%Arcane%!=0?Arcane Armor Training/NEXT}/NEXT}
+10,{If~{Find~1,Armor Proficiency (Light),%FeatsAll%}!=0?Armor Proficiency (Medium)/NEXT}
+1,{If~{And~{Find~1,Armor Proficiency (Medium),%FeatsAll%}!=0,%CharacterLevel%>=7}=1?{If~%Arcane%!=0?Arcane Armor Mastery/NEXT}/NEXT}
+20,{If~{Find~1,Armor Proficiency (Medium),%FeatsAll%}!=0?Armor Proficiency (Heavy)/NEXT}
+# Shield Proficiency
+# NOT for Monks since they lose their AC Bonus
+1,{If~%ParamClass%!=Monk?Shield Proficiency/NEXT}
+10,{If~{And~{Find~1,Shield Proficiency,%FeatsAll%}!=0,%BAB%>=1}=1?Shield Focus/NEXT}
+20,{If~{And~{Find~1,Shield Focus,%FeatsAll%}!=0,%CharacterLevel%>=8}=1?Greater Shield Focus/NEXT}
+10,{If~{Find~1,Shield Proficiency,%FeatsAll%}!=0?Improved Shield Bash/NEXT}
+20,{If~{And~{Find~1,Two-Weapon Fighting,%FeatsAll%}!=0,%TwoWeaponFlag%=1}=1?
+_{If~%BAB%>=6?Shield Slam/NEXT}
+_/NEXT}
+30,{If~{And~{Find~1,Shield Slam,%FeatsAll%}!=0,%BAB%>=11}=1?Shield Master/NEXT}
+10,{If~{Find~1,Shield Proficiency,%FeatsAll%}!=0?Tower Shield Proficiency/NEXT}
+
+;Defense Feats
+# Dodge, Mobility, Spring Attack, Wind Stance, Lightning Stance
+1,{If~%DEX%>=13?Dodge/NEXT}
+10,{If~{Find~1,Dodge,%FeatsAll%}!=0?Mobility/NEXT}
+20,{If~{Find~1,Mobility,%FeatsAll%}!=0?Spring Attack/NEXT}
+10,{If~{Find~1,Dodge,%FeatsAll%}!=0?
+_{If~{And~%DEX%>=15,%BAB%>=6}=1?Wind Stance/NEXT}
+_/NEXT}
+20,{If~{Find~1,Wind Stance,%FeatsAll%}!=0?
+_{If~{And~%DEX%>=17,%BAB%>=11}=1?Lightning Stance/NEXT}
+_/NEXT}
+1,Improved Initiative
+### NEW CLASS ###
+# Not for those with full BAB
+1,{If~{Or~%ParamClass%=Fighter,%ParamClass%=Barbarian}=1?NEXT
+_   /{If~{Or~%ParamClass%=Paladin,%ParamClass%=Ranger}=1?NEXT
+_   /Defensive Combat Training
+_}}
+
+;Melee Feats
+1,Blind-Fight
+1,Catch Off-Guard
+1,{If~{And~{Find~1,Catch Off-Guard,%FeatsAll%}!=0,%Base Attack%>=8}=1?Improvised Weapon Mastery/NEXT}
+1,{If~{And~{Find~1,Throw Anything,%FeatsAll%}!=0,%Base Attack%>=8}=1?Improvised Weapon Mastery/NEXT}
+# Combat Expertise and Others
+#1,{If~%Int%>=13?Combat Expertise [FontB=2]([CombatExpertise=%BAB%])[FontE]/NEXT}
+1,{If~%INT%>=13?Combat Expertise/NEXT}
+10,{If~{Find~1,Combat Expertise,%FeatsAll%}!=0?Improved Disarm/NEXT}
+20,{If~{And~{Find~1,Improved Disarm,%FeatsAll%}!=0,%BAB%>=6}=1?Greater Disarm/NEXT}
+10,{If~{Find~1,Combat Expertise,%FeatsAll%}!=0?Improved Feint/NEXT}
+20,{If~{And~{Find~1,Improved Feint,%FeatsAll%}!=0,%BAB%>=6}=1?Greater Feint/NEXT}
+10,{If~{Find~1,Combat Expertise,%FeatsAll%}!=0?Improved Trip/NEXT}
+20,{If~{And~{Find~1,Improved Trip,%FeatsAll%}!=0,%BAB%>=6}=1?Greater Trip/NEXT}
+# Combat Reflexes
+#1,{If~%DEX%>=12?Combat Reflexes [FontB=2]({Calc~(1+%DEXBonus%)} AO)[FontE]}
+1,{If~%DEX%>=12?Combat Reflexes/NEXT}
+10,{If~{Find~1,Combat Reflexes,%FeatsAll%}!=0?Stand Still/NEXT}
+# Critical Focus and Others
+1,{If~%BAB%>=9?Critical Focus|CriticalFocus+1|/NEXT}
+10,{If~%CriticalFocus%>=2?{If~{And~{Find~1,Critical Focus,%FeatsAll%}!=0,%BAB%>=14}=1?Critical Mastery|CriticalFocus+1|/NEXT}/NEXT}
+#10,{If~{And~{Find~1,Critical Focus,%FeatsAll%}=0,%BAB%>=9}=1?Critical Focus|CriticalFocus+1|/NEXT}
+#10,{If~{And~{Find~1,Critical Mastery,%FeatsAll%}=0,%CriticalFocus%>=2}=1?
+#_{If~{And~{Find~1,Critical Focus,%FeatsAll%}!=0,%BAB%>=14}=1?
+#_Critical Mastery|CriticalFocus+1|/NEXT}/NEXT}
+10,{If~{And~{Find~1,Critical Focus,%FeatsAll%}!=0,%BAB%>=11}=1?Bleeding Critical|CriticalFocus+1|/NEXT}
+10,{If~{And~{Find~1,Critical Focus,%FeatsAll%}!=0,%BAB%>=15}=1?Blinding Critical|CriticalFocus+1|/NEXT}
+10,{If~{And~{Find~1,Critical Focus,%FeatsAll%}!=0,%BAB%>=13}=1?Deafening Critical|CriticalFocus+1|/NEXT}
+10,{If~{And~{Find~1,Critical Focus,%FeatsAll%}!=0,%BAB%>=11}=1?Sickening Critical|CriticalFocus+1|/NEXT}
+10,{If~{And~{Find~1,Critical Focus,%FeatsAll%}!=0,%BAB%>=13}=1?Staggering Critical|CriticalFocus+1|/NEXT}
+20,{If~{And~{Find~1,Staggering Critical,%FeatsAll%}!=0,%BAB%>=17}=1?Stunning Critical|CriticalFocus+1|/NEXT}
+10,{If~{And~{Find~1,Critical Focus,%FeatsAll%}!=0,%BAB%>=13}=1?Tiring Critical|CriticalFocus+1|/NEXT}
+20,{If~{And~{Find~1,Tiring Critical,%FeatsAll%}!=0,%BAB%>=15}=1?Exhausting Critical|CriticalFocus+1|/NEXT}
+# Disruptive & Spell Breaker
+1,{If~{And~%ParamClass%=Fighter,%CharacterLevel%>=6}=1?Disruptive/NEXT}
+10,{If~{And~{Find~1,Disruptive,%FeatsAll%}!=0,%ClassLevel%>=10}=1?Spellbreaker/NEXT}
+# Improved Unarmed Strike, Improved Grapple, Deflect/Snatch Arrows, Greater Grapple, Scorpion Style, Gorgon's Fist, Medusa's Wrath
+1,{If~%ParamClass%!=AnimalCompanion?Improved Unarmed Strike/NEXT}
+10,{If~{And~{Find~1,Improved Unarmed Strike,%FeatsAll%}!=0,%DEX%>=13}=1?Improved Grapple/NEXT}
+20,{If~{And~{Find~1,Improved Grapple,%FeatsAll%}!=0,%BAB%>=6}=1?Greater Grapple/NEXT}
+10,{If~{And~{Find~1,Improved Unarmed Strike,%FeatsAll%}!=0,%DEX%>=13}=1?Deflect Arrows/NEXT}
+20,{If~{And~{Find~1,Deflect Arrows,%FeatsAll%}!=0,%DEX%>=15}=1?Snatch Arrows/NEXT}
+# Modified since it requires Wisdom for a longer effect.
+10,{If~{And~{Find~1,Improved Unarmed Strike,%FeatsAll%}!=0,%WIS%>=10}=1?Scorpion Style/NEXT}
+20,{If~{And~{Find~1,Scorpion Style,%FeatsAll%}!=0,%BAB%>=6}=1?Gorgon's Fist/NEXT}
+30,{If~{And~{Find~1,Gorgon's Fist,%FeatsAll%}!=0,%BAB%>=11}=1?Medusa's Wrath/NEXT}
+10,{If~{And~{Find~1,Improved Unarmed Strike,%FeatsAll%}!=0,%DEX%>=13}=1?
+_{If~{And~%WIS%>=13,%BAB%>=8}=1?Stunning Fist/NEXT}
+_/NEXT}
+1,{If~%BAB%>=6?Lunge/NEXT}
+# Mounted Combat and Others
+1,{If~%ParamClass%!=AnimalCompanion?Mounted Combat/NEXT}
+10,{If~{Find~1,Mounted Combat,%FeatsAll%}!=0?Mounted Archery/NEXT}
+10,{If~{Find~1,Mounted Combat,%FeatsAll%}!=0?Ride-By Attack/NEXT}
+20,{If~{Find~1,Ride-By Attack,%FeatsAll%}!=0?Spirited Charge/NEXT}
+10,{If~{Find~1,Mounted Combat,%FeatsAll%}!=0?Trample/NEXT}
+10,{If~{And~{Find~1,Mounted Combat,%FeatsAll%}!=0,%BullRushFlag%>=1}=1?Unseat/NEXT}
+# Power Attack and Others
+5,{If~%STR%>=13?Power Attack/NEXT}
+10,{If~{Find~1,Power Attack,%FeatsAll%}!=0?Cleave/NEXT}
+20,{If~{And~{Find~1,Cleave,%FeatsAll%}!=0,%BAB%>=4}=1?Great Cleave/NEXT}
+10,{If~{Find~1,Power Attack,%FeatsAll%}!=0?Improved Bull Rush|BullRushFlag+1|/NEXT}
+20,{If~{And~{Find~1,Improved Bull Rush,%FeatsAll%}!=0,%BAB%>=6}=1?Greater Bull Rush/NEXT}
+10,{If~{Find~1,Power Attack,%FeatsAll%}!=0?Improved Overrun/NEXT}
+20,{If~{And~{Find~1,Improved Overrun,%FeatsAll%}!=0,%BAB%>=6}=1?Greater Overrun/NEXT}
+10,{If~{Find~1,Power Attack,%FeatsAll%}!=0?Improved Sunder/NEXT}
+20,{If~{And~{Find~1,Improved Sunder,%FeatsAll%}!=0,%BAB%>=6}=1?Greater Sunder/NEXT}
+# Quick Draw
+1,{If~{And~%BAB%>=1,%ParamClass%!=AnimalCompanion}=1?Quick Draw/NEXT}
+# Whirlwind Attack
+30,{If~{Find~1,Combat Expertise,%FeatsAll%}!=0?
+_{If~%DEX%>=13?
+_{If~{Find~1,Spring Attack,%FeatsAll%}!=0?Whirlwind Attack/NEXT}
+_/NEXT}
+_/NEXT}
+
+### UNUSED
+:PowerAttack
+1-3,-1/+2
+4-7,-2/+4
+8-11,-3/+6
+12-15,-4/+8
+16-19,-5/+10
+20-100,-6/+12
+
+#### UNUSED
+:CombatExpertise
+1-3,-1/+1
+4-7,-2/+2
+8-11,-3/+3
+12-15,-4/+4
+16-19,-5/+5
+20-100,-6/+6
+
+;Range Feats
+# Point Blank Shot and Others
+1,Point-Blank Shot
+10,{If~{Find~1,Point-Blank Shot,%FeatsAll%}!=0?Far Shot/NEXT}
+10,{If~{Find~1,Point-Blank Shot,%FeatsAll%}!=0?Precise Shot/NEXT}
+20,{If~{And~{Find~1,Precise Shot,%FeatsAll%}!=0,%DEX%>=19}=1?
+_{If~%BAB%>=11?Improved Precise Shot/NEXT}
+_/NEXT}
+30,{If~{And~{Find~1,Improved Precise Shot,%FeatsAll%}!=0,%BAB%>=16}=1?Pinpoint Targeting/NEXT}
+10,{If~{And~{Find~1,Point-Blank Shot,%FeatsAll%}!=0,%DEX%>=13}=1?
+_{If~{And~{Find~1,Mobility,%FeatsAll%}!=0,%BAB%>=4}=1?Shot on the run/NEXT}
+_/NEXT}
+# Modified because to use Rapid Shot you either need Martial Weapons Proficiency (or being an elf) to use a bow
+# or a Rogue(Class=9) who has access to a shortbow
+# or Rapid Reload (for a Light or Hand Crossbow) or Quick Draw for other range weapons
+# Also look under "SetRangeRapidShot" in "NPC Stat Block Pathfinder" if another race or class has access to a bow.
+10,{If~{And~{Find~1,Point-Blank Shot,%FeatsAll%}!=0,%DEX%>=13}=1?
+_{If~{Or~{Find~1,Martial Weapon Proficiency,%FeatsAll%}!=0,%ParamRace%=Elf}=1?Rapid Shot
+_/{If~%ParamClass%=Rogue?Rapid Shot
+_/{If~{Or~{Find~1,Quick Draw,%FeatsAll%}!=0,{Find~1,Rapid Reload,%FeatsAll%}!=0}=1?Rapid Shot
+_/NEXT}}}
+_/NEXT}
+# Manyshot requires a Bow, so Rapid Reload cannot be chosen
+# As with Rapid Shot: you either need Martial Weapons Proficiency (or being an elf) to use a bow
+# or a Rogue(Class=9) who has access to a shortbow
+20,{If~{And~{Find~1,Rapid Shot,%FeatsAll%}!=0,%DEX%>=17}=1?
+_{If~{And~%BAB%>=6,{Find~1,Rapid Reload,%FeatsAll%}=0}=1?Manyshot
+_/{If~{Or~{Find~1,Martial Weapon Proficiency,%FeatsAll%}!=0,%ParamRace%=Elf}=1?Manyshot
+_/{If~%ParamClass%=Rogue?Manyshot
+_/NEXT}}}
+_/NEXT}
+# Modified since Druids (Class=5) don't have access to Crossbows.
+# Rapid Reload is for a Crossbow and Manyshot for a Bow, so both can't be chosen
+# Also, your BAB must me sufficient to have more than one attack OR you must have Rapid Shot
+1,{If~{And~%ParamClass%!=Druid,{Find~1,Manyshot,%FeatsAll%}=0}=1?
+_{If~{Or~%BAB%>=6,{Find~1,Rapid Shot,%FeatsAll%}!=0}=1?Rapid Reload/NEXT}
+_/NEXT}
+1,Throw Anything
+# Deadly Aim
+1,{If~{And~%DEX%>=13,%BAB%>=1}=1?Deadly Aim/NEXT}
+
+### UNUSED
+:DeadlyAim
+1-3,-1/+2
+4-7,-2/+4
+8-11,-3/+6
+12-15,-4/+8
+16-19,-5/+10
+20-100,-6/+12
+
+;Misc Feats
+# Nimble Moves, Acrobatic Steps
+1,{If~%DEX%>=13?Nimble Moves/NEXT}
+10,{If~{And~{Find~1,Nimble Moves,%FeatsAll%}!=0,%DEX%>=15}=1?Acrobatic Steps/NEXT}
+# Endurance, Diehard
+1,{If~{Find~1,Kobold Endurance,%FeatsAll%}=0?Endurance/NEXT}
+10,{If~{Find~1,Endurance,%FeatsAll%}!=0?Diehard/NEXT}
+# Because of the Monk's fast movement, I removed it for this class
+1,{If~%ParamClass%!=Monk?Fleet/NEXT}
+1,Great Fortitude
+10,{If~{Find~1,Great Fortitude,%FeatsAll%}!=0?Improved Great Fortitude/NEXT}
+1,Iron Will
+10,{If~{Find~1,Iron Will,%FeatsAll%}!=0?Improved Iron Will/NEXT}
+1,{If~{And~%CharacterLevel%>=7,%ParamClass%!=AnimalCompanion}=1?{If~%LeadershipFeat%=1?Leadership/NEXT}/NEXT}
+1,{If~{And~%DEX%>=13,%ParamRace%=Elf}=1?Lightfeet/NEXT}
+1,Lightning Reflexes
+10,{If~{Find~1,Lightning Reflexes,%FeatsAll%}!=0?Improved Lightning Reflexes/NEXT}
+1,Run
+1,{If~%ParamClass%=Monk?Extra Ki/NEXT}
+1,{If~%ParamClass%=Bard?Extra Performance/NEXT}
+1,{If~%ParamClass%=Barbarian?Extra Rage/NEXT}
+1,{If~%BAB%>=1?Step Up/NEXT}
+1,{If~%BAB%>=11?Strike Back/NEXT}
+1,Toughness
+
+;Misc Feats Fighter Bonus
+1,{If~%BAB%>=1?Step Up/NEXT}
+1,{If~%BAB%>=11?Strike Back/NEXT}
+
+;Skill Feats
+1,Acrobatic
+1,{If~%DEXBonus%>%STRBonus%?Agile Maneuvers/NEXT}
+1,Alertness
+1,{If~%ParamClass%!=AnimalCompanion?Animal Affinity/NEXT}
+1,Athletic
+1,{If~%ParamClass%!=AnimalCompanion?Deceitful/NEXT}
+1,{If~%ParamClass%!=AnimalCompanion?Deft Hands/NEXT}
+# Modified for STR>=16 with a +3 bonus, since Skill Focus or Persuasive is better if STR<16
+1,{If~%STR%>=14?Intimidating Prowess/NEXT}
+1,{If~{And~%CharacterLevel%>=5,%ParamClass%!=AnimalCompanion}=1?{If~{And~{Find~1,Craft Magic Arms and Armor,%FeatsAll%}=0,{Find~1,Craft Wondrous Item,%FeatsAll%}=0}=1?Master Craftsman/NEXT}}
+1,{If~%ParamClass%!=AnimalCompanion?Persuasive/NEXT}
+1,{If~%ParamClass%!=AnimalCompanion?Self-Sufficient/NEXT}
+5,Skill Focus ([~Pathfinder Skills.SkillsList])
+1,Stealthy
+
+;Skill Feats Fighter Bonus
+1,{If~%DEXBonus%>%STRBonus%?Agile Maneuvers/NEXT}
+1,{If~%STR%>=14?Intimidating Prowess/NEXT}
+
+;Weapon Feats
+1,{If~%ParamClass%!=AnimalCompanion?
+_{If~{Find~1,Simple Weapon Proficiency,%FeatsAll%}=0?
+_|WeaponNewS=[~Equipment.SimpleWeaponsList]|
+_{If~%ProficientWeapons%!=0?|ProficientWeapons&;%WeaponNewS%|/|ProficientWeapons={Replace~0,%WeaponNewS%,%ProficientWeapons%}|}
+#_{If~%ProficientWeapons%!=0?|ProficientWeapons&;%WeaponNewS%|/|ProficientWeapons&%WeaponNewS%|}
+#_|ProficientWeapons&;%WeaponNewS%|
+_Simple Weapon Proficiency (%WeaponNewS%)
+_/NEXT}
+_/NEXT}
+1,{If~%ParamClass%!=AnimalCompanion?
+_{If~{Find~1,Martial Weapon Proficiency,%FeatsAll%}=0?
+_|WeaponNewM=[~Equipment.MartialWeaponsList]|
+_{If~%ProficientWeapons%!=0?|ProficientWeapons&;%WeaponNewM%|/|ProficientWeapons={Replace~0,%WeaponNewM%,%ProficientWeapons%}|}
+#_{If~%ProficientWeapons%!=0?|ProficientWeapons&;%WeaponNewM%|/|ProficientWeapons&%WeaponNewM%|}
+#_|ProficientWeapons&;%WeaponNewM%|
+_Martial Weapon Proficiency (%WeaponNewM%)
+_/NEXT}
+_/NEXT}
+1,{If~%ParamClass%!=AnimalCompanion?
+_{If~{And~%BAB%>=1,{Find~1,Exotic Weapon Proficiency,%FeatsAll%}=0}=1?
+_|WeaponNewE=[~Equipment.ExoticWeaponsList]|
+_{If~%ProficientWeapons%!=0?|ProficientWeapons&;%WeaponNewE%|/|ProficientWeapons={Replace~0,%WeaponNewE%,%ProficientWeapons%}|}
+#_{If~%ProficientWeapons%!=0?|ProficientWeapons&;%WeaponNewE%|/|ProficientWeapons&%WeaponNewE%|}
+#_|ProficientWeapons&;%WeaponNewE%|
+_Exotic Weapon Proficiency (suggestion: %WeaponNewE%)
+_/NEXT}
+_/NEXT}
+1,{If~%BAB%>=8?Improved Critical/NEXT}
+# Two-Weapon Fighting
+1,{If~{And~%DEX%>=15,%ParamClass%!=AnimalCompanion}=1?Two-Weapon Fighting|TwoWeaponFlag=1|/NEXT}
+10,{If~{Find~1,Two-Weapon Fighting,%FeatsAll%}!=0?Double Slice/NEXT}
+20,{If~{And~{Find~1,Double Slice,%FeatsAll%}!=0,%ImprovedTwoWeaponFlag%=1}=1?
+_{If~%BAB%>=11?Two-Weapon Rend/NEXT}
+_/NEXT}
+10,{If~{And~{Find~1,Two-Weapon Fighting,%FeatsAll%}!=0,%DEX%>=17}=1?
+_{If~%BAB%>=6?Improved Two-Weapon Fighting/NEXT}
+_/NEXT}
+20,{If~{And~{Find~1,Improved Two-Weapon Fighting,%FeatsAll%}!=0,%DEX%>=19}=1?
+_{If~%BAB%>=11?Greater Two-Weapon Fighting|ImprovedTwoWeaponFlag=1|/NEXT}
+_/NEXT}
+10,{If~{Find~1,Two-Weapon Fighting,%FeatsAll%}!=0?Two-Weapon Defense/NEXT}
+# Vital Strike
+1,{If~%BAB%>=6?Vital Strike/NEXT}
+10,{If~{Find~1,Vital Strike,%FeatsAll%}!=0?Improved Vital Strike/NEXT}
+20,{If~{And~{Find~1,Improved Vital Strike,%FeatsAll%}!=0,%BAB%>=16}=1?Greater Vital Strike/NEXT}
+# Weapon Finesse
+1,{If~{And~%BAB%>=1,%DEXBonus%>=%STRBonus%}=1?Weapon Finesse/NEXT}
+# Weapon Focus
+1,{If~{And~{Find~1,WPNFOCUS,%FeatsAll%}=0,%BAB%>=1}=1?WPNFOCUS/NEXT}
+10,{If~{Find~1,WPNFOCUS,%FeatsAll%}!=0?Dazzling Display/NEXT}
+20,{If~{And~{Find~1,Dazzling Display,%FeatsAll%}!=0,%BAB%>=6}=1?Shatter Defenses/NEXT}
+30,{If~{And~{Find~1,Shatter Defenses,%FeatsAll%}!=0,%GreaterWeaponFocusFlag%=1}=1?
+_{If~%BAB%>=11?Deadly Stroke/NEXT}
+_/NEXT}
+10,{If~{And~%ParamClass%=Fighter,%CharacterLevel%>=8}=1?
+_{If~{Find~1,WPNFOCUS,%FeatsAll%}!=0?Greater Weapon Focus/NEXT}
+_/NEXT}
+10,{If~{And~%ParamClass%=Fighter,%CharacterLevel%>=12}=1?
+_{If~{Find~1,Greater Weapon Focus,%FeatsAll%}!=0?Penetrating Strike/NEXT}
+_/NEXT}
+20,{If~{And~%ParamClass%=Fighter,%CharacterLevel%>=16}=1?
+_{If~{Find~1,Penetrating Strike,%FeatsAll%}!=0?Greater Penetrating Strike/NEXT}
+_/NEXT}
+# Weapon Specialization
+10,{If~%ParamClass%=Fighter?
+_{If~{And~{Find~1,WPNFOCUS,%FeatsAll%}!=0,%CharacterLevel%>=4}=1?Weapon Specialization/NEXT}
+_/NEXT}
+20,{If~%ParamClass%=Fighter?
+_{If~{And~{Find~1,Weapon Specialization,%FeatsAll%}!=0,%CharacterLevel%>=12}=1?
+_{If~{Find~1,Greater Weapon Focus,%FeatsAll%}!=0?Greater Weapon Specialization/NEXT}
+_/NEXT}
+_/NEXT}
+
+;Divine Feats
+1,{If~%Channel%=1?{If~{Find~1,Command Undead,%FeatsAll%}=0?Turn Undead/NEXT}/NEXT}
+1,{If~{And~%ParamClass%!=Paladin,%Channel%=1}=1?{If~{Find~1,Turn Undead,%FeatsAll%}=0?Command Undead/NEXT}/NEXT}
+1,{If~%ParamClass%=Paladin?Extra Lay on Hands/NEXT}
+1,{If~%ParamClass%=Paladin?Extra Mercy/NEXT}
+
+;Item Creation Feats
+1,{If~%CharacterLevel%>=3?Brew Potion/NEXT}
+1,{If~{And~%CharacterLevel%>=5,{Find~1,Master Craftsman,%FeatsAll%}=0}=1?Craft Magic Arms and Armor/NEXT}
+1,{If~%CharacterLevel%>=9?Craft Rod/NEXT}
+1,{If~%CharacterLevel%>=12?Craft Staff/NEXT}
+1,{If~%CharacterLevel%>=5?Craft Wand/NEXT}
+1,{If~{And~%CharacterLevel%>=3,{Find~1,Master Craftsman,%FeatsAll%}=0}=1?Craft Wondrous Item/NEXT}
+1,{If~%CharacterLevel%>=12?Forge Ring/NEXT}
+1,Scribe Scroll
+
+;Item Creation Feats Valminder
+1,{If~%CharacterLevel%>=5?Craft Charged Items/NEXT}
+1,{If~{And~%CharacterLevel%>=3,{Find~1,Master Craftsman,%FeatsAll%}=0}=1?Craft Constant Items/NEXT}
+#1,{If~%CharacterLevel%>=21?Craft Epic Items/NEXT}
+1,{If~{And~%CharacterLevel%>=5,{Find~1,Master Craftsman,%FeatsAll%}=0}=1?Craft Magic Arms and Armor/NEXT}
+1,{If~%CharacterLevel%>=3?Craft Single-Use Items/NEXT}
+1,Craft Spell Completion Items
+
+;Magic Feats
+#1,{If~{Find~1,Spell Focus (Conjuration),%FeatsAll%}!=0?Augment Summoning [FontB=2](+4 STR/CON)[FontE]/NEXT}
+1,{If~{Find~1,Spell Focus (Conjuration),%FeatsAll%}!=0?Augment Summoning/NEXT}
+1,Combat Casting
+1,Eschew Materials
+1,{If~%CharacterLevel%>=5?Improved Counterspell/NEXT}
+1,Magical Aptitude
+1,{If~{And~%ParamClass%=Druid,%WIS%>=13}=1?Natural Spell/NEXT}
+1,Spell Focus ([SpellSchool])
+10,{If~{Find~1,Spell Focus,%FeatsAll%}!=0?Greater Spell Focus/NEXT}
+1,{If~%ParamClass%=Wizard?Spell Mastery/NEXT}
+1,Spell Penetration
+10,{If~{Find~1,Spell Penetration,%FeatsAll%}!=0?Greater Spell Penetration/NEXT}
+# Channelling Feats
+1,{If~%Channel%=1?Alignment Channel/NEXT}
+1,{If~%Channel%=1?Elemental Channel/NEXT}
+1,{If~%Channel%!=0?Extra Channel/NEXT}
+1,{If~%Channel%!=0?Improved Channel/NEXT}
+1,{If~%Channel%=1?Channel Smite/NEXT}
+#1,{If~{And~%Channel%!=0,%CHA%>=13}=1?Selective Channeling [FontB=2](ignore {Bold~%CHABonus%} targets)[FontE]/NEXT}
+1,{If~{And~%Channel%=1,%CHA%>=13}=1?Selective Channeling/NEXT}
+# Miscellaneous Magical Feats
+1,{If~%CharacterLevel%>=3?Improved Familiar ([~Improved Familiar])/NEXT}
+# Need Arcane caster
+#1,{IIf~%Arcane%!=0?Arcane Strike (SWIFT +{IIf~%CharacterLevel%<5?1:{Trunc~{Calc~((%CharacterLevel%/5)+1)}}} dmg, 1r):NEXT}
+1,{If~%Arcane%!=0?Arcane Strike/NEXT}
+
+;Magic Feats Fighter
+1,{If~%Channel%=1?Channel Smite/NEXT}
+1,{If~%Arcane%!=0?Arcane Strike/NEXT}
+
+;Improved Familiar
+1,celestial hawk (NG)
+1,celestial dog (NG)
+1,celestial [Creatures.Familiar Common] (NG)
+1,dire rat (N)
+1,fiendish viper (NE)
+1,fiendish raven (NE)
+1,fiendish [Creatures.Familiar Common] (NE)
+1,{IIf~%CharacterLevel%>=5?small elemental ([~Creatures.SummonElemental]) (N):[Improved Familiar]}
+1,{IIf~%CharacterLevel%>=5?stirge (N):[Improved Familiar]}
+1,{IIf~%CharacterLevel%>=7?homunculus (any):[Improved Familiar]}
+1,{IIf~%CharacterLevel%>=7?imp (LE):[Improved Familiar]}
+1,{IIf~%CharacterLevel%>=7?mephit ([~Creatures.SummonMephit]) (N):[Improved Familiar]}
+1,{IIf~%CharacterLevel%>=7?pseudodragon (NG):[Improved Familiar]}
+1,{IIf~%CharacterLevel%>=7?quasit (CE):[Improved Familiar]}
+
+# For metamagic feats, the required caster level depends on the level
+# modifier of the feat, so you have at least 1st level spells to apply the metamagic feat to.
+# +1 level  >=3
+# +2 levels >=5
+# +3 levels >=7
+# +4 levels >=9
+;Metamagic Feats
+10,{If~%CharacterLevel%>=5?Empower Spell/NEXT}
+10,{If~%CharacterLevel%>=3?Enlarge Spell/NEXT}
+10,{If~%CharacterLevel%>=3?Extend Spell/NEXT}
+5,{If~%CharacterLevel%>=3?Heighten Spell/NEXT}
+10,{If~%CharacterLevel%>=7?Maximize Spell/NEXT}
+10,{If~%CharacterLevel%>=9?Quicken Spell/NEXT}
+10,{If~{And~%ParamClass%!=Bard,%CharacterLevel%>=3}=1?Silent Spell/NEXT}
+10,{If~%CharacterLevel%>=3?Still Spell/NEXT}
+10,{If~%CharacterLevel%>=7?Widen Spell/NEXT}
+##### These other metamagic feats MUST be included to prevent errors #####
+# Advanced Player's Guide (AdvPG)
+1,{If~%CharacterLevel%>=3?Bouncing Spell/NEXT}
+1,{If~%CharacterLevel%>=7?Dazing Spell/NEXT}
+1,{If~%CharacterLevel%>=3?Disruptive Spell/NEXT}
+1,{If~%CharacterLevel%>=3?Ectoplasmic Spell/NEXT}
+1,{If~%CharacterLevel%>=3?ELEMENTAL SPELL/NEXT}
+1,{If~%CharacterLevel%>=3?Focused Spell/NEXT}
+#1,{If~%CharacterLevel%>=3?Intensified Spell/NEXT}
+1,{If~%CharacterLevel%>=3?Lingering Spell/NEXT}
+1,Merciful Spell
+1,{If~%CharacterLevel%>=5?Persistent Spell{If~%Valminder%=1? (AdvPG)}/NEXT}
+1,{If~%CharacterLevel%>=3?Reach Spell/NEXT}
+1,{If~%CharacterLevel%>=10?Selective Spell/NEXT}
+1,{If~%CharacterLevel%>=5?Sickening Spell/NEXT}
+1,{If~%CharacterLevel%>=5?Thundering Spell/NEXT}
+
+;ElementalSpell
+1,acid
+1,cold
+1,electricity
+1,fire
+
+:!SpellSchool
+1,Abjuration
+2,Conjuration
+3,Divination
+4,Enchantment
+5,Evocation
+6,Illusion
+7,Necromancy
+8,Transmutation
+9,Universal
+
+# --------------------------------------------------------------------------
+# Choose a weapon for Weapon Focus.
+
+:AddWeaponFocus
+1,[SetWeapons][ChooseWeapon]
+_|FeatsAll={Replace~WPNFOCUS,Weapon Focus (%WeaponFocusWpn%{If~%MeleeWeaponID%!=99? OR [Equipment.MeleeDescription=%MeleeWeaponID%]}),%FeatsAll%}|
+_{If~%TestLog%=1?{Log~E:\log.txt,XXXXX End of AddWeaponFocus XXXXX FeatsAll= %FeatsAll%}}
+_|FeatsString={Replace~WPNFOCUS,Weapon Focus (%WeaponFocusWpn%{If~%MeleeWeaponID%!=99? OR [Equipment.MeleeDescription=%MeleeWeaponID%]}),%FeatsString%}|
+_{If~%TestLog%=1?{Log~E:\log.txt,XXXXX End of AddWeaponFocus XXXXX FeatsString= %FeatsString%}}
+
+:AddWeaponFocusAnimalCompanion
+1,|FeatsAll={Replace~WPNFOCUS,[WpnFocAnimalComp],%FeatsAll%}|
+_|FeatsString={Replace~WPNFOCUS,[WpnFocAnimalComp],%FeatsString%}|
+
+:WpnFocAnimalComp
+1,Weapon Focus (choose one natural weapon)
+
+:SetWeapons
+1,|Count=15|{While~%Count%,|Weapon%Count%=0||Count-1|}
+_{If~{Find~1,Simple Weapon Proficiency,%FeatsAll%}!=0?|Weapon29=1|}
+_{If~{Find~1,Martial Weapon Proficiency,%FeatsAll%}!=0?|Weapon30=1|}
+_{Split~ProficientWeapons,";",Weapon1,Weapon2,Weapon3,Weapon4,Weapon5,Weapon6,Weapon7,Weapon8,Weapon9,Weapon10,Weapon11,Weapon12,Weapon13,Weapon14,Weapon15,Weapon16,Weapon17,Weapon18,Weapon19,Weapon20,Weapon21,Weapon22,Weapon23,Weapon24,Weapon25,Weapon26,Weapon27,Weapon28}
+
+:ChooseWeapon
+1,{If~%WeaponNewE%!=0?|WeaponFocusWpn=%WeaponNewE%|
+_/{If~%WeaponNewM%!=0?|WeaponFocusWpn=%WeaponNewM%|
+_/{If~%WeaponNewS%!=0?|WeaponFocusWpn=%WeaponNewS%|
+_   /{If~{And~%Weapon1%!=0,{Find~1,named weapons,%Weapon1%}=0}=1?|WeaponSpecial=1|
+_   /{If~{And~%Weapon2%!=0,{Find~1,named weapons,%Weapon2%}=0}=1?|WeaponSpecial=1|
+_   /{If~{And~%Weapon3%!=0,{Find~1,named weapons,%Weapon3%}=0}=1?|WeaponSpecial=1|
+_   /{If~{And~%Weapon4%!=0,{Find~1,named weapons,%Weapon4%}=0}=1?|WeaponSpecial=1|
+_   /{If~{And~%Weapon5%!=0,{Find~1,named weapons,%Weapon5%}=0}=1?|WeaponSpecial=1|
+_   /{If~{And~%Weapon6%!=0,{Find~1,named weapons,%Weapon6%}=0}=1?|WeaponSpecial=1|
+_   /{If~{And~%Weapon7%!=0,{Find~1,named weapons,%Weapon7%}=0}=1?|WeaponSpecial=1|
+_   /{If~{And~%Weapon8%!=0,{Find~1,named weapons,%Weapon8%}=0}=1?|WeaponSpecial=1|
+_   /{If~{And~%Weapon9%!=0,{Find~1,named weapons,%Weapon9%}=0}=1?|WeaponSpecial=1|
+_   /{If~{And~%Weapon10%!=0,{Find~1,named weapons,%Weapon10%}=0}=1?|WeaponSpecial=1|
+_   /{If~{And~%Weapon11%!=0,{Find~1,named weapons,%Weapon11%}=0}=1?|WeaponSpecial=1|
+_   /{If~{And~%Weapon12%!=0,{Find~1,named weapons,%Weapon12%}=0}=1?|WeaponSpecial=1|
+_   /{If~{And~%Weapon13%!=0,{Find~1,named weapons,%Weapon13%}=0}=1?|WeaponSpecial=1|
+_   /{If~{And~%Weapon14%!=0,{Find~1,named weapons,%Weapon14%}=0}=1?|WeaponSpecial=1|
+_   /{If~{And~%Weapon15%!=0,{Find~1,named weapons,%Weapon15%}=0}=1?|WeaponSpecial=1|
+_   /{If~{And~%Weapon16%!=0,{Find~1,named weapons,%Weapon16%}=0}=1?|WeaponSpecial=1|
+_   /{If~{And~%Weapon17%!=0,{Find~1,named weapons,%Weapon17%}=0}=1?|WeaponSpecial=1|
+_   /{If~{And~%Weapon18%!=0,{Find~1,named weapons,%Weapon18%}=0}=1?|WeaponSpecial=1|
+_   /{If~{And~%Weapon19%!=0,{Find~1,named weapons,%Weapon19%}=0}=1?|WeaponSpecial=1|
+_   /{If~{And~%Weapon20%!=0,{Find~1,named weapons,%Weapon20%}=0}=1?|WeaponSpecial=1|
+_   /{If~{And~%Weapon21%!=0,{Find~1,named weapons,%Weapon21%}=0}=1?|WeaponSpecial=1|
+_   /{If~{And~%Weapon22%!=0,{Find~1,named weapons,%Weapon22%}=0}=1?|WeaponSpecial=1|
+_   /{If~{And~%Weapon23%!=0,{Find~1,named weapons,%Weapon23%}=0}=1?|WeaponSpecial=1|
+_   /{If~{And~%Weapon24%!=0,{Find~1,named weapons,%Weapon24%}=0}=1?|WeaponSpecial=1|
+_   /{If~{And~%Weapon25%!=0,{Find~1,named weapons,%Weapon25%}=0}=1?|WeaponSpecial=1|
+_   /{If~{And~%Weapon26%!=0,{Find~1,named weapons,%Weapon26%}=0}=1?|WeaponSpecial=1|
+_   /{If~{And~%Weapon27%!=0,{Find~1,named weapons,%Weapon27%}=0}=1?|WeaponSpecial=1|
+_   /{If~{And~%Weapon28%!=0,{Find~1,named weapons,%Weapon28%}=0}=1?|WeaponSpecial=1|
+_}}}}}}}}}}}}}}}}}}}}}}}}}}}}
+_{IIf~%WeaponSpecial%=1?[ChooseWeapon2]:[ChooseMartialorSimple]}
+_}
+_}
+_}
+
+:ChooseWeapon2
+1,|Temp={Dice~1d28}|[ChooseWeapon3=%Temp%]
+
+:ChooseWeapon3
+1,{IIf~{And~%Weapon1%!=0,{Find~1,named weapons,%Weapon1%}=0}=1?|WeaponFocusWpn=%Weapon1%|:[ChooseWeapon2]}
+2,{IIf~{And~%Weapon2%!=0,{Find~1,named weapons,%Weapon2%}=0}=1?|WeaponFocusWpn=%Weapon2%|:[ChooseWeapon2]}
+3,{IIf~{And~%Weapon3%!=0,{Find~1,named weapons,%Weapon3%}=0}=1?|WeaponFocusWpn=%Weapon3%|:[ChooseWeapon2]}
+4,{IIf~{And~%Weapon4%!=0,{Find~1,named weapons,%Weapon4%}=0}=1?|WeaponFocusWpn=%Weapon4%|:[ChooseWeapon2]}
+5,{IIf~{And~%Weapon5%!=0,{Find~1,named weapons,%Weapon5%}=0}=1?|WeaponFocusWpn=%Weapon5%|:[ChooseWeapon2]}
+6,{IIf~{And~%Weapon6%!=0,{Find~1,named weapons,%Weapon6%}=0}=1?|WeaponFocusWpn=%Weapon6%|:[ChooseWeapon2]}
+7,{IIf~{And~%Weapon7%!=0,{Find~1,named weapons,%Weapon7%}=0}=1?|WeaponFocusWpn=%Weapon7%|:[ChooseWeapon2]}
+8,{IIf~{And~%Weapon8%!=0,{Find~1,named weapons,%Weapon8%}=0}=1?|WeaponFocusWpn=%Weapon8%|:[ChooseWeapon2]}
+9,{IIf~{And~%Weapon9%!=0,{Find~1,named weapons,%Weapon9%}=0}=1?|WeaponFocusWpn=%Weapon9%|:[ChooseWeapon2]}
+10,{IIf~{And~%Weapon10%!=0,{Find~1,named weapons,%Weapon10%}=0}=1?|WeaponFocusWpn=%Weapon10%|:[ChooseWeapon2]}
+11,{IIf~{And~%Weapon11%!=0,{Find~1,named weapons,%Weapon11%}=0}=1?|WeaponFocusWpn=%Weapon11%|:[ChooseWeapon2]}
+12,{IIf~{And~%Weapon12%!=0,{Find~1,named weapons,%Weapon12%}=0}=1?|WeaponFocusWpn=%Weapon12%|:[ChooseWeapon2]}
+13,{IIf~{And~%Weapon13%!=0,{Find~1,named weapons,%Weapon13%}=0}=1?|WeaponFocusWpn=%Weapon13%|:[ChooseWeapon2]}
+14,{IIf~{And~%Weapon14%!=0,{Find~1,named weapons,%Weapon14%}=0}=1?|WeaponFocusWpn=%Weapon14%|:[ChooseWeapon2]}
+15,{IIf~{And~%Weapon15%!=0,{Find~1,named weapons,%Weapon15%}=0}=1?|WeaponFocusWpn=%Weapon15%|:[ChooseWeapon2]}
+16,{IIf~{And~%Weapon16%!=0,{Find~1,named weapons,%Weapon16%}=0}=1?|WeaponFocusWpn=%Weapon16%|:[ChooseWeapon2]}
+17,{IIf~{And~%Weapon17%!=0,{Find~1,named weapons,%Weapon17%}=0}=1?|WeaponFocusWpn=%Weapon17%|:[ChooseWeapon2]}
+18,{IIf~{And~%Weapon18%!=0,{Find~1,named weapons,%Weapon18%}=0}=1?|WeaponFocusWpn=%Weapon18%|:[ChooseWeapon2]}
+19,{IIf~{And~%Weapon19%!=0,{Find~1,named weapons,%Weapon19%}=0}=1?|WeaponFocusWpn=%Weapon19%|:[ChooseWeapon2]}
+20,{IIf~{And~%Weapon20%!=0,{Find~1,named weapons,%Weapon20%}=0}=1?|WeaponFocusWpn=%Weapon20%|:[ChooseWeapon2]}
+21,{IIf~{And~%Weapon21%!=0,{Find~1,named weapons,%Weapon21%}=0}=1?|WeaponFocusWpn=%Weapon21%|:[ChooseWeapon2]}
+22,{IIf~{And~%Weapon22%!=0,{Find~1,named weapons,%Weapon22%}=0}=1?|WeaponFocusWpn=%Weapon22%|:[ChooseWeapon2]}
+23,{IIf~{And~%Weapon23%!=0,{Find~1,named weapons,%Weapon23%}=0}=1?|WeaponFocusWpn=%Weapon23%|:[ChooseWeapon2]}
+24,{IIf~{And~%Weapon24%!=0,{Find~1,named weapons,%Weapon24%}=0}=1?|WeaponFocusWpn=%Weapon24%|:[ChooseWeapon2]}
+25,{IIf~{And~%Weapon25%!=0,{Find~1,named weapons,%Weapon25%}=0}=1?|WeaponFocusWpn=%Weapon25%|:[ChooseWeapon2]}
+26,{IIf~{And~%Weapon26%!=0,{Find~1,named weapons,%Weapon26%}=0}=1?|WeaponFocusWpn=%Weapon26%|:[ChooseWeapon2]}
+27,{IIf~{And~%Weapon27%!=0,{Find~1,named weapons,%Weapon27%}=0}=1?|WeaponFocusWpn=%Weapon27%|:[ChooseWeapon2]}
+28,{IIf~{And~%Weapon28%!=0,{Find~1,named weapons,%Weapon28%}=0}=1?|WeaponFocusWpn=%Weapon28%|:[ChooseWeapon2]}
+
+:ChooseMartialorSimple
+1,{If~%Weapon29%=1?|WeaponFocusWpn=[~Equipment.MartialWeaponsList]|/
+_{If~%Weapon30%=1?|WeaponFocusWpn=[~Equipment.SimpleWeaponsList]|/|WeaponFocusWpn=ERROR|}
+_}
+
+# --------------------------------------------------------------------------
+# This determines the BAB of the character.
+
+:DetermineBABs
+# Fighter, Barbarian, Warrior
+1-2,|BAB1=%CharacterLevel%||BAB=%BAB1%|
+_{If~%BAB%>15?|BAB4={Calc~(%BAB%-15)}|}
+_{If~%BAB%>10?|BAB3={Calc~(%BAB%-10)}|}
+_{If~%BAB%>5?|BAB2={Calc~(%BAB%-5)}|}
+# Bard, Cleric, Druid, Monk, Aristocrat, Expert
+3-6,[OtherBABs=%CharacterLevel%]|BAB=%BAB1%|
+# Paladin, Ranger
+7-8,[DetermineBABs=1]
+# Rogue
+9,[DetermineBABs=3]
+# Sorcerer, Wizard, Adept, Commoner
+#10-11,|InputValue=%CharacterLevel%||ResultRange=2||StartingValue=0|[ValueCalculation]|BAB1=%Result%|
+10-12,|BAB1=%CharacterLevel%||BAB1\2||BAB=%BAB1%|
+_{If~%BAB%>=6?|BAB2={Calc~(%BAB1%-5)}|}
+# Aristocrat
+13,[DetermineBABs=3]
+# Commoner
+14,[DetermineBABs=10]
+# Expert
+15,[DetermineBABs=3]
+# Warrior
+16,[DetermineBABs=1]
+### NEW CLASS ###
+17-98,[DetermineBABs=3]
+# Animal Companion
+99,[OtherBABs=%CharacterLevel%]
+
+:OtherBABs
+1,|BAB1=0|
+2,|BAB1=1|
+3,|BAB1=2|
+4-5,|BAB1=3|
+6,|BAB1=4|
+7,|BAB1=5|
+8-9,|BAB1=6||BAB2=1|
+10,|BAB1=7||BAB2=2|
+11,|BAB1=8||BAB2=3|
+12-13,|BAB1=9||BAB2=4|
+14,|BAB1=10||BAB2=5|
+15,|BAB1=11||BAB2=6||BAB3=1|
+16-17,|BAB1=12||BAB2=7||BAB3=2|
+18,|BAB1=13||BAB2=8||BAB3=3|
+19,|BAB1=14||BAB2=9||BAB3=4|
+20,|BAB1=15||BAB2=10||BAB3=5|
+
+:ValueCalculation
+1,|Result={Ceil~{Calc~((%InputValue%-%StartingValue%) / %ResultRange%)}}|
+
+:SetFixedBAB
+1,|BAB=%SendBAB%||BAB1=%SendBAB%|
+_{If~%SendBAB%>15?|BAB4={Calc~(%SendBAB%-15)}|}
+_{If~%SendBAB%>10?|BAB3={Calc~(%SendBAB%-10)}|}
+_{If~%SendBAB%>5?|BAB2={Calc~(%SendBAB%-5)}|}
+
+# -----------------------------------------------------------
+
+# There is a maximum of 6 racial feats chosen.
+# Be sure 6 racial feats can be chosen in ANY case.
+### NEW RACE ###
+# PFCore: 1=Human  2=Dwarf  3=Elf  4=Gnome   5=Half Elf  6=Half Orc   7=Halfling  
+# PFB1:   8=Aasimar  9=Drow  10=Drow Noble  11=Duergar  12=Goblin  13=Hobgoblin  14=Kobold  15=Merfolk  16=Orc  17=Svirfneblin  18=Tengu  19=Tiefling
+# 20=RANDOM
+
+;FeatsHuman
+1,Cosmopolitain
+1,Heroic Destiny
+10,{If~{And~{Find~1,Heroic Destiny,%FeatsAll%}!=0,%CharacterLevel%>=3}=1?Protected Destiny/NEXT}
+1,Open Minded
+1,Skill Focus ([~Pathfinder Skills.SkillsList])
+10,{If~%HumanSkillMastery%<%HumanSkillFocus%?Skill Mastery/NEXT}
+20,{If~%HumanSkillPerfection%<%HumanSkillMastery%?Skill Perfection/NEXT}
+
+;FeatsAasimar
+1,Alertness
+1,{If~{Find~1,E,%AL%}=0?Celestial Heritage/NEXT}
+1,{If~{Or~%ParamClass%=Ranger,%ParamClass%=Paladin}=1?Devoted Tracker/NEXT}
+1,{If~%CharacterLevel%>=3?Discipline/NEXT}
+1,Iron Will
+10,{If~{Find~1,Iron Will,%FeatsAll%}!=0?Cumbrous Will/NEXT}
+1,{If~{Find~1,G,%AL%}>=1?Nimbus of Light/NEXT}
+1,Pure Soul
+1,Quick Reconnoiter
+1,{If~{Find~1,G,%AL%}>=1?Sacred Vow/NEXT}
+
+;FeatsDrow
+1,{If~%BAB%>=1?Ancestral Weapon Mastery/NEXT}
+1,Alertness
+1,{If~{And~{Find~1,Armor Proficiency (Light),%FeatsAll%}!=0,%CharacterLevel%>=3}=1?{If~%Arcane%!=0?Arcane Armor Training/NEXT}/NEXT}
+1,{If~%CHA%>=13?Elven Blood Bane Elf/NEXT}
+1,{If~{Find~1,E,%AL%}>=1?Evil Brand/NEXT}
+10,{If~{Find~1,Evil Brand,%FeatsAll%}!=0?Lichloved/NEXT}
+1,{If~%DEX%>=13?Lightfeet/NEXT}
+1,{If~%CharacterLevel%>=3?Spider Climber/NEXT}
+1,Swift and Silent
+1,Unquenchable Flame of Life
+1,Vermin Trainer
+1,{If~{And~{Find~1,E,%AL%}>=1,%CHA%>=15}=1?Verminfriend/NEXT}
+1,{If~%WIS%>=13?Wisdom of Ages/NEXT}
+
+;FeatsDrow Noble
+1,[FeatsDrow]
+
+;FeatsDuergar
+1,{If~{Find~1,Armor Proficiency (Medium),%FeatsAll%}!=0?Armor Proficiency (Heavy)/NEXT}
+1,Bullheaded
+1,Deft Hands
+1,{If~{Find~1,E,%AL%}>=1?Evil Brand/NEXT}
+1,Great Fortitude
+10,{If~{Find~1,Great Fortitude,%FeatsAll%}!=0?Cumbrous Fortitude/NEXT}
+1,{If~{And~%INT%>=13,%CharacterLevel%>=4}=1?Master Trapmaker/NEXT}
+1,{If~%DwarfSkillFocusCRA%=0?Skill Focus ([Pathfinder Skills.SkillsList=5])/NEXT}
+1,{If~%DwarfSkillFocusDUN%=0?Skill Focus ([Pathfinder Skills.SkillsList=15])/NEXT}
+1,{If~%CON%>=15?Stoneblood/NEXT}
+10,{If~{And~{Find~1,Stoneblood,%FeatsAll%}!=0,%CHA%>=12}=1?Stonelord/NEXT}
+1,Tireless
+
+;FeatsDwarf
+1,{If~%BAB%>=1?Ancestral Weapon Mastery/NEXT}
+1,{If~{Find~1,Armor Proficiency (Medium),%FeatsAll%}!=0?Armor Proficiency (Heavy)/NEXT}
+1,Brewmaster
+1,Bullheaded
+1,{If~{Find~1,Armor Proficiency (Heavy),%FeatsAll%}!=0?Dwarven Armor Proficiency/NEXT}
+1,Great Fortitude
+10,{If~{Find~1,Great Fortitude,%FeatsAll%}!=0?Cumbrous Fortitude/NEXT}
+1,Hard-headed
+1,{If~{And~%INT%>=13,%CharacterLevel%>=4}=1?Master Trapmaker/NEXT}
+1,{If~%DwarfSkillFocusCRA%=0?Skill Focus ([Pathfinder Skills.SkillsList=5])/NEXT}
+1,{If~%DwarfSkillFocusDUN%=0?Skill Focus ([Pathfinder Skills.SkillsList=15])/NEXT}
+1,Stone-Faced
+1,Tireless
+
+;FeatsElf
+1,{If~%BAB%>=1?Ancestral Weapon Mastery/NEXT}
+1,Alertness
+1,Animal Affinity
+1,{If~{And~{Find~1,Armor Proficiency (Light),%FeatsAll%}!=0,%CharacterLevel%>=3}=1?{If~%Arcane%!=0?Arcane Armor Training/NEXT}/NEXT}
+1,{If~%CharacterLevel%>=3?Discipline/NEXT}
+### Shadow Elf NOT DONE in NPC Stat Block Pathfinder
+#1,{If~{And~%CHA%>=13,%ParamRace%=Shadow Elf}=1?Elven Blood Bane Elf/NEXT}
+1,Elven Accuracy
+1,{If~%CharacterLevel%>3?{If~{Or~%Arcane%=1,%Divine%=1}=1?Magic of the Land/NEXT}/NEXT}
+### NOT DONE in NPC Stat Block Pathfinder
+#1,{If~%ParamRace%=Shadow Elf?Swift and Silent/NEXT}
+1,{If~%ParamRace%!=Shadow Elf?Treefriend/NEXT}
+1,{If~{And~%DEX%>=13,%ParamRace%!=Shadow Elf}=1?Treetopper/NEXT}
+1,Unquenchable Flame of Life
+1,{If~%WIS%>=13?Wisdom of Ages/NEXT}
+
+;FeatsGnome
+1,{If~%BAB%>=1?Ancestral Weapon Mastery/NEXT}
+1,Artist
+1,{If~%CHA%>=13?Burrow Friend/NEXT}
+1,Education
+1,{If~%ExpandedResistance%=0?Expanded Resistance/NEXT}
+1,Magic in the Blood
+1,Peak Hopper
+1,Piercing Sight
+### I don't know why but ~ does not work in the following line
+1,Skill Focus (Knowledge ([Pathfinder Skills.KnowledgeList]))
+1,{If~%INT%>=13?Trivial Knowledge/NEXT}
+
+;FeatsGoblin
+1,Animal Affinity
+1,Blooded
+1,Burn Burn Burn
+1,Deceitful
+1,Dog Killer Horse Hunter
+1,Fire Hand
+1,Fire Tamer
+1,Pack Attack
+1,Stealthy
+1,{If~{Find~1,E,%AL%}>=1?Willing Deformity/NEXT}
+1,Wolf Master
+
+;FeatsHalf Elf
+1,Athletic
+1,Discerning Eye
+1,Endurance
+1,Exile's Path
+10,{If~{And~{Find~1,Exile's Path,%FeatsAll%}!=0,%CharacterLevel%>=5}=1?Seen and Unseen/NEXT}
+1,{If~%CHABonus%>%WISBonus%?Force of Personality/NEXT}
+1,Heroic Destiny
+1,{If~{Find~1,Elven Spirit,%FeatsAll%}=0?Human Spirit/NEXT}
+1,Negotiator
+1,{If~%CHA%>=13?Sociable Personality/NEXT}
+1,Survivor
+
+;FeatsHalf Orc
+1,{If~{And~%BAB%>=1,%Subrace%!=Arena-Bred}=1?Ancestral Weapon Mastery/NEXT}
+1,{If~{And~%ParamClass%=Barbarian,%STR%>=14}=1?Channeled Rage/NEXT}
+1,{If~%STR%>=13?Doorkicker/NEXT}
+1,Endurance
+10,{If~{Find~1,Endurance,%FeatsAll%}!=0?Steadfast/NEXT}
+1,{If~%CON%>=13?Ferocious Resolve/NEXT}
+1,Hunter
+1,Menacing Demeanor
+1,{If~%BAB%>=1?Reckless Offense/NEXT}
+1,Resist Poison
+1,Toughness
+1,Thug
+
+;FeatsHalfling
+1,{If~%DEXBonus%>%STRBonus%?Agile Athlete/NEXT}
+1,{If~%BAB%>=1?Ancestral Weapon Mastery/NEXT}
+1,{If~%BAB%>=1?Desperate Swing/NEXT}
+1,{If~%CHA%>=13?Childlike/NEXT}
+#1,Extra Sanity
+1,Light Bones
+1,Stone Thrower
+1,Strong Soul
+1,Unconquerable Optimism
+1,{If~%WIS%>=12?Yondalla's Sense/NEXT}
+
+;FeatsHobgoblin
+1,Blooded
+1,Endurance
+10,{If~{Find~1,Endurance,%FeatsAll%}!=0?Steadfast/NEXT}
+1,{If~%BAB%>=1?Hobgoblin Discipline/NEXT}
+1,Hunter
+1,{If~%CON%>=13?Improved Recovery/NEXT}
+1,Menacing Demeanor
+1,{If~%BAB%>=1?Reckless Offense/NEXT}
+1,Stealthy
+1,Thug
+1,{If~{Find~1,E,%AL%}>=1?Willing Deformity/NEXT}
+
+;FeatsKobold
+1,Alertness
+1,{If~[Permanent_Variables.QKob]=Yes?Awakened Blood/NEXT}
+1,{If~%BAB%>=3?Close Quarter Fighting/NEXT}
+1,Draconic Aspect ([FeatsKoboldDraconicAspect])
+1,{If~{Find~1,Endurance,%FeatsAll%}=0?Kobold Endurance/NEXT}
+1,Oath of Uwe
+1,Skill Focus (Craft (trapmaking))
+1,{If~%BAB%>=1?Tail Terror/NEXT}
+1,Usable Tail
+
+;FeatsKoboldDraconicAspect
+1,Black
+1,Blue
+1,Green
+1,Red
+1,White
+
+;FeatsMerfolk
+1,Alertness
+1,Cautious Fighter
+1,{If~%CharacterLevel%>=3?Discipline/NEXT}
+1,Eye for Detail
+1,Keen Vision
+1,{If~%CharacterLevel%>3?{If~{Or~%Arcane%=1,%Divine%=1}=1?Magic of the Land/NEXT}/NEXT}
+1,Negotiator
+1,Sage Wisdom
+1,Swift and Silent
+1,{If~{Or~%Arcane%=1,%Divine%=1}=1?Water Focus/NEXT}
+
+;FeatsOrc
+1,{If~%BAB%>=1?Ancestral Weapon Mastery/NEXT}
+1,Bullying Blow
+1,Endurance
+10,{If~{And~{Find~1,Endurance,%FeatsAll%}!=0,%CON%>=13}=1?Hibernate/NEXT}
+1,Hunter
+1,Menacing Demeanor
+1,{If~%BAB%>=1?Reckless Offense/NEXT}
+1,Resist Poison
+1,Toughness
+1,{If~{Find~1,E,%AL%}>=1?Willing Deformity/NEXT}
+
+;FeatsSvirfneblin
+1,{If~%CHA%>=13?Burrow Friend/NEXT}
+1,{If~%BAB%>=1?Close Order Combat/NEXT}
+1,Deft Hands
+1,{If~%CharacterLevel%>=3?Lightning Stealth/NEXT}
+1,Piercing Sight
+1,Resist Poison
+1,Stealthy
+1,{If~%CON%>=15?Stoneblood/NEXT}
+1,Strong Soul
+1,{If~{And~{Find~1,E,%AL%}>=1,%CHA%>=15}=1?Verminfriend/NEXT}
+
+;FeatsTengu
+1,Acrobatic
+1,Carrion Feeder
+1,{If~%DEX%>%STR%?Dexterous Climb/NEXT}
+1,Improved Low-Light Vision
+1,Lightning Reflexes
+10,{If~{Find~1,Lightning Reflexes,%FeatsAll%}!=0?Cumbrous Reflexes/NEXT}
+1,Peak Hopper
+1,Scavenger's Eye
+1,Shadow
+1,Urban Tracking
+
+;FeatsTiefling
+1,Deceitful
+1,{If~{Find~1,G,%AL%}=0?Fiendish Blood/NEXT}
+1,{If~{Find~1,G,%AL%}=0?Fiendish Heritage/NEXT}
+1,Grasping Tail
+1,Lightning Reflexes
+10,{If~{Find~1,Lightning Reflexes,%FeatsAll%}!=0?Cumbrous Reflexes/NEXT}
+1,Otherworldly
+1,Persuasive
+1,Stealthy
+1,Street Smart
+
+# ------------------------------------------------------
+# XXX UNUSED XXX
+
+# Mainly used for the Education feat.
+#  1=Fighter  2=Barbarian  3=Bard  4=Cleric
+#  5=Druid  6=Monk  7=Paladin  8=Ranger  9=Rogue
+# 10=Sorcerer  11=Wizard  12=Adept  13=Aristocrat
+# 14=Commoner  15=Expert  16=Warrior 17=Random
+### NEW CLASS ###
+:AllKnowledge
+1-2,|AllKnowledge=No|
+3,|AllKnowledge=Yes|
+4-10,|AllKnowledge=No|
+11-13,|AllKnowledge=Yes|
+14-100,|AllKnowledge=No|
+

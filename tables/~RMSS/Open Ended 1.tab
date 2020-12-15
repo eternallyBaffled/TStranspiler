@@ -1,0 +1,35 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder Dec 20, 2005.
+# ---------------------------------------------------
+#
+# Open ended die roll table for Rolemaster
+#
+# Verified by Valminder, Jan 2004.
+#    Modified the {Dice~} function.
+#
+
+%DieRoll%,0
+%TotalRoll%,0
+%Modifier%,0
+
+@Modifier,0,Modifier total
+
+:Start
+1,|DieRoll={Dice~1d100}||TotalRoll=%DieRoll%|[Roll=%DieRoll%]|TotalRoll+%Modifier%|%TotalRoll%
+
+:Roll
+1,UM
+2-5,|DieRoll={Dice~1d100}|[Open Low=%DieRoll%]
+6-65,
+66,UM
+67-95,
+96-99,|DieRoll={Dice~1d100}|[Open High=%DieRoll%]
+100,UM 
+
+:Open High
+1-95,|TotalRoll+%DieRoll%|
+96,|TotalRoll+%DieRoll%||DieRoll={Dice~1d100}|[Open High=%DieRoll%]
+
+:Open Low
+1-95,|TotalRoll-%DieRoll%|
+96,|TotalRoll-%DieRoll%||DieRoll={Dice~d100}|[Open Low=%DieRoll%]

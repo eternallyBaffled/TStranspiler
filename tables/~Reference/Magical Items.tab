@@ -1,0 +1,442 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder Feb 28, 2006.
+# ---------------------------------------------------
+#
+# Magical Items
+#
+# Various tables intended for use by other tables
+#
+# Created by Valminder, May 2002.
+# Modified by Valminder, Oct 2003.
+#    -Added %Cost% of items.
+#    -Added a "Book Selection". If you have the book, change the "0"
+#     to "1" for the book.
+# Modified by Valminder, Feb 2006.
+#    I added "VehicleSpace" subtables for Spelljammer.
+#
+#     BoEM1 : Book of Eldritch Might 1
+#     BoEM2 : Book of Eldritch Might 2
+#     BoEM3 : Book of Eldritch Might 3
+#     MoF   : Magic of Faerun.
+#
+
+%Book%,1
+%Cost%,0
+%EQTable%,0
+%Item%,0
+%Meaning%,0
+%Temp%,0
+
+%BoEM1%,1
+%BoEM2%,1
+%BoEM3%,1
+%MoF%,1
+
+:Start
+0,[Potions]
+0,[VehicleFlying]
+0,[VehicleLand]
+0,[VehicleWater]
+
+# ---------------------------------------------------------------------------
+# When calling "Magical Items.tab" from another table, use this subtable
+# instead.
+# For example, if you need a weapon in "Table A", use this info to generate a
+# flying vehicle with its cost written in parenthesis.
+#
+# 1,|EQTable=VehicleFlying|[EQCall]%Item% (%Cost% gp)
+#
+# This will go to the [EQCall] subtable (found in the table needing an
+# equipment). EQCall goes into "Magical Items.tab" to find an item and it 
+# will check if you own the appropriate book. If you do, it will show the
+# result, if not it will generate a new item.
+ 
+:EQCall
+1,|Item=ERROR||Cost=0||Book=1||Temp=[Magical Items.%EQTable%Checker]|
+_{Split~Temp,",",Item,Cost,Book}{If~%Book%=0 ? [EQCall]}
+
+# -------------------------------------------------------------------
+
+;Alignment
+1,Chaos
+1,Evil
+1,Good
+1,Law
+
+;Energy
+2,Acid
+2,Cold
+2,Electricity
+2,Fire
+1,Sonic
+
+;Mark_Element
+1,Air
+1,Earth
+1,Fire
+1,Frost
+1,Water
+
+# -------------------------------------------------------------------
+
+;PotionsChecker
+1,[Potions],%Cost%,%Book%
+
+;Potions
+6,[Potions Common]
+3,[Potions Uncommon]
+1,[Potions Rare]
+
+# Potions maximum 100 gp
+;!Potions Common
+1,{Unlock~Potions Common,1-11}[Potions Common]
+10,Cure Light Wounds|Cost=50||Book=1|
+1,Arrow Deflection (BoEM3)|Cost=50||Book=%BoEM3%|
+1,Betray the Years (Oil)(BoEM3)|Cost=60||Book=%BoEM3%|
+1,Bless Weapon (Oil)|Cost=100||Book=1|
+1,Blissful Sleep|Cost=50||Book=%BoEM3%|
+1,Camouflage (MoF)|Cost=50||Book=%MoF%|
+1,Chill Touch|Cost=50||Book=1|
+1,Change Weapon (Oil)(BoEM3)|Cost=50||Book=%BoEM3%|
+1,Comprehend Languages|Cost=50||Book=1|
+1,Corrosive Grasp (MoF)|Cost=50||Book=%MoF%|
+1,Creature Loresight (BoEM2)|Cost=50||Book=%BoEM2%|
+1,Detect [Alignment]|Cost=50||Book=1|
+1,Detect Secret Doors|Cost=50||Book=1|
+1,Detect Snares and Pit|Cost=50||Book=1|
+1,Detect Undead|Cost=50||Book=1|
+1,Disguise Self|Cost=50||Book=1|
+1,Endure Elements|Cost=50||Book=1|
+1,Enlarge Person|Cost=50||Book=1|
+1,Entropic Shield|Cost=50||Book=1|
+1,Expeditious Retreat|Cost=50||Book=1|
+1,Fey Storage (BoEM3)|Cost=50||Book=%BoEM3%|
+1,Glamour (BoEM3)|Cost=50||Book=%BoEM3%|
+1,Guide Craft (BoEM3)|Cost=50||Book=%BoEM3%|
+1,Hide from Animals|Cost=50||Book=1|
+1,Hide from Undead|Cost=50||Book=1|
+1,Hold Portal (Oil)|Cost=50||Book=1|
+1,Ironguts (MoF)|Cost=50||Book=%MoF%|
+1,Jump|Cost=50||Book=1|
+1,Laeral's Cutting Hand (MoF)|Cost=50||Book=%MoF%|
+1,Longstrider|Cost=50||Book=1|
+1,Low-Light Vision (MoF)|Cost=50||Book=%MoF%|
+1,Mage Armor|Cost=50||Book=1|
+1,Magic Aura (Oil)|Cost=50||Book=1|
+1,Magic Fang|Cost=50||Book=1|
+1,Magic Stone (Oil)|Cost=50||Book=1|
+1,Magic Weapon (Oil)|Cost=50||Book=1|
+1,Mount (Oil)|Cost=50||Book=1|
+1,Object Loresight (BoEM2)|Cost=50||Book=%BoEM2%|
+1,Obscuring Mist (Oil)|Cost=50||Book=1|
+1,Pass without Trace|Cost=50||Book=1|
+1,Precise Vision (BoEM1)|Cost=50||Book=%BoEM1%|
+1,Proficiency (BoEM3)|Cost=50||Book=%BoEM3%|
+1,Private Conversation (BoEM3)|Cost=50||Book=%BoEM3%|
+1,Produce Flame|Cost=50||Book=1|
+1,Protection from [Alignment]|Cost=50||Book=1|
+1,Ray of Enfeeblement|Cost=50||Book=1|
+1,Reduce Person|Cost=50||Book=1|
+1,Remove Fear|Cost=50||Book=1|
+1,Resist Scrying (BoEM3)|Cost=50||Book=%BoEM3%|
+1,Safe Search (BoEM3)|Cost=50||Book=%BoEM3%|
+1,Sanctuary|Cost=50||Book=1|
+1,Shield|Cost=50||Book=1|
+1,Shield of Faith +2|Cost=50||Book=1|
+1,Shillelagh|Cost=50||Book=1|
+1,Silent Image (Oil)|Cost=50||Book=1|
+1,Sleep Gaz|Cost=50||Book=1|
+1,Speak with Animals|Cost=50||Book=1|
+1,Speed Swim (MoF)|Cost=50||Book=%MoF%|
+1,Summon Monster I (Oil)|Cost=50||Book=1|
+1,Summon Nature's Ally I|Cost=50||Book=1|
+1,Tenser's Floating Disk|Cost=50||Book=1|
+1,Ventriloquism|Cost=50||Book=1|
+
+# Potions from 101 to 899 gp
+;!Potions Uncommon
+1,{Unlock~Potions Uncommon,1-16}[Potions Uncommon]
+10,Cure Moderate Wounds|Cost=300||Book=1|
+5,Cure Serious Wounds|Cost=750||Book=1|
+1,Acidic Globes (BoEM3)|Cost=750||Book=%BoEM3%|
+1,Acuminate (BoEM2)|Cost=300||Book=%BoEM2%|
+1,Aid|Cost=300||Book=1|
+1,Align Weapon (Oil)|Cost=300||Book=1|
+1,Alikaba's Gift (BoEM3)|Cost=750||Book=%BoEM3%|
+1,Alikaba's Theft (BoEM3)|Cost=750||Book=%BoEM3%|
+1,Alter Self|Cost=300||Book=1|
+1,Arcane Lock (Oil)|Cost=325||Book=1|
+1,Arrow Reflection (BoEM3)|Cost=750||Book=%BoEM3%|
+1,Augury|Cost=325||Book=1|
+1,Aura against Flame (MoF)|Cost=300||Book=%MoF%|
+1,Barkskin +2|Cost=300||Book=1|
+1,Barkskin +3|Cost=600||Book=1|
+1,Bear's Endurance|Cost=300||Book=1|
+1,Blindsight (MoF)|Cost=750||Book=%MoF%|
+1,Blink|Cost=750||Book=1|
+1,Blur|Cost=300||Book=1|
+1,Body Blades (MoF)|Cost=300||Book=%MoF%|
+1,Bone Tatoo (BoEM1)|Cost=750||Book=%BoEM1%|
+1,Brutal Seething Surge (BoEM2)|Cost=750||Book=%BoEM2%|
+1,Bull's Strength|Cost=300||Book=1|
+1,Cat's Grace|Cost=300||Book=1|
+1,Command Undead|Cost=300||Book=1|
+1,Consecrate (Oil)|Cost=350||Book=1|
+1,Continual Flame (Oil)|Cost=350||Book=1|
+1,Cure Serious Wounds|Cost=750||Book=1|
+1,Darkness (Oil)|Cost=300||Book=1|
+1,Darkvision|Cost=300||Book=1|
+1,Daylight (Oil)|Cost=750||Book=1|
+1,Death Armor (MoF)|Cost=350||Book=%MoF%|
+1,Death Knell|Cost=300||Book=1|
+1,Deeper Darkness (Oil) |Cost=750||Book=1|
+1,Delay Poison|Cost=300||Book=1|
+1,Desecrate (Oil)|Cost=350||Book=1|
+1,Detect Thoughts|Cost=300||Book=1|
+1,Disguise Undead (Oil) (MoF)|Cost=300||Book=%MoF%|
+1,Displacement|Cost=750||Book=1|
+1,Dragonskin (BoEM1)|Cost=750||Book=%BoEM1%|
+1,Eagle's Splendor|Cost=300||Book=1|
+1,Earthfast (Oil) (MoF)|Cost=300||Book=%MoF%|
+1,Easy Trail (MoF)|Cost=300||Book=%MoF%|
+1,Enhance Magical Flow (BoEM1)|Cost=310||Book=%BoEM1%|
+1,Enlarge Person|Cost=250||Book=1|
+1,Eriadnor's Permanent Levity (BoEM2)|Cost=750||Book=%BoEM2%|
+1,Extended Charge (Oil) (BoEM2)|Cost=770||Book=%BoEM2%|
+1,False Life|Cost=300||Book=1|
+1,Fey Ward (BoEM3)|Cost=750||Book=%BoEM3%|
+1,Find Traps|Cost=300||Book=1|
+1,Fire Trap (Oil) (Druid CL3)|Cost=325||Book=1|
+1,Flame Arrow (Oil)|Cost=750||Book=1|
+1,Flame Blade (Oil)|Cost=300||Book=1|
+1,Fly|Cost=750||Book=1|
+1,Flaming Sphere (Oil)|Cost=300||Book=1|
+1,Fog Cloud (Oil)|Cost=300||Book=1|
+1,Foil Tracer (BoEM1)|Cost=750||Book=%BoEM1%|
+1,Forceward (MoF)|Cost=750||Book=%MoF%|
+1,Fox's Cunning|Cost=300||Book=1|
+1,Gaseous Form|Cost=750||Book=1|
+1,Gentle Repose (Clr)|Cost=300||Book=1|
+1,Greater Magic Fang +1|Cost=750||Book=1|
+1,Greater Magic Weapon +1 (Oil)|Cost=750||Book=1|
+1,Haste|Cost=750||Book=1|
+1,Healing Touch (MoF)|Cost=750||Book=%MoF%|
+1,Helm of Warding (BoEM3)|Cost=300||Book=%BoEM3%|
+1,Heroism|Cost=750||Book=1|
+1,Identify|Cost=150||Book=1|
+1,Identify (Clr)|Cost=400||Book=1|
+1,Illusory Script (Oil)|Cost=800||Book=1|
+1,Invigorate Item (BoEM2)|Cost=300||Book=%BoEM2%|
+1,Invisibility (Potion or Oil)|Cost=300||Book=1|
+1,Invisibility Sphere|Cost=750||Book=1|
+1,Keen Edge (Oil)|Cost=750||Book=1|
+1,Knock (Oil)|Cost=300||Book=1|
+1,Lesser Restoration|Cost=300||Book=1|
+1,Levitate (Potion or Oil)|Cost=300||Book=1|
+1,Locate Object|Cost=300||Book=1|
+1,Locate Object (Clr CL5)|Cost=750||Book=1|
+1,Magic Circle against [Alignment]|Cost=750||Book=1|
+1,Magic Vestment +1 (Oil)|Cost=750||Book=1|
+1,Make Whole|Cost=300||Book=1|
+1,Mark of [Mark_Element] (BoEM1)|Cost=300||Book=%BoEM1%|
+1,Master Air (MoF)|Cost=300||Book=%MoF%|
+1,Misdirection|Cost=300||Book=1|
+1,Missive Token (BoEM2)|Cost=775||Book=%BoEM2%|
+1,Neutralize Poison|Cost=750||Book=1|
+1,Nondetection|Cost=750||Book=1|
+1,Obscure Object (Oil)|Cost=300||Book=1|
+1,One with the Land (MoF)|Cost=300||Book=%MoF%|
+1,Owl's Wisdom|Cost=300||Book=1|
+1,Phantom Steed (Oil)|Cost=750||Book=1|
+1,Phantom Trap (Oil)|Cost=350||Book=1|
+1,Plant Growth (Oil)|Cost=750||Book=1|
+1,Power Craft (BoEM3)|Cost=300||Book=%BoEM3%|
+1,Produce Flame (Oil) (Clr CL3)|Cost=300||Book=1|
+1,Protection from Arrows (10/magic)|Cost=300||Book=1|
+1,Protection from Energy ([Energy])|Cost=750||Book=1|
+1,Rage|Cost=750||Book=1|
+1,Reduce Person|Cost=250||Book=1|
+1,Remove Blindness/Deafness|Cost=750||Book=1|
+1,Remove Curse|Cost=750||Book=1|
+1,Remove Disease|Cost=750||Book=1|
+1,Remove Paralysis|Cost=300||Book=1|
+1,Resist Energy 10 ([Energy])|Cost=300||Book=1|
+1,Resist Energy 20 ([Energy])|Cost=700||Book=1|
+1,Rogue's Stab (BoEM3)|Cost=300||Book=%BoEM3%|
+1,Secret Page (Oil)|Cost=750||Book=1|
+1,See Invisibility|Cost=300||Book=1|
+1,Share Husk (MoF)|Cost=300||Book=%MoF%|
+1,Shieldbreaker (Oil) (BoEM2)|Cost=300||Book=%BoEM2%|
+1,Shield of Faith +3|Cost=300||Book=1|
+1,Shield of Faith +4|Cost=600||Book=1|
+1,Shrink Item (Oil)|Cost=750||Book=1|
+1,Shroud of Undeath (MoF)|Cost=300||Book=%MoF%|
+1,Snare (Oil)|Cost=750||Book=1|
+1,Soften Earth and Stone (Oil)|Cost=300||Book=1|
+1,Speak with Dead|Cost=750||Book=1|
+1,Speak with Plants|Cost=750||Book=1|
+1,Spell Shield (MoF)|Cost=300||Book=%MoF%|
+1,Spider Climb|Cost=300||Book=1|
+1,Spike Growth (Oil)|Cost=750||Book=1|
+1,Static Veil (Oil) (BoEM1)|Cost=300||Book=%BoEM1%|
+1,Stinking Cloud (Oil)|Cost=750||Book=1|
+1,Stone Bones (Oil) (MoF)|Cost=300||Book=%MoF%|
+1,Stone Shape (Oil) (Clr CL5)|Cost=750||Book=1|
+1,Summon Monster II (Oil)|Cost=300||Book=1|
+1,Summon Nature's Ally II (Oil)|Cost=300||Book=1|
+1,Summon Monster III (Oil)|Cost=750||Book=1|
+1,Summon Nature's Ally III (Oil)|Cost=750||Book=1|
+1,Summon Swarm (Oil)|Cost=300||Book=1|
+1,Temporal Venom (Oil) (BoEM3)|Cost=751||Book=%BoEM3%|
+1,Thief Ward (BoEM1)|Cost=300||Book=%BoEM1%|
+1,Tiny Hut (Oil)|Cost=750||Book=1|
+1,Tongues|Cost=750||Book=1|
+1,Tree Shape|Cost=300||Book=1|
+1,Undaunted Fixture (BoEM1)|Cost=300||Book=%BoEM1%|
+1,Understand Device (MoF)|Cost=750||Book=%MoF%|
+1,Undetectable Alignment|Cost=300||Book=1|
+1,Vampiric Touch|Cost=750||Book=1|
+1,Vivid Discharge (BoEM2)|Cost=300||Book=%BoEM2%|
+1,Warp Wood|Cost=300||Book=1|
+1,Water Breathing|Cost=750||Book=1|
+1,Water Walk|Cost=750||Book=1|
+1,Weapon of Impact (Oil) (MoF)|Cost=750||Book=%MoF%|
+1,Whispering Wind|Cost=300||Book=1|
+1,Wind Wall (Oil)|Cost=750||Book=1|
+1,Wood Shape (Oil)|Cost=300||Book=1|
+1,Zone of Truth (Oil)|Cost=300||Book=1|
+
+# Potions 900gp +
+;!Potions Rare
+1,{Unlock~Potions Rare,1-6}[Potions Rare]
+5,Cure Critical Wounds|Cost=1400||Book=1|
+1,Barkskin +4|Cost=900||Book=1|
+1,Barkskin +5|Cost=1200||Book=1|
+1,Glibness|Cost=1050||Book=1|
+1,Glyph of Warding (Blast CL5)|Cost=950||Book=1|
+1,Good Hope|Cost=1050||Book=1|
+1,Greater Magic Fang +2|Cost=1200||Book=1|
+1,Greater Magic Fang +3|Cost=1800||Book=1|
+1,Greater Magic Fang +4|Cost=2400||Book=1|
+1,Greater Magic Fang +5|Cost=3000||Book=1|
+1,Greater Magic Weapon +2 (Oil)|Cost=1200||Book=1|
+1,Greater Magic Weapon +3 (Oil)|Cost=1800||Book=1|
+1,Greater Magic Weapon +4 (Oil)|Cost=2400||Book=1|
+1,Greater Magic Weapon +5 (Oil)|Cost=3000||Book=1|
+1,Magic Vestment +2 (Oil)|Cost=1200||Book=1|
+1,Magic Vestment +3 (Oil)|Cost=1800||Book=1|
+1,Magic Vestment +4 (Oil)|Cost=2400||Book=1|
+1,Magic Vestment +5 (Oil)|Cost=3000||Book=1|
+1,Protection from Arrows (15/magic)|Cost=1500||Book=1|
+1,Resist Energy 30 ([Energy])|Cost=1100||Book=1|
+1,Rope Trick (CL10)|Cost=1000||Book=1|
+1,Sepia Snake Sigil Oil|Cost=1250||Book=1|
+1,Shield of Faith +5|Cost=900||Book=1|
+
+# -------------------------------------------------------------------
+
+;VehicleFlyingChecker
+1,[VehicleFlying],%Cost%,%Book%
+
+;VehicleFlying
+1,Airship [EB]|Cost=92000||Book=1|
+5,Broom of Flying|Cost=17000||Book=1|
+5,Carpet of Flying (5'x5')|Cost=20000||Book=1|
+3,Carpet of Flying (5'x10')|Cost=35000||Book=1|
+1,Carpet of Flying (10'x10')|Cost=60000||Book=1|
+1,Glider Wings (Steamtech)|Cost=1400||Book=1|
+1,Hot Air Balloons (Steamtech)|Cost=3500||Book=1|
+1,Psychic Skiff (BoEM1)|Cost=150000||Book=%BoEM1%|
+
+;VehicleLandChecker
+1,[VehicleLand],%Cost%,%Book%
+
+;VehicleLand
+1,Battle Cart (Steamtech)|Cost=15000||Book=1|
+1,Bulette Walker (BoEM1)|Cost=100000||Book=%BoEM1%|
+10,Magical wagon without horses|Cost=0||Book=1|
+1,War Altar (BoEM1)|Cost=80000||Book=%BoEM1%|
+1,War Throne (BoEM1)|Cost=90000||Book=%BoEM1%|
+
+;VehicleSpaceChecker
+1,[VehicleSpace],%Cost%,%Book%,%Meaning%
+
+;VehicleSpaceAndRace
+1,[VehicleSpace] (%Meaning%)
+
+;VehicleSpace
+1,Arrow (Blade)|Cost=6000||Book=1||Meaning=Kobolds|
+1,Angelship|Cost=33000||Book=1||Meaning=Kobolds|
+1,Antlership|Cost=100000||Book=1||Meaning=Undeads|
+1,Argosy|Cost=300000||Book=1||Meaning=Gravs|
+1,Armada (Common)|Cost=400000||Book=1||Meaning=Elves|
+1,Armada (Monarch Class)|Cost=400000||Book=1||Meaning=Drow Elves|
+1,Barge of Ptah|Cost=60000||Book=1||Meaning=Humans|
+1,Battlewagon|Cost=240000||Book=1||Meaning=Scro|
+1,Blade (Arrow)|Cost=6000||Book=1||Meaning=Goblins|
+1,Bloatfly|Cost=144000||Book=1||Meaning=Lizard Men|
+1,Bolaship|Cost=25000||Book=1||Meaning=Gnomes (who else?)|
+1,Caravel|Cost=10000||Book=1||Meaning=Groundling Humans|
+1,Cargo Barge|Cost=25000||Book=1||Meaning=Humans-Illithids-Neogi|
+1,Catamaran|Cost=500||Book=1||Meaning=Humans|
+1,Citadel (Small)|Cost=100000||Book=1||Meaning=Dwarves|
+1,Citadel (Medium)|Cost=300000||Book=1||Meaning=Dwarves|
+1,Citadel (Huge)|Cost=600000||Book=1||Meaning=Dwarves|
+1,Clipper|Cost=195000||Book=1||Meaning=Giff|
+1,Coaster|Cost=10000||Book=1||Meaning=Groundling Humans|
+1,Cog|Cost=20000||Book=1||Meaning=Groundling Humans|
+1,Corbina|Cost=2500||Book=1||Meaning=Aarakocra|
+1,Cuttle Command|Cost=100000||Book=1||Meaning=Human wizards|
+1,Damselfly|Cost=30000||Book=1||Meaning=Humans|
+1,Deathglory|Cost=210000||Book=1||Meaning=Gnomes|
+1,Deathspider|Cost=500000||Book=1||Meaning=Neogi|
+1,Dolphin Battle|Cost=70000||Book=1||Meaning=Any Race (Humans)|
+1,Dragonfly|Cost=5000||Book=1||Meaning=Humans - Elves|
+1,Dragonship|Cost=45000||Book=1||Meaning=Shou Lung Humans|
+1,Drakkar|Cost=10000||Book=1||Meaning=Viking (Ground Humans)|
+1,Dreadnought|Cost=90000||Book=1||Meaning=Illithids|
+1,Dromond|Cost=8000||Book=1||Meaning=Groundling Humans|
+1,Eagle Ship|Cost=35000||Book=1||Meaning=Aarakocra|
+1,Eel Ship|Cost=10000||Book=1||Meaning=Humans|
+1,Flitter|Cost=4000||Book=1||Meaning=Elves|
+1,Flying Pyramid|Cost=180000||Book=1||Meaning=Undead humans|
+1,Galleon (Common)|Cost=40000||Book=1||Meaning=Groundling Humans|
+1,Galleon (Spacesea Giant)|Cost=120000||Book=1||Meaning=Spacesea giants|
+1,Galley Great|Cost=20000||Book=1||Meaning=Groundling Humans|
+1,Great Bombard|Cost=100000||Book=1||Meaning=Giff|
+1,Hammership|Cost=60000||Book=1||Meaning=Humans - Lizardfolks - Elves - Illithids|
+1,Hunter-Killer|Cost=240000||Book=1||Meaning=Vodoni|
+1,Iambus|Cost=35000||Book=1||Meaning=Bardic humans|
+1,Jade Spider (Common)|Cost=150000||Book=1||Meaning=Drow Elves|
+1,Jade Spider (Commandship)|Cost=1000000||Book=1||Meaning=Drow Elves|
+1,Junk|Cost=2500||Book=1||Meaning=Shou Lung Humans|
+1,Klicklikak|Cost=20000||Book=1||Meaning=Insectare|
+1,Lamprey Ship|Cost=26000||Book=1||Meaning=Humans - Goblinkin|
+1,Leaf Ship|Cost=280000||Book=1||Meaning=Thri-kreen|
+1,Leech|Cost=150000||Book=1||Meaning=Neogi|
+1,Locust|Cost=375||Book=1||Meaning=Groundling Humans of Wa|
+1,Longship|Cost=2000||Book=1||Meaning=Groundling Humans|
+1,Mammoth|Cost=90000||Book=1||Meaning=Ogres|
+1,Man-o-War|Cost=240000||Book=1||Meaning=Elves and some Humans|
+1,Mantis|Cost=90000||Book=1||Meaning=Scro|
+1,Mindspider|Cost=120000||Book=1||Meaning=Neogi|
+1,Mosquito|Cost=3000||Book=1||Meaning=All races|
+1,Nautiloid|Cost=35000||Book=1||Meaning=Mind Flayers|
+1,Nightwolf|Cost=160000||Book=1||Meaning=Vodoni|
+1,Octopus (Tailgunner)|Cost=70000||Book=1||Meaning=Humans - Illithids|
+1,Porcupine Ship|Cost=15000||Book=1||Meaning=Goblins|
+1,Quad of Thay|Cost=567000||Book=1||Meaning=Mages and Priests|
+1,Radiant Ship|Cost=12500||Book=1||Meaning=Elves|
+1,Scalpel Ship|Cost=20000||Book=1||Meaning=Xixchil|
+1,Scorpion|Cost=180000||Book=1||Meaning=Orcs|
+1,Shrikeship|Cost=30000||Book=1||Meaning=Humans - Halflings - Elves|
+1,Sidewheeler|Cost=90000||Book=1||Meaning=Tinker Gnomes|
+
+;VehicleWaterChecker
+1,[VehicleWater],%Cost%,%Book%
+
+;VehicleWater
+1,Apparatus of Kwalish|Cost=90000||Book=1|
+1,Diving Sphere (BoEM1)|Cost=100000||Book=%BoEM1%|
+1,Folding Boat|Cost=7200||Book=1|
+50,magical barge or boat without sails|Cost=0||Book=1|

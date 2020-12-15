@@ -1,0 +1,924 @@
+# NPC Generator
+#
+# Modified by Valminder July 2015
+#   Updated to TSv5
+#
+# --------------------------------------------------------------------------------
+#	Constants
+# --------------------------------------------------------------------------------
+%NumSkills%,27
+
+# --------------------------------------------------------------------------------
+#	Variables
+# --------------------------------------------------------------------------------
+%Class%,1
+%ModAlignLNC%,0
+%ModAlignGNE%,0
+%Alignment%,5
+%Gender%,1
+%Level%,1
+%NumItems%,0
+%Temp%,1
+%TempA%,0
+%TempB%,0
+%TempC%,0
+%SpellCaster%,0
+%HasAnimals%,0
+%SkillName%,0
+
+%STR%,0
+%DEX%,0
+%CON%,0
+%INT%,0
+%WIS%,0
+%CHA%,0
+%HP%,0
+%AC%,0
+%Init%,0
+%Speed%,0
+%Fort%,0
+%Reflex%,0
+%Will%,0
+%Feats%,0
+%Armor%,0
+%MeleeWeapon%,0
+%MeleeAttack%,0
+%MissileWeapon%,0
+%MissileAttack%,0
+%MagicalGear%,0
+%Alchemy%,0
+%Animal_Empathy%,0
+%Appraise%,0
+%Balance%,0
+%Bluff%,0
+%Climb%,0
+%Concentration%,0
+%Diplomacy%,0
+%Disable_Device%,0
+%Heal%,0
+%Hide%,0
+%Intimidate%,0
+%Jump%,0
+%Knowledge%,0
+%Listen%,0
+%Move_Silently%,0
+%Open_Locks%,0
+%Perform%,0
+%Ride%,0
+%Scry%,0
+%Search%,0
+%Sense_Motive%,0
+%Spellcraft%,0
+%Spot%,0
+%Use_Magic_Device%,0
+%Tumble%,0
+%Wilderness_Lore%,0
+%OtherGear%,0
+%ClassFeatures%,0
+%Spells0%,0
+%Spells1%,0
+%Spells2%,0
+%Spells3%,0
+%Spells4%,0
+%Spells5%,0
+%Spells6%,0
+%Spells7%,0
+%Spells8%,0
+%Spells9%,0
+%Animals%,0
+
+# --------------------------------------------------------------------------------
+#	Parameters
+# --------------------------------------------------------------------------------
+@Gender,1,Select gender:,Male,Female
+@Level,0,Enter level (1-20; 0=Random):
+@Class,4,Select class:,Barbarian,Bard,Cleric,Druid,Fighter,Monk,Paladin,Ranger,Rogue,Sorcerer,Wizard
+@Alignment,5,Select alignment:,Lawful Good,Lawful Neutral,Lawful Evil,Neutral Good,Neutral,Neutral Evil,Chaotic Good,Chaotic Neutral,Chaotic Evil
+
+# --------------------------------------------------------------------------------
+#	Main
+# --------------------------------------------------------------------------------
+:Start
+1,[SetVars]
+_<font face="Verdana" size="2">
+_<p><b><font size="+1">[~Fantasy Names.Start]</font></b><br>
+_{CapEachWord~[Align=%Alignment%]} Level %Level% {Cap~[Class=%Class%]}</p>
+_{Status~Retrieving Stats...}<p>[DisplayStats]</p>
+_{Status~Generating Appearance...}<p><b>Appearance</b>[Appearance]</p>
+_{Status~Generating Personality...}<p><b>Personality</b><br>[~TraitsCap]</p>
+_{Status~Generating Mannerisms...}<p><b>Mannerisms</b><br>[~MannerismsCap]</p>
+_{Status~Generating Background...}<p><b>Background</b><br>[Background]</p>
+_{Status~}
+_</font>
+
+:SetVars
+1,[SetAlignVars=%Alignment%]
+_{If~%Level%=0?|Level={Dice~1d20}|/[CapLevel=%Level%]}
+
+:SetAlignVars
+1,|ModAlignLNC=1||ModAlignGNE=1|
+2,|ModAlignLNC=1||ModAlignGNE=0|
+3,|ModAlignLNC=1||ModAlignGNE=-1|
+4,|ModAlignLNC=0||ModAlignGNE=1|
+5,|ModAlignLNC=0||ModAlignGNE=0|
+6,|ModAlignLNC=0||ModAlignGNE=-1|
+7,|ModAlignLNC=-1||ModAlignGNE=1|
+8,|ModAlignLNC=-1||ModAlignGNE=0|
+9,|ModAlignLNC=-1||ModAlignGNE=-1|
+
+:CapLevel
+1,|Level=1|
+2-19,
+20-10000,|Level=20|
+
+:Align
+1,lawful good
+2,lawful neutral
+3,lawful evil
+4,neutral good
+5,neutral
+6,neutral evil
+7,chaotic good
+8,chaotic neutral
+9,chaotic evil
+
+;Class
+1,barbarian|SpellCaster=0||HasAnimals=0|
+1,bard|SpellCaster=1||HasAnimals=0|
+1,cleric|SpellCaster=1||HasAnimals=0|
+1,druid|SpellCaster=1||HasAnimals=1|
+1,fighter|SpellCaster=0||HasAnimals=0|
+1,monk|SpellCaster=0||HasAnimals=0|
+1,paladin|SpellCaster=1||HasAnimals=1|
+1,ranger|SpellCaster=1||HasAnimals=0|
+1,rogue|SpellCaster=0||HasAnimals=0|
+1,sorcerer|SpellCaster=1||HasAnimals=0|
+1,wizard|SpellCaster=1||HasAnimals=0|
+
+:Bonus
+1,-5
+2-3,-4
+4-5,-3
+6-7,-2
+8-9,-1
+10-11,0
+12-13,+1
+14-15,+2
+16-17,+3
+18-19,+4
+20-21,+5
+22-23,+6
+24-25,+7
+26-27,+8
+28-29,+9
+30-31,+10
+
+# --------------------------------------------------------------------------------
+#	Statistical Information
+# --------------------------------------------------------------------------------
+:DisplayStats
+1,[GetNPCData]
+_<table border="0" cellpadding="2">
+_<tr>
+_<td valign="top"><font size="2"><b>STR</b></td><td valign="bottom"><font size="2"> %STR% ([Bonus=%STR%])</td>
+_<td width="20"></td>
+_<td valign="top"><font size="2"><b>HP</b></td><td valign="bottom"><font size="2"> %HP% </td>
+_<td width="20"></td>
+_<td valign="top"><font size="2"><b>Fortitude</b></td><td valign="bottom"><font size="2"> %Fort% </td>
+_</tr>
+_<tr>
+_<td valign="top"><font size="2"><b>DEX</b></td><td valign="bottom"><font size="2"> %DEX% ([Bonus=%DEX%])</td>
+_<td width="20"></td>
+_<td valign="top"><font size="2"><b>AC</b></td><td valign="bottom"><font size="2"> %AC% </td>
+_<td width="20"></td>
+_<td valign="top"><font size="2"><b>Reflex</b></td><td valign="bottom"><font size="2"> %Reflex% </td>
+_</tr>
+_<tr>
+_<td valign="top"><font size="2"><b>CON</b></td><td valign="bottom"><font size="2"> %CON% ([Bonus=%CON%])</td>
+_<td width="20"></td>
+_<td valign="top"><font size="2"><b>Init</b></td><td valign="bottom"><font size="2"> %Init% </td>
+_<td width="20"></td>
+_<td valign="top"><font size="2"><b>Will</b></td><td valign="bottom"><font size="2"> %Will%</td>
+_</tr>
+_<tr>
+_<td valign="top"><font size="2"><b>INT</b></td><td valign="bottom"><font size="2"> %INT% ([Bonus=%INT%])</td>
+_<td width="20"></td>
+_<td valign="top"><font size="2"><b>Speed</b></td><td valign="bottom"><font size="2"> %Speed% </td>
+_</tr>
+_<tr>
+_<td valign="top"><font size="2"><b>WIS</b></td><td valign="bottom"><font size="2"> %WIS% ([Bonus=%WIS%])</td>
+_</tr>
+_<tr>
+_<td valign="top"><font size="2"><b>CHA</b></td><td valign="bottom"><font size="2"> %CHA% ([Bonus=%CHA%])</td>
+_</tr>
+_</table>
+_<b>Feats:</b> %Feats%<br>
+_<b>Class Features:</b> %ClassFeatures%<br>
+_<b>Armor:</b> %Armor%<br>
+_<b>Melee:</b> %MeleeAttack% %MeleeWeapon%<br>
+_<b>Missile:</b> %MissileAttack% %MissileWeapon%<br>
+_<b>Magical Gear:</b> %MagicalGear%<br>
+_<b>Other Gear:</b> %OtherGear%<br>
+_<b>Skills:</b> [DisplaySkills]
+_{If~%SpellCaster%=1?[DisplaySpells]}
+_{If~%HasAnimals%=1?[DisplayAnimals]}
+
+:DisplaySkills
+1,|TempA=1|
+_|TempB=[SkillLoop]|
+_|TempC={Length~%TempB%}||TempC-2|
+_|TempB={Left~%TempC%,%TempB%}|
+_|TempB={Replace~_, ,%TempB%}|%TempB%
+
+:SkillLoop
+1,[Skills=%TempA%]
+_{If~%Temp%!=0?[ShowSkill]}
+_|TempA+1|
+_{If~%TempA%<=%NumSkills%?[SkillLoop]}
+
+:ShowSkill
+1,%SkillName% %Temp%; 
+
+:GetNPCData
+#1,|Temp={If~{Dice~1d3}=1?3E/3_5E}|
+#1,|Temp=3E|
+1,|Temp=3_5E|
+_|Temp=[NPC Generator Data.[Class=%Class%]%Temp%=%Level%]|
+_{Split~Temp,"!",STR,DEX,CON,INT,WIS,CHA,HP,AC,Init,Speed,Fort,Reflex,Will,Feats,Armor,MeleeWeapon,MeleeAttack,MissileWeapon,MissileAttack,MagicalGear,Alchemy,Animal_Empathy,Appraise,Balance,Bluff,Climb,Concentration,Diplomacy,Disable_Device,Heal,Hide,Intimidate,Jump,Knowledge,Listen,Move_Silently,Open_Locks,Perform,Ride,Scry,Search,Sense_Motive,Spellcraft,Spot,Use_Magic_Device,Tumble,Wilderness_Lore,OtherGear,ClassFeatures,Spells0,Spells1,Spells2,Spells3,Spells4,Spells5,Spells6,Spells7,Spells8,Spells9,Animals}
+
+:Skills
+1,|SkillName=Alchemy||Temp=%Alchemy%|
+2,|SkillName=Animal Empathy||Temp=%Animal_Empathy%|
+3,|SkillName=Appraise||Temp=%Appraise%|
+4,|SkillName=Balance||Temp=%Balance%|
+5,|SkillName=Bluff||Temp=%Bluff%|
+6,|SkillName=Climb||Temp=%Climb%|
+7,|SkillName=Concentration||Temp=%Concentration%|
+8,|SkillName=Diplomacy||Temp=%Diplomacy%|
+9,|SkillName=Disable Device||Temp=%Disable_Device%|
+10,|SkillName=Heal||Temp=%Heal%|
+11,|SkillName=Hide||Temp=%Hide%|
+12,|SkillName=Intimidate||Temp=%Intimidate%|
+13,|SkillName=Jump||Temp=%Jump%|
+14,|SkillName=Knowledge||Temp=%Knowledge%|
+15,|SkillName=Listen||Temp=%Listen%|
+16,|SkillName=Move Silently||Temp=%Move_Silently%|
+17,|SkillName=Open Locks||Temp=%Open_Locks%|
+18,|SkillName=Perform||Temp=%Perform%|
+19,|SkillName=Ride||Temp=%Ride%|
+20,|SkillName=Scry||Temp=%Scry%|
+21,|SkillName=Search||Temp=%Search%|
+22,|SkillName=Sense Motive||Temp=%Sense_Motive%|
+23,|SkillName=Spellcraft||Temp=%Spellcraft%|
+24,|SkillName=Spot||Temp=%Spot%|
+25,|SkillName=Use Magic Device||Temp=%Use_Magic_Device%|
+26,|SkillName=Tumble||Temp=%Tumble%|
+27,|SkillName=Wilderness Lore||Temp=%Wilderness_Lore%|
+
+:DisplaySpells
+1,<br><b>Spells:</b> 
+_0L: %Spells0%,
+_1L: %Spells1%,
+_2L: %Spells2%,
+_3L: %Spells3%, 
+_4L: %Spells4%,
+_5L: %Spells5%,
+_6L: %Spells6%,
+_7L: %Spells7%,
+_8L: %Spells8%,
+_9L: %Spells9%
+
+:DisplayAnimals
+1,<br><b>Animals:</b> %Animals%
+
+# --------------------------------------------------------------------------------
+#	Appearance
+# --------------------------------------------------------------------------------
+:Appearance
+1,<li>[~HeightCap] and [~Weight]</li>
+_<li>[~ComplexionCap], [~Skin Texture] skin</li>
+_<li>[~HairCap] and [~Eyes] eyes</li>
+_{If~%Gender%=1?[Facial Hair]}
+_<li>[~Special]</li>
+
+;Special
+60,No features of note.
+30,Has [Unusual Features].
+10,Has [Unusual Features] and [Unusual Features].
+
+:!Unusual Features
+1,a number of missing teeth{Lockout~Unusual Features,8}
+2,bad breath
+3,{AorAN~[Birthmark]}-shaped birthmark on [Gender2=%Gender%] [Area]
+4,a tattoo of {AorAN~[Tattoo]} on [Gender2=%Gender%] [Area]
+5,{AorAN~[Nose]} nose
+6,{AorAN~[Scar]} scar on [Gender2=%Gender%] [Area]
+7,charismatic eyes
+8,an attractive face{Lockout~Unusual Features,1}
+9,only one ear
+
+;Birthmark
+1,skull
+1,sword
+1,hand
+1,crescent moon
+1,claw
+1,[Creatures.Animal]
+1,[Creatures.Fantastic]
+1,[Creatures.Bird of Prey]
+
+;Tattoo
+1,[Birthmark]
+1,magical symbol
+1,barbarian clan
+1,underworld order
+1,revered guild
+
+;Scar
+15,small
+4,long
+1,unusually-shaped
+
+;Nose
+1,large
+1,flat
+1,hook
+
+# This is to keep the <li> bullet from being blue
+;Facial Hair
+1,<li>Has [~Facial Hair2]</li>
+
+;Facial Hair2
+1,|NumItems=0||Temp=||TempA=[Sideburns]||TempB=[Beard]||TempC=[Moustache]|
+_{If~%NumItems%=0?[HairResult=1]}
+_{If~%NumItems%=1?[HairResult=2]}
+_{If~%NumItems%=2?[HairResult=3]}
+_{If~%NumItems%=3?[HairResult=4]}
+
+:HairResult
+1,no facial hair
+2,%TempA%%TempB%%TempC%
+#3,%TempA%[%TempA% != ? ShowAnd]%TempB%[%TempA% = ? ShowAnd]%TempC%
+3,%TempA%{If~{Length~%TempA%}>0?[ShowAnd]}%TempB%{If~{Length~%TempA%}=0?[ShowAnd]}%TempC%
+4,%TempA%, %TempB%, and %TempC%
+
+:ShowAnd
+1, and 
+
+;Sideburns
+9,
+2,narrow sideburns|NumItems+1|
+1,wide, bushy sideburns|NumItems+1|
+
+;Beard
+10,
+5,a long[Braided] beard|NumItems+1|
+5,a full beard|NumItems+1|
+3,a tangled beard|NumItems+1|
+5,a short[Braided] beard|NumItems+1|
+2,a scraggly beard|NumItems+1|
+3,a goatee|NumItems+1|
+
+;Braided
+1, braided
+3,
+
+;Moustache
+5,
+3,a small moustache|NumItems+1|
+1,a large moustache|NumItems+1|
+
+:Hair
+1-5,[Bald=%Gender%]
+6,close-cropped [Hair Color] hair
+7-8,short, [Hair Texture], [Hair Color] hair
+9-15,medium-length, [Hair Texture], [Hair Color] hair
+16-18,long, [Hair Texture], [Hair Color] hair ([Hair Tie])
+19-20,very long, [Hair Texture], [Hair Color] hair ([Hair Tie])
+
+:HairCap
+1,{Cap~[Hair]}
+
+:Bald
+1,a bald head
+2,[Hair]
+
+:Hair Color
+1-2,black
+3-8,dark brown
+9-14,brown
+15-18,light brown
+19-20,sandy
+21-24,straw-colored
+25-27,blond
+28-30,auburn
+31,white
+32,silvery
+
+:Hair Texture
+1-4,curly
+5-10,straight
+11-12,wavy
+
+:Hair Tie
+1,unbound
+2,tied in the back
+
+:Height
+1,very short
+2-3,short
+4-6,average height
+7-8,tall
+9,very tall
+
+:HeightCap
+1,{Cap~[Height]}
+
+:Weight
+1,very thin
+2-3,thin
+4-6,average build
+7-8,somewhat overweight
+9,quite fat
+
+;Complexion
+1,pale
+1,sickly
+4,dark
+5,fair
+5,light
+5,tan
+1,greyish
+
+:ComplexionCap
+1,{Cap~[Complexion]}
+
+;Skin Texture
+10,smooth
+5,rough
+2,wrinkled
+1,pimply
+1,weather-beaten
+
+;!Eyes
+15,brown
+25,hazel
+10,green
+15,blue
+1,[Eyes] and [Eyes] mismatched{Lockout~Eyes,66}
+
+:Gender1
+1,he
+2,she
+
+:Gender2
+1,his
+2,her
+
+:Gender3
+1,him
+2,her
+
+;Area
+5,[Side] cheek
+3,[Side] hand
+2,neck
+1,forehead
+
+:Side
+1,left
+2,right
+
+:Plural
+1,
+2,s
+
+# --------------------------------------------------------------------------------
+#	Traits
+# --------------------------------------------------------------------------------
+:Traits
+1,|Temp=[GenTraits], |
+_|Temp&[GenTraits], |
+_|Temp&[GenTraits]|
+#_{OrderAsc~", ",%Temp%}
+_%Temp%
+
+:TraitsCap
+1,{Cap~[Traits]}
+
+:GenTraits
+1,[GenTraitsLNC+%ModAlignLNC%]
+2,[GenTraitsGNE+%ModAlignGNE%]
+
+:GenTraitsLNC
+1,[ChaoticTraits]
+2-3,[NeutralTraits]
+4,[LawfulTraits]
+
+:GenTraitsGNE
+1,[EvilTraits]
+2-3,[NeutralTraits]
+4,[GoodTraits]
+
+;!LawfulTraits
+1,aloof
+1,articulate
+1,calm
+1,cautious
+1,dependable
+1,diplomatic
+1,dogmatic
+1,honorable
+1,humble
+1,just
+1,loyal
+1,obsequious
+1,orderly
+1,patient
+1,pious
+1,pragmatic
+1,respectful
+1,temperate
+1,thoughtful
+1,thrifty
+1,well-mannered
+
+;!ChaoticTraits
+1,argumentative
+1,boastful
+1,capricious
+1,carefree
+1,deceitful
+1,disrespectful
+1,flippant
+1,godless
+1,iconoclastic
+1,impatient
+1,impulsive
+1,indulgent
+1,open-minded
+1,overbearing
+1,reckless
+1,sloppy
+1,spendthrift
+1,tactless
+1,thoughtless
+1,unreliable
+1,untrustworthy
+
+;!GoodTraits
+1,altruistic
+1,cheerful
+1,compassionate
+1,considerate
+1,courageous
+1,courteous
+1,forgiving
+1,friendly
+1,generous
+1,helpful
+1,honest
+1,innocent
+1,loving
+1,merciful
+1,optimist
+1,optimistic
+1,peaceful
+1,sympathetic
+1,trusting
+1,virtuous
+
+;!EvilTraits
+1,bigoted towards [Bigotry Target]
+1,callous
+1,covetous
+1,cowardly
+1,cruel
+1,deceitful
+1,depraved
+1,harsh
+1,hateful
+1,morose
+1,pessimist
+1,pessimistic
+1,rude
+1,sadistic
+1,selfish
+1,suspicious
+1,unfeeling
+1,unfriendly
+1,vengeful
+1,violent
+
+:!NeutralTraits
+1,aesthetic
+2,aggressive
+3,antagonistic
+4,arrogant{Lockout~NeutralTraits,27}
+5,clumsy
+6,compulsive
+7,condescending
+8,cunning{Lockout~NeutralTraits,17}
+9,curious
+10,cynical
+11,dreamy
+12,egotistical{Lockout~NeutralTraits,27}
+13,enthusiastic
+14,extravagent
+15,extroverted{Lockout~NeutralTraits,24}
+16,fatalistic
+17,foolish{Lockout~NeutralTraits,8}
+18,gullible{Lockout~NeutralTraits,42}
+19,haughty
+20,hedonistic
+21,imaginative
+22,industrious
+23,inquisitive
+24,introverted{Lockout~NeutralTraits,15}
+25,lazy
+26,mischievous
+27,modest{Lockout~NeutralTraits,4,12,35}
+28,narcissistic
+29,nervous
+30,obsessive
+31,paranoid{Lockout~NeutralTraits,44}
+32,passionate
+33,patronizing
+34,perceptive
+35,proud{Lockout~NeutralTraits,27}
+36,quiet
+37,romantic
+38,sarcastic
+39,secretive
+40,self-confident{Lockout~NeutralTraits,41}
+41,self-doubting{Lockout~NeutralTraits,40}
+42,suspicious{Lockout~NeutralTraits,18,44}
+43,taciturn
+44,trusting{Lockout~NeutralTraits,31,42}
+45,zealous ([Subject])
+46,zealous (religion - [Religion+%ModAlignGNE%])
+
+;Bigotry Target
+1,[Human Culture]
+1,[Kingdom]
+1,[People]
+1,[NonHuman Race]
+
+;Human Culture
+1,Dhazyra
+1,Hassites
+1,Khazrani
+1,Marrshites
+1,Varghani
+
+;Kingdom
+1,Aelorea
+1,Ahmaristan
+1,Al'Sharaq
+1,Esengard
+1,Ilmara
+1,Lhyrna
+1,Maar
+1,Rhijad
+1,Shesada
+1,Syrhaat
+1,Talîsmarr
+1,Ulthia
+1,Valnysia
+1,Yar
+1,Zeldora
+
+;People
+1,adventurers
+1,barbarians
+1,bards
+1,clergy
+1,commoners
+1,intellectuals
+1,laborers
+1,merchants
+1,monks
+1,nobles
+1,rangers
+1,sorcerers
+1,warriors
+1,wizards
+
+;NonHuman Race
+1,Viss'takh (lizardmen)
+1,Tauroks (minotaurs)
+1,Orcazhai (orcs/goblinoids)
+1,Half-orcs
+1,Kyree (tritons)
+
+;Subject
+1,animals
+1,anti-magic
+1,anti-slavery
+1,atheism
+1,food
+1,gambling
+1,geography
+1,history
+1,jewelry
+1,magic
+1,nature
+1,peace
+1,politics
+1,sailing
+1,warfare
+1,wines and spirits
+
+;Religion
+1,[EvilGods]
+1,[NeutralGods]
+1,[GoodGods]
+
+;EvilGods
+1,Aadu
+2,Hhiltara
+4,Shaarizad
+2,Tehmorix
+
+;NeutralGods
+10,Aeryand
+5,Aegar
+10,Dynera
+1,Hukko
+10,Iberis
+1,Lis
+5,Ramm
+
+;GoodGods
+4,Alyara
+1,Baltur
+
+
+# --------------------------------------------------------------------------------
+#	Mannerisms
+# --------------------------------------------------------------------------------
+:Mannerisms
+1-5,nothing notable
+6-7,[Mannerism List]
+8,[Mannerism List], [Mannerism List]
+
+:MannerismsCap
+1,{Cap~[Mannerisms]}
+
+;!Mannerism List
+1,absent-minded
+1,clumsy
+1,constantly interrupts whoever is speaking
+1,constantly looks over [Gender2=%Gender%] shoulder
+1,constantly whines/complains
+1,doesn't like to be touched
+1,enuciates very clearly
+1,facial twitch
+1,fond of rural/colloquial expressions
+1,graceful
+1,always chewing on a toothpick
+1,laconic
+1,laughs when inappropriate
+1,mumbles
+1,plays a [Musical Instrument]
+1,prefers to dress in the color [Miscellaneous.Color]
+1,prone to tangents when speaking
+1,refers to people by "pet" names ("honey", "buddy", "dear", etc)
+1,snorting laugh
+1,speaks with [Gender2=%Gender%] hands
+1,spits often
+1,stutters
+1,talkative
+1,talks to [Gender3=%Gender%]self
+1,talks very fast
+1,talks very slowly
+1,vegetarian
+1,whistles when nervous
+1,[Voice] voice
+
+;Musical Instrument
+1,harp
+1,recorder
+1,lute
+1,dulcimer
+
+;!Voice
+1,gutteral
+1,heavily accented
+1,high-pitched
+1,lispy
+1,loud
+1,monotone
+1,mute
+1,nasally
+1,wheezy
+1,whiny
+1,whispery
+
+# --------------------------------------------------------------------------------
+#	Background
+# --------------------------------------------------------------------------------
+:Background
+1,[~MotivationCap]. [~SecretsCap]
+
+;!Motivation
+1,[Revenge]
+1,seeks to discover truth about [Gender2=%Gender%] past
+1,strives to serve [Gender2=%Gender%] deity ([Religion+%ModAlignGNE%]) to the fullest extent
+1,motivated by greed
+1,collects [Collection]
+1,only motivated by fulfillment of personal pleasure
+1,always in a quest for greater knowledge
+1,motivated by the acquisition of power
+1,strives to be the best [Class=%Class%] [Gender1=%Gender%] can be
+1,motivated by little more than survival
+
+:MotivationCap
+1,{Cap~[Motivation]}
+
+;Collection
+1,swords
+1,weapons
+1,shields
+1,armor
+1,books
+1,scrolls
+1,gems
+1,jewelry
+1,coins
+1,trophies and skins
+1,tapestries
+1,paintings
+1,statuary
+1,carvings
+
+
+:Revenge
+1,|Temp={1d4+1}|seeks the [Person] who [Action=%Temp%] [Gender3=%Gender%]{If~%Temp%=5?[Deed]}
+2,|Temp={1d5}|seeks the [Person] who [Action=%Temp%] [Gender2=%Gender%] [Family]{If~%Temp%=5?[Deed]}
+
+:Deed
+1, for murder
+2, for a robbery
+3, for heresy
+
+:Action
+1,killed
+2,dishonored
+3,robbed
+4,kidnapped
+5,framed
+
+:Person
+1,man
+2,woman
+
+:Family
+1,mother
+2,father
+3,parents
+4,sister
+5,brother
+6,spouse
+7,child
+8,friend
+
+:Secrets
+1-9,
+10-11,[Secrets List].
+12,[Secrets List], [Secrets List].
+
+:SecretsCap
+1,{Cap~[Secrets]}
+
+;!Secrets List
+1,suffers from [Phobia]
+1,wanted for murder
+1,wanted for theft
+1,member of a powerful noble family
+1,member of a powerful merchant family
+1,member of a dark cult
+1,was a slave when [Gender1=%Gender%] was younger
+1,is {AorAN~[IsItems]}
+
+:IsItems
+1,psionic
+1,kleptomaniac
+1,assassin
+1,artificial being
+1,shapechanged dragon
+
+:Phobia
+1,acrophobia (fear of heights)
+1,algophobia (fear of pain)
+1,agorophobia (fear of open spaces)
+1,arachniphobia (fear of spiders)
+1,claustrophobia (fear of closed places)
+1,hematophobia (fear of blood)
+1,hydrophobia (fear of water)
+1,nyctophobia (fear of the dark)
+1,ophidiophobia (fear of snakes)
+1,pathophobia (fear of disease)
+1,pyrophobia (fear of fire)
+1,xenophobia (fear of strangers)
+1,zoophobia (fear of animals)

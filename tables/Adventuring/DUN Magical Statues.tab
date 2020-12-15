@@ -1,0 +1,238 @@
+# ------------------------------------------------------
+# Last Update: re-verified by Valminder Jan 10, 2012.
+# ------------------------------------------------------
+# ---------------------------------------------------
+# Last Update: modified by Valminder July 12, 2006.
+# ---------------------------------------------------
+#
+# Magical Statues
+# 
+# Convered from TableMaster; Copyright 1995,by Wintertree Software
+# by Larry Cormier
+#
+# Modified by Valminder, Nov 2005.
+#    Added damage to traps.
+#    Added link to:
+#       Creatures.Humanoid2
+#       Creatures.Start2
+#       Miscellaneous.Color
+#       NPC Appearance.GenerateQuick4
+#
+# Modified by Larry Cormier December 2005.
+#    Added Parameter Option to allow selection between Statue or Idol
+#    Added Parameter Option to allow selection of Non-Magical Statue
+#    Added Optional Table to Generate Non-Magical Statues
+#
+# Modified by Valminder, Jan 2006.
+#    Added parameter to Choose Core Gods (from PH) or gods from
+#       [Religion.Deities]. The default is [Religion.Deities].
+#    Changed parameters for magical statue or not ... was reversed.
+#
+# Modified by Valminder, July 2006.
+#    Changed god parameter.
+#
+
+# Define Variables
+%Chance%,0
+%StatueType%,0
+%StatuePowerFlag%,0
+%Instructions%,0
+%CoreGods%,2
+
+# Parameter Choices:
+@StatueType,3,What Statue Type would you prefer?,Statue,Idol,Random
+@StatuePowerFlag,3,Do you want a Magical Statue?,Yes,No,Random
+@CoreGods,2,Select godly source,Core Gods,[Religion.tab]
+@Instructions,2,Continue showing the Instructions?,Yes,No
+
+:Start
+1,{Status~by Larry Cormier and Valminder}{If~%Instructions%=1? [Instructions]/[Setup]}
+
+:Setup
+1,{If~%StatueType%=3 ? |StatueType={Dice~1d2}|}
+_ {If~%StatuePowerFlag%=3 ? |StatuePowerFlag={Dice~1d2}|}
+_ <b>{If~%StatuePowerFlag%=1 ? Magical/Non-Magical} [StatueType=%StatueType%]:</b> [Generate]
+
+:Generate
+1,{If~%StatuePowerFlag%=1 ? [GenerateMagicalStatue]/[GenerateNonMagicalStatue]}
+
+:GenerateMagicalStatue
+1,[Size] [Stone] [StatueType=%StatueType%] of [Subject] [Acts] [Activated]
+
+:GenerateNonMagicalStatue
+1,[Size] [Stone] [StatueType=%StatueType%] of [Subject] 
+
+:Instructions
+1,This table generates Magical Statues or Idols based upon your Option Selection.<br><br>
+_ Use the Parameter Button located in the Upper Left-hand corner of the screen to choose either a Statue or an Idol to start.
+
+:Chanceof
+1,|Chance={Dice~1d100}|
+
+:StatueType
+1,statue
+2,idol
+ 
+;Size
+1,tiny
+5,small
+8,medium-sized
+8,large
+8,huge
+3,gargantuesque
+1,colossal
+ 
+;Stone
+2,[Marble_Color] marble
+1,granite
+1,limestone
+1,sandstone
+1,wooden
+ 
+;Marble_Color
+10,white
+3,black
+2,pink
+1,green
+1,[~Miscellaneous.Color]
+ 
+;Subject
+2,a deity ([~DeityNames=%CoreGods%])
+1,local hero ([~NPC Appearance.GenerateQuick4])
+1,long-dead person ([~NPC Appearance.GenerateQuick4])
+1,[~Creatures.Start2]
+ 
+;Acts
+3,[Does_Good] when
+3,[Does_Bad][Chanceof]{If~%Chance%<50? when/ unless}
+1,[Malfunctions] when
+ 
+;Does_Good
+3,points to [Secret]
+3,whispers a clue to [Secret]
+3,heals ([Does_Good_Heal]) a party member
+1,heals ([Does_Good_HealAll]) all party members (within 10')
+3,gives the party an omen ([~The Oracle.Start])
+1,teleports the party to the surface
+1,performs one service
+1,grants a minor wish (once)
+
+;Does_Good_Heal
+50,light 1d8+1
+25,moderate 2d8+3
+12,serious 3d8+5
+6,critical 4d8+7
+1,heal {Dice~3d3*10}
+
+;Does_Good_HealAll
+50,light 1d8+9
+25,moderate 2d8+11
+12,serious 3d8+13
+6,critical 4d8+15
+1,heal {Dice~3d5*10}
+
+;Does_Bad
+1,attacks the party
+1,fills the area with [Gas_Type]
+1,sprays [Spray_Type] ([Blast_Damage]) at the party
+1,emits a [Blast_Type] blast ([Blast_Damage]) at the party
+1,teleports the party in a random direction [Chanceof]{If~%Chance%<50? (different for each person)}
+ 
+;Malfunctions
+1,points in a random direction
+1,whispers nonsense
+1,casts a random spell
+1,gives a false omen ([~The Oracle.Start])
+1,begins wandering around aimlessly
+1,falls over [Chanceof]{If~%Chance%<50? and breaks}
+1,screams loudly
+ 
+;Secret
+1,a secret door
+1,a hidden treasure
+1,a concealed map
+1,the dungeon exit
+ 
+;Blast_Type
+5,flame
+2,freezing cold
+2,withering
+1,sonic
+3,lightning
+1,wind
+2,steam
+1,light
+3,acidic
+
+;Blast_Damage
+10,1d6 ({Dice~1d6}) no save
+20,2d6 ({Dice~2d6}) Reflex half DC{Dice~1d6+11}
+20,3d6 ({Dice~3d6}) Reflex half DC{Dice~1d6+12}
+10,4d6 ({Dice~4d6}) Reflex half DC{Dice~1d6+12}
+10,5d6 ({Dice~5d6}) Reflex half DC{Dice~1d6+12}
+5,6d6 ({Dice~6d6}) Reflex half DC{Dice~1d6+12}
+5,7d6 ({Dice~7d6}) Reflex half DC{Dice~1d6+13}
+3,8d6 ({Dice~8d6}) Reflex half DC{Dice~1d8+13}
+2,9d6 ({Dice~9d6}) Reflex half DC{Dice~1d8+14}
+1,10d6 ({Dice~10d6}) Reflex half DC{Dice~1d8+15}
+ 
+;Gas_Type
+3,poisonous gas (nerve gas) (1d6/1d6 Con; Fort DC{Dice~1d12+8})
+2,chlorine gas (1d6/1d6 Dex; Fort DC{Dice~1d12+8})
+4,incendiary gas ([Blast_Damage])
+2,fear gas (panicked; Fort DC{Dice~1d6+13})
+1,nausea gas (nauseated; Fort DC{Dice~1d7+12})
+1,polymorph gas (baleful polymorph; Fort DC{Dice~1d8+15})
+1,rotting poison (1d8/1d8 Cha; Fort DC{Dice~1d12+8})
+1,shrinkage gas (reduce person; Fort DC{Dice~1d6+11})
+1,petrification gas (Fort DC{Dice~1d8+15})
+2,sleep gas (1d6 hours; Will DC{Dice~1d8+14})
+1,delusion gas (confusion 1d6 rounds; Will DC{Dice~1d8+14})
+2,insanity gas (feeblemind; Will DC{Dice~1d6+17})
+2,paralysis gas (hold person; Will DC{Dice~1d6+13})
+1,anti-magic gas (dispel magic +{Dice~1d8+2})
+ 
+;Spray_Type
+4,alchemist's fire
+2,poison
+2,acid
+1,caustic liquid
+1,thick, adhesive liquid
+2,corrosive liquid
+ 
+;Activated
+1,any part of the statue is touched
+1,any magic is used in the vicinity
+1,any spell is cast on it
+1,its inscription is read aloud
+1,a button on the pedestal is pushed
+1,a lever near the statue is moved
+1,part of the statue is turned
+1,an item is taken out of the statue's hand
+1,a missing part is returned
+1,[Liquid] is poured over the statue
+1,[Liquid] is poured into a container held by the statue
+1,any gem is inserted in a hole in the statue
+1,a coin is inserted into a slot in the statue
+ 
+;Liquid
+1,water
+1,wine
+1,holy water
+1,blood
+1,any liquid
+
+:DeityNames
+1,[~Religion.CoreGods]
+2,[~Religion.Deities]
+
+:Names Branch
+1,{If~%Gender%=1? [Names Generator.NAME Human Male]/[Names Generator.NAME Human Female]}
+2,{If~%Gender%=1? [Names Generator.NAME Dwarf Male]/[Names Generator.NAME Dwarf Female]}
+3,[Names Generator.NAME Elf]
+4,{If~%Gender%=1? [Names Generator.NAME Gnome Male]/[Names Generator.NAME Gnome Female]}
+5,|TempNumber={Dice~1d100}|{If~%TempNumber%=75? {If~%Gender% = 1 ? [Names Generator.NAME Human Male]/
+_[Names Generator.NAME Human Female]}/[Names Generator.NAME Elf]}
+6,|TempNumber={Dice~1d100}|{If~%TempNumber%=75? {If~%Gender% = 1 ? [Names Generator.NAME Human Male]/
+_[Names Generator.NAME Human Female]}/[Names Generator.NAME Orc]}
+7,{If~%Gender%=1? [Names Generator.NAME Halfling Male]/[Names Generator.NAME Halfling Female]}

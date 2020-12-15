@@ -1,0 +1,241 @@
+# ------------------------------------------------------
+# Last Update: re-verified by Valminder Jan 10, 2012.
+# ------------------------------------------------------
+# ---------------------------------------------------
+# Last Update: modified by Valminder Jan 30, 2006.
+# ---------------------------------------------------
+#
+# Wilderness Mapper
+#
+# By Joey Joe Joe based on Cavern Generator by Bruce Gulke
+# May 2005
+# 
+# To use this table copy it in the adventure or folder of your choice. 
+# Copy the Wilderness Tiles to a Wilderness subfolder in the Graphics folder
+# ie. "IMG SRC="Graphics\Wilderness\"  -
+#   
+# The map is generated in a Table so it will be scrollable once you export
+# it.
+#
+# ----------------------------------------------------------------
+#
+# To call this table from another one:
+#    Use either the default dungeon:
+#       [MAP Wilderness.GenRandomMap]
+#
+#    Or input parameters if you need a particular width/height.
+#       [MAP Wilderness.GenMap(%Wd%,%Ht%)]
+#
+#    Wd= Width
+#    Ht= Height
+#
+# ----------------------------------------------------------------
+#
+# Modified by Valminder, Jan 2006.
+#    Adapted for TSv5
+#    I modified the graphics. You now have 3 choices of graphics to choose
+#       from. Use the ones you prefer and discard the other.
+#       You have: original graphics = size 127.
+#                 modified graphics = size 127.
+#                 modified graphics = size 63.
+#       Rename the folder you want to use as "Wilderness".
+#       Below, for %Path2%, use either 63 or 127, as you want.
+#       The default setting is with the new graphics (127).
+#    I added a subtable (see bottom) to call this table from another one.
+#
+
+/OverrideRolls 1
+
+%Path1%,<IMG SRC="Graphics\Wilderness\
+#%Path2%," WIDTH="63" HEIGHT="63" BORDER="0">
+%Path2%," WIDTH="127" HEIGHT="127" BORDER="0">
+%Wd%,6
+%Ht%,5
+%X%,6
+%Y%,5
+%Rand%,0
+
+@Wd,4,Enter width Recommended minimum 3 maximum 5 for proper display
+@Ht,4,Enter height Recommended minimum 3
+
+:Start
+#1,work in progress
+1,<table width=100/% border=1 cellspacing="0" cellpadding="0">{If~%Wd%=0?[Instructions]/[GenMap]}</table>
+
+:Instructions
+1,This table generates random wilderness maps. To use it, change the parameters to enter the height and width you want, then click the 'Roll' button.
+
+:GenMap
+1,{Status~By Joey Joe Joe 2005, modified by Valminder 2006}|Y=%Ht%||Y-3|[GenTopRow][GenMiddleRows][GenBottomRow]
+
+:GenTopRow
+1,|X=%Wd%||X-3|[ULCorner][UpperEdge][URCorner]{CR~}
+
+:GenMiddleRows
+1,|X=%Wd%||X-3|[LeftEdge][Middle][RightEdge]{CR~}|Y-1|{If~%Y%>=0?[GenMiddleRows]}
+
+:GenBottomRow
+1,|X=%Wd%||X-3|[LLCorner][BottomEdge][LRCorner]{CR~}
+
+:ULCorner
+1,|Rand={Dice~1d10}|%Path1%Map%Rand%.jpg%Path2%
+
+:UpperEdge
+1,|Rand=[Tile%Rand%]|%Path1%Map%Rand%.jpg%Path2%|X-1|{If~%X%>=0?[UpperEdge]}
+
+:URCorner
+1,|Rand=[Tile%Rand%]|%Path1%Map%Rand%.jpg%Path2%
+
+:LLCorner
+1,|Rand={Dice~1d10}|%Path1%Map%Rand%.jpg%Path2%
+
+:BottomEdge
+1,|Rand=[Tile%Rand%]|%Path1%Map%Rand%.jpg%Path2%|X-1|{If~%X%>=0?[BottomEdge]}
+
+:LRCorner
+1,|Rand=[Tile%Rand%]|%Path1%Map%Rand%.jpg%Path2%
+
+:LeftEdge
+1,|Rand={Dice~1d10}|%Path1%Map%Rand%.jpg%Path2%
+
+:Middle
+1,|Rand=[Tile%Rand%]|%Path1%Map%Rand%.jpg%Path2%|X-1|{If~%X%>=0?[Middle]}
+
+:RightEdge
+1,|Rand=[Tile%Rand%]|%Path1%Map%Rand%.jpg%Path2%
+
+# ------------------------------------------------------------------------
+# The weighting of the tables is an attempt to simulate real geography:
+# creating mountain ranges, keeping swamps from bordering deserts etc.
+# Modify as needed to match your campaign geography.
+
+# 1=Mtn 2=Hil 3=For 4=Swa 5=Des 6=Pla 7=Rou 8=Wat 9=Scrub 10=Pla
+# Map1= Mountains
+;Tile1
+70,1
+20,2
+10,7
+
+# 1=Mtn 2=Hil 3=For 4=Swa 5=Des 6=Pla 7=Rou 8=Wat 9=Scrub 10=Pla
+# Map2= Hills
+;Tile2
+20,1
+50,2
+5,3
+5,4
+5,5
+3,6
+5,7
+5,9
+2,10
+
+# 1=Mtn 2=Hil 3=For 4=Swa 5=Des 6=Pla 7=Rou 8=Wat 9=Scrub 10=Pla
+# Map3= Forest
+;Tile3
+10,2
+45,3
+20,4
+3,6
+2,7
+15,8
+3,9
+2,10
+
+# 1=Mtn 2=Hil 3=For 4=Swa 5=Des 6=Pla 7=Rou 8=Wat 9=Scrub 10=Pla
+# Map4= Swamp
+;Tile4
+10,2
+20,3
+50,4
+3,6
+2,7
+10,8
+3,9
+2,10
+
+# 1=Mtn 2=Hil 3=For 4=Swa 5=Des 6=Pla 7=Rou 8=Wat 9=Scrub 10=Pla
+# Map5= Desert
+;Tile5
+10,2
+50,5
+3,6
+25,7
+5,8
+5,9
+2,10
+
+# 1=Mtn 2=Hil 3=For 4=Swa 5=Des 6=Pla 7=Rou 8=Wat 9=Scrub 10=Pla
+# Map6= Grasslands/Clear
+;Tile6
+5,2
+10,3
+10,4
+5,5
+10,7
+10,8
+5,9
+45,10
+
+# 1=Mtn 2=Hil 3=For 4=Swa 5=Des 6=Pla 7=Rou 8=Wat 9=Scrub 10=Pla
+# Map7= Rough
+;Tile7
+5,1
+10,2
+5,3
+5,4
+5,5
+5,6
+50,7
+5,8
+5,9
+5,6
+
+# 1=Mtn 2=Hil 3=For 4=Swa 5=Des 6=Pla 7=Rou 8=Wat 9=Scrub 10=Pla
+# Map8= Water
+;Tile8
+1,1
+5,2
+15,3
+15,4
+10,6
+4,7
+40,8
+5,9
+5,10
+
+# 1=Mtn 2=Hil 3=For 4=Swa 5=Des 6=Pla 7=Rou 8=Wat 9=Scrub 10=Pla
+# Map9= Scrub
+;Tile9
+1,1
+4,2
+5,3
+5,4
+5,5
+10,6
+20,7
+5,8
+35,9
+10,10
+
+# 1=Mtn 2=Hil 3=For 4=Swa 5=Des 6=Pla 7=Rou 8=Wat 9=Scrub 10=Pla
+# Map10= Grassland/Clear (Alternate)
+;Tile10
+10,2
+10,3
+10,4
+10,5
+10,7
+10,8
+10,9
+30,10
+
+# ------------------------------------------------------------------------
+# I added this to generate a random map found in a treasure.
+#
+
+:GenRandomMap
+1,|Wd={Dice~2d2+1}||Ht={Dice~2d2+1}|[GenMap]
+
+
+
+

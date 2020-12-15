@@ -1,0 +1,157 @@
+# ------------------------------------------------------
+# Last Update: modified by Valminder Jan 12, 2014.
+# ------------------------------------------------------
+#
+# Note for customizing: Each table assumes that
+# the items are listed in order of value.
+#
+# Modified by Valminder, January 2014.
+#    Added link to: 
+#         Creatures.All
+#         Miscellaneous.Metal
+#         Miscellaneous.Shape
+#         Miscellaneous.Stone
+#         Miscellaneous.Wood
+#         Rune Generator.GenRune
+#
+
+%minVal%,0
+%maxVal%,99999999
+%power%,0
+%format%,0
+%tries%,0
+%maxTries%,0
+%temp%,0
+%inRange%,0
+%group%,0
+%item%,0
+%name%,0
+%value%,0
+%desc%,0
+%aura%,0
+%valMinItem%,0
+%valMaxItem%,0
+%itemsDS%,0
+%index%,0
+%weight%,0
+
+%charges%,0
+%rndCharges%,0
+%other%,0
+%clue%,0
+
+@minVal,0,Enter minimum value (in gp):
+@maxVal,99999999,Enter maximum value (in gp):
+@power,4,Degree of Power:,Minor,Medium,Major,Random
+@rndCharges,1,Random number of charges?,No,Yes
+@format,1,Select format:,Human-readable,Delimited for other table
+@maxTries,10,Number of attempts:
+
+:Start
+1,{DSRead~itemsDS,TP Wands}
+_|temp=[CheckParams]|
+_{If~%temp%=OK?[Continue]/ %temp%}
+_{Status~}
+
+;RandomCharges
+2,{Dice~1d4}
+6,{Dice~1d12+4}
+9,{Dice~1d18+16}
+6,{Dice~1d12+34}
+2,{Dice~1d4+46}
+
+:Continue
+1,|tries=0|{While~%tries%<%maxTries%,[GenItem][CheckValueInRange]{If~%inRange%=yes?|tries=maxTries|/|tries+1|}}
+_{If~%inRange%=no?[Error=4]/ [DisplayItem=%format%]}
+
+:GenItem
+1,|group={Iif~%power%=4?{Param~power,{Dice~1d3}}:{Param~power,%power%}}|
+_{Status~Attempt WAND #{Calc~%tries%+1} of %maxTries%}
+_|index={DSRoll~itemsDS,{LCase~%group%}roll}|
+_|name=wand of {DSGet~itemsDS,%index%,name}|
+_|value={DSGet~itemsDS,%index%,value}|
+_|charges={If~%rndCharges%=2?[RandomCharges]/50}|
+_|value*%charges%|
+_|aura={DSGet~itemsDS,%index%,aura}|
+_|weight={DSGet~itemsDS,%index%,weight}|
+_|desc=[GenDesc]|
+
+:DisplayItem
+1,{Bold~{Cap~%name%}}
+_{CR~}Description: {Cap~%desc%}{CR~}Charges: %charges%{CR~}Value: %value% gp
+_{CR~}Aura: {Italic~%aura%}
+2,%name% (%charges% charges)!%value%!%weight%!%aura%!%desc%
+
+# ----------------------------------------------------
+# Initialization and parameter validation
+:CheckParams
+1,{If~%minVal%<=%maxVal%?OK/ [Error=1]}
+
+:CheckValueInRange
+1,|inRange={If~{And~%minVal%<=%value%,%value%<=%maxVal%}=1?yes/no}|
+
+:Error
+1,ERR001: Invalid min and/or max values
+2,ERR002: Minimum value given greater than maximum value for selected group
+3,ERR003: Maximum value given less than minimum value for selected group
+4,ERR005: Couldn't generate item in %tries% tries
+# ----------------------------------------------------
+
+:GenDesc
+1,{Dice~2d4+4}" long [WandMaterial][Special][Carvings][Clue]
+
+;WandMaterial
+22,wooden {Reset~Miscellaneous.Wood}([~Miscellaneous.Wood])[WandType]
+7,bone ([~Creatures.All])[WandType]
+1,[ExoticWandMaterial][WandType]
+
+;ExoticWandMaterial
+1,metal ([~Miscellaneous.Metal])
+1,glass
+1,ceramic
+1,[~Miscellaneous.Other Material]
+
+;WandType
+1, baton
+1, stick
+2, wand
+
+;Special
+7,|other=0|
+1, with a small [WandGem] at one end|other=1|
+
+;WandGem
+1,emerald
+1,diamond
+1,ruby
+1,sapphire
+1,[~Miscellaneous.Stone]
+
+;Carvings
+3,|clue={AorAn~[ClueType]} provides|
+3,, and it is decorated with carvings {Reset~Rune Generator.Rune2}{Reset~Rune Generator.Weapon}([NPC Appearance.Tatoo])|clue= providing|
+2,, and it is covered with runes[ClueGlyph]|clue=, the runes providing|
+
+
+;Clue
+3,%clue% some clue to the staff's function
+7,
+
+;ClueType
+1,glyph[ClueGlyph] [ClueMethod]
+1,rune[ClueGlyph] [ClueMethod]
+1,symbol[ClueGlyph] [ClueMethod]
+
+;ClueGlyph
+1, {Reset~Rune Generator.Rune2}{Reset~Rune Generator.Weapon}([~Rune Generator.GenRune])
+1, ([~Miscellaneous.Shape])
+
+;ClueMethod
+1,carved into [ClueLocation]
+1,scratched into [ClueLocation]
+1,painted on [ClueLocation]
+1,engraved in [ClueLocation]
+
+;ClueLocation
+1,the side
+1,{If~%other%=0?one end/the other end}

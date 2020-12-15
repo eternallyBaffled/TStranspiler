@@ -1,0 +1,45 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder Dec 20, 2005.
+# ---------------------------------------------------
+#
+# table:	Check Version 
+# by:		Kheferen
+# date:		2/4/04
+# version:	1.0
+#
+# DESCRIPTION:
+# This table is meant to be used by other tables
+# to check that the version of tablesmith running
+# is high enough to work with the table.
+# A good example is the Data Set functions that have
+# been added to version 4.4
+# If the user is running Tablesmith 4.3 or older,
+# tables created using the DS function will not work.
+# To use this table insert the following line
+# into you table.
+#      [Check Version.Start(4.4)]
+#
+# You can change the 4.4 to the lowest version you want
+# your table to be compatable with.
+
+%Ver%,0
+%Check%,0
+
+#Parameter
+@Check,1,Enter version of Tablesmith
+
+:Start
+1,
+_|Ver={Version~}|
+_{If~%Ver%<%Check%?[OlderVersion]}
+
+:OlderVersion
+1,<br>
+_<h2><center>Version Conflict</center></h2>
+_<p>You are running the %Ver% version of Tablesmith.
+_<br>This table was created to run on at least <b>version %Check%</b>
+_<p>To upgrade to the the most current version, download the program from one of
+_ the following web sites:
+_<ul><li><A href="http://groups.yahoo.com/group/TableSmith/">http://groups.yahoo.com/group/TableSmith/</A></li>
+_<li><A href="http://www.mythosa.net/">http://www.mythosa.net/</A></li>
+_<br><br><br></ul>

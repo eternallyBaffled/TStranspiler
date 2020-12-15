@@ -1,0 +1,133 @@
+# ---------------------------------------------------
+# Initial File: Created by Larry Cormier Jan 8, 2006.
+# ---------------------------------------------------
+#
+# Random City Building Maps and their attendent Business
+#
+# Converted from SITE Ravaged Ruins.tab to Generate
+# Non-Ravaged Buildings
+#
+# This Table Links to:
+#      MAP Buildings.tab
+#
+
+%Buildings%,0
+%Type%,0
+%Chance%,0
+%Wd%,0
+%Ht%,0
+%OpenArea%,0
+%Size%,0
+
+:Start
+1,{Status~by Larry Cormier}This Building is [Generate]
+
+:Chanceof
+1,|Chance={Dice~1d100}|
+
+:Generate
+1,[Chanceof]{If~%Chance%<20? {AorAn~[BusinessType]}/ {AorAn~[HouseType]}}
+#_<br><br><b>Map of Building:</b>
+_<br><br>[~GenRandomMap]
+
+;HouseType
+4,{Dice~1d3}-story house|Size=1|
+1,{Dice~1d4+1}-story apartment|Size=2|
+
+:BusinessType
+1,[Chanceof]{If~%Chance%<4? inn ([~Inn and Tavern Names.Names])/ [~TownBusinesses]}
+_ |Wd={Dice~2d4+2}||Ht={Dice~1d4+2}|
+
+;TownBusinesses
+1,advocate's office ([~Shop Names.Generic])
+1,alchemist's shop ([~Shop Names.Alchemists])
+1,architect's office ([~Shop Names.Generic])
+2,armorer's shop ([~Shop Names.Smithies])
+1,artist's studio ([~Shop Names.Generic])
+2,bakery ([~Shop Names.Merchants])
+3,smithy ([~Shop Names.Smithies])
+2,blade shop ([~Shop Names.Smithies])
+1,boatwright's workyard ([~Shop Names.Generic])
+2,bow shop ([~Shop Names.Generic])
+1,brewery ([~Shop Names.Merchants])
+3,butcher shop ([~Shop Names.Merchants])
+1,cabinetmaker's workshop ([~Shop Names.Generic])
+2,candle shop ([~Shop Names.Generic])
+1,carpet maker's workshop ([~Shop Names.Generic])
+1,cartographer's office ([~Shop Names.Generic])
+3,cartwright's workshop ([~Shop Names.Smithies])
+1,cheese shop ([~Shop Names.Markets])
+1,clock shop ([~Shop Names.Generic])
+3,cobbler shop ([~Shop Names.Generic])
+2,cooper's workshop ([~Shop Names.Generic])
+1,coppersmith's workshop ([~Shop Names.Smithies])
+1,distillery ([~Shop Names.Merchants])
+2,drayage/storage building ([~Shop Names.Generic])
+3,dry goods store ([~Shop Names.Merchants])
+1,dyer ([~Shop Names.Generic])
+2,fishmonger's shop ([~Shop Names.Merchants])
+2,arrow shop ([~Shop Names.Generic])
+2,fortuneteller's parlor ([~Shop Names.Alchemists])
+2,general store ([~Shop Names.Merchants])
+1,glassblower's workshop ([~Shop Names.Generic])
+1,goldsmith's workshop ([~Shop Names.Smithies])
+3,greengrocery ([~Shop Names.Markets])
+1,guild hall ([~Shop Names.Generic])
+1,harness shop ([~Shop Names.Merchants])
+2,herbwife's house ([~Shop Names.Merchants])
+1,horse trainer's stable ([~Shop Names.Generic])
+2,horsetrader's stable ([~Shop Names.Generic])
+1,housepainter's headquarters ([~Shop Names.Generic])
+1,illuminator's workshop ([~Shop Names.Merchants])
+3,inn ([~Inn and Tavern Names.Names])
+1,jeweler's workshop ([~Shop Names.Generic])
+1,lamp shop ([~Shop Names.Merchants])
+1,library ([~Shop Names.Libraries])
+1,livery stable ([~Shop Names.Markets])
+1,magic supply store ([~Shop Names.Libraries])
+1,market building ([~Shop Names.Generic])
+2,mason's office ([~Shop Names.Generic])
+1,money-changer's office ([~Shop Names.Generic])
+2,money-lender's office ([~Shop Names.Generic])
+1,music shop ([~Shop Names.Generic])
+1,outfitter ([~Shop Names.Merchants])
+1,paper/ink shop ([~Shop Names.Alchemists])
+3,pawnshop ([~Shop Names.Generic])
+2,pottery ([~Shop Names.Generic])
+1,public bath ([~Shop Names.Generic])
+1,ropewalk ([~Shop Names.Generic])
+2,saddlery ([~Shop Names.Merchants])
+1,sage's home ([~Shop Names.Alchemists])
+2,scribe's office ([~Shop Names.Alchemists])
+1,sharpener ([~Shop Names.Smithies])
+2,shrine ([~Religion.Deities2])
+1,sign painter's studio ([~Shop Names.Generic])
+1,silversmith's workshop ([~Shop Names.Smithies])
+1,stonecutter's headquarters ([~Shop Names.Generic])
+2,tailor shop ([~Shop Names.Generic])
+2,tannery ([~Shop Names.Generic])
+3,tavern ([~Tavern Names.NAME])
+3,temple ([~Religion.Deities2])
+1,theater ([~Shop Names.Generic])
+2,tinsmith's workshop ([~Shop Names.Smithies])
+2,used clothing store ([~Shop Names.Generic])
+2,warehouse ([~Shop Names.Generic])
+2,weaver's workshop ([~Shop Names.Generic])
+2,wheelwright's workshop ([~Shop Names.Smithies])
+2,wineshop ([~Shop Names.Merchants])
+1,woodcarver's workshop ([~Shop Names.Generic])
+
+:BuildingSize
+# Small Building: Width: 4-10 Height: 3-6, with 10-30% Open Space
+1,|Wd={Dice~2d4+2}||Ht={Dice~1d4+2}||OpenArea={Dice~1d3*10}|
+# Medium Building: Width: 8-14 Height: 7-10, with 10-30% Open Space
+2,|Wd={Dice~2d4+6}||Ht={Dice~1d4+6}||OpenArea={Dice~1d3*10}|
+#  Large Building; Width: 8-15 Height: 9-18, with 10-30% Open Space
+3,|Wd={Dice~2d4+7}||Ht={Dice~3d4+6}||OpenArea={Dice~1d3*10}|
+
+:BuildingMap
+1,[MAP Buildings.GenMap(%Wd%,%Ht%,%OpenArea%)]
+
+:GenRandomMap
+1,[BuildingSize=%Size%][BuildingMap]
+

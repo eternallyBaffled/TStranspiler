@@ -1,0 +1,90 @@
+# ------------------------------------------------------
+# Last Update: verified by Valminder Jan 02, 2014.
+# ------------------------------------------------------
+#
+# d20 SRD Mundane Items table
+#
+# Originally compiled by Anthony Marker
+# www.Breminor.com
+#
+# Slightly editted by Bruce Gulke
+#
+# Format: item!value!weight!desc
+
+%qty%,0
+%temp%,0
+%weapon%,0
+%value%,0
+%weight%,0
+%description%,0
+%unused%,0
+%small%,0
+
+:Start
+1-17,[Alchemical Item]
+18-50,[Armor]
+51-83,masterwork [Weapons]
+84-100,[Tools and Gear]
+
+:Alchemical Item
+1-12,|qty={Dice~1d4}|alchemist's fire (%qty% {PluralIf~%qty%,flask})!{Calc~%qty%*20}!%qty%!{PluralIf~%qty%,flask} of viscous liquid{If~%qty%>1? (x%qty%)}
+13-24,|qty={Dice~2d4}|acid (%qty% {PluralIf~%qty%,flask})!{Calc~%qty%*10}!%qty%!{PluralIf~%qty%,flask} of liquid{If~%qty%>1? (x%qty%)}
+25-36,|qty={Dice~1d4}|{PluralIf~%qty%,smokestick}{If~%qty%>1? (x%qty%)}!{Calc~%qty%*20}!{Calc~%qty%*0.5}!{PluralIf~%qty%,wooden stick}{If~%qty%>1? (x%qty%)}
+37-48,|qty={Dice~1d4}|holy water ({If~%qty%>1?%qty% }{PluralIf~%qty%,flask})!{Calc~%qty%*25}!%qty%!{PluralIf~%qty%,flask} of water{If~%qty%>1? (x%qty%)}
+49-62,|qty={Dice~1d4}|antitoxin ({If~%qty%>1?%qty% }{PluralIf~%qty%,dose})!{Calc~%qty%*50}!0!{PluralIf~%qty%,vial} of liquid{If~%qty%>1? (x%qty%)}
+63-74,everburning torch!110!1!illuminated torch
+75-88,|qty={Dice~1d4}|tanglefoot {PluralIf~%qty%,bag}{If~%qty%>1? (x%qty%)}!{Calc~%qty%*50}!{Calc~%qty%*4}!{PluralIf~%qty%,bag}{If~%qty%>1? (x%qty%)}
+89-100,|qty={Dice~1d4}|{PluralIf~%qty%,thunderstone}{If~%qty%>1? (x%qty%)}!{Calc~%qty%*30}!{Calc~%qty%*1}!{PluralIf~%qty%,stone}{If~%qty%>1? (x%qty%)}
+
+:Armor
+1-12,|weight=25|chain shirt[Size]!100!%weight%!chain shirt
+13-18,|weight=20|masterwork studded leader[Size]!175!%weight%!suit of masterwork studded leather armor
+19-26,|weight=30|breastplate!200!%weight%!breastplate
+27-34,|weight=35|banded mail[Size]!250!%weight%!suit of banded mail
+35-54,|weight=50|half-plate[Size]!600!%weight%!suit of half-plate armor
+55-80,|weight=50|full plate[Size]!1500!%weight%!suit of full plate armor
+81-90,darkwood [Darkwood]
+91-100,masterwork [MWShield][Size]
+
+# For medium, show nothing
+;Size
+1, (small)|weight/2||small=1|
+9,|small=0|
+
+:Darkwood
+1,buckler!205!2.5!light wooden shield of dark wood
+2,shield!257!2.5!heavy wooden shield of dark wood
+
+:MWShield
+1-17,|weight=5|buckler [Size]!165!%weight%!masterwork buckler{If~%small%=1? (small)}
+18-40,|weight=5|shield (light/wooden) [Size]!153!%weight%!light, wooden, masterwork shield{If~%small%=1? (small)}
+41-60,|weight=6|shield (light/steel) [Size]!159!%weight%!light, steel, masterwork shield{If~%small%=1? (small)}
+61-83,|weight=10|shield (heavy/wooden) [Size]!157!%weight%!heavy, wooden, masterwork shield{If~%small%=1? (small)}
+84-100,|weight=15|shield (heavy/steel) [Size]!170!%weight%!heavy, steel, masterwork shield{If~%small%=1? (small)}
+
+:Weapons
+1-50,|temp=[TP Common Melee Weapons.Start]|{Split~temp,"!",weapon,value,weight,description,unused,unused,unused,unused,unused,unused}%weapon%!%value%!%weight%!%description%
+51-70,|temp=[TP Uncommon Weapons.Start]|{Split~temp,"!",weapon,value,weight,description,unused,unused,unused,unused,unused,unused}%weapon%!%value%!%weight%!%description%
+71-100,|temp=[TP Common Ranged Weapons.Start]|{Split~temp,"!",weapon,value,weight,description,unused,unused,unused,unused,unused,unused}%weapon%!%value%!%weight%!%description%
+
+:Tools and Gear
+1-3,backpack, empty!2!2!empty backpack
+4-6,crowbar!2!5!crowbar
+7-11,lantern, bullseye!12!3!bullseye lantern
+12-16,lock, simple!20!1!lock
+17-21,lock, average!40!1!lock
+22-28,lock, good!80!1!lock
+29-35,lock, superior!150!1!lock
+36-40,manacles, masterwork!50!2!masterwork manacles
+41-43,mirror, small steel!10!0.5!small steel mirror
+44-46,rope, silk (50 ft.)!10!5!50 feet of silk rope
+47-53,spyglass!1000!1!spyglass
+54-58,artisan's tools, masterwork!55!5!masterwork artisan's tools
+59-63,climber's kit!80!5!climber's kit
+64-68,disguise kit!50!8!disguise kit
+69-73,healer's kit!50!1!healer's kit
+74-77,holy symbol, silver!25!1!silver holy symbol
+78-81,hourglass!25!1!hourglass
+82-88,magnifying glass!100!0!magnifying glass
+89-95,musical instrument, masterwork!100!3!masterwork musical instrument
+96-100,thieves' tools, masterwork!50!2!masterwork thieves' tools

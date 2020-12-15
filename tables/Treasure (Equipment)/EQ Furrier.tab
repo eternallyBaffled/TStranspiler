@@ -1,0 +1,216 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder August 24, 2006.
+# ---------------------------------------------------
+#
+# Furrier
+#
+# Sean Hlousek
+#
+# -------------------------------------------------------------------------
+#
+# To call this table from another one:
+#    [EQ Furrier.Generate(%Rolls%)
+#
+#    Parameters: (%Rolls%)
+#
+#    Rolls:    (1) Enter the number of items needed.
+#
+# -------------------------------------------------------------------------
+#
+# Modified by Valminder, August  2006.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+#    I heavily modified this table. I could modify it more by
+#       removing all the variables for the cost, but it would
+#       be too long. For now, it works fine.
+#    The final price need to be adjusted for some items, but it
+#       seems relatively OK.
+#    I diminished the price variation in [Store].
+#    Cost of Items: Put the cost in GP, the output will modify it
+#       for gp, sp, or cp.
+#       1 sp = 0.1 gp
+#       1 cp = 0.01 gp
+#
+
+%Fur:Skunk%,1.5
+%Fur:Wolverine%,5
+%Fur:Fisher%,1
+%Fur:Racoon%,2
+%Fur:Coyote%,1
+%Fur:Bobcat%,5
+%Fur:Buffalo%,50
+%Fur:Goat%,2
+%Fur:BlackBear%,250
+%Fur:Beaver%,3
+%Fur:Cheetah%,200
+%Fur:MountainLion%,275
+%Fur:Ermine%,50
+%Fur:Fox%,10
+%Fur:Jaguar%,200
+%Fur:Lamb%,2
+%Fur:Leopard%,250
+%Fur:SnowLeopard%,500
+%Fur:Lion%,350
+%Fur:Lynx%,100
+%Fur:Marmot%,00
+%Fur:Mink%,100
+%Fur:Ocelot%,550
+%Fur:Otter%,5
+%Fur:Rabbit%,0.5
+%Fur:Sable%,200
+%Fur:Seal%,25
+%Fur:Tiger%,350
+%Fur:Wolf%,3
+%Fur:Owlbear%,750
+%Fur:ArticFox%,375
+%Fur:BrownBear%,225
+%Fur:Grizzly%,450
+%Fur:PolarBear%,650
+
+### Was %Base%
+%PercentGPMod%,1
+### This is the Store modifier on all its prices 70% to 200% (normal 95% - 105%)
+%STVR%,0
+### How many items to roll
+%Rolls%,0
+#### Was %Base1%
+%MagicalGPMod%,0
+
+# New variables Aug 2006.
+%Item%,0
+# Put Book=2 in the item's description if you do not want books to appear.
+%Book%,0
+%Cost%,0
+%Condition%,0
+%GenItem%,0
+# 1= Mundane Item, 2= Magical Item
+%Magic%,1
+%MWGPMod%,0
+%ArmorSizeMod%,1
+# To be used with "EQ_Main.tab"
+%GetData%,0
+%DataName%,0
+%DataPercentMod%,0
+%SpecialEffect%,0
+%BodySize%,0
+%MoneyType%,gp
+%NaturalizedMod%,0
+
+@Rolls,10,How many Items are in this Shop?
+#@GenItem,9,What do you want to generate,
+
+:Start
+1,{Status~By Sean Hlousek, Valminder 2006}[Generate]
+
+:Generate
+1,|STVR=1|[Store]
+#_[Multiplier]
+_{Loop~%Rolls%,|BodySize=1||PercentGPMod=0||MagicalGPMod=0||Magic=1||MWGPMod=0||ArmorSizeMod=1||SpecialEffect=0|
+_[Furrier][Print=%Magic%]
+_{If~%Rolls%>1?<br>}}
+
+:Print
+1,<b>Item:</b> <i><font color="Purple">%Item%</font></i>[Print2]
+2,<b>Item:</b> <i><font color="Blue">(Magic) %Item%</font></i>[Print2]
+
+:Print2
+1,{If~%SpecialEffect%!=0? [PrintExtraMW]}
+_{IIf~%Book%!=2?  <font size=1>(%Book%)</font>}
+#If you do not want BodySize for everything put |BodySize=0| above and |BodySize=1| in item's description.
+#_{If~%BodySize%=1? ([BodySize] size)}
+_|Cost+%MagicalGPMod%||Cost+%MWGPMod%|{If~%Magic%=1?|Cost*%ArmorSizeMod%|}
+_[Calculate Cost]
+_ (%Condition%, [AddComma.Start(%Cost%)] %MoneyType%)
+
+:PrintExtraMW
+1,<u>Extra MW Effect</u>: %SpecialEffect%.
+
+# This will give a modifier to the cost of the items.
+;Store
+2,|STVR-{Calc~({Dice~1d10+20}/100)}|
+4,|STVR-{Calc~({Dice~1d10+10}/100)}|
+8,|STVR-{Calc~({Dice~1d10+5}/100)}|
+15,|STVR-{Calc~({Dice~1d5}/100)}|
+70,|STVR=1|
+30,|STVR+{Calc~({Dice~1d5}/100)}|
+15,|STVR+{Calc~({Dice~1d10+5}/100)}|
+8,|STVR+{Calc~({Dice~1d10+10}/100)}|
+4,|STVR+{Calc~({Dice~1d15+20}/100)}|
+2,|STVR+{Calc~({Dice~1d25+35}/100)}|
+1,|STVR+{Calc~({Dice~1d50+50}/100)}|
+
+:Multiplier
+1,Price Multiplier: %STVR%<br>
+
+:Calculate Cost
+1,|Cost={Calc~((%STVR%+%PercentGPMod%)*%Cost%)}|
+_{If~%Cost%>=5?|Cost={Trunc~%Cost%}||MoneyType=gp|}
+_{If~{And~%Cost%>=1,%Cost%<5}=1?{If~%Cost%={Trunc~%Cost%}?|MoneyType=gp|/|Cost={Round~1,%Cost%}||Cost*10||MoneyType=sp|}}
+_{If~%Cost%<0.1?|Cost*100||Cost={Trunc~%Cost%}|{If~%Cost%=0?|Cost=1|}|MoneyType=cp|/{If~%Cost%<1?|Cost*10||Cost={Trunc~%Cost%}|{If~%Cost%=0?|Cost=1|}|MoneyType=sp|}}
+
+# -----------------------------------------------------------------------------------                                                                         
+;Furrier
+50,|NaturalizedMod=2||Item=Fur: Skunk</font></i> ([FurParts])||Cost=%Fur:Skunk%|
+10,|NaturalizedMod=3||Item=Fur: Wolverine</font></i> ([FurParts])||Cost=%Fur:Wolverine%|
+15,|NaturalizedMod=2||Item=Fur: Fisher</font></i> ([FurParts])||Cost=%Fur:Fisher%|
+75,|NaturalizedMod=2||Item=Fur: Racoon</font></i> ([FurParts])||Cost=%Fur:Racoon%|
+30,|NaturalizedMod=2||Item=Fur: Coyote</font></i> ([FurParts])||Cost=%Fur:Coyote%|
+10,|NaturalizedMod=3||Item=Fur: Bobcat</font></i> ([FurParts])||Cost=%Fur:Bobcat%|
+25,|NaturalizedMod=5||Item=Fur: Buffalo</font></i> ([FurParts])||Cost=%Fur:Buffalo%|
+40,|NaturalizedMod=3||Item=Fur: Goat</font></i> ([FurParts])||Cost=%Fur:Goat%|
+30,|NaturalizedMod=5||Item=Fur: Black Bear</font></i> ([FurParts])||Cost=%Fur:BlackBear%|
+50,|NaturalizedMod=2||Item=Fur: Beaver</font></i> ([FurParts])||Cost=%Fur:Beaver%|
+1,|NaturalizedMod=3||Item=Fur: Cheetah</font></i> ([FurParts])||Cost=%Fur:Cheetah%|
+5,|NaturalizedMod=4||Item=Fur: Mountain Lion</font></i> ([FurParts])||Cost=%Fur:MountainLion%|
+5,|NaturalizedMod=3||Item=Fur: Ermine</font></i> ([FurParts])||Cost=%Fur:Ermine%|
+20,|NaturalizedMod=2||Item=Fur: Fox</font></i> ([FurParts])||Cost=%Fur:Fox%|
+1,|NaturalizedMod=3||Item=Fur: Jaguar</font></i> ([FurParts])||Cost=%Fur:Jaguar%|
+40,|NaturalizedMod=3||Item=Fur: Lamb</font></i> ([FurParts])||Cost=%Fur:Lamb%|
+1,|NaturalizedMod=4||Item=Fur: Leopard</font></i> ([FurParts])||Cost=%Fur:Leopard%|
+1,|NaturalizedMod=4||Item=Fur: Snow Leopard</font></i> ([FurParts])||Cost=%Fur:SnowLeopard%|
+1,|NaturalizedMod=5||Item=Fur: Lion</font></i> ([FurParts])||Cost=%Fur:Lion%|
+5,|NaturalizedMod=3||Item=Fur: Lynx</font></i> ([FurParts])||Cost=%Fur:Lynx%|
+10,|NaturalizedMod=2||Item=Fur: Marmot</font></i> ([FurParts])||Cost=%Fur:Marmot%|
+5,|NaturalizedMod=3||Item=Fur: Mink</font></i> ([FurParts])||Cost=%Fur:Mink%|
+1,|NaturalizedMod=3||Item=Fur: Ocelot</font></i> ([FurParts])||Cost=%Fur:Ocelot%|
+20,|NaturalizedMod=3||Item=Fur: Otter</font></i> ([FurParts])||Cost=%Fur:Otter%|
+70,|NaturalizedMod=2||Item=Fur: Rabbit</font></i> ([FurParts])||Cost=%Fur:Rabbit%|
+1,|NaturalizedMod=3||Item=Fur: Sable</font></i> ([FurParts])||Cost=%Fur:Sable%|
+10,|NaturalizedMod=3||Item=Fur: Seal</font></i> ([FurParts])||Cost=%Fur:Seal%|
+1,|NaturalizedMod=5||Item=Fur: Tiger</font></i> ([FurParts])||Cost=%Fur:Tiger%|
+20,|NaturalizedMod=4||Item=Fur: Wolf</font></i> ([FurParts])||Cost=%Fur:Wolf%|
+10,|NaturalizedMod=6||Item=Fur: Owlbear</font></i> ([FurParts])||Cost=%Fur:Owlbear%|
+5,|NaturalizedMod=3||Item=Fur: Artic Fox</font></i> ([FurParts])||Cost=%Fur:ArticFox%|
+25,|NaturalizedMod=5||Item=Fur: Brown Bear</font></i> ([FurParts])||Cost=%Fur:BrownBear%|
+20,|NaturalizedMod=6||Item=Fur: Grizzly Bear</font></i> ([FurParts])||Cost=%Fur:Grizzly%|
+5,|NaturalizedMod=6||Item=Fur: Polar Bear</font></i> ([FurParts])||Cost=%Fur:PolarBear%|
+
+# -----------------------------------------------------------------------------------
+# Support Tables
+
+;FurParts
+21,head only|PercentGPMod-0.25||Book=WBG & Your DM||Condition=[NotFullFurCondition]|
+1,right rear 1/4|PercentGPMod-0.5||Book=WBG & Your DM||Condition=[NotFullFurCondition]|
+1,left rear 1/4|PercentGPMod-0.5||Book=WBG & Your DM||Condition=[NotFullFurCondition]|
+10,back half|PercentGPMod-0.25||Book=WBG & Your DM||Condition=[NotFullFurCondition]|
+1,right front 1/4|PercentGPMod-0.5||Book=WBG & Your DM||Condition=[NotFullFurCondition]|
+1,left front 1/4|PercentGPMod=-0.5||Book=WBG & Your DM||Condition=[NotFullFurCondition]|
+10,front half|PercentGPMod-0.25||Book=WBG & Your DM||Condition=[NotFullFurCondition]|
+50,full fur|PercentGPMod+0||Book=WBG & Your DM||Condition=[FurCondition]|
+5,naturalized animal|PercentGPMod+%NaturalizedMod%||Book=2||Condition=[NotFullFurCondition]|
+
+# -----------------------------------------------------------------------------------
+# Conditions
+
+;FurCondition
+1,|GetData=[EQ_Main.FurCondition]|
+_{Split~GetData,"!!!",DataName,DataPercentMod,SpecialEffect}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+;NotFullFurCondition
+1,|GetData=[EQ_Main.NotFullFurCondition]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+

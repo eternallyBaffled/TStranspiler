@@ -1,0 +1,102 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder Oct 30, 2003.
+# ---------------------------------------------------
+#
+# SMS
+# 06/26/03
+# Forgotten Realms Table 58: Northern Ocean (EL 5-13) random encounter tables
+#
+# Corrected by Valminder, Oct 2003
+#   -{If~} and {Dice~}
+#
+#Variables
+
+%Time%,0
+%Temp%,0
+
+#Parameters
+
+@Time,3,Select a time of day,Day,Night,_
+
+#
+#  Starts by putting up the instructions
+#
+
+:Start
+1,{If~%Time% = 3 ? [Instructions]/[Northern Ocean %Time%]}
+
+;Instructions
+1,<b>Forgotten Realms Table 58: Northern Ocean (EL 5-13)</b></br></br><h3>Instructions:</h3>
+_<b>Determine whether an encounter should occur before using this table. The chance of an encounter is based on terrain type and travel (chance per hour):</b><br>
+_<table border=1><tr><th>Terrain</th><th>Normal Travel</th><th>Cautious Travel</th><th>Hiding</th></tr>
+_<tr><td>Desolate/wasteland</td><td>5/%</td><td>2/%</td><td>1/%</td></tr>
+_<tr><td>Frontier/wilderness</td><td>8/%</td><td>4/%</td><td>2/%</td></tr>
+_<tr><td>Verdant/civilized area</td><td>10/%</td><td>5/%</td><td>2/%</td></tr>
+_<tr><td>Heavily traveled</td><td>12/%</td><td>6/%</td><td>3/%</td></tr>
+_</table>
+_<ol><li>Use the Parameter Box (below) to indicate whether it is day or night. Selecting "_" displays these instructions</li>
+_<li>This table applies to all Northern Ocean areas so there is no region to set.</li></ul><br>
+
+# 1 corresponds to time="Day"
+:Northern Ocean 1
+01-03,Baleen whale
+04-05,{Dice~1d6+5} Baleen whale
+06-07,Cachalot whale
+08-09,{Dice~1d6+5} Cachalot whale
+10-11,{Dice~1d2} Dire shark
+12-14,{Dice~1d2} Kapoacinth (gargoyle)
+15-18,Kraken
+19,{Dice~1d6+6} Lacedon (ghoul)
+20-26,<b>NPCs:</b><br>{Loop~{Dice~1d3+2},[FR_Random_NPC.FR_SM_NPC]}
+27-40,Merchant ship: a sailing ship carrying {Dice~4d4} 1st level commoners (sailors), {Dice~1d3+1} level {Dice~1d6} experts (the officers), and a group of merchants:<br>
+_[FR_Misc.Merchant_Race] Merchants: {Dice~2d4} 1st level commoners, {Dice~2d4} 1st level warriors, led by [FR_Misc.Merchant_Leader]
+41-42,{Dice~1d6+5} Orca whale
+43-45,Orca whale
+46-53,Pirate Ship ([FR_Misc.Pirate_Race]): a sailing ship carrying {Dice~10d10} 1st level commoners (sailors), {Dice~1d6+6} 1st level warriors, led by
+_{Loop~{Dice~1d4+2}, Level {Dice~1d6} [FR_Random_NPC.FR_Evil_Class]<br> }
+54-63,{Dice~2d10} Porpoise
+64-65,Purple worm
+66-67,Sea hag (hag)
+68-70,{Dice~1d3+1} Scrag
+71-73,Shark, huge
+74-76,{Dice~1d4+1} Shark, large
+77-82,{Dice~1d6+5} Shark, medium
+83-86,{Dice~1d6+5} Squid
+87-88,Squid, giant
+89,Storm giant
+90-92,{Dice~1d3+1} Tojanida, adult
+93-94,{Dice~1d3+1} Tojanida, elder
+95-99,Triton patrol: {Dice~1d10+1} tritons mounted on porpoises
+100,{Dice~1d2} Wereshark (MoF)
+
+# 2 corresponds to time="Night"
+:Northern Ocean 2
+01-02,Baleen whale
+03,{Dice~1d6+5} Baleen whale
+04-06,Cachalot whale
+07,{Dice~1d6+5} Cachalot whale
+08-09,{Dice~1d2} Dire shark
+10-13,{Dice~1d2} Kapoacinth (gargoyle)
+14-19,Kraken
+20-26,{Dice~1d6+6} Lacedon (ghoul)
+27-32,<b>NPCs:</b><br>{Loop~{Dice~1d3+2},[FR_Random_NPC.FR_SM_NPC]}
+33-39,Merchant ship: a sailing ship carrying {Dice~4d4} 1st level commoners (sailors), {Dice~1d3+1} level {Dice~1d6} experts (the officers), and a group of merchants:<br>
+_[FR_Misc.Merchant_Race] Merchants: {Dice~2d4} 1st level commoners, {Dice~2d4} 1st level warriors, led by [FR_Misc.Merchant_Leader]
+40-41,{Dice~1d6+5} Orca whale
+42-44,Orca whale
+45-51,Pirate Ship ([FR_Misc.Pirate_Race]): a sailing ship carrying {Dice~10d10} 1st level commoners (sailors), {Dice~1d6+6} 1st level warriors, led by
+_{Loop~{Dice~1d4+2}, Level {Dice~1d6} [FR_Random_NPC.FR_Evil_Class]<br> }
+52-54,{Dice~2d10} Porpoise
+55-58,Purple worm
+59-64,Sea hag (hag)
+65-70,{Dice~1d3+1} Scrag
+71-73,Shark, huge
+74-76,{Dice~1d4+1} Shark, large
+77-81,{Dice~1d6+5} Shark, medium
+82-86,{Dice~1d6+5} Squid
+87-89,Squid, giant
+90-91,Storm giant
+92-94,{Dice~1d3+1} Tojanida, adult
+95-96,{Dice~1d3+1} Tojanida, elder
+97-99,Triton patrol: {Dice~1d10+1} tritons mounted on porpoises
+100,{Dice~1d2} Wereshark (MoF)

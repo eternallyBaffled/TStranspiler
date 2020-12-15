@@ -1,0 +1,24 @@
+# This table demonstrates the use
+# of calling another table that uses parameters.
+#
+# The table called is the other sample parameters table.
+
+%A%,0
+%B%,0
+%C%,0
+
+:Start
+1,|A={Dice~1d3}||B={Dice~1d3+3}||C={Dice~1d3}|[Call4][Call1][Call2][Call3][Call4]
+
+:Call1
+1,<p><i>Passing in %A%, %B%, and %C%</i><br>[SAMPLE Parameters I.Start(%A%,%B%,%C%)]</p>
+
+:Call2
+1,<p><i>Passing in A (%A%), leaving others to default</i><br>[SAMPLE Parameters I.Start(%A%,,)]</p>
+
+:Call3
+1,<p><i>Passing in B (%B%), leaving others to default</i><br>[SAMPLE Parameters I.Start(,%B%,)]</p>
+
+# If the "(,)" were left out in the following call, the result would be the same
+:Call4
+1,<p><i>Passing in nothing, leaving all to default</i><br>[SAMPLE Parameters I.Start(,,)]</p>

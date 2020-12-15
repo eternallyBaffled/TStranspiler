@@ -1,0 +1,341 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder Jan 26, 2012.
+# ---------------------------------------------------
+#
+# Created by Valminder, Feb 2004.
+#
+# This table is designed to generate a Seller of Horses.
+# It will be linked with the "Horse Generator" table by
+# Anthony Marker.
+#
+# -------------------------------------------------------------------------
+#
+# To call this table from another one:
+#    [SHOP Horse Dealer.GenStore(%Size%,%RidingDog%)
+#
+#    Parameters: (%Description%,%Size%,%RidingDog%,%GenItems%)
+#
+#    Description: 1  1= Yes
+#                    2= No
+#    Size:        4  1= Small
+#                    2= Medium
+#                    3= Large
+#                    4= Random
+#    RidingDog:   1  1= Yes
+#                    2= No
+#    GenItems:    1  1= Yes
+#                    2= No
+#
+# -------------------------------------------------------------------------
+#
+# Modified by Valminder, Jan 2006.
+#    Adapted for TSv5.
+#
+# Modified by Valminder, August 2006.
+#    Added content of "Stable1.tab" from ???
+#    Added Riding Dogs
+#    Added Stonebred Pony (from UEG)
+#
+# Modified by Valminder, December 2006.
+#    Added Size parameter.
+# Modified by Valminder, January 2012.
+#    Added a way to generate ITEMS only, without description.
+#       This is a good way to save the generated shop in your library and then generate the items of this particular shop.
+#    Added a way to randomize the Size of the shop.
+# Modified by Valminder, Jan 2019
+#    Added Version for Pathfinder.
+#
+
+/OverrideRolls 1
+
+#variables
+%A%,0
+%Cost%,0
+%Description%,0
+%GenItems%,0
+%NbHorses%,1
+%Quantity%,1
+%Staff%,0
+%Temp%,0
+%mod price%,1
+%NbPony%,0
+%NbWarpony%,0
+%NbLHorse%,0
+%NbHHorse%,0
+%NbLWarhorse%,0
+%NbHWarhorse%,0
+%NbDonkey%,0
+%NbMule%,0
+%NbRidingDog%,0
+%NbStonebredPony%,0
+%RidingDog%,1
+%Services%,2
+%Size%,0
+%SizeMod%,0
+%Supplies%,0
+%Version%,0
+
+@Description,1,Do you want to generate the description?,Yes,No
+@Size,4,What size is the horse dealer?,Small,Medium,Large,Random
+@RidingDog,1,Do you want to generate Riding Dogs?,Yes,No
+@GenItems,1,Do you want to generate Customers Supplies and Horses?,Yes,No
+@Version,1,What version of d20 do you use?,LOAD from Permanent Variables,3.5,Pathfinder
+
+:Start
+1,[VersionNeeded]
+_{If~%Size%=4? |Size={Dice~1d3}|}
+_{If~%Description%=1? [Desc1]/[Desc2]}
+_{Status~Valminder 2005, 2012}[SetSizeStable=%Size%]
+_{If~%Description%=1? [GenStore]}
+_{If~%GenItems%=1? [GenSupplies]}
+_{If~%Description%=1? [NPC Appearance.Bartender]}
+
+:VersionNeeded
+1,{If~%Version%=1?|Version=[Permanent_Variables.Version]|}
+
+:Desc1
+1,<b><u>Horse Dealer Shop</u>:</b>[Tab](Size of Shop: {Param~Size,%Size%})<br><br>
+
+:Desc2
+1,<b><u>Horse Dealer Shop</u>:</b> Customers, Supplies, and Horses ONLY[Tab](Size of Shop: {Param~Size,%Size%})<br><br>
+
+:GenStore
+1,<b><u>Shop Name</b></u>: [~Shop Names.Generic].<br><br>
+_[Shop & Owner Description.Owner]
+_[Shop]<br><br>
+_<b><u>Staff</u>:</b> [StaffCalc][Staff=%Temp%].<br><br>
+_<b><u>Services</u>:</b> [Stable Services]<br>
+
+:GenSupplies
+1,{If~%Description%=2? [SetVar=%Size%]}
+_<b><u>Customer(s)</u>:</b> [Shop & Owner Description.Customers]<br><br>
+_<b><u>Supplies</u>:</b><br>{Loop~{Calc~{Dice~3d4}+%Supplies%},[Price Modifier][Stable Supplies], }<br><br>
+_[Horses]
+
+:StaffCalc
+1,|Temp={Dice~1d11}||Temp+%Staff%|{If~%Temp%<1?|Temp=1|}{If~%Temp%>11?|Temp=11|}
+
+;Tab
+1,{Loop~5,&nbsp;}
+
+:SetVar
+1,|SizeMod=-3||Supplies=-{Dice~1d4}||Quantity=0.5|
+2,|SizeMod=0||Supplies=0||Quantity=1|
+3,|SizeMod=3||Supplies={Dice~1d4}||Quantity=1.5|
+
+# --------------------------------------------------------------------------
+
+;Shop
+1,[Shop & Owner Description.Shop]There is also [~HorseHouse+%SizeMod%] [~Stable].|Staff+1|
+1,[SetSizeTent=%Size%]<b><u>Layout</u>:</b> [~Tent+%SizeMod%]
+
+:SetSizeStable
+1,|SizeMod=-3|
+2,|SizeMod=0|
+3,|SizeMod=3|
+
+:SetSizeTent
+1,|SizeMod=-15|
+2,|SizeMod=0|
+3,|SizeMod=15|
+
+;Tent
+1,This is only a wind or sunscreen [Origin-3] with [~HorseHouse-6].|Staff-3||Services-1||Supplies-8|
+2,This is only a small stall [Origin-3] with [~HorseHouse-5].|Staff-2||Services-1||Supplies-6|
+5,This is a small tent [Origin-2] with [~HorseHouse-3].|Staff-1||Services+0||Supplies-4|
+10,This is a small encampment [Origin-1], consisting of <b>{Dice~1d2+3}</b> tents with [~HorseHouse-2].|Staff+2||Services+1||Supplies+2|
+10,This is a large tent [Origin-1] with [~HorseHouse-1].|Staff+0||Services+0||Supplies-2|
+5,This is a large encampment [Origin], consisting of <b>{Dice~1d6+10}</b> tents with [~HorseHouse]|Quantity+0.5|.|Staff+4||Services+2||Supplies+4|
+1,This is a large and seemingly expensive encampment [Origin], consisting of <b>{Dice~1d6+10}</b> tents with [~HorseHouse+1]|Quantity+0.75|.|Staff+6||Services+3||Supplies+6|
+
+;HorseHouse
+3,a small corral [HorseHouseWhere]|Quantity=0.5||Staff+0||Services-1||Supplies-2|
+6,an average corral [HorseHouseWhere]|Quantity=1||Staff+1||Services+0||Supplies+0|
+1,a large corral [HorseHouseWhere]|Quantity=1.5||Staff+2||Services+1||Supplies+1|
+
+;HorseHouseWhere
+1,outside
+2,behind
+2,around
+2,in front
+1,on the left side
+1,on the right side
+
+;Origin
+6,of a local merchant
+4,of a foreign merchant from [~Countries.Land]
+
+;Stable
+10,|Supplies+2|
+10,[Stable2+%SizeMod%]
+
+;Stable2
+3,and a small <b>{Dice~1d2+3}</b> horses stable [HorseHouseWhere]|Quantity+0.25||Services+1||Supplies+3|
+6,and a <b>{Dice~2d4+4}</b> horses stable [HorseHouseWhere]|Quantity+0.5||Services+2||Supplies+4|
+1,and a large <b>{Dice~2d10+10}</b> horses stable [HorseHouseWhere]|Quantity+0.75||Services+3||Supplies+5|
+
+# --------------------------------------------------------------------------
+
+:StaffCalc
+1,|Temp={Dice~1d11}||Temp+%Staff%|{If~%Temp%<1? |Temp=1|}{If~%Temp%>11? |Temp=11|}
+
+# Note: if you add stuff in Staff subtable, modify the StaffCalc subtable.
+;Staff
+1,The owner is alone
+2,The owner is assisted by 1 [~Creatures.Humanoid2] stableman named [~Names Generator.NAME Random]
+5,The owner is assisted by |A={Dice~1d4}|<b>%A%</b> [~Creatures.Humanoid2] stablemen.<br><u>Stablemen</u>: {Loop~%A%, [Stableman]}
+2,The owner is assisted by a horse trainer ([Name]) and |A={Dice~1d5+1}|<b>%A%</b> stablemen.<br><u>Stablemen</u>: {Loop~%A%, [Stableman] }
+1,The owner is assisted by a horse trainer ([Name]), a master groom ([Name]) and |A={Dice~2d5}|<b>%A%</b> stablemen.<br><u>Stablemen</u>: {Loop~%A%, [Stableman] }
+
+:Name
+1,[~Names Generator.NAME Random], [~Shop & Owner Description.Gender] [~Creatures.Humanoid2]
+
+:Stableman
+1,[Names Generator.NAME Random],
+
+# --------------------------------------------------------------------------
+
+:Stable Services
+1,<u>Feed</u>:[Price Modifier]|Cost=5||Cost*%mod price%| {Ceil~%Cost%} cp/day (10 lbs) ({Dice~1d100+20} days available)<br>
+_{If~%Services%>=3?[Service Shoe]}
+_{If~%Services%>=5?[Service Med]}
+_{If~%Services%>=2?[Service Stable]}
+_{If~%Services%>=3?[Service Training]}
+
+:Service Med
+1,<u>Medical Care</u>:[Price Modifier]|Cost=15||Cost*%mod price%| {Ceil~%Cost%} gp/day<br>
+
+:Service Shoe
+1,<u>Horses, Shoeing</u>:[Price Modifier]|Cost=2||Cost*%mod price%| {Ceil~%Cost%} sp/shoe (includes making of shoe)<br>
+
+:Service Stable
+1,<u>Stabling Charges</u>:<br>[Price Modifier]
+_[Tab]Common:|Cost=3||Cost*%mod price%| {Ceil~%Cost%} sp/night -|Cost=5||Cost*%mod price%| {Ceil~%Cost%} sp/day <font size=1>(Food and water only)</font><br>
+_{If~%Services%>=4?[Service Stable Excellent]}
+
+:Service Stable Excellent
+1,[Tab]Excellent:|Cost=10||Cost*%mod price%| {Ceil~%Cost%} sp/night -|Cost=20||Cost*%mod price%| {Ceil~%Cost%} sp/day <font size=1>(Includes night watch, feeding, watering, cleaning, and rubdown; with exercices if necessary)</font><br>
+
+:Service Training
+1,<u>Training of Mounts</u>:[Price Modifier]|Cost=2||Cost*%mod price%| {Ceil~%Cost%} gp/day (2-4 weeks required)<br>
+
+;Price Modifier
+1,|Temp=0.05||Temp*{Dice~1d10}||mod price={Calc~(1-%Temp%)}|
+2,|Temp=0.05||Temp*{Dice~1d4}||mod price={Calc~(1-%Temp%)}|
+5,|mod price=1|
+2,|Temp=0.05||Temp*{Dice~1d10}||mod price={Calc~(1+%Temp%)}|
+1,|Temp=0.05||Temp*{Dice~2d10}||mod price={Calc~(1+%Temp%)}|
+
+# --------------------------------------------------------------------------
+
+;!Stable Supplies
+50,<i><font color="blue">Bit and Bridle</font></i> (|Cost=2||Cost*%mod price%|{Ceil~%Cost%} gp)
+20,<i><font color="blue">Bridle only</font></i> (|Cost=1||Cost*%mod price%|{Ceil~%Cost%} gp)
+5,<i><font color="blue">Blanket & Hood (Huge)</font></i> (|Cost=9||Cost*%mod price%|{Ceil~%Cost%} gp)
+30,<i><font color="blue">Blanket & Hood (Large)</font></i> (|Cost=3||Cost*%mod price%|{Ceil~%Cost%} gp)
+10,<i><font color="blue">Blanket & Hood (Medium)</font></i> (|Cost=2||Cost*%mod price%|{Ceil~%Cost%} gp)
+60,<i><font color="blue">Blanket, Saddle</font></i> (|Cost=2||Cost*%mod price%|{Ceil~%Cost%} sp)
+20,<i><font color="blue">Cart, Small</font></i> (|Cost=10||Cost*%mod price%|{Ceil~%Cost%} gp)
+20,<i><font color="blue">Cart, Medium</font></i> (|Cost=15||Cost*%mod price%|{Ceil~%Cost%} gp)
+20,<i><font color="blue">Cart, Large</font></i> (|Cost=20||Cost*%mod price%|{Ceil~%Cost%} gp)
+20,<i><font color="blue">Cart Harness</font></i> (|Cost=2||Cost*%mod price%|{Ceil~%Cost%} gp)
+5,<i><font color="blue">Horse Grooming Kit</font></i> (|Cost=1||Cost*%mod price%|{Ceil~%Cost%} gp)
+10,<i><font color="blue">Horse Whip</font></i> (|Cost=1||Cost*%mod price%|{Ceil~%Cost%} gp)
+20,<i><font color="blue">Pole, 10 foot</font></i> made out of [~Miscellaneous.Wood] wood. (|Cost=2||Cost*%mod price%|{Ceil~%Cost%} sp)
+10,<i><font color="blue">Quirt</font></i> (|Cost=6||Cost*%mod price%|{Ceil~%Cost%} sp)
+2,<i><font color="blue">Saddle Amazon</font></i> made out of [HiltMaterial] (|Cost=6||Cost*%mod price%|{Ceil~%Cost%} gp)
+2,<i><font color="blue">Saddle Exotic, Military</font></i>  made out of [HiltMaterial] (|Cost=60||Cost*%mod price%|{Ceil~%Cost%} gp)
+2,<i><font color="blue">Saddle Exotic, Pack</font></i>  made out of [HiltMaterial] (|Cost=15||Cost*%mod price%|{Ceil~%Cost%} gp)
+2,<i><font color="blue">Saddle Exotic, Riding</font></i>  made out of [HiltMaterial] (|Cost=30||Cost*%mod price%|{Ceil~%Cost%} gp)
+10,<i><font color="blue">Saddle Light Cavalry</font></i>  made out of [HiltMaterial] (|Cost=15||Cost*%mod price%|{Ceil~%Cost%} gp)
+16,<i><font color="blue">Saddle Military</font></i>  made out of [HiltMaterial] (|Cost=20||Cost*%mod price%|{Ceil~%Cost%} gp)
+60,<i><font color="blue">Saddle Pack</font></i>  made out of [HiltMaterial] (|Cost=5||Cost*%mod price%|{Ceil~%Cost%} gp)
+40,<i><font color="blue">Saddle Riding</font></i>  made out of [HiltMaterial] (|Cost=10||Cost*%mod price%|{Ceil~%Cost%} gp)
+50,<i><font color="blue">Saddle Travel</font></i>  made out of [HiltMaterial] (|Cost=15||Cost*%mod price%|{Ceil~%Cost%} gp)
+50,<i><font color="blue">Saddlebags, Large</font></i>  made out of [HiltMaterial] (|Cost=4||Cost*%mod price%|{Ceil~%Cost%} gp)
+50,<i><font color="blue">Saddlebags, Small</font></i>  made out of [HiltMaterial] (|Cost=2||Cost*%mod price%|{Ceil~%Cost%} gp)
+25,<i><font color="blue">Signal Whistle</font></i> (|Cost=8||Cost*%mod price%|{Ceil~%Cost%} sp)
+
+;HiltMaterial
+11,leather
+4,deer skin|mod price+0.2|
+4,elk skin|mod price+0.3|
+1,[SpecialHiltMaterial]
+
+;SpecialHiltMaterial
+1,stretched [~Creatures.Humanoid] skin|mod price+0|
+1,stretched [~Creatures.Humanoid2] skin|mod price-0.2|
+1,stretched [~Creatures.Outsider Type] skin|mod price+1|
+1,streched [~Creatures.Animal] hide|mod price+0.2|
+1,streched [~Creatures.DragonNoAge] skin|mod price+3|
+1,streched [~Creatures.Fantastic] hide|mod price+2|
+
+# --------------------------------------------------------------------------
+
+:Horses
+1,There are |NbHorses={Ceil~{Calc~({Dice~3d4}*%Quantity%)}}|<b>%NbHorses%</b> steeds here.<br>
+_|NbPony=0||NbWarpony=0||NbLHorse=0||NbHHorse=0||NbLWarhorse=0|
+_|NbHWarhorse=0||NbDonkey-0||NbMule=0||NbRidingDog=0||NbStonebredPony=0|
+_{Loop~%NbHorses%,[CalculateNbHorses]}
+_{If~%NbPony%>0? <dd>-Pony: %NbPony%<br>}
+_{If~%NbWarpony%>0? <dd>-Warpony: %NbWarpony%<br>}
+_{If~%NbLHorse%>0? <dd>-Light Horse: %NbLHorse%<br>}
+_{If~%NbHHorse%>0? <dd>-Heavy Horse: %NbHHorse%<br>}
+_{If~%NbLWarhorse%>0? <dd>-Light Warhorse: %NbLWarhorse%<br>}
+_{If~%NbHWarhorse%>0? <dd>-Heavy Warhorse: %NbHWarhorse%<br>}
+_{If~%NbDonkey%>0? <dd>-Donkey: %NbDonkey%<br>}
+_{If~%NbMule%>0? <dd>-Mule: %NbMule%<br>}
+_{If~%NbStonebredPony%>0? <dd>-Stonebred Pony: %NbStonebredPony%<br>}
+_{If~{And~%RidingDog%=1,%NbRidingDog%>0}=1? <dd>-Riding Dog: %NbRidingDog%<br>}
+_<br><font size=1><u>Normal Cost (reference only)</u>: 
+_{If~%NbPony%>0? Pony: 30 gp. }
+_{If~%NbWarpony%>0? Warpony: 100 gp. }
+_{If~%NbLHorse%>0? Light Horse: 75 gp. }
+_{If~%NbHHorse%>0? Heavy Horse: 200 gp. }
+_{If~%NbLWarhorse%>0? Light Warhorse: 150 gp. }
+_{If~%NbHWarhorse%>0? Heavy Warhorse: 400 gp. }
+_{If~%NbDonkey%>0? Donkey: 8 gp. }
+_{If~%NbMule%>0? Mule: 8 gp. }
+_{If~%NbStonebredPony%>0? Stonebred Pony: 130gp. }
+_{If~{And~%RidingDog%=1,%NbRidingDog%>0}=1? Riding Dog: 150 gp. }</font><br><br>
+_{Generate~0,Click to Generate ALL steeds (using the Horse Generator table),GenHorses}
+
+;CalculateNbHorses
+4,|NbPony+1|
+1,|NbWarpony+1|
+6,|NbLHorse+1|
+5,|NbHHorse+1|
+2,|NbLWarhorse+1|
+1,|NbHWarhorse+1|
+2,|NbDonkey+1|
+2,|NbMule+1|
+1,|NbStonebredPony+1|
+4,{If~%RidingDog%=1?|NbRidingDog+1|/[CalculateNbHorses]}
+
+:GenHorses
+1,[Horse Generator.ShowAge(,%Version%)]<br>
+_{If~{And~%RidingDog%=1,%NbRidingDog%>0}=1?[Riding Dog Generator.ShowAge(,%Version%)]<br>}
+_{If~%NbPony%>0? {Loop~%NbPony%,[Horse Generator.GenTypeAlt(1,%Version%)]<br>}}
+_{If~%NbWarpony%>0? {Loop~%NbWarpony%,[Horse Generator.GenTypeAlt(2,%Version%)]<br>}}
+_{If~%NbLHorse%>0? {Loop~%NbLHorse%,[Horse Generator.GenTypeAlt(3,%Version%)]<br>}}
+_{If~%NbHHorse%>0? {Loop~%NbHHorse%,[Horse Generator.GenTypeAlt(5,%Version%)]<br>}}
+_{If~%NbLWarhorse%>0? {Loop~%NbLWarhorse%,[Horse Generator.GenTypeAlt(4,%Version%)]<br>}}
+_{If~%NbHWarhorse%>0? {Loop~%NbHWarhorse%,[Horse Generator.GenTypeAlt(6,%Version%)]<br>}}
+_{If~%NbDonkey%>0? {Loop~%NbDonkey%,[Horse Generator.GenTypeAlt(7,%Version%)]<br>}}
+_{If~%NbMule%>0? {Loop~%NbMule%,[Horse Generator.GenTypeAlt(8,%Version%)]<br>}}
+_{If~%NbStonebredPony%>0? {Loop~%NbStonebredPony%,[Horse Generator.GenTypeAlt(9,%Version%)]<br>}}
+_{If~{And~%RidingDog%=1,%NbRidingDog%>0}=1? {Loop~%NbRidingDog%,[Riding Dog Generator.Alternate(15,%Version%)]<br>}}
+
+:GenHorsesOLD
+1,[Horse Generator.ShowAge]<br>
+_{If~{And~%RidingDog%=1,%NbRidingDog%>0}=1?[Riding Dog Generator.ShowAge]<br>}
+_{If~%NbPony%>0? {Loop~%NbPony%,[Horse Generator.GenType=1]<br>}}
+_{If~%NbWarpony%>0? {Loop~%NbWarpony%,[Horse Generator.GenType=2]<br>}}
+_{If~%NbLHorse%>0? {Loop~%NbLHorse%,[Horse Generator.GenType=3]<br>}}
+_{If~%NbHHorse%>0? {Loop~%NbHHorse%,[Horse Generator.GenType=5]<br>}}
+_{If~%NbLWarhorse%>0? {Loop~%NbLWarhorse%,[Horse Generator.GenType=4]<br>}}
+_{If~%NbHWarhorse%>0? {Loop~%NbHWarhorse%,[Horse Generator.GenType=6]<br>}}
+_{If~%NbDonkey%>0? {Loop~%NbDonkey%,[Horse Generator.GenType=7]<br>}}
+_{If~%NbMule%>0? {Loop~%NbMule%,[Horse Generator.GenType=8]<br>}}
+_{If~%NbStonebredPony%>0? {Loop~%NbStonebredPony%,[Horse Generator.GenType=9]<br>}}
+_{If~{And~%RidingDog%=1,%NbRidingDog%>0}=1? {Loop~%NbRidingDog%,[Riding Dog Generator.Alternate(15)]<br>}}

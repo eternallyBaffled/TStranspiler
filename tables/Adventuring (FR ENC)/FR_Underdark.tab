@@ -1,0 +1,146 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder Oct 30, 2003.
+# ---------------------------------------------------
+#
+# SMS
+# 06/26/03
+# Forgotten Realms Table 61: Underdark (EL 4-20) random encounter tables
+#
+# Corrected by Valminder, Oct 2003
+#   -{If~} and {Dice~}
+#
+#Variables
+
+%Time%,0
+%Temp%,0
+
+#Parameters
+
+@Time,3,Select a region,Upper Underdark,Deeper Underdark,_
+
+#
+#  Starts by putting up the instructions
+#
+
+:Start
+1,{If~%Time% = 3 ? [Instructions]/[Underdark %Time%]}
+
+;Instructions
+1,<b>Forgotten Realms Table 61: Underdark (EL 4-20)</b></br></br><h3>Instructions:</h3>
+_<b>Determine whether an encounter should occur before using this table. The chance of an encounter is based on terrain type and travel (chance per hour):</b><br>
+_<table border=1><tr><th>Terrain</th><th>Normal Travel</th><th>Cautious Travel</th><th>Hiding</th></tr>
+_<tr><td>Desolate/wasteland</td><td>5/%</td><td>2/%</td><td>1/%</td></tr>
+_<tr><td>Frontier/wilderness</td><td>8/%</td><td>4/%</td><td>2/%</td></tr>
+_<tr><td>Verdant/civilized area</td><td>10/%</td><td>5/%</td><td>2/%</td></tr>
+_<tr><td>Heavily traveled</td><td>12/%</td><td>6/%</td><td>3/%</td></tr>
+_</table>
+_<ol><li>Use the Parameter Box (below) to indicate whether the encounter is in the Upper Underdark (within 2 miles of the surface), or Deeper Underdark (deeper than 2 miles from the surface). Selecting "_" displays these instructions</li>
+_<li>This table applies to all Underdark areas so there is no region to set.</li></ul><br>
+
+# 1 corresponds to underdark within 2 miles of surface
+:Underdark 1
+01,Aboleth slaver brood: {Dice~1d3+1} aboleth and {Dice~1d6+6} skum
+02-05,{Dice~1d3+2}0 Bat
+06-07,{Dice~1d6+6} Bat, night hunter (MoF)
+08,{Dice~1d6+1} Bat, sinister (MoF)
+09-11,{Dice~1d2} Beholder
+12-13,Beholderkin, death kiss (MoF)
+14-15,{Dice~1d2} Beholderkin, gouger (MoF)
+16,{Dice~1d3+1} Bodak
+17-18,{Dice~1d2} Bulette
+19-21,Chitine Tribe: {Dice~1d6}0 chitines and {Dice~1d4+1} choldrith
+22,{Dice~1d4+2} Cloaker
+23-24,Deepspawn brood: 1 deepspawn and {Dice~2d4} [FR_Misc.Spawn_Type]
+25,Delver
+26,Devourer
+27-29,{Dice~1d4+4} Dire bat
+30-33,Dragon: [U_Dragon]
+34-36,Derro Squad: {Dice~1d4+4} 1st level fighters, {Dice~1d2} level {Dice~1d3+1} rogues, and a level {Dice~1d4+3} sorcerer, all mounted on large monstrous spiders
+37-40,Duergar Squad: {Dice~1d6+6} 1st level fighters, lieutenants: {Loop~{Dice~1d3+1}, level {Dice~1d3+1} [FR_Misc.Duergar_Class],} led by {Dice~1d4+3} [FR_Misc.Duergar_Class]
+41-42,Urdunnir Patrol: {Dice~1d6+6} urdunnirs, {Dice~1d3} level {Dice~1d3+1} fighters, led by level {Dice~1d4+3} [FR_Misc.Urdunnir_Class]
+43-45,Drow Scouts: {Dice~1d4+2} 2nd level fighters, {Dice~1d2} level {Dice~1d3+2} rogues, led by level {Dice~1d3+3} cleric
+46,Drow Warband: {Dice~1d6+6} 2nd level fighters, {Dice~1d2} half-fiends (draegloth), {Dice~1d2} demons (yochol), {Dice~1d2} level {Dice~1d3+2} clerics, led by a level {Dice~1d4+6} [FR_Misc.Drow_Underdark_Class]
+47-48,{Dice~1d4+1} Kir-lanan gargoyle (FRCS)
+49-50,2 Phaerlin, giant
+51-54,{Dice~1d2}0 Grimlock
+55,Helmed horror (MoF)
+56-57,{Dice~2d4} Ibrandlin
+58,Lich, alhoon (mind flayer Wiz10)(MoF)
+59-60,{Dice~1d2} Mind flayer
+61-63,{Dice~1d3+1} Minotaur
+64-68,<b>NPCs:</b><br>{Loop~{Dice~1d3+2},[FR_Random_NPC.FR_SM_NPC]}
+69-71,{Dice~1d3+1} Otyugh
+72-73,{Dice~1d2} Phaerimm (Sor8)
+74,{Dice~1d4+1} Phase spider
+75-76,Purple worm
+77-79,4 Quaggoth (MoF)
+80,{Dice~1d4+2} Rast
+81-82,{Dice~1d2} Roper
+83-87,{Dice~1d10+10} Deep rothe (FRCS)
+88-90,{Dice~2d10} Spider, subterranean, hairy (MoF)
+91-92,{Dice~1d4+1} Spider, subterranean, sword spider (MoF)
+93-94,{Dice~1d3+2} Tall mouther (MoF)
+95-96,Tomb tapper (MoF)
+97-99,{Dice~1d3+1} Umber hulk
+100,{Dice~1d3+2} Xorn, average
+
+# 2 corresponds to deeper underdark
+:Underdark 2
+01-03,Aboleth slaver brood: {Dice~1d3+1} aboleth and {Dice~1d6+6} skum
+04-05,{Dice~1d6+6} Bat, night hunter (MoF)
+06-07,{Dice~1d6+1} Bat, sinister (MoF)
+08-09,{Dice~1d2} Beholder
+10-11,Beholderkin, death kiss (MoF)
+12-13,{Dice~1d2} Beholderkin, gouger (MoF)
+14-15,{Dice~1d3+1} Bodak
+16,{Dice~1d2} Bulette
+17-18,Chitine Tribe: {Dice~1d6}0 chitines and {Dice~1d4+1} choldrith
+19-21,Cloaker Lord Swarm: {Dice~1d6+1} cloakers and 1 cloaker lord
+22-24,{Dice~1d4+2} Cloaker
+25-26,Deepspawn brood: 1 deepspawn and {Dice~2d4} [FR_Misc.Spawn_Type]
+27,Delver
+28-29,{Dice~1d4+1} Demon, yochol
+30,Devourer
+31,{Dice~1d4+4} Dire bat
+32-35,Dragon: [U_Dragon]
+36-37,Drider Troupe: {Dice~1d2} driders and {Dice~1d6+6} medium-size monstrous spiders
+38-39,Derro Squad: {Dice~1d4+4} 1st level fighters, {Dice~1d2} level {Dice~1d3+1} rogues, and a level {Dice~1d4+3} sorcerer, all mounted on large monstrous spiders
+40,Duergar Squad: {Dice~1d6+6} 1st level fighters, lieutenants: {Loop~{Dice~1d3+1}, level {Dice~1d3+1} [FR_Misc.Duergar_Class],} led by {Dice~1d4+3} [FR_Misc.Duergar_Class]
+41-43,Drow Scouts: {Dice~1d4+2} 2nd level fighters, {Dice~1d2} level {Dice~1d3+2} rogues, led by level {Dice~1d3+3} cleric
+44-46,Drow Warband: {Dice~1d6+6} 2nd level fighters, {Dice~1d2} half-fiends (draegloth), {Dice~1d2} demons (yochol), {Dice~1d2} level {Dice~1d3+2} clerics, led by a level {Dice~1d4+6} [FR_Misc.Drow_Underdark_Class]
+47,{Dice~1d4+1} Kir-lanan gargoyle (FRCS)
+48,2 Phaerlin, giant
+49-51,Svirfneblin Pilferers: {Dice~1d2+2} level {Dice~1d3+1} rangers, {Dice~1d2} level {Dice~1d3+2} rogues, and a level {Dice~1d3+4} illusionist
+52-53,{Dice~1d2}0 Grimlock
+54,Helmed horror (MoF)
+55-56,{Dice~2d4} Ibrandlin
+57-59,Kuo-toa Squad: {Dice~1d6+5} kuo-toas, {Dice~1d2} whips (kuo-toa Clr3), {Dice~1d2} monitors (kuo-toa Mnk4), and 1 kuo-toa Ftr8
+60,Lich, alhoon (mind flayer Wiz10)(MoF)
+61,Mind Flayer Inquisition: {Dice~1d3+2} Mind flayers and {Dice~1d6+4} grimlocks
+62-64,{Dice~1d2} Mind flayer
+65,Nightshade, nightcrawler
+66-69,<b>NPCs:</b><br>{Loop~{Dice~1d3+2},[FR_Random_NPC.FR_SM_NPC]}
+70-71,{Dice~1d3+1} Otyugh
+72-74,{Dice~1d2} Phaerimm (Sor8)
+75,{Dice~1d4+1} Phase spider
+76-78,Purple worm
+79-80,4 Quaggoth (MoF)
+81,{Dice~1d4+2} Rast
+82-84,{Dice~1d2} Roper
+85-87,{Dice~1d10+10} Deep rothe (FRCS)
+88,{Dice~1d2} Sharn (10 HD Sor10/Cle8)
+89-91,{Dice~2d10} Spider, subterranean, hairy (MoF)
+92-93,{Dice~1d4+1} Spider, subterranean, sword spider (MoF)
+94-96,Tomb tapper (MoF)
+97-99,{Dice~1d3+1} Umber hulk
+100,{Dice~1d3+2} Xorn, average
+
+:U_Dragon
+01-10,Blue, mature adult
+11-12,Dracolich: Blue, adult
+13-50,Deep, mature adult
+51-52,Dracolich: Deep, adult
+53-62,Red, old
+63-64,Dracolich: Red, mature adult
+65-98,Shadow, mature adult
+99-100,Dracolich: Shadow, adult

@@ -1,0 +1,120 @@
+# Last Update: verified by Valminder Dec 20, 2005.
+# 
+#  Ruins Name Generator
+#
+#  Adapted and customized from from Warlords III - Reign of Heroes
+#
+#  By Robert Maxwell (wht_knght@yahoo.com)
+#
+#  Modified by Valminder, Oct 2003.
+#     - Changed the Start line.
+#     - Linked with "Places" table. 
+#
+#  Modified by Valminder, Oct 2005.
+#     - Removed header from START line.
+#
+
+:Start
+1,[Generate].
+
+:Generate
+1,[Title] of {Cap~[Syl1][Syl2]}
+2,[Title] of {Cap~[Syl1][Syl3]}
+3,[Title] of {Cap~[Syl1][Syl2][Syl3]}
+4,[Title] of {Cap~[Syl1][Syl3][Syl2]}
+5,[Title] of {Cap~[Syl2][Syl1]}
+6,[Title] of {Cap~[Syl2][Syl3]}
+7,[Title] of {Cap~[Syl2][Syl3][Syl1]}
+8,[Title] of {Cap~[Syl2][Syl1][Syl3]}
+9,[Title] of {Cap~[Syl3][Syl1]}
+10,[Title] of {Cap~[Syl3][Syl2]}
+11,[Title] of {Cap~[Syl3][Syl2][Syl1]}
+12,[Title] of {Cap~[Syl3][Syl1][Syl2]}
+13,{Cap~[Syl1][Syl2]}
+14,{Cap~[Syl1][Syl3]}
+15,{Cap~[Syl1][Syl2][Syl3]}
+16,{Cap~[Syl1][Syl3][Syl2]}
+17,{Cap~[Syl2][Syl1]}
+18,{Cap~[Syl2][Syl3]}
+19,{Cap~[Syl2][Syl3][Syl1]}
+20,{Cap~[Syl2][Syl1][Syl3]}
+21,{Cap~[Syl3][Syl1]}
+22,{Cap~[Syl3][Syl2]}
+23,{Cap~[Syl3][Syl2][Syl1]}
+24,{Cap~[Syl3][Syl1][Syl2]}
+25,{Cap~[Syl1][Syl2]}'s [Title]
+26,{Cap~[Syl1][Syl3]}'s [Title]
+27,{Cap~[Syl1][Syl2][Syl3]}'s [Title]
+28,{Cap~[Syl1][Syl3][Syl2]}'s [Title]
+29,{Cap~[Syl2][Syl1]}'s [Title]
+30,{Cap~[Syl2][Syl3]}'s [Title]
+31,{Cap~[Syl2][Syl3][Syl1]}'s [Title]
+32,{Cap~[Syl2][Syl1][Syl3]}'s [Title]
+33,{Cap~[Syl3][Syl1]}'s [Title]
+34,{Cap~[Syl3][Syl2]}'s [Title]
+35,{Cap~[Syl3][Syl2][Syl1]}'s [Title]
+36,{Cap~[Syl3][Syl1][Syl2]}'s [Title]
+
+;Title
+1, Cave
+1, Field
+1, Mine
+1, Henge
+1, Monolith 
+1, Port
+1, Small Ruins
+1, Large Ruins
+#Evil shrine
+1, Tainted Shrine
+#Neutral shrine
+1, Peaceful Shrine
+#Good shrine
+1, Holy Shrine
+1, Smithy
+1, Stable
+1, Tomb
+1, Tower
+1, Trapdoor
+1, Treasure
+1, Weaponsmith
+
+;Syl1
+1,aern
+1,gol
+1,ghol
+1,ghul
+1,gul
+1,khaz
+1,drek
+1,drak
+1,van
+1,krul
+1,el
+1,a'th
+1,eith
+1,ith
+1,lor
+1,bel
+
+;Syl2
+1,drak
+1,dum
+1,kaz
+1,gor
+1,kor
+1,dor
+1,oria
+1,mor
+1,das
+1,zar
+1,zum
+
+;Syl3
+1,a
+1,on
+1,an
+1,al
+1,or
+1,ar
+1,il
+1,i

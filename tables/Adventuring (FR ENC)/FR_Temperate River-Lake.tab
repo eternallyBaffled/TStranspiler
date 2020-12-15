@@ -1,0 +1,113 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder Oct 30, 2003.
+# ---------------------------------------------------
+#
+# SMS
+# 06/26/03
+# Forgotten Realms Table 56: Temperate River/Lake (EL 3-12) random encounter tables
+#
+# Corrected by Valminder, Oct 2003
+#   -{If~} and {Dice~}
+#
+#Variables
+
+%Region%,0
+%Time%,0
+%Temp%,0
+
+#Parameters
+
+@Time,1,Select a time of day,Day,Night
+@Region,0,Select a value for region (1-4 see instructions for details)
+
+#
+#  Starts by putting up the instructions
+#
+
+:Start
+1,{If~%Region% = 0 ? [Instructions]/[Temperate River %Time%]}
+
+;Instructions
+1,<b>Forgotten Realms Table 56: Temperate River/Lake (EL 3-12)</b></br></br><h3>Instructions:</h3>
+_<b>Determine whether an encounter should occur before using this table. The chance of an encounter is based on terrain type and travel (chance per hour):</b><br>
+_<table border=1><tr><th>Terrain</th><th>Normal Travel</th><th>Cautious Travel</th><th>Hiding</th></tr>
+_<tr><td>Desolate/wasteland</td><td>5/%</td><td>2/%</td><td>1/%</td></tr>
+_<tr><td>Frontier/wilderness</td><td>8/%</td><td>4/%</td><td>2/%</td></tr>
+_<tr><td>Verdant/civilized area</td><td>10/%</td><td>5/%</td><td>2/%</td></tr>
+_<tr><td>Heavily traveled</td><td>12/%</td><td>6/%</td><td>3/%</td></tr>
+_</table>
+_<ul><li>Use the Parameter Box (below) to indicate whether it is day or night.</li>
+_<li>Then indicate whether the region is<font color=blue><ol><li>The Akanamere</li><li>The Deepwash</li><li>The Nagaflow</li><li>The Nagawater</li></ol></li></ul><br></font>
+
+# 1 corresponds to time="Day"
+:Temperate River 1
+01-02,Aballin (MoF)
+03-07,{Dice~1d2*4} Bullywug (MoF)
+08-09,Chuul
+10-14,Dragon: Bronze, young
+15-16,Dragon turtle
+17,Gelatinous cube (ooze)
+18,Greenhag (hag)
+19-25,Keelboat carrying merchants: [FR_Misc.Merchant_Race] Merchants: {Dice~2d4} 1st level commoners, {Dice~2d4} 1st level warriors, led by [FR_Misc.Merchant_Leader]
+26-34,[TR_Local]
+35-40,{Dice~1d4+4} Merrow (ogre)
+41-42,{Dice~1d6+5} Nixie (sprite)
+43-47,River Bandits ([FR_Misc.Bandit_Race]): {Dice~1d6+6} 1st level warriors and {Loop~{Dice~1d3+2}, Level {Dice~1d4} [FR_Random_NPC.FR_Evil_Class]<br> }
+48-50,{Dice~1d3+1} Scrag
+51,{Dice~1d3} Sea hag (hag)
+52-54,{Dice~1d3+1} Tojanida, juvenile
+55-56,{Dice~1d3+1} Tojanida, adult
+57,Tojanida, elder
+58,Vodyanoi (aquatic umber hulk with swim 20 instead of burrow, 60' blindsight instead of tremorsense)
+59-60,{Dice~1d2} Water naga
+61-75,Rolled on Table 42: Temperate Marsh: [FR_Temperate Marsh.Temperate Marsh 1]
+76-100,Roll on encounter table corresponding to surrounding terrain
+
+# 2 corresponds to time="Night"
+:Temperate River 2
+01-02,Aballin (MoF)
+03-08,{Dice~1d2*4} Bullywug (MoF)
+09-13,Chuul
+14-18,Dragon: Bronze, young
+19-21,Dragon turtle
+22,Gelatinous cube (ooze)
+23,Greenhag (hag)
+24-25,Keelboat carrying merchants: [FR_Misc.Merchant_Race] Merchants: {Dice~2d4} 1st level commoners, {Dice~2d4} 1st level warriors, led by [FR_Misc.Merchant_Leader]
+26-34,[TR_Local]
+35-41,{Dice~1d4+4} Merrow (ogre)
+42,{Dice~1d6+5} Nixie (sprite)
+43-45,River Bandits ([FR_Misc.Bandit_Race]): {Dice~1d6+6} 1st level warriors and {Loop~{Dice~1d3+2}, Level {Dice~1d4} [FR_Random_NPC.FR_Evil_Class]<br> }
+46-50,{Dice~1d3+1} Scrag
+51,{Dice~1d3} Sea hag (hag)
+52-54,{Dice~1d3+1} Tojanida, juvenile
+55-56,{Dice~1d3+1} Tojanida, adult
+57,Tojanida, elder
+58,Vodyanoi (aquatic umber hulk with swim 20 instead of burrow, 60' blindsight instead of tremorsense)
+59-60,{Dice~1d2} Water naga
+61-75,Rolled on Table 42: Temperate Marsh: [FR_Temperate Marsh.Temperate Marsh 2]
+76-100,Roll on encounter table corresponding to surrounding terrain
+
+:TR_Local
+01-50,Local creatures: [TR_Local%Region%]
+51-100,<b>NPCs:</b><br>{Loop~{Dice~1d3+2},[FR_Random_NPC.FR_SM_NPC]}
+
+#The Akanamere
+:TR_Local1
+01-25,{Dice~1d3+1} Lizardfolk
+26-35,River Bandits ([FR_Misc.Bandit_Race]): {Dice~1d6+6} 1st level warriors and {Loop~{Dice~1d3+2}, Level {Dice~1d4} [FR_Random_NPC.FR_Evil_Class]<br> }
+36-100,Vodyanoi (aquatic umber hulk with swim 20 instead of burrow, 60' blindsight instead of tremorsense)
+
+#The Deepwash
+:TR_Local2
+01-30,Dragon turtle
+31-100,{Dice~1d3+1} Lizardfolk
+
+#The Nagaflow
+:TR_Local3
+01-15,{Dice~1d6+5} Nixie (sprite)
+16-100,{Dice~1d2} Water naga
+
+#The Nagawater
+:TR_Local4
+01-10,{Dice~1d2} Banelar (MoF)
+11-100,{Dice~1d2} Water naga

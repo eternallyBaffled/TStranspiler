@@ -1,0 +1,579 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder September 15, 2015.
+# ---------------------------------------------------
+#
+# This table is designed to generate a riding dog's description
+# and statistics for use with d20 game rules. Further adaptations
+# can be made by adjusting the characteristics for specific breeds.
+# 
+# Attributions:
+# The dog types and base statistics are based on the information 
+# available in the AD&D 3rd Edition Dungeon Master's Guide
+# Copyright 2000 Wizards of the Coast
+#
+# This table is meant to serve as a gaming aid for individuals
+# interested in expanding the statistics of their mounts. It is
+# not intended as a challenge in any way to copyrights of Wizards 
+# of the Coast or Wintertree software.
+#
+# compiled by Anthony Marker
+#
+# Created by Valminder, August 2006.
+#    This table is based on "Horse Generator.tab" with ideas
+#    from "Stable1.tab" by an unknown collaborator.
+#
+#    ********************************************************
+#    This table is not perfect and could be adapted to better
+#    represent the different breeds. I did no research on the
+#    breeds size, color, etc. I improvised everything.
+#    ********************************************************
+#
+# -------------------------------------------------------------------------
+# This Table Links to these tables as required:
+#    Creatures
+#    Miscellaneous
+#    Permanent_Variables
+#
+# -------------------------------------------------------------------------
+# This table is called by: (can be called by other tables also)
+#    Mundane Equipment
+#
+# -------------------------------------------------------------------------
+# Modified by Valminder, Sep 2015-2016
+#    Added subtables for "ENC Ultimate Random Encounters.tab"
+#    Modified for Pathfinder ... added "Version" variable.
+#
+
+#variables
+%Age%,0
+%ArmorClass%,0
+%AvgHp%,0
+%Breed%,0
+%BreedName%,0
+%CharMod%,0
+%ColorDescription%,0
+%Cost%,0
+%Food%,0
+%FoodConcIn%,0
+%FoodConcHW%,0
+%GenSeller%,0
+%HitPoints%,0
+%MaxHp%,0
+%mod price%,1
+%NormalCost%,0
+%NormalSpeed%,0
+%NormalOverland%,0
+%Quantity%,1
+%SetTypeVariables%,0
+%Size1%,0
+%Size2%,0
+%SizeFinal%,0
+%SizeMod%,0
+%Speed%,0
+%Temp%,0
+%Temp2%,0
+%TempCost%,0
+%TemperMod%,0
+%ToughMod%,0
+%TravelDist%,0
+%Type%,8
+%TypeName%,0
+%Version%,0
+%Water%,0
+
+# This allows the user to manually select the breed;
+# Black Lab
+# Dalmation
+# Doberman
+# English Sheepdog
+# German Shepard
+# Golden Retrevier
+# Great Pyrenees
+# Husky
+# Mastiff
+# Mutt
+# Newfoundland
+# Riding Poodle
+# St. Bernard
+# Yellow Lab
+
+# Parameters
+@Type,15,Select the Dog Type,Black Lab,Dalmation,Doberman,English Sheepdog,German Shepard,Golden Retrevier,Great Pyrenees,Husky,Mastiff,Mutt,Newfoundland,Riding Poodle,St. Bernard,Yellow Lab,Random
+@Version,1,What version of d20 do you use?,LOAD from Permanent Variables,3.5,Pathfinder
+
+# -------------------------------------------------------------------------
+# This table displays the horse results
+
+:Start
+1,{If~%Type%=15?|Type={Dice~1d14}|}
+_[VersionNeeded][SetTypeVariables=%Type%][SetNormal]
+_<b><u>Riding Dog Generator</u>:</b> ({Param~Version,%Version%}){Status~By Anthony Marker and Valminder (2006)}<br><br>
+_|mod price=1|[Generate]<br>[ShowAge]
+
+:Alternate
+1,{If~%Type%=15?|Type={Dice~1d14}|}
+_[VersionNeeded][SetTypeVariables=%Type%][SetNormal]
+_|mod price=1|[Generate]
+
+:Alternate_ENC_URE
+1,{If~%Type%=15?|Type={Dice~1d14}|}
+_[VersionNeeded][SetTypeVariables=%Type%][SetNormal]
+_|mod price=1|[Generate_ENC_URE]
+
+:VersionNeeded
+1,{If~%Version%=1?|Version=[Permanent_Variables.Version]|}
+
+;Tab
+1,{Loop~5,&nbsp;}
+
+:GenType
+1,|Type=1|[SetTypeVariables=%Type%][SetNormal]|mod price=1|[Generate]
+2,|Type=2|[SetTypeVariables=%Type%][SetNormal]|mod price=1|[Generate]
+3,|Type=3|[SetTypeVariables=%Type%][SetNormal]|mod price=1|[Generate]
+4,|Type=4|[SetTypeVariables=%Type%][SetNormal]|mod price=1|[Generate]
+5,|Type=5|[SetTypeVariables=%Type%][SetNormal]|mod price=1|[Generate]
+6,|Type=6|[SetTypeVariables=%Type%][SetNormal]|mod price=1|[Generate]
+7,|Type=7|[SetTypeVariables=%Type%][SetNormal]|mod price=1|[Generate]
+8,|Type=8|[SetTypeVariables=%Type%][SetNormal]|mod price=1|[Generate]
+9,|Type=8|[SetTypeVariables=%Type%][SetNormal]|mod price=1|[Generate]
+10,|Type=8|[SetTypeVariables=%Type%][SetNormal]|mod price=1|[Generate]
+11,|Type=8|[SetTypeVariables=%Type%][SetNormal]|mod price=1|[Generate]
+12,|Type=8|[SetTypeVariables=%Type%][SetNormal]|mod price=1|[Generate]
+13,|Type=8|[SetTypeVariables=%Type%][SetNormal]|mod price=1|[Generate]
+14,|Type=8|[SetTypeVariables=%Type%][SetNormal]|mod price=1|[Generate]
+
+:Generate
+1,<b><u>Type</u>:</b> <font color=purple>%TypeName%: {Param~Type,%Type%}</font><br>
+_<b>Color:</b> [Color=%Type%].<br>{If~%ColorDescription%!=0?-Description: %ColorDescription%<br>}
+_<b>Age:</b> [Age]<br>
+_<b>Size:</b> [Sizecheck=%Type%] [SizeFinalCalc]<br>
+_<b>Unusual Characteristics:</b> [Characteristics+%CharMod%]<br>
+_<b>Trick:</b> [Tricks=%Type%].<br>
+_<b>Temperment:</b> [Temperment+%TemperMod%]<br>
+_<b>Speed:</b> %Speed% feet per round {If~%Speed%!=%NormalSpeed%? (Normal: %NormalSpeed%)}<br>
+_<b>Overland Travel:</b> %TravelDist% miles per day {If~%TravelDist%!=%NormalOverland%? (Normal: %NormalOverland%)}<br>
+_<b>Armor Class:</b> %ArmorClass%<br>
+_<b>Hit Points:</b>|ToughMod<10||HitPoints+%ToughMod%| {If~%HitPoints%>%MaxHp%? %MaxHp%/%HitPoints%} (Normal Average: %AvgHp%)<br>
+_<b>Value:</b> {Ceil~%Cost%} gp {If~{Ceil~%Cost%}!=%NormalCost%? (Normal: %NormalCost% gp)}<br>
+_<b>Asking</b>:[Price Modifier]|Cost*%mod price%| {Ceil~%Cost%} gp<br>
+_{Reset~PoorCharacteristics}{Reset~GoodCharacteristics}
+
+:Generate_ENC_URE
+1,<b><u>Type</u>:</b> <font color=purple>%TypeName%: {Param~Type,%Type%}</font><br>
+_<b>Color:</b> [Color=%Type%].<br>{If~%ColorDescription%!=0?-Description: %ColorDescription%<br>}
+_<b>Age:</b> [Age]{Space~5}<b>Size:</b> [Sizecheck=%Type%] [SizeFinalCalc]<br>
+_<b>Unusual Characteristics:</b> [Characteristics+%CharMod%]<br>
+_<b>Trick:</b> [Tricks=%Type%].<br>
+_<b>Temperment:</b> [Temperment+%TemperMod%]<br>
+_<b>Speed:</b> %Speed%' {If~%Speed%!=%NormalSpeed%? (Normal: %NormalSpeed%)}{Space~5}
+_<b>Overland Travel:</b> %TravelDist% miles per day {If~%TravelDist%!=%NormalOverland%? (Normal: %NormalOverland%)}<br>
+_<b>Armor Class:</b> %ArmorClass%{Space~5}
+_<b>Hit Points:</b>|ToughMod<10||HitPoints+%ToughMod%| {If~%HitPoints%>%MaxHp%? %MaxHp%/%HitPoints%} (Normal Average: %AvgHp%)<br>
+_<b>Value:</b> {Ceil~%Cost%} gp {If~{Ceil~%Cost%}!=%NormalCost%? (Normal: %NormalCost% gp)}{Space~5}
+_<b>Asking</b>:[Price Modifier]|Cost*%mod price%| {Ceil~%Cost%} gp<br>
+_{Reset~PoorCharacteristics}{Reset~GoodCharacteristics}
+
+:Generate2
+1,<b><u>Type</u>:</b> %TypeName%: {Param~Type,%Type%}<br>
+_<b><u>Description</u>:</b><br>
+_<u>Color:</u> [Color=%Type%].{If~%ColorDescription%!=0?-Description: %ColorDescription%<br>}
+_<u>Age:</u> [Age]<br>
+_<u>Size:</u> [Sizecheck=%Type%] [SizeFinalCalc]<br>
+_<b><u>Special</u>:</b><br>
+_<u>Unusual Characteristics:</u> [Characteristics+%CharMod%]<br>
+_<u>Trick:</u> [Tricks=%Type%].<br>
+_<u>Temperment:</u> [Temperment+%TemperMod%]<br>
+_<b><u>Miscellaneous</u>:</b><br>
+_<u>Speed:</u> %Speed% feet per round {If~%Speed%!=%NormalSpeed%? (Normal: %NormalSpeed%)}<br>
+_<u>Overland Travel:</u> %TravelDist% miles per day {If~%TravelDist%!=%NormalOverland%? (Normal: %NormalOverland%)}<br>
+_<u>Armor Class:</u> %ArmorClass%<br>
+_<u>Hit Points:</u>|ToughMod<10||HitPoints+%ToughMod%| {If~%HitPoints%>%MaxHp%? %MaxHp%/%HitPoints%} (Normal Average: %AvgHp%)<br>
+_<b><u>Cost</u>:</b><br>
+_<u>Value:</u> {Ceil~%Cost%} gp {If~{Ceil~%Cost%}!=%NormalCost%? (Normal: %NormalCost% gp)}<br>
+_<u>Asking</u>:[Price Modifier]|Cost*%mod price%| {Ceil~%Cost%} gp<br>
+_{Reset~PoorCharacteristics}{Reset~GoodCharacteristics}
+
+# --------------------------------------------------------------------------
+
+;Price Modifier
+1,|Temp=0.05||Temp*{Dice~1d10}||mod price={Calc~(1-%Temp%)}|
+2,|Temp=0.05||Temp*{Dice~1d4}||mod price={Calc~(1-%Temp%)}|
+5,|mod price=1|
+2,|Temp=0.05||Temp*{Dice~1d10}||mod price={Calc~(1+%Temp%)}|
+1,|Temp=0.05||Temp*{Dice~2d10}||mod price={Calc~(1+%Temp%)}|
+
+# -------------------------------------------------------------------------
+# These tables determine the horse's color
+
+;Color
+# Black Lab
+1,Black|ColorDescription=0|
+# Dalmation
+1,White with black dots|ColorDescription=0|
+# Doberman
+1,Brown and black|ColorDescription=0|
+# English Sheepdog
+1,Brown or black|ColorDescription=0|
+# German Shepard
+1,Grey, dark grey or dark brown|ColorDescription=0|
+# Golden Retrevier
+1,Golden with long hairs|ColorDescription=0|
+# Great Pyrenees
+1,Grey and dark grey|ColorDescription=0|
+# Husky
+1,Light grey and light brown/black|ColorDescription=0|
+# Mastiff
+1,Black|ColorDescription=0|
+# Mutt
+1,Brown|ColorDescription=0|
+# Newfoundland
+1,Brown and black|ColorDescription=0|
+# Riding Poodle
+1,White, black or grey|ColorDescription=0|
+# St. Bernard
+1,White and brown|ColorDescription=0|
+# Yellow Lab
+1,Yellow|ColorDescription=0|
+
+# -------------------------------------------------------------------------
+# These tables determine the age of the dog
+
+;Age
+1,[Younger]
+8,Mature |Age={Dice~1d5+2}|(%Age% years) <font size=1>(3-7; no modifiers)</font>
+1,[Older]
+
+;Younger
+2,Puppy |Age={Dice~1d12}|(%Age% months)|Age/12| <font size=1>(1 year old; -4 Str / Con; -2 Dex / Wis / Cha; <font color=red>modify hp</font>)</font>|Cost/3|
+8,Young Adult |Age=2|(%Age% years) <font size=1>(2; -1 Str / Dex / Wis / Cha)</font>|Cost*0.66|
+
+;Older
+6,Middle-Aged |Age={Dice~1d4+7}|(%Age% years) <font size=1>(8-11; -1 Str / Dex / Con; +1 Wis / Cha; <font color=red>modify hp</font>)</font>|Cost*0.75|
+3,Old |Age={Dice~1d3+11}|(%Age% years) <font size=1>(12-14 -3 Str / Dex / Con; +2 Wis / Cha; <font color=red>modify hp</font>)</font>|Cost/2|
+1,Venerable {If~{Dice~1d10}=1?|Age={Dice~1d13+17}|/|Age={Dice~1d3+14}|}(%Age% years) <font size=1>(15+; -6 Str / Dex / Con; +3 Wis / Cha; <font color=red>modify hp</font>)</font>|Cost/4|
+
+:ShowAge
+1,<font size=1><u>Riding Dogs Age Categories</u>: (modifiers to be added, not cumulative)<br>
+_Puppy (under 1): -4 Str / Con; -2 Dex / Wis / Cha.<br>
+_Young Adult (2): -1 Str / Dex / Wis / Cha.<br>
+_Mature (3-7): nothing.<br>
+_Middle Age (8-11): -1 Str / Dex / Con; +1 Wis / Cha.<br>
+_Old (12-14): -3 Str / Dex / Con; +2 Wis / Cha.<br>
+_Venerable (15+): -6 Str / Dex / Con; +3 Wis / Cha.</font><br>
+
+# -------------------------------------------------------------------------
+# These tables determine the dog's markings
+# NOT IMPLEMENTED
+
+:Markings
+1,{If~%Temp%<=2?{If~{Dice~1d10}<4?[MarkingsChoosing]}/[MarkingsChoosing]}
+
+:MarkingsChoosing
+1,([Pattern]) <b>with</b>|Temp2=0|
+_|Temp=[Legs]|{If~%Temp%!=none? %Temp%,|Temp2+1|}
+_|Temp=[Body]|{If~%Temp%!=none? %Temp%,|Temp2+1|}
+_|Temp=[Muzzle]|{If~%Temp%!=none? %Temp%,|Temp2+1|}
+_|Temp=[Facial]|{If~%Temp%!=none? %Temp%|Temp2+1|}
+_{If~%Temp2%=0? no markings/}
+
+;Pattern
+8,whole/solid coloring
+1,flecked
+1,flea-bitten
+
+;Legs
+7,none
+3,[FeetNumber]
+
+;FeetNumber
+1,one white [Sock]
+3,two white [Socks]
+1,three white [Socks]
+5,four white [Socks]
+
+;Sock
+4,sock
+4,stocking
+1,foot
+
+;Socks
+4,socks
+4,stockings
+1,feet
+
+;Body
+8,none
+1,flesh marks
+1,zebra marks
+
+;Muzzle
+7,none
+1,markings ringing the nostrils of the horse
+1,white muzzle and nostrils
+1,white lips
+
+;Facial
+5,none
+1,facial blaze
+1,facial star
+1,facial stripe
+1,facial star and stripe
+1,white face
+
+:Markings2
+1-2,([Pattern]) <b>with</b> no markings
+3-5,<b>with</b> a white [Face]
+6-8,<b>with</b> a white [Face] and [Feet]
+9-10,<b>with</b> [Feet]
+
+# -------------------------------------------------------------------------
+# These tables determine the Size based on breed. 
+
+;Sizecheck
+# Black Lab
+1,|Size1=7||Size1+%SizeMod%||Size1>6||Size1<8||Size2={Dice~1d3-1}|%Size1%.%Size2% hands
+# Dalmation
+1,|Size1=8||Size1+%SizeMod%||Size1>7||Size1<9||Size2={Dice~1d3-1}|%Size1%.%Size2% hands
+# Doberman
+1,|Size1=9||Size1+%SizeMod%||Size1>8||Size1<11||Size2={Dice~1d3-1}|%Size1%.%Size2% hands
+# English Sheepdog
+1,|Size1=7||Size1+%SizeMod%||Size1>6||Size1<8||Size2={Dice~1d3-1}|%Size1%.%Size2% hands
+# German Shepard
+1,|Size1=8||Size1+%SizeMod%||Size1>7||Size1<9||Size2={Dice~1d3-1}|%Size1%.%Size2% hands
+# Golden Retrevier
+1,|Size1=8||Size1+%SizeMod%||Size1>7||Size1<9||Size2={Dice~1d3-1}|%Size1%.%Size2% hands
+# Great Pyrenees
+1,|Size1=11||Size1+%SizeMod%||Size1>9||Size1<13||Size2={Dice~1d3-1}|%Size1%.%Size2% hands
+# Husky
+1,|Size1=7||Size1+%SizeMod%||Size1>6||Size1<8||Size2={Dice~1d3-1}|%Size1%.%Size2% hands
+# Mastiff
+1,|Size1=9||Size1+%SizeMod%||Size1>8||Size1<11||Size2={Dice~1d3-1}|%Size1%.%Size2% hands
+# Mutt
+1,|Size1=7||Size1+%SizeMod%||Size1>6||Size1<8||Size2={Dice~1d3-1}|%Size1%.%Size2% hands
+# Newfoundland
+1,|Size1=7||Size1+%SizeMod%||Size1>6||Size1<8||Size2={Dice~1d3-1}|%Size1%.%Size2% hands
+# Riding Poodle
+1,|Size1=10||Size1+%SizeMod%||Size1>8||Size1<12||Size2={Dice~1d3-1}|%Size1%.%Size2% hands
+# St. Bernard
+1,|Size1=10||Size1+%SizeMod%||Size1>8||Size1<12||Size2={Dice~1d3-1}|%Size1%.%Size2% hands
+# Yellow Lab
+1,|Size1=7||Size1+%SizeMod%||Size1>6||Size1<8||Size2={Dice~1d3-1}|%Size1%.%Size2% hands
+
+:SizeFinalCalc
+1,|SizeFinal={Calc~((%Size1%*4)+(4/10*%Size2%))}||SizeFinal/12||Temp={Calc~(%SizeFinal%-{Trunc~%SizeFinal%})}||Temp*12|({Trunc~%SizeFinal%}' {Trunc~%Temp%}" at shoulder)
+
+# -------------------------------------------------------------------------
+# This table determines the horse's temperment
+
+;Temperment
+3,[Placid].
+11,Even-tempered.
+3,[Tempermental].
+
+;Placid
+1,Accepts master only (unless master is in the saddle, this dog accepts no other rider or passenger)|Cost={Calc~(%Cost%*(100+{Dice~1d4*5})/100)}|
+1,Affectionate (fond of its master or any other individual with whom it normally comes into contact, subtract <b>{Dice~1d2+1}</b> from any DC when working with this animal)|Cost={Calc~(%Cost%*(100+{Dice~2d6})/100)}|
+1,Fearless ({Color~Green,+2 morale} vs fear; loud noises, sudden movement, etc. rarely upset this animal)|Cost={Calc~(%Cost%*(100+{Dice~1d2*5})/100)}|
+5,Gentle (tolerant. Good for inexperienced riders, children and ladies of gentle birth) (|Temp={Dice~2d4}|{Color~Green,-%Temp% DC}|Temp-2||Temp>1| Ride and Handle Animal checks)|Cost={Calc~(%Cost%*(100+(%Temp%*3))/100)}|
+1,Loves particular food (apples, carrots, cookies; it can be easily coaxed with such offerings)
+10,Placid ({Color~Green,-{Dice~1d2} DC} Ride and Handle Animal checks)
+
+;HostileFearful
+1,hostile to
+1,fearful of
+
+;Tempermental
+1,Bites (20 <b>percent</b> likely to attempt to take a chunk out of anyone within biting range)|Cost={Calc~(%Cost%*(100-{Dice~2d3*5})/100)}|
+1,Bucks or rears unexpectedly (10 <b>percent</b> per hour to buck for no particular reason)|Cost={Calc~(%Cost%*(100-{Dice~2d4*5})/100)}|
+1,Desires freedom (it seeks its freedom at every opportunity. If it is not tethered or hobbled when not being ridden, it will make a break for it. It won't openly fight a rider but it is uncooperative, add <b>{Dice~1d2}</b>  to required Ride and Handling DC Checks)
+1,Dislikes [~Creatures.Animal] ([~HostileFearful])
+1,Dislikes [~Creatures.Animal2] ([~HostileFearful])
+1,Dislikes [~Creatures.Humanoid2] ([~HostileFearful])
+1,Dislikes certain individual (for no particular reason, it takes an instant dislike to a particular individual. It is openly hostile and uncooperative to this individual - biting, kicking, nudging, and otherwise being a nuisance at every opportunity)
+1,Dislikes certain sex ([~Miscellaneous.Gender]) (it won't tolerate being handled or ridden by this particular sex. It is uncooperative and has 75 <b>percent</b> of bucking or rearing to dislodge such an individual from its back)
+1,Headstrong (25 <b>percent</b> per hour of being ridden to either attempt to head in a different direction or to pause to either eat or drink for 1d10 minutes, ignoring all attempts to make it do otherwise. DC{Calc~({Dice~1d3*5}+10)} to regain control immediately)|Cost={Calc~(%Cost%*(100-{Dice~2d3*5})/100)}|
+1,Intolerant of poor handling (these high-bred types won't put up with inexperienced rider or handler and are quite likely to bite. 75 <b>percent</b> of this each 10 minutes of "abuse")|Cost={Calc~(%Cost%*(100-{Dice~2d3*5})/100)}|
+1,Loves particular food (apples, carrots, cookies; it can be easily coaxed with such offerings)
+1,Refuses to gallop (unless beaten with a riding crop, spurred, or otherwise encouraged DC{Calc~({Dice~1d3*5}+20)}, it never attempts to reach its full galloping speed)|Cost={Calc~(%Cost%*(100-{Dice~2d6})/100)}|
+1,Single rider only (refuses to be overburdened and won't take a second passenger, fighting and protesting if this is attempted. It won't allow itself to be encumbered over a light load)
+1,Skittish (-2 vs fear; it tends to flee at the first sign of danger, loud noises, sudden movement, etc. and will either buck, flee, or freeze)|Cost={Calc~(%Cost%*(100-{Dice~2d6})/100)}|
+1,Stops unexpectedly (it isn't exerting itself and takes random "breaks". Each hour: light load 25 <b>percent</b>; medium load 50 <b>percent</b>; heavy load 90 <b>percent</b>. It delays 1d10 minutes, snorting angrily and adamantly refusing any attempts to get it to continue moiving)|Cost={Calc~(%Cost%*(100-{Dice~2d4*5})/100)}|
+15,Tempermental (Stubborn - {Color~Red,+{Dice~1d2} DC} Ride and Handle Animal checks)
+5,Wild (|Temp={Dice~2d4}|{Color~Red,+%Temp% DC}|Temp-2||Temp>1| Ride and Handle Animal checks)|Cost={Calc~(%Cost%*(100-(%Temp%*5))/100)}|
+
+# -------------------------------------------------------------------------
+# These tables determines the horse's unusual characteristics
+
+;Characteristics
+5,<br>[Tab]-[PoorCharacteristics].<br>[Tab]-[PoorCharacteristics].
+10,<br>[Tab]-[PoorCharacteristics].
+60,None
+15,<br>[Tab]-[GoodCharacteristics].
+10,<br>[Tab]-[GoodCharacteristics].<br>[Tab]-[GoodCharacteristics].
+
+;!PoorCharacteristics
+1,Bone-jarring gait (poor alignment of the shoulders causes this animal to be particularly uncomfortable to ride. Rider must stop 1d10 minutes each hour to rest and stretch and give himself a break from this torture; failure renders the rider fatigued)|Cost={Calc~(%Cost%*(100-{Dice~2d4*5})/100)}|
+1,Chews leather (it can be an annoying habit, but it can be an indicator of parasites in it's stomach or simply a poor diet)
+2,Fragile|ToughMod-{Dice~1d4+2}||Cost={Calc~(%Cost%*(100-{Dice~2d6})/100)}|
+1,Freezes when frightened (it freezes on the spot, refusing to move, DC{Calc~({Dice~1d3*5}+10)} to make it move)|Cost={Calc~(%Cost%*(100-{Dice~1d2*5})/100)}|
+2,Low overland travel endurance|TravelDist-{Dice~2d6}||Cost={Calc~(%Cost%*(100-{Dice~1d4*5})/100)}|
+1,Poor charisma (-2 Cha)|Cost={Calc~(%Cost%*95/100)}|
+1,Poor constitution (-2 Con; <font color=red>modify hp</font>)|Cost={Calc~(%Cost%*80/100)}|
+1,Poor dexterity (-2 Dex)|ArmorClass-1||Cost={Calc~(%Cost%*80/100)}|
+1,Poor intelligence (-2 Int)|Cost={Calc~(%Cost%*95/100)}|
+1,Poor strength (-2 Str)|Cost={Calc~(%Cost%*80/100)}|
+1,Poor wisdom (-2 Wis)|Cost={Calc~(%Cost%*90/100)}|
+1,Rubs against trees (lives for pleasure and may be just dying for a good grooming. It can also be infested with fleas, ticks, mites, or lice)
+2,Slow|Temp={Max~5,{Calc~({Dice~1d3-1}*5)}}||Speed-%Temp%||Cost={Calc~(%Cost%*(100-(%Temp%*3))/100)}|
+1,Soft paws (needs frequent cleaning and nursering)|Cost={Calc~(%Cost%*(100-{Dice~1d2*3})/100)}|
+2,Thin skinned (-1 penalty to natural Armor)|ArmorClass-1||Cost={Calc~(%Cost%*(100-{Dice~1d4*5})/100)}|
+1,Very slow |Temp={Max~10,{Dice~1d3*5}}||Speed-%Temp%||Cost={Calc~(%Cost%*(100-(%Temp%*3))/100)}|
+2,Won't jump (<b>-{Dice~2d3}</b> Jump skill)|Cost={Calc~(%Cost%*(100-{Dice~1d2*5})/100)}|
+
+;!GoodCharacteristics
+1,Blind sense (Blind-Fight as bonus feat)|Cost={Calc~(%Cost%*(100+{Dice~2d4*5})/100)}|
+1,Dodger (Dodge as bonus feat)|Cost={Calc~(%Cost%*(100+{Dice~2d4*5})/100)}|
+1,Exceptional charisma (+2 Cha)|Cost={Calc~(%Cost%*105/100)}|
+1,Exceptional constitution (+2 Con; <font color=red>modify hp</font>)|Cost={Calc~(%Cost%*120/100)}|
+1,Exceptional dexterity (+2 Dex)|ArmorClass+1||Cost={Calc~(%Cost%*120/100)}|
+1,Exceptional intelligence (+2 Int)|Cost={Calc~(%Cost%*110/100)}|
+1,Exceptional strength (+2 Str)|Cost={Calc~(%Cost%*120/100)}|
+1,Exceptional wisdom (+2 Wis)|Cost={Calc~(%Cost%*110/100)}|
+1,Fast|Temp={Max~5,{Calc~({Dice~1d3-1}*5)}}||Speed+%Temp%||Cost={Calc~(%Cost%*(100+(%Temp%*4))/100)}|
+1,Fast reflexes (Lightning reflexes as bonus feat)|Cost={Calc~(%Cost%*(100+{Dice~2d3*5})/100)}|
+1,Finely tuned senses (Alertness as bonus feat)|Cost={Calc~(%Cost%*(100+{Dice~2d3*5})/100)}|
+1,Fighting steed (Weapon Focus as bonus feat)|Cost={Calc~(%Cost%*(100+{Dice~2d3*5})/100)}|
+1,Good hearing {If~%Version%=2?(Skill Focus (listen) as bonus feat)/(+3 Perception (Hearing))}|Cost={Calc~(%Cost%*(100+{Dice~2d3*5})/100)}|
+1,Good sight {If~%Version%=2?(Skill Focus (spot) as bonus feat)/(+3 Perception (Vision))}|Cost={Calc~(%Cost%*(100+{Dice~2d3*5})/100)}|
+2,High overland travel endurance|TravelDist+{Dice~2d6}||Cost={Calc~(%Cost%*(100+{Dice~1d4*5})/100)}|
+1,Loyal (Iron Will as bonus feat)|Cost={Calc~(%Cost%*(100+{Dice~2d3*5})/100)}|
+1,Resistant (Great Fortitude as bonus feat)|Cost={Calc~(%Cost%*(100+{Dice~2d3*5})/100)}|
+1,[GoodCharacteristics_Robust=%Version%]
+1,Runner (Run as bonus feat)|Cost={Calc~(%Cost%*(100+{Dice~2d4*5})/100)}|
+1,Sneaky dog (Skill Focus ({If~%Version%=2?move silently/sneak}) as bonus feat)|Cost={Calc~(%Cost%*(100+{Dice~2d3*5})/100)}|
+1,Strong (+2 Str for carrying capacity)|Cost={Calc~(%Cost%*(100+{Dice~2d6})/100)}|
+1,Strong swimmer (Skill Focus (Swim) as bonus feat)|Cost={Calc~(%Cost%*(100+{Dice~2d3*5})/100)}|
+1,Sure-footed (Skill Focus ({If~%Version%=2?Balance/Acrobatics}) as bonus feat)|Cost={Calc~(%Cost%*(100+{Dice~2d3*5})/100)}|
+2,Thick skinned (+1 bonus to natural armor)|ArmorClass+1||Cost={Calc~(%Cost%*(100+{Dice~2d2*5})/100)}|
+2,Tough|ToughMod+{Dice~1d6+2}||Cost={Calc~(%Cost%*(100+{Dice~3d3*2})/100)}|
+1,Very Fast|Temp={Max~10,{Calc~({Dice~1d3}*5)}}||Speed+%Temp%||Cost={Calc~(%Cost%*(100+(%Temp%*4))/100)}|
+2,Willing jumper (<b>+{Dice~2d3}</b> Jump)|Cost={Calc~(%Cost%*(100+{Dice~1d2*5})/100)}|
+
+:GoodCharacteristics_Robust
+1-2,Robust (Endurance as Bonus feat)|Cost={Calc~(%Cost%*(100+{Dice~2d3*5})/100)}|
+3,Robust (Toughness as Bonus feat)|Cost={Calc~(%Cost%*(100+{Dice~2d3*5})/100)}|
+
+# -------------------------------------------------------------------------
+# These tables determine the Tricks known by the mount (Handle Animal). 
+
+:Tricks
+1,{If~%Age%>=2? [TrickRandom]/none}
+2,{If~%Age%>=3? [~TrickWar]/not fully trained for combat riding}
+3,{If~%Age%>=2? [TrickRandom]/none}
+4,{If~%Age%>=3? [~TrickWar]/not fully trained for combat riding}
+5,{If~%Age%>=2? [TrickRandom]/none}
+6,{If~%Age%>=3? [~TrickWar]/not fully trained for combat riding}
+7,{If~%Age%>=2? [TrickRandom]/none}
+8,{If~%Age%>=2? [TrickRandom]/none}
+
+;TrickRandom
+70,none
+20,[~TrickChoice]|Cost={Calc~(%Cost%*115/100)}|
+5,{If~%Age%>=3? [Tab][GenPurpose]/none}
+5,[~TrickChoice], [~TrickChoice]|Cost={Calc~(%Cost%*125/100)}|
+
+:GenPurpose
+1,[~Purpose]|Cost={Calc~(%Cost%*140/100)}|
+
+;Purpose
+1,Adventuring Dungeon Animal (assist attack, assist defend, defend, stay)
+3,Adventuring Pack Animal (come, heel, stay, work)
+1,Combat Riding (attack, come, defend, down, guard, heel)
+3,Heavy Labor (come, work)
+1,Monk (attack, down, pin, subdue)
+1,Performance (come, fetch, heel, perform, stay)
+5,Riding (come, heel, stay)
+1,War (armor, attack, down, stay)
+
+;!TrickChoice
+2,Ambush
+1,Armor
+2,Assist Attack
+2,Assist Defend
+5,Assist Track
+1,Attack
+1,Bull Rush
+1,Calm
+5,Come
+1,Defend
+5,Fetch
+1,Flush Out
+5,Heel
+5,Home
+3,Hunt
+1,Overrun
+5,Perform
+3,Pin
+1,Seek
+3,Stalk
+5,Stay
+1,Steal
+3,Subdue
+5,Work
+
+;TrickWar
+1,Adventuring Dungeon Animal (assist attack, assist defend, defend, stay)
+3,Combat Riding (attack, come, defend, down, guard, heel)
+1,Monk (attack, down, pin, subdue)
+1,War (armor, attack, down, stay)
+
+# -------------------------------------------------------------------------
+# This table determines the horse's type if the type is not selected
+
+:GenType
+1-2,|Type=1|
+3,|Type=2|
+4-6,|Type=3|
+7,|Type=4|
+8-9,|Type=5|
+10,|Type=6|
+11,|Type=7|
+12,|Type=8|
+
+# -------------------------------------------------------------------------
+# This table sets the horse variables depending on the type
+
+# If version = 3.5 ... {If~%Version%=2?/}
+
+;SetTypeVariables
+# Black Lab
+1,|TypeName=Riding Dog||TemperMod=-2||Cost=150||HitPoints={Dice~2d8+4}||AvgHp=13||MaxHp=20||Speed=40||TravelDist=32||ArmorClass={If~%Version%=2?16/13}|
+# Dalmation
+1,|TypeName=Riding Dog||TemperMod=0||Cost=150||HitPoints={Dice~2d8+4}||AvgHp=13||MaxHp=20||Speed=40||TravelDist=32||ArmorClass={If~%Version%=2?16/13}|
+# Doberman
+1,|TypeName=Riding Dog||TemperMod=2||Cost=250||HitPoints={Dice~2d8+6}||AvgHp=15||MaxHp=22||Speed=40||TravelDist=32||ArmorClass={If~%Version%=2?16/13}|
+# English Sheepdog
+1,|TypeName=Riding Dog||TemperMod=0||Cost=150||HitPoints={Dice~2d8+4}||AvgHp=13||MaxHp=20||Speed=40||TravelDist=32||ArmorClass={If~%Version%=2?16/13}|
+# German Shepard
+1,|TypeName=Riding Dog||TemperMod=0||Cost=200||HitPoints={Dice~2d8+4}||AvgHp=13||MaxHp=20||Speed=40||TravelDist=32||ArmorClass={If~%Version%=2?16/13}|
+# Golden Retrevier
+1,|TypeName=Riding Dog||TemperMod=-2||Cost=150||HitPoints={Dice~2d8+4}||AvgHp=13||MaxHp=20||Speed=40||TravelDist=32||ArmorClass={If~%Version%=2?16/13}|
+# Great Pyrenees
+1,|TypeName=Riding Dog||TemperMod=0||Cost=200||HitPoints={Dice~2d8+6}||AvgHp=15||MaxHp=22||Speed=40||TravelDist=32||ArmorClass={If~%Version%=2?16/13}|
+# Husky
+1,|TypeName=Riding Dog||TemperMod=1||Cost=150||HitPoints={Dice~2d8+2}||AvgHp=11||MaxHp=18||Speed=40||TravelDist=32||ArmorClass={If~%Version%=2?16/13}|
+# Mastiff
+1,|TypeName=Riding Dog||TemperMod=2||Cost=200||HitPoints={Dice~2d8+6}||AvgHp=15||MaxHp=22||Speed=40||TravelDist=32||ArmorClass={If~%Version%=2?16/13}|
+# Mutt
+1,|TypeName=Riding Dog||TemperMod=2||Cost=150||HitPoints={Dice~2d8+4}||AvgHp=13||MaxHp=20||Speed=40||TravelDist=32||ArmorClass={If~%Version%=2?16/13}|
+# Newfoundland
+1,|TypeName=Riding Dog||TemperMod=-1||Cost=150||HitPoints={Dice~2d8+4}||AvgHp=13||MaxHp=20||Speed=40||TravelDist=32||ArmorClass={If~%Version%=2?16/13}|
+# Riding Poodle
+1,|TypeName=Riding Dog||TemperMod=0||Cost=350||HitPoints={Dice~2d8+2}||AvgHp=11||MaxHp=18||Speed=40||TravelDist=32||ArmorClass={If~%Version%=2?16/13}|
+# St. Bernard
+1,|TypeName=Riding Dog||TemperMod=-1||Cost=200||HitPoints={Dice~2d8+6}||AvgHp=15||MaxHp=22||Speed=40||TravelDist=32||ArmorClass={If~%Version%=2?16/13}|
+# Yellow Lab
+1,|TypeName=Riding Dog||TemperMod=-2||Cost=150||HitPoints={Dice~2d8+4}||AvgHp=13||MaxHp=20||Speed=40||TravelDist=32||ArmorClass={If~%Version%=2?16/13}|
+
+:SetNormal
+1,|NormalSpeed=%Speed%||NormalOverland=%TravelDist%||NormalCost=%Cost%||SizeMod=0|

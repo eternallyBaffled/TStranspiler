@@ -1,0 +1,164 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder Feb 28, 2006.
+# ---------------------------------------------------
+#
+# *********************************************************************
+#
+# Program Name	: Ability Score Generator
+# Function	: Roll Ability Score's using various User Selected
+#		  Options
+# Variables Used: ScoreOption, DieOption, RollOption, ReRollOption
+#		  DisplayOption, BonusOption, DieRoll, RollCount
+#		  Die1, Die2, Die3, Die4, Die5, Score
+# Parameters	: ScoreOption, DieOption, RollOption, ReRollOption
+#		  DisplayOption, Bonus Option
+# Sub-Programs	: GetScore, RollScore, RollDie, Sort Dice, DisplayStart
+#		  DisplayEnd, Bonus 
+# Date Created	: 7 Oct 03
+# Author	: Kerkara
+#
+# *********************************************************************
+#
+# Modified by Valminder, Feb 2006.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+#
+# -------------------------------
+# Begin - Ability Score Generator
+# -------------------------------
+
+# -------------------------------
+# Declare Variables
+# -------------------------------
+/OutputType HTML
+%ScoreOption%,0
+%DieOption%,0
+%RollOption%,0
+%ReRollOption%,0
+%DisplayOption%,0
+%BonusOption%,0
+%DieRoll%,0
+%RollCount%,0
+%Die1%,0
+%Die2%,0
+%Die3%,0
+%Die4%,0
+%Die5%,0
+%Score%,0
+%TempSort%,0
+
+# ---------------------------------------
+# Declare Parameters - Determines Options
+# ---------------------------------------
+
+@ScoreOption,6,Generate how many Ability Scores ?
+@DieOption,2,Use how many die to generate Scores ?,3,4,5
+@RollOption,1,When generating rolls reroll :,None,1's,1's & 2's
+@ReRollOption,4,Reroll how many times :,Never,Once,Twice,Always
+@DisplayOption,1,Show die rolls with score ?,Yes,No
+@BonusOption,1,Roll a Bonus Die ?,Yes,No
+
+# ------------------------------------------
+# Start - Generates Ability Score per Option
+# ------------------------------------------
+
+:Start
+1,{Status~By Kerkara 2003, Valminder 2006}
+_<font face="VAG Rounded Black SSi" size=4>
+_{Loop~%ScoreOption%, [GetScore] <br>}
+_{If~%BonusOption%=1? [~Bonus]}
+_</font>
+
+# -------------------------------------------------------------
+# GetScore - Initiates Score Generation and Displays per Option
+# -------------------------------------------------------------
+
+:GetScore
+1,[RollScore]
+_[DisplayStart=%DisplayOption%]
+
+# ---------------------------------------------------------
+# RollScore - Assigns rolls per Option and Calculates Score 
+# ---------------------------------------------------------
+
+:RollScore
+1,[RollDie=%ReRollOption%] |Die1=%DieRoll%| |RollCount=0|
+_[RollDie=%ReRollOption%] |Die2=%DieRoll%| |RollCount=0|
+_[RollDie=%ReRollOption%] |Die3=%DieRoll%| |RollCount=0|
+_[SortDice=%DieOption%]
+_|Score={Calc~(%Die1% + %Die2% + %Die3%)}|
+
+# ------------------------------
+# RollDie - Rolls Die per Option
+# ------------------------------
+
+:RollDie
+1,|DieRoll={Dice~1d6}|
+2,|DieRoll={Dice~1d6}|
+_|RollCount+1|
+_{If~%RollCount%<%ReRollOption% ? {If~%DieRoll%<%RollOption% ? [RollDie=%ReRollOption%]}}
+3,|DieRoll={Dice~1d6}|
+_|RollCount+1|
+_{If~%RollCount%<%ReRollOption% ? {If~%DieRoll%<%RollOption% ? [RollDie=%ReRollOption%]}}
+4,|DieRoll={Dice~1d6}|
+_{If~%DieRoll%<%RollOption% ? [RollDie=%ReRollOption%]}
+
+# ---------------------------------------------------------
+# SortDice - Rolls additional Die per Option and preps them
+# ---------------------------------------------------------
+
+:SortDice OLD TSv4 version
+1,{SortDesc~Die1,Die2,Die3}
+2,[RollDie=%ReRollOption%] |Die4=%DieRoll%| |RollCount=0|
+_{SortDesc~Die1,Die2,Die3,Die4}
+3,[RollDie=%ReRollOption%] |Die4=%DieRoll%| |RollCount=0|
+_[RollDie=%ReRollOption%] |Die5=%DieRoll%| |RollCount=0|
+_{SortDesc~Die1,Die2,Die3,Die4,Die5}
+
+:SortDice
+1,|TempSort=%Die1%;%Die2%;%Die3%|
+_|TempSort={OrderDesc~";",%TempSort%}|
+_{Split~TempSort,";",Die1,Die2,Die3}
+2,[RollDie=%ReRollOption%] |Die4=%DieRoll%| |RollCount=0|
+_|TempSort=%Die1%;%Die2%;%Die3%;%Die4%|
+_|TempSort={OrderDesc~";",%TempSort%}|
+_{Split~TempSort,";",Die1,Die2,Die3,Die4}
+3,[RollDie=%ReRollOption%] |Die4=%DieRoll%| |RollCount=0|
+_[RollDie=%ReRollOption%] |Die5=%DieRoll%| |RollCount=0|
+_|TempSort=%Die1%;%Die2%;%Die3%;%Die4%;%Die5%|
+_|TempSort={OrderDesc~";",%TempSort%}|
+_{Split~TempSort,";",Die1,Die2,Die3,Die4,Die5}
+
+# ------------------------------------------------------------
+# DisplayStart - Initiates Display of Die and Score Per Option
+# ------------------------------------------------------------
+
+:DisplayStart
+1,{Italic~%Die1%} ,
+_{Italic~%Die2%} ,
+_[DisplayEnd=%DieOption%]
+_{Bold~%Score%}
+2,{Bold~%Score%}
+
+# ---------------------------------------------------------
+# DisplayEnd - Finishes Display of Die and Score Per Option
+# ---------------------------------------------------------
+
+:DisplayEnd
+1,{Italic~%Die3%} :
+2,{Italic~%Die3%} ,
+_{Italic~%Die4%} :
+3,{Italic~%Die3%} ,
+_{Italic~%Die4%} ,
+_{Italic~%Die5%} :
+
+# ----------------------------------
+# Bonus - Rolls Bonus Die Per Option
+# ----------------------------------
+
+:Bonus
+1,Bonus Points: {Bold~{Dice~1d6}} <br>
+
+# -----------------------------
+# End - Ability Score Generator
+# -----------------------------

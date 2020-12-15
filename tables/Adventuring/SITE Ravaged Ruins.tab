@@ -1,0 +1,741 @@
+# ------------------------------------------------------
+# Last Update: re-verified by Valminder Jan 10, 2012.
+# ------------------------------------------------------
+#
+# Ravaged Ruins
+# From Judges Guild
+# Translated into TableSmith by Steve Davies
+# 
+# One of my favorite Judges Guild tables, as it usually gives intelligible
+# results that spark imagination and stories.
+#
+# Modified by Valminder April 2002
+#    I modified the "START" line.
+# Modified by Valminder Nov 2005
+#    Removed header from "START" line.
+#
+
+%ListCount%,0
+
+:Start
+1,[Generate]
+
+:Generate
+1	,The ruins are [~Condition]. They are [~State]. It consists of [~Class]. They are guarded by [~Keeper].
+
+:Condition
+1	,partially covered with [Covering]
+2	,fully covered with [Covering]
+3	,above ground
+4	,on a rocky slope
+5	,inside a cavern
+6	,in a crevice
+7	,beneath an overhang
+8	,in a large crater
+9	,partially sunken
+10	,charred & burnt
+
+:Covering
+1	,sand
+2	,ashes
+3	,cinders
+4	,earth
+5	,a thicket
+6	,mold
+7	,slime
+8	,rocks
+9	,webs and dust
+10	,vines
+
+:State
+1	,crumbled & decayed
+2	,disfigured & defaced
+3	,worm-eaten
+4	,crystallized & petrified
+5	,corroded & eroded
+6	,collapsed & tumbled
+7	,mouldy & contaminated
+8	,dangerously operational
+9	,partially operational
+10	,fully operational
+
+:Class
+1	,[Ruins]
+2	,[Relics]
+3	,[Remains]
+4	,[Vestiges]
+5	,[Remnants]
+6	,[Refuse]
+7	,[Wrecks]
+8	,[Skeletons]
+9	,[Antiques]
+10	,[Artifacts]
+
+# ----------------------------------------------------
+# -----		             RUINS				     -----
+# ----------------------------------------------------
+:Ruins
+1	,a [Manor] manor
+2	,a village with [Village]
+3	,a city with [City]
+4	,a citadel: [Citadel]
+5	,a castle: [Castle]
+6	,[Temple]
+
+:Manor
+1	,hut
+2	,hovel
+3	,hall
+4	,villa
+5	,cottage
+6	,palace
+
+:Village
+1	,{Dice~2d6} huts
+2	,{Dice~4d6} hovels
+3	,{Dice~6d6} cottages
+4	,{Dice~6d6} cottages with a ditch
+5	,{Dice~6d6} cottages with a palisad
+6	,{Dice~6d6} cottages with a palisad & moat
+
+:City
+1	,{Dice~7d6} houses and a citadel
+2	,{Dice~8d6} houses
+3	,{Dice~9d6} houses and a wall
+4	,{Dice~9d6} houses, {Loop~{Dice~1d4-1},[Citadel]}, and |ListCount=0|[Citadel]
+5	,{Dice~20d6} houses
+6	,{Dice~20d6} houses, {Loop~{Dice~1d4-1},[Temple]}, and |ListCount=0|[Temple]
+
+:Citadel
+1	,{If~%ListCount%>0?[CommaList]/[NoCommaList]}tower
+2	,{If~%ListCount%>0?[CommaList]/[NoCommaList]}tower and outer wall
+3	,{If~%ListCount%>0?[CommaList]/[NoCommaList]}great keep
+4	,{If~%ListCount%>0?[CommaList]/[NoCommaList]}great keep and {Dice~2d4} towers
+5	,{If~%ListCount%>0?[CommaList]/[NoCommaList]}great keep, {Dice~2d4} towers and outer wall
+6	,{If~%ListCount%>0?[CommaList]/[NoCommaList]}great keep, {Dice~2d4} towers, outer wall and moat
+
+:Castle
+1	,keep and palisad
+2	,keep, palisad and moat
+3	,keep, palisad, walls and moat
+4	,keep, palisad, walls, moat and manor house
+5	,keep, palisad, walls, {Dice~2d4} towers, moat and manor house
+6	,keep, outer walls, {Dice~3d4} towers, moat and {Dice~1d4} great houses
+
+:Temple
+1	,{If~%ListCount%>0?[CommaList]/[NoCommaList]}altar
+2	,{If~%ListCount%>0?[CommaList]/[NoCommaList]}shrine
+3	,{If~%ListCount%>0?[CommaList]/[NoCommaList]}sanctuary
+4	,{If~%ListCount%>0?[CommaList]/[NoCommaList]}oracle
+5	,{If~%ListCount%>0?[CommaList]/[NoCommaList]}pantheon
+6	,{If~%ListCount%>0?[CommaList]/[NoCommaList]}monastery
+
+:CommaList
+1	,, |ListCount+1|
+
+:NoCommaList
+1	, |ListCount+1|
+
+# ----------------------------------------------------------
+# -----			           RELICS				       -----
+# ----------------------------------------------------------
+:Relics
+1	,[Tools]
+2	,a [Machines]
+3	,a [Tombs]
+4	,a [Armor]
+5	,a [Weapons]
+6	,a [Containers]
+
+:Tools
+1	,a ladder
+2	,a plow
+3	,a pick
+4	,a hoe
+5	,an anvil
+6	,an axe
+
+:Machines
+1	,loom
+2	,grinding wheel
+3	,clock
+4	,balance
+5	,potter wheel
+6	,press
+
+:Tombs
+1	,grave
+2	,sepulchre
+3	,mausoleum
+4	,catacombs
+5	,vault
+6	,crypt
+
+:Armor
+1	,breastplate
+2	,set of greaves
+3	,gauntlet
+4	,helmet
+5	,suit of chainmail
+6	,shield
+
+:Weapons
+1	,dagger
+2	,scimitar
+3	,hand axe
+4	,spear
+5	,trident
+6	,battleaxe
+
+:Containers
+1	,barrel
+2	,urn
+3	,trunk
+4	,jar
+5	,bottle
+6	,box
+
+# ----------------------------------------------------------
+# -----			           REMAINS				       -----
+# ----------------------------------------------------------
+:Remains
+1	,[Utensils] utensils
+2	,[Apparel]
+3	,a [Harness] riding harness
+4	,a [Toys]
+5	,a [Optics]
+6	,a [Tomes]
+
+:Utensils
+1	,an eating
+2	,a digging
+3	,a writing
+4	,a navigating
+5	,a measuring
+6	,a musical
+
+:Apparel
+1	,hauberk
+2	,boots
+3	,cloak
+4	,tunic
+5	,mask
+6	,pair of breeches
+
+:Harness
+1	,swimmer
+2	,flyer
+3	,giant animal
+4	,small animal
+5	,man-sized
+6	,colossal
+
+:Toys
+1	,doll
+2	,toy vehicle
+3	,toy weapon
+4	,toy tool
+5	,game
+6	,toy house
+
+:Optics
+1	,monocle
+2	,spectacles
+3	,spyglass
+4	,mirror
+5	,colored pane of glass
+6	,periscope
+
+:Tomes
+1	,lexicon
+2	,scroll
+3	,manual
+4	,tablet
+5	,book
+6	,codex
+
+
+# ----------------------------------------------------
+# -----			        Vestiges			     -----
+# ----------------------------------------------------
+:Vestiges
+1	,[Pyramid], a [PyramidType] pyramid
+2	,a [Mound] mound
+3	,a [Fountain] fountain
+4	,a [Totem] totem
+5	,a [Sewers] sewer
+6	,[Monolith]
+
+:Pyramid
+1	,a burial tomb
+2	,a temple
+3	,am observatory
+4	,a palace
+
+:PyramidType
+1-2	,stepped
+3	,smooth
+
+:Mound
+1	,sacrificial
+2	,burial
+3	,treasure
+4	,lair
+5	,sacred
+6	,polymorphed
+
+:Fountain
+1	,giant
+2	,statued
+3	,miniature
+4	,geometric
+5	,wishing
+6	,spray
+
+:Totem
+1	,mammal
+2	,human
+3	,god
+4	,monster
+5	,bird
+6	,snake
+
+:Sewers
+1	,1' square open
+2	,2' square open
+3	,1' square closed
+4	,2' square closed
+5	,4' square closed
+6	,8' square closed
+
+:Monolith
+1	,a column
+2	,a hewn statue
+3	,a minaret
+4	,an obelisk
+5	,an effigy
+6	,a monument
+
+# ----------------------------------------------
+# -----		         Remnants			   -----
+# ----------------------------------------------
+:Remnants
+1	,[Road]
+2	,a [Tombstone]
+3	,[Signpost] signpost
+4	,[Channel]
+5	,[Masonry]
+6	,[Bridge] bridge
+7	,a [Wall]
+8	,a [Edifice]
+9	,[Works]
+10	,a [Structure]
+
+:Road
+1	,a track
+2	,a trail
+3	,a gravel road
+4	,a roman paved road
+5	,an asphalt road
+6	,a concrete road
+
+:Tombstone
+1	,plaque
+2	,cairn
+3	,staff
+4	,beacon
+5	,pyre
+6	,stone pile
+
+:Signpost
+1	,a guide
+2	,an omen
+3	,a trade
+4	,a warning
+5	,an emblem
+6	,a boundary
+
+:Channel
+1	,a tunnel
+2	,a pipe
+3	,a well
+4	,a passage
+5	,a canal
+6	,an aqueduct
+
+:Masonry
+1	,mud bricks
+2	,stone bricks
+3	,marble blocks
+4	,plaster
+5	,wattle
+6	,stone blocks
+
+:Bridge
+1	,a rope
+2	,a wood
+3	,a stone
+4	,an earth
+5	,a natural
+6	,a brick
+
+:Edifice
+1	,carved cliff
+2	,sculptured mound
+3	,colossal statue
+4	,palace
+5	,mill
+6	,calendar stone
+
+:Works
+1	,an arsenal
+2	,a granary
+3	,a paved plaza
+4	,a viaduct
+5	,a reservoir
+6	,a cistern
+
+:Structure
+1	,stairway
+2	,ramp
+3	,shaft
+4	,spire
+5	,roof
+6	,tunnel
+
+:Wall
+1	,stockade
+2	,barricade
+3	,fence
+4	,rampart
+5	,dike
+6	,partition
+
+# ----------------------------------------------------------
+# -----			             REFUSE				       -----
+# ----------------------------------------------------------
+:Refuse
+1	,a [Offal]
+2	,a [Sewage]
+3	,a worn [Parts]
+4	,discarded [Discards]
+5	,food ([Food])
+6	,a pile of [Fuel] fuel
+
+:Offal
+1	,pile of rent viscera
+2	,pile of gnawed bones
+3	,splattering of gore
+4	,pile of gnawed gristle
+5	,mound of eaten fat
+6	,scattering of severed talons
+
+:Sewage
+1	,scum of soap refuse
+2	,pool of body waste
+3	,pool of oil refuse
+4	,pool of slop
+5	,pool of chemical sewage
+6	,dusting of lint
+
+:Parts
+1	,buckle
+2	,lacing
+3	,crossbar
+4	,pommel
+5	,arrowhead
+6	,spike
+
+:Discards
+1	,leather scrap
+2	,papyrus scrap
+3	,handle
+4	,shield
+5	,pole
+6	,linen scrap
+
+:Food
+1	,fat
+2	,fruits
+3	,seeds
+4	,vegetables
+5	,minerals
+6	,meat
+
+:Fuel
+1	,wood
+2	,coal
+3	,peat
+4	,dung
+5	,petroleum
+6	,wax
+
+
+# ----------------------------------------------------------
+# -----			            WRECKS				       -----
+# ----------------------------------------------------------
+:Wrecks
+1	,a [SeaVehicle]
+2	,a [LandVehicle]
+3	,a [AirVehicle]
+4	,a [WarEngine]
+5	,a [SubmarineVehicle]
+6	,a [SubterVehicle]
+
+:SeaVehicle
+1	,raft
+2	,canoe
+3	,pig bladder boat
+4	,longboat
+5	,merchant ship
+6	,man o' war
+
+:LandVehicle
+1	,sledge
+2	,wagon
+3	,travel litter
+4	,carriage
+5	,wain
+6	,chariot
+
+:AirVehicle
+1	,balloon
+2	,mechanical wings
+3	,hang glider
+4	,[UnusualAirVehicle]
+5	,parachute
+6	,Roc carriage
+
+:UnusualAirVehicle
+1	,propeller-driven air vehicle
+2	,jet plane
+3	,re-entry capsule
+4	,space craft
+5	,helicopter
+6	,antigravity vehicle
+
+:WarEngine
+1	,onager
+2	,siege screw
+3	,ram
+4	,siege tower
+5	,springel
+6	,trebuchet
+
+:SubmarineVehicle
+1	,dolphin sled
+2	,seahorse carriage
+3	,giant turtle howdah
+4	,diving bell
+5	,pocket submarine
+6	,nuclear submarine
+
+:SubterVehicle
+1	,mole sled (vehicle)
+2	,rock borer vehicle
+3	,mine cart
+4	,earth borer vehicle
+5	,worm saddle
+6	,rat chariot
+
+
+# ----------------------------------------------
+# -----		       SKELETONS			   -----
+# ----------------------------------------------
+:Skeletons
+1	,a [SmallSkeleton] skeleton
+2	,a [ManSizeSkeleton] skeleton
+3	,[GiantSkeleton] skeleton
+4	,[UnusualSkeleton] skeleton
+5	,a [Skulls] skull
+6	,[ColossalSkeleton] skeleton
+
+:SmallSkeleton
+1	,miniscule 
+2	,magnifying-glass sized
+3	,Dwarf
+4	,Pixie
+5	,Gnome
+6	,Kobold
+
+:ManSizeSkeleton
+1	,Man
+2	,Elf
+3	,Orc
+4	,Troll
+5	,Lizard Man
+6	,Snake
+
+:GiantSkeleton
+1	,an Ogre
+2	,a Hobgoblin
+3	,a True Giant
+4	,a Dinosaur
+5	,a Sea Monster
+6	,a Whale
+
+:UnusualSkeleton
+1	,a cubic 
+2	,a crystalline
+3	,a multi-limbed
+4	,a multi-headed
+5	,a winged
+6	,an armor-plated
+
+:Skulls
+1	,miniscule
+2	,man-size
+3	,giant
+4	,colossal
+5	,multi-horned
+6	,multi-socketed
+
+:ColossalSkeleton
+1	,a humanoid
+2	,an avian
+3	,a reptilian
+4	,a ursinoid
+5	,an amphibian
+6	,a crustacean
+
+
+# ----------------------------------------------------
+# -----		           ANTIQUES				     -----
+# ----------------------------------------------------
+:Antiques
+1	,antique [Statues] statues
+2	,an antique [Furniture]
+3	,an engraved [Engravings]
+4	,{Dice~1d20} antique [Idols] idol
+5	,antique [Fittings]
+6	,antique [Handicrafts]
+
+:Statues
+1	,miniature
+2	,half-size
+3	,life size
+4	,giant size
+5	,abstract
+6	,magic
+
+:Furniture
+1	,throne
+2	,chest
+3	,giant sized furniture
+4	,miniature furniture
+5	,stone seat
+6	,stone table
+
+:Engravings
+1	,battle scene
+2	,coronation
+3	,punishment
+4	,religious scene
+5	,romantic scene
+6	,curse
+
+:Idols
+1	,stone
+2	,plaster
+3	,metal
+4	,wooden
+
+:Fittings
+1	,faucet
+2	,lamp
+3	,bell
+4	,fresco
+5	,hinges
+6	,knocker
+
+:Handicrafts
+1	,baskets
+2	,vases
+3	,miniature paintings
+4	,abacas
+5	,ship's figurehead
+6	,busts
+
+# ----------------------------------------------------
+# -----		          ARTIFACTS				     -----
+# ----------------------------------------------------
+:Artifacts
+1	,[WeaponDevices]
+2	,[Entertainment] entertainment device
+3	,[ProtectiveDevices] protective device
+4	,[OffensiveDevices] offensive device
+5	,[InformativeDevices] informative device
+6	,a [LeadershipDevices] leadership device
+
+:WeaponDevices
+1	,swords
+2	,daggers
+3	,warhammers
+4	,clubs
+5	,battleaxes
+6	,javelins
+
+:Entertainment
+1	,animated
+2	,musical
+3	,dancing
+4	,serving
+5	,intensifying
+6	,dreaming
+
+:ProtectiveDevices
+1	,a machine
+2	,a staff
+3	,a vial
+4	,a garment
+5	,a talisman
+6	,an armor
+
+:OffensiveDevices
+1	,a hand
+2	,a vase
+3	,an eye
+4	,a box
+5	,a horn
+6	,a vat
+
+:InformativeDevices
+1	,a stone
+2	,a flask
+3	,an orb
+4	,a diadem
+5	,a crystal ball
+6	,a necklace
+
+:LeadershipDevices
+1	,ring
+2	,gem
+3	,throne
+4	,rod
+5	,sword
+6	,scepter
+
+
+# ----------------------------------------------------------------
+# ----------------------------------------------------------------
+# -----				           KEEPER				         -----
+# ----------------------------------------------------------------
+# ----------------------------------------------------------------
+;Keeper
+1	,a [Miscellaneous.Class]
+1	,a familiar
+1	,a mechanical guardian
+1	,a trap ([Traps.Generate])
+1	,animals
+1	,celestials
+1	,demons or devils
+1	,dragons
+1	,feys
+1	,giants
+1	,golems
+1	,immortals
+1	,lycanthropes
+10	,nothing
+1	,the gods
+1	,undeads
+1	,vermins

@@ -1,0 +1,641 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder September 15, 2015.
+# ---------------------------------------------------
+#
+# This table is designed to generate a horse's description
+# and statistics for use with d20 game rules. Further adaptations
+# can be made by adjusting the characteristics for specific breeds.
+# I've created a breed specific version for the world of Breminor
+# which can be downloaded from http://www.breminor.com/ 
+# 
+# Attributions:
+# The horse types and base statistics are based on the information 
+# available in the AD&D 3rd Edition Dungeon Master's Guide
+# Copyright 2000 Wizards of the Coast
+#
+# The color schemes and markings are loosely based on the horse 
+# generator created for TableMaster by Wintertree software
+# Copyright 1994 Wintertree Software
+#
+# This table is meant to serve as a gaming aid for individuals
+# interested in expanding the statistics of their mounts. It is
+# not intended as a challenge in any way to copyrights of Wizards 
+# of the Coast or Wintertree software.
+#
+# compiled by Anthony Marker
+#
+# -------------------------------------------------------------------------
+# This Table Links to these tables as required:
+#    Creatures
+#    Miscellaneous
+#    Permanent_Variables
+#
+# -------------------------------------------------------------------------
+# This table is called by: (can be called by other tables also)
+#    ### NEW MOUNT ###
+#    Mundane Equipment
+#
+# -------------------------------------------------------------------------
+# Modified by Valminder, Jan 2004.
+#    -Fixed some functions. {If~} {Dice~}
+#    -Changed the start line.
+#    -Added a new subtable for the "Horse Shop".
+#    -Added donkey and mule.
+#    -Added informations from Dragon #191 "Horses are people too".
+#        -Description of each color.
+#        -Some markings/patterns for the coloration of the horses.
+#        -The shoulder height in feet (instead of hands only).
+#        -Extra Poor/Good characteristics and tricks.
+#        -Age of the horses. 
+# Modified by Valminder, August 2006.
+#    Added small things, like a reminder to modify hp if CON changes.
+#    Added the stonebred pony.
+#
+# Modified by Valminder, Sep 2015-2016
+#    Added subtables for "ENC Ultimate Random Encounters.tab"
+#    Modified for Pathfinder ... added "Version" variable.
+#
+
+#variables
+%Age%,0
+%ArmorClass%,0
+%AvgHp%,0
+%Breed%,0
+%BreedName%,0
+%CharMod%,0
+%ColorDescription%,0
+%Cost%,0
+%Food%,0
+%FoodConcIn%,0
+%FoodConcHW%,0
+%GenSeller%,0
+%HitPoints%,0
+%MaxHp%,0
+%mod price%,1
+%NormalCost%,0
+%NormalSpeed%,0
+%NormalOverland%,0
+%Quantity%,1
+%SetTypeVariables%,0
+%Size1%,0
+%Size2%,0
+%SizeFinal%,0
+%SizeMod%,0
+%Speed%,0
+%Temp%,0
+%Temp2%,0
+%TempCost%,0
+%TemperMod%,0
+%ToughMod%,0
+%TravelDist%,0
+%Type%,8
+%TypeName%,0
+%Version%,0
+%Water%,0
+
+# This allows the user to manually select the breed; the default
+# breed is set to Light Horse
+
+# Parameters
+
+### NEW MOUNT ###
+@Type,10,Select the Horse Type,Pony,WarPony,Light Horse,Light WarHorse,Heavy Horse,Heavy WarHorse,Donkey,Mule,Stonebred Pony,Random
+# Note: NPC Stat Block Pathfinder + Mundane Equipment : 10= Riding dog.
+@Version,1,What version of d20 do you use?,LOAD from Permanent Variables,3.5,Pathfinder
+
+# -------------------------------------------------------------------------
+# This table displays the horse results
+
+:Start
+1,{If~%Type%=10?|Type={Dice~1d9}|}
+_[VersionNeeded][SetTypeVariables=%Type%][SetNormal]
+_<b><u>Horse Generator</u>:</b> ({Param~Version,%Version%}){Status~by Anthony Marker and Valminder (2004,2006)}<br><br>
+_|mod price=1|[Generate]<br>[ShowAge]
+
+:Alternate_ENC_URE
+1,{If~%Type%=10?|Type={Dice~1d9}|}
+_[VersionNeeded][SetTypeVariables=%Type%][SetNormal]
+_|mod price=1|[Generate_ENC_URE]
+
+:VersionNeeded
+1,{If~%Version%=1?|Version=[Permanent_Variables.Version]|}
+
+;Tab
+1,{Loop~5,&nbsp;}
+
+### NEW MOUNT ###
+:GenType
+1,|Type=1|[SetTypeVariables=%Type%][SetNormal]|mod price=1|[Generate]
+2,|Type=2|[SetTypeVariables=%Type%][SetNormal]|mod price=1|[Generate]
+3,|Type=3|[SetTypeVariables=%Type%][SetNormal]|mod price=1|[Generate]
+4,|Type=4|[SetTypeVariables=%Type%][SetNormal]|mod price=1|[Generate]
+5,|Type=5|[SetTypeVariables=%Type%][SetNormal]|mod price=1|[Generate]
+6,|Type=6|[SetTypeVariables=%Type%][SetNormal]|mod price=1|[Generate]
+7,|Type=7|[SetTypeVariables=%Type%][SetNormal]|mod price=1|[Generate]
+8,|Type=8|[SetTypeVariables=%Type%][SetNormal]|mod price=1|[Generate]
+9,|Type=9|[SetTypeVariables=%Type%][SetNormal]|mod price=1|[Generate]
+
+:GenTypeAlt
+1,[GenType=%Type%]
+
+:Generate
+1,<b><u>Type</u>:</b> <font color=purple>%TypeName%</font><br>
+_<b>Color:</b> [Color=%Type%].<br>-Description: %ColorDescription%<br>
+_<b>Age:</b> [Age]<br>
+_<b>Size:</b> [Sizecheck=%Type%] [SizeFinalCalc]<br>
+_<b>Food Requirements:</b> [Food]<br>
+_<b>Unusual Characteristics:</b> [Characteristics+%CharMod%]<br>
+_<b>Trick:</b> [Tricks=%Type%].<br>
+_<b>Temperment:</b> [Temperment+%TemperMod%]<br>
+_<b>Speed:</b> %Speed% feet per round {If~%Speed%!=%NormalSpeed%? (Normal: %NormalSpeed%)}<br>
+_<b>Overland Travel:</b> %TravelDist% miles per day {If~%TravelDist%!=%NormalOverland%? (Normal: %NormalOverland%)}<br>
+_<b>Armor Class:</b> %ArmorClass%<br>
+_<b>Hit Points:</b>|ToughMod<10||HitPoints+%ToughMod%| {If~%HitPoints%>%MaxHp%? %MaxHp%/%HitPoints%} (Normal Average: %AvgHp%)<br>
+_<b>Value:</b> {Ceil~%Cost%} gp {If~{Ceil~%Cost%}!=%NormalCost%? (Normal: %NormalCost% gp)}<br>
+_<b>Asking</b>:[Price Modifier]|Cost*%mod price%| {Ceil~%Cost%} gp<br>
+_{Reset~PoorCharacteristics}{Reset~GoodCharacteristics}
+
+:Generate_ENC_URE
+1,<b><u>Type</u>:</b> <font color=purple>%TypeName%</font><br>
+_<b>Color:</b> [Color=%Type%].<br>-Description: %ColorDescription%<br>
+_<b>Age:</b> [Age]<br>
+_<b>Size:</b> [Sizecheck=%Type%] [SizeFinalCalc]<br>
+_<b>Food Requirements:</b> [Food]<br>
+_<b>Unusual Characteristics:</b> [Characteristics+%CharMod%]<br>
+_<b>Trick:</b> [Tricks=%Type%].<br>
+_<b>Temperment:</b> [Temperment+%TemperMod%]<br>
+_<b>Speed:</b> %Speed%' {If~%Speed%!=%NormalSpeed%? (Normal: %NormalSpeed%)}{Space~5}
+_<b>Overland Travel:</b> %TravelDist% miles per day {If~%TravelDist%!=%NormalOverland%? (Normal: %NormalOverland%)}<br>
+_<b>Armor Class:</b> %ArmorClass%{Space~5}
+_<b>Hit Points:</b>|ToughMod<10||HitPoints+%ToughMod%| {If~%HitPoints%>%MaxHp%? %MaxHp%/%HitPoints%} (Normal Average: %AvgHp%)<br>
+_<b>Value:</b> {Ceil~%Cost%} gp {If~{Ceil~%Cost%}!=%NormalCost%? (Normal: %NormalCost% gp)}{Space~5}
+_<b>Asking</b>:[Price Modifier]|Cost*%mod price%| {Ceil~%Cost%} gp<br>
+_{Reset~PoorCharacteristics}{Reset~GoodCharacteristics}
+
+:Generate2
+1,<b><u>Type</u>:</b> %TypeName%<br>
+_<b><u>Description</u>:</b><br>
+_<u>Color:</u> [Color=%Type%].<br>-Description: %ColorDescription%<br>
+_<u>Age:</u> [Age]<br>
+_<u>Size:</u> [Sizecheck=%Type%] [SizeFinalCalc]<br>
+_<u>Food Requirements:</u> [Food]<br>
+_<b><u>Special</u>:</b><br>
+_<u>Unusual Characteristics:</u> [Characteristics+%CharMod%]<br>
+_<u>Trick:</u> [Tricks=%Type%].<br>
+_<u>Temperment:</u> [Temperment+%TemperMod%]<br>
+_<b><u>Miscellaneous</u>:</b><br>
+_<u>Speed:</u> %Speed% feet per round {If~%Speed%!=%NormalSpeed%? (Normal: %NormalSpeed%)}<br>
+_<u>Overland Travel:</u> %TravelDist% miles per day {If~%TravelDist%!=%NormalOverland%? (Normal: %NormalOverland%)}<br>
+_<u>Armor Class:</u> %ArmorClass%<br>
+_<u>Hit Points:</u>|ToughMod<10||HitPoints+%ToughMod%| {If~%HitPoints%>%MaxHp%? %MaxHp%/%HitPoints%} (Normal Average: %AvgHp%)<br>
+_<b><u>Cost</u>:</b><br>
+_<u>Value:</u> {Ceil~%Cost%} gp {If~{Ceil~%Cost%}!=%NormalCost%? (Normal: %NormalCost% gp)}<br>
+_<u>Asking</u>:[Price Modifier]|Cost*%mod price%| {Ceil~%Cost%} gp<br>
+_{Reset~PoorCharacteristics}{Reset~GoodCharacteristics}
+
+# --------------------------------------------------------------------------
+
+;Price Modifier
+1,|Temp=0.05||Temp*{Dice~1d10}||mod price={Calc~(1-%Temp%)}|
+2,|Temp=0.05||Temp*{Dice~1d4}||mod price={Calc~(1-%Temp%)}|
+5,|mod price=1|
+2,|Temp=0.05||Temp*{Dice~1d10}||mod price={Calc~(1+%Temp%)}|
+1,|Temp=0.05||Temp*{Dice~2d10}||mod price={Calc~(1+%Temp%)}|
+
+# -------------------------------------------------------------------------
+# These tables determine the horse's color
+
+### NEW MOUNT ###
+;Color
+1,[PonyColor]
+2,[PonyColor]
+3,[CommonColors]
+4,[CommonColors]
+5,[CommonColors]
+6,[CommonColors]
+7,[DonkeyColor]
+8,[DonkeyColor]
+9,[StonebredColor]
+
+;DonkeyColor
+3,Gray (Light)|TemperMod-2||ColorDescription=This is a varied mixture of black and white hairs on a black skin.|
+3,Onager|TemperMod+0||ColorDescription=Its back and legs are rusty brown and its belly white. It has a black tail tuft, a short, stiff black mane, and a black spinal stripe lined with white on either side.|
+3,Sandy-colored|TemperMod+0||ColorDescription=This is a sandy-colored coat with lighter-colored legs and belly, a short erect black mane, a black spinal stripe, and a black tail tuft.|
+1,[CommonColors]
+
+;CommonColors
+1,Bay [Markings]|TemperMod-1||ToughMod+1||ColorDescription=The color varies from a dull reddish-brown to a golden shade that is nearly chesnut.|
+2,Black [Markings]|TemperMod+1||ColorDescription=Black pigment is present throughout, including both skin and hair.|
+9,Brown [Markings]|ToughMod+1||ColorDescription=The coat is a mixture of black and brown hair.|
+2,Chestnut [Markings]|TemperMod+1||ToughMod-2||ColorDescription=A red-gold color with a number of varying shades.|
+1,Cream [Markings]|ColorDescription=This color is a result of unpigmented skin. The eyes of these horses are always pink or blue in color.|
+1,Dark Bay [Markings]|TemperMod-1||ToughMod+1||ColorDescription=The predominant pigment is brown but the muzzle is bay (from a reddish-brown to a golden shade nearly chesnut). The legs, mane, and tail are black.|
+1,Dark Brown [Markings]|ToughMod+1||ColorDescription=Black is the predominant pigment, but the muzzle, and sometimes the flanks, are brown.|
+1,Gray [Markings]|TemperMod-2||ColorDescription=This is a varied mixture of black and white hairs on a black skin.|
+1,Liver Chestnut [Markings]|TemperMod+1||ToughMod-2||ColorDescription=This coat is the dark red color of raw liver.|
+2,{If~%Type%=3?[Pinto]/[CommonColors]}
+1,White (gray) [Markings]|TemperMod+1||ToughMod-1||ColorDescription=This is a mixture mainly white hairs with some black hairs on a black skin.|
+2,[SpecialColors]
+
+;PonyColor
+3,Gray|TemperMod-2||ColorDescription=This is a varied mixture of black and white hairs on a black skin.|
+3,White (gray)|TemperMod+1||ToughMod-1||ColorDescription=This is a mixture mainly white hairs with some black hairs on a black skin.|
+3,Chestnut|TemperMod+1||ToughMod-1||ColorDescription=A red-gold color with a number of varying shades.|
+1,[CommonColors]
+
+;StonebredColor
+4,Gray (Dark)|TemperMod+1||ColorDescription=This is a varied mixture of black and brown hairs on a black skin.|
+1,Dark Bay|TemperMod-1||ToughMod+1||ColorDescription=The predominant pigment is brown but the muzzle is bay (from a reddish-brown to a golden shade nearly chesnut). The legs, mane, and tail are black.|
+2,Dark Brown|ToughMod+1||ColorDescription=Black is the predominant pigment, but the muzzle, and sometimes the flanks, are brown.|
+4,Black|TemperMod+1||ColorDescription=Black pigment is present throughout, including both skin and hair.|
+1,[CommonColors]
+
+;Pinto
+1,Black Pinto [Markings]|TemperMod-1||ToughMod+1||SizeMod-2||ColorDescription=Large, irregular color markings - most commonly black (or dark) and white.|
+1,Brown Pinto [Markings]|TemperMod-1||ToughMod+1||ColorDescription=Large, irregular color markings - most commonly black (or dark) and white.|
+
+:Appaloosa
+1,Appaloosa|SizeMod-2|||ToughMod+1||ColorDescription=This is a spotted pattern of markings; it most commonly has solid-colored foreparts and small, dark, round or oval spots over the loin and hips.|
+
+;SpecialColors
+1,Albino|ToughMod-1||ColorDescription=An all-white animal, an albino is the result of a complete absence of pigmentation in both the skin and hair. These horses are always pinkeyed.|
+1,{If~%Type%=3?[Appaloosa]/[SpecialColors]}
+2,Blue Roan [Markings]|ToughMod+1||ColorDescription=This is a blue-tinged gray that is a result of white hair on a body with black or brown pigmentation.|
+2,Dapple-gray [Markings]|TemperMod-2||SizeMod+1||ColorDescription=This is a storm cloud gray, darker than a usual gray, with small patches and flecks of lighter coloring on the chest, belly, and hindquarters.|
+1,Dark Brown with light mane and tail{If~{Dice~1d2}=1? [Markings]}|ToughMod+1||ColorDescription=Black is the predominant pigment, but the muzzle, and sometimes the flanks, are brown.|
+1,Dun|ToughMod+1||SizeMod-1||ColorDescription=This is a primitive coloring that is characteristic of wild horses. It can be either a yellow dun (a sandy sort of yellow) or a blue dun. In the latter instance, the skin of the horse is black. The main and tail are usually dark.|
+1,Iron-gray{If~{Dice~1d2}=1? [Markings]}|TemperMod+1||ToughMod+1||SizeMod+2||ColorDescription=This is a varied mixture of black, silver, and white hairs on a black skin.|
+1,Odd-colored [Markings]|ColorDescription=Any coat that has more than two different colors ({Loop~{Dice~1d3+2},[~Miscellaneous.Color], }).|
+1,Palomino|ToughMod-1||ColorDescription=A rich yellow-gold coat with a white mane and tail.|
+1,Piebald [Markings]|ColorDescription=The coat of these horses is made up of large, irregular patches of black and white, similar in appearance to common milk cows.|
+1,Red Roan [Markings]|ToughMod+1||ColorDescription=An earthy red the result of bay or bay-brown body color (from a reddish-brown to a golden shade nearly chesnut) with a mixture of white hairs overall.|
+1,Skewbald [Markings]|ColorDescription=The coat of these horses is made up of large, irregular patches of [~Miscellaneous.Color] and white, similar in appearance to common milk cows.|
+1,Sorrel|ToughMod+1||TemperMod+1||ColorDescription=A sorrel is a chestnut red-brown coloring somewhere between bright bay and yellow chestnut. The mane and tail are both white or reddish in color.|
+2,Strawberry Roan [Markings]|ToughMod+1||ColorDescription=This is a dusty or smokey rose color that is the result of a chesnut body color with a mixture of white hairs.|
+
+# -------------------------------------------------------------------------
+# These tables determine the age of the mount
+
+;Age
+1,[Younger]
+8,Mature |Age={Dice~4d4+4}|(%Age% years) <font size=1>(5-20; no modifiers)</font>
+1,[Older]
+
+;Younger
+2,Foal |Age={Dice~2d12}|(%Age% months)|Age/12| <font size=1>(under 2 years old; -4 Str / Con; -2 Dex / Wis / Cha; <font color=red>modify hp</font>)</font>|Cost/3|
+8,Young Adult |Age={Dice~1d3+1}|(%Age% years) <font size=1>(2-4; -1 Str / Dex / Wis / Cha)</font>|Cost*0.66|
+
+;Older
+6,Middle-Aged |Age={Dice~1d10+20}|(%Age% years) <font size=1>(21-30; -1 Str / Dex / Con; +1 Wis / Cha; <font color=red>modify hp</font>)</font>|Cost*0.75|
+3,Old |Age={Dice~1d10+30}|(%Age% years) <font size=1>(31-40; -3 Str / Dex / Con; +2 Wis / Cha; <font color=red>modify hp</font>)</font>|Cost/2|
+1,Venerable {If~{Dice~1d10}=1? |Age={Dice~1d20+50}|/|Age={Dice~1d10+40}|}(%Age% years) <font size=1>(41-50+; -6 Str / Dex / Con; +3 Wis / Cha; <font color=red>modify hp</font>)</font>|Cost/4|
+
+:ShowAge
+1,<font size=1><u>Horses Age Categories</u>: (modifiers to be added, not cumulative)<br>
+_Foal (under 2): -4 Str / Con; -2 Dex / Wis / Cha.<br>
+_Young Adult (2-4): -1 Str / Dex / Wis / Cha.<br>
+_Mature (5-20): nothing.<br>
+_Middle Age (21-30): -1 Str / Dex / Con; +1 Wis / Cha.<br>
+_Old (31-40): -3 Str / Dex / Con; +2 Wis / Cha.<br>
+_Venerable (41-50+): -6 Str / Dex / Con; +3 Wis / Cha.</font><br>
+
+# -------------------------------------------------------------------------
+# These tables determine the horse's markings
+
+:Markings
+1,{If~%Temp%<=2? {If~{Dice~1d10}<4? [MarkingsChoosing]}/[MarkingsChoosing]}
+
+:MarkingsChoosing
+1,([Pattern]) <b>with</b>|Temp2=0|
+_|Temp=[Legs]|{If~%Temp%!=none? %Temp%,|Temp2+1|}
+_|Temp=[Body]|{If~%Temp%!=none? %Temp%,|Temp2+1|}
+_|Temp=[Muzzle]|{If~%Temp%!=none? %Temp%,|Temp2+1|}
+_|Temp=[Facial]|{If~%Temp%!=none? %Temp%|Temp2+1|}
+_{If~%Temp2%=0? no markings/}
+
+;Pattern
+8,whole/solid coloring
+1,flecked
+1,flea-bitten
+
+;Legs
+7,none
+3,[FeetNumber]
+
+;FeetNumber
+1,one white [Sock]
+3,two white [Socks]
+1,three white [Socks]
+5,four white [Socks]
+
+;Sock
+4,sock
+4,stocking
+1,foot
+
+;Socks
+4,socks
+4,stockings
+1,feet
+
+;Body
+8,none
+1,flesh marks
+1,zebra marks
+
+;Muzzle
+7,none
+1,markings ringing the nostrils of the horse
+1,white muzzle and nostrils
+1,white lips
+
+;Facial
+5,none
+1,facial blaze
+1,facial star
+1,facial stripe
+1,facial star and stripe
+1,white face
+
+:Markings2
+1-2,([Pattern]) <b>with</b> no markings
+3-5,<b>with</b> a white [Face]
+6-8,<b>with</b> a white [Face] and [Feet]
+9-10,<b>with</b> [Feet]
+
+# -------------------------------------------------------------------------
+# These tables determine the Size based on breed. 
+
+### NEW MOUNT ###
+;Sizecheck
+1,[PonySize+%SizeMod%]
+2,[PonySize+%SizeMod%]
+3,[LHorseSize+%SizeMod%]
+4,[LHorseSize+%SizeMod%]
+5,[HHorseSize+%SizeMod%]
+6,[HHorseSize+%SizeMod%]
+7,[PonySize+%SizeMod%]
+8,[PonySize+%SizeMod%]
+9,[PonySize+%SizeMod%]
+
+;PonySize
+1,|Size1=7||Size1+%SizeMod%||Size1>6||Size1<8||Size2={Dice~1d3-1}|%Size1%.%Size2% hands (Small size)
+2,|Size1=11||Size1+%SizeMod%||Size1>9||Size1<13||Size2={Dice~1d3-1}|%Size1%.%Size2% hands
+5,|Size1=13||Size1+%SizeMod%||Size1>11||Size1<14||Size2={Dice~1d3-1}|%Size1%.%Size2% hands
+2,|Size1=14||Size1+%SizeMod%||Size1>12||Size1<14||Size2={Dice~1d3-1}|%Size1%.%Size2% hands
+
+;LHorseSize
+2,|Size1=15||Size1+%SizeMod%||Size1>14||Size1<17||Size2={Dice~1d4-1}|%Size1%.%Size2% hands
+3,|Size1=16||Size1+%SizeMod%||Size1>15||Size1<17||Size2={Dice~1d4-1}|%Size1%.%Size2% hands
+4,|Size1=17||Size1+%SizeMod%||Size1>16||Size1<18||Size2={Dice~1d4-1}|%Size1%.%Size2% hands
+1,|Size1=18||Size1+%SizeMod%||Size1>16||Size1<18||Size2={Dice~1d4-1}|%Size1%.%Size2% hands
+
+;HHorseSize
+2,|Size1=16||Size1+%SizeMod%||Size1>15||Size1<18||Size2={Dice~1d4-1}|%Size1%.%Size2% hands
+3,|Size1=16||Size1+%SizeMod%||Size1>16||Size1<18||Size2={Dice~1d4-1}|%Size1%.%Size2% hands
+4,|Size1=17||Size1+%SizeMod%||Size1>16||Size1<18||Size2={Dice~1d4-1}|%Size1%.%Size2% hands
+1,|Size1=18||Size1+%SizeMod%||Size1>16||Size1<19||Size2={Dice~1d4-1}|%Size1%.%Size2% hands
+
+:SizeFinalCalc
+1,|SizeFinal={Calc~((%Size1%*4)+(4/10*%Size2%))}||SizeFinal/12||Temp={Calc~(%SizeFinal%-{Trunc~%SizeFinal%})}||Temp*12|({Trunc~%SizeFinal%}' {Trunc~%Temp%}" at shoulder)
+
+# -------------------------------------------------------------------------
+# These tables determine the food requirements of the horses
+
+:Food
+1,<font size=1>{If~%Size1%<8? |Food=6||FoodConcIn=1||FoodConcHW=2|}
+_{If~%Size1%=8? |Food=8||FoodConcIn=1||FoodConcHW=2|}
+_{If~%Size1%=9? |Food=10||FoodConcIn=1||FoodConcHW=2|}
+_{If~%Size1%=10? |Food=12||FoodConcIn=1||FoodConcHW=2|}
+_{If~%Size1%=11? |Food=14||FoodConcIn=1||FoodConcHW=2|}
+_{If~%Size1%=12? |Food=16||FoodConcIn=1||FoodConcHW=2|}
+_{If~%Size1%=13? |Food=18||FoodConcIn=1||FoodConcHW=2|}
+_{If~%Size1%=14? |Food=20||FoodConcIn=2||FoodConcHW=3|}
+_{If~%Size1%=15? |Food=24||FoodConcIn=6||FoodConcHW=11|}
+_{If~%Size1%=16? |Food=28||FoodConcIn=10||FoodConcHW=15|}
+_{If~%Size1%=17? |Food=32||FoodConcIn=14||FoodConcHW=19|}
+_{If~%Size1%=18? |Food=36||FoodConcIn=18||FoodConcHW=23|}
+_{If~%Size1%=19? |Food=40||FoodConcIn=22||FoodConcHW=27|}
+_|Water={Calc~(%Size1%/2)}|%Food% lbs bulk food/day <b>and</b> concentrated food:<br>
+_<u>Inactive</u>: %FoodConcIn% lbs/day.   <u>Active</u>: %FoodConcHW% lbs/day.  <u>Water</u>: %Water% gallons/day.<br>
+_<u>Bulk Food</u>: grass/hay, and fresh vegetables/fruits (apples, carrots, turnips). <u>Concentrated Food</u>: grains (oat, barley, corn, bran).</font>
+
+# -------------------------------------------------------------------------
+# This table determines the horse's temperment
+
+;Temperment
+3,[Placid].
+11,Even-tempered.
+3,[Tempermental].
+
+;Placid
+1,Accepts master only (unless master is in the saddle, this horse accepts no other rider or passenger)|Cost={Calc~(%Cost%*(100+{Dice~1d4*5})/100)}|
+1,Affectionate (fond of its master or any other individual with whom it normally comes into contact, subtract <b>{Dice~1d2+1}</b> from any DC when working with this animal)|Cost={Calc~(%Cost%*(100+{Dice~2d6})/100)}|
+1,Fearless ({Color~Green,+2 morale} vs fear; loud noises, sudden movement, etc. rarely upset this animal)|Cost={Calc~(%Cost%*(100+{Dice~1d2*5})/100)}|
+5,Gentle (tolerant. Good for inexperienced riders, children and ladies of gentle birth) (|Temp={Dice~2d4}|{Color~Green,-%Temp% DC}|Temp-2||Temp>1| Ride and Handle Animal checks)|Cost={Calc~(%Cost%*(100+(%Temp%*3))/100)}|
+1,Loves particular food (sweet grass, apples, carrots; it can be easily coaxed with such offerings)
+10,Placid ({Color~Green,-{Dice~1d2} DC} Ride and Handle Animal checks)
+
+;HostileFearful
+1,hostile to
+1,fearful of
+
+;Tempermental
+1,Bites (20 <b>percent</b> likely to attempt to take a chunk out of anyone within biting range)|Cost={Calc~(%Cost%*(100-{Dice~2d3*5})/100)}|
+1,Bucks or rears unexpectedly (10 <b>percent</b> per hour to buck for no particular reason)|Cost={Calc~(%Cost%*(100-{Dice~2d4*5})/100)}|
+1,Desires freedom (it seeks its freedom at every opportunity. If it is not tethered or hobbled when not being ridden, it will make a break for it. It won't openly fight a rider but it is uncooperative, add <b>{Dice~1d2}</b>  to required Ride and Handling DC Checks)
+1,Dislikes [~Creatures.Animal] ([~HostileFearful])
+1,Dislikes [~Creatures.Animal2] ([~HostileFearful])
+1,Dislikes [~Creatures.Humanoid2] ([~HostileFearful])
+1,Dislikes certain individual (for no particular reason, it takes an instant dislike to a particular individual. It is openly hostile and uncooperative to this individual - biting, kicking, nudging, and otherwise being a nuisance at every opportunity)
+1,Dislikes certain sex ([~Miscellaneous.Gender]) (it won't tolerate being handled or ridden by this particular sex. It is uncooperative and has 75 <b>percent</b> of bucking or rearing to dislodge such an individual from its back)
+1,Headstrong (25 <b>percent</b> per hour of being ridden to either attempt to head in a different direction or to pause to either eat or drink for 1d10 minutes, ignoring all attempts to make it do otherwise. DC{Calc~({Dice~1d3*5}+10)} to regain control immediately)|Cost={Calc~(%Cost%*(100-{Dice~2d3*5})/100)}|
+1,Intolerant of poor handling (these high-bred types won't put up with inexperienced rider or handler and are quite likely to bite, kick, buck, or rear. 75 <b>percent</b> of this each 10 minutes of "abuse")|Cost={Calc~(%Cost%*(100-{Dice~2d3*5})/100)}|
+1,Kicks (nervous, kicks anyone too near to its hindquarters)|Cost={Calc~(%Cost%*(100-{Dice~2d4*5})/100)}|
+1,Loves particular food (sweet grass, apples, carrots; it can be easily coaxed with such offerings)
+1,Refuses to gallop (unless beaten with a riding crop, spurred, or otherwise encouraged DC{Calc~({Dice~1d3*5}+20)}, it never attempts to reach its full galloping speed)|Cost={Calc~(%Cost%*(100-{Dice~2d6})/100)}|
+1,Single rider only (refuses to be overburdened and won't take a second passenger, fighting and protesting if this is attempted. It won't allow itself to be encumbered over a light load)
+1,Skittish (-2 vs fear; it tends to balk at the first sign of danger, loud noises, sudden movement, etc. and will either buck, rear, flee, or freeze)|Cost={Calc~(%Cost%*(100-{Dice~2d6})/100)}|
+1,Steps on feet (if the person leading the horse stops or if anyone is within range, the horse deliberately steps on that person's foot 20 <b>percent</b> of the time for 1-2 damage)|Cost={Calc~(%Cost%*(100-{Dice~2d6})/100)}|
+1,Stops unexpectedly (it isn't exerting itself and takes random "breaks". Each hour: light load 25 <b>percent</b>; medium load 50 <b>percent</b>; heavy load 90 <b>percent</b>. It delays 1d10 minutes, snorting angrily and adamantly refusing any attempts to get it to continue moiving)|Cost={Calc~(%Cost%*(100-{Dice~2d4*5})/100)}|
+15,Tempermental (Stubborn - {Color~Red,+{Dice~1d2} DC} Ride and Handle Animal checks)
+5,Wild (|Temp={Dice~2d4}|{Color~Red,+%Temp% DC}|Temp-2||Temp>1| Ride and Handle Animal checks)|Cost={Calc~(%Cost%*(100-(%Temp%*5))/100)}|
+
+# -------------------------------------------------------------------------
+# These tables determines the horse's unusual characteristics
+
+;Characteristics
+5,<br>[Tab]-[PoorCharacteristics].<br>[Tab]-[PoorCharacteristics].
+10,<br>[Tab]-[PoorCharacteristics].
+60,None
+15,<br>[Tab]-[GoodCharacteristics].
+10,<br>[Tab]-[GoodCharacteristics].<br>[Tab]-[GoodCharacteristics].
+
+;!PoorCharacteristics
+1,Bone-jarring gait (poor alignment of the shoulders causes this animal to be particularly uncomfortable to ride. Rider must stop 1d10 minutes each hour to rest and stretch and give himself a break from this torture; failure renders the rider fatigued)|Cost={Calc~(%Cost%*(100-{Dice~2d4*5})/100)}|
+1,Chews fences (it can be an annoying habit, but it can be an indicator of parasites in it's stomach or simply a poor diet)
+2,Fragile|ToughMod-{Dice~1d4+2}||Cost={Calc~(%Cost%*(100-{Dice~2d6})/100)}|
+1,Freezes when frightened (it freezes on the spot, refusing to move, DC{Calc~({Dice~1d3*5}+10)} to make it move)|Cost={Calc~(%Cost%*(100-{Dice~1d2*5})/100)}|
+2,Low overland travel endurance|TravelDist-{Dice~2d6}||Cost={Calc~(%Cost%*(100-{Dice~1d4*5})/100)}|
+1,Poor charisma (-2 Cha)|Cost={Calc~(%Cost%*95/100)}|
+1,Poor constitution (-2 Con; <font color=red>modify hp</font>)|Cost={Calc~(%Cost%*80/100)}|
+1,Poor dexterity (-2 Dex)|ArmorClass-1||Cost={Calc~(%Cost%*80/100)}|
+1,Poor intelligence (-2 Int)|Cost={Calc~(%Cost%*95/100)}|
+1,Poor strength (-2 Str)|Cost={Calc~(%Cost%*80/100)}|
+1,Poor wisdom (-2 Wis)|Cost={Calc~(%Cost%*90/100)}|
+1,Rubs against fences (lives for pleasure and may be just dying for a good grooming. It can also be infested with fleas, ticks, mites, or lice)
+2,Slow|Temp={Max~5,{Calc~({Dice~1d3-1}*5)}}||Speed-%Temp%||Cost={Calc~(%Cost%*(100-(%Temp%*3))/100)}|
+1,Soft hooves (needs frequent shoeing)|Cost={Calc~(%Cost%*(100-{Dice~1d2*3})/100)}|
+2,{If~%Version%=2?[PoorCharacteristics_ThickSkinned]/[PoorCharacteristics]}
+1,Very slow |Temp={Max~10,{Dice~1d3*5}}||Speed-%Temp%||Cost={Calc~(%Cost%*(100-(%Temp%*3))/100)}|
+2,Won't jump (<b>-{Dice~2d3}</b> Jump skill)|Cost={Calc~(%Cost%*(100-{Dice~1d2*5})/100)}|
+
+:PoorCharacteristics_ThickSkinned
+1,Thin skinned (-1 penalty to natural Armor)|ArmorClass-1||Cost={Calc~(%Cost%*(100-{Dice~1d4*5})/100)}|
+
+;!GoodCharacteristics
+1,Blind sense (Blind-Fight as bonus feat)|Cost={Calc~(%Cost%*(100+{Dice~2d4*5})/100)}|
+1,Dodger (Dodge as bonus feat)|Cost={Calc~(%Cost%*(100+{Dice~2d4*5})/100)}|
+1,Exceptional charisma (+2 Cha)|Cost={Calc~(%Cost%*105/100)}|
+1,Exceptional constitution (+2 Con; <font color=red>modify hp</font>)|Cost={Calc~(%Cost%*120/100)}|
+1,Exceptional dexterity (+2 Dex)|ArmorClass+1||Cost={Calc~(%Cost%*120/100)}|
+1,Exceptional intelligence (+2 Int)|Cost={Calc~(%Cost%*110/100)}|
+1,Exceptional strength (+2 Str)|Cost={Calc~(%Cost%*120/100)}|
+1,Exceptional wisdom (+2 Wis)|Cost={Calc~(%Cost%*110/100)}|
+1,Fast|Temp={Max~5,{Calc~({Dice~1d3-1}*5)}}||Speed+%Temp%||Cost={Calc~(%Cost%*(100+(%Temp%*4))/100)}|
+1,Fast reflexes (Lightning reflexes as bonus feat)|Cost={Calc~(%Cost%*(100+{Dice~2d3*5})/100)}|
+1,Finely tuned senses (Alertness as bonus feat)|Cost={Calc~(%Cost%*(100+{Dice~2d3*5})/100)}|
+1,Fighting steed (Weapon Focus as bonus feat)|Cost={Calc~(%Cost%*(100+{Dice~2d3*5})/100)}|
+1,Good hearing {If~%Version%=2?(Skill Focus (listen) as bonus feat)/(+3 Perception (Hearing))}|Cost={Calc~(%Cost%*(100+{Dice~2d3*5})/100)}|
+1,Good sight {If~%Version%=2?(Skill Focus (spot) as bonus feat)/(+3 Perception (Vision))}|Cost={Calc~(%Cost%*(100+{Dice~2d3*5})/100)}|
+2,High overland travel endurance|TravelDist+{Dice~2d6}||Cost={Calc~(%Cost%*(100+{Dice~1d4*5})/100)}|
+1,Loyal (Iron Will as bonus feat)|Cost={Calc~(%Cost%*(100+{Dice~2d3*5})/100)}|
+1,Resistant (Great Fortitude as bonus feat)|Cost={Calc~(%Cost%*(100+{Dice~2d3*5})/100)}|
+1,[GoodCharacteristics_Robust=%Version%]
+1,{If~%Version%=2?[GoodCharacteristics_Run]/[GoodCharacteristics]}
+1,Sneaky beast (Skill Focus ({If~%Version%=2?move silently/sneak}) as bonus feat)|Cost={Calc~(%Cost%*(100+{Dice~2d3*5})/100)}|
+1,Strong (+2 Str for carrying capacity)|Cost={Calc~(%Cost%*(100+{Dice~2d6})/100)}|
+1,Strong swimmer (Skill Focus (Swim) as bonus feat)|Cost={Calc~(%Cost%*(100+{Dice~2d3*5})/100)}|
+1,Sure-footed (Skill Focus ({If~%Version%=2?Balance/Acrobatics}) as bonus feat)|Cost={Calc~(%Cost%*(100+{Dice~2d3*5})/100)}|
+2,Thick skinned (+1 bonus to natural armor)|ArmorClass+1||Cost={Calc~(%Cost%*(100+{Dice~2d2*5})/100)}|
+2,Tough|ToughMod+{Dice~1d6+2}||Cost={Calc~(%Cost%*(100+{Dice~3d3*2})/100)}|
+2,Tough hooves (does not require shoeing)|Cost={Calc~(%Cost%*(100+{Dice~1d2*3})/100)}|
+1,Very Fast|Temp={Max~10,{Calc~({Dice~1d3}*5)}}||Speed+%Temp%||Cost={Calc~(%Cost%*(100+(%Temp%*4))/100)}|
+2,Willing jumper (<b>+{Dice~2d3}</b> Jump)|Cost={Calc~(%Cost%*(100+{Dice~1d2*5})/100)}|
+
+:GoodCharacteristics_Robust
+1-2,Robust (Endurance as Bonus feat)|Cost={Calc~(%Cost%*(100+{Dice~2d3*5})/100)}|
+3,Robust (Toughness as Bonus feat)|Cost={Calc~(%Cost%*(100+{Dice~2d3*5})/100)}|
+
+:GoodCharacteristics_Run
+1,Runner (Run as bonus feat)|Cost={Calc~(%Cost%*(100+{Dice~2d4*5})/100)}|
+
+# -------------------------------------------------------------------------
+# These tables determine the Tricks known by the mount (Handle Animal). 
+
+### NEW MOUNT ###
+:Tricks
+1,{If~%Age%>=2? [TrickRandom]/none}
+2,{If~%Age%>=5? [~TrickWar]/not fully trained for combat riding}
+3,{If~%Age%>=2? [TrickRandom]/none}
+4,{If~%Age%>=5? [~TrickWar]/not fully trained for combat riding}
+5,{If~%Age%>=2? [TrickRandom]/none}
+6,{If~%Age%>=5? [~TrickWar]/not fully trained for combat riding}
+7,{If~%Age%>=2? [TrickRandom]/none}
+8,{If~%Age%>=2? [TrickRandom]/none}
+9,{If~%Age%>=2? [TrickRandom]/none}
+
+;TrickRandom
+70,none
+20,[~TrickChoice]|Cost={Calc~(%Cost%*115/100)}|
+5,{If~%Age%>=5? [Tab][GenPurpose]/none}
+5,[~TrickChoice], [~TrickChoice]|Cost={Calc~(%Cost%*125/100)}|
+
+:GenPurpose
+1,[~Purpose]|Cost={Calc~(%Cost%*140/100)}|
+
+;Purpose
+1,Adventuring Dungeon Animal (assist attack, assist defend, defend, stay)
+3,Adventuring Pack Animal (come, heel, stay, work)
+1,Combat Riding (attack, come, defend, down, guard, heel)
+3,Heavy Labor (come, work)
+1,Monk (attack, down, pin, subdue)
+1,Performance (come, fetch, heel, perform, stay)
+5,Riding (come, heel, stay)
+1,War (armor, attack, down, stay)
+
+;!TrickChoice
+2,Ambush
+1,Armor
+2,Assist Attack
+2,Assist Defend
+5,Assist Track
+1,Attack
+1,Bull Rush
+1,Calm
+5,Come
+1,Defend
+5,Fetch
+1,Flush Out
+5,Heel
+5,Home
+3,Hunt
+1,Overrun
+5,Perform
+3,Pin
+1,Seek
+3,Stalk
+5,Stay
+1,Steal
+3,Subdue
+5,Work
+
+;TrickWar
+1,Adventuring Dungeon Animal (assist attack, assist defend, defend, stay)
+3,Combat Riding (attack, come, defend, down, guard, heel)
+1,Monk (attack, down, pin, subdue)
+1,War (armor, attack, down, stay)
+
+# -------------------------------------------------------------------------
+# This table determines the horse's type if the type is not selected
+
+### NEW MOUNT ###
+:GenType2
+1-2,|Type=1|
+3,|Type=2|
+4-6,|Type=3|
+7,|Type=4|
+8-9,|Type=5|
+10,|Type=6|
+11,|Type=7|
+12,|Type=8|
+13,|Type=9|
+
+# -------------------------------------------------------------------------
+# This table sets the horse variables depending on the type
+
+# If version = 3.5 ... {If~%Version%=2?/}
+
+### NEW MOUNT ###
+:SetTypeVariables
+1,|TypeName=Pony||TemperMod=0||Cost=30||HitPoints={If~%Version%=2?{Dice~2d8+2}/{Dice~2d8+4}}|
+_|AvgHp={If~%Version%=2?11/13}||MaxHp={If~%Version%=2?18/20}||Speed=40||TravelDist=32||ArmorClass={If~%Version%=2?13/11}|
+2,|TypeName={If~%Version%=2?WarPony/Pony (combat trained)}||TemperMod=2||Cost={If~%Version%=2?100/45}||HitPoints={Dice~2d8+4}|
+_|AvgHp=13||MaxHp=20||Speed=40||TravelDist=32||ArmorClass={If~%Version%=2?13/11}|
+#
+3,|TypeName=Light Horse||TemperMod=0||Cost=75||HitPoints={If~%Version%=2?{Dice~3d8+6}/{Dice~2d8+6}}|
+_|AvgHp={If~%Version%=2?19/15}||MaxHp={If~%Version%=2?30/22}||Speed={If~%Version%=2?60/50}||TravelDist={If~%Version%=2?48/40}||ArmorClass={If~%Version%=2?13/11}|
+4,|TypeName=Light {If~%Version%=2?Warhorse/Horse (combat trained)}||TemperMod=2||Cost={If~%Version%=2?150/110}||HitPoints={If~%Version%=2?{Dice~3d8+9}/{Dice~2d8+6}}|
+_|AvgHp={If~%Version%=2?22/15}||MaxHp={If~%Version%=2?33/22}||Speed={If~%Version%=2?60/50}||TravelDist={If~%Version%=2?48/40}||ArmorClass={If~%Version%=2?13/11}|
+#
+5,|TypeName=Heavy Horse||TemperMod=0||Cost=200||HitPoints={If~%Version%=2?{Dice~3d8+6}/{Dice~2d8+10}}|
+_|AvgHp=19||MaxHp={If~%Version%=2?30/26}||Speed={If~%Version%=2?60/50}||TravelDist={If~%Version%=2?48/40}||ArmorClass={If~%Version%=2?13/15}|
+6,|TypeName=Heavy {If~%Version%=2?Warhorse/Horse (combat trained)}||TemperMod=3||Cost={If~%Version%=2?400/300}||HitPoints={If~%Version%=2?{Dice~4d8+12}/{Dice~2d8+10}}|
+_|AvgHp={If~%Version%=2?30/19}||MaxHp={If~%Version%=2?44/26}||Speed=50||TravelDist={If~%Version%=2?40/32}||ArmorClass={If~%Version%=2?14/15}|
+#
+7,|TypeName=Donkey||TemperMod=0||Cost=8||HitPoints={If~%Version%=2?{Dice~2d8+2}/{Dice~2d8+4}}||AvgHp={If~%Version%=2?11/13}||MaxHp={If~%Version%=2?18/20}||Speed=30||TravelDist=24||ArmorClass={If~%Version%=2?13/11}|
+8,|TypeName=Mule||TemperMod=1||Cost=8||HitPoints={If~%Version%=2?{Dice~3d8+9}/{Dice~2d8+6}}||AvgHp={If~%Version%=2?22/15}||MaxHp={If~%Version%=2?33/22}||Speed={If~%Version%=2?30/40}||TravelDist={If~%Version%=2?24/32}||ArmorClass={If~%Version%=2?13/15}|
+9,|TypeName=Stonebred Pony||TemperMod=1||Cost=130||HitPoints={Dice~2d8+4}||AvgHp=13||MaxHp=20||Speed=30||TravelDist=24||ArmorClass=13|
+
+:SetNormal
+1,|NormalSpeed=%Speed%||NormalOverland=%TravelDist%||NormalCost=%Cost%||SizeMod=0|

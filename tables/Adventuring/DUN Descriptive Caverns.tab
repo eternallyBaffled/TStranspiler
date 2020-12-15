@@ -1,0 +1,254 @@
+# ------------------------------------------------------
+# Last Update: re-verified by Valminder Jan 10, 2012.
+# ------------------------------------------------------
+#
+# Descriptive Cavern Generator
+#
+#
+# by Joey Joe Joe
+# converted to TableSmith Sept. 2005
+#
+# This random generator can help you when drawing a map of a cavern
+# complex before a game session or if the players unexpectedly set off
+# into the Underdark and you have to 'wing it'.
+#
+# You can have the directions of 'left' 'right' and 'ahead' correspond
+# to cardinal directions for easy mapping, or they can be vague
+# descriptions that will allow more 'natural looking' maps.
+#
+# Sizes of 'large', 'small' etc. can reflect standards in your campaign
+# or specifics of this cavern complex.
+#
+# Add your own chance of encounters.
+#
+# Modified by Valminder, Sept 2005.
+#    Added some scenics with links to those tables:
+#       DUN Doors.Generate1
+#       DUN Dressing.Generate
+#
+
+
+;Start
+2,[condition][cave] [withwhat]
+3,[condition][tunnel] [chanceofscenic]
+
+;condition
+20,
+1,a worked 
+4,a natural 
+
+;cave
+4,long [cavern] [morecavern]
+4,wide [cavern] [morecavern]
+3,large [cavern] [morecavern]
+3,small [cavern]
+4,medium [cavern] [morecavern]
+2,[reversed] [shaped]-shaped [cavern] [morecavern]
+1,enormous [cavern] [morecavern]
+
+;cavern
+3,cave
+2,cavern
+1,opening
+2,chamber
+
+;shaped
+1,"S"
+1,"C"
+1,cross
+1,"L"
+1,triangular
+1,"Y"
+
+;reversed
+3,
+1,reversed
+
+;morecavern
+20,
+1,of irregular shape with several floor levels
+2,of irregular shape
+2,with several floor levels
+
+;!tunnel
+1,dead end
+1,exit to outside world
+1,[tunnel1] runs a long distance
+1,[tunnel1] runs in a twisty manner
+1,[tunnel1] only runs a short distance before turning into a [Start]
+3,[tunnel1] forks like a [forks]
+1,[tunnel1] heads [turndescript+1] downward
+1,[tunnel1] shrinks and narrows significantly
+5,[tunnel1] turns [turndescript] to the [leftorright]
+1,[tunnel1] has multiple branches to the left and right
+1,[tunnel1] has multiple branches to the [leftorright]
+1,[tunnel1] widens
+1,[tunnel1] leads upward
+1,{Lockout~tunnel,1}[tunnel] to where the [tunnel]
+1,[tunnel1] jags to the [leftorright] before continuing
+1,[tunnel1] makes a sharp 'U' turn
+
+;forks
+1,"T"
+1,"X"
+1,"Y" 
+
+;tunnel1
+4,tunnel
+1,passageway
+1,passage
+1,the way
+
+;turndescript
+3,
+1,slightly
+1,sharply
+
+;chanceofscenic
+6,
+1,with {AorAn~[scenic]}
+
+;leftorright
+1,left
+1,right
+
+;withwhat
+3,
+1,with {AorAn~[scenic]}
+7,with [exits]
+1,with [exits] and {AorAn~[scenic]}
+
+;!scenic
+1,rock slide [rockslide]
+1,set of bubbling [bubbling] pots
+1,series of [bracecondition] mine shaft braces [bracewhere]
+1,stalactite covered ceiling
+1,bunch of stalagmite pillars
+1,stream
+1,pool
+1,water dripping from the ceiling 
+1,[fallenrock] forming [pile] [pilewhere]
+1,stream of water flowing into a pool
+1,stagnant pool
+1,number of damp walls
+1,dusty floor
+1,ledge or drop off
+1,magnetic force that alters compass readings
+1,cliff or [condition] wall
+1,rushing wind
+1,gas cloud ([gascloud]) filling the way
+1,exposed crystal pattern on the [where] 
+1,abandoned piece of mining equipment ([miners])
+1,faint breeze
+1,series of terraces [terraces]
+1,crevasse [crevasse]
+2,[scenic] and {AorAn~[scenic]} 
+1,[scenic] and [exits]
+1,small alcove off to your [leftorright]
+1,series of small alcoves off both the left and right
+1,stale air
+1,eerily still air
+1,[pits] series of pits and holes in the floor
+2,door set in a wall<br>{Generate~0,Click to Generate Door (using the DUN Doors table),GenDoor}
+10,special happening ([~DUN Dressing.Generate])
+
+:GenDoor
+1,<hr>[DUN Doors.Generate1]<hr>
+
+;bubbling
+1,mud
+1,steam
+
+;pits
+1,concealed
+4,
+
+;where
+1,wall[plural]
+1,floor
+1,ceiling
+
+;bracecondition
+3,
+1,well maintained
+1,dilapidated
+1,splintering
+
+;bracewhere
+3,
+1,supporting the ceiling
+1,stacked along the wall
+1,scattered on the floor
+
+;fallenrock
+1,boulders
+1,rocks of all sizes
+1,stones
+1,dirt
+
+;pile
+1,a pile
+1,piles
+
+;pilewhere
+1,along the wall
+1,on the floor
+
+;miners
+1,[bracecondition] cart [cart]
+1,broken tool[plural] (pick, shovel, crowbar, hammer)
+1,signs of digging
+1,rusted cart rails
+1,broken roof braces
+1,[bracecondition] yoke with buckets filled with detrious (or is it raw diamonds?)
+
+;cart
+4,wheel
+1,
+
+;plural
+2,
+1,s
+
+;gascloud
+1,simply blocks vision
+1,causes coughing
+1,poisoned
+1,noxious smell that clings to garments and reduces your chance of surprise
+1,refreshes, add 1 hp, only works once per character per day
+
+;crevasse
+2,
+1,crossing your path
+
+;terraces
+3,
+1,leading up
+1,leading down
+1,leading up and down
+
+;rockslide
+6,
+1,blocking an exit
+1,partially blocking an exit
+
+;!exits
+4,no visible exits [hiddenexits]
+1,an exit on the opposite side
+2,an exit to your [leftorright]
+1,two other exits
+1,many exits
+1,several exits
+1,exit on far side
+1,a downward shaft
+1,upward exit
+1,another exit on this wall
+1,[exits] and [scenic]
+1,an exit below you
+1,an exit above you
+
+;hiddenexits
+10,
+3,(but a concealed exit that is not immediately visible)
+2,(but a hidden exit)
+1,(but several hidden exits)

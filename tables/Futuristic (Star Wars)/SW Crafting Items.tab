@@ -1,0 +1,192 @@
+# ------------------------------------------------------
+# Last Update: re-verified by Valminder Jan 10, 2012.
+# ------------------------------------------------------
+# ---------------------------------------------------
+# Last Update: modified by Valminder August 5, 2006.
+# ---------------------------------------------------
+#
+# This works with the Revised Star Wars d20 RPG.
+#
+# This table was written to help the DM quickly determine how long
+# it will take a Weaponsmith/Armorer to make that Great weapon/Armor
+# the PC wants.
+#
+# Written by Rich Martinez
+#
+# Modified by Valminder, August  2006.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+#    Greatly modified and added a few features.
+#    Added by month/year/decade.
+#
+# ***************************************************************
+# Thing to do: I added a way to have some additional workers on
+#              job when the item is sufficiently large, like a
+#    capital ship. But the problem I have is with the rules.
+#    It says "use the total results of all the Craft checks
+#    applied to the item to determine when the item is finished".
+#    Do the other workers need to succeed against the Craft DC?
+#    For a capital ship, the DC is 30 and an average worker might
+#    not even have the appropriate Craft skill.
+#       Until I find a better way, I removed this option.
+# ***************************************************************
+#
+
+/OverrideRolls 1
+
+%Price%,0
+%CraftSkill%,0
+%Item%,0
+%Mastercraft%,0
+%Tools%,0
+%Iname%,0
+%DC%,0
+%Roll%,0
+%RawMaterialCost%,0
+%ToolType%,0
+%CostToCreate%,0
+%FailCost%,0
+%TempDC%,0
+%Day%,0
+%WorkStatus%,0
+%CurrentWork%,0
+%Take10%,2
+%TargetPrice%,0
+%Quicker%,2
+%Time%,Day
+%TimeMultiplier%,1
+###%Helpers%,0
+###%CraftHelpers%,0
+###%Take10Helpers%,2
+###%RollHelpers%,0
+###%WorkStatusHelpers%,0
+###%FailCostHelpers%,0
+###%PriceHelpers%,0
+
+# Obtain the information about the item being made
+@Price,0,How much is the NORMAL price of the finished product in credits?
+@CraftSkill,10,What is the character's Craft skill?
+###@Helpers,100,How many other persons are working on this item (only for sufficiently large items)
+###@CraftHelpers,10,What is the average Craft skill of the other workers
+@Item,1,Complexity of Item made?,Low (Common tool; simple/primitive wpn; light armor DC5),Medium (Advanced tool; vibro wpn; med armor; medpac; 5th droid DC10),High (Blaster; heavy armor; sensor; 3rd-4th droid; speeder; starfighter DC15),Extreme (Exotic wpn; power armor; walker; 2nd droid; space transport DC20),Astronomical (Exotic wpn; 1st droid; capital ship; space station DC30+)
+@Mastercraft,2,Is it a Mastercraft item? (Input the mastercraft value in the item's price above; +1x normal cost for each mastercraft improvement),Yes,No
+@Tools,2,What kind of tools are being used?,Rudimentary (-2 Craft check),Normal (only change if not included in Craft skill above),Ideal (+2 Craft check)
+@Take10,2,Do you Take 10?,Yes,No
+###@Take10Helpers,2,Do the other workers Take 10?,Yes,No
+@Quicker,2,Do you want to craft the item quicker (+10 DC),Yes,No
+
+:Start
+1,{Status~By Valminder 2006, adapted from Rich Martinez table}
+_{If~%Price%=0?[Instructions]/[GenCreation]}
+
+:Tab
+1,&nbsp&nbsp&nbsp&nbsp&nbsp
+
+:Instructions
+1,<p align=center>{Picture~SW_LOGO.jpg}<br><br></p>
+_<h3>Instructions:</h3>
+_Please click the parameters button (upper left corner) and answer ALL of the questions to properly create the time table.
+
+# -----------------------------------------------------
+
+:GenCreation
+1,<table border=1>
+_[ItemName=%Item%]
+_{If~%Mastercraft%=1?{If~%DC%<20?|DC=20|}}
+_{If~%Quicker%=1?|DC+10|}
+_|ToolType=[ToolType=%Tools%]|
+_{IIf~{Calc~(20+%CraftSkill%+%ToolType%)}<%DC%?<font color=purple>You cannot make this item even if you roll 20s</font>{Stop~}}
+_|TargetPrice=%Price%|
+_|RawMaterialCost=%Price%||RawMaterialCost/3||RawMaterialCost={Round~0,%RawMaterialCost%}|
+_|TimeMultiplier=1|
+###_|PriceHelpers=%Price%|
+###_{IIf~%Helpers%>0?|PriceHelpers={Calc~%PriceHelpers%/{Calc~%Helpers%/10}}|}
+###_{If~%PriceHelpers%>=10000?|Time=Week||TimeMultiplier=7|}
+###_{If~%PriceHelpers%>=100000?|Time=Month||TimeMultiplier=30|}
+###_{If~%PriceHelpers%>=500000?|Time=Year||TimeMultiplier=365|}
+###_{If~%PriceHelpers%>=10000000?|Time=Decade||TimeMultiplier=3650|}
+_{If~%Price%>=10000?|Time=Week||TimeMultiplier=7|}
+_{If~%Price%>=100000?|Time=Month||TimeMultiplier=30|}
+_{If~%Price%>=500000?|Time=Year||TimeMultiplier=365|}
+_{If~%Price%>=10000000?|Time=Decade||TimeMultiplier=3650|}
+_<tr><td><font size=+2>Standard Component DC%DC%</font></td><td><b>Craft Skill: +%CraftSkill%</b></td><td>{If~%Tools%=1? {Color~Red,-2 tools}}{If~%Tools%=3? {Color~Green,+2 tools}}</td></tr>
+_<tr width=500><td><font size=+1>{If~%Mastercraft%=1?Mastercraft }%Iname% item</font></td><td><font size=+1>Sell Cost: [AddComma.Start(%Price%)] cr</font></td><td><font size=+1>Starting Material: [AddComma.Start(%RawMaterialCost%)] cr</font></td></tr>
+###_{If~%Helpers%>0?[HelperLine]}
+_<tr width=500><td><b><u>%Time% Number</u></b></td><td><b><u>Roll Outcome?</u></b></td><td><b><u>Current Progress</u></b></td></tr>
+_|Day=0|
+_[PreRoll]
+_</Table>
+
+###:HelperLine
+###1,<tr><td>Number of Workers: [AddComma.Start(%Helpers%)]</td><td>Worker skill: +%CraftHelpers%</td><td>{If~%Tools%=1? -2 tools}{If~%Tools%=3? +2 tools}</td></tr>
+
+# -----------------------------------------------------
+
+:ItemName
+1,|Iname=Low Complexity||DC=5|
+2,|Iname=Medium Complexity||DC=10|
+3,|Iname=High Complexity||DC=15|
+4,|Iname=Extreme Complexity||DC=20|
+5,|Iname=Astronomical Complexity||DC={InputText~30,Enter the Craft DC for this item of Astronomical Complexity}|
+
+:ToolType
+1,-2
+2,0
+3,2
+
+:PreRoll
+1,|CostToCreate=%RawMaterialCost%|
+_|FailCost=%RawMaterialCost%||FailCost/2||FailCost={Round~0,%FailCost%}||FailCost*%TimeMultiplier%|
+###_{If~%Helpers%>0?|FailCostHelpers=%FailCost%||FailCostHelpers*%Helpers%|}
+_[RollCheck]
+
+:RollCheck
+1,{If~%Take10%=1?[Take10]/|Roll={Dice~1d20}|}
+_|Roll+%CraftSkill%||Roll+%ToolType%|
+_|Day+1|
+###_{If~%Helpers%>0?{If~%Take10Helpers%=1?[Take10Helpers]/|RollHelpers={Dice~1d20}|}}
+_{If~%Roll%>=%DC%?[RollSuccess]/[RollFail]}
+
+:Take10
+1,|Roll=10|{IIf~{Calc~(%Roll%+%CraftSkill%+%ToolType%)}<%DC%?<font color=purple>You cannot take 10 because you'll never be able to craft the item</font>|Take10=2|[RollCheck]}
+
+:RollSuccess
+1,|WorkStatus={Calc~%Roll%*{Calc~(%CraftSkill%+%ToolType%)}}||WorkStatus*%TimeMultiplier%|
+#|WorkStatus={Calc~%Roll%*%DC%}||WorkStatus*%TimeMultiplier%|
+_|CurrentWork+%WorkStatus%|
+###Add one of the lines below depending is successful check is required or not
+###_{If~%Helpers%>0?[RollSuccessHelpers]}
+###_{If~%Helpers%>0?{If~%RollHelpers%>=%DC%?[RollSuccessHelpers]}}
+###_{If~%Helpers%>0?{If~%RollHelpers%>=%DC%?[RollSuccessHelpers]/[RollFailHelpers]}}
+_<tr>
+_<td>%Time%: %Day% (Roll Result: %Roll%)</td><td>Success</td><td>[AddComma.Start(%CurrentWork%)] cr ([AddComma.Start(%CostToCreate%)])</td>
+_</tr>
+#_{If~%CurrentWork%>=%RawMaterialCost%?[Display]/[RollCheck]}
+_{If~%CurrentWork%>=%TargetPrice%?[Display]/[RollCheck]}
+
+:RollFail
+1,|TempDC=%DC%||TempDC-4|
+_<tr>
+_<td>%Time%: %Day% (Roll Result: <font color=red>%Roll%</font>)</td><td><font color=red>Failed</font></td><td>[AddComma.Start(%CurrentWork%)] cr ([AddComma.Start(%CostToCreate%)])</td>
+_</tr>
+_{If~%Roll%<%TempDC%?[AddCost]/[RollCheck]}
+
+:AddCost
+1,|CostToCreate+%FailCost%|
+_[RollCheck]
+
+:Display
+1,<tr width 500><td><b>Crafting took %Day% %Time%s</b></td><td><b>Finished</b></td><td><b>Material Cost: [AddComma.Start(%CostToCreate%)] cr</b></td></tr>
+
+# -------------------------------------------------
+
+###:Take10Helpers
+###1,|RollHelpers=10|{IIf~{Calc~(%RollHelpers%+%CraftHelpers%+%ToolType%)}<%DC%?<font color=purple>The other workers cannot take 10 because they'll never be able to craft the item</font>|Take10Helpers=2|[RollCheck]}
+
+###:RollSuccessHelpers
+###1,|WorkStatusHelpers={Calc~%RollHelpers%*%DC%}||WorkStatusHelpers*%TimeMultiplier%||WorkStatusHelpers*%Helpers%|
+###_|CurrentWork+%WorkStatusHelpers%|
+
+###:RollFailHelpers
+###1,|TempDC=%DC%||TempDC-4|{If~%RollHelpers%<%TempDC%?|CostToCreate+%FailCostHelpers%|}
+

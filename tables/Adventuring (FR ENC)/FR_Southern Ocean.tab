@@ -1,0 +1,118 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder Oct 30, 2003.
+# ---------------------------------------------------
+#
+# SMS
+# 06/26/03
+# Forgotten Realms Table 60: Southern Ocean (EL 5-13) random encounter tables
+#
+# Corrected by Valminder, Oct 2003
+#   -{If~} and {Dice~}
+#
+#Variables
+
+%Time%,0
+%Temp%,0
+
+#Parameters
+
+@Time,3,Select a time of day,Day,Night,_
+
+#
+#  Starts by putting up the instructions
+#
+
+:Start
+1,{If~%Time% = 3 ? [Instructions]/[Southern Ocean %Time%]}
+
+;Instructions
+1,<b>Forgotten Realms Table 60: Southern Ocean (EL 5-13)</b></br></br><h3>Instructions:</h3>
+_<b>Determine whether an encounter should occur before using this table. The chance of an encounter is based on terrain type and travel (chance per hour):</b><br>
+_<table border=1><tr><th>Terrain</th><th>Normal Travel</th><th>Cautious Travel</th><th>Hiding</th></tr>
+_<tr><td>Desolate/wasteland</td><td>5/%</td><td>2/%</td><td>1/%</td></tr>
+_<tr><td>Frontier/wilderness</td><td>8/%</td><td>4/%</td><td>2/%</td></tr>
+_<tr><td>Verdant/civilized area</td><td>10/%</td><td>5/%</td><td>2/%</td></tr>
+_<tr><td>Heavily traveled</td><td>12/%</td><td>6/%</td><td>3/%</td></tr>
+_</table>
+_<ol><li>Use the Parameter Box (below) to indicate whether it is day or night. Selecting "_" displays these instructions</li>
+_<li>This table applies to all Southern Ocean areas so there is no region to set.</li></ul><br>
+
+# 1 corresponds to time="Day"
+:Southern Ocean 1
+01-02,Baleen whale
+03-04,{Dice~1d6+5} Baleen whale
+05-06,Cachalot whale
+07,{Dice~1d6+5} Cachalot whale
+08-09,{Dice~1d2} Dire shark
+10-15,Dragon: Bronze, adult
+16-17,{Dice~1d2} Elasmosaurus (diniosaur)
+18-19,{Dice~1d2} Kapoacinth (gargoyle)
+20-22,Kraken
+23,{Dice~1d6+6} Lacedon (ghoul)
+24-28,{Dice~1d3+1} Locathah
+29-30,Locathah patrol: {Dice~1d6+6} locathah, {Dice~1d2} level {Dice~1d3} barbarians, {Dice~1d2} sea lions, led by level {Dice~1d3+4} [FR_Misc.Locathah_Class]
+31-40,Merchant ship: a sailing ship carrying {Dice~4d4} 1st level commoners (sailors), {Dice~1d3+1} level {Dice~1d6} experts (the officers), and a group of merchants:<br>
+_[FR_Misc.Merchant_Race] Merchants: {Dice~2d4} 1st level commoners, {Dice~2d4} 1st level warriors, led by [FR_Misc.Merchant_Leader]
+41-44,<b>NPCs:</b><br>{Loop~{Dice~1d3+2},[FR_Random_NPC.FR_SM_NPC]}
+45-47,Octopus, giant
+48-54,Pirate Ship ([FR_Misc.Pirate_Race]): a sailing ship carrying {Dice~10d10} 1st level commoners (sailors), {Dice~1d6+6} 1st level warriors, led by
+_{Loop~{Dice~1d4+2}, Level {Dice~1d6} [FR_Random_NPC.FR_Evil_Class]<br> }
+55-60,{Dice~2d10} Porpoise
+61,Purple worm
+62-64,{Dice~1d4+4} Sahuagin
+65-66,Sahuagin Patrol: {Dice~1d8+8} sahuagin, {Dice~1d2} large sharks, led by a 3rd level [FR_Misc.Sahuagin_Class]
+67-68,{Dice~1d3+1} Scrag
+69,Sea hag (hag)
+70-72,Sea lion
+73-74,Shark, huge
+75-77,{Dice~1d4+1} Shark, large
+78-81,{Dice~1d6+5} Shark, medium
+82-85,{Dice~1d8+2} Shalarin (MoF)
+86-87,Shalarin Caste: {Dice~1d6+4} shalarin, {Loop~{Dice~1d2}, level {Dice~1d3} fighter,} and {Loop~{Dice~1d2}, level {Dice~1d4} adept}
+88-90,{Dice~1d6+5} Squid
+91,Squid, giant
+92,Storm giant
+93-94,{Dice~1d3+1} Tojanida, adult
+95,{Dice~1d3+1} Tojanida, elder
+96-98,Triton patrol: {Dice~1d10+1} tritons mounted on porpoises
+99-100,{Dice~1d2} Wereshark (MoF)
+
+# 2 corresponds to time="Night"
+:Southern Ocean 2
+01-02,Baleen whale
+03,{Dice~1d6+5} Baleen whale
+04-05,Cachalot whale
+06,{Dice~1d6+5} Cachalot whale
+07-08,{Dice~1d2} Dire shark
+09-14,Dragon: Bronze, adult
+15-16,{Dice~1d2} Elasmosaurus (diniosaur)
+17-20,{Dice~1d2} Kapoacinth (gargoyle)
+21-25,Kraken
+26-31,{Dice~1d6+6} Lacedon (ghoul)
+32-35,{Dice~1d3+1} Locathah
+36-37,Locathah patrol: {Dice~1d6+6} locathah, {Dice~1d2} level {Dice~1d3} barbarians, {Dice~1d2} sea lions, led by level {Dice~1d3+4} [FR_Misc.Locathah_Class]
+38-42,Merchant ship: a sailing ship carrying {Dice~4d4} 1st level commoners (sailors), {Dice~1d3+1} level {Dice~1d6} experts (the officers), and a group of merchants:<br>
+_[FR_Misc.Merchant_Race] Merchants: {Dice~2d4} 1st level commoners, {Dice~2d4} 1st level warriors, led by [FR_Misc.Merchant_Leader]
+43-46,<b>NPCs:</b><br>{Loop~{Dice~1d3+2},[FR_Random_NPC.FR_SM_NPC]}
+47-49,Octopus, giant
+50-52,Pirate Ship ([FR_Misc.Pirate_Race]): a sailing ship carrying {Dice~10d10} 1st level commoners (sailors), {Dice~1d6+6} 1st level warriors, led by
+_{Loop~{Dice~1d4+2}, Level {Dice~1d6} [FR_Random_NPC.FR_Evil_Class]<br> }
+53-54,{Dice~2d10} Porpoise
+55-57,Purple worm
+58-64,{Dice~1d4+4} Sahuagin
+65-67,Sahuagin Patrol: {Dice~1d8+8} sahuagin, {Dice~1d2} large sharks, led by a 3rd level [FR_Misc.Sahuagin_Class]
+68-69,{Dice~1d3+1} Scrag
+70-71,Sea hag (hag)
+72,Sea lion
+73-74,Shark, huge
+75-76,{Dice~1d4+1} Shark, large
+77-79,{Dice~1d6+5} Shark, medium
+80-82,{Dice~1d8+2} Shalarin (MoF)
+83-84,Shalarin Caste: {Dice~1d6+4} shalarin, {Loop~{Dice~1d2}, level {Dice~1d3} fighter,} and {Loop~{Dice~1d2}, level {Dice~1d4} adept}
+85-88,{Dice~1d6+5} Squid
+89-90,Squid, giant
+91,Storm giant
+92-93,{Dice~1d3+1} Tojanida, adult
+94-95,{Dice~1d3+1} Tojanida, elder
+96-99,Triton patrol: {Dice~1d10+1} tritons mounted on porpoises
+100,{Dice~1d2} Wereshark (MoF)

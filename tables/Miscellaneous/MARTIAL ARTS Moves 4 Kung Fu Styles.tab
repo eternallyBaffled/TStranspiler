@@ -1,0 +1,173 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder Jan 10, 2006.
+# ---------------------------------------------------
+#
+# This table will create a martial arts "Style" Name and generate the names
+# of several moves specific to that style. by Joe Joe Joe
+# --------------------------------------------------------------------------
+# Based mostly on Ed Hastings translation of
+# Playful Phoenix Fist Four Scholar Boxing randomizer in Dragon 289
+# He altered it where he saw fit and didnt include all of the patterns as he
+# didnt care for their returns.
+# --------------------------------------------------------------------------
+# All of the referenced Files are stored in the ~KS_KungFuTheater reference
+# folder.
+# --------------------------------------------------------------------------
+# This could be extended further with a Province file and/or a Name generator
+# to produce specific returns, but that would increase the file dependency 
+# --------------------------------------------------------------------------
+# October 17, 2001
+# killershrike@killershrike.com
+# www.killershrike.com
+# --------------------------------------------------------------------------
+#
+# Modified by Valminder, Jan 2006.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+#
+
+%A%,1
+%B%,2
+%Adj%,0
+%Noun%,0
+%FightStyle%,0
+%Count%,0
+
+;Start
+1,|Count={Dice~2d3}|{Status~By Ed Hastings and Killershrike 2001, Valminder 2006}
+_<b><u>Combat Style</u>:</b> [AssignStyleConstants] [CombatStyleName]<br><br>
+_<u>Typical Maneuvers</u>:<br>
+_{Loop~%Count%,[Tab]-[RelatedMoves]<br>}
+
+;AssignStyleConstants
+1,|Adj=[KS_KFT_Adjective.Start]||Noun=[KS_KFT_Noun.Start]||FightStyle=[KS_KFT_Fighting.DescriptiveFighting]|
+
+;CombatStyleName
+3,{Cap~%Adj%} {Cap~%Noun%}
+2,{Cap~%Adj%} {Cap~%Noun%} {Cap~%FightStyle%}
+1,{Cap~%Adj%} {Cap~%FightStyle%}
+1,{Cap~%Noun%} {Cap~%FightStyle%}
+
+:Tab
+1,{Loop~5,&nbsp;} 
+
+;RelatedMoves
+3,[Move Names Adj]
+3,[Move Names Noun]
+1,[Moves Names NounAdj]
+3,[Move Names FightingStyle]
+
+;Move Names Adj
+10,The {Cap~[~KS_KFT_Adjective.Super]} %Adj% {Cap~[~KS_KFT_Fighting.DescriptiveFighting]}
+1, %Adj% {Cap~[~KS_KFT_Fighting.DescriptiveFighting]}
+1,%Adj% {Cap~[~KS_KFT_Noun.Start]} {Cap~[~KS_KFT_Fighting.DescriptiveFighting]}
+1, {Cap~[~KS_KFT_Noun.Start]}'s {Cap~[~KS_KFT_Number.Start]} %Adj% {Cap~[~KS_KFT_Noun.Start]} {Cap~[~KS_KFT_Fighting.DescriptiveFighting]}
+1,%Adj% {Cap~[~KS_KFT_Noun.Start]} {Cap~[~KS_KFT_Placement.Start]} {Cap~[~KS_KFT_Noun.Start]}s {Cap~[~KS_KFT_Fighting.DescriptiveFighting]}
+1,%Adj% {Cap~[~KS_KFT_Noun.Start]} of {Cap~[~KS_KFT_Verb.Start]}ing {Cap~[~KS_KFT_Noun.Start]} {Cap~[~KS_KFT_Fighting.DescriptiveFighting]}
+1,%Adj% {Cap~[~KS_KFT_Noun.Start]} of the {Cap~[~KS_KFT_Verb.Start]}ing {Cap~[~KS_KFT_Noun.Start]} {Cap~[~KS_KFT_Fighting.DescriptiveFighting]}
+1,%Adj% {Cap~[~KS_KFT_Noun.Start]} of {Cap~[~KS_KFT_Verb.Start]}s with %Adj% {Cap~[~KS_KFT_Noun.Start]} {Cap~[~KS_KFT_Fighting.DescriptiveFighting]}
+10,The %Adj% {Cap~[~KS_KFT_Noun.Start]} {Cap~[~KS_KFT_Fighting.DescriptiveFighting]}
+10,%Adj% {Cap~[~KS_KFT_Noun.Start]} {Cap~[~KS_KFT_Fighting.DescriptiveFighting]}
+1,{Cap~[~KS_KFT_Fighting.DescriptiveFighting]} of %Adj% {Cap~[~KS_KFT_Noun.Start]}
+10,{Cap~[~KS_KFT_Fighting.DescriptiveFighting]} of the {Cap~[~KS_KFT_Direction.Direct=%B%]} %Adj% {Cap~[~KS_KFT_Noun.People]}s 
+10,%Adj% {Cap~[~KS_KFT_Fighting.DescriptiveFighting]} of the {Cap~[~KS_KFT_Number.Start]} {Cap~[~KS_KFT_Verb.Start]}ing {Cap~[~KS_KFT_Noun.Start]}s
+10,{Cap~[~KS_KFT_Fighting.DescriptiveFighting]} of the %Adj% {Cap~[~KS_KFT_Noun.Start]}
+1,{Cap~[~KS_KFT_Noun.Start]} {Cap~[~KS_KFT_Placement.Start]} %Adj% {Cap~[~KS_KFT_Noun.Start]} {Cap~[~KS_KFT_Fighting.DescriptiveFighting]}
+1,{Cap~[~KS_KFT_Number.Start]} %Adj% {Cap~[~KS_KFT_Noun.Start]}s {Cap~[~KS_KFT_Fighting.DescriptiveFighting]}
+
+;Move Names Noun
+1,{Cap~[~KS_KFT_Adjective.Start]} %Noun%'s {Cap~[~KS_KFT_Adjective.Start]} {Cap~[~KS_KFT_Fighting.DescriptiveFighting]}
+1,{Cap~[~KS_KFT_Adjective.Start]} %Noun% {Cap~[~KS_KFT_Fighting.DescriptiveFighting]}
+1,{Cap~[~KS_KFT_Adjective.Start]} %Noun%'s {Cap~[~KS_KFT_Number.Start]} {Cap~[~KS_KFT_Noun.Start]} {Cap~[~KS_KFT_Fighting.DescriptiveFighting]}
+1,{Cap~[~KS_KFT_Adjective.Start]} %Noun% {Cap~[~KS_KFT_Placement.Start]} {Cap~[~KS_KFT_Noun.Start]}s {Cap~[~KS_KFT_Fighting.DescriptiveFighting]}
+1,{Cap~[~KS_KFT_Adjective.Start]} %Noun% of {Cap~[~KS_KFT_Verb.Start]}ing {Cap~[~KS_KFT_Noun.Start]} {Cap~[~KS_KFT_Fighting.DescriptiveFighting]}
+1,{Cap~[~KS_KFT_Adjective.Start]} %Noun% of the {Cap~[~KS_KFT_Verb.Start]}ing {Cap~[~KS_KFT_Noun.Start]} {Cap~[~KS_KFT_Fighting.DescriptiveFighting]}
+1,{Cap~[~KS_KFT_Adjective.Start]} %Noun% of {Cap~[~KS_KFT_Verb.Start]}s with {Cap~[~KS_KFT_Adjective.Start]} {Cap~[~KS_KFT_Noun.Start]} {Cap~[~KS_KFT_Fighting.DescriptiveFighting]}
+10,The {Cap~[~KS_KFT_Adjective.Start]} %Noun% {Cap~[~KS_KFT_Fighting.DescriptiveFighting]}
+10,{Cap~[~KS_KFT_Adjective.Start]} %Noun% {Cap~[~KS_KFT_Fighting.DescriptiveFighting]}
+1,{Cap~[~KS_KFT_Fighting.DescriptiveFighting]} of {Cap~[~KS_KFT_Adjective.Start]} %Noun%
+1,{Cap~[~KS_KFT_Fighting.DescriptiveFighting]} of {Cap~[~KS_KFT_Verb.Start]}ing %Noun%
+10,{Cap~[~KS_KFT_Fighting.DescriptiveFighting]} of the {Cap~[~KS_KFT_Direction.Direct=%B%]} %Noun%'s 
+10,{Cap~[~KS_KFT_Fighting.DescriptiveFighting]} of the {Cap~[~KS_KFT_Number.Start]} {Cap~[~KS_KFT_Verb.Start]}ing %Noun%s
+10,{Cap~[~KS_KFT_Fighting.DescriptiveFighting]} of the {Cap~[~KS_KFT_Adjective.Start]} %Noun%
+1,%Noun% {Cap~[~KS_KFT_Fighting.DescriptiveFighting]} {Cap~[~KS_KFT_Placement.Start]} the %Noun% {Cap~[~KS_KFT_Fighting.DescriptiveFighting]}
+1,%Noun% of the {Cap~[~KS_KFT_Verb.Start]}ing {Cap~[~KS_KFT_Noun.Start]} {Cap~[~KS_KFT_Fighting.DescriptiveFighting]}
+1,%Noun% {Cap~[~KS_KFT_Placement.Start]} {Cap~[~KS_KFT_Adjective.Start]} {Cap~[~KS_KFT_Noun.Start]} {Cap~[~KS_KFT_Fighting.DescriptiveFighting]}
+1,%Noun% {Cap~[~KS_KFT_Placement.Start]} the {Cap~[~KS_KFT_Noun.Start]} {Cap~[~KS_KFT_Fighting.DescriptiveFighting]}
+1,%Noun% {Cap~[~KS_KFT_Verb.Start]}s with {Cap~[~KS_KFT_Noun.Start]} {Cap~[~KS_KFT_Fighting.DescriptiveFighting]}
+10,%Noun%s {Cap~[~KS_KFT_Noun.Start]} {Cap~[~KS_KFT_Verb.Start]}ing {Cap~[~KS_KFT_Fighting.Defenses]} of the {Cap~[~KS_KFT_Direction.Direct=%A%]} 
+1,The %Noun% {Cap~[~KS_KFT_Verb.Start]}s when {Cap~[~KS_KFT_Number.Start]} {Cap~[~KS_KFT_Noun.Start]}s {Cap~[~KS_KFT_Verb.Start]} {Cap~[~KS_KFT_Fighting.DescriptiveFighting]}
+1,{Cap~[~KS_KFT_Number.Start]} {Cap~[~KS_KFT_Adjective.Start]} %Noun%s {Cap~[~KS_KFT_Fighting.DescriptiveFighting]}
+1,{Cap~[~KS_KFT_Number.Start]} {Cap~[~KS_KFT_Placement.Start]} %Noun%s {Cap~[~KS_KFT_Fighting.DescriptiveFighting]}
+3,{Cap~[~KS_KFT_Number.Start]} %Noun% {Cap~[~KS_KFT_Fighting.Defenses]}
+1,{Cap~[~KS_KFT_Number.Start]} %Noun%s {Cap~[~KS_KFT_Fighting.DescriptiveFighting]}
+1,{Cap~[~KS_KFT_Number.Start]} %Noun%s {Cap~[~KS_KFT_Fighting.DescriptiveFighting]}s
+1,{Cap~[~KS_KFT_Number.Start]} {Cap~[~KS_KFT_Verb.Start]} %Noun%s {Cap~[~KS_KFT_Fighting.DescriptiveFighting]}
+1,{Cap~[~KS_KFT_Number.Start]} %Noun%s {Cap~[~KS_KFT_TableB.Start]} {Cap~[~KS_KFT_Fighting.Defenses]}
+10,{Cap~[~KS_KFT_Placement.Start]} the %Noun%s {Cap~[~KS_KFT_Fighting.DescriptiveFighting]}
+1,{Cap~[~KS_KFT_Placement.Start]} %Noun%s {Cap~[~KS_KFT_Verb.Start]} {Cap~[~KS_KFT_Fighting.DescriptiveFighting]}
+1,{Cap~[~KS_KFT_Placement.Start]} %Noun%s {Cap~[~KS_KFT_Verb.Start]} {Cap~[~KS_KFT_Number.Start]} %Noun% {Cap~[~KS_KFT_Fighting.DescriptiveFighting]}
+1,{Cap~[~KS_KFT_Placement.Start]} the {Cap~[~KS_KFT_Placement.Start]} %Noun%s {Cap~[~KS_KFT_Noun.Start]} {Cap~[~KS_KFT_Verb.Start]} {Cap~[~KS_KFT_Fighting.DescriptiveFighting]}
+10,{Cap~[~KS_KFT_Direction.Direct=%B%]} %Noun%s {Cap~[~KS_KFT_Verb.Start]}ing {Cap~[~KS_KFT_Fighting.DescriptiveFighting]}
+
+;Move Names FightingStyle
+1,{Cap~[~KS_KFT_Adjective.Start]} {Cap~[~KS_KFT_Noun.Start]}'s {Cap~[~KS_KFT_Adjective.Start]} %FightStyle%
+1,{Cap~[~KS_KFT_Adjective.Start]} {Cap~[~KS_KFT_Noun.Start]}  %FightStyle%
+1,{Cap~[~KS_KFT_Adjective.Start]} {Cap~[~KS_KFT_Noun.Start]}'s {Cap~[~KS_KFT_Number.Start]} {Cap~[~KS_KFT_Noun.Start]} %FightStyle%
+1,{Cap~[~KS_KFT_Adjective.Start]} {Cap~[~KS_KFT_Noun.Start]} {Cap~[~KS_KFT_Placement.Start]} {Cap~[~KS_KFT_Noun.Start]}s %FightStyle%
+1,{Cap~[~KS_KFT_Adjective.Start]} {Cap~[~KS_KFT_Noun.Start]} of {Cap~[~KS_KFT_Verb.Start]}ing {Cap~[~KS_KFT_Noun.Start]} %FightStyle%
+1,{Cap~[~KS_KFT_Adjective.Start]} {Cap~[~KS_KFT_Noun.Start]} of the {Cap~[~KS_KFT_Verb.Start]}ing {Cap~[~KS_KFT_Noun.Start]} %FightStyle%
+1,{Cap~[~KS_KFT_Adjective.Start]} {Cap~[~KS_KFT_Noun.Start]} of {Cap~[~KS_KFT_Verb.Start]}s with {Cap~[~KS_KFT_Adjective.Start]} {Cap~[~KS_KFT_Noun.Start]} %FightStyle%
+10,The {Cap~[~KS_KFT_Adjective.Start]} {Cap~[~KS_KFT_Noun.Start]}  %FightStyle%
+10,{Cap~[~KS_KFT_Adjective.Start]} {Cap~[~KS_KFT_Noun.Start]}  %FightStyle%
+1,%FightStyle% of {Cap~[~KS_KFT_Adjective.Start]} {Cap~[~KS_KFT_Noun.Start]} 
+1,%FightStyle% of {Cap~[~KS_KFT_Verb.Start]}ing {Cap~[~KS_KFT_Noun.Start]} 
+10,%FightStyle% of the {Cap~[~KS_KFT_Direction.Direct=%B%]} {Cap~[~KS_KFT_Noun.Start]}'s 
+10,%FightStyle% of the {Cap~[~KS_KFT_Number.Start]} {Cap~[~KS_KFT_Verb.Start]}ing {Cap~[~KS_KFT_Noun.Start]}s
+1,{Cap~[~KS_KFT_Noun.Start]} {Cap~[~KS_KFT_Fighting.DescriptiveFighting]} {Cap~[~KS_KFT_Placement.Start]} the {Cap~[~KS_KFT_Noun.Start]}  %FightStyle%
+1,{Cap~[~KS_KFT_Noun.Start]}  of the {Cap~[~KS_KFT_Verb.Start]}ing {Cap~[~KS_KFT_Noun.Start]} %FightStyle%
+1,{Cap~[~KS_KFT_Noun.Start]}  {Cap~[~KS_KFT_Placement.Start]} {Cap~[~KS_KFT_Adjective.Start]} {Cap~[~KS_KFT_Noun.Start]} %FightStyle%
+1,{Cap~[~KS_KFT_Noun.Start]}  {Cap~[~KS_KFT_Placement.Start]} the {Cap~[~KS_KFT_Noun.Start]} %FightStyle%
+1,{Cap~[~KS_KFT_Noun.Start]}  {Cap~[~KS_KFT_Verb.Start]}s with {Cap~[~KS_KFT_Noun.Start]} %FightStyle%
+1,The {Cap~[~KS_KFT_Noun.Start]}  {Cap~[~KS_KFT_Verb.Start]}s when {Cap~[~KS_KFT_Number.Start]} {Cap~[~KS_KFT_Noun.Start]}s {Cap~[~KS_KFT_Verb.Start]} %FightStyle%
+1,{Cap~[~KS_KFT_Number.Start]} {Cap~[~KS_KFT_Adjective.Start]} {Cap~[~KS_KFT_Noun.Start]}s %FightStyle%
+1,{Cap~[~KS_KFT_Number.Start]} {Cap~[~KS_KFT_Placement.Start]} {Cap~[~KS_KFT_Noun.Start]}s %FightStyle%
+1,{Cap~[~KS_KFT_Number.Start]} {Cap~[~KS_KFT_Noun.Start]}s %FightStyle%
+1,{Cap~[~KS_KFT_Number.Start]} {Cap~[~KS_KFT_Noun.Start]}s %FightStyle%s
+1,{Cap~[~KS_KFT_Number.Start]} {Cap~[~KS_KFT_Verb.Start]} {Cap~[~KS_KFT_Noun.Start]}s %FightStyle%
+1,{Cap~[~KS_KFT_Number.Start]} {Cap~[~KS_KFT_Noun.Start]}s {Cap~[~KS_KFT_TableB.Start]} {Cap~[~KS_KFT_Fighting.Defenses]}
+10,{Cap~[~KS_KFT_Placement.Start]} the {Cap~[~KS_KFT_Noun.Start]}s %FightStyle%
+1,{Cap~[~KS_KFT_Placement.Start]} {Cap~[~KS_KFT_Noun.Start]}s {Cap~[~KS_KFT_Verb.Start]} %FightStyle%
+1,{Cap~[~KS_KFT_Placement.Start]} {Cap~[~KS_KFT_Noun.Start]} s {Cap~[~KS_KFT_Verb.Start]} {Cap~[~KS_KFT_Number.Start]} {Cap~[~KS_KFT_Noun.Start]}  %FightStyle%
+1,{Cap~[~KS_KFT_Placement.Start]} the {Cap~[~KS_KFT_Placement.Start]} {Cap~[~KS_KFT_Noun.Start]} s {Cap~[~KS_KFT_Noun.Start]} {Cap~[~KS_KFT_Verb.Start]} %FightStyle%
+10,{Cap~[~KS_KFT_Direction.Direct=%B%]} {Cap~[~KS_KFT_Noun.Start]}s {Cap~[~KS_KFT_Verb.Start]}ing %FightStyle%
+
+;Moves Names NounAdj
+1,%Adj% %Noun%'s {Cap~[~KS_KFT_Adjective.Start]} {Cap~[~KS_KFT_Fighting.DescriptiveFighting]}
+1,%Adj% %Noun% {Cap~[~KS_KFT_Fighting.DescriptiveFighting]}
+1,%Adj% %Noun%'s {Cap~[~KS_KFT_Number.Start]} {Cap~[~KS_KFT_Noun.Start]} {Cap~[~KS_KFT_Fighting.DescriptiveFighting]}
+1,%Adj% %Noun%{Cap~[~KS_KFT_Placement.Start]} {Cap~[~KS_KFT_Noun.Start]}s {Cap~[~KS_KFT_Fighting.DescriptiveFighting]}
+1,%Adj% %Noun% of {Cap~[~KS_KFT_Verb.Start]}ing {Cap~[~KS_KFT_Noun.Start]} {Cap~[~KS_KFT_Fighting.DescriptiveFighting]}
+1,%Adj% %Noun% of the {Cap~[~KS_KFT_Verb.Start]}ing {Cap~[~KS_KFT_Noun.Start]} {Cap~[~KS_KFT_Fighting.DescriptiveFighting]}
+1,%Adj% %Noun% of {Cap~[~KS_KFT_Verb.Start]}s with {Cap~[~KS_KFT_Adjective.Start]} {Cap~[~KS_KFT_Noun.Start]} {Cap~[~KS_KFT_Fighting.DescriptiveFighting]}
+10,The %Adj% %Noun%{Cap~[~KS_KFT_Fighting.DescriptiveFighting]}
+10,%Adj% %Noun% {Cap~[~KS_KFT_Fighting.DescriptiveFighting]}
+1,{Cap~[~KS_KFT_Fighting.DescriptiveFighting]} of %Adj% %Noun%
+10,{Cap~[~KS_KFT_Fighting.DescriptiveFighting]} of the %Adj% %Noun%
+1,{Cap~[~KS_KFT_Noun.Start]} {Cap~[~KS_KFT_Placement.Start]} %Adj% %Noun% {Cap~[~KS_KFT_Fighting.DescriptiveFighting]}
+10,{Cap~[~KS_KFT_Noun.Start]}s %Noun% {Cap~[~KS_KFT_Verb.Start]}ing {Cap~[~KS_KFT_Fighting.Defenses]} of the %Adj% {Cap~[~KS_KFT_Direction.Direct=%A%]} 
+1,The %Noun% {Cap~[~KS_KFT_Verb.Start]}s when {Cap~[~KS_KFT_Number.Start]} {Cap~[~KS_KFT_Noun.Start]}s %Adj% {Cap~[~KS_KFT_Verb.Start]} {Cap~[~KS_KFT_Fighting.DescriptiveFighting]}
+1,{Cap~[~KS_KFT_Number.Start]} %Adj% %Noun%s {Cap~[~KS_KFT_Fighting.DescriptiveFighting]}
+3,{Cap~[~KS_KFT_Number.Start]} %Adj% %Noun% {Cap~[~KS_KFT_Fighting.Defenses]}
+3,{Cap~[~KS_KFT_Number.Start]} %Adj% %Noun%s  {Cap~[~KS_KFT_Fighting.DescriptiveFighting]}s
+2,{Cap~[~KS_KFT_Number.Start]} %Noun%s {Cap~[~KS_KFT_TableB.Start]} %Adj% {Cap~[~KS_KFT_Fighting.Defenses]}
+
+#These tables are so that other tables can use this table to generate data
+:PassAdj
+1,[AssignStyleConstants]%Adj%
+
+:PassNoun
+1,[AssignStyleConstants]%Noun%
+
+:PassFightStyle
+1,[AssignStyleConstants]%FightStyle%

@@ -1,0 +1,337 @@
+﻿# ------------------------------------------------------
+# Created by Valminder November 16, 2011.
+# ------------------------------------------------------
+#
+# From Year of the Zombie : Independance Day Massacre 
+#
+
+%Amputated%,0
+%Gender%,0
+%EthnicID%,0
+
+@Gender,3,Choose gender:,Male,Female,Random
+
+:Start
+1,[Generate]
+
+;Tab
+1,{Loop~5,&nbsp;}
+
+;Generate
+1,|Amputated=0||EthnicID=0|
+_<b><u>Wound</u>:</b> [WoundType] [WoundLocation].
+_<br>[Tab]<u>Wound Severity</u>: [WoundSeverity]
+_<br><br>[Tab]<u>Physical Appearance</u>: [~Sex=%Gender%], [~Race], [~Size], [~Weight].
+_<br>[Tab]<u>Clothing</u>: [~Clothing]
+_<br><br>[Tab]<u>Name</u>: [~MODERN Names by Ethnicity.GenerateName(2,%EthnicID%,%Gender%)] (if ID found).
+_<br><br>[Tab]<u>Belongings</u>: {Loop~{Dice~2d2-1},[Belongings], }.
+
+# -------------------------------------------------------
+
+;WoundType
+1,Broken Bone ([BrokenBone]) on
+1,Amputated|Amputated=1|
+1,Gunshot wound on
+2,Bite on
+2,Bite on
+1,Stab wound on
+1,Scraped
+1,Burned
+
+;BrokenBone
+1,bone exposed
+2,internal
+
+;WoundLocation
+2,{If~%Amputated%=0? head/[AltHead]}
+2,{If~%Amputated%=0? neck/[WoundLocation]}
+2,[RightLeft] [Arm]
+1,{If~%Amputated%=0? back/[WoundLocation]}
+1,{If~%Amputated%=0? torso/[WoundLocation]}
+1,{If~%Amputated%=0? groin/[WoundLocation]}
+1,{If~%Amputated%=0? buttocks/[WoundLocation]}
+2,[RightLeft] [Leg]
+
+;AltHead
+1,[RightLeft] eye
+1,lower jaw
+1,[RightLeft] ear
+1,from part of the head (catastrophic facial damage)
+
+;Arm
+2,shoulder
+2,biceps
+2,elbow
+2,forearm
+2,wrist
+1,hand
+1,fingers
+ 
+;Leg
+2,thigh
+2,knee
+2,calf
+1,foot
+1,toes
+
+:RightLeft
+1,right
+2,left
+
+# -------------------------------------------------------
+
+:WoundSeverity
+1,<b>Critical:</b> These wounds are the most commonly thought of. Amputation, blackened burns over 50-75 <b>percent</b> of the body, missing limbs, exposed ribs, evisceration.
+2,<b>Severe:</b> This includes 20-30 <b>percent</b> covering in blackened flesh, amputation of a limb, a major bone broken and jutting from the skin, gunshot wounds that blew away sections of the body
+3,<b>Minor:</b> These are superficial wounds, such as tooth marks, minor reddening of the skin, a shallow cut, or a graze with a firearm.
+4,<b>Moderate:</b> These are slightly serious wounds, but nothing too horrible, such as minor blackening of the skin from a burn, a bullet wound with no exit wound, a stab, or a small chunk bitten out. A broken limb may be twisted, but still useable.
+5,<b>Major:</b> These wounds are obviously fatal/incapacitating. Such wounds include: Multiple gunshots to the torso, a gunshot wound with exit wounds, stab wounds with the knife left in, a twisted, unusable broken limb, missing eye or fingers.
+6,<b>Catastrophic:</b> The person is not only dead, but the horrific appearance/damage imposes a +1 circumstance penalty to the Horror DC. Catastrophic damage would be such things as dragging the intestines behind, half of the torso blown away by a shotgun, both legs missing, lower jaw and nose missing.
+
+# -------------------------------------------------------
+
+:!Sex
+1,Male|Gender=1|
+2,Female|Gender=2|
+3,[Sex]
+
+;Race
+1,arab|EthnicID=2|
+40,caucasian (british/english)|EthnicID=3|
+1,danish|EthnicID=6|
+2,dutch/german|EthnicID=7|
+1,european|EthnicID=8|
+1,french|EthnicID=9|
+10,german|EthnicID=10|
+2,greek|EthnicID=11|
+1,hebrew|EthnicID=12|
+5,irish|EthnicID=13|
+2,italian|EthnicID=14|
+1,japanese|EthnicID=15|
+5,latin/hispanic|EthnicID=16|
+1,polish|EthnicID=17|
+1,portuguese|EthnicID=18|
+2,russian|EthnicID=19|
+1,saxon|EthnicID=20|
+5,scottish|EthnicID=21|
+5,spanish|EthnicID=22|
+1,swedish|EthnicID=24|
+1,turkish|EthnicID=25|
+
+;Size
+1,really small
+3,small
+6,average height
+3,tall
+1,really tall
+
+;Weight
+1,really slim
+3,slim
+6,average weight
+3,tall
+1,really tall
+
+;Clothing
+12,[MODERN Clothing.Start(7,%Gender%,2)]
+2,[Clothing1]
+1,Nude
+
+;Clothing1
+5,Badly torn up business suit
+5,{If~%Gender%=1? Jeans, Tanktop/Skirt, Tanktop}
+5,{If~%Gender%=1? Jeans and T-Shirt/Short skirt, T-shirt}
+3,Jogging Suit
+1,Friends of the Forest Uniform (or scouts)
+5,{If~%Gender%=1? Swimming Trunks/Bikini}
+5,Overalls and hat
+5,Jeans and hoody
+5,{If~%Gender%=1? Slacks and dress shirt/Dress}
+1,{If~%Gender%=1? Football player/Cheerleader}
+1,State Police Uniform
+1,Local Police Uniform
+1,Fire Department Uniform
+1,Military uniform
+1,Government uniform (black business suit)
+1,Paramedic uniform
+1,Security guard uniform
+1,Gas employee uniform
+1,Electricity employee uniform
+1,Municipal employee uniform
+1,Lawyer suit
+1,Judge suit
+1,Nurse uniform
+1,Doctor uniform
+1,Construction worker suit
+1,Scientist lab coat
+1,Bio-hazard suit
+1,Diver's suit
+1,Clown suit
+1,Santa Clauss suit
+1,Big bear (mascot suit)
+1,Hockey equipment
+1,Basketball uniform
+1,School uniform
+1,Punk clothes (with piercing and all)
+1,Steampunk clothes
+1,Gothic clothes
+1,Nerd-look clothing
+1,Priest clothing
+1,Nun's clothing
+
+# -------------------------------------------------------
+
+;!Belongings
+1,apple
+1,arcade token
+1,bag (daypack)
+1,bag (duffle bag)
+1,bag (handbag)
+1,bag of chips
+1,ball
+1,banana
+5,baseball cap
+2,battery (AA)
+2,battery (AAA)
+1,battery (D)
+1,beer bottle/can
+5,belt
+1,bible
+1,binoculars
+1,book (novel, fantasy)
+1,book (novel, romance)
+1,book (novel, SF)
+1,book (RPG)
+1,books (school notes)
+1,boots (construction)
+1,boots (cowboy)
+1,bottle of wine
+1,bracelet
+1,brush
+1,bullet ({Dice~1d3})
+2,bus pass
+1,camera (35mm)
+1,camera (digital)
+1,camera (disposable)
+1,camera bag (empty)
+5,candy
+1,cap of a bottle (beer, cola etc)
+1,cash (${Dice~4d100+100})
+10,cash (${Dice~1d100})
+10,cellphone
+1,chocolate bar
+1,cigarettes/Lighter
+1,comb
+1,compass
+2,company Magnetic card
+1,condom/Makeup
+5,credit card
+1,{Dice~1d3} dice
+1,dry raisins
+1,duck tape
+1,earrings
+3,employee card
+1,exacto knife
+1,extra shoelaces
+1,fatigues (army pants)
+1,first aid kit
+1,flashlight
+1,flute
+1,fortune Cookie ([~The Oracle.RandomSentence])
+10,glasses
+1,guitar
+1,guitar case (empty)
+5,gum
+1,halloween mask
+1,handcuff key
+1,handcuffs (no key)
+1,handkerchief
+1,harmonica
+1,helmet (construction)
+1,helmet (motorcycle)
+1,information paper for a good diet
+1,information paper on a government project
+1,information paper on a hotel
+1,information paper on a political party
+1,information paper on a sect ([~Group Designer.Generate(5)])
+1,information paper on a tourist attraction
+1,information paper on major religious group
+1,information paper to life free and rich
+1,information paper to save money
+1,information papers on a company ([~Gizmosis Companies.Generate])
+1,information papers on a technicla item ([~Gizmosis.Generate])
+1,key for bus/train locker
+1,key for mailbox
+5,keys to house
+5,keys to house and vehicle
+5,keys to nearby vehicle
+1,knife
+1,laser pointer
+1,leather gloves
+1,leather jacket
+1,lighter
+1,light undercover shirt (armor)
+1,lock picking tools
+20,loose change ({Dice~1d100} cents)
+1,lottery Ticket
+2,magnetic card (white, unnamed)
+1,map of Country
+1,map of small surrounding area
+1,map of State/Province
+1,map of town
+1,marbles
+1,matches
+5,medication ([~Drug Name.Generate])
+1,miniature figurine
+5,MP3 Player/iPod
+1,nail clipper
+1,nail polish
+1,necklace
+1,note with phone number
+1,nuts bag
+1,orange
+1,pack of cards
+1,pack of paper handkerchief
+1,pager
+1,pear
+1,pebbles
+1,pen
+1,pencil
+1,penlight
+1,pepper spray
+1,pliers
+1,protein bar
+1,rain poncho
+1,receipts
+1,ring (common)
+1,ring (wedding)
+1,scarf
+1,scrawled note
+1,screw
+1,screwdriver
+1,screwdriver set (small)
+1,skateboard
+1,small and light gloves
+10,small pouch for change ({Dice~1d100} cents)
+1,small scissors
+1,small string
+1,small watch battery
+1,socks
+1,soda can
+1,some herbs ([~Herb Names.ChooseKind=4])
+10,sunglasses
+10,tatoo ([~Rune Generator.GenRune])
+1,tie
+1,toothbrush
+1,toothpick
+1,towel
+1,toy car
+1,tweezer
+1,USB key
+1,utility vest
+1,walkie-talkie (basic)
+50,wallet and ID
+5,water bottle
+1,windbreaker
+10,wristwatch
+1,yo-yo

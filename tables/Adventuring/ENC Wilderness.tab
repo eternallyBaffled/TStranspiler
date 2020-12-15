@@ -1,0 +1,397 @@
+# ------------------------------------------------------
+# Last Update: re-modified by Valminder Nov 17, 2015.
+# ------------------------------------------------------
+# ---------------------------------------------------
+# Last Update: modified by Valminder Jan 01, 2006.
+# ---------------------------------------------------
+#
+# This Table generates Wilderness-based Adventure hooks that can be used to
+# 'Spice up' the 'dead time' between the requisite Dungeons located days, or
+# maybe even weeks apart.
+#
+# by Larry Cormier inspired by an article by Matt Hancock in Polyhedron
+# Magazine #143.
+#
+# It seems that adventures taking place anywhere other than a city or a
+# dungeon are a disappearing breed. PCs only leave the city to go from one
+# place to another, and even then their time outside is described as
+# "after three days of travel you reach your destination." This is
+# surprising, considering the number of character classes that focus their
+# skills and abilities on the outdoors. So, to give those characters a
+# chance to shine and the rest of the party a chance to think, here are 50
+# encounters, adventures, and oddities to make your journeys a little more
+# eventful.
+#
+# Modified by Valminder, Nov 2005.
+#    Added links to:
+#       Creatures.Bird of Prey
+#       Creatures.Dragon
+#       Creatures.Humanoid2
+#       ENC Road Civilized.Generate
+#       Herb Names.Generate
+#       Miscellaneous.Language Ancient
+#       Names Generator.NAME Dragon
+#       Names Generator.NAME Formal
+#       NPC Appearance.Creature
+#       NPC Appearance.NPC
+#       NPC Appearance.GenerateQuick3
+#       Pockets.Generate
+#       Pockets.PocketContentsOR
+#       Rumors.Alternate
+#       Sites of Interest.Generate
+#       Wilderness Encounters.Generate
+#
+# Modified by Larry Cormier December, 2005
+#    Added an 'Entry' Table that creates a Passive Tense sentence structure
+#    for the purpose of Linking the other Tables smoothly to this one
+#
+# Modified by Valminder, Nov 2005.
+#    Added links to:
+#       Book Titles.Start
+#       DUN Graffiti.Graffiti
+#       MAP Clearings.XXX
+#
+# Modified by Valminder, Nov 2005.
+#    Added links for NPCs.
+#    Modified to add links to generate maps.
+#    Added Wilderness stuff from "City Encounters.tab"
+#
+
+/OverrideRolls 1
+
+# To use "MAP Clearings.tab"
+%ClearingFlag%,0
+%Wd%,{Dice~2d2+1}
+%Ht%,{Dice~2d2+1}
+%Inhabited%,3
+%River%,3
+%Road%,3
+%Roll%,0
+
+:Start
+1,{Status~by Larry Cormier and Valminder}[GenerationBranch]
+_{If~%ClearingFlag%>0? <br>{Space~5}[Clearings1=%ClearingFlag%]}
+
+#{Generate~0,Click to generate clearing map,MAP}}
+
+;GenerationBranch
+10,[Generate]
+5,[DiscoverFindBranch] [Wilderness Encounters.Generate].
+1,[ENC Road Civilized.Generate]
+1,[Sites of Interest.Generate]
+
+:DiscoverFindBranch
+1,You discover
+2,You find
+
+:MAP
+1,[Clearings=%ClearingFlag%]
+
+:Clearings1
+1,{Generate~0,Click to generate clearing map,Clearings=1}
+2,{Generate~0,Click to generate clearing map,Clearings=2}
+3,{Generate~0,Click to generate clearing map,Clearings=3}
+4,{Generate~0,Click to generate clearing map,Clearings=4}
+5,{Generate~0,Click to generate clearing map,Clearings=5}
+6,{Generate~0,Click to generate clearing map,Clearings=6}
+
+:Clearings
+1,<br>[~MAP Clearings.GenRandomMap]
+2,<br>[MAP Clearings.GenMap(%Wd%,%Ht%,%River%,%Road%,%Inhabited%)]
+3,<br>[~MAP Clearings.GenRandomMapRiver]
+4,<br>[~MAP Clearings.GenRandomMapRoad]
+5,<br>[~MAP Clearings.GenRandomMapInhabited]
+6,<br>[~MAP Clearings.GenRandomMapWild]
+
+# -----------------------------------------------------------------------
+
+;Generate
+1,The PCs are enveloped by a fog bank. After traveling for what seems like hours, they finally emerge from the fog. Right away they notice that almost no time has passed since they first entered the fog and that a valuable {Bold~{If~{Dice~1d3}=1?item/{If~{Dice~1d2}=1?NPC/companion or familiar}}} did not come out of the fog bank with them.|ClearingFlag=1|
+1,The PCs encounter a perfect circle of lush green plant life. When they journey to the center of the circle, they discover an overflowing water fountain. The fountain is ancient and carved with runes of a long-dead language ([~Miscellaneous.Language Ancient]).
+1,The PCs hear a terrible noise coming toward them. No matter what they do, two dueling dragons quickly overtake them ([~Creatures.Dragon] and [~Creatures.Dragon]). When they notice the PCs, both dragons offer fantastic rewards in exchange for their assistance. For an interesting twist, make both of the dragons evil or both of them good. The names of the dragons is [~Names Generator.NAME Dragon] and [~Names Generator.NAME Dragon].|ClearingFlag=1|
+1,The PCs follow a polluted stream that suddenly jumps, in an arcing spray, from its natural bed to a clearly manmade one. The new stream is clean and drinkable. If the source of the spray is investigated, the PCs find a crystal sphere that easily can be removed from the stream. If removed, the river returns to its natural (polluted) course.|ClearingFlag=2||River=1||Road=3||Inhabited=1|
+1,If the PCs are carelessly traveling through a forest, one of them notices two bear cubs on the right and then hears a large crashing on his left. If the players are being careful, they can see the danger coming.
+1,The PCs encounter creatures of great evil (perhaps creatures of animal intelligence from the lower planes) in areas in which they should not be found. Whether the PCs investigate this on their own initiative or because the authorities ask them to, this could be the start of a major adventure.
+1,The PCs discover a freshly slaughtered caravan. While they investigate the remains, a unit of local soldiers arrives and makes the obvious (but wrong) conclusion that the PCs were the cause of the slaughter. If the PCs manage to talk their way out of being arrested, without killing any of the unit, they will be asked to accompany the guards and aid in the hunt for the real perpetrators (so that the guards can keep an eye on the PCs until their innocence has been confirmed).|ClearingFlag=4|
+1,A [~Creatures.Bird of Prey], that always stays just out of bow-shot, shadows the PCs for several days. On the same day the bird leaves, someone, who seems to know a lot about the party, asks if he can accompany the group until they reach the next town.[NPC Appearance.NPC_Info1=1]
+1,While the PCs journey through a forest, all of the birds in the area begin singing the name of one of the PCs for several minutes before stopping suddenly.|ClearingFlag=1|
+1,One of the PCs steps on an old bear trap, suffering <b>{Dice~1d8}</b> points of damage and trapping his or her leg. The trap is old, rusty, and requires a key to open it. Whether the trapper is still around and whether he meant to catch two-legged prey is up to the GM. {If~{Dice~1d100}<40? The trapped character can contract filth fever.}|ClearingFlag=1|[NPC Appearance.NPC_Info1=1]
+1,A subterranean creature has tunneled under the pathway the PCs are following, weakening it in hopes of having an easy meal drop in.|ClearingFlag=4|
+1,The PCs are enveloped by smoke followed by intense heat. The terrain is on fire. The PCs must figure out a way to stay ahead of the fire.|ClearingFlag=6|
+1,The PCs are caught in a vicious thunderstorm. They will have to find/create shelter in order to survive the power of this storm. PCs wearing metal armor are especially vulnerable to the many lightning strikes. Any attempt to magically control or reduce the storm will twist it into a tornado.|ClearingFlag=1|
+1,The PCs enter an area that has no signs of animal habitation. This should completely unnerve PCs who have some knowledge of nature. The lack of animals also causes a problem if the PCs were depending upon hunting to supplement their food stores.|ClearingFlag=1|
+1,While resting in a swamp, the PCs awaken to realize the spot of dry land on which they camped actually floats, making it very difficult to determine their new location. Maybe the PCs were separated from their mounts or other PCs while the island drifted.
+1,The PCs encounter a talking animal ([~Creatures.Animal]) that begins conversing with the party. {If~{Dice~1d100}<30? In reality, the animal is just an animal, and a magic mouth or ventriloquism spell is the source of its speech.} {If~{Dice~1d100}<30? Its purpose is to distract the PCs while nearby bandits ambush them./ {If~{Dice~1d100}<30? It is sent by a druid to help or inform the PCs.}}[NPC Appearance.Creature]|ClearingFlag=1|
+1,The PCs encounter a unicorn (or other fantastic good creature) being captured by [~Creatures.Humanoid] or [~Creatures.Humanoid]. For variety, make the captors humans who claim to have a legal right to capture this animal.<br>{Generate~0,Click to Generate Unicorn,NPC Appearance.Creature}[NPC Appearance.NPC_Info1=1]|ClearingFlag=1|
+1,The PCs encounter an injured humanoid (see below) in the late stages of starvation. If they take him/her with them they are attacked every night by some form of half-animal, half-human creature. Though it may appear that the woman is some kind of were-creature, in reality she is a latent psionicist whose extreme hunger has been given form and recreated each night. How the creature is stopped is up to the GM.[NPC Appearance.NPC_Info1=1]|ClearingFlag=1|
+1,The PCs discover a primitive village of [~Creatures.Humanoid].{If~{Dice~1d4}=1? While staying there an eclipse begins. The terrified villagers blame the PCs for the eclipse and attempt to sacrifice the PCs to bring back the sun.}[NPC Appearance.NPC_Info1=2]
+1,While journeying through the mountains, the PCs hear a rumble above them. If they don't act quickly they will be engulfed in the coming avalanche. Depending upon which way the PCs run, they will find either the way forward or the way back blocked. To be really cruel, make the avalanche a prelude to an ambush.
+1,At a crossroads, the PCs discover someone hanging in a cage. He is half-starved and desperate to get out. He claims to be anything from an unjustly imprisoned man of importance to a beggar who simply owes a few coppers to be let out. His true crime is up to the GM.[NPC Appearance.NPC_Info1=1]|ClearingFlag=4|
+1,The party begins crossing a field of flowers ([~Herb Names.Generate]) that have just come into bloom.{IIf~{Dice~1d4}=1? The smell of the flowers has a powerful hallucinogenic effect on the party, requiring a DC<b>{Dice~2d8+10}</b> Will save every round in which they remain in the field (unless they somehow negate the smell). The flowers have an effect similar to the <i>confusion</i> spell.}|ClearingFlag=6|
+1,A dead giant spider and its web are found. Its web contains the bodies of several creatures. One of them is a [~Creatures.Humanoid] messenger still carrying her important message in a satchel.<br><br><u>The message is</u>: [Rumors.Alternate][NPC Appearance.NPC_Info1=1]|ClearingFlag=6|
+1,A [~Creatures.Humanoid2] baby, still in swaddling clothes, is discovered. If it is taken with the PCs to the next town the PCs will be {If~{Dice~1d100}<70? rewarded/shunned by the townsfolk. If a member of the town is pressed, the citizen tells the party that the child is evil and was left to die in the woods to prevent the evil from growing}.[NPC Appearance.NPC_Info1=1]|ClearingFlag=1|
+1,The PCs encounter a group of <b>{Dice~1d6+4}</b> [~Creatures.Humanoid2] guardsmen escorting what they say is a dangerous criminal to justice. Later that day, the party encounters the slaughtered bodies of the real guardsmen. Further investigation of the scene reveals that the "criminal" was actually a person of great importance.[NPC Appearance.NPC_Info1=2]|ClearingFlag=1|
+1,The body of a [~Creatures.Humanoid2] pinned to a tree by an arrow through his head is discovered.{If~{Dice~1d100}<5? There is an apple on the man's head and a hastily scrawled apology note pinned to his chest.}<br>{If~{Dice~1d100}<80? Nothing is found on the body./ You find a pouch. [Pockets.Generate]}[NPC Appearance.NPC_Info1=1]|ClearingFlag=5|
+1,If the PCs are not taking care to properly store their food at night they find themselves besieged by an army of nocturnal scavengers (rats, mice, raccoons). To add some danger, perhaps a bear decides to investigate the smell of food.|ClearingFlag=1|
+1,The party encounters a dying druid who begs them to stop a band of [~Creatures.Humanoid] who are defiling the land. To pique the party's interest, the druid promises that the "forest shall reward them" when the PCs save it.[NPC Appearance.NPC_Info1=1]|ClearingFlag=1|
+1,When the PCs enter an ancient forest they hear a whispered warning not to cut or burn any wood within the confines of the forest.{If~{Dice~1d3}=1? If the PCs break the edict, they find themselves under attack by the animated trees of a very angry treant. Only some fast talking or hefty remuneration will deter it.}{If~{Dice~1d3}=1? To make it harder for the PCs to resist burning wood, have the weather take a turn for the worse.}[NPC Appearance.NPC_Info1=1]|ClearingFlag=6|
+1,A group of [~Creatures.Humanoid] lumberjacks find the party and ask the PCs to protect them from a crazy [~Creatures.Humanoid] spellcaster who is trying to kill them all. The spellcaster is a druid who only wishes to drive the lumberjacks from his land.[NPC Appearance.NPC_Info1=3]|ClearingFlag=1|
+1,{If~{Dice~1d2}=1?One/Two} PCs are the targets of practical jokes by a small group of faerie creatures. If the PCs involved react well, the faeries will eventually stop{If~{Dice~1d3}=1? and may even reward the PCs for their patience. [~City Encounters.Reward]}. However, if the PCs react badly, the pranks will take a more serious turn and may even become lethal.[NPC Appearance.NPC_Info1=2]|ClearingFlag=1|
+1,The PCs are lost when they encounter a [~Creatures.Humanoid] who offers, for a small fee, to guide them. The creature speaks some common and appears very intelligent for his race. {If~{Dice~1d4}>1? He's honest about the whole thing./He's dishonest and wants the PCs loot.}[NPC Appearance.NPC_Info1=1]
+1,The PCs weather a storm. When they crawl out from their shelter, they discover ansome ruins that were unearthed by the storm. To make matters worse, as the PCs explore they feel the wind starting to pick-up again.<br>[SITE Ruins.Generate]
+1,The PCs find themselves in the path of a migrating colony of giant army ants. If the heroes do nothing, they will be swarmed by the creatures. For every round they are swarmed, the PCs take exponential damage starting at 1 (1 the first round, 2 the second, 4 the third, etc.). Fire and smoke will drive the creatures off, and immersion in water will wash the ants off any swarmed character.|ClearingFlag=1|
+1,A [~Creatures.Humanoid] woman whose face is hidden by a hood and scarf asks the PCs to share their fire for a night. She refuses to reveal her features, claiming religious reasons. She does not eat but describes a man to the PCs and asks if they have seen him. If the PCs answer the questions truthfully, she will thank them and move on.{If~{Dice~1d100}<15? If they lie or resist answering, the woman will reveal herself to be an undead revenant, and will try to force the party to answer.}{If~{Dice~1d100}<40? The man is known to the PCs.}[NPC Appearance.NPC_Info1=3]|ClearingFlag=1|
+1,The PCs happen upon signs of a recent battle. All of the [~Creatures.Humanoid] bodies found have been stripped of arms and armor. If the party investigates the battlefield,{If~{Dice~1d100}<10? they discover that all of the arms and armor have been used to erect a cairn in honor of a slain hero who is entombed within. Encircling the cairn is a ring of 12 swords driven point first into the ground. A message carved into the cairn tells anyone who wishes plunder to take one of the swords and to leave the cairn alone. If the cairn is disturbed or if more than one sword is taken, the swords will rise up, wielded by ghostly figures who attempt to drive the transgressors away. All of the swords have same kind of magical enchantment, and if the party takes a sword and returns, they discover that another weapon has replaced the one they took./ they find [Pockets.PocketContentsOR]}|ClearingFlag=1|
+1,While journeying through this land, {If~{Dice~1d2}=1?one/two} of the PCs realize that they are allergic to some of the local flora ([~Herb Names.Generate]), something that is not native to their home clime. Reactions are {If~{Dice~1d2}=1?mild (sneezing, watery eyes, and running nose)/severe (eyes swelling shut, difficulty breathing, or anaphylactic shock)}. The PCs will need to find a local remedy to relieve their problems.
+#1,Bandits ([~Creatures.Humanoid2]) hurl bee's nests at the party as the opening to an ambush. PCs take 2 points of damage a round if they do nothing but attempt to flee or fight the bees; otherwise they suffer 4 points of damage. If the bees are ignored, the PCs fight with a -2 penalty to attack rolls and a +2 penalty to armor class. Heavily padded skirmishers engage the party while they are occupied with the bees.|ClearingFlag=4|
+1,Bandits ([~Creatures.Humanoid2]) booby-trap this area with the nests of bees getting dropped by tripwire.{If~{Dice~1d4}=1? There are also spellcasters waiting nearby to cast spells to increase the size of the bees.}[NPC Appearance.NPC_Info1=2]|ClearingFlag=4|
+1,While traveling, observant PCs (DC18) will notice that the woodpeckers in the area have unusual patterns to their knocking. If the PCs listen closely (DC15), they determine that the woodpeckers are actually using some kind of simple code. The woodpeckers and their knocking follow the PCs throughout their time in the area. If the PCs are attacked or vandalize the forest, the knocking becomes more intense and aid or opponents may soon arrive.[NPC Appearance.NPC_Info1=1]
+1,While the PCs are riding hard in an area with low visibility, a young [~Creatures.Humanoid2] girl steps out directly in front of the PCs. They must pass a DC22 ride check or they won't have enough time to stop, and will ride her down. The last thing they'll see is her terrified face. When the PCs stop to look for her body, they cannot find it. They cannot even find the girl's tracks. A search of the area (DC25) reveals the skeletal body of a young girl hidden in some tall weeds. Her skull has been crushed. If a person with tracking or medical skills examines the body (DC12), the imprint of the crest of a local noble family is visible ([~Names Generator.NAME Formal+6]) on her skull. This family has the shoes of its horses marked with the family crest.{If~{Dice~1d4}=1? Every night, the PC who rode over her ghost has nightmares urging him to bring her killer to justice, and tormenting him if he refuses to help.}[NPC Appearance.NPC_Info1=3]|ClearingFlag=4|
+1,While avoiding a storm, the party takes shelter in a cave. Once they enter the cave, they discover an enormous, hibernating cave bear. {If~{Dice~1d100}<10? Nestled in the arms of the cave beat is a naked sleeping [~Creatures.Humanoid2] child.[NPC Appearance.NPC_Info1=1]}
+1,While the characters are on an important mission, with no time to stop, they see a dark, crumbling tower with storm clouds swirling around the top. An upper chamber seems to emit flickering candlelight.
+1,The group is following a path along the edge of a precipice, high stone cliff on one side, dangerous fall on the other. The party hears noise from a distressed animal up ahead (a ranger, or anyone who makes successful Survival check DC10, can identify the sound as that of a bear). As they get nearer, they see a distressed bear and her cub milling about near the edge of the path. From their vantage point, the party can see that a second cub is stuck on a ledge 10 to 15 feet down. The cub's small ledge is crumbling, and the frightened animal's frantic attempts to scramble up the rock face are making it worse. The party can attempt to help, though the bears are blocking their path and the mother bear is not eager to let the party rescue her cub for her.
+1,The party needs to cross a bridge that is being held by some creature ([~Creatures.Humanoid]) that wants an exorbitant fee before allowing the party to cross. Perhaps an ogre for lower-level parties, a troll for mid-level parties, and a giant for higher-level parties. In a chivalric campaign, perhaps the toll-taker is an errant knight.[NPC Appearance.NPC_Info1=1]
+1,The party encounters a {If~{Dice~1d3}>1?village/farmstead} that is under attack from a creature ([~Creatures.All]) they do not posses the power to defeat. There are plenty of innocents that need help, but engaging the creature directly would be suicide. The party should be rewarded for any heroics that might arise from the situation. [~City Encounters.Reward]|ClearingFlag=5|
+1,Through trial and error the party discovers that whenever they do a specific action (kill a spider, sing a song, whatever) it rains for the rest of the day. This event does not happen when the PCs are within a city, but happens consistently when they are not. When the PCs discover the action that causes the rain it changes a few days later. This may be a curse caused by the PCs' previous actions.
+1,The PCs encounter pacifist members of a normally murderous humanoid race ([~Creatures.Humanoid]) who are on a pilgrimage to a place reported to be safe for them. These pacifists are hunted by members of their own race as well as by the PCs' own people. If the PCs get mixed up with this group, they will have their hands full trying to keep them alive.[NPC Appearance.NPC_Info1=2]|ClearingFlag=1|
+1,The PCs enter the territory of a powerful animal that they might not normally consider a threat (moose, hippopotamus, buffalo, [~Creatures.Animal]) but will quickly change their minds when the animal decides that the party should not be there.|ClearingFlag=6|
+1,The party encounters a massive stone obelisk.
+_{If~{Dice~1d100}<80? The obelisk is covered with ancient runes (Language: [~Miscellaneous.Language Ancient]). If the runes are examined closely (DC{Dice~1d20+15})[ObeliskRunes]}
+_{If~{Dice~1d100}<10? There is a crucified [~Creatures.Humanoid2] body on {If~{Dice~1d100}<20? all four sides, pointing to the north, south, east, and west./ one side.}[NPC Appearance.NPC_Info1=1]}
+_{If~{Dice~1d100}<20? The obelisk is warm to the touch./{If~{Dice~1d100}<20? The obelisk is cold to the touch.}}|ClearingFlag=6|
+#############################
+#
+# From "City Encounters.tab"
+#
+#############################
+25,A cat (or [~Creatures.Familiar]) approaches the party, walking amidst them, meowing and cuddling up to their feet.
+_{If~{Dice~1d4}=1? The animal is a wizard's familiar.{If~{Dice~1d4}=1? {If~{Dice~1d3}=1?The spellcaster is the head of a nobles security detail who wants to check out the characters./{If~{Dice~1d2}=1?The spellcaster is a spy for some villainous group ([~NPC Appearance.Villain_Group])./The Spellcaster is member of an arcane group ([~Group Designer.StartArcane])}}}[NPC Appearance.NPC_Info1=1]}
+1,Abandoned {If~{Dice~1d10}=1?[~Creatures.Humanoid2] }|Roll={Dice~1d2}|{If~%Roll%=1?cart/wagon}.
+_{If~{Dice~1d4}=1? {Generate~0,Click to generate contents of wagons,Gen_Wagon_Content}}
+1,{Cap~[~Creatures.Humanoid2]} apprentice in the livery of a guild ([~Group Designer.RandomGroupID]).[NPC Appearance.NPC_Info1=1]
+1,Broken {If~{Dice~1d10}=1?[~Creatures.Humanoid2] }|Roll={Dice~1d2}|{If~%Roll%=1?cart/wagon}.
+_{If~{Dice~1d4}=1? {Generate~0,Click to generate contents of wagons,Gen_Wagon_Content}}
+10,<b>{Dice~1d3}</b> cat(s).
+1,Dead body of a [~Creatures.Humanoid2].|Roll={Dice~1d100}| {If~%Roll%<30? He was assassinated/He was not assassinated}.[NPC Appearance.NPC_Info1=1]
+1,Empty{If~{Dice~1d10}=1? [~Creatures.Humanoid2]} wagon.
+1,A flying creature ([~Creatures.Flying]) {If~{Dice~1d3}=1?passes overhead and flies away toward the [~Miscellaneous.Direction]/{If~{Dice~1d2}=1?is perched on a roof/comes flying from the [~Miscellaneous.Direction] and perches on a closeby roof}.{If~{Dice~1d2}=1? It seems to be looking at the party}}.
+1,Loose Animal: <b>{Dice~1d3}</b> [~Creatures.Animal2].
+1,Mangy dog.{If~{Dice~1d4}=1? The dog belongs to someone who can be useful to the PCs.[NPC Appearance.NPC_Info1=1]}
+1,New hole in the street.{If~{Dice~1d3}=1? A random PC must pass a DC10 Balance check or fall.{If~{Dice~1d2}=1? The PC must then pass a DC10 Constitution check or receive 1 damage and move at half speed until healed.}}
+1,The characters find a muddy, torn scroll lying in the street.
+_ It holds {If~{Dice~1d4}>1?{If~{Dice~1d4}=1?directions to a secret rendezvous/a note [~DUN Graffiti.Graffiti]. It is written in {If~{Dice~1d4}=1?ancient/contemporary} [~Miscellaneous.Language].}/{If~{Dice~1d2}=1?a treasure map/a magic spell}}.
+1,A stray dog follows the characters, whining and pitiably and gazing longingly at any food they carry.{If~{Dice~1d10}=1? The dog belongs to someone who can be useful to the PCs.[NPC Appearance.NPC_Info1=1]}
+10,You find [~Curios.Generate].
+1,Birds of prey ([~Creatures.Bird of Prey]) circling overhead.
+1,Shadow passes across the ground.
+1,Smoke rises in distance (brush fire) toward the [~Miscellaneous.Direction].
+1,Feeling of <i>deja vu</i>.
+1,Insect swarm on building. {If~{Dice~1d3}=1?It's a business named [~Shop Names.GenShop]./It's a regular {If~{Dice~1d3}=1?two-stories/one-story} building.}[NPC Appearance.NPC_Info1=1]
+1,Insect nest on building. {If~{Dice~1d3}=1?It's a business named [~Shop Names.GenShop]./It's a regular {If~{Dice~1d3}=1?two-stories/one-story} building.}[NPC Appearance.NPC_Info1=1]
+1,Howling in the distance toward the [~Miscellaneous.Direction].
+1,Barking in the distance toward the [~Miscellaneous.Direction].
+1,Graffiti on building ([~DUN Graffiti.Graffiti]). {If~{Dice~1d3}=1?It's a business named [~Shop Names.GenShop]./It's a regular {If~{Dice~1d3}=1?two-stories/one-story} building.}[NPC Appearance.NPC_Info1=1]
+1,Stumble onto amorous [~Creatures.Humanoid2] teens.[NPC Appearance.NPC_Info1=3]
+1,Snake slithers away toward the [~Miscellaneous.Direction].
+1,Rainbow in the distance toward the [~Miscellaneous.Direction].
+1,Group of bats rise in the distance toward the [~Miscellaneous.Direction].
+1,Stumble on [~Creatures.Humanoid2] lover's quarrel.[NPC Appearance.NPC_Info1=1]
+1,Sudden sun shower.
+1,Wind kicks up.
+1,A discarded, tattered [~Miscellaneous.Color] cloak.
+1,A {If~{Dice~1d2}=1?{If~{Dice~1d2}=1?rusty/broken}/{If~{Dice~1d2}=1?quite old/almost new}} old [~Equipment.Weapons] found in gutter.
+1,Dark storm cloud approaches from the [~Miscellaneous.Direction].
+1,Large beetle buzzes around a PC's head.
+1,Sandstorm toward the [~Miscellaneous.Direction].
+1,Small dust whirlwind moving toward the [~Miscellaneous.Direction].
+1,Unusually cool breeze.
+1,A random PC gets a dull, throbbing headache.
+1,Injured bird lies helpless.
+1,Skunk smell.
+1,Eerily quiet.
+1,A dead ox causes a gridlock.[NPC Appearance.NPC_Info1=1]
+1,A random PC is stung by a bee.{If~{Dice~1d10}=1? He must pass a DC10 Fortitude save or become helpless.}
+1,Arid dust coats a PC's mouth.
+1,A [~Creatures.Humanoid2] teleports away.[NPC Appearance.NPC_Info1=1]
+1,Very friendly cat.
+_{If~{Dice~1d4}=1? The animal is a wizard's familiar.{If~{Dice~1d4}=1? {If~{Dice~1d3}=1?The spellcaster is the head of a nobles security detail who wants to check out the characters./{If~{Dice~1d2}=1?The spellcaster is a spy for some villainous group ([~NPC Appearance.Villain_Group])./The Spellcaster is member of an arcane group ([~Group Designer.StartArcane])}}}[NPC Appearance.NPC_Info1=1]}
+5,Find a copper piece from [~Countries.Land].
+3,Find a silver piece from [~Countries.Land].
+1,Find a gold piece from [~Countries.Land].
+1,Allergic reaction to exotic spice/pollen. A random PC must pass a DC10 Fortitude save or become ill.
+1,Something scurries away (mouse) toward the [~Miscellaneous.Direction].
+1,Dogs chasing each other run by.
+1,Very active beehive nearby.
+1,Howling gust of wind.
+1,Approaching lightning storm from the [~Miscellaneous.Direction].
+1,Crow squawks repeatedly at approach.
+1,Rubbery mass stuck to a PC's boot (gum).
+1,A random PC steps in crap/dung ([~Creatures.All]).
+1,A random PC stomps in a puddle, splashing {If~{Dice~1d2}=1?himself/a random PC}.[NPC Appearance.NPC_Info1=1]
+1,Unconscious [~Creatures.Humanoid2] stranger on side of road.[NPC Appearance.NPC_Info1=1]
+1,Pair of small birds harass you.
+1,Feral cat is trailing the party.
+_{If~{Dice~1d4}=1? The animal is a wizard's familiar.{If~{Dice~1d4}=1? {If~{Dice~1d3}=1?The spellcaster is the head of a nobles security detail who wants to check out the characters./{If~{Dice~1d2}=1?The spellcaster is a spy for some villainous group ([~NPC Appearance.Villain_Group])./The Spellcaster is member of an arcane group ([~Group Designer.StartArcane])}}}[NPC Appearance.NPC_Info1=1]}
+1,Cloud shaped as holy symbol of [~Religion.Deities].
+1,Shopping list for components is found: [Spell Components.AlternateOLD].
+1,Old [~Miscellaneous.Metal] ring is sticking out of the dirt.
+1,A random PC has an intense itch.
+1,{If~{Dice~1d2}=1?Hawk/Owl} takes {If~{Dice~1d2}=1?mole/mouse} near party and flies away toward the [~Miscellaneous.Direction].
+_{If~{Dice~1d4}=1? The animal is a wizard's familiar.{If~{Dice~1d4}=1? {If~{Dice~1d3}=1?The spellcaster is the head of a nobles security detail who wants to check out the characters./{If~{Dice~1d2}=1?The spellcaster is a spy for some villainous group ([~NPC Appearance.Villain_Group])./The Spellcaster is member of an arcane group ([~Group Designer.StartArcane])}}}[NPC Appearance.NPC_Info1=1]}
+1,Raven lands in path, stares at PCs, and leaves toward the [~Miscellaneous.Direction].
+_{If~{Dice~1d4}=1? The animal is a wizard's familiar.{If~{Dice~1d4}=1? {If~{Dice~1d3}=1?The spellcaster is the head of a nobles security detail who wants to check out the characters./{If~{Dice~1d2}=1?The spellcaster is a spy for some villainous group ([~NPC Appearance.Villain_Group])./The Spellcaster is member of an arcane group ([~Group Designer.StartArcane])}}}[NPC Appearance.NPC_Info1=1]}
+1,Large flock of birds flies acrobatics, then darts away toward the [~Miscellaneous.Direction].
+1,Injured mounted [~Creatures.Humanoid2] scout charges through the street.[NPC Appearance.NPC_Info1=1]
+1,Partial eclipse of the sun.
+1,A cat is stuck in a tree and mewls at the PCs.
+_{If~{Dice~1d4}=1? The animal is a wizard's familiar.{If~{Dice~1d4}=1? {If~{Dice~1d3}=1?The spellcaster is the head of a nobles security detail who wants to check out the characters./{If~{Dice~1d2}=1?The spellcaster is a spy for some villainous group ([~NPC Appearance.Villain_Group])./The Spellcaster is member of an arcane group ([~Group Designer.StartArcane])}}}[NPC Appearance.NPC_Info1=1]}
+1,A small bird egg drops out of a nest from above and {If~{Dice~1d2}=1?breaks upon landing{If~{Dice~1d2}=1? showing an unborn bird}/lands intact nearby}.
+#
+# Mother of All Encounter Table
+# Necromancer Games 2003
+#
+# Overland - Urban - Trade Route - Overseas - Underwater - Subterranean
+#
+5,A press gang looking for slaves or "recruits" for the military sees the PCs as possible candidates. These should be War1 or Rog1 NPCs, led by a 2nd level NPC; there should be at least 2/PC, or they won't attempt anything.[NPC Appearance.NPC_Info1=2]
+1,{Bold~Airless zone:} This area is completely barren and devoid of life, for the very good reason that it is a pocket of vacuum. Those who enter immediately begin to suffocate, and suffer 1d4 Con damage each round as their bodily fluids boil away.
+5,An area is contaminated with [~Event_1].
+1,A [~Creatures.Humanoid2] army is on the march. They {If~{Dice~1d3}>1?are relief troops for a distant outpost/going to war}. The army consists of [~Event_2].{CR~}{Space~5}At sea their ship will be escorted by at least two small warships.[NPC Appearance.NPC_Info1=2]
+5,An old shrine to {If~{Dice~1d4}>1?[~Religion.Deities(1)]/an animal spirit ([~Creatures.Animal])} is chanced upon and is {If~{Dice~1d20}=1?still in use/unused}. A Knowledge (Religion) check (DC {Bold~{Dice~1d12+10}}) identifies the being worshipped if that is possible.
+5,Animal snare ([~Event_3]): Set up by {If~{Dice~1d3}>1?[~Creatures.Humanoid2] trappers/local intelligent creatures ([~Creatures.All])} for food, fur, etc. There is a 10&#37; chance per hour that the creature that set the trap comes to check on it. Perception (spot) check (DC {Bold~{Dice~1d10+15}}) avoids the trap.
+1,Antimagic field: An area where magic does not function is encountered, with an overall size determined by the DM. This is {If~{Dice~1d2}=1?a natural occurrence/the result of an ancient battle}. Feel free to roll another wandering encounter right away.
+1,Assassins have targeted a PC or someone nearby. There are 1d3 ([~ENC URE Hazards.1d3]), and they should be a combined EL equal to the target's level plus two.
+1,{If~{Dice~1d10}=1?Avatar of/Sign from} a particular deity ([~Religion.Deities]).
+2,Burial site: A [~Creatures.Humanoid2] [~Event_4] is encountered. It is {If~{Dice~1d100}<=15?still used/unused}{If~{Dice~1d2}=1? undead-infested}. Many such sites are concealed, especially if long unused, and require a Spot check (DC {Bold~{Dice~1d10+15}}) to notice.
+1,Caves: A series of natural caves or caverns are discovered. The size of this cave complex is left for the DM to determine.
+1,Climate variance: An area is encountered, possibly the size of a small valley, large cavern, or island, with a climate different than the normal one, such as a tropical jungle infested with dinosaurs deep in alpine crags, or a bone-dry desert in the center of a murky swamp.
+1,Continuous flame on some object is found, still burning merrily after uncounted hours, days, or years of abandonment.
+1,Cursed item: The group comes across an abandoned [~Creatures.Humanoid] campsite, and on searching it (Spot DC {Bold~{Dice~1d10+15}} or Search DC {Bold~{Dice~1d6+7}}) they come across a valuable-looking item that is actually cursed. The DM can roll a cursed item from the DMG or determine one for himself; it should not appear (or identify) as cursed, however.
+1,Eclipse: A solar eclipse occurs, blotting out the sun and possibly panicking superstitious creatures in the region.
+2,Escaped slave: Someone has managed to flee his captors and is on the run. He will throw himself on the PCs' mercy if they think he won't be turned over to his captors or killed.[NPC Appearance.NPC_Info1=3]
+1,Ethereal thin zone: The barrier between the prime plane and the ethereal plane has become thin, resulting in a 10&#37; ([~ENC URE Hazards.1d100]&#37;) chance per minute that those within the zone move from one to the other. 
+1,Extraplanar thin zone: The barrier between the prime plane and an elemental plane has worn thin, tainting the environment. Within this area, elemental creatures of the matching type are considered to be in contact with their element, and save DCs versue effects of the chosen element receive a +2 circumstance increase. Natural animals and plants do not willingly dwell/grow in such an area.{CR~}{Space~5}Effect: [~Event_5]
+5,Food spoilage: Some of the group's food or water rations become tainted by weevils, mold, or another contaminant, ruining [~ENC URE Hazards.1d6] days of rations for one person.
+1,Glowing motes: The air is filled with hundreds of tiny glowing motes whose origin cannot be seen. These is caused by [~Event_6].
+1,Grisly display: Bodies ([~Creatures.All]) are encountered hanged, impaled, or otherwise mounted to ward off or warn intruders. Survival check (DC {Bold~{Dice~1d10+20}}) determines the race responsible. The races of the creatures on display can be rolled from the random monster table appropriate to the climate/terrain.
+1,Hive mind: The wildlife in the area has for some reason developed a group consciousness (INT {Bold~{Dice~1d8+6}}), AL: {If~{Dice~1d2}=1?neutral/[~Miscellaneous.Alignment]}.[NPC Appearance.NPC_Info1=1]
+1,Hot spring: A natural hot spring is found. Heat Intensity: {Bold~{Dice~1d4+6}}d6 of damage/round.
+2,Insect swarm: The party comes across a swarm of {Bold~{If~{Dice~1d2}=1?flying/crawling}} insects. Treat as a naturally occurring {Italic~insect swarm} spell.
+1,Lights in the sky: The sky is filled with distant flashing, glittering, or swooping lights whose origin is left to the DM to determine.
+5,Lost mount: A mount that has become separated from its master and lost is encountered. It bears equipment as the DM sees fit.
+_The owner {Bold~{If~{Dice~1d2}=1?is dead/is looking for the mount}}.[NPC Appearance.NPC_Info1=1]
+_{CR~}{If~{Dice~1d10}>1?[Horse Generator.Alternate_ENC_URE(10)]/[Riding Dog Generator.Alternate_ENC_URE(15)]}
+1,Magical spring: A spring of enchanted water is discovered; roll a random minor potion effect to determine its properties if drunk ([~EQ MAGIC ITEMS.Generate(1,5)]). It loses its potency if it is bottled and removed from the spring.{If~{Dice~1d4}>1? There is a wandering monster encounter at the spring.}
+1,Major calamity: A great magical effect has been unleashed somewhere that affects the region or even the entire planet. Perhaps this is the result of an artifact being triggered, or perhaps the scheme of an evil people was foiled just as it reached fruition.
+_{CR~}{Space~5}{Bold~Example:} [~Event_7]
+1,Mine: A mine for some type of precious metal or substance ([~Event_8]). {If~{Dice~1d10}>=6?The mine is played out and abandoned by its makers{If~{Dice~1d10}<=7? but inhabited by a subterranean race}/The mine is still in use and mined by [~Creatures.Humanoid2]}. 
+5,Misplaced item: Someone in the group has dropped or misplaced a small but important item sometime within the last 1-8 ([~ENC URE Hazards.1d8]) hours. 
+5,Mount goes lame: If the group is riding on mounts, one of them goes lame, slowing its movement by half until it is healed. If no mounts are present, then a group member twists his ankle and suffers the same penalties to movement.
+1,Obelisk: An enigmatic {If~{Dice~1d3}=1?menhir/{If~{Dice~1d2}=1pylon/pillar}} of stone is discovered{If~{Dice~1d2}=1? etched with strange writings ([~Event_9])}. The origin and purpose of this marker is left for the DM to determine.
+2,One or more fawning sycophants come upon the PCs and follow them around pestering them. If the PCs are low level, they are mistaken for more famous adventurers; otherwise they may be taken for who they are.
+1,Ore deposit: An unmined deposit of precious minerals ([~Event_8]) is chanced upon, though a successful Perception/Spot check (DC {Bold~{Dice~1d10+15}}) is required to notice it.
+2,Prophetic dream: Roll or choose a random encounter for the next day. The night before, one of the characters has a prophetic dream that foreshadows this encounter. Feel free to make the encounter more challenging than usual, and the dream as cryptic as you wish.
+5,Rare plant ([~Herb Names.Start(1,2)]) is found, though a Survival check (DC {Bold~{Dice~1d10+15}}) is required to recognize its value. This could be a medicinal plant, a drug, a poisonous plant, or anything the DM determines is viable. Value should be no more than 1d10x10 gp ({Bold~{Dice~1d10*10} gp}) total.
+1,Ruined settlement: The ruins of a [~Creatures.Humanoid] community are found; the race should be indigenous to the region.{If~{Dice~1d10}<=6? {Bold~It is now the lair of some [~Creatures.All].}}
+1,Snake surprise: While sleeping, 1d3 ([~ENC URE Hazards.1d3]) snakes seek the warmth of a traveler's bedroll.
+_ The snakes are {Bold~{If~{Dice~1d10}=1?venemous/non-venemous}}, but the sleeper won't necessarily know this! A Perception check (DC {Bold~{Dice~1d10+13}}) is
+_ allowed to initially spot the intrusion; an Escape Artist check (DC {Bold~{Dice~1d10+13}}) allows one to slip free without disturbing the visitors.
+_{CR~}{Space~5}In arctic and subarctic climes, treat as no encounter.
+1,Thief on the run: A scoundrel has slit one purse too many, and is being chased by the local authorities. He may try using the PCs in some way for aid, either as
+_ allies or as a distraction. He may even try slipping the stolen merchandise into a PC's bag. If he does this and gets away, he'll be back looking for it later.
+_ Treat the thief as a Rogue level 1-6 ([~ENC URE Hazards.1d6]).[NPC Appearance.NPC_Info1=1]
+5,Uncommanded undead: 1-3 ([~ENC URE Hazards.1d3]) {Bold~{If~{Dice~1d2}=1?skeletons/zombies}} are encountered, commanded to await instructions by their master,
+_ then abandoned.  They will not attack unless attacked first, and can be turned or rebuked normally. They carry no treasure or weaponry.[NPC Appearance.NPC_Info1=2]
+1,Visitation: The group receives repeated visitations by a ghostly apparition ([~Creatures.All]) that returns until a particular deed is accomplished.
+_ The ghostly figure does not attack, and can be turned but not destroyed. Each time a non-monster random encounter is rolled, there is a 50&#37;
+_ ([~ENC URE Hazards.1d100]&#37;) chance it is another visitation. The phantom may spook animals, disturb sleep, or inspire dread; it is up to the DM to determine
+_ its origin and what needs to be done to let it rest.
+
+;Event_1
+10,ungol dust (inhaled DC15, 1 CHA/[~1d6] CHA + 1 CHA Permanent)
+10,burnt othur fumes (inhaled DC18, 1 CON Permanent/[~3d6] CON)
+20,insanity mist (inhaled DC15, [~1d4] WIS/[~2d6] WIS)
+10,a cloudkill spell (DC
+10,id moss (inhaled DC14, [~1d4] INT/[~2d6] INT)
+10,hallucinogenic fumes (acts as a {Italic~confusion} spell, Will save DC 12)
+10,euphoria/extreme pleasure gas (inhaled, Will DC 14+1/round of exposure to do anything other than bliss out)
+10,knock-out fumes (inhaled, Will DC 15 or fall into a coma, lasting as long as in the area plus [~1d4] hours)
+10,yellow mold spores (inhaled DC15)
+
+;Event_2
+60,common footsoldiers (1d10x50 = {Bold~{Dice~1d10*50}})
+10,light cavalry (2d10x20 = {Bold~{Dice~2d10*20}})
+5,scouts (1d10x10 = {Bold~{Dice~1d10*10}})
+5,skirmishers (1d10x10 = {Bold~{Dice~1d10*10}})
+5,heavy infantry (1d10x50 = {Bold~{Dice~1d10*50}})
+5,berserkers (2d4x10 = {Bold~{Dice~2d4*10}})
+5,heavy cavalry (2d100 = {Bold~{Dice~2d100}})
+5,spellcasting troops (2d20 = {Bold~{Dice~2d20}})
+
+;Event_3
+1,ankle snare
+1,bear trap
+1,net trap
+1,concealed pit
+
+;Event_4
+6,graveyard
+5,burial mound
+4,mausoleum
+1,pyre
+1,hanging coffins
+1,ossuary
+1,sky burial (usually in mountain)
+1,excarnation (flesh removal)
+
+;Event_5
+1,Air zone (air is unusually clean and fresh,possibly with a hint of exotic odors ([~Miscellaneous.Odor]); underwater, the air is constantly fizzing as if carbonated). 
+1,Earth zone (a sense of pressure and constraint shadows the senses of all in the area; movement is reduced by 1/3 and visibility by 1/2 unless one has a burrowing speed and tremorsense, respectively).
+1,Fire zone (area is considered very hot, possibly causing heat damage.
+1,Water zone (area is thick, misty, and humid; underwater the water becomes unusually pure).
+
+;Event_6
+4,lights held by ethereal creatures
+4,an ancient spell gone awry
+1,a strange new monster
+1,another reason determined by the DM
+
+;Event_7
+1,The sun stops in its course for {Bold~{Dice~2d12}} hours.
+1,The moon stops in its course for {Bold~{Dice~2d12}} hours.
+5,Gravity is reversed everywhere for {Bold~{Dice~2d12}} seconds, causing many injuries and deaths.
+3,Utter darkness envelops the land for {Bold~{Dice~1d20}} minute(s).
+3,Utter silence envelops the land for {Bold~{Dice~1d20}} minute(s).
+3,A sudden fog envelops the land for {Bold~{Dice~1d20}} minute(s), leading to the Lands of Ravenloft.
+5,All magic ceases to function for a {Bold~{Dice~1d20}} {If~{Dice~1d2}?=minutes/days}.
+5,All dead that are not magically protected spontaneously animate as skeletons or zombies with a lust to kill living beings.
+5,Every intelligent being is subjected to a {Italic~maze} spell.
+1,Everyone is granted a single {Italic~wish}, as the spell, though they are not granted knowledge of this bequest.
+
+;Event_8
+1,Adamantite
+12,Copper
+6,Gold
+14,Iron
+13,Lead
+1,Mithril
+1,Other mineral ([~Miscellaneous.Other Material])
+1,Platinum
+15,Silver
+13,Tin
+13,Gems (10 gp base value)
+4,Gems (50 gp base value)
+4,Gems (100 gp base value)
+2,Gems (500 gp base value)
+1,Gems (1,000 gp base value)
+
+;Event_9
+1,[The Oracle.Start]
+1,[ADV Instant Adventure Namer.Generate]
+1,[Ethics.Generate]
+1,[Notable Event Names.Generate]
+
+;ObeliskRunes
+2, they appear to correspond to an ancient calendar.{If~{Dice~1d100}<10? Through extrapolation, the party can determine that the date the calendar ends with is only a few days away.}
+2, they appear to be a religious text of [~Religion.Deities].
+5,, they are runes [~DUN Graffiti.Graffiti].
+1,, they are runes talking about [Book Titles.Start].

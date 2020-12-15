@@ -1,0 +1,82 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder Jan 20, 2006.
+# ---------------------------------------------------
+#
+# Orc Tribes
+#
+# Copyright 2000  Bruce A. Gulke
+#
+# Modified by Valminder April 2002
+#    I changed the "START" line.
+#
+# Modified by Valminder, Jan 2006.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+#
+
+:Start
+1,{Status~by Bruce A. Gulke, 2000}[Generate].
+
+:Generate
+1,{Cap~[Adj]} {Cap~[Noun]}
+
+;Adj
+2,[Color]
+4,[Condition]
+2,[Other]
+
+;Noun
+3,[Body Part]
+2,[Weapon]
+2,[Thing]
+1,[Animal]
+
+;Color
+1,black
+1,red
+1,green
+1,blue
+1,yellow
+
+;Condition
+1,bleeding
+1,bloody
+1,cracked
+1,crooked
+1,dead
+1,dripping
+1,flaming
+1,jagged
+1,rotting
+
+;Other
+1,dark
+1,shadow
+1,death
+
+;Body Part
+1,tongue
+1,eye
+1,claw
+1,fang
+1,skull
+1,bone
+1,tooth
+1,fist
+1,talon
+
+;Weapon
+1,axe
+1,knife
+1,blade
+1,spear
+
+;Thing
+1,moon
+1,rock
+1,cave
+
+;Animal
+1,rat
+1,snake
+1,wolf

@@ -1,0 +1,47 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder August 24, 2006.
+# ---------------------------------------------------
+#
+# Bowyer & Fletcher
+#
+# Sean Hlousek
+#
+# -------------------------------------------------------------------------
+#
+# To call this table from another one:
+#    [EQ Bowyer & Fletcher.Generate(%Rolls%,%GenItem%)
+#
+#    Parameters: (%Rolls%,%GenItem%)
+#
+#    Rolls:    (1) Enter the number of items needed.
+#    Gen Item: (9) 1= Ranged Weapons and Ammo (Mundane)
+#                  2= Ranged Weapons and Ammo (Magical)
+#                  3= Ammunitions (Mundane only)
+#                  4= ALL Ranged Weapons and Ammo (Mundane and Magical)
+#
+# -------------------------------------------------------------------------
+#
+# Modified by Valminder, August  2006.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+#    This table is only used to call other EQ tables. It could be removed and
+#       we could only use "EQ Blacksmith".
+#
+
+%Rolls%,0
+%GenItem%,0
+
+@Rolls,10,How many Items are in this Shop?
+@GenItem,4,What do you want to generate,Ranged Weapons and Ammo (Mundane),Ranged Weapons and Ammo (Magical),Ammunitions (Mundane only),ALL Ranged Weapons and Ammo (Mundane and Magical)
+
+:Start
+1,{Status~By Sean Hlousek, Valminder 2006}[Generate]
+
+:Generate
+1,{Loop~%Rolls%,[RangedWeaponsMaster=%GenItem%]}
+                                
+:RangedWeaponsMaster
+1,[EQ Blacksmith.Generate(1,14)]
+2,[EQ Blacksmith.Generate(1,15)]
+3,[EQ Blacksmith.Generate(1,17)]
+4,[EQ Blacksmith.Generate(1,16)]

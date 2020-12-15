@@ -1,0 +1,375 @@
+# ------------------------------------------------------
+# Last Update: re-verified by Valminder Jan 10, 2012.
+# ------------------------------------------------------
+# ---------------------------------------------------
+# Last Update: modified by Valminder August 8, 2006.
+# ---------------------------------------------------
+#
+# Runes, Signs, and Scrawlings
+#
+# This table produces random writings found on walls in dungeons, caves, and
+# other places where adventurers are likely to be looking. Some of them might
+# be clues, some are deliberately misleading, some are just the ravings of
+# hapless adventurers driven beyond sanity.
+#
+# Converted from TableMaster Copyright 1995 by Wintertree Software
+#
+# Modified / Verified by Valminder, Jan 2004.
+#   I linked this table to "DUN Door.tab".
+#   I modified from "Door Too" by Lawrence H. Cormier 1996
+# Modified by Valminder, Nov 2005.
+#   Removed header from [Start]
+#   Added link to:
+#      The Oracle.Start 
+# Modified by Valminder, Jan 2006.
+#   Added link to: Ethics.Generate
+# Modified by Valminder, August 2006.
+#   Added link to: Notable Event Names.tab
+#
+
+# Declare Variables
+%Temp%,0
+%TempNumber%,0
+%Chance%,0
+%Count%,0
+
+:Start
+1,{Status~by Valminder and Larry Cormier}There [Generate]<br><br>
+
+;GenerateDoor
+20,, on the door, [WordsDoor] scrawled [WritingInstruments] [Graffiti].<br>It is written in [Chanceof]{If~%Chance%<75? contemporary/ancient} [~Miscellaneous.Language].
+1,, on the door, a riddle written [WritingInstruments].<br>It is written in [Chanceof]{If~%Chance%<75? contemporary/ancient} [~Miscellaneous.Language].<br> {Generate~0,Click to generate the riddle,PrintRiddle}
+
+;Generate
+20,[Words], on [Place], scrawled [WritingInstruments] [Graffiti].<br>It is written in [Chanceof]{If~%Chance%<75? contemporary/ancient} [~Miscellaneous.Language].
+1,is, on the [Place], a riddle written [WritingInstruments].<br>It is written in [Chanceof]{If~%Chance%<75? contemporary/ancient} [~Miscellaneous.Language].<br> {Generate~0,Click to generate the riddle,PrintRiddle}
+
+;GenerateSpecial
+20,[Graffiti].<br>It is written in ancient [~Miscellaneous.Language].
+1,that give a riddle in ancient [~Miscellaneous.Language].<br> {Generate~0,Click to generate the riddle,PrintRiddle}
+
+:Chanceof
+1,|Chance={Dice~1d100}|
+
+:PrintRiddle
+1,<br><i>[Riddles.Start]</i>
+
+# --------------------------------------------------------------------------
+
+;Place
+6,the wall
+3,the floor
+1,the ceiling
+1,a piece of furniture
+
+;Words
+1,are runes
+1,are words
+1,is a message
+1,is a grafitti
+1,are writings
+1,is a note
+
+;WordsDoor
+1,runes
+1,words
+1,a message
+1,a grafitti
+1,writings
+1,a note
+
+;WritingInstruments
+1,in blood
+10,in black ink
+1,in white chalk
+1,in soot
+3,in [~Miscellaneous.Color] ink
+2,in [~Miscellaneous.Color] paint
+1,in [~Miscellaneous.Color] chalk
+1,in mud
+1,with a burnt-out torch stump
+1,with a burnt-out torch stump dipped [WritingInstruments={Dice~1d20}]
+1,with a brush dipped [WritingInstruments={Dice~1d20}]
+1,with a finger dipped [WritingInstruments={Dice~1d20}]
+1,with a [Chanceof]{If~%Chance%<75? knife blade/steel spike}
+1,in [Chanceof]{If~%Chance%<85? charcoal/smeared ashes}
+1,in glowing [~Miscellaneous.Color] letters
+
+# -------------------------------------------------------------------------
+
+;Graffiti
+5,that says: "Beware [Warnings]."
+1,that says: "Death stalks the bowels of the dragon."
+1,that says: "[~NamesBranch] was here."
+1,that says: "The [~Miscellaneous.Color] Mage cometh. He seeks the path of despair and reaps tears."
+1,that shows an arrow pointing to the [Sides] and proclaiming "This way."
+1,that says: "Death is neigh. If ye should find this, pray tell [~NamesBranch] that ..." The rest of the message was [Chanceof]{If~%Chance%<90? obliterated/never completed}.
+1,that says:"Seek not thy fortune here. [Chanceof]{If~%Chance%<75? [~NamesBranch]/Death awaits.}"
+2,that says: "[~NamesBranch]."
+1,that says: "[~NamesBranch] was here."
+1,that says: "[~NamesBranch], meet me downstairs. <i>[~NamesBranch]</i>."
+1,that says: "[~NamesBranch], meet me outside. <i>[~NamesBranch]</i>."
+1,that says: "[~NamesBranch], meet me upstairs. <i>[~NamesBranch]</i>."
+1,that says: "[~NamesBranch], take care. [~NamesBranch] is a traitor."
+1,that says: "Armory."
+5,that says "Beware of the [Chanceof]{If~%Chance%<80? .../ [Adjective] [Noun]!}"
+1,that says: "Beware of the trap."
+1,that says: "Danger."
+1,that says: "Do not enter."
+1,that says: "Entrance."
+1,that says: "Exit."
+1,that says: "None shall pass."
+1,that says: "Password: [~NamesBranch]."
+1,that says: "Restricted area."
+1,that says: "Room <b>{Dice~1d1000}</b>."
+1,that says: "Smithy."
+1,that says: "This door is trapped."
+1,that says: "Turn around."
+1,that says: "The treasure is above."
+1,that says: "The treasure is below."
+1,that says: "The [~Miscellaneous.Metal] leads the way."
+5,that says: "[Chanceof]{If~%Chance%<50? [Way] -->/<-- [Way]}"
+5,that says: "{Cap~[Mad_Ravings]}"
+5,that says: "{Cap~[Instructions]}"
+1,that shows {AorAn~[Arrow]} arrow pointing [Direction]
+1,that shows {AorAn~[Arrow]} X
+5,that says: "[~The Oracle.Start]"
+5,that says: "[~ADV Instant Adventure Namer.Generate]"
+5,that says: "[~Ethics.Generate]"
+5,that says: "[~Notable Event Names.Generate]"
+
+;Adjective
+10,[~Miscellaneous.Color]
+1,ugly
+1,big
+1,little
+1,monstrous
+1,silent
+1,itching
+1,wiggling
+1,slithering
+1,crawling
+1,unspeakable
+1,horrible
+1,ancient
+1,nameless
+8,[Compass]
+1,dreaming
+1,pretty
+1,noisy
+1,nice
+1,happy
+1,funny
+
+;Arrow
+2,large
+5,normal
+2,small
+1,crooked
+
+;Article
+1,the
+1,any
+
+;Class
+1,[Chanceof]{If~%Chance%<75? Wizard's/Witches'} [Things]
+1,[Chanceof]{If~%Chance%<75? Sorcerer's/Sorceresses'} [Things]
+1,Mages' [Things] 
+1,[Chanceof]{If~%Chance%<75? Cavalier's/Paladin's} [Things={Dice~1d18+3}]
+1,Ranger's [Things={Dice~1d18+3}]
+1,Thieves' [Things={Dice~1d18+3}]
+1,Hobbit's [Things={Dice~1d18+3}]
+1,[~Creatures.Humanoid]'s [Things={Dice~1d18+3}]
+
+;!Compass
+2,north
+1,northeast
+2,east
+1,southeast
+2,south
+1,southwest
+2,west
+1,northwest
+
+;Direction
+1,[Up_Down]
+2,[Compass]
+
+;Instructions
+1,follow this rune: [~Rune Generator.GenRune]
+1,exit the maze by going [Compass]
+1,I hid the treasure in a room in the [Compass]
+1,go [Compass] until you see the sign on [Place]
+2,go |Count={Dice~1d3}|%Count% {If~%Count%>1? levels/level} [Up_Down] then take the [Compass] corridor
+2,|Temp={Dice~1d100+20}|%Temp% {If~Temp>1? paces/pace} [Compass], then go [Compass]
+1,follow the [~Miscellaneous.Color] tiles
+1,do not touch at the [~Miscellaneous.Color] floor tiles
+1,|Count={Dice~1d2}|%Count% {If~%Count%>1? levels/level} [Up_Down], you'll have to speak [~Miscellaneous.Language] to open what cannot be opened
+1,|Count={Dice~1d2}|%Count% {If~%Count%>1? levels/level} [Up_Down], talk to the [~Miscellaneous.Occupations] to know the way
+1,follow the [~Miscellaneous.Odor] [Up_Down]
+
+;Mad_Ravings
+2,[Chanceof]{If~%Chance%<10? try to} [Verb] [Article] [Adjective] [Noun]
+2,[When] [Verb] [Article] [Adjective] [Noun]
+2,[Chanceof]{If~%Chance%<10? try to} [Verb] [Article] [Noun] with {AorAn~[Noun]}
+2,[Chanceof]{If~%Chance%<10? try to} [Verb] the [Noun] before it's too late!
+2,[When] [Chanceof]{If~%Chance%<10? try to }[Verb] anything [Adjective]
+2,He who is [~Miscellaneous.Traits] will often be [~Miscellaneous.Traits]
+1,[~NamesBranch] Loves [~NamesBranch]
+1,I hate doors, I hate DOORS, I HATE DOORS
+
+;Nonsense_Word
+1,frozzle
+1,gleemish
+1,blent
+1,voogle
+1,chiggle
+1,gloid
+1,tuvit
+1,yugoliot
+1,glagteru
+1,godiorion
+1,alianite
+1,oskybo
+1,deymio
+1,opulist
+1,[~Names Generator.NAME Random]
+
+;Noun
+1,monster
+1,sword
+1,thing
+1,creature
+1,light
+1,fiend
+1,bag of gold
+1,treasure
+1,exit
+1,corridor
+1,door
+1,trap
+1,lurker
+1,phantom
+1,book
+1,spell
+1,statue
+1,chasm
+1,fountain
+1,horde
+1,horror
+1,picture
+1,flower
+1,candy
+1,frog
+1,whistle
+1,music
+1,anvil
+1,[Nonsense_Word]
+
+:Price
+1,greed
+2,vanity
+3,honor
+4,love
+5,hate
+6,impatience
+
+:Sides
+1,[Chanceof]{If~%Chance%<50? left/right}
+
+:Things
+1,familiar
+2,potion
+3,staff
+4,dagger
+5,knife
+6,puzzle
+7,curse
+8,wrath
+9,cloak
+10,ire
+11,spite
+12,friends
+13,map
+14,sword
+15,mace
+16,axe
+17,knife
+18,geas
+19,bow
+20,plight
+21,ring
+
+:Up_Down
+1,up
+2,down
+
+;Verb
+1,wash
+1,eat
+1,drink
+1,look at
+1,fight
+1,talk to
+1,slay
+1,find
+1,seek out
+1,destroy
+1,understand
+1,become one with
+1,dream of
+1,[Nonsense_Word]
+
+:Warnings
+1,the Crimson Scythe
+2,the [Class]
+3,thy [Chanceof]{If~%Chance%<50? friends/enemies} for they shall slay thee.
+4,the price of [Price]
+5,[~NamesBranch]'s [Things]
+
+;Way
+2,EXIT
+1,the way out
+1,treasure
+2,we went this way
+1,we're waiting for you
+1,go this way
+1,go
+1,don't go there
+1,beware
+1,look
+1,entrance
+1,stairs
+1,lower levels
+1,upper levels
+1,dungeon
+1,critters
+1,monsters
+1,death awaits
+1,dead end
+1,traps
+1,[~Names Generator.NAME Random]
+1,[~Religion.Deities]
+1,[~Creatures.Start]
+1,[~Creatures.Familiar]
+1,[~Creatures.Humanoid]
+1,[~Miscellaneous.ClassPC]
+1,[~Miscellaneous.ClassPC]
+
+;When
+1,always
+1,never
+1,don't
+1,you can't
+
+# ---------------------------------------------------------------------------
+
+;NamesBranch
+10,[Names Generator.NAME Random]
+10,|TempNumber={Dice~1d100}|{If~%TempNumber%>25? [Names Generator.NAME Human Male]/ [Names Generator.NAME Human Female]}
+4,|TempNumber={Dice~1d100}|{If~%TempNumber%>25? [Names Generator.NAME Dwarf Male]/ [Names Generator.NAME Dwarf Female]}
+6,[Names Generator.NAME Elf]
+3,|TempNumber={Dice~1d100}|{If~%TempNumber%>25? {Cap~[Names Generator.NAME Gnome Male]}/ [Names Generator.NAME Gnome Female]}
+2,[Names Generator.NAME Elf]
+2,[Names Generator.NAME Orc]
+1,|TempNumber={Dice~1d100}|{If~%TempNumber%>25? [Names Generator.NAME Halfling Male]/ [Names Generator.NAME Halfling Female]}

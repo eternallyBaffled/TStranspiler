@@ -1,0 +1,1125 @@
+# ------------------------------------------------------
+# Last Update: Verified by Valminder Jan 10, 2012.
+# ------------------------------------------------------
+# ---------------------------------------------------
+# Last Update: modified by Valminder August 10, 2006.
+# ---------------------------------------------------
+#
+# SW NPC Background information
+#
+# ***************************************************************************
+# To Do: Add pictures. The graphics variables are already transfered from
+#        "SW NPC Gen.tab" and need to be included in the output, to appear
+#        on the right side, but without moving all the informations at the
+#        bottom of the screen.
+#        You can look below at what I tried:
+#           #_<p align=right>%Path3%%Pic%%PathPic%</p>
+#                                                               Valminder.
+# ***************************************************************************
+#
+# Modified by Valminder, Jan 2006.
+#    Adapted to TSv5.
+#    Added link to:
+#       Names Generator.NAME Random (instead of only Fantasy Names.Start)
+#       SW NPC Gen.RandomRaceExport (it now uses all races of the NPC Gen)
+# Modified by Valminder, August  2006.
+#    Added ling to: SW Planet Names.tab
+#
+
+/OverrideRolls 1
+
+%Path1%,<IMG SRC="Graphics\SW Contacts\
+%Path2%," WIDTH=400 HEIGHT=20 ALIGN=TEXTTOP>
+%Path3%,<IMG SRC="Graphics\SW NPC Gen\
+
+%Name%,0
+%Race%,0
+%Race1%,0
+%Race2%,0
+
+%SS%,0
+
+%Birth%,0
+%BirthSS%,0
+%EBP%,0
+
+%Dad%,0
+%Mom%,0
+%SibPct%,0
+%Sib%,0
+%Bro%,0
+%Sis%,0
+%Job%,None
+%HoHO%,0
+%Head%,0
+%NonHead%,0
+
+%Love%,No
+%Kid%,0
+
+%temp%,0
+%Time%,0
+
+%Criminal%,No
+%Prison%,No
+%Military%,No
+%Work%,No
+%Battle%,No
+
+%Mor%,5
+%Hum%,5
+%Loy%,5
+%Per%,5
+%Cour%,5
+%Calm%,5
+
+# Added by Valminder Jan 2006
+%PathPic%,0
+%RaceImport%,0
+%Pic%,0
+
+:Start
+1,<table width="100&#37" border=0><tbody style="font-family: verdana; font-size: smaller">
+_<tr><td align="center" width="100&#37" bgcolor="black" colspan=2>
+_<b><font color="white">NPC Background Information</font></b>
+_</tr>
+_<tr><td align="left" bgcolor="white" colspan=2>
+_<b>Name:</b> |Name={Note~[Names Generator.NAME Random]}|%Name%<br>
+_<b>Race:</b> [Race]%Race1%
+# This is what I tried with the graphics but I do not like the output.
+#_<p align=right>%Path3%%Pic%%PathPic%</p>
+_</tr>
+_<tr><td align="center" bgcolor="black" colspan=2>
+_<b><font color="white">Birth Information</font></b>
+_</tr>
+_<tr><td align="left" bgcolor="white" colspan=2>
+_<b>Family Social Status (at birth):</b> [Social Status Pct]<br>
+_<b>Birth:</b> |Birth={Dice~1d100}||Birth+%BirthSS%|[Birth=%Birth%]<br>
+_<b>Birth Location:</b> {If~%EBP%=6? See Above / [Birth Place]}<br>
+_<b>Planet of Origin:</b> [~SW Planet Names.Start(3,1)]<br>
+_{If~{Dice~1d5}=5? {If~%EBP%=6? / [UBC]}}
+_</tr>
+_<tr><td align="center" bgcolor="black" colspan=2>
+_<b><font color="white">Family Information</font></b>
+_</tr>
+_<tr><td align="left" bgcolor="white" colspan=2>
+_[Family Start]<br>
+_<b>Head-of-Household Occupation:</b> {If~%HoHO%=None? / [HoHO %SS%]}|HoHO=%Job%|%HoHO%<br>
+_|Time=Adult|{If~%HoHO%=None? / [Noteworthy Parents]}|Military=No|
+_</tr>
+_<tr><td align="center" bgcolor="black" colspan=2>
+_<b><font color="white">Childhood Events</font></b>
+_</tr>
+_<tr><td align="left" bgcolor="white" colspan=2>
+_|Time=Child|[Childhood Events][Childhood Over]
+_</tr>
+_<tr><td align="center" bgcolor="black" colspan=2>
+_<b><font color="white">Youth Events</font></b>
+_</tr>
+_<tr><td align="left" bgcolor="white" colspan=2>
+_|Time=Youth|[Youth Events][Youth Over]<br>{If~%Criminal%=Yes? [Criminal Events]}
+_{If~%Prison%=Yes? [Prison Events]}
+_{If~%Military%=Yes? [Military Events]}
+_{If~%Work%=Yes? [Work Events]}
+_</tr>
+_<tr><td align="center" bgcolor="black" colspan=2>
+_<b><font color="white">Adult Events</font></b>
+_</tr>
+_<tr><td align="left" bgcolor="white" colspan=2>
+_|Time=Adult|[Adult Events]<br>[Adult Events]<br>{If~%Criminal%=Yes? [Criminal Events]}
+_{If~%Prison%=Yes? [Prison Events]}
+_{If~%Military%=Yes? [Military Events]}
+_{If~%Work%=Yes? [Work Events]}
+_</tr>
+_<tr><td align="center" bgcolor="black" colspan=2>
+_<b><font color="white">Character Psyche</font></b>
+_</tr></tbody>
+_<tr>
+_<td align="left" width="50&#37" bgcolor="white">
+_<b>Morality:<br>
+_Humility:<br>
+_Loyalty:<br>
+_Perseverance:<br>
+_Courage:<br>
+_Calmness:</b>
+_<td align="left" width="50&#37" bgcolor="white">
+_|Mor>1||Mor<10|[Chart=%Mor%]<br>
+_|Hum>1||Hum<10|[Chart=%Hum%]<br>
+_|Loy>1||Loy<10|[Chart=%Loy%]<br>
+_|Per>1||Per<10|[Chart=%Per%]<br>
+_|Cour>1||Cour<10|[Chart=%Cour%]<br>
+_|Calm>1||Calm<10|[Chart=%Calm%]<br>
+_</td></tr>
+_</table>
+
+#--------------------------------
+;Social Status Pct
+10,Destitute|SS=1||BirthSS=50||EBP={Dice~1d4}|
+_|Mor-1||Hum+1||Loy+0||Per+1||Cour+1||Calm-1|
+30,Poor|SS=2||BirthSS=25||EBP={Dice~1d4}||SibPct+20|
+_|Mor+0||Hum+1||Loy+0||Per+1||Cour+1||Calm-1|
+35,Comfortable|SS=3||BirthSS=15||EBP={Dice~1d3+1}||SibPct+10|
+_|Mor+1||Hum+1||Loy+0||Per+0||Cour+0||Calm+0|
+17,Well-to-do|SS=4||BirthSS=5||EBP={Dice~1d2+2}||SibPct+5|
+_|Mor+1||Hum+0||Loy+1||Per+0||Cour+0||Calm+1|
+5,Wealthy|SS=5||EBP={Dice~1d2+2}|
+_|Mor+0||Hum+0||Loy+1||Per+0||Cour+0||Calm+1|
+2,Extremely Wealthy|SS=6||EBP={Dice~1d3+2}||SibPct-10|
+_|Mor+0||Hum-1||Loy+1||Per-1||Cour+0||Calm+1|
+1,Nobility|SS=7||EBP={Dice~1d3+2}||SibPct-15|
+_|Mor-1||Hum-1||Loy+1||Per-1||Cour+0||Calm+1|
+
+:Social Status
+1,Destitute
+2,Poor
+3,Comfortable
+4,Well-to-do
+5,Wealthy
+6,Extremely Wealthy
+7,Nobility
+#--------------------------------
+
+#--------------------------------
+:Birth
+1-95,Legitimate
+96-150,Illegitimate - [Birth Illegitimate]|Dad=no||SibPct-10|
+
+;Birth Illegitimate
+2,Mother was a prostitute|EBP={Dice~1d2}|
+_|Mor-1||Hum+1||Loy-1||Per+1||Cour-1||Calm+0|
+2,Mother was raped
+_|Mor+0||Hum+1||Loy+0||Per+1||Cour+1||Calm-1|
+20,Unmarried mother
+_|Mor+0||Hum+1||Loy+0||Per+1||Cour-1||Calm-1|
+2,Mother was a cortesan
+_|Mor-1||Hum+0||Loy-1||Per+0||Cour-1||Calm+0|
+1,Child was created in a laboratory|EBP=6||Mom=no||SibPct-100|{Lockout~Family,1-30,36-41}
+_|Mor+0||Hum+0||Loy+0||Per+0||Cour+1||Calm-1|
+
+;Birth Place
+10,In the child's family home
+10,At the local hospital
+5,Aboard a starship
+5,[Exotic Birth Places=%EBP%]
+
+:Exotic Birth Places
+1,In a brothel where the mother worked
+_|Mor-1||Hum-1||Loy+0||Per+0||Cour+1||Calm-1|
+2,In an alley, not far from home
+_|Mor+0||Hum+1||Loy+0||Per+1||Cour+0||Calm+0|
+3,In a bar
+_|Mor-1||Hum-1||Loy+0||Per+0||Cour+1||Calm-1|
+4,In a prison cell
+_|Mor-1||Hum-1||Loy+0||Per+1||Cour+1||Calm-1|
+5,In the palace of a noble
+_|Mor+0||Hum-1||Loy+0||Per-1||Cour+0||Calm+1|
+6,
+
+# Unusual Birth Circumstance
+:UBC
+1,{If~%Dad%=no? {Lockout~UBCs,6-10}}
+_<b>Unusual Birth Circumstace:</b> [UBCs]<br>
+
+:!UBCs
+1,A person of note within the viscinity died at the same time
+_|Mor-1||Hum+0||Loy+0||Per+0||Cour+0||Calm-1|
+2-5,Mother died during birth|Mom=no||SibPct-50|
+_|Mor+0||Hum+1||Loy+0||Per+0||Cour-1||Calm+0|
+6-10,Father believes the child to be of another man's seed
+_|Mor-1||Hum-1||Loy-1||Per+0||Cour+0||Calm-1|
+11-14,Identical Twin|SibPct+35|
+_|Mor+0||Hum+0||Loy+1||Per+0||Cour+0||Calm+1|
+14,Identical Twin - complete opposite personality|SibPct+35|
+_|Mor+0||Hum+0||Loy-1||Per+0||Cour+0||Calm-1|
+15,Identical Twin - died during birth
+_|Mor+0||Hum+0||Loy-1||Per+1||Cour+0||Calm-1|
+16,Unnatural weather occurred
+_|Mor-1||Hum-1||Loy+0||Per+1||Cour+1||Calm-1|
+17,Sky darkened during birth
+_|Mor-1||Hum+0||Loy+0||Per+0||Cour-1||Calm-1|
+18,Infant was left to die, but was found and fostered by others|Mom=no||Dad=No||SibPct-25|
+_|Mor-1||Hum-1||Loy-1||Per+1||Cour+1||Calm-1|
+19,Child born after a great tragedy
+_|Mor+0||Hum-1||Loy+0||Per+1||Cour+0||Calm+0|
+20-21,Child is born with a physical affliction that [Injury]{Lockout~Child Tragedy,9}
+_|Mor+0||Hum+1||Loy+0||Per+1||Cour+1||Calm-1|
+22,A mysterious stranger bestows a gift to the child
+_|Mor+1||Hum+0||Loy+0||Per-1||Cour+0||Calm+1|
+#--------------------------------
+
+#--------------------------------
+:Family Start
+1,{If~%Mom%=no? {Lockout~Family,1-15,25-27,36-38}}
+_{If~%Dad%=no? {Lockout~Family,1-15,28-30,39-41}}
+_<b>Family:</b> [Family]<br>
+_|SibPct+{Dice~1d100}||SibPct>0||SibPct<100|
+_<b>Siblings:</b> [Siblings=%SibPct%]
+
+:!Family
+1-10,Mother and Father only|Head=Father||NonHead=Mother|
+_|Mor+0||Hum+0||Loy+1||Per+0||Cour+0||Calm+1|
+11-15,Extended Family (Parents, Grandparents)|Head=Father||NonHead=Mother|
+_|Mor+1||Hum+1||Loy+1||Per+0||Cour+0||Calm+1|
+16-18,Grandparents only|Head=Grand Father||NonHead=Grand Mother|
+_|Mor+0||Hum+1||Loy+1||Per+0||Cour+0||Calm+0|
+19-20,Single Grandparent{If~{Dice~1d2}=1? |Head=Grand Father| / |Head=Grand Mother|}|NonHead=None|
+_|Mor+0||Hum+1||Loy+0||Per+1||Cour+0||Calm+0|
+21-22,Aunt and Uncle|Head=Uncle||NonHead=Aunt|
+_|Mor+0||Hum+0||Loy+0||Per+0||Cour+0||Calm+0|
+23-24,Aunt or Uncle{If~{Dice~1d2}=1? |Head=Uncle| / |Head=Aunt|}|NonHead=None|
+_|Mor+0||Hum+0||Loy+0||Per+1||Cour+0||Calm+0|
+25-27,Mother Only|Head=Mother||NonHead=None|
+_|Mor+0||Hum+1||Loy+0||Per+1||Cour+0||Calm+0|
+28-30,Father Only|Head=Father||NonHead=None|
+_|Mor+0||Hum+1||Loy+0||Per+0||Cour+1||Calm+0|
+31-32,Legal Guardian|Head=Guardian||NonHead=None|
+_|Mor+0||Hum+1||Loy+0||Per+1||Cour+1||Calm-1|
+33,None - left to fend for self|HoHO=None||Head=None|
+_|Mor-1||Hum-1||Loy-1||Per+1||Cour+1||Calm-1|
+_{Lockout~Childhood Events,5}{Lockout~Child Tragedy,2,7,10-11}
+_{Lockout~Child Wonderful,5-6}
+34-35,None - orphan|HoHO=None||Head=None|
+_|Mor-1||Hum+0||Loy-1||Per+1||Cour+1||Calm-1|
+_{Lockout~Childhood Events,5}{Lockout~Child Tragedy,2,7,10-11}
+_{Lockout~Child Wonderful,5-6}
+36-38,Mother and Step-Father|Head=Step-Father||NonHead=Mother|
+_|Mor+0||Hum-1||Loy+0||Per+0||Cour+1||Calm-1|
+39-41,Father and Step-Mother|Head=Father||NonHead=Step-Mother|
+_|Mor+0||Hum+1||Loy+0||Per+0||Cour+1||Calm-1|
+
+:Siblings
+1-35,None|Sib=0|
+36-60,|Sib={Dice~1d2}|%Sib%{Loop~%Sib%,[BroSis]}{If~%Bro%>0? Brother}{If~%Sis%>0? Sister}
+61-85,|Sib={Dice~1d3}|%Sib%{Loop~%Sib%,[BroSis]}{If~%Bro%>0? , %Bro% Brother(s)}{If~%Sis%>0? , %Sis% Sister(s)}
+86-100,|Sib={Dice~1d6}|%Sib%{Loop~%Sib%,[BroSis]}{If~%Bro%>0? , %Bro% Brother(s)}{If~%Sis%>0? , %Sis% Sister(s)}
+
+:BroSis
+1,{If~{Dice~1d2}=1? |Bro+1| / |Sis+1|}
+#--------------------------------
+
+#--------------------------------
+#Head of Household Occupation
+#Destitute
+:!HoHO 1
+1,|Job=Farmhand|
+2,|Job=Spacehand|
+3,|Job=Fisherman|
+4,|Job=Hunter|
+5,|Job=Industry Worker|
+6,|Job=Herder|
+7,|Job=None|
+
+#Poor
+:!HoHO 2
+1,|Job=Farmer|
+2,[HoHO 1]
+3,|Job=Entertainer|
+4,|Job=Artist|
+5,|Job=Soldier||Military=Yes||Work=No|
+6,|Job=Dock Attendant|
+7,|Job=Bartender|
+8,|Job=Store-clerk|
+
+#Comfortable
+:!HoHO 3
+1,[HoHO 2]{Lockout~HoHO 2,2}
+2,|Job=Administrator|
+3,|Job=Gambler|
+4,|Job=Medic|
+5,|Job=Mercenary|
+6,|Job=Peace Officer|
+7,|Job=Pilot|
+8,|Job=Info-Broker|
+9,|Job=Technician|
+10,|Job=Store-owner|
+11,|Job=Mechanic|
+12,|Job=Military Pilot||Military=Yes||Work=No|
+
+#Well-to-do
+:!HoHO 4
+1,[HoHO 3]{Lockout~HoHO 3,1}
+2,|Job=Doctor|
+3,|Job=Elite Trooper||Military=Yes||Work=No|
+4,|Job=Military Officer||Military=Yes||Work=No|
+5,|Job=Ship Captain|
+6,|Job=Engineer|
+7,|Job=Scientist|
+8,|Job=Lawyer|
+9,|Job=Reporter|
+
+#Wealthy
+:!HoHO 5
+1,[HoHO 4]{Lockout~HoHO 4,1}
+2,|Job=Corporate Executive|
+3,|Job=Politician|
+4,|Job=Bureaucrat|
+
+#Extremely Wealthy
+:!HoHO 6
+1-4,[HoHO 5]
+5,|Job=Corporation Founder|
+
+#Nobility
+:!HoHO 7
+1,|Job=Ruler|
+2,|Job=Prince/Princess|
+3,|Job=Governor|
+#--------------------------------
+;Noteworthy Parents
+5,
+5,<b>There is one noteworthy item about parent or guardian</b><br>[Noteworthy Item]
+2,<b>There are two noteworthy items about parents or guardians</b><br>{Loop~2,[Noteworthy Item]<br>}
+1,<b>There are three noteworthy items about parents or guardians</b><br>{Loop~3,[Noteworthy Item]<br>}
+
+:NW
+1,{If~{Dice~1d4}=4? [NW=2] / %Head%}
+2,{If~%NonHead%=None? %Head% / %NonHead%}
+
+:!Noteworthy Item
+1,[NW=1] is noted for [Personality].
+2,[NW=1] devotes much time to a hobby [Hobby].
+3,[NW=1] possesses something of great value
+4,[NW=1] was affected by an event...
+5,[NW=1] tells of a legendary lost treasure
+6,[NW=1] obsesses about something that happened...
+_|Mor+0||Hum-1||Loy+0||Per-1||Cour+0||Calm-1|
+7,[NW=1] has a secret identity
+_|Mor+0||Hum+0||Loy-1||Per+0||Cour+0||Calm+0|
+8,[NW=1] is a military veteran
+_|Mor+0||Hum+1||Loy+1||Per+0||Cour+1||Calm+0|
+9,[NW=1] was severely injured in an accident [Injury]
+_|Mor+0||Hum+1||Loy+0||Per+1||Cour+0||Calm+0|
+10,[NW=1] is wanted by the authorities, suspected of [Crimes].
+_|Mor-1||Hum-1||Loy-1||Per+0||Cour-1||Calm+0|
+#--------------------------------
+
+#--------------------------------
+:!Childhood Events
+1,As a child, %Name% found a rare and unusual item.
+2,%Name% gets involved early in illegal activities, and commits an 
+_act of [Child Illegal Activity]. [CIA Recourse]
+3,[Child Tragedy]
+4,[Child Wonderful]
+5,%Name% is raised from birth by his %Head% to become a %HoHO%.|Work=Yes|[HoHO Military]
+_|Mor+0||Hum+0||Loy+1||Per+1||Cour+0||Calm+1|
+6,%Name% runs away from home [Runaway]
+7,{If~%HoHO%=None? [Childhood Events] / [Family Upheaval]}
+8,{If~%HoHO% = None ? [Childhood Events] / Rivals of %Name%'s %Head% threaten the family and force them to move.
+_|Mor+0||Hum+1||Loy+0||Per+1||Cour-1||Calm+0|}
+9,A neighbor teaches %Name% an unusual skill.
+10,%Name% became emotionally attached to an item.
+_|Mor+0||Hum+1||Loy+1||Per-1||Cour+0||Calm-1|
+11,%Name% started a collection of [%Time% Collection].
+_|Mor+0||Hum+0||Loy+0||Per+1||Cour+0||Calm+1|
+12,%Name% developed a close relationship with a sibling.
+_|Mor+0||Hum+0||Loy+1||Per+0||Cour+0||Calm+1|
+13,%Name% believed in an imaginary friend.
+_|Mor+0||Hum+0||Loy+1||Per+0||Cour-1||Calm-1|
+14,%Name% was discovered as a childhood prodigy at an unusual skill.
+_|Mor+0||Hum-1||Loy+0||Per+0||Cour+0||Calm+0|
+15,%Name% discovered a secret hiding place (remains undiscovered until adulthood).
+_|Mor+0||Hum+0||Loy+0||Per-1||Cour-1||Calm+0|
+16,An old family friend tells his heroic war tales.
+_|Mor+0||Hum+0||Loy+0||Per+0||Cour+1||Calm+0|
+17,{If~%HoHO% = None ? [Childhood Events] / Grandparent dies of natural causes in presence of child.
+_|Mor+0||Hum+1||Loy+0||Per+0||Cour+0||Calm-1|}
+18,Witnesses a crime being committed {If~{Dice~1d2}=1? and tells no one.|Mor-1||Hum+0||Loy+0||Per+0||Cour-1||Calm+0| 
+_/ and alerts the authorities.|Mor+1||Hum+0||Loy+0||Per+0||Cour+1||Calm+0|}
+19,{Lockout~Childhood Events,20}[Childhood Events]<br>[Childhood Events]
+20,{Lockout~Childhood Events,19}[Childhood Events]<br>[Childhood Events]<br>[Childhood Events]
+
+:Child Collection
+1-3,sports trading cards
+4-6,brightly colored stones
+7-8,Imperial action figures
+9,remote controlled pod-racers
+10,holo-books
+
+:Child Illegal Activity
+1,Petty Theft
+2,Vandalism
+3,Assault
+
+:CIA Recourse
+1,|Mor-1||Hum-1||Loy+0||Per+0||Cour+1||Calm+0|
+2,{If~%Head% = None|Mor-1||Hum-1||Loy+0||Per+0||Cour+1||Calm+0| ? 
+_/ %Name% is later scolded by his %Head%.|Mor+0||Hum+1||Loy+0||Per+0||Cour+0||Calm+0|}
+3,{If~%Head% = None|Mor-1||Hum-1||Loy+0||Per+0||Cour+1||Calm+0| ? 
+_/ %Name% is later beaten by his %Head%.|Mor+0||Hum+1||Loy+0||Per+0||Cour-1||Calm+0|}
+4,%Name% is later assaulted by another kid.
+_|Mor-1||Hum+1||Loy+0||Per+1||Cour-1||Calm+0|
+5,%Name% is later scolded by the authorities.
+_|Mor+0||Hum+1||Loy+0||Per+0||Cour-1||Calm+0|
+
+:!Child Tragedy
+1,A wild beast attacks {If~{Dice~1d2}=1? and nearly kills %Name%.|Mor+0||Hum+1||Loy+0||Per+1||Cour+1||Calm+0| 
+_/ and kills one of %Name%'s siblings._|Mor+0||Hum+1||Loy-1||Per+1||Cour-1||Calm-1|}
+2,%Name%'s parents are imprisoned for [Crimes].
+_|Mor-1||Hum+1||Loy-1||Per+1||Cour+0||Calm-1|
+3,%Name%'s favorite pet died painfully.
+_|Mor+0||Hum+1||Loy+0||Per+0||Cour-1||Calm-1|
+4,%Name% is orphaned when his remaining family is killed in a starship accident.
+_|Mor+0||Hum+1||Loy+0||Per+1||Cour+1||Calm-1|
+5,%Name% is forced to move when his city is attacked.
+_|Mor+0||Hum+1||Loy+0||Per+1||Cour-1||Calm+0|
+6,A favorite possession vanishes.
+_|Mor+0||Hum-1||Loy+0||Per+0||Cour+0||Calm+0|
+7,%Name%'s parent(s) are forced to go into hiding.
+_|Mor-1||Hum+0||Loy+0||Per-1||Cour+0||Calm-1|
+8,%Name% is captured by pirates and sold into slavery.
+_|Mor-1||Hum+1||Loy-1||Per+1||Cour-1||Calm-1|
+9,%Name% suffers a serious injury [Injury]
+_|Mor+0||Hum+1||Loy+0||Per+1||Cour+0||Calm-1|
+10,%Name%'s %Head% is in serious accident.
+_|Mor+0||Hum+0||Loy+0||Per+1||Cour+0||Calm+0|
+11,A fire destroys the family home.
+_|Mor+0||Hum+1||Loy+0||Per+1||Cour-1||Calm+0|
+12,%Name%'s best friend is killed in an accident.
+_|Mor+0||Hum+1||Loy-1||Per+1||Cour+0||Calm-1|
+13,Family loses all wealth and is now impoverished.|SS=1|
+_|Mor-1||Hum+1||Loy-1||Per+1||Cour+0||Calm-1|
+14,%Name% is sexually molested by someone {If~{Dice~1d2}=1? close to / in} the family.
+_|Mor-1||Hum+0||Loy-1||Per+1||Cour-1||Calm-1|
+15,%Name% is constantly bullied by a neighborhood brat.
+_|Mor+0||Hum+1||Loy+0||Per-1||Cour+0||Calm-1|
+16,[Child Tragedy]<br>[Child Tragedy]
+
+:!Child Wonderful
+1,{If~%SS%<3? %Name% is adopted into wealthy family.|SS=5||Mor+1||Hum+0||Loy+1||Per-1||Cour+0||Calm+1| / [Child Wonderful]}
+2,%Name%'s hometown begins to prosper shortly after a disaster.
+_|Mor+1||Hum+0||Loy+0||Per+1||Cour+0||Calm+1|
+3,%Name% gains a loyal companion.
+_|Mor+1||Hum+0||Loy+1||Per+0||Cour+0||Calm+1|
+4,%Name% inherits a large sum of credits from an obscure family member.
+_|Mor+0||Hum-1||Loy+1||Per-1||Cour+0||Calm+1|
+5,%Name%'s %Head%'s business drastically improves.
+_|Mor+1||Hum+0||Loy+0||Per+0||Cour+0||Calm+1|
+6,%Name%'s %Head% finds a much better job as a |SS+1||SS<6|[HoHO %SS%]%Job%.
+_|Mor+1||Hum+0||Loy+1||Per-1||Cour+0||Calm+0|
+7,%Name% defends himself from the local bully.
+_|Mor+0||Hum+0||Loy+0||Per+1||Cour+1||Calm+0|
+8,A long-lost possession is recovered.
+_|Mor+1||Hum+0||Loy+0||Per+1||Cour+0||Calm+0|
+9,[Child Wonderful]<br>[Child Wonderful]
+
+:Family Upheaval
+1,The family's social status changes to {If~{Dice~1d2} = 1 ? |SS-{Dice~1d2}||Mor-1||Hum+1||Loy+0||Per+0||Cour+0||Calm-1| 
+_/ |SS+{Dice~1d2}||Mor+1||Hum-1||Loy+1||Per+0||Cour+0||Calm+1|}|SS>1||SS<7|[Social Status=%SS%].
+2,Family has prospered and moves into a larger home.
+_|Mor+1||Hum+0||Loy+1||Per+0||Cour+0||Calm+1|
+3,Family is forced to move into a smaller home.
+_|Mor+0||Hum+1||Loy+0||Per+1||Cour+0||Calm+0|
+4,For business reasons, the family moves to another galaxy.
+_|Mor+0||Hum+0||Loy-1||Per+0||Cour-1||Calm-1|
+5,%Name%'s %Head% finds another job as a [HoHO %SS%]|HoHO=%Job%|%HoHO%
+_|Mor+0||Hum+0||Loy+1||Per+0||Cour+0||Calm+0|
+6,%Name%'s Parents or Guardians split.
+_|Mor-1||Hum+1||Loy-1||Per-1||Cour+0||Calm-1|
+
+:Runaway
+1,and never returns.
+_|Mor-1||Hum+0||Loy-1||Per-1||Cour+1||Calm+0|
+2,but returns after only {Dice~1d3} days.
+_|Mor+0||Hum+1||Loy+0||Per-1||Cour-1||Calm+0|
+3,and stows-away on a starship bound for another planet.
+_|Mor+0||Hum+0||Loy-1||Per-1||Cour+1||Calm+0|
+4,but falls into hands of criminals and becomes their lacky.|Criminal=Yes|
+_|Mor-1||Hum-1||Loy-1||Per-1||Cour-1||Calm-1|
+
+:Childhood Over
+1,{Lockout~Childhood Events,1-2,13-14,17}{Lockout~Child Tragedy,4}{Lockout~HoHO 1,7}
+#--------------------------------
+
+#--------------------------------
+:!Youth Events
+1-5,[Childhood Events]
+6,%Name% and some friends get tatoos together.
+_|Mor+0||Hum+0||Loy+1||Per+0||Cour+0||Calm+0|
+7,%Name% begins his career as a |Military=No||Work=Yes|[HoHO %SS%]%Job%.
+_|Mor+1||Hum+0||Loy+0||Per+0||Cour+0||Calm+1|
+8,%Name% is {If~{Dice~1d2} = 1 ? wrongfully} accused of the crime of [Crimes].
+_|Mor+0||Hum+1||Loy-1||Per+0||Cour+0||Calm-1|
+9-11,%Name% gains a new hobby [Hobby].
+12,{If~%HoHO% = None ? [Youth Events] / %Name% begins a career, much like his %Head%, as a %HoHO%.|Work=Yes|[HoHO Military]
+_|Mor+1||Hum+0||Loy+1||Per+0||Cour+0||Calm+0|}
+13,%Name% decides to join the military.|Military=Yes||Work=No|
+14,%Name% has a romantic encounter. [Youth Love]
+15,[Youth Tragedy]
+16,%Name% saves another man's life.
+_|Mor+1||Hum+0||Loy+0||Per+0||Cour+1||Calm+0|
+17,%Name% becomes involved in illegal activities, [Youth Illegal Activities]|Criminal=Yes|
+18,{Lockout~Youth Events,19}[Youth Events]<br>[Youth Events]
+19,{Lockout~Youth Events,18}[Youth Events]<br>[Youth Events]<br>[Youth Events]
+20,%Name% is noted for [Personality].
+
+:Youth Collection
+1-3,sports trading cards
+4-6,holo-books
+7-9,holo-games
+10,exotic knives
+
+:!Youth Tragedy
+1,%Name% is falsely imprisoned for [Crimes].|Prison=Yes|
+_|Mor+0||Hum-1||Loy-1||Per+0||Cour+0||Calm+0|
+2,In a prank gone wrong, %Name% becomes directly responsible for someone's death.
+_|Mor-1||Hum+1||Loy+0||Per-1||Cour-1||Calm-1|
+3,%Name%'s family is murdered in their sleep one night while he was away.
+_|Mor+0||Hum+0||Loy+0||Per+1||Cour-1||Calm-1|
+4,For opposing his %Head%, %Name% is disowned by the family.
+_|Mor+0||Hum-1||Loy-1||Per+0||Cour+1||Calm-1|
+5,%Name% witnesses another man's death {If~{Dice~1d2} = 1 ? despite his efforts_|Mor+1||Hum+1||Loy+0||Per+0||Cour+1||Calm-1| 
+_/ but did nothing|Mor-1||Hum-1||Loy-1||Per+0||Cour-1||Calm-1|} to help.
+
+:Youth Love
+1,He has a crush on someone much older.
+_|Mor+0||Hum+1||Loy+0||Per+0||Cour+0||Calm+0|
+2,He begins to date someone roughly his age.
+_|Mor+1||Hum+0||Loy+0||Per+0||Cour+0||Calm+1|
+3,He has strong feelings for another, but never tells them.
+_|Mor+0||Hum+0||Loy+0||Per+0||Cour-1||Calm+0|
+4,He has strong feelings for another, but is quickly rejected.
+_|Mor+0||Hum+1||Loy+0||Per-1||Cour+0||Calm+0|
+
+:Youth Illegal Activities
+1-3,and commits an act of petty theft. [YIA Recourse]
+4-6,and commits an act of vandalism. [YIA Recourse]
+7-9,and commits an act of assault. [YIA Recourse]
+10,and commits a violent act of assault. [YIA Recourse]
+11-12,and joins a gang
+13,and joins an organized crime syndicate
+14,and joins a ring of thieves
+15,and joins a clan of pirates
+16,and commits an act of murder. [YIA Recourse]
+
+:YIA Recourse
+1,|Mor-1||Hum-1||Loy+0||Per+0||Cour+1||Calm+0|
+2-4,%Name% is later captured by the authorities and imprisoned.|Prison=Yes|
+_|Mor-1||Hum+1||Loy+0||Per+0||Cour+0||Calm+0|
+5-6,%Name% goes into hiding.
+_|Mor-1||Hum-1||Loy+0||Per-1||Cour-1||Calm+0|
+7,%Name% escapes to another planet.
+_|Mor-1||Hum+0||Loy+0||Per-1||Cour+0||Calm+0|
+8-10,Someone else is arrested and convicted of the crime.
+_|Mor-1||Hum-1||Loy+0||Per+0||Cour-1||Calm+0|
+
+:Youth Over
+1,{Lockout~Childhood Events,3,5-6,8-15,17}{Lockout~Child Tragedy,1,3,14-16}
+_{Lockout~Child Wonderful,1,5-7,9}{Lockout~Family Upheaval,5-6}
+_{Lockout~Youth Events,14,17}{Lockout~Youth Tragedy,2,4}
+#--------------------------------
+:!Adult Events
+1-5,[Youth Events]
+6,%Name% develops an extreme desire to wander the universe.
+_|Mor+0||Hum-1||Loy+0||Per+0||Cour+0||Calm+0|
+7,%Name% inherits an estate from a relative.
+_|Mor+1||Hum-1||Loy+0||Per-1||Cour+0||Calm+0|
+8,%Name% inherits a {If~{Dice~1d4} = 1 ? Starcraft / Vehicle} from a relative.
+_|Mor+1||Hum+0||Loy+0||Per+0||Cour+0||Calm+1|
+9,%Name% purchases a {If~%SS% < 4 ? small / large} home.
+_|Mor+1||Hum+0||Loy+0||Per+0||Cour+0||Calm+1|
+10,%Name% successfully completes college.|SS+{Dice~1d3-1}||SS<6|
+_|Mor+0||Hum+0||Loy+0||Per+1||Cour+0||Calm+0|
+11-18,%Name% falls in love. [Love]{If~%Love% = Yes ? {Lockout~Adult Events,11-18}}
+19-21,{If~%Love%=No? [Adult Events] / [After Love]}
+22,War breaks out in %Name%'s region of space.
+_|Mor+0||Hum+1||Loy+0||Per+0||Cour+0||Calm-1|
+23,{If~%Kid% > 0 ? %Name%'s first-born is killed in an accident|Kid-1||Mor+0||Hum+1||Loy+0||Per+1||Cour+0||Calm-1| / [Adult Events]}
+24,{Lockout~Adult Events,25}[Adult Events]<br>[Adult Events]
+25,{Lockout~Adult Events,24}[Adult Events]<br>[Adult Events]<br>[Adult Events]
+26,%Name% changes professions and becomes very successful as a |SS+1||SS<6||Work=Yes||Military=No|[HoHO %SS%]%Job%.
+_|Mor+1||Hum-1||Loy+0||Per+1||Cour+0||Calm+1|
+27,{Unlock~After Love,12}{If~%Love%=No? [Adult Events] / [After Love=12]}
+28,{Unlock~After Love,13}{If~%Love%=No? [Adult Events] / [After Love=13]}
+29,%Name%'s rivals threaten him and force him to move.
+_|Mor+0||Hum+1||Loy+0||Per+1||Cour-1||Calm+0|
+30,%Name% willingly chooses a life of crime and has commited acts of [Crimes] 
+_{If~{Dice~1d3} = 1 ? and [Crimes]}.|Criminal=Yes|
+_|Mor-1||Hum-1||Loy+0||Per-1||Cour+1||Calm+0|
+31,%Name% is noted for [Personality].
+
+:Adult Collection
+1-3,exotic knives
+4-6,beer bottles
+7-9,holo-vids
+10,blaster pistols
+11-12,fine art
+13,jewels
+
+:!Love
+1-2,Love is unrequited (beloved does not return affection){Lockout~Love,1-2}
+_|Mor+0||Hum+1||Loy+0||Per-1||Cour+0||Calm+0|
+3,Beloved is already married {If~{Dice~1d3} = 1 ? but leaves|Love=Yes||Mor-1||Hum-1||Loy+0||Per+1||Cour+0||Calm+0| 
+_/ and will not leave|Love=No||Mor+0||Hum+1||Loy-1||Per+0||Cour+0||Calm+0|} current spouse.
+4-8,After years of being together, %Name% marries his beloved.|Love=Yes|{Lockout~Love,4-8}
+_|Mor+1||Hum+0||Loy+1||Per+1||Cour+0||Calm+1|
+9-10,%Name% marries, but the two eventually get divorced.{Lockout~Love,9-10}|Love=No|
+_|Mor+0||Hum+0||Loy-1||Per-1||Cour+0||Calm+0|
+11-12,The couple elope, but are just as quickly divorced.{Lockout~Love,10-12}|Love=No|
+_|Mor+0||Hum+1||Loy+0||Per-1||Cour+0||Calm+0|
+13,The couple marry, but {If~%SS% < 4 ? her / his} family disapproves because 
+_{If~%SS% < 4 ? he / she} is lower-class.|Love=Yes|
+_|Mor+1||Hum+1||Loy+1||Per+1||Cour+0||Calm+1|
+14,The couple marry, but both families disapprove because he is %Race1% and she is 
+_[Race]{If~%Race1% = %Race% ? [Race]}|Race2=%Race%|%Race2%.|Love=Yes|
+_|Mor+1||Hum+1||Loy+1||Per+1||Cour+0||Calm+1|
+15,The two never marry because {If~{Dice~1d3} = 1 ? beloved|Mor+0||Hum+1||Loy-1||Per-1||Cour+0||Calm+0| 
+_/ %Name%|Mor-1||Hum-1||Loy-1||Per-1||Cour+0||Calm+0|} is unfaithful.|Love=No|
+
+:!After Love
+1,%Name% finds his spouse to be unfaithful and leaves.|Love=No|{Unlock~Love,4-8}
+_|Mor+0||Hum+1||Loy+0||Per-1||Cour+0||Calm-1|
+2,Spouse finds %Name% to be unfaithful and leaves.|Love=No|{Unlock~Love,4-8}
+_|Mor-1||Hum-1||Loy-1||Per+0||Cour+0||Calm+0|
+3,Spouse is severely injured in an accident, [Injury]
+_|Mor+0||Hum+1||Loy+1||Per+1||Cour+0||Calm+0|
+4,Spouse goes berserk and attempts to kill %Name%.
+_|Mor+0||Hum+1||Loy-1||Per+1||Cour+1||Calm-1|
+5,%Name%'s lover dies in {If~{Dice~1d2} = 1 ? a fire / an accident}.
+_|Mor+0||Hum+1||Loy+0||Per+1||Cour+0||Calm-1|
+6,A jealous ex-{If~{Dice~1d2} = 1 ? girlfriend / boyfriend} returns and kills %Name%'s spouse.
+_|Mor+0||Hum+1||Loy+0||Per+1||Cour+0||Calm-1|
+7,%Name%'s lover vanishes without a trace.
+_|Mor+0||Hum+1||Loy+1||Per+1||Cour+0||Calm-1|
+8,%Name%'s lover is abducted and held for ransom.
+_|Mor+0||Hum+1||Loy+1||Per+1||Cour+0||Calm+0|
+9,%Name%'s lover is arrested and charged with [Crimes].
+_|Mor+0||Hum+0||Loy-1||Per+1||Cour+0||Calm+0|
+10-11,%Name% has |Kid+{Dice~1d4}|%Kid% children with his spouse.{Lockout~After Love,10-11}
+_|Mor+1||Hum+0||Loy+0||Per+0||Cour+0||Calm+1|
+12-13,%Name% is blessed with a healthy, beautiful, baby {If~{Dice~1d3} = 1 ? girl / boy}|Kid+1|.
+_|Mor+1||Hum+0||Loy+0||Per+0||Cour+0||Calm+1|
+14-15,%Name%'s spouse inherits an estate from a relative.
+_|Mor+1||Hum-1||Loy+1||Per-1||Cour+0||Calm+1|
+16-17,%Name%'s spouse inherits a {If~{Dice~1d4} = 1 ? Starcraft / Vehicle} from a relative.
+_|Mor+1||Hum+0||Loy+0||Per-1||Cour+0||Calm+0|
+
+#--------------------------------
+:!Criminal Events
+1-5,%Name%'s checkered past lands him in jail for a few days.<br>
+_|Mor-1||Hum-1||Loy+0||Per+0||Cour+0||Calm+0|
+6-7,%Name% is eventually caught and imprisoned for a past crime.<br>|Prison=Yes|
+_|Mor-1||Hum-1||Loy+0||Per+0||Cour+0||Calm-1|
+8,%Name% is severely injured in a fight [Injury]<br>
+_|Mor+0||Hum+1||Loy+0||Per+1||Cour+1||Calm+0|
+9-10,In an attempt to turn his life around, %Name% becomes an informant.<br>|Criminal=No|
+_|Mor+1||Hum+1||Loy+0||Per+0||Cour+1||Calm+0|
+11,%Name%'s criminal career escalates when he is involved in a jewel heist.<br>
+_|Mor-1||Hum-1||Loy+0||Per+0||Cour+1||Calm+0|
+12,%Name% becomes a marked man when he is blamed for the death of a crime lord.<br>
+_|Mor+0||Hum-1||Loy+0||Per+0||Cour+1||Calm-1|
+13-14,Through years of shady deals, %Name% has gained several underworld contacts.<br>
+_|Mor-1||Hum-1||Loy+0||Per+0||Cour+0||Calm+0|
+15,Seeing %Name%'s potential, a crime lord takes %Name% under his wing.<br>
+_|Mor-1||Hum-1||Loy+1||Per+0||Cour+1||Calm+0|
+16,%Name% learns that a local official is affiliated with organized crime.<br>
+_|Mor+0||Hum+0||Loy+0||Per+0||Cour+1||Calm+0|
+17,Through years of struggling, %Name% becomes the leader of a gang.<br>
+_|Mor-1||Hum-1||Loy+1||Per+1||Cour+1||Calm+0|
+#--------------------------------
+:!Military Events
+1,While in the military, %Name% sees a skirmish or two.<br>[Battle]
+_|Mor+0||Hum-1||Loy+1||Per+1||Cour+0||Calm+0|
+2,%Name% enjoys military service and reenlists for another 5 years.<br>
+_|Mor+0||Hum-1||Loy+1||Per+1||Cour+0||Calm+0|
+_{Lockout~Military Events,7}{Lockout~Battle,7,10}[Battle]
+3,%Name%'s training has prepared him for reassignment to the special forces unit.<br>[Battle]
+_|Mor-1||Hum-1||Loy+1||Per+1||Cour+1||Calm-1|
+4,%Name% requests reassignment to a non-combat unit.<br>
+_|Mor+1||Hum+0||Loy+1||Per+0||Cour+0||Calm+0|
+5,For his dedication, %Name% is promoted.<br>{Lockout~Battle,1,4,7,10-11,13}[Battle]
+_|Mor+0||Hum-1||Loy+1||Per+1||Cour+0||Calm+0|
+6,%Name%'s unit/fleet was caught in an ambush.<br>[Battle]
+_|Mor+0||Hum+1||Loy+1||Per+1||Cour+0||Calm-1|
+7,In the face of insurmountable odds, %Name%'s unit/fleet collectively deserts<br>|Military=No|
+_|Mor-1||Hum+0||Loy-1||Per+0||Cour-1||Calm-1|
+
+:!Battle
+1,[B] the losses for both sides were heavy.<br>
+_|Mor+0||Hum+1||Loy+0||Per+1||Cour+0||Calm-1|
+2,[B] his unit/fleet took serious casualties and he was severely wounded.<br>
+_|Mor+0||Hum+1||Loy+0||Per+1||Cour+0||Calm+0|
+3,%Name% sees some action but nothing noteworthy.<br>
+4,[B] the horror was so great, %Name% decided to retire.<br>|Military=No|
+_|Mor+0||Hum+1||Loy-1||Per-1||Cour+0||Calm-1|
+5,[B] he was captured by the enemy.<br>|Prison=Yes|
+_|Mor+0||Hum+1||Loy+0||Per+0||Cour+1||Calm+0|
+6,[B] he was decorated for heroism.<br>
+_|Mor+0||Hum-1||Loy+1||Per+1||Cour+1||Calm+1|
+7,[B] he was later dishonorably discharged for cowardice.<br>|Military=No|
+_|Mor-1||Hum+1||Loy-1||Per-1||Cour-1||Calm+0|
+8,[B] his best friend died beside him.<br>
+_|Mor+0||Hum+1||Loy+0||Per+1||Cour+0||Calm-1|
+9,[B] he was one of the only survivors of his unit/fleet.<br>
+_|Mor+0||Hum-1||Loy+0||Per+1||Cour+0||Calm+0|
+10,[B] he decided to desert his comrades.<br>|Military=No|
+_|Mor-1||Hum-1||Loy-1||Per-1||Cour-1||Calm+0|
+11,[B] he became personally responsible for unit/fleet's demise.<br>
+_|Mor+0||Hum+1||Loy+0||Per+0||Cour+0||Calm-1|
+12,[B] he was personally responsible for killing the opposition's commanding officer.<br>
+_|Mor+0||Hum-1||Loy+0||Per+0||Cour+1||Calm+0|
+13,[B] he was later demoted for failure to abide by authority.<br>
+_|Mor+0||Hum-1||Loy-1||Per-1||Cour+0||Calm+0|
+
+:B
+1,%Name% was in a battle where
+
+:HoHO Military
+1,{If~%HoHO%=Soldier ? |Military=Yes||Work=No|}{If~%HoHO%=Elite Trooper ? |Military=Yes||Work=No|}
+_{If~%HoHO%=Military Pilot ? |Military=Yes||Work=No|}{If~%HoHO%=Military Officer ? |Military=Yes||Work=No|}
+#--------------------------------
+:Prison Events
+1-3,[P] %Name% somehow manages to escape.<br>
+_|Mor+0||Hum-1||Loy+0||Per+0||Cour+1||Calm+0|
+4,[P] %Name% is freed early for good behaviour.<br>
+_|Mor+1||Hum+1||Loy+0||Per+1||Cour+0||Calm+0|
+5-6,[P] %Name% is beaten frequently by the guards.<br>
+_|Mor+0||Hum+1||Loy+0||Per+1||Cour+0||Calm-1|
+7-8,[P] %Name% serves out sentance without incident.<br>
+_|Mor+0||Hum+0||Loy+0||Per+1||Cour+0||Calm+0|
+9-11,[P] %Name% tries to escape, but is caught and given an additional sentance.<br>
+_|Mor+0||Hum-1||Loy+0||Per+0||Cour+1||Calm+0|
+12,[P] %Name% attempts to organize a prison uprising.<br>
+_|Mor-1||Hum-1||Loy+0||Per-1||Cour+1||Calm+0|
+
+:P
+1,|Prison=No|While in prison,
+#--------------------------------
+:!Work Events
+1-2,%Name%'s work forces him to travel the galaxy.
+_|Mor+0||Hum+0||Loy+0||Per-1||Cour+0||Calm+0|
+3-4,%Name%'s workplace provides him with formal training.
+_|Mor+1||Hum+0||Loy+1||Per+0||Cour+0||Calm+1|
+5,%Name%'s employer dies the same year that %Name% is hired.
+_|Mor+0||Hum+1||Loy+0||Per+0||Cour+0||Calm+0|
+6,Employer's rival threatens %Name% and forces him to quit.|Work=No|
+_|Mor+0||Hum+1||Loy+0||Per-1||Cour-1||Calm+0|
+7,Unsatisfied with this job, %Name% decides to quit.|Work=No|
+_|Mor+0||Hum+0||Loy-1||Per-1||Cour+0||Calm+0|
+8,Unsatisfied with his work performance, %Name%'s employer fires him.|Work=No|
+_|Mor+0||Hum+1||Loy-1||Per+0||Cour+0||Calm+0|
+9,%Name%'s employer becomes famous.
+_|Mor+0||Hum-1||Loy+0||Per+0||Cour+0||Calm+0|
+10,A love interest sparks with his Employer's daughter.<br>{If~%Love%=Yes? / [Love]}
+11-12,Employer requires %Name% to perform criminal acts.|Criminal=Yes|
+13,%Name%'s employer is suspected of [Crimes] and is watched closely by local authorities.
+_|Mor+0||Hum+0||Loy+0||Per+1||Cour-1||Calm-1|
+14,Employer sets %Name% up with his own business.|SS+1||SS<7|
+_|Mor+1||Hum-1||Loy+1||Per-1||Cour+0||Calm+1|
+15-16,Employer introduces %Name% to several influential people.
+_|Mor+0||Hum-1||Loy+0||Per+0||Cour+0||Calm+0|
+#--------------------------------
+:Hobby
+1-2,collecting [%Time% Collection]
+_|Mor+0||Hum+0||Loy+0||Per+1||Cour+0||Calm+1|
+3,of dancing
+_|Mor+0||Hum+0||Loy+0||Per+1||Cour+0||Calm+1|
+4-5,playing a musical instrument
+_|Mor+0||Hum+0||Loy+0||Per+1||Cour+0||Calm+1|
+6-7,of reading
+_|Mor+0||Hum+1||Loy+0||Per+0||Cour+0||Calm+1|
+8,of creative writing
+_|Mor+0||Hum+1||Loy+0||Per+0||Cour+0||Calm+1|
+9,of acting
+_|Mor+0||Hum-1||Loy+0||Per+1||Cour+0||Calm+1|
+10-11,of drawing
+_|Mor+0||Hum+1||Loy+0||Per+0||Cour+0||Calm+1|
+12-13,building models
+_|Mor+0||Hum+0||Loy+0||Per+1||Cour+0||Calm+1|
+14,of sport hunting
+_|Mor-1||Hum+0||Loy+0||Per+0||Cour+1||Calm+1|
+15-18,[Sport]
+19-20,gambling at [Gambling]
+_|Mor-1||Hum-1||Loy+0||Per+1||Cour+1||Calm+1|
+21-22,playing [Gaming]
+_|Mor+0||Hum+0||Loy+0||Per+1||Cour+0||Calm+1|
+
+:Sport
+1,of running
+_|Mor+0||Hum+0||Loy+0||Per+1||Cour+0||Calm+1|
+2,of wrestling
+_|Mor+0||Hum+0||Loy+0||Per+0||Cour+1||Calm+1|
+3,of [Racing]
+_|Mor+0||Hum+0||Loy+0||Per+0||Cour+1||Calm+1|
+4,of swimming
+_|Mor+0||Hum+0||Loy+0||Per+1||Cour+0||Calm+1|
+5,of martial arts
+_|Mor+0||Hum+0||Loy+0||Per+0||Cour+1||Calm+1|
+6,playing [Team Sport]
+_|Mor+0||Hum+0||Loy+1||Per+0||Cour+1||Calm+1|
+7,of hover skiing
+_|Mor+0||Hum+0||Loy+0||Per+0||Cour+1||Calm+1|
+
+:Racing
+1,Podracing
+2,Speederbike racing
+3,Swoopbike racing
+
+:Team Sport
+1,bolo-ball
+2,mag-ball
+3,moopsball
+4,nega-ball
+5,shockball
+6,smashball
+7,zoneball
+
+:Gambling
+1,Sabaac
+2,Lug-jack
+3,Mind-Jam
+4,Liar's Cut
+5,Rumble-pins
+6,Spinnerpit
+7,Vector
+
+:Gaming
+1,Dejarik
+2,Divoran Holochess
+3,Firepath
+4,Fuse-ball
+5,Photon Darts
+6,Quadrant
+7,Triga
+#--------------------------------
+:Injury
+1,leaving scars across [scar].
+2,[maim].
+3,forcing an amputation of [amputate]. [prosthesis]
+
+:scar
+1,entire body
+2,{If~{Dice~1d2} = 1 ? right / left} arm
+3,{If~{Dice~1d2} = 1 ? right / left} leg
+4,face
+5,chest
+
+:maim
+1,paralyzing from the neck down
+2,paralyzing from the waist down
+3,causing {If~{Dice~1d2} = 1 ? hearing loss / deafness} in {If~{Dice~2} = 1 ? one ear / both ears}
+4,causing {If~{Dice~1d2} = 1 ? sight loss / blindness} in {If~{Dice~2} = 1 ? one eye / both eyes}
+
+:amputate
+1,the {If~{Dice~1d2} = 1 ? right / left} arm at the {If~{Dice~1d2} = 1 ? shoulder / elbow}
+2,the {If~{Dice~1d2} = 1 ? right / left} hand
+3,the {If~{Dice~1d2} = 1 ? right / left} leg {If~{Dice~1d2} = 1 ? above / below} the knee
+4,the {If~{Dice~1d2} = 1 ? right / left} foot
+
+:prosthesis
+1-2,
+3-4,An artificial prosthesis now replaces the limb.
+5,A {If~%SS% > 4 ? high-grade} cybernetic prosthesis now replaces the limb.
+#--------------------------------
+:Crimes
+1-3,Petty Theft
+4-6,Vandalism
+7-9,Assault
+10-11,Larseny
+12-13,Grand Theft
+14,Piracy
+15,Murder
+16-18,Fraud
+19-21,Tax Evasion
+22-23,Drug Dealing
+24-25,Smuggling
+26-27,Kidnapping
+28-29,Trespassing
+30,Treason
+#--------------------------------
+:Race
+1,|RaceImport=[SW NPC Gen.RandomRaceExport]|
+_{Split~RaceImport,";",Race1,Pic,PathPic}
+
+:Chart
+1,%Path1%bar1.jpg%Path2%
+2,%Path1%bar2.jpg%Path2%
+3,%Path1%bar3.jpg%Path2%
+4,%Path1%bar4.jpg%Path2%
+5,%Path1%bar5.jpg%Path2%
+6,%Path1%bar6.jpg%Path2%
+7,%Path1%bar7.jpg%Path2%
+8,%Path1%bar8.jpg%Path2%
+9,%Path1%bar9.jpg%Path2%
+10,%Path1%bar10.jpg%Path2%
+
+:Personality
+1,{If~%Mor% > 4 ? [High Morality Traits] / [Low Morality Traits]}
+2,{If~%Hum% > 4 ? [High Humility Traits] / [Low Humility Traits]}
+3,{If~%Loy% > 4 ? [High Loyalty Traits] / [Low Loyalty Traits]}
+4,{If~%Per% > 4 ? [High Perseverance Traits] / [Low Perseverance Traits]}
+5,{If~%Cour%> 4 ? [High Courage Traits] / [Low Courage Traits]}
+6,{If~%Calm%> 4 ? [High Calmness Traits] / [Low Calmness Traits]}
+
+:!Low Morality Traits
+1,being amoral
+_|Mor-1||Hum+0||Loy+0||Per+0||Cour+0||Calm+0|
+2,being crude
+_|Mor+0||Hum-1||Loy+0||Per+0||Cour+0||Calm+0|
+3,being cynical
+_|Mor+0||Hum+0||Loy+0||Per-1||Cour+0||Calm+0|
+4,being deceitful{Lockout~Low Loyalty Traits,2}
+_|Mor-1||Hum+0||Loy-1||Per+0||Cour+0||Calm+0|
+5,being hateful{Lockout~Low Loyalty Traits,1}
+_|Mor-1||Hum+0||Loy+0||Per+0||Cour+0||Calm-1|
+6,being jealous
+_|Mor+0||Hum+0||Loy-1||Per+0||Cour+0||Calm+0|
+
+:!High Morality Traits
+1,being cheerful
+_|Mor+0||Hum+0||Loy+1||Per+0||Cour+0||Calm+0|
+2,being courteous
+_|Mor+0||Hum+0||Loy+0||Per+0||Cour+0||Calm+1|
+3,being generous
+_|Mor+1||Hum+0||Loy+0||Per+0||Cour+0||Calm+0|
+4,being helpful{Lockout~High Loyalty Traits,2}
+_|Mor+0||Hum+1||Loy+1||Per+0||Cour+0||Calm+0|
+5,being honest
+_|Mor+1||Hum+0||Loy+1||Per+0||Cour+0||Calm+0|
+6,being kind
+_|Mor+0||Hum+0||Loy+0||Per+0||Cour+0||Calm+1|
+
+:!Low Humility Traits
+1,being abrasive
+_|Mor+0||Hum-1||Loy-1||Per+0||Cour+0||Calm+0|
+2,being argumentative
+_|Mor+0||Hum+0||Loy-1||Per+1||Cour+0||Calm+0|
+3,being arrogant
+_|Mor+0||Hum-1||Loy+0||Per+0||Cour+1||Calm+0|
+4,being egotistical
+_|Mor-1||Hum-1||Loy-1||Per+1||Cour+0||Calm+0|
+5,being insensitive
+_|Mor+0||Hum-1||Loy+0||Per+0||Cour+0||Calm+0|
+6,being lusty
+_|Mor-1||Hum-1||Loy+0||Per+0||Cour+0||Calm+0|
+
+:!High Humility Traits
+1,being aloof
+_|Mor+0||Hum+0||Loy+0||Per+0||Cour-1||Calm+0|
+2,being dull
+_|Mor+0||Hum+0||Loy-1||Per+0||Cour+0||Calm+0|
+3,being humble
+_|Mor+0||Hum+1||Loy+0||Per+0||Cour+0||Calm+0|
+4,being overly sensitive
+_|Mor+0||Hum+0||Loy-1||Per-1||Cour+0||Calm+0|
+
+:!Low Loyalty Traits
+1,being overly cautious
+_|Mor+0||Hum+0||Loy+0||Per+0||Cour-1||Calm+0|
+2,being deceitful{Lockout~Low Morality Traits,4}
+_|Mor-1||Hum+0||Loy-1||Per+0||Cour+0||Calm+0|
+3,being hateful{Lockout~Low Morality Traits,5}
+_|Mor-1||Hum+0||Loy+0||Per+0||Cour+0||Calm-1|
+4,being suspicious{Lockout~Low Courage Traits,4}
+_|Mor+0||Hum+0||Loy-1||Per+0||Cour-1||Calm+0|
+5,being rude
+_|Mor+0||Hum-1||Loy-1||Per+0||Cour+0||Calm+0|
+
+:!High Loyalty Traits
+1,being friendly
+_|Mor+0||Hum+1||Loy+0||Per+0||Cour+0||Calm+1|
+2,being helpful{Lockout~High Morality Traits,4}
+_|Mor+0||Hum+1||Loy+1||Per+0||Cour+0||Calm+0|
+3,being pleasant
+_|Mor+0||Hum+0||Loy+0||Per+0||Cour+0||Calm+1|
+4,being romantic
+_|Mor+0||Hum-1||Loy+1||Per+0||Cour+0||Calm+1|
+5,being trusting
+_|Mor+0||Hum+0||Loy+1||Per+0||Cour+0||Calm+0|
+6,being dependable
+_|Mor+0||Hum+0||Loy+1||Per+1||Cour+0||Calm+0|
+
+:!Low Perseverance Traits
+1,being absent-minded
+_|Mor+0||Hum-1||Loy+0||Per+0||Cour+0||Calm+0|
+2,being morose
+_|Mor+0||Hum-1||Loy-1||Per+0||Cour+0||Calm+0|
+3,being pessimistic
+_|Mor+0||Hum+0||Loy+0||Per-1||Cour-1||Calm+0|
+4,being whiny{Lockout~Low Courage Traits,1}
+_|Mor+0||Hum-1||Loy+0||Per-1||Cour+0||Calm+0|
+5,being sarcastic
+_|Mor+0||Hum+0||Loy+0||Per+0||Cour-1||Calm+0|
+
+:!High Perseverance Traits
+1,being curious
+_|Mor+0||Hum+0||Loy+0||Per+0||Cour+1||Calm+0|
+2,being energetic{Lockout~High Courage Traits,1}
+_|Mor+0||Hum+0||Loy+0||Per+1||Cour+1||Calm+0|
+3,being inquisitive
+_|Mor+0||Hum-1||Loy+0||Per+1||Cour+1||Calm+0|
+4,being optimistic
+_|Mor+0||Hum+0||Loy+1||Per+1||Cour+0||Calm+0|
+5,being precise
+_|Mor+0||Hum+0||Loy+0||Per+1||Cour+0||Calm+0|
+
+:!Low Courage Traits
+1,being whiny{Lockout~Low Perseverance Traits,4}
+_|Mor+0||Hum-1||Loy+0||Per-1||Cour+0||Calm+0|
+2,being cowardly
+_|Mor+0||Hum+0||Loy+0||Per-1||Cour-1||Calm+0|
+3,being paranoid{Lockout~Low Calmness Traits,5}
+_|Mor+0||Hum+0||Loy-1||Per+0||Cour-1||Calm-1|
+4,being suspicious{Lockout~Low Loyalty Traits,4}
+_|Mor+0||Hum+0||Loy-1||Per+0||Cour-1||Calm+0|
+5,a phobia [Phobia]
+_|Mor+0||Hum+0||Loy+0||Per+0||Cour-1||Calm-1|
+
+:!High Courage Traits
+1,being energetic{Lockout~High Perseverance Traits,2}
+_|Mor+0||Hum+0||Loy+0||Per+1||Cour+1||Calm+0|
+2,being ominous
+_|Mor+0||Hum-1||Loy-1||Per+0||Cour+0||Calm+0|
+3,being heroic
+_|Mor+0||Hum-1||Loy+1||Per+0||Cour+1||Calm+0|
+4,being courageous
+_|Mor+0||Hum+0||Loy+0||Per+1||Cour+1||Calm+0|
+5,being serious
+_|Mor+0||Hum+0||Loy+0||Per+1||Cour+0||Calm+1|
+
+:!Low Calmness Traits
+1,being aggressive
+_|Mor+0||Hum-1||Loy-1||Per+0||Cour+0||Calm+0|
+2,being flippant
+_|Mor+0||Hum+0||Loy+0||Per-1||Cour+0||Calm+0|
+3,being hostile
+_|Mor-1||Hum+0||Loy+0||Per+0||Cour+0||Calm-1|
+4,being nervous
+_|Mor+0||Hum+0||Loy-1||Per+0||Cour+0||Calm-1|
+5,being paranoid{Lockout~Low Courage Traits,5}
+_|Mor+0||Hum+0||Loy-1||Per+0||Cour-1||Calm-1|
+
+:!High Calmness Traits
+1,being calm
+_|Mor+0||Hum+0||Loy+0||Per+0||Cour+0||Calm+1|
+2,being level-headed
+_|Mor+0||Hum+0||Loy+0||Per+1||Cour+0||Calm+1|
+3,being passive
+_|Mor+1||Hum+1||Loy+0||Per+0||Cour+0||Calm+0|
+4,having an even temper
+_|Mor+0||Hum+0||Loy+1||Per+0||Cour+0||Calm+1|
+5,being thoughtless
+_|Mor+0||Hum-1||Loy-1||Per+0||Cour+0||Calm+0|
+6,being peaceful
+_|Mor+1||Hum+1||Loy+0||Per+0||Cour+0||Calm+1|
+
+:Phobia
+1,acrophobia (fear of heights)
+2,agoraphobia (fear of open spaces)
+3,aichmophobia (fear of needles or pointed objects)
+4,arachnophobia (fear of spiders)
+5,astrophobia (fear of stars or celestial space)
+6,claustrophobia (fear of confined spaces)
+7,cyberphobia (Fear of computers or working on a computer)
+8,dendrophobia (fear of trees)
+9,entomophobia (fear of insects)
+10,hematophobia (fear of blood)
+11,monophobia (fear of being alone)
+12,necrophobia (fear of dead things)
+13,ophiophobia (fear of snakes)
+14,pyrophobia (fear of fire)
+15,scotophobia (fear of darkness)
+16,thalassophobia (fear of the sea)
+17,traumatophobia (fear of injury)
+18,vestiophobia (fear of clothing)
+19,xenophobia (fear of foreigners)
+20,zoophobia (fear of animals)

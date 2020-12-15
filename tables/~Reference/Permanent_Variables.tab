@@ -1,0 +1,673 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder May 23, 2018.
+# ---------------------------------------------------
+#
+# This table is used to permanently enter variables used in
+# other tables. For example, you can permanently set the books you 
+# own in this table and other tables will search this table
+# to know if you own the book ('1') or not ('2').
+#
+# -------------------------------------------------------------------------
+#
+# To call this table from another one:
+#    [Permanent_Variables.XXX
+#
+#    XXX :         The Variable you want to look for.
+#
+# -------------------------------------------------------------------------
+#
+# Tables using this table: 
+#    ENC Ultimate Random Encounter
+#
+
+# Below, enter 'Yes' if you own this book and '0' if you don't.
+
+%MAINLink%,E:\Documents\PDF\
+
+# ----- Valminder's Personal Files -----
+# (1=Yes, 2=No)
+%Val_Rules%,1
+%Val_Feats%,1
+%Val_MM%,Yes
+%Val_NPC%,Yes
+# Val_Web ===> I don't know where these came from, except they're from the internet.
+%Val_Web%,Yes
+
+%d20pfsrd%,Yes
+
+###############################################################
+# Permanent Variables
+###############################################################
+
+# CHANGE THE FOLLOWING VARIABLES' VALUES FOR YOUR OWN USE
+
+# PFExperience: Determine experience progression for NPC treasures: Slow,Normal,Fast
+%PFExperience%,2
+# PFFantasy: Determine fantasy setting for NPC treasures (PF version only):
+#     Low Fantasy (1/2 treasure value),Normal Fantasy,high Fantasy (x2 treasure value)
+%PFFantasy%,2
+# Version: 1- LOAD from Permanent Variables,   2- 3.5,     3- Pathfinder (If you set this variable at "1", the default will be "3 Pathfinder")
+%Version%,3
+### NEW WORLD ###
+# DO NOT CHANGE the WORLDS CODES ===> Useful for all other tables (Book Titles, Countries, Permanent_Variables, Religion, Travelers, Ultimate NPC).
+# 1= LOAD permanent variable 2= RANDOM, 3= Blackmoor 4= Conan 5= Dragonlance 6= Dragonlance (Taladas) 7= Dark Sun 
+# 8= Eberron 9= Forgotten Realms 10= Golarion 11= Greyhawk 12= Kingdoms of Kalamar 13= Lankhmar 14= Modern 15= MYSTARA 
+# 16= Ravenloft 17= Rokugan 18= Scarred Lands 19= Spelljammer 20= Sovereign Stone
+# @WorldNeeded,1,WORLD: Creatures from which world?,LOAD from Permanent_Variables,Random World,Blackmoor,Conan,Dragonlance,Dragonlance (Taladas),Dark Sun,Eberron,Forgotten Realms,Golarion,Greyhawk,Kingdoms of Kalamar,Lankhmar,Modern,Mystara,Ravenloft,Rokugan,Scarred Lands,Spelljammer,Sovereign Stone
+# >> Enter the number for your world.
+# *** NEVER set this variable at "1", the default will be "15 Mystara" (unless you choose another one).
+%WorldNeeded%,15
+
+###############################################################
+# BOOKS D&D 3.5
+###############################################################
+
+# 101Sp: 101 Spellbooks (by Philip Reed, www.philipjreed.com)
+%101Sp%,Yes
+# Ronin Arts - A Dozen Hazards of the City
+%12HazCit1%,Yes
+%12HazCit1_Link%,%MAINLink%DD_Misc\A_Dozen_Hazards_of_the_City.pdf
+# Ronin Arts - A Dozen Dungeon Hazards 
+%12HazDng1%,Yes
+%12HazDng1_Link%,%MAINLink%DD_Misc\A_Dozen_Dungeon_Hazards.pdf
+# Ronin Arts - A Dozen More Dungeon Hazards
+%12HazDng2%,Yes
+%12HazDng2_Link%,%MAINLink%DD_Misc\A_Dozen_More_Dungeon_Hazards.pdf
+# Ronin Arts - A Dozen Hazards of the Dragon'S Lair
+%12HazDra1%,Yes
+%12HazDra1_Link%,%MAINLink%DD_Misc\A_Dozen_Hazards_of_the_Dragon_Lair.pdf
+# Ronin Arts - A Dozen Wilderness Hazards
+%12HazWil1%,Yes
+%12HazWil1_Link%,%MAINLink%DD_Misc\A_Dozen_Wilderness_Hazards.pdf
+# Ronin Arts - 13 Wasteland Hazards
+%13HazFut1%,Yes
+%13HazFut1_Link%,%MAINLink%Modern\Future_13_Wasteland_Hazards.pdf
+# Ronin Arts - 13 Xenobiological and Stellar Hazards
+%13HazFut2%,Yes
+%13HazFut2_Link%,%MAINLink%Modern\Future_13_Xenobiological_and_Stellar_Hazards.pdf
+# All Hazards Great and Small (Silverthorne) 
+%AAGaS%,Yes
+%AAGaS_Link%,%MAINLink%DD_Misc\All_Hazards_Great_and_Small.pdf
+# Advanced Bestiary DD3.5 (Green Ronin)
+%AdvBes%,Yes
+# Aquatic Hazards
+%AqHaz%,Yes
+%AqHaz_Link%,DD_Misc\Aquatic_Hazards.pdf
+# BoEM1: Book of Eldritch Might 1.
+%BoEM1%,Yes
+# Book of Templates Deluxe Edition DD3.5 (Silverthorne Games)
+%BoTDE%,Yes
+# C: Aurora's Whole Realms Catalogue (2E).
+%C%,Yes
+# Creature Collection DD3.5 (Sword and Sorcery)
+%CC1%,Yes
+%CC2%,Yes
+%CC3%,Yes
+# CITSC: Cityscape (WotC)
+%CITSC%,Yes
+# Complete Books (WotC)
+%d20pfsrd%,Yes
+# DRXXX: Dragon Magazine XXX.
+%DR279%,Yes
+%DR280%,Yes
+%DR285%,Yes
+# DUXXX: Dungeon Magazine XXX.
+# Dungeon Master's Guide DD3.5
+%DMG1%,Yes
+%DMG2%,Yes
+# EBCS: Eberron Campaign Setting
+%EBCS%,Yes
+# Epic Level Handbook
+%ELH%,Yes
+# Fiend Folio DD3.0
+%FF%,Yes
+# Ice Tomb of the Dwarf Lord
+%ITotDL%,Yes
+%ITotDL_Link%,DD_Misc\Ice_Tomb_of_the_Dwarf_Lord.pdf
+# Monster Manual DD3.5
+%MM1%,Yes
+%MM2%,Yes
+%MM3%,Yes
+%MM4%,Yes
+%MM5%,Yes
+# MoF: Magic of Faerun.
+%MoF%,Yes
+# PDAFr: Poisoncraft: The Dark Art (Blue Devil Games). Free preview.
+%PDAFr%,Yes
+# Player's Handbook DD3.5
+%PHB1%,Yes
+%PHB2%,Yes
+# RH: Complete Ranger's Handbook (2E).
+%RH%,Yes
+%SRD%,Yes
+# Quintessential Books (Mongoose Publishing)
+%QAri%,Yes
+%QBbn1%,Yes
+%QBbn2%,Yes
+%QBrd1%,Yes
+%QBrd2%,Yes
+%QClr1%,Yes
+%QClr2%,Yes
+%QDrd1%,Yes
+%QDrd2%,Yes
+%QDro%,Yes
+%QDwa%,Yes
+%QElf%,Yes
+%QFtr1%,Yes
+%QFtr2%,Yes
+%QHum%,Yes
+%QKob%,Yes
+%QMnk1%,Yes
+%QMnk2%,Yes
+%QPal1%,Yes
+%QPal2%,Yes
+%QPsi%,Yes
+%QPsW%,Yes
+%QRng1%,Yes
+%QRng2%,Yes
+%QRog1%,Yes
+%QRog2%,Yes
+%QSam%,Yes
+%QSor1%,Yes
+%QSor2%,Yes
+%QTem%,Yes
+%QWit%,Yes
+%QWiz1%,Yes
+%QWiz2%,Yes
+# S&F: Scales and Fur
+%S&F%,Yes
+# TB: Tome and Blood.
+%TB%,Yes
+# Tobril_6: Dragonlance Tobril magazine #6
+%Tobril_6%,Yes
+# Tome of Horrors DD3.5
+%ToH1%,Yes
+%ToH2%,Yes
+%ToH3%,Yes
+# Unearthed Arcana
+%UA%,Yes
+# Ultimate Books
+%UltNPC1%,Yes
+# When the Sky Falls
+%WSkyF%,Yes
+
+###############################################################
+# BOOKS Pathfinder
+###############################################################
+
+# Bestiaries
+# PFB1 must ALWAYS be YES
+%PFB1%,Yes
+%PFB2%,Yes
+%PFB3%,Yes
+%PFB4%,Yes
+%PFB5%,Yes
+%PFB6%,Yes
+
+# Corebook
+%PFCore%,Yes
+# Advanced Class/Player/Race Guide
+%AdvCG%,Yes
+%AdvPG%,Yes
+%AdvRG%,Yes
+# Book of Divine Magic
+%BoDM%,Yes
+# Champion of Balancd/Corruption/Purity
+%ChBal%,Yes
+%ChCor%,Yes
+%ChPur%,Yes
+# Forgotten Foes - Tricky Owlbear Productions
+%ForFoe%,Yes
+# Heroes of the Street
+%HotS%,Yes
+# Kobolds of Golarion
+%KoGol%,Yes
+# Inner Sea : Gods/Monster Codex/World Guide
+%ISGod%,Yes
+%ISMC%,Yes
+%ISWG%,Yes
+# Misfit Monsters Redeemed
+%MiMoRe%,Yes
+# Mythic Adventures
+%MytAdv%,Yes
+# NPC Codex 1
+%NPCCod1%,Yes
+# Technology Guide
+%TechG%,Yes
+# Ultimate Campaign / Combat / Equipment / Magic
+%UltCam%,Yes
+%UltCbt%,Yes
+%UltEQPF%,Yes
+%UltMag%,Yes
+# Unchained
+%Unc%,Yes
+# Undead Revisited
+%UndRev%,Yes
+
+# Parameters
+###
+#%GetVariable%,0
+%Link%,0
+
+@Link,0,(Link) DO NOT MODIFIY --- To get link of book
+###
+#@GetVariable,0,DO NOT MODIFY --- To get the value of a variable
+
+:Start
+1,This table can only be called by other tables.<br><br>
+_You can permanently set these variables: <br><br>
+_{Bold~Version:} Choose your version of the 3.5 / OGL / Pathfinder rules.<br>
+_{Space~5}1= LOAD from Permanent Variables, 2= 3.5, 3= Pathfinder, 4= Both (choosing Pathfinder over 3.5 when applicable).<br><br>
+_{Bold~World Needed:} Choose the world you need.<br>
+_{Space~5}1= LOAD permanent variable 2= RANDOM, 3= Blackmoor 4= Conan 5= Dragonlance 6= Dragonlance (Taladas) 7= Dark Sun<br>
+_{Space~5}8= Eberron 9= Forgotten Realms 10= Golarion 11= Greyhawk 12= Kingdoms of Kalamar 13= Lankhmar 14= Modern 15= MYSTARA<br>
+_{Space~5}16= Ravenloft 17= Rokugan 18= Scarred Lands 19= Spelljammer 20= Sovereign Stone<br><br>
+_This table is also used to permanently enter variables used in other tables. For example, you can permanently set the books you 
+_own in this table and other tables will search this table to know if you own the book ('1') or not ('2').<br><br>
+_Finally, you can enter hyperlinks to your books or some other entries.<br>
+
+# --------------------
+:Val_Feats
+1,%Val_Feats%
+
+:Val_NPC
+1,%Val_NPC%
+
+:Val_MM
+1,%Val_MM%
+
+:Val_Rules
+1,%Val_Rules%
+
+:Val_Web
+1,%Val_Web%
+
+# --------------------
+
+:ShowLink
+1,[%Link%]
+
+# --------------------
+
+###
+#:GetVariable
+#1,%[GetVariable]%
+
+# --------------------
+
+:101Sp
+1,%101Sp%
+
+:12HazCit1
+1,%12HazCit1%
+
+:12HazCit1_Link
+1,%12HazCit1_Link%
+
+:12HazDng1
+1,%12HazDng1%
+
+:12HazDng1_Link
+1,%12HazDng1_Link%
+
+:12HazDng2
+1,%12HazDng2%
+
+:12HazDng2_Link
+1,%12HazDng2_Link%
+
+:12HazDra1
+1,%12HazDra1%
+
+:12HazDra1_Link
+1,%12HazDra1_Link%
+
+:12HazWil1
+1,%12HazWil1%
+
+:12HazWil1_Link
+1,%12HazWil1_Link%
+
+:13HazFut1
+1,%13HazFut1%
+
+:13HazFut1_Link
+1,%13HazFut1_Link%
+
+:13HazFut2
+1,%13HazFut2%
+
+:13HazFut2_Link
+1,%13HazFut2_Link%
+
+:AAGaS
+1,%AAGaS%
+
+:AAGaS_Link
+1,%AAGaS_Link%
+
+:AdvBes
+1,%AdvBes%
+
+:AdvCG
+1,%AdvCG%
+
+:AdvPG
+1,%AdvPG%
+
+:AdvRG
+1,%AdvRG%
+
+:AqHaz
+1,%AqHaz%
+
+:AqHaz_Link
+1,%AqHaz_Link%
+
+:BoDM
+1,%BoDM%
+
+:BoEM1
+1,%BoEM1%
+
+:BoTDE
+1,%BoTDE%
+
+:C
+1,%C%
+
+:CC1
+1,%CC1%
+
+:CC2
+1,%CC2%
+
+:CC3
+1,%CC3%
+
+:ChBal
+1,%ChBal%
+
+:ChCor
+1,%ChCor%
+
+:ChPur
+1,%ChPur%
+
+:CITSC
+1,%CITSC%
+
+:d20pfsrd
+1,%d20pfsrd%
+
+:DMG1
+1,%DMG1%
+
+:DMG2
+1,%DMG2%
+
+:DR279
+1,%DR279%
+
+:DR280
+1,%DR280%
+
+:DR285
+1,%DR285%
+
+:EBCS
+1,%EBCS%
+
+:ELH
+1,%ELH%
+
+:FF
+1,%FF%
+
+:ForFoe
+1,%ForFoe%
+
+:HotS
+1,%HotS%
+
+:ISGod
+1,%ISGod%
+
+:ISMC
+1,%ISMC%
+
+:ISWG
+1,%ISWG%
+
+:ITotDL
+1,%ITotDL%
+
+:ITotDL_Link
+1,%ITotDL_Link%
+
+:KoGol
+1,%KoGol%
+
+:MiMoRe
+1,%MiMoRe%
+
+:MM1
+1,%MM1%
+
+:MM2
+1,%MM2%
+
+:MM3
+1,%MM3%
+
+:MM4
+1,%MM4%
+
+:MM5
+1,%MM5%
+
+:MoF
+1,%MoF%
+
+:MytAdv
+1,%MytAdv%
+
+:NPCCod1
+1,%NPCCod1%
+
+:PDAFr
+1,%PDAFr%
+
+:PFB1
+1,%PFB1%
+
+:PFB2
+1,%PFB2%
+
+:PFB3
+1,%PFB3%
+
+:PFB4
+1,%PFB4%
+
+:PFB5
+1,%PFB5%
+
+:PFCore
+1,%PFCore%
+
+:PFExperience
+1,%PFExperience%
+
+:PFFantasy
+1,%PFFantasy%
+
+:PHB1
+1,%PHB1%
+
+:PHB2
+1,%PHB2%
+
+:QAri
+1,%QAri%
+
+:QBbn1
+1,%QBbn1%
+
+:QBbn2
+1,%QBbn2%
+
+:QBrd1
+1,%QBrd1%
+
+:QBrd2
+1,%QBrd2%
+
+:QClr1
+1,%QClr1%
+
+:QClr2
+1,%QClr2%
+
+:QDrd1
+1,%QDrd1%
+
+:QDrd2
+1,%QDrd2%
+
+:QDro
+1,%QDro%
+
+:QDwa
+1,%QDwa%
+
+:QElf
+1,%QElf%
+
+:QFtr1
+1,%QFtr1%
+
+:QFtr2
+1,%QFtr2%
+
+:QHum
+1,%QHum%
+
+:QKob
+1,%QKob%
+
+:QMnk1
+1,%QMnk1%
+
+:QMnk2
+1,%QMnk2%
+
+:QPal1
+1,%QPal1%
+
+:QPal2
+1,%QPal2%
+
+:QPsi
+1,%QPsi%
+
+:QPsW
+1,%QPsW%
+
+:QRng1
+1,%QRng1%
+
+:QRng2
+1,%QRng2%
+
+:QRog1
+1,%QRog1%
+
+:QRog2
+1,%QRog2%
+
+:QSam
+1,%QSam%
+
+:QSor1
+1,%QSor1%
+
+:QSor2
+1,%QSor2%
+
+:QTem
+1,%QTem%
+
+:QWit
+1,%QWit%
+
+:QWiz1
+1,%QWiz1%
+
+:QWiz2
+1,%QWiz2%
+
+:RH
+1,%RH%
+
+:S&F
+1,%S&F%
+
+:SRD
+1,%SRD%
+
+:TB
+1,%TB%
+
+:TechG
+1,%TechG%
+
+:Tobril_6
+1,%Tobril_6%
+
+:ToH1
+1,%ToH1%
+
+:ToH2
+1,%ToH2%
+
+:ToH3
+1,%ToH3%
+
+:UA
+1,%UA%
+
+:UltCam
+1,%UltCam%
+
+:UltCbt
+1,%UltCbt%
+
+:UltEQPF
+1,%UltEQPF%
+
+:UltMag
+1,%UltMag%
+
+:UltNPC1
+1,%UltNPC1%
+
+:Unc
+1,%Unc%
+
+:UndRev
+1,%UndRev%
+
+:Version
+1,{If~%Version%!=2?|Version=3|}
+_%Version%
+
+# You can modify the default value for "WorldNeeded=1" below for your own world.
+:WorldNeeded
+1,{If~%WorldNeeded%=1?|WorldNeeded=15|
+_/{If~%WorldNeeded%=2?|WorldNeeded={Dice~1d18+2}|
+_}}
+_%WorldNeeded%
+
+:WSkyF
+1,%WSkyF%

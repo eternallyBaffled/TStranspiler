@@ -1,0 +1,583 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder Dec 20, 2005.
+# ---------------------------------------------------
+#
+# RUIN GENERATOR based on the RMSS RuinGenerator from "Castle & Ruins"
+#
+# 1998 Robert Rydlo
+#
+# Verified by Valminder, Jan 2004.
+
+:Start
+1,<font size="+2"> <b>[Condition]</b> {Cap~[Building]}</b>
+
+:Condition
+1-10,Razed
+11-30,Wrecked
+31-65,Rotting/Old
+66,Normal
+67-95,Rotting/Old
+96-100, Old/Normal
+
+:CurS
+1,no remains
+2-10,little remains
+11-20,a tottering structure
+21-30,roamed by wild animals
+31-40, being Rebuild
+41-50,Peasants setteling
+51-60,infested with monster
+61-65,inhabited by an uncommon race
+66,untouched by time
+67-75,used by bandits
+76-85,cursed
+86-95,haunted
+96-99,Submerged
+100,home of an avatar
+
+
+:Building
+1-5,[Known] <b>Peasant House</b></font><br><b>Style: </b>[St]<br><b>Status:</B> [CurS]<br><b>Items:</b><br>[PHItems]
+6-10,[Known] <b>Farming Village</b></font><br><b>Style: </b>[St]<br><b>Status:</B> [CurS]<br><b>Items:</b><br>[FVItems]
+11-15,[Known] <b>Wooden Fort</b></font><br><b>Style: </b>[St]<br><b>Status:</B> [CurS]<br><b>Protection: </b> {AorAn~[TerOf]}<br><b>Items:</b><br>[WFItems]<br><b>Magic Items:</b><br>[WFMagic]
+16-20,[Known] <b>Manor/Mansion</b></font><br><b>Style: </b>[St]<br><b>Status:</B> [CurS]<br><b>Protection: </b> {AorAn~[TerOf]} and {AorAn~[Def]}<br><b>Items:</b><br>[MaItems]<br><b>Magic Items:</b><br>[MaMagic]
+21-25,[Known] <b>Watch/Signal Tower</b></font><br><b>Style: </b>[St]<br><b>Status:</B> [CurS]<br><b>Protection: </b> {AorAn~[TerOf]}<br><b>Items:</b><br>[WSItems]<br><b>Magic Items:</b><br>[WSMagic]
+26-30,[Known] <b>Outpost</b></font><br><b>Style: </b>[St]<br><b>Status:</B> [CurS]<br><b>Protection: </b> {AorAn~[TerOf]}<br><b>Items:</b><br>[OpItems]<br><b>Magic Items:</b><br>[OpMagic]
+31-35,[Known] <b>Monument</b></font><br><b>Style: </b>[St]<br><b>Status:</B> [CurS]<br><b>Protection: </b> {AorAn~[Off]}<br><b>Magic Items:</b><br>[MoMagic]
+36-40,[Known] <b>Shrine</b></font><br><b>Style: </b>[St]<br><b>Status:</B> [CurS]<br><b>Protection: </b> {AorAn~[Off]}<br><b>Items:</b><br>[ShItems]<br><b>Magic Items:</b><br>[ShMagic]
+41-50,[Known] <b>Temple</b></font><br><b>Style: </b>[St]<br><b>Status:</B> [CurS]<br><b>Protection: </b>{AorAn~[TerOf]}, {AorAn~[Def]} and {AorAn~[Off]}<br><b>Items:</b><br>[TeItems]<br><b>Magic Items:</b><br>[TeMagic]
+51-55,[Known] <b>Small Castle</b></font><br><b>Style: </b>[St]<br><b>Status:</B> [CurS]<br><b>Protection: </b>{AorAn~[TerOf]} and {AorAn~[Def]}<br><b>Items:</b><br>[SCItems]<br><b>Magic Items:</b><br>[SCMagic]
+56-65,[Known] <b>Tomb</b></font><br><b>Style: </b>[St]<br><b>Status:</B> [CurS]<br><b>Protection: </b>{AorAn~[TerOf]}, {AorAn~[Def]} and {AorAn~[Off]}<br><b>Items:</b><br>[ToItems]<br><b>Magic Items:</b><br>[ToMagic]
+66,[Known] <b>Enchanted Castle</b></font><br><b>Style: </b>[St]<br><b>Status:</B> [CurS]<br><b>Protection: </b>{AorAn~[TerOf]}, {AorAn~[Def]} and {AorAn~[Off]}<br><b>Items:</b><br>[ECItems]<br><b>Magic Items:</b><br>[ECMagic]
+67-75,[Known] <b>Underground Fortress</b></font><br><b>Style: </b>[St]<br><b>Status:</B> [CurS]<br><b>Protection: </b>{AorAn~[TerOf]}, {AorAn~[Def]} and {AorAn~[Off]}<br><b>Items:</b><br>[UFItems]<br><b>Magic Items:</b><br>[UFMagic]
+76-85,[Known] <b>Large Castle</b></font><br><b>Style: </b>[St]<br><b>Status:</B> [CurS]<br><b>Protection: </b>{AorAn~[TerOf]}, {AorAn~[Def]} and {AorAn~[Off]}<br><b>Items:</b><br>[LCItems]<br><b>Magic Items:</b><br>[LCMagic]
+86-90,[Known] <b>City </b></font><br><b>Style: </b>[St]<br><b>Status:</B> [CurS]<br><b>Protection: </b>{AorAn~[Def]} and {AorAn~[Off]}<br><b>Items:</b><br>[CityItems]<br><b>Magic Items:</b><br>[CityMagic]
+91-95,[Known] <b>Library/Museum/Arcanus</b></font><br><b>Style: </b>[St]<br><b>Status:</B> [CurS]<br><b>Protection: </b>{AorAn~[Def]} and {AorAn~[Off]}<br><b>Items:</b><br>[LibItems]<br><b>Magic Items:</b><br>[LibMagic]
+
+:PHItems
+1,<li>[It1]</li>
+
+:FVItems
+1,<li>[It1]</li>
+
+:WFItems
+1,<li>[It1]<br><li>[It2]<br><li>[It3]</li>
+:WFMagic
+1,<li>[Ma1]</li>
+
+
+:MaItems
+1,<li>[It1]<br><li>[It2]<br><li>[It3]<br><li>[It4]</li>
+:MaMagic
+1,<li>[Ma1]<br><li>[Ma2]</li>
+
+:WSItems
+1,<li>[It1]<br><li>[It2]<br><li>[It3]</li>
+:WSMagic
+1,<li>[Ma1]</li>
+
+:OpItems
+1,<li>[It1]<br><li>[It2]<br><li>[It3]</li>
+:OpMagic
+1,<li>[Ma1]</li>
+
+:MoMagic
+1,<li>[Ma1]<br><li>[Ma2]<br><li>[Ma3]</li>
+
+:ShItems
+1,<li>[It4]</li>
+:ShMagic
+1,<li>[Ma1]<br><li>[Ma2]<br><li>[Ma3]</li>
+
+:TeItems
+1,<li>[It1]<br><li>[It2]<br><li>[It3]<br><li>[It4]</li>
+:TeMagic
+1,<li>[Ma1]<br><li>[Ma2]<br><li>[Ma3]</li>
+
+:SCItems
+1,<li>[It1]<br><li>[It2]<br><li>[It3]<br><li>[It4]</li>
+:SCMagic
+1,<li>[Ma1]<br><li>[Ma2]</li>
+
+:ToItems
+1,<li>[It1]<br><li>[It2]<br><li>[It3]<br><li>[It4]</li>
+:ToMagic
+1,<li>[Ma1]<br><li>[Ma2]<br><li>[Ma3]</li>
+
+:ECItems
+1,<li>[It1]<br><li>[It2]<br><li>[It3]<br><li>[It4]</li>
+:ECMagic
+1,<li>[Ma1]<br><li>[Ma2]<br><li>[Ma3]</li>
+
+:UFItems
+1,<li>[It1]<br><li>[It2]<br><li>[It3]<br><li>[It4]</li>
+:UFMagic
+1,<li>[Ma1]<br><li>[Ma2]<br><li>[Ma3]</li>
+
+:LCItems
+1,<li>[It1]<br><li>[It2]<br><li>[It3]<br><li>[It4]</li>
+:LCMagic
+1,<li>[Ma1]<br><li>[Ma2]<br><li>[Ma3]</li>
+
+:LibItems
+1,<li>[It4]</li>
+:LibMagic
+1,<li>[Ma1]<br><li>[Ma2]<br><li>[Ma3]</li>
+
+:CityItems
+1,<li>[It1]<br><li>[It2]<br><li>[It3]<br><li>[It4]</li>
+:CityMagic
+1,<li>[Ma1]<br><li>[Ma2]<br><li>[Ma3]</li>
+
+
+:St
+1-10,crude woodcraft
+11-21,crude stone craft
+22-34,simple structure with little decoration
+35-47,simple structure with some decoration
+48-58,simple but elegant style
+59-65,historical style - early inventions
+66,unknown racial construct style of a race that never has been in this area
+67-76,skilled craft with little decoration
+77-85,skilled craft with some decoration
+86-93,skilled craft with lavish/innovative designs
+94-99,superb craft with lavish but utilitarian
+100,unique design with a construction style never seen before
+
+
+:Known
+1-95,
+95-100,Famous
+
+:TerOf
+1-15,pit trap outside
+16-30,ditch
+31-45,moat
+46-60,overgrowing briars
+61-75,pit trap inside
+76-90,steep incline/climb to ruin
+91-100,[Def]
+
+:Def
+1-10,pit trap(drops target into prison cell)
+11-20,pit trap(spikes)
+21-30,pit trap(water)
+31-40,poison needle lock(25 Percent chance)
+41-50,arrow trap(floor)
+51-60,arrow trap(door)
+61-70,falling trap(cage)
+71-80,falling trap(stone)
+81-90,rolling stone/wheel
+91-100,[Off]
+
+:Off
+1-10,pit trap(spikes)
+11-20,arrow trap
+21-30,spear trap
+31-40,poison gas trap(25 Percent Chance)
+41-50,falling trap
+51-60,compacting room
+61-70,open/Close door
+71-80,flooding room
+81-100,rolling stone/wheel
+
+:ICond
+1,Obviously broken
+2,Very poor/damaged
+3,Very poor/damaged
+4,Poor/heavily worn
+5,Poor/heavily worn
+6,Okay/worn
+7,Okay/worn
+8,Decent/used, but not worn
+9,Good
+10,Perfect
+
+
+
+:Ma1
+1-5,[ICond] Offensive symbol - 5th level
+6-10,[ICond] +5 magic non-weapon item
+11-15,[ICond] Perimeter/structure wards - 8th level
+16-20,[ICond] Daily I item
+21-25,[ICond] Runes - 5 total levels of spells
+26-30,[ICond] Potion - 5th level
+31-35,[ICond] +5 magic [Weapon]
+36-40,[ICond] Inactive magic circle inscribe on floor - 10th level
+41-45,[ICond] Alchemical formula for an unknown elexir
+46-50,[ICond] Formula for magic ritual - 10th level
+51-55,[ICond] Daily II Item
+56-60,[ICond] Runes - 7 total level of spells
+61-65,[ICond] Potion 7th level
+66-70,[ICond] Book of spells - one open list up to 30th level (f.e.: [ESpellOpenList])
+71-75,[ICond] Alchemical equipment (beakers,burners,etc)
+76-80,[ICond] preserved herbs
+81-85,[ICond] +1 spell adder
+86-90,[ICond] Map with path marked on it - indecipherable message written on it
+91-95,[ICond] 1 to 10th lev. item from T.C.
+96-100,[Ma2]
+
+:Ma2
+1-5,[ICond] Offensive symbol - 10th level
+6-10,[ICond] +10 magic non-weapon item
+11-15,[ICond] Perimeter/structure ward - 15th level
+16-20,[ICond] Daily III item
+21-25,[ICond] Runes - 15 total level of spells
+26-30,[ICond] Potion - 15th level
+31-35,[ICond] +10 magic [Weapon]
+36-40,[ICond] Arcane wards guards import. rooms - up to 10 tot. Levels
+41-45,[ICond] Pice of magical mineral
+46-50,[ICond] Formula for magic ritual - 20th level
+51-55,[ICond] +1 spell adder
+56-60,[ICond] Runes - 20 total levels of spells
+61-65,[ICond] Potion - 20th level
+66-70,[ICond] Book of spells - one closed list to 50th level (f.e: [ESpellClosedList])
+71-75,[ICond] Book on magical properties of herbs,minerals and animal parts
+76-80,[ICond] Daily IV item
+81-85,[ICond] Magical guardian, minor (gargoyle,elemental,etc.)
+86-90,[ICond] Arcane wards guards import. rooms - up to 20 tot. Levels
+91-95,[ICond] two 1 to 10 lev. items from T.C.
+96-100,[Ma3]
+
+
+:Ma3
+1-5,[ICond] Offensive symbol - 10th level
+6-10,[ICond] Perimeter/structure ward - 30th level
+11-15,[ICond] Arcane wards guards import. rooms - up to 30 tot. Levels
+16-20,[ICond] +15 non-magical item
+21-25,[ICond] Runes - 30 total levels of spells
+26-30,[ICond] Potion - 30th level
+31-35,[ICond] Magic guardian, minor (2-4)
+36-40,[ICond] +15 magic [Weapon]
+41-45,[ICond] +2 spell adder
+46-50,[ICond] Magic guardian, lesser
+51-55,[ICond] Formular for magic ritual - 30th level
+56-60,[ICond] Arcane wards guards import. rooms - up to 45 tot. Levels
+61-65,[ICond] Book of spells - one baselist up to the 50th level (f.e: [ESpellBaseList])
+66-70,[ICond] *2 multiplier
+71-75,[ICond] Magic guarian, greater
+76-80,[ICond] Runes - 45 total level of spells
+81-85,[ICond] Ancient book of maps containig specific references to ancient sites
+86-90,[ICond] Dimensional portal - open or closed is GM's discretion
+91-95,[ICond] Cursed item
+96-100,[ICond] a 1 to 20th lev. item from T.C.
+
+
+:It1
+1-5,[ICond] Rotten Food
+6-10,[ICond] Barrels/Bottles
+11-15,[ICond] Rotting Clothes
+16-20,[ICond] Cooking utensils
+21-25,[ICond] Bones (Animal/Humanoid)
+26-30,[ICond] Utility Stones(grind-, heathstone,etc.)
+31-35,[ICond] Animal Products (hides,feathers,etc.)
+36-40,[ICond] Knife
+41-45,[ICond] digging implement (shovel,hoe,etc.)
+46-50,[ICond] Wood working tool (axe,saw,wedge,etc.)
+51-55,[ICond] Burning implement (candle,latern,torch,etc.)
+56-60,[ICond] rough furniture (bed,table,chaur,etc.)
+61-65,[ICond] Cloth working tool(needle,shears,loom,etc.)
+66-70,[ICond] Hunting Item(arrows,snares,traps,etc.)
+71-75,[ICond] Dishes (pots,pans,plates,etc.)
+76-80,[ICond] Craft items (forge,anvil,rasp,chisels,etc.)
+81-85,[ICond] Crude jewelery/religuois symbol (bronze or cheaper material)
+86-90,[ICond] Coins: {Loop~{Dice~1d2},[Coins]}
+91-95,[ICond] Simple art work (mural,sketch,stone cutting,etc.)
+96-100,[It2]
+
+:It2
+1-5,[ICond] Animal carcass
+6-10,[ICond] Stable cleaning tool(shovel,rake,etc.)
+11-15,[ICond] Grooming tools(brussh,picks,buckets,etc.)
+16-20,[ICond] Feeding implements (trough,bucked,feed bag,etc.)
+21-25,[ICond] Rotten Food(grain,bones,etc.)
+26-30,[ICond] Restrains (reins,blinders,hoods,collars,etc)
+31-35,[ICond] Animal training tools (whil, gloves,jesses,etc.)
+36-40,[ICond] Tools (plow,yoke,harness,etc.)
+41-45,[ICond] Riding equipment (saddle,reins,etc.)
+46-50,[ICond] Transport (wagon,carriage,etc.)
+51-55,[ICond] Maintainance items (horseshoe,forge,etc.)
+56-60,[ICond] Animal products (wool,leather,etc)
+61-65,[ICond] Hunting items (horns,spears,hooks,nets,etc)
+66-70,[ICond] Complete skeleton of unusual animal
+71-75,[ICond] Cage, portable
+76-80,[ICond] Animal armor (barding,etc.)
+81-85,[ICond] Animal weapon (lance,horseman's axe,etc.)
+86-90,[ICond] Wild animals - descended form domesticated animals
+91-100,[It3]
+
+:It3
+1-5,[ICond] Dagger
+6-10,[ICond] Shield
+11-15,[ICond] [OHE]
+16-20,[ICond] [Music]
+21-25,[ICond] Grappling hook
+26-30,[ICond] Banner (flag,pennant,etc.)
+31-35,[ICond] Military clothes
+36-40,[ICond] Soft leather armor
+41-45,[ICond] Military documents
+46-50,[ICond] [OHC]
+51-55,[ICond] [Pole]
+56-60,[ICond] [Missile]
+61-65,[ICond] Seal (signet ring,amulet,etc)
+66-70,[ICond] Rigid leather armor
+71-75,[ICond] Helmet/Graves
+76-80,[ICond] Chain mail armor
+81-85,[ICond] Camping gear (tent,spikes,rope,etc.)
+86-90,[ICond] [THW]
+91-95,[ICond] Plate armor
+96-100,[ICond] Magic Item (Roll randomly using Treasure Companion)
+
+
+:It4
+1-5,[ICond] Fine clothing (most likly rotten)
+6-10,[ICond] Fine furniture
+11-15,[ICond] Coins: {Loop~{Dice~1d4},[Coins]}
+16-20,[ICond] Fine drinking vessel (goblet,horn,etc.)
+21-25,[ICond] Gems: {Loop~{Dice~1d6},[Gems]}
+26-30,[ICond] Books
+31-35,[ICond] Maps
+36-40,[ICond] Fine dishes (silver,glass,china,etc.)
+41-45,[ICond] Fine utensils (silver,gold,etc.)
+46-50,[ICond] Sculpture (stone,wood,metal,etc)
+51-55,[ICond] Painting (Protrait,landscape)
+56-60,[ICond] [Jewelry]
+61-65,[ICond] [Music]
+66-70,[ICond] Art supply (brushes,canvas,chisel,etc.)
+71-75,[ICond] Heraldic symbol
+76-80,[ICond] Heirloom
+81-85,[ICond] Secret Room (Items inside get a +3 on condition)
+86-90,[ICond] Rare herbs grow where ancient garden used to be
+91-95,[Ma1]
+96-100,[Ma2]
+
+
+:GemSize
+1-25,tiny
+26-50,small
+50-90,normal
+91-95,large
+96-100,hughe
+
+
+:Jewelry
+1-6,{Cap~{AorAn~[Miscellaneous.Precious Metal]}} [Item], worth {Calc~({Dice~1d8}*5)} gold coins.
+7-11,{Cap~{AorAn~[Miscellaneous.Precious Metal]}} [Item], set with {AorAn~[Gem]}, worth {Calc~({Dice~1d8}*5)} gold coins.
+12-15,{Cap~{AorAn~[Miscellaneous.Precious Metal]}} [Item], set with [Gem]s, worth {Calc~({Dice~1d8}*5)} gold coins.
+16-17,{Cap~{AorAn~[Miscellaneous.Precious Metal]}} [Item], [Design], worth {Calc~({Dice~1d8}*5)} gold coins.
+18-19,{Cap~{AorAn~[Miscellaneous.Precious Metal]}} [Item], set with {AorAn~[Gem]}, worth {Calc~({Dice~1d8}*5)} gold coins.
+20,{Cap~{AorAn~[Miscellaneous.Precious Metal]}} [Item], set with [Gem]s, worth {Calc~({Dice~1d8}*5)} gold coins.
+
+:Item
+1,anklet
+2,armband
+3-4,bracelet
+5,brooch
+6,buckle
+7,circlet
+8-9,clasp
+10,earrings
+11-12,locket
+13-14,necklace
+15-16,pendant
+17-18,ring
+19,tiara
+20,torc
+
+:Design
+1,engraved with strange symbols
+2,engraved with concentric circles
+3,carved with a twisting, vine-like pattern
+4,enlaid with a pattern of gold
+5,enlaid with a pattern of silver
+6,engraved with an ancient proverb
+7,engraved with a dragon-like shape
+8,engraved with the likeness of an ancient king
+9,covered in a web-like pattern of lines
+10,engraved with an image of the sun
+
+:Gem
+1-3,jade
+4-6,onyx
+7-9,turquoise
+10-12,emerald
+13,diamond
+14-16,sapphire
+17-19,ruby
+20-22,garnet
+23-25,rose quartz
+26-28,amethyst
+
+:Gems
+1-3, {Dice~1d6} [GemSize] jade,
+4-6, {Dice~1d6} [GemSize] onyx,
+7-9, {Dice~1d6} [GemSize] turquoise,
+10-12, {Dice~1d6} [GemSize] emerald,
+13, {Dice~1d6} [GemSize] diamond,
+14-16, {Dice~1d6} [GemSize] sapphire,
+17-19, {Dice~1d6} [GemSize] ruby,
+20-22, {Dice~1d6} [GemSize] garnet,
+23-25, {Dice~1d6} [GemSize] rose quartz,
+26-28, {Dice~1d6} [GemSize] amethyst,
+
+:Missile
+1,Short Bow
+2,Long Bow
+3,Composite Bow
+4,Light Crossbow
+5,Heavy Crossbow
+6,Dagger
+7,Spear
+
+:THW
+1,Quarterstaff
+2,Bi-hander
+3,Battle Axe
+4,War Hammer
+
+:OHE
+1,Short Sword
+2,Broad Sword
+3,Rapier
+4,Falchion
+5,Sabre
+6,Handaxe
+
+
+:OHC
+1,Club
+2,Mattock
+3,Mace
+4,Morningstar
+5,Warhammer
+6,Flail
+
+:Pole
+1,Lance
+2,Halbert
+3,Spear
+
+:Music
+1,Drum
+2,Flute
+3,Pipe
+4,Mandolin
+5,Horn
+6,Harp
+
+:Weapon
+1,Short Bow
+2,Long Bow
+3,Composite Bow
+4,Light Crossbow
+5,Heavy Crossbow
+6,Dagger
+7,Spear
+8,Quarterstaff
+9,Bi-hander
+10,Battle Axe
+11,War Hammer
+12,Short Sword
+13,Broad Sword
+14,Rapier
+15,Falchion
+16,Sabre
+17,Handaxe
+18,Club
+19,Mattock
+20,Mace
+21,Morningstar
+22,Warhammer
+23,Flail
+24,Lance
+25,Halbert
+26,Dagger
+
+
+:ESpellBaseList
+1,Concealment Mastery
+2,Movement Mastery
+3,Influences
+4,Senses
+5,Mechanisms
+6,Thieving Law
+7,Feel-Taste-Smell
+8,Light Molding
+9,Guises
+10,Mind Sense Molding
+11,Illusion Mastery
+12,Sound Molding
+13,Earth Law
+14,Light Law
+15,Fire Law
+16,Water Law
+17,Ice Law
+18,Wind Law
+19,Mana Barriers
+20,Mana Items
+21,Mana Molding
+22,Mana Servants
+23,Mana Warriors
+24,Glyphs
+25,Body Reins
+26,Body Renewal
+27,Evasions
+28,Mind Over Matter
+29,Body Renewal
+30,Combat Illusions
+31,Combat Ways
+32,Spell Defense
+33,Warrior's Enhancements
+34,Warrior's Weapon
+35,Will of the Warrior
+
+:ESpellClosedList
+1,Circle Mastery
+2,Counterspells
+3,Dispelling Ways
+4,Earth Mastery
+5,Elemental Summons
+6,Familiar Mastery
+7,Fire Mastery
+8,Gate Mastery
+9,Invisible Ways
+10,Light Mastery
+11,Living Change
+12,Lofty Bridge
+13,Magic Staff
+14,Matter Shaping
+15,Mechanism's Ways
+16,Rapid Ways
+17,Shield Mastery
+18,Spell Enhancement
+19,Spell Reins
+20,Spirit Mastery
+21,Water Mastery
+
+:ESpellOpenList
+1,Air Mastery
+2,Allurement
+3,Delving Ways
+4,Detecting Ways
+5,Elemental Shields
+6,Essence Hand
+7,Essence Perception
+8,Fey Conjury
+9,Lesser Illusion
+10,Physical Enhancement
+11,Rune Mastery
+12,Shadow Mastery
+13,Sound Mastery
+14,Spell Wall
+15,Sustain Body
+16,Unbarring Ways
+
+
+:Coins
+1, 1*Mythril
+2, {Dice~1d5}*Platinium
+3, {Dice~1d10}*Gold
+4, {Dice~1d25}*Silver
+5, {Dice~1d50}*Bronce
+6, {Dice~2d100}*Copper
+7, {Dice~3d200}*Tin

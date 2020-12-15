@@ -1,0 +1,104 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder Oct 30, 2003.
+# ---------------------------------------------------
+#
+# SMS
+# 06/23/03
+# Forgotten Realms Table 31: Southern High Mountains (EL 7-14) random encounter tables
+#
+# Corrected by Valminder, Oct 2003
+#   -{If~} and {Dice~}
+#
+#Variables
+
+%Time%,0
+%Temp%,0
+
+#Parameters
+
+@Time,3,Select a time of day,Day,Night,_
+
+#
+#  Starts by putting up the instructions
+#
+
+:Start
+1,{If~%Time% = 3 ? [Instructions]/[Southern High Mountains %Time%]}
+
+;Instructions
+1,<b>Forgotten Realms Table 31: Southern High Mountains (EL 7-14)</b></br></br><h3>Instructions:</h3>
+_<b>Determine whether an encounter should occur before using this table. The chance of an encounter is based on terrain type and travel (chance per hour):</b><br>
+_<table border=1><tr><th>Terrain</th><th>Normal Travel</th><th>Cautious Travel</th><th>Hiding</th></tr>
+_<tr><td>Desolate/wasteland</td><td>5/%</td><td>2/%</td><td>1/%</td></tr>
+_<tr><td>Frontier/wilderness</td><td>8/%</td><td>4/%</td><td>2/%</td></tr>
+_<tr><td>Verdant/civilized area</td><td>10/%</td><td>5/%</td><td>2/%</td></tr>
+_<tr><td>Heavily traveled</td><td>12/%</td><td>6/%</td><td>3/%</td></tr>
+_</table>
+_<ul><li>Use the Parameter Box (below) to indicate whether it is day or night. Selecting "_" will show these instructions.</li>
+_<li>The only local region this table applies to is the Peaks of Flame (so there is no need to input a region)</li></ul><br>
+
+# 1 corresponds to time="Day"
+:Southern High Mountains 1
+01-06,Aarakocra Patrol: {Dice~1d4+4} aarakocra and {Dice~1d2} level {Dice~1d4+1} rangers
+07-08,{Dice~1d3+1} Athach
+09-11,{Dice~1d3+1} Cloud giant
+12-13,Death kiss Beholderkin (MoF)
+14-21,Dragon: [SHM_Dragon]
+22-26,{Dice~1d3+2} Ettin
+27-30,{Dice~1d3+2} Fire giant
+31-34,{Dice~1d6+3} Girallon
+35-41,Gold Dwarf Patrol: {Dice~1d4+4} 1st level fighters, {Dice~1d2} level {Dice~1d4} cleric of [Religion.Dwarf Gods],  {Dice~1d2} level {Dice~1d4} sorcerers, led by a level {Dice~1d4+2} [FR_Misc.GoldDwarf_Class]
+42-43,Gray render
+44-49,Hill Giant Raiders: {Dice~1d6+5} Hill giants and {Dice~1d3+1} dire wolves
+50-61,[SHM_Local]
+62-66,{Dice~1d4+4} Ogre
+67-70,Orc Raiders: {Dice~1d10+5} orcs and {Dice~1d2} level {Dice~1d3} barbarians
+71-76,{Dice~1d2} Roc
+77-81,{Dice~1d6+2} Stinger (MoF)
+82-87,{Dice~1d3+2} Stone Giant
+88-93,{Dice~1d10+6} Animal: wolf
+94-100,{Dice~1d2} Wyvern
+
+# 2 corresponds to time="Night"
+:Southern High Mountains 2
+01-04,{Dice~1d3+1} Abishai, red
+05-06,{Dice~1d3+1} Athach
+07-10,{Dice~1d3+1} Cloud giant
+11-12,Death kiss Beholderkin (MoF)
+13-20,Dragon: [SHM_Dragon]
+21-25,{Dice~1d3+2} Ettin
+26-31,{Dice~1d3+2} Fire giant
+32-34,{Dice~1d6+3} Girallon
+35-37,Gold Dwarf Patrol: {Dice~1d4+4} 1st level fighters, {Dice~1d2} level {Dice~1d4} cleric of [Religion.Dwarf Gods],  {Dice~1d2} level {Dice~1d4} sorcerers, led by a level {Dice~1d4+2} [FR_Misc.GoldDwarf_Class]
+38,Gray render
+39-44,Hill Giant Raiders: {Dice~1d6+5} Hill giants and {Dice~1d3+1} dire wolves
+45-57,[SHM_Local]
+58-63,{Dice~1d4+4} Ogre
+64-68,Orc Raiders: {Dice~1d10+5} orcs and {Dice~1d2} level {Dice~1d3} barbarians
+69-74,{Dice~1d6+2} Stinger (MoF)
+75-80,{Dice~1d3+2} Stone Giant
+81-83,{Dice~1d2} Vampire
+84-85,{Dice~1d4+1} Vampire spawn
+86-88,Vampire Troupe: {Dice~1d2} vampires and {Dice~1d4+1} vampire spawn
+89-93,{Dice~1d10+6} Animal: wolf
+94-100,{Dice~1d2} Wyvern
+
+:SHM_Local
+01-50,Local creatures: [SHM_Local1]
+51-100,<b>NPCs:</b><br>{Loop~{Dice~1d3+2},[FR_Random_NPC.FR_SM_NPC]}
+
+#Peaks of Flame
+:SHM_Local1
+01-25,Azer Squad: {Dice~1d10+10} azers, {Dice~1d2} level {Dice~1d4+1} fighters, led by {Dice~1d4+2} [FR_Misc.Azer_Class]
+26-40,{Dice~1d4+1} Young red dragon
+41-70,Firenewt Marauders: {Dice~1d6+4} firenewts, {Dice~1d2} level {Dice~1d4} firenewt clerics, led by a level {Dice~1d6+1} firenewt, all mounted on giant striders
+71-85,{Dice~1d8+4} Hell hounds
+66-100,{Dice~1d3+2} Salamander (average)
+
+:SHM_Dragon
+01-06,Copper, old
+07-21,Fang, old (MoF)
+22-29,Gold, adult
+30,Dracolich, Red, young adult (FRCS)
+31-75,Red, adult
+76-100,Silver, adult

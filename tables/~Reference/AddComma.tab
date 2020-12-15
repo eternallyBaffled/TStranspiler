@@ -1,0 +1,57 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder May 23, 2018.
+# ---------------------------------------------------
+#
+# This table is used to add a coma in long numbers, for
+# example, the number "1340500" will return as "1,340,500".
+# This table can handle really large numbers.
+#
+# ---------------------------------------------------
+#
+# To call this table, use this table call
+#    [AddComma.Start(%value%)
+#
+# Note: If a value is not a round number (ex: 12.5  or  12.4567),
+#       the output will look wrong (ex: 1,2.5  or  1,2.4,567).
+#       To prevent this, you can call this table using the line below.
+#       The table will only be called if the value is a round number.
+#       You can also Trunc~ the variable before calling this table. 
+#       {If~%Value%={Trunc~%Value%}?[AddComma.Start(%Value%)]/%Value%}
+#
+# ---------------------------------------------------
+#
+# This table is used by:
+#    SW Cargo.tab
+#    Random Magic.tab
+#
+# Modified by Valminder, Jan 2006.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+#
+
+%temp%,0
+%temp2%,0
+%TempTrunc%,0
+%cond%,0
+
+@temp,0,Input the Number to be "commatized"  ;-)
+
+:Start
+1,{If~%temp%>=1000?[InsertCommas]%temp2%/%temp%}
+
+:InsertCommas
+1,|temp2={Right~3,%temp%}|
+_|cond={Length~%temp%}|[Conditions=%cond%]
+_{Loop~%cond%,
+#_{Loop~{Calc~{Length~%temp%}},
+_|temp={Left~{Calc~{Length~%temp%}-3},%temp%}|
+_|temp2=,%temp2%|
+_|temp2={Right~3,%temp%}%temp2%|
+_}
+
+:Conditions
+1-3,|cond=0|
+4-6,|cond=1|
+7-9,|cond=2|
+10-12,|cond=3|
+13-15,|cond=4|

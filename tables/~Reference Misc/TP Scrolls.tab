@@ -1,0 +1,890 @@
+# ------------------------------------------------------
+# Last Update: verified by Valminder Jan 02, 2014.
+# ------------------------------------------------------
+#
+
+%minVal%,0
+%maxVal%,99999999
+%power%,0
+%group%,0
+%type%,0
+%inRange%,0
+%magType%,0
+%tries%,0
+%maxTries%,0
+%temp%,0
+%dsSpells%,0
+%value%,0
+%numSpells%,0
+%castLvl%,0
+%lvl%,0
+%format%,0
+%spellName%,0
+%spellVal%,0
+%idx%,0
+
+@minVal,0,Enter minimum value (in gp):
+@maxVal,99999999,Enter maximum value (in gp):
+@power,4,Degree of Power:,Minor,Medium,Major,Random
+@type,3,Spell Type:,Arcane,Divine,Random
+@format,1,Select format:,Human-readable,Delimited for other table
+@maxTries,10,Number of attempts:
+
+:Start
+1,|temp=[CheckParams]|{If~%temp%=OK?[Continue]/ %temp%}
+_{Status~}
+
+:Continue
+1,|tries=0|{While~%tries%<%maxTries%,[GenItem][CheckValueInRange]{If~%inRange%=yes?|tries=maxTries|/|tries+1|}}
+_{If~%inRange%=no?[Error=4]/ [DisplayItem=%format%]}
+
+:GenItem
+1,{If~%power%=4?|power={Dice~1d3}|}|group={Param~power,%power%}|
+_{Status~Attempt SCROLL #{Calc~%tries%+1} of %maxTries%}
+_|magType={Iif~%type%=3?[GenMagType]:{Param~type,%type%}}|
+_|numSpells=[GenNumSpells=%power%]|
+_|dsSpells=||value=0|
+_{DSCreate~dsSpells,name,xxxxx,casterLvl,0,value,0}
+_{Loop~%numSpells%,[GetSpell]}
+_{DSSort~dsSpells,name,0}
+_|value={DSCalc~dsSpells,sum,value}|
+
+:GetSpell
+1,[%group%]
+_|temp=[%magType%_%lvl%]|
+_{Split~temp,"!",spellName,spellVal}
+_|idx={DSAdd~dsSpells}|
+_{DSSet~dsSpells,%idx%,name,%spellName%,casterLvl,%castLvl%,value,%spellVal%}
+
+;GenMagType
+7,Arcane
+3,Divine
+
+:GenNumSpells
+1,{Dice~1d3}
+2,{Dice~1d4}
+3,{Dice~1d6}
+
+;DisplayItem
+1,{Bold~%magType% Scroll (%numSpells% spell{If~%numSpells%>1?s})}{CR~}
+_|idx=1|{Loop~%numSpells%,· {Cap~{DSGet~dsSpells,%idx%,name}} (CL {DSGet~dsSpells,%idx%,casterLvl}){CR~}|idx+1|}
+_Value: %value% gp
+2,{LCase~%magType%} scroll (%numSpells% spell{If~%numSpells%>1?s}):
+_|idx=1|{Loop~{Calc~%numSpells%-1}, {DSGet~dsSpells,%idx%,name} (CL {DSGet~dsSpells,%idx%,casterLvl}),|idx+1|}
+_ {DSGet~dsSpells,%idx%,name} (CL {DSGet~dsSpells,%idx%,casterLvl})!%value%!0!no aura!0
+
+# ----------------------------------------------------
+# Initialization and parameter validation
+:CheckParams
+1,{If~%minVal%<=%maxVal%?OK/ [Error=1]}
+
+:CheckValueInRange
+1,|inRange={If~{And~%minVal%<=%value%,%value%<=%maxVal%}=1?yes/no}|
+
+:Error
+1,ERR001: Invalid min and/or max values
+2,ERR002: Minimum value given greater than maximum value for selected group
+3,ERR003: Maximum value given less than minimum value for selected group
+4,ERR005: Couldn't generate item in %tries% tries
+
+# ----------------------------------------------------
+
+:Minor
+1-5,|lvl=0||castLvl=1|
+6-50,|lvl=1||castLvl=1|
+51-95,|lvl=2||castLvl=3|
+96-100,|lvl=3||castLvl=5|
+
+:Medium
+1-5,|lvl=2||castLvl=3|
+6-65,|lvl=3||castLvl=5|
+66-95,|lvl=4||castLvl=7|
+96-100,|lvl=5||castLvl=9|
+
+:Major
+1-5,|lvl=4||castLvl=7|
+6-50,|lvl=5||castLvl=9|
+51-70,|lvl=6||castLvl=11|
+71-85,|lvl=7||castLvl=13|
+86-95,|lvl=8||castLvl=15|
+96-100,|lvl=9||castLvl=17|
+
+;Arcane_0
+4,acid splash!12.5
+4,arcane mark!12.5
+5,dancing lights!12.5
+4,daze!12.5
+7,detect magic!12.5
+4,detect poison!12.5
+4,disrupt undead!12.5
+5,flare!12.5
+5,ghost sound!12.5
+2,know direction!12.5
+6,light!12.5
+2,lullaby!12.5
+5,mage hand!12.5
+5,mending!12.5
+5,message!12.5
+5,{If~{Dice~1d2}=1?open/close}!12.5
+5,prestidigitation!12.5
+4,ray of frost!12.5
+6,read magic!12.5
+7,resistance!12.5
+2,summon instrument!12.5
+4,touch of fatigue!12.5
+
+;Arcane_1
+3,alarm!25
+2,animate rope!25
+2,burning hands!25
+2,cause fear!25
+3,charm person!25
+2,chill touch!25
+2,color spray!25
+3,comprehend languages!25
+1,lesser confusion!25
+1,cure light wounds!25
+3,detect secret doors!25
+2,detect undead!25
+3,disguise self!25
+3,endure elements!25
+3,enlarge person!25
+2,erase!25
+3,expeditious retreat!25
+1,feather fall!25
+2,grease!25
+2,hold portal!25
+2,hypnotism!25
+2,identify!125
+2,jump!25
+3,mage armor!25
+2,magic missile!25
+3,magic weapon!25
+3,mount!25
+2,magic aura!25
+2,obscuring mist!25
+8,protection from [Alignment]!25
+2,ray of enfeeblement!25
+2,reduce person!25
+2,remove fear!50
+2,shield!25
+2,shocking grasp!25
+2,silent image!25
+2,sleep!25
+2,summon monster I!25
+3,floating disk!25
+2,true strike!25
+1,undetectable alignment!50
+2,unseen servant!25
+2,ventriloquism!25
+
+;Arcane_2
+1,animal messenger!200
+1,animal trance!200
+1,arcane lock!175
+3,bear's endurance!150
+2,blindness/deafness!150
+2,blur!150
+3,bull's strength!150
+1,calm emotions!200
+3,cat's grace!150
+2,command undead!150
+1,continual flame!200
+1,cure moderate wounds!200
+1,darkness!150
+3,darkvision!150
+1,daze monster!150
+1,delay poison!200
+2,detect thoughts!150
+2,disguise self!150
+3,eagle's splendor!150
+1,enthrall!200
+2,false life!150
+2,flaming sphere!150
+1,fog cloud!150
+3,fox's cunning!150
+1,ghoul touch!150
+2,glitterdust!150
+1,gust of wind!150
+2,hypnotic pattern!150
+3,invisibility!150
+3,knock!150
+1,phantom trap!200
+2,levitate!150
+1,locate object!150
+1,magic mouth!160
+2,acid arrow!150
+1,minor image!150
+2,mirror image!150
+1,misdirection!150
+1,obscure object!150
+3,owl's wisdom!150
+3,protection from arrows!150
+2,pyrotechnics!150
+3,resist energy!150
+1,rope trick!150
+1,scare!150
+2,scorching ray!150
+3,see invisibility!150
+1,shatter!150
+1,silence!200
+1,sound burst!200
+1,spectral hand!150
+2,spider climb!150
+2,summon monster II!150
+2,summon swarm!150
+1,hideous laughter!150
+1,touch of idiocy!150
+2,web!150
+1,whispering wind!150
+
+;Arcane_3
+2,arcane sight!375
+2,blink!375
+2,clairaudience/clairvoyance!375
+1,cure serious wounds!525
+3,daylight!525
+2,deep slumber!375
+3,dispel magic!375
+2,displacement!375
+1,explosive runes!375
+2,fireball!375
+2,flame arrow!375
+3,fly!375
+2,gaseous form!375
+2,gentle repose!375
+1,glibness!525
+1,good hope!525
+2,halt undead!375
+3,haste!375
+2,heroism!375
+2,hold person!375
+1,illusory script!425
+3,invisibility sphere!375
+3,keen edge!375
+2,tiny hut!375
+2,lightning bolt!375
+8,magic circle against [Alignment]!375
+3,greater magic weapon!375
+2,major image!375
+2,nondetection!425
+2,phantom steed!375
+3,protection from energy!375
+2,rage!375
+2,ray of exhaustion!375
+1,sculpt sound!525
+1,secret page!375
+1,sepia snake sigil!875
+1,shrink item!375
+2,sleet storm!375
+2,slow!375
+1,speak with animals!525
+2,stinking cloud!375
+2,suggestion!375
+2,summon monster III!375
+3,tongues!375
+2,vampiric touch!375
+3,water breathing!375
+2,wind wall!375
+
+;Arcane_4
+2,animate dead!1050
+3,arcane eye!700
+2,bestow curse!700
+3,charm monster!700
+3,confusion!700
+2,contagion!700
+2,crushing despair!700
+1,cure critical wounds!1000
+1,detect scrying!700
+4,dimension door!700
+3,dimensional anchor!700
+2,enervation!700
+2,mass enlarge person!700
+2,black tentacles!700
+2,fear!700
+3,fire shield!700
+2,fire trap!725
+3,freedom of movement!1000
+1,lesser geas!700
+3,lesser globe of invulnerability!700
+2,hallucinatory terrain!700
+2,ice storm!700
+2,illusory wall!700
+3,greater invisibility!700
+2,secure shelter!700
+1,locate creature!700
+2,minor creation!700
+1,modify memory!1000
+1,neutralize poison!1000
+2,resilient sphere!700
+2,phantasmal killer!700
+2,polymorph!700
+2,rainbow pattern!700
+1,mnemonic enhancer!700
+2,mass reduce person!700
+3,remove curse!700
+1,repel vermin!1000
+2,scrying!700
+2,shadow conjuration!700
+2,shout!700
+2,solid fog!700
+1,speak with plants!1000
+2,stone shape!700
+3,stoneskin!950
+2,summon monster IV!700
+3,wall of fire!700
+3,wall of ice!700
+1,zone of silence!1000
+
+;Arcane_5
+2,animal growth!1125
+3,baleful polymorph!1125
+2,interposing hand!1125
+2,blight!1125
+3,break enchantment!1125
+2,cloudkill!1125
+3,cone of cold!1125
+2,contact other plane!1125
+1,mass cure light wounds!1625
+3,dismissal!1125
+3,greater dispel magic!1625
+2,dominate person!1125
+1,dream!1125
+2,fabricate!1125
+2,false vision!1375
+2,feeblemind!1125
+4,hold monster!1125
+1,secret chest!1125
+1,magic jar!1125
+2,major creation!1125
+2,mind fog!1125
+2,mirage arcana!1125
+2,mage's faithful hound!1125
+2,mage's private sanctum!1125
+2,nightmare!1125
+4,overland flight!1125
+3,passwall!1125
+1,permanency!10125
+2,persistent image!1125
+2,lesser planar binding!1125
+2,prying eyes!1125
+2,telepathic bond!1125
+2,seeming!1125
+3,sending!1125
+2,shadow evocation!1125
+1,song of discord!1625
+2,summon monster V!1125
+1,symbol of pain!2125
+1,symbol of sleep!2125
+2,telekinesis!1125
+5,teleport!1125
+2,transmute mud to rock!1125
+2,transmute rock to mud!1125
+3,wall of force!1125
+3,wall of stone!1125
+2,waves of fatigue!1125
+
+;Arcane_6
+2,acid fog!1650
+3,analyze dweomer!1650
+1,animate objects!2400
+3,antimagic field!1650
+3,mass bear's endurance!1650
+2,forceful hand!1650
+3,mass bull's strength!1650
+3,mass cat's grace!1650
+3,chain lightning!1650
+2,circle of death!2150
+1,contingency!1650
+2,control water!1650
+1,create undead!2350
+1,mass cure moderate wounds!2400
+3,disintegrate!1650
+4,greater dispel magic!1650
+3,mass eagle's splendor!1650
+2,eyebite!1650
+1,find the path!2400
+2,flesh to stone!1650
+3,mass fox's cunning!1650
+1,geas/quest!1650
+3,globe of invulnerability!1650
+1,guards and wards!1650
+1,heroes' feast!2400
+2,greater heroism!1650
+1,legend lore!1900
+2,mislead!1650
+1,mage's lucubration!1650
+2,move earth!1650
+2,freezing sphere!1650
+3,mass owl's wisdom!1650
+2,permanent image!1650
+2,planar binding!1650
+2,programmed image!1675
+2,repulsion!1650
+3,shadow walk!1650
+3,stone to flesh!1650
+2,mass suggestion!1650
+2,summon monster VI!1650
+1,symbol of fear!2650
+1,symbol of persuasion!6650
+1,sympathetic vibration!2400
+2,transformation!1950
+3,true seeing!1900
+2,undeath to death!2150
+2,veil!1650
+3,wall of iron!1700
+
+;Arcane_7
+3,greater arcane sight!2275
+4,banishment!2275
+3,grasping hand!2275
+3,control undead!2275
+3,control weather!2275
+3,delayed blast fireball!2275
+2,instant summons!3275
+4,ethereal jaunt!2275
+3,finger of death!2275
+3,forcecage!3775
+4,mass hold person!2275
+3,insanity!2275
+4,mass invisibility!2275
+1,limited wish!3775
+2,mage's magnificent mansion!2275
+3,mage's sword!2275
+3,phase door!2275
+3,plane shift!2275
+3,power word blind!2275
+4,prismatic spray!2275
+3,project image!2280
+3,reverse gravity!2275
+3,greater scrying!2275
+3,sequester!2275
+3,greater shadow conjuration!2275
+1,simulacrum!7275
+3,spell turning!2275
+2,statue!2275
+3,summon monster VII!2275
+1,symbol of stunning!7275
+1,symbol of weakness!7275
+3,teleport object!2275
+5,greater teleport!2275
+2,vision!2775
+3,waves of exhaustion!2275
+
+;Arcane_8
+2,antipathy!3000
+3,clenched fist!3000
+3,binding!8500
+4,mass charm monster!3000
+1,clone!4000
+3,create greater undead!3000
+3,demand!3600
+3,dimensional lock!3000
+4,discern location!3000
+3,horrid wilting!3000
+3,incendiary cloud!3000
+3,iron body!3000
+3,maze!3000
+3,mind blank!3000
+3,moment of prescience!3000
+4,telekinetic sphere!3000
+3,irresistible dance!3000
+3,greater planar binding!3000
+3,polar ray!3000
+3,polymorph any object!3000
+3,power word stun!3000
+3,prismatic wall!3000
+4,protection from spells!3500
+3,greater prying eyes!3000
+3,scintillating pattern!3000
+2,screen!3000
+3,greater shadow evocation!3000
+3,greater shout!3000
+3,summon monster VIII!3000
+3,sunburst!3000
+1,symbol of death!8000
+1,symbol of insanity!8000
+2,sympathy!4500
+4,temporal stasis!3500
+2,trap the soul!13000
+
+;Arcane_9
+3,astral projection!4870
+4,crushing hand!3825
+5,dominate monster!3825
+4,energy drain!3825
+5,etherealness!3825
+4,foresight!3825
+6,freedom!3825
+5,gate!8825
+4,mass hold monster!3825
+4,imprisonment!3825
+5,meteor swarm!3825
+4,mage's disjunction!3825
+5,power word kill!3825
+4,prismatic sphere!3825
+4,refuge!3825
+4,shades!3825
+6,shapechange!3825
+3,soul bind!3825
+4,summon monster IX!3825
+3,teleportation circle!4825
+5,time stop!3825
+4,wail of the banshee!3825
+4,weird!3825
+1,wish!28825
+
+;Divine_0
+7,create water!12.5
+7,cure minor wounds!12.5
+8,detect magic!12.5
+7,detect poison!12.5
+7,flare!12.5
+7,guidance!12.5
+7,inflict minor wounds!12.5
+7,know direction!12.5
+8,light!12.5
+7,mending!12.5
+7,purify food and drink!12.5
+7,read magic!12.5
+7,resistance!12.5
+7,virtue!12.5
+
+;Divine_1
+1,alarm!100
+2,bane!25
+3,bless!25
+3,bless water!50
+1,bless weapon!100
+2,calm animals!25
+2,cause fear!25
+2,charm animal!25
+3,command!25
+2,comprehend languages!25
+5,cure light wounds!25
+2,curse water!50
+2,deathwatch!25
+2,detect animals or plants!25
+3,detect [Alignment]!25
+2,detect snares and pits!25
+2,detect undead!25
+2,divine favor!25
+2,doom!25
+5,endure elements!25
+2,entangle!25
+2,entropic shield!25
+2,faerie fire!25
+2,goodberry!25
+2,hide from animals!25
+2,hide from undead!25
+2,inflict light wounds!25
+2,jump!25
+2,longstrider!25
+2,magic fang!25
+4,magic stone!25
+2,magic weapon!25
+4,obscuring mist!25
+2,pass without trace!25
+2,produce flame!25
+4,protection from [Alignment]!25
+2,remove fear!25
+2,sanctuary!25
+2,shield of faith!25
+2,shillelagh!25
+2,speak with animals!25
+2,summon monster I!25
+2,summon nature's ally I!25
+
+;Divine_2
+1,animal messenger!150
+1,animal trance!150
+2,augury!175
+2,barkskin!150
+3,bear's endurance!150
+3,bull's strength!150
+2,calm emotions!150
+3,cat's grace!150
+1,chill metal!150
+2,consecrate!200
+4,cure moderate wounds!150
+2,darkness!150
+1,death knell!150
+3,delay poison!150
+2,desecrate!200
+3,eagle's splendor!150
+2,enthrall!150
+2,find traps!150
+1,fire trap!175
+2,flame blade!150
+2,flaming sphere!150
+2,fog cloud!150
+1,gentle repose!150
+1,gust of wind!150
+1,heat metal!150
+2,hold animal!150
+3,hold person!150
+2,inflict moderate wounds!150
+2,make whole!150
+3,owl's wisdom!150
+1,reduce animal!150
+2,remove paralysis!150
+3,resist energy!150
+3,lesser restoration!150
+2,shatter!150
+2,shield other!150
+2,silence!150
+1,snare!150
+1,soften earth and stone!150
+2,sound burst!150
+1,speak with plants!150
+2,spider climb!150
+2,spiritual weapon!150
+1,status!150
+2,summon monster II!150
+2,summon nature's ally II!150
+2,summon swarm!150
+1,tree shape!150
+2,undetectable alignment!150
+2,warp wood!150
+1,wood shape!150
+2,zone of truth!150
+
+;Divine_3
+2,animate dead!625
+2,bestow curse!375
+2,blindness/deafness!375
+2,call lightning!375
+2,contagion!375
+2,continual flame!425
+2,create food and water!375
+4,cure serious wounds!375
+1,darkvision!375
+2,daylight!375
+2,deeper darkness!375
+2,diminish plants!375
+2,dispel magic!375
+2,dominate animal!375
+2,glyph of warding!575
+1,heal mount!375
+2,helping hand!375
+2,inflict serious wounds!375
+2,invisibility purge!375
+2,locate object!375
+6,magic circle against [Alignment]!375
+2,greater magic fang!375
+2,magic vestment!375
+2,meld into stone!375
+3,neutralize poison!375
+2,obscure object!375
+2,plant growth!375
+3,prayer!375
+2,protection from energy!375
+2,quench!375
+3,remove blindness/deafness!375
+2,remove curse!375
+2,remove disease!375
+3,searing light!375
+2,sleet storm!375
+2,snare!375
+3,speak with dead!375
+2,speak with plants!375
+2,spike growth!375
+2,stone shape!375
+2,summon monster III!375
+2,summon nature's ally III!375
+3,water breathing!375
+2,water walk!375
+2,wind wall!375
+
+;Divine_4
+5,air walk!700
+2,antiplant shell!700
+2,blight!700
+2,break enchantment!700
+2,command plants!700
+2,control water!700
+6,cure critical wounds!700
+5,death ward!700
+5,dimensional anchor!700
+3,discern lies!700
+3,dismissal!700
+2,divination!725
+3,divine power!700
+5,freedom of movement!700
+2,giant vermin!700
+2,holy sword!700
+3,imbue with spell ability!700
+3,inflict critical wounds!700
+3,greater magic weapon!700
+2,nondetection!750
+2,lesser planar ally!1200
+3,poison!700
+2,reincarnate!700
+2,repel vermin!700
+5,restoration!800
+2,rusting grasp!700
+3,sending!700
+4,spell immunity!700
+2,spike stones!700
+3,summon monster IV!700
+3,summon nature's ally IV!700
+5,tongues!700
+2,tree stride!700
+
+;Divine_5
+3,animal growth!1125
+2,atonement!3625
+1,awaken!2375
+3,baleful polymorph!1125
+4,break enchantment!1125
+3,call lightning storm!1125
+4,greater command!1125
+1,commune!1625
+1,commune with nature!1125
+2,control winds!1125
+6,mass cure light wounds!1125
+4,dispel [Alignment]!1125
+4,disrupting weapon!1125
+3,flame strike!1125
+2,hallow!6125
+3,ice storm!1125
+3,mass inflict light wounds!1125
+3,insect plague!1125
+1,mark of justice!1125
+3,plane shift!1125
+2,raise dead!6125
+3,righteous might!1125
+2,scrying!1125
+3,slay living!1125
+3,spell resistance!1125
+2,stoneskin!1375
+3,summon monster V!1125
+3,summon nature's ally V!1125
+1,symbol of pain!2125
+1,symbol of sleep!2125
+3,transmute mud to rock!1125
+3,transmute rock to mud!1125
+4,true seeing!1375
+2,unhallow!6125
+3,wall of fire!1125
+3,wall of stone!1125
+3,wall of thorns!1125
+
+;Divine_6
+3,animate objects!1650
+3,antilife shell!1650
+3,banishment!1650
+4,mass bear's endurance!1650
+3,blade barrier!1650
+4,mass bull's strength!1650
+4,mass cat's grace!1650
+1,create undead!1650
+4,mass cure moderate wounds!1650
+4,greater dispel magic!1650
+4,mass eagle's splendor!1650
+3,find the path!1650
+3,fire seeds!1650
+1,forbiddance!4650
+1,geas/quest!1650
+1,greater glyph of warding!1650
+3,harm!1650
+3,heal!1650
+3,heroes' feast!1650
+3,mass inflict moderate wounds!1650
+3,ironwood!1650
+1,liveoak!1650
+3,move earth!1650
+4,mass owl's wisdom!1650
+2,planar ally!2400
+3,repel wood!1650
+3,spellstaff!1650
+3,stone tell!1650
+3,summon monster VI!1650
+3,summon nature's ally VI!1650
+1,symbol of fear!2650
+1,symbol of persuasion!6650
+3,transport via plants!1650
+3,undeath to death!2150
+3,wind walk!1650
+3,word of recall!1650
+
+;Divine_7
+5,animate plants!2275
+4,blasphemy!2275
+5,changestaff!2275
+2,control weather!2275
+5,creeping doom!2275
+6,mass cure serious wounds!2275
+5,destruction!2275
+4,dictum!2275
+5,ethereal jaunt!2275
+4,holy word!2275
+5,mass inflict serious wounds!2275
+5,refuge!3775
+5,regenerate!2275
+5,repulsion!2275
+4,greater restoration!4775
+2,resurrection!12275
+5,greater scrying!2275
+5,summon monster VII!2275
+4,summon nature's ally VII!2275
+5,sunbeam!2275
+1,symbol of stunning!7275
+1,symbol of weakness!7275
+5,transmute metal to wood!2275
+3,word of chaos!2275
+
+;Divine_8
+4,animal shapes!3000
+6,antimagic field!3000
+3,cloak of chaos!3000
+4,control plants!3000
+3,create greater undead!3600
+7,mass cure critical wounds!3000
+5,dimensional lock!3000
+4,discern location!3000
+5,earthquake!3000
+4,finger of death!3000
+4,fire storm!3000
+3,holy aura!3000
+4,mass inflict critical wounds!3000
+4,greater planar ally!5500
+5,repel metal or stone!3000
+4,reverse gravity!3000
+3,shield of law!3000
+4,greater spell immunity!3000
+4,summon monster VIII!3000
+4,summon nature's ally VIII!3000
+5,sunburst!3000
+2,symbol of death!8000
+2,symbol of insanity!8000
+3,unholy aura!3000
+4,whirlwind!3000
+
+;Divine_9
+4,antipathy!3825
+3,astral projection!4870
+6,elemental swarm!3825
+6,energy drain!3825
+6,etherealness!3825
+6,foresight!3825
+6,gate!8825
+9,mass heal!3825
+7,implosion!3825
+2,miracle!28825
+6,regenerate!3825
+5,shambler!3825
+6,shapechange!3825
+5,soul bind!3825
+6,storm of vengeance!3825
+6,summon monster IX!3825
+6,summon nature's ally IX!3825
+4,sympathy!5325
+1,true resurrection!28825
+
+;Alignment
+1,law
+1,chaos
+1,good
+1,evil

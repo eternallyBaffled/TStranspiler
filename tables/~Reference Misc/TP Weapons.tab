@@ -1,0 +1,48 @@
+# ------------------------------------------------------
+# Last Update: verified by Valminder Jan 12, 2014.
+# ------------------------------------------------------
+#
+
+%temp%,0
+%size%,medium
+%vmod%,1
+%wmod%,1
+%name%,0
+%value%,0
+%weight%,0
+%masterwork%,0
+%special%,0
+%unused%,0
+%doubleWpn%,0
+
+;Start
+1,[Weapon]
+_{If~%special%=0?|size=[Size]||value-{Calc~300*(%doubleWpn%+1)}|}
+_|value*%vmod%||weight*%wmod%|
+_{If~%special%=0?[Masterwork]}%name%{If~%size%!=medium? (%size%)}
+_!%value%!%weight%
+
+;Masterwork
+4,
+1,|value+{Calc~300*(%doubleWpn%+1)}|masterwork 
+
+# These tables return masterwork items, so we need to
+# deduct the MW value, then determine size, then re-add MW value.
+
+;Weapon
+7,|temp=[TP Common Melee Weapons.Start]|{Split~temp,"!",name,value,weight,unused,unused,unused,unused,unused,unused,doubleWpn}
+1,|temp=[TP Uncommon Weapons.Start]|{Split~temp,"!",name,value,weight,unused,unused,unused,unused,unused,unused,doubleWpn}
+2,|temp=[TP Common Ranged Weapons.Start]|{Split~temp,"!",name,value,weight,unused,unused,unused,unused,unused,unused,doubleWpn}
+1,|name=[Special]||special=1|
+
+;Special
+1,flask of acid|value=10||weight=1|
+1,flask of alchemist's fire|value=20||weight=1|
+1,flask of holy water|value=25||weight=1|
+1,tanglefoot bag|value=50||weight=4|
+1,thunderstone|value=30||weight=1|
+
+;Size
+1,small|wmod=0.50|
+4,medium
+1,large|vmod=2||wmod=2|

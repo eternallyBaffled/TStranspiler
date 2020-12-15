@@ -1,0 +1,746 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder July 04, 2018.
+# ---------------------------------------------------
+#
+# Poison Generator
+# By Ashon (tfcoug@hotmail.com)
+#
+# This Table Generates 3E Style Poisons for use in your game giving you
+# all the applicable game stats, and also giving you some kind of description
+# that can help you or your players help pick out which poisons that you
+# want.
+#
+# As with my other Tables, the prices are high, but that's the way that I
+# like it so feel free to mod those as you like. (There is not such quite a
+# fluctation as I have had in the past :) )
+#
+# Any Additions to the list can as always be emailed to me.
+#
+# Added 5/19/04 by Ashon
+# - Added a little more description to the vials matching with historical
+#   types of poison bottles
+# - Added new types of Poisons, and had them modify the descriptor of the
+#   poison in the descriptor sentence.
+# Added 5/20/04 by Ashon
+# - Added an Affects of Poison Field.
+#
+# Modified by Valminder, Feb 2006.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+#    Changed "Miscellaneous.Color" to "Miscellaneous.ColorNoType"
+#    Added some LN~ (changed to ~)
+#    Added link to "Miscellaneous.ColorType2"
+#    Added "GetPoison" subtable and linked this table to "Equipment.tab"
+#    Added a way to prevent output when the damage is "0"
+# Modified by Valminder, Aug 2006.
+#    Added link to "Miscellaneous.Shape"
+#    This table is now called by "Drug and Tobacco Generator"
+# Modified by Valminder, Jul 2018.
+#    Pathfinder mods.
+#
+
+# variable Definitions
+%die%,0
+%basegp%,0
+%descriptorGPmod%,0
+%damagetypeGPmod%,0
+%damageamtGPmod%,0
+%dcGPmod%,0
+%permGPmod%,0
+%pdamage%,0
+%damdieGPmod%,0
+%Cost%,0
+%creature%,0
+%adverb%,0
+%application%,0
+%glass%,0
+%plant%,0
+%solid%,0
+%color%,0
+%aff%,0
+%aff1%,0
+%aff2%,0
+%text%,0
+%PoisonName%,0
+%CR%,0
+%ChooseDelivery%,0
+%ZeroDmg%,0
+%Version%,0
+%PFD1%,0
+%PFD2%,0
+%Temp%,0
+%Temp2%,0
+%Cure%,0
+%Onset%,0
+%Freq%,0
+%PoisonStr%,0
+%PoisonDex%,0
+%PoisonCon%,0
+%PoisonInt%,0
+%PoisonWis%,0
+%PoisonCha%,0
+%PermStr%,0
+%PermDex%,0
+%PermCon%,0
+%PermInt%,0
+%PermWis%,0
+%PermCha%,0
+%PoisonDesc%,0
+%PFExtra%,0
+%PFTime%,0
+%Save%,0
+%Special%,0
+%TempPar1%,0
+%TempStun1%,0
+
+#For the Equipment.Tab Standards.
+%Cost%,0
+%Damage%,0
+%Book%,0
+%Type%,0
+
+@ChooseDelivery,5,Choose the Poison Delivery Method,Contact,Ingestion,Inhaled,Injury,Random
+@Version,3,What version of d20 do you use?,LOAD from Permanent Variables,3.5,Pathfinder
+
+:Start
+1,{Status~By Ashon 2004, Valminder 2006,2018}
+_[VersionNeeded]
+_[PoisonGameStats=%Version%]<br>
+_{If~%text%!=0?[Tab]{Bold~Story Use:} {Italic~{Cap~%text%}}<br>}
+
+;Tab
+1,{Loop~5,&nbsp;}
+
+:VersionNeeded
+1,{If~%Version%=1?|Version=[Permanent_Variables.Version]|}
+
+# -----------------------------------------------------------
+# Poison name
+
+;PoisonName
+1,{CapEachWord~[Adverb] [Verb][Application]}
+
+;Adverb
+5,
+2,|color=[Miscellaneous.ColorNoType]|%color%
+2,Distilled
+1,Liquid
+
+;Verb
+3,[Creatures.All]|creature=1|
+3,[Creatures.Fantastic]|creature=1|
+3,{Reset~Miscellaneous.Metal}[Miscellaneous.Metal]
+3,[Miscellaneous.Wood]|plant=1|
+1,
+
+;Application
+5, Essence
+5, Oil |solid=2|
+5,{If~%plant%=1?berry/[Application]}
+5,{If~%plant%=1?wine/[Application]}
+5,{If~%plant%=1?weed/[Application]}
+5,{If~%plant%=1?leaf/[Application]}
+5, {If~%plant%=1?Root/[Application]}
+5, {If~%plant%=1?Sap/[Application]}
+5, {If~%creature%=1?Venom/[Application]}
+5, {If~%creature% = 1 ?Blood/[Application]}
+5,{If~%creature%=1?bane/ Bane}
+5, {If~%creature%=1?Bile/[Application]}
+5, {If~%creature%=1?Ichor/[Application]}
+5, Salt |solid=1|
+1, Paste |solid=2|
+5, Powder |solid=3|
+5, Toxin
+5, Extract
+1, Doom
+5, Dust |solid=3|
+5, Elixir
+1, Death
+5, Juice
+5,rot
+
+# -----------------------------------------------------------
+# Vial and poison description
+
+;PoisonDescriptor
+1,[VialDescriptor] The [vialSubstance] in the vial is {If~%color%=0?[~FluidDescriptor]/%color%}, [~TasteDescriptor], 
+_ and it has a [~Miscellaneous.Odor].
+
+;VialDescriptor
+1,[isGlass]
+_The Vial has {AorAn~[vialShape]} shape {If~%glass%=1 ? and the glass is [vialColor]/}, it has [vialTexture] texture.
+
+;isGlass
+9,|glass=1|
+1,|glass=0|
+
+;vialShape
+15,coffin
+2,skull
+15,triangular
+2,u-bend
+15,cylinder
+15,irregular hex (Differing side lengths)
+15,oval
+10,[~Miscellaneous.Shape]
+
+;vialSubstance
+1,{If~%solid%=0?liquid}
+_{If~%solid%=1?crystals}
+_{If~%solid%=2?substance}
+_{If~%solid%=3?powder}
+
+;vialColor
+10,[Miscellaneous.ColorType2]
+1,amber
+1,light amber
+1,brown amber
+1,reddish amber
+1,orange amber
+1,honey amber
+1,yellow amber
+1,yellow
+1,pale yellow
+1,brillan yellow
+1,golden yellow
+1,greenish yellow
+1,emerald green
+1,olive green
+1,pale green
+1,forest green
+1,dark green
+1,citron
+1,deep citron
+1,dark blue
+1,cobalt
+1,cornflower blue
+1,ice blue
+1,medium blue
+1,amythyst
+1,black
+1,clear
+1,aqua
+1,aqua green
+1,aqua blue
+
+;vialTexture
+15,horizontal ribbing
+15,vertical ribbing
+5,bumps
+5,hobnails
+1,a raised lattice pattern
+1,a skull and crossbones
+
+;FluidDescriptor
+1,colorless
+1,dark [Miscellaneous.ColorNoType]
+1,light [Miscellaneous.ColorNoType]
+1,opaque [Miscellaneous.ColorNoType]
+1,translucent [Miscellaneous.ColorNoType]
+3,[Miscellaneous.ColorType2]
+
+;TasteDescriptor
+1,it taste like [taste2]
+1,it taste like fresh [taste2]
+1,it taste like sweet [taste2]
+1,it has no taste
+1,it has a smokey taste
+1,it has a spicy taste 
+1,it has a salty taste
+1,it has a burned taste
+1,it taste like sour [taste2]
+1,it taste like bitter [taste2]
+1,it taste like sickly sweet [taste2]
+1,it has a rancid [taste2] taste
+
+;taste2
+1,almonds
+1,pears
+1,apples
+1,meat
+1,oranges
+1,candy
+1,milk
+1,honey
+1,chocolate
+1,wine
+1,ale
+1,cider
+1,water
+1,chicken
+1,onions
+1,carrots
+1,cherries
+1,grapes
+1,fish
+
+# -----------------------------------------------------------
+# Poison stats
+
+:PoisonGameStats
+1,[VersionNeeded][PoisonGameStats=%Version%]
+2,[PoisonGameStats3E]
+3,[PoisonGameStatsPF]
+
+;PoisonGameStats3E
+1,|ZeroDmg=0|
+_<b>[~PoisonName]</b><br>
+_<i>[PoisonDescriptor]</i><br>
+_[Tab]<u>Type</u>: [PoisonDeliveryChoose=%ChooseDelivery%]<br>
+_[Tab]<u>Initial Damage</u>: [PoisonDamage][DisplayAff1]<br>
+_[Tab]<u>Secondary Damage</u>: {Reset~PoisonDamage}[PoisonDamage][DisplayAff1]<br>
+_[Tab]<u>Save</u>: Fortitude (DC[DC])<br>
+_[Tab]<u>Cost</u>: |Cost={Calc~(%basegp%+%damagetypeGPmod%+%damageamtGPmod%+%dcGPmod%+%permGPmod%)}|[AddComma.Start(%Cost%)] gp<br>
+#_Cost: |Cost={Calc~(%basegp%+%damagetypeGPmod%+%damageamtGPmod%+%damdieGPmod%+%dcGPmod%+%permGPmod%)}|%Cost% gp<br>
+_[Tab]<u>CR</u>: {If~%CR%>10?|CR=10|}{If~%CR%<1?|CR=1|}%CR%
+
+;PoisonDelivery
+1,Contact|basegp=200||CR+3||PFTime=round|{If~%Version%=3?|basegp=50||CR+2||Onset=[OnsetCon]|}
+2,Ingestion|basegp=90||CR+1||PFTime=minute|{If~%Version%=3?|basegp=10||CR+0||Onset=[OnsetIng]|}
+1,Inhaled|basegp=500||CR+4||PFTime=round|{If~%Version%=3?|basegp=100||CR+3||Onset=[OnsetInh]|}
+3,Injury|basegp=90||CR+1||PFTime=round|{If~%Version%=3?|basegp=20||CR+1||Onset=[OnsetInj]|}
+
+:PoisonDeliveryChoose
+1,Contact|basegp=200||CR+3||PFTime=round|{If~%Version%=3?|basegp=50||CR+2||Onset=[OnsetCon]|}
+2,Ingestion|basegp=90||CR+1||PFTime=minute|{If~%Version%=3?|basegp=10||CR+0||Onset=[OnsetIng]|}
+3,Inhaled|basegp=500||CR+4||PFTime=round|{If~%Version%=3?|basegp=100||CR+3||Onset=[OnsetInh]|}
+4,Injury|basegp=90||CR+1||PFTime=round|{If~%Version%=3?|basegp=20||CR+1||Onset=[OnsetInj]|}
+5,[PoisonDelivery]
+
+:!PoisonDamage
+1-5,[PoisonDamage2] {If~%ZeroDmg%=0?Dex [Perm]|die=1||damagetypeGPmod+75||aff=dex||CR+1|}
+6-10,[PoisonDamage2] {If~%ZeroDmg%=0?Con [Perm]|die=1||damagetypeGPmod+175||aff=con||CR+4|}
+11-15,[PoisonDamage2] {If~%ZeroDmg%=0?Str [Perm]|die=1||damagetypeGPmod+75||aff=str||CR+1|}
+16,[PoisonDamage2] {If~%ZeroDmg%=0?Int [Perm]|die=1||damagetypeGPmod+400||aff=int||CR+1|}
+17,[PoisonDamage2] {If~%ZeroDmg%=0?Wis [Perm]|die=1||damagetypeGPmod+500||aff=wis||CR+1|}
+18,[PoisonDamage2] {If~%ZeroDmg%=0?Cha [Perm]|die=1||damagetypeGPmod+1000||aff=cha||CR+1|}
+19,[PoisonDamage] + {Lockout~PoisonDamage,20-24}[PoisonDamage]
+20,Permanent Paralysis [Perm]|die=0||damagetypeGPmod+1000||aff=permpara||CR+7|
+21-22,1[DieType] [TimeSpan] Temporary Paralysis |die=0||damagetypeGPmod+500||aff=temppara||CR+2|
+23-24,[PoisonDamage2] {If~%ZeroDmg%=0?[TimeSpan=1] Stun |die=1| |damagetypeGPmod+100||aff=stun||CR+2|}
+
+;PoisonDamage2
+3,1 |damageamtGPmod+50||CR-2|
+10,1[DieType] |damageamtGPmod+{Calc~(3/2*%damdieGPmod%)}||CR+0|
+3,2[DieType] |damageamtGPmod+{Calc~(5/2*%damdieGPmod%)}||CR+1|
+1,3[DieType] |damageamtGPmod+{Calc~(7/2*%damdieGPmod%)}||CR+2|
+1,None |ZeroDmg=1||damageamtGPmod+0||CR-3|
+
+;DieType
+10,d4|damdieGPmod=100||CR-1|
+8,d6|damdieGPmod=150||CR+0|
+1,d8|damdieGPmod=500||CR+1|
+1,d10|damdieGPmod=750||CR+2|
+1,d12|damdieGPmod=1000||CR+3|
+
+;TimeSpan
+1,round(s)|CR-1||damagetypeGPmod+0|
+2,minute(s)|CR+0||damagetypeGPmod+50|
+3,hour(s)|CR+1||damagetypeGPmod+200|
+4,day(s)|CR+2||damagetypeGPmod+500|
+
+;Perm
+1000,|permGPmod=0|
+1, (Permanent)|permGPmod=1000||CR+5|
+
+;DC
+3,11|dcGPmod=0||CR-3|
+3,12|dcGPmod=10||CR-2|
+3,13|dcGPmod=20||CR-1|
+3,14|dcGPmod=30||CR+0|
+3,15|dcGPmod=40||CR+0|
+2,16|dcGPmod=100||CR+0|
+2,17|dcGPmod=200||CR+1|
+2,18|dcGPmod=300||CR+1|
+2,19|dcGPmod=400||CR+2|
+1,20|dcGPmod=1000||CR+2|
+1,21|dcGPmod=2000||CR+3|
+1,22|dcGPmod=3000||CR+3|
+
+;DisplayAff1
+1, {If~%text%=0?{If~%ZeroDmg%=0?[LoadText1]}|ZeroDmg=0|/ {If~%ZeroDmg%=0?[LoadText2]}|ZeroDmg=0|}
+
+:LoadText1
+1,|text=[SetText]|
+
+:LoadText2
+1,|text=%text% [And] [SetText]|
+
+:SetText
+1,{If~%aff%=dex?[AffDex]
+_/{If~%aff%=str?[AffStr]
+_/{If~%aff%=con?[AffCon]
+_/{If~%aff%=wis?[AffWis]
+_/{If~%aff%=int?[AffInt]
+_/{If~%aff%=cha?[AffCha]
+_/{If~%aff%=permpara?[AffPermParalysis]
+_/{If~%aff%=temppara?[AffTempParalysis]
+_/{If~%aff%=stun?[AffStun]
+_/{If~%aff%=Affblind?[Affblind]
+_/{If~%aff%=Affbleed?[Affbleed]
+_/{If~%aff%=Affconfused?[Affconfused]
+_/{If~%aff%=Afffear?[Afffear]
+_/{If~%aff%=Affdazzled?[Affdazzled]
+_/{If~%aff%=Affdeaf?[Affdeaf]
+_/{If~%aff%=Afffatigued?[Afffatigued]
+_/{If~%aff%=Affnausea?[Affnausea]
+_/{If~%aff%=Affpetrified?[Affpetrified]
+_/{If~%aff%=Affmute?[Affmute]
+_}}}}}}}}}}}}}}}}}}}
+
+;And
+1,Secondarily,
+1,Also,
+1,Afterward,
+1,Following the primary effect,
+1,There is a side effect,
+
+;!AffDex
+1,the victim feels sluggishy, his mind clouded, and his responses slowed.
+1,the victim develops a twitch which slows their response time.
+1,the victim becomes less aware of his body, and slows his response time.
+1,the victim begins to shake, slowing his eye-hand coordination.
+1,the victim feels dizzy and loses some of its balance.
+1,the victim sees the world moving around himself, preventing him from reacting rapidly.
+1,the victim feels heavy and has slower reflexes.
+
+;!AffStr
+1,the victim's muscles mass quickly atrophies, and is not capable of feats of strength.
+1,the victim's muscles begin to ache and bring pain making them incapable of producing any strength.
+1,the victim's muscles spasm incontrollably causing them to be unable to produce any strength.
+1,the victim feels really tired, feeling really weak.
+1,the victim is greatly weakened.
+1,the victim has stomach pains which prevents him from using all his strength.
+1,the victime laughs uncontrolably, weakening him. 
+
+;!AffCon
+1,the victim's immune systems is debilitated.
+1,the victim develops a shortness of breath and a feeling of tiredness.
+1,the victim's body becomes tired and less able to deal with normal physical situations.
+1,the victim feels exhausted and weak.
+1,the victim is nauseated and looks sick.
+1,the victim's breath is loud and heavy, showing how strong the poison is affecting him.
+1,the victim feels dizzy and weak.
+1,the victim has pain all over his body, weakening him greatly.
+
+;!AffInt
+1,the poison affects blood, and strikes the victim stupid.
+1,by imparing the oxygen to the braim, the victim is less able to make their mind fully functional.
+1,the victim is no longer capable of focusing their mind on any tasks.
+1,an incredible headache prevents the victim from focusing his thoughts.
+1,voices in the victim's head prevents him from thinking straight.
+1,partly feebleminded, the victim has trouble focusing his thoughts.
+1,the victim feels confused and lost.
+
+;!AffWis
+1,by heigtening the victims senses, they become overloaded and less able to deal rationally.
+1,weird thoughts assail the mind of the victim, preventing rational reasoning.
+1,the victim is confused, and has a hard time differenciating the good and the bad.
+1,the victim's brain is in chaos, rendering him less able to think rationally.
+1,the victim has a strange headache at the back of the head, preventing rational thoughts.
+
+;!AffCha
+1,the victim becomes uncontrollably agitated.
+1,the victim's facial muscles are contorted, causing monsterious faces.
+1,the victim's olafactory glands kick into hyperactive mode, making the victim reek.
+1,the victim's skin rashes uncontrollably, causing weird acts of scratching.
+1,the victim has an unnatural headache, causing him to yell in pain.
+1,the victim's nose and mouth are leaking greatly, causing him to swallow and to clean himself all the time.
+1,the victim cannot control his innards and sullies itself.
+
+;!AffPermParalysis
+1,the victim's veins become constricted and they become unable to move their body.
+1,the victim's muscles are non responsive and begin to detoriate.
+1,the victim weakens so much that his body is non responsive.
+1,the victim feels unconnected from his body, unable to make it response.
+
+;!AffTempParalysis
+1,the victim's body becomes unresponsive.
+1,the victim is too weak to act.
+1,the victim's brain cannot control his body.
+
+;!AffStun
+1,the victim's body begins to spasm, and they are unable to react to any outside stimulus.
+1,the victim's body shutsdown and becomes unresponsive for a short period of time.
+1,the victim is assaulted by a non-lethal pain which is overwhelming and prevents them from reacting.
+
+;!Affbleed
+1,the body of the victim develops runny wounds of pus.
+1,the skin of the victim splits and a virulent pus flows from the wounds.
+1,the victim is infected causing a bleeding wound of blood where the poison has most affected the skin.
+
+;!Affblind
+1,the victim's eyes stick together, leaking a yellowish liquid ooze.
+1,the victim's eyes turn white.
+1,the eyes seem to melt in their orbit, leaving a slight smoke to emerge.
+
+;!Affconfused
+1,the victim can no longer recognize the reality and his behavior becomes erratic.
+1,haunted by creatures from hell, the victim does not know what to believe.
+1,an incredible headache seems to want to explode the head of the victim who does not know how to react.
+
+;!Afffear
+1,the victim sees nightmarish visions and his only way is to escape this unreality.
+1,the victim can not bear the harm caused by this poison and does not react as it should.
+1,the victim is certain not to survive this poison and fear robs him of his means.
+
+;!Affdazzled
+1,the victim sees black dots that are detrimental to his vision.
+1,flashes of color damage the victim's vision.
+1,a smoke seems to cover everything the victim sees.
+
+;!Affdeaf
+1,the victim only hears a strident sound that makes her deaf.
+1,all noise is suddenly gone, leaving the victim in dead silence.
+1,the victim hears voices talking, sounds, laughters and crying that cover all the other ambient sounds.
+
+;!Afffatigued
+1,the victim is tired, as if she had just made a superhuman effort.
+1,all energy left the body of the victim, leaving her exhausted and without energy.
+1,the victim feels suddenly exhausted, the smallest effort being extremely difficult.
+
+;Affmute
+1,the victim's tongue swells to the point of preventing him from speaking.
+1,the lips and the mouth of the victim are covered with a layer of mucus with an acid taste.
+1,pustules bursting with pus fill the victim's mouth, preventing him from speaking.
+
+;!Affnausea
+1,a sore heart gives the victim the taste of vomiting.
+1,nausea affects the functioning of the victim who loses the energy to fight.
+1,pain runs through the body of the victim who suffers the repercussions of the poison.
+
+;!Affpetrified
+1,the skin of the victim turns into stone leaving her completely helpless.
+1,the innards of the victim seem to harden, his skin shrivels by taking a grayish color and becomes hard to the touch.
+1,starting with the feet, the victim feels his limbs harden and the poison rises to his waist, to his torso and ends up turning the whole victim into stone.
+
+# -------------------------------------------------------------------
+
+:PoisonGameStatsPF
+1,[PoisonRandomPF]
+_[PrintPoisonPF]
+
+:PoisonRandomPF
+1,|ZeroDmg=0||PFD1=0||PFD2=0||Special=0|
+_|PoisonStr=0||PoisonDex=0||PoisonCon=0||PoisonInt=0||PoisonWis=0||PoisonCha=0|
+_|PermStr=0||PermDex=0||PermCon=0||PermInt=0||PermWis=0||PermCha=0|
+_|TempPar1=0||TempStun1=0||aff1=0||aff2=0|
+_|PoisonName=[~PoisonName]|
+_|PoisonDesc=[PoisonDescriptor]|
+_|Type=[PoisonDeliveryChoose=%ChooseDelivery%]|
+_|Cure=[Cure]|
+_[RollDamage]
+_|Damage=[PrintDamage]|
+_|Save=[DCPF]|
+_|Cost={Calc~(%basegp%+%damagetypeGPmod%+%damageamtGPmod%+%dcGPmod%+%permGPmod%)}|
+_{If~%CR%>10?|CR=10|}{If~%CR%<1?|CR=1|}
+
+:RollDamage
+1,|aff=0|{While~%aff%=0,{Reset~PoisonDamagePF1}[PoisonDamagePF1]}[DisplayAff1]|ZeroDmg=0|[PoisonDamagePF3][DisplayAff1]
+
+:!PoisonDamagePF1
+1-5,[PoisonDamagePF2]{If~%ZeroDmg%=0?[PoisonDexCalc]{If~%PermDex%=0?|PermDex=[PermPF]|}|damagetypeGPmod+20||CR+1||aff=dex|}
+6-10,[PoisonDamagePF2]{If~%ZeroDmg%=0?[PoisonConCalc]{If~%PermCon%=0?|PermCon=[PermPF]|}|damagetypeGPmod+50||CR+2||aff=con|}
+11-15,[PoisonDamagePF2]{If~%ZeroDmg%=0?[PoisonStrCalc]{If~%PermStr%=0?|PermStr=[PermPF]|}|damagetypeGPmod+20||CR+1||aff=str|}
+16,[PoisonDamagePF2]{If~%ZeroDmg%=0?[PoisonIntCalc]{If~%PermInt%=0?|PermInt=[PermPF]|}|damagetypeGPmod+15||CR+0||aff=int|}
+17,[PoisonDamagePF2]{If~%ZeroDmg%=0?[PoisonWisCalc]{If~%PermWis%=0?|PermWis=[PermPF]|}|damagetypeGPmod+15||CR+0||aff=wis|}
+18,[PoisonDamagePF2]{If~%ZeroDmg%=0?[PoisonChaCalc]{If~%PermCha%=0?|PermCha=[PermPF]|}|damagetypeGPmod+10||CR+0||aff=cha|}
+19,[PoisonDamagePF1]{Lockout~PoisonDamagePF1,20-24}[PoisonDamagePF1]
+20,|Special=permanent [SpecialEffect]||CR+3||damagetypeGPmod+500|{Lockout~PoisonDamagePF1,20-24}{Lockout~PoisonDamagePF3,20-24}
+21-24,|Special=1[DieTypePF] [TimeSpan] temporary [SpecialEffect]|{Lockout~PoisonDamagePF1,20-24}{Lockout~PoisonDamagePF3,20-24}
+#20,|damagetypeGPmod+1000||aff=permpara||aff1=permpara||CR+7|{Lockout~PoisonDamagePF3,20}
+#21-22,|TempPar1=1[DieType] [TimeSpan]||damagetypeGPmod+500||aff=temppara||aff1=temppara||CR+2|{Lockout~PoisonDamagePF3,21-22}
+#23-24,[PoisonDamagePF2={Dice~1d17}]{If~%ZeroDmg%=0?|TempStun1={If~%PFD2%!=0?%PFD1%d%PFD2%/%PFD1%} [TimeSpan=1] Stunned||damagetypeGPmod+100||aff=stun||aff1=stun||CR+2|}{Lockout~PoisonDamagePF3,23-24}
+
+:!PoisonDamagePF3
+1-5,[PoisonDamagePF2]{If~%ZeroDmg%=0?[PoisonDexCalc]{If~%PermDex%=0?|PermDex=[PermPF]|}|damagetypeGPmod+20||CR+1||aff=dex|}
+6-10,[PoisonDamagePF2]{If~%ZeroDmg%=0?[PoisonConCalc]{If~%PermCon%=0?|PermCon=[PermPF]|}|damagetypeGPmod+50||CR+2||aff=con|}
+11-15,[PoisonDamagePF2]{If~%ZeroDmg%=0?[PoisonStrCalc]{If~%PermStr%=0?|PermStr=[PermPF]|}|damagetypeGPmod+20||CR+1||aff=str|}
+16,[PoisonDamagePF2]{If~%ZeroDmg%=0?[PoisonIntCalc]{If~%PermInt%=0?|PermInt=[PermPF]|}|damagetypeGPmod+15||CR+0||aff=int|}
+17,[PoisonDamagePF2]{If~%ZeroDmg%=0?[PoisonWisCalc]{If~%PermWis%=0?|PermWis=[PermPF]|}|damagetypeGPmod+15||CR+0||aff=wis|}
+18,[PoisonDamagePF2]{If~%ZeroDmg%=0?[PoisonChaCalc]{If~%PermCha%=0?|PermCha=[PermPF]|}|damagetypeGPmod+10||CR+0||aff=cha|}
+19,[PoisonDamagePF3]{Lockout~PoisonDamagePF3,20-24}[PoisonDamagePF3]
+20,|Special=permanent [SpecialEffect]||CR+3||damagetypeGPmod+500|{Lockout~PoisonDamagePF3,20-24}
+21-24,|Special=1[DieTypePF] [TimeSpan] temporary [SpecialEffect]|{Lockout~PoisonDamagePF3,20-24}
+#20,|damagetypeGPmod+1000||aff=permpara||aff2=permpara||CR+7|
+#21-22,|TempPar1=1[DieType] [TimeSpan]||damagetypeGPmod+500||aff=temppara||aff2=temppara||CR+2|
+#23-24,[PoisonDamagePF2={Dice~1d17}]{If~%ZeroDmg%=0?|TempStun1={If~%PFD2%!=0?%PFD1%d%PFD2%/%PFD1%} [TimeSpan=1] Stunned||damagetypeGPmod+100||aff=stun||aff2=stun||CR+2|}
+
+;PoisonDamagePF2
+10,|PFD1=1||PFD2=1||damageamtGPmod+0||CR-2|
+70,|PFD1=1|[DieTypePF]|damageamtGPmod+%damdieGPmod%||CR+0|
+19,|PFD1=2|[DieTypePF]|damageamtGPmod+{Calc~(2*%damdieGPmod%)}||CR+1|
+1,|PFD1=3|[DieTypePF]|damageamtGPmod+{Calc~(3*%damdieGPmod%)}||CR+2|
+#1,|PFD1=0||ZeroDmg=1||damageamtGPmod+0||CR-3|
+
+;DieTypePF
+16,|PFD2=4||damdieGPmod=20||CR-1|
+8,|PFD2=6||damdieGPmod=30||CR+0|
+4,|PFD2=8||damdieGPmod=50||CR+1|
+2,|PFD2=10||damdieGPmod=100||CR+2|
+1,|PFD2=12||damdieGPmod=200||CR+3|
+
+;OnsetCon
+1,10 minutes|CR-1|
+7,1 minute|CR+0|
+2,0|CR+1|
+
+;OnsetIng
+1,1 day|CR-1|
+8,10 minutes|CR+0|
+1,1 minute|CR+1|
+
+;OnsetInh
+90,0|CR+0|
+9,1 minute|CR-1|
+1,10 minutes|CR-2|
+
+;OnsetInj
+12,0|CR+0|
+1,1 round|CR-1|
+
+;PermPF
+9,0
+1,1|permGPmod+{Calc~%PFD2%*500*%PFD1%}||CR+5|
+
+:PoisonStrCalc
+1,{If~%PoisonStr%=0?|PoisonStr=%PFD1%||PoisonStr*%PFD2%|/|Temp=%PFD1%||Temp*%PFD2%||PoisonStr+%Temp%|}
+
+:PoisonDexCalc
+1,{If~%PoisonDex%=0?|PoisonDex=%PFD1%||PoisonDex*%PFD2%|/|Temp=%PFD1%||Temp*%PFD2%||PoisonDex+%Temp%|}
+
+:PoisonConCalc
+1,{If~%PoisonCon%=0?|PoisonCon=%PFD1%||PoisonCon*%PFD2%|/|Temp=%PFD1%||Temp*%PFD2%||PoisonCon+%Temp%|}
+
+:PoisonIntCalc
+1,{If~%PoisonInt%=0?|PoisonInt=%PFD1%||PoisonInt*%PFD2%|/|Temp=%PFD1%||Temp*%PFD2%||PoisonInt+%Temp%|}
+
+:PoisonWisCalc
+1,{If~%PoisonWis%=0?|PoisonWis=%PFD1%||PoisonWis*%PFD2%|/|Temp=%PFD1%||Temp*%PFD2%||PoisonWis+%Temp%|}
+
+:PoisonChaCalc
+1,{If~%PoisonCha%=0?|PoisonCha=%PFD1%||PoisonCha*%PFD2%|/|Temp=%PFD1%||Temp*%PFD2%||PoisonCha+%Temp%|}
+
+;SpecialEffect
+1,bleed ([PoisonDamagePF2]%PFD1%{If~%PFD2%>1?d%PFD2%} [Slash] round)|damagetypeGPmod+25||aff=Affbleed||CR+1|
+1,blinded|damagetypeGPmod+50||aff=Affblind||CR+3|
+1,confused|damagetypeGPmod+50||aff=Affconfused||CR+3|
+1,cowering|damagetypeGPmod+100||aff=Afffear||CR+3|
+1,dazed|damagetypeGPmod+75||aff=permpara||CR+2|
+1,dazzled|damagetypeGPmod+1||aff=Affdazzled||CR+1|
+1,deafened|damagetypeGPmod+10||aff=Affdeaf||CR+1|
+1,entangled|damagetypeGPmod+25||aff=AffTempParalysis||CR+2|
+1,exhausted|damagetypeGPmod+100||aff=Afffatigued||CR+3|
+1,fatigued|damagetypeGPmod+25||aff=Afffatigued||CR+1|
+1,frightened|damagetypeGPmod+50||aff=Afffear||CR+1|
+1,muted|damagetypeGPmod+10||aff=Affmute||CR+1|
+1,nauseated|damagetypeGPmod+50||aff=Affnausea||CR+1|
+1,panicked|damagetypeGPmod+75||aff=Afffear||CR+2|
+1,paralyzed|damagetypeGPmod+100||aff=permpara||CR+3|
+1,petrified|damagetypeGPmod+150||aff=Affpetrified||CR+3|
+1,shaken|damagetypeGPmod+10||aff=Afffear||CR+1|
+1,sickened|damagetypeGPmod+25||aff=Affnausea||CR+1|
+1,staggered|damagetypeGPmod+40||aff=Afffatigued||CR+1|
+1,stunned|damagetypeGPmod+75||aff=AffStun||CR+2|
+1,unconscious|damagetypeGPmod+100||aff=permpara||CR+3|
+
+:PrintDamage
+1,|PFExtra=No|
+_{If~%PoisonStr%>0? [Damage=%PoisonStr%] STR{If~%PermStr%=1? drain}|PFExtra=Yes|}
+_{If~%PoisonDex%>0?[PFExtra][Damage=%PoisonDex%] DEX{If~%PermDex%=1? drain}|PFExtra=Yes|}
+_{If~%PoisonCon%>0?[PFExtra][Damage=%PoisonCon%] CON{If~%PermCon%=1? drain}|PFExtra=Yes|}
+_{If~%PoisonInt%>0?[PFExtra][Damage=%PoisonInt%] INT{If~%PermInt%=1? drain}|PFExtra=Yes|}
+_{If~%PoisonWis%>0?[PFExtra][Damage=%PoisonWis%] WIS{If~%PermWis%=1? drain}|PFExtra=Yes|}
+_{If~%PoisonCha%>0?[PFExtra][Damage=%PoisonCha%] CHA{If~%PermCha%=1? drain}|PFExtra=Yes|}
+_|Temp={Calc~%PoisonStr%+%PoisonDex%+%PoisonCon%+%PoisonInt%+%PoisonWis%+%PoisonCha%}|
+_{If~%Temp%>0?|Freq=[FreqCalc]|/|Freq=Once|}
+_{If~%Special%!=0?[PFExtra]{Italic~%Special%} on first failed save|PFExtra=Yes|}
+#_{If~{Or~%aff1%=permpara,%aff2%=permpara}=1?[PFExtra]permanent paralysis|PFExtra=Yes|}
+#_{If~{Or~%aff1%=temppara,%aff2%=temppara}=1?[PFExtra]%TempPar1% temporary paralysis|PFExtra=Yes|}
+#_{If~{Or~%aff1%=stun,%aff2%=stun}=1?[PFExtra]%TempStun1%|PFExtra=Yes|}
+
+:PFExtra
+1,{If~%PFExtra%=Yes? + / }
+
+:Damage
+1-7,1
+8-14,1d2
+15-23,1d3
+24-35,1d4
+36-1000,1d6
+
+:FreqCalc
+1,1 [Slash] %PFTime% for |Temp2=[Frequency=%Temp%]|%Temp2% {If~%Temp2%>1?{Plural~%PFTime%}/%PFTime%}
+
+:Frequency
+1-7,%Temp%
+8-14,{Calc~%Temp%\2}
+15-23,{Calc~%Temp%\3}
+24-35,{Calc~%Temp%\4}
+36-1000,{Calc~%Temp%\6}
+
+;DCPF
+3,11|dcGPmod=0||CR-2|
+3,12|dcGPmod=5||CR-2|
+3,13|dcGPmod=10||CR-1|
+3,14|dcGPmod=15||CR+0|
+3,15|dcGPmod=20||CR+0|
+2,16|dcGPmod=25||CR+1|
+2,17|dcGPmod=30||CR+1|
+2,18|dcGPmod=35||CR+1|
+2,19|dcGPmod=40||CR+2|
+2,20|dcGPmod=45||CR+2|
+1,21|dcGPmod=50||CR+2|
+1,22|dcGPmod=55||CR+3|
+1,23|dcGPmod=60||CR+3|
+1,24|dcGPmod=65||CR+3|
+1,25|dcGPmod=65||CR+4|
+1,26|dcGPmod=65||CR+4|
+
+;Cure
+22,1|CR+0|
+11,2|CR+1|
+1,0|CR+2|
+
+:PrintPoisonPF
+1,{Bold~%PoisonName%}<br>
+_{Italic~%PoisonDesc%.}<br>
+_[Tab]<u>Type</u>: %Type%<br>
+_[Tab]<u>Onset</u>: {If~%Onset%=0?---/%Onset%}<br>
+_[Tab]<u>Damage</u>: %Damage%<br>
+_[Tab]<u>Frequency</u>: %Freq%<br>
+_[Tab]<u>Save</u>: Fortitude (DC%Save%) (Cure: {Select~%Cure%,1,1 save,2,2 consecutive saves,none})<br>
+_[Tab]<u>Cost</u>: [AddComma.Start(%Cost%)] gp<br>
+_[Tab]<u>CR</u>: %CR%
+
+:Test1
+1,<hr>Str= %PoisonStr%(%PermStr%), Dex= %PoisonDex%(%PermDex%), Con= %PoisonCon%(%PermCon%), Int= %PoisonInt%(%PermInt%), Wis= %PoisonWis%(%PermWis%), Cha= %PoisonCha%(%PermCha%)<br>
+_aff1= %aff1% / aff2= %aff2%<br>
+_TempPar1= %TempPar1% / TempStun1= %TempStun1%
+_<hr>
+
+# -------------------------------------------------------------------
+# To Comply with the Equipment.Tab Table, so that it can be seemlessly
+# inserted into tables which call Equipment.Tab
+#
+# Valminder Feb 2006: "Equipment.tab" will call the "GetPoison" subtable.
+
+:GetPoison
+1,[VersionNeeded]{If~%Version%=2?[GetPoison3E]/[GetPoisonPF]}
+
+:GetPoison3E
+1,[PoisonGameStats2]%PoisonName%;%Cost%;1;%Type%;%Damage%;0;%CR%
+
+:PoisonGameStats2
+1,|Cost=0||CR=0||basegp=0||damagetypeGPmod=0||damageamtGPmod=0||dcGPmod=0||permGPmod=0|
+_|PoisonName=[PoisonName] (Random)||Type=[PoisonDeliveryChoose=%ChooseDelivery%]|
+_|Damage=[PoisonDamage] / {Reset~PoisonDamage}[PoisonDamage] (DC[DC])|
+_|Cost={Calc~(%basegp%+%damagetypeGPmod%+%damageamtGPmod%+%dcGPmod%+%permGPmod%)}|
+#_|Cost={Calc~(%basegp%+%damagetypeGPmod%+%damageamtGPmod%+%damdieGPmod%+%dcGPmod%+%permGPmod%)}|
+_{If~%CR%>10?|CR=10|}{If~%CR%<1?|CR=1|}
+
+:GetPoisonPF
+1,[PoisonRandomPF]%PoisonName% (Random);%Cost%;1;%Type%;%Damage% (DC%Save%);0;%Freq%;%Onset%;{Select~%Cure%,1,1 save,2,2 consecutive saves,None};%CR%
+
+:Slash
+1,/

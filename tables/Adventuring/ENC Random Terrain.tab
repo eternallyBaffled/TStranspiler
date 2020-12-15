@@ -1,0 +1,1972 @@
+# ---------------------------------------------------
+# Last Update: created by Valminder Jan 2015
+# ---------------------------------------------------
+
+/OverRideRolls 1
+
+# Parameters
+%ChanceForSpecial%,0
+%ClimateNeeded%,0
+%ClimateNeededNUMValue%,0
+%CRNeeded%,0
+%MaxSpecial%,0
+%OutputNeeded%,0
+%ShowEncDistances%,0
+%ShowTerrainRules%,0
+%TerrainNeeded%,0
+%TerrainNeededNUMValue%,0
+
+%Limbo%,0
+%Special%,0
+%Special2%,0
+%Temp%,0
+%Temp2%,0
+%Temp3%,0
+
+# Terrain Features
+# Look for ---Add variable---
+%Aquatic%,0
+%Berm%,0
+%Bog_Deep%,0
+%Bog_Shallow%,0
+%Boulder%,0
+%CaveEntrance%,0
+%CavePoss%,0
+%Chasm%,0
+%DryStreambed%,0
+%FallenLog%,0
+%Fence_Stone%,0
+%Fence_Wooden%,0
+%ForestCanopy%,0
+%Hedgerow%,0
+%IceSheet%,0
+%IceSheetRule%,0
+%Marsh%,0
+%Path%,0
+%Pond%,0
+%Quicksand%,0
+%RockWall%,0
+%Rubble_Dense%,0
+%Rubble_Light%,0
+%Sand_Dunes%,0
+%Sandstorm%,0
+%Scree%,0
+%Siege_Engine%,0
+%Sinkhole%,0
+%Slope%,0
+%Stream%,0
+%Tree%,0
+%TreeMtn%,0
+%Tree_Massive%,0
+%Trench%,0
+%Undergrowth_Heavy%,0
+%Undergrowth_Light%,0
+%Undergrowth_Patch_Heavy%,0
+%Undergrowth_Patch_Light%,0
+%Valley%,0
+
+@ClimateNeeded,1,CLIMATE: Choose the Climate needed.,Random Climate,Arctic,Cold,Temperate,Warm,Underground
+@TerrainNeeded,1,TERRAIN/PLANE: Choose the Terrain/Plane needed.,Random Terrain-Plane,Aquatic,Coastal,Desert,Extraplanar,Forest,Hill,Marsh,Mountain,Plain,Underground,Urban,Abyss,Acheron,Arborea,Arcadia,Astral,Beastlands,Baator,Bytopia,Carceri,Celestia,Chaotic,Elemental Air,Elemental Earth,Elemental Fire,Elemental Water,Elysium,Ethereal,Evil,Gehenna,Good,Hades,Lawful,Limbo,Mechanus,Negative,Neutral,Nine Hells,Positive,Outlands,Pandemonium,Shadow,Ysgard
+@ShowEncDistances,1,Do you want to show the distances of the encounter based on terrain?,Yes,No,Add a link to generate the Distances.
+@OutputNeeded,1,Choose Output Needed --- DO NOT MODIFY --- For external call mainly,All,Encounter Distances only,Terrain Only
+@CRNeeded,99,Enter the CR needed --- Mainly for external use --- Might be useful for certain types of encounters.
+@ChanceForSpecial,100,Enter the % of chance to have a special feature on the terraion (%)
+@MaxSpecial,5,Enter the maximim number of special features on a terrain
+@ShowTerrainRules,3,OUTPUT: Show terrain rules,Yes,No,Add a link to generate the terrain rules
+
+:Start
+1,{Status~Valminder 2015}
+_[RenameParameters]
+_[Output=%OutputNeeded%]
+
+:RenameParameters
+1,|ClimateNeededNUMValue=%ClimateNeeded%||ClimateNeeded={Param~ClimateNeeded,%ClimateNeeded%}|
+_|TerrainNeededNUMValue=%TerrainNeeded%||TerrainNeeded={Param~TerrainNeeded,%TerrainNeeded%}|
+
+:Output
+1,[OutputTerrain=%TerrainNeededNUMValue%]
+_[Output=2]
+_{If~{And~%ShowTerrainRules%!=2,{Length~%Special%}>1}=1?[ShowSpecialRules]}
+_{If~%ShowTerrainRules%=1?[ShowTerrainRules]/{If~%ShowTerrainRules%=3?<br>{Generate~0,TERRAIN RULES: Click to show terrain rules,ShowTerrainRules}}}
+2,{If~%ShowEncDistances%!=2?{If~%TerrainNeededNUMValue%>1?[OutputEncDistances2=%ShowEncDistances%]/[OutputEncDistances=%ShowEncDistances%]}}
+3,[OutputTerrain=%TerrainNeededNUMValue%]
+#_{If~%ShowTerrainRules%!=2?{If~{Length~%Special%}>1?[ShowSpecialRules]}}
+_{If~{And~%ShowTerrainRules%!=2,{Length~%Special%}>1}=1?[ShowSpecialRules]}
+_{If~%ShowTerrainRules%=1?[ShowTerrainRules]/{If~%ShowTerrainRules%=3?{Generate~0,TERRAIN RULES: Click to show terrain rules,ShowTerrainRules}}}
+
+# ------------------------------------- Miscelaneous Tables --------------------------------------------
+
+;Tab
+1,{Loop~5,&nbsp;}
+
+# -----------------------------------OUTPUT : Encounter Distances ---------------------------------------
+
+:OutputEncDistances
+1,<hr>[EncDisHeadline][EncounterDistancesALL]
+2,{Stop~ERROR in OutputEncDistances subtable}
+3,{Generate~0,ENCOUNTER DISTANCES: Click to generate the encounter distances.,OutputEncDistances=1}
+
+:EncounterDistancesALL
+1,[EncounterDistancesPerTerrain=2]
+_[EncounterDistancesPerTerrain=4]
+_[EncounterDistancesPerTerrain=6]
+_[EncounterDistancesPerTerrain=7]
+_[EncounterDistancesPerTerrain=8]
+_[EncounterDistancesPerTerrain=9]
+_[EncounterDistancesPerTerrain=10]
+_[EncounterDistancesPerTerrain=11]
+_[EncounterDistancesPerTerrain=12]
+
+:EncDisHeadline
+1,<b><u>Encounter Distances</u>:</b>{If~%TerrainNeeded%!=Random Terrain-Plane? (%TerrainNeeded%)}<br>
+
+:OutputEncDistances2
+1,|Temp=0||Temp2=0||Temp3=0|<hr>[EncDisHeadline][EncounterDistancesPerTerrain=%TerrainNeededNUMValue%]
+2,{Stop~ERROR in OutputEncDistances2 subtable}
+3,|Temp=0||Temp2=0||Temp3=0|{Generate~0,ENCOUNTER DISTANCES: Click to generate the encounter distances.,OutputEncDistances2=1}
+
+# 13- Abyss (Chaotic, Evil)       14- Acheron (Lawful)            15- Arborea (Chaotic, Good)
+# 16- Arcadia (Lawful)            17- Astral (Neutral)            18- Beastlands (Good)
+# 19- Baator (Evil, Lawful) ===> See 39 Nine Hells
+# 20- Bytopia (Good)              21- Carceri (Evil)              22- Celestia (Good, Lawful)
+# 23- Chaotic
+# 24- Elemental Air / 25- Elemental Earth / 26- Elemental Fire / 27- Elemental Water
+# 28- Elysium (Good, Positive)    29- Ethereal (Neutral)          30- Evil
+# 31- Gehenna (Evil)              32- Good                        33- Hades (Evil)
+# 34- Lawful                      35- Limbo (Air, Chaotic, Earth, Fire, Water)
+# 36- Mechanus (Lawful)           37- Negative                    38- Neutral
+# 39- Nine Hells (Evil, Lawful) ==> See 19 Baator
+# 40- Positive                    41- Outlands (Neutral)          42- Pandemonium (Chaotic)
+# 43- Shadow (Neutral)            44- Ysgard (Chaotic, Positive)
+
+:EncounterDistancesPerTerrain
+1,{Stop~ERROR in EncounterDistancesPerTerrain subtable}
+2,[Tab]<u>Aquatic</u>: On Water: [~6d6x40][Tab]Underwater: Clear: [~4d8x10][Tab]Murky: [~1d8x10]<br>
+_[EncounterDistancesPerTerrain=3]
+3,[Tab]<u>Coastal</u>: Toward the Sea: [~6d6x40][Tab]Toward the Land: [~6d6x10]<br>
+4,[Tab]<u>Desert</u>: No dunes: [~6d6x20][Tab]With dunes: [~6d6x10][Tab]Sandstorm: [~1d10x5]<br>
+# 5= Extraplanar
+5,[EncounterDistancesALL]
+6,[Tab]<u>Forest</u>: Light: [~3d6x10][Tab]Medium: [~2d8x10][Tab]Dense: [~2d6x10]<br>
+7,[Tab]<u>Hill</u>: Gentle: [~2d10x10][Tab]Rugged: [~2d6x10]<br>
+8,[Tab]<u>Marsh</u>: Moor (relatively dry): [~6d6x10][Tab]Swamp (watery): [~2d8x10]<br>
+9,[Tab]<u>Mountain</u>: [~4d10x10][Tab]Certain Peaks/Ridgelines: [~6d6x20][Tab]Twisting valleys/Canyons: [~2d10x10]<br>
+10,[Tab]<u>Plain</u>: [~6d6x40]<br>
+11,[Tab]<u>Underground</u>: Corridors/Rooms: [~1d8x10][Tab]Caverns: [~2d6x10]<br>
+12,[Tab]<u>Urban</u>: [~2d6x10]<br>
+# 13= Abyss
+13,|Temp=[Abyss_Random_Layer]|[ShowLayer]<br>[EncounterDistancesALL]
+# 14= Acheron
+14,|Temp=[Acheron_Random_Layer]|[ShowLayer]<br>[EncounterDistancesPerTerrain=10][EncounterDistancesPerTerrain=11]
+# 15= Arborea
+15,|Temp=[Arborea_Random_Layer]|[ShowLayer]<br>[EncounterDistancesALL]
+# 16= Arcadia
+16,|Temp=[Arcadia_Random_Layer]|[ShowLayer]<br>[EncounterDistancesALL]
+# 17= Astral
+17,{If~%Temp3%!=0?[Tab]%Temp3%<br><br>}[EncounterDistancesPerTerrain=10]
+# 18= Beastlands
+18,|Temp=[Beastlands_Random_Layer]|[ShowLayer]<br>[EncounterDistancesALL]
+# 19= Baator
+19,|Temp=[Baator_Random_Layer]|[ShowLayer]<br>[EncounterDistancesALL]
+# 20= Bytopia
+20,|Temp=[Bytopia_Random_Layer]|[ShowLayer]<br>[EncounterDistancesALL]
+# 21= Carceri
+21,|Temp=[Carceri_Random_Layer]|[ShowLayer]<br>[EncounterDistancesALL]
+# 22= Celestia
+22,{If~%Temp3%!=0?[Tab]%Temp3%<br><br>}[EncounterDistancesPerTerrain=9][EncounterDistancesPerTerrain=12]
+# 23= Chaotic
+23,[Chaotic_Random_Plane]
+# 24= Elemental Air
+24,{If~%Temp3%!=0?[Tab]%Temp3%<br><br>}[Tab]<u>Air-Dominant</u>: [~6d6x40]<br>
+# 25= Elemental Earth
+25,{If~%Temp3%!=0?[Tab]%Temp3%<br><br>}[EncounterDistancesPerTerrain=11]
+# 26 Elemental Fire
+26,{If~%Temp3%!=0?[Tab]%Temp3%<br><br>}[Tab]<u>Fire-Dominant</u>: [~6d6x40]<br>
+# 27= Elemental Water
+27,{If~%Temp3%!=0?[Tab]%Temp3%<br><br>}[Tab]<u>Aquatic</u>: Underwater: Clear: [~4d8x10][Tab]Murky: [~1d8x10]<br>
+# 28= Elysium
+28,|Temp=[Elysium_Random_Layer]|[ShowLayer]<br>[EncounterDistancesALL]
+# 29= Ethereal
+29,{If~%Temp3%!=0?[Tab]%Temp3%<br><br>}[Tab]<u>Ethereal</u>: [~6d6x40]<br>
+# 30= Evil
+30,[Evil_Random_Plane]
+# 31= Gehenna
+31,|Temp=[Gehenna_Random_Layer]|[ShowLayer]<br>[EncounterDistancesPerTerrain=9][EncounterDistancesPerTerrain=11]
+# 32= Good
+32,[Good_Random_Plane]
+# 33= Hades
+33,|Temp=[Hades_Random_Layer]|[ShowLayer]<br>[EncounterDistancesALL]
+# 34= Lawful
+34,[Lawful_Random_Plane]
+# 35= Limbo
+35,{If~%Temp3%!=0?[Tab]%Temp3%<br><br>}[EncounterDistancesALL]
+# 36= Mechanus
+36,{If~%Temp3%!=0?[Tab]%Temp3%<br><br>}[EncounterDistancesALL]
+# 37= Negative
+37,[Tab]<u>Darkness</u>: [~1d8x10]<br>
+# 38= Neutral
+38,[Neutral_Random_Plane]
+# 39= Nine Hells of Baator ===>>> See Baator
+39,[EncounterDistancesPerTerrain=19]
+# 40= Positive
+40,[Tab]<u>Positive</u>: [~6d6x40]<br>
+# 41= Outlands
+41,{If~%Temp3%!=0?[Tab]%Temp3%<br><br>}[EncounterDistancesALL]
+# 42= Pandemonium
+42,|Temp=[Pandemonium_Random_Layer]|[ShowLayer]<br>[EncounterDistancesPerTerrain=11]
+# 43= Shadow
+43,{If~%Temp3%!=0?[Tab]%Temp3%<br><br>}[EncounterDistancesALL]
+# 44= Ysgard
+44,|Temp=[Ysgard_Random_Layer]|[ShowLayer]<br>[EncounterDistancesALL]
+
+:ShowLayer
+1,[Tab]{If~%Temp3%!=0?%Temp3% }(Layer= %Temp%{If~%Temp2%!=0? - %Temp2% encounter distance})<br>
+
+:Abyss_Random_Layer
+01-05,Air-dominant|Temp2=Use Plains|
+06-10,Blood War battleground (demons against devils)|Temp2=Use Hills or Plains|
+11-15,Burning hellscape (mix of magma and stone)|Temp2=Use Hills or Plains|
+16-20,Demonic city|Temp2=Use Urban|
+21-25,Desert of sand, ice, salt, or ash|Temp2=Use Desert|
+26-30,Earth-dominant|Temp2=Use Underground|
+31-35,Fire-dominant|Temp2=Use Plains|
+36-40,Fetid swamp (filled with predators)|Temp2=Use Marsh|
+41-45,Mixed element-dominant (as Limbo)
+46-50,Mountainous|Temp2=Use Mountains|
+51-55,Negative-dominant (minor or major)|Temp2=<u>Darkness</u>: [~1d8x10]|
+56-60,Normal (as the Material Plane)
+61-65,Ocean of water|Temp2=Use Aquatic or Coastal|
+66-70,Realm of powerful Abyssal entity
+71-75,Sea of acid|Temp2=Use Aquatic or Coastal|
+76-80,Sea of insects|Temp2=Use Plains|
+81-85,Sea of blood|Temp2=Use Plains|
+86-90,Subterranean|Temp2=Use Underground|
+91-95,Undead realm
+96-100,Water-dominant|Temp2=Use Aquatic or Coastal|
+
+:Acheron_Random_Layer
+1,Avalas
+2,Thuldanin
+3,Tintibulus
+4,Ocanthus
+
+:Arborea_Random_Layer
+1,Arvandor|Temp2=Normally use Forest|
+2,Aquallor|Temp2=Use Aquatic or Coastal|
+3,Mithardir|Temp2=Use Desert|
+
+:Arcadia_Random_Layer
+1,Buxenus
+2,Abellio
+
+:Baator_Random_Layer
+1,Avernus
+2,Dis
+3,Minauros
+4,Phlegethos
+5,Stygia
+6,Malbolge
+7,Maladomini
+8,Cania
+9,Nessus
+
+:Beastlands_Random_Layer
+1,Krigala
+2,Brux
+3,Karasuthra
+
+:Bytopia_Random_Layer
+1,Shurrock
+2,Dothion
+
+:Carceri_Random_Layer
+1,Orthrys
+2,Cathrys
+3,Minethys
+4,Colothys
+5,Porphratys
+6,Agathys
+
+:Chaotic_Random_Plane
+1,|Temp3=Abyss|[EncounterDistancesPerTerrain=13]
+2,|Temp3=Arborea|[EncounterDistancesPerTerrain=15]
+3,|Temp3=Limbo|[EncounterDistancesPerTerrain=15]
+4,|Temp3=Pandemonium|[EncounterDistancesPerTerrain=15]
+5,|Temp3=Ysgard|[EncounterDistancesPerTerrain=15]
+
+:Elysium_Random_Layer
+1,Amoria
+2,Eronia|Temp2=Usually use Mountain|
+3,Belierin|Temp2=Use Marsh|
+4,Thalasia|Temp2=Use Aquatic or Coastal|
+
+:Evil_Random_Plane
+1,|Temp3=Abyss|[EncounterDistancesPerTerrain=13]
+2,|Temp3=Carceri|[EncounterDistancesPerTerrain=21]
+3,|Temp3=Gehenna|[EncounterDistancesPerTerrain=31]
+4,|Temp3=Hades|[EncounterDistancesPerTerrain=33]
+5,|Temp3=Limbo|[EncounterDistancesPerTerrain=35]
+6,|Temp3=Nine Hells of Baator|[EncounterDistancesPerTerrain=19]
+
+:Gehenna_Random_Layer
+1,Khalas
+2,Chamada
+3,Mungoth
+4,Krangath
+
+:Good_Random_Plane
+1,|Temp3=Arborea|[EncounterDistancesPerTerrain=15]
+2,|Temp3=Beastlands|[EncounterDistancesPerTerrain=18]
+3,|Temp3=Bytopia|[EncounterDistancesPerTerrain=20]
+4,|Temp3=Celestia|[EncounterDistancesPerTerrain=22]
+5,|Temp3=Elysium|[EncounterDistancesPerTerrain=28]
+
+:Hades_Random_Layer
+1,Oinos
+2,Niflheim
+3,Pluton
+
+:Lawful_Random_Plane
+1,|Temp3=Acheron|[EncounterDistancesPerTerrain=14]
+2,|Temp3=Arcadia|[EncounterDistancesPerTerrain=16]
+3,|Temp3=Celestia|[EncounterDistancesPerTerrain=22]
+4,|Temp3=Mechanus|[EncounterDistancesPerTerrain=36]
+5,|Temp3=Nine Hells of Baator|[EncounterDistancesPerTerrain=19]
+
+:Pandemonium_Random_Layer
+1,Pandesmos
+2,Cocytus
+3,Phlegethon
+4,Agathion
+
+:Neutral_Random_Plane
+1,|Temp3=Astral|[EncounterDistancesPerTerrain=17]
+2,|Temp3=Elemental Air|[EncounterDistancesPerTerrain=24]
+3,|Temp3=Elemental Earth|[EncounterDistancesPerTerrain=25]
+4,|Temp3=Elemental Fire|[EncounterDistancesPerTerrain=26]
+5,|Temp3=Elemental Water|[EncounterDistancesPerTerrain=27]
+6,|Temp3=Ethereal|[EncounterDistancesPerTerrain=29]
+7,|Temp3=Outlands|[EncounterDistancesPerTerrain=41]
+8,|Temp3=Shadow|[EncounterDistancesPerTerrain=43]
+
+:Ysgard_Random_Layer
+1,Ysgard (top layer)
+2,Fiery caverns of Muspelheim|Temp2=Use Underground|
+3,Underground forests of Nidavellir|Temp2=Use Forest|
+
+:1d2x5
+1,{Dice~1d2*5}'
+
+:1d3
+1,{Dice~1d3}'
+
+:1d3x5plus5
+1,{Calc~{Dice~1d3*5}+5}'
+
+:1d4x5
+1,{Dice~1d4*5}'
+
+:1d4x10
+1,{Dice~1d4*10}'
+
+:1d4x10plus50
+1,{Calc~{Dice~1d4*10}+50}'
+
+:1d5
+1,{Dice~1d5}'
+
+:1d8x10
+1,{Dice~1d8*10}'
+
+:1d10x5
+1,{Dice~1d10*5}'
+
+:2d4x10
+1,{Dice~2d4*10}'
+
+:2d6x10
+1,{Dice~2d6*10}'
+
+:2d8x10
+1,{Dice~2d8*10}'
+
+:2d10x10
+1,{Dice~2d10*10}'
+
+:3d6x10
+1,{Dice~3d6*10}'
+
+:4d8x10
+1,{Dice~4d8*10}'
+
+:4d10x10
+1,{Dice~4d10*10}'
+
+:6d6x10
+1,{Dice~6d6*10}'
+
+:6d6x20
+1,{Dice~6d6*20}'
+
+:6d6x40
+1,{Dice~6d6*40}'
+
+# XXXXXXXXXXXXXXXXX
+# Initiative should be rolled when at least one being is aware of the opponents. As far as being unfair to the melee types, dungeons are unfair to missile specialists. If your characters want to be melee specialists, they'll still need missile weapons. Long-range weapons are ignored at their peril. Don't forget there is a cumulative –10 penalty for every 10' of distance between the spotter and the target.
+# Read more: http://www.enworld.org/forum/showthread.php?88941-Outdoor-Random-Encounter-Distances#ixzz3W0GxhQWW
+
+# ---------------------------------------- OUTPUT : TERRAIN ---------------------------------------------
+
+# Terrains to do
+# 1=Random Terrain_Plane 2=Aquatic, 3=Coastal, 4=Desert, 5=Extraplanar, 6=Forest,Hill,Marshes,Mountain,Plain,Underground,Urban,Abyss,Acheron,Arborea,Arcadia,Astral,Beastlands,Baator,Bytopia,Carceri,Celestia,Chaotic,Elemental Air,Elemental Earth,Elemental Fire,Elemental Water,Elysium,Ethereal,Evil,Gehenna,Good,Hades,Lawful,Limbo,Mechanus,Negative,Neutral,Nine Hells,Positive,Outlands,Pandemonium,Shadow,Ysgard
+
+
+# ---Add variable---
+:ResetTerrainVariables
+1,|Aquatic=0||Berm=0||Bog_Deep=0||Bog_Shallow=0||Boulder=0||CaveEntrance=0||CavePoss=0||Chasm=0||DryStreambed=0|
+_|FallenLog=0||Fence_Stone=0||Fence_Wooden=0||ForestCanopy=0|
+_|Hedgerow=0||IceSheet=0||IceSheetRule=0||Marsh=0||Path=0||Pond=0||Quicksand=0||RockWall=0||Rubble_Dense=0||Rubble_Light=0|
+_|Sand_Dunes=0||Sandstorm=0||Scree=0||Siege_Engine=0||Sinkhole=0||Slope=0||Special=0||Special2=0||Stream=0|
+_|Tree=0||Tree_Massive=0||TreeMtn=0||Trench=0|
+_|Undergrowth_Heavy=0||Undergrowth_Light=0||Undergrowth_Patch_Heavy=0||Undergrowth_Patch_Light=0||Valley=0|
+
+:OutputTerrain
+1,[OutputTerrain]
+#####################################################################################################################
+2,<u><b>AQUATIC</u>:</b><br>
+_[ResetTerrainVariables]
+_|Aquatic=1|
+_[Tab]<b><u>Description</u>:</b> Flowing water (such as streams and rivers) and nonflowing water (such as lakes and oceans).<br>
+_[Tab]<b>Flowing Water:</b> (Streams/Rivers)<br>
+_[Tab][Tab]<u>Large, placid rivers</u>: MV only a few miles/hour (as still water, Swim DC10).<br>
+_[Tab][Tab]<u>Swifter rivers/streams</u>: downstream, 10-40'/round ([~1d4x10]). At least rough water (Swim DC15).<br>
+_[Tab][Tab]<u>Fastest rapids</u>: downstream 60-90'/round ([~1d4x10plus50]). Stormy water (Swim DC 20).<br>
+_[Tab][Tab][Tab]<u>Movement</u>: Move PCs downstream at end of their turn.<br>
+_[Tab][Tab][Tab]<u>Swept Away</u>: If water MV=60'+/round = Swim DC20/round. {Color~Red,Failure:} Go under water. {Color~Green,Success by 5+:} arrests motion by catching rock, tree limb, or bottom snag.<br>
+_[Tab][Tab][Tab][Tab]<u>Escaping rapids by reaching the bank</u>: 3x Swim DC20 in a row. If arrested by a rock, limb, or snag = can’t escape under their own power unless they strike out into the water and attempt to swim their way clear.<br>
+_[Tab][Tab][Tab][Tab][Tab]<b>Rescue:</b> Need branch, spear haft, rope, or similar tool. Strength DC15 to pull the victim; victim Strength DC10 to hold onto item.<br>
+_[Tab][Tab][Tab][Tab][Tab]<u>Victim fails to hold on</u>: Swim DC15 to stay above the surface.<br>
+_[Tab][Tab][Tab][Tab][Tab]<u>If both checks succeed</u>: Victim is pulled 5' closer to safety.<br><br>
+_[Tab]<b>Nonflowing Water:</b> (Lakes/Oceans) Swim check to move (DC 10 calm water, DC 15 rough water, DC 20 stormy water).<br>
+_[Tab]<b>Encounter Distance:</b> Moving water is always murky, unless it’s in a particularly large, slow-moving river.<br>
+_[Tab]<b>Cover/Concealment:</b> Hard to find, unless on seafloor.<br>
+_[Tab]<b>Perception:</b> Normal.<br>
+_[Tab]<b>Invisibility:</b> Displaces water and leaves a visible, body-shaped “bubble” where the water was displaced. The creature still has concealment (20 <b>percent</b>), but <u>not</u> total concealment.<br>
+#####################################################################################################################
+3,<u><b>COASTAL</u>:</b> Nothing special.<br><br>
+_[ResetTerrainVariables]|Aquatic=1|
+_{Generate~0,Click for AQUATIC terrain,OutputTerrain=2}
+#####################################################################################################################
+4,<u><b>DESERT</u>:</b><br>
+_[ResetTerrainVariables]|IceSheetRule=1||Rubble_Dense=1||Rubble_Light=1||Sand_Dunes=1||Bog_Shallow=1||Undergrowth_Light=1|
+_[Tab]<b><u>Description</u>:</b> Common trait: little rain.<br>
+_{Loop~%MaxSpecial%,{If~{Dice~1d100}<=%ChanceForSpecial%?|Special=1|[Special_Desert]}}
+_{If~{Or~%ClimateNeeded%=Random Climate,%ClimateNeeded%=Cold}=1?[OutputTerrain_Desert_Tundra]/{If~%ClimateNeeded%=Arctic?[OutputTerrain_Desert_Tundra]}}
+_{If~{Or~%ClimateNeeded%=Random Climate,%ClimateNeeded%=Temperate}=1?[OutputTerrain_Desert_Rocky]}
+_{If~{Or~%ClimateNeeded%=Random Climate,%ClimateNeeded%=Warm}=1?[OutputTerrain_Desert_Sandy]}
+_<br>
+_{If~%Path%>0?[Tab]Note: Add %Path% path(s) (|Temp=%Path%|{Loop~%Path%,|Temp-1|[~PathType]{If~%Temp%>0?, }}) through the TOUNDRA or ROCKY desert.<br>}
+_{If~%Special%!=0?[OutputSpecial]}
+_{If~%Special2%!=0?[OutputTerrain_Forest_Hill]}
+#####################################################################################################################
+5,<u><b>EXTRAPLANAR</u>:</b><br>
+# 5= Extraplanar
+#5,[EncounterDistancesALL]
+#####################################################################################################################
+6,<u><b>FOREST</u>:</b><br>
+_[ResetTerrainVariables]|Tree=1||Undergrowth_Light=1||Undergrowth_Heavy=1|
+_[Tab]<b><u>Description</u>:</b> Forest terrain can be divided into three categories: sparse, medium, and dense. An immense forest could have all three 
+_categories within its borders, with more sparse terrain at the outer edge of the forest and dense forest at its heart.<br>
+_{Loop~%MaxSpecial%,{If~{Dice~1d100}<=%ChanceForSpecial%?|Special=1|[Special_Forest]}}
+_[Tab]<b><u>SPARSE</u>:</b> <u>Tree</u>: 25&#37;[Tab]<u>Tree and Light Undergrowth</u>: 25&#37;[Tab] <u>Undergrowth, Light</u>: 25&#37;[Tab]<u>Normal ground</u>: 25&#37.<br>
+_[Tab]<b><u>MEDIUM</u>:</b> <u>Tree</u>: 7&#37;[Tab]<u>Tree, Massive</u>: 10&#37;[Tab]<u>Tree and Light Undergrowth</u>: 49&#37;[Tab]<u>Tree and Heavy Undergrowth</u>: 14&#37;<br>
+_[Tab][Tab]<u>Light Undergrowth</u>: 14&#37;[Tab]<u>Heavy Undergrowth</u>: 4&#37;[Tab]<u>Normal ground</u>: 2&#37.<br>
+_[Tab]<b><u>DENSE</u>:</b> <u>Tree, Massive</u>: 20&#37;[Tab]<u>Tree and Light Undergrowth</u>: 40&#37;[Tab]<u>Tree and Heavy Undergrowth</u>: 40&#37.<br>
+_<br>
+_{If~%Path%>0?[Tab]Note: Add %Path% path(s) (|Temp=%Path%|{Loop~%Path%,|Temp-1|[~PathType]{If~%Temp%>0?, }}) through the forest.<br>}
+_[Tab]<b><u>Listen Checks</u>:</b> -2 per 10' (due to background noise).<br>
+_{If~%Special%!=0?[OutputSpecial]}
+_{If~%Special2%!=0?[OutputTerrain_Forest_Hill]}
+#####################################################################################################################
+7,<u><b>HILL</u>:</b><br>
+_[ResetTerrainVariables]|Slope=1||Undergrowth_Light=1|
+_[Tab]<b><u>Description</u>:</b> A hill can exist in most other types of terrain, but hills can also dominate the landscape. 
+_Hills terrain often serves as a transition zone between rugged terrain such as mountains and flat terrain such as plains.<br>
+_{Loop~%MaxSpecial%,{If~{Dice~1d100}<=%ChanceForSpecial%?|Special=1|[Special_Hill]}}
+_[Tab]<b><u>GENTLE</u>:</b> <u>Slope</u>: 75&#37 Gradual, 20&#37 Steep, 5&#37 Cliff ([~Slope_Gentle]);[Tab]<u>Undergrowth, Light</u>: 15&#37.<br>
+_{If~{Dice~1d100}<=40?[Tab][Tab]Note: Add some trees, usually clustered in small stands.|Tree=1|<br>}
+_[Tab]<b><u>RUGGED</u>:</b> <u>Slope</u>: 40&#37 Gradual, 50&#37 Steep, 10&#37 Cliff ([~Slope_Rugged]);[Tab]<u>Undergrowth, Light</u>: 15&#37.<br>
+_{If~{Dice~1d100}<=20?[Tab][Tab]Note: Add some trees, usually clustered in small stands.|Tree=1|<br>}
+_<br>
+_{If~%Path%>0?[Tab]Note: Add %Path% path(s) (|Temp=%Path%|{Loop~%Path%,|Temp-1|[~PathType]{If~%Temp%>0?, }}) through the hill.<br>}
+_[Tab]<b><u>Hiding</u>:</b> Difficult if there isn’t undergrowth around. A hilltop or ridge provides enough cover to hide from anyone below the hilltop or ridge.<br>
+_{If~%Special%!=0?[OutputSpecial]}
+_{If~%Special2%!=0?[OutputTerrain_Forest_Hill]}
+#####################################################################################################################
+8,<u><b>MARSH</u>:</b><br>
+_[ResetTerrainVariables]|Marsh=1||Bog_Shallow=1||Bog_Deep=1||Tree=1||Undergrowth_Light=1||Undergrowth_Heavy=1|
+_[Tab]<b><u>Description</u>:</b> Relatively dry moors or watery swamps. Both are often bordered by lakes (described in Aquatic Terrain, click below),
+_ which effectively are a third category of terrain found in marshes.<br>
+_{Loop~%MaxSpecial%,{If~{Dice~1d100}<=%ChanceForSpecial%?|Special=1|[Special_Marsh]/{If~{Dice~1d100}<50?|Special=1||Hedgerow+1|}}}
+_[Tab]<b><u>MOOR</u>:</b> <u>Bog</u>: 20&#37 Shallow, 5&#37 Deep;[Tab]<u>Undergrowth</u>: 30&#37 Light, 10&#37 Heavy;[Tab]<u>Firm ground</u>: 35&#37.<br>
+_{If~%Hedgerow%>0?[Tab][Tab]Note: Add %Hedgerow% hedgerow(s) (|Temp=%Hedgerow%|{Loop~%Hedgerow%,|Temp-1|[~Hedgerow_Size]{If~%Temp%>0?, }})<br>}
+_{If~{Dice~1d100}<=15?[Tab][Tab]Note: Add some trees, usually clustered in small stands.<br>}
+_[Tab]<b><u>SWAMP</u>:</b> <u>Bog</u>: 40&#37 Shallow, 20&#37 Deep;[Tab]<u>Undergrowth</u>: 20&#37 Light, 20&#37 Heavy.<br>
+_{If~{Dice~1d100}<=80?[Tab][Tab]Note: Add some trees, usually clustered in small stands.<br>}
+_<br>
+_{If~%Path%>0?[Tab]Note: Add %Path% path(s) (|Temp=%Path%|{Loop~%Path%,|Temp-1|[~PathType]{If~%Temp%>0?, }}) through the marsh.<br>}
+_{If~%Special%!=0?[OutputSpecial]}
+_<br><u>Click to generate the terrain for 5 standard 5' squares of bog</u> :<br>
+_{If~%Quicksand%>0?{Generate~0,Firm ground (special),OutputTerrain_FirmGround}<br>}
+_{Generate~0,Moor,OutputTerrain_Moor}<br>
+_{Generate~0,Swamp,OutputTerrain_Swamp}<br>
+_{If~%Quicksand%>0?{Generate~0,Undergrowth (special),OutputTerrain_Undergrowth}<br>}
+#####################################################################################################################
+9,<u><b>MOUNTAINS</u>:</b><br>
+_[ResetTerrainVariables]|Chasm=1||Rubble_Dense=1||Scree=1||Slope=1||Undergrowth_Light=1|
+_[Tab]<b><u>Description</u>:</b> As characters ascend into a mountainous area, they’re likely to face each terrain category in turn, beginning with alpine meadows, 
+_extending through rugged mountains, and reaching forbidding mountains near the summit.<br>
+_[Tab]Most alpine meadows begin above the tree line, so trees and other forest elements are rare in the mountains.<br>
+_[Tab]Certain peaks and ridgelines afford much better vantage points, of course, and twisting valleys and canyons have much shorter spotting distances. Because there’s little vegetation to obstruct line of sight, the specifics on your map are your best guide for the range at which an encounter could begin.<br>
+_{Loop~%MaxSpecial%,{If~{Dice~1d100}<=%ChanceForSpecial%?|Special=1|[Special_Mountain]}}
+_[Tab]<b><u>ALPINE MEADOW</u>:</b> <u>Slope</u>: 50&#37 Gradual, 40&#37 Steep, 10&#37 Cliff ([~Slope_Alpine]);[Tab]<u>Undergrowth, Light</u>: 20&#37.<br>
+_{If~%TreeMtn%>0?|TreeMtn={Dice~1d100}|}
+_{If~%TreeMtn%<=80?[Tab][Tab]Note: Add some trees, usually clustered in small stands.<br>}
+_[Tab]<b><u>RUGGED</u>:</b> <u>Slope</u>: 25&#37 Gradual, 55&#37 Steep, 15&#37 Cliff, 5&#37 Chasm ([~Slope_RuggedMtn]);[Tab]<u>Undergrowth, Light</u>: 10&#37;[Tab]<u>Scree</u>: 20&#37;[Tab]<u>Dense Rubble</u>: 20&#37.<br>
+_{If~{And~%TreeMtn%>80,%TreeMtn%<=99}=1?[Tab][Tab]Note: Add some trees, usually clustered in small stands.<br>}
+_[Tab]<b><u>FORBIDDING</u>:</b> <u>Slope</u>: 15&#37 Gradual, 55&#37 Steep, 20&#37 Cliff, 10&#37 Chasm ([~Slope_Forbidding]);[Tab]<u>Scree</u>: 30&#37;[Tab]<u>Dense Rubble</u>: 30&#37.<br>
+_{If~%TreeMtn%=100?[Tab][Tab]Note: Add some trees, usually clustered in small stands.<br>}
+_<br>
+_{If~%Path%>0?[Tab]Note: Add %Path% path(s) (|Temp=%Path%|{Loop~%Path%,|Temp-1|[~PathType]{If~%Temp%>0?, }}) through the mountain.<br>}
+_[Tab]<b><u>Hiding</u>:</b> Difficult if there isn’t undergrowth around. A hilltop or ridge provides enough cover to hide from anyone below the hilltop or ridge.<br>
+_[Tab]<b><u>Listen</u>:</b> +1 DC/20' (easier to hear faraway sounds in the mountains).<br>
+_{If~%Special%!=0?[OutputSpecial]}
+_{If~%Special2%!=0?[OutputTerrain_Mountain]}
+#####################################################################################################################
+10,<u><b>PLAIN</u>:</b><br>
+_[ResetTerrainVariables]|Berm=1||Rubble_Light=1||Trench=1||Undergrowth_Heavy=1||Undergrowth_Light=1|
+_[Tab]<b><u>Description</u>:</b> Farms are common in settled areas, while grasslands represent untamed plains. The battlefields where large armies clash are temporary places, usually reclaimed by natural vegetation or the farmer’s plow.<br>
+_{Loop~%MaxSpecial%,{If~{Dice~1d100}<=%ChanceForSpecial%?|Special=1|[Special_Plain]}}
+_[Tab]<b><u>FARMS</u>:</b> <u>Undergrowth, Light</u>: 40&#37;[Tab]<u>Trenches</u>: 5&#37;[Tab]<u>Normal ground</u>: 55&#37.<br>
+_{If~{Dice~1d100}<=50?[Tab][Tab]Note: Add some trees, usually clustered in small stands or rows between fields.|Tree=1|<br>}
+_[Tab]<b><u>GRASSLANDS</u>:</b> <u>Undergrowth, Light</u>: 20&#37;[Tab] <u>Undergrowth, Heavy</u>: 10&#37;[Tab]<u>Normal ground</u>: 70&#37.<br>
+_{If~{Dice~1d100}<=25?[Tab][Tab]Note: Add some trees, usually clustered in small stands.|Tree=1|<br>}
+_[Tab]<b><u>BATTLEFIELDS</u>:</b> <u>Undergrowth, Light</u>: 10&#37;[Tab] <u>Rubble, Light</u>: 10&#37;[Tab]<u>Trenches</u>: 5&#37;[Tab]<u>Berm</u>: 5&#37;[Tab]<u>Normal ground</u>: 70&#37.<br>
+_{If~{Dice~1d100}<=5?[Tab][Tab]Note: Add some trees, usually clustered in small stands, others have been felled to provide raw material for siege engines.|Tree=1|<br>}
+_[Tab][Tab]<u>Light Rubble</u>: Usually represents something that was destroyed: the ruins of a building or the scattered remnants of a stone wall, for example.<br>
+_<br>
+_{If~%Path%>0?[Tab]Note: Add %Path% path(s) (|Temp=%Path%|{Loop~%Path%,|Temp-1|[~PathType]{If~%Temp%>0?, }}) through the mountain.<br>}
+_{If~%Special%!=0?[OutputSpecial]}
+_{If~%Special2%!=0?[OutputTerrain_Forest_Hill]}
+#####################################################################################################################
+#
+#:OTHER
+#####################################################################################################################
+11,<u><b>UNDERGROUND</u>:</b><br>
+#####################################################################################################################
+12,<u><b>URBAN</u>:</b><br>
+#####################################################################################################################
+# Abyss
+13,<b><u>INFINITE LAYERS OF THE ABYSS</u>: (Chaotic, Evil)</b><br>
+_<b>Layers:</b> 1= Plain of Infinite Portals.<br>
+_<u>Random Layer</u>: [~Abyss_Random_Layer]<br><br>
+_The Abyss is all that is ugly, all that is evil, and all that is chaotic reflected in infinite variety through layers beyond counting.<br>
+_[Tab]-Its virtually endless layers spiral downward into ever more atrocious forms.<br>
+_[Tab]-Conventional wisdom places the number of layers of the Abyss at 666, though there may be far more.<br>
+_[Tab]-Each layer has its own unique, horrific environment with harsh, inhospitable nature. Lakes of caustic acid, clouds of noxious fumes, caverns of razor-sharp spikes, and landscapes of magma are all possibilities. So are less immediately deadly terrains such as parched salt deserts, subtly poisonous winds, and plains of biting insects.<br>
+_[Tab]-Home to demons, creatures devoted to death and destruction. A demon in the Abyss looks upon visitors as food or a source of amusement.
+_<br><br><b><u>Planar traits</u>:</b><br>
+_[Morphic_Divinely]
+_[Tab]-Lesser deities and over.
+_{CR~}<b>Mixed elemental and energy traits:</b> Varies from layer to layer.<br>
+_Choose if applicable: {Generate~0,Air Dominant,Air_Dominant}[Tab]{Generate~0,Earth Dominant,Earth_Dominant}[Tab]{Generate~0,Fire Dominant,Fire_Dominant}[Tab]{Generate~0,Water Dominant,Water_Dominant}<br>
+_{CR~}<b>Mildly-Aligned, Chaos and Evil:</b> Affects Lawful and Good.
+_[Aligned_Mildly]
+_<br><u>Standard Characteristics</u>: {Generate~0,Outer Plane,Outer_Plane}[Tab]{Generate~0,Normal Gravity,Gravity_Normal}[Tab]{Generate~0,Normal Time,Time_Normal}[Tab]{Generate~0,Finite,ShapeSize_Finite}[Tab]{Generate~0,Infinite,ShapeSize_Infinite}[Tab]{Generate~0,Alterable Morphic,Morphic_Alterable}[Tab]{Generate~0,Normal Magic,Magic_Normal}[Tab]<br>
+_[Tab]NOTE: Rumors persist of a layer where time flows backward with regard to aging. The reverse flow is erratic, however, and a visitor could be reverse-aged to childhood or out of existence altogether.<br>
+#####################################################################################################################
+# Acheron
+14,<b><u>INFERNAL BATTLEFIELD OF ACHERON</u> (Lawful)</b><br>
+_<b>Layers:</b> Avalas, Thuldanin, Tintibulus, Ocanthus.<br>
+_The hue and cry of battle is the first sound a soldier hears when arriving on Acheron and the last sound a refugee hears when leaving. 
+_That’s all Acheron offers: conflict, war, strife, and struggle. Many armies populate Acheron, but leaders are scarce. Truly, rebels without a cause are common on Acheron, 
+_whether they’re mortals, fiends, or celestials.<br>
+_[Tab]-Each layer is made of island- or even continent-sized iron cubes floating in an airy void. Sometimes the cubes collide, and echoes of past collisions linger throughout 
+_the plane, mingling with the ring of sword on sword as armies clash across the faces of the cubes.<br>
+_<br><b><u>Planar traits</u>:</b><br>
+_[Gravity_Objective]
+_[Tab]-Which way is down depends on which face of a cube you’re on. Walking across edges between faces can be dizzying for the inexperienced.<br>
+_[Morphic_Divinely]
+_[Tab]-Any deities.<br>
+_{CR~}<b>Mildly-Aligned, Lawful:</b> Affects Chaotic
+_[Aligned_Mildly]
+_<br><u>Standard Characteristics</u>: {Generate~0,Outer Plane,Outer_Plane}[Tab]{Generate~0,Normal Time,Time_Normal}[Tab]{Generate~0,Finite,ShapeSize_Finite}[Tab]{Generate~0,Alterable Morphic,Morphic_Alterable}[Tab]{Generate~0,Normal Magic,Magic_Normal}[Tab]<br>
+#####################################################################################################################
+# Arborea
+15,<b><u>OLYMPIAN GLADES OF ARBOREA</u> (Chaotic, Good)</b><br>
+_<b>Layers:</b> Arvandor (Forest), Aquallor (Endless ocean), Mithardir (Borderless desert of white dust).<br>
+_Arborea is a crazy quilt of climates and environments, all of which thrive. The plane contains great woods of towering maples, birch, and oak. These great deciduous trees strain 
+_skyward, leaving a forest floor relatively free of undergrowth and brush. The ground beneath the canopy itself is a rolling landscape of velvet moss and ferns. The 
+_Forestscape sometimes retreats before open glades of wildflowers, fields of swaying wheat and barley, and neat rows of fruit trees untended by any hand. Here are trees that have 
+_never seen the woodsman’s axe, fields rich with grain, and orchards heavy with fruit.<br>
+_[Tab]The very air of Arborea seems charged with anticipation and excitement. Sudden squalls brew up out of nowhere, beating the tree-lined paths with heavy winds. 
+_They pass within minutes and leave behind warm, sunny arcs of light filtering through the forest canopy. In the distance there always seems to be music; sometimes 
+_the elves and the fey are playing, but just as often the faint tune is merely the wind curling through the boles of the great trees.<br>
+_[Tab]Arborea is a place with flowers in bloom and trees bearing fruit simultaneously. The uplands are covered with snow, shining beneath a crystal-blue sky. 
+_Arborea is almost overwhelming in its beauty, and the land embodies both wilderness and loveliness in one package.<br>
+_<br><b><u>Planar traits</u>:</b><br>
+_[Morphic_Divinely]
+_[Tab]-Lesser deities and greater.<br>
+_{CR~}<b>Mildly-Aligned, Chaos and Good:</b> Affects Lawful and Evil.
+_[Aligned_Mildly]
+_<br><u>Standard Characteristics</u>: {Generate~0,Outer Plane,Outer_Plane}[Tab]{Generate~0,Normal Gravity,Gravity_Normal}[Tab]{Generate~0,Normal Time,Time_Normal}[Tab]{Generate~0,Finite,ShapeSize_Finite}[Tab]{Generate~0,Alterable Morphic,Morphic_Alterable}[Tab]{Generate~0,Normal Magic,Magic_Normal}[Tab]<br>
+#####################################################################################################################
+# Arcadia
+16,<b><u>PEACEABLE KINGDOMS OF ARCADIA</u> (Lawful)</b><br>
+_<b>Layers:</b> Buxenus (holds the armed camps of the celestial dwarves and archons that protect the plane), Abellio.<br>
+_Arcadia thrives with orchards of perfectly lined trees, rulerstraight streams, orderly fields, and cities laid out in geometrically pleasing shapes. The mountains are unblemished by erosion. 
+_Everything on Arcadia works toward the common good and a flawless form of existence. Here, nothing intrudes on harmony.<br>
+_[Tab]It is said that everything on Arcadia is as perfect as it can be, neither as strictly regimented as Mechanus nor as devoted to the perfection of the individual as Celestia. But this is not 
+_entirely accurate. In fact, the inhabitants of Arcadia are often so convinced of their own righteousness that they are hard-pressed to recognize their own flaws.<br>
+_<br><b><u>Planar traits</u>:</b><br>
+_[Morphic_Divinely]
+_[Tab]-Lesser deities and greater, Petra/Clangeddin.<br>
+_{CR~}<b>Mildly-Aligned, Lawful:</b> Affects Chaos
+_[Aligned_Mildly]
+_<br><u>Standard Characteristics</u>: {Generate~0,Outer Plane,Outer_Plane}[Tab]{Generate~0,Normal Gravity,Gravity_Normal}[Tab]{Generate~0,Normal Time,Time_Normal}[Tab]{Generate~0,Finite,ShapeSize_Finite}[Tab]{Generate~0,Alterable Morphic,Morphic_Alterable}[Tab]{Generate~0,Normal Magic,Magic_Normal}[Tab]<br>
+#####################################################################################################################
+# Astral
+17,<u><b>ASTRAL PLANE</u>:</b><br>
+_The space between the planes, and coterminous with all of the planes.<br>
+_[Tab]-Great, endless expanse of clear silvery sky, both above and below. Occasional bits of solid matter can be found here, but most of the Astral Plane is an endless, open domain.<br>
+_[Tab]-Realm of pure thought and expanded consciousness.<br>
+_[Tab]-As a gateway between the Inner and Outer Spheres, the Astral Plane teems with travelers.<br>
+_[Tab]-A creature's astral body looks like a translucent version of its physical form, usually limned with a soft nimbus of blue or violet light. A slim tether of resilient incorporeal energy known as a silver cord connects a creature's astral body to its unconscious physical body.
+_<br><br><b><u>Planar traits</u>:</b><br>
+_[Gravity_Subjective]
+_[Time_Timeless]
+_{CR~}<b>Mildly-Aligned, Neutral:</b> NO effect on anyone. {Generate~0,(Mildly Aligned),Aligned_Mildly}<br>
+_[Magic_Enhanced]
+_[Tab]-<u>All spells/spell-like abilities</u>: {Color~Green,Quicken Spell} feat <font size=1>{Generate~0,(Explanations),Magic_Enhanced2}.</font><br>
+_<br><u>Standard Characteristics</u>: {Generate~0,Transitive Plane,Transitive_Plane}[Tab]{Generate~0,Infinite,ShapeSize_Infinite}[Tab]{Generate~0,Alterable Morphic,Morphic_Alterable}<br>
+#####################################################################################################################
+# Beastlands
+18,<b><u>WILDERNESS OF THE BEASTLANDS</u> (Good)</b><br>
+_<b>Layers:</b> Krigala (day), Brux (twilight), Karasuthra (night).<br>
+_The Wilderness of the Beastlands is a plane of nature unbound. It is a plane of forests, ranging from mangroves hung heavy with moss to snowfall-laden pines to acres of 
+_sequoias so thick that no light penetrates their canopy. Oak, birches, spruces, firs, and maples are common here, and explorers into the plane’s distant corners find great 
+_forests of giant fungi and mushrooms. Vast deserts are found here as well, though they are hardly barren wastelands. Cactus, aloe, and other desert plants thrive in the arid 
+_parts of the Beastlands.<br>
+_[Tab]The air of the Beastlands is ideal for anything that grows. It is humid and warm in the swampy regions, calm and cool beneath the sequoias, breezy and clear among the 
+_beeches, and arid and hot in the more open lands.<br>
+_[Tab]The Beastlands consists of three layers, each layer frozen at certain parts of the day. The top layer, Krigala, is a place of eternal daylight; Brux is a domain of 
+_perpetual twilight; and the third layer, Karasuthra, is a land of night illuminated only by a pale moon. The most important aspect of the Beastlands is how the plane 
+_favors animals of all kinds. Like Arcadia, it is a plane heavily populated by animals and magical beasts. Traditional towns, cities, and strongholds are few and far between. 
+_Those who make their homes here seek to live with the trees, not against them.<br>
+_<br><b><u>Planar traits</u>:</b><br>
+_[Morphic_Divinely]
+_[Tab]-Lesser deities and greater.<br>
+_{CR~}<b>Mildly-Aligned, Good:</b> Affects Evil.
+_[Aligned_Mildly]
+_<br><u>Standard Characteristics</u>: {Generate~0,Outer Plane,Outer_Plane}[Tab]{Generate~0,Normal Gravity,Gravity_Normal}[Tab]{Generate~0,Normal Time,Time_Normal}[Tab]{Generate~0,Finite,ShapeSize_Finite}[Tab]{Generate~0,Alterable Morphic,Morphic_Alterable}[Tab]{Generate~0,Normal Magic,Magic_Normal}[Tab]<br>
+#####################################################################################################################
+# Baator
+19,<b><u>NINE HELLS OF BAATOR</u> (Lawful Evil)</b><br>
+_<b>Layers:</b> Avernus, Dis, Minauros, Phlegethos (fire-dominant), Stygia, Malbolge, Maladomini, Cania (cold-dominant),Nessus.<br>
+_This plane, sometimes simply called Baator or Hell, is the ultimate realm of law and evil, the epitome of premeditated, crafted cruelty. The devils of the Nine Hells all obey a 
+_higher law than themselves, but all that really means is that they chafe and rebel against their status. Most will undertake any plot or action, no matter how foul, to advance themselves.
+_<br><br><b><u>Planar traits</u>:</b><br>
+_[ShapeSize_Infinite]
+_[Tab]-Each layer extends outward infinitely, but the circumference of each inner ledge (which opens onto the Pit and the next lower layer) is finite.<br>
+_[Morphic_Divinely]
+_[Tab]-Lesser deities and greater.<br>
+_<br><u><b>Special:</b> Cania</u>:
+_[Cold_Dominant]
+_<br><u><b>Special:</b> Phlegethos</u>:
+_[Fire_Dominant]
+_{CR~}<b>Mildly-Aligned, Lawful:</b> Affects Chaotic
+_[Aligned_Mildly]
+_<br><u>Standard Characteristics</u>: {Generate~0,Outer Plane,Outer_Plane}[Tab]{Generate~0,Normal Gravity,Gravity_Normal}[Tab]{Generate~0,Normal Time,Time_Normal}[Tab]{Generate~0,Alterable Morphic,Morphic_Alterable}[Tab]{Generate~0,Normal Magic,Magic_Normal}[Tab]<br>
+#####################################################################################################################
+# 20= Bytopia
+20,<b><u>TWIN PARADISES OF BYTOPIA</u> (Good)</b><br>
+_<b>Layers:</b> Shurrock, Dothion.<br>
+_Bytopia is unique among the Outer Planes because the surfaces of its two layers face each other like the covers of a closed book. By looking up from Dothion, the “top” layer of the 
+_plane, the traveler can see Shurrock, its other layer. In similar fashion, one may stand on Shurrock and see the towns and farms of Dothion overhead.<br>
+_[Tab]Each layer of Bytopia plane is an idealized world. Dothion is a tamed, pastoral landscape, while Shurrock is an untamed wilderness. The philosophy of the plane—personal 
+_achievement working with social interdependence—infuses both its layers. The distance between the two layers of the plane is about 1 mile, though sharp mountains rise from 
+_either side and sometimes meet in the middle. Travel between the two layers is common by flying as well as climbing the mountains.<br>
+_<br><b><u>Planar traits</u>:</b><br>
+_[Gravity_Objective]
+_[Tab]-“Down” exists in opposite directions on the plane’s two facing layers. Gravity is normal until one crosses the invisible border between the two layers; then it 
+_reverses. Those who break through the border find themselves falling toward the other plane.<br>
+_[Morphic_Divinely]
+_[Tab]-Lesser deities and greater.<br>
+_{CR~}<b>Mildly-Aligned, Good:</b> Affects Evil.
+_[Aligned_Mildly]
+_<br><u>Standard Characteristics</u>: {Generate~0,Outer Plane,Outer_Plane}[Tab]{Generate~0,Normal Time,Time_Normal}[Tab]{Generate~0,Finite,ShapeSize_Finite}[Tab]{Generate~0,Alterable Morphic,Morphic_Alterable}[Tab]{Generate~0,Normal Magic,Magic_Normal}[Tab]<br>
+#####################################################################################################################
+# Carceri
+21,<b><u>TARTERIAN DEPTHS OF CARCERI</u> (Evil)</b><br>
+_<b>Layers:</b> Orthrys, Cathrys, Minethys, Colothys, Porphratys, Agathys.<br>
+_Prison plane. Seems the least overtly dangerous of the lower planes, but that first impression quickly disappears. Acid seas and sulfurous atmospheres may be rare on 
+_this plane, and no areas of biting cold or infernos of raging heat exist. The danger of Carceri is a subtler thing.<br>
+_[Tab]-Place of darkness and despair, of passions and poisons, and of kingdom-shattering betrayals.<br>
+_[Tab]-Hatred and treachery.<br>
+_[Tab]-Each layer consists of a series of orbs like tiny planets. A gulf of air separates each orb from the next. On a particular layer, little distinguishes one orb from the 
+_next, and it’s possible that the number of orblike planets on each layer is infinite.
+_<br><br><b><u>Planar traits</u>:</b><br>
+_[Gravity_Normal]
+_[Tab]-On the orbs, gravity is normal.<br>
+_[Gravity_No]
+_[Tab]-Between orbs, there is no gravity, which eases travel for those who can fly beyond the clutches of each orb’s gravity.<br>
+_[Morphic_Divinely]
+_[Tab]-Lesser deities or greater.<br>
+_{CR~}<b>Mildly-Aligned, Evil:</b> Affects Good
+_[Aligned_Mildly]
+_<br><u>Standard Characteristics</u>: {Generate~0,Outer Plane,Outer_Plane}[Tab]{Generate~0,Normal Time,Time_Normal}[Tab]{Generate~0,Finite,ShapeSize_Finite}[Tab]{Generate~0,Normal Magic,Magic_Normal}[Tab]<br>
+#####################################################################################################################
+# Celestia
+22,<b><u>SEVEN MOUNTING HEAVENS OF CELESTIA</u> (Good, Lawful)</b><br>
+_<b>Layers:</b> seven layers on the same mountain, 6th: Heavenly City, 7th: Illuminated Heaven (nothing known about this layer).<br>
+_The single sacred mountain of Celestia rises from an infinite sea of holy water to incomprehensible heights. Here, justice, kindness, order, celestial grace, and mercy are the 
+_rules. Here, watchful eyes hold the ramparts against evil in all its many forms. Here, all things are beautiful.<br>
+_[Tab]The Seven Mounting Heavens are the planar home for mortal souls who feel kindness and empathy for their fellow creatures. But it is a paradise that fiends of the lower 
+_planes would conquer if they could. Mount Celestia represents a promise of betterment and ultimate union with the powers of good and law for those worthy. So supplicants of 
+_every stripe ascend the layers, one after the other, to the ultimate height of the Heavenly City (the sixth layer), and from there into the Illuminated Heaven, about which 
+_nothing is known.<br>
+_<br><b><u>Planar traits</u>:</b><br>
+_[Morphic_Divinely]
+_[Tab]-Lesser deities and greater.<br>
+_{CR~}<b>Mildly-Aligned, Good / Lawful:</b> Affects Evil and Chaotic.
+_[Aligned_Mildly]
+_<br><u>Standard Characteristics</u>: {Generate~0,Outer Plane,Outer_Plane}[Tab]{Generate~0,Normal Gravity,Gravity_Normal}[Tab]{Generate~0,Normal Time,Time_Normal}[Tab]{Generate~0,Finite,ShapeSize_Finite}[Tab]{Generate~0,Alterable Morphic,Morphic_Alterable}[Tab]{Generate~0,Normal Magic,Magic_Normal}[Tab]<br>
+#####################################################################################################################
+# Chaotic
+23,[Chaotic_Random_Plane]
+#####################################################################################################################
+# Elemental Air
+24,<u><b>ELEMENTAL PLANE OF AIR</u>:</b><br>
+_An empty plane, consisting of sky above and sky below. The most comfortable and survivable of the Inner Planes and is the home of all manner of airborne creatures.
+_<br><br><b><u>Planar traits</u>:</b><br>
+_[Gravity_Subjective]
+_[Air_Dominant]
+_[Magic_Enhanced]
+_[Tab]-<u>Enhanced</u>: Air descriptor or Use/Manipulate/Create air, Air Domain, Elemental (air) Bloodline.<br>
+_[Magic_Impeded]
+_[Tab]-<u>Impeded</u>: Earth descriptor or Use/Create earth, Earth domain, Elemental (earth) bloodline, summon earth elementals or outsiders with the earth subtype.<br>
+_<br><u>Standard Characteristics</u>: {Generate~0,Inner Plane,Inner_Plane}[Tab]{Generate~0,Normal Time,Time_Normal}[Tab]{Generate~0,Infinite,ShapeSize_Infinite}[Tab]{Generate~0,Alterable Morphic,Morphic_Alterable}<br>
+#####################################################################################################################
+# Elemental Earth
+25,<u><b>ELEMENTAL PLANE OF EARTH</u>:</b><br>
+_Solid place made of soil and stone. An unwary traveler might find himself entombed within this vast solidity of material and crushed into nothingness, with his powdered remains left as a warning to any foolish enough to follow. Despite its solid, unyielding nature, the Plane of Earth is varied in its consistency, ranging from soft soil to veins of heavier and more valuable metal.
+_<br><br><b><u>Planar traits</u>:</b><br>
+_[Earth_Dominant]
+_[Magic_Enhanced]
+_[Tab]-<u>Enhanced</u>: Earth descriptor or Use/Manipulate/Create earth, Earth Domain, Elemental (earth) Bloodline.<br>
+_[Magic_Impeded]
+_[Tab]-<u>Impeded</u>: Air descriptor or Use/Create air, Air domain, Elemental (air) bloodline, summon air elementals or outsiders with the air subtype.<br>
+_<br><u>Standard Characteristics</u>: {Generate~0,Inner Plane,Inner_Plane}[Tab]{Generate~0,Normal Gravity,Gravity_Normal}[Tab]{Generate~0,Normal Time,Time_Normal}[Tab]{Generate~0,Infinite,ShapeSize_Infinite}[Tab]{Generate~0,Alterable Morphic,Morphic_Alterable}<br>
+#####################################################################################################################
+# Elemental Fire
+26,<u><b>ELEMENTAL PLANE OF FIRE</u>:</b><br>
+_Everything is alight on the Plane of Fire. The ground is nothing more than great, ever-shifting plates of compressed flame. The air ripples with the heat of continual firestorms and the most common liquid is magma. The oceans are made of liquid flame, and the mountains ooze with molten lava. Fire survives here without needing fuel or air, but flammables brought onto the plane are consumed readily.
+_<br><br><b><u>Planar traits</u>:</b><br>
+_[Fire_Dominant]
+_[Magic_Enhanced]
+_[Tab]-<u>Enhanced</u>: Fire descriptor or Use/Manipulate/Create fire, Fire Domain, Elemental (fire) Bloodline.<br>
+_[Magic_Impeded]
+_[Tab]-<u>Impeded</u>: Water descriptor or Use/Create water, Water domain, Elemental (water) bloodline, summon water elementals or outsiders with the water subtype.<br>
+_<br><u>Standard Characteristics</u>: {Generate~0,Inner Plane,Inner_Plane}[Tab]{Generate~0,Normal Gravity,Gravity_Normal}[Tab]{Generate~0,Normal Time,Time_Normal}[Tab]{Generate~0,Infinite,ShapeSize_Infinite}[Tab]{Generate~0,Alterable Morphic,Morphic_Alterable}<br>
+#####################################################################################################################
+# Elemental Water
+27,<u><b>ELEMENTAL PLANE OF WATER</u>:</b><br>
+_A sea without a floor or a surface, an entirely fluid environment lit by a diffuse glow. It is one of the more hospitable of the Inner Planes once a traveler gets past the problem of breathing the local medium.<br>
+_[Tab]The eternal oceans of this plane vary between ice cold and boiling hot, and between saline and fresh. They are perpetually in motion, wracked by currents and tides. The plane's permanent settlements form around bits of flotsam suspended within this endless liquid, drifting on the tides.
+_<br><br><b><u>Planar traits</u>:</b><br>
+_[Gravity_Subjective]
+_[Water_Dominant]
+_[Magic_Enhanced]
+_[Tab]-<u>Enhanced</u>: Water descriptor or Use/Manipulate/Create water, Water Domain, Elemental (water) Bloodline.<br>
+_[Magic_Impeded]
+_[Tab]-<u>Impeded</u>: Fire descriptor or Use/Create fire, Fire domain, Elemental (fire) bloodline, summon fire elementals or outsiders with the fire subtype.<br>
+_<br><u>Standard Characteristics</u>: {Generate~0,Inner Plane,Inner_Plane}[Tab]{Generate~0,Normal Time,Time_Normal}[Tab]{Generate~0,Infinite,ShapeSize_Infinite}[Tab]{Generate~0,Alterable Morphic,Morphic_Alterable}<br>
+#####################################################################################################################
+# Elysium
+28,<b><u>BLESSED FIELDS OF ELYSIUM</u> (Good, Positive)</b><br>
+_<b>Layers:</b> Amoria, Eronia (Mountain), Belierin (Marsh), Thalasia (Aquatic or Coastal). River Oceanus crosses all layers.<br>
+_Elysium is the most strongly good-aligned plane on the Great Wheel, a place of good untrammeled by issues of law or chaos. On this plane, doing well by others is more highly 
+_valued than any other ideal.<br>
+_[Tab]The first layer of the plane, Amoria, is a riot of color. Visitors marvel at brilliant green meadows dotted with starburst flowers, pools as deep blue as a jay’s plumage, 
+_and silver clouds drifting against a perfect sky. The plane itself seems to vibrate with its own sense of life and intensity. It is usually a peaceful place, and tranquility 
+_seems to seep into the bones and souls of those that cross it.<br>
+_[Tab]Elysium consists of four layers strung together by the myriad courses of the River Oceanus. The first layer is most like the Material Plane, with sweet-smelling pines 
+_and flowering trees along its banks giving way to open meadows and rolling fields. The second layer, Eronia, is rougher and more mountainous, and rapids and 
+_falls are common along the channels of the river. Belierin, the third layer, is a great marsh awash with life. The deepest layer is the sea of Thasasia and the headwaters of 
+_the great River Oceanus, dotted with islands where veteran heroes of good relax for eternity.<br>
+_[Tab]The size of the River Oceanus varies from a braid of smaller side channels to a mighty flow that tops its banks and floods the surrounding area. Along the river are islands, 
+_low gravel bars, and rocky promontories, which are often the homes of honored souls of the dead and more powerful denizens.<br>
+_<br><b><u>Planar traits</u>:</b><br>
+_[Morphic_Divinely]
+_[Tab]-Lesser deities and greater.<br>
+_[Positive_Minor_Dominant]
+_{CR~}<b>Strongly-Aligned, Good:</b> Affects ALL non-good.
+_[Aligned_Strongly]
+_<br><u><b>Special: Entraping</u></b> This is a trait unique to Elysium (although Hades has a similar entrapping trait). A nonoutsider on Elysium experiences increasing joy and 
+_satisfaction while there. Colors become brighter and more vivid than on the Material Plane, sounds more melodious and soft, and the nature of others 
+_seems more pleasant and understanding. At the conclusion of every week spent on Elysium, any nonoutsider must make a Will save (DC 10 + the number of consecutive weeks on 
+_Elysium). {Color~Red,Failure:} the individual has fallen under the control of the plane, cannot leave the plane of his or her own volition, and has no desire to do so. 
+_Memories of any previous life fade into nothingness, and it takes a wishor miraclespell to return such characters to normal.<br>
+_<br><u>Standard Characteristics</u>: {Generate~0,Outer Plane,Outer_Plane}[Tab]{Generate~0,Normal Gravity,Gravity_Normal}[Tab]{Generate~0,Normal Time,Time_Normal}[Tab]{Generate~0,Finite,ShapeSize_Finite}[Tab]{Generate~0,Alterable Morphic,Morphic_Alterable}[Tab]{Generate~0,Normal Magic,Magic_Normal}[Tab]<br>
+#####################################################################################################################
+# Ethereal
+29,<u><b>ETHEREAL PLANE</u>:</b><br>
+#_{If~%Temp3%!=0?[Tab]%Temp3%<br><br>}[Tab]<u>Ethereal</u>: [~6d6x40]<br>
+_Coexistent with the Material Plane and often other planes as well. The Material Plane itself is visible from the Ethereal Plane, but it appears muted and indistinct, its colors blurring into each other and its edges turning fuzzy.<br>
+_[Tab]-While it is possible to see into the Material Plane from the Ethereal Plane, the Ethereal Plane is usually invisible to those on the Material Plane. Normally, creatures on the Ethereal Plane cannot attack creatures on the Material Plane, and vice versa. A traveler on the Ethereal Plane is invisible, incorporeal, and utterly silent to someone on the Material Plane.<br>
+_[Tab]-The seat of emotional forces, the mist-shrouded home of haunts and horrors, and the ever-present doorway between the worlds of the Inner Sphere. Warped, indistinct versions of locations overlap their Inner Sphere counterparts.<br>
+_[Tab]-The twisted remnants of mortal souls comprise the vast majority of the Ethereal Plane's inhabitants.<br>
+_[Tab]-The sweeping expanse of the Ethereal Plane is home to countless pocket realities known as demiplanes.
+_<br><br><b><u>Planar traits</u>:</b><br>
+_[Gravity_No]
+_[Morphic_Alterable]
+_[Tab]NOTE: The plane contains little to alter, however.<br>
+_{CR~}<b>Mildly-Aligned, Neutral:</b> NO effect on anyone. {Generate~0,(Mildly Aligned),Aligned_Mildly}<br>
+_[Magic_Normal]
+_[Tab]NOTE: Spells function normally on the Ethereal Plane, though they do not cross into the Material Plane. The only exceptions are spells and spell-like abilities that have the force descriptor and abjuration spells that affect ethereal beings; these can cross from the Material Plane to the Ethereal Plane. Spellcasters on the Material Plane must have some way to detect foes on the Ethereal Plane before targeting them with force-based spells. While it's possible to hit ethereal enemies with a force spell cast on the Material Plane, the reverse isn't possible. No magical attacks cross from the Ethereal Plane to the Material Plane, including force attacks.
+_<br><br><u>Standard Characteristics</u>: {Generate~0,Transitive Plane,Transitive_Plane}[Tab]{Generate~0,Normal Time,Time_Normal}[Tab]{Generate~0,Infinite,ShapeSize_Infinite}<br>
+#####################################################################################################################
+# Evil
+30,[Evil_Random_Plane]
+#####################################################################################################################
+# Gehenna
+31,<b><u>BLEAK ETERNITY OF GEHENNA</u> (Evil)</b><br>
+_<b>Layers:</b> Khalas (borders Hades and Nine Hells), Chamada, Mungoth, Krangath.<br>
+_Floating in an impenetrable, infinite void are volcanic mountains seemingly without base or peak. They are only finite in the strictest sense of the word, measuring hundreds of 
+_thousands of miles in each direction. A single volcanic mountain dominates each of the four layers of Gehenna, though lesser volcanic earthbergs drift and sometimes smash into 
+_the greater mountains.<br>
+_[Tab]-No naturally occurring level place exists in any of the layers; all the slopes are at least 45 degrees, and many are akin to sheer cliffs.<br>
+_[Tab]-Its fiendish inhabitants have carved artificial ledges, some large enough for entire cities, and switchback paths to connect them. But those edifices have a tendency to 
+_break apart, sending their builders on a long, sliding fall down the mountain.<br>
+_[Tab]-Each layer is differentiated from the other by its degree of volcanic activity.
+_<br><br><b><u>Planar traits</u>:</b><br>
+_[Gravity_Normal]
+_[Tab]-Naturally occurring volcanic mountains seem to float free in an infinitely larger void. Gravity is normal on the steep slopes of a mountain, and a fall causes a creature 
+_to tumble until a chance ledge catches it, or until continued abrasions from the long fall completely shred the victim.<br>
+_[Morphic_Divinely]
+_[Tab]-Lesser deities and greater.<br>
+_{CR~}<b>Mildly-Aligned, Evil:</b> Affects Good
+_[Aligned_Mildly]
+_<br><u>Standard Characteristics</u>: {Generate~0,Outer Plane,Outer_Plane}[Tab]{Generate~0,Normal Time,Time_Normal}[Tab]{Generate~0,Finite,ShapeSize_Finite}[Tab]{Generate~0,Alterable Morphic,Morphic_Alterable}[Tab]{Generate~0,Normal Magic,Magic_Normal}[Tab]<br>
+#####################################################################################################################
+# Good
+32,[Good_Random_Plane]
+#####################################################################################################################
+# Hades
+33,<b><u>GRAY WASTE OF HADES</u> (Evil)</b><br>
+_<b>Layers (Glooms):</b> Oinos, Niflheim, Pluton.<br>
+_Pure undiluted evil acts as a powerful spiritual force that drags all creatures down. Here, even the consuming rage of the Abyss and the devious plotting of the Nine 
+_Hells are subjugated to hopelessness. Apathy and despair seep into everything at the pole of evil. Hades slowly kills a visitor’s dreams and desires, leaving the withered 
+_husk of what used to be a fiery sprit. Spend enough time in Hades, and a visitor gives up on things that used to matter, eventually succumbing to total apathy.
+_<br><br><b><u>Planar traits</u>:</b><br>
+_[Morphic_Divinely]
+_[Tab]-Lesser deities and greater.<br>
+_{CR~}<b>Strongly-Aligned, Evil:</b> Affects non-evil
+_[Aligned_Strongly]
+_<br><b>NOTE: Entrapping:</b>. A nonoutsider in Hades experiences increasing apathy and despair while there. Colors become grayer and less vivid, sounds duller, and even 
+_the demeanor of companions seems to be more hateful. At the conclusion of every week spent in Hades, any nonoutsider must succeed on a Will saving throw (DC 10 + the number 
+_of consecutive weeks in Hades). {Color~Red,Failure:} has fallen entirely under the control of the plane, becoming a petitioner of Hades.<br>
+_[Tab]Travelers entrapped by the inherent evil of Hades cannot leave the plane of their own volition and have no desire to do so. Memories of any previous life fade into 
+_nothingness, and it takes a <i>wish</i> or <i>miracle</i> spell to return such characters to normal.<br>
+_<br><u>Standard Characteristics</u>: {Generate~0,Outer Plane,Outer_Plane}[Tab]{Generate~0,Normal Gravity,Gravity_Normal}[Tab]{Generate~0,Normal Time,Time_Normal}[Tab]{Generate~0,Finite,ShapeSize_Finite}[Tab]{Generate~0,Alterable Morphic,Morphic_Alterable}[Tab]{Generate~0,Normal Magic,Magic_Normal}<br>
+#####################################################################################################################
+# Lawful
+34,[Lawful_Random_Plane]
+#####################################################################################################################
+# Limbo
+35,<u><b>EVER-CHANGING CHAOS OF LIMBO</u> (Air, Chaotic, Earth, Fire, Water):</b><br>
+_Plane of pure chaos. Untended sections appear as a roiling soup of the four basic elements and all their combinations. Balls of fire, pockets of air, chunks of earth, and waves of water
+_ battle for ascendancy until they in turn are overcome by yet another chaotic surge.<br>
+_[Tab]-Drifting through the miasma: bits of forest, meadow, ruined castles, and small islands.<br><br>
+_<b><u>Limbo Terrain</b></u><br>
+_<b>Raw Limbo:</b> Vast majority of the plane.<br>
+_Drawing Encounter map: Scatter irregular areas of fire, water, earth, and high winds across the grid (40'x40' + 15' gap between areas).<br>
+_Vary widely from this guidelines.<br>
+_[Tab]<u>Air-dominant</u>: tornadoes.<br>
+_[Tab]<u>Earth-dominant</u>: simply earth.<br>
+_[Tab]<u>Fire-dominant</u>: 3d10 fire damage/round ([~ENC URE Hazards.3d10]) and setting characters on fire.<br>
+_[Tab]<u>Water-dominant</u>: Free-floating blobs of water.<br>
+_[Tab]<u>Movement of areas</u>: Every round (Initiative 0), the areas of raw Limbo shift. For each area, roll 1d8 ([~ENC URE Hazards.1d8]) (for the direction the area will shift, 1= toward top of map 
+_and 2-8 counting clockwise in 45-degree increments. Then, shift the entire area 1d4 ([~ENC URE Hazards.1d4]) squares in that direction.<br>
+_[Tab]<u>Overlaping Fire and Water areas</u>: Cancel each other out within the area of the overlap.<br>
+_[Tab]<u>Overlaping Air and Earth areas</u>: Cancel each other out within the area of the overlap.<br>
+_<b>Stable Areas:</b> Most of Limbo’s living inhabitants remain in the stable areas free of the plane’s shifting elements. Often these stable areas are chunks 
+_of earth and stone up to a half-mile across. Occasionally a lake of stable water, or a massive, roiling firestorm will appear.
+_<br><br><b><u>Planar traits</u>:</b><br>
+_[Gravity_Subjective]
+_[Morphic_Highly]
+_{CR~}<b>Sporadic Element-dominant:</b> The elemental dominance can change without warning.<br>
+_[Tab]Current Elemental Dominance: [~Limbo_ElemDom]<br>
+_Choose dominance: {Generate~0,Air Dominant,Air_Dominant}[Tab]{Generate~0,Earth Dominant,Earth_Dominant}[Tab]{Generate~0,Fire Dominant,Fire_Dominant}[Tab]{Generate~0,Water Dominant,Water_Dominant}<br>
+_{CR~}<b>Strongly-Aligned, Chaos:</b> Affects Lawful
+_[Aligned_Strongly]
+_[Tab]-Does not apply within the walls of githzerai monasteries (but it does apply in githzerai cities).<br>
+_|Limbo=1|[Magic_Wild]|Limbo=0|
+_[Tab]-Exceptions: Spells/spell-like function normally within permanent structures or on permanently stabilized landscapes.<br>
+_[Tab][Tab]Any spell/spell-like used in an untended area, or an area temporarily controlled, has a chance to go awry.<br>
+_<br><u>Standard Characteristics</u>: {Generate~0,Outer Plane,Outer_Plane}[Tab]{Generate~0,Normal Time,Time_Normal}[Tab]{Generate~0,Infinite,ShapeSize_Infinite}<br>
+#####################################################################################################################
+# Mechanus
+36,<b><u>CLOCKWORK NIRVANA OF MECHANUS</u> (Lawful)</b><br>
+_<b>Layers:</b> one.<br>
+_Mechanus is the plane where perfectly regimented order reigns supreme. It consists of equal measures of light and dark, and equal proportions of heat and cold. On Mechanus, 
+_all law is reflected in a single infinite realm of immense clockwork gears, all interlocked, all turning according to their own measure. The cogs seem to be engaged in a 
+_calculation so vast that no deity knows its purpose, except that it is somehow a function of law.<br>
+_[Tab]At first glance, the nature of Mechanus seems straightforward. However, subtleties lurk just below the surface. Every kind of law can be found in the Clockwork Nirvana 
+_of Mechanus, from simple maxims to devilishly twisted rules of decorum.<br>
+_<br><b><u>Planar traits</u>:</b><br>
+_[Gravity_Objective]
+_[Tab]-The direction of “down” is oriented to the face of each rotating cog. Walking between cogs can be dizzying for newcomers—and dangerous if a traveler falls between the cogs.<br>
+_[Morphic_Divinely]
+_[Tab]-Lesser deities and greater.<br>
+_{CR~}<b>Strongly-Aligned, Lawful:</b> Affects ALL non-lawful.
+_[Aligned_Strongly]
+_<br><u>Standard Characteristics</u>: {Generate~0,Outer Plane,Outer_Plane}[Tab]{Generate~0,Normal Time,Time_Normal}[Tab]{Generate~0,Finite,ShapeSize_Finite}[Tab]{Generate~0,Alterable Morphic,Morphic_Alterable}[Tab]{Generate~0,Normal Magic,Magic_Normal}[Tab]<br>
+#####################################################################################################################
+# Negative
+37,<u><b>NEGATIVE ENERGY PLANE</u>:</b><br>
+_To an observer, there’s little to see on the Negative Energy Plane. It is a dark, empty place, an eternal pit where a traveler can fall until the plane itself steals away all light and life.<br>
+_[Tab]The Negative Energy Plane is the most hostile of the Inner Planes, and the most uncaring and intolerant of life. Only creatures immune to its life-draining energies can survive there.<br>
+_[Tab]<u>Random Encounters</u>: Excessively rare.
+_<br><br><b><u>Planar traits</u>:</b><br>
+_[Gravity_Subjective]
+_[Negative_Major_Dominant]
+_[Magic_Enhanced]
+_[Tab]-<u>Enhanced</u>: Negative energy. Also, {Color~Green,+4 DC} class abilities that use negative energy (ex: channel negative energy).<br>
+_[Magic_Impeded]
+_[Tab]-<u>Impeded</u>: Positive energy (including cure spells). {Color~Red,-10 save} to remove negative levels bestowed by an energy drain attack.<br>
+_<br><u>Standard Characteristics</u>: {Generate~0,Inner Plane,Inner_Plane}[Tab]{Generate~0,Normal Time,Time_Normal}[Tab]{Generate~0,Infinite,ShapeSize_Infinite}[Tab]{Generate~0,Alterable Morphic,Morphic_Alterable}<br>
+#####################################################################################################################
+# Neutral
+38,[Neutral_Random_Plane]
+#####################################################################################################################
+# Nine Hells of Baator
+39,[OutputTerrain=19]
+#####################################################################################################################
+# Positive
+40,<u><b>POSITIVE ENERGY PLANE</u>:</b><br>
+_It has no surface and is akin to the Elemental Plane of Air with its wide-open nature. However, every bit of this plane glows brightly with innate power. This power is dangerous to mortal forms, which are not made to handle it.<br>
+_[Tab]Despite the beneficial effects of the plane, it is one of the most hostile of the Inner Planes. An unprotected character on this plane swells with power as positive energy is force-fed into her. Then, her mortal frame unable to contain that power, she immolates as if she were a small planet caught at the edge of a supernova. Visits to the Positive Energy Plane are brief, and even then travelers must be heavily protected.<br>
+_[Tab]<u>Random Encounters</u>: Excessively rare.
+_<br><br><b><u>Planar traits</u>:</b><br>
+_[Gravity_Subjective]
+_[Positive_Major_Dominant]
+_[Magic_Enhanced]
+_[Tab]-<u>Enhanced</u>: Positive energy. Also, {Color~Green,+4 DC} class abilities that use positive energy (ex: channel positive energy).<br>
+_[Magic_Impeded]
+_[Tab]-<u>Impeded</u>: Negative energy (including inflict spells).<br>
+_<br><u>Standard Characteristics</u>: {Generate~0,Inner Plane,Inner_Plane}[Tab]{Generate~0,Normal Time,Time_Normal}[Tab]{Generate~0,Infinite,ShapeSize_Infinite}[Tab]{Generate~0,Alterable Morphic,Morphic_Alterable}<br>
+#####################################################################################################################
+# Outlands
+41,<b><u>CONCORDANT DOMAIN OF THE OUTLANDS</u> (Neutral)</b><br>
+_<b>Layers:</b> None, City of Sigil.<br>
+_The Outlands is unique among the Outer Planes because it borders all other Outer Planes. As a result, it is the common ground for extraplanar creatures. 
+_Beings from infernal and celestial planes, as well as those of law and chaos, can be found here. In addition, deities of true neutrality and those associated with ideals 
+_such as scholarship or nature have their realms here.<br>
+_[Tab]The Outlands is an infinitely large wheel with a great spire rising from its center. Outlanders consider this towering cylindrical plinth as the heart of the 
+_Outer Planes and the axle around which the Great Wheel is centered. This great plinth is clearly visible from anywhere in the plane; it rises above the clouds themselves 
+_and ascends into unreachable heavens. Sigil, the City of Doors, floats at the top of the spire.<br>
+_[Tab]The plane is a broad region of varied terrain, with open prairies, towering mountains, and twisting, shallow rivers. Settlements throughout the area are inhabited 
+_by a variety of refugees and natives of the plane. But they are small flecks against the greater wildness of the Outlands.<br>
+_<br><b><u>Planar traits</u>:</b><br>
+_[Morphic_Divinely]
+_[Tab]-This trait disappears close to the center of the plane, and in that area even deities are affected by the nature of the plane.<br>
+_{CR~}<b>Mildly-Aligned, Neutral:</b> NO effect on anyone. {Generate~0,(Mildly Aligned),Aligned_Mildly}<br>
+_[Magic_Normal][Magic_Impeded][Magic_Limited]
+_<br><u><b>Special</u>:</b> The Outlands has the <i>normal magic</i> trait far from its central spire, but as one approaches the hub of the plane, spells, spell-like 
+_abilities, and even supernatural powers are further and further restricted. Where the surface of the plinth is near vertical, almost no abilities (and few deity-level powers) 
+_function. Far from the spire, magic functions normally. At about 1,100 miles from the base of the spire, the <i>impeded magic</i> trait begins, impeding 9th-level spells unless 
+_the caster succeeds on a DC 35 Spellcraft check. Closer to the base of the spire, spells of lower levels are also impeded in this manner, according to the table below.<br>
+_[Tab]<u>Distance from Spire</u> / {Color~Red,Impeded Spells} / {Color~Orange,Limited Spells} / {Italic~Other Effects}<br>
+_[Tab]> 1,100 miles / --- {Space~4}/ --- {Space~4}/ ---<br>
+_[Tab]1,100 miles {Space~3}/ {Color~Red,9th} {Space~4}/ --- {Space~4}/ ---<br>
+_[Tab]1,000 miles {Space~3}/ {Color~Red,8-9th} / --- {Space~4}/ ---<br>
+_[Tab]900 miles {Space~6}/ {Color~Red,7-9th} / {Color~Orange,9th} {Space~3}/ {Italic~All creatures gain immunity to poison.}<br>
+_[Tab]800 miles {Space~6}/ {Color~Red,6-9th} / {Color~Orange,8-9th} / {Italic~Psionic spell-like abilities don’t function.}<br>
+_[Tab]700 miles {Space~6}/ {Color~Red,5-9th} / {Color~Orange,7-9th} / {Italic~Positive and negative energy can’t be channeled.}<br>
+_[Tab]600 miles {Space~6}/ {Color~Red,4-9th} / {Color~Orange,6-9th} / {Italic~Supernatural abilities don’t function.}<br>
+_[Tab]500 miles {Space~6}/ {Color~Red,3-9th} / {Color~Orange,5-9th} / {Italic~Access to the Astral Plane prohibited.}<br>
+_[Tab]400 miles {Space~6}/ {Color~Red,2-9th} / {Color~Orange,4-9th} / {Italic~Divine powers of demigod rank and lower annulled.}<br>
+_[Tab]300 miles {Space~6}/ {Color~Red,All} {Space~3}/ {Color~Orange,3-9th} / {Italic~Divine powers of lesser deity rank and lower annulled.}<br>
+_[Tab]200 miles {Space~6}/ {Color~Red,All} {Space~3}/ {Color~Orange,2-9th} / {Italic~Divine powers of intermediate deity rank and lower annulled.}<br>
+_[Tab]100 miles {Space~6}/ {Color~Red,All} {Space~3}/ {Color~Orange,All} {Space~3}/ {Italic~All divine powers annulled.}<br>
+_[Tab]The limited magic trait starts to emerge at 900 miles away from the center of the plane, making 9th-level spells and spell-like effects unavailable. 
+_Closer to the center, more and more abilities cannot be used, and finally even deity-level powers are affected. Extraordinary abilities are never affected by this trait.<br>
+_<br><u>Standard Characteristics</u>: {Generate~0,Outer Plane,Outer_Plane}[Tab]{Generate~0,Normal Gravity,Gravity_Normal}[Tab]{Generate~0,Normal Time,Time_Normal}[Tab]{Generate~0,Finite,ShapeSize_Finite}[Tab]{Generate~0,Alterable Morphic,Morphic_Alterable}<br>
+#####################################################################################################################
+# Pandemonium
+42,<u><b>WINDSWEPT DEPTHS OF PANDEMONIUM</u>: (Chaotic)</b><br>
+_<b>Layers:</b> Pandesmos (large caverns and passageways), Cocytus, Phlegethon (both of these have progressively smaller and more rugged caverns), Agathion (isolated caverns with no tunnels linking them).<br><br>
+_Great mass of matter pierced by innumerable tunnels carved by the howling winds of the plane. It is windy, noisy, and dark, having <i>no natural source of light</i>.<br>
+_[Tab]-Wind quickly extinguishes normal fires. Lights that last longer draw the attention of wights driven insane by the constant howling wind. It blows sand and dirt into 
+_eyes, snuffing torches, and carrying away loose items. In some places, the wind howls so fiercely that it lifts creatures off their feet and carries them for miles before 
+_dashing their forms against some dark cliff face.<br>
+_[Tab]-In a few relatively sheltered places, the wind dies down to just a breeze carrying haunting echoes from distant parts of the plane, though these sounds are so 
+_distorted that they sound like cries of torment.<br>
+_[Tab]-Every word, scream, or shout is caught by the wind and flung through all the layers of the plane. Conversation is accomplished by shouting, and even then words are spirited away by the wind before they travel farther than 10'.<br>
+_[Tab]-Cold.
+_<br><br><b><u>Planar traits</u>:</b><br>
+_[Gravity_Objective]
+_[Tab]-In caverns/tunnels, gravity is oriented toward whatever wall a creature is nearest. No normal concept of floor, wall and ceiling — 
+_any surface is a floor if you’re near enough to it. Rare narrow tunnels exactly cancel out gravity, allowing a traveler to shoot through them at incredible speed.<br> 
+_[Tab]-Phlegethon (exception): {Generate~0,Normal Gravity,Gravity_Normal}<br>
+_[Morphic_Divinely]
+_[Tab]-Erythnul/Alphaks.<br>
+_{CR~}<b>Mildly-Aligned, Chaos:</b> Affects Lawful
+_[Aligned_Mildly]
+_<br><u>Standard Characteristics</u>: {Generate~0,Outer Plane,Outer_Plane}[Tab]{Generate~0,Normal Time,Time_Normal}[Tab]{Generate~0,Finite,ShapeSize_Finite}[Tab]{Generate~0,Alterable Morphic,Morphic_Alterable}[Tab]{Generate~0,Normal Magic,Magic_Normal}<br>
+#####################################################################################################################
+# Shadow
+43,<u><b>SHADOW PLANE</u>:</b><br>
+_Dimly lit dimension that is both coterminous to and coexistent with the Material Plane.<br>
+_[Tab]-Overlaps Material Plane. A planar traveler can use the Plane of Shadow to cover great distances quickly.<br>
+_[Tab]-Coterminous to other planes. With the right spell, a character can use the Plane of Shadow to visit other realities.<br>
+_[Tab]-World of black and white; color itself has been bleached from the environment. It is otherwise appears similar to the Material Plane.<br>
+_[Tab]-Despite the lack of light sources, various plants, animals, and humanoids call the Plane of Shadow home.
+_<br><br><b><u>Planar traits</u>:</b><br>
+_[Morphic_Magically]
+_[Tab]NOTE: Parts of the plane continually flow onto other planes. As a result, creating a precise map of the plane is next to impossible, despite the presence of landmarks.<br>
+_{CR~}<b>Mildly-Aligned, Neutral:</b> NO effect on anyone. {Generate~0,(Mildly Aligned),Aligned_Mildly}<br>
+_[Magic_Enhanced]
+_[Tab]-<u>Shadow descriptor</u>: {Color~Green,Maximize Spell} feat <font size=1>{Generate~0,(Explanations),Magic_Enhanced2}.</font><br>
+_[Tab]-<u>Shadow conjuration/evocation spells, Shades</u>: +10 <b>percent</b> as powerful (for example: 30 <b>percent</b> instead of 20 <b>percent</b>).<br>
+_[Tab]-<u>Darkness</u>: NO modifications.<br>
+_[Magic_Impeded]
+_[Tab]-<u>Impeded</u>: Light/Fire spells.<br>
+_[Tab]-<u>Light spells / Light sources</u>: {Color~Red,1/2 range}.<br>
+_<br><u>Standard Characteristics</u>: {Generate~0,Transitive Plane,Transitive_Plane}[Tab]{Generate~0,Normal Gravity,Gravity_Normal}[Tab]{Generate~0,Normal Time,Time_Normal}[Tab]{Generate~0,Infinite,ShapeSize_Infinite}<br>
+#####################################################################################################################
+# Ysgard
+44,<u><b>HEROIC DOMAINS OF YSGARD</u>: (Chaotic, Positive)</b><br>
+_<b>Layers:</b> Ysgard (top layer), Fiery caverns of Muspelheim (Underground), Underground forests of Nidavellir (Forest).<br><br>
+_Ysgard is a plane on an epic scale, with soaring mountains, deep fjords, and dark caverns that hide the secret forges of the dwarves. A biting wind always blows at a hero’s back. From the freezing 
+_water channels to the sacred groves of Alfheim’s elves, Ysgard’s terrain is grand and terrible. It is a place of sharp seasons: Winter is a time of darkness and killing cold, 
+_and a summer day is scorching and clear.<br>
+_[Tab]-Landscape floats atop immense rivers (up to the size of continents) of earth flowing forever through an endless skyscape.<br>
+_[Tab]-Fire rages under each river, but only a reddish glow penetrates to the continent’s top.<br>
+_[Tab]-Occasional collision between rivers, which produces terrible quakes and sometimes spawns new mountain ranges.<br>
+_[Tab]-Home of slain heroes who wage eternal battle on fields of glory. When these warriors fall, they rise again the next morning to continue eternal warfare.<br>
+_[Tab]-Layers: Ysgard (Top), fiery caverns of Muspelheim, underground forests of Nidavellir.
+_<br><br><b><u>Planar traits</u>:</b><br>
+_[Morphic_Divinely]
+_[Tab]-Kord/Bemarris and Olidammara/Talithia.<br>
+_[Positive_Minor_Dominant]
+_[Tab]-Those slain in the never-ending conflicts on Ysgard’s fields of battle rise each morning as if <i>true resurrection</i> had been cast on them, fully healed and ready to fight anew. 
+_Only those who suffer mortal wounds on Ysgard’s battlefields get the <i>true resurrection</i> effect; dead characters brought to Ysgard don’t spontaneously revive.<br>
+_{CR~}<b>Mildly-Aligned, Chaos:</b> Affects Lawful.
+_[Aligned_Mildly]
+_<br><u><b>Special:</b> in some parts of Muspelheim</u>:
+_[Fire_Dominant]
+_<br><u>Standard Characteristics</u>: {Generate~0,Outer Plane,Outer_Plane}[Tab]{Generate~0,Normal Gravity,Gravity_Normal}[Tab]{Generate~0,Normal Time,Time_Normal}[Tab]{Generate~0,Infinite,ShapeSize_Infinite}[Tab]{Generate~0,Normal Magic,Magic_Normal}[Tab]<br>
+
+# ------------------------------------ OUTPUT : PLANES ---------------------------------------
+
+#XX,<b><u>XXX</u> (XX)</b><br>
+#_<b>Layers:</b> Ysgard (top layer), Fiery caverns of Muspelheim (Underground), Underground forests of Nidavellir (Forest).<br>
+#
+# Insert TEXT HERE
+#
+#_<br><b><u>Planar traits</u>:</b><br>
+#_[Material_Plane][Transitive_Plane][Inner_Plane][Outer_Plane][Demiplane]
+
+#_<br><br><b><u>Planar traits</u>:</b><br>
+#_[Outer_Plane]
+#_[Gravity_Normal][Gravity_Heavy][Gravity_Light][Gravity_No][Gravity_Objective][Gravity_Subjective]
+#_[Time_Normal][Time_Timeless][Time_Flowing][Time_Erratic]
+#_[ShapeSize_Finite][ShapeSize_Infinite][ShapeSize_SelfContained]
+#_[Morphic_Alterable][Morphic_Highly][Morphic_Magically][Morphic_Divinely][Morphic_Static][Morphic_Sentient]
+##_[Tab]-Lesser deities and greater.<br>
+##_[Tab]-Kord/Bemarris and Olidammara/Talithia.<br> (Morphic Divilely]
+#_[Air_Dominant][Earth_Dominant][Fire_Dominant][Water_Dominant][Positive_Minor_Dominant][Positive_Major_Dominant][Negative_Minor_Dominant][Negative_Major_Dominant]
+#_{CR~}<b>Mildly-Aligned, Neutral:</b> NO effect on anyone. {Generate~0,(Mildly Aligned),Aligned_Mildly}<br>
+#_{CR~}<b>Mildly-Aligned, Chaos:</b> Affects Lawful
+#_[Aligned_Mildly]
+#_{CR~}<b>Strongly-Aligned, Chaos:</b> Affects ALL non-chaotic.
+#_[Aligned_Strongly]
+#_[Magic_Normal][Magic_Wild][Magic_Enhanced][Magic_Impeded][Magic_Limited][Magic_Dead]
+# ===>>> Enhanced Magic: Metamagic feat ... see SHADOW PLANE.
+#_[Tab]-<u>Enhanced</u>: <br>
+#_[Tab]-<u>Impeded</u>: <br>
+
+#_<br><u><b>Special:</b> in some parts of Muspelheim</u>:
+#_[Fire_Dominant]
+
+##_<br><u>Standard Characteristics</u>: {Generate~0,Outer Plane,Outer_Plane}[Tab]{Generate~0,Normal Gravity,Gravity_Normal}[Tab]{Generate~0,Normal Time,Time_Normal}[Tab]{Generate~0,Finite,ShapeSize_Finite}[Tab]{Generate~0,Alterable Morphic,Morphic_Alterable}[Tab]{Generate~0,Normal Magic,Magic_Normal}[Tab]<br>
+#_<br><u>Standard Characteristics</u>: {Generate~0,Material Plane,Material_Plane}[Tab]{Generate~0,Transitive Plane,Transitive_Plane}[Tab]{Generate~0,Inner Plane,Inner_Plane}[Tab]{Generate~0,Outer Plane,Outer_Plane}[Tab]{Generate~0,Demiplane,Demiplane}
+#_{Generate~0,Normal Gravity,Gravity_Normal}[Tab]{Generate~0,Normal Time,Time_Normal}[Tab]
+#_{Generate~0,Finite,ShapeSize_Finite}[Tab]{Generate~0,Infinite,ShapeSize_Infinite}[Tab]{Generate~0,Self-Contained,ShapeSize_SelfContained}[Tab]
+#_{Generate~0,Alterable Morphic,Morphic_Alterable}[Tab]{Generate~0,Normal Magic,Magic_Normal}[Tab]
+#_<br>
+
+#_[Tab]NOTE: XXX<br>
+
+#_{Generate~0,,}[Tab]
+
+:Material_Plane
+1,{CR~}<b>Material Plane:</b> Earthlike, operates under the same set of natural laws that our own real world does. This is the default plane for most adventures.
+_<br>
+
+:Transitive_Plane
+1,{CR~}<b>Transitive Planes:</b> Each is used to get from one place to another.<br>
+_[Tab]Astral: a conduit to all other planes.<br>
+_[Tab]Ethereal/Shadow: serve as means of transportation within the Material Plane they’re connected to. These planes have the strongest regular interaction with the Material Plane and are often accessed by using various spells. They have native inhabitants as well.
+_<br>
+
+:Inner_Plane
+1,{CR~}<b>Inner Planes:</b> Manifestations of the basic building blocks of the universe. Each is made up of a single type of energy or element that overwhelms all others. The natives of a particular Inner Plane are made of the same energy or element as the plane itself.
+_<br>
+
+:Outer_Plane
+1,{CR~}<b>Outer Planes:</b> The deities, celestials, demons,and devils live there. Each has an alignment, representing a particular moral or ethical outlook, and the natives of each plane tend to behave in agreement with that plane’s alignment.<br>
+_[Tab] They are also the final resting place of souls from the Material Plane, whether that final rest takes the form of calm introspection or eternal damnation.
+_<br>
+
+:Demiplane
+1,{CR~}<b>Demiplanes:</b> All extradimensional spaces that function like planes but have measurable size and limited access. Other kinds of planes are theoretically infinite in size, but a demiplane might be only a few hundred feet across.
+_<br>
+
+# Physical Traits: Gravity
+
+:Gravity_Normal
+1,{CR~}<b>Normal Gravity:</b> Similar to that of the Material Plane.
+_<br>
+
+:Gravity_Heavy
+1,{CR~}<b>Heavy Gravity:</b> {Color~Red,-2} Acrobatics (Balance, Jump, Tumble), Climb, Ride, Tumble, ATTACK ROLLS. {Color~Red,x2} item weights. {Color~Red,1/2} weapon ranges.<br>
+_[Tab]Falling: {Color~Red,1d10 damage/10' (max 20d10)}.
+_<br>
+
+:Gravity_Light
+1,{CR~}<b>Light Gravity:</b> {Color~Green,+2} Acrobatics (Balance, Tumble), Ride, ATTACK ROLLS. {Color~Green,1/2} item weights. {Color~Green,x2} weapon ranges.<br>
+_[Tab]<i>These advantages apply to travelers from other planes as well as natives.</i>
+_[Tab]Falling: {Color~Green,1d4 damage/10' (max 20d4)}.
+_<br>
+
+:Gravity_No
+1,{CR~}<b>No Gravity:</b> Float in space, unless other resources are available to provide a direction for gravity’s pull.
+_<br>
+
+:Gravity_Objective
+1,{CR~}<b>Objective Directional Gravity:</b> Same as on the Material Plane, but the direction is not the traditional “down” toward the ground. It may be down toward any solid object, at an angle to the surface of the plane itself, or even upward.<br>
+_[Tab]In addition, objective directional gravity may change from place to place. The direction of “down” may vary.
+_<br>
+
+:Gravity_Subjective
+1,{CR~}<b>Subjective Directional Gravity:</b>Same as on the Material Plane, but each individual chooses the direction of gravity’s pull.<br>
+_[Tab]NO gravity for unattended objects and nonsentient creatures.<br>
+_[Tab]Can be very disorienting to the newcomer, but is common on “weightless” planes.<br>
+_[Tab]PCs can move normally along a solid surface by imagining “down” near their feet. If suspended in midair, a character “flies” by merely choosing a “down” direction and “falling” that way. Under such a procedure, an individual “falls” 150 feet in the first round and 300 feet in each succeeding round. Movement is straight-line only. In order to stop, one has to slow one’s movement by changing the designated “down” direction (again, moving 150' in the new direction in the first round and 300'/round thereafter).<br>
+_[Tab][Tab]Wisdom DC16 (FREE, 1/round) to set a new direction of gravity. {Color~Red,Failure:} {Color~Green,+6} bonus on subsequent checks until success.
+_<br>
+
+# Physical Traits: Time
+
+:Time_Normal
+1,{CR~}<b>Normal Time:</b> As on the Material Plane. 1 hour on the plane = 1 hour on the Material Plane.
+_<br>
+
+:Time_Timeless
+1,{CR~}<b>Timeless:</b> Time still passes, but the effects of time are diminished. Special effects from plane to plane for hunger, thirst, aging, the effects of poison, and healing.<br>
+_[Tab]When leaving such a plane for one where time flows normally, conditions such as hunger and aging do occur retroactively.
+_<br>
+
+:Time_Flowing
+1,{CR~}<b>Flowing Time:</b> Faster or slower. For a traveler and the items, spells, and effects working on him, that year away was entirely real.
+_<br>
+
+:Time_Erratic
+1,{CR~}<b>Erratic Time:</b> Time that slows down and speeds up, so an individual may lose or gain time as he moves between the two planes.<br>
+_[Tab]To the denizens of such a plane, time flows naturally and the shift is unnoticed.<br>
+_[Tab][~Time_Erratic2]
+_<br>
+
+;Time_Erratic2
+10,1 day <i>on Material Plane</i> = 1 round <i>on Erratic Time Plane</i>.
+30,1 day <i>on Material Plane</i> = 1 hour <i>on Erratic Time Plane</i>.
+20,1 day <i>on Material Plane</i> = 1 day <i>on Erratic Time Plane</i>.
+30,1 hour <i>on Material Plane</i> = 1 day <i>on Erratic Time Plane</i>.
+10,1 round <i>on Material Plane</i> = 1 day <i>on Erratic Time Plane</i>.
+
+# Physical Traits: Shape and Size
+
+:ShapeSize_Finite
+1,{CR~}<b>Finite Shape:</b> Defined edges or borders. These borders may adjoin other planes or hard, finite borders such as the edge of the world or a great wall. Demiplanes are often finite.
+_<br>
+
+:ShapeSize_Infinite
+1,{CR~}<b>Infinite:</b> They go on forever, though they may have finite components within them. Or they may consist of ongoing expanses in two directions, like a map that stretches out infinitely.
+_<br>
+
+:ShapeSize_SelfContained
+1,{CR~}<b>Self-Contained Shape:</b> The borders wrap in on themselves, depositing the traveler on the other side of the map. A spherical plane is an example of a self-contained, finite plane, but there can be cubes, toruses, and flat planes with magical edges that teleport the traveler to an opposite edge when he crosses them.
+_<br>
+
+# Physical Traits: Morphic
+
+:Morphic_Alterable
+1,{CR~}<b>Alterable Morphic:</b> Objects remain where they are (and what they are) unless affected by physical force or magic. You can change the immediate environment as a result of tangible effort.
+_<br>
+
+:Morphic_Highly
+1,{CR~}<b>Highly Morphic:</b> Features of the plane change so frequently that it’s difficult to keep a particular area stable. Such planes may react dramatically to specific spells, sentient thought, or the force of will. Others change for no reason.
+_<br>
+
+:Morphic_Magically
+1,{CR~}<b>Magically Morphic:</b> Specific spells can alter the basic material of this plane.
+_<br>
+
+:Morphic_Divinely
+1,{CR~}<b>Divinely Morphic:</b> Specific unique beings (deities or similar great powers) have the ability to alter objects, creatures, and the landscape on planes with this trait. Ordinary characters find these planes similar to alterable planes in that they may be affected by spells and physical effort. But the deities may cause these areas to change instantly and dramatically, creating great kingdoms for themselves.
+_<br>
+
+:Morphic_Static
+1,{CR~}<b>Static:</b> Unchanging. Visitors cannot affect living residents of the plane, nor objects that the denizens possess. Any spells that would affect those on the plane have no effect unless the plane’s static trait is somehow removed or suppressed. Spells cast before entering a plane with the static trait remain in effect, however.<br>
+_[Tab]Even moving an unattended object within a static plane requires a DC 16 Strength check. Particularly heavy objects may be impossible to move.
+_<br>
+
+:Morphic_Sentient
+1,{CR~}<b>Sentient:</b> It responds to a single thought— that of the plane itself. Travelers would find the plane’s landscape changing as a result of what the plane thought of the travelers, either becoming more or less hospitable depending on its reaction
+_<br>
+
+# Elemental and Energy Traits
+
+:Air_Dominant
+1,{CR~}<b>Air-Dominant:</b> Mostly open space, they have just a few bits of floating stone or other elements.<br>
+_[Tab]Usually a breathable atmosphere, though such a plane may include clouds of acidic or toxic gas.<br>
+_[Tab]<u>Earth subtype</u>: uncomfortable, because they have little or no natural earth to connect with. They take no actual damage, however.
+_<br>
+
+:Cold_Dominant
+1,{CR~}<b>Cold-Dominant:</b> Bitterly cold.<br>
+_[Tab]3d10 ([~ENC URE Hazards.3d10]) cold dmg/round they’re away from shelter of some kind.<br>
+_[Tab]<u>Fire subtype</u>: Extremely uncomfortable. Those that are made of ice take {Color~Red,double} damage each round.
+_<br>
+
+:Earth_Dominant
+1,{CR~}<b>Earth-Dominant:</b> Mostly solid. Travelers run the risk of suffocation if they don’t reach a cavern or other pocket within the earth.<br>
+_[Tab]<u>Non-burrowing creatures</u>:  Entombed, must dig their way out (5'/10 minutes).<br>
+_[Tab]<u>Air subtype</u>: uncomfortable, because these planes are tight and claustrophobic to them. But they suffer no inconvenience beyond having difficulty moving.
+_<br>
+
+:Fire_Dominant
+1,{CR~}<b>Fire-Dominant:</b> Composed of flames that continually burn without consuming their fuel source. Extremely hostile to Material Plane creatures, and those without resistance or immunity to fire are soon immolated.<br>
+_[Tab]<u>Unprotected wood, paper, cloth, and other flammable materials</u>: catch fire almost immediately, and those wearing unprotected flammable clothing catch on fire.<br>
+_[Tab]3d10 ([~ENC URE Hazards.3d10]) fire dmg/round.<br>
+_[Tab]<u>Water subtype</u>: Extremely uncomfortable. Those that are made of water take {Color~Red,double} damage each round.
+_<br>
+
+:Water_Dominant
+1,{CR~}<b>Water-Dominant:</b> Mostly liquid. Visitors who can’t breathe water or reach a pocket of air will likely drown.<br>
+_[Tab]<u>Fire subtype</u>: Extremely uncomfortable. Those made of fire take 1d10 dmg/round.
+_<br>
+
+:Positive_Minor_Dominant
+1,{CR~}<b>Positive-Dominant, Minor:</b> Abundance of life. A riotous explosion of life in all its forms. Colors are brighter, fires are hotter, noises are louder, and sensations are more intense as a result of the positive energy swirling through the plane.<br>
+_[Tab]<u>Everyone</u>: Fast healing 2 (Ex).
+_<br>
+
+:Positive_Major_Dominant
+1,{CR~}<b>Positive-Dominant, Major:</b> Abundance of life. A riotous explosion of life in all its forms. Colors are brighter, fires are hotter, noises are louder, and sensations are more intense as a result of the positive energy swirling through the plane.<br>
+_[Tab]<u>Everyone</u>: Fast healing <b>5</b> (Ex).<br>
+_[Tab][Tab]Fort DC15 or blinded 10 rounds by the brilliance of the surroundings.<br>
+_[Tab][Tab]<u>Those at full hp</u>: +5 temporary hp/round (they fade 1d20 ([~ENC URE Hazards.1d20]) rounds after the creature leaves the major positive-dominant plane).<br>
+_[Tab][Tab][Tab]Fortitide DC20 each round that its temporary hit points exceed its normal hit point total (total 2x hp). {Color~Red,Failure:} it explodes in a riot of energy, killing it.
+_<br>
+
+:Negative_Minor_Dominant
+1,{CR~}<b>Negative-Dominant, Minor:</b> Vast, empty reaches that suck the life out of travelers who cross them. They tend to be lonely, haunted planes, drained of color and filled with winds bearing the soft moans of those who died within them.<br>
+_[Tab]<u>Living creatures</u>: 1d6 dmg/round. At 0 hp, they crumble into ash.
+_[Tab]<i>Death ward</i> protects from the damage and energy drain of a negative-dominant plane.
+_<br>
+
+:Negative_Major_Dominant
+1,{CR~}<b>Negative-Dominant, Major:</b> Vast, empty reaches that suck the life out of travelers who cross them. They tend to be lonely, haunted planes, drained of color and filled with winds bearing the soft moans of those who died within them.<br>
+_[Tab]<u>Living creatures</u>: Each round, Fortitude DC25 or gain a negative level. If negative levels = levels/HD, it is slain, becoming a wraith.<br>
+_[Tab]<i>Death ward</i> protects from the damage and energy drain of a negative-dominant plane.
+_<br>
+
+# Alignment Traits
+
+:Aligned_Mildly
+1,{CR~}<b>Mildly Aligned:</b> Creatures who have an alignment opposite take a {Color~Red,–2 circumstance penalty} on all Charisma-based checks.<br>
+_[Tab]The penalties for the moral and ethical components of the alignment trait do stack.<br>
+_[Tab]<u>Neutral Aligned</u>: NO circumstance penalty to anyone.
+_<br>
+
+:Aligned_Strongly
+1,{CR~}<b>Strongly Aligned:</b> Creatures NOT of the plane's alignment take a {Color~Red,–2 circumstance penalty} on all Charisma-, Intelligence-, and Wisdom-based checks.<br>
+_[Tab]The penalties for the moral and ethical components of the alignment trait do stack (Law vs Chaos, Good vs Evil).<br>
+_[Tab]<u>Neutral Aligned</u>: As above for any non-neutral creature.
+_<br>
+
+# Magic Traits
+
+:Magic_Normal
+1,{CR~}<b>Normal Magic:</b> All spells and SU abilities function as written.
+_<br>
+
+:Magic_Wild
+1,{CR~}<b>Wild Magic:</b> Spells and SP abilities function in radically different and sometimes dangerous ways.<br>
+_{If~%Limbo%=1?[Magic_Wild1=2]/[Magic_Wild1=1]}
+_[Tab]<u>Wild Magic Effect</u>: [~Magic_Wild2]
+_<br>
+
+:Magic_Wild1
+# Normal
+1,[Tab]Caster level check (DC 15+spel level). {Color~Red,Failure:} spell goes awry.<br>
+# Limbo
+2,[Tab](Limbo) Caster level check (DC <b>20</b>+spel level). {Color~Red,Failure:} spell goes awry.<br>
+
+;Magic_Wild2
+1,[Magic_Wild3]
+99,[Wild Surges.GenerateAlt]
+
+;Magic_Wild3
+19,Spell rebounds on caster with normal effect. If the spell cannot affect the caster, it simply fails.
+4,A circular pit 15' wide opens under the caster’s feet; it is 10' deep/level of the caster.
+4,The spell fails, but the target or targets of the spell are pelted with a rain of small objects (anything from flowers to rotten fruit), which disappear upon striking. The barrage continues for 1 round. During this time the targets are blinded and must make Concentration checks (DC 15 + spell level) to cast spells. 
+4,The spell affects a random target or area. Randomly choose a different target from among those in range of the spell or center the spell at a random place within range of the spell. To generate direction randomly, roll 1d8 ([~ENC URE Hazards.1d8]) and count clockwise around the compass, starting with south. To generate range randomly, roll 3d6 ([~ENC URE Hazards.3d6]). Multiply the result by 5 feet for close range spells, 20 feet for medium range spells, or 80 feet for long range spells. 
+4,The spell functions normally, but any material components are not consumed. The spell is not expended from the caster’s mind (a spell slot or prepared spell can be used again). An item does not lose charges, and the effect does not count against an item’s or spell-like ability’s use limit. 
+4,The spell does not function. Instead, everyone (friend or foe) within 30' of the caster receives the effect of a <i>heal</i> spell. 
+4,The spell does not function. Instead, a <i>deeper darkness</i> and a <i>silence</i> effect cover a 30-foot radius around the caster for 2d4 ([~ENC URE Hazards.2d4]) rounds.
+4,The spell does not function. Instead, a <i>reverse gravity</i> effect covers a 30-foot radius around the caster for 1 round. 
+4,The spell functions, but shimmering colors swirl around the caster for 1d4 ([~ENC URE Hazards.1d4]) rounds. Treat this a <i>glitterdust</i> effect with a save DC of 10 + the level of the spell that generated this result. 
+8,Nothing happens. The spell does not function. Any material components are used up. The spell or spell slot is used up, and charges or uses from an item are used up. 
+12,Nothing happens. The spell does not function. Any material components are not consumed. The spell is not expended from the caster’s mind (a spell slot or prepared spell can be used again). An item does not lose charges, and the effect does not count against an item’s or spell-like ability’s use limit. 
+27,The spell functions normally. 
+2,The spell functions strongly. Saving throws against the spell incur a {Color~Green,–2 penalty}. The spell has the maximum possible effect, as if it were cast with the Maximize Spell feat. If the spell is already maximized with the feat, there is no further effect. 
+
+:Magic_Impeded
+1,{CR~}<b>Impeded Magic:</b> Some spells/SP are more difficult to cast on planes with this trait, often because the nature of the plane interferes with the spell.<br>
+_[Tab]<u>Casting an impeded spell</u>: Spellcraft (DC20 + spell level). {Color~Red,Failure:} spell does not function but is still lost as a prepared spell or spell slot. {Color~Green,Success:} spell functions normally.
+_<br>
+
+:Magic_Enhanced
+1,{CR~}<b>Enhanced Magic:</b> Some spells/SP are easier to use or more powerful in effect on planes with this trait than they are on the Material Plane.<br>
+_[Tab]<u>Natives</u>: aware of which spells/SP are enhanced, but planar travelers may have to discover this on their own.<br>
+_[Tab]<u>Effect</u>: {Color~Green,+2 caster level} or {Color~Green,Metamagic} <font size=1>{Generate~0,(Explanations),Magic_Enhanced2}.</font>
+_<br>
+
+:Magic_Enhanced2
+1,(can be applied to it without changing the spell slot required or the casting time. Spellcasters on the plane are considered to have that feat(s). Spellcasters native to the plane must gain the feat(s) normally if they want to use them on other planes as well).
+
+:Magic_Limited
+1,{CR~}<b>Limited Magic:</b> Only spells/SP that meet particular qualifications, as certain schools or subschools, certain descriptors, or certain level (or any combination of these qualities). Spells/SP that don’t meet the qualifications simply don’t work.
+_<br>
+
+:Magic_Dead
+1,{CR~}<b>Dead Magic:</b> No magic at all. As an <i>antimagic field</i> spell. Divination spells cannot detect subjects within a dead magic plane, nor can a spellcaster use <i>teleport</i> or another spell to move in or out. The only exception to the “no magic” rule is permanent planar portals, which still function normally.
+_<br>
+
+# ------------------------------------ Special ---------------------------------------
+
+;Limbo_ElemDom
+6,None
+1,Air
+1,Earth
+1,Fire
+1,Water
+
+
+# ------------------------------------ OUTPUT : TERRAIN ---------------------------------------
+
+:OutputTerrain_Bog_Shallow
+1,{If~%TerrainNeeded%=Desert?[OutputTerrain_FirmGround1]
+_/{If~%TerrainNeeded%=Forest?[OutputTerrain_Bog_Shallow2]
+_/{If~%TerrainNeeded%=Hill?[OutputTerrain_Bog_Shallow2]
+_/{If~%TerrainNeeded%=Mountain?[OutputTerrain_Bog_Shallow2]
+_/[OutputTerrain_FirmGround1]
+_}}}}
+
+:OutputTerrain_Bog_Shallow2
+1,|Bog_Shallow-10|Shallow Bog
+
+:OutputTerrain_FirmGround
+1,{Loop~5,[OutputTerrain_FirmGround1][Tab]}<br>{Generate~0,Firm ground (special) ------------------------,OutputTerrain_FirmGround}
+
+;OutputTerrain_FirmGround1
+25,[OutputTerrain_FirmGround2]
+75,---
+
+;OutputTerrain_FirmGround2
+10,{If~%Bog_Shallow%>0?[OutputTerrain_Bog_Shallow]/[OutputTerrain_FirmGround1]}
+10,{If~%FallenLog%>0?|FallenLog-1|Fallen Log/[OutputTerrain_FirmGround1]}
+10,{If~%IceSheet%>0?|IceSheet-1|Ice Sheet/[OutputTerrain_FirmGround1]}
+10,{If~%Quicksand%>0?|Quicksand-1|Quicksand ([~Quicksand_Size])/[OutputTerrain_FirmGround1]}
+10,{If~%Sinkhole%>0?|Sinkhole-1|Sinkhole ([~Sinkhole_Type])/[OutputTerrain_FirmGround1]}
+
+:OutputTerrain_Desert_Tundra
+1,[Tab]<b><u>TUNDRA</u>: (Cold)</b>[Tab]<u>Ice Sheet</u>: 25&#37;[Tab]<u>Rubble, Light</u>: 5&#37;[Tab]<u>Undergrowth, Light</u>: 15&#37;[Tab]<u>Normal ground</u>: 55&#37.<br>
+_[Tab][Tab]Easy to find water (snow and ice). <u>During height of summer</u>: Permafrost thaws to a depth of about 1' => vast field of mud (see Shallow Bog, but there’s little standing water).<br>
+_{If~{Dice~1d100}<=40?[Tab][Tab]Note: Add some trees, mostly lonely but may be clustered in small stands.|Tree=1|<br>}
+
+:OutputTerrain_Desert_Rocky
+1,[Tab]<b><u>ROCKY</u>: (often Temperate)</b>[Tab]<u>Rubble, Dense</u>: 30&#37;[Tab]<u>Rubble, Light</u>: 30&#37;[Tab]<u>Undergrowth, Light</u>: 5&#37;[Tab]<u>Normal ground</u>: 35&#37;<br>
+_{If~{Dice~1d100}<=30?[Tab][Tab]Note: Add towers and mesas consisting of flat ground surrounded on all sides by cliffs and steep slopes.|Slope=1|<br>}
+
+:OutputTerrain_Desert_Sandy
+1,[Tab]<b><u>SANDY</u>: (often Warm)</b>[Tab]<u>Rubble, Dense</u>: 5&#37;[Tab]<u>Rubble, Light</u>: 10&#37;[Tab]<u>Sand Dunes</u>: 50&#37;[Tab]<u>Undergrowth, Light</u>: 5&#37;[Tab]<u>Normal ground</u>: 30&#37;<br>
+
+# Forest and Hill
+:OutputTerrain_Forest_Hill
+1,<br><u>Click to generate special terrain features for 5 standard 5' squares of</u> :<br>
+_{Generate~0,Firm ground (special),OutputTerrain_FirmGround}<br>
+_{Generate~0,Undergrowth (special),OutputTerrain_Undergrowth}<br>
+
+:OutputTerrain_Moor
+1,{Loop~5,[OutputTerrain_Moor1][Tab]}<br>{Generate~0,Moor ----------------------------------------,OutputTerrain_Moor}
+
+;OutputTerrain_Moor1
+40,Shallow
+10,Deep
+5,{If~%Quicksand%>0?|Quicksand-1|Quicksand ([~Quicksand_Size])/[OutputTerrain_Moor1]}
+
+:OutputTerrain_Mountain
+1,<br><u>Click to generate special terrain features for 5 standard 5' squares of</u> :<br>
+_{Generate~0,Firm ground (special),OutputTerrain_FirmGround}<br>
+_{If~{Or~%Undergrowth_Patch_Heavy%>0,%Undergrowth_Patch_Light%>0}=1?{Generate~0,Undergrowth (special),OutputTerrain_Undergrowth}<br>}
+
+:OutputTerrain_Swamp
+1,{Loop~5,[OutputTerrain_Swamp1][Tab]}<br>{Generate~0,Swamp --------------------------------------,OutputTerrain_Swamp}
+
+;OutputTerrain_Swamp1
+40,Shallow
+20,Deep
+6,{If~%Quicksand%>0?|Quicksand-1|Quicksand ([~Quicksand_Size])/[OutputTerrain_Swamp1]}
+
+:OutputTerrain_Undergrowth
+1,{Loop~5,[OutputTerrain_Undergrowth1][Tab]}<br>{Generate~0,Undergrowth (special) -----------------------,OutputTerrain_Undergrowth}
+
+;OutputTerrain_Undergrowth1
+10,[OutputTerrain_Undergrowth2]
+90,---
+
+;OutputTerrain_Undergrowth2
+10,{If~%Quicksand%>0?|Quicksand-1|Quicksand ([~Quicksand_Size])/[OutputTerrain_Undergrowth1]}
+10,{If~%FallenLog%>0?|FallenLog-1|Fallen Log/[OutputTerrain_Undergrowth1]}
+10,{If~%Sinkhole%>0?|Sinkhole-1|Sinkhole ([~Sinkhole_Type])/[OutputTerrain_Undergrowth1]}
+
+# ------------------------------- OUTPUT : TERRAIN : Special Features -----------------------------------
+
+# _{If~%XXX%>0?{If~{Length~%Special%}<2?|Special=XXX (x%XXX%)|/|Special&!XXX (x%XXX%)|}}
+
+# ---Add variable---
+:OutputSpecial
+1,
+_{If~%Bog_Shallow%>=10?{If~{Length~%Special%}<2?|Temp=%Bog_Shallow%||Temp\10||Special=Shallow Bog (x%Temp%)|/|Temp=%Bog_Shallow%||Temp\10||Special&!Shallow Bog (x%Temp%)|}}
+_{If~%Boulder%>0?{If~{Length~%Special%}<2?|Special=Boulder (x%Boulder%{If~{And~%TerrainNeeded%=Desert,%ClimateNeeded%=Random Climate}=1? - {Color~Orange,NOT in Sandy Desert}})|/|Special&!Boulder (x%Boulder%{If~{And~%TerrainNeeded%=Desert,%ClimateNeeded%=Random Climate}=1? - {Color~Orange,NOT in Sandy Desert}})|}}
+_{If~%CaveEntrance%>0?{If~{Length~%Special%}<2?|Special=Cave Entrance ([Cave_Special])|/|Special&!Cave Entrance ([Cave_Special]|}}
+_{If~%DryStreambed%>0?{If~{Length~%Special%}<2?|Special=Dry Streambed ({If~%TerrainNeeded%=Plain?[~1d4x5]/[~1d2x5]} wide)|/|Special&!Dry Streambed ({If~%TerrainNeeded%=Plain?[~1d4x5]/[~1d2x5]} wide)|}}
+_{If~%FallenLog%>0?{If~{Length~%Special%}<2?|Special=Fallen Log (x%FallenLog%)|/|Special&!Fallen Log (x%FallenLog%)|}}
+_{If~%Fence_Stone%>0?{If~{Length~%Special%}<2?|Special=Fence -Stone (x%Fence_Stone%)|/|Special&!Fence -Stone (x%Fence_Stone%)|}}
+_{If~%Fence_Wooden%>0?{If~{Length~%Special%}<2?|Special=Fence -Wooden (x%Fence_Wooden%)|/|Special&!Fence -Wooden (x%Fence_Wooden%)|}}
+_{If~%ForestCanopy%!=0?{If~{Length~%Special%}<2?|Special=Forest canopy|/|Special&!Forest canopy|}}
+_{If~%Hedgerow%>0?{If~{Length~%Special%}<2?|Special=Hedgerow (x%Hedgerow%; [~Hedgerow_Gen])|/|Special&!Hedgerow (x%Hedgerow%; [~Hedgerow_Gen])|}}
+_{If~%IceSheet%>0?{If~{Length~%Special%}<2?|Special=IceSheet (x%IceSheet%: around [IceSheet_Size]{If~{And~%TerrainNeeded%=Desert,%ClimateNeeded%=Random Climate}=1? - {Color~Orange,ONLY in Toundra}})|/|Special&!IceSheet (x%IceSheet%: around [IceSheet_Size]{If~{And~%TerrainNeeded%=Desert,%ClimateNeeded%=Random Climate}=1? - {Color~Orange,ONLY in Toundra}})|}}
+_{If~%Path%>0?{If~{Length~%Special%}<2?|Special=Path (x%Path%{If~{And~%TerrainNeeded%=Desert,%ClimateNeeded%=Random Climate}=1? - {Color~Orange,NOT in Sandy Desert}})|/|Special&!Path (x%Path%{If~{And~%TerrainNeeded%=Desert,%ClimateNeeded%=Random Climate}=1? - {Color~Orange,NOT in Sandy Desert}})|}}
+_{If~%Pond%>0?{If~{Length~%Special%}<2?|Special=Pond (x%Pond%{If~{And~%TerrainNeeded%=Desert,%ClimateNeeded%=Random Climate}=1? - {Color~Orange,NOT in Sandy Desert}})|/|Special&!Pond (x%Pond%{If~{And~%TerrainNeeded%=Desert,%ClimateNeeded%=Random Climate}=1? - {Color~Orange,NOT in Sandy Desert}})|}}
+_{If~%Quicksand%>0?{If~{Length~%Special%}<2?|Special=Quicksand (x%Quicksand%{If~{And~%TerrainNeeded%=Desert,%ClimateNeeded%=Random Climate}=1? - {Color~Orange,ONLY in Sandy Desert}})|/|Special&!Quicksand (x%Quicksand%{If~{And~%TerrainNeeded%=Desert,%ClimateNeeded%=Random Climate}=1? - {Color~Orange,ONLY in Sandy Desert}})|}}
+_{If~%RockWall%>0?{If~{Length~%Special%}<2?|Special=RockWall|/|Special&!RockWall|}}
+_{If~%Sandstorm%>0?{If~{Length~%Special%}<2?|Special=Sandstorm{If~{And~%TerrainNeeded%=Desert,%ClimateNeeded%=Random Climate}=1? - {Color~Orange,NOT in Toundra}}|/|Special&!Sandstorm{If~{And~%TerrainNeeded%=Desert,%ClimateNeeded%=Random Climate}=1? - {Color~Orange,NOT in Toundra}}|}}
+_{If~%Siege_Engine%>0?{If~{Length~%Special%}<2?|Special=Siege Engine (x%Siege_Engine%; [~Siege_Engine_Gen]{If~%TerrainNeeded%=Plain? - {Color~Orange,ONLY on Battlefields}})|/|Special&!Siege Engine (x%Siege_Engine%; [~Siege_Engine_Gen]{If~%TerrainNeeded%=Plain? - {Color~Orange,ONLY on Battlefields}})|}}
+_{If~%Sinkhole%>0?{If~{Length~%Special%}<2?|Special=Sinkhole (x%Sinkhole%)|/|Special&!Sinkhole (x%Sinkhole%)|}}
+_{If~%Stream%!=0?{If~{Length~%Special%}<2?|Special=Stream ([~Stream]{If~{And~%TerrainNeeded%=Desert,%ClimateNeeded%=Random Climate}=1? - {Color~Orange,NOT in Sandy Desert}})|/|Special&!Stream ([~Stream]{If~{And~%TerrainNeeded%=Desert,%ClimateNeeded%=Random Climate}=1? - {Color~Orange,NOT in Sandy Desert}})|}}
+_{If~%TreeMtn%>0?{If~{Length~%Special%}<2?|Special=Tree|/|Special&!Tree|}}
+_{If~%Tree_Massive%>0?{If~{Length~%Special%}<2?|Special=Massive Tree (x%Tree_Massive%)|/|Special&!Massive Tree (x%Tree_Massive%)|}}
+_{If~%Undergrowth_Patch_Heavy%>0?{If~{Length~%Special%}<2?|Special=Undergrowth Patch - Heavy (x%Undergrowth_Patch_Heavy%: around [Undergrowth_Patch_SpecialH])|/|Special&!Undergrowth Patch - Heavy (x%Undergrowth_Patch_Heavy%: around [Undergrowth_Patch_SpecialH])|}}
+_{If~%Undergrowth_Patch_Light%>0?{If~{Length~%Special%}<2?|Special=Undergrowth Patch - Light (x%Undergrowth_Patch_Light%: around [Undergrowth_Patch_SpecialL])|/|Special&!Undergrowth Patch - Light (x%Undergrowth_Patch_Light%: around [Undergrowth_Patch_SpecialL])|}}
+_{If~%Valley%>0?{If~{Length~%Special%}<2?|Special=Valley ([~Valley_Special])|/|Special&!Valley ([~Valley_Special])|}}
+_|Special={OrderAsc~"!",%Special%}||Special={Replace~!,! ,%Special%}||Special={CommaReplace~1,!,%Special%}|
+_[Tab]<b><u>{Color~Red,Special}</u>:</b> %Special%<br> 
+#_{IIf~%Quicksand%=1? [Tab][Tab]<b><u>Quicksand</u></b> There is a quicksand patch hidden in {If~{Dice~1d2}=1?the undergrowth/a bog}.<br>}
+
+;Slope_Alpine
+50,Gradual
+40,Steep|CavePoss=1|
+10,Cliff|CavePoss=1|
+
+;Slope_Gentle
+75,Gradual
+20,Steep|CavePoss=1|
+5,Cliff|CavePoss=1|
+
+;Slope_Rugged
+40,Gradual
+50,Steep|CavePoss=1|
+10,Cliff|CavePoss=1|
+
+;Slope_RuggedMtn
+25,Gradual
+55,Steep|CavePoss=1|
+15,Cliff|CavePoss=1|
+5,Chasm : <b>{Dice~2d4*10}'</b> deep, minium 20' long, <b>{Dice~1d4*5}'</b> wide
+
+;Slope_Forbidding
+15,Gradual
+55,Steep|CavePoss=1|
+20,Cliff|CavePoss=1|
+10,Chasm : <b>{Dice~2d8*10}'</b> deep, minium 20' long, <b>{Dice~1d4*5}'</b> wide
+
+;Special_Desert
+10,{If~%ClimateNeeded%!=Warm?|Boulder+1|/[Special_Desert]}
+10,{If~{Or~%ClimateNeeded%=Cold,%ClimateNeeded%=Arctic}=1?|IceSheet+1||Special2=1|/{If~%ClimateNeeded%=RandomClimate?|IceSheet+1||Special2=1|/[Special_Desert]}}
+10,{If~%ClimateNeeded%!=Warm?{If~%Path%<2?|Path+1|/[Special_Desert]}/[Special_Desert]}
+5,{If~%ClimateNeeded%!=Warm?|Pond+1|/[Special_Desert]}
+10,{If~{Or~%ClimateNeeded%=Warm,%ClimateNeeded%=Random Climate}=1?|Quicksand+1||Special2=1|/[Special_Desert]}
+5,{If~{And~%ClimateNeeded%!=Cold,%ClimateNeeded%!=Arctic}=1?{If~%Sandstorm%=0?|Sandstorm=1|/[Special_Desert]}/[Special_Desert]}
+10,|Sinkhole+1||Special2=1|
+10,{If~%ClimateNeeded%!=Warm?{If~{And~%Stream%=0,%DryStreambed%=0}=1?|Stream+1|/[Special_Desert]}/[Special_Desert]}
+30,{If~{And~%Stream%=0,%DryStreambed%=0}=1?|DryStreambed+1|/[Special_Desert]}
+1,{If~%Valley%=0?|Valley=1|/[Special_Desert]}
+
+;Special_Forest
+10,|Bog_Shallow+10||Special2=1|
+10,|Boulder+1|
+30,|FallenLog+1||Special2=1|
+10,{If~%ForestCanopy%=0?|ForestCanopy=1|/[Special_Forest]}
+10,{If~%Path%<2?|Path+1|/[Special_Forest]}
+10,|Pond+1|
+1,|Quicksand+1||Special2=1|
+10,|Sinkhole+1||Special2=1|
+10,{If~{And~%Stream%=0,%DryStreambed%=0}=1?|Stream+1|/[Special_Mountain]}
+1,{If~{And~%Stream%=0,%DryStreambed%=0}=1?|DryStreambed+1|/[Special_Mountain]}
+
+;Special_Hill
+1,|Bog_Shallow+10||Special2=1|
+10,|Boulder+1|
+10,{If~%CavePoss%>0?|CaveEntrance+1|/[Special_Hill]}
+10,{If~%Path%<2?|Path+1|/[Special_Hill]}
+1,|Quicksand+1||Special2=1|
+10,|Sinkhole+1||Special2=1|
+2,|Tree_Massive+1||Special2=1|
+1,{If~%Valley%=0?|Valley=1|/[Special_Hill]}
+
+;Special_Marsh
+2,|Boulder+1|
+2,|FallenLog+1||Special2=1|
+10,|Hedgerow+1|
+10,{If~%Path%<2?|Path+1|/[Special_Marsh]}
+10,|Quicksand+1|
+
+;Special_Mountain
+1,|Bog_Shallow+10||Special2=1|
+10,|Boulder+1|
+10,{If~%CavePoss%>0?|CaveEntrance+1|/[Special_Mountain]}
+10,|IceSheet+1||Special2=1|
+5,{If~%Path%<2?|Path+1|/[Special_Mountain]}
+10,{If~%RockWall%<1?|RockWall+1||CavePoss=1|/{If~{Dice~1d10}=1?|RockWall+1|/[Special_Mountain]}}
+10,|Sinkhole+1||Special2=1|
+10,{If~{And~%Stream%=0,%DryStreambed%=0}=1?|Stream+1|/[Special_Mountain]}
+10,{If~{And~%Stream%=0,%DryStreambed%=0}=1?|DryStreambed+1|/[Special_Mountain]}
+1,{If~%TreeMtn%=0?|TreeMtn=1|/[Special_Mountain]}
+1,|Undergrowth_Patch_Heavy+1|
+9,|Undergrowth_Patch_Light+1|
+1,{If~%Valley%=0?|Valley=1|/[Special_Mountain]}
+
+;Special_Plain
+10,|Bog_Shallow+10||Special2=1|
+5,|Boulder+1|
+2,|FallenLog+1||Special2=1|
+10,|Fence_Stone+1|
+20,|Fence_Wooden+1|
+10,|Hedgerow+1|
+10,{If~{Or~%ClimateNeeded%=Cold,%ClimateNeeded%=Arctic}=1?|IceSheet+1||Special2=1|/[Special_Plain]}
+10,{If~%Path%<2?|Path+1|/[Special_Plain]}
+10,|Pond+1|
+10,|Siege_Engine+1|
+10,|Sinkhole+1||Special2=1|
+10,{If~{And~%Stream%=0,%DryStreambed%=0}=1?|Stream+1|/[Special_Plain]}
+10,{If~{And~%Stream%=0,%DryStreambed%=0}=1?|DryStreambed+1|/[Special_Plain]}
+5,|Tree_Massive+1||Special2=1|
+1,{If~%Valley%=0?|Valley=1|/[Special_Plain]}
+
+# ---Add variable---
+:ShowSpecialRules
+1,<hr>
+_{If~%Bog_Shallow%>=10?[Bog_Shallow]<br>}
+_{If~%Boulder%>=10?[Boulder]<br>}
+_{If~%CaveEntrance%>0?[CaveEntrance]<br>}
+_{If~%DryStreambed%>0?[DryStreambed]<br>}
+_{If~%FallenLog%!=0?[FallenLog]<br>}
+_{If~%Fence_Stone%!=0?[Fence_Stone]<br>}
+_{If~%Fence_Wooden%!=0?[Fence_Wooden]<br>}
+_{If~%ForestCanopy%!=0?[ForestCanopy]<br>}
+_{If~%Hedgerow%>0?[Hedgerow]<br>}
+_{If~%IceSheet%>0?[IceSheet]<br>}
+_{If~%Path%>0?[Path]<br>}
+_{If~%Pond%>0?[Pond]<br>}
+_{If~%Quicksand%>0?[Quicksand]<br>}
+_{If~%RockWall%>0?[RockWall]<br>}
+_{If~%Sandstorm%>0?[Sandstorm]<br>}
+_{If~%Siege_Engine%>0?[Siege_Engine]<br>}
+_{If~%Sinkhole%>0?[Sinkhole]<br>}
+#_{If~%Stream%!=0?[Stream]<br>}
+_{If~%TreeMtn%>0?[Tree]<br>}
+_{If~%Tree_Massive%>0?[Tree_Massive]<br>}
+_{If~{Or~%Undergrowth_Patch_Heavy%>0,%Undergrowth_Patch_Light%>0}=1?[Undergrowth_Patch]<br>}
+_{If~%Valley%>0?[Valley]<br>}
+
+# ---------------------------------- TERRAIN FEATURES DESCRIPTIONS --------------------------------------
+
+# ---Add variable---
+:ShowTerrainRules
+1,<hr>
+_{If~%Aquatic%>0?[Aquatic]<br>}
+_{If~%Berm%>0?[Berm]<br>}
+_{If~%Bog_Deep%>0?[Bog_Deep]<br>}
+_{If~%Bog_Shallow%>0?[Bog_Shallow]<br>}
+_{If~%Chasm%>0?[Chasm]<br>}
+_{If~%IceSheetRule%>0?[IceSheet]<br>}
+_{If~%Rubble_Dense%>0?[Rubble_Dense]<br>}
+_{If~%Rubble_Light%>0?[Rubble_Light]<br>}
+_{If~%Sand_Dunes%>0?[Sand_Dunes]<br>}
+_{If~%Scree%>0?[Scree]<br>}
+_{If~%Slope%>0?[Slope]<br>}
+_{If~%TerrainNeeded%=Mountain?[MountainTravel]<br>}
+_{If~%Tree%>0?[Tree]<br>}
+_{If~%Trench%>0?[Trench]<br>}
+_{If~%Undergrowth_Heavy%>0?[Undergrowth_Heavy]<br>}
+_{If~%Undergrowth_Light%>0?[Undergrowth_Light]<br>}
+# Keep Last
+_{If~%Marsh%>0?[Marsh]<br>}
+
+:Aquatic
+1,<b><u>Underwater Combat</u>:</b> When swimming, walking in chestdeep water, or walking along the bottom.<br>
+_[Tab]<b>Ranged Attacks:</b> NO thrown weapons, even when launched from land.<br>
+_[Tab][Tab]Other ranged weapons: {Color~Red,-2} per 5' (in addition to normal ranged penalties, {Color~Green,except crossbows}).<br>
+_[Tab]<b>Melee Attacks:</b> {Color~Red,-2, 1/2 dmg}* unless Piercing attack (normal dmg when grappling).<br>
+_[Tab]<b>Attacks from Land:</b> Improved Cover ({Color~Green,+8 AC, +4 Reflex}). Unless the attacker has <i>freedom of movement</i>.<br>
+_[Tab][Tab][Tab]Improved Evasion (fail 1/2, save 0). {Color~Green,+10 Hide.}<br>
+_[Tab][Tab]If completely submerged: Total Cover (no attack possible unless <i>freedom of movement</i>).<br>
+_[Tab]<b>Swimming:</b> Swim check*: {Color~Green,Success:} MOVE 1/4 MV; FULL 1/2 MV.<br>
+_[Tab][Tab]{Color~Red,Failure:} No MV, off-balance, lose DEX to AC and opponents have +2 to hit you.<br>
+_[Tab]<b>Magic Attacks:</b> Unaffected, except if an attack roll is required <u>or</u> fire effects.<br>
+_[Tab]<b>Fire, Nonmagical:</b> Does NOT burn underwater (including alchemist's fire).<br>
+_[Tab]<b>Fire, Magical:</b> Spellcraft DC20+spell level (creates steam) or ineffective.<br>
+_[Tab][Tab]The surface of a body of water blocks line of effect, even if the spellcraft succeeds.<br>
+_[Tab]<b>Fire, Supernatural:</b> Ineffective underwater (unless stated).<br>
+_[Tab]<b>Others:</b> {Color~Red,-5} Ride*.<br>
+_[Tab]<b>Firm footing:</b> When walking along the bottom, braced against a ship’s hull, or the like. A creature can only walk along the bottom if it wears or carries enough gear to weigh itself down—at least 16 pounds for Medium creatures, twice that for each size category larger than Medium, and half that for each size category smaller than Medium.<br>
+_[Tab]* Not applicable if Swim speed. No -2 when grappling or using constrict attacks, piercing attacks (including a bite), rake attacks, ram attacks, rend attacks, tail attacks, or tentacle attacks. Slam attacks that represent full-body rams, such as a porpoise’s slam attack, don’t take the penalties. An elemental of the water subtype can use any of its natural attacks without penalty while underwater.<br>
+
+:Berm
+1,<b><u>Berm</u>:</b> Common defensive structure. Low, earthen wall that slows movement and provides a measure of cover.<br>
+_[Tab]<b>Map:</b> Draw 2 adjacent rows of steep slope, with the edges of the berm on the downhill side. A PC crossing a two-square berm will travel uphill for 1 square, then downhill for 1 square.<br>
+_[Tab]<b>Cover:</b> As low wall, 2-3' high; cover for anyone standing behind them. <u>Larger berms</u>: cover for anyone standing 1 square downhill from the top of the berm.<br>
+_[Tab]<b>Steep Slope:</b> <u>Uphill</u>: 1/2 MV. <u>Running/charging downhill</u>: Balance (or Ride) DC10 upon entering the first steep slope square. {Color~Red,Failure:} stumble and must end MV 1d2×5' feet later. {Color~Red,Failure by 5+:} fall prone in the square where they end their movement. +2DC Tumble.<br> 
+
+:Bog_Deep
+1,<b><u>Bog, Deep</u>:</b> roughly 4' of standing water.  NO Tumble. +2 DC Move Silently.<br>
+_[Tab]<b>Medium or larger:</b> x4 MV or must swim; gain cover (+4 AC; +2 Reflex); can crouch (MOVE action) to gain improved cover.<br>
+_[Tab]<b>Small or smaller:</b> must swim; gain improved cover.<br>
+_[Tab]<b>Improved Cover:</b> +8 AC, +4 Reflex. -10 to attack creatures that aren’t underwater.<br>
+_[Tab]<b>Hide:</b> Plentiful of concealment, easy to hide.<br>
+_[Tab]<b>Note:</b> Deep bog squares are usually clustered together and surrounded by an irregular ring of shallow bog squares.<br>
+
+:Bog_Shallow
+1,<b><u>Bog, Shallow</u>:</b> deep mud or standing water, about 1' in depth. x2 MV, +2 DC Tumble / Move Silently.<br>
+
+:Boulder
+1,<b><u>Boulder</u>:</b> Takes on 5' square. Provides cover.<br>
+
+:CaveEntrance
+1,<b><u>Cave Entrance</u>:</b> Found in cliff and steep slope squares and next to rock walls, cave entrances are typically between 5-20' ([~1d4x5]) wide and 5' deep.<br>
+_Beyond the entrance, a cave could be anything from a simple chamber to the entrance to an elaborate dungeon. Caves used as monster lairs typically have 1d3 ([~1d3]) rooms that are 1d4×10' ([~1d4x10]) across.<br>
+
+:Cave_Special
+1,x%CaveEntrance%: |Temp2=%CaveEntrance%|{Loop~%Temp2%,|Temp2-1|[~Cave_Size]{If~%Temp2%>0?, }}
+
+:Cave_Size
+60,simple chamber ([1d4x5] wide, 5' deep)
+# Add the type of monster found in the cave  #####################################################  XXX
+#49,monster lair ([Find_Monster]; entrance = [1d4x5] wide, |Temp={Dice~1d3}|%Temp% room{If~%Temp%>1?s} : {While~%Temp%,|Temp=1|Room %Temp%=[1d4x10] wide{If~%Temp%>0?, }})
+49,monster lair (entrance = [1d4x5] wide, |Temp={Dice~1d3}|%Temp% room{If~%Temp%>1?s} : {While~%Temp%,|Temp=1|Room %Temp%=[1d4x10] wide{If~%Temp%>0?, }})
+1,dungeon entrance ([1d4x5] wide)
+
+:Chasm
+1,<b><u>Chasm</u>:</b> Usually formed by natural geological processes, chasms function like pits.<br>
+_[Tab]Chasms aren’t hidden, won’t fall into them by accident.<br>
+_[Tab]<b>Size:</b> 2d4×10' deep ([~2d4x10]) <u>or</u> 2d8x10' deep ([~2d8x10]) in Forbidding mountains, at least 20' long, and anywhere from 5' to 20' wide ([~1d4x5]).<br>
+_[Tab]<b>Climb:</b> DC15.<br>
+
+:DryStreambed
+1,<b><u>Dry Streambed</u>:</b> Treat as trenches (5-10' wide). Creatures outside a trench have +1 melee attack bonus vs creatures inside the trench.<br>
+_{If~%TerrainNeeded%=Desert?[Tab]{Bold~Desert:} They fill with water on the rare occasions when rain falls.<br>}
+_[Tab]<b>Cover:</b> As low wall, 2-3' high along edges; cover vs attackers within 30' on the other side (NONE vs adjacent foes), as long as target is closer to the low wall than the attacker is.<br>
+_[Tab]<b>Movement:</b> 10' of MV to leave a trench (0 to enter).<br>
+
+:FallenLog
+1,<b><u>Fallen Log</u>:</b> generally stand about 3' high.<br>
+_[Tab]<b>Movement:</b> 5' of MV to cross them. <u>Mounted Characters</u> Ride DC15 to jump over (NO 5' MV cost); {Color~Red,Failure:} Mount jumps but rider falls off mount.<br>
+_[Tab]<b>Cover:</b> As low wall, 2-3' high along edges; cover vs attackers within 30' on the other side, as long as target is closer to the low wall than the attacker is.<br>
+
+:Fence_Stone
+1,<b><u>Fences, Stonen</u>:</b> Generally used to contain livestock or impede oncoming soldiers.<br>
+_[Tab]<b>Movement:</b> 5' of MV to cross them. <u>Mounted Characters</u> Ride DC15 to jump over (NO 5' MV cost); {Color~Red,Failure:} Mount jumps but rider falls off mount.<br>
+_[Tab]<b>Cover:</b> As low wall, 2-3' high along edges; cover vs attackers within 30' on the other side (NONE vs adjacent foes), as long as target is closer to the low wall than the attacker is.<br>
+
+:Fence_Wooden
+1,<b><u>Fences, Wooden</u>:</b> Generally used to contain livestock or impede oncoming soldiers.<br>
+_[Tab]<b>Movement:</b> 5' of MV to cross them. <u>Mounted Characters</u> Ride DC15 to jump over (NO 5' MV cost); {Color~Red,Failure:} Mount jumps but rider falls off mount.<br>
+
+# NOT IMPLEMENTED YET
+#;Find_Monster
+#70,|Temp=%CRNeeded%||Temp-{Dice~1d6}|[ENC Ultimate Random Encounter.MonsterNameOnly(%Temp%,%Temp%,,,%ClimateNeeded%,%TerrainNeeded%)]
+#25,|Temp=%CRNeeded%|[ENC Ultimate Random Encounter.MonsterNameOnly(%Temp%,%Temp%,,,%ClimateNeeded%,%TerrainNeeded%)]
+#5,|Temp=%CRNeeded%||Temp+{Dice~1d3}|[ENC Ultimate Random Encounter.MonsterNameOnly(%Temp%,%Temp%,,,%ClimateNeeded%,%TerrainNeeded%)]
+
+:Flood
+1,<b><u>Flood</u>:</b> In many wilderness areas, river floods are a common occurrence.<br>
+_[Tab]In spring, an enormous snowmelt can engorge the streams and rivers it feeds. Other catastrophic events such as massive rainstorms or the destruction of a dam can create floods as well.<br>
+_[Tab]During a flood, rivers become wider, deeper, and swifter. Assume that a river rises by {Bold~{Dice~1d10+10}'} during the spring flood, and its width increases by a factor of {Bold~{Dice~1d4*50}&#37;}. Fords may disappear for days, bridges may be swept away, and even ferries might not be able to manage the crossing of a flooded river.<br>
+_[Tab]A river in flood makes Swim checks one category harder (calm water becomes rough, and rough water becomes stormy). Rivers also become 50&#37; swifter.
+
+:ForestCanopy
+1,<b><u>Forest Canopy</u>:</b> Some forest dwellers live on raised platforms far above the surface floor. These wooden platforms generally have rope bridges between them.<br> 
+_[Tab]<b>Getting to the treehouse:</b> Ascend trees’ branches (Climb DC 15), use rope ladders (Climb DC 0), or take pulley elevators.<br>
+_[Tab][Tab]<i>Pulley Elevators:</i> Rises X feet / FULL-round action (X=STR check).<br>
+_[Tab]<b>On platforms or branches:</b> Cover when fighting creatures on the ground. <b>Medium/Dense =</b> concealment 20&#37 as well.<br>
+
+:Hedgerow
+1,<b><u>Hedgerows, Narrow</u>:</b> tangles of stones, soil, and thorny bushes. Functions as low wall.<br>
+_[Tab]<b>Movement:</b> 15' of MV to cross them.<br>
+_[Tab]<b>Cover:</b> As low wall, 2-3' high along edges; cover vs attackers within 30' on the other side, as long as target is closer to the low wall than the attacker is.<br>
+_<b><u>Hedgerows, Wide</u>:</b> >5' tall, take up entire squares.<br>
+_[Tab]<b>Movement:</b> 20' of MV to cross them. Only 10' if Climb DC10.<br>
+_[Tab]<b>Cover:</b> Total cover: NO attack if you don’t have line of effect to your target.<br>
+
+:Hedgerow_Gen
+1,|Temp=%Hedgerow%|{Loop~%Hedgerow%,|Temp-1|[~Hedgerow_Size]{If~%Temp%>0?, }}
+
+;Hedgerow_Size
+2,narrow
+1,wide
+
+:IceSheet
+1,<b><u>Ice Sheet</u>:</b> The ground is covered with slippery ice.<br>
+_{If~%TerrainNeeded%=Mountain?[Tab]{Bold~Mountain:} Particularly high-altitude areas tend to be colder than the lowland areas that surround them, so they may be covered in ice sheet.<br>}
+_[Tab]<b>Effect:</b> 1/2 MV, +5 DC Balance/Tumble. Balance DC10 to run/charge across an ice sheet.<br>
+
+:IceSheet_Size
+1,|Temp2=%IceSheet%|{Loop~%Temp2%,|Temp2-1|[~Undergrowth_Patch_Special2]{If~%Temp2%>0?, }}
+
+:Marsh
+1,{Generate~0,Click to generate Aquatic terrain,Marsh2}<br>
+_{Generate~0,Click to generate Underwater Combat,Marsh3}
+
+:Marsh2
+1,<hr>[OutputTerrain=2]
+
+:Marsh3
+1,<hr>[Aquatic]
+
+:MountainTravel
+1,<b><u>Mountain Travel</u>:</b> High altitude / extreme cold / lack of oxygen.<br>
+_[Tab]<b>Acclimated Characters:</b> Any creature with "Mountain" as an Environment <u>or</u> others living at high altitude for a month (lose it if > 2 months away from the mountains). Undead, constructs, and other creatures that do not breathe are immune to altitude effects.<br>
+_[Tab]<b>Altitude Zones:</b><br>
+_[Tab][Tab]<b>Low Pass (< 5,000'):</b> Most travel in low mountains takes place in low passes, a zone consisting largely of alpine meadows and forests. No Altitude effect.<br>
+_[Tab][Tab]<b>Low Peak or High Pass (5,000 to 15,000'):</b> Ascending to the highest slopes of low mountains, or most normal travel through high mountains.<br>
+_[Tab][Tab][Tab]<u>Nonacclimated creatures</u>: Fortitude each hour (DC 15, +1 per previous check) or be fatigued. The fatigue ends when the character descends to an altitude with more air.<br>
+_[Tab][Tab]<b>High Peak (> 15,000'):</b> The highest mountains exceed 20,000' in height.<br>
+_[Tab][Tab][Tab]<u>Everyone</u>: Fortitude each hour (DC 15, +1 per previous check) or be fatigued. The fatigue ends when the character descends to an altitude with more air.<br>
+_[Tab][Tab][Tab]<u>Everyone: Altitude Sickness</u>: (Long-term oxygen deprivation) After each 6-hour period at an altitude > 15,000' = Fortitude (DC 15, +1 per previous check) or take 1 point of damage to all ability scores.<br>
+_[Tab][Tab][Tab][Tab]Acclimated creatures: +4 Fortitude save.<br>
+
+:Path
+1,<b><u>Paths</u>:</b> 
+_{If~%TerrainNeeded%=Desert? Pathways wind through some deserts (except sandy ), allowing normal movement and providing neither cover nor concealment. Even unexplored deserts will have occasional game trails.}
+_{If~%TerrainNeeded%=Forest? Pathways wind through most forests, allowing normal movement and providing neither cover nor concealment. These paths are less common in dense forests, but even unexplored forests will have occasional game trails.}
+_{If~%TerrainNeeded%=Hill? Paths wind through many hills, allowing normal movement and providing neither cover nor concealment.}
+_{If~%TerrainNeeded%=Marsh? Paths lead across many marshes, winding to avoid bog areas. As in forests, paths allow normal movement and don’t provide the concealment that undergrowth does.}
+_{If~%TerrainNeeded%=Mountain? Paths wind through some mountains, allowing normal movement and providing neither cover nor concealment.}
+_{If~%TerrainNeeded%=Plain? Pathways allow normal movement and provide neither cover nor concealment. These paths are less common in grasslands.}
+_<br>
+
+:Pond
+1,<b><u>Pond</u>:</b> 10-20' diameter ([~1d3x5plus5]), no more than 5' deep.<br>
+
+;PathType
+7,animal trail
+2,humanoid trail
+1,marked humanoid trail
+
+:Quicksand
+1,<b><u>Quicksand</u>:</b> they present a deceptively solid appearance (appearing as undergrowth or open land).
+_{If~%TerrainNeeded%=Desert? {Bold~Deserts:} Waterless mixture of fine sand and dust.}
+_<br>
+_[Tab]<b>Spotting:</b> Survival DC8. NOT if charging/running = their momentum carries them 1d2×5' ([~1d2x5]) into the quicksand.<br>
+_[Tab]<b>Effects:</b> Swim DC10 each round = MV 0. DC15 = MV 5'. <u>Failure by 5+</u>: sinks and begins to drown whenever he can no longer hold his breath.<br>
+_[Tab]<b>Swim back to the surface:</b> Swim DC 15, +1 per consecutive round of being under the surface.<br>
+_[Tab]<b>Rescue:</b> Need branch, spear haft, rope, or similar tool. Strength DC15 to pull the victim; victim Strength DC10 to hold onto the branch, pole, or rope.<br>
+_[Tab]<u>Victim fails to hold on</u>: Swim DC15 to stay above the surface.<br>
+_[Tab]<u>If both checks succeed</u>: Victim is pulled 5' closer to safety.<br>
+
+;Quicksand_Size
+1,5' diameter
+2,10' diameter
+4,20' diameter
+2,30' diameter
+1,40' diameter
+
+:RockWall
+1,<b><u>Rock Wall</u>:</b> Vertical plane of stone. It's marked on the border between squares rather than taking up squares itself.<br>
+_[Tab]<b>Climb:</b> DC25.<br>
+_[Tab]<b>Size:</b> <i>Rugged:</i> 2d4×10' tall ([~2d4x10])[Tab]<i>Forbidding:</i> 2d8×10' tall ([~2d8x10]).<br>
+
+:Rubble_Dense
+1,<b><u>Rubble, Dense</u>:</b> The ground is covered with rocks of all sizes.<br>
+_[Tab]<b>Movement:</b> 1/2 MV.<br>
+_[Tab]+5 DC Balance/Tumble. +2 DC Move Silently.<br>
+
+:Rubble_Light
+1,<b><u>Rubble, Light</u>:</b> Small rocks strewn across the ground.<br>
+_[Tab] +2 DC Balance/Tumble.<br>
+
+:Sand_Dunes
+1,<b><u>Sand Dunes</u>:</b> Hills that move by the action of the wind. <u>Strong and consistent wind</u>: Moves several hundred feet in a week’s time.<br>
+_[Tab]Always a gentle slope pointing in the direction of the prevailing wind and a steep slope on the leeward side.<br>
+_[Tab]<b>Gradual:</b> Does not affect MV. +1 on melee attacks vs foes downhill from them.<br>
+_[Tab]<b>Steep:</b> <u>Uphill</u>: 1/2 MV. <u>Running/charging downhill</u>: Balance (or Ride) DC10 upon entering the first steep slope square. {Color~Red,Failure:} stumble and must end MV 1d2×5' feet later. {Color~Red,Failure by 5+:} fall prone in the square where they end their movement. +2DC Tumble.<br> 
+
+:Sandstorm
+1,<b><u>Sandstorm</u>:</b> –4 Listen / Search / Spot.<br>
+_[Tab]<u>Damage</u>: 1d3 nonlethal / hour if caught in the open.<br>
+_[Tab]<u>Effects</u>: Leaves a thin coating of sand in its wake. Sand creeps in through all but the most secure seals and seams, to chafe skin and contaminate carried gear.<br>
+
+:Scree
+1,<b><u>Scree</u>:</b> Field of shifting gravel. Can be treacherous on a slope.<br>
+_[Tab]<b>Gradual Slope:</b> +2 DC Balance/Tumble/Move Silently.<br>
+_[Tab]<b>Steep Slope:</b> +5 DC Balance/Tumble, +2 DC Move Silently.<br>
+
+:Siege_Engine
+1,<b><u>Siege Engines</u>:</b> Large weapons, temporary structures, or pieces of equipment traditionally used in besieging a castle or fortress.<br>
+
+:Siege_Engine_Gen
+1,|Temp2=%Siege_Engine%|{Loop~%Temp2%,|Temp2-1|[~Siege_Engine_Gen2]{If~%Temp2%>0?, }}
+
+;Siege_Engine_Gen2
+1,Catapult -heavy
+1,Catapult -light
+1,Ballista
+1,Ram
+1,Siege tower
+
+:Sinkhole
+1,<b><u>Sinkhole</u>:</b> This hole in the ground can either be natural or an animal burrow.<br>
+_[Tab]Balance DC10 or fall prone.<br>
+
+;Sinkhole_Type
+3,animal burrow
+2,animal dugged
+1,humanoid dugged
+1,magical depression
+3,natural depression
+
+:Slope
+1,<b><u>Slope</u>:</b><br>
+_[Tab]<b>Gradual:</b> Does not affect MV. +1 on melee attacks vs foes downhill from them.<br>
+_[Tab]<b>Steep:</b> <u>Uphill</u>: 1/2 MV. <u>Running/charging downhill</u>: Balance (or Ride) DC10 upon entering the first steep slope square. {Color~Red,Failure:} stumble and must end MV 1d2×5' feet later. {Color~Red,Failure by 5+:} fall prone in the square where they end their movement. +2DC Tumble.<br> 
+_[Tab]<b>Cliff:</b> Climb DC15, 1d4×10' tall ([~1d4x10]), or higher depending on location. MAP: Not perfectly vertical, 5-foot squares if < 30', 10-foot squares if 30' or taller.<br>
+_{IIf~%TerrainNeeded%=Mountain?[Slope_CliffMtn]}
+
+:Slope_CliffMtn
+1,[Tab][Tab]<u>Mountain</u>: 2d6×10' tall ([~2d6x10]). Cliffs >80' take up 20' of horizontal space.<br>
+
+:Stream
+1,{If~%TerrainNeeded%=Plain?[Stream_Plain]/[Stream_Other]}
+
+:Stream_Other
+1,[1d2x5] wide and no more than 5' deep
+
+:Stream_Plain
+1,[1d4x5] wide and [1d2x5] deep
+
+:Tree
+1,<b><u>Trees</u>:</b>
+_{If~%TerrainNeeded%=Marsh? Particularly in SWAMPS, less frequent in MOORS.}
+_{If~%TerrainNeeded%=Mountain? More frequent in ALPINE MEADOWS, then RUGGED and last in FORBIDDING.}
+_<br>
+_[Tab]<b>Standing in same square as a tree:</b> +2 AC, +1 Reflex (DON'T stack with other cover bonuses).<br>
+_[Tab]Typical tree: AC 4, hardness 5, 150 hp. Climb DC15.<br>
+_[Tab]<b>Climb:</b> Ascend trees’ branches (Climb DC 15), use rope ladders (Climb DC 0).<br>
+_[Tab]<b>On branches:</b> Cover when fighting creatures on the ground. <b>Medium/Dense =</b> concealment 20&#37 as well.<br>
+_{If~%TerrainNeeded%=Forest?[Tree_Massive]}
+
+:Tree_Massive
+1,<b><u>Trees, Massive</u>:</b> Take entire 5' square.<br>
+_[Tab]<b>Cover:</b> Anyone behind them.<br>
+_[Tab]Massive Tree: AC 3, hardness 5, 600 hp.<br>
+
+:Trench
+1,<b><u>Trench</u>:</b> {If~%TerrainNeeded%=Plain?[Trench_Plain]}<br>
+_[Tab]Creatures outside a trench have +1 melee attack bonus vs creatures inside the trench.<br>
+_[Tab]<b>Cover:</b> As low wall, 2-3' high along edges; cover vs attackers within 30' on the other side (NONE vs adjacent foes), as long as target is closer to the low wall than the attacker is.<br>
+_[Tab]<b>Movement:</b> 10' of MV to leave a trench (0 to enter).<br>
+
+:Trench_Plain
+1,<u>Farms</u>: They are generally irrigation ditches.[Tab]<u>Battlefields</u>: Often dug before a battle to protect soldiers.
+
+:Undergrowth_Heavy
+1,<b><u>Undergrowth, Heavy</u>:</b> 
+_{If~%TerrainNeeded%=Forest?Vines, roots, and short bushes.}
+_{If~%TerrainNeeded%=Hill?Sagebrush and other scrubby bushes, although they rarely cover the landscape as they do in forests and marshes.}
+_{If~%TerrainNeeded%=Marsh?Bushes, rushes, and other tall grasses (NOT in a square with a bog).}
+_{If~%TerrainNeeded%=Mountain?Vines, roots, and short bushes.}
+_{If~%TerrainNeeded%=Plain?Particularly thick bushes form patches in grasslands.}
+_<br>[Tab]x4 MV, 30&#37 concealment, +5 DC Tumble/Move Silently, +5 Hide. NO run / charge.<br>
+_[Tab]<b>Hide:</b> Plentiful of concealment, easy to hide.<br>
+_[Tab]<b>Note:</b> Squares with undergrowth are often clustered together. Undergrowth and trees aren’t mutually exclusive; it’s common for a 5-foot square to have both a tree and undergrowth.<br>
+
+:Undergrowth_Light
+1,<b><u>Undergrowth, Light</u>:</b> 
+_{If~%TerrainNeeded%=Desert?Scrubby, hardy bushes and cacti.}
+_{If~%TerrainNeeded%=Forest?Vines, roots, and short bushes.}
+_{If~%TerrainNeeded%=Marsh?Bushes, rushes, and other tall grasses (NOT in a square with a bog).}
+_{If~%TerrainNeeded%=Mountain?Vines, roots, and short bushes.}
+_{If~%TerrainNeeded%=Plain?Crops or natural vegetation, tall grasses. Farms growing vegetable crops will have less light undergrowth, as will all farms during the time between harvest and a few months after planting.<br>}
+_<br>[Tab]1/2 MV, 20&#37 concealment, +2 DC Tumble/Move Silently.<br>
+_[Tab]<b>Hide:</b> Plentiful concealment, easy to hide.<br>
+_[Tab]<b>Note:</b> Squares with undergrowth are often clustered together. Undergrowth and trees aren’t mutually exclusive; it’s common for a 5-foot square to have both a tree and undergrowth.<br>
+
+:Undergrowth_Patch
+1,<b><u>Undergrowth Patch</u>:</b>
+_{If~%Undergrowth_Patch_Light%>0?<br>[Tab][Undergrowth_Light]}
+_{If~%Undergrowth_Patch_Heavy%>0?<br>[Tab][Undergrowth_Heavy]}
+
+:Undergrowth_Patch_SpecialH
+1,|Temp2=%Undergrowth_Patch_Heavy%|{Loop~%Temp2%,|Temp2-1|[~Undergrowth_Patch_Special2]{If~%Temp2%>0?, }}
+
+:Undergrowth_Patch_SpecialL
+1,|Temp2=%Undergrowth_Patch_Light%|{Loop~%Temp2%,|Temp2-1|[~Undergrowth_Patch_Special2]{If~%Temp2%>0?, }}
+
+;Undergrowth_Patch_Special2
+50,10'x10'
+25,15'x15'
+11,20'x20'
+7,25'x25'
+4,30'x30'
+2,35'x35'
+1,40'x40'
+
+:Valley
+1,<b><u>Valley</u>:</b> If you add a stream or streambed, remember that water always flows downhill.<br>
+_[Tab]<b>Dry streambed:</b> Treat as trenches. Creatures outside a trench have +1 melee attack bonus vs creatures inside the trench.<br>
+_[Tab][Tab]<b>Cover:</b> As low wall, 2-3' high along edges; cover vs attackers within 30' on the other side (NONE vs adjacent foes), as long as target is closer to the low wall than the attacker is.<br>
+_[Tab][Tab]<b>Movement:</b> 10' of MV to leave a trench (0 to enter).<br>
+
+;Valley_Special
+2,---
+1,{If~{%TerrainNeeded%=Desert,%ClimateNeeded%=Warm}=1?---/active stream 5' wide, [1d5] deep}
+1,{If~{%TerrainNeeded%=Desert,%ClimateNeeded%=Warm}=1?---/active stream 10' wide, [1d5] deep}
+1,dry streambed 5' across
+1,dry streambed 10' across

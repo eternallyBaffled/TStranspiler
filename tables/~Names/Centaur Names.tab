@@ -1,0 +1,139 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder Jan 30, 2006.
+# ---------------------------------------------------
+#
+# Centaur Names
+# Based on the Elven Names III table
+# Centaur Male Names & Dieties: Skerrit, Krigala, Obad-hai, Fharlanghn,
+#                               Olidammara,Fanthros, Brilros
+# Female: Ehlonna, Naharra, Linroth
+#
+# Modified by Valminder, Jan 2006.
+#    Renamed "Centaur Names".
+#    Added to "Names Generator.tab".
+#    Adapted for TSv5
+#
+
+%Gender%,3
+
+@Gender,3,Please choose a Gender,Male,Female,Random
+
+:Start
+1,{If~%Gender%=3? |Gender={Dice~1d2}|}[PickGender=%Gender%]
+
+:PickGender
+1,[Male]
+2,[Female]
+
+:Male
+1,{Cap~[Cons]}[Vowel][Cons][Vowel][Cons][More]
+2,{Cap~[Vowel]}[Cons][Vowel][Cons][More]
+3-6,[MalePrefix][Vowel][Suffix][MaleTitle]
+7-10,[MalePrefix][Vowel][Cons][Vowel][Suffix]
+
+:Female
+1,{Cap~[Cons]}[Vowel][Cons][Vowel][Cons][More]
+2,{Cap~[Vowel]}[Cons][Vowel][Cons][More]
+3-6,[FemalePrefix][Vowel][Suffix][FemaleTitle]
+7-10,[FemalePrefix][Vowel][Cons][Vowel][Suffix]
+
+:More
+1,[Vowel][Suffix]
+2-4,[Vowel][Cons]
+5-8,
+
+;Prefix
+1,Bril
+1,Ehl
+1,Nah
+2,Lin
+1,Ae
+2,Neh
+1,Nihm
+1,Thin
+1,Thehl
+1,Sk
+1,Krig
+1,Fharl
+1,Fan
+1,Olih
+
+;MalePrefix
+1,Bril
+1,Ae
+2,Neh
+1,Thin
+1,Thehl
+1,Sk
+1,Krig
+1,Fharl
+1,Fan
+1,Olih
+
+;FemalePrefix
+1,Ehl
+1,Nah
+2,Neh
+1,Lin
+1,Lhin
+1,Linh
+1,Fehl
+1,Oehl
+
+;Cons
+1,ch
+1,g
+1,r
+1,gh
+1,n
+1,gn
+1,th
+1,tr
+1,sh
+1,d
+1,b
+1,f
+
+;Vowel
+2,a
+1,ae
+1,u
+1,e
+1,o
+2,i
+
+;Suffix
+1,ros
+2,rit
+1,ala
+2,ghn
+1,mara
+1,nna
+1,rra
+1,roth
+
+;MaleTitle
+5,
+1, the {Cap~[Character={Dice~1d10}]}
+
+;FemaleTitle
+5,
+1, the {Cap~[Character={Dice~1d6+10}]}
+
+;Character
+1,just
+1,strong
+1,quick
+1,courageous
+1,brave
+1,adventurous
+1,fearless
+1,valiant
+1,heroic
+1,fleet
+1,fast
+1,quick
+1,brave
+1,valiant
+1,fearless
+1,fleet

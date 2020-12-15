@@ -1,0 +1,4008 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder Jun 10, 2018.
+# ---------------------------------------------------
+#
+# Pathfinder Spells
+#
+# Pre-generation Directives
+#
+# -------------------------------------------------------------------------
+#
+# To call this table from another one:
+#    [Pathfinder Spells.%ClassName%{Calc~(%SpellLevel%-X)}(%CharacterLevel%,%WizardOpposed%,%WizardSchoolName%)
+#
+#    CharacterLevel:   99 --- DO NOT MODIFY --- ONLY used with "Pathfinder Random Spells" to generate domains ---
+#    WizardOpposed:    99 --- DO NOT MODIFY --- ONLY used with "NPC Stat Block Pathfinder" via "Pathfinder Random Spells" for specialist wizards ---
+#                         Used with "School" variable.
+#                         School: abj, con, div, enc, evo, ill, nec, uni, tra
+#    WizardSchoolName: 99 --- DO NOT MODIFY --- ONLY used with "NPC Stat Block Pathfinder" via "Pathfinder Random Spells" for specialist wizards ---
+#
+# -------------------------------------------------------------------------
+#
+# This Table Links to these tables as required:
+#    Creatures.SumNatAllPF1
+#    Creatures.SumMonPF1
+#
+# -------------------------------------------------------------------------
+# This table is called by:
+#    Pathfinder Random Spells
+#
+# -------------------------------------------------------------------------
+#
+# Modified by Valminder, Dec 2005.
+#    Since the "Random Spells" table was more complete (it creates bonus
+#       spells based on the prime ability for the spellcaster class),
+#       I removed the spell generation for this table. This is only a
+#       "~Reference" table now. 
+#    Renamed from "AllSpell.tab"
+#    Added: Adept
+#           Assassin
+#           Blackguard
+#    Added: Summon Monster/Nature's Ally monster with LN tag.
+#
+# Modified by Valminder, August 2007.  (TO BE CONTINUED ONE DAY)
+#    Added 'Book' variable. If Book=1, it means you can use this book.
+#    The spells listed are from the Core Rulebook. If you want to add
+#    another book (for example, Book of Infinite Spells), add a variable for
+#    that book (ex: BoIS) and put this variable equal to 1 in the variables below.
+#
+# Modified by Ashon/TheRandomDM, May 2011.
+#    Added Class Lists so that in other tables you can do:
+#    [Spells.Wizard], or [Spells.Wizard=0] if you want specific levels
+#
+# Modified by Valminder, Aug 2015
+#    Added -Sorcerer_WitchX spells (from DMG1)
+# Modified by Valminder, May 2016  =====>>>>>>>>>>>>>>>>>>>> LOOK for ADD_CLASS
+#    Added -Adept_SeerX spells (from Ultimate NPC)
+#    Added -Adept_SmiterX spells (from Ultimate NPC)
+#
+# Modified by Larry Cormier, October 2012 to Reflect the 'Generic' Spell names used
+# in the Pathfinder Core Rules Book.
+#
+# Modified by Larry Cormier, February 16, 2013 to address Pathfinder Clerical
+# Domain Spells
+#
+# Modified by Valminder Jan 2017
+#    Modified Summon Monster/Nature's Ally to be in line with "Creatures.tab"
+#    Added missing spells (Beast Shape, Elemental Body ... )
+#
+# Modified by Valminder May 2018
+#    Added Mystara Sphere domains.
+#
+# Modified by Valminder June 2018
+#    Added subdomains from "PF Advanced Player's Guide" (AdvPG).
+#
+
+%AssDom%,0
+%Book%,0
+%CharacterLevel%,99
+%School%,0
+%SL%,0
+%Spell%,0
+%Temp%,0
+%WizSpSch%,No
+%WizardOpposed%,99
+%WizardSchoolName%,99
+
+@CharacterLevel,99,--- DO NOT MODIFY --- ONLY used with "Pathfinder Random Spells" to generate domains ---
+@WizardOpposed,99,--- DO NOT MODIFY --- ONLY used with "NPC Stat Block Pathfinder" via "Pathfinder Random Spells" for specialist wizards ---
+@WizardSchoolName,99,--- DO NOT MODIFY --- ONLY used with "NPC Stat Block Pathfinder" via "Pathfinder Random Spells" for specialist wizards ---
+
+:Start
+#1,This table is only used when called from another table.
+#
+#:TEST
+1,|Temp=Isolation||CharacterLevel=20|
+_Domain: %Temp%<br>
+_Spells: <i>1- [%Temp%=1], 2- [%Temp%=2], 3- [%Temp%=3], 4- [%Temp%=4], 5- [%Temp%=5], 6- [%Temp%=6], 7- [%Temp%=7], 8- [%Temp%=8], 9- [%Temp%=9]</i><br>
+_Powers:<br>
+_[%Temp%=10]
+
+#-------------------------------------------------------------------------
+#CLASS LISTS
+;Bard
+0,[Bard0]
+1,[Bard1]
+2,[Bard2]
+3,[Bard3]
+4,[Bard4]
+5,[Bard5]
+6,[Bard6]
+
+;Cleric
+0,[Cleric0]
+1,[Cleric1]
+2,[Cleric2]
+3,[Cleric3]
+4,[Cleric4]
+5,[Cleric5]
+6,[Cleric6]
+7,[Cleric7]
+8,[Cleric8]
+9,[Cleric9]
+
+;Druid
+0,[Druid0]
+1,[Druid1]
+2,[Druid2]
+3,[Druid3]
+4,[Druid4]
+5,[Druid5]
+6,[Druid6]
+7,[Druid7]
+8,[Druid8]
+9,[Druid9]
+
+;Paladin
+1,[Paladin1]
+2,[Paladin2]
+3,[Paladin3]
+4,[Paladin4]
+
+;Ranger
+1,[Ranger1]
+2,[Ranger2]
+3,[Ranger3]
+4,[Ranger4]
+
+;Wizard
+0,[Wizard0]
+1,[Wizard1]
+2,[Wizard2]
+3,[Wizard3]
+4,[Wizard4]
+5,[Wizard5]
+6,[Wizard6]
+7,[Wizard7]
+8,[Wizard8]
+9,[Wizard9]
+
+# -------------------------------------------------------------------------
+# --------------------------------------------------------------------------
+
+:Alignment
+1,chaos
+1,evil
+1,good
+1,law
+
+# --------------------------------------------------------------------------
+# --------------------------------------------------------------------------
+# Main Core Class Lists
+
+;!Bard0
+1,dancing lights
+1,daze
+1,detect magic
+1,flare
+1,ghost sound
+1,know direction
+1,light
+1,lullaby
+1,mage hand
+1,mending
+1,message
+1,open/close
+1,prestidigitation
+1,read magic
+1,resistance
+1,summon instrument
+
+;!Bard1
+1,alarm
+1,animate rope
+1,cause fear
+1,charm person
+1,comprehend languages
+1,confusion, lesser
+1,cure light wounds
+1,detect secret doors
+1,disguise self
+1,erase
+1,expeditious retreat
+1,feather fall
+1,grease
+1,hypnotism
+1,identify
+1,magic mouth
+1,magic aura
+1,obscure object
+1,remove fear
+1,silent image
+1,sleep
+1,summon monster I ([~Creatures.SumMonPF1])
+1,hideous laughter
+1,undetectable alignment
+1,unseen servant
+1,ventriloquism
+
+;!Bard2
+1,alter self
+1,animal messenger
+1,animal trance
+1,blindness/deafness
+1,blur
+1,calm emotions
+1,cat's grace
+1,cure moderate wounds
+1,darkness
+1,daze monster
+1,delay poison
+1,detect thoughts
+1,eagle's splendor
+1,enthrall
+1,fox's cunning
+1,glitterdust
+1,heroism
+1,hold person
+1,hypnotic pattern
+1,invisibility
+1,locate object
+1,minor image
+1,mirror image
+1,misdirection
+1,pyrotechnics
+1,rage
+1,scare
+1,shatter
+1,silence
+1,sound burst
+1,suggestion
+1,summon monster II ([~Creatures.SumMonPF2])
+1,summon swarm
+1,tongues
+1,whispering wind
+
+;!Bard3
+1,blink
+1,charm monster
+1,clairaudience/clairvoyance
+1,confusion
+1,crushing despair
+1,cure serious wounds
+1,daylight
+1,deep slumber
+1,dispel magic
+1,displacement
+1,fear
+1,gaseous form
+1,geas, lesser
+1,glibness
+1,good hope
+1,haste
+1,illusory script
+1,invisibility sphere
+1,tiny hut
+1,major image
+1,phantom steed
+1,remove curse
+1,scrying
+1,sculpt sound
+1,secret page
+1,see invisibility
+1,sepia snake sigil
+1,slow
+1,speak with animals
+1,summon monster III ([~Creatures.SumMonPF3])
+
+;!Bard4
+1,break enchantment
+1,cure critical wounds
+1,detect scrying
+1,dimension door
+1,dominate person
+1,freedom of movement
+1,hallucinatory terrain
+1,hold monster
+1,invisisbility, greater
+1,legend lore
+1,secure shelter
+1,locate creature
+1,modify memory
+1,neutralize poison
+1,rainbow pattern
+1,repel vermin
+1,shadow conjuration
+1,shout
+1,speak with plants
+1,summon monster IV ([~Creatures.SumMonPF4])
+1,zone of silence
+
+;!Bard5
+1,cure light wounds, mass
+1,dispel magic, greater
+1,dream
+1,false vision
+1,heroism, greater
+1,mind fog
+1,mirage arcana
+1,mislead
+1,nightmare
+1,persistent image
+1,seeming
+1,shadow evocation
+1,shadow walk
+1,song of discord
+1,suggestion, mass
+1,summon monster V ([~Creatures.SumMonPF5])
+
+;!Bard6
+1,analyze dweomer
+1,animate objects
+1,cat's grace, mass
+1,charm monster, mass
+1,cure moderate wounds, mass
+1,eagle's splendor, mass
+1,eyebite
+1,find the path
+1,fox's cunning, mass
+1,geas/quest
+1,heroes' feast
+1,irresistible dance
+1,permanent image
+1,project image
+1,scrying, greater
+1,shout, greater
+1,summon monster VI ([~Creatures.SumMonPF6])
+1,sympathetic vibration
+1,veil
+
+# --------------------------------------------------------------------------
+;!Cleric0
+1,bleed
+1,create water
+1,detect magic
+1,detect poison
+1,guidance
+1,light
+1,mending
+1,purify food and drink
+1,read magic
+1,resistance
+1,stabilize
+1,virtue
+
+;!Cleric1
+1,bane
+1,bless
+1,bless water
+1,cause fear
+1,command
+1,comprehend languages
+1,cure light wounds
+1,curse water
+1,deathwatch
+1,detect [~Alignment]
+1,detect undead
+1,divine favor
+1,doom
+1,endure elements
+1,entropic shield
+1,hide from undead
+1,inflict light wounds
+1,magic stone
+1,magic weapon
+1,obscuring mist
+1,protection from [~Alignment]
+1,remove fear
+1,sanctuary
+1,shield of faith
+1,summon monster I ([~Creatures.SumMonPF1])
+
+;!Cleric2
+1,aid
+1,align weapon
+1,augury
+1,bear's endurance
+1,bull's strength
+1,calm emotions
+1,consecrate
+1,cure moderate wounds
+1,darkness
+1,death knell
+1,delay poison
+1,desecrate
+1,eagle's splendor
+1,enthrall
+1,find traps
+1,gentle repose
+1,hold person
+1,inflict moderate wounds
+1,make whole
+1,owl's wisdom
+1,remove paralysis
+1,resist energy
+1,restoration, lesser
+1,shatter
+1,shield other
+1,silence
+1,sound burst
+1,spiritual weapon
+1,status
+1,summon monster II ([~Creatures.SumMonPF2])
+1,undetectable alignment
+1,zone of truth
+
+;!Cleric3
+1,animate dead
+1,bestow curse
+1,blindness/deafness
+1,contagion
+1,continual flame
+1,create food and water
+1,cure serious wounds
+1,daylight
+1,deeper darkness
+1,dispel magic
+1,glyph of warding
+1,helping hand
+1,inflict serious wounds
+1,invisibility purge
+1,locate object
+1,magic circle against [~Alignment]
+1,magic vestment
+1,meld into stone
+1,obscure object
+1,prayer
+1,protection from energy
+1,remove blindness/deafness
+1,remove curse
+1,remove disease
+1,searing light
+1,speak with dead
+1,stone shape
+1,summon monster III ([~Creatures.SumMonPF3])
+1,water breathing
+1,water walk
+1,wind wall
+
+;!Cleric4
+1,air walk
+1,chaos hammer
+1,control water
+1,cure critical wounds
+1,death ward
+1,dimensional anchor
+1,discern lies
+1,dismissal
+1,divination
+1,divine power
+1,freedom of movement
+1,giant vermin
+1,holy smite
+1,imbue with spell ability
+1,inflict critical wounds
+1,magic weapon, greater
+1,neutralize poison
+1,order's wrath
+1,planar ally, lesser
+1,poison
+1,repel vermin
+1,restoration
+1,sending
+1,spell immunity
+1,summon monster IV ([~Creatures.SumMonPF4])
+1,tongues
+1,unholy blight
+
+;!Cleric5
+1,atonement
+1,break enchantment
+1,breath of life
+1,command, greater
+1,commune
+1,cure light wounds, mass
+1,dispel chaos/evil/good/law
+1,disrupting weapon
+1,flame strike
+1,hallow
+1,inflict light wounds, mass
+1,insect plague
+1,mark of justice
+1,plane shift
+1,raise dead
+1,righteous might
+1,scrying
+1,slay living
+1,spell resistance
+1,summon monster V ([~Creatures.SumMonPF5])
+1,symbol of pain
+1,symbol of sleep
+1,true seeing
+1,unhallow
+1,wall of stone
+
+;!Cleric6
+1,animate objects
+1,antilife shell
+1,banishment
+1,bear's endurance, mass
+1,blade barrier
+1,bull's strength, mass
+1,create undead
+1,cure moderate wounds, mass
+1,dispel magic, greater
+1,eagle's splendor, mass
+1,find the path
+1,forbiddance
+1,geas/quest
+1,glyph of warding, greater
+1,harm
+1,heal
+1,heroes' feast
+1,inflict moderate wounds, mass
+1,owl's wisdom, mass
+1,planar ally
+1,summon monster VI ([~Creatures.SumMonPF6])
+1,symbol of fear
+1,symbol of persuasion
+1,undeath to death
+1,wind walk
+1,word of recall
+
+;!Cleric7
+1,blasphemy
+1,control weather
+1,cure serious wounds, mass
+1,destruction
+1,dictum
+1,ethereal jaunt
+1,holy word
+1,inflict serious wounds, mass
+1,refuge
+1,regenerate
+1,repulsion
+1,restoration, greater
+1,resurrection
+1,scrying, greater
+1,summon monster VII ([~Creatures.SumMonPF7])
+1,symbol of stunning
+1,symbol of weakness
+1,word of chaos
+
+;!Cleric8
+1,antimagic field
+1,cloak of chaos
+1,create greater undead
+1,cure critical wounds, mass
+1,dimensional lock
+1,discern location
+1,earthquake
+1,fire storm
+1,holy aura
+1,inflict critical wounds, mass
+1,planar ally, greater
+1,shield of law
+1,spell immunity, greater
+1,summon monster VIII ([~Creatures.SumMonPF8])
+1,symbol of death
+1,symbol of insanity
+1,unholy aura
+
+;!Cleric9
+1,astral projection
+1,energy drain
+1,etheralness
+1,gate
+1,heal, mass
+1,implosion
+1,miracle
+1,soul bind
+1,storm of vengeance
+1,summon monster IX ([~Creatures.SumMonPF9])
+1,true resurrection
+
+# --------------------------------------------------------------------------
+;!Druid0
+1,create water
+1,detect magic
+1,detect poison
+1,flare
+1,guidance
+1,know direction
+1,light
+1,mending
+1,purify food and drink
+1,read magic
+1,resistance
+1,stabilize
+1,virtue
+
+;!Druid1
+1,calm animals
+1,charm animal
+1,cure light wounds
+1,detect animals or plants
+1,detect snares and pits
+1,endure elements
+1,entangle
+1,faerie fire
+1,goodberry
+1,hide from animals
+1,jump
+1,longstrider
+1,magic fang
+1,magic stone
+1,obscuring mist
+1,pass without trace
+1,produce flame
+1,shillelagh
+1,speak with animals
+1,summon nature's ally I ([~Creatures.SumNatAllPF1])
+
+;!Druid2
+1,animal messenger
+1,animal trance
+1,barkskin
+1,bear's endurance
+1,bull's strength
+1,cat's grace
+1,chill metal
+1,delay poison
+1,fire trap
+1,flame blade
+1,flaming sphere
+1,fog cloud
+1,gust of wind
+1,heat metal
+1,hold animal
+1,owl's wisdom
+1,reduce animal
+1,resist energy
+1,restoration, lesser
+1,soften earth and stone
+1,spider climb
+1,summon nature's ally II ([~Creatures.SumNatAllPF2])
+1,summon swarm
+1,tree shape
+1,warp wood
+1,wood shape
+
+;!Druid3
+1,call lightning
+1,contagion
+1,cure moderate wounds
+1,daylight
+1,diminish plants
+1,dominate animal
+1,magic fang/greater
+1,meld into stone
+1,neutralize poison
+1,plant growth
+1,poison
+1,protection from energy
+1,quench
+1,remove disease
+1,sleet storm
+1,snare
+1,speak with plants
+1,spike growth
+1,stone shape
+1,summon nature's ally III ([~Creatures.SumNatAllPF3])
+1,water breathing
+1,wind wall
+
+;!Druid4
+1,air walk
+1,antiplant shell
+1,blight
+1,command plants
+1,control water
+1,cure serious wounds
+1,dispel magic
+1,flame strike
+1,freedom of movement
+1,giant vermin
+1,ice storm
+1,reincarnate
+1,repel vermin
+1,rusting grasp
+1,scrying
+1,spike stones
+1,summon nature's ally IV ([~Creatures.SumNatAllPF4])
+
+;!Druid5
+1,animal growth
+1,atonement
+1,awaken
+1,baleful polymorph
+1,call lightning storm
+1,commune with nature
+1,control winds
+1,cure critical wounds
+1,death ward
+1,hallow
+1,insect plague
+1,stoneskin
+1,summon nature's ally V ([~Creatures.SumNatAllPF5])
+1,transmute mud to rock
+1,transmute rock to mud
+1,tree stride
+1,unhallow
+1,wall of fire
+1,wall of thorns
+
+;!Druid6
+1,antilife shell
+1,bear's endurance, mass
+1,bull's strength, mass
+1,cat's grace, mass
+1,cure light wounds, mass
+1,dispel magic, greater
+1,find the path
+1,fire seeds
+1,ironwood
+1,liveoak
+1,move earth
+1,owl's wisdom mass
+1,repel wood
+1,spellstaff
+1,stone tell
+1,summon nature's ally VI ([~Creatures.SumNatAllPF6])
+1,transport via plants
+1,wall of stone
+
+;!Druid7
+1,animate plants
+1,changestaff
+1,control weather
+1,creeping doom
+1,cure moderate wounds, mass
+1,fire strom
+1,heal
+1,scrying, greater
+1,summon nature's ally VII ([~Creatures.SumNatAllPF7])
+1,sunbeam
+1,transmute metal to wood
+1,true seeing
+1,wind walk
+
+;!Druid8
+1,animal shapes
+1,control plants
+1,cure serious wound, mass
+1,earthquake
+1,finger of death
+1,repel metal or stone
+1,reverse gravity
+1,summon nature's ally VIII ([~Creatures.SumNatAllPF8])
+1,sunburst
+1,whirlwind
+1,word of recall
+
+;!Druid9
+1,antipathy
+1,cure critical wounds, mass
+1,elemental swarm
+1,foreight
+1,regenerate
+1,shambler
+1,shapechange
+1,storm of vengeance
+1,summon nature's ally IX ([~Creatures.SumNatAllPF9])
+1,sympathy
+
+# --------------------------------------------------------------------------
+;!Paladin1
+2,bless
+1,bless water
+2,bless weapon
+1,create water
+2,cure light wounds
+1,detect poison
+1,detect undead
+1,divine favor
+1,endure elements
+2,magic weapon
+2,protection from [~Alignment={Dice~1d2}]
+1,read magic
+1,resistance
+1,restoration, lesser
+1,virtue
+
+;!Paladin2
+2,bull's strength
+1,delay poison
+1,eagle's splendor
+1,owl's wisdom
+1,remove paralysis
+2,resist energy
+2,shield other
+1,undetectable alignment
+1,zone of truth
+
+;!Paladin3
+2,cure moderate wounds
+1,daylight
+1,discern lies
+2,dispel magic
+2,heal mount
+2,magic circle against [~Alignment={Dice~1d2}]
+2,magic weapon/greater
+1,prayer
+1,remove blindnes/deafness
+1,remove curse
+
+;!Paladin4
+1,break enchantment
+2,cure serious wounds
+1,death ward
+1,dispel chaos
+2,dispel evil
+2,holy sword
+1,mark of justice
+1,neutralize poison
+1,restoration
+
+# --------------------------------------------------------------------------
+;!Ranger1
+1,alarm
+1,animal messenger
+1,calm animals
+1,charm animal
+1,delay poison
+1,detect animals or plants
+1,detect poison
+1,detect snares and pits
+1,endure elements
+1,entangle
+1,hide from animals
+1,jump
+1,longstrider
+1,magic fang
+1,pass without trace
+1,read magic
+1,resist energy
+1,speak with animals
+1,summon nature's ally I ([~Creatures.SumNatAllPF1])
+
+;!Ranger2
+1,barkskin
+1,bear's endurance
+1,cat's grace
+1,cure light wounds
+1,hold animal
+1,owl's wisdom
+1,protection from energy
+1,snare
+1,speak with plants
+1,spike growth
+1,summon nature's ally II ([~Creatures.SumNatAllPF2])
+1,wind wall
+
+;!Ranger3
+1,command plants
+2,cure moderate wounds
+1,darkvision
+1,diminish plants
+1,magic fang, greater
+1,neutralize poison
+1,plant growth
+1,reduce animal
+1,remove disease
+1,repel vermin
+2,summon nature's ally III ([~Creatures.SumNatAllPF3])
+1,tree shape
+1,water walk
+
+;!Ranger4
+1,animal growth
+1,commune with nature
+2,cure serious wounds
+2,freedom of movement
+1,nondetection
+2,summon nature's ally IV ([~Creatures.SumNatAllPF4])
+1,tree stride
+
+# --------------------------------------------------------------------------
+:WizVefSch
+1,{If~%WizSpSch%=No?{If~%WizardSchoolName%!=99?[WizVefSch2]/%Spell%}
+_/[WizVefSch3]
+_}
+
+:WizVefSch2
+1,{If~{Find~1,%School%,%WizardSchoolName%}>=1?{Color~DarkCyan,%Spell%}
+# The Dice~1d2 function removes about 50% of the opposed school spells chosen
+_/{If~{Find~1,%School%,%WizardOpposed%}>=1?{If~{Dice~1d2}=1?{Color~OrangeRed,%Spell%}/[Wizard%SL%]}
+#_/{If~{Find~1,%School%,%WizardOpposed%}>=1?{Color~OrangeRed,%Spell%}
+_/%Spell%
+_}}
+
+:WizVefSch3
+1,{If~{Find~1,%School%,%WizardSchoolName%}>=1?%Spell%
+_/[Wizard%SL%]}
+
+:WizardSchool0
+1,{Reset~Wizard0}|WizSpSch=Yes|[Wizard0]|WizSpSch=No|
+
+:WizardSchool1
+1,{Reset~Wizard1}|WizSpSch=Yes|[Wizard1]|WizSpSch=No|
+
+:WizardSchool2
+1,{Reset~Wizard2}|WizSpSch=Yes|[Wizard2]|WizSpSch=No|
+
+:WizardSchool3
+1,{Reset~Wizard3}|WizSpSch=Yes|[Wizard3]|WizSpSch=No|
+
+:WizardSchool4
+1,{Reset~Wizard4}|WizSpSch=Yes|[Wizard4]|WizSpSch=No|
+
+:WizardSchool5
+1,{Reset~Wizard5}|WizSpSch=Yes|[Wizard5]|WizSpSch=No|
+
+:WizardSchool6
+1,{Reset~Wizard6}|WizSpSch=Yes|[Wizard6]|WizSpSch=No|
+
+:WizardSchool7
+1,{Reset~Wizard7}|WizSpSch=Yes|[Wizard7]|WizSpSch=No|
+
+:WizardSchool8
+1,{Reset~Wizard8}|WizSpSch=Yes|[Wizard8]|WizSpSch=No|
+
+:WizardSchool9
+1,{Reset~Wizard9}|WizSpSch=Yes|[Wizard9]|WizSpSch=No|
+
+;!Wizard0
+1,|Spell=acid splash||School=con||SL=0|[WizVefSch]
+1,|Spell=arcane mark||School=uni||SL=0|[WizVefSch]
+1,|Spell=bleed||School=nec||SL=0|[WizVefSch]
+1,|Spell=dancing lights||School=evo||SL=0|[WizVefSch]
+1,|Spell=daze||School=enc||SL=0|[WizVefSch]
+1,|Spell=detect magic||School=div||SL=0|[WizVefSch]
+1,|Spell=detect poison||School=div||SL=0|[WizVefSch]
+1,|Spell=disrupt undead||School=nec||SL=0|[WizVefSch]
+1,|Spell=flare||School=evo||SL=0|[WizVefSch]
+1,|Spell=ghost sound||School=ill||SL=0|[WizVefSch]
+1,|Spell=light||School=evo||SL=0|[WizVefSch]
+1,|Spell=mage hand||School=tra||SL=0|[WizVefSch]
+1,|Spell=mending||School=tra||SL=0|[WizVefSch]
+1,|Spell=message||School=tra||SL=0|[WizVefSch]
+1,|Spell=open/close||School=tra||SL=0|[WizVefSch]
+1,|Spell=prestidigitation||School=uni||SL=0|[WizVefSch]
+1,|Spell=ray of frost||School=evo||SL=0|[WizVefSch]
+1,|Spell=read magic||School=div||SL=0|[WizVefSch]
+1,|Spell=resistance||School=abj||SL=0|[WizVefSch]
+1,|Spell=touch of fatigue||School=nec||SL=0|[WizVefSch]
+
+### XXX
+;!Wizard0_TETS
+1,|Spell=acid splash||School=con||SL=0|111111111[WizVefSch]
+1,|Spell=arcane mark||School=uni||SL=0|22222222222[WizVefSch]
+1,|Spell=bleed||School=nec||SL=0|33333333333[WizVefSch]
+1,|Spell=dancing lights||School=evo||SL=0|4444444444[WizVefSch]
+1,|Spell=daze||School=enc||SL=0|555555555[WizVefSch]
+1,|Spell=detect magic||School=div||SL=0|6666666666[WizVefSch]
+1,|Spell=detect poison||School=div||SL=0|777777777777[WizVefSch]
+1,|Spell=disrupt undead||School=nec||SL=0|8888888888888[WizVefSch]
+1,|Spell=flare||School=evo||SL=0|99999999999[WizVefSch]
+1,|Spell=ghost sound||School=ill||SL=0|aaaaaaaaaaaaaa[WizVefSch]
+1,|Spell=light||School=evo||SL=0|bbbbbbbbbb[WizVefSch]
+1,|Spell=mage hand||School=tra||SL=0|cccccccccc[WizVefSch]
+1,|Spell=mending||School=tra||SL=0|ddddddddddd[WizVefSch]
+1,|Spell=message||School=tra||SL=0|eeeeeeeee[WizVefSch]
+1,|Spell=open/close||School=tra||SL=0|fffffffffff[WizVefSch]
+1,|Spell=prestidigitation||School=uni||SL=0|gggggggggg[WizVefSch]
+1,|Spell=ray of frost||School=evo||SL=0|hhhhhhhhhhhhhhh[WizVefSch]
+1,|Spell=read magic||School=div||SL=0|iiiiiiiiiiii[WizVefSch]
+1,|Spell=resistance||School=abj||SL=0|jjjjjjjjjjjjjj[WizVefSch]
+1,|Spell=touch of fatigue||School=nec||SL=0|kkkkkkkkkkkkk[WizVefSch]
+
+;!Wizard0_OLD
+1,Acid Splash
+1,Arcane Mark
+1,Bleed
+1,Dancing Lights
+1,Daze
+1,Detect Magic
+1,Detect Poison
+1,Disrupt Undead
+1,Flare
+1,Ghost Sound
+1,Light
+1,Mage Hand
+1,Mending
+1,Message
+1,Open/Close
+1,Prestidigitation
+1,Ray of Frost
+1,Read Magic
+1,Resistance
+1,Touch of Fatigue
+
+;!Wizard1
+1,|Spell=alarm||School=abj||SL=1|[WizVefSch]
+1,|Spell=animate rope||School=tra||SL=1|[WizVefSch]
+1,|Spell=burning hands||School=evo||SL=1|[WizVefSch]
+1,|Spell=cause fear||School=nec||SL=1|[WizVefSch]
+1,|Spell=charm person||School=enc||SL=1|[WizVefSch]
+1,|Spell=chill touch||School=nec||SL=1|[WizVefSch]
+1,|Spell=color spray||School=ill||SL=1|[WizVefSch]
+1,|Spell=comprehend languages||School=div||SL=1|[WizVefSch]
+1,|Spell=detect secret doors||School=div||SL=1|[WizVefSch]
+1,|Spell=detect undead||School=div||SL=1|[WizVefSch]
+1,|Spell=disguise self||School=ill||SL=1|[WizVefSch]
+1,|Spell=endure elements||School=abj||SL=1|[WizVefSch]
+1,|Spell=enlarge person||School=tra||SL=1|[WizVefSch]
+1,|Spell=erase||School=tra||SL=1|[WizVefSch]
+1,|Spell=expeditious retreat||School=tra||SL=1|[WizVefSch]
+1,|Spell=feather fall||School=tra||SL=1|[WizVefSch]
+1,|Spell=grease||School=con||SL=1|[WizVefSch]
+1,|Spell=hold portal||School=abj||SL=1|[WizVefSch]
+1,|Spell=hypnotism||School=enc||SL=1|[WizVefSch]
+1,|Spell=identify||School=div||SL=1|[WizVefSch]
+1,|Spell=jump||School=tra||SL=1|[WizVefSch]
+1,|Spell=mage armor||School=con||SL=1|[WizVefSch]
+1,|Spell=magic missile||School=evo||SL=1|[WizVefSch]
+1,|Spell=magic weapon||School=tra||SL=1|[WizVefSch]
+1,|Spell=mount||School=con||SL=1|[WizVefSch]
+1,|Spell=magic aura||School=ill||SL=1|[WizVefSch]
+1,|Spell=obscuring mist||School=con||SL=1|[WizVefSch]
+1,|Spell=protection from [~Alignment]||School=abj||SL=1|[WizVefSch]
+1,|Spell=ray of enfeeblement||School=nec||SL=1|[WizVefSch]
+1,|Spell=reduce person||School=tra||SL=1|[WizVefSch]
+1,|Spell=shield||School=abj||SL=1|[WizVefSch]
+1,|Spell=shocking grasp||School=evo||SL=1|[WizVefSch]
+1,|Spell=silent image||School=ill||SL=1|[WizVefSch]
+1,|Spell=sleep||School=enc||SL=1|[WizVefSch]
+1,|Spell=summon monster I ([~Creatures.SumMonPF1])||School=con||SL=1|[WizVefSch]
+1,|Spell=floating disk||School=evo||SL=1|[WizVefSch]
+1,|Spell=true strike||School=div||SL=1|[WizVefSch]
+1,|Spell=unseen servant||School=con||SL=1|[WizVefSch]
+1,|Spell=ventriloquism||School=ill||SL=1|[WizVefSch]
+
+;!Wizard2
+1,|Spell=alter self||School=tra||SL=2|[WizVefSch]
+1,|Spell=arcane lock||School=abj||SL=2|[WizVefSch]
+1,|Spell=bear's endurance||School=tra||SL=2|[WizVefSch]
+1,|Spell=blindness/deafness||School=nec||SL=2|[WizVefSch]
+1,|Spell=blur||School=ill||SL=2|[WizVefSch]
+1,|Spell=bull's strength||School=tra||SL=2|[WizVefSch]
+1,|Spell=cat's grace||School=tra||SL=2|[WizVefSch]
+1,|Spell=command undead||School=nec||SL=2|[WizVefSch]
+1,|Spell=continual flame||School=evo||SL=2|[WizVefSch]
+1,|Spell=darkness||School=evo||SL=2|[WizVefSch]
+1,|Spell=darkvision||School=tra||SL=2|[WizVefSch]
+1,|Spell=daze monster||School=enc||SL=2|[WizVefSch]
+1,|Spell=detect thoughts||School=div||SL=2|[WizVefSch]
+1,|Spell=eagle's splendor||School=tra||SL=2|[WizVefSch]
+1,|Spell=false life||School=nec||SL=2|[WizVefSch]
+1,|Spell=flaming sphere||School=evo||SL=2|[WizVefSch]
+1,|Spell=fog cloud||School=con||SL=2|[WizVefSch]
+1,|Spell=fox's cunning||School=tra||SL=2|[WizVefSch]
+1,|Spell=ghoul touch||School=nec||SL=2|[WizVefSch]
+1,|Spell=glitterdust||School=con||SL=2|[WizVefSch]
+1,|Spell=gust of wind||School=evo||SL=2|[WizVefSch]
+1,|Spell=hypnotic pattern||School=ill||SL=2|[WizVefSch]
+1,|Spell=invisibility||School=ill||SL=2|[WizVefSch]
+1,|Spell=knock||School=tra||SL=2|[WizVefSch]
+#1,|Spell=trap||School=XXX||SL=2|[WizVefSch]
+1,|Spell=levitate||School=tra||SL=2|[WizVefSch]
+1,|Spell=locate object||School=div||SL=2|[WizVefSch]
+1,|Spell=magic mouth||School=ill||SL=2|[WizVefSch]
+1,|Spell=acid arrow||School=con||SL=2|[WizVefSch]
+1,|Spell=make whole||School=tra||SL=2|[WizVefSch]
+1,|Spell=minor image||School=ill||SL=2|[WizVefSch]
+1,|Spell=mirror image||School=ill||SL=2|[WizVefSch]
+1,|Spell=misdirection||School=ill||SL=2|[WizVefSch]
+1,|Spell=obscure object||School=abj||SL=2|[WizVefSch]
+1,|Spell=owl's wisdom||School=tra||SL=2|[WizVefSch]
+1,|Spell=phantom trap||School=ill||SL=2|[WizVefSch]
+1,|Spell=protection from arrows||School=abj||SL=2|[WizVefSch]
+1,|Spell=pyrotechnics||School=tra||SL=2|[WizVefSch]
+1,|Spell=resist energy||School=abj||SL=2|[WizVefSch]
+1,|Spell=rope trick||School=tra||SL=2|[WizVefSch]
+1,|Spell=scare||School=nec||SL=2|[WizVefSch]
+1,|Spell=scorching ray||School=evo||SL=2|[WizVefSch]
+1,|Spell=see invisibility||School=div||SL=2|[WizVefSch]
+1,|Spell=shatter||School=evo||SL=2|[WizVefSch]
+1,|Spell=spectral hand||School=nec||SL=2|[WizVefSch]
+1,|Spell=spider climb||School=tra||SL=2|[WizVefSch]
+1,|Spell=summon monster II ([~Creatures.SumMonPF2])||School=con||SL=2|[WizVefSch]
+1,|Spell=summon swarm||School=con||SL=2|[WizVefSch]
+1,|Spell=hideous laughter||School=enc||SL=2|[WizVefSch]
+1,|Spell=touch of idiocy||School=enc||SL=2|[WizVefSch]
+1,|Spell=web||School=con||SL=2|[WizVefSch]
+1,|Spell=whispering wind||School=tra||SL=2|[WizVefSch]
+
+;!Wizard3
+1,|Spell=arcane sight||School=div||SL=3|[WizVefSch]
+1,|Spell=beast shape 1||School=tra||SL=3|[WizVefSch]
+1,|Spell=blink||School=tra||SL=3|[WizVefSch]
+1,|Spell=clairaudience/clairvoyance||School=div||SL=3|[WizVefSch]
+1,|Spell=daylight||School=evo||SL=3|[WizVefSch]
+1,|Spell=deep slumber||School=enc||SL=3|[WizVefSch]
+1,|Spell=dispel magic||School=abj||SL=3|[WizVefSch]
+1,|Spell=displacement||School=ill||SL=3|[WizVefSch]
+1,|Spell=explosive runes||School=abj||SL=3|[WizVefSch]
+1,|Spell=fireball||School=evo||SL=3|[WizVefSch]
+1,|Spell=flame arrow||School=tra||SL=3|[WizVefSch]
+1,|Spell=fly||School=tra||SL=3|[WizVefSch]
+1,|Spell=gaseous form||School=tra||SL=3|[WizVefSch]
+1,|Spell=gentle repose||School=nec||SL=3|[WizVefSch]
+1,|Spell=halt undead||School=nec||SL=3|[WizVefSch]
+1,|Spell=haste||School=tra||SL=3|[WizVefSch]
+1,|Spell=heroism||School=enc||SL=3|[WizVefSch]
+1,|Spell=hold person||School=enc||SL=3|[WizVefSch]
+1,|Spell=illusory script||School=ill||SL=3|[WizVefSch]
+1,|Spell=invisibility sphere||School=ill||SL=3|[WizVefSch]
+1,|Spell=keen edge||School=tra||SL=3|[WizVefSch]
+1,|Spell=tiny hut||School=evo||SL=3|[WizVefSch]
+1,|Spell=lightning bolt||School=evo||SL=3|[WizVefSch]
+1,|Spell=magic circle against [~Alignment]||School=abj||SL=3|[WizVefSch]
+1,|Spell=magic weapon, greater||School=tra||SL=3|[WizVefSch]
+1,|Spell=major image||School=ill||SL=3|[WizVefSch]
+1,|Spell=nondetection||School=abj||SL=3|[WizVefSch]
+1,|Spell=phantom steed||School=con||SL=3|[WizVefSch]
+1,|Spell=protection from energy||School=abj||SL=3|[WizVefSch]
+1,|Spell=rage||School=enc||SL=3|[WizVefSch]
+1,|Spell=ray of exhaustion||School=nec||SL=3|[WizVefSch]
+1,|Spell=secret page||School=tra||SL=3|[WizVefSch]
+1,|Spell=sepia snake sigil||School=con||SL=3|[WizVefSch]
+1,|Spell=shrink item||School=tra||SL=3|[WizVefSch]
+1,|Spell=sleet storm||School=con||SL=3|[WizVefSch]
+1,|Spell=slow||School=tra||SL=3|[WizVefSch]
+1,|Spell=stinking cloud||School=con||SL=3|[WizVefSch]
+1,|Spell=suggestion||School=enc||SL=3|[WizVefSch]
+1,|Spell=summon monster III ([~Creatures.SumMonPF3])||School=con||SL=3|[WizVefSch]
+1,|Spell=tongues||School=div||SL=3|[WizVefSch]
+1,|Spell=vampiric touch||School=nec||SL=3|[WizVefSch]
+1,|Spell=water breathing||School=tra||SL=3|[WizVefSch]
+1,|Spell=wind wall||School=evo||SL=3|[WizVefSch]
+
+;!Wizard4
+1,|Spell=animate dead||School=nec||SL=4|[WizVefSch]
+1,|Spell=arcane eye||School=div||SL=4|[WizVefSch]
+1,|Spell=beast shape 2||School=tra||SL=4|[WizVefSch]
+1,|Spell=bestow curse||School=nec||SL=4|[WizVefSch]
+1,|Spell=charm monster||School=enc||SL=4|[WizVefSch]
+1,|Spell=confusion||School=enc||SL=4|[WizVefSch]
+1,|Spell=contagion||School=nec||SL=4|[WizVefSch]
+1,|Spell=crushing despair||School=enc||SL=4|[WizVefSch]
+1,|Spell=detect scrying||School=div||SL=4|[WizVefSch]
+1,|Spell=dimension door||School=con||SL=4|[WizVefSch]
+1,|Spell=dimensional anchor||School=abj||SL=4|[WizVefSch]
+1,|Spell=elemental body 1||School=tra||SL=4|[WizVefSch]
+1,|Spell=enervation||School=nec||SL=4|[WizVefSch]
+1,|Spell=enlarge person, mass||School=tra||SL=4|[WizVefSch]
+1,|Spell=black tentacles||School=con||SL=4|[WizVefSch]
+1,|Spell=fear||School=nec||SL=4|[WizVefSch]
+1,|Spell=fire shield||School=evo||SL=4|[WizVefSch]
+1,|Spell=fire trap||School=abj||SL=4|[WizVefSch]
+1,|Spell=geas, lesser||School=enc||SL=4|[WizVefSch]
+1,|Spell=globe of invulnerability, lesser||School=abj||SL=4|[WizVefSch]
+1,|Spell=hallucinatory terrain||School=ill||SL=4|[WizVefSch]
+1,|Spell=ice storm||School=evo||SL=4|[WizVefSch]
+1,|Spell=illusory wall||School=ill||SL=4|[WizVefSch]
+1,|Spell=invisibility, greater||School=ill||SL=4|[WizVefSch]
+1,|Spell=secure shelter||School=con||SL=4|[WizVefSch]
+1,|Spell=locate creature||School=div||SL=4|[WizVefSch]
+1,|Spell=minor creation||School=con||SL=4|[WizVefSch]
+1,|Spell=resilient sphere||School=evo||SL=4|[WizVefSch]
+1,|Spell=phantasmal killer||School=ill||SL=4|[WizVefSch]
+1,|Spell=rainbow pattern||School=ill||SL=4|[WizVefSch]
+1,|Spell=mnemonic enhancer (wizard only)||School=tra||SL=4|[WizVefSch]
+1,|Spell=reduce person, mass||School=tra||SL=4|[WizVefSch]
+1,|Spell=remove curse||School=abj||SL=4|[WizVefSch]
+1,|Spell=scrying||School=div||SL=4|[WizVefSch]
+1,|Spell=shadow conjuration||School=ill||SL=4|[WizVefSch]
+1,|Spell=shout||School=evo||SL=4|[WizVefSch]
+1,|Spell=solid fog||School=con||SL=4|[WizVefSch]
+1,|Spell=stone shape||School=tra||SL=4|[WizVefSch]
+1,|Spell=stoneskin||School=abj||SL=4|[WizVefSch]
+1,|Spell=summon monster IV ([~Creatures.SumMonPF4])||School=con||SL=4|[WizVefSch]
+1,|Spell=wall of fire||School=evo||SL=4|[WizVefSch]
+1,|Spell=wall of ice||School=evo||SL=4|[WizVefSch]
+
+;!Wizard5
+1,|Spell=animal growth||School=tra||SL=5|[WizVefSch]
+1,|Spell=baleful polymorph||School=tra||SL=5|[WizVefSch]
+1,|Spell=beast shape 3||School=tra||SL=5|[WizVefSch]
+1,|Spell=interposing hand||School=evo||SL=5|[WizVefSch]
+1,|Spell=blight||School=nec||SL=5|[WizVefSch]
+1,|Spell=break enchantment||School=abj||SL=5|[WizVefSch]
+1,|Spell=cloudkill||School=con||SL=5|[WizVefSch]
+1,|Spell=cone of cold||School=evo||SL=5|[WizVefSch]
+1,|Spell=contact other plane||School=div||SL=5|[WizVefSch]
+1,|Spell=dismissal||School=abj||SL=5|[WizVefSch]
+1,|Spell=dominate person||School=enc||SL=5|[WizVefSch]
+1,|Spell=dream||School=ill||SL=5|[WizVefSch]
+1,|Spell=elemental body 2||School=tra||SL=5|[WizVefSch]
+1,|Spell=fabricate||School=tra||SL=5|[WizVefSch]
+1,|Spell=false vision||School=ill||SL=5|[WizVefSch]
+1,|Spell=feeblemind||School=enc||SL=5|[WizVefSch]
+1,|Spell=hold monster||School=enc||SL=5|[WizVefSch]
+1,|Spell=secret chest||School=con||SL=5|[WizVefSch]
+1,|Spell=magic jar||School=nec||SL=5|[WizVefSch]
+1,|Spell=major creation||School=con||SL=5|[WizVefSch]
+1,|Spell=mind fog||School=enc||SL=5|[WizVefSch]
+1,|Spell=mirage arcana||School=ill||SL=5|[WizVefSch]
+1,|Spell=mage's faithful hound||School=con||SL=5|[WizVefSch]
+1,|Spell=mage's private sanctum||School=abj||SL=5|[WizVefSch]
+1,|Spell=nightmare||School=ill||SL=5|[WizVefSch]
+1,|Spell=overland flight||School=tra||SL=5|[WizVefSch]
+1,|Spell=passwall||School=tra||SL=5|[WizVefSch]
+1,|Spell=permanency||School=uni||SL=5|[WizVefSch]
+1,|Spell=persistent image||School=ill||SL=5|[WizVefSch]
+1,|Spell=planar binding, lesser||School=con||SL=5|[WizVefSch]
+1,|Spell=plant shape 1||School=tra||SL=5|[WizVefSch]
+1,|Spell=polymorph||School=tra||SL=5|[WizVefSch]
+1,|Spell=prying eyes||School=div||SL=5|[WizVefSch]
+1,|Spell=telepathic bond||School=div||SL=5|[WizVefSch]
+1,|Spell=seeming||School=ill||SL=5|[WizVefSch]
+1,|Spell=sending||School=evo||SL=5|[WizVefSch]
+1,|Spell=shadow evocation||School=ill||SL=5|[WizVefSch]
+1,|Spell=summon monster V ([~Creatures.SumMonPF5])||School=con||SL=5|[WizVefSch]
+1,|Spell=symbol of pain||School=nec||SL=5|[WizVefSch]
+1,|Spell=symbol of sleep||School=enc||SL=5|[WizVefSch]
+1,|Spell=telekinesis||School=tra||SL=5|[WizVefSch]
+1,|Spell=teleport||School=con||SL=5|[WizVefSch]
+1,|Spell=transmute mud to rock||School=tra||SL=5|[WizVefSch]
+1,|Spell=transmute rock to mud||School=tra||SL=5|[WizVefSch]
+1,|Spell=wall of force||School=evo||SL=5|[WizVefSch]
+1,|Spell=wall of stone||School=con||SL=5|[WizVefSch]
+1,|Spell=waves of fatigue||School=nec||SL=5|[WizVefSch]
+
+;!Wizard6
+1,|Spell=acid fog||School=con||SL=6|[WizVefSch]
+1,|Spell=analyze dweomer||School=div||SL=6|[WizVefSch]
+1,|Spell=antimagic field||School=abj||SL=6|[WizVefSch]
+1,|Spell=bear's endurance, mass||School=tra||SL=6|[WizVefSch]
+1,|Spell=beast shape 4||School=tra||SL=6|[WizVefSch]
+1,|Spell=bull's strength, mass||School=tra||SL=6|[WizVefSch]
+1,|Spell=cat's grace, mass||School=tra||SL=6|[WizVefSch]
+1,|Spell=chain lightning||School=evo||SL=6|[WizVefSch]
+1,|Spell=circle of death||School=nec||SL=6|[WizVefSch]
+1,|Spell=contingency||School=evo||SL=6|[WizVefSch]
+1,|Spell=control water||School=tra||SL=6|[WizVefSch]
+1,|Spell=create undead||School=nec||SL=6|[WizVefSch]
+1,|Spell=disintegrate||School=tra||SL=6|[WizVefSch]
+1,|Spell=dispel magic, greater||School=abj||SL=6|[WizVefSch]
+1,|Spell=eagle's splendor, mass||School=tra||SL=6|[WizVefSch]
+1,|Spell=elemental body 3||School=tra||SL=6|[WizVefSch]
+1,|Spell=eyebite||School=nec||SL=6|[WizVefSch]
+1,|Spell=flesh to stone||School=tra||SL=6|[WizVefSch]
+1,|Spell=forceful hand||School=evo||SL=6|[WizVefSch]
+1,|Spell=form of the dragon 1||School=tra||SL=6|[WizVefSch]
+1,|Spell=fox's cunning, mass||School=tra||SL=6|[WizVefSch]
+1,|Spell=freezing sphere||School=evo||SL=6|[WizVefSch]
+1,|Spell=geas/quest||School=enc||SL=6|[WizVefSch]
+1,|Spell=globe of invunerability||School=abj||SL=6|[WizVefSch]
+1,|Spell=guards and wards||School=abj||SL=6|[WizVefSch]
+1,|Spell=heroism, greater||School=enc||SL=6|[WizVefSch]
+1,|Spell=legend lore||School=div||SL=6|[WizVefSch]
+1,|Spell=mage's lucubration||School=tra||SL=6|[WizVefSch]
+1,|Spell=mislead||School=ill||SL=6|[WizVefSch]
+1,|Spell=move earth||School=tra||SL=6|[WizVefSch]
+1,|Spell=owl's wisdom, mass||School=tra||SL=6|[WizVefSch]
+1,|Spell=permanent image||School=ill||SL=6|[WizVefSch]
+1,|Spell=planar binding||School=con||SL=6|[WizVefSch]
+1,|Spell=plant shape 2||School=tra||SL=6|[WizVefSch]
+1,|Spell=programmed image||School=ill||SL=6|[WizVefSch]
+1,|Spell=repulsion||School=abj||SL=6|[WizVefSch]
+1,|Spell=shadow walk||School=ill||SL=6|[WizVefSch]
+1,|Spell=stone to flesh||School=tra||SL=6|[WizVefSch]
+1,|Spell=suggestion, mass||School=enc||SL=6|[WizVefSch]
+1,|Spell=summon monster VI ([~Creatures.SumMonPF6])||School=con||SL=6|[WizVefSch]
+1,|Spell=symbol of fear||School=nec||SL=6|[WizVefSch]
+1,|Spell=symbol of persuasion||School=enc||SL=6|[WizVefSch]
+1,|Spell=transformation||School=tra||SL=6|[WizVefSch]
+1,|Spell=true seeing||School=div||SL=6|[WizVefSch]
+1,|Spell=undeath to death||School=nec||SL=6|[WizVefSch]
+1,|Spell=veil||School=ill||SL=6|[WizVefSch]
+1,|Spell=wall of iron||School=con||SL=6|[WizVefSch]
+
+;!Wizard7
+1,|Spell=arcane sight, greater||School=div||SL=7|[WizVefSch]
+1,|Spell=banishment||School=abj||SL=7|[WizVefSch]
+1,|Spell=control undead||School=nec||SL=7|[WizVefSch]
+1,|Spell=control weather||School=tra||SL=7|[WizVefSch]
+1,|Spell=delayed blast fireball||School=evo||SL=7|[WizVefSch]
+1,|Spell=elemental body 4||School=tra||SL=7|[WizVefSch]
+1,|Spell=ethereal jaunt||School=tra||SL=7|[WizVefSch]
+1,|Spell=finger of death||School=nec||SL=7|[WizVefSch]
+1,|Spell=forcecage||School=evo||SL=7|[WizVefSch]
+1,|Spell=form of the dragon 2||School=tra||SL=7|[WizVefSch]
+1,|Spell=giant form 1||School=tra||SL=7|[WizVefSch]
+1,|Spell=grasping hand||School=evo||SL=7|[WizVefSch]
+1,|Spell=hold person, mass||School=enc||SL=7|[WizVefSch]
+1,|Spell=insanity||School=enc||SL=7|[WizVefSch]
+1,|Spell=instant summons||School=con||SL=7|[WizVefSch]
+1,|Spell=invisibility, mass||School=ill||SL=7|[WizVefSch]
+1,|Spell=limited wish||School=uni||SL=7|[WizVefSch]
+1,|Spell=mage's magnificent mansion||School=con||SL=7|[WizVefSch]
+1,|Spell=mage's sword||School=evo||SL=7|[WizVefSch]
+1,|Spell=phase door||School=con||SL=7|[WizVefSch]
+1,|Spell=plane shift||School=con||SL=7|[WizVefSch]
+1,|Spell=plant shape 3||School=tra||SL=7|[WizVefSch]
+1,|Spell=greater polymorph||School=tra||SL=7|[WizVefSch]
+1,|Spell=power word blind||School=enc||SL=7|[WizVefSch]
+1,|Spell=prismatic spray||School=evo||SL=7|[WizVefSch]
+1,|Spell=project image||School=ill||SL=7|[WizVefSch]
+1,|Spell=reverse gravity||School=tra||SL=7|[WizVefSch]
+1,|Spell=scrying, greater||School=div||SL=7|[WizVefSch]
+1,|Spell=sequester||School=abj||SL=7|[WizVefSch]
+1,|Spell=shadow conjuration, greater||School=ill||SL=7|[WizVefSch]
+1,|Spell=simulacrum||School=ill||SL=7|[WizVefSch]
+1,|Spell=spell turning||School=abj||SL=7|[WizVefSch]
+1,|Spell=statue||School=tra||SL=7|[WizVefSch]
+1,|Spell=summon monster VII ([~Creatures.SumMonPF7])||School=con||SL=7|[WizVefSch]
+1,|Spell=symbol of stunning||School=enc||SL=7|[WizVefSch]
+1,|Spell=symbol of weakness||School=nec||SL=7|[WizVefSch]
+1,|Spell=teleport, greater||School=con||SL=7|[WizVefSch]
+1,|Spell=teleport object||School=con||SL=7|[WizVefSch]
+1,|Spell=vision||School=div||SL=7|[WizVefSch]
+1,|Spell=waves of exhaustion||School=nec||SL=7|[WizVefSch]
+
+;!Wizard8
+1,|Spell=antipathy||School=enc||SL=8|[WizVefSch]
+1,|Spell=binding||School=enc||SL=8|[WizVefSch]
+1,|Spell=charm monster, mass||School=enc||SL=8|[WizVefSch]
+1,|Spell=clenched fist||School=evo||SL=8|[WizVefSch]
+1,|Spell=clone||School=nec||SL=8|[WizVefSch]
+1,|Spell=create greater undead||School=nec||SL=8|[WizVefSch]
+1,|Spell=demand||School=enc||SL=8|[WizVefSch]
+1,|Spell=dimensional lock||School=abj||SL=8|[WizVefSch]
+1,|Spell=discern location||School=div||SL=8|[WizVefSch]
+1,|Spell=form of the dragon 3||School=tra||SL=8|[WizVefSch]
+1,|Spell=giant form 2||School=tra||SL=8|[WizVefSch]
+1,|Spell=horrid wilting||School=nec||SL=8|[WizVefSch]
+1,|Spell=incendiary cloud||School=con||SL=8|[WizVefSch]
+1,|Spell=iron body||School=tra||SL=8|[WizVefSch]
+1,|Spell=irresistable dance||School=enc||SL=8|[WizVefSch]
+1,|Spell=maze||School=con||SL=8|[WizVefSch]
+1,|Spell=mind blank||School=abj||SL=8|[WizVefSch]
+1,|Spell=moment of prescience||School=div||SL=8|[WizVefSch]
+1,|Spell=planar binding, greater||School=con||SL=8|[WizVefSch]
+1,|Spell=polar ray||School=evo||SL=8|[WizVefSch]
+1,|Spell=polymorph any object||School=tra||SL=8|[WizVefSch]
+1,|Spell=power word stun||School=enc||SL=8|[WizVefSch]
+1,|Spell=prismatic wall||School=abj||SL=8|[WizVefSch]
+1,|Spell=protection from spells||School=abj||SL=8|[WizVefSch]
+1,|Spell=prying eyes, greater||School=div||SL=8|[WizVefSch]
+1,|Spell=scintillating pattern||School=ill||SL=8|[WizVefSch]
+1,|Spell=screen||School=ill||SL=8|[WizVefSch]
+1,|Spell=shadow evocation, greater||School=ill||SL=8|[WizVefSch]
+1,|Spell=shout, greater||School=evo||SL=8|[WizVefSch]
+1,|Spell=sunburst||School=evo||SL=8|[WizVefSch]
+1,|Spell=summon monster VIII ([~Creatures.SumMonPF8])||School=con||SL=8|[WizVefSch]
+1,|Spell=symbol of death||School=nec||SL=8|[WizVefSch]
+1,|Spell=symbol of insanity||School=enc||SL=8|[WizVefSch]
+1,|Spell=sympathy||School=enc||SL=8|[WizVefSch]
+1,|Spell=telekinetic sphere||School=evo||SL=8|[WizVefSch]
+1,|Spell=temporal stasis||School=tra||SL=8|[WizVefSch]
+1,|Spell=trap the soul||School=con||SL=8|[WizVefSch]
+
+;!Wizard9
+1,|Spell=astral projection||School=nec||SL=9|[WizVefSch]
+1,|Spell=crushing hand||School=evo||SL=9|[WizVefSch]
+1,|Spell=dominate monster||School=enc||SL=9|[WizVefSch]
+1,|Spell=energy drain||School=nec||SL=9|[WizVefSch]
+1,|Spell=etherealness||School=tra||SL=9|[WizVefSch]
+1,|Spell=foresight||School=div||SL=9|[WizVefSch]
+1,|Spell=freedom||School=abj||SL=9|[WizVefSch]
+1,|Spell=gate||School=con||SL=9|[WizVefSch]
+1,|Spell=hold monster, mass||School=enc||SL=9|[WizVefSch]
+1,|Spell=imprisonment||School=abj||SL=9|[WizVefSch]
+1,|Spell=meteor swarm||School=evo||SL=9|[WizVefSch]
+1,|Spell=mage's disjunction||School=abj||SL=9|[WizVefSch]
+1,|Spell=power word, kill||School=enc||SL=9|[WizVefSch]
+1,|Spell=prismatic sphere||School=abj||SL=9|[WizVefSch]
+1,|Spell=refuge||School=con||SL=9|[WizVefSch]
+1,|Spell=shades||School=ill||SL=9|[WizVefSch]
+1,|Spell=shapechange||School=tra||SL=9|[WizVefSch]
+1,|Spell=soul bind||School=nec||SL=9|[WizVefSch]
+1,|Spell=summon monster IX ([~Creatures.SumMonPF9])||School=con||SL=9|[WizVefSch]
+1,|Spell=teleportation circle||School=con||SL=9|[WizVefSch]
+1,|Spell=time stop||School=tra||SL=9|[WizVefSch]
+1,|Spell=wail of the banshee||School=nec||SL=9|[WizVefSch]
+1,|Spell=weird||School=ill||SL=9|[WizVefSch]
+1,|Spell=wish||School=uni||SL=9|[WizVefSch]
+
+# --------------------------------------------------------------------------
+# --------------------------------------------------------------------------
+# ALTERNATE Main Core Class Lists
+# ADD_CLASS
+
+;!Sorcerer_Witch0
+1,arcane mark
+1,dancing lights
+1,daze
+1,detect magic
+1,detect poison
+1,flare
+1,ghost sound
+1,light
+1,mending
+1,read magic
+1,resistance
+1,stabilize
+1,virtue
+
+;!Sorcerer_Witch1
+1,cause fear
+1,change self
+1,charm person
+1,command
+1,comprehend languages
+1,cure light wounds
+1,doom
+1,endure elements
+1,hypnotism
+1,identify
+1,silent image
+1,sleep
+1,speak with animals
+1,ventriloquism
+
+;!Sorcerer_Witch2
+1,alter self
+1,blindness/deafness
+1,calm emotions
+1,cure moderate wounds
+1,delay poison
+1,detect thoughts
+1,enthrall
+1,invisibility
+1,locate object
+1,minor image
+1,scare
+1,whispering wind
+
+;!Sorcerer_Witch3
+1,bestow curse
+1,clairvoyance/clairaudience
+1,contagion
+1,create food and water
+1,dispel magic
+1,tiny hut
+1,magic circle against Chaos/Law/Evil/Good (not opposed to her own)
+1,major image
+1,rage
+1,remove blindness/deafness
+1,suggestion
+1,tongues
+
+;!Sorcerer_Witch4
+1,charm monster
+1,crushing despair
+1,discern lies
+1,divination
+1,fear
+1,giant vermin
+1,good hope
+1,locate creature
+1,minor creation
+1,neutralize poison
+1,polymorph
+1,remove curse
+1,scrying
+
+;!Sorcerer_Witch5
+1,baleful polymorph
+1,dream
+1,false vision
+1,feeblemind
+1,greater command
+1,magic jar
+1,major creation
+1,mirage arcana
+1,nightmare
+1,seeming
+1,sending
+
+;!Sorcerer_Witch6
+1,animate objects
+1,control weather
+1,eyebite
+1,find the path
+1,Geasgquest
+1,greater scrying
+1,heroes’ feast
+1,legend lore
+1,mass suggestion
+1,mislead
+1,repulsion
+1,shadow image
+1,transformation
+1,true seeing
+
+;!Sorcerer_Witch7
+1,creeping doom
+1,finger of death
+1,insanity
+1,liveoak
+1,repel wood
+1,transport via plants
+
+;!Sorcerer_Witch8
+1,antipathy
+1,demand
+1,discern location
+1,horrid wilting
+1,polymorph any object
+1,sympathy
+1,trap the soul
+
+;!Sorcerer_Witch9
+1,earthquake
+1,foresight
+1,refuge
+1,shapechange
+1,wail of the banshee
+1,weird
+
+# --------------------------------------------------------------------------
+# --------------------------------------------------------------------------
+# NPCClass
+
+# Adept PF ok
+;!Adept0
+1,create water
+1,detect magic
+1,ghost sound
+1,guidance
+1,light
+1,mending
+1,purify food and drink
+1,read magic
+1,stabilize
+1,touch of fatigue
+
+;!Adept1
+1,bless
+1,burning hands
+1,cause fear
+1,command
+1,comprehend languages
+1,cure light wounds{Unlock~Adept1,6}
+1,detect [~Alignment]
+1,endure elements
+1,obscuring mist
+1,protection from [~Alignment]
+1,sleep
+
+;!Adept2
+1,aid
+1,animal trance
+1,bear’s endurance
+1,bull’s strength
+1,cat’s grace
+1,cure moderate wounds{Unlock~Adept2,6}
+1,darkness
+1,delay poison
+1,invisibility
+1,mirror image
+1,resist energy
+1,scorching ray
+1,see invisibility
+1,web
+
+;!Adept3
+1,animate dead
+1,bestow curse
+1,contagion
+1,continual flame
+1,cure serious wounds{Unlock~Adept3,5}
+1,daylight
+1,deeper darkness
+1,lightning bolt
+1,neutralize poison
+1,remove curse
+1,remove disease
+1,tongues
+
+;!Adept4
+1,cure critical wounds{Unlock~Adept4,1}
+1,minor creation
+1,polymorph
+1,restoration
+1,stoneskin
+1,wall of fire
+
+;!Adept5
+1,baleful polymorph
+1,break enchantment
+1,commune
+1,heal{Unlock~Adept5,4}
+1,major creation
+1,raise dead
+1,true seeing
+1,wall of stone
+
+# --------------------------------------------------------------------------
+# --------------------------------------------------------------------------
+# ALTERNATE Main NPC Class Lists
+# ADD_CLASS
+
+;!Adept_Seer0
+1,create water
+1,detect magic
+1,detect poison
+1,guidance
+1,light
+1,mending
+1,message
+1,purify food and drink
+1,read magic
+1,stabilize
+
+;!Adept_Seer1
+1,bless
+1,command
+1,comprehend languages
+1,cure light wounds{Unlock~Adept_Seer1,4}
+1,deathwatch
+1,detect [~Alignment]
+1,detect undead
+1,identify
+1,protection from [~Alignment]
+
+;!Adept_Seer2
+1,augury{Unlock~Adept_Seer2,1}
+1,bear’s endurance
+1,bull’s strength
+1,cat’s grace
+1,calm emotions
+1,delay poison
+1,find traps
+1,invisibility
+1,locate object
+1,mirror  image
+1,obscure object
+1,see invisibility
+
+;!Adept_Seer3
+1,arcane sight
+1,bestow curse
+1,clairaudience/clairvoyance{Unlock~Adept_Seer3,3}
+1,continual flame
+1,invisibility purge
+1,magic circle against [~Alignment]
+1,neutralise poison
+1,remove curse
+1,remove disease
+1,speak with dead
+1,tongues
+
+;!Adept_Seer4
+1,detect scrying
+1,discern lies
+1,divination
+1,locate creature
+1,scrying{Unlock~Adept_Seer4,5}
+1,sending
+
+;!Adept_Seer5
+1,break enchantment
+1,commune
+1,contact other plane{Unlock~Adept_Seer5,3}
+1,greater command
+1,true seeing
+
+;!Adept_Smiter0
+1,bleed
+1,daze
+1,detect magic
+1,ghost sound
+1,guidance
+1,light
+1,read magic
+1,resistance
+1,touch of fatigue{Unlock~Adept_Smiter0,9}
+
+;!Adept_Smiter1
+1,bane
+1,bless
+1,burning hands{Unlock~Adept_Smiter1,3}
+1,cause fear
+1,chill touch
+1,inflict light wounds
+1,obscuring mist
+1,protection from [~Alignment]
+1,sleep
+
+;!Adept_Smiter2
+1,aid
+1,bear’s endurance
+1,bull’s  strength
+1,cat’s grace
+1,inflict moderate wounds
+1,darkness
+1,resist energy
+1,scare
+1,scorching ray{Unlock~Adept_Smiter2,9}
+1,shatter
+
+;!Adept_Smiter3
+1,animate dead
+1,bestow curse{Unlock~Adept_Smiter3,2}
+1,contagion
+1,continual flame
+1,inflict serious wounds
+1,daylight
+1,deeper darkness
+1,fireball
+1,lightning  bolt
+1,poison
+1,rage
+
+;!Adept_Smiter4
+1,black tentacles
+1,divine power
+1,fire shield
+1,ice storm
+1,inflict critical wounds{Unlock~Adept_Smiter4,5}
+1,minor creation
+1,polymorph
+1,stoneskin
+1,wall of fire
+
+;!Adept_Smiter5
+1,baleful polymorph
+1,break enchantment
+1,cloudkill
+1,insect plague
+1,mass inflict light wounds{Unlock~Adept_Smiter5,5}
+1,slay living
+1,wall of fire
+1,wall of stone
+
+# --------------------------------------------------------------------------
+# --------------------------------------------------------------------------
+# Prestige
+
+;!Assassin1
+1,disguise self
+1,detect poison
+1,feather fall
+1,ghost sound
+1,jump
+1,obscuring mist
+1,sleep
+1,true strike
+
+;!Assassin2
+1,alter self
+1,cat’s grace
+1,darkness
+1,fox’s cunning
+1,illusory script
+1,invisibility
+1,pass without trace
+1,spider climb
+1,undetectable alignment
+
+;!Assassin3
+1,deep slumber
+1,deeper darkness
+1,false life
+1,magic circle against good
+1,misdirection
+1,nondetection
+
+;!Assassin4
+1,clairaudience/clairvoyance
+1,dimension door
+1,freedom of movement
+1,glibness
+1,greater invisibility
+1,locate creature
+1,modify memory
+1,poison
+
+# --------------------------------------------------------------------------
+
+;!Blackguard1
+1,cause fear
+1,corrupt weapon
+1,cure light wounds{Unlock~Blackguard1,3}
+1,doom
+1,inflict light wounds
+1,magic weapon
+1,summon monster I (Evil only) ([~Creatures.SumMonPF1])
+
+;!Blackguard2
+1,bull’s strength
+1,cure moderate wounds{Unlock~Blackguard2,2}
+1,darkness
+1,death knell
+1,eagle’s splendor
+1,inflict moderate wounds
+1,shatter
+1,summon monster II (Evil only) ([~Creatures.SumMonPF2])
+
+;!Blackguard3
+1,contagion
+1,cure serious wounds{Unlock~Blackguard3,2}
+1,deeper darkness
+1,inflict serious wounds
+1,protection from elements
+1,summon monster III (Evil only) ([~Creatures.SumMonPF3])
+
+;!Blackguard4
+1,cure critical wounds{Unlock~Blackguard4,1}
+1,freedom of movement
+1,inflict critical wounds
+1,poison
+1,summon monster IV (Evil only) ([~Creatures.SumMonPF4])
+
+# --------------------------------------------------------------------------
+# --------------------------------------------------------------------------
+# Domains
+# Do not put ";" in the domain name.
+# Spells are listed by level. 10 is the domain granted power.
+
+:PrintAllDomainNames
+1,Air, Animal, Artifice, Chaos, Charm, Community, Darkness, Death, Destruction, Earth, Evil, Fire, Glory, Good, Healing, Knowledge, Law, Liberation, Luck, Madness, Magic, Nobility, Plant, Protection, Repose, Rune, Strength, Sun, Travel, Trickery, War, Water, Weather
+
+:Reset Domains
+1,{Reset~Air}{Reset~Animal}{Reset~Artifice}{Reset~Chaos}{Reset~Charm}{Reset~Community}
+_{Reset~Darkness}{Reset~Death}{Reset~Destruction}{Reset~Earth}{Reset~Evil}{Reset~Fire}
+_{Reset~Glory}{Reset~Good}{Reset~Healing}{Reset~Knowledge}{Reset~Law}{Reset~Liberation}{Reset~Luck}
+_{Reset~Madness}{Reset~Magic}{Reset~Nobility}{Reset~Plant}{Reset~Protection}{Reset~Repose}{Reset~Rune}
+_{Reset~Strength}{Reset~Sun}{Reset~Travel}{Reset~Trickery}{Reset~War}{Reset~Water}{Reset~Weather}
+#
+# Mystara
+_{Reset~Sphere of Energy}{Reset~Sphere of Entropy}{Reset~Sphere of Matter}{Reset~Sphere of Thought}{Reset~Sphere of Time}
+#
+# PF Advanced Player's Guide
+_{Reset~Agathion}{Reset~Ancestors}{Reset~Arcane}{Reset~Archon Good}{Reset~Archon Law}{Reset~Ash}
+_{Reset~Azata Chaos}{Reset~Azata Good}{Reset~Blood}{Reset~Catastrophe}{Reset~Caves}{Reset~Cloud}
+_{Reset~Construct}{Reset~Curse}{Reset~Daemon}{Reset~Day}{Reset~Decay}
+_{Reset~Deception}{Reset~Defense}{Reset~Demon Chaos}{Reset~Demon Evil}{Reset~Devil Evil}{Reset~Devil Law}{Reset~Divine}
+_{Reset~Exploration}{Reset~Family}{Reset~Fate}{Reset~Feather}{Reset~Ferocity}
+_{Reset~Freedom}{Reset~Fur}{Reset~Growth}{Reset~Heroism}{Reset~Home}
+_{Reset~Honor}{Reset~Ice}{Reset~Inevitable}{Reset~Insanity}{Reset~Language}
+_{Reset~Leadership}{Reset~Light}{Reset~Loss}{Reset~Love}{Reset~Lust}
+_{Reset~Martyr}{Reset~Memory}{Reset~Metal}{Reset~Murder}{Reset~Night}
+_{Reset~Nightmare}{Reset~Oceans}{Reset~Protean}{Reset~Purity}{Reset~Rage}
+_{Reset~Resolve}{Reset~Restoration}{Reset~Resurrection}{Reset~Revolution}{Reset~Seasons}
+_{Reset~Smoke}{Reset~Souls}{Reset~Storms}{Reset~Tactics}{Reset~Thievery}
+_{Reset~Thought}{Reset~Toil}{Reset~Trade}{Reset~Undead}{Reset~Wards}
+_{Reset~Wind}
+# PF Player's Companion Divine Anthology (PC_DivA)
+_{Reset~Alchemy Artifice}{Reset~Alchemy Magic}{Reset~Insect}{Reset~Lightning}
+# PFB4
+_{Reset~Void}
+# PF Heroes of the Street (HotS)
+#_{Reset~Industry}
+# PF Inner Sea Gods
+_{Reset~Stars}{Reset~Dark Tapestry}{Reset~Isolation}
+
+# Subdomain (AdvPG)
+#,|AssDom=Air|{Bold~Subdomain (%AssDom%). }
+                                                                                                                                                       
+:!AllDomains
+1,Air
+2,Animal
+3,Artifice
+4,Chaos
+5,Charm
+6,Community
+7,Darkness
+8,Death
+9,Destruction
+10,Earth
+11,Evil
+12,Fire
+13,Glory
+14,Good
+15,Healing
+16,Knowledge
+17,Law
+18,Liberation
+19,Luck
+20,Madness
+21,Magic
+22,Nobility
+23,Plant
+24,Protection
+25,Repose
+26,Rune
+27,Strength
+28,Sun
+29,Travel
+30,Trickery
+31,War
+32,Water
+33,Weather
+#
+# Mystara
+34,Sphere of Energy
+35,Sphere of Entropy
+36,Sphere of Matter
+37,Sphere of Thought
+38,Sphere of Time
+#
+# PF Advanced Player's Guide
+39,Agathion
+40,Ancestors
+41,Arcane
+42,Archon Good
+43,Ash
+44,Azata Chaos
+45,Blood
+46,Catastrophe
+47,Caves
+48,Cloud
+49,Construct
+50,Curse
+51,Daemon
+52,Day
+53,Decay
+54,Deception
+55,Defense
+56,Demon Chaos
+57,Devil Evil
+58,Divine
+59,Exploration
+60,Family
+61,Fate
+62,Feather
+63,Ferocity
+64,Freedom
+65,Fur
+66,Growth
+67,Heroism
+68,Home
+69,Honor
+70,Ice
+71,Inevitable
+72,Insanity
+73,Language
+74,Leadership
+75,Light
+76,Loss
+77,Love
+78,Lust
+79,Martyr
+80,Memory
+81,Metal
+82,Murder
+83,Night
+84,Nightmare
+85,Oceans
+86,Protean
+87,Purity
+88,Rage
+89,Resolve
+90,Restoration
+91,Resurrection
+92,Revolution
+93,Seasons
+94,Smoke
+95,Souls
+96,Storms
+97,Tactics
+98,Thievery
+99,Thought
+100,Toil
+101,Trade
+102,Undead
+103,Wards
+104,Wind
+105,Azata Good
+106,Demon Evil
+107,Devil Law
+108,Archon Law
+# PF Player Companion: Divine Anthology (PC_DivA)
+109,Alchemy Artifice
+110,Alchemy Magic
+111,Insect
+112,Lightning
+### PF Bestiary 4 (PFB4)
+113,Void
+### PF Inner Sea Gods
+114,Stars
+115,Dark Tapestry
+116,Isolation
+### PF Heroes of the Street (HotS)
+# Industry UNDONE (Artifice)
+
+# Subdomain (AdvPG)
+:!Agathion
+1,shield  of  faith
+2,align weapon (good only)
+3,tongues
+4,holy smite
+5,dispel evil
+6,planar ally (agathions only)
+7,holy word
+8,holy aura
+9,summon monster IX (good only) ([~Creatures.SumMonPF4])
+10,|AssDom=Good|{Bold~Subdomain (%AssDom%) (Agathion = Guardinal NG outsiders PFB2). }
+_You have pledged your life and soul to goodness and purity.<br>
+_[Tab]{Italic~Touch of Good (Sp):} STANDARD, creature touched = |Temp=%CharacterLevel%||Temp\2||Temp>1|{Bold~+%Temp%} attack/skill/ability/saves for 1 round, 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Protective Aura (Su):} STANDARD, 30' radius, allies = +2 deflection AC, +2 resistance saves, and {Italic~protection from evil}, 
+_{Bold~%CharacterLevel%} rounds[Slash]day.}
+
+:!Air
+1,obscuring mist
+2,wind wall
+3,gaseous form
+4,air walk
+5,control winds
+6,chain lightning
+7,elemental body 4 (air)
+8,whirlwind
+9,elemental swarm (air)
+10,You can manipulate lightning, mist, and wind, traffic with air creatures, and are resistant to electricity damage.<br>
+_[Tab]{Italic~Lightning Arc (Sp):} STANDARD, 30' ranged touch attack, 1d6+{Bold~{Trunc~{Calc~%CharacterLevel%/2}}} electric dmg, 3+WIS/day.
+_{If~%CharacterLevel%>=20?<br>[Tab]{Italic~Immune to Electricity (Ex).}/{If~%CharacterLevel%>=12?<br>[Tab]{Italic~Electricity Resistance (Ex) 20.}/{If~%CharacterLevel%>=6?<br>[Tab]{Italic~Electricity Resistance (Ex) 10.}}}}
+                                                                                                                                                            
+# Subdomain (PC_DivA)
+:!Alchemy Artifice
+1,animate rope
+2,touch injection (UltCbt)
+3,stone shape
+4,amplify elixir (AdvPG)
+5,fabricate
+6,delayed consumption (AdvPG)
+7,wall of iron
+8,statue
+9,prismatic sphere
+10,|AssDom=Artifice|{Bold~Subdomain (%AssDom%). }
+_You can repair damage to objects, animate objects with life, and create objects from nothing.<br>
+_[Tab]{Italic~Divine Alchemy (Su):} 1 minute = infuse flask of water with one of your prepared spells creating an improvised pottion that lasts until consumed or the next time you prepare spells.
+_ Only for spells that target one or more creatures, maximum level |Temp=%CharacterLevel%||Temp\4||Temp+1|{Bold~%Temp%} spell. These potions are treated as alchemist extracts for the purpose of your domain spells. 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Dancing Weapons (Su):} weapon touched gains the {Italic~dancing} special weapon quality for 4 rounds, [ArtificeTime].}
+
+# Subdomain (PC_DivA)
+:!Alchemy Magic
+1,identify
+2,touch injection (UltCbt)
+3,dispel magic
+4,amplify elixir (AdvPG)
+5,spell resistance
+6,delayed consumption (AdvPG)
+7,spell turning
+8,protection from spells
+9,mage's disjunction
+10,|AssDom=Magic|{Bold~Subdomain (%AssDom%). }
+_You are a true student of all things mystical, and see divinity in the purity of magic.<br>
+_[Tab]{Italic~Divine Alchemy (Su):} 1 minute = infuse flask of water with one of your prepared spells creating an improvised pottion that lasts until consumed or the next time you prepare spells.
+_ Only for spells that target one or more creatures, maximum level |Temp=%CharacterLevel%||Temp\4||Temp+1|{Bold~%Temp%} spell. These potions are treated as alchemist extracts for the purpose of your domain spells. 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Dispelling Touch (sp):} targeted {Italic~dispel magic}, melee touch attack, [ArtificeTime].}
+
+# Subdomain (AdvPG)
+:!Ancestors
+1,deathwatch
+2,gentle repose
+3,speak with dead
+4,rest eternal (AdvPG)
+5,slay living
+6,geas/quest
+7,destruction
+8,waves of exhaustion
+9,wail of the banshee
+10,|AssDom=Repose|{Bold~Subdomain (%AssDom%). }
+_You see death not as something to be feared, but as a final rest and reward for a life well spent. The taint of undeath is a mockery of what you hold dear.<br>
+_[Tab]{Italic~Gentle Rest (sp):} melee touch attack vs living creature = staggered 1r (1 action/r). If already staggered falls asleep 1r. Vs undeads = staggered WIS rounds. 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Speak With Dead (Su):} STANDARD, ask 1 question to a dead creature (as {Italic~speak with dead} but no Will save if different alignment), {Bold~%CharacterLevel%} questions[Slash]day.}
+
+:!Animal
+1,calm animals
+2,hold animal
+3,dominate animal
+4,summon nature's ally IV (animals only) ([~Creatures.SumNatAllPF4])
+5,beast shape 3 (animals only)
+6,antilife shell
+7,animal shapes
+8,summon nature's ally VIII (animals only) ([~Creatures.SumNatAllPF8])
+9,shapechange
+10,You can speak with and befriend animals with ease. {Italic~In addition, you treat Knowledge (Nature) as a class skill.}<br>
+_[Tab]{Italic~Speak with Animals (Sp):} {Bold~{Calc~3+%CharacterLevel%}} r/day.
+_{If~%CharacterLevel%>=4?<br>[Tab]{Italic~Animal Companion (Ex):} Effective druid level = {Bold~{Calc~%CharacterLevel%-3}}.}
+
+# Subdomain (AdvPG)
+:!Arcane
+1,magic  aura
+2,magic mouth
+3,dispel magic
+4,arcane eye
+5,spell resistance
+6,analyze dweomer
+7,spell turning
+8,protection from spells
+9,mage's disjunction
+10,You are a true student of all things mystical, and see divinity in the purity of magic.<br>
+_[Tab]{Italic~Arcane Beacon (Su):} STANDARD, 15' aura, until end of your next turn = all arcane casters choose: +1 CL or +1 DC, 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Dispelling Touch (sp):} targeted {Italic~dispel magic}, melee touch attack, [ArtificeTime].}
+
+# Subdomain (AdvPG)
+:!Archon Good
+1,divine  favor
+2,align weapon (good only)
+3,prayer
+4,holy smite
+5,dispel evil
+6,planar ally (archon only)
+7,holy word
+8,holy aura
+9,summon monster IX (good only) ([~Creatures.SumMonPF4])
+10,|AssDom=Good, Law|{Bold~Subdomain (%AssDom%) (Archons = LG outsiders). }
+_You have pledged your life and soul to goodness and purity.<br>
+_[Tab]{Italic~Touch of Good (Sp):} STANDARD, creature touched = |Temp=%CharacterLevel%||Temp\2||Temp>1|{Bold~+%Temp%} attack/skill/ability/saves for 1 round, 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Aura of Menace (Su):} STANDARD, 30' radius, enemies = -2 AC[Slash]attack[Slash]saves, 
+_{Bold~%CharacterLevel%} rounds[Slash]day.}
+
+# Subdomain (AdvPG)
+:!Archon Law
+1,divine  favor
+2,align weapon (law only)
+3,prayer
+4,order's wrath
+5,dispel chaos
+6,planar ally (archon only)
+7,dictum
+8,shield of law
+9,summon monster IX (lawful only) ([~Creatures.SumMonPF4])
+10,|AssDom=Law, Good|{Bold~Subdomain (%AssDom%) (Archons = LG outsiders). }
+_You follow a strict and ordered code of laws, and in so doing, achieve enlightenment.<br>
+_[Tab]{Italic~Touch of Law (Sp):} STANDARD, creature touched = treat {Bold~all} attack/skill/ability/saves rolls to be '11' for 1 round, 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Aura of Menace (Su):} STANDARD, 30' radius, enemies = -2 AC[Slash]attack[Slash]saves, 
+_{Bold~%CharacterLevel%} rounds[Slash]day.}
+
+:!Artifice
+1,animate rope
+2,wood shape
+3,stone shape
+4,minor creation
+5,fabricate
+6,major creation
+7,wall of iron
+8,statue
+9,prismatic sphere
+10,You can repair damage to objects, animate objects with life, and create objects from nothing.<br>
+_[Tab]{Italic~Artificer’s Touch (Sp):} {Italic~Mending} at will (CL%CharacterLevel% to repair damaged objects). Damage objects/constructs =  
+_melee touch attack, 1d6+{Bold~{Trunc~{Calc~%CharacterLevel%/2}}}, bypass {Bold~%CharacterLevel%} of DR/hardness. 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Dancing Weapons (Su):} weapon touched gains the {Italic~dancing} special weapon quality for 4 rounds, [ArtificeTime].}
+
+:ArtificeTime
+1,{Bold~[ArtificeTime2=%CharacterLevel%]}[Slash]day
+
+:ArtificeTime2
+1-11,1
+12-15,2
+16-19,3
+20-100,4
+
+# Subdomain (AdvPG)
+:!Ash
+1,burning hands
+2,produce flame
+3,fireball
+4,wall of fire
+5,fire shield
+6,fire seeds
+7,disintegrate
+8,incendiary cloud
+9,fiery body (AdvPG)
+10,|AssDom=Fire|{Bold~Subdomain (%AssDom%). }
+_You can call forth fire, command creatures of the inferno, and your flesh does not burn.<br>
+_[Tab]{Italic~Fire Bolt (Sp):} STANDARD, 30' ranged touch attack, 1d6+{Bold~{Trunc~{Calc~%CharacterLevel%/2}}} fire dmg, 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Wall of Ashes (Su):} STANDARD within 100', up to 20' high and {Bold~{Calc~%CharacterLevel%*10}}' long, 
+_blocks line of sight, if pass through = Fort |Temp=%CharacterLevel%||Temp\2||Temp+10|DC{Bold~%Temp%+WIS} or blinded 1d4r ([~Dice Reroll.1d4]). 
+_Also reveals invisible inside or adjacent. 
+_{Bold~%CharacterLevel%} minutes[Slash]day (in 1-minute increments).}
+
+# Subdomain (AdvPG)
+:!Azata Chaos
+1,expeditious  retreat
+2,align weapon (chaos only)
+3,fly
+4,chaos hammer
+5,dispel law
+6,planar ally (azata only)
+7,word of chaos
+8,cloak of chaos
+9,summon monster IX (chaos only) ([~Creatures.SumMonPF4])
+10,|AssDom=Chaos, Good|{Bold~Subdomain (%AssDom%) (Azata = Eladrin). }
+_Your touch infuses life and weapons with chaos, and you revel in all things anarchic.<br>
+_[Tab]{Italic~Elysium’s  Call  (Su):} creatures touched = immediately reroll failed saves vs spells[Slash]sp from enchantment (charm or compulsion);
+_ also +2 sacred on saves vs enchantment (charm or compulsion), +2 sacred CMB to escape grapple, can ignore up to 5' of difficult terrain each round, as if they had the Nimble Moves feat.
+_ For |Temp=%CharacterLevel%||Temp\2||Temp>1|{Bold~%Temp%}r, 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Chaos Blade (Su):} STANDARD, weapon touched gains the {Italic~anarchic} special weapon quality for 
+_|Temp=%CharacterLevel%||Temp\2|{Bold~%Temp%} rounds, [ArtificeTime].}
+
+# Subdomain (AdvPG)
+:!Azata Good
+1,expeditious  retreat
+2,align weapon (good only)
+3,fly
+4,holy smite
+5,dispel evil
+6,planar ally (azata only)
+7,holy word
+8,holy aura
+9,summon monster IX (good only) ([~Creatures.SumMonPF4])
+10,|AssDom=Good, Chaos|{Bold~Subdomain (%AssDom%) (Azata = Eladrin). }
+_Your touch infuses life and weapons with chaos, and you revel in all things anarchic.<br>
+_[Tab]{Italic~Elysium’s  Call  (Su):} creatures touched = immediately reroll failed saves vs spells[Slash]sp from enchantment (charm or compulsion);
+_ also +2 sacred on saves vs enchantment (charm or compulsion), +2 sacred CMB to escape grapple, can ignore up to 5' of difficult terrain each round, as if they had the Nimble Moves feat.
+_ For |Temp=%CharacterLevel%||Temp\2||Temp>1|{Bold~%Temp%}r, 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Holy Lance (Su):} STANDARD, weapon touched gains the {Italic~holy} special weapon quality for 
+_|Temp=%CharacterLevel%||Temp\2|{Bold~%Temp%} rounds, [ArtificeTime].}
+
+# Subdomain (AdvPG)
+:!Blood
+1,magic weapon
+2,spiritual weapon
+3,vampiric touch
+4,divine power
+5,wall of thorns
+6,blade barrier
+7,inflict serious wounds (mass)
+8,power word stun
+9,power word kill
+10,|AssDom=War|{Bold~Subdomain (%AssDom%). }
+_You are a crusader for your god, always ready and willing to fight to defend your faith.<br>
+_[Tab]{Italic~Battle Rage (sp):} STANDARD, touched creature = |Temp=%CharacterLevel%||Temp\2||Temp>1|+{Bold~%Temp%} melee dmg, 1r, 3+WIS/day. 
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Wounding Blade (Su):} STANDARD, touched weapon = gain wounding special quality for |Temp=%CharacterLevel%||Temp\2|{Bold~%Temp%}r, [ArtificeTime].}
+
+:!Chaos
+1,protection from law
+2,align weapon (chaos only)
+3,magic circle against law
+4,chaos hammer
+5,dispel law
+6,animate objects
+7,word of chaos
+8,cloak of chaos
+9,summon monster IX (chaos only) ([~Creatures.SumMonPF4])
+10,Your touch infuses life and weapons with chaos, and you revel in all things anarchic.<br>
+_[Tab]{Italic~Touch of Chaos (Sp):} Melee touch attack, for the next round (OPTIONAL: |Temp=%CharacterLevel%||Temp\2||Temp>1|{Bold~%Temp%}r)
+_, anytime the target rolls a d20, he must roll twice and take the less 
+_favorable result, 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Chaos Blade (Su):} STANDARD, weapon touched gains the {Italic~anarchic} special weapon quality for 
+_|Temp=%CharacterLevel%||Temp\2|{Bold~%Temp%} rounds, [ArtificeTime].}
+
+# Subdomain (AdvPG)
+:!Catastrophe
+1,true strike
+2,gust of wind
+3,call lightning
+4,inflict critical wounds
+5,shout
+6,harm
+7,control weather
+8,earthquake
+9,implosion
+10,|AssDom=Destruction|{Bold~Subdomain (%AssDom%). }
+_You revel in ruin and devastation, and can deliver particularly destructive attacks.<br>
+_[Tab]{Italic~Destructive Smite (Su):} SWIFT, |Temp=%CharacterLevel%||Temp\2||Temp>1|+{Bold~%Temp%} damage on <u>one</u> melee attack (declare before attack), 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Deadly  Weather (Su):} STANDARD, |Temp=%CharacterLevel%||Temp*5|{Bold~%Temp%}' radius. 
+_Each round (choose, can't repeat next round) = driving rain (–4 Perception[Slash]ranged attacks), howling winds (–8 Fly[Slash]ranged attacks), heavy snow (all terrain considered difficult), or lightning bolt (3d6 electric, one target, Reflex 1[Slash]2 |Temp=%CharacterLevel%||Temp\2||Temp+10|DC{Bold~%Temp%+WIS}), 
+_{Bold~%CharacterLevel%}r[Slash]day.}
+
+# Subdomain (AdvPG)
+:!Caves
+1,magic stone
+2,create  pit (AdvPG)
+3,spiked pit (AdvPG)
+4,spike stones
+5,wall of stone
+6,hungry pit (AdvPG)
+7,elemental body 4 (earth only)
+8,earthquake
+9,elemental swarm (earth)
+10,|AssDom=Earth|{Bold~Subdomain (%AssDom%). }
+_You have mastery over earth, metal, and stone, can fire darts of acid, and command earth creatures.<br>
+_[Tab]{Italic~Acid Dart (Sp):} STANDARD, 30' ranged touch attack, 1d6+{Bold~{Trunc~{Calc~%CharacterLevel%/2}}} acid dmg, 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Tunnel Runner (Su):} STANDARD, {Italic~spider climb} on stone surfaces, darkvision +60'. 
+_Underground = +{Bold~%CharacterLevel%} insight Stealth, +{Bold~WIS} insight Initiative. 
+_{Bold~%CharacterLevel%} minutes[Slash]day (in 1-minute increments).}
+
+:!Charm
+1,charm person
+2,calm emotions
+3,suggestion
+4,heroism
+5,charm monster
+6,geas/quest
+7,insanity
+8,demand
+9,dominate monster
+10,You can baffle and befuddle foes with a touch or a smile, and your beauty and grace are divine.<br>
+_[Tab]{Italic~Dazing Touch (Sp):} melee touch vs living creature  = dazed 1r (max {Bold~%CharacterLevel%}HD), 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Charming Smile (Sp):} SWIFT, {Italic~charm person} |Temp=%CharacterLevel%||Temp\2||Temp+10|DC{Bold~%Temp%+WIS}, 
+_max 1 target affected, {Bold~%CharacterLevel%}r[Slash]day, FREE to dismiss.}
+
+# Subdomain (AdvPG)
+:!Cloud
+1,obscuring mist
+2,wind wall
+3,gaseous form
+4,solid fog
+5,control winds
+6,chain lightning
+7,elemental body 4 (air)
+8,whirlwind
+9,storm of vengeance
+10,|AssDom=Air|{Bold~Subdomain (%AssDom%). }
+_You can manipulate lightning, mist, and wind, traffic with air creatures, and are resistant to electricity damage.<br>
+_[Tab]{Italic~Lightning Arc (Sp):} STANDARD, 30' ranged touch attack, 1d6+{Bold~{Trunc~{Calc~%CharacterLevel%/2}}} electric dmg, 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Thundercloud (Su):} STANDARD at {Calc~100+(%CharacterLevel%*10)}' in 20' radius spread, inside cloud = defeaned + 2d6 electric[Slash]round from flashes of thunder and lightning.
+_ Can concentrate on cloud to move 30'[Slash]round, {Bold~%CharacterLevel%}r[Slash]day.}
+                                                                                                                                                            
+:!Community
+1,bless
+2,shield other
+3,prayer
+4,imbue with spell ability
+5,telepathic bond
+6,heroes' feast
+7,refuge
+8,mass cure critical wounds
+9,miracle
+10,Your touch can heal wounds, and your presence instills unity and strengthens emotional bonds.<br>
+_[Tab]{Italic~Calming Touch (Sp):} STANDARD, heal 1d6+{Bold~%CharacterLevel%} nonlethal damage (VP), removes fatigued, shaken, and sickened conditions, 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Unity (Su):} IMMEDIATE, you and allies at 30', use your save against a spell or effect in place of their own, [ArtificeTime].}
+
+# Subdomain (AdvPG)
+:!Construct
+1,animate rope
+2,wood shape
+3,stone shape
+4,minor creation
+5,fabricate
+6,major creation
+7,limited  wish
+8,polymorph any object
+9,prismatic sphere
+10,|AssDom=Artifice|{Bold~Subdomain (%AssDom%). }
+_You can repair damage to objects, animate objects with life, and create objects from nothing.<br>
+_[Tab]{Italic~Artificer’s Touch (Sp):} Mending at will (CL%CharacterLevel% to repair damaged objects). Damage objects/constructs, 
+_melee touch attack, 1d6+{Bold~{Trunc~{Calc~%CharacterLevel%/2}}}, bypass {Bold~%CharacterLevel%} of DR/hardness. 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Animate Servant (Su):} STANDARD at {Calc~100+(%CharacterLevel%*10)}' as {Italic~animate objects} (CL{Bold~%CharacterLevel%}) for {Bold~%CharacterLevel%}r, [ArtificeTime].}
+
+# Subdomain (AdvPG)
+:!Curse
+1,bane
+2,aid
+3,bestow curse
+4,freedom of movement
+5,break enchantment
+6,eyebite
+7,spell turning
+8,moment of prescience
+9,miracle
+10,|AssDom=Luck|{Bold~Subdomain (%AssDom%). }
+_You are infused with luck, and your mere presence can spread good fortune.<br>
+_[Tab]{Italic~Malign Eye (Su):} STANDARD, one target at 30' = -2 saves vs your spells for 1 minute or until target hits you with an attack, 3+WIS/day. 
+_{If~%CharacterLevel%>=6?<br>[Tab]{Italic~Good Fortune (ex):} IMMEDIATE, reroll any one d20 before the results are revealed, [LuckTime].}
+
+# Subdomain (AdvPG)
+:!Daemon
+1,cause  fear
+2,align weapon (evil only)
+3,vampiric touch
+4,unholy blight
+5,dispel good
+6,planar binding (daemons only)
+7,blasphemy
+8,unholy aura
+9,summon monster IX (evil only) ([~Creatures.SumMonPF4])
+10,|AssDom=Evil|{Bold~Subdomain (%AssDom%) (Daemons = NE outsiders PFB2). }
+_You are sinister and cruel, and have wholly pledged your soul to the cause of evil.<br>
+_[Tab]{Italic~Touch of Evil (Sp):} melee touch attack = sickened (-2 attack, damage, save, skill, ability) for |Temp=%CharacterLevel%||Temp\2||Temp>1|{Bold~%Temp%}r and your touch counts as good for 
+_the purposes of spells with the evil descriptor, 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Whispering Evil (Su, mind-affecting):} STANDARD, enemies 30' radius, Will |Temp=%CharacterLevel%||Temp\2||Temp+10|DC{Bold~%Temp%+WIS} or fascinated (no actions, -4 reaction skill checks, new save if potential threat, auto save vs obvious threat), 
+_{Bold~%CharacterLevel%} rounds[Slash]day.}
+
+:!Darkness
+1,obscuring mist
+2,blindness/deafness (only causes blindness)
+3,deeper darkness
+4,shadow conjuration
+5,summon monster V (summons 1d3 shadows)
+6,shadow walk
+7,power word blind
+8,greater shadow invocation
+9,shades
+10,You manipulate shadows and darkness. In addition, you receive {Italic~Blind-Fight as a bonus feat.}<br>
+_[Tab]{Italic~Touch of Darkness (Sp):} melee touch attack, treats all other creatures as if they had concealment (miss 20[Percent]) 
+_for |Temp=%CharacterLevel%||Temp\2||Temp>1|{Bold~%Temp%}r, 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Eyes of Darkness (Su):} vision not impaired by lighting conditions, even in absolute darkness and magic darkness, 
+_|Temp=%CharacterLevel%||Temp\2|{Bold~%Temp%}r[Slash]day.}
+
+# Subdomain (Inner Sea Gods)
+:!Dark Tapestry
+1,feather fall
+2,summon monster II ([~Creatures.SumMonPF2])
+3,fly
+4,planar binding (lesser)
+5,summon monster V ([~Creatures.SumMonPF5])
+6,planar binding
+7,insanity
+8,planar binding (greater)
+9,interplanetary teleport (UltMag)
+10,|AssDom=Void|{Bold~Subdomain (%AssDom%). }
+_You worship not only the vast emptiness of space, but the sinister and alien powers that reside therein.<br>
+_[Tab]{Italic~It Came from Beyond (Su):} SWIFT when casting a cleric summoning spell = ONE creature gains the advanced creature simple template (appears unnervingly deformed or unnaturally hideous, bringing with it a whiff of the emptiness of the void), 1/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Part the Veil (Su, mind-affecting):} SWIFT on spell targeting one creature and with a Will save = on failed save, confused for "spell level" rounds (new save each round for the confusion), |Temp=%CharacterLevel%||Temp\2|{Bold~%Temp%}[Slash]day.}
+
+# Subdomain (AdvPG)
+:!Day
+1,endure elements
+2,continual flame
+3,daylight
+4,fire shield
+5,flame strike
+6,fire seeds
+7,sunbeam
+8,sunburst
+9,prismatic sphere
+10,|AssDom=Sun|{Bold~Subdomain (%AssDom%). }
+_You see truth in the pure and burning light of the sun, and can call upon its blessing or wrath to work great deeds.<br>
+_[Tab]{Italic~Sun's Blessing (su):} channel positive energy to harm undead = +{Bold~%CharacterLevel%} dmg, undeads do not add their channel resistance to their saves.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Day’s  Resurgence  (Su):} 10 minutes, restore touched creature as if 8 hours of rest (regain hp as if rested for the night and may make new save vs {Italic~once per day} effects, does not affect spellcasting preparation, |Temp=%CharacterLevel%||Temp-8||Temp\2||Temp+1|{Bold~%Temp%}[Slash]day.}
+
+:!Death
+1,cause fear
+2,death knell
+3,animate dead
+4,death ward
+5,slay living
+6,create undead
+7,destruction
+8,create greater undead
+9,wail of the banshee
+10,You can cause the living to bleed at a touch, and find comfort in the presence of the dead.<br>
+_[Tab]{Italic~Bleeding Touch (Sp):} melee touch attack vs living creature, 1d6 dmg/r for |Temp=%CharacterLevel%||Temp\2||Temp>1|{Bold~%Temp%}r (Heal DC15 to stop), 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Death’s Embrace (Ex):} you heal damage instead of taking damage from channeled negative energy. 
+_If the channeled negative energy targets undead, you heal hit points just like undead in the area.}
+
+# Subdomain (AdvPG)
+:!Decay
+1,entangle
+2,barkskin
+3,contagion
+4,poison
+5,wall of thorns
+6,harm
+7,animate plants
+8,control plants
+9,shambler
+10,|AssDom=Plant|{Bold~Subdomain (%AssDom%). }
+_You find solace in the green, can grow defensive thorns, and can communicate with plants.<br>
+_[Tab]{Italic~Wooden Fist (su):} FREE, wooden fist with thorns (no AO to attack), |Temp=%CharacterLevel%||Temp\2||Temp>1|+{Bold~%Temp%} dmg, 3+WIS rounds/day.
+_{If~%CharacterLevel%>=1?<br>[Tab]{Italic~Aura of Decay (Su):} STANDARD, 30' aura, living creatures (except you) = flesh rots, 1d6 dmg[Slash]rnd (plants = 2d6) and -1 STR[Slash]rnd. Once outside area = regain 1 STR[Slash]r (lose again if reenter).  {Bold~%CharacterLevel%}r[Slash]day.}
+
+# Subdomain (AdvPG)
+:!Deception
+1,disguise self
+2,mirror image
+3,nondetection
+4,confusion
+5,false vision
+6,mislead
+7,project image
+8,mass invisibility
+9,time stop
+10,|AssDom=Trickery|{Bold~Subdomain (%AssDom%). }
+_You are a master of illusions and deceptions. {Italic~Bluff, Disguise, and Stealth are class skills.}<br>
+_[Tab]{Italic~Sudden Shift (Sp):} IMMEDIATE after missed by melee attack = teleport 10' to space you can see, inside reach of creature that attacked you, 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Master's Illusion (sp):} you and allies at 30' hides your appearance, disbelieve DC|Temp=%CharacterLevel%||Temp\2||Temp+10|{Bold~%Temp%}+WIS, {Bold~%CharacterLevel%}r[Slash]day.}
+
+# Subdomain (AdvPG)
+:!Defense
+1,shield
+2,barkskin
+3,protection from energy
+4,spell immunity
+5,spell resistance
+6,antimagic field
+7,deflection (AdvPG)
+8,mind blank
+9,prismatic sphere
+10,|AssDom=Protection|{Bold~Subdomain (%AssDom%). }
+_Your faith is your greatest source of protection, and you can use that faith to defend others. In addition, {Italic~you receive a |Temp=[ResistanceBonus=%CharacterLevel%]|+{Bold~%Temp%} resistance bonus on saving throws.}<br>
+_[Tab]{Italic~Deflection Aura (Su):} STANDARD, 30' aura, allies = +2 deflection AC/CMD for {Bold~%CharacterLevel%} rounds, 1/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Aura of Protection (su):} you and allies at 30', |Temp=[ProtectionBonus=%CharacterLevel%]|+{Bold~%Temp%} deflection AC, Resistance {Bold~[ResistanceEnergy=%CharacterLevel%]} vs all elements (acid, cold, electricity, fire, sonic), {Bold~%CharacterLevel%}r[Slash]day.}
+
+# Subdomain (AdvPG)
+:!Demon Chaos
+1,doom
+2,align weapon (chaos only)
+3,rage
+4,chaos hammer
+5,dispel law
+6,planar binding (demons only)
+7,word of chaos
+8,cloak of chaos
+9,summon monster IX (chaos only) ([~Creatures.SumMonPF4])
+10,|AssDom=Chaos, Evil|{Bold~Subdomain (%AssDom%). }
+_Your touch infuses life and weapons with chaos, and you revel in all things anarchic.<br>
+_[Tab]{Italic~Fury  of  the  Abyss  (Su):} SWIFT, |Temp=%CharacterLevel%||Temp\2||Temp>1|+{Bold~%Temp%} enhancement attacks / melee damage / CMB checks / -2 AC for 1r, 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Chaos Blade (Su):} STANDARD, weapon touched gains the {Italic~anarchic} special weapon quality for 
+_|Temp=%CharacterLevel%||Temp\2|{Bold~%Temp%} rounds, [ArtificeTime].}
+
+# Subdomain (AdvPG)
+:!Demon Evil
+1,doom
+2,align weapon (evil only)
+3,rage
+4,unholy blight
+5,dispel good
+6,planar binding (demons only)
+7,blasphemy
+8,unholy aura
+9,summon monster IX (evil only) ([~Creatures.SumMonPF4])
+10,|AssDom=Evil, Chaos|{Bold~Subdomain (%AssDom%). }
+_You are sinister and cruel, and have wholly pledged your soul to the cause of evil.<br>
+_[Tab]{Italic~Fury  of  the  Abyss  (Su):} SWIFT, |Temp=%CharacterLevel%||Temp\2||Temp>1|+{Bold~%Temp%} enhancement attacks / melee damage / CMB checks / -2 AC for 1r, 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Scythe of Evil (Su):} STANDARD, weapon touched gains the {Italic~unholy} special weapon quality for 
+_|Temp=%CharacterLevel%||Temp\2|{Bold~%Temp%} rounds, [ArtificeTime].}
+
+:!Destruction
+1,true strike
+2,shatter
+3,rage
+4,inflict critical wounds
+5,shout
+6,harm
+7,disintegrate
+8,earthquake
+9,implosion
+10,You revel in ruin and devastation, and can deliver particularly destructive attacks.<br>
+_[Tab]{Italic~Destructive Smite (Su):} SWIFT, |Temp=%CharacterLevel%||Temp\2||Temp>1|+{Bold~%Temp%} damage on <u>one</u> melee attack (declare before attack), 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Destructive Aura (Su):} STANDARD, 30' radius, |Temp=%CharacterLevel%||Temp\2||Temp>1|+{Bold~%Temp%} damage vs all creatures 
+_(including you), all critical threats are automatically confirmed, {Bold~%CharacterLevel%}r[Slash]day.}
+
+# Subdomain (AdvPG)
+:!Devil Evil
+1,command
+2,align weapon (evil only)
+3,suggestion
+4,unholy blight
+5,dispel good
+6,planar binding (devils only)
+7,blasphemy
+8,unholy aura
+9,summon monster IX (evil only) ([~Creatures.SumMonPF4])
+10,|AssDom=Evil, Law|{Bold~Subdomain (%AssDom%) (Devils = LE outsiders). }
+_You are sinister and cruel, and have wholly pledged your soul to the cause of evil.<br>
+_[Tab]{Italic~Hell’s Corruption (Su):} melee touch attack = for |Temp=%CharacterLevel%||Temp\2||Temp>1|{Bold~%Temp%}r, -2 all saves and must roll opposed skill checks twice taking the worse result, 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Scythe of Evil (Su):} STANDARD, weapon touched gains the {Italic~unholy} special weapon quality for 
+_|Temp=%CharacterLevel%||Temp\2|{Bold~%Temp%} rounds, [ArtificeTime].}
+
+# Subdomain (AdvPG)
+:!Devil Law
+1,command
+2,align weapon (law only)
+3,suggestion
+4,order's wrath
+5,dispel chaos
+6,planar binding (devils only)
+7,dictum
+8,shield of law
+9,summon monster IX (lawful only) ([~Creatures.SumMonPF4])
+10,|AssDom=Law, Evil|{Bold~Subdomain (%AssDom%) (Devils = LE outsiders). }
+_You follow a strict and ordered code of laws, and in so doing, achieve enlightenment.<br>
+_[Tab]{Italic~Hell’s Corruption (Su):} melee touch attack = for |Temp=%CharacterLevel%||Temp\2||Temp>1|{Bold~%Temp%}r, -2 all saves and must roll opposed skill checks twice taking the worse result, 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Staff of Order (Su):} STANDARD, weapon touched gains the {Italic~axiomatic} special weapon quality for 
+_|Temp=%CharacterLevel%||Temp\2|{Bold~%Temp%} rounds, [ArtificeTime].}
+
+# Subdomain (AdvPG)
+:!Divine
+1,identify
+2,bless  water
+3,dispel magic
+4,imbue with spell ability
+5,cleanse (AdvPG)
+6,antimagic field
+7,resurrection
+8,protection from spells
+9,miracle
+10,You are a true student of all things mystical, and see divinity in the purity of magic.<br>
+_[Tab]{Italic~Divine  Vessel  (Su):} IMMEDIATE (when target of a divine spell) grant each ally within 15' a divine boon = +2 next attack roll, skill check or ability check made before the enf of their next turn, 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Dispelling Touch (sp):} targeted {Italic~dispel magic}, melee touch attack, [ArtificeTime].}
+
+:!Earth
+1,magic stone
+2,soften earth and stone
+3,stone shape
+4,spike stones
+5,wall of stone
+6,stoneskin
+7,elemental body 4 (earth only)
+8,earthquake
+9,elemental swarm (earth)
+10,You have mastery over earth, metal, and stone, can fire darts of acid, and command earth creatures.<br>
+_[Tab]{Italic~Acid Dart (Sp):} STANDARD, 30' ranged touch attack, 1d6+{Bold~{Trunc~{Calc~%CharacterLevel%/2}}} acid dmg, 3+WIS/day.
+_{If~%CharacterLevel%>=20?<br>[Tab]{Italic~Immune to Acid (Ex).}/{If~%CharacterLevel%>=12?<br>[Tab]{Italic~Acid Resistance (Ex) 20.}/{If~%CharacterLevel%>=6?<br>[Tab]{Italic~Acid Resistance (Ex) 10.}}}}
+
+:!Evil
+1,protection from good
+2,align weapon (evil only)
+3,magic circle against good
+4,unholy blight
+5,dispel good
+6,create undead
+7,blasphemy
+8,unholy aura
+9,summon monster IX (evil only) ([~Creatures.SumMonPF4])
+10,You are sinister and cruel, and have wholly pledged your soul to the cause of evil.<br>
+_[Tab]{Italic~Touch of Evil (Sp):} melee touch attack = sickened (-2 attack, damage, save, skill, ability) for |Temp=%CharacterLevel%||Temp\2||Temp>1|{Bold~%Temp%}r and your touch counts as good for 
+_the purposes of spells with the evil descriptor, 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Scythe of Evil (Su):} STANDARD, weapon touched gains the {Italic~unholy} special weapon quality for 
+_|Temp=%CharacterLevel%||Temp\2|{Bold~%Temp%} rounds, [ArtificeTime].}
+
+# Subdomain (AdvPG)
+:!Exploration
+1,expeditious  retreat
+2,locate object
+3,fly
+4,locate creature
+5,teleport
+6,find the path
+7,greater teleport
+8,phase door
+9,world wave (AdvPG)
+10,|AssDom=Travel|{Bold~Subdomain (%AssDom%). }
+_You are an explorer and find enlightenment in the simple joy of travel, be it by foot or conveyance or magic. {Italic~Increase your base speed by 10 feet.}<br>
+_[Tab]{Italic~Door Sight (Su):} 1 minute, lay hand on surface (max |Temp=%CharacterLevel%||Temp+6|{Bold~%Temp%}" thick) to see other side (as {Italic~clairvoyance}), can look for 10 minutes/use (must touch surface, no other actions), 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Dimensional Hop (sp):} MOVE, teleport up to |Temp=%CharacterLevel%||Temp\2||Temp*10|{Bold~%Temp%'}[Slash]day (in 5' increments, no AO, must have line of sight, can bring other creature but must expend equal amount of distance for each one brought).}
+
+# Subdomain (AdvPG)
+:!Family
+1,bless
+2,calm emotions
+3,create food and water
+4,imbue with spell ability
+5,telepathic bond
+6,heroes' feast
+7,refuge
+8,mass cure critical wounds
+9,miracle
+10,|AssDom=Community|{Bold~Subdomain (%AssDom%). }
+_Your touch can heal wounds, and your presence instills unity and strengthens emotional bonds.<br>
+_[Tab]{Italic~Binding  Ties  (Su):} STANDARD, touch ally and transfer one condition from ally to you for {Bold~%CharacterLevel%}r (FREE to end) and target immune to the transfered condition while active, 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Unity (Su):} IMMEDIATE, you and allies at 30', use your save against a spell or effect in place of their own, [ArtificeTime].}
+
+# Subdomain (AdvPG)
+:!Fate
+1,true strike
+2,augury
+3,borrow fortune (AdvPG)
+4,freedom of movement
+5,break enchantment
+6,mislead
+7,spell turning
+8,moment of prescience
+9,miracle
+10,|AssDom=Luck|{Bold~Subdomain (%AssDom%). }
+_You are infused with luck, and your mere presence can spread good fortune.<br>
+_[Tab]{Italic~Bit of Luck (sp):} STANDARD, willing creature touched = for 1 round, when rolling 1d20, may roll twice and take the more favorable one, 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Tugging Strands (Su):} IMMEDIATE, creature in line of sight must reroll any one roll before the results are revealed, [FateTime].}
+
+:FateTime
+1,{Bold~[FateTime2=%CharacterLevel%]}[Slash]day
+
+:FateTime2
+1-13,1
+14-19,2
+20-100,3
+
+# Subdomain (AdvPG)
+:!Feather
+1,calm animals
+2,feather fall
+3,fly
+4,summon nature's ally IV (animals only) ([~Creatures.SumNatAllPF4])
+5,beast shape 3 (animals only)
+6,fly (mass)
+7,animal shapes
+8,summon nature's ally VIII (animals only) ([~Creatures.SumNatAllPF8])
+9,shapechange
+10,|AssDom=Animal|{Bold~Subdomain (%AssDom%). }
+_You can speak with and befriend animals with ease. {Italic~Add  Fly  to  your  list  of  class  skills.  In  addition, whenever you cast a spell that grants you a fly speed, your maneuverability increases by one step (up to perfect).}<br>
+_[Tab]{Italic~Eyes of the Hawk (Ex):} |Temp=%CharacterLevel%||Temp\2||Temp>1|{Bold~+%Temp%} racial Perception. In addition, if you can act during a surprise round, you receive a +2 racial bonus on your Initiative check.
+_{If~%CharacterLevel%>=4?<br>[Tab]{Italic~Animal Companion (Ex):} Effective druid level = {Bold~{Calc~%CharacterLevel%-3}}.}
+
+# Subdomain (AdvPG)
+:!Ferocity
+1,enlarge person
+2,bull's strength
+3,rage
+4,spell immunity
+5,righteous might
+6,bull’s strength (mass)
+7,grasping hand
+8,clenched fist
+9,crushing hand
+10,|AssDom=Strength|{Bold~Subdomain (%AssDom%). }
+_In strength and brawn there is truth - your faith gives you incredible might and power.<br>
+_[Tab]{Italic~Ferocious  Strike  (Su):} FREE with melee attack = |Temp=%CharacterLevel%||Temp\2||Temp>1|+{Bold~%Temp%} damage, 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Might of the Gods (su):} personal, +{Bold~%CharacterLevel%} STR (only for STR checks and skills), {Bold~%CharacterLevel%}r[Slash]day.}
+
+:!Fire
+1,burning hands
+2,produce flame
+3,fireball
+4,wall of fire
+5,fire shield
+6,fire seeds
+7,elemental body 4 (fire only)
+8,incendiary cloud
+9,elemental swarm (fire only)
+10,You can call forth fire, command creatures of the inferno, and your flesh does not burn.<br>
+_[Tab]{Italic~Fire Bolt (Sp):} STANDARD, 30' ranged touch attack, 1d6+{Bold~{Trunc~{Calc~%CharacterLevel%/2}}} fire dmg, 3+WIS/day.
+_{If~%CharacterLevel%>=20?<br>[Tab]{Italic~Immune to Fire (Ex).}/{If~%CharacterLevel%>=12?<br>[Tab]{Italic~Fire Resistance (Ex) 20.}/{If~%CharacterLevel%>=6?<br>[Tab]{Italic~Fire Resistance (Ex) 10.}}}}
+
+# Subdomain (AdvPG)
+:!Freedom
+1,sanctuary
+2,remove paralysis
+3,remove curse
+4,freedom of movement
+5,plane shift
+6,greater dispel magic
+7,refuge
+8,mind blank
+9,freedom
+10,|AssDom=Liberation|{Bold~Subdomain (%AssDom%). }
+_You are a spirit of freedom and a staunch foe against all who would enslave and oppress.<br>
+_[Tab]{Italic~Liberty’s Blessing (Sp):} STANDARD, touch willing creature to give boon, 3+WIS/day. Boon = SWIFT to use (within 1 minute) to get a new save vs a single spell or effect.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Freedom's Call (su):} allies in 30' aura, the confused, grappled, frightened, panicked, paralyzed, pinned, or shaken conditions are suppressed while in the aura, {Bold~%CharacterLevel%}r[Slash]day.}
+
+# Subdomain (AdvPG)
+:!Fur
+1,magic fang
+2,hold animal
+3,beast shape 1 (animals only)
+4,summon nature's ally IV (animals only) ([~Creatures.SumNatAllPF4])
+5,beast shape 3 (animals only)
+6,antilife shell
+7,animal shapes
+8,summon nature's ally VIII (animals only) ([~Creatures.SumNatAllPF8])
+9,shapechange
+10,|AssDom=Animal|{Bold~Subdomain (%AssDom%). }
+_You can speak with and befriend animals with ease. {Italic~In addition, you treat Knowledge (Nature) as a class skill.}<br>
+_[Tab]{Italic~Predator’s  Grace (Su):} SWIFT |Temp=%CharacterLevel%||Temp\5|{If~%Temp%<1?|Temp=1|/|Temp+1|}|Temp*5||Temp+5|{Bold~+%Temp%}' base speed 1r and low-light vision (if already low-light vision = x3 instead of x2), 3+WIS/day.
+_{If~%CharacterLevel%>=4?<br>[Tab]{Italic~Animal Companion (Ex):} Effective druid level = {Bold~{Calc~%CharacterLevel%-3}}.}
+
+:!Glory
+1,shield of faith
+2,bless weapon
+3,searing light
+4,holy smite
+5,righteous might
+6,undeath to death
+7,holy sword
+8,holy aura
+9,gate
+10,You are infused with the glory of the divine, and are a true foe of the undead. {Italic~In addition, when you channel positive energy to harm undead creatures, the save DC to halve the damage is increased by 2.}<br>
+_[Tab]{Italic~Touch of Glory (Sp):} STANDARD, +{Bold~%CharacterLevel%} on ONE Charisma-based skill check or Charisma ability check, lasts for 1 hour or until used, 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Divine Presence (Su):} STANDARD, allies at 30' are in a {Italic~sanctuary}, |Temp=%CharacterLevel%||Temp\2||Temp+10|DC{Bold~%Temp%+WIS}, {Bold~%CharacterLevel%}r[Slash]day. 
+_If an ally leaves the area or makes an attack, the effect ends for that ally. If you make an attack, the effect ends for you and your allies.}
+
+:!Good
+1,protection from evil
+2,align weapon (good only)
+3,magic circle against evil
+4,holy smite
+5,dispel evil
+6,blade barrier
+7,holy word
+8,holy aura
+9,summon monster IX (good only) ([~Creatures.SumMonPF4])
+10,You have pledged your life and soul to goodness and purity.<br>
+_[Tab]{Italic~Touch of Good (Sp):} STANDARD, creature touched = |Temp=%CharacterLevel%||Temp\2||Temp>1|{Bold~+%Temp%} attack/skill/ability/saves for 1 round, 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Holy Lance (Su):} STANDARD, weapon touched gains the {Italic~holy} special weapon quality for 
+_|Temp=%CharacterLevel%||Temp\2|{Bold~%Temp%} rounds, [ArtificeTime].}
+
+# Subdomain (AdvPG)
+:!Growth
+1,enlarge  person
+2,barkskin
+3,plant growth
+4,command plants
+5,righteous might
+6,repel wood
+7,animate plants
+8,control plants
+9,shambler
+10,|AssDom=Plant|{Bold~Subdomain (%AssDom%). }
+_You find solace in the green, can grow defensive thorns, and can communicate with plants.<br>
+_[Tab]{Italic~Enlarge (Su):} SWIFT, {Italic~enlarge person} on yourself for 1r, 3+WIS/day.
+_{If~%CharacterLevel%>=1?<br>[Tab]{Italic~Bramble Armor (su):} FREE, wooden thorns burst from skin, any foe attacking you with unarmed strike or melee weapon without reach receives 1d6+{Bold~%Temp%} piercing dmg, {Bold~%CharacterLevel%}r[Slash]day.}
+
+:!Healing
+1,cure light wounds
+2,cure moderate wounds
+3,cure serious wounds
+4,cure critical wounds
+5,breath of life
+6,heal
+7,regenerate
+8,mass cure critical wounds
+9,mass heal
+10,Your touch staves off pain and death, and your healing magic is particularly vital and potent.<br>
+_[Tab]{Italic~Rebuke Death (sp):} STANDARD, living creature touched below 0 hp = |Temp=%CharacterLevel%||Temp\2|cure 1d4+{Bold~%Temp%}, 3+WIS/day.
+_{If~%CharacterLevel%>=6?<br>[Tab]{Italic~Healer's Blessing (su):} +50[Percent] to cure spells (not to harm undeads, not with Empower Spell feat).}
+
+# Subdomain (AdvPG)
+:!Heroism
+1,shield of faith
+2,bless weapon
+3,heroism
+4,holy smite
+5,righteous might
+6,heroism (greater)
+7,holy sword
+8,holy aura
+9,gate
+10,|AssDom=Glory|{Bold~Subdomain (%AssDom%). }
+_You are infused with the glory of the divine, and are a true foe of the undead. {Italic~In addition, when you channel positive energy to harm undead creatures, the save DC to halve the damage is increased by 2.}<br>
+_[Tab]{Italic~Touch of Glory (Sp):} STANDARD, +{Bold~%CharacterLevel%} on ONE Charisma-based skill check or Charisma ability check, lasts for 1 hour or until used, 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Aura of Heroism (Su):} SWIFT, 30' radius, heroism (+2 morale attack[Slash]saves[Slash]skill checks), 
+_{Bold~%CharacterLevel%} rounds[Slash]day.}
+
+# Subdomain (AdvPG)
+:!Home
+1,alarm
+2,shield other
+3,glyph of warding
+4,imbue with spell ability
+5,telepathic bond
+6,heroes' feast
+7,guards and wards
+8,mass cure critical wounds
+9,miracle
+10,|AssDom=Community|{Bold~Subdomain (%AssDom%). }
+_Your touch can heal wounds, and your presence instills unity and strengthens emotional bonds.<br>
+_[Tab]{Italic~Calming Touch (Sp):} STANDARD, heal 1d6+{Bold~%CharacterLevel%} nonlethal damage (VP), removes fatigued, shaken, and sickened conditions, 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Guarded Hearth (Su):} 10 minutes, |Temp=%CharacterLevel%||Temp\2|{Bold~{Calc~5*%Temp%}}' radius, select any number of creatures = 
+_they are automatically alerted (and awoken) if any other creature enters the warded area, and +{Bold~WIS} sacred on saves[Slash]attack rolls inside area. Ends if cleric leaves area. 
+_Duration: {Bold~%CharacterLevel%} hours[Slash]day, 1[Slash]day.}
+
+# Subdomain (AdvPG)
+:!Honor
+1,shield of faith
+2,zone  of  truth
+3,searing light
+4,holy smite
+5,righteous might
+6,geas/quest
+7,holy sword
+8,holy aura
+9,gate
+10,|AssDom=Glory|{Bold~Subdomain (%AssDom%). }
+_You are infused with the glory of the divine, and are a true foe of the undead. {Italic~In addition, when you channel positive energy to harm undead creatures, the save DC to halve the damage is increased by 2.}<br>
+_[Tab]{Italic~Honor  Bound (Su):} touch, gain new save vs each enchantment (charm/compulsion) target has. If <u>you</u> fail = IMMEDIATE to use it again, after you can't use this ability again on that particular enchantment. 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Divine Presence (Su):} STANDARD, allies at 30' are in a {Italic~sanctuary}, |Temp=%CharacterLevel%||Temp\2||Temp+10|DC{Bold~%Temp%+WIS}, {Bold~%CharacterLevel%}r[Slash]day. 
+_If an ally leaves the area or makes an attack, the effect ends for that ally. If you make an attack, the effect ends for you and your allies.}
+
+# Subdomain (AdvPG)
+:!Ice
+1,obscuring mist
+2,fog cloud
+3,water breathing
+4,control water
+5,ice storm
+6,cone of cold
+7,freezing sphere
+8,horrid wilting
+9,polar ray
+10,|AssDom=Water|{Bold~Subdomain (%AssDom%). }
+_You can manipulate water and mist and ice, conjure creatures of water, and resist cold.<br>
+_[Tab]{Italic~Icicle (sp):} STANDARD, 30' ranged touch attack, 1d6+{Bold~{Trunc~{Calc~%CharacterLevel%/2}}} cold dmg, 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Body  of  Ice  (Su):} STANDARD, you and equipment = Immune to cold, DR5[Slash]-, x2 dmg vs fire, {Bold~%CharacterLevel%}r[Slash]day.}
+
+# Subdomain (AdvPG)
+:!Inevitable
+1,protection from chaos
+2,align weapon (law only)
+3,command undead
+4,order's wrath
+5,command (greater)
+6,planar binding (inevitables only)
+7,dictum
+8,shield of law
+9,summon monster IX (lawful only) ([~Creatures.SumMonPF4])
+10,|AssDom=Law|{Bold~Subdomain (%AssDom%) (Inevitables = LN outsiders PFB2. }
+_You follow a strict and ordered code of laws, and in so doing, achieve enlightenment.<br>
+_[Tab]{Italic~Command (Su):} STANDARD, {Italic~command} at |Temp=%CharacterLevel%||Temp\2||Temp*5||Temp+25|{Bold~%Temp%}', 
+_Will |Temp=%CharacterLevel%||Temp\2||Temp+10|DC{Bold~%Temp%+WIS}, max 1/creature/day, 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Staff of Order (Su):} STANDARD, weapon touched gains the {Italic~axiomatic} special weapon quality for 
+_|Temp=%CharacterLevel%||Temp\2|{Bold~%Temp%} rounds, [ArtificeTime].}
+
+# Subdomain (AdvPG)
+:!Insanity
+1,lesser confusion
+2,touch od idiocy
+3,rage
+4,moonstruck (AdvPG)
+5,nightmare
+6,phantasmal web (AdvPG)
+7,insanity
+8,scintillating pattern
+9,weird
+10,|AssDom=Madness|{Bold~Subdomain (%AssDom%). }
+_You embrace the madness that lurks deep in your heart, and can unleash it to drive your foes insane or to sacrifice certain abilities to hone others.<br>
+_[Tab]{Italic~Insane  Focus  (Su):} STANDARD, touch willing target = +4 saves vs mind-affecting, immune to confusion, 1 minute, 3+WIS/day. If fail save vs mind-affecting = loses immunity to confusion and confused 1r.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Aura of Madness (su):} enemies in 30' radius = {Italic~confusion} DC{Bold~%Temp%}+WIS, effect ends if leave aura, if save immune for 24 hours, {Bold~%CharacterLevel%}r[Slash]day.}
+
+# Subdomain (PC_DivA)
+:!Insect
+1,calm animals (vermins only)
+2,hold animal (vermins only)
+3,dominate animal (vermins only)
+4,giant vermin
+5,vermin shape 2
+6,antilife shell (vermins only)
+7,animal shapes (vermins only)
+8,summon nature's ally VIII (1d3 goliath stag beetles)
+9,shapechange
+10,|AssDom=Animal|{Bold~Subdomain (%AssDom%). }
+_You can speak with and befriend insects with ease. The domain spells provided by the Insect domain affect vermin rather than animals, treating them as if they were not immune to spells with the mind-affecting descriptor. Any such spell that allows a Will save can instead be negated by the target vermin with a successful Fortitude save at the same DC. {Italic~In addition, you treat Knowledge (Dungeoneering) as a class skill.}<br>
+_[Tab]{Italic~Exoskeleton (Su):} SWIFT = |Temp=%CharacterLevel%||Temp\5||Temp+1|+{Bold~%Temp%} enhancement natural armor, +1d4|Temp=%CharacterLevel%||Temp\2|{If~%Temp%>0?{Bold~+%Temp%}}, 1 round, 3+WIS/day.
+_{If~%CharacterLevel%>=4?<br>[Tab]{Italic~Animal Companion (Ex):} Effective druid level = {Bold~{Calc~%CharacterLevel%-3}}.}
+
+# Subdomain (Inner Sea Gods)
+:!Isolation
+1,feather fall
+2,levitate
+3,fly
+4,crushing despair
+5,overland flight
+6,wall of force
+7,reverse gravity
+8,prismatic wall
+9,interplanetary teleport (UltMag)
+10,|AssDom=Void|{Bold~Subdomain (%AssDom%). }
+_You find strength in the solitude found in the remote corners of the universe.<br>
+_[Tab]{Italic~Guarded Mind (Ex):} +2 insight saves vs mind affecting effects. 
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Aura of Isolation (Su, mind-affecting):} STANDARD, 20' aura, enemies = difficult terrain, can't provide flanking, can't benefit from aid another, {Bold~%CharacterLevel%} rounds[Slash]day.}
+
+:!Knowledge
+1,comprehend languages
+2,detect thoughts
+3,speak with dead
+4,divination
+5,true seeing
+6,find the path
+7,legend lore
+8,discern location
+9,foresight
+10,You are a scholar and a sage of legends. In addition, {Italic~you treat all Knowledge skills as class skills.}<br>
+_[Tab]{Italic~Lore Keeper (sp):} melee touch attack = as Knowledge to identify a monster touched (Knowledge check of {Bold~{Calc~(15+%CharacterLevel%)}}+WIS).
+_{If~%CharacterLevel%>=6?<br>[Tab]{Italic~Remote Viewing (sp):} {Italic~clairaudience[Slash]clairvoyance} (CL={Bold~%CharacterLevel%}), {Bold~%CharacterLevel%}r[Slash]day.}
+
+# Subdomain (AdvPG)
+:!Language
+1,comprehend languages
+2,share language (AdvPG)
+3,tongues
+4,explosive runes
+5,telepathic bond
+6,greater glyph of warding
+7,instant summons
+8,symbol of death
+9,teleportation circle
+10,|AssDom=Rune|{Bold~Subdomain (%AssDom%). }
+_In strange and eldritch runes you find potent magic. {Italic~You gain Scribe Scroll as a bonus feat.}<br>
+_[Tab]{Italic~Blast Rune (sp):} STANDARD = create invisible rune in adjacent empty square (choose either acid, cold, electricity or fire; counts as 1st-level spell), any creature 1d6+|Temp=%CharacterLevel%||Temp\2|{Bold~%Temp%} energy dmg, lasts {Bold~%CharacterLevel%}r or until discharged, Perception[Slash]Disable Device DC26, 3+WIS/day.
+_{If~%CharacterLevel%>=6?<br>[Tab]{Italic~Rune Shift (Su):} SWIFT, change location of one blast rune witihin 30', can place it in a square adjacent to you even if occupied.}
+
+:!Law
+1,protection from chaos
+2,align weapon (law only)
+3,magic circle against chaos
+4,order's wrath
+5,dispel chaos
+6,hold monster
+7,dictum
+8,shield of law
+9,summon monster IX (lawful only) ([~Creatures.SumMonPF4])
+10,You follow a strict and ordered code of laws, and in so doing, achieve enlightenment.<br>
+_[Tab]{Italic~Touch of Law (Sp):} STANDARD, creature touched = treat {Bold~all} attack/skill/ability/saves rolls to be '11' for 1 round, 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Staff of Order (Su):} STANDARD, weapon touched gains the {Italic~axiomatic} special weapon quality for 
+_|Temp=%CharacterLevel%||Temp\2|{Bold~%Temp%} rounds, [ArtificeTime].}
+
+# Subdomain (AdvPG)
+:!Leadership
+1,bless
+2,enthrall
+3,prayer
+4,discern lies
+5,greater command
+6,brilliant inspiration (AdvPG)
+7,repulsion
+8,demand
+9,storm of vengeance
+10,|AssDom=Nobility|{Bold~Subdomain (%AssDom%). }
+_You are a great leader, an inspiration to all who follow the teachings of your faith.<br>
+_[Tab]{Italic~Inspiring  Command  (Su, language-dependant, mind-affecting):} STANDARD, |Temp=%CharacterLevel%||Temp\3||Temp+1|{Bold~%Temp%} allies at 30' = +2 insight attack/AC/CMD/skill checks for 1r, 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Leadership (ex):} Leadership as bonus feat, +2 leadership score.}
+
+# Subdomain (AdvPG)
+:!Light
+1,faerie  fire
+2,heat metal
+3,daylight
+4,fire shield
+5,flame strike
+6,fire seeds
+7,sunbeam
+8,sunburst
+9,prismatic sphere
+10,|AssDom=Sun|{Bold~Subdomain (%AssDom%). }
+_You see truth in the pure and burning light of the sun, and can call upon its blessing or wrath to work great deeds.<br>
+_[Tab]{Italic~Blinding  Flash  (Su):} STANDARD, flash of light from holy symbol/divine focus, creatures in 20' radius = dazzled |Temp=%CharacterLevel%||Temp\2||Temp>1|{Bold~%Temp%}r, if HD < {Bold~%CharacterLevel%} Fort |Temp=%CharacterLevel%||Temp\2||Temp+10|DC{Bold~%Temp%+WIS} or blinded 1d4 rounds; 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Nimbus of Light (su):} {Italic~daylight} 30' radius, {Bold~%CharacterLevel%}r[Slash]day, undeads = {Bold~%CharacterLevel%} dmg[Slash]r inside nimbus, automatic dispel darkness spells[Slash]sp.}
+
+# Subdomain (PC_DivA)
+:!Lightning
+1,shocking grasp
+2,flame blade (electricity instead of fire)
+3,lightning bolt
+4,air walk
+5,control winds
+6,chain lightning
+7,elemental body 4 (air)
+8,whirlwind
+9,elemental swarm (air)
+10,|AssDom=Air|{Bold~Subdomain (%AssDom%). }
+_You can manipulate lightning, mist, and wind, traffic with air creatures, and are resistant to electricity damage.<br>
+_[Tab]{Italic~Lightning Arc (Sp):} STANDARD, 30' ranged touch attack, 1d6+{Bold~{Trunc~{Calc~%CharacterLevel%/2}}} electric dmg, 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Lightning Rod (Su):} SWIFT when casting an "electricity" spell, choose creature in line of sight = +50[Percent] divine damage and you receive the same as electrical damage, [ArtificeTime].}
+								  
+# Subdomain (AdvPG)
+:!Loss
+1,obscuring mist
+2,blindness/deafness (only causes blindness)
+3,deeper darkness
+4,shadow conjuration
+5,enervation
+6,modify memory
+7,power word blind
+8,greater shadow invocation
+9,energy drain
+10,|AssDom=Darkness|{Bold~Subdomain (%AssDom%). }
+_You manipulate shadows and darkness. In addition, you receive {Italic~Blind-Fight as a bonus feat.}<br>
+_[Tab]{Italic~Touch of Darkness (Sp):} melee touch attack, treats all other creatures as if they had concealment (miss 20[Percent]) 
+_for |Temp=%CharacterLevel%||Temp\2||Temp>1|{Bold~%Temp%}r, 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Aura of Forgetfulness (Su):} STANDARD, 30' radius, Will |Temp=%CharacterLevel%||Temp\2||Temp+10|DC{Bold~%Temp%+WIS} or have no memory of any time 
+_spent inside the area. Spellcasters = lose one prepared spell or available spell slot per round (Will |Temp=%CharacterLevel%||Temp\2||Temp+10|DC{Bold~%Temp%+WIS} each round) 
+_starting with 1st-level spells and going up through higher-level spells (this save is separate from the memory loss save). 
+_|Temp=%CharacterLevel%||Temp\2|{Bold~%Temp%}r[Slash]day.}
+
+:!Liberation
+1,remove fear
+2,remove paralysis
+3,remove curse
+4,freedom of movement
+5,break enchantment
+6,greater dispel magic
+7,refuge
+8,mind blank
+9,freedom
+10,You are a spirit of freedom and a staunch foe against all who would enslave and oppress.<br>
+_[Tab]{Italic~Liberation (su):} {Italic~freedom of movement}, {Bold~%CharacterLevel%}r/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Freedom's Call (su):} allies in 30' aura, the confused, grappled, frightened, panicked, paralyzed, pinned, or shaken conditions are suppressed while in the aura, {Bold~%CharacterLevel%}r[Slash]day.}
+
+# Subdomain (AdvPG)
+:!Love
+1,charm person
+2,enthrall
+3,suggestion
+4,heroism
+5,charm monster
+6,geas/quest
+7,insanity
+8,euphoric tranquility (AdvPG)
+9,dominate monster
+10,|AssDom=Charm|{Bold~Subdomain (%AssDom%). }
+_You can baffle and befuddle foes with a touch or a smile, and your beauty and grace are divine.<br>
+_[Tab]{Italic~Adoration (Su, mind-affecting):} IMMEDIATE (after attack declared, before roll), as {Italic~sanctuary} vs one melee or ranged attack; Will |Temp=%CharacterLevel%||Temp\2||Temp+10|DC{Bold~%Temp%+WIS}, 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Charming Smile (Sp):} SWIFT, {Italic~charm person} |Temp=%CharacterLevel%||Temp\2||Temp+10|DC{Bold~%Temp%+WIS}, 
+_max 1 target affected, {Bold~%CharacterLevel%}r[Slash]day, FREE to dismiss.}
+
+:!Luck
+1,true strike
+2,aid
+3,protection from energy
+4,freedom of movement
+5,break enchantment
+6,mislead
+7,spell turning
+8,moment of prescience
+9,miracle
+10,You are infused with luck, and your mere presence can spread good fortune.<br>
+_[Tab]{Italic~Bit of Luck (sp):} STANDARD, willing creature touched = for 1 round, when rolling 1d20, may roll twice and take the more favorable one, 3+WIS/day.
+_{If~%CharacterLevel%>=6?<br>[Tab]{Italic~Good Fortune (ex):} IMMEDIATE, reroll any one d20 before the results are revealed, [LuckTime].}
+
+:LuckTime
+1,{Bold~[LuckTime2=%CharacterLevel%]}[Slash]day
+
+:LuckTime2
+1-11,1
+12-17,2
+18-23,3
+24-100,4
+
+# Subdomain (AdvPG)
+:!Lust
+1,charm person
+2,touch  of  idiocy
+3,suggestion
+4,confusion
+5,charm monster
+6,geas/quest
+7,insanity
+8,demand
+9,dominate monster
+10,|AssDom=Charm|{Bold~Subdomain (%AssDom%). }
+_You can baffle and befuddle foes with a touch or a smile, and your beauty and grace are divine.<br>
+_[Tab]{Italic~Dazing Touch (Sp):} melee touch vs living creature  = dazed 1r (max {Bold~%CharacterLevel%}HD), 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Anything  to  Please (Su, mind-affecting):} STANDARD, 30', Will |Temp=%CharacterLevel%||Temp\2||Temp+10|DC{Bold~%Temp%+WIS} 
+_or target does one of these (DM's choice): 1- attacks your enemies for 1r, 2- gives you its most valuable item, 3- drops prone at your feet and grovels 1d4r. [ArtificeTime].}
+
+:!Madness
+1,lesser confusion
+2,touch od idiocy
+3,rage
+4,confusion
+5,nightmare
+6,phantasmal killer
+7,insanity
+8,scintillating pattern
+9,weird
+10,You embrace the madness that lurks deep in your heart, and can unleash it to drive your foes insane or to sacrifice certain abilities to hone others.<br>
+_[Tab]{Italic~Vision of Madness (sp):} melee touch attack = choose attack rolls, saves or skill checks. For 3 rounds, |Temp=%CharacterLevel%||Temp\2||Temp>1|+{Bold~%Temp%} to these rolls and {Color~Red,-{Bold~%Temp%}} to the other two, 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Aura of Madness (su):} enemies in 30' radius = {Italic~confusion} DC{Bold~%Temp%}+WIS, effect ends if leave aura, if save immune for 24 hours, {Bold~%CharacterLevel%}r[Slash]day.}
+
+:!Magic
+1,identify
+2,magic mouth
+3,dispel magic
+4,imbue with spell ability
+5,spell resistance
+6,antimagic field
+7,spell turning
+8,protection from spells
+9,mage's disjunction
+10,You are a true student of all things mystical, and see divinity in the purity of magic.<br>
+_[Tab]{Italic~Hand of the Acolyte (su):} STANDARD, melee weapon flies to attack at 30' range (use WIS instead of DEX), not with CMB. 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Dispelling Touch (sp):} targeted {Italic~dispel magic}, melee touch attack, [ArtificeTime].}
+
+# Subdomain (AdvPG)
+:!Martyr
+1,divine favor
+2,shield  other
+3,magic vestment
+4,discern lies
+5,greater command
+6,sacrificial oath (AdvPG)
+7,repulsion
+8,demand
+9,storm of vengeance
+10,|AssDom=Nobility|{Bold~Subdomain (%AssDom%). }
+_You are a great leader, an inspiration to all who follow the teachings of your faith.<br>
+_[Tab]{Italic~Inspiring Word (sp):} STANDARD, creature at 30' = +2 morale attack/skill/ability/save for |Temp=%CharacterLevel%||Temp\2||Temp>1|{Bold~%Temp%}r, 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Sacrificial Bond (Su):} IMMEDIATE, transfer damage and effects from an ally within 30' to yourself, {Bold~{If~%CharacterLevel%>=20?3/{If~%CharacterLevel%>=14?2/1}}}[Slash]day.}
+
+# Subdomain (AdvPG)
+:!Memory
+1,comprehend languages
+2,memory lapse (AdvPG)
+3,speak with dead
+4,divination
+5,true seeing
+6,modify memory
+7,legend lore
+8,moment of prescience
+9,foresight
+10,|AssDom=Knowledge|{Bold~Subdomain (%AssDom%). }
+_You are a scholar and a sage of legends. In addition, {Italic~you treat all Knowledge skills as class skills.}<br>
+_[Tab]{Italic~Recall (Su):} touch, can retry any Knowledge check made within last minute with +{Bold~WIS} insight, 3+WIS/day.
+_{If~%CharacterLevel%>=6?<br>[Tab]{Italic~Remote Viewing (Sp):} {Italic~clairaudience[Slash]clairvoyance} (CL={Bold~%CharacterLevel%}), {Bold~%CharacterLevel%}r[Slash]day.}
+
+# Subdomain (AdvPG)
+:!Metal
+1,magic stone
+2,heat metal
+3,stone shape
+4,spike stones
+5,wall of stone
+6,wall of iron
+7,elemental body 4 (earth only)
+8,iron body
+9,elemental swarm (earth)
+10,|AssDom=Earth|{Bold~Subdomain (%AssDom%). }
+_You have mastery over earth, metal, and stone, can fire darts of acid, and command earth creatures.<br>
+_[Tab]{Italic~Metal Fists (Su):} SWIFT, 1d6 blunt, ignore hardness 10 or less, 1r, 3+WIS/day.
+_{If~%CharacterLevel%>=20?<br>[Tab]{Italic~Immune to Acid (Ex).}/{If~%CharacterLevel%>=12?<br>[Tab]{Italic~Acid Resistance (Ex) 20.}/{If~%CharacterLevel%>=6?<br>[Tab]{Italic~Acid Resistance (Ex) 10.}}}}
+
+# Subdomain (AdvPG)
+:!Murder
+1,cause fear
+2,death knell
+3,keen  edge
+4,death ward
+5,suffocation (AdvPG)
+6,create undead
+7,destruction
+8,create greater undead
+9,suffocation (mass) (AdvPG)
+10,|AssDom=Death|{Bold~Subdomain (%AssDom%). }
+_You can cause the living to bleed at a touch, and find comfort in the presence of the dead.<br>
+_[Tab]{Italic~Bleeding Touch (Sp):} melee touch attack vs living creature, 1d6 dmg/r for |Temp=%CharacterLevel%||Temp\2||Temp>1|{Bold~%Temp%}r (Heal DC15 to stop), 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Killing Blow (Su):} FREE, when you confirm a critical hit (melee[Slash]ranged weapons) you also deal |Temp=%CharacterLevel%||Temp\2|{Bold~%Temp%} bleed damage, [ArtificeTime].}
+
+# Subdomain (AdvPG)
+:!Night
+1,sleep
+2,blindness/deafness (only causes blindness)
+3,deeper darkness
+4,shadow conjuration
+5,summon monster V (summons 1d3 shadows)
+6,nightmare
+7,power word blind
+8,greater shadow invocation
+9,shades
+10,|AssDom=Darkness|{Bold~Subdomain (%AssDom%). }
+_You manipulate shadows and darkness. In addition, you receive {Italic~Blind-Fight as a bonus feat.}<br>
+_[Tab]{Italic~Night Hunter (Sp):} STANDARD (in dim light/darkness) = invisible to creatures without darkvision 
+_for |Temp=%CharacterLevel%||Temp\2||Temp>1|{Bold~%Temp%}r, 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Eyes of Darkness (Su):} vision not impaired by lighting conditions, even in absolute darkness and magic darkness, 
+_|Temp=%CharacterLevel%||Temp\2|{Bold~%Temp%}r[Slash]day.}
+
+# Subdomain (AdvPG)
+:!Nightmare
+1,lesser confusion
+2,touch od idiocy
+3,rage
+4,phantasmal  killer
+5,nightmare
+6,cloak of dreams (AdvPG)
+7,insanity
+8,scintillating pattern
+9,weird
+10,|AssDom=Madness|{Bold~Subdomain (%AssDom%). }
+_You embrace the madness that lurks deep in your heart, and can unleash it to drive your foes insane or to sacrifice certain abilities to hone others.<br>
+_[Tab]{Italic~Fearful Touch (Su, mind-affecting):} STANDARD, melee touch attack = hallucinations 1r (lose immunity to fear, -2 attack roll vs you, |Temp=%CharacterLevel%||Temp\2||Temp>1|{Color~Red,-{Bold~%Temp%}} Will saves vs fear), 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Aura of Madness (su):} enemies in 30' radius = {Italic~confusion} DC{Bold~%Temp%}+WIS, effect ends if leave aura, if save immune for 24 hours, {Bold~%CharacterLevel%}r[Slash]day.}
+
+:!Nobility
+1,divine favor
+2,enthrall
+3,magic vestment
+4,discern lies
+5,greater command
+6,geas/quest
+7,repulsion
+8,demand
+9,storm of vengeance
+10,You are a great leader, an inspiration to all who follow the teachings of your faith.<br>
+_[Tab]{Italic~Inspiring Word (sp):} STANDARD, creature at 30' = +2 morale attack/skill/ability/save for |Temp=%CharacterLevel%||Temp\2||Temp>1|{Bold~%Temp%}r, 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Leadership (ex):} Leadership as bonus feat, +2 leadership score.}
+
+# Subdomain (AdvPG)
+:!Oceans
+1,obscuring mist
+2,slipstream (AdvPG)
+3,water walk
+4,control water
+5,ice storm
+6,cone of cold
+7,elemental body 4 (water only)
+8,horrid wilting
+9,tsunami (AdvPG)
+10,|AssDom=Water|{Bold~Subdomain (%AssDom%). }
+_You can manipulate water and mist and ice, conjure creatures of water, and resist cold.<br>
+_[Tab]{Italic~Surge (Su):} STANDARD, mighty wave pushes (bullrush) or pulls (drag) creature, CMB (+{Bold~%CharacterLevel%+WIS}), 3+WIS/day.
+_{If~%CharacterLevel%>=20?<br>[Tab]{Italic~Immune to Cold (Ex).}/{If~%CharacterLevel%>=12?<br>[Tab]{Italic~Cold Resistance (Ex) 20.}/{If~%CharacterLevel%>=6?<br>[Tab]{Italic~Cold Resistance (Ex) 10.}}}}
+
+:!Plant
+1,entangle
+2,barkskin
+3,plant growth
+4,command plants
+5,wall of thorns
+6,repel wood
+7,animate plants
+8,control plants
+9,shambler
+10,You find solace in the green, can grow defensive thorns, and can communicate with plants.<br>
+_[Tab]{Italic~Wooden Fist (su):} FREE, wooden fist with thorns (no AO to attack), |Temp=%CharacterLevel%||Temp\2||Temp>1|+{Bold~%Temp%} dmg, 3+WIS rounds/day.
+_{If~%CharacterLevel%>=1?<br>[Tab]{Italic~Bramble Armor (su):} FREE, wooden thorns burst from skin, any foe attacking you with unarmed strike or melee weapon without reach receives 1d6+{Bold~%Temp%} piercing dmg, {Bold~%CharacterLevel%}r[Slash]day.}
+
+# Subdomain (AdvPG)
+:!Protean
+1,confusion  (lesser)
+2,align weapon (chaos only)
+3,displacement
+4,chaos hammer
+5,dispel law
+6,planar binding (proteans only)
+7,word of chaos
+8,cloak of chaos
+9,summon monster IX (chaos only) ([~Creatures.SumMonPF4])
+10,|AssDom=Chaos|{Bold~Subdomain (%AssDom%) (Proteans = CN outsiders). }
+_Your touch infuses life and weapons with chaos, and you revel in all things anarchic.<br>
+_[Tab]{Italic~Touch of Chaos (Sp):} Melee touch attack, for the next round(OPTIONAL: |Temp=%CharacterLevel%||Temp\2||Temp>1|{Bold~%Temp%}r)
+_, anytime the target rolls a d20, he must roll twice and take the less 
+_favorable result, 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Aura of Chaos (Su):} STANDARD, 30' radius. Enemies = at start of their turn, declare action it can perform (attack, cast spell, move, use item, activate special ability) 
+_then Will |Temp=%CharacterLevel%||Temp\2||Temp+10|DC{Bold~%Temp%+WIS} or  Success = must make declared action [Slash] Failure = must take another action. {Bold~%CharacterLevel%}r[Slash]day.}
+
+:!Protection
+1,sanctuary
+2,shield other
+3,protection from energy
+4,spell immunity
+5,spell resistance
+6,antimagic field
+7,repulsion
+8,mind blank
+9,prismatic sphere
+10,Your faith is your greatest source of protection, and you can use that faith to defend others. In addition, {Italic~you receive a |Temp=[ResistanceBonus=%CharacterLevel%]|+{Bold~%Temp%} resistance bonus on saving throws.}<br>
+_[Tab]{Italic~Resistant Touch (sp):} STANDARD, ally touched = for 1 minute he gains your +{Bold~%Temp%} resistance bonus and you lose it, 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Aura of Protection (su):} you and allies at 30', |Temp=[ProtectionBonus=%CharacterLevel%]|+{Bold~%Temp%} deflection AC, Resistance {Bold~[ResistanceEnergy=%CharacterLevel%]} vs all elements (acid, cold, electricity, fire, sonic), {Bold~%CharacterLevel%}r[Slash]day.}
+
+:ResistanceBonus
+1-4,1
+5-9,2
+10-14,3
+15-19,4
+20-100,5
+
+:ProtectionBonus
+1-11,1
+12-15,2
+16-19,3
+20-100,4
+
+:ResistanceEnergy
+1-13,5
+14-100,10
+
+# Subdomain (AdvPG)
+:!Purity
+1,protection from C/E/G/L
+2,shield other
+3,remove blindness/deafness
+4,spell immunity
+5,atonement
+6,antimagic field
+7,repulsion
+8,mind blank
+9,prismatic sphere
+10,|AssDom=Protection|{Bold~Subdomain (%AssDom%). }
+_Your faith is your greatest source of protection, and you can use that faith to defend others. In addition, {Italic~you receive a |Temp=[ResistanceBonus=%CharacterLevel%]|+{Bold~%Temp%} resistance bonus on saving throws.}<br>
+_[Tab]{Italic~Resistant Touch (sp):} STANDARD, ally touched = for 1 minute he gains your +{Bold~%Temp%} resistance bonus and you lose it, 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Purifying  Touch  (Su):} STANDARD, touch willing creature = gain a save vs each effect currently affecting it using original DC, can choose not to make a save, {Bold~{If~%CharacterLevel%>=20?3/{If~%CharacterLevel%>=14?2/1}}}[Slash]day.}
+
+# Subdomain (AdvPG)
+:!Rage
+1,true strike
+2,bull’s  strength
+3,rage
+4,inflict critical wounds
+5,shout
+6,moonstruck (AdvPG)
+7,disintegrate
+8,earthquake
+9,implosion
+10,|AssDom=Destruction|{Bold~Subdomain (%AssDom%). }
+_You revel in ruin and devastation, and can deliver particularly destructive attacks.<br>
+_[Tab]{Italic~Destructive Smite (Su):} SWIFT, |Temp=%CharacterLevel%||Temp\2||Temp>1|+{Bold~%Temp%} damage on <u>one</u> melee attack (declare before attack), 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Rage (Su):} barbarian's rage {Bold~%CharacterLevel%}r[Slash]day
+_{If~%CharacterLevel%>=16? and choose 2 rage powers/{If~%CharacterLevel%>=12? and choose 1 rage power}}
+_{If~%CharacterLevel%>=12? (count as Bbn level |Temp=%CharacterLevel%||Temp\2|{Bold~%Temp%})}.}
+
+:!Repose
+1,deathwatch
+2,gentle repose
+3,speak with dead
+4,death ward
+5,slay living
+6,undeath to death
+7,destruction
+8,waves of exhaustion
+9,wail of the banshee
+10,You see death not as something to be feared, but as a final rest and reward for a life well spent. The taint of undeath is a mockery of what you hold dear.<br>
+_[Tab]{Italic~Gentle Rest (sp):} melee touch attack vs living creature = staggered 1r (1 action/r). If already staggered falls asleep 1r. Vs undeads = staggered WIS rounds. 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Ward Against Death (sp):} 30' radius, living creatures immune to death effects, energy drain and effects causing negative levels, {Bold~%CharacterLevel%}r[Slash]day.}
+
+# Subdomain (AdvPG)
+:!Resolve
+1,bless
+2,bull's strength
+3,magic vestment
+4,spell immunity
+5,righteous might
+6,heroes’ feast
+7,grasping hand
+8,clenched fist
+9,crushing hand
+10,|AssDom=Strength|{Bold~Subdomain (%AssDom%). }
+_In strength and brawn there is truth - your faith gives you incredible might and power.<br>
+_[Tab]{Italic~Strength Surge (sp):} STANDARD, touch a creature = |Temp=%CharacterLevel%||Temp\2||Temp>1|+{Bold~%Temp%} melee attacks, CMB using STR, STR skills, and checks, 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Bestow Resolve (Su):} STANDARD, allies in 20' radius = {Bold~%CharacterLevel%+WIS} temporary hp for 1 minute, [ArtificeTime].}
+
+# Subdomain (AdvPG)
+:!Restoration
+1,cure light wounds
+2,remove disease
+3,cure serious wounds
+4,neutralize poison
+5,break enchantment
+6,heal
+7,regenerate
+8,mass cure critical wounds
+9,mass heal
+10,|AssDom=Healing|{Bold~Subdomain (%AssDom%). }
+_Your touch staves off pain and death, and your healing magic is particularly vital and potent.<br>
+_[Tab]{Italic~Restorative Touch (Su):} touch, remove minor condition: dazed, fatigued, shaken, sickened, or staggered,  3+WIS/day.
+_{If~%CharacterLevel%>=6?<br>[Tab]{Italic~Healer's Blessing (su):} +50[Percent] to cure spells (not to harm undeads, not with Empower Spell feat).}
+
+# Subdomain (AdvPG)
+:!Resurrection
+1,cure light wounds
+2,cure moderate wounds
+3,cure serious wounds
+4,cure critical wounds
+5,raise  dead
+6,heal
+7,resurrection
+8,mass cure critical wounds
+9,true resurrection
+10,|AssDom=Healing|{Bold~Subdomain (%AssDom%). }
+_Your touch staves off pain and death, and your healing magic is particularly vital and potent.<br>
+_[Tab]{Italic~Rebuke Death (sp):} STANDARD, living creature touched below 0 hp = |Temp=%CharacterLevel%||Temp\2|cure 1d4+{Bold~%Temp%}, 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Gift of Life (Su):} touched creature that died within 1 minute returns to life for {Bold~%CharacterLevel%}r |Temp=%CharacterLevel%||Temp\2|with {Bold~%Temp%} hp[Slash]WP, 
+_active spells[Slash]conditions[Slash]afflictions remain, [ArtificeTime].} 
+
+# Subdomain (AdvPG)
+:!Revolution
+1,remove fear
+2,enthrall
+3,remove curse
+4,freedom of movement
+5,break enchantment
+6,symbol of persuasion
+7,refuge
+8,mind blank
+9,freedom
+10,|AssDom=Liberation|{Bold~Subdomain (%AssDom%). }
+_You are a spirit of freedom and a staunch foe against all who would enslave and oppress.<br>
+_[Tab]{Italic~Liberation (su):} {Italic~freedom of movement}, {Bold~%CharacterLevel%}r/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Powerful  Persuader  (Su):} FREE, roll twice your Diplomacy[Slash]Intimidate checks and take the highest result, [RevolutionTime].}
+
+:RevolutionTime
+1,{Bold~[RevolutionTime2=%CharacterLevel%]}[Slash]day
+
+:RevolutionTime2
+1-9,1
+10-11,2
+12-13,3
+14-15,4
+16-17,5
+18-19,6
+20-100,7
+
+:!Rune
+1,erase
+2,secret page
+3,glyph of warding
+4,explosive runes
+5,lesser planar binding
+6,greater glyph of warding
+7,instant summons
+8,symbol of death
+9,teleportation circle
+10,In strange and eldritch runes you find potent magic. {Italic~You gain Scribe Scroll as a bonus feat.}<br>
+_[Tab]{Italic~Blast Rune (sp):} STANDARD = create invisible rune in adjacent empty square (choose either acid, cold, electricity or fire; counts as 1st-level spell), any creature 1d6+|Temp=%CharacterLevel%||Temp\2|{Bold~%Temp%} energy dmg, lasts {Bold~%CharacterLevel%}r or until discharged, Perception[Slash]Disable Device DC26, 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Spell Rune (sp):} can attach another spell to one of your blast runes, max of one level lower than highest-level cleric spell you can cast, spell must target 1+ creatures but only affects creature that triggers the rune.}
+
+# Subdomain (AdvPG)
+:!Seasons
+1,goodberry
+2,fog cloud
+3,call lightning                         
+4,blight
+5,ice storm
+6,control winds
+7,control weather
+8,sunburst
+9,storm of vengeance
+10,|AssDom=Weather|{Bold~Subdomain (%AssDom%). }
+_With power over storm and sky, you can call down the wrath of the gods upon the world below.<br>
+_[Tab]{Italic~Untouched by the Seasons (Su):} STANDARD, touched creature = {Italic~endure elements} for {Bold~%CharacterLevel%} hours, 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Lightning Lord (sp):} STANDARD, {Italic~call lightning} |Temp=%CharacterLevel%||Temp*10||Temp+100|at {Bold~%Temp%}', 3d6 electric dmg (3d10 outdoor in stormy area, not underwater), Reflex half DC13+WIS, can call as many bolts as needed per STANDARD (max 1[Slash]target, all at 30'), {Bold~%CharacterLevel%} bolts[Slash]day.}
+
+# Subdomain (AdvPG)
+:!Smoke
+1,burning hands
+2,pyrotechnics
+3,stinking cloud
+4,wall of fire
+5,fire shield
+6,fire seeds
+7,elemental body 4 (fire only)
+8,incendiary cloud
+9,elemental swarm (fire only)
+10,|AssDom=Fire|{Bold~Subdomain (%AssDom%). }
+_You can call forth fire, command creatures of the inferno, and your flesh does not burn.<br>
+_[Tab]{Italic~Cloud of Smoke (Su):} STANDARD, 5' radius at 30', -2 attack/Perception inside and 1r after exiting, concealment if not adjacent, 3+WIS/day.
+_{If~%CharacterLevel%>=20?<br>[Tab]{Italic~Immune to Fire (Ex).}/{If~%CharacterLevel%>=12?<br>[Tab]{Italic~Fire Resistance (Ex) 20.}/{If~%CharacterLevel%>=6?<br>[Tab]{Italic~Fire Resistance (Ex) 10.}}}}
+
+# Subdomain (AdvPG)
+:!Souls
+1,deathwatch
+2,gentle repose
+3,animate dead
+4,death ward
+5,slay living
+6,antilife shield
+7,destruction
+8,waves of exhaustion
+9,trap the soul
+10,|AssDom=Repose|{Bold~Subdomain (%AssDom%). }
+_You see death not as something to be feared, but as a final rest and reward for a life well spent. The taint of undeath is a mockery of what you hold dear.<br>
+_[Tab]{Italic~Touch the Spirit World (Su):} STANDARD, touched weapon can affect incorporeal creatures (1/2 damage if not magical, full otherwise) for {Bold~%CharacterLevel%} rounds, 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Ward Against Death (sp):} 30' radius, living creatures immune to death effects, energy drain and effects causing negative levels, {Bold~%CharacterLevel%}r[Slash]day.}
+
+:!Sphere of Energy
+1,endure elements
+2,continual flame
+3,dispel magic
+4,minor globe of invulnerability
+5,permanency
+6,analyze dweomer
+7,prismatic spray
+8,spell immunity greater
+9,prismatic sphere
+10,{Italic~You receive a |Temp=[ResistanceEnergy=%CharacterLevel%]|resistance {Bold~%Temp%} to an energy of your choice.}<br>
+_[Tab]{Italic~Resistant Touch (sp):} STANDARD, ally touched = for 1 minute he gains your resistance {Bold~%Temp%} and you lose it, 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Aura of Protection (su):} you and allies at 30', Resistance {Bold~[ResistanceEnergy=%CharacterLevel%]} vs all elements (acid, cold, electricity, fire, sonic), {Bold~%CharacterLevel%}r[Slash]day.}
+
+:!Sphere of Entropy
+1,entropic shield
+2,blur
+3,blink
+4,rainbow pattern
+5,slay living
+6,circle of death
+7,destruction
+8,temporal stasis
+9,energy drain
+10,You can cause the living to bleed at a touch, and find comfort in the presence of the dead.<br>
+_[Tab]{Italic~Entropic Touch (Sp):} melee touch attack vs creature, Will |Temp=%CharacterLevel%||Temp\2||Temp+10|DC{Bold~%Temp%+WIS} or |Temp=%CharacterLevel%||Temp\2||Temp<5|{Bold~-%Temp%} attack/damage/saves/skill/ability for 1d6r, 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Hasten the End (Su):} IMMEDIATE upon successfully hitting an opponent with a melee attack = reduce ALL beneficial magical effects currently affecting the target by 1 round[Slash]minute[Slash]hour[Slash]day, [ArtificeTime].}
+
+:!Sphere of Matter
+1,shatter
+2,bear's endurance
+3,meld into stone
+4,stoneskin
+5,major creation
+6,move earth
+7,statue
+8,polymorph any object
+9,imprisonment
+10,{Italic~You receive a |Temp=[ResistanceBonus=%CharacterLevel%]||Temp*2|+{Bold~%Temp%} resistance bonus on Fortitude saving throws.}<br>
+_[Tab]{Italic~Resistant Touch (sp):} STANDARD, ally touched = for 1 minute he gains your +{Bold~%Temp%} resistance bonus on Fortitude saves and you lose it, 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Might of the Gods (su):} personal, +{Bold~%CharacterLevel%} STR (only for STR checks and skills), {Bold~%CharacterLevel%}r[Slash]day.}
+
+:!Sphere of Thought
+1,comprehend languages
+2,detect thoughts
+3,modify memory
+4,mnemonic enhancer
+5,telepathic bond
+6,dream
+7,mage's lucubration
+8,mind blank
+9,astral projection
+10,{Italic~You treat all Knowledge skills as class skills.}<br>
+_[Tab]{Italic~Lore Keeper (sp):} melee touch attack = as Knowledge to identify a monster touched (Knowledge check of {Bold~{Calc~(15+%CharacterLevel%)}}+WIS).
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Read Minds (su):} {Italic~detect thoughts} 30' radius, read surface thoughts of creature you are aware of after 1r of concentration. Will |Temp=%CharacterLevel%||Temp\2||Temp+10|DC{Bold~%Temp%+WIS}, {Bold~%CharacterLevel%}r[Slash]day.}
+
+:!Sphere of Time
+1,deathwatch
+2,augury
+3,haste
+4,slow
+5,death ward
+6,permanency
+7,contingency
+8,temporal stasis
+9,time stop
+10,<br>
+_[Tab]{Italic~Moment of Pause (Sp):} melee touch, stop time for one creature briefly, 1r = NO action and experiences time as if that round never took place (cannot be affected by anything as {Italic~time stop}), 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Time Shift (sp):} briefly shift time backwards (1r combat, 1 min noncombat). Actions are considered to have not taken place yet, and all actions pick up at the point you shift back, 3[Slash]week (max 1[Slash]day).}
+
+# Subdomain (Inner Sea Gods)
+:!Stars
+1,feather fall
+2,hypnotic pattern
+3,fly
+4,planar binding (lesser)
+5,overland flight
+6,planar binding
+7,sunbeam
+8,planar binding (greater)
+9,meteor swarm
+10,|AssDom=Void|{Bold~Subdomain (%AssDom%). }
+_The firmament provides you inspiration, and you draw power from the stars’ distant light.<br>
+_[Tab]{Italic~Guarded Mind (Ex):} +2 insight saves vs mind affecting effects. 
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~The Stars Are Right (Su):} If you prepare your cleric spells while the stars are visible to you, you may spontaneously cast any of your Stars subdomain spells by swapping out a spell of an equal spell level. Any Stars subdomain spell that you cast while the stars are visible to you heals you of an amount of hit point damage equal to the spell’s level; this effect happens as you cast the spell.}
+
+# Subdomain (AdvPG)
+:!Storms
+1,obscuring mist
+2,fog cloud
+3,call lightning                         
+4,sleet storm
+5,call lightning storm
+6,sirocco (AdvPG)
+7,control weather
+8,whirlwind
+9,storm of vengeance
+10,|AssDom=Weather|{Bold~Subdomain (%AssDom%). }
+_With power over storm and sky, you can call down the wrath of the gods upon the world below.<br>
+_[Tab]{Italic~Storm Burst (sp):} STANDARD, 30' ranged touch attack, 1d6+{Bold~{Trunc~{Calc~%CharacterLevel%/2}}} nonlethal dmg and target buffeted by wind and rain (-2 attack rolls) for 1r, 3+WIS/day.
+_{If~%CharacterLevel%>=6?<br>[Tab]{Italic~Gale Aura (Su):} STANDARD, 30' aura = no 5-foot steps. Enemies = difficult terrain if they move closer to you, normally in other directions, {Bold~%CharacterLevel%} rounds[Slash]day.}
+
+:!Strength
+1,enlarge person
+2,bull's strength
+3,magic vestment
+4,spell immunity
+5,righteous might
+6,stoneskin
+7,grasping hand
+8,clenched fist
+9,crushing hand
+10,In strength and brawn there is truth - your faith gives you incredible might and power.<br>
+_[Tab]{Italic~Strength Surge (sp):} STANDARD, touch a creature = |Temp=%CharacterLevel%||Temp\2||Temp>1|+{Bold~%Temp%} melee attacks, CMB using STR, STR skills, and checks, 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Might of the Gods (su):} personal, +{Bold~%CharacterLevel%} STR (only for STR checks and skills), {Bold~%CharacterLevel%}r[Slash]day.}
+
+:!Sun
+1,endure elements
+2,heat metal
+3,searing light
+4,fire shield
+5,flame strike
+6,fire seeds
+7,sunbeam
+8,sunburst
+9,prismatic sphere
+10,You see truth in the pure and burning light of the sun, and can call upon its blessing or wrath to work great deeds.<br>
+_[Tab]{Italic~Sun's Blessing (su):} channel positive energy to harm undead = +{Bold~%CharacterLevel%} dmg, undeads do not add their channel resistance to their saves.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Nimbus of Light (su):} {Italic~daylight} 30' radius, {Bold~%CharacterLevel%}r[Slash]day, undeads = {Bold~%CharacterLevel%} dmg[Slash]r inside nimbus, automatic dispel darkness spells[Slash]sp.}
+
+# Subdomain (AdvPG)
+:!Tactics
+1,magic weapon
+2,aid
+3,magic vestment
+4,divine power
+5,command (greater)
+6,blade barrier
+7,power word blind
+8,planar ally (greater)
+9,power word kill
+10,|AssDom=War|{Bold~Subdomain (%AssDom%). }
+_You are a crusader for your god, always ready and willing to fight to defend your faith.<br>
+_[Tab]{Italic~Seize  the  Initiative  (Su):} IMMEDIATE when your group rolls initiative, one ally at 30' = roll twice, 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Weapon Master (su):} SWIFT = gain one combat feat (prerequisites needed), {Bold~%CharacterLevel%}r[Slash]day. }
+
+# Subdomain (AdvPG)
+:!Thievery
+1,disguise self
+2,invisibility
+3,locate  object
+4,confusion
+5,false vision
+6,mislead
+7,ethereal jaunt
+8,mass invisibility
+9,time stop
+10,|AssDom=Trickery|{Bold~Subdomain (%AssDom%). }
+_You are a master of illusions and deceptions. {Italic~Bluff, Disguise, and Stealth are class skills.}<br>
+_[Tab]{Italic~Copycat (sp):} MOVE = illusory double of yourself (as {Italic~mirror image}), {Bold~%CharacterLevel%}r[Slash]day or until dispelled[Slash]destroyed (max one double), 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Thief of the Gods (Su):} FREE, on Disable Device or Sleight of Hand = roll twice and take higher result, |Temp=%CharacterLevel%||Temp-8||Temp\2||Temp+1|{Bold~%Temp%}[Slash]day.}
+
+# Subdomain (AdvPG)
+:!Thought
+1,comprehend languages
+2,detect thoughts
+3,seek thoughts (AdvPG)
+4,divination
+5,telepathic bond
+6,find the path
+7,legend lore
+8,mind blank
+9,foresight
+10,|AssDom=Knowledge|{Bold~Subdomain (%AssDom%). }
+_You are a scholar and a sage of legends. In addition, {Italic~you treat all Knowledge skills as class skills.}<br>
+_[Tab]{Italic~Lore Keeper (sp):} melee touch attack = as Knowledge to identify a monster touched (Knowledge check of {Bold~{Calc~(15+%CharacterLevel%)}}+WIS).
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Read Minds (su):} {Italic~detect thoughts} 30' radius, read surface thoughts of creature you are aware of after 1r of concentration. Will |Temp=%CharacterLevel%||Temp\2||Temp+10|DC{Bold~%Temp%+WIS}, {Bold~%CharacterLevel%}r[Slash]day.}
+
+# Subdomain (AdvPG)
+:!Toil
+1,command
+2,wood shape
+3,stone shape
+4,minor creation
+5,waves of fatigue
+6,major creation
+7,waves of exhaustion
+8,statue
+9,prismatic sphere
+10,|AssDom=Artifice|{Bold~Subdomain (%AssDom%). }
+_You can repair damage to objects, animate objects with life, and create objects from nothing.<br>
+_[Tab]{Italic~Artificer’s Touch (Sp):} Mending at will (CL%CharacterLevel% to repair damaged objects). Damage objects/constructs, 
+_melee touch attack, 1d6+{Bold~{Trunc~{Calc~%CharacterLevel%/2}}}, bypass {Bold~%CharacterLevel%} of DR/hardness. 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Aura of Repetition (Su):} 30' aura, enemies Will |Temp=%CharacterLevel%||Temp\2||Temp+10|DC{Bold~%Temp%+WIS} each round or repeat action of previous round (if possible). Attack = may attack different target; Move = move but may change route; Potion = drink another or an empty bottle. {Bold~%CharacterLevel%}r[Slash]day.}
+
+:!Travel
+1,longstrider
+2,locate object
+3,fly
+4,dimension door
+5,teleport
+6,find the path
+7,greater teleport
+8,phase door
+9,astral projection
+10,You are an explorer and find enlightenment in the simple joy of travel, be it by foot or conveyance or magic. {Italic~Increase your base speed by 10 feet.}<br>
+_[Tab]{Italic~Agile Feet (su):} FREE, for next round ignore all difficult terrain and no penalties from moving through it, 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Dimensional Hop (sp):} MOVE, teleport up to |Temp=%CharacterLevel%||Temp\2||Temp*10|{Bold~%Temp%'}[Slash]day (in 5' increments, no AO, must have line of sight, can bring other creature but must expend equal amount of distance for each one brought).}
+
+# Subdomain (AdvPG)
+:!Trade
+1,floating  disk
+2,locate object
+3,fly
+4,dimension door
+5,overland flight
+6,find the path
+7,greater teleport
+8,phase door
+9,gate
+10,|AssDom=Travel|{Bold~Subdomain (%AssDom%). }
+_You are an explorer and find enlightenment in the simple joy of travel, be it by foot or conveyance or magic. {Italic~Increase your base speed by 10 feet.}<br>
+_[Tab]{Italic~Silver-Tongued Haggler (Su):} FREE when using Bluff, Diplomacy, or Sense Motive = |Temp=%CharacterLevel%||Temp\2||Temp>1|+{Bold~%Temp%} bonus, 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Dimensional Hop (sp):} MOVE, teleport up to |Temp=%CharacterLevel%||Temp\2||Temp*10|{Bold~%Temp%'}[Slash]day (in 5' increments, no AO, must have line of sight, can bring other creature but must expend equal amount of distance for each one brought).}
+
+:!Trickery
+1,disguise self
+2,invisibility
+3,nondetection
+4,confusion
+5,false vision
+6,mislead
+7,screen
+8,mass invisibility
+9,time stop
+10,You are a master of illusions and deceptions. {Italic~Bluff, Disguise, and Stealth are class skills.}<br>
+_[Tab]{Italic~Copycat (sp):} MOVE = illusory double of yourself (as {Italic~mirror image}), {Bold~%CharacterLevel%}r[Slash]day or until dispelled[Slash]destroyed (max one double), 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Master's Illusion (sp):} you and allies at 30' = hide your appearance, disbelieve DC|Temp=%CharacterLevel%||Temp\2||Temp+10|{Bold~%Temp%}+WIS, {Bold~%CharacterLevel%}r[Slash]day.}
+
+# Subdomain (AdvPG)
+:!Undead
+1,cause fear
+2,ghoul  touch
+3,animate dead
+4,enervation
+5,slay living
+6,create undead
+7,destruction
+8,create greater undead
+9,energy drain
+10,|AssDom=Death|{Bold~Subdomain (%AssDom%). }
+_You can cause the living to bleed at a touch, and find comfort in the presence of the dead.<br>
+_[Tab]{Italic~Death's Kiss (Su):} melee touch attack = creature is considered undead vs effects healing/causing damage based on negative/positive energy 
+_for |Temp=%CharacterLevel%||Temp\2||Temp>1|{Bold~%Temp%}r (does not apply for Turn Undead/Command Undead), 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Death’s Embrace (Ex):} you heal damage instead of taking damage from channeled negative energy. 
+_If the channeled negative energy targets undead, you heal hit points just like undead in the area.}
+
+# PFB4
+:!Void
+1,feather fall
+2,levitate
+3,fly
+4,planar binding (lesser)
+5,overland flight
+6,planar binding
+7,reverse gravity
+8,planar binding (greater)
+9,interplanetary teleport (UltMag)
+10,You can call upon the cold darkness between the stars to gain flight, travel to other worlds, or summon monsters from beyond to do your bidding.<br>
+_[Tab]{Italic~Guarded Mind (Ex):} +2 insight saves vs mind affecting effects. 
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Part the Veil (Su, mind-affecting):} SWIFT on spell targeting one creature and with a Will save = on failed save, confused for "spell level" rounds (new save each round for the confusion), |Temp=%CharacterLevel%||Temp\2|{Bold~%Temp%}[Slash]day.}
+
+:!War
+1,magic weapon
+2,spiritual weapon
+3,magic vestment
+4,divine power
+5,flame strike
+6,blade barrier
+7,power word blind
+8,power word stun
+9,power word kill
+10,You are a crusader for your god, always ready and willing to fight to defend your faith.<br>
+_[Tab]{Italic~Battle Rage (sp):} STANDARD, touched creature = |Temp=%CharacterLevel%||Temp\2||Temp>1|+{Bold~%Temp%} melee dmg, 1r, 3+WIS/day. 
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Weapon Master (su):} SWIFT = gain one combat feat (prerequisites needed), {Bold~%CharacterLevel%}r[Slash]day.}
+
+# Subdomain (AdvPG)
+:!Wards
+1,arcane  lock
+2,secret page
+3,glyph of warding
+4,dimensional anchor
+5,lesser planar binding
+6,guards and wards
+7,instant summons
+8,symbol of death
+9,teleportation circle
+10,|AssDom=Rune|{Bold~Subdomain (%AssDom%). }
+_In strange and eldritch runes you find potent magic. {Italic~You gain Scribe Scroll as a bonus feat.}<br>
+_[Tab]{Italic~Blast Rune (sp):} STANDARD = create invisible rune in adjacent empty square (choose either acid, cold, electricity or fire; counts as 1st-level spell), any creature 1d6+|Temp=%CharacterLevel%||Temp\2|{Bold~%Temp%} energy dmg, lasts {Bold~%CharacterLevel%}r or until discharged, Perception[Slash]Disable Device DC26, 3+WIS/day.
+_{If~%CharacterLevel%>=6?<br>[Tab]{Italic~Warding Rune (Su):} IMMEDIATE, when creature is damaged by your blast rune = can't attack you (as {Italic~sanctuary}, Will |Temp=%CharacterLevel%||Temp\2||Temp+10|DC{Bold~%Temp%+WIS}) for {Bold~%Temp%} rounds (except through area effect spells or abilities), {Bold~{If~%CharacterLevel%>=20?3/{If~%CharacterLevel%>=14?2/1}}}[Slash]day.}
+
+:!Water
+1,obscuring mist
+2,fog cloud
+3,water breathing
+4,control water
+5,ice storm
+6,cone of cold
+7,elemental body 4 (water only)
+8,horrid wilting
+9,elemental swarm (water)
+10,You can manipulate water and mist and ice, conjure creatures of water, and resist cold.<br>
+_[Tab]{Italic~Icicle (sp):} STANDARD, 30' ranged touch attack, 1d6+{Bold~{Trunc~{Calc~%CharacterLevel%/2}}} cold dmg, 3+WIS/day.
+_{If~%CharacterLevel%>=20?<br>[Tab]{Italic~Immune to Cold (Ex).}/{If~%CharacterLevel%>=12?<br>[Tab]{Italic~Cold Resistance (Ex) 20.}/{If~%CharacterLevel%>=6?<br>[Tab]{Italic~Cold Resistance (Ex) 10.}}}}
+
+:!Weather
+1,obscuring mist
+2,fog cloud
+3,call lightning                         
+4,sleet storm
+5,ice storm
+6,control winds
+7,control weather
+8,whirlwind
+9,storm of vengeance
+10,With power over storm and sky, you can call down the wrath of the gods upon the world below.<br>
+_[Tab]{Italic~Storm Burst (sp):} STANDARD, 30' ranged touch attack, 1d6+{Bold~{Trunc~{Calc~%CharacterLevel%/2}}} nonlethal dmg and target buffeted by wind and rain (-2 attack rolls) for 1r, 3+WIS/day.
+_{If~%CharacterLevel%>=8?<br>[Tab]{Italic~Lightning Lord (sp):} STANDARD, {Italic~call lightning} |Temp=%CharacterLevel%||Temp*10||Temp+100|at {Bold~%Temp%}', 3d6 electric dmg (3d10 outdoor in stormy area, not underwater), Reflex half DC13+WIS, can call as many bolts as needed per STANDARD (max 1[Slash]target, all at 30'), {Bold~%CharacterLevel%} bolts[Slash]day.}
+
+# Subdomain (AdvPG)
+:!Wind
+1,whispering wind
+2,wind wall
+3,gaseous form
+4,air walk
+5,control winds
+6,wind walk
+7,elemental body 4 (air)
+8,whirlwind
+9,winds of vengeance (AdvPG)
+10,|AssDom=Air|{Bold~Subdomain (%AssDom%). }
+_You can manipulate lightning, mist, and wind, traffic with air creatures, and are resistant to electricity damage.<br>
+_[Tab]{Italic~Wind Blast (Su):} STANDARD, 30' line, CMB (=CL+WIS) vs creatures in the line, treat as bull rush, 3+WIS/day.
+_{If~%CharacterLevel%>=20?<br>[Tab]{Italic~Immune to Electricity (Ex).}/{If~%CharacterLevel%>=12?<br>[Tab]{Italic~Electricity Resistance (Ex) 20.}/{If~%CharacterLevel%>=6?<br>[Tab]{Italic~Electricity Resistance (Ex) 10.}}}}
+                                                                                                                                                            
+# --------------------------------------------------------------------------
+
+:Slash
+1,/
+
+:Tab
+1,{Loop~5,&nbsp;}
+
+# -------------------------------------------------------------------------
+
+:AlterSelf
+1,S-M humanoid; darkvision 60', low-light vision, scent, swim 30'
+_<br>{Bold~S=} +2 DEX; {Bold~M=} +2 STR
+
+:BeastShape1
+1,S-M animal; climb 30'/fly 30' (average)/swim 30', darkvision 60', low-light vision, scent;
+_<br>{Bold~S=} +2 DEX, +1 natural; {Bold~M=} +2 STR, +2 natural
+
+:BeastShape2
+1,T-L animal; climb 60'/fly 60' (good)/swim 60', darkvision 60', low-light vision, scent, grab, pounce, trip;
+_<br>{Bold~T=} +4 DEX, -2 STR, +1 natural; {Bold~S=} +2 DEX, +1 natural; {Bold~M=} +2 STR, +2 natural; {Bold~L=} +4 STR, -2 DEX, +4 natural
+
+:BeastShape3
+1,D-H animal, S-M magical beast; burrow 30'/climb 90'/fly 90' (good)/swim 90', blindsense 30', darkvision 60', low-light vision, scent, constrict, grab, jet, poison, pounce, rake, trip, web;
+_<br>{Bold~D=} +6 DEX, -4 STR, +1 natural; {Bold~T=} +4 DEX, -2 STR, +1 natural; {Bold~S=} +2 DEX, +1 natural; {Bold~M=} +2 STR, +2 natural; {Bold~L=} +4 STR, -2 DEX, +4 natural; {Bold~H=} +6 STR, -4 DEX, +6 natural;
+_<br>{Bold~Magical Beast:} S= +4 DEX, +2 natural, M= +4 STR, +4 natural
+
+:BeastShape4
+1,D-H animal, T-L magical beast; burrow 60'/climb 90'/fly 120' (good)/swim 120', blindsense 60', darkvision 90', low-light vision, scent, tremorsense 60', breath weapon, constrict, ferocity, grab, jet, poison, pounce, rake, rend, roar, spikes, trample, trip, web; Resist 20 "elements" (if resist or immunity), vulnerability to element;
+_<br>{Bold~D=} +6 DEX, -4 STR, +1 natural; {Bold~T=} +4 DEX, -2 STR, +1 natural; {Bold~S=} +2 DEX, +1 natural; {Bold~M=} +2 STR, +2 natural; {Bold~L=} +4 STR, -2 DEX, +4 natural; {Bold~H=} +6 STR, -4 DEX, +6 natural;
+_<br>{Bold~Magical Beast:} T= -2 STR, +8 DEX, +3 natural; S= +4 DEX, +2 natural, M= +4 STR, +4 natural; L= +6 STR, -2 DEX, +2 CON, +6 natural
+
+:ElementalBody1
+1,S elemental (A/E/F/W);
+_<br>Air= +2 DEX, +2 natural, fly 60' (perfect), darkvision 60', whirlwind (1r/2HD, 10-20' high + cloud of debris 1/4 height radius (concealment 5'), smaller size= save (Reflex 10+1/2HD+STR) or 1d4+STR dmg, 2nd save or picked up)
+_<br>Earth= +2 STR, +4 natural, darkvision 60', earth glide (move into stone, dirt, earty)
+_<br>Fire= +2 DEX, +2 natural, darkvision 60', Resist Fire 20, vulnerability cold, burn (+1d4 Fire in melee, Reflex (10+1/2HD+CON) or catch fire 1d4r)
+_<br>Water= +2 CON, +4 natural, swim 60', darkvision 60', breathe water, vortex (1r/2HD, 10-20' high + cloud of debris 1/4 height radius (concealment 5'), smaller size= save (Reflex 10+1/2HD+STR) or 1d6+STR dmg, 2nd save or picked up)
+
+:ElementalBody2
+1,M elemental (A/E/F/W);
+_<br>Air= +4 DEX, +3 natural, fly 60' (perfect), darkvision 60', whirlwind (1r/2HD, 10-30' high + cloud of debris 1/4 height radius (concealment 5'), smaller size= save (Reflex 10+1/2HD+STR) or 1d6+STR dmg, 2nd save or picked up)
+_<br>Earth= +4 STR, +5 natural, darkvision 60', earth glide (move into stone, dirt, earty)
+_<br>Fire= +4 DEX, +3 natural, darkvision 60', Resist Fire 20, vulnerability cold, burn (+1d6 Fire in melee, Reflex (10+1/2HD+CON) or catch fire 1d4r)
+_<br>Water= +4 CON, +5 natural, swim 60', darkvision 60', breathe water, vortex (1r/2HD, 10-30' high + cloud of debris 1/4 height radius (concealment 5'), smaller size= save (Reflex 10+1/2HD+STR) or 1d8+STR dmg, 2nd save or picked up)
+
+:ElementalBody3
+1,L elemental (A/E/F/W);
+_<br>Air= +2 STR, +4 DEX, +4 natural, fly 60' (perfect), darkvision 60', whirlwind (1r/2HD, 10-40' high + cloud of debris 1/4 height radius (concealment 5'), smaller size= save (Reflex 10+1/2HD+STR) or 1d8+STR dmg, 2nd save or picked up)
+_<br>Earth= +6 STR, -2 DEX, +2 CON, +6 natural, darkvision 60', earth glide (move into stone, dirt, earty)
+_<br>Fire= +4 DEX, +2 CON, +4 natural, darkvision 60', Resist Fire 20, vulnerability cold, burn (+1d8 Fire in melee, Reflex (10+1/2HD+CON) or catch fire 1d4r)
+_<br>Water= +2 STR, -2 DEX, +6 CON, +6 natural, swim 60', darkvision 60', breathe water, vortex (1r/2HD, 10-40' high + cloud of debris 1/4 height radius (concealment 5'), smaller size= save (Reflex 10+1/2HD+STR) or 1d8+STR dmg, 2nd save or picked up)
+
+:ElementalBody4
+1,H elemental (A/E/F/W), immune (bleed, criticals, sneak), DR 5/--
+_<br>Air= +4 STR, +6 DEX, +4 natural, fly 120' (perfect), darkvision 60', whirlwind (1r/2HD, 10-50' high + cloud of debris 1/4 height radius (concealment 5'), smaller size= save (Reflex 10+1/2HD+STR) or 2d6+STR dmg, 2nd save or picked up)
+_<br>Earth= +8 STR, -2 DEX, +4 CON, +6 natural, darkvision 60', earth glide (move into stone, dirt, earty)
+_<br>Fire= +6 DEX, +4 CON, +4 natural, darkvision 60', Resist Fire 20, vulnerability cold, burn (+2d6 Fire in melee, Reflex (10+1/2HD+CON) or catch fire 1d4r)
+_<br>Water= +4 STR, -2 DEX, +8 CON, +6 natural, swim 120', darkvision 60', breathe water, vortex (1r/2HD, 10-50' high + cloud of debris 1/4 height radius (concealment 5'), smaller size= save (Reflex 10+1/2HD+STR) or 2d6+STR dmg, 2nd save or picked up)
+
+:FormOfTheDragon1
+1,M chromatic/metallic dragon; +4 STR, +2 CON, +2 natural armor, Fly 60' (poor), darkvision 60', breath weapon (once per casting, 6d8 Reflex half), resistance to one element, bite (1d8), 2 claws (1d6), 2 wings (1d4).
+_<br>{Bold~Black:} 60' line of acid, resist acid 20, swim 60' // {Bold~Blue:} 60' line of electricity, resist electricity 20, burrow 20' // {Bold~Green:} 30' cone of acid, resist acid 20, swim 40' // {Bold~Red:} 30' cone of fire, resist fire 30, vulnerability to cold // {Bold~White:} 30' cone of cold, resist cold 20, swim 60', vulnerability to fire.
+_<br>{Bold~Brass:} 60' line of fire, resist fire 20, burrow 30', vulnerability cold // {Bold~Bronze:} 60' line of electricity, resist electricity 20, swim 60' // {Bold~Copper:} 60' line of acid, resist acid 20, {Italic~spider climb} (always active) // {Bold~Gold:} 30' cone of fire, resist fire 20, swim 60' // {Bold~Silver:} 30' cone of cold, resist cold 30, vulnerability fire.
+
+:FormOfTheDragon2
+1,L chromatic/metallic dragon; +6 STR, +4 CON, +6 natural armor, Fly 90' (poor), darkvision 60', breath weapon (twice per casting, 1d4r between uses, 8d8 Reflex half), DR 5/magic, resistance to one element, bite (2d6), 2 claws (1d8), 2 wings (1d6), 1 tail (1d8).
+_<br>{Bold~Black:} 80' line of acid, resist acid 20, swim 60' // {Bold~Blue:} 80' line of electricity, resist electricity 20, burrow 20' // {Bold~Green:} 40' cone of acid, resist acid 20, swim 40' // {Bold~Red:} 40' cone of fire, resist fire 30, vulnerability to cold // {Bold~White:} 40' cone of cold, resist cold 20, swim 60', vulnerability to fire.
+_<br>{Bold~Brass:} 80' line of fire, resist fire 20, burrow 30', vulnerability cold // {Bold~Bronze:} 80' line of electricity, resist electricity 20, swim 60' // {Bold~Copper:} 80' line of acid, resist acid 20, {Italic~spider climb} (always active) // {Bold~Gold:} 40' cone of fire, resist fire 20, swim 60' // {Bold~Silver:} 40' cone of cold, resist cold 30, vulnerability fire.
+#_<br>or<br>[FormOfTheDragon1]
+
+:FormOfTheDragon3
+1,H chromatic/metallic dragon; +10 STR, +8 CON, +8 natural armor, Fly 120' (poor), blindsense 60', darkvision 120', breath weapon (unlimited uses, 1d4r between uses, 12d8 Reflex half), DR 10/magic, frightful presence (DC=this spell), resistance to one element, bite (2d8), 2 claws (2d6), 2 wings (1d8), 1 tail (2d6).
+_<br>{Bold~Black:} 100' line of acid, resist acid 20, swim 60' // {Bold~Blue:} 100' line of electricity, resist electricity 20, burrow 20' // {Bold~Green:} 50' cone of acid, resist acid 20, swim 40' // {Bold~Red:} 50' cone of fire, resist fire 30, vulnerability to cold // {Bold~White:} 50' cone of cold, resist cold 20, swim 60', vulnerability to fire.
+_<br>{Bold~Brass:} 100' line of fire, resist fire 20, burrow 30', vulnerability cold // {Bold~Bronze:} 100' line of electricity, resist electricity 20, swim 60' // {Bold~Copper:} 100' line of acid, resist acid 20, {Italic~spider climb} (always active) // {Bold~Gold:} 50' cone of fire, resist fire 20, swim 60' // {Bold~Silver:} 50' cone of cold, resist cold 30, vulnerability fire.
+#_<br>or<br>[FormOfTheDragon2]<br>or<br>[FormOfTheDragon1]
+
+:GiantForm1
+1,L humanoid (giant); +6 STR, -2 DEX, +4 CON, +4 natural armor, low-light vision.
+_<br>You can also gain these if applicable: darkvision 60', rend (2d6), regeneration 5, rock catching, rock throwing (60' 2d6). Resistance 20 to appropriate energy and vulnerability.
+
+:GiantForm2
+1,H humanoid (giant); +8 STR, -2 DEX, +6 CON, +6 natural armor, low-light vision, +10' speed.
+_<br>You can also gain these if applicable: swim 60', darkvision 60', rend (2d8), regeneration 5, rock catching, rock throwing (120' 2d10). Resistance 20 to appropriate energy and vulnerability.
+#_<br>or<br>[GiantForm1]
+
+:PlantShape1
+1,S-M plant; darkvision 60', low-light vision, constrict, grab, poison;
+_<br>If plant does not move: -5' MV, lose all other form of MV;
+_<br>You gain the vulnerability to an element (if applicable);
+_<br>S= +2 CON, +2 natural; M= +2 STR/CON, +2 natural
+
+:PlantShape2
+1,S-L plant; darkvision 60', low-light vision, constrict, grab, poison;
+_<br>If plant does not move: -5' MV, lose all other form of MV;
+_<br>If plant has immunity/resistance to an element: Resist 20 (this element);
+_<br>You gain the vulnerability to an element (if applicable);
+_<br>S= +2 CON, +2 natural; M= +2 STR/CON, +2 natural; L= +4 STR, +2 CON, +4 natural
+
+:PlantShape3
+1,S-H plant; darkvision 60', low-light vision, constrict, grab, poison, DR, regeneration 5, trample;
+_<br>If plant does not move: -5' MV, lose all other form of MV;
+_<br>If plant has immunity/resistance to an element: Resist 20 (this element);
+_<br>You gain the vulnerability to an element (if applicable);
+_<br>S= +2 CON, +2 natural; M= +2 STR/CON, +2 natural; L= +4 STR, +2 CON, +4 natural; H= +8 STR, -2 DEX, +4 CON, +6 natural
+
+# ------------------------------------------0
+# Leave at the end
+
+:Percent
+1,/%
+

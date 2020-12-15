@@ -1,0 +1,386 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder August 28, 2006.
+# ---------------------------------------------------
+#
+# Magical Wands
+#
+# Sean Hlousek
+#
+# -------------------------------------------------------------------------
+#
+# To call this table from another one:
+#    [EQ Magic Wands.Generate(%Rolls%)
+#
+#    Parameters: (%Rolls%)
+#
+#    Rolls:    (1) Enter the number of items needed.
+#
+# -------------------------------------------------------------------------
+#
+# Modified by Valminder, August  2006.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+#    I heavily modified this table. I could modify it more by
+#       removing all the variables for the cost, but it would
+#       be too long. For now, it works fine.
+#    The final price need to be adjusted for some items, but it
+#       seems relatively OK.
+#    I diminished the price variation in [Store].
+#    Cost of Items: Put the cost in GP, the output will modify it
+#       for gp, sp, or cp.
+#       1 sp = 0.1 gp
+#       1 cp = 0.01 gp
+#
+
+%Charges%,0
+
+%WandofDetectMagic%,375
+%WandofLight%,375
+%WandofBurningHands%,750
+%WandofCharmAnimal%,750
+%WandofCharmPerson%,750
+%WandofColorSpray%,750
+%WandofCureLightWounds%,750
+%WandofDetectSecretDoors%,750
+%WandofEnlargePerson%,750
+%WandofMagicMissile(1st)%,750
+%WandofShockingGrasp%,750
+%WandofSummonMonster1%,750
+%WandofMagicMissile(3rd)%,2250
+%WandofMagicMissile(5th)%,3750
+%WandofBear'sEndurance%,4500
+%WandofBull'sStrength%,4500
+%WandofCat'sGrace%,4500
+%WandofCureModerateWounds%,4500
+%WandofDarkness%,4500
+%WandofDaylight%,4500
+%WandofDelayPoison%,4500
+%WandofEagle'sSplendor%,4500
+%WandofFalseLife%,4500
+%WandofFox'sCunning%,4500
+%WandofGhoulTouch%,4500
+%WandofHoldPerson%,4500
+%WandofInvisibility%,4500
+%WandofKnock%,4500
+%WandofLevitate%,4500
+%WandofMelf'sAcidArrow%,4500
+%WandofMirrorImage%,4500
+%WandofOwl'sWisdom%,4500
+%WandofShatter%,4500
+%WandofSilence%,4500
+%WandofSummonMonster2%,4500
+%WandofWeb%,4500
+%WandofMagicMissile(7th)%,5250
+%WandofMagicMissile(9th)%,6750
+%WandofCallLightning(5th)%,11250
+%WandofCharmPersonHeightened(3rd)%,11250
+%WandofContagion%,11250
+%WandofCureSeriousWounds%,11250
+%WandofDispelMagic%,11250
+%WandofFireball(5th)%,11250
+%WandofKeenEdge%,11250
+%WandofLightningBolt(5th)%,11250
+%WandofMajorImage%,11250
+%WandofSlow%,11250
+%WandofSuggestion%,11250
+%WandofSummonMonster3%,11250
+%WandofFireball(6th)%,13500
+%WandofLightningBolt(6th)%,13500
+%WandofSearingLight(6th)%,13500
+%WandofFireball(8th)%,18000
+%WandofLightningBolt(8th)%,18000
+%WandofCallLightning(8th)%,18000
+%WandofCharmMonster%,21000
+%WandofCureCriticalWounds%,21000
+%WandofDimensionalAnchor%,21000
+%WandofFear%,21000
+%WandofGreaterInvisibility%,255000
+%WandofHoldPersonHeightened(4th)%,21000
+%WandofIceStorm%,21000
+%WandofInflictCriticalWounds%,21000
+%WandofNeutralizePoison%,21000
+%WandofPoison%,21000
+%WandofPolymorph%,21000
+%WandofRayofEnfeeblementHeightened(4th)%,21000
+%WandofSuggestionHeightened(4th)%,21000
+%WandofSummonMonster4%,21000
+%WandofWallofFire%,21000
+%WandofWallofIce%,21000
+%WandofDispelMagic(10th)%,22500
+%WandofFireball(10th)%,22500
+%WandofLightningBolt(10th)%,22500
+%WandofChaosHammer(8th)%,24000
+%WandofHolySmite(8th)%,24000
+%WandofOrder'sWrath(8th)%,24000
+%WandofUnholyBlight(8th)%,24000
+%WandofRestoration%,26000
+%WandofStoneskin%,33500
+%WandofElina'sPerfume%,375
+%WandofFilch%,375
+%WandofBladethirst%,750
+%WandofBlaise'sBlazingBeads%,750
+%WandofBoltofPower%,750
+%WandofChillWeapon%,750
+%WandofFieldofRazors%,750
+%WandofStoneBolt%,750
+%WandofWeatherLore%,750
+%WandofWebSphere%,750
+%WandofContinualHeat%,4500
+%WandofDragonflight%,4500
+%WandofDragonhide%,4500
+%WandofFanningtheFlames%,4500
+%WandofIceshards%,4500
+%WandofKeshmeeriRefuge%,4500
+%WandofNetherblade%,4500
+%WandofRicochet%,4500
+%WandofSoulBlast%,4500
+%WandofChainsofBinding%,11250
+%WandofEarthBlast%,11250
+%WandofEarthenScreen%,11250
+%WandofEnhancedSenses%,11250
+%WandofHedrada'sJustice%,11250
+%WandofMissileStorm%,11250
+%WandofRepairDead%,11250
+%WandofVampiricWeapon%,11250
+%WandofVangal'sBlessing%,11250
+%WandofAccelerateReflexes%,21000
+%WandofArmorofBrambles%,21000
+%WandofBlaise'sBeadofFrost%,21000
+%WandofBlaise'sBlastingBead%,21000
+%WandofBlaise'sLuckyBead%,21000
+%WandofBloodiedBlade%,21000
+%WandofIronButterflies%,21000
+%WandofPersistantMissiles%,21000
+%WandofWrathofThulkas%,21000
+ 
+### Was %Base%
+%PercentGPMod%,1
+### This is the Store modifier on all its prices 70% to 200% (normal 95% - 105%)
+%STVR%,0
+### How many items to roll
+%Rolls%,0
+#### Was %Base1%
+%MagicalGPMod%,0
+
+# New variables Aug 2006.
+%Item%,0
+# Put Book=2 in the item's description if you do not want books to appear.
+%Book%,0
+%Cost%,0
+%Condition%,0
+%GenItem%,0
+# 1= Mundane Item, 2= Magical Item
+%Magic%,1
+%MWGPMod%,0
+%ArmorSizeMod%,1
+# To be used with "EQ_Main.tab"
+%GetData%,0
+%DataName%,0
+%DataPercentMod%,0
+%SpecialEffect%,0
+%BodySize%,0
+%MoneyType%,gp
+%Temp%,0
+
+@Rolls,10,How many Items are in this Shop?
+#@GenItem,9,What do you want to generate
+
+:Start
+1,{Status~By Sean Hlousek, Valminder 2006}[Generate]
+
+:Generate
+1,|STVR=1|[Store]
+#_[Multiplier]
+_{Loop~%Rolls%,|BodySize=0||PercentGPMod=0||MagicalGPMod=0||Magic=2||MWGPMod=0||ArmorSizeMod=1||SpecialEffect=0|
+_|Condition=n/a|
+_[MagicalWands][Print=%Magic%]}
+
+:Print
+1,<b>Item:</b> <i><font color="Purple">%Item%</font></i>[Print2]
+2,<b>Item:</b> <i><font color="Blue">(Magic) %Item%</font></i>[Print2]
+
+:Print2
+1,{If~%SpecialEffect%!=0? [PrintExtraMW]}
+_{IIf~%Book%!=2?  <font size=1>(%Book%)</font>}
+#If you do not want BodySize for everything put |BodySize=0| above and |BodySize=1| in item's description.
+_{If~%BodySize%=1? ([BodySize] size)}
+_|Cost+%MagicalGPMod%||Cost+%MWGPMod%|{If~%Magic%=1?|Cost*%ArmorSizeMod%|}
+_[Calculate Cost]
+_ (%Condition%, [AddComma.Start(%Cost%)] %MoneyType%)<br>
+
+:PrintExtraMW
+1,<u>Extra MW Effect</u>: %SpecialEffect%.
+
+# This will give a modifier to the cost of the items.
+;Store
+2,|STVR-{Calc~({Dice~1d10+20}/100)}|
+4,|STVR-{Calc~({Dice~1d10+10}/100)}|
+8,|STVR-{Calc~({Dice~1d10+5}/100)}|
+15,|STVR-{Calc~({Dice~1d5}/100)}|
+70,|STVR=1|
+30,|STVR+{Calc~({Dice~1d5}/100)}|
+15,|STVR+{Calc~({Dice~1d10+5}/100)}|
+8,|STVR+{Calc~({Dice~1d10+10}/100)}|
+4,|STVR+{Calc~({Dice~1d15+20}/100)}|
+2,|STVR+{Calc~({Dice~1d25+35}/100)}|
+1,|STVR+{Calc~({Dice~1d50+50}/100)}|
+
+:Multiplier
+1,Price Multiplier: %STVR%<br>
+
+:Calculate Cost
+1,|Cost={Calc~((%STVR%+%PercentGPMod%)*%Cost%)}|
+_{If~%Cost%>=5?|Cost={Trunc~%Cost%}||MoneyType=gp|}
+_{If~{And~%Cost%>=1,%Cost%<5}=1?{If~%Cost%={Trunc~%Cost%}?|MoneyType=gp|/|Cost={Round~1,%Cost%}||Cost*10||MoneyType=sp|}}
+_{If~%Cost%<0.1?|Cost*100||Cost={Trunc~%Cost%}|{If~%Cost%=0?|Cost=1|}|MoneyType=cp|/{If~%Cost%<1?|Cost*10||Cost={Trunc~%Cost%}|{If~%Cost%=0?|Cost=1|}|MoneyType=sp|}}
+
+# ----------------------------------------------------
+;MagicalWands
+30,|Item=Wand of Detect Magic</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofDetectMagic%)}|
+30,|Item=Wand of Light</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofLight%)}|
+20,|Item=Wand of Burning Hands</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofBurningHands%)}|
+10,|Item=Wand of Charm Animal</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofCharmAnimal%)}|
+5,|Item=Wand of Charm Person</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofCharmPerson%)}|
+15,|Item=Wand of Color Spray</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofColorSpray%)}|
+35,|Item=Wand of Cure Light Wounds</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofCureLightWounds%)}|
+20,|Item=Wand of Detect Secret Doors</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofDetectSecretDoors%)}|
+15,|Item=Wand of Enlarge Person</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofEnlargePerson%)}|
+30,|Item=Wand of Magic Missile (1st)</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofMagicMissile(1st)%)}|
+20,|Item=Wand of Shocking Grasp</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofShockingGrasp%)}|
+10,|Item=Wand of Summon Monster 1</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofSummonMonster1%)}|
+15,|Item=Wand of Magic Missile (3rd)</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofMagicMissile(3rd)%)}|
+7,|Item=Wand of Magic Missile (5th)</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofMagicMissile(5th)%)}|
+15,|Item=Wand of Bear's Endurance</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofBear'sEndurance%)}|
+15,|Item=Wand of Bull's Strength</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofBull'sStrength%)}|
+15,|Item=Wand of Cat's Grace</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofCat'sGrace%)}|
+25,|Item=Wand of Cure Moderate Wounds</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofCureModerateWounds%)}|
+10,|Item=Wand of Darkness</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofDarkness%)}|
+15,|Item=Wand of Daylight</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofDaylight%)}|
+20,|Item=Wand of Delay Poison</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofDelayPoison%)}|
+15,|Item=Wand of Eagle's Splendor</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofEagle'sSplendor%)}|
+5,|Item=Wand of False Life</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofFalseLife%)}|
+15,|Item=Wand of Fox's Cunning</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofFox'sCunning%)}|
+5,|Item=Wand of Ghoul Touch</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofGhoulTouch%)}|
+20,|Item=Wand of Hold Person</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofHoldPerson%)}|
+1,|Item=Wand of Invisibility</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofInvisibility%)}|
+20,|Item=Wand of Knock</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofKnock%)}|
+5,|Item=Wand of Levitate</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofLevitate%)}|
+10,|Item=Wand of Melf's Acid Arrow</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofMelf'sAcidArrow%)}|
+15,|Item=Wand of Mirror Image</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofMirrorImage%)}|
+15,|Item=Wand of Owl's Wisdom</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofOwl'sWisdom%)}|
+10,|Item=Wand of Shatter</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofShatter%)}|
+10,|Item=Wand of Silence</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofSilence%)}|
+5,|Item=Wand of Summon Monster 2</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofSummonMonster2%)}|
+15,|Item=Wand of Web</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofWeb%)}|
+5,|Item=Wand of Magic Missile (7th)</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofMagicMissile(7th)%)}|
+2,|Item=Wand of Magic Missile (9th)</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofMagicMissile(9th)%)}|
+10,|Item=Wand of Call Lightning (5th)</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofCallLightning(5th)%)}|
+1,|Item=Wand of Call Lightning (8th)</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofCallLightning(8th)%)}|
+1,|Item=Wand of Charm Person, Heightened (3rd)</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofCharmPersonHeightened(3rd)%)}|
+1,|Item=Wand of Contagion</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofContagion%)}|
+20,|Item=Wand of Cure Serious Wounds</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofCureSeriousWounds%)}|
+20,|Item=Wand of Dispel Magic</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofDispelMagic%)}|
+10,|Item=Wand of Fireball (5th)</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofFireball(5th)%)}|
+10,|Item=Wand of Keen Edge</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofKeenEdge%)}|
+10,|Item=Wand of Lightning Bolt (5th)</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofLightningBolt(5th)%)}|
+5,|Item=Wand of Major Image</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofMajorImage%)}|
+20,|Item=Wand of Slow</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofSlow%)}|
+10,|Item=Wand of Suggestion</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofSuggestion%)}|
+2,|Item=Wand of Summon Monster 3</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofSummonMonster3%)}|
+5,|Item=Wand of Fireball (6th)</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofFireball(6th)%)}|
+5,|Item=Wand of Lightning Bolt (6th)</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofLightningBolt(6th)%)}|
+5,|Item=Wand of Searing Light (6th)</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofSearingLight(6th)%)}|
+2,|Item=Wand of Fireball (8th)</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofFireball(8th)%)}|
+2,|Item=Wand of Lightning Bolt (8th)</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofLightningBolt(8th)%)}|
+2,|Item=Wand of Charm Monster</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofCharmMonster%)}|
+5,|Item=Wand of Cure Critical Wounds</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofCureCriticalWounds%)}|
+5,|Item=Wand of Dimensional Anchor</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofDimensionalAnchor%)}|
+1,|Item=Wand of Fear</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofFear%)}|
+1,|Item=Wand of Greater Invisibility</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofGreaterInvisibility%)}|
+5,|Item=Wand of Hold Person, Heightened (4th)</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofHoldPersonHeightened(4th)%)}|
+5,|Item=Wand of Ice Storm</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofIceStorm%)}|
+1,|Item=Wand of Inflict Critical Wounds</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofInflictCriticalWounds%)}|
+20,|Item=Wand of Neutralize Poison</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofNeutralizePoison%)}|
+2,|Item=Wand of Poison</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofPoison%)}|
+5,|Item=Wand of Polymorph</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofPolymorph%)}|
+2,|Item=Wand of Ray of Enfeeblement, Heightened (4th)</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofRayofEnfeeblementHeightened(4th)%)}|
+5,|Item=Wand of Suggestion, Heightened (4th)</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofSuggestionHeightened(4th)%)}|
+1,|Item=Wand of Summon Monster 4</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofSummonMonster4%)}|
+5,|Item=Wand of Wall of Fire</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofWallofFire%)}|
+5,|Item=Wand of Wall of Ice</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofWallofIce%)}|
+2,|Item=Wand of Dispel Magic (10th)</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofDispelMagic(10th)%)}|
+1,|Item=Wand of Fireball (10th)</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofFireball(10th)%)}|
+1,|Item=Wand of Lightning Bolt (10th)</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofLightningBolt(10th)%)}|
+1,|Item=Wand of Chaos Hammer (8th)</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofChaosHammer(8th)%)}|
+5,|Item=Wand of Holy Smite (8th)</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofHolySmite(8th)%)}|
+1,|Item=Wand of Order's Wrath (8th)</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofOrder'sWrath(8th)%)}|
+1,|Item=Wand of Unholy Blight (8th)</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofUnholyBlight(8th)%)}|
+5,|Item=Wand of Restoration</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofRestoration%)}|
+1,|Item=Wand of Stoneskin</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=DMG3.5||Cost={Calc~((%Charges%/50)*%WandofStoneskin%)}|
+15,|Item=Wand of Elina's Perfume</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=RR2||Cost={Calc~((%Charges%/50)*%WandofElina'sPerfume%)}|
+5,|Item=Wand of Filch</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=RR2||Cost={Calc~((%Charges%/50)*%WandofFilch%)}|
+10,|Item=Wand of Bladethirst</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=RR2||Cost={Calc~((%Charges%/50)*%WandofBladethirst%)}|
+15,|Item=Wand of Blaise's Blazing Beads</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=RR2||Cost={Calc~((%Charges%/50)*%WandofBlaise'sBlazingBeads%)}|
+15,|Item=Wand of Bolt of Power</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=RR2||Cost={Calc~((%Charges%/50)*%WandofBoltofPower%)}|
+20,|Item=Wand of Chill Weapon</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=RR2||Cost={Calc~((%Charges%/50)*%WandofChillWeapon%)}|
+10,|Item=Wand of Field of Razors</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=RR2||Cost={Calc~((%Charges%/50)*%WandofFieldofRazors%)}|
+15,|Item=Wand of Stone Bolt</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=RR2||Cost={Calc~((%Charges%/50)*%WandofStoneBolt%)}|
+20,|Item=Wand of Weather Lore</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=RR2||Cost={Calc~((%Charges%/50)*%WandofWeatherLore%)}|
+5,|Item=Wand of Web Sphere</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=RR2||Cost={Calc~((%Charges%/50)*%WandofWebSphere%)}|
+20,|Item=Wand of Continual Heat</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=RR2||Cost={Calc~((%Charges%/50)*%WandofContinualHeat%)}|
+1,|Item=Wand of Dragonflight</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=RR2||Cost={Calc~((%Charges%/50)*%WandofDragonflight%)}|
+2,|Item=Wand of Dragonhide</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=RR2||Cost={Calc~((%Charges%/50)*%WandofDragonhide%)}|
+5,|Item=Wand of Fanning the Flames</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=RR2||Cost={Calc~((%Charges%/50)*%WandofFanningtheFlames%)}|
+5,|Item=Wand of Iceshards</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=RR2||Cost={Calc~((%Charges%/50)*%WandofIceshards%)}|
+1,|Item=Wand of Keshmeeri Refuge</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=RR2||Cost={Calc~((%Charges%/50)*%WandofKeshmeeriRefuge%)}|
+1,|Item=Wand of Netherblade</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=RR2||Cost={Calc~((%Charges%/50)*%WandofNetherblade%)}|
+5,|Item=Wand of Ricochet</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=RR2||Cost={Calc~((%Charges%/50)*%WandofRicochet%)}|
+5,|Item=Wand of Soul Blast</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=RR2||Cost={Calc~((%Charges%/50)*%WandofSoulBlast%)}|
+5,|Item=Wand of Chains of Binding</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=RR2||Cost={Calc~((%Charges%/50)*%WandofChainsofBinding%)}|
+10,|Item=Wand of Earth Blast</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=RR2||Cost={Calc~((%Charges%/50)*%WandofEarthBlast%)}|
+15,|Item=Wand of Earthen Screen</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=RR2||Cost={Calc~((%Charges%/50)*%WandofEarthenScreen%)}|
+10,|Item=Wand of Enhanced Senses</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=RR2||Cost={Calc~((%Charges%/50)*%WandofEnhancedSenses%)}|
+5,|Item=Wand of Hedrada's Justice</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=RR2||Cost={Calc~((%Charges%/50)*%WandofHedrada'sJustice%)}|
+10,|Item=Wand of Missile Storm</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=RR2||Cost={Calc~((%Charges%/50)*%WandofMissileStorm%)}|
+5,|Item=Wand of Repair Dead</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=RR2||Cost={Calc~((%Charges%/50)*%WandofRepairDead%)}|
+1,|Item=Wand of Vampiric Weapon</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=RR2||Cost={Calc~((%Charges%/50)*%WandofVampiricWeapon%)}|
+1,|Item=Wand of Vangal's Blessing</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=RR2||Cost={Calc~((%Charges%/50)*%WandofVangal'sBlessing%)}|
+10,|Item=Wand of Accelerate Reflexes</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=RR2||Cost={Calc~((%Charges%/50)*%WandofAccelerateReflexes%)}|
+5,|Item=Wand of Armor of Brambles</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=RR2||Cost={Calc~((%Charges%/50)*%WandofArmorofBrambles%)}|
+2,|Item=Wand of Blaise's Bead of Frost</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=RR2||Cost={Calc~((%Charges%/50)*%WandofBlaise'sBeadofFrost%)}|
+2,|Item=Wand of Blaise's Blasting Bead</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=RR2||Cost={Calc~((%Charges%/50)*%WandofBlaise'sBlastingBead%)}|
+2,|Item=Wand of Blaise's Lucky Bead</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=RR2||Cost={Calc~((%Charges%/50)*%WandofBlaise'sLuckyBead%)}|
+2,|Item=Wand of Bloodied Blade</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=RR2||Cost={Calc~((%Charges%/50)*%WandofBloodiedBlade%)}|
+2,|Item=Wand of Iron Butterflies</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=RR2||Cost={Calc~((%Charges%/50)*%WandofIronButterflies%)}|
+5,|Item=Wand of Persistant Missiles</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=RR2||Cost={Calc~((%Charges%/50)*%WandofPersistantMissiles%)}|
+1,|Item=Wand of Wrath of Thulkas</font></i> The wand is made of {AorAn~[WandShape]} piece of [Woods].[AnyExtrasMA] [Charges]||Book=RR2||Cost={Calc~((%Charges%/50)*%WandofWrathofThulkas%)}|
+
+;Charges
+1,<u>Charges</u>:<i><font color="Crimson">|Charges=[ChargesGen]| %Charges%</font></i>
+
+;ChargesGen
+1,{Dice~1d10}
+2,{Dice~4d10}
+4,{Dice~1d20+30}
+2,{Dice~1d10+40}
+1,50
+
+;WandShape
+1,angular
+1,gnarled
+2,straight
+1,twisted
+
+;AnyExtrasMA
+1,|GetData=[EQ_Main.AnyExtrasMA]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+;Woods
+1,|GetData=[EQ_Main.Woods]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+

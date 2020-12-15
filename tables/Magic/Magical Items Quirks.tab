@@ -1,0 +1,478 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder March 2015.
+# ---------------------------------------------------
+#
+# Magical-item misfirings in the AD&D(R) game
+#
+# by Rich Stump, modified for GM's Notebook by JB Willers
+#
+# The AD&D(R) game has one of the largest compilations of magical items
+# in the fantasy gaming industry.  Unfortunately, this does not prevent
+# many of the players from buying, borrowing, or stealing copies of the
+# Dungeon Master's Guide for the sole purpose of memorizing the magical
+# item treasure tables.  Once one of these people has implanted the
+# entire collection of magical devices into his brain, it becomes very
+# hard for the DM to keep that player on his toes.
+#
+# Modified by Valminder April 2002
+#    I changed the "START" line to generate quirks for all kinds of
+#    magical items with only one "click" of a button.
+#    I also modified the quirks for 3e D&D.
+#
+#    Creatures.Type
+#    Miscellaneous.Color
+#
+# Modified by Valminder August 2005
+#    Added Blood quirks (Dward, Elf, Orc, Gnome, Halfling, Human)
+#    Added negative level if not of appropriate alignment
+#       (Chaos, Good, Law, Evil, Neutral)
+#    Added Self-Identifying items (Magic of Faerun). It should be a 40%
+#       chance of being self-identifying, but the table is set at 20%.
+#    Altered the table slightly.
+#    Modified -Creatures.tab
+#    Added links to
+#       -Religion.tab
+# Modified by Valminder August 2007
+#    Added some quirks.
+#
+# Modified by Valminder July 2010
+#    Modified some errors, tweaked the table a little bit.
+#    Added armor, shields, rings, rods common quirks (like light, special material).
+#    Added armor/weapons size.
+#
+# Modified by Valminder March 2015
+#    Added an 'Alternate' table to link with "Treasure generator MC"
+#
+
+/OverrideRolls 1
+
+%SelfID%,0
+
+:Start
+1,|SelfID=0|<b><u>Quirks of a Magical Item</u>:</b><br><br>[Generate]
+
+:Generate
+1,[PotionAmount][SelfIdentify]<br><br>
+_ [ScrollAmount]<br><br>
+_ [WandAmount][SelfIdentify]<br><br>
+_ [RodAmount][SelfIdentify]<br><br>
+_ [RingAmount][SelfIdentify]<br><br>
+_ [ItemAmount][SelfIdentify]<br><br>
+_ [ArmorAmount][SelfIdentify]<br><br>
+_ [WeaponAmount][SelfIdentify]<br><br>
+_ {If~%SelfID%=1?<br>[PrintSelfID]}
+
+:Alternate
+1,[PotionAmount][SelfIdentify]
+2,[ScrollAmount]
+3,[WandAmount][SelfIdentify]
+4,[RodAmount][SelfIdentify]
+5,[RingAmount][SelfIdentify]
+6,[ItemAmount][SelfIdentify]
+7,[ArmorAmount][SelfIdentify]
+8,[WeaponAmount][SelfIdentify]
+
+:PrintSelfID
+1,<br><b><u>Self-Identifying Item</u>:</b> When someone holds a self-identifying item and concentrates, she learns one of the item's powers each minute until the item has revealed all its powers. The item always reveals powers in the order they are listed in the item's description. A successful Spellcraft or bardic knowledge check (DC20) reveals all the powers at once.
+_<br>{Space~3}<u>Potion</u>: It might have a tag or a well-known symbol (DC10) to identify the potion.
+
+:PotionAmount
+01-90,This <b>potion</b> has no quirks.
+91-96,This <b>potion</b> has the following quirk:<br>- [Potion]
+97-99,This <b>potion</b> has the following quirks:<br>- [Potion]<br>- [Potion]
+100,This <b>potion</b> has the following quirks:<br>- [Potion]<br>- [Potion]<br>- [Potion]
+
+:ScrollAmount
+01-90,This <b>scroll</b> has no quirks.
+91-96,This <b>scroll</b> has the following quirk:<br>- [Scroll]
+97-99,This <b>scroll</b> has the following quirks:<br>- [Scroll]<br>- [Scroll]
+100,This <b>scroll</b> has the following quirks:<br>- [Scroll]<br>- [Scroll]<br>- [Scroll]
+
+:WandAmount
+01-90,This <b>wand or staff</b> has no quirks.
+91-96,This <b>wand or staff</b> has the following quirk:<br>- [Wand]
+97-99,This <b>wand or staff</b> has the following quirks:<br>- [Wand]<br>- [Wand]
+100,This <b>wand, staff, or rod</b> has the following quirks:<br>- [Wand]<br>- [Wand]<br>- [Wand]
+
+:RodAmount
+01-90,This <b>rod</b> has no quirks.[RodSpecial]
+91-96,This <b>rod</b> has the following quirk:<br>- [Wand][RodSpecial]
+97-99,This <b>rod</b> has the following quirks:<br>- [Wand]<br>- [Wand][RodSpecial]
+100,This <b>wand, staff, or rod</b> has the following quirks:<br>- [Wand]<br>- [Wand]<br>- [Wand][RodSpecial]
+
+:RodSpecial
+1,{If~{Dice~1d100}<20?<br>- Rod is made of [~Miscellaneous.Material].}
+_{If~{Dice~1d100}<32?[RodSpecial2]}
+
+;RodSpecial2
+1,<br>- Rod is Intelligent (NOT if it has charges).
+30,<br>- Something (a design, inscription, or the like) provides a clue to the rod's function ([~Rune Generator.GenRune]).
+
+:RingAmount
+01-90,This <b>ring</b> has no quirks.[RingSpecial]
+91-96,This <b>ring</b> has the following quirk:<br>- [Ring][RingSpecial]
+97-99,This <b>ring</b> has the following quirks:<br>- [Ring]<br>- [Ring][RingSpecial]
+100,This <b>ring</b> has the following quirks:<br>- [Ring]<br>- [Ring]<br>- [Ring][RingSpecial]
+
+:RingSpecial
+1,{If~{Dice~1d100}<20?<br>- Ring is made of [~Miscellaneous.Material].}
+_{If~{Dice~1d100}<32?[RingSpecial2]}
+
+;RingSpecial2
+1,<br>- Ring is Intelligent (NOT if it has charges).
+30,<br>- Something (a design, inscription, or the like) provides a clue to the ring's function ([~Rune Generator.GenRune]).
+
+:ItemAmount
+01-90,This <b>wondrous item</b> has no quirks.[ItemSpecial]
+91-96,This <b>wondrous item</b> has the following quirk:<br>- [Item][ItemSpecial]
+97-99,This <b>wondrous item</b> has the following quirks:<br>- [Item]<br>- [Item][ItemSpecial]
+100,This <b>wondrous item has</b> the following quirks:<br>- [Item]<br>- [Item]<br>- [Item][ItemSpecial]
+
+;ItemSpecial
+1,{If~{Dice~1d100}<32?[ItemSpecial2]}
+
+;ItemSpecial2
+1,<br>- Item is Intelligent (NOT if it has charges).
+30,<br>- Something (a design, inscription, or the like) provides a clue to the item's function ([~Rune Generator.GenRune]).
+
+:ArmorAmount
+01-90,This <b>armor</b> has no quirks.[ArmorSpecial]
+91-96,This <b>armor</b> has the following quirk:<br>- [Armor][ArmorSpecial]
+97-99,This <b>armor</b> has the following quirks:<br>- [Armor]<br>- [Armor][ArmorSpecial]
+100,This <b>armor</b> has the following quirks:<br>- [Armor]<br>- [Armor]<br>- [Armor][ArmorSpecial]
+
+:ArmorSpecial
+1,<br>[ArmorWeaponSize]{If~{Dice~1d100}<6?<br>- {Color~Purple, Armor or Shield is made of a special material.}}
+_{If~{Dice~1d100}<16?<br>- Something (a design, inscription, or the like) provides a clue to the armor or shield's function ([~Rune Generator.GenRune]).}
+
+:ArmorWeaponSize
+01-30,- Item is SMALL size.
+31-90,- Item is MEDIUM size.
+91-100,- Item is {UCase~[Miscellaneous.Size D]} size.
+
+:WeaponAmount
+01-90,This <b>weapon</b> has no quirks.[WeaponSpecial]
+91-96,This <b>weapon</b> has the following quirk:<br>- [Weapon][WeaponSpecial]
+97-99,This <b>weapon</b> has the following quirks:<br>- [Weapon]<br>- [Weapon][WeaponSpecial]
+100,This <b>weapon</b> has the following quirks:<br>- [Weapon]<br>- [Weapon]<br>- [Weapon][WeaponSpecial]
+
+:WeaponSpecial
+1,<br>[ArmorWeaponSize]{If~{Dice~1d100}<6?<br>- {Color~Purple, Weapon is made of a special material.}}
+_{If~{Dice~1d100}<46?[WeaponSpecial2]}
+
+;WeaponSpecial2
+30,<br>- Weapon sheds <i>light</i> (20', shadow 40').
+15,<br>- Something (a design, inscription, or the like) provides a clue to the weapon's function ([~Rune Generator.GenRune]).
+
+;!Potion
+5,Drinker glows as a candle (5' radius shadowy illumination) a random color ([~Miscellaneous.Color]) for as long as the potion is in effect or <b>{Dice~1d10*10}</b> minutes.
+1,Drinker glows as a torch (20' rad, 40' shadowy illumination) a random color ([~Miscellaneous.Color]) for as long as the potion is in effect or <b>{Dice~1d10*10}</b> minutes.
+10,Potion is phosphorescent and glows as a candle (5' radius shadowy illumination) a random color ([~Miscellaneous.Color]).
+5,Drinker's skin turns a random color ([~Miscellaneous.Color]) for the duratin of the potion or <b>{Dice~1d10*10}</b> minutes.
+3,Drinker is unable to speak or cast spells with verbal components for <b>{Dice~2d6}</b> rounds after drinking the elixir.
+1,Drinker is blinded for <b>{Dice~1d4}</b> rounds after drinking the elixir.<br>
+_<u>Blinded Condition</u>: Cannot see. -2 AC, loses Dex bonus to AC (if any), moves at half speed, -4 on Search checks and on most Strength- and Dexterity-based skill checks. All checks and activities that rely on vision (such as reading and Spot checks) automatically fail. All opponents are considered to have total concealment (50 <b>percent</b> miss chance) to the blinded character.
+5,Imbiber gets extremely hungry immediately after the potion is consumed (as per a <i>chime of hunger</i>).
+5,Drinker's senses sharpen while the potion is in effect, or for a maximum of 10 minutes (whichever is longer).  He gains a +2 bonus for Spot and Listen checks.
+5,Drinker cannot hear anything due to ringing or buzzing in ears for as long as the potion is in effect or for 5 minutes if no duration is given or if the duration of the potion is longer than that. He is considered deaf.<br>
+_<u>Deafened character</u>: cannot hear. -4 initiative checks, automatically fails Listen checks, and 20 <b>percent</b> chance of spell failure when casting spells with verbal components.
+5,Potion is diluted and works half as well as a normal potion of the same type. Both duration and effects are diminished in power.
+5,Potion becomes inert and useless if left unstoppered for longer than 2 rounds.
+1,Potion evaporates or coagulates (choose one) and becomes useless if left open to air for longer than 1 round.
+5,Potion's duration doubles if it is mixed with [~Drink] prior to consumption.
+5,Drinker is fatigued for the rest of the encounter after the effect wears off.<br>
+_<u>Fatigued Condition</u>: Can neither run nor charge, -2 Strength and Dexterity. Doing anything that would normally cause fatigue causes the fatigued character to become exhausted.
+1,Drinker is exhausted for the rest of the encounter after the effect wears off. After the encounter, he is fatifued normally.<br>
+_<u>Exhausted Condition</u>: Half speed, -6 Strength and Dexterity.
+_<u>Fatigued Condition</u>: Can neither run nor charge, -2 Strength and Dexterity. Doing anything that would normally cause fatigue causes the fatigued character to become exhausted.
+5,Drinker gains low-light vision for as long as the potion is in effect, or for 10 minutes if no duration is given. If the drinker normally has low-light vision, it is lost for the same amount of time.
+5,Drinker gains 60' darkvision for as long as the potion is in effect, or for 10 minutes if no duration is given. If the drinker normally has darkvision, it is lost for the same amount of time.
+1,Drinker gains blindsight 30' for as long as the potion is in effect, or for 10 minutes if no duration is given. If the drinker normally has blindsight, it is lost for the same amount of time.
+5,Potion has no effect upon non-humanoids.
+5,Drinker is shaken for <b>{Dice~1d6}</b> rounds after drinking the potion<br>
+_<u>Shaken Condition</u>: -2 penalty on attack rolls, saving throws, skill checks, and ability checks.
+1,Drinker becomes drowsy; a Fortitute saving throw DC<b>{Dice~1d10+10}</b> must be made every round for 4 rounds after the potion is consumed. If he fails any save, he falls asleep for <b>{Dice~3d6}</b> minutes. The sleeping individual can be awakened normally.
+5,Potion is stronger than normal; its duration is 150 <b>percent</b> of a normal potion of the same type.
+1,Potion is nauseating to drink; a Fortitude saving throw DC<b>{Dice~1d10+10}</b> must be made in order to gulp the contents of the potion. If a Fortitude saving throw DC<b>{Dice~1d10+10}</b> is not made thereafter, the drinker feels sick to his stomach for <b>{Dice~1d6}</b> rounds. A <i>cure disease</i> will remove this illness.<br>
+_<u>Nauseated Condition</u>: Experiencing stomach distress. Nauseated creatures are unable to attack, cast spells, concentrate on spells, or do anything else requiring attention. The only action such a character can take is a single move action per turn.
+5,Drinker receives 1 point of temporary [~Ability] damage.
+2,Potion is unpredictable: It works normally 50 <b>percent</b> of the time, does nothing 30 <b>percent</b> of the time, and sickens the drinker for <b>{Dice~1d10}</b> minutes without any beneficial effect 20 <b>percent</b> of the time.  A <i>cure disease</i> will remove this illness.
+_<u>Nauseated Condition</u>: Experiencing stomach distress. Nauseated creatures are unable to attack, cast spells, concentrate on spells, or do anything else requiring attention. The only action such a character can take is a single move action per turn.
+5,Potion is unstable; if severely jostled or shaken, it will burst its container (75 <b>percent</b> chance) and become useless.
+5,Drinker suddenly becomes extremely verbose and talks incessantly for the duration of the potion, or 10 minutes if no duration is given. During this time, the drinker and his associates cannot gain surprise on any encountered monsters.
+5,If the potion is mixed with anything else, it forms a lethal compound. If swallowed, Fortitude save vs. poison DC<b>{Dice~1d10+10}</b> or die in <b>{Dice~1d4+1}</b> rounds, unless the poison is neutralized or delayed.
+5,Alternate Form: Potion is found in powdered form; water has to be added to the powder for the potion to be effective.
+1,Alternate Form: Magic Fruit: Apples and pomegranates with magical properties are commonplace in mythology. A potion-fruit might consist of a slice or section of a fruit steeped in a magical libation that produces its effect when consumed.
+1,Alternate Form: Magic Tiles: A small ceramic tile inscribed with a magic rune could hold a potion-type effect. When it is snapped or broken in one's hand, the effect is released.
+1,Alternate Form: Skull Talismans: The skull of a small animal (a bird, mouse, or rat, for example) is enchanted with a single spell. When crushed in one's hand or underfoot, the skull talisman releases its stored effect.
+1,Alternate Form: Spell Wafers: A thin wafer of specially prepared bread or dough, stamped with a holy or arcane symbol, can hold a spell as well as a potion bottle can. When the wafer is consumed, the stored magic takes effect.
+
+;!Scroll
+10,Scroll glows as a candle (5' radius shadowy illumination) a random color ([~Miscellaneous.Color]) when used, opened, or read.
+1,Scroll glows as a torch (20' rad, 40' shadowy illumination) a random color ([~Miscellaneous.Color]) when used, opened, or read.
+5,Scroll is old and brittle; any mishandling causes it to disintegrate. A scroll of this type has no saving throw against any type of energy.
+5, Scroll is written in scrawled script and is barely legible; a 5 <b>percent</b> chance exists of blowing the spell in addition to any other such chance.
+5,Scroll is waterproof and can be read underwater.
+5,Scroll is exceedingly long and takes 1 full round to unroll and prepare for spell-casting. Then you can use it normally.
+5,Scroll is specially treated and has [~Energy] Resistance 10.
+1,Scroll is specially treated and is immune to [~Energy].
+5,Scroll can only be torn by someone making a Strength check DC<b>{Dice~1d10+10}</b> and it has hardness 10 and 10 hp.
+5,Scroll is written in magical hieroglyphics; <b>{Dice~1d5+5}</b> days must be spent translating the characters before the scroll is usable, or a <i>comprehend languages</i> must be cast upon it.
+5, Scroll is more powerful than normal; any saving throws against a spell from the scroll are at DC +2, and the duration of any spell is 125 <b>percent</b> normal.
+1,Scroll is very powerful; all spells have a save DC +4, and the duration of a spell on this scroll is 150 <b>percent</b> normal.
+5,Scroll is substandard in power; all saving throws against spells from the scroll are at DC -2, and the duration of any spell is 75 <b>percent</b> of normal.
+5,Scroll's print disorients reader for <b>{Dice~1d4}</b> rounds after a spell from it is cast. During this time, the reader is shaken.<br>
+_<u>Shaken Condition</u>: -2 penalty on attack rolls, saving throws, skill checks, and ability checks.
+5, Scroll is written improperly; any spell on it will fail 50 <b>percent</b> of the time (but the spell is not erased from the scroll until a second reading).
+1,Scroll is specially magicked; the spells on it can be used twice each before they vanish.
+5,Scroll is permanently stuck in a magically strong rolled-up form; in order to cast a spell from it, the reader must make a Strength check DC<b>{Dice~1d10+10}</b>. If the check fails, he is unable to keep the scroll held open for that round. Another try may be made the next round. The scroll cannot be ripped or torn.
+5,Scroll is written on a sheet of thin metal instead of on paper. It has a hardness of 8.
+5,Scroll's writing is hidden by an <i>illusory script</i> spell.
+5,Scroll's writing is hidden by a <i>secret page</i> spell.
+5,Scroll is protected by a spell, such as <i>sepia snake sigil</i> or <i>magic mouth</i>. The protective spell is activated any time the scroll is opened, unless a special bypass word is spoken.
+5,Scroll is dust covered when found; when opened, the opener must make a Fortitude save DC<b>{Dice~1d10+10}</b> or sneeze and choke on the dust for <b>{Dice~1d3}</b> rounds. The character is dazed.<br>
+_<u>Dazed Condition</u>: The creature is unable to act normally. A dazed creature can take no actions, but has no penalty to AC.
+5,Scroll's spells are written in complicated terms; the casting times of all spells upon the scrolls are doubled.
+5,Scroll is slow to take effect; all spells take effect the round after the casting is finished.  Once the casting time is complete, hitting the reader will not disrupt the spell.
+1,Alternate Form: Gemstone: A complex series of gestures and sounds is completed with a specially prepared gemstone in hand, and the spell stored within it is released when the final words are spoken. Like the parchment on which a scroll is scribed, a gemstone is emptied by casting but can be reused again.<br>
+_When a scroll is found in the course of a campaign, deciphering its magical text is usually the first step to using it, but since variant scroll forms that don't have spells stored in written form can't be deciphered with <i>read magic</i>, they must be identified with a successful Spellcraft check (DC 20 + spell level).
+1,Alternate Form: Incendiary: A spell is stored in a special mix of powders and glyph-covered paper. To use an incendiary, a spellcaster speaks the last words of the spell while simultaneously igniting the prepared device (usually by means of a minor magical property of the incendiary form that requires no additional action to activate). The incendiary is consumed in a brilliant colored flash or haze of strangely coiling smoke, completing the spell.
+_When a scroll is found in the course of a campaign, deciphering its magical text is usually the first step to using it, but since variant scroll forms that don't have spells stored in written form can't be deciphered with <i>read magic</i>, they must be identified with a successful Spellcraft check (DC 20 + spell level).
+1,Alternate Form: Macrame: A spell is held in a small, complex weave of precisely tied knots. The user pulls apart the knotted square by choosing the right strands while speaking the spell's activation words.<br>
+_When a scroll is found in the course of a campaign, deciphering its magical text is usually the first step to using it, but since variant scroll forms that don't have spells stored in written form can't be deciphered with <i>read magic</i>, they must be identified with a successful Spellcraft check (DC 20 + spell level).
+
+;!Ring
+10,Ring glows as a candle (5' radius shadowy illumination) a random color ([~Miscellaneous.Color]) when its powers manifest.
+1,Scroll glows as a torch (20' rad, 40' shadowy illumination) a random color ([~Miscellaneous.Color]) when its powers manifest.
+5,Ring is powerless during the night. Also, it is good aligned and radiates this alignment.
+5,Ring is powerless during the day. Also, it is evilly aligned and radiates this alignment.
+5,Ring will not function underground at depths greater than 100' below the surface.
+5,Ring will not function if a second magical ring is worn.
+1,Ring is unable to function when within 30' of any other magical ring.
+5,Ring will not function for <b>{Dice~1d4}</b> days if it is taken off the wearer's finger and later placed on a new wearer or on the previous wearer. It takes that many days for the effect to manifest itself.
+5,Ring cannot use its offensive power against any creature of 1 HD or less.
+5,Ring is easily damaged; it makes any saving throw at a -2 penalty on the roll.
+5,Ring works erratically; there is a 5 <b>percent</b> chance when its powers are utilized that the ring shorts itself out and is unusable for 24 hours.
+5,Ring has a 20 <b>percent</b> chance of failing to work each time it is activated or put on.
+5,Ring magically grafts itself to the wearer's finger and cannot be removed by any means other than employing a <i>wish</i> or physically removing the finger from the wearer's body.
+5,Wearer of the ring is colorblind and can see only in black and white for as long as the ring is worn. If the wearer is naturally colorblind, he can see normal colors in the visible spectrum for as long as the ring is worn. If the ring is taken off, sight returns to its natural state.
+5,Ring is specially enchanted and cannot be damaged by [~Energy], magical or otherwise.
+5,Ring is specially enchanted and has [~Energy] Resistance 10.
+5,Ring causes its wearer to experience terrible nightmares if it is worn while sleeping, preventing any rest at all. The wearer is fatigued. If it is taken off prior to falling asleep, no ill effects occur.<br>
+_<u>Fatigued Condition</u>: Can neither run nor charge, -2 Strength and Dexterity. Doing anything that would normally cause fatigue causes the fatigued character to become exhausted.<br>
+_<u>Exhausted Condition</u>: Half speed, -6 Strength and Dexterity.
+5,Ring emits a hum audible to those within a 10' radius whenever its powers are used.
+5,Wearer's metabolism is slowed by wearing the ring; consequently, only half the daily amount of food and water needs to be eaten.
+5,Wearer's metabolism is sped up by wearing the ring; twice the daily amount of food and water needs to be eaten by the wearer.
+5,Ring functions as normal but has no effect on one specific creature type ([~Creatures.Type]).
+5,Ring cannot be crushed by anything short of an irresistible force (such as a deity or several tons of rock).
+5,Ring will not work if its wearer is clad in metal armor.
+5,Ring has a command word that must be spoken in order for it to operate. If the ring has a power that operates continuously, speaking the command word operates the ring for 10 rounds.
+1,Ring drains 1 hp every time it is used. Normal healing applies.
+1,Ring is inhabited by a vain minor spirit who wills its wearer to polish the ring daily. If this is not done, the spirit withholds the ring's powers for one day for each time it is not polished.
+1,The item is intelligent; roll on the sword intelligence table and disregard any result of no intelligence. The item also has an ego. Though it will tell its owner of the powers it offers, it will never disclose the number of charges it possesses. Note that an intelligent item will never willingly use its last few charges! It has no power nor skill points, other than being intelligent.
+5,[NegativeLevel]
+5,[Blooded]
+5,The wearer must be [~Magic] caster for the item to work.
+5,The item radiates a [~Alignment] alignment when detected. No other effect.
+5,[Cursed]
+5,[Given]
+
+;!Wand
+10,The item glows as a candle (5' radius shadowy illumination) a random color ([~Miscellaneous.Color]) when its powers manifest.
+1,The item glows as a torch (20' rad, 40' shadowy illumination) a random color ([~Miscellaneous.Color]) when its powers manifest.
+5,The item is inefficient; double the number of charges expended for each use.
+5,The item has an extra command word that allows it to shrink to half its normal size or return to its normal size.
+5,The item is made of metal and is magnetic; consequently, the wand is attracted to any large concentration of metal of at least 10 lbs weight.
+5,The item radiates <i>nondetection</i> and registers negatively to any attempt to detect magic.
+5,The item does 1 hp damage to its wielder each time that the item's powers are used.
+5,The item is easily broken; it must make all saving throws at -2 to the roll.
+5,Somatic gestures, as well as a command word, are necessary for activating the item's powers. It needs a Full-Round Action to activate the item. If the gestures cannot be performed (i.e., the wielder's arms are tied), the item will not work.
+5,The item will not work if the wielder's hand is covered, gloved, or gauntleted.
+5,The item is unstable; it fizzles out and does nothing 10 <b>percent</b> of the time that is activated.
+5,The item is unaffected by [~Energy], magical or normal.
+5,The item is invisible to everyone except its user.
+5,The item's wielder must concentrate for one round when speaking the command word in order to activate the item's powers.
+5,The item is in adamantine (Hardness 20, 5 hp).
+5,The item is hard to snap or break. A Strength check DC<b>{Dice~1d10+15}</b> is required to break it.
+5,The item will not work if the wielder is wearing metal armor of any kind (including elven chain mail).
+5,The item has a tendency to overload. It can be used up to 3 times in a 24-hour period. Any uses beyond that limit cause the item to short itself out for 24 hours, and the charges activated are lost.
+5,The item is extremely powerful; any saves against its effects are at DC +2.
+5,The item is unable to function in environments colder than freezing.
+5,The item is unable to function in environments warmer than normal human body temperature.
+5,The item will not function underwater.
+5,The item will activate whenever the command word is spoken by anyone within 30', whether it is being held or not.
+5,The item can be used as a weapon (if it is not already one). It is considered as a magic weapon to counter damage reduction, but has no actual bonus to hit or on damage. A wand does 1d4 points of damage; a rod and a staff do 1d6 damage (as a club and staff respectively).
+1,If all of the item's charges are used, it explodes in a fiery blast.  The blast has a radius of 15' and does <b>{Dice~5d4}</b> hp damage to anyone therein.  The one holding the item receives no saving throw; others may make a Reflex save DC<b>{Dice~1d10+10}</b> for half damage.
+5,The item is capable of being placed on automatic mode; every round, it will perform one function as designated by the wielder, using the normal amount of charges, until it is taken off automatic mode. During this time, the wielder is able make other actions. It takes a move action to aim the item. If no action is taken, the item uses the same target as before. If the target cannot be seen, it aims at the feet of the caster.
+1,(ROD ONLY) The item is intelligent; roll on the sword intelligence table and disregard any result of no intelligence. The item also has an ego. Though it will tell its owner of the powers it offers, it will never disclose the number of charges it possesses. Note that an intelligent item will never willingly use its last few charges! It has no power nor skill points, other than being intelligent.
+5,[NegativeLevel]
+5,[Blooded]
+5,The item radiates a [~Alignment] alignment when detected. No other effect.
+5,The item is mentally tiring; each use requires a Will save (DC 12) or the user takes 1 point of temporary lntelligence damage.
+5,[Cursed]
+1,[Given]
+1,Using the most powerful power of this item permanently drains 1 hp from the wielder.
+
+;!Item
+10,The item glows as a candle (5' radius shadowy illumination) a random color ([~Miscellaneous.Color]) when its powers manifest.
+1,The item glows as a torch (20' rad, 40' shadowy illumination) a random color ([~Miscellaneous.Color]) when its powers manifest.
+5,Item has a habit of burying itself in any sack, backpack, or container in which it is carried. If other items are in the container, 1 Full-Round is necessary for someone to find and retrieve the item.
+5,Item works normally, but it appears dirty and ready to fall apart. For example, a <i>cloak of protection +1</i> might be moth-eaten and stained, but still functional.
+5,Item attunes itself to one owner at a time; if it is removed from its owner, or if another person tries to use the device, it goes dormant for <b>{Dice~1d4}</b> days as it grows accustomed to its new owner. It takes this same number of days for the powers to manifest.
+5,Item has the annoying habit of buzzing when it is used. The buzzing is audible to anyone within 60', and it is impossible to surprise anyone while the device is buzzing.
+5,Item is durable and makes any necessary saving throws at +2 to the die roll.
+5,Item will not function if user wears any kind of head adornment (including a hood).
+5,Item will not function underwater.
+5,Item will not function underground.
+5,Item will not function at night. Also, it is good aligned and radiates this alignment.
+5,Item will not function during the day. Also, it is evilly aligned and radiates this alignment.
+5,Item is unaffected by blows of any kind.
+5,Item has a finite number of uses; it will be found with <b>{Dice~2d20}</b> charges remaining.
+5,Item works erratically; roll 1d100.<br>
+_.....01-70 Items functions normally.<br>
+_.....71-90 Items fails to function.<br>
+_.....91-00 Item acts as a <i>rod of wonder</i>, roll on the appropriate table.
+5,Item is magically buoyant and tends to levitate upward at the rate of 5' per minute unless held or tied down.
+5,Item is immune to [~Energy] damage, magical or not.
+5,Item can only be used twice per day; if used more often, it will short itself out and be unusable for 24 hours.
+1,Item causes its owner to become extremely possessive of it. If the item is kept for more than 14 days, a mild form of paranoia sets in. The owner will assume that anyone mentioning the item wants it. The owner will never relinquish the item to anyone as a result. A <i>remove curse</i>, or getting rid of the item before 14 days pass, are the only ways to negate the paranoia effect.
+5,Item is powerful; it works 125 <b>percent</b> more effectively than a standard item of the same type, and any saving throw against its effects is at DC +1.
+5,Item is substandard and only works half as well as a standard item of the same type.
+5,Item has a curse upon it. All saving throws attempted by its owner are made at DC -2 until the owner frees itself from the item (<i>remove curse</i>).
+1,Item belongs to an extraplanar creature or other powerful being (this is shown on the item by the creature's personal sign).  After <b>{Dice~1d4}</b> weeks, the item will be located by the being, and it will show up to claim "its" property.
+5,Item must rest for 1 hour minimum between uses.
+5,Item cannot be destroyed by any means short of an incredible excess of force (such as a deity), by dropping it into a lava pit, or the like.
+1,The item is intelligent; roll on the sword intelligence table and disregard any result of no intelligence. The item also has an ego. Though it will tell its owner of the powers it offers, it will never disclose the number of charges it possesses. Note that an intelligent item will never willingly use its last few charges! It has no power nor skill points, other than being intelligent.
+5,[NegativeLevel]
+5,[Blooded]
+5,The wearer must be [~Magic] caster for the item to work.
+5,The item radiates a [~Alignment] alignment when detected. No other effect.
+5,The wielder must be a worshiper of [~Religion.Deities] for the item to have any effect.
+1,Using the most powerful power of this item permanently drains 1 hp from the wielder.
+5,[Cursed]
+5,[Given]
+
+;!Armor
+10,The item glows as a candle (5' radius shadowy illumination) a random color ([~Miscellaneous.Color]) when its powers manifest.
+1,The item glows as a torch (20' rad, 40' shadowy illumination) a random color ([~Miscellaneous.Color]) when its powers manifest.
+5,Armor is incredibly shiny and reflects light of any kind. -5 Hide when there is the slightest light available.
+5, Armor is heavy; add 25 <b>percent</b> to its total weight and encumbrance, and a -1 armor penalty.
+5,Armor does not adjust in size.
+5, Armor is tight-fitting; if not oiled at least once every three days, the suit will cramp the wearer's fighting skills. As a result, the wearer will suffer a -1 armor penalty, a -2 Maximum Dex, and -1 on attack rolls until the armor is oiled.
+5,Armor works normally but appears incredibly beaten up and battered. No amount of repair can change its appearance. (Status-conscious cavaliers and paladins will have reservations about wearing any armor that does not look good.)
+5,Armor is noisy, -5 Move Silently.
+5,Armor weighs one quarter as much as normal armor of the same type.
+5,Armor lacks magical protective ability against a specific type of creatures ([~Creatures.Type]).
+5,Armor is resistant to [~Energy]; it can never be damaged by this type of energy.
+5,Armor can be donned and removed in half the time.
+5,Armor has complicated straps and is hard to put on and remove.  Consequently, the time required to put on and take off the armor is doubled.
+5,Armor is attuned to a place of special magical radiance, in much the same manner as is drow armor. If the armor is not exposed to this place once every month, its magic will be lost.
+5,Armor is resistant: +2 hardness, +10 hit points.
+5,Armor can never be scratched, stained, or dented.
+5,Armor has an inherent disruption of magic. It receives a +2 bonus on all its saving throws.
+1, Armor attracts monsters; any random encounter checks are at double normal chance for anyone wearing this armor.
+5,Armor is a electricity superconductor; add +1 hp per die to all damage from electricity.
+5,Armor does not provide magical protection if a clothing or covering is worn over it.
+5,Armor is an exquisite piece of workmanship and commands a price of 150 <b>percent</b> of its normal value due to its quality.
+5,Armor is possessed by a spirit of random alignment; if the wearer's alignment differs from the spirit's, the armor  periodically attempts to possess the wearer. Determine the chance of success as noted under the 5th-level wizard spell, <i>magic jar</i>. The spirit's intelligence is {Dice~3d6}. The chance of a possession attempt occurring is 5 <b>percent</b> per week, cumulative.
+1,The item is intelligent; roll on the sword intelligence table and disregard any result of no intelligence. The item also has an ego. Though it will tell its owner of the powers it offers, it will never disclose the number of charges it possesses. Note that an intelligent item will never willingly use its last few charges! It has no power nor skill points, other than being intelligent.
+5,[NegativeLevel]
+5,[Blooded]
+1,The wearer must be [~Magic] caster to activate its special powers, if any.
+5,The item radiates a [~Alignment] alignment when detected. No other effect.
+5,[Cursed]
+1,[Given]
+
+;!Weapon
+10,The item glows as a candle (5' radius shadowy illumination) a random color ([~Miscellaneous.Color]) when its powers manifest.
+1,The item glows as a torch (20' rad, 40' shadowy illumination) a random color ([~Miscellaneous.Color]) when its powers manifest.
+5,Weapon always glows as a candle (5' radius shadowy illumination) a random color ([~Miscellaneous.Color]).
+5,Weapon is lighter than normal. The wielder has a +1 bonus on initiative when the weapon is used.
+5,Weapon is unable to harm one type of creatures ([~Creatures.Type]).
+5,Weapon must be used two-handed in order to gain its magical bonus. If the weapon is very short (e.g., a dagger or knife), is already a two-handed weapon, or this result does not otherwise apply, disregard this result and roll again on this table (see below).<br>OR<br>[Weapon]
+5,Weapon's finish cannot be marred, stained, or scratched in any way.
+5,Weapon hums whenever it is held (and the sound negates any chance of surprise).
+5,Weapon must be baptized in flame after combat, or it loses its magical bonus until it is placed within a fire for at least one hour (weapon is immune to the effects of normal fire).
+5,Weapon must be cleaned and sharpened after every combat or its damage dice will go down by one category (cumulative).
+5,Weapon is twice as heavy as normal. The wielder suffers a -1 penalty to all initiative rolls when using this weapon.
+5,Weapon appears beat up, notched, scratched, stained, and dented. No amount of polishing can alter its appearance.
+5,Weapon's magic functions only at night. Also, the weapon is evilly aligned and radiates this alignment.
+5,Weapon's magic functions only during the day. The weapon is good aligned and radiates this alignment.
+5,Weapon has a command word upon it that shrinks it as would a <i>shrink item</i> spell. To return the weapon to normal size, the command word must be spoken backwards.
+5,Weapon exhibits no magical properties until a certain condition is met (i.e., a <i>bless</i> spell is cast upon it, a certain type of creature is killed with it, etc.).
+5,Weapon is unaffected by [~Energy] damage.
+5,Weapon radiates <i>nondetection</i>; thus a <i>detect magic</i> spell will not register it.
+1,Weapon is silent; it makes no noise when dropped or struck against armor or another weapon.
+1,Weapon's magic makes it dangerous to wield in combat. If the wielder misses an attack against his intended opponent, he must make a Dexterity check DC<b>{Dice~1d10+10}</b> or the weapon slips. An attack roll must be made against any ally in a 5' radius (or against the wielder, if no allies are near). A successful hit on oneself or a friend does half damage.
+1,Weapon cannot be broken by any means short of divine power or an irresistible force (such as having 10 tons of rock dropped on it).
+5,Weapon is resistant: +2 hardness, +10 hit points.
+5,Weapon is immune to the effects of rust (including the attack of a rust monster).
+5,Weapon is invisible whenever drawn or wielded in combat.
+1,The item is intelligent; roll on the sword intelligence table and disregard any result of no intelligence. The item also has an ego. Though it will tell its owner of the powers it offers, it will never disclose the number of charges it possesses. Note that an intelligent item will never willingly use its last few charges! It has no power nor skill points, other than being intelligent.
+5,[NegativeLevel]
+5,[Blooded]
+1,The wielder must be [~Magic] caster to activate its special powers, if any.
+5,The item radiates a [~Alignment] alignment when detected. No other effect.
+5,[Cursed]
+5,[Given]
+
+# --------------------------------------------------------------------------
+# Miscellaneous tables
+
+;Ability
+1,Strength
+1,Dexterity
+1,Constitution
+1,Intelligence
+1,Wisdom
+1,Charisma
+
+:Cursed
+1,Item is cursed in the sense that the wielder/owner cannot get rid of it unless receiving a <i>remove curse</i> spell.
+
+;Drink
+1,ale or beer
+5,wine
+1,water
+1,any other potion
+1,strong liquor
+
+;Energy
+5,Acid
+5,Electricity
+5,Cold
+5,Fire
+5,Sonic
+1,Negative Energy
+
+;Magic
+8,a divine
+8,an arcane
+1,a special arcane (ex: high sorcery) 
+1,a special divine (ex: druid)
+1,a divine (of [~Religion.Deities])
+
+;NegativeLevel
+1, Wielder/owner receives one negative level if not [~Alignment]. This negative level never results in actual level loss, but it cannot be overcome in any way (including <i>restoration</i> spells) while the item is used / worn / held.
+
+;Alignment
+5,Chaotic
+5,Lawful
+5,Evil
+5,Good
+1,Neutral
+
+;SelfIdentify
+1,<br>- <i>Self-Identifying.</i>|SelfID=1|
+9,
+
+;Blooded
+1, Item can only be used by creatures of the appropriate type or race : [~Race] (or with the appropriate "blood" type, ex: Orc Blood for the half-orc).
+
+;Race
+1,[Creatures.Humanoid3]
+1,[Creatures.Type]
+
+;Given
+1,The item must be freely given to work (not stolen, nor given through deception or magic, like domination; except a well-worded wish).

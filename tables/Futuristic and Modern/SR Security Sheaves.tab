@@ -1,0 +1,203 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder Jan 20, 2006.
+# ---------------------------------------------------
+#
+# SR_Security_Sheaves (Shadowrun)
+#
+# Green,2
+# Blue,1
+# Orange,3
+# Red,4
+
+%alert%,4
+%step%,0
+%totalstep%,0
+%colour%,1
+%secval%,1
+
+:Start
+1,{Input~colour,Enter Security System Code (Blue=1; Green=2; Orange=3; Red=4),1}<b>[Colour=%colour%]</b>{CR~}
+_{While~%alert%,[Alert=%alert%]}
+
+:Colour
+1,Blue ([SecValue]){CR~}[SecRating] 
+2,Green ([SecValue]){CR~}[SecRating]
+3,Orange ([SecValue]){CR~}[SecRating]
+4,Red ([SecValue]){CR~}[SecRating]
+
+:SecValue
+#Easy,1
+#Average,2
+#Hard,3
+1,Easy,|secval={Dice~1d3+3}| %secval%
+2,Average, |secval={Dice~1d3+6}| %secval%
+3,Hard, |secval={Dice~2d3+6}| %secval%
+
+:SecRating
+1,A:[SubSysRating]/C:[SubSysRating]/I:[SubSysRating]/F:[SubSysRating]/S:[SubSysRating]
+
+:SubSysRating
+#A/C/I/F/S
+#Easy,1
+#Average,2
+#Hard,3
+1,{Dice~1d3+7}
+2,{Dice~2d3+9}
+3,{Dice~1d6+12}
+
+:Alert
+1,|alert=0|
+2,|step+{Dice~1d3+3}|[AddStep=%step%]%totalstep% -- [ActiveAlert=%step%]{CR~}
+3,|step+{Dice~1d3+3}|[AddStep=%step%]%totalstep% -- [PassiveAlert=%step%]{CR~}
+4,|step+{Dice~1d3+3}|[AddStep=%step%]%totalstep% -- [NoAlert=%step%]{CR~} {If~%totalstep%>250?|alert=0|/}
+
+:NoAlert
+1-3,[ReactiveWhite]-[ICRating]
+4-5,[ProactiveWhite]-[ICRating]
+6-7,[ReactiveGrey]
+8-250,|step=0||alert=3|Passive Alert {If~%colour%>2? , [RandomIC]/}
+
+:PassiveAlert
+1-3,[ProactiveWhite]-[ICRating][ProactiveOptionChance]
+4-5,[ReactiveGrey][ReactiveOptionChance]
+6-7,[ProactiveGrey]-[ICRating][ProactiveOptionChance]
+8-250,|step=0||alert=2|Active Alert {If~%colour%>2? , [RandomIC]/}
+
+:ActiveAlert
+1-3,[ProactiveGrey]-[ICRating][ProactiveOptionChance]
+4-5,[ProactiveWhite]-[ICRating][ProactiveOptionChance]
+6-7,[Black]-[ICRating]
+8-250,|step=0||alert=1|Shutdown
+
+:RandomIC
+1,[ReactiveWhite]-[ICRating][ReactiveOptionChance]
+2,[ProactiveWhite]-[ICRating][ProactiveOptionChance]
+3,[ReactiveGrey]-[ICRating][ReactiveOptionChance]
+4,[ProactiveGrey]-[ICRating][ProactiveOptionChance]
+5,[Black]-[ICRating][NastiesChance={Calc~(%secval%+{Dice~1d3})}]
+6,Construct
+
+:ProactiveWhite
+1-5,Crippler([CripplerType])
+6-8,Killer
+9-11,Scout
+12,Construct
+
+:ProactiveGrey
+1-5,Ripper([CripplerType])
+6-8,Blaster
+9-11,Sparky
+12,Construct
+
+:ProactiveOptionChance
+1-4,
+5-6, with [ProactiveOptions]
+
+:ReactiveOptionChance
+1-4,
+5-6, [ReactiveOptions]
+
+:NastiesChance
+1-9,
+10-15, [Nasties]
+16-20, [Nasties] and [Nasties]
+
+:ReactiveWhite
+1-2,Probe
+3-6,Trace
+6,Tar Baby
+
+:ReactiveGrey
+1-2,Tar Pit
+3,Trace-[ICRating] with trap ([Trap])
+4,Probe-[ICRating] with trap ([Trap])
+5,Scout-[ICRating] with trap ([Trap])
+6,Construct
+
+:Black
+1-4,Psychotropic
+5-7,Lethal
+8-10,Non-lethal
+11,Cerebropathic
+12,Construct
+
+:CripplerType
+1-2,Bod
+3,Evasion
+4-5,Masking
+6,Sensor
+
+:ReactiveOptions
+1-4,Shield
+5,Armour
+6-7,None
+8,Trap ([Trap])
+9,Armour
+10-12,Shift
+
+:ProactiveOptions
+1-3,Party Cluster([RandomIC])
+4,Expert Offense +{Dice~1d3}
+5,Shifting
+6,Cascading
+7,None
+8,Armor
+9,Shielding
+10,Expert Defense +{Dice~1d3}
+11,Trap ([Trap])
+12,[ProactiveOptions={Dice~1d10+1}] and [ProactiveOptions={Dice~1d10+1}]
+
+:Trap
+1-2,[DataBomb]-[ICRating]
+3-5,Blaster-[ICRating]
+6-8,Killer-[ICRating]
+9-11,Sparky-[ICRating]
+12,[Black]-[ICRating]
+
+:Nasties
+1-2,Semi-autonomous Knowbot
+3,Teleporting SAN
+4,Vanishing SAN
+5,Bouncer Host
+6,[DataBomb]
+7,Scramble IC
+8,Security Decker
+9,[Worm]
+10,Chokepoint
+11,Trap Door
+12,Virtual Host
+
+:DataBomb
+1-4,Data Bomb
+5-6,Pavlov Data Bomb
+
+:Worm
+1-3,Crashworm
+4-5,Deathworm
+6-8,Dataworm
+9-10,Tapeworm
+11-12,Ringworm
+
+:AddStep
+1,|totalstep+1|
+2,|totalstep+2|
+3,|totalstep+3|
+4,|totalstep+4|
+5,|totalstep+5|
+6,|totalstep+6|
+7,|totalstep+7|
+8,|totalstep+8|
+9,|totalstep+9|
+10,|totalstep+10|
+11,|totalstep+11|
+12,|totalstep+12|
+13,|totalstep+13|
+14,|totalstep+14|
+
+:ICRating
+1,{Calc~(%secval%-2)}
+2,{Calc~(%secval%-1)}
+3,%secval%
+4,{Calc~(%secval%+1)}
+5,{Calc~(%secval%+2)}
+6,{Calc~(%secval%+3)}

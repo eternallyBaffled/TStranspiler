@@ -1,0 +1,3009 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder Jun 12, 2018.
+# ---------------------------------------------------
+#
+# Miscellaneous
+#
+# -------------------------------------------------------------------------
+#
+# To call this table from another one:
+#    [Miscellaneopus.XXX  ---- Choose appropriate subtable.
+#
+# -------------------------------------------------------------------------
+#
+# Various tables intended for use by other tables
+#
+# Originally created by Bruce A. Gulke
+#
+# Improved by Scott B. Barrie
+#
+# Personality and Traits go together.
+# Size A: All sizes.
+# Size B: S/M/L
+# Size C: S+
+# Size D: other than Small/Medium
+#
+# Modified by Valminder, April 2002.
+#    I also added the "Traits" table from Todd Landrum.
+# Nov 2003: Added "OccupationsMeanings" and updated the "Occupations"
+#           subtable from the "Character Generation 2E" by Robert Maxwell. 
+# Jan 2004: slight modifications to "Odor" (added Odor2).
+# Oct 2005: Added "Titles.Both"
+# Nov 2005: Added some colors and [ColorType] subtable.
+# Dec 2005: Added disease.
+# Jan 2006: Fixed Multicolor.
+# Feb 2006: Added infos from "Color.tab" (about 20 colors and 5 types)
+#           Added "ColorType2" ==> dark red, virulent green, crystalline red
+#           From Michael's Long "FR_Misc_MatColQual.tab".
+#              Added: "Carving Material", "Ceramics", "Clarity", "Fabrics", "Hardness", "Height", "Length", "Weight".
+#              Improved: "General Quality", "Wood"
+# Dec 2007: Added a lot of "Meaning" for occupations.
+#
+# COSTUMIZING: Language
+# (For your own world, modify the [Language] subtable.
+#
+# Modified by Valminder, Mar 2014
+#    Added subtables:
+#       MetalCommonWeapon
+#       WoodBow
+#       WoodWeapon
+# Modified by Valminder, Jun 2014
+#    Added subtable: Taste
+# Modified by Valminder, Sep 2015
+#    Added "Patterns" subtable
+#    Added "School" subtable (for magic schools, like evocation and necromancy)
+# Modified by Valminder, Feb 2017
+#    Added "Size" subtable
+#    Added "ColorCommonNoType" subtable
+# Modified by Valminder, May 2018
+#    Added link to "Smells.Generate".
+# Modified by Valminder, Jun 2018.
+#    Added "ShapeNoCreature" subtable.
+#
+
+%clean%,1
+%Meaning%,0
+%temp%,0
+%Temp1%,0
+%Temp2%,0
+%Counter%,0
+
+### Disease
+%Disease%,0
+%Damage%,0
+%DmgSpecial%,0
+%DC%,0
+%Incubation%,0
+%Infection%,0
+
+;Start
+0,[Alignment]
+0,[Alignment2]
+0,[Alignment L]
+0,[Alignment C]
+0,[Alignment G]
+0,[Alignment E]
+0,[Carving Material]
+0,[Ceramics]
+0,[Clarity]
+0,[Class]
+0,[ClassName]
+0,[ClassPC]
+0,[Class2]
+0,[ClassMulti]
+0,[ClassMulti2]
+0,[ClassSpecialist]
+0,[Cleanliness]
+0,[Cloth]
+0,[Color]
+0,[ColorNoType]
+0,[ColorCommonNoType]
+0,[ColorType]
+0,[ColorType2]
+0,[Direction]
+0,[DirectionErn]
+0,[Disease]
+0,[DiseaseExport]
+0,[DiseaseFull]
+0,[DiseaseGen]
+0,[Fabric]
+0,[Gender]
+0,[General Quality]
+0,[Hardness]
+0,[Height]
+0,[Language]
+0,[Language Common]
+0,[Language Dialect]
+0,[Language Ancient]
+0,[Language Old Tongues]
+0,[Language Prehistoric]
+0,[Length]
+0,[Material]
+0,[Metal]
+0,[Occupations]
+0,[OccupationsMeanings]
+0,[Odor]
+0,[Odor2]
+0,[Other Material]
+0,[Patterns]
+0,[Personality]
+0,[Precious Metal]
+0,[Prestige]
+0,[Quirks]
+0,[Rarity]
+0,[Reaction]
+0,[Ruler]
+0,[School]
+0,[Shape]
+0,[Shop]
+0,[Size]
+0,[Size A]
+0,[Size B]
+0,[Size C]
+0,[Size D]
+0,[Sound]
+0,[Stone]
+0,[Taste]
+0,[Titles]
+0,[TitlesBoth]
+0,[TitlesFemale]
+0,[TitlesMale]
+0,[Traits]
+0,[Weight]
+0,[Wood]
+
+0,[Weapons]
+0,[Axe and Hammers]
+0,[Bows]
+0,[Knives]
+0,[Swords]
+0,[Misc]
+
+0,[Armors]
+0,[Armors Light]
+0,[Armors Medium]
+0,[Armors Heavy]
+0,[Shields]
+
+# -------------------------------------------------------------------
+
+#Equal chance for each
+;Alignment
+1,Lawful Good
+1,Lawful Neutral
+1,Lawful Evil
+1,Neutral Good
+1,Neutral
+1,Neutral Evil
+1,Chaotic Good
+1,Chaotic Neutral
+1,Chaotic Evil
+
+#Less evil
+;Alignment2
+2,Lawful Good
+4,Lawful Neutral
+1,Lawful Evil
+4,Neutral Good
+4,Neutral
+1,Neutral Evil
+3,Chaotic Good
+2,Chaotic Neutral
+1,Chaotic Evil
+
+;Alignment L
+1,Lawful Good
+1,Lawful Neutral
+1,Lawful Evil
+
+;Alignment C
+1,Chaotic Good
+1,Chaotic Neutral
+1,Chaotic Evil
+
+;Alignment G
+1,Lawful Good
+1,Neutral Good
+1,Chaotic Good
+
+;Alignment E
+1,Lawful Evil
+1,Neutral Evil
+1,Chaotic Evil
+
+:Carving Material
+1-3,[Wood]
+4,pipestone
+5,psaedros
+6,soapstone
+7,asventurine
+8,hornbill ivory
+9,meerschaum
+10-11,obsidian
+12,salabra
+13-14,onyx
+15-16,marble
+17,jade
+18,amber
+19,ivory
+20,[Precious Metal]
+
+:Ceramics
+1,clay
+2,ceramic
+3,crystal
+4,glass
+5,porcelain
+
+;Clarity
+1,clear
+1,smokey
+1,cloudy
+1,layered
+1,luminous
+1,hazy
+1,steamy
+1,flecked
+1,clear
+
+# Equal Chance for any class
+;Class
+2,adept ([Creatures.Familiar] familiar)
+2,aristocrat
+2,barbarian
+2,bard
+1,cleric of [Religion.Evil Gods]
+1,cleric of [Religion.Good Gods]
+1,cleric of [Religion.Neutral Gods]
+2,commoner
+2,druid
+2,expert
+2,fighter
+2,monk
+2,paladin of [Religion.Good Gods]
+2,ranger
+2,rogue
+2,sorcerer ([Creatures.Familiar] familiar)
+2,warrior
+2,wizard{If~{Dice~1d100}<40?&nbsp([ClassSpecialist])} ([Creatures.Familiar] familiar)
+2,[ClassMulti]
+
+# Equal Chance for any class
+# Only the class name
+;ClassName
+1,adept
+1,aristocrat
+1,barbarian
+1,bard
+1,cleric
+1,commoner
+1,druid
+1,expert
+1,fighter
+1,monk
+1,paladin
+1,ranger
+1,rogue
+1,sorcerer
+1,warrior
+1,wizard
+
+# More chance for a PC class with some NPC class
+;ClassPC
+1,adept ([Creatures.Familiar] familiar)
+1,aristocrat
+5,barbarian
+5,bard
+5,cleric of [Religion.Deities]
+1,commoner
+5,druid
+1,expert
+5,fighter
+5,monk
+5,paladin of [Religion.Good Gods]
+5,ranger
+5,rogue
+5,sorcerer ([Creatures.Familiar] familiar)
+1,warrior
+5,wizard{If~{Dice~1d100}<40?&nbsp([ClassSpecialist])} ([Creatures.Familiar] familiar)
+5,[ClassMulti]
+
+# More chance for a NPC class with some PC class
+;Class2
+3,adept ([Creatures.Familiar] familiar)
+2,aristocrat
+1,barbarian
+1,bard
+1,cleric of [Religion.Deities]
+5,commoner
+1,druid
+5,expert
+3,fighter
+1,monk
+1,paladin of [Religion.Good Gods]
+2,ranger
+2,rogue
+1,sorcerer ([Creatures.Familiar] familiar)
+3,warrior
+1,wizard{If~{Dice~1d100}<40?&nbsp([ClassSpecialist])} ([Creatures.Familiar] familiar)
+1,[ClassMulti]
+
+;ClassMulti
+9,[ClassMulti2] / [ClassMulti2]
+1,[ClassMulti2] / [ClassMulti2] / [ClassMulti2]
+
+;!ClassMulti2
+2,adept ([Creatures.Familiar] familiar)
+2,aristocrat
+2,barbarian
+2,bard
+2,cleric of [Religion.Deities]
+2,commoner
+2,druid
+2,expert
+2,fighter
+2,monk
+2,paladin of [Religion.Good Gods]
+2,[Prestige]
+2,ranger
+2,rogue
+2,sorcerer ([Creatures.Familiar] familiar)
+2,warrior
+2,wizard ([Creatures.Familiar] familiar)
+
+;ClassSpecialist
+1,abjurer
+1,conjurer
+1,diviner
+1,enchanter
+1,evoker
+1,illusionist
+1,necromancer
+
+;Cleanliness
+1,dirty|clean=0|
+6,clean|clean=1|
+1,dusty|clean=0|
+1,spotless|clean=1|
+1,disarrayed|clean=0|
+1,disorganized|clean=0|
+1,organized|clean=1|
+1,impeccable|clean=1|
+1,sterilized|clean=1|
+1,neat|clean=1|
+1,dishelved|clean=0|
+1,squalid|clean=0|
+1,smokey|clean=0|
+1,oily|clean=0|
+1,greasy|clean=0|
+1,grimey|clean=0|
+1,muddy|clean=0|
+
+;CleanlinessChecker
+1,[Cleanliness],%clean%
+
+;!Cloth
+1,[Equipment.Cloth]
+
+;!Color
+1,multicolor |temp={Dice~3d2-1}|{Lockout~ColorNoType,1}({Loop~%temp%,[ColorNoType]|Counter+1|{If~%Counter%<%temp%?, }})
+1,glittering [Color]
+1,scintilating [Color]
+1,amethyst[ColorType]
+2,aqua[ColorType]
+1,ash[ColorType]
+1,azure[ColorType]
+2,beige[ColorType]
+2,black[ColorType]
+2,blue[ColorType]
+1,brass[ColorType]
+2,bronze[ColorType]
+2,brown[ColorType]
+2,burgundy[ColorType]
+1,camel[ColorType]
+1,canary[ColorType]
+1,caramel[ColorType]
+1,cherry[ColorType]
+1,chestnut[ColorType]
+1,cinnamon[ColorType]
+2,clear[ColorType]
+1,colorless[ColorType]
+2,copper[ColorType]
+1,coral[ColorType]
+2,cream[ColorType]
+1,crimson[ColorType]
+1,cyan[ColorType]
+1,ebony[ColorType]
+1,eggshell[ColorType]
+1,emerald[ColorType]
+1,fuchsia[ColorType]
+2,gold[ColorType]
+1,granite[ColorType]
+2,green[ColorType]
+2,grey[ColorType]
+1,honey[ColorType]
+2,indigo[ColorType]
+2,ivory[ColorType]
+1,jade[ColorType]
+1,khaki[ColorType]
+1,lavender[ColorType]
+1,lead[ColorType]
+1,lemon[ColorType]
+1,lilac[ColorType]
+1,lime[ColorType]
+1,magenta[ColorType]
+1,maroon[ColorType]
+1,mauve[ColorType]
+1,navy[ColorType]
+1,obsidian[ColorType]
+1,ochre[ColorType]
+1,olive[ColorType]
+2,orange[ColorType]
+1,orchid[ColorType]
+1,pearl[ColorType]
+2,pink[ColorType]
+1,platinum[ColorType]
+2,purple[ColorType]
+2,rainbow[ColorType]
+2,red[ColorType]
+1,ruby[ColorType]
+2,rust[ColorType]
+1,sable[ColorType]
+2,salmon[ColorType]
+1,scarlet[ColorType]
+2,silver[ColorType]
+1,smoke[ColorType]
+1,steel[ColorType]
+1,tan[ColorType]
+2,turquoise[ColorType]
+2,violet[ColorType]
+2,white[ColorType]
+1,wine[ColorType]
+2,yellow[ColorType]
+
+;!ColorNoType
+1,multicolor |Counter=0||temp={Dice~3d2-1}|{Reset~ColorNoType}{Lockout~ColorNoType,1}({Loop~%temp%,[ColorNoType]|Counter+1|{If~%Counter%<%temp%?, }})
+1,glittering [ColorNoType]
+1,scintilating [ColorNoType]
+1,amethyst
+2,aqua
+1,ash
+1,azure
+2,beige
+2,black
+2,blue
+1,brass
+2,bronze
+2,brown
+2,burgundy
+1,camel
+1,canary
+1,caramel
+1,cherry
+1,chestnut
+1,cinnamon
+2,clear
+1,colorless
+2,copper
+1,coral
+2,cream
+1,crimson
+1,cyan
+1,ebony
+1,eggshell
+1,emerald
+1,fuchsia
+2,gold
+1,granite
+2,green
+2,grey
+1,honey
+2,indigo
+2,ivory
+1,jade
+1,khaki
+1,lavender
+1,lead
+1,lemon
+1,lilac
+1,lime
+1,magenta
+1,maroon
+1,mauve
+1,navy
+1,obsidian
+1,ochre
+1,olive
+2,orange
+1,orchid
+1,pearl
+2,pink
+1,platinum
+2,purple
+2,rainbow
+2,red
+1,ruby
+2,rust
+1,sable
+2,salmon
+1,scarlet
+2,silver
+1,smoke
+1,steel
+1,tan
+2,turquoise
+2,violet
+2,white
+1,wine
+2,yellow
+
+;!ColorCommonNoType
+1,multicolor |Counter=0||temp={Dice~1d2+1}|{Reset~ColorCommonNoType}{Lockout~ColorCommonNoType,1}({Loop~%temp%,[ColorCommonNoType]|Counter+1|{If~%Counter%<%temp%?, }})
+2,beige
+2,black
+2,blond
+2,brown
+2,grey
+2,red
+2,white
+
+# 80% to have no special type
+;ColorType
+60,
+1, (bright)
+1, (crystalline)
+1, (dark)
+1, (dull)
+1, (light)
+1, (metallic)
+1, (mottled)
+1, (opalescent)
+1, (opaque)
+1, (sparkling)
+1, (stone)
+1, (striated)
+1, (swirled)
+1, (transparent)
+1, (virulent)
+1, (wooden)
+
+# About 50/50 of plain color vs descriptive color
+;ColorType2
+20,[ColorNoType]
+1,bright [ColorNoType+3]
+1,crystalline [ColorNoType+3]
+1,dark [ColorNoType+3]
+1,dull [ColorNoType+3]
+1,light [ColorNoType+3]
+1,metallic [ColorNoType+3]
+1,mottled [ColorNoType+3]
+1,opalescent [ColorNoType+3]
+1,opaque [ColorNoType+3]
+1,sparkling [ColorNoType+3]
+1,stone [ColorNoType+3]
+1,striated [ColorNoType+3]
+1,swirled [ColorNoType+3]
+1,transparent [ColorNoType+3]
+1,virulent [ColorNoType+3]
+1,wooden [ColorNoType+3]
+
+;Direction
+2,north
+2,south
+2,east
+2,west
+1,north-east
+1,north-west
+1,south-east
+1,south-west
+
+;DirectionErn
+2,northern
+2,southern
+2,eastern
+2,western
+1,north-eastern
+1,north-western
+1,south-eastern
+1,south-western
+
+:Disease
+1,[DiseaseGen]%Disease%
+
+:DiseaseExport
+1,[DiseaseGen];%Meaning%;%Infection%;%DC%;%Incubation%;%Damage%;%DmgSpecial%
+
+:DiseaseFull
+1,[DiseaseGen] (%Meaning%) %Infection% DC%DC%, Incubation: %Incubation%, Dmg: %Damage% {If~%DmgSpecial%!=0?(%DmgSpecial%)}.
+
+#|Meaning=||Damage=||DC=||Incubation=||Infection=||DmgSpecial=0|
+;DiseaseGen
+1,Blinding Sickness|Meaning=Spread in tainted water.||Damage=1d4 ({Dice~1d4} Str)||DC=16||Incubation=1d3 ({Dice~1d3}) days||Infection=Ingested||DmgSpecial=Each time the victim takes 2 or more damage from the disease, he must make another Fortitude save or be permanently blinded.|
+1,Cackle Fever|Meaning=Symptoms include high fever, disorientation, and frequent bouts of hideous laughter. Also known as "the shrieks."||Damage=1d6 ({Dice~1d6}) Wis||DC=16||Incubation=1 day||Infection=Inhaled||DmgSpecial=0|
+1,Demon Fever|Meaning=Night hags spread it. Can cause permanent ability drain.||Damage=1d6 ({Dice~1d6}) Con||DC=18||Incubation=1 day||Infection=Injury||DmgSpecial=When damaged, character must succeed on another saving throw or 1 point of damage is permanent drain instead.|
+1,Devil Chills|Meaning=Barbazu and pit fiends spread it. It takes three, not two, successful saves in a row to recover from devil chills.||Damage=1d4 ({Dice~1d4}) Str||DC=14||Incubation=1d4 ({Dice~1d4}) days||Infection=Injury||DmgSpecial=The victim must make three successful Fortitude saving throws in a row to recover from devil chills.|
+1,Filth Fever|Meaning=Dire rats and otyughs spread it. Those injured while in filthy surroundings might also catch it.||Damage=1d3 ({Dice~1d3}/{Dice~1d3}) Dex/Con||DC=12||Incubation=1d3 ({Dice~1d3}) days||Infection=Injury||DmgSpecial=0|
+1,Mindfire|Meaning=Feels like your brain is burning. Causes stupor.||Damage=1d4 ({Dice~1d4}) Int||DC=12||Incubation=1 day||Infection=Inhaled||DmgSpecial=0|
+1,Mummy Rot|Meaning=Spread by mummies. Successful saving throws do not allow the character to recover (though they do prevent damage normally).||Damage=1d6 ({Dice~1d6}) Con||DC=20||Incubation=1 day||Infection=Contact||DmgSpecial=Successful saves do not allow the character to recover. Only magical healing can save the character.|
+1,Red Ache|Meaning=Skin turns red, bloated, and warm to the touch.||Damage=1d3 ({Dice~1d3}) Str||DC=15||Incubation=1d3 ({Dice~1d3}) days||Infection=Injury||DmgSpecial=0|
+1,The Shakes|Meaning=Causes involuntary twitches, tremors, and fits.||Damage=1d8 ({Dice~1d8}) Dex||DC=13||Incubation=1 day||Infection=Contact||DmgSpecial=0|
+1,Slimy Doom|Meaning=Victim turns into infectious goo from the inside out. Can cause permanent ability drain.||Damage=1d4 ({Dice~1d4}) Con||DC=14||Incubation=1 day||Infection=Contact||DmgSpecial=When damaged, character must succeed on another saving throw or 1 point of damage is permanent drain instead.|
+
+;Fabric
+1,wool
+1,burlap
+1,tweed
+1,linen
+1,cotton
+1,leather
+1,silk
+1,velvet
+
+;Gender
+1,male
+1,female
+
+:General Quality
+1,superb
+2,excellent
+3-4,pretty good
+5-6,good
+7-8,decent
+9-14,average
+15-17,below average
+18-19,poor
+20,terrible
+
+:Hardness
+1,soft
+2,hard
+
+:Height
+1,low
+2,medium
+3,high
+
+# Random Skills.tab OR Pathfinder Skills.tab => To prevent random choosing of secret
+# languages (as found in these languages subtables), modify
+# the "ChooseMiscLanguage" subtable of "Random Skills.tab" or "Pathfinder Skills.tab"
+# if you add other secret languages.
+#
+# Secret Languages: druidic.
+#
+# See "Countries" table for languages.
+# 
+
+:Language
+1,[Countries.Language]
+
+;!LanguageOLD
+20,{Unlock~Language,1-20}[Language Common]
+1,[Language Ancient]{Unlock~Language,21}
+1,abyssal
+1,aquan
+1,auran
+1,celestial
+5,draconic
+1,druidic
+5,dwarven
+5,elven
+1,giant
+5,gnome
+3,gnoll
+5,goblin
+5,halfling
+1,ignan
+1,infernal
+5,orc
+1,sylvan
+1,terran
+5,undercommon
+
+# This is to generate languages from common tongues or dialects
+# Do not put a [LN~] or [~] in this table.
+;!Language Common
+5,Common of [Countries.Land]{Unlock~Language Common,1-5}
+5,[Language Dialect]{Unlock~Language Common,6-10}
+1,[Language Ancient]{Unlock~Language Common,11}
+5,{Cap~[Language]}{Unlock~Language Common,12-16}
+5,Alphatian
+1,Brasolian
+2,Daro
+1,Dunael
+1,Eusdrian
+1,Espa
+1,Ethengarian (ETH)
+2,Hattian
+2,Heldanner
+1,Ierendian Makai
+1,Kerendan
+1,Jennite
+1,Modern Atruaghin Dialect
+1,Modern Millenian (HOW)
+2,Modern Thotian (IOD)
+1,Modern Varellyan
+1,Oceanian
+1,Ranax
+1,Thratian
+20,Thyatian
+3,Traladaran (KAR)
+1,Verdan
+
+;!Language Dialect
+1,Aalbanese (Hattian dialect)
+2,Belcadizian (Espa dialect) (GLA)
+1,Boldovian (Traladaran dialect) (GLA)
+2,Caurenzan (Kerendan dialect) (GLA)
+1,Cestian (Oceanian+Varellyan dialect)
+10,Glantrian (Thyatian dialect)
+5,Heldanic (Hattian dialect)
+3,Ierendian (Daro dialect)
+1,Oceansender (Heldanner dialect)
+1,Olgarian (Traladaran dialect)
+1,Ostlander (Heldanner dialect)
+2,Shire Daro (Daro dialect)
+3,Slag (Thyatian dialect)
+1,Slagich (Traladaran dialect)
+1,Soderfjorder (Heldanner dialect)
+1,Vestlander (Heldanner dialect)
+
+# This is to generate lost tongues and ancient languages
+# Old Tongues are more recent than Ancient tongues
+# Prehistoric Tongues are the most ancient tongues
+# (From oldest to most recent): 
+#       Prehistoric, Ancient, Old Tongues, Common and Dialect
+;!Language Ancient
+1,[Language Prehistoric]{Unlock~Language Ancient,1}
+10,[Language Old Tongues]{Unlock~Language Ancient,2-11}
+1,Ancient Blackmoor
+1,Antalian
+1,Azcan
+1,Cyclops
+1,Eastern Nithian
+1,Necril
+1,Oceanian Oltec
+1,Proto-Ethengar
+1,Proto-Jennite
+1,Skotharian Oltec
+1,Southern Neathar
+1,Traldar
+1,Western Nithian
+1,Western Oltec
+
+;!Language Old Tongues
+1,Atruaghin
+1,Daro Dialects
+1,Dunaelic
+1,Ispan
+1,Milenian
+1,NeoAntalian
+1,Old Ethengar
+1,Old Jennite
+1,Old Kerendan
+1,Old Makai
+1,Old Oceanian
+1,Old Thyatian
+1,Old Traladaran
+1,Savage Coast Oltec
+1,Thotian
+1,Varellyan
+
+;!Language Prehistoric
+1,Neathar
+1,Nithian
+1,Oltec / Azcan
+1,Tanagoro
+
+# This is a Greyhawk language table from Ed Hastings.
+# Replace with "Language Common" above or something else.
+# This "Language Greyhwak" name is not used by other tables,
+# only "Language" or "Language Common" is used.
+;!Language Greyhawk
+25,Common
+10,Bakluni
+5,Ancient Bakluni
+5,Old Oeridian
+15,Ancient Sueloise
+5,Flan
+5,Dwur
+15,Olven
+2,Orcrist
+2,Joten
+
+:Length
+1-5,short
+6-15,average
+16-20,long
+
+:!Material
+1-5,[Stone]
+6-10,[Metal]
+11-13,[Wood] wood
+14,[Other Material]
+
+;!Metal
+1,adamantite
+10,brass
+10,bronze
+10,copper (red)
+10,copper (yellow)
+7,electrum
+1,findruinna
+3,red gold
+4,gold (white)
+3,gold (yellow)
+10,iron
+2,meteoritic iron
+2,lead
+2,mithril
+2,pewter
+3,platinum
+9,silver
+1,starmilk
+8,steel
+8,fine steel
+3,pattern welded steel
+3,titanium
+1,unknown metal
+
+;!MetalCommon
+10,brass
+10,bronze
+10,copper (red)
+10,copper (yellow)
+7,electrum
+10,iron
+8,steel
+
+;!MetalCommonWeapon
+5,brass
+5,bronze
+3,copper (red)
+2,copper (yellow)
+5,electrum
+60,iron
+20,steel
+5,fine steel
+1,pattern welded steel
+
+;!MetalRare
+1,adamantite
+7,electrum
+1,findruinna
+3,red gold
+4,gold (white)
+3,gold (yellow)
+2,meteor iron
+2,lead
+2,mithril
+2,pewter
+3,platinum
+9,silver
+3,titanium
+8,fine steel
+3,pattern welded steel
+1,unknown metal
+
+# Various sources
+# Send additions to JimmyFlowers@bigfoot.com
+;Occupations
+2,abbess|Meaning=superior of a convent|
+2,abbot|Meaning=superior of a monastery|
+2,accountant|Meaning=0|
+2,acrobat|Meaning=0|
+2,actor|Meaning=0|
+2,adventurer|Meaning=0|
+2,alchemist|Meaning=0|
+2,alewife|Meaning=female alehouse keeper|
+2,almoner|Meaning=distributes money/food to the poor|
+2,animal dealer|Meaning=he sells animals|
+2,animal handler|Meaning=he controls animals|
+2,apothecary|Meaning=makes and sells drugs and medicines|
+30,apprentice [Occupations]
+2,archbishop|Meaning=leader of a church|
+2,archer|Meaning=0|
+2,architect|Meaning=designs buildings|
+2,arkwright|Meaning=makes arks (wooden chests or large coffers)|
+1,armorer|Meaning=0|
+1,armorist|Meaning=armorer|
+2,artist|Meaning=0|
+2,assassin|Meaning=0|
+2,astrologer|Meaning=studies stars/moon/sun to predict future|
+2,astronomer|Meaning=studies stars/moon/sun/planets|
+2,attendent|Meaning=he attends another as to perform a service|
+2,bagger|Meaning=packs items in bags|
+2,bailif|Meaning=makes arrests and executions|
+2,bait dealer|Meaning=sells baits for fishing or hunting|
+2,baker|Meaning=makes bread and baked goods|
+2,balancemaker|Meaning=makes balances for measuring|
+2,bandit|Meaning=0|
+2,banker|Meaning=0|
+2,barbarian|Meaning=0|
+2,barber|Meaning=cut and dress the hair, esp. men, and shave or trim beard|
+2,bard|Meaning=writes/recites stories/songs|
+2,bargeman|Meaning=operates or works on a flat bottomed boat|
+2,barkeep|Meaning=owns or manages a bar where alcoholic beverages are sold|
+2,barker|Meaning=advertises at the entrance of a show|
+2,barmaid|Meaning=owns or manages a bar where alcoholic beverages are sold|
+2,barrelwright|Meaning=makes barrels|
+2,barrister|Meaning=a lawyer who is a member of one of the Inns of Court and who has the privilege of pleading in the higher courts|
+2,bartender|Meaning=owns or manages a bar where alcoholic beverages are sold|
+2,barterer|Meaning=trades by exchange of commodities rather than by the use of money|
+2,basketmaker|Meaning=0|
+2,bastard|Meaning=0|
+2,bath attendent|Meaning=he attends another as to perform a service|
+2,bather|Meaning=owner of a bath|
+2,beadle|Meaning=church official preserving order at sermons|
+2,bear leader|Meaning=tutor traveling with a wealthy or aristocratic young man|
+2,beekeeper|Meaning=raises honeybees; apiculturist|
+2,beerbrewer|Meaning=fabricates beer|
+2,beer seller|Meaning=0|
+2,beggar|Meaning=0|
+2,beguine|Meaning=a member of a lay sisterhood, founded in Liège in the 12th century|
+2,bellfounder|Meaning=casts/makes large bells|
+2,bellmaker|Meaning=makes small bells|
+2,belter|Meaning=maker of belts|
+2,bishop|Meaning=leader of a church|
+2,blacksmith|Meaning=works with iron to form metal implements|
+2,bleacher|Meaning=makes cloth/hides to be colorless|
+1,blind beggar|Meaning=0|
+2,boatman|Meaning=works on a small boat|
+2,bodger|Meaning=mends clumsily; patches|
+2,bodyguard|Meaning=0|
+2,body servant|Meaning=servant who attends to the personal needs of his employer, as by taking care of clothing or the like; manservant|
+2,bonecarver|Meaning=artist carving bones|
+2,bookbinder|Meaning=binds books with covers|
+2,bookseller|Meaning=0|
+2,bordello owner|Meaning=0|
+2,bouncer|Meaning=0|
+2,bounty hunter|Meaning=0|
+2,bowyer|Meaning=makes or sells bows for archery|
+2,bowman|Meaning=archer|
+2,boy|Meaning=0|
+1,brass worker|Meaning=0|
+1,brazier|Meaning=brass worker|
+2,brewer|Meaning=makes beer, ale, etc. by steeping, boiling, and fermenting malt and hops|
+2,bricker|Meaning=makes bricks|
+2,bricklayer|Meaning=lays bricks to build|
+2,brigand|Meaning=0|
+2,broderer|Meaning=embroiders|
+2,bronzefounder|Meaning=0|
+2,broom maker|Meaning=0|
+1,brush maker|Meaning=0|
+1,brushbinder|Meaning=brush maker|
+2,buckle maker|Meaning=0|
+2,buffoon|Meaning=0|
+2,builder|Meaning=one that builds, especially a person who contracts for and supervises the construction of a building|
+2,burglar|Meaning=breaks into building to steal|
+2,butcher|Meaning=0|
+2,butler|Meaning=chief male servant of a household, usually in charge of serving food, the care of silverware, charge of the wines and liquors, etc.|
+2,buttonmaker|Meaning=makes buttons for clothing|
+2,cabinetmaker|Meaning=makes fine furniture and other woodwork|
+2,camp follower|Meaning=follows armies making money off the soldiers|
+2,canaller|Meaning=canal boat worker|
+2,candle maker|Meaning=0|
+2,candy shop owner|Meaning=0|
+2,cantor|Meaning=official whose duty is to lead the singing in a cathedral or in a collegiate or parish church; a precentor|
+2,cardinal|Meaning=leader of a church|
+2,cardmaker|Meaning=0|
+2,carpenter|Meaning=builds or repairs wooden structures, as houses, scaffolds, or shelving|
+2,carpet maker|Meaning=0|
+2,cartman|Meaning=drives a vehicle for transporting goods|
+2,cartographer|Meaning=0|
+2,cartwright|Meaning=makes wheels/carts/wagons|
+2,carver|Meaning=carves statues or designs|
+2,chainmaker|Meaning=0|
+2,chamberlain|Meaning=high official of a royal court charged with the management of the living quarters of a sovereign or member of the nobility|
+2,chancellor|Meaning=priest in charge OR chief minister of state in certain parliamentary governments|
+2,chandler|Meaning=maker of candles|
+2,chantry priest|Meaning=endowment for the singing or saying of Mass for the souls of the founders or of persons named by them|
+2,chaplain|Meaning=lesser leader of a church attached to the chapel of a royal court or military unit|
+2,chapman|Meaning=travelling merchant, peddler|
+2,charcoalburner|Meaning=makes charcoal for fuel|
+2,cheesemaker|Meaning=0|
+2,cheese shop owner|Meaning=0|
+2,chicken butcher|Meaning=0|
+2,child|Meaning=0|
+2,chimney sweep|Meaning=0|
+2,city guard captain|Meaning=0|
+2,city guard|Meaning=0|
+2,cleric|Meaning=0|
+1,priest|Meaning=0|
+2,clerk|Meaning=salesclerk|
+2,clockmaker|Meaning=0|
+2,clothier|Meaning=dealer in cloth/clothing|
+2,clothing maker|Meaning=0|
+2,coachman|Meaning=drives a coach or carriage|
+2,cobbler|Meaning=makes/mends shoes|
+2,coiner|Meaning=stamps metal into the shape of coins|
+2,combmaker|Meaning=0|
+2,compasssmith|Meaning=makes compasses|
+2,confectioner|Meaning=makes/sells candies|
+2,constable|Meaning=medieval police|
+2,cook|Meaning=0|
+2,cooper|Meaning=makes/repairs barrels/tubs|
+2,coppersmith|Meaning=0|
+2,cordwainer|Meaning=shoemaker; cobbler|
+2,costermonger|Meaning=sells fruit, vegetables, fish, or other goods from a cart, barrow, or stand in the streets|
+2,cow herd|Meaning=herder of cows|
+2,crier|Meaning=court or town official who makes public announcements|
+2,crofter|Meaning=tenant of small piece of land, rents and cultivates a croft|
+2,curate|Meaning=member of clergy assisting a vicar or rector|
+2,cutler|Meaning=makes/repairs cutlery|
+2,cutpurse|Meaning=0|
+2,cutthroat|Meaning=0|
+2,dagger shop owner|Meaning=0|
+2,dairymaid|Meaning=girl or woman employed in a dairy|
+2,dean|Meaning=chief of 10 monks; presiding person in a cathedral|
+2,delver|Meaning=ditchdigger|
+2,diplomat|Meaning=0|
+2,ditcher|Meaning=ditchdigger|
+2,diver|Meaning=makes a business of diving, as for pearl oysters or to examine sunken vessels|
+2,dog trainer|Meaning=0|
+2,draper|Meaning=dealer in cloth; a retail merchant or clerk who sells piece goods|
+2,drayman|Meaning=cart driver|
+2,druid|Meaning=0|
+2,drunkard|Meaning=0|
+2,drycooper|Meaning=makes wooden barrels, buckets, etc.|
+2,dung carter|Meaning=transports manure|
+2,dyer|Meaning=uses dye to color cloth/leather/metal|
+2,embroiderer|Meaning=embroiders cloth, produces or forms in needlework|
+1,enchanter|Meaning=wizard or sorcerer|
+1,enchantress|Meaning=wizard or sorcerer|
+2,engineer|Meaning=operates/supervises the operation of technical equipment|
+2,engraver|Meaning=for printing, not to decorate items|
+2,executioner|Meaning=0|
+2,fabrics dealer|Meaning=sells fabrics|
+2,fabricshearer|Meaning=trims the nap and makes pleats for customers|
+2,falconer|Meaning=breeds/trains/hunts with falcons|
+2,famulus|Meaning=servant or attendant, esp. of a scholar or a magician|
+2,farmer|Meaning=owner or worker on a farm|
+2,farrier|Meaning=blacksmith who shoes horses|
+2,feltmaker|Meaning=makes felt from wool/fur/cotton/hair by using pressure|
+2,fence|Meaning=trades in stolen goods|
+2,ferryman|Meaning=operates a ferry crossing rivers/lakes|
+2,fiddler|Meaning=player of bowed and stringed instruments|
+2,fighter|Meaning=0|
+2,fisherman|Meaning=0|
+2,fishmonger|Meaning=fish seller|
+2,fletcher|Meaning=makes arrows|
+2,florist|Meaning=0|
+2,food seller (provisionist)|Meaning=0|
+2,fool|Meaning=joker or jester|
+2,footpad|Meaning=robs pedestrians, pickpocket|
+2,forester|Meaning=game warden or forest ranger|
+2,fortune Teller|Meaning=0|
+2,founder|Meaning=works in a foundry|
+2,fowler|Meaning=hunts wild fowls like pheasants/quails|
+2,fresco painter|Meaning=0|
+2,friar|Meaning=wandering priest|
+2,fuller|Meaning=shrinks/beats/presses cloth|
+2,furniture maker|Meaning=aka cabinetmaker|
+2,furrier|Meaning=buys and sells furs, or one who makes, repairs, or cleans furs and fur garments; a fur dealer or fur dresser|
+2,gambler|Meaning=0|
+2,gamekeeper|Meaning=game warden or forest ranger|
+2,gardener|Meaning=0|
+2,gemcutter|Meaning=cuts gems, usually uncut ones, to increase their value|
+2,girdler|Meaning=makes girdles/belts of leather|
+2,glassblower|Meaning=0|
+2,glasspainter|Meaning=0|
+2,glass seller|Meaning=0|
+2,glover|Meaning=glovemaker|
+2,glazier|Meaning=fits glass in windows|
+2,goatherd|Meaning=herds goats|
+2,goldbeater|Meaning=makes gold leaf|
+2,goldsmith|Meaning=makes/repairs/sells items made of gold, (formerly) such a person also acting as a banker, moneylender, etc|
+2,government official|Meaning=0|
+2,grain merchant|Meaning=merchant who deals in food grains|
+2,gravedigger|Meaning=0|
+2,grinder|Meaning=knives and tools sharpener|
+2,grocer|Meaning=sells food and household supplies|
+2,groom|Meaning=man or boy in charge of horses or the stable|
+2,guard|Meaning=0|
+2,guardsman|Meaning=common guard|
+2,gunsmith|Meaning=makes/repairs arquebuses|
+2,gypsy|Meaning=0|
+2,halberdier|Meaning=soldier, guard, or attendant armed with a halberd|
+2,handmaiden|Meaning=female servant or attendant|
+2,haberdasher|Meaning=sells men's clothing|
+2,harlot|Meaning=vagabond, beggar, rogue, male servant, loose woman|
+2,harness maker|Meaning=0|
+2,harper|Meaning=plays a harp|
+2,hatmaker|Meaning=0|
+2,hatter|Meaning=makes/repairs hats|
+2,hawker|Meaning=breeds/trains/hunts with hawks|
+2,hay merchant|Meaning=0|
+2,hayward|Meaning=officer having charge of hedges and fences around a town common, esp. to keep cattle from breaking through and to impound stray cattle|
+2,healer|Meaning=0|
+1,herald|Meaning=a royal or official messenger, esp. one representing a monarch in an ambassadorial capacity during wartime|
+1,herald|Meaning=an officer who arranged tournaments and other functions, announced challenges, marshaled combatants, etc., and who was later employed also to arrange processions, funerals, etc., and to regulate the use of armorial bearings|
+2,herbalist|Meaning=collects or deals in herbs, esp. medicinal herbs|
+2,hermit|Meaning=lives alone in secluded spot|
+2,highwayman|Meaning=a holdup man, esp. one on horseback, who robbed travelers along a public road|
+2,hobbler|Meaning=boat tower on a river/canal|
+2,horner|Meaning=works with horns to craft spoons/combs/musical instruments|
+2,horseleech|Meaning=veterinary surgeon, farrier|
+2,horseman|Meaning=owns, breeds, trains, or tends horses|
+2,horse trainer|Meaning=0|
+2,housewife|Meaning=woman tending a home|
+1,hunter|Meaning=hunts wild animals|
+1,huntress|Meaning=hunts wild animals|
+1,illuminator|Meaning=crafts lamps and light fixtures|
+1,illuminator|Meaning=paints manuscripts, books, etc., with designs in color, gold, or the like|
+2,illusionist|Meaning=conjurer or magician who creates illusions, as by sleight of hand|
+2,innkeeper|Meaning=owns or manages an inn or, sometimes, a hotel|
+2,interpreter|Meaning=provides an oral translation between speakers who speak different languages|
+2,ironmonger|Meaning=sells items made of iron|
+2,jailer|Meaning=keeps watch at the jail|
+2,jester|Meaning=uses comedy to entertain; make a point or tell a story|
+2,jeweler|Meaning=makes jewelry|
+2,joiner|Meaning=skilled carpenter who constructs doors, window sashes, paneling, and other permanent woodwork|
+2,journeyman|Meaning=person hired to do work for another, usually for a day at a time|
+2,juggler|Meaning=performs juggling feats, as with balls or knives|
+2,scullion|Meaning=kitchen servant who does menial work|
+2,knifesmith|Meaning=makes knives|
+2,knight|Meaning=mounted soldier serving under a feudal superior|
+2,laborer|Meaning=person engaged in work that requires bodily strength rather than skill or training|
+2,lacemaker|Meaning=makes lace from cloth/thread|
+2,lady|Meaning=woman who has proprietary rights or authority, as over a manor; female feudal superior|
+2,lamp & oil shop owner|Meaning=0|
+2,landlord|Meaning=owns proterties and collects rents|
+2,lanternmaker|Meaning=0|
+2,lapidary|Meaning=cuts, polishes, and engraves precious stones, usually not diamonds|
+1,laundress|Meaning=woman whose work is the washing and ironing of clothes, linens, etc.|
+1,lavendar|Meaning=woman whose work is the washing and ironing of clothes, linens, etc.|
+2,lawyer|Meaning=represents clients in a court of law or to advise or act for clients in other legal matters|
+2,leadworker|Meaning=makes lead objects|
+2,leatherworker|Meaning=0|
+2,lensgrinder|Meaning=shapes glass for use in telescopes/spectacles|
+2,librarian|Meaning=in charge of a library, esp. the chief administrative officer of a library|
+2,lighterman|Meaning=worker on flat-bottomed boat|
+2,limner|Meaning=illustrator of books with little former training|
+2,linenspinner|Meaning=makes linen cloth|
+1,link boy|Meaning=boy carrying a torch to guide people through the night|
+1,link man|Meaning=carries a torch to guide people through the night|
+2,locksmith|Meaning=makes or repairs locks and keys|
+2,lord|Meaning=a feudal superior; the proprietor of a manor|
+2,lorimer|Meaning=craftsperson who makes hardware for harnesses and riding habits, as bits or spurs|
+2,lumber dealer|Meaning=0|
+2,lutemaker|Meaning=0|
+1,maid|Meaning=female servant|
+1,maidservant|Meaning=female servant|
+1,mage|Meaning=magician or sorcerer|
+2,magic shop owner|Meaning=0|
+1,magic-user|Meaning=any spellcaster|
+2,maiden|Meaning=girl or young unmarried woman|
+2,mapmaker|Meaning=cartographer|
+2,mariner|Meaning=directs or assists in the navigation of a ship; sailor|
+2,mason|Meaning=building with units of various natural or artificial mineral products, as stones, bricks, cinder blocks, or tiles, usually with the use of mortar or cement as a bonding agent|
+2,master|Meaning=male head of a household OR male teacher or schoolmaster|
+2,master of hounds|Meaning=controls/handles the hounds used in a hunt|
+2,mathematician|Meaning=expert or specialist in mathematics|
+2,mercenary|Meaning=sword for hire|
+2,mercenary footman|Meaning=sword for hire|
+2,mercer|Meaning=deals in textiles (woven or knitted)|
+2,merchant|Meaning=buys and sells commodities for profit|
+2,messenger|Meaning=ies a message or goes on an errand for another|
+2,metalsmith|Meaning=skilled in making articles of metal|
+2,midwife|Meaning=person trained to assist women in childbirth|
+2,military officer|Meaning=holds a position of authority or command|
+2,miller|Meaning=owns or operates a mill, esp. a mill that grinds grain into flour|
+2,milliner|Meaning=designs, makes, or sells hats for women|
+2,miner|Meaning=works in a mine, esp. a commercial mine producing coal or metallic ores|
+2,minstrel|Meaning=medieval poet and musician who sang or recited while accompanying himself on a stringed instrument, either as a member of a noble household or as an itinerant troubadour|
+2,mintmaster|Meaning=coin stamper|
+2,mirrorer|Meaning=makes mirrors|
+2,molecatcher|Meaning=catcher of small burrowing animals|
+2,money changer|Meaning=person whose business is the exchange of currency, usually of different countries, at a fixed or official rate|
+2,moneylender|Meaning=person or organization whose business it is to lend money at interest|
+2,monk|Meaning=wandering holy man|
+2,mortician|Meaning=arrange for the burial or cremation of the dead and assist at the funeral rites and who is usually an embalmer|
+2,mummer|Meaning=masked or costumed merrymaker, especially at a festival; an actor|
+2,music shop owner|Meaning=0|
+2,musician|Meaning=makes music a profession, esp. as a performer of music|
+2,nailer|Meaning=carpenter|
+2,nailmaker|Meaning=0|
+2,navigator|Meaning=navigates a ship with stars/moon/sun|
+2,nedeller|Meaning=makes needles|
+2,netmaker|Meaning=0|
+1,nobleman|Meaning=of noble birth or rank|
+1,noblewoman|Meaning=of noble birth or rank|
+2,nun|Meaning=woman dedicated to holy service|
+2,nurse|Meaning=woman employed to suckle children other than her own|
+2,oilmaker|Meaning=0|
+2,oil merchant|Meaning=sells oil (mainly for lamps)|
+2,old-clothes dealer|Meaning=0|
+2,organist|Meaning=plays an organ|
+2,ostler|Meaning=employed to tend horses, especially at an inn|
+2,outlaw|Meaning=wanted by the law|
+2,oyster raker|Meaning=works on an oyster fishing boat|
+2,painter|Meaning=paints portraits or landscapes|
+2,paladin|Meaning=0|
+2,palmer|Meaning=has been or pretends to have been to Holy Lands|
+2,panter|Meaning=keeper of the pantry|
+2,paperer|Meaning=lines or covers something with paper|
+2,papermaker|Meaning=makes paper|
+2,parchmenter|Meaning=makes parchments|
+2,pardoner|Meaning=ecclesiastical official authorized to sell indulgences|
+2,parker|Meaning=caretaker of a park|
+2,pastrycook|Meaning=baker specialized in pastries|
+2,pavior|Meaning=person that paves; paver|
+2,pavyler|Meaning=puts up pavilions/tents|
+2,peasant|Meaning=small farmers or farm laborers of low social rank|
+2,peddler|Meaning=door to door salesman, traveling merchant|
+2,perfumer|Meaning=maker or seller of perfumes|
+2,pewterer|Meaning=maker of pewter utensils or containers|
+2,philosopher|Meaning=person who offers views or theories on profound questions in ethics, metaphysics, logic, and other related fields|
+2,physician|Meaning=skilled in the art of healing|
+2,pickpocket|Meaning=0|
+2,pie seller|Meaning=0|
+2,pikeman|Meaning=soldier armed with a pike|
+2,pilgrim|Meaning=travels to shrine/temple as a religious act|
+2,pilot|Meaning=directs ships in/out of harbours in difficult waters|
+2,pioneer|Meaning=early term for military engineer|
+2,piper|Meaning=plays a musical pipe|
+2,pirate|Meaning=robs or commits illegal violence at sea or on the shores of the sea|
+2,plattner|Meaning=beat out sheets of metal|
+2,player|Meaning=actor|
+2,playwright|Meaning=writes plays for players|
+2,ploughman|Meaning=uses a plow on a farm|
+2,plumber|Meaning=installs and repairs piping, etc. in connection with the water supply, drainage systems, etc.|
+2,poacher|Meaning=illegally kills animals|
+2,politician|Meaning=0|
+2,poet|Meaning=0|
+2,porter|Meaning=carries burdens|
+2,potboy|Meaning=cleans out chamber pots and other chores|
+2,pot mender|Meaning=0|
+2,potter|Meaning=makes pottery|
+2,poulter|Meaning=sells poultry|
+2,priest|Meaning=performs religious rites|
+2,privycleaner|Meaning=potboy, cleans out chamber pots|
+1,procurator|Meaning=kind of legal agent or representative|
+1,proctor|Meaning=kind of legal agent or representative|
+2,professor|Meaning=college or university teacher|
+2,prostitute|Meaning=0|
+2,purse maker|Meaning=0|
+2,pursuivant|Meaning=officer of arms, ranks below herald, similar duties|
+2,quarryman|Meaning=quarries stone; quarrier|
+2,quartermaster|Meaning=officer charged with providing quarters, clothing, fuel, transportation, etc., for a body of troops|
+2,ragpicker|Meaning=sorts through leftover rags for re-usable ones|
+2,raker|Meaning=street sanitation worker|
+2,ranger|Meaning=0|
+2,rascal|Meaning=base, dishonest, or unscrupulous person|
+2,rat catcher|Meaning=0|
+2,reaper|Meaning=he reaps, usually gathering harvests of grain with a scythe|
+2,rectifier|Meaning=distilled alcohol|
+2,redsmith|Meaning=brass worker|
+2,reeve|Meaning=church warden; overseer or superintendent of workers, tenants, or an estate|
+2,rogue|Meaning=dishonest, knavish person; scoundrel|
+2,roofer|Meaning=makes/repairs roofs|
+1,ropemaker|Meaning=makes ropes/nets|
+1,roper|Meaning=makes ropes/nets|
+2,rough looking trappers|Meaning=0|
+2,royal escort|Meaning=0|
+2,rugmaker|Meaning=0|
+2,ruffian|Meaning=tough, lawless person, thug, gangster|
+2,saddler|Meaning=maker of saddles|
+2,sage|Meaning=mentor in spiritual and philosophical topics who is renowned for profound wisdom|
+2,sailmaker|Meaning=0|
+2,sailor|Meaning=works on a sailing ship|
+2,saltboiler|Meaning=makes salt by boiling sea water|
+2,salter|Meaning=makes or deals in salt|
+2,sapper|Meaning=specialist in field fortifications|
+2,sargeant|Meaning=rank of guardsman or military unit|
+2,sargeant-at-arms|Meaning=rank of guardsman or military unit|
+2,savage|Meaning=0|
+2,sawyer|Meaning=saws timbers to boards|
+2,scabbard maker|Meaning=0|
+2,scholar|Meaning=learned or very well educated person|
+2,scout|Meaning=might be used to spy in the enemy|
+2,scribe|Meaning=0|
+1,scrivener|Meaning=scribe|
+2,sculptor|Meaning=0|
+2,scythesmith|Meaning=0|
+2,sea captain|Meaning=0|
+2,seamstress|Meaning=woman whose occupation is sewing|
+2,seer|Meaning=prophesies future events|
+2,siege engineer|Meaning=crafter of siege equipment (catapults and ballistae)|
+2,seneschal|Meaning=officer having full charge of domestic arrangements, ceremonies, the administration of justice, etc., in the household of a medieval prince or dignitary; steward|
+2,serf|Meaning=person in a condition of servitude, required to render services to a lord, commonly attached to the lord's land and transferred with it from one owner to another|
+2,servant|Meaning=0|
+2,sexcton|Meaning=minor church official ringing bells and digging graves|
+2,sheepshearer|Meaning=clips wool from sheeps|
+2,sheriff|Meaning=captain of the town guard|
+2,shepherd|Meaning=tends flocks of sheeps|
+2,shingler|Meaning=makes wooden roof tiles|
+2,shipchandler|Meaning=ship provisioner|
+2,ship's captain|Meaning=0|
+2,shipwright|Meaning=0|
+2,shoe maker|Meaning=0|
+2,shrimper|Meaning=shrimp fisherman|
+2,silkman|Meaning=dealer in silks|
+2,silversmith|Meaning=making and repairing articles of silver|
+2,singer|Meaning=0|
+2,skinner|Meaning=skins animals for tanning|
+2,slaughterhouse worker|Meaning=0|
+2,smuggler|Meaning=0|
+2,soap maker|Meaning=0|
+2,soldier|Meaning=0|
+2,solicitor|Meaning=lawyer or barrister|
+2,sorcerer|Meaning=0|
+2,spearman|Meaning=armed with or uses a spear|
+2,spectaclesmaker|Meaning=0|
+2,spice merchant|Meaning=0|
+2,spicer|Meaning=dealer in spices|
+2,spinster|Meaning=unmarried woman (specially an elderly one)|
+2,spurrer|Meaning=makes spurs|
+2,spy|Meaning=0|
+2,squire|Meaning=0|
+2,stainer|Meaning=dyer|
+2,stablehand|Meaning=0|
+2,stable owner|Meaning=0|
+2,stonecarver|Meaning=cuts or carves stone|
+2,stonecutter|Meaning=cuts or carves stone|
+2,stonemason|Meaning=builds with or dresses stone|
+2,story teller|Meaning=0|
+2,surgeon|Meaning=0|
+2,swineherd|Meaning=tends pigs/hogs|
+2,sword shop owner|Meaning=0|
+2,swordsmith|Meaning=0|
+2,tailor|Meaning=makes/repairs clothings|
+1,tanner|Meaning=preparer of leather|
+1,currier|Meaning=preparer of leather|
+2,tannery worker|Meaning=0|
+2,tapestrymaker|Meaning=0|
+2,tapster|Meaning=bartender/barmaid|
+2,tavern bouncer|Meaning=0|
+2,taverner|Meaning=innkeeper|
+2,taxidermist|Meaning=preparing and preserving the skins of animals and of stuffing and mounting them in lifelike form|
+2,teamster carpenter|Meaning=0|
+2,tentsman|Meaning=makes/repairs/sets tents|
+1,terrazo grinder|Meaning=mosaic layer|
+1,mosaic layer|Meaning=0|
+2,theologian|Meaning=sage of religion|
+2,thief|Meaning=0|
+2,thimbler|Meaning=makes thimble|
+2,thonger|Meaning=makes leather straps/laces|
+2,threadmaker|Meaning=0|
+2,thresher|Meaning=beats grain from husks|
+2,thug|Meaning=0|
+2,tillerman|Meaning=uses bar/handle to steer a boat by the rudder|
+2,tinker|Meaning=mender of pots, kettles, pans, etc.|
+2,tool maker|Meaning=0|
+2,tough-looking mercenary|Meaning=0|
+2,toy shop owner|Meaning=0|
+2,trader|Meaning=0|
+2,trapper|Meaning=catches animals with traps|
+2,traveler|Meaning=0|
+2,troubadour|Meaning=writes lyrical poetry or songs|
+2,tumbler|Meaning=performs acrobatics|
+2,tutor|Meaning=private teacher|
+2,tyler|Meaning=lays tiles|
+2,undertaker|Meaning=arrange for the burial or cremation of the dead and assist at the funeral rites and who is usually an embalmer|
+2,usurer|Meaning=lends money and charges interest, esp. at an exorbitant or unlawful rate|
+2,vagabond|Meaning=0|
+2,villager|Meaning=inhabitant of a village|
+2,vintner|Meaning=makes wine or sells wines|
+2,virgin|Meaning=0|
+2,vixen|Meaning=ill-tempered or quarrelsome woman|
+2,waferer|Meaning=dealer in the cakes called wafers|
+2,wagoner|Meaning=wagon/cart driver|
+2,wainwright|Meaning=wagon maker|
+2,wanderer|Meaning=0|
+2,warehouse worker|Meaning=0|
+2,warrior|Meaning=0|
+2,watchman|Meaning=keeps guard over a building at night|
+2,water carrier|Meaning=0|
+2,waterman|Meaning=riverboat sailor|
+2,waterseller|Meaning=0|
+2,wax-chandler|Meaning=deals in wax candles |
+2,weaponsmith|Meaning=0|
+2,weaver|Meaning=weaver of cloth|
+2,weeper|Meaning=hired mourner at a funeral|
+2,wench|Meaning=country lass or working girl|
+2,wetnurse|Meaning=woman hired to suckle a child of someone else |
+2,wheelwright|Meaning=0|
+2,whore|Meaning=prostitute|
+2,wineseller|Meaning=0|
+2,wiredrawer|Meaning=0|
+1,witch|Meaning=0|
+1,wizard|Meaning=0|
+2,woodcarver|Meaning=0|
+2,woodcutter|Meaning=0|
+2,woodsman|Meaning=accustomed to life in the woods and skilled in the arts of the woods|
+2,woodseller|Meaning=0|
+2,woodturner|Meaning=shaping wood into forms on a lathe|
+2,woolcomber|Meaning=prepares wool from sheep for use|
+2,woolman|Meaning=sorts wool into different grades|
+2,worker|Meaning=laborer or employee|
+2,writer|Meaning=writes stories/books/letters|
+
+# To also generate the meaning of this occupation.
+:OccupationsMeanings
+1,[Occupations]{If~%Meaning%!=0? (%Meaning%)}
+
+;Odor
+1,[Odor2] smell
+1,[Smells.Generate(,1)]
+
+;Odor2
+1,alcoholic
+1,ambrosial
+2,acrid
+1,apple pie
+1,aromal
+1,aromatic
+2,bitter
+2,burnt
+1,chlorine
+1,cooked turkey
+3,damp, humid
+1,dank, moldy
+2,dusty
+2,earthy
+1,fishy
+1,floral
+1,fruity
+1,grape
+1,herbal
+2,incensed
+1,lemon fresh
+1,manure
+1,medicinal
+1,metallic
+2,moldy
+2,musty
+2,noxious
+1,ozone
+1,perfumed
+1,pine
+1,pungent
+2,putrid
+2,rancid
+2,rank
+2,rotting
+1,salty, wet
+1,savory
+1,sickly-sweet
+1,soapy
+1,sour
+2,stale, fetid
+1,smokey
+1,spicy
+1,sulphurous
+1,swampy
+1,sweet
+1,sweet-smelling
+2,urine
+
+;!Other Material
+1,alabaster
+1,bone
+1,carved bone
+1,carved dragon scale
+1,carved dragonbone
+1,carved glass
+1,carved horn
+1,carved ivory
+1,[Ceramics]
+1,cooled lava
+1,coral
+1,crystal
+1,dragon bone
+1,dragon scale
+1,enamel
+1,feather
+1,glass
+1,horn
+1,ivory
+2,leather
+10,meteorite
+4,obsidian
+1,porcelain
+1,shell
+1,stained glass
+2,tooled leather
+1,twined leaves
+1,wax
+1,woven grass
+10,[Creatures.Fantastic]'s essence
+10,[Creatures.Start]'s essence
+
+;!Patterns
+1,bells
+2,checkered
+2,circles
+1,crescent moon
+2,crosses
+2,diagonal lines
+2,diamonds
+1,flames
+1,flower
+1,hands
+1,hearts
+2,hexagonals
+2,horizontal lines
+1,hourglasses
+1,intricate knotworks
+1,large dots
+1,leaves
+1,lightning bolts
+1,odd, geometric pattern
+1,shields
+1,skulls
+2,small dots
+1,squares
+1,stars
+1,suns
+1,swords
+1,tears
+1,trees
+2,triangles
+2,vertical lines
+2,waves
+1,wheels
+1,young men
+1,young women
+
+;Personality
+30,{Cap~[Traits]}
+15,{Cap~[Traits]}, [Traits]
+5,{Cap~[Traits]}, [Traits], [Traits]
+1,{Cap~[Traits]}, [Traits], [Traits], [Traits]
+
+;Personality2
+30,{Reset~Traits}{Cap~[Traits]}
+15,{Reset~Traits}{Cap~[Traits]}, [Traits]
+5,{Reset~Traits}{Cap~[Traits]}, [Traits], [Traits]
+1,{Reset~Traits}{Cap~[Traits]}, [Traits], [Traits], [Traits]
+
+;Personality3
+55,{Reset~Traits}[Traits]
+15,{Reset~Traits}[Traits], [Traits]
+5,{Reset~Traits}[Traits], [Traits], [Traits]
+1,{Reset~Traits}[Traits], [Traits], [Traits], [Traits]
+
+;!Precious Material
+1,amber
+1,ivory
+10,[Precious Metal]
+5,[Other Material]
+1,gemstones
+
+;Precious Metal
+1,adamantine
+5,brass
+5,bronze
+4,copper
+2,electrum
+1,mithril
+1,platinum
+2,gold
+3,silver
+
+;Prestige
+2,arcane archer
+2,arcane trickster
+1,archmage
+2,assassin
+2,blackguard
+2,dragon disciple
+2,duelist
+2,dwarven defender
+2,eldritch knight
+1,hierophant
+2,horizon walker
+2,loremaster
+1,red wizard
+2,shadowdancer
+2,thaumaturgist
+
+;!Quirks
+1,Accent
+1,Acne
+1,Always drinking
+1,Always eating
+1,Always late
+1,Always out of breath
+1,Always wears 'lucky' hat, scarf, ring
+1,Always wears favorite color ([Miscellaneous.Color])
+1,Always wears thick, leather gloves
+1,Animal bite scar
+1,Animal claw scar
+1,Archaic speech
+1,Arm in sling
+1,Asks often about his own appearance
+1,Asks rhetorical questions and answers
+1,Avoids crowds
+1,Bad cook, begs PCs to eat
+1,Bandaged extremity
+1,Belches loud and often
+1,Bigoted against [Creatures.Humanoid2]
+1,Bigoted against [ClassPC]
+1,Bites fingernails
+1,Bites fingernails or cuticles
+1,Bites lower lip
+1,Blatantly pouts
+1,Blind, sees through familiar's eyes
+1,Blinks often
+1,Bows before speaking and after
+1,Braggart
+1,Bruised extremities
+1,Bucktoothed
+1,Calls PCs by wrong names
+1,Carries cloth covered basket
+1,Carries crumbs to feed birds
+1,Carries satchel filled with junk
+1,Carries small snake, mouse, or lizard
+1,Chews grass, stick, or leaves
+1,Chews on braid or lock of hair
+1,Claps hands often
+1,Closely examines everything
+1,Clothes have bulging pouches
+1,Clothes made of woven leaves
+1,Clumsy
+1,Combs hair with fingers
+1,Complains of heartburn
+1,Compulsive liar
+1,Conceited
+1,Convinced PCs need reforming
+1,Coughs regularly
+1,Covered with road dust
+1,Crumbs in beard and clothes
+1,Dark tan
+1,Denies gossiping and proceeds to gossip
+1,Dressed in formal attire
+1,Dressed in furs
+1,Dressed in leather
+1,Dressed in silks and lace
+1,Dresses colorblind
+1,Dresses funny
+1,Exotic weapon
+1,Eye tic
+1,Facial piercing
+1,Falsely claims he is an adventurer too
+1,Fascinated by fire
+1,Fascinated by non human races
+1,Fidgets
+1,Flatulent
+1,Flips key ring with finger
+1,Food stained face
+1,Foreign clothing
+1,Freckles
+1,Gaps between teeth
+1,Gestures wildly with hands
+1,Giggles, inappropriately
+1,Gives a different name every meeting
+1,Greatly exaggerates
+1,Hacking cough
+1,Hair dye covering collar
+1,Hairless
+1,Hand covers mouth while speaking
+1,Hands coppers to beggar children
+1,Hard of hearing
+1,Has arthritis in hands
+1,Has black eye
+1,Has hiccups
+1,Has leaves on clothing
+1,Has leaves in hair
+1,Has long, lacquered nails
+1,Has <b>{Dice~1d3}</b> gold teeth
+1,Has paint stained hands and clothes
+1,Has vampire bite scars on neck
+1,Has wart on hand, covers it always
+1,High squeaky voice
+1,Holier than thou attitude
+1,Hooks thumbs in belt and bounces
+1,Inappropriately dressed
+1,Incredibly fat
+1,Incredibly thin
+1,Instructs PCs on latest fashion
+1,Intoxicated or acting
+1,Jingles coins in pocket
+1,Jingles coins in pouch
+1,Keeps arms folded
+1,Keeps hand on PCs shoulder
+1,Keeps hand on weapon
+1,Keeps hands in pockets
+1,Kleptomaniac
+1,Laughs at random times
+1,Laughs when nervous
+1,Lazy eye
+1,Limp
+1,Lisp
+1,Looks like a deadbeat
+1,Loses items and asks PCs to help look
+1,Makes puns
+1,Many beard braids
+1,Many hair braids
+1,Military manner
+1,Mismatched eyes
+1,Missing limb, joints, fingers, teeth
+1,Mixes gibberish with words
+1,Mixes languages
+1,Mole
+1,Monocle
+1,Mute, speaks through sign language
+1,Never looks anyone in the eye
+1,Nods often
+1,Non-religious fanatic
+1,Nose bleeds
+1,Obvious cosmetics
+1,Offers exotic beverages
+1,Offers exotic foods
+1,Ogles opposite sex openly
+1,Oily skin or hair
+1,Only eats meat
+1,Overweight
+1,Paper cuts and ink stained fingers
+1,Pasted on beard
+1,Pasted on moustache ([NPC Appearance.Facial Hair_Human3])
+1,Pathological liar
+1,Picks at scabs of loose skin
+1,Picks ears
+1,Picks lint off clothes, his and PCs
+1,Picks nose
+1,Picks teeth with fingernails
+1,Picks teeth with wooden stick
+1,Picks teeth with knife
+1,Plays with charm on necklace
+1,Pockmarked skin
+1,Polishes brooch often
+1,Polishes buckle often
+1,Polishes spectacles, never wears them
+1,Practical joker
+1,Pregnant woman
+1,Quotes famous poet, regularly
+1,Quotes religious text
+1,Rash
+1,Refers to good old days often
+1,Refers to self in third person
+1,Regularly blows stray hair out of eyes
+1,Religious Fanatic ([Religion.Deities])
+1,Rings or bells in hair or beard braids
+1,Rings sewn on clothes with fetishes
+1,Rolls "R's" while speaking
+1,Rope burns around neck or wrists
+1,Rubs back of neck
+1,Rubs calluses on palms with thumb
+1,Rubs chin
+1,Rubs eyes often
+1,Rubs hands together
+1,Rubs large belly often
+1,Rubs luckstone or fetish
+1,Rubs old knee injury
+1,Rubs palms on thighs
+1,Runny nose
+1,Says "hmm - hmm" often
+1,Scar
+1,Scratches
+1,Seems cold
+1,Seems hot
+1,Serious burn scar
+1,Sharpens knife with whetstone
+1,Shaving cuts on face
+1,Single hair or beard braid
+1,Sketches PC while talking
+1,Sleepy
+1,Smacks palm with fist
+1,Smells like alcohol
+1,Smells like [Wood] wood
+1,Smells like cheap cologne
+1,Smells like dogs
+1,Smells like expensive cologne
+1,Smells like horses
+1,Smells like lavender
+1,Smells like roses
+1,Smells like soap
+1,Smells like sweat
+1,Smells like tobacco
+1,Smells like [Smells.Generate(2,2)]
+1,Smells terrible
+1,Sneezes often
+1,Sniffs often
+1,Snorts while laughing
+1,Speaks only a foreign language ([Language])
+1,Speaks to 'spirits'
+1,Speaks to animals like people
+1,Spit polishes thick, fancy bracelet
+1,Spits when talking
+1,Spotless, glossy boots
+1,Squints
+1,Stretches often
+1,Stutters
+1,Sucks on teeth
+1,Sunburn and peeling skin
+1,Superstitious
+1,Survived torture, has no fingernails
+1,Sweats profusely
+1,Talks in rhyme
+1,Talks loudly
+1,Talks of health problems
+1,Taps foot incessantly
+1,Taps foot or drums fingers
+1,Tattoo
+1,Tells tall tales
+1,Tongue tied
+1,Toothless
+1,Trims or cleans nails with long knife
+1,Tugs on ear
+1,Twirls coin between fingers
+1,Twirls hair with finger
+1,Twists ring
+1,Underweight
+1,Unusual jewelry
+1,Uses a parasol
+1,Uses foul language
+1,Uses long words incorrectly
+1,Vegetarian
+1,Very pale
+1,Walks like a sailor
+1,Wandering eye
+1,Watering eye(s)
+1,Waxed facial hair
+1,Wears ancient fashions
+1,Wears armor covered in runes
+1,Wears clothes too big
+1,Wears clothes too small
+1,Wears flower in clothing
+1,Wears flower in hair
+1,Wears foreign style clothes
+1,Wears heart shaped beauty mark
+1,Wears notched belt
+1,Wears obvious wig
+1,Wears scarf around ankles
+1,Wears scarf around wrists
+1,Wears vest with bell buttons
+1,Wears well tended ancient weapon
+1,Whispers
+1,Whistles when nervous
+1,Will not lie
+1,Wine colored birthmark
+1,Wine stained 'moustache'
+1,Writes down everything PC says
+1,Yawns often
+50,[Quirks] <b>and</b> [Quirks]
+# Ultimate NPCs
+1,Abstains from common food
+1,Abstains from common drink
+1,Admires a particular class ([ClassPC])
+1,Always carries a small, portable, chess set
+1,Always carries a spare knife in boot
+1,Always carries dice
+1,Always carries cards
+1,Always carries an odd good-luck piece
+1,Always drinks from the same mug
+1,Always gives coins to beggars
+1,Always seems to drop dishes
+1,Always seems to break dishes
+1,Always tries to find the highest place to sit
+1,Always wears a small piece of low-value jewellery
+1,Always wears gloves
+1,Always wears the same style of clothing
+1,Blinks rapidly
+1,Cannot hold his ale
+1,Carries a musical instrument ([Equipment.Musical Instruments]), but cannot play
+1,Chews nails {If~{Dice~1d10}=1?of feet/of hands}
+1,Claims distant descent from royalty
+1,Cleans nails
+1,Constantly arranging clothing
+1,Constantly taking notes
+1,Cracks knuckles
+1,Curses in a language ([Language]) he otherwise does not speak
+1,Disdains a particular class ([ClassPC])
+1,Dislikes singing
+1,Doodles in soil with stick
+1,Dresses very lightly for the weather
+1,Drums fingers
+1,Eats meals at odd times
+1,Eats quickly
+1,Eats slowly
+1,Espouses odd, but harmless, delusion
+1,Gets very calm when angered
+1,Goes barefoot whenever possible
+1,Habitual minor swearing
+1,Hair does not stay combed or styled
+1,Has odd fighting or casting style
+1,Has odd or unexpected friends
+1,Has odd, but not unpleasant, odour ([Odor])
+1,Has trouble with names
+1,Hates to miss a meal
+1,Hums
+1,Inveterate punster
+1,Keeps coins hidden on person
+1,Large and idiosyncratic family, which is always mentioned
+1,Leans back in chairs
+1,Likes to pretend to be asleep
+1,Likes to quote others
+1,Lisps
+1,Loud snore
+1,Loves to gossip
+1,Member of a semi-secret society with no real power or influence ([Group Designer.Generate(5)])
+1,Mispronounces words
+1,Never goes out without a hat
+1,Never seems to blink
+1,Never sits with back to door
+1,Night owl
+1,No sense of direction
+1,Noisy chewer
+1,Odd accent ([Language])
+1,Odd political views
+1,Optimistic
+1,Performs minor religious rites at odd times
+1,Picks up odd mementoes of areas visited
+1,Polishes weapons
+1,Prefers food favoured by another race ([Creatures.Humanoid])
+1,Prefers to sit on floor
+1,Purses lips
+1,Refers to self in third person
+1,Refuses to kill insects (not including giant vermin)
+1,Refuses to wear a hat
+1,Rubs chin
+1,Runs fingers through beard
+1,Runs fingers through hair
+1,Scratches
+1,Sighs
+1,Smokes a pipe
+1,Sneezes often
+1,Spits
+1,Squints
+1,Sunburns easily
+1,Swats at flies
+1,Sweats frequently
+1,Taps foot
+1,Tends to forget small items
+1,Tends to nickname people
+1,Tends to shout when excited
+1,Tends to toss or juggle sharp objects
+1,Tone deaf
+1,Tosses a coin
+1,Tugs ear
+1,Twiddles fingers
+1,Uncomfortable with closed doors
+1,Unusually large vocabulary
+1,Uses random words from various foreign languages |temp={Dice~2d3}|({While~%temp%,{Cap~[Language]}|temp-1|{If~%temp%>0?, }})
+1,Vegetarian (when not normal for species)
+1,Weird laugh
+1,Whistles tunelessly
+1,Whittles
+
+:Rarity
+1-50,common
+51-85,uncommon
+86-95,rare
+96-99,very rare
+100,unique
+
+;Reaction
+1,Hostile
+2,Unfriendly
+5,Indifferent
+2,Friendly
+
+;Ruler
+2,baron
+2,chieftan
+2,count
+2,despot
+2,duke
+1,emperor
+1,empress
+1,god
+1,jarl
+2,king
+2,lord
+1,lord Protector
+1,marquis
+1,marshal
+2,master
+2,overking
+1,overseer
+2,prince
+1,prince Regent
+2,queen
+1,regent
+2,tyrant
+1,warden
+
+;School
+1,abjuration
+1,conjuration
+1,divination
+1,enchantment
+1,evocation
+1,illusion
+1,necromancy
+
+:ShapeNoCreature
+1,|Temp1=0||Temp2=[Shape]|{If~%Temp1%=Creature?[ShapeNoCreature]/%Temp2%}
+
+;Shape
+20,[Creatures.Start]|Temp1=Creature|
+1,[Wood] tree
+1,4-leaf clover
+1,baby
+1,bell
+1,book
+1,bridge
+1,cherry blossom
+1,child
+1,chrysant
+2,circle
+1,claw
+1,cloud
+1,comet
+1,crescent moon
+1,crown
+1,dandelion
+1,diamond
+1,egg
+1,falling star
+1,feather
+1,flame
+1,flower
+1,full moon
+1,hand
+1,heart
+1,hourglass
+1,intricate knotwork
+1,knight
+1,leaves
+1,lightning
+1,lily
+1,odd, geometric pattern
+2,oval
+1,pair of love birds
+3,rectangle
+1,rose
+1,round
+1,scrollwork
+1,shield
+1,skull
+3,square
+1,star
+1,sun
+1,sword
+1,tear
+1,trapeze
+1,tree
+3,triangle
+1,tulip
+1,wheel
+1,young man
+1,young woman
+
+# Shop: from Cities of Mystery
+;Shop
+1,accountant's office
+1,alchemist shop
+1,animal dealer
+1,animal trainer
+1,apothecary shop
+1,archery shop
+1,architect's office
+1,armorer/armorist shop
+1,artist shop
+1,astrologer shop
+1,bait shop
+1,bakery shop
+1,bank
+1,barber shop
+1,barrelwright shop
+1,barrister shop
+1,bathhouse
+1,beautician shop
+1,bindery shop
+1,blacksmith
+1,boat rental shop
+1,bodyguard service shop
+1,book shop
+1,bordello
+1,bounty hunter agency
+1,bowyer / fletcher shop
+1,brass worker shop
+1,brewery
+1,broom/brush maker shop
+1,builder shop
+1,butcher
+1,cabinet maker shop
+1,candle maker shop
+1,candy shop
+1,carpenter shop
+1,carpet maker shop
+1,cartographer shop
+1,cartwright shop
+1,chandler shop
+1,cheese shop
+1,clothing shop
+1,cobbler shop
+1,cooper shop
+1,customs house
+1,dagger shop
+1,dairy shop
+1,distillery 
+1,dyer shop
+1,embroiderer shop
+1,enchanter shop
+1,engineer shop
+1,engraver shop
+1,fabrics shop
+1,farmers market
+1,financer/lender office
+1,fishmonger shop
+1,fletcher shop
+1,florist shop
+1,food seller (provisionist) shop
+1,forger shop
+1,fortune teller shack
+1,foundry
+1,freight company office
+1,furniture maker shop
+1,furrier shop
+1,gambling house
+1,gardener shop
+1,gem cutter workshop
+1,glassblower workshop
+1,goldsmith workshop
+1,grain merchant shop
+1,granary
+1,grocer
+1,healer shop
+1,herald
+1,herbalist shop
+1,inn
+1,jewelery
+1,kiln
+1,lamp & oil shop
+1,lapidary shop
+1,lawyer office
+1,leather worker shop
+1,limner shop
+1,locksmith workshop
+1,lumber dealer shop
+1,magic shop
+1,mason office
+1,mercenary company office
+1,metalsmith workshop
+1,mill 
+1,money changer office
+1,music shop
+1,painter workshop
+1,perfumer shop
+1,physician house
+1,potter shop
+1,rope maker shop
+1,sage shack
+1,sail maker shop
+1,seamstress shop
+1,scribe office
+1,seer shack
+1,shipwright shop
+1,shoe shop
+1,silversmith workshop
+1,slaughterhouse
+1,soap maker shop
+1,stable
+1,stone carver workshop
+1,sword shop
+1,tack shop
+1,tailor workshop
+1,tannery
+1,tavern
+1,taxidermist workshop
+1,thatcher workshop
+1,tinker shop
+1,tool maker shop
+1,toy shop
+1,trading post
+1,undertaker office
+1,wainwright shop
+1,warehouse
+1,weaver shop
+1,weaponsmith forge
+1,wheelwright shop
+1,woodcarver shop
+
+:Size
+1,fine
+2,diminutive
+3,tiny
+4,small
+5,medium-size
+6,large
+7,huge
+8,gargantuan
+9,colossal
+
+;Size A
+1,fine
+2,diminutive
+5,tiny
+20,small
+50,medium
+20,large
+5,huge
+2,gargantuesque
+1,colossal
+
+:Size B
+1,small
+2-3,medium
+4,large
+
+;Size C
+10,small
+20,medium
+30,large
+25,huge
+10,gargantuesque
+5,colossal
+
+;Size D
+1,fine
+2,diminutive
+3,tiny
+8,large
+3,huge
+2,gargantuesque
+1,colossal
+
+;Sound
+1,something growling/roaring 
+1,something banging
+1,bells
+1,something bellowing
+1,something bleating
+1,snapping bones
+1,something banging a gong
+1,bubbling brook
+1,something burping
+1,buzzing
+1,cackling
+1,carrillion
+1,chains rattling
+1,chanting
+1,chiming
+1,chirping
+1,chuckling
+1,clanking
+1,clashing
+1,clicking
+1,clinging
+1,coughing
+1,creaking
+1,croaking
+1,crying
+1,dripping
+1,drumming
+1,fighting
+1,fire crackling
+1,flushing (like toilet)
+1,footsteps
+1,gibbering
+1,giggling
+1,gong
+1,grating
+1,grinding
+1,gregorian chanting
+1,groaning
+1,grunting
+1,gurgling
+1,hissing
+1,hooting
+1,howling
+1,humming
+1,jingling
+1,kissing
+1,knocking
+1,laughter
+1,marching
+1,moaning
+1,murmuring
+1,music
+1,muttering
+1,ocean waves breaking
+1,panting
+1,people at dinner
+1,perverse sex acts
+1,purring
+1,rattling
+1,ringing
+1,roaring
+1,rumbling
+1,rustling
+1,scrapping
+1,scratching/scrabbling
+1,screaming
+1,screeching
+1,scuttling
+1,shouting
+1,shrieking
+1,shuffling
+1,sighing
+1,singing
+1,singing, birds
+1,singing, harpy (save or be charmed)
+1,singing, magical (random powersong)
+1,slithering
+1,snapping
+1,snarling
+1,sneezing
+1,sniffing
+1,snoring
+1,sobbing
+1,splashing
+1,splintering
+1,steady rain
+1,squawking
+1,squealing
+1,squeaking
+1,talking
+1,tapping
+1,thuds
+1,thumping
+1,thunder
+1,thunderstorm
+1,ticking
+1,tinkling
+1,twanging
+1,roaring of a t-rex (save or be stunned)
+1,wailing
+1,whining
+1,whispering
+1,whistling
+1,wind blowing
+
+;!Stone
+1,agate
+1,alexandrite
+1,amber
+1,amethyst
+1,aquamarine
+1,azurite
+1,banded agate
+1,black opal
+1,black saphire
+1,bloodstone
+1,blue quartz
+1,carnelian
+1,chalcedony
+1,chrysoberyl
+1,chrysophrase
+1,citrine
+1,coral
+1,crystal
+1,diamond
+1,emerald
+1,eye agate
+1,fire opal
+1,garnet
+1,hematite
+1,jacinth
+1,jade
+1,jasper
+1,jet
+1,lapis lazuli
+1,malachite
+1,marble
+1,moonstone
+1,moss agate
+1,obsidian
+1,onyx
+1,opal
+1,oriental amethist
+1,oriental emerald
+1,oriental topaz
+1,pearl
+1,peridot
+1,rhodochrosite
+1,rockcrystal
+1,ruby
+1,saphire
+1,sardonyx
+1,smokey quartz
+1,spinel
+1,star rose quartz
+1,starstone
+1,tiger eye agate
+1,topaz
+1,tourmaline
+1,turquoise
+1,zircon
+
+;Taste
+1,acidic
+1,bilious
+1,biting
+1,bitter
+1,burning
+1,buttery
+1,dusty
+1,earthy
+1,fiery
+1,fishy
+1,greasy
+1,herbal
+1,honeyed
+1,lemony
+1,meaty
+1,metallic
+1,milky
+1,musty
+1,oniony
+1,peppery
+1,perfumy
+1,salty
+1,soothing
+1,sour
+1,spicy
+1,sugary
+1,sweet
+1,tart
+1,vinegary
+1,watery
+
+:Titles
+1,[TitlesMale]
+2,[TitlesFemale]
+
+;TitlesBoth
+1,Archbishop
+1,Admiral
+1,Captain
+5,Councillor
+5,Elder
+1,General
+5,High Commissionner
+5,Knight
+5,Mayor
+5,Minister
+1,Prefect
+1,Professor
+5,Senator
+5,Sheriff
+5,Squire
+1,Steward
+
+;TitlesFemale
+50,[TitlesBoth]
+20,Milady
+20,Mistress
+30,Lady
+20,Dame
+1,Archduchess
+5,Countess
+1,Duchess
+5,Governess
+5,Lady-in-Waiting
+5,Marquessa
+5,Matriarch
+1,Princess
+1,Queen
+1,Sultana
+1,Tsarevna/Czarina
+1,Vicequeen
+
+;TitlesMale
+50,[TitlesBoth]
+20,Sir
+20,Master
+20,Lord
+1,Archduke
+1,Caliph
+5,Count
+2,Duke
+5,Earl
+5,Governor
+1,King
+1,Maharajah
+5,Marquis
+5,Patriarch
+1,Pharaoh
+1,Prince
+1,Sheik
+1,Shah
+1,Sultan
+1,Tsar/Czar
+1,Viceroy
+1,Vizier
+
+;!Traits
+1,abrasive
+1,absent-minded
+1,accented voice
+1,accusative
+1,active
+1,adventersome
+1,affable
+1,aggressive
+1,aggreable
+1,aimless
+1,aloof
+1,altruistic
+1,amoral
+1,analytical
+1,angry
+1,animated
+1,annoying
+1,anxious
+1,apathetic
+1,apologetic
+1,apprehensive
+1,argumentative
+1,arrogant
+1,articulate
+1,attentive
+1,avaricious
+1,bigoted
+1,bitter
+1,blustering
+1,boastful
+1,bookish
+1,boring
+1,bossy
+1,braggart
+1,brash
+1,brave
+1,bullying
+1,callous
+1,calm
+1,candid
+1,cantankerous
+1,capricious
+1,careful
+1,careless
+1,caring
+1,casual
+1,catty
+1,cautious
+1,cavalier
+1,charismatic
+1,charming
+1,chaste
+1,chauvinistic
+1,cheeky
+1,cheerful
+1,childish
+1,chivalrous
+1,clean
+1,clueless
+1,clumsy
+1,cocky
+1,comforting
+1,communicative
+1,complacent
+1,condescending
+1,confident
+1,conformist
+1,confused
+1,conscientious
+1,conservative
+1,contentious
+1,contrary
+1,cooperative
+1,courages
+1,courteous
+1,cowardly
+1,coy
+1,crabby
+1,cranky
+1,critical
+1,cruel
+1,crude
+1,cultured
+1,curious
+1,cynical
+1,daring
+1,deceitful
+1,defensive
+1,defiant
+1,deliberate
+1,deluded
+1,depraved
+1,depressed
+1,dirty
+1,discreet
+1,dishonest
+1,disingenious
+1,disloyal
+1,disorganized
+1,disreputable
+1,disrespectful
+1,distant
+1,distracted
+1,distraught
+1,docile
+1,dominating
+1,dramatic
+1,drunkard
+1,dull
+1,earthy
+1,eccentric
+1,egotistical
+1,elitist
+1,emotional
+1,energetic
+1,enigmatic
+1,enthusiastic
+1,epicurean
+1,excited
+1,expressive
+1,extroverted
+1,faithful
+1,fanatical
+1,fastidious
+1,fatalistic
+1,fearful
+1,fearless
+1,feral
+1,fierce
+1,flamboyant
+1,flippant
+1,flirtatious
+1,foolhardy
+1,foolish
+1,foppish
+1,forgiving
+1,friendly
+1,frightened
+1,frivolous
+1,frustrated
+1,full of energy
+1,funny
+1,furtive
+1,generous
+1,genial
+1,gentle
+1,gloomy
+1,goofy
+1,gossip
+1,graceful
+1,gracious
+1,grave
+1,gregarious
+1,grouchy
+1,groveling
+1,gruff
+1,gullible
+1,handsome
+1,happy
+1,harsh
+1,hateful
+1,helpful
+1,honest
+1,hostile
+1,humble
+1,humorless
+1,humorous
+1,idealistic
+1,idiosyncratic
+1,imaginative
+1,imitative
+1,impatient
+1,implacable
+1,impractical
+1,impulsive
+1,inattentive
+1,incoherent
+1,incompetent
+1,indifferent
+1,indiscreet
+1,individualist
+1,inquisitive
+1,insecure
+1,insensitive
+1,instructive
+1,intolerant
+1,introverted
+1,irreligious
+1,irresponsible
+1,irreverant
+1,irritable
+1,irritating
+1,jealous
+1,joking
+1,jolly
+1,joyous
+1,judgemental
+1,jumpy
+1,kind
+1,know-it-all
+1,languid
+1,lazy
+1,lethargic
+1,lewd
+1,liar
+1,lippy
+1,lispy
+1,loud
+1,loving
+1,lusty
+1,madcap
+1,malicious
+1,mean
+1,meddlesome
+1,melancholy
+1,melodramatic
+1,merciless
+1,merry
+1,meticulous
+1,mischevious
+1,miserly
+1,modest
+1,moody
+1,moralistic
+1,morbid
+1,morose
+1,mounrnful
+1,mousy
+1,mouthy
+1,mysterious
+1,naive
+1,narrow-minded
+1,needy
+1,nefarious
+1,nervous
+1,nettlesome
+1,neurotic
+1,noble
+1,nonchalant
+1,nondescript
+1,nurturing
+1,obedient
+1,oblivious
+1,obnoxious
+1,obsessive
+1,obtuse
+1,odd
+1,ominous
+1,onery
+1,opiniated
+1,optimistic
+1,organized
+1,outgoing
+1,overbearing
+1,overly friendly
+1,paranoid
+1,passionate
+1,passive
+1,patient
+1,peaceful
+1,pensive
+1,perceptive
+1,pessimistic
+1,philosophical
+1,phony
+1,pious
+1,playful
+1,pleasant
+1,poised
+1,polite
+1,pompous
+1,pondering
+1,pontificating
+1,poor-looking
+1,practical
+1,precise
+1,prejudiced
+1,pretentious
+1,preoccupied
+1,promiscious
+1,proper
+1,proud
+1,prudent
+1,prudish
+1,prying
+1,quiet
+1,quirky
+1,racist
+1,rapid
+1,rascal
+1,rash
+1,realistic
+1,rebellious
+1,reckless
+1,refined
+1,repellant
+1,reserved
+1,respectful
+1,responsible
+1,restless
+1,reticent
+1,reverent
+1,rigid
+1,risk-taking
+1,romantic
+1,rude
+1,sad
+1,sadistic
+1,sarcastic
+1,sassy
+1,savage
+1,scared
+1,scolding
+1,secretive
+1,selfish
+1,senile
+1,sensitive
+1,sensual
+1,sentimental
+1,serene
+1,servile
+1,sexist
+1,sexual
+1,shallow
+1,shameful
+1,shameless
+1,shifty
+1,shrewd
+1,shy
+1,slanderous
+1,sly
+1,sloppy
+1,smug
+1,snobbish
+1,sober
+1,sociable
+1,sophisticated
+1,spendthrift
+1,stern
+1,stingy
+1,stoic
+1,stubborn
+1,submissive
+1,superstitious
+1,suspicious
+1,talkative
+1,taciturn (not likely to talk)
+1,teetotaler
+1,thorough
+1,thrifty
+1,thoughtless
+1,timid
+1,tolerant
+1,transparent
+1,treacherous
+1,troublemaker
+1,trusting
+1,truthful
+1,ugly
+1,uncomitted
+1,uncooperative
+1,uncultured
+1,understanding
+1,unfriendly
+1,unhinged
+1,uninhibited
+1,unpredictable
+1,unruly
+1,unsupportive
+1,vague
+1,vain
+1,vengeful
+1,very bright
+1,very young
+1,very quiet
+1,vigilant
+1,violent
+1,vulgar
+1,wasteful
+1,weary
+1,weezy
+1,whimsical
+1,whining
+1,whisper
+1,wicked
+1,zealous
+
+:Weight
+1-2,massive
+3-4,hefty
+5-7,bulky
+8-13,medium
+14-16,thin
+17-18,light
+19-20,feather
+
+;!Wood
+1,apple
+1,ash
+1,asp
+1,beech
+1,birch
+3,cedar
+1,cherry
+1,chestnut
+1,cypress
+1,darkwood
+1,dryad oak
+1,dusk
+1,ebony
+3,elm
+1,fir
+1,hickory
+1,juniper
+1,larch
+1,laspar
+1,magnolia
+1,mahogany
+5,maple
+5,oak
+1,olive
+1,phandar
+1,pine
+1,plum
+1,poplar
+1,prune
+1,pear
+1,rose
+1,rowan
+1,sandle
+1,sassaphras
+1,spruce
+1,sycamore
+1,teak
+1,treant
+1,walnut
+1,weirwood
+1,willow
+
+;!WoodBow
+1,horn
+2,bamboo
+5,yew
+2,willow
+1,lemon wood
+2,beechwood
+2,boxwood
+1,whitewood
+
+;!WoodWeapon
+8,oaken
+5,walnut
+5,elm
+5,chestnut
+2,darkwood
+2,diamondwood
+2,mahogany
+
+# ---------------------------------------------------------------------------
+# Weapons (modified the link toward the Equipment table so that tables using
+#          this link will still work)
+# 
+
+;Weapons
+1,[Equipment.WeaponsNoSizeNoMW]
+
+;Axe and Hammers
+1,[Equipment.Axe and Hammers]
+
+;Bows
+1,[Equipment.Bows]
+
+;Knives
+1,[Equipment.Knives]
+
+;Misc
+1,[Equipment.Misc]
+
+;Swords
+1,[Equipment.Swords]
+
+# ---------------------------------------------------------------------------
+# Armors (modified the link toward the Equipment table so that tables using
+#         this link will still work)
+
+;Armors
+1,[Equipment.Armors]
+
+;Armors Light
+1,[Equipment.Armors Light]
+
+;Armors Medium
+1,[Equipment.Armors Medium]
+
+;Armors Heavy
+1,[Equipment.Heavy]
+
+;Shields
+1,[Equipment.Shields]

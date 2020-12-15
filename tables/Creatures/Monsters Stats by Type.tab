@@ -1,0 +1,1301 @@
+# ------------------------------------------------------
+# Last Update: re-verified by Valminder Jan 10, 2012.
+# ------------------------------------------------------
+# ---------------------------------------------------
+# Last Update: Updated by Larry Cormier Jan 21, 2006.
+# ---------------------------------------------------
+#
+# This Table is designed to Generate Random Monsters by Monster Type
+#
+# by Larry Cormier
+#
+# -------------------------------------------------------------------------
+#
+# To call this table from another one:
+#    [Monster Stats by Type.GenerateMonsters(%MonsterType%,%DragonAge%,
+#                                            %Bonus0Level%)
+#
+#    Parameters: (%MonsterType%,%DragonAge%,%Bonus0Level%,%Instructions%)
+#
+#    MonsterType:  (40) Choose the Monster Type or Subtype Desired:
+#                       1=Aberration, 2=Air, 3=Animal, 4=Aquatic, 5=Cold,
+#                       6=Construct, 7=Dragon, 8=Earth, 9=Elemental,
+#                       10=Elemental (Air), 11=Elemental (Earth),
+#                       12=Elemental (Fire), 13=Elemental (Water), 14=Fey,
+#                       15=Fire, 16=Giant, 17=Goblinoid, 18=Humanoid,
+#                       19=Incorporeal, 20=Lawful, 21=Magical Beast,
+#                       22=Monstrous Humanoid, 23=Ooze, 24=Outsider,
+#                       25=Outsider (Air), 26=Outsider (Chaotic),
+#                       27=Outsider (Evil), 28=Outsider (Earth),
+#                       29=Outsider (Fire), 30=Outsider (Good),
+#                       31=Outsider (Lawful), 32=Outsider (Native),
+#                       33=Outsider (Water), 34=Plant, 35=Reptilian,
+#                       36=Shapechanger, 37=Undead, 38=Vermin, 39=Water,
+#                       40=Random
+#    DragonAge:    (13) (Enter a value only if you generate a dragon)
+#                       1=Wyrmling, 2=Very Young, 3=Young, 4=Juvenile,
+#                       5=Young Adult, 6=Adult, 7=Mature Adult, 8=Old,
+#                       9=Very Old, 10=Ancient, 11=Wyrm, 12=Great Wyrm, 
+#                       13=Random
+#    Bonus0Level:  (2)  1= Yes, add 0-Level bonus spells.
+#                       2= No 0-Level bonus spells.
+#    Instructions: (1)  1= Shows instructions (if called from .Start)
+#                       2= To activate the table (if called from .Start)
+#
+# -------------------------------------------------------------------------
+#
+# Modified by Valminder, Dec 2005.
+#    Adapted for TSv5.
+#    Slight modifications.
+#
+# Modified by Larry Cormier, Jan 2006.
+#    Revised Parameter Prompts so they will not be 'Cut-off' due to
+#       prompt length limitations in TableSmith v4.5
+#    Revised 'MonsterSelected' Subtable - which generated:
+#       ###ERR:Unknown in Table: Dragon Stats / Group: DragonMain (Subscript
+#          out of range) ### and
+#       ###ERR:Unknown in Table: Monster Stats / Group: OrganizationSetup
+#          (Subscript out of range) ### errors in TableSmith v4.5
+#
+
+# Define Variables
+%CR%,1
+%Instructions%,0
+%TempNumber%,0
+%MonsterID%,0
+%MonsterType%,0
+%DragonAge%,0
+%DragonType%,0
+%DragonFlag%,0
+%SwarmID%,0
+%Bonus0Level%,2
+
+@MonsterType,40,Choose the Monster Type or Subtype Desired:,Aberration,Air,Animal,Aquatic,Cold,Construct,Dragon,Earth,Elemental,Elemental (Air),Elemental (Earth),Elemental (Fire),Elemental (Water),Fey,Fire,Giant,Goblinoid,Humanoid,Incorporeal,Lawful,Magical Beast,Monstrous Humanoid,Ooze,Outsider,Outsider (Air),Outsider (Chaotic),Outsider (Evil),Outsider (Earth),Outsider (Fire),Outsider (Good),Outsider (Lawful),Outsider (Native),Outsider (Water),Plant,Reptilian,Shapechanger,Undead,Vermin,Water,Random
+@DragonAge,13,Dragon Age desired (if applicable)?,Wyrmling,Very Young,Young,Juvenile,Young Adult,Adult,Mature Adult,Old,Very Old,Ancient,Wyrm,Great Wyrm,Random
+@Bonus0Level,1,OPTIONAL: Bonus 0-level spells based on Prime Attribute? (same as 1st-level spells),Yes,No
+@Instructions,1,Continue showing Instructions?,Yes,No
+
+:Start
+1,{If~%Instructions%=1? [Instructions]/[GenerateMonsters]}
+
+:Instructions
+1,This table generates a Random list of 3.5 Edition D&D Monsters based on the <b>Monster Type Selected</b>.
+_<br><br>Use the Parameter Button located in the Upper Left-hand corner of the screen to Input the Monster Type
+_ or Subtype desired to get started.<br><br>
+_To call this table from another one, you need to feed it the parameters in the order listed below:<br>
+_<font color=green>Monster Stats by Type.GenerateMonsters(MonsterType,DragonAge,Bonus0Level)</font><br><br>
+_<b>Example:</b> Young Dragon without 0-Level bonus spells (if applicable).<br>
+_<font color=green>Monster Stats by Type.GenerateMonsters(7,3,2)</font> (You do not need the last parameter).<br><br>
+_<b>Example:</b> Monstrous Humanoid without 0-Level bonus spells (if applicable).<br>
+_<font color=green>Monster Stats by Type.GenerateMonsters(22)</font> (You do not need the last parameters).<br><br>
+_<b>MonsterType:</b> <font color=darkred>(Default=40)</font> 1=Aberration, 2=Air, 3=Animal, 4=Aquatic, 5=Cold,
+_ 6=Construct, 7=Dragon, 8=Earth, 9=Elemental, 10=Elemental (Air), 11=Elemental (Earth), 12=Elemental (Fire),
+_ 13=Elemental (Water), 14=Fey, 15=Fire, 16=Giant, 17=Goblinoid, 18=Humanoid, 19=Incorporeal, 20=Lawful, 21=Magical Beast,
+_ 22=Monstrous Humanoid, 23=Ooze, 24=Outsider, 25=Outsider (Air), 26=Outsider (Chaotic), 27=Outsider (Evil),
+_ 28=Outsider (Earth), 29=Outsider (Fire), 30=Outsider (Good), 31=Outsider (Lawful), 32=Outsider (Native),
+_ 33=Outsider (Water), 34=Plant, 35=Reptilian, 36=Shapechanger, 37=Undead, 38=Vermin, 39=Water, 40=Random<br>
+_<b>DragonAge:</b> <font color=darkred>(Default=13)</font>
+_ 1=Wyrmling, 2=Very Young, 3=Young, 4=Juvenile, 5=Young Adult, 6=Adult, 7=Mature Adult, 8=Old, 9=Very Old,
+_ 10=Ancient, 11=Wyrm, 12=Great Wyrm, 13=Random<br>
+_<b>Bonus0Level:</b> <font color=darkred>(Default=2)</font>  1= Yes, add 0-Level bonus spells. 2= No 0-Level bonus spells.<br>
+_<b>Instructions:</b> <font color=darkred>(Default=1)</font> 1= Shows instructions (if called from .Start)
+_ 2= To activate the table (if called from .Start)<br>
+
+:GenerateMonsters
+1,{Status~Created by Larry Cormier. Modified by Valminder.}
+_ {If~%DragonAge%=13? [DetermineDragonAge]}
+_ {If~%MonsterType%=40 ? |MonsterType={Dice~1d39}|}
+_ [MonsterTypeBranch=%MonsterType%][MonsterSelected]
+
+# Note: Do not Remove extra prompt commas from these lines - Errors Generated in TableSmith V4.5
+:MonsterSelected
+1,{If~%DragonFlag%=1? [Dragon Stats.DragonMain(%DragonType%,%DragonAge%,%Bonus0Level%,,,)]/
+_ {If~%SwarmID%>0 ? |MonsterID=346|[Monster Stats.OrganizationSetup(%MonsterID%,%Bonus0Level%,,%CR%)][Monster Stats.SwarmBranch=%SwarmID%]/
+_ [Monster Stats.DetermineRandomMonster(%MonsterID%,%Bonus0Level%,,%CR%)]}}
+
+:MonsterTypeBranch
+1,[Aberration]
+2,[Air]
+3,[Animal]
+4,[Aquatic]
+5,[Cold]
+6,[Construct]
+7,[Dragon]
+8,[Earth]
+9,[Elemental]
+10,[ElementalAir]
+11,[ElementalEarth]
+12,[ElementalFire]
+13,[ElementalWater]
+14,[Fey]
+15,[Fire]
+16,[Giant]
+17,[Goblinoid]
+18,[Humanoid]
+19,[Incorporeal]
+20,[Lawful]
+21,[MagicalBeast]
+22,[MonstrousHumanoid]
+23,[Ooze]
+24,[Outsider]
+25,[OutsiderAir]
+26,[OutsiderChaotic]
+27,[OutsiderEvil]
+28,[OutsiderEarth]
+29,[OutsiderFire]
+30,[OutsiderGood]
+31,[OutsiderLawful]
+32,[OutsiderNative]
+33,[OutsiderWater]
+34,[Plant]
+35,[Reptilian]
+36,[Shapechanger]
+37,[Undead]
+38,[Vermin]
+39,[Water]
+
+:DetermineDragonAge
+# Wyrmling
+1-5,|DragonAge=1|
+# Very Young
+6-10,|DragonAge=2|
+# Young
+11-15,|DragonAge=3|
+# Juvenile
+15-20,|DragonAge=4|
+# Young Adult
+21-25,|DragonAge=5|
+# Adult
+26-30,|DragonAge=6|
+# Mature Adult
+31-55,|DragonAge=7|
+# Old
+56-70,|DragonAge=8|
+# Very Old
+71-80,|DragonAge=9|
+# Ancient
+81-95,|DragonAge=10|
+# Wyrm
+96-98,|DragonAge=11|
+# Great Wyrm
+99-100,|DragonAge=12|
+
+
+:MonsterTypeNames
+1,Aberration
+2,Air
+3,Animal
+4,Aquatic
+5,Cold
+6,Construct
+7,Dragon
+8,Earth
+9,Elemental
+10,Elemental (Air)
+11,Elemental (Earth)
+12,Elemental (Fire)
+13,Elemental (Water)
+14,Fey
+15,Fire
+16,Giant
+17,Goblinoid
+18,Humanoid
+19,Incorporeal
+20,Lawful
+21,Magical Beast
+22,Monstrous Humanoid
+23,Ooze
+24,Outsider
+25,Outsider (Air)
+26,Outsider (Chaotic)
+27,Outsider (Evil)
+28,Outsider (Earth)
+29,Outsider (Fire)
+30,Outsider (Good)
+31,Outsider (Lawful)
+32,Outsider (Native)
+33,Outsider (Water)
+34,Plant
+35,Reptilian
+36,Shapechanger
+37,Undead
+38,Vermin
+39,Water
+
+;Aberration
+# Aboleth
+1,|MonsterID=2|
+# Athach
+1,|MonsterID=22|
+# Beholders
+1,|MonsterID=44|
+# Carrion Crawler
+1,|MonsterID=63|
+# Choker Chuul
+1,|MonsterID=75|
+# Cloaker
+1,|MonsterID=77|
+# Delver
+1,|MonsterID=92|
+# Destrachan
+1,|MonsterID=94|
+# Drider
+1,|MonsterID=108|
+# Ethereal Filcher
+1,|MonsterID=125|
+# Ettercap
+1,|MonsterID=127|
+# Gauth
+1,|MonsterID=141|
+# Gibbering Mouther
+1,|MonsterID=162|
+# Grick
+1,|MonsterID=181|
+# Mimic
+1,|MonsterID=247|
+# Mind Flayer
+1,|MonsterID=248|
+# Nagas
+1,[NagaBranch]
+# Otyugh
+1,|MonsterID=281|
+# Phasm
+1,|MonsterID=289|
+# Rust Monster
+1,|MonsterID=313|
+# Scum
+1,|MonsterID=330|
+# Umber Hulk
+1,|MonsterID=366|
+# Will-o'-Wisp
+1,|MonsterID=389|
+
+;Air
+# Air Mephit
+1,|MonsterID=8|
+# Arrowhawk
+1,|MonsterID=19|
+# Cloud Giant
+1,|MonsterID=78|
+# Dust Mephit
+1,|MonsterID=112|
+# Green Dragon
+1,|DragonFlag=1||DragonType=3|
+# Ice Mephit
+1,|MonsterID=213|
+# Will-o'-Wisp
+1,|MonsterID=389|
+
+;Animal
+# Animals
+1,[AnimalBranch]
+# Bat Swarm
+1,|SwarmID=1|
+# Dinosaurs
+1,[DinosaurBranch]
+# Dire Animals
+1,[DireAnimalBranch]
+# Rat Swarm
+1,|SwarmID=5|
+# Roc
+1,|MonsterID=311|
+
+;Aquatic
+# Aboleth
+1,|MonsterID=2|
+# Aquatic Elf
+1,|MonsterID=123|
+# Chuul
+1,|MonsterID=75|
+# Dire Shark
+1,|MonsterID=324|
+# Dragon Turtle
+1,|MonsterID=104|
+# Giant Octopus
+1,|MonsterID=156|
+# Kraken
+1,|MonsterID=220|
+# Kuo-Toa
+1,|MonsterID=222|
+# Locathath
+1,|MonsterID=235|
+# Merfolk
+1,|MonsterID=245|
+# Merrow
+1,|MonsterID=406|
+# Octopus
+1,|MonsterID=273|
+# Sahuagin
+1,|MonsterID=314|
+# Sea Cat
+1,|MonsterID=318|
+# Sea Hag
+1,|MonsterID=319|
+# Sharks
+1,|MonsterID=323|
+# Skum
+1,|MonsterID=330|
+# Squid
+1,|MonsterID=338|
+# Giant Squid
+1,|MonsterID=159|
+# Water Naga
+1,|MonsterID=376|
+
+;Cold
+# Cryohydra
+1,|MonsterID=85|
+# Frost Giant
+1,|MonsterID=136|
+# Frost Worm
+1,|MonsterID=138|
+# Ice Mephit
+1,|MonsterID=213|
+# Silver Dragon
+1,|DragonFlag=1||DragonType=10|
+# White Dragon
+1,|DragonFlag=1||DragonType=5|
+# Winter Wolf
+1,|MonsterID=390|
+
+;Construct
+# Animated Object
+1,|MonsterID=11|
+# Golems
+1,[GolemBranch]
+# Homuncalus
+1,|MonsterID=204|
+# Inevitables
+1,[InevitableBranch]
+# Retriever
+1,|MonsterID=309|
+# Shield Guardian
+1,|MonsterID=325|
+
+;Dragon
+# Dragons
+3,|DragonFlag=1||DragonType={Dice~1d10}|
+# Dragon Turtle
+1,|MonsterID=104|
+# Pseudodragon
+1,|MonsterID=295|
+# Wyvern
+1,|MonsterID=398|
+
+;Earth
+# Blue Dragon
+1,|DragonFlag=1||DragonType=2|
+# Copper Dragon
+1,|DragonFlag=1||DragonType=8|
+# Earth Mephit
+1,|MonsterID=117|
+# Gargoyle
+1,|MonsterID=140|
+# Salt Mephit
+1,|MonsterID=316|
+# Stone Giant
+1,|MonsterID=341|
+
+;Elemental
+# Belker
+1,|MonsterID=45|
+# Elementals
+1,[ElementalBranch]
+# Invisible Stalker
+1,|MonsterID=215|
+# Magmin
+1,|MonsterID=237|
+# Thoqqua
+1,|MonsterID=350|
+
+;ElementalAir
+# Belker
+1,|MonsterID=45|
+# Air Elementals
+1,|MonsterID=7|
+# Invisible Stalker
+1,|MonsterID=215|
+
+;ElementalEarth
+# Earth Elementals
+1,|MonsterID=116|
+# Thoqqua
+1,|MonsterID=350|
+
+;ElementalFire
+# Fire Elementals
+1,|MonsterID=130|
+# Magmin
+1,|MonsterID=237|
+# Thoqqua
+1,|MonsterID=350|
+
+;ElementalWater
+# Water Elementals
+1,|MonsterID=374|
+
+;Fey
+# Dryad
+1,|MonsterID=110|
+# Grig
+1,|MonsterID=183|
+# Nixie
+1,|MonsterID=270|
+# Nymph
+1,|MonsterID=271|
+# Pixie
+1,|MonsterID=291|
+# Satyr
+1,|MonsterID=317|
+
+;Fire
+# Azer
+1,|MonsterID=24|
+# Brass Dragon
+1,|DragonFlag=1||DragonType=6|
+# Fire Giant
+1,|MonsterID=131|
+# Fire Mephit
+1,|MonsterID=132|
+# Gold Dragon
+1,|DragonFlag=1||DragonType=9|
+# Magma Mephit
+1,|MonsterID=236|
+# Pyrohydra
+1,|MonsterID=298|
+# Red Dragon
+1,|DragonFlag=1||DragonType=4|
+# Steam Mephit
+1,|MonsterID=339|
+
+;Giant
+# Ettin
+1,|MonsterID=128|
+# Giants
+1,[GiantBranch]
+# Ogre
+1,|MonsterID=274|
+# Ogre Mage
+1,|MonsterID=276|
+# Troll
+1,|MonsterID=361|
+
+;Goblinoid
+# Bugbear
+1,|MonsterID=59|
+# Goblin
+1,|MonsterID=169|
+# Hobgoblin
+1,|MonsterID=203|
+
+;Humanoid
+# Bugbear
+1,|MonsterID=59|
+# Dwarf
+1,|MonsterID=113|
+# Elf
+1,|MonsterID=123|
+# Githyanki
+1,|MonsterID=164|
+# Githzerai
+1,|MonsterID=165|
+# Gnoll
+1,|MonsterID=167|
+# Gnome
+1,|MonsterID=168|
+# Goblin
+1,|MonsterID=169|
+# Halfling
+1,|MonsterID=193|
+# Hobgoblin
+1,|MonsterID=203|
+# Kobold
+1,|MonsterID=218|
+# Lizardfolk
+1,|MonsterID=234|
+# Locathah
+1,|MonsterID=235|
+# Merfolk
+1,|MonsterID=245|
+# Orc
+1,|MonsterID=279|
+# Troglodyte
+1,|MonsterID=360|
+
+;Incorporeal
+# Allip
+1,|MonsterID=9|
+# Ghost
+1,|MonsterID=146|
+# Shadow
+1,|MonsterID=320|
+# Spectre
+1,|MonsterID=334|
+# Wraith
+1,|MonsterID=397|
+
+;Lawful
+# Inevitable
+1,[InevitableBranch]
+
+;MagicalBeast
+# Ankheg
+1,|MonsterID=12|
+# Aranea
+1,|MonsterID=17|
+# Basilisk
+1,|MonsterID=34|
+# Behir
+1,|MonsterID=43|
+# Bulette
+1,|MonsterID=60|
+# Blink Dog
+1,|MonsterID=49|
+# Chimera
+1,|MonsterID=72|
+# Cockatrice
+1,|MonsterID=79|
+# Darkmantle
+1,|MonsterID=87|
+# Digester
+1,|MonsterID=96|
+# Displacer Beast
+1,|MonsterID=97|
+# Dragonne
+1,|MonsterID=105|
+# Ethereal Marauder
+1,|MonsterID=126|
+# Fiendish Dire Rat
+1,|MonsterID=409|
+# Frost Warm
+1,|MonsterID=138|
+# Giant Eagle
+1,|MonsterID=115|
+# Giant Owl
+1,|MonsterID=283|
+# Girallon
+1,|MonsterID=163|
+# Gorgon
+1,|MonsterID=172|
+# Gray Render
+1,|MonsterID=175|
+# Griffon
+1,|MonsterID=182|
+# Hellwasp Swarm
+1,|SwarmID=3|
+# Hippogriff
+1,|MonsterID=200|
+# Hydras
+1,[HydraBranch]
+# Kraken
+1,|MonsterID=220|
+# Krenshar
+1,|MonsterID=221|
+# Lamia
+1,|MonsterID=223|
+# Lammasu
+1,|MonsterID=224|
+# Manticore
+1,|MonsterID=239|
+# Owlbear
+1,|MonsterID=284|
+# Pegasus
+1,|MonsterID=286|
+# Phase Spider
+1,|MonsterID=288|
+# Purple Worm
+1,|MonsterID=297|
+# Remorhaz
+1,|MonsterID=308|
+# Roper
+1,|MonsterID=312|
+# Shocker Lizard
+1,|MonsterID=326|
+# Sea Cat
+1,|MonsterID=318|
+# Sphinxes
+1,[SphinxBranch]
+# Spider Eater
+1,|MonsterID=335|
+# Stirge
+1,|MonsterID=340|
+# Tarrasque
+1,|MonsterID=348|
+# Unicorn
+1,|MonsterID=367|
+# Winter Wolf
+1,|MonsterID=390|
+# Worg
+1,|MonsterID=396|
+# Yrthak
+1,|MonsterID=402|
+
+;MonstrousHumanoid
+# Centaur
+1,|MonsterID=68|
+# Derro
+1,|MonsterID=93|
+# Doppleganger
+1,|MonsterID=102|
+# Gargoyle
+1,|MonsterID=140|
+# Grimlock
+1,|MonsterID=184|
+# Hags
+1,[HagBranch]
+# Harpy
+1,|MonsterID=194|
+# Kuo-Toa
+1,|MonsterID=222|
+# Medusa
+1,|MonsterID=242|
+# Minotaur
+1,|MonsterID=250|
+# Sahuagin
+1,|MonsterID=314|
+# Yuan-ti
+1,[YuanTiBranch]
+
+;Ooze
+# Black Pudding
+1,|MonsterID=48|
+# Gelatinous Cube
+1,|MonsterID=142|
+# Gray Ooze
+1,|MonsterID=174|
+# Ochre Jelly
+1,|MonsterID=272|
+
+;Outsider
+# Ravid
+1,|MonsterID=305|
+# Random Outsider
+1,[OutsiderAir]
+1,[OutsiderChaotic]
+1,[OutsiderEvil]
+1,[OutsiderEarth]
+1,[OutsiderFire]
+1,[OutsiderGood]
+1,[OutsiderLawful]
+1,[OutsiderNative]
+1,[OutsiderWater]
+
+;OutsiderAir
+# Air Mephit
+1,|MonsterID=8|
+# Arrowhawk
+1,|MonsterID=19|
+# Diinni
+1,|MonsterID=98|
+# Dust Mephit
+1,|MonsterID=112|
+# Ice Mephit
+1,|MonsterID=213|
+
+;OutsiderChaotic
+# Chaos Beast
+1,|MonsterID=70|
+# Demons
+1,[DemonBranch]
+# Eladrins
+1,[EladrinBranch]
+# Howler
+1,|MonsterID=209|
+# Lillend
+1,|MonsterID=230|
+# Slaadi
+1,[SlaadBranch]
+# Titan
+1,|MonsterID=354|
+
+;OutsiderEvil
+# Achaierai
+1,|MonsterID=6|
+# Barghest
+1,|MonsterID=32|
+# Demons
+1,[DemonBranch]
+# Devils
+1,[DevilBranch]
+# Hell Hound
+1,|MonsterID=196|
+# Howler
+1,|MonsterID=209|
+# Night Hag
+1,|MonsterID=264|
+# Nightmare
+1,|MonsterID=266|
+# Rakshasa
+1,|MonsterID=300|
+# Shadow Mastiff
+1,|MonsterID=321|
+# Vargouille
+1,|MonsterID=370|
+# Xill
+1,|MonsterID=399|
+# Yeth Hound
+1,|MonsterID=401|
+
+;OutsiderEarth
+# Earth Mephit
+1,|MonsterID=117|
+# Salt Mephit
+1,|MonsterID=316|
+# Xorn
+1,|MonsterID=400|
+
+;OutsiderFire
+# Azer
+1,|MonsterID=24|
+# Efreeti
+1,|MonsterID=118|
+# Hell Hound
+1,|MonsterID=196|
+# Fire Mephit
+1,|MonsterID=132|
+# Magma Mephit
+1,|MonsterID=236|
+# Steam Mephit
+1,|MonsterID=339|
+# Rast
+1,|MonsterID=301|
+# Salamanders
+1,|MonsterID=315|
+
+;OutsiderGood
+# Angels
+1,[AngelBranch]
+# Archons
+1,[ArchonBranch]
+# Eladrins
+1,[EladrinBranch]
+# Guardinals
+1,[GuardinalBranch]
+# Lillend
+1,|MonsterID=230|
+# Titan
+1,|MonsterID=354|
+
+;OutsiderLawful
+# Achaierai
+1,|MonsterID=6|
+# Archons
+1,[ArchonBranch]
+# Barghest
+1,|MonsterID=32|
+# Devils
+1,[DevilBranch]
+# Formians
+1,|MonsterID=135|
+# Hell Hound
+1,|MonsterID=196|
+# Rakshasa
+1,|MonsterID=300|
+# Xill
+1,|MonsterID=399|
+
+;OutsiderNative
+# Aasimar
+1,|MonsterID=1|
+# Couatl
+1,|MonsterID=82|
+# Janni
+1,|MonsterID=217|
+# Tiefling
+1,|MonsterID=351|
+# Rakshasa
+1,|MonsterID=300|
+# Triton
+1,|MonsterID=359|
+
+;OutsiderWater
+# Ooze Mephit
+1,|MonsterID=278|
+# Water Mephit
+1,|MonsterID=375|
+# Trojanidas
+1,|MonsterID=356|
+# Triton
+1,|MonsterID=359|
+
+;Plant
+# Assassin Vine
+1,|MonsterID=20|
+# Phantom Fungus
+1,|MonsterID=287|
+# Shambling Mound
+1,|MonsterID=322|
+# Shrieker
+1,|MonsterID=327|
+# Tendriculos
+1,|MonsterID=349|
+# Treant
+1,|MonsterID=357|
+# Violet Fungus
+1,|MonsterID=371|
+
+;Reptilian
+# Kobold
+1,|MonsterID=218|
+# Lizardfolk
+1,|MonsterID=234|
+# Troglodyte
+1,|MonsterID=360|
+
+;Shapechanger
+# Aranea
+1,|MonsterID=17|
+# Barghest
+1,|MonsterID=32|
+# Doppelganger
+1,|MonsterID=102|
+# Lycanthropes
+1,[LycanthropeBranch]
+# Mimic
+1,|MonsterID=247|
+# Phasm
+1,|MonsterID=289|
+
+;Undead
+# Allip
+1,|MonsterID=9|
+# Bodak
+1,|MonsterID=54|
+# Devourer
+1,|MonsterID=95|
+# Ghast
+1,|MonsterID=145|
+# Ghost
+1,|MonsterID=146|
+# Ghoul
+1,|MonsterID=147|
+# Lich
+1,|MonsterID=229|
+# Mohrg
+1,|MonsterID=251|
+# Mummy
+1,|MonsterID=259|
+# Mummy Lord
+1,|MonsterID=260|
+# Nightshades
+1,[NightShadeBranch]
+# Shadow
+1,|MonsterID=320|
+# Skeletons
+1,|MonsterID=329|
+# Spectre
+1,|MonsterID=334|
+# Vampire
+1,|MonsterID=368|
+# Vampire Spawn
+1,|MonsterID=369|
+# Wight
+1,|MonsterID=387|
+# Wraith
+1,|MonsterID=397|
+# Zombie
+1,|MonsterID=404|
+
+;Vermin
+# Centipede Swarm
+1,|SwarmID=2|
+# Giant Insects
+1,[GiantInsectBranch]
+# Locust Swarm
+1,|SwarmID=4|
+# Monstrous Centipedes
+1,|MonsterID=254|
+# Monstrous Scorpions
+1,|MonsterID=255|
+# Monstrous Spiders
+1,|MonsterID=256|
+# Spider Swarm
+1,|SwarmID=6|
+
+;Water
+# Black Dragon
+1,|DragonFlag=1||DragonType=1|
+# Bronze Dragon
+1,|DragonFlag=1||DragonType=7|
+# Ooze Mephit
+1,|MonsterID=278|
+# Water Mephit
+1,|MonsterID=375|
+
+# ***************************** Variant Branches *********************************
+
+;AngelBranch
+# Astral Deva Angel
+1,|MonsterID=21|
+# Planatar Angel
+1,|MonsterID=292|
+# Solar Angel
+1,|MonsterID=333|
+
+;AnimalBranch
+# Ape
+1,|MonsterID=14|
+# Baboon
+1,|MonsterID=26|
+# Badger
+1,|MonsterID=27|
+# Bat
+1,|MonsterID=35|
+# Black Bear
+1,|MonsterID=37|
+# Brown Bear
+1,|MonsterID=38|
+# Polar Bear
+1,|MonsterID=40|
+# Bison
+1,|MonsterID=46|
+# Boar
+1,|MonsterID=52|
+# Camel
+1,|MonsterID=62|
+# Cat
+1,|MonsterID=64|
+# Cheetah
+1,|MonsterID=71|
+# Crocodile
+1,|MonsterID=83|
+# Giant Crocodile
+1,|MonsterID=153|
+# Dog
+1,|MonsterID=99|
+# Riding Dog
+1,|MonsterID=100|
+# Donkey
+1,|MonsterID=101|
+# Eagle
+1,|MonsterID=114|
+# Elephant
+1,|MonsterID=122|
+# Hawk
+1,|MonsterID=195|
+# Horse
+1,|MonsterID=206|
+# Hyena
+1,|MonsterID=211|
+# Leopard
+1,|MonsterID=228|
+# Lion
+1,|MonsterID=231|
+# Lizard
+1,|MonsterID=233|
+# Monitor Lizard
+1,|MonsterID=252|
+# Manta Ray
+1,|MonsterID=238|
+# Monkey
+1,|MonsterID=253|
+# Mule
+1,|MonsterID=258|
+# Octopus
+1,|MonsterID=273|
+# Giant Octopus
+1,|MonsterID=156|
+# Owl
+1,|MonsterID=282|
+# Pony
+1,|MonsterID=293|
+# War Pony
+1,|MonsterID=293|
+# Porpoise
+1,|MonsterID=294|
+# Rat
+1,|MonsterID=302|
+# Raven
+1,|MonsterID=304|
+# Rhinocerous
+1,|MonsterID=310|
+# Shark
+1,|MonsterID=323|
+# Snake
+1,[SnakeBranch]
+# Squid
+1,|MonsterID=338|
+# Giant Squid
+1,|MonsterID=159|
+# Tiger
+1,|MonsterID=352|
+# Toad
+1,|MonsterID=355|
+# Weasel
+1,|MonsterID=377|
+# Whale
+1,[WhaleBranch]
+# Wolf
+1,|MonsterID=391|
+# Wolverine
+1,|MonsterID=393|
+
+;ArchonBranch
+# Lantern Archon
+1,|MonsterID=225|
+# Hound Archon
+1,|MonsterID=207|
+# Hound Archon Hero
+1,|MonsterID=208|
+# Trumpet Archon
+1,|MonsterID=364|
+
+;DemonBranch
+# Babau Demon
+1,|MonsterID=25|
+# Balor Demon
+1,|MonsterID=30|
+# Bebilith Demon
+1,|MonsterID=42|
+# Dretch Demon
+1,|MonsterID=107|
+# Glabrezu Demon
+1,|MonsterID=166|
+# Hezrou Demon
+1,|MonsterID=198|
+# Marilith Demon
+1,|MonsterID=240|
+# Nalfeshnee Demon
+1,|MonsterID=262|
+# Quasit Demon
+1,|MonsterID=299|
+# Retriever Demon
+1,|MonsterID=309|
+# Succubus Demon
+1,|MonsterID=344|
+# Vrock Demon
+1,|MonsterID=373|
+
+;DevilBranch
+# Barbed Devil
+1,|MonsterID=31|
+# Bearded Devil
+1,|MonsterID=41|
+# Bone Devil
+1,|MonsterID=55|
+# Chain Devil
+1,|MonsterID=69|
+# Erinyes Devil
+1,|MonsterID=124|
+# Hellcat Devil
+1,|MonsterID=197|
+# Horned Devil
+1,|MonsterID=205|
+# Ice Devil
+1,|MonsterID=212|
+# Imp Devil
+1,|MonsterID=214|
+# Lemure Devil
+1,|MonsterID=226|
+# Pit Fiend Devil
+1,|MonsterID=290|
+
+;DinosaurBranch
+# Deinonychus
+1,|MonsterID=91|
+# Elasmosaurus
+1,|MonsterID=119|
+# Megaraptor
+1,|MonsterID=243|
+# Triceratops
+1,|MonsterID=358|
+# Tyrannosaurus
+1,|MonsterID=365|
+
+;DireAnimalBranch
+# Dire Ape
+1,|MonsterID=15|
+# Dire Badger
+1,|MonsterID=28|
+# Dire Bat
+1,|MonsterID=36|
+# Dire Bear
+1,|MonsterID=39|
+# Dire Boar
+1,|MonsterID=53|
+# Dire Lion
+1,|MonsterID=232|
+# Dire Rat
+1,|MonsterID=303|
+# Dire Shark
+1,|MonsterID=324|
+# Dire Weasel
+1,|MonsterID=378|
+# Dire Wolf
+1,|MonsterID=392|
+# Dire Wolverine
+1,|MonsterID=394|
+
+;EladrinBranch
+# Bralani
+1,|MonsterID=56|
+# Ghaele
+1,|MonsterID=144|
+
+;ElementalBranch
+# Air Elemental
+1,|MonsterID=7|
+# Earth Elemental
+1,|MonsterID=116|
+# Fire Elemental
+1,|MonsterID=130|
+# Water Elemental
+1,|MonsterID=374|
+
+;GiantBranch
+# Cloud Giant
+1,|MonsterID=78|
+# Fire Giant
+1,|MonsterID=131|
+# Frost Giant
+1,|MonsterID=136|
+# Hill Giant
+1,|MonsterID=201|
+# Stone Giant
+1,|MonsterID=341|
+# Storm Giant
+1,|MonsterID=343|
+
+;GiantInsectBranch
+# Giant Ant
+1,|MonsterID=149|
+# Giant Bee
+1,|MonsterID=150|
+# Giant Bombadier Beetle
+1,|MonsterID=151|
+# Giant Fire Beetle
+1,|MonsterID=155|
+# Giant Stag Beetle
+1,|MonsterID=160|
+# Giant Preying Mantis
+1,|MonsterID=158|
+# Giant Wasp
+1,|MonsterID=161|
+# Monstrous Centipede
+1,|MonsterID=254|
+# Monstrous Scorpion
+1,|MonsterID=255|
+# Monstrous Spider
+1,|MonsterID=256|
+
+;GolemBranch
+# Clay Golem
+1,|MonsterID=76|
+# Flesh Golem
+1,|MonsterID=133|
+# Iron Golem
+1,|MonsterID=216|
+# Stone Golem
+1,|MonsterID=342|
+
+;GuardinalBranch
+# Avoral
+1,|MonsterID=23|
+# Leonal
+1,|MonsterID=227|
+
+;HagBranch
+# Annis Hag
+1,|MonsterID=13|
+# Green Hag
+1,|MonsterID=179|
+# Sea Hag
+1,|MonsterID=319|
+# Night Hag
+1,|MonsterID=264|
+
+;HydraBranch
+# Cryohydra
+1,|MonsterID=85|
+# Hydra
+1,|MonsterID=210|
+# Pyrohydra
+1,|MonsterID=298|
+
+;InevitableBranch
+# Kolyarut
+1,|MonsterID=219|
+# Marut
+1,|MonsterID=241|
+# Zelekhut
+1,|MonsterID=219|
+
+;LycanthropeBranch
+# Werebear
+1,|MonsterID=379|
+# Wereboar
+1,|MonsterID=380|
+# Wererat
+1,|MonsterID=381|
+# Weretiger
+1,|MonsterID=382|
+# Werewolf
+1,|MonsterID=383|
+# Werewolf Lord
+1,|MonsterID=384|
+# Hill Giant Dire Wereboar
+1,|MonsterID=202|
+
+;NagaBranch
+# Dark Naga
+1,|MonsterID=86|
+# Guardian Naga
+1,|MonsterID=185|
+# Spirit Naga
+1,|MonsterID=336|
+# Water Naga
+1,|MonsterID=376|
+
+;NightShadeBranch
+# Nightcrawler
+1,|MonsterID=265|
+# Nightwalker
+1,|MonsterID=268|
+# Nightwing
+1,|MonsterID=269|
+
+;SlaadBranch
+# Red Slaad
+1,|MonsterID=307|
+# Blue Slaad
+1,|MonsterID=51|
+# Green Slaad
+1,|MonsterID=180|
+# Gray Slaad
+1,|MonsterID=176|
+# Death Slaad
+1,|MonsterID=88|
+
+;SnakeBranch
+# Constrictor Snake
+1,|MonsterID=80|
+# Giant Constrictor Snake
+1,|MonsterID=152|
+# Viper Snake
+1,|MonsterID=372|
+
+;SphinxBranch
+# Androsphinx
+1,|MonsterID=10|
+# Criosphinx
+1,|MonsterID=84|
+# Gynosphinx
+1,|MonsterID=186|
+# Hieracosphinx
+1,|MonsterID=199|
+
+:WhaleBranch
+# Baleen Whale
+1,|MonsterID=29|
+# Cachalot Whale
+1,|MonsterID=61|
+# Orca
+1,|MonsterID=280|
+
+;YuanTiBranch
+# Yuan-ti Abomination
+1,|MonsterID=4|
+# Yuan-ti Halfblood
+1,|MonsterID=192|
+# Yuan-ti Pureblood
+1,|MonsterID=296|

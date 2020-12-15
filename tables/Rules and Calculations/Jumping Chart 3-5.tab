@@ -1,0 +1,208 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder August 4, 2006.
+# ---------------------------------------------------
+#
+# Jump Computation Table
+#
+# This table will help you determine the
+# distance or height of your character's
+# jump. 
+#
+# Taken from the D&D 3.5 Edition Player's Handbook
+# No challenge is intended against Wizards of the Coast's Copyright
+#
+#
+
+
+/OverrideRolls 1
+
+%Name%,Mona
+%SpeedCalc%,0
+%Speed%,0
+%SpeedBonus%,0
+%RunBonus%,0
+%RacialBonus%,0
+%Size%,5
+%JUMP%,0
+%MidJumpHeight%,0
+%Grab%,0
+%CR%,0
+%ArmorCheck%,0
+%JumpRank%,1
+
+%JumpDist%,0
+%temp1%,0
+%temp2%,0
+%temp3%,yes
+%temp4%,No
+%roll%,1
+%min_roll%,1
+%max_roll%,1
+%Skill%,0
+%feet%,0
+%inches%,0
+%Instructions%,1
+%x%,0
+%y%,0
+%Runfeat%,2
+
+# ---------------------------------------------------------------
+# Parameters
+
+@Name,Your name,Enter your character's name.
+@Size,5,Enter your character's size.,Fine,Diminuative,Tiny,Small,Medium,Large,Huge,Gargantuan,Colossal
+@JumpRank,1,Do you have any RANKS in the Jump skill?,No,Yes
+@Skill,0,Enter your jump skill score.(include all bonuses from race & skills & feats & magic)
+@ArmorCheck,0,Enter Armor Check penalty from armor and shield. (as a positive number)
+@Speed,30,Enter your character's speed.(current speed with all modifications)
+@Runfeat,1,Does your character have the feat RUN?,No,Yes
+@Instructions,1,Are you ready to generate your Jump table?,No,Yes
+
+# ---------------------------------------------------------------
+
+:Start
+1,{If~%Instructions%=1? [Instructions]/[GenerateResults1]}
+
+
+:Instructions
+1,<h3>Instructions:</h3>
+_There are eight (8) parameters to set with this table in order to calculate your jump. Use the Parameter Box (below)
+_ to enter:<br><br>
+_<b>1. Character Name: </b>Your character's name.<br><br>
+_<b>2. Size: </b>Your character's racial size. This is used to calculate height of High jumps 
+_and "hopping up" on objects.<br><br>
+_<b>3. Jump Ranks: </b>If you have any Ranks in the Jump skill, answer Yes.<br><br>
+_<b>4. Skill Points: </b>Your skill points in jump including any modifiers due to Strength, race, feats, other skills
+_ and magic.
+_ For example, if your character has a jump skill of 6, you will enter a 6 here. Don't forget that a Tumble skill of 5
+_ or more gives you a +2 synergy bonus on jumps.<br><br>
+_<b>5. Armor Check Penalty: </b>Your character's Armor Check Penalty from armor and shield. (entered as a positive number)<br><br>
+_<b>6. Current Speed: </b>Your character's current speed. This includes any enhanced speed due to class, feats
+_ (except the Run feat), skills and magic. For example, if your character's speed is 30 feet, you will enter 30.
+_ If he had Boots of Springing and Striding he would enter 40 for his Current Speed.<br><br>
+_<b>7. RUN feat: </b>Enter Yes if your character has the feat RUN<br><br>
+_<b>8. Instructions?: </b>Choose YES if you are ready to run the program, NO if you want to read the instructions again.<br><br>
+_When you have entered all your parameters, click on the Die icon at the top left of the screen.
+
+# ---------------------------------------------------------------
+
+:GenerateResults1
+1,[Size=%Size%]
+_[Speed=1]
+_[RunFeat=1]<table border=0 width="750">
+_<tr><td colspan=4><b>Name:</b> %Name%<br></td></tr>
+_<tr><td colspan=4><b>Size:</b> %Size% sized creature<br></td></tr>
+_<tr>	<td><b>Current Speed:</b> %Speed%</td>
+_	<td><b>Jump Skill:</b> %Skill%</td>
+_	<td><b>Armor Check:</b> {If~%ArmorCheck%<1?0/-%ArmorCheck%}</td></tr>
+_<tr>	<td><b>Run Feat?:</b> %temp4%</td>
+_	<td><b>Jump Ranks:</b> {If~%JumpRank%=1?No/Yes}</td></tr>
+_</table><br>
+_
+_<table border=1>
+_<tr><th>Die Roll</th><th>Running Longjump*<br>(mid-jump height)<br><b>DC</b></th><th>Standing Longjump<br>(mid-jump height)</th><th>Running High Jump*<br>(Grab)**</th><th>Standing High Jump<br>(Grab)**</th></tr>
+_|min_roll=1||max_roll=20|
+_|roll=%min_roll%|
+_[Jump Loop2=1]
+_[Jump Loop]
+_</table><br><br><br><b>*</b> For a running jump, you must move (straight line) 20 feet <b>before</b> you jump.<br>
+_  
+_{If~%JumpRank%=2?If you have Ranks in jump, you land on your feet./
+_<b>If you don't have Ranks in Jump, you must EXCEED the required roll by
+_ 5 to land on your feet.<br>Otherwise you land prone.</b>}<br>
+_ If your jump distance plus the 20 feet is less than your normal movement rate, treat as a normal move. <br>
+_ Otherwise, treat as a full round action (you may complete the distance for a RUN or DOUBLE MOVE action)<br>
+_ If you FAIL your Jump check by less than 5, you can do a Reflex Save (DC=15) to grab the far edge.
+_ If that leaves you dangling, getting up requires a move action and a DC 15 Climb check.<br>
+_<b>**</b>Grabbing height is calculated from your size cagtegory.<br>
+
+:Size
+1,|Size=Fine||Grab=.5|
+2,|Size=Diminuative||Grab=1|
+3,|Size=Tiny||Grab=2|
+4,|Size=Small||Grab=4|
+5,|Size=Medium||Grab=8|
+6,|Size=Large||Grab=16|
+7,|Size=Huge||Grab=32|
+8,|Size=Gargantuan||Grab=64|
+9,|Size=Colossal||Grab=128|
+
+:RunFeat
+1,|temp4=No|{If~%Runfeat%=2?[RunFeat=2]}
+2,|temp4=Yes||RunBonus+4|
+
+:Jump Loop
+1,[Jump Loop2=1]{If~%roll%<=%max_roll%?[Jump Loop]}
+
+:Jump Loop2
+1,<tr><td align="center">%roll%</td>
+_<td align="center">[GenRunningJumpNormal=1]</td>
+_<td align="center">[GenStandJumpNormal=1]</td>
+_<td align="center">[GenRunningHighJumpNormal=1]</td>
+_<td align="center">[GenStandHighJumpNormal=1]</td>
+_|roll+1|
+#_<td>[GenJumpBackwardNormal=1]</td></tr>|roll+1|
+#2,<tr><td align="center">%roll%</td>
+#_<td>[%magic% = 0 ? GenRunningJumpNormal=2/GenRunningJumpMagic]</td>
+#_<td>[%magic% = 0 ? GenStandJumpNormal=2/GenStandJumpMagic]</td>
+#_<td>[%magic% = 0 ? GenRunningHighJumpNormal=2/GenRunningHighJumpMagic]</td>
+#_<td>[%magic% = 0 ? GenStandHighJumpNormal=2/GenStandHighJumpMagic]</td>
+#_<td>[%magic% = 0 ? GenJumpBackwardNormal=2/GenJumpBackwardMagic]</td></tr>|roll+1|
+
+
+
+#---------------------------------------------------------------------------
+#                              Speed Calculations
+#---------------------------------------------------------------------------
+:Speed
+1,|SpeedCalc=%Speed%|{If~%SpeedCalc%<30?[Speed=2]/{If~%SpeedCalc%>30?[Speed=3]}}
+2,|SpeedCalc+10||SpeedBonus-6|{If~%SpeedCalc%<30?[Speed=2]}
+3,|SpeedCalc-10||SpeedBonus+4|{If~%SpeedCalc%>30?[Speed=3]}
+
+
+#---------------------------------------------------------------------------
+#                              Their Calculations
+#---------------------------------------------------------------------------
+
+:GenRunningJumpNormal
+1,
+#figures out max distance you can jump
+_|temp1=%roll%||temp1+%Skill%||temp1+%SpeedBonus%||temp1+%RunBonus%||JUMP=%temp1%|
+_{If~%JUMP%<1?&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp/<b>DC</b>=%JUMP%}&nbsp &nbsp &nbsp%JUMP%'&nbsp &nbsp &nbsp 
+_|MidJumpHeight=%temp1%||MidJumpHeight/4||JumpDist=%MidJumpHeight%|
+_([FeetInch=1])  
+
+:GenStandJumpNormal
+1,
+_|temp1=%JUMP%||temp1/2|
+_|JumpDist=%temp1%|[FeetInch=1] &nbsp &nbsp &nbsp  
+_|MidJumpHeight=%temp1%||MidJumpHeight/4||JumpDist=%MidJumpHeight%|
+_([FeetInch=1])  
+
+:GenRunningHighJumpNormal
+1,
+_|temp1=%JUMP%||temp1/4|
+_|JumpDist=%temp1%|[FeetInch=1] &nbsp &nbsp &nbsp  
+_|JumpDist+%Grab%|([FeetInch=1]) 
+
+:GenStandHighJumpNormal
+1,
+_|temp1=%JUMP%||temp1/8|
+_|JumpDist=%temp1%|[FeetInch=1] &nbsp &nbsp &nbsp  
+_|JumpDist+%Grab%|([FeetInch=1]) 
+
+# ---------------------------------------------------------------
+
+# For TSv4, change Round~ to |y={Round~%y%,0}|
+:FeetInch
+1,|x=%JumpDist%|
+_|x={Trunc~%x%}|
+_|y=%JumpDist%|
+_|y-%x%|
+_|y*12|
+#TSv4 _|y={Round~%y%,0}|
+_|y={Round~0,%y%}|
+_%x%' %y%"
+#{If~%y%>0?[FeetInch=2]}
+2, %y%"
+

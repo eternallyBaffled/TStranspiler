@@ -1,0 +1,250 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder Dec 20, 2005.
+# ---------------------------------------------------
+#
+# Corrected by Valminder, Oct 2003
+#   -{If~} and {Dice~}
+#   -[Religion.DwarfDeities] modified to standard [Religion.Dwarf Gods]
+#
+
+:Start
+1,This table is called from another one.
+
+:Azer_Class
+01-30,cleric
+31-90,fighter
+91-100,wizard
+
+:Bandit_Leader
+01-50, level {Dice~1d3} [FR_Random_NPC.FR_Evil_Class]
+51-100, level {Dice~1d3} [FR_Random_NPC.FR_Evil_Class] and level {Dice~1d3} [FR_Random_NPC.FR_Evil_Class]
+
+:Bandit_Race
+01-70,Human
+71-100,Half orc
+
+:Bedine_Class
+01-75,fighter
+76-85,ranger
+86-90,cleric of [Religion.Deities]
+91-95,sorcerer
+96-100,wizard
+
+:Elf_Class
+01-10,cleric
+11-20,druid
+21-50,fighter
+51-75,ranger
+76-80,rogue
+81-100,wizard
+
+:Drow_Class
+01-40,cleric
+41-50,fighter
+51-55,ranger
+56-65,rogue
+66-100,wizard
+
+:Drow_Underdark_Class
+01-40,cleric
+41-60,fighter
+61-70,ranger
+71-75,rogue
+76-100,wizard
+
+:Dwarf_Class
+01-15,barbarian
+16-35,cleric of [Religion.Dwarf Gods]
+36-85,fighter
+86-90,paladin of [Religion.Dwarf Gods]
+91-95,rogue
+96-100,wizard
+
+:Dragon
+01-10,Brown, young (MoF)
+11-14,Gold, young
+15-30,Song, young (MoF)
+31-45,White, very young (clutch of {Dice~1d4+1})
+46-99,White, young adult
+100,Dracolich, white, young (FRCS)
+
+:Duergar_Class
+01-15,cleric
+16-60,fighter
+61-65,monk
+66-75,ranger
+76-90,rogue
+91-100,wizard
+
+:Goblin_Class
+01-20,cleric
+21-80,fighter
+81-100,sorcerer
+
+:GoldDwarf_Class
+01-20,cleric of [Religion.Dwarf Gods]
+21-65,fighter
+66-75,paladin of [Religion.Dwarf Gods]
+76-100,sorcerer
+
+:Halfling_Class
+01-15,cleric of [Religion.Halfling Gods]
+16-21,druid
+21-60,fighter
+61-70,ranger
+71-90,rogue
+91-100,sorcerer
+
+:Hobgoblin_Class
+01-15,cleric
+16-80,fighter
+81-90,ranger
+91-100,wizard
+
+:Kobold_Class
+01-25,cleric
+26-60,fighter
+61-90,rogue
+91-100,wizard
+
+:Lizardfolk_Class
+01-15,barbarian
+16-75,druid
+76-90,fighter
+91-100,ranger
+
+:Locathah_Class
+01-75,adept
+76-85,fighter
+86-90,barbarian
+91-100,ranger
+
+:Merchant_Leader
+01-50, level {Dice~1d4} [FR_Random_NPC.FR_Neutral_Class]
+51-100, level {Dice~1d4} [FR_Random_NPC.FR_Neutral_Class] and level {Dice~1d4} [FR_Random_NPC.FR_Neutral_Class]
+
+:Merchant_Race
+01-05,Gold dwarf
+06-10,Shield dwarf
+11-15,Moon elf
+16-20,Wood elf
+21-30,Rock gnome
+31-80,Human
+81-90,Half orc
+91-100,Halfing
+
+:Merfolk_Class
+01-40,bard
+41-50,cleric
+51-70,fighter
+71-80,rogue
+81-100,sorcerer
+
+:Militia_Race
+01-08,Gold dwarf
+09-15,Shield dwarf
+16-20,Sun elf
+21-25,Moon elf
+26-30,Wood elf
+31-35,Rock gnome
+36-85,Human
+86-93,Half orc
+94-100,Halfing
+
+:Nomad_Class
+01-05,bard
+06-40,barbarian
+41-55,cleric
+56-70,fighter
+71-90,ranger
+91-95,rogue
+96-100,sorcerer
+
+:Nomad_Leader
+01-50, level {Dice~1d4} [Nomad_Class]
+51-100, level {Dice~1d4} [Nomad_Class] and level {Dice~1d4} [Nomad_Class]
+
+:Orc_Class
+01-30,barbarian
+31-45,cleric of Gruumsh
+46-80,fighter
+81-85,ranger
+86-90,rogue
+91-100,sorcerer
+
+:Patrol_Leader
+01-50, level {Dice~1d3} [FR_Random_NPC.FR_Neutral_Class]
+51-100, level {Dice~1d3} [FR_Random_NPC.FR_Neutral_Class] and level {Dice~1d3} [FR_Random_NPC.FR_Neutral_Class]
+
+:Pilgrim_Class
+01-70,cleric
+71-95,fighter
+96-100,paladin
+
+:Pilgrim_Leader
+01-50, level {Dice~1d3} [Pilgrim_Class]
+51-100, level {Dice~1d3} [Pilgrim_Class] and level {Dice~1d3} [Pilgrim_Class]
+
+:Pilgrim_Race
+01-05,Gold dwarf
+06-10,Shield dwarf
+11-15,Moon elf
+16-20,Wood elf
+21-30,Rock gnome
+31-80,Human
+81-90,Half orc
+91-100,Halfing
+
+:Pirate_Race
+01-15,Half Orc
+16-90,Human
+91-100,Orc
+
+:Sahuagin_Class
+01-20,cleric
+21-60,fighter
+61-95,ranger
+96-100,sorcerer
+
+:Slaver_Race
+01-60,Human
+61-100,Half Orc
+
+:Shade_Leader
+01-25,Shade fighter{Dice~1d4+1}/sorcerer{Dice~1d6+2}
+26-100,human fighter{Dice~1d4+1}/sorcerer{Dice~1d6+2}
+
+:Spawn_Type
+01-10,chuul
+11-30,cloaker
+31-60,quaggoth
+61-80,minotaur
+81-100,umberhulk
+
+:Siv_Class
+01-10,cleric
+11-20,fighter
+21-85,monk
+86-90,ranger
+91-100,wizard
+
+:StrongheartHalfling_Class
+01-05,bard
+06-40,cleric of [Religion.Halfling Gods]
+41-75,fighter
+76-85,ranger
+86-95,rogue
+96-100,wizard
+
+:Troll_Class
+01-60,barbarian
+61-70,adept
+71-95,fighter
+96-100,sorcerer
+
+:Urdunnir_Class
+01-40,cleric
+41-70,fighter
+71-80,paladin
+81-90,ranger
+91-100,wizard

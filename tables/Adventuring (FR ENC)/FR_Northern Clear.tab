@@ -1,0 +1,92 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder Oct 30, 2003.
+# ---------------------------------------------------
+#
+# SMS
+# 06/23/03
+# Forgotten Realms Table 32: Northern Clear (EL 1-5) random encounter tables
+#
+# Corrected by Valminder, Oct 2003
+#   -{If~} and {Dice~}
+#
+# Variables
+
+%Time%,0
+%Temp%,0
+
+#Parameters
+
+@Time,3,Select a time of day,Day,Night,_
+
+#
+#  Starts by putting up the instructions
+#
+
+:Start
+1,{If~%Time% = 3 ? [Instructions]/[Northern Clear %Time%]}
+
+;Instructions
+1,<b>Forgotten Realms Table 32: Northern Clear (EL 1-5)</b></br></br><h3>Instructions:</h3>
+_<b>Determine whether an encounter should occur before using this table. The chance of an encounter is based on terrain type and travel (chance per hour):</b><br>
+_<table border=1><tr><th>Terrain</th><th>Normal Travel</th><th>Cautious Travel</th><th>Hiding</th></tr>
+_<tr><td>Desolate/wasteland</td><td>5/%</td><td>2/%</td><td>1/%</td></tr>
+_<tr><td>Frontier/wilderness</td><td>8/%</td><td>4/%</td><td>2/%</td></tr>
+_<tr><td>Verdant/civilized area</td><td>10/%</td><td>5/%</td><td>2/%</td></tr>
+_<tr><td>Heavily traveled</td><td>12/%</td><td>6/%</td><td>3/%</td></tr>
+_</table>
+_<ul><li>Use the Parameter Box (below) to indicate whether it is day or night. Selecting "_" will show these instructions.</li>
+_<li>This table applies to all Northern Clear areas in the Realms (so there is no need to input a region)</li></ul><br>
+
+# 1 corresponds to time="Day"
+:Northern Clear 1
+01-08,Bandits, [FR_Misc.Bandit_Race] (usually Chaotic Evil): {Dice~1d3+1} 1st level warriors led by [FR_Misc.Bandit_Leader]
+09-10,{Dice~1d4} Dire rat
+11,Doppelganger
+12-14,Gargoyle
+15-17,Goblin raiders: {Dice~1d3+2} goblins, led by level {Dice~1d3} goblin fighter, all mounted on worgs
+18,Hell hound
+19-20,{Dice~1d6+3} Kobold
+21-33,<b>NPCs:</b><br>{Loop~{Dice~1d3+2},[FR_Random_NPC.FR_SM_NPC]}
+34-43,[FR_Misc.Merchant_Race] Merchants: {Dice~2d4} 1st level commoners, {Dice~2d4} 1st level warriors, led by [FR_Misc.Merchant_Leader]
+44-53,[FR_Misc.Militia_Race] Militia: {Dice~1d4+4} 1st level warriors
+54-67,[FR_Misc.Militia_Race] Patrol: {Dice~1d3+1} 1st level fighters led by [FR_Misc.Patrol_Leader]
+68-71,[FR_Misc.Pilgrim_Race] Pilgrims: {Dice~3d4} 1st level commoners, {Dice~2d4} 1st level warriors, led by [FR_Misc.Pilgrim_Leader]
+72-74,[FR_Misc.Slaver_Race] Slavers (usually Neutral Evil): {Dice~1d4+2} 1st level warriors, {Dice~1d2} level {Dice~1d3} fighters, {Dice~1d2} level {Dice~1d3} rogues, and {Dice~2d8} captives (1st level commoners)
+75-77,Snow tiger or Red tiger: (Red tiger is found from the Nether Mtns to the Spine of the World, the Snow tiger is found in Rashemen and its coloring changes with the seasons) 
+78-79,Wereboar
+80-85,{Dice~1d2} Wererat
+86-87,Werewolf
+88-95,{Dice~1d4} Wolf
+96-100,{Dice~1d2} Worg
+
+# 2 corresponds to time="Night"
+:Northern Clear 2
+01,Allip
+02-06,Bandits, [FR_Misc.Bandit_Race] (usually Chaotic Evil): {Dice~1d3+1} 1st level warriors led by [FR_Misc.Bandit_Leader]
+07,Baneguard (MoF)
+08-12,{Dice~1d4} Dire rat
+13-18,Doppelganger
+19,Dread Warrior (MoF)
+20-21,Gargoyle
+22,Ghast
+23-24,{Dice~1d6} Ghoul
+25-29,Goblin raiders: {Dice~1d3+2} goblins, led by level {Dice~1d3} goblin fighter, all mounted on worgs
+30-31,Hell hound
+32-36,{Dice~1d6+3} Kobold
+37-47,<b>NPCs:</b><br>{Loop~{Dice~1d3+2},[FR_Random_NPC.FR_SM_NPC]}
+48-53,[FR_Misc.Militia_Race] Militia: {Dice~1d4+4} 1st level warriors
+54-58,{Dice~1d2} Ogre
+59-66,{Dice~1d3+1} Orc
+67-72,[FR_Misc.Militia_Race] Patrol: {Dice~1d3+1} 1st level fighters led by [FR_Misc.Patrol_Leader]
+73-74,Spectral Panther (MoF)
+75-76,{Dice~1d6} Skeleton, medium
+77-78,[FR_Misc.Slaver_Race] Slavers (usually Neutral Evil): {Dice~1d4+2} 1st level warriors, {Dice~1d2} level {Dice~1d3} fighters, {Dice~1d2} level {Dice~1d3} rogues, and {Dice~2d8} captives (1st level commoners)
+79,Snow tiger or Red tiger: (Red tiger is found from the Nether Mtns to the Spine of the World, the Snow tiger is found in Rashemen and its coloring changes with the seasons) 
+80,{Dice~1d2} Vampire spawn
+81-82,Wereboar
+83-88,{Dice~1d2} Wererat
+89-93,Werewolf
+94,{Dice~1d2} Wight
+95-97,{Dice~1d4} Wolf
+98-99,{Dice~1d2} Worg
+100,{Dice~1d4+1} Zombie, medium

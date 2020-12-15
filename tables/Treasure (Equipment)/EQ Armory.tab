@@ -1,0 +1,939 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder August 28, 2006.
+# ---------------------------------------------------
+#
+# Armor & Shields
+#
+# Sean Hlousek
+#
+# -------------------------------------------------------------------------
+#
+# To call this table from another one:
+#    [EQ Armory.Generate(%Rolls%,%GenItem%)
+#
+#    Parameters: (%Rolls%,%GenItem%)
+#
+#    Rolls:    (1) Enter the number of items needed.
+#    Gen Item: (9) 1= Armors (Mundane)
+#                  2= Shields (Mundane)
+#                  3= Armors and Shields (Mundane)
+#                  4= Armor (Magical)
+#                  5= Shields (Magical)
+#                  6= Armor and Shields (Magical)
+#                  7= Armors (Mundane and Magical)
+#                  8= Shields (Mundane and Magical)
+#                  9= All
+#
+# -------------------------------------------------------------------------
+#
+# Modified by Valminder, August  2006.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+#    I heavily modified this table. I could modify it more by
+#       removing all the variables for the cost, but it would
+#       be too long. For now, it works fine.
+#    The final price need to be adjusted for some items, but it
+#       seems relatively OK.
+#    I diminished the price variation in [Store].
+#    Cost of Items: Put the cost in GP, the output will modify it
+#       for gp, sp, or cp.
+#       1 sp = 0.1 gp
+#       1 cp = 0.01 gp
+#
+
+%Armor:Padded%,5
+%Armor:Leather%,10
+%Armor:StuddedLeather%,25
+%Armor:ChainShirt%,100
+%Armor:Hide%,15
+%Armor:ScaleMail%,50
+%Armor:Chainmail%,150
+%Armor:Breastplate%,200
+%Armor:Splint%,200
+%Armor:Bandedmail%,250
+%Armor:Half-Plate%,600
+%Armor:FullPlate%,1500
+%Buckler%,15
+%LightWoodenShield%,3
+%LightSteelShield%,9
+%HeavyWoodenShield%,7
+%HeavySteelShield%,20
+%TowerShield%,30
+%PaddedArmor+1%,1155
+%PaddedArmor+2%,4155
+%PaddedArmor+3%,9155
+%PaddedArmor+4%,16155
+%PaddedArmor+5%,25155
+%LeatherArmor+1%,1160
+%LeatherArmor+2%,4160
+%LeatherArmor+3%,9160
+%LeatherArmor+4%,16160
+%LeatherArmor+5%,25160
+%StuddedLeatherArmor+1%,1175
+%StuddedLeatherArmor+2%,4175
+%StuddedLeatherArmor+3%,9175
+%StuddedLeatherArmor+4%,16175
+%StuddedLeatherArmor+5%,25175
+%Chainshirt+1%,1250
+%Chainshirt+2%,4250
+%Chainshirt+3%,9250
+%Chainshirt+4%,16250
+%Chainshirt+5%,25250
+%HideArmor+1%,1165
+%HideArmor+2%,4165
+%HideArmor+3%,9165
+%HideArmor+4%,16165
+%HideArmor+5%,25165
+%ScaleMail+1%,1200
+%ScaleMail+2%,4200
+%ScaleMail+3%,9200
+%ScaleMail+4%,16200
+%ScaleMail+5%,25200
+%ChainMail+1%,1300
+%ChainMail+2%,4300
+%ChainMail+3%,9300
+%ChainMail+4%,16300
+%ChainMail+5%,25300
+%Breastplate+1%,1350
+%Breastplate+2%,4350
+%Breastplate+3%,9350
+%Breastplate+4%,16350
+%Breastplate+5%,25350
+%SplintMail+1%,1350
+%SplintMail+2%,4350
+%SplintMail+3%,9350
+%SplintMail+4%,16350
+%SplintMail+5%,25350
+%BandedMail+1%,1400
+%BandedMail+2%,4400
+%BandedMail+3%,9400
+%BandedMail+4%,16400
+%BandedMail+5%,25400
+%Half-Plate+1%,1750
+%Half-Plate+2%,4750
+%Half-Plate+3%,9750
+%Half-Plate+4%,16750
+%Half-Plate+5%,25750
+%FullPlate+1%,2650
+%FullPlate+2%,5650
+%FullPlate+3%,10650
+%FullPlate+4%,17650
+%FullPlate+5%,26650
+%Buckler+1%,1165
+%Buckler+2%,4165
+%Buckler+3%,9165
+%Buckler+4%,16165
+%Buckler+5%,25165
+%LightWoodenShield+1%,1153
+%LightWoodenShield+2%,4153
+%LightWoodenShield+3%,9153
+%LightWoodenShield+4%,16153
+%LightWoodenShield+5%,25153
+%LightSteelShield+1%,1159
+%LightSteelShield+2%,4159
+%LightSteelShield+3%,9159
+%LightSteelShield+4%,16159
+%LightSteelShield+5%,25159
+%HeavyWoodenShield+1%,1157
+%HeavyWoodenShield+2%,4157
+%HeavyWoodenShield+3%,9157
+%HeavyWoodenShield+4%,16157
+%HeavyWoodenShield+5%,25157
+%HeavySteelShield+1%,1170
+%HeavySteelShield+2%,4170
+%HeavySteelShield+3%,9170
+%HeavySteelShield+4%,16170
+%HeavySteelShield+5%,25170
+%TowerShield+1%,1180
+%TowerShield+2%,4180
+%TowerShield+3%,9180
+%TowerShield+4%,16180
+%TowerShield+5%,25180
+%ElvenChain%,4150
+%DwarvenPlate%,16500
+%BandedMailofLuck%,18900
+%CelestialArmor%,22400
+%PlateMailoftheDeep%,24650
+%BreastplateofCommand%,25400
+%DemonArmor%,52260
+%ArmoroftheDreadEmperor%,14650
+%FleshshifterArmor%,13160
+%GrimDefender%,11350
+%RazorArmor%,5600
+%Laeral'sStormArmor%,66650
+%StormArmoroftheEarth'sChildren%,111650
+%ArmorofWeaponCreation%,21555
+%BaleEye%,19805
+%Disarmor%,10875
+%Gazebane%,37150
+%Plantbane%,41240
+%SkinPaint%,5000
+%Stonecunning%,16890
+%TessellatedArmor%,11560
+%VampireHunter%,50200
+%AngelicArmor%,22650
+%Mormo'sEmbrace%,30300
+%ArmoroftheShadowGoddess%,38175
+%GrayIronwoodSuit%,137650
+%Eqerry'sArmor%,10670
+%BlueArmoroftheCrystalmistMountains%,20960
+%GoldenApron%,22200
+%RedDragonArmor%,35200
+%SplintMailofStability%,5845
+%BarbarianArmoroftheBull%,8485
+%BarbarianArmor-Beserker'sMail%,19550
+%BardicArmor-ScaleoftheTroubadour%,8920
+%ClericalArmor-BlessedMail%,5400
+%ClericalArmor-SaintlyMantleofthePenitent%,24000
+%ClericalArmor-SaintlyMantleofthePure%,24000
+%ClericalArmor-SaintlyMantleoftheHumble%,24000
+%ClericalArmor-SaintlyMantleoftheBlessed%,24000
+%ClericalArmor-SaintlyMantleoftheHoly%,24000
+%ClericalArmor-SaintlyMantleoftheRighteous%,24000
+%DruidicArmor-FuriousVestment%,9200
+%Fighter'sArmor-ValiantBreastplate%,12350
+%Monk'sArmor-SashoftheMaster%,32000
+%Monk'sArmor-TunicofVividHarmony%,16500
+%Paladin'sArmor-ArmorofFaith%,19650
+%Ranger'sArmor-CloakoftheWolf%,10160
+%Rogue'sArmor-SubdermalArmor+1%,9000
+%Rogue'sArmor-SubdermalArmor+2%,16000
+%Rogue'sArmor-SubdermalArmor+3%,25000
+%Rogue'sArmor-SubdermalArmor+4%,36000
+%Rogue'sArmor-SubdermalArmor+5%,49000
+%ArcaneSpellcaster'sArmor-RobeofFocusing%,25895
+%ArcaneSpellcaster'sArmor-TangledWeb%,33610
+%LeggingsofSpeed%,24000
+%LeggingsofBalance%,12000
+%LeggingsofMobility%,56000
+%ArmoroftheWilderness%,27175
+%Banderskin%,33165
+%BattlePlate%,92650
+%BlurArmor%,11960
+%FalconSpaulders%,25000
+%MirroredGadlings%,2160
+%BracingGadlings%,2160
+%GadlingsoftheCheetah%,2160
+%GadlingsogResistance%,1080
+%HelmofEyes%,45910
+%MantleofLight%,134900
+%OrleofDominion%,22875
+%OwlGorget%,13800
+%SycophantArmor+1%,3500
+%SycophantArmor+2%,7000
+%SycophantArmor+3%,10500
+%SycophantArmor+4%,14000
+%SycophantArmor+5%,18000
+%SycophantArmor+6%,22500
+%SycophantArmor+7%,28000
+%SycophantArmor+8%,38000
+%SycophantArmor+9%,49000
+%SycophantArmor+10%,70000
+%SycophantArmor+11%,90000
+%SycophantArmor+12%,120000
+%ValkyrieArmor%,28010
+%WereArmor%,18300
+%Caster'sShield%,3153
+%SpinedShield%,5580
+%Lion'sShield%,9170
+%WingedShield%,40000
+%AbsorbingShield%,50170
+%ArmShield%,4170
+%ForceBuckler%,6165
+%ShieldoftheArcaneSentinel%,22030
+%PalisadeShield%,8180
+%ShieldofMissileCapturing%,16307
+%ShieldofMadriel'sFaith%,17670
+%SpiderShield%,20489
+%SwarmShield%,6160
+%VaribleShield%,6560
+%CormyrianGreatshield%,4670
+%Laeral'sSpellShield%,9170
+%ShieldofVigilance%,9170
+%BarricadeBuckler%,4165
+
+### Was %Base%
+%PercentGPMod%,1
+### This is the Store modifier on all its prices 70% to 200% (normal 95% - 105%)
+%STVR%,0
+### How many items to roll
+%Rolls%,0
+#### Was %Base1%
+%MagicalGPMod%,0
+
+# New variables Aug 2006.
+%Item%,0
+# Put Book=2 in the item's description if you do not want books to appear.
+%Book%,0
+%Cost%,0
+%Condition%,0
+%GenItem%,0
+# 1= Mundane Item, 2= Magical Item
+%Magic%,1
+%MWGPMod%,0
+%ArmorSizeMod%,1
+# To be used with "EQ_Main.tab"
+%GetData%,0
+%DataName%,0
+%DataPercentMod%,0
+%SpecialEffect%,0
+%BodySize%,0
+%MoneyType%,gp
+%Temp%,0
+
+@Rolls,10,How many Items are in this Shop?
+@GenItem,9,What do you want to generate,Armors (Mundane),Shields (Mundane),Armors and Shields (Mundane),Armor (Magical),Shields (Magical),Armor and Shields (Magical),Armors (Mundane and Magical),Shields (Mundane and Magical),All
+
+:Start
+1,{Status~By Sean Hlousek, Valminder 2006}[Generate]
+
+:Generate
+1,|STVR=1|[Store]
+#_[Multiplier]
+_{Loop~%Rolls%,|BodySize=1||PercentGPMod=0||MagicalGPMod=0||Magic=1||MWGPMod=0||ArmorSizeMod=1||SpecialEffect=0|
+_[ArmorMaster=%GenItem%][Print=%Magic%]
+_{If~%Rolls%>1?<br>}}
+
+:Print
+1,<b>Item:</b> <i><font color="Purple">%Item%</font></i>[Print2]
+2,<b>Item:</b> <i><font color="Blue">(Magic) %Item%</font></i>[Print2]
+
+:Print2
+1,{If~%SpecialEffect%!=0? [PrintExtraMW]}
+_{IIf~%Book%!=2?  <font size=1>(%Book%)</font>}
+#If you do not want BodySize for everything put |BodySize=0| above and |BodySize=1| in item's description.
+_{If~%BodySize%=1? ([BodySize] size)}
+_|Cost+%MagicalGPMod%||Cost+%MWGPMod%|{If~%Magic%=1?|Cost*%ArmorSizeMod%|}
+_[Calculate Cost]
+_ (%Condition%, [AddComma.Start(%Cost%)] %MoneyType%)
+
+:PrintExtraMW
+1,<u>Extra MW Effect</u>: %SpecialEffect%.
+
+# This will give a modifier to the cost of the items.
+;Store
+2,|STVR-{Calc~({Dice~1d10+20}/100)}|
+4,|STVR-{Calc~({Dice~1d10+10}/100)}|
+8,|STVR-{Calc~({Dice~1d10+5}/100)}|
+15,|STVR-{Calc~({Dice~1d5}/100)}|
+70,|STVR=1|
+30,|STVR+{Calc~({Dice~1d5}/100)}|
+15,|STVR+{Calc~({Dice~1d10+5}/100)}|
+8,|STVR+{Calc~({Dice~1d10+10}/100)}|
+4,|STVR+{Calc~({Dice~1d15+20}/100)}|
+2,|STVR+{Calc~({Dice~1d25+35}/100)}|
+1,|STVR+{Calc~({Dice~1d50+50}/100)}|
+
+:Multiplier
+1,Price Multiplier: %STVR%<br>
+
+:Calculate Cost
+1,|Cost={Calc~((%STVR%+%PercentGPMod%)*%Cost%)}|
+_{If~%Cost%>=5?|Cost={Trunc~%Cost%}||MoneyType=gp|}
+_{If~{And~%Cost%>=1,%Cost%<5}=1?{If~%Cost%={Trunc~%Cost%}?|MoneyType=gp|/|Cost={Round~1,%Cost%}||Cost*10||MoneyType=sp|}}
+_{If~%Cost%<0.1?|Cost*100||Cost={Trunc~%Cost%}|{If~%Cost%=0?|Cost=1|}|MoneyType=cp|/{If~%Cost%<1?|Cost*10||Cost={Trunc~%Cost%}|{If~%Cost%=0?|Cost=1|}|MoneyType=sp|}}
+
+:ArmorMaster
+1,[Armor]
+2,[Shields]
+3,[ArmorMaster_Arm_Shi]
+4,|Magic=2|[MagicArmor]
+5,|Magic=2|[MagicShields]
+6,|Magic=2|[MagicArmor&Shields]
+7,[Armor_Mun_Mag]
+8,[Shield_Mun_Mag]
+9,[ArmorMaster_All]
+
+;ArmorMaster_Arm_Shi
+75,[Armor]
+25,[Shields]
+
+;ArmorMaster_All
+75,[Armor]
+20,[Shields]
+5,|Magic=2|[MagicArmor&Shields]
+
+;Armor_Mun_Mag
+90,[Armor]
+10,|Magic=2|[MagicArmor]
+
+;Shield_Mun_Mag
+90,[Shields]
+10,|Magic=2|[MagicShields]
+
+# --------------------------------------------------------------------
+# Armors and Shields
+
+;Armor
+30,|Item=Padded Armor.</font></i>[AnyExtrasMundane]||Book=PHB3.5||Condition=[ArmorCondition]||Cost=%Armor:Padded%|
+60,|Item=Leather Armor</font></i> made out of [HiltMaterial].[AnyExtrasMundane]||Book=PHB3.5||Condition=[ArmorCondition]||Cost=%Armor:Leather%|
+40,|Item=Studded Leather Armor</font></i> made out of [HiltMaterial].[AnyExtrasMundane]||Book=PHB3.5||Condition=[ArmorCondition]||Cost=%Armor:StuddedLeather%|
+30,|Item=Chain Shirt Armor</font></i> [WeaponMetals].[AnyExtrasMundane]||Book=PHB3.5||Condition=[ArmorCondition]||Cost=%Armor:ChainShirt%|
+50,|Item=Hide Armor</font></i> [HideKindMundane].[AnyExtrasMundane]||Book=PHB3.5||Condition=[ArmorCondition]||Cost=%Armor:Hide%|
+30,|Item=Scale Mail Armor</font></i> [WeaponMetals].[AnyExtrasMundane]||Book=PHB3.5||Condition=[ArmorCondition]||Cost=%Armor:ScaleMail%|
+30,|Item=Chainmail Armor</font></i> [WeaponMetals].[AnyExtrasMundane]||Book=PHB3.5||Condition=[ArmorCondition]||Cost=%Armor:Chainmail%|
+10,|Item=Breastplate Armor</font></i> [WeaponMetals].[AnyExtrasMundane]||Book=PHB3.5||Condition=[ArmorCondition]||Cost=%Armor:Breastplate%|
+15,|Item=Splint Armor</font></i> [WeaponMetals].[AnyExtrasMundane]||Book=PHB3.5||Condition=[ArmorCondition]||Cost=%Armor:Splint%|
+20,|Item=Banded mail Armor</font></i> [WeaponMetals].[AnyExtrasMundane]||Book=PHB3.5||Condition=[ArmorCondition]||Cost=%Armor:Bandedmail%|
+10,|Item=Half-Plate Armor</font></i> [WeaponMetals].[AnyExtrasMundane]||Book=PHB3.5||Condition=[ArmorCondition]||Cost=%Armor:Half-Plate%|
+5,|Item=Full Plate Armor</font></i> [WeaponMetals].[AnyExtrasMundane]||Book=PHB3.5||Condition=[ArmorCondition]||Cost=%Armor:FullPlate%|
+
+;Shields
+30,|Item=Buckler</font></i> [WoodOrSteel].[AnyExtrasMundane]||Book=PHB3.5||Condition=[ArmorCondition]||Cost=%Buckler%|
+20,|Item=Light Wooden Shield</font></i> It is made of [Woods].[AnyExtrasMundane]||Book=PHB3.5||Condition=[ArmorCondition]||Cost=%LightWoodenShield%|
+10,|Item=Light Steel Shield</font></i> [WeaponMetals].[AnyExtrasMundane]||Book=PHB3.5||Condition=[ArmorCondition]||Cost=%LightSteelShield%|
+10,|Item=Heavy Wooden Shield</font></i> It is made of [Woods].[AnyExtrasMundane]||Book=PHB3.5||Condition=[ArmorCondition]||Cost=%HeavyWoodenShield%|
+5,|Item=Heavy Steel Shield</font></i> [WeaponMetals].[AnyExtrasMundane]||Book=PHB3.5||Condition=[ArmorCondition]||Cost=%HeavySteelShield%|
+5,|Item=Tower Shield</font></i> [WoodOrSteel].[AnyExtrasMundane]||Book=PHB3.5||Condition=[ArmorCondition]||Cost=%TowerShield%|
+
+# ----------------------------------------------------------------------------
+# Magical Armors and Shields
+
+;MagicArmor&Shields
+70,[NormalMagicArmor]
+20,[SpecialMagicArmor]
+9,[NormalMagicShields]
+1,[SpecialMagicShields]
+
+;MagicArmor
+70,[NormalMagicArmor]
+20,[SpecialMagicArmor]
+
+;MagicShields
+9,[NormalMagicShields]
+1,[SpecialMagicShields]
+
+:NormalMagicArmor
+1,[MagicalArmorType]
+
+;MagicalArmorType
+25,|Item=Padded Armor +1</font></i>[AnyExtrasMA][SAArmor]||Book=DMG3.5||Condition=Masterwork||Cost=%PaddedArmor+1%|
+15,|Item=Padded Armor +2</font></i>[AnyExtrasMA][SAArmor]||Book=DMG3.5||Condition=Masterwork||Cost=%PaddedArmor+2%|
+10,|Item=Padded Armor +3</font></i>[AnyExtrasMA][SAArmor]||Book=DMG3.5||Condition=Masterwork||Cost=%PaddedArmor+3%|
+5,|Item=Padded Armor +4</font></i>[AnyExtrasMA][SAArmor]||Book=DMG3.5||Condition=Masterwork||Cost=%PaddedArmor+4%|
+2,|Item=Padded Armor +5</font></i>[AnyExtrasMA][SAArmor]||Book=DMG3.5||Condition=Masterwork||Cost=%PaddedArmor+5%|
+30,|Item=Leather Armor +1</font></i> made out of [HiltMaterial].[AnyExtrasMA][SAArmor]||Book=DMG3.5||Condition=Masterwork||Cost=%LeatherArmor+1%|
+25,|Item=Leather Armor +2</font></i> made out of [HiltMaterial].[AnyExtrasMA][SAArmor]||Book=DMG3.5||Condition=Masterwork||Cost=%LeatherArmor+2%|
+20,|Item=Leather Armor +3</font></i> made out of [HiltMaterial].[AnyExtrasMA][SAArmor]||Book=DMG3.5||Condition=Masterwork||Cost=%LeatherArmor+3%|
+10,|Item=Leather Armor +4</font></i> made out of [HiltMaterial].[AnyExtrasMA][SAArmor]||Book=DMG3.5||Condition=Masterwork||Cost=%LeatherArmor+4%|
+5,|Item=Leather Armor +5</font></i> made out of [HiltMaterial].[AnyExtrasMA]||Book=DMG3.5||Condition=Masterwork[SAArmor]||Cost=%LeatherArmor+5%|
+25,|Item=Studded Leather Armor +1</font></i> made out of [HiltMaterial]. The studs are[MAMaterial].[AnyExtrasMA][SAArmor]||Book=DMG3.5||Condition=Masterwork||Cost=%StuddedLeatherArmor+1%|
+20,|Item=Studded Leather Armor +2</font></i> made out of [HiltMaterial]. The studs are[MAMaterial].[AnyExtrasMA][SAArmor]||Book=DMG3.5||Condition=Masterwork||Cost=%StuddedLeatherArmor+2%|
+10,|Item=Studded Leather Armor +3</font></i> made out of [HiltMaterial]. The studs are[MAMaterial].[AnyExtrasMA][SAArmor]||Book=DMG3.5||Condition=Masterwork||Cost=%StuddedLeatherArmor+3%|
+5,|Item=Studded Leather Armor +4</font></i> made out of [HiltMaterial]. The studs are[MAMaterial].[AnyExtrasMA][SAArmor]||Book=DMG3.5||Condition=Masterwork||Cost=%StuddedLeatherArmor+4%|
+2,|Item=Studded Leather Armor +5</font></i> made out of [HiltMaterial]. The studs are[MAMaterial].[AnyExtrasMA][SAArmor]||Book=DMG3.5||Condition=Masterwork||Cost=%StuddedLeatherArmor+5%|
+20,|Item=Chainshirt +1</font></i>[MAMaterial].[AnyExtrasMA][SAArmor]||Book=DMG3.5||Condition=Masterwork||Cost=%Chainshirt+1%|
+15,|Item=Chainshirt +2</font></i>[MAMaterial].[AnyExtrasMA][SAArmor]||Book=DMG3.5||Condition=Masterwork||Cost=%Chainshirt+2%|
+5,|Item=Chainshirt +3</font></i>[MAMaterial].[AnyExtrasMA][SAArmor]||Book=DMG3.5||Condition=Masterwork||Cost=%Chainshirt+3%|
+2,|Item=Chainshirt +4</font></i>[MAMaterial].[AnyExtrasMA][SAArmor]||Book=DMG3.5||Condition=Masterwork||Cost=%Chainshirt+4%|
+1,|Item=Chainshirt +5</font></i>[MAMaterial].[AnyExtrasMA][SAArmor]||Book=DMG3.5||Condition=Masterwork||Cost=%Chainshirt+5%|
+35,|Item=Hide Armor +1</font></i>[HideKindMagical][AnyExtrasMA][SAArmor]||Book=DMG3.5||Condition=Masterwork||Cost=%HideArmor+1%|
+20,|Item=Hide Armor +2</font></i>[HideKindMagical][AnyExtrasMA][SAArmor]||Book=DMG3.5||Condition=Masterwork||Cost=%HideArmor+2%|
+15,|Item=Hide Armor +3</font></i>[HideKindMagical][AnyExtrasMA][SAArmor]||Book=DMG3.5||Condition=Masterwork||Cost=%HideArmor+3%|
+10,|Item=Hide Armor +4</font></i>[HideKindMagical][AnyExtrasMA][SAArmor]||Book=DMG3.5||Condition=Masterwork||Cost=%HideArmor+4%|
+5, |Item=Hide Armor +5</font></i>[HideKindMagical][AnyExtrasMA][SAArmor]||Book=DMG3.5||Condition=Masterwork||Cost=%HideArmor+5%|
+20,|Item=Scale Mail +1</font></i>[MAMaterial].[AnyExtrasMA][SAArmor]||Book=DMG3.5||Condition=Masterwork||Cost=%ScaleMail+1%|
+15,|Item=Scale Mail +2</font></i>[MAMaterial].[AnyExtrasMA][SAArmor]||Book=DMG3.5||Condition=Masterwork||Cost=%ScaleMail+2%|
+5, |Item=Scale Mail +3</font></i>[MAMaterial].[AnyExtrasMA][SAArmor]||Book=DMG3.5||Condition=Masterwork||Cost=%ScaleMail+3%|
+2, |Item=Scale Mail +4</font></i>[MAMaterial].[AnyExtrasMA][SAArmor]||Book=DMG3.5||Condition=Masterwork||Cost=%ScaleMail+4%|
+1, |Item=Scale Mail +5</font></i>[MAMaterial].[AnyExtrasMA][SAArmor]||Book=DMG3.5||Condition=Masterwork||Cost=%ScaleMail+5%|
+20,|Item=Chain Mail +1</font></i>[MAMaterial].[AnyExtrasMA][SAArmor]||Book=DMG3.5||Condition=Masterwork||Cost=%ChainMail+1%|
+15,|Item=Chain Mail +2</font></i>[MAMaterial].[AnyExtrasMA][SAArmor]||Book=DMG3.5||Condition=Masterwork||Cost=%ChainMail+2%|
+5, |Item=Chain Mail +3</font></i>[MAMaterial].[AnyExtrasMA][SAArmor]||Book=DMG3.5||Condition=Masterwork||Cost=%ChainMail+3%|
+2, |Item=Chain Mail +4</font></i>[MAMaterial].[AnyExtrasMA][SAArmor]||Book=DMG3.5||Condition=Masterwork||Cost=%ChainMail+4%|
+1, |Item=Chain Mail +5</font></i>[MAMaterial].[AnyExtrasMA][SAArmor]||Book=DMG3.5||Condition=Masterwork||Cost=%ChainMail+5%|
+20,|Item=Breastplate +1</font></i>[MAMaterial].[AnyExtrasMA][SAArmor]||Book=DMG3.5||Condition=Masterwork||Cost=%Breastplate+1%|
+15,|Item=Breastplate +2</font></i>[MAMaterial].[AnyExtrasMA][SAArmor]||Book=DMG3.5||Condition=Masterwork||Cost=%Breastplate+2%|
+5, |Item=Breastplate +3</font></i>[MAMaterial].[AnyExtrasMA][SAArmor]||Book=DMG3.5||Condition=Masterwork||Cost=%Breastplate+3%|
+2, |Item=Breastplate +4</font></i>[MAMaterial].[AnyExtrasMA][SAArmor]||Book=DMG3.5||Condition=Masterwork||Cost=%Breastplate+4%|
+1, |Item=Breastplate +5</font></i>[MAMaterial].[AnyExtrasMA][SAArmor]||Book=DMG3.5||Condition=Masterwork||Cost=%Breastplate+5%|
+20,|Item=Splint Mail +1</font></i>[MAMaterial].[AnyExtrasMA][SAArmor]||Book=DMG3.5||Condition=Masterwork||Cost=%SplintMail+1%|
+15,|Item=Splint Mail +2</font></i>[MAMaterial].[AnyExtrasMA][SAArmor]||Book=DMG3.5||Condition=Masterwork||Cost=%SplintMail+2%|
+5, |Item=Splint Mail +3</font></i>[MAMaterial].[AnyExtrasMA][SAArmor]||Book=DMG3.5||Condition=Masterwork||Cost=%SplintMail+3%|
+2, |Item=Splint Mail +4</font></i>[MAMaterial].[AnyExtrasMA][SAArmor]||Book=DMG3.5||Condition=Masterwork||Cost=%SplintMail+4%|
+1, |Item=Splint Mail +5</font></i>[MAMaterial].[AnyExtrasMA][SAArmor]||Book=DMG3.5||Condition=Masterwork||Cost=%SplintMail+5%|
+15,|Item=Banded Mail +1</font></i>[MAMaterial].[AnyExtrasMA][SAArmor]||Book=DMG3.5||Condition=Masterwork||Cost=%BandedMail+1%|
+10,|Item=Banded Mail +2</font></i>[MAMaterial].[AnyExtrasMA][SAArmor]||Book=DMG3.5||Condition=Masterwork||Cost=%BandedMail+2%|
+3, |Item=Banded Mail +3</font></i>[MAMaterial].[AnyExtrasMA][SAArmor]||Book=DMG3.5||Condition=Masterwork||Cost=%BandedMail+3%|
+2, |Item=Banded Mail +4</font></i>[MAMaterial].[AnyExtrasMA][SAArmor]||Book=DMG3.5||Condition=Masterwork||Cost=%BandedMail+4%|
+1, |Item=Banded Mail +5</font></i>[MAMaterial].[AnyExtrasMA][SAArmor]||Book=DMG3.5||Condition=Masterwork||Cost=%BandedMail+5%|
+15,|Item=Half-Plate +1</font></i>[MAMaterial].[AnyExtrasMA][SAArmor]||Book=DMG3.5||Condition=Masterwork||Cost=%Half-Plate+1%|
+10,|Item=Half-Plate +2</font></i>[MAMaterial].[AnyExtrasMA][SAArmor]||Book=DMG3.5||Condition=Masterwork||Cost=%Half-Plate+2%|
+3, |Item=Half-Plate +3</font></i>[MAMaterial].[AnyExtrasMA][SAArmor]||Book=DMG3.5||Condition=Masterwork||Cost=%Half-Plate+3%|
+2, |Item=Half-Plate +4</font></i>[MAMaterial].[AnyExtrasMA][SAArmor]||Book=DMG3.5||Condition=Masterwork||Cost=%Half-Plate+4%|
+1, |Item=Half-Plate +5</font></i>[MAMaterial].[AnyExtrasMA][SAArmor]||Book=DMG3.5||Condition=Masterwork||Cost=%Half-Plate+5%|
+15,|Item=Full Plate +1</font></i>[MAMaterial].[AnyExtrasMA][SAArmor]||Book=DMG3.5||Condition=Masterwork||Cost=%FullPlate+1%|
+10,|Item=Full Plate +2</font></i>[MAMaterial].[AnyExtrasMA][SAArmor]||Book=DMG3.5||Condition=Masterwork||Cost=%FullPlate+2%|
+3, |Item=Full Plate +3</font></i>[MAMaterial].[AnyExtrasMA][SAArmor]||Book=DMG3.5||Condition=Masterwork||Cost=%FullPlate+3%|
+2, |Item=Full Plate +4</font></i>[MAMaterial].[AnyExtrasMA][SAArmor]||Book=DMG3.5||Condition=Masterwork||Cost=%FullPlate+4%|
+1, |Item=Full Plate +5</font></i>[MAMaterial].[AnyExtrasMA][SAArmor]||Book=DMG3.5||Condition=Masterwork||Cost=%FullPlate+5%|
+
+;SpecialMagicArmor
+30,|Item=Elven Chain</font></i>[AnyExtrasMA]||Book=DMG3.5||Condition=Masterwork||Cost=%ElvenChain%|
+20,|Item=Dwarven Plate</font></i>[AnyExtrasMA]||Book=DMG3.5||Condition=Masterwork||Cost=%DwarvenPlate%|
+10,|Item=Banded Mail of Luck</font></i>[AnyExtrasMA]||Book=DMG3.5||Condition=Masterwork||Cost=%BandedMailofLuck%|
+5,|Item=Celestial Armor</font></i>[AnyExtrasMA]||Book=DMG3.5||Condition=Masterwork||Cost=%CelestialArmor%|
+5,|Item=Plate Mail of the Deep</font></i>[AnyExtrasMA]||Book=DMG3.5||Condition=Masterwork||Cost=%PlateMailoftheDeep%|
+3,|Item=Breastplate of Command</font></i>[AnyExtrasMA]||Book=DMG3.5||Condition=Masterwork||Cost=%BreastplateofCommand%|
+1,|Item=Demon Armor</font></i>[AnyExtrasMA]||Book=DMG3.5||Condition=Masterwork||Cost=%DemonArmor%|
+1,|Item=Armor of the Dread Emperor</font></i>[AnyExtrasMA]||Book=BVD||Condition=Masterwork||Cost=%ArmoroftheDreadEmperor%|
+1,|Item=Fleshshifter Armor</font></i>[AnyExtrasMA]||Book=BVD||Condition=Masterwork||Cost=%FleshshifterArmor%|
+1,|Item=Grim Defender Armor</font></i>[AnyExtrasMA]||Book=BVD||Condition=Masterwork||Cost=%GrimDefender%|
+5,|Item=Razor Armor</font></i>[AnyExtrasMA]||Book=BVD||Condition=Masterwork||Cost=%RazorArmor%|
+2,|Item=Laeral's Storm Armor</font></i>[AnyExtrasMA]||Book=MOF||Condition=Masterwork||Cost=%Laeral'sStormArmor%|
+3,|Item=Storm Armor of the Earth's Children</font></i>[AnyExtrasMA]||Book=MOF||Condition=Masterwork||Cost=%StormArmoroftheEarth'sChildren%|
+5,|Item=Armor of Weapon Creation</font></i>[AnyExtrasMA]||Book=A&E||Condition=Masterwork||Cost=%ArmorofWeaponCreation%|
+2,|Item=Bale Eye</font></i>[AnyExtrasMA]||Book=A&E||Condition=Masterwork||Cost=%BaleEye%|
+10,|Item=Disarmor</font></i>[AnyExtrasMA]||Book=A&E||Condition=Masterwork||Cost=%Disarmor%|
+10,|Item=Gazebane</font></i>[AnyExtrasMA]||Book=A&E||Condition=Masterwork||Cost=%Gazebane%|
+2,|Item=Plantbane</font></i>[AnyExtrasMA]||Book=A&E||Condition=Masterwork||Cost=%Plantbane%|
+2,|Item=Skin Paint</font></i>[AnyExtrasMA]||Book=A&E||Condition=Masterwork||Cost=%SkinPaint%|
+5,|Item=Stonecunning</font></i>[AnyExtrasMA]||Book=A&E||Condition=Masterwork||Cost=%Stonecunning%|
+5,|Item=Tessellated Armor</font></i>[AnyExtrasMA]||Book=A&E||Condition=Masterwork||Cost=%TessellatedArmor%|
+1,|Item=Vampire Hunter</font></i>[AnyExtrasMA]||Book=A&E||Condition=Masterwork||Cost=%VampireHunter%|
+1,|Item=Angelic Armor</font></i>[AnyExtrasMA]||Book=RR2||Condition=Masterwork||Cost=%AngelicArmor%|
+1,|Item=Mormo's Embrace</font></i>[AnyExtrasMA]||Book=RR2||Condition=Masterwork||Cost=%Mormo'sEmbrace%|
+1,|Item=Armor of the Shadow Goddess</font></i>[AnyExtrasMA]||Book=RR2||Condition=Masterwork||Cost=%ArmoroftheShadowGoddess%|
+3,|Item=Gray Ironwood Suit</font></i>[AnyExtrasMA]||Book=MOW||Condition=Masterwork||Cost=%GrayIronwoodSuit%|
+5,|Item=Eqerry's Armor</font></i>[AnyExtrasMA]||Book=MOW||Condition=Masterwork||Cost=%Eqerry'sArmor%|
+2,|Item=Blue Armor of the Crystalmist Mountains</font></i>[AnyExtrasMA]||Book=DOF||Condition=Masterwork||Cost=%BlueArmoroftheCrystalmistMountains%|
+5,|Item=Golden Apron</font></i>[AnyExtrasMA]||Book=DOF||Condition=Masterwork||Cost=%GoldenApron%|
+1,|Item=Red Dragon Armor</font></i>[AnyExtrasMA]||Book=DOF||Condition=Masterwork||Cost=%RedDragonArmor%|
+5,|Item=Splint Mail of Stability</font></i>[AnyExtrasMA]||Book=DOF||Condition=Masterwork||Cost=%SplintMailofStability%|
+5,|Item=Barbarian Armor of the Bull</font></i>[AnyExtrasMA]||Book=A&A||Condition=Masterwork||Cost=%BarbarianArmoroftheBull%|
+5,|Item=Barbarian Armor - Beserker's Mail</font></i>[AnyExtrasMA]||Book=A&A||Condition=Masterwork||Cost=%BarbarianArmor-Beserker'sMail%|
+5,|Item=Bardic Armor - Scale of the Troubadour</font></i>[AnyExtrasMA]||Book=A&A||Condition=Masterwork||Cost=%BardicArmor-ScaleoftheTroubadour%|
+5,|Item=Clerical Armor - Blessed Mail</font></i>[AnyExtrasMA]||Book=A&A||Condition=Masterwork||Cost=%ClericalArmor-BlessedMail%|
+5,|Item=Clerical Armor - Saintly Mantle of the Penitent</font></i>[AnyExtrasMA]||Book=A&A||Condition=Masterwork||Cost=%ClericalArmor-SaintlyMantleofthePenitent%|
+5,|Item=Clerical Armor - Saintly Mantle of the Pure</font></i>[AnyExtrasMA]||Book=A&A||Condition=Masterwork||Cost=%ClericalArmor-SaintlyMantleofthePure%|
+5,|Item=Clerical Armor - Saintly Mantle of the Humble</font></i>[AnyExtrasMA]||Book=A&A||Condition=Masterwork||Cost=%ClericalArmor-SaintlyMantleoftheHumble%|
+5,|Item=Clerical Armor - Saintly Mantle of the Blessed</font></i>[AnyExtrasMA]||Book=A&A||Condition=Masterwork||Cost=%ClericalArmor-SaintlyMantleoftheBlessed%|
+5,|Item=Clerical Armor - Saintly Mantle of the Holy</font></i>[AnyExtrasMA]||Book=A&A||Condition=Masterwork||Cost=%ClericalArmor-SaintlyMantleoftheHoly%|
+5,|Item=Clerical Armor - Saintly Mantle of the Righteous</font></i>[AnyExtrasMA]||Book=A&A||Condition=Masterwork||Cost=%ClericalArmor-SaintlyMantleoftheRighteous%|
+5,|Item=Druidic Armor - Furious Vestment</font></i>[AnyExtrasMA]||Book=A&A||Condition=Masterwork||Cost=%DruidicArmor-FuriousVestment%|
+5,|Item=Fighter's Armor - Valiant Breastplate</font></i>[AnyExtrasMA]||Book=A&A||Condition=Masterwork||Cost=%Fighter'sArmor-ValiantBreastplate%|
+5,|Item=Monk's Armor - Sash of the Master</font></i>[AnyExtrasMA]||Book=A&A||Condition=Masterwork||Cost=%Monk'sArmor-SashoftheMaster%|
+5,|Item=Monk's Armor - Tunic of Vivid Harmony</font></i>[AnyExtrasMA]||Book=A&A||Condition=Masterwork||Cost=%Monk'sArmor-TunicofVividHarmony%|
+5,|Item=Paladin's Armor - Armor of Faith</font></i>[AnyExtrasMA]||Book=A&A||Condition=Masterwork||Cost=%Paladin'sArmor-ArmorofFaith%|
+5,|Item=Ranger's Armor - Cloak of the Wolf</font></i>[AnyExtrasMA]||Book=A&A||Condition=Masterwork||Cost=%Ranger'sArmor-CloakoftheWolf%|
+5,|Item=Rogue's Armor - Subdermal Armor +1</font></i>[AnyExtrasMA]||Book=A&A||Condition=Masterwork||Cost=%Rogue'sArmor-SubdermalArmor+1%|
+4,|Item=Rogue's Armor - Subdermal Armor +2</font></i>[AnyExtrasMA]||Book=A&A||Condition=Masterwork||Cost=%Rogue'sArmor-SubdermalArmor+2%|
+3,|Item=Rogue's Armor - Subdermal Armor +3</font></i>[AnyExtrasMA]||Book=A&A||Condition=Masterwork||Cost=%Rogue'sArmor-SubdermalArmor+3%|
+2,|Item=Rogue's Armor - Subdermal Armor +4</font></i>[AnyExtrasMA]||Book=A&A||Condition=Masterwork||Cost=%Rogue'sArmor-SubdermalArmor+4%|
+1,|Item=Rogue's Armor - Subdermal Armor +5</font></i>[AnyExtrasMA]||Book=A&A||Condition=Masterwork||Cost=%Rogue'sArmor-SubdermalArmor+5%|
+5,|Item=Arcane Spellcaster's Armor - Robe of Focusing</font></i>[AnyExtrasMA]||Book=A&A||Condition=Masterwork||Cost=%ArcaneSpellcaster'sArmor-RobeofFocusing%|
+5,|Item=Arcane Spellcaster's Armor - Tangled Web</font></i>[AnyExtrasMA]||Book=A&A||Condition=Masterwork||Cost=%ArcaneSpellcaster'sArmor-TangledWeb%|
+5,|Item=Leggings of Speed</font></i>[AnyExtrasMA]||Book=A&A||Condition=Masterwork||Cost=%LeggingsofSpeed%|
+5,|Item=Leggings of Balance</font></i>[AnyExtrasMA]||Book=A&A||Condition=Masterwork||Cost=%LeggingsofBalance%|
+5,|Item=Leggings of Mobility</font></i>[AnyExtrasMA]||Book=A&A||Condition=Masterwork||Cost=%LeggingsofMobility%|
+5,|Item=Armor of the Wilderness</font></i>[AnyExtrasMA]||Book=A&A||Condition=Masterwork||Cost=%ArmoroftheWilderness%|
+2,|Item=Banderskin</font></i>[AnyExtrasMA]||Book=A&A||Condition=Masterwork||Cost=%Banderskin%|
+1,|Item=Battle Plate</font></i>[AnyExtrasMA]||Book=A&A||Condition=Masterwork||Cost=%BattlePlate%|
+10,|Item=Blur Armor</font></i>[AnyExtrasMA]||Book=A&A||Condition=Masterwork||Cost=%BlurArmor%|
+10,|Item=Falcon Spaulders</font></i>[AnyExtrasMA]||Book=A&A||Condition=Masterwork||Cost=%FalconSpaulders%|
+15,|Item=Mirrored Gadlings</font></i>[AnyExtrasMA]||Book=A&A||Condition=Masterwork||Cost=%MirroredGadlings%|
+15,|Item=Bracing Gadlings</font></i>[AnyExtrasMA]||Book=A&A||Condition=Masterwork||Cost=%BracingGadlings%|
+15,|Item=Gadlings of the Cheetah</font></i>[AnyExtrasMA]||Book=A&A||Condition=Masterwork||Cost=%GadlingsoftheCheetah%|
+15,|Item=Gadlings of Resistance</font></i>[AnyExtrasMA]||Book=A&A||Condition=Masterwork||Cost=%GadlingsogResistance%|
+5,|Item=Helm of Eyes</font></i>[AnyExtrasMA]||Book=A&A||Condition=Masterwork||Cost=%HelmofEyes%|
+5,|Item=Mantle of Light</font></i>[AnyExtrasMA]||Book=A&A||Condition=Masterwork||Cost=%MantleofLight%|
+2,|Item=Orle of Dominion</font></i>[AnyExtrasMA]||Book=A&A||Condition=Masterwork||Cost=%OrleofDominion%|
+2,|Item=Owl Gorget</font></i>[AnyExtrasMA]||Book=A&A||Condition=Masterwork||Cost=%OwlGorget%|
+10,|Item=Sycophant Armor +1</font></i>[AnyExtrasMA]||Book=A&A||Condition=Masterwork||Cost=%SycophantArmor+1%|
+9,|Item=Sycophant Armor +2</font></i>[AnyExtrasMA]||Book=A&A||Condition=Masterwork||Cost=%SycophantArmor+2%|
+8,|Item=Sycophant Armor +3</font></i>[AnyExtrasMA]||Book=A&A||Condition=Masterwork||Cost=%SycophantArmor+3%|
+7,|Item=Sycophant Armor +4</font></i>[AnyExtrasMA]||Book=A&A||Condition=Masterwork||Cost=%SycophantArmor+4%|
+6,|Item=Sycophant Armor +5</font></i>[AnyExtrasMA]||Book=A&A||Condition=Masterwork||Cost=%SycophantArmor+5%|
+5,|Item=Sycophant Armor +6</font></i>[AnyExtrasMA]||Book=A&A||Condition=Masterwork||Cost=%SycophantArmor+6%|
+4,|Item=Sycophant Armor +7</font></i>[AnyExtrasMA]||Book=A&A||Condition=Masterwork||Cost=%SycophantArmor+7%|
+3,|Item=Sycophant Armor +8</font></i>[AnyExtrasMA]||Book=A&A||Condition=Masterwork||Cost=%SycophantArmor+8%|
+2,|Item=Sycophant Armor +9</font></i>[AnyExtrasMA]||Book=A&A||Condition=Masterwork||Cost=%SycophantArmor+9%|
+1,|Item=Sycophant Armor +10</font></i>[AnyExtrasMA]||Book=A&A||Condition=Masterwork||Cost=%SycophantArmor+10%|
+1,|Item=Sycophant Armor +11</font></i>[AnyExtrasMA]||Book=A&A||Condition=Masterwork||Cost=%SycophantArmor+11%|
+1,|Item=Sycophant Armor +12</font></i>[AnyExtrasMA]||Book=A&A||Condition=Masterwork||Cost=%SycophantArmor+12%|
+2,|Item=Valkyrie Armor</font></i>[AnyExtrasMA]||Book=A&A||Condition=Masterwork||Cost=%ValkyrieArmor%|
+1,|Item=WereArmor</font></i>[AnyExtrasMA]||Book=A&A||Condition=Masterwork||Cost=%WereArmor%|
+
+;NormalMagicShields
+25,|Item=Buckler +1</font></i>[WoodOrSteel2].[AnyExtrasMA][SAShields]||Book=DMG3.5||Condition=Masterwork||Cost=%Buckler+1%|
+20,|Item=Buckler +2</font></i>[WoodOrSteel2].[AnyExtrasMA][SAShields]||Book=DMG3.5||Condition=Masterwork||Cost=%Buckler+2%|
+10,|Item=Buckler +3</font></i>[WoodOrSteel2].[AnyExtrasMA][SAShields]||Book=DMG3.5||Condition=Masterwork||Cost=%Buckler+3%|
+5,|Item=Buckler +4</font></i>[WoodOrSteel2].[AnyExtrasMA][SAShields]||Book=DMG3.5||Condition=Masterwork||Cost=%Buckler+4%|
+2,|Item=Buckler +5</font></i>[WoodOrSteel2].[AnyExtrasMA][SAShields]||Book=DMG3.5||Condition=Masterwork||Cost=%Buckler+5%|
+35,|Item=Light Wooden Shield +1</font></i> made of [Woods].[AnyExtrasMA][SAShields]||Book=DMG3.5||Condition=Masterwork||Cost=%LightWoodenShield+1%|
+30,|Item=Light Wooden Shield +2</font></i> made of [Woods].[AnyExtrasMA][SAShields]||Book=DMG3.5||Condition=Masterwork||Cost=%LightWoodenShield+2%|
+20,|Item=Light Wooden Shield +3</font></i> made of [Woods].[AnyExtrasMA]v||Book=DMG3.5||Condition=Masterwork||Cost=%LightWoodenShield+3%|
+10,|Item=Light Wooden Shield +4</font></i> made of [Woods].[AnyExtrasMA][SAShields]||Book=DMG3.5||Condition=Masterwork||Cost=%LightWoodenShield+4%|
+5,|Item=Light Wooden Shield +5</font></i> made of [Woods].[AnyExtrasMA][SAShields]||Book=DMG3.5||Condition=Masterwork||Cost=%LightWoodenShield+5%|
+35,|Item=Light Steel Shield +1</font></i>[MAMaterial].[AnyExtrasMA][SAShields]||Book=DMG3.5||Condition=Masterwork||Cost=%LightSteelShield+1%|
+30,|Item=Light Steel Shield +2</font></i>[MAMaterial].[AnyExtrasMA][SAShields]||Book=DMG3.5||Condition=Masterwork||Cost=%LightSteelShield+2%|
+20,|Item=Light Steel Shield +3</font></i>[MAMaterial].[AnyExtrasMA][SAShields]||Book=DMG3.5||Condition=Masterwork||Cost=%LightSteelShield+3%|
+10,|Item=Light Steel Shield +4</font></i>[MAMaterial].[AnyExtrasMA][SAShields]||Book=DMG3.5||Condition=Masterwork||Cost=%LightSteelShield+4%|
+5, |Item=Light Steel Shield +5</font></i>[MAMaterial].[AnyExtrasMA][SAShields]||Book=DMG3.5||Condition=Masterwork||Cost=%LightSteelShield+5%|
+20,|Item=Heavy Wooden Shield +1</font></i> made of [Woods].[AnyExtrasMA][SAShields]||Book=DMG3.5||Condition=Masterwork||Cost=%HeavyWoodenShield+1%|
+10,|Item=Heavy Wooden Shield +2</font></i> made of [Woods].[AnyExtrasMA][SAShields]||Book=DMG3.5||Condition=Masterwork||Cost=%HeavyWoodenShield+2%|
+5, |Item=Heavy Wooden Shield +3</font></i> made of [Woods].[AnyExtrasMA][SAShields]||Book=DMG3.5||Condition=Masterwork||Cost=%HeavyWoodenShield+3%|
+2, |Item=Heavy Wooden Shield +4</font></i> made of [Woods].[AnyExtrasMA][SAShields]||Book=DMG3.5||Condition=Masterwork||Cost=%HeavyWoodenShield+4%|
+1, |Item=Heavy Wooden Shield +5</font></i> made of [Woods].[AnyExtrasMA][SAShields]||Book=DMG3.5||Condition=Masterwork||Cost=%HeavyWoodenShield+5%|
+20,|Item=Heavy Steel Shield +1</font></i>[MAMaterial].[AnyExtrasMA][SAShields]||Book=DMG3.5||Condition=Masterwork||Cost=%HeavySteelShield+1%|
+10,|Item=Heavy Steel Shield +2</font></i>[MAMaterial].[AnyExtrasMA][SAShields]||Book=DMG3.5||Condition=Masterwork||Cost=%HeavySteelShield+2%|
+5, |Item=Heavy Steel Shield +3</font></i>[MAMaterial].[AnyExtrasMA][SAShields]||Book=DMG3.5||Condition=Masterwork||Cost=%HeavySteelShield+3%|
+2, |Item=Heavy Steel Shield +4</font></i>[MAMaterial].[AnyExtrasMA][SAShields]||Book=DMG3.5||Condition=Masterwork||Cost=%HeavySteelShield+4%|
+1, |Item=Heavy Steel Shield +5</font></i>[MAMaterial].[AnyExtrasMA][SAShields]||Book=DMG3.5||Condition=Masterwork||Cost=%HeavySteelShield+5%|
+10,|Item=Tower Shield +1</font></i>[WoodOrSteel].[AnyExtrasMA][SAShields]||Book=DMG3.5||Condition=Masterwork||Cost=%TowerShield+1%|
+5,|Item=Tower Shield +2</font></i>[WoodOrSteel].[AnyExtrasMA][SAShields]||Book=DMG3.5||Condition=Masterwork||Cost=%TowerShield+2%|
+3,|Item=Tower Shield +3</font></i>[WoodOrSteel].[AnyExtrasMA][SAShields]||Book=DMG3.5||Condition=Masterwork||Cost=%TowerShield+3%|
+2,|Item=Tower Shield +4</font></i>[WoodOrSteel].[AnyExtrasMA][SAShields]||Book=DMG3.5||Condition=Masterwork||Cost=%TowerShield+4%|
+1,|Item=Tower Shield +5</font></i>[WoodOrSteel].[AnyExtrasMA][SAShields]||Book=DMG3.5||Condition=Masterwork||Cost=%TowerShield+5%|
+
+;SpecialMagicShields
+5,|Item=Caster's Shield||Book=DMG 3.5||Condition=Masterwork||Cost=%Caster'sShield%|
+15,|Item=Spined Shield||Book=DMG 3.5||Condition=Masterwork||Cost=%SpinedShield%|
+5,|Item=Lion's Shield||Book=DMG 3.5||Condition=Masterwork||Cost=%Lion'sShield%|
+1,|Item=Winged Shield||Book=DMG 3.5||Condition=Masterwork||Cost=%WingedShield%|
+2,|Item=Absorbing Shield||Book=DMG 3.5||Condition=Masterwork||Cost=%AbsorbingShield%|
+10,|Item=Arm Shield||Book=A&A||Condition=Masterwork||Cost=%ArmShield%|
+15,|Item=Force Buckler||Book=A&A||Condition=Masterwork||Cost=%ForceBuckler%|
+5,|Item=Shield of the Arcane Sentinel||Book=A&A||Condition=Masterwork||Cost=%ShieldoftheArcaneSentinel%|
+5,|Item=Palisade Shield||Book=RR2||Condition=Masterwork||Cost=%PalisadeShield%|
+10,|Item=Shield of Missile Capturing||Book=RR2||Condition=Masterwork||Cost=%ShieldofMissileCapturing%|
+15,|Item=Shield of Madriel's Faith||Book=RR2||Condition=Masterwork||Cost=%ShieldofMadriel'sFaith%|
+10,|Item=Spider Shield||Book=A&E||Condition=Masterwork||Cost=%SpiderShield%|
+10,|Item=Swarm Shield||Book=A&E||Condition=Masterwork||Cost=%SwarmShield%|
+20,|Item=Varible Shield||Book=A&E||Condition=Masterwork||Cost=%VaribleShield%|
+10,|Item=Cormyrian Greatshield||Book=MOF||Condition=Masterwork||Cost=%CormyrianGreatshield%|
+5,|Item=Laeral's Spell Shield||Book=MOF||Condition=Masterwork||Cost=%Laeral'sSpellShield%|
+10,|Item=Shield of Vigilance||Book=MOF||Condition=Masterwork||Cost=%ShieldofVigilance%|
+15,|Item=Barricade Buckler||Book=S&S||Condition=Masterwork||Cost=%BarricadeBuckler%|
+
+:SAArmor
+1-90, 
+91-100, [SpecialAbilitiesArmor]
+
+;SpecialAbilitiesArmor
+30,<u>Special</u>: <i><font color="Green">Glamered|MagicalGPMod=2700|</i> <font size=1>(DMG3.5)</font></font>
+6,<u>Special</u>: <i><font color="Green">Aquatic|MagicalGPMod=4000|</i> <font size=1>(MOW)</font></font>
+2,<u>Special</u>: <i><font color="Green">Aquatic (With Water Breathing)|MagicalGPMod=9000|</i> <font size=1>(MOW)</font></font>
+20,<u>Special</u>: <i><font color="Green">Ease|MagicalGPMod=1000|</i> <font size=1>(MOW)</font></font>
+15,<u>Special</u>: <i><font color="Green">Wild|MagicalGPMod=9000|</i> <font size=1>(MOW)</font></font>
+10,<u>Special</u>: <i><font color="Green">Absorbing|MagicalGPMod=9000|</i> <font size=1>(DOF)</font></font>
+5,<u>Special</u>: <i><font color="Green">Antipathy|MagicalGPMod=16000|</i> <font size=1>(DOF)</font></font>
+10,<u>Special</u>: <i><font color="Green">Blinding|MagicalGPMod=1000|</i> <font size=1>(DOF)</font></font>
+5,<u>Special</u>: <i><font color="Green">Called|MagicalGPMod=1000|</i> <font size=1>(DOF)</font></font>
+5,<u>Special</u>: <i><font color="Green">Charming|MagicalGPMod=9000|</i> <font size=1>(DOF)</font></font>
+10,<u>Special</u>: <i><font color="Green">Command|MagicalGPMod=4000|</i> <font size=1>(DOF)</font></font>
+15,<u>Special</u>: <i><font color="Green">Daylight|MagicalGPMod=4000|</i> <font size=1>(DOF)</font></font>
+2,<u>Special</u>: <i><font color="Green">Energy Drain|MagicalGPMod=4000|</i> <font size=1>(DOF)</font></font>
+1,<u>Special</u>: <i><font color="Green">Ethereal, Self Only|MagicalGPMod=9000|</i> <font size=1>(DOF)</font></font>
+1,<u>Special</u>: <i><font color="Green">Ethereal, All in Contact|MagicalGPMod=16000|</i> <font size=1>(DOF)</font></font>
+5,<u>Special</u>: <i><font color="Green">Fearsome|MagicalGPMod=4000|</i> <font size=1>(DOF)</font></font>
+10,<u>Special</u>: <i><font color="Green">Feathered|MagicalGPMod=4000|</i> <font size=1>(DOF)</font></font>
+12,<u>Special</u>: <i><font color="Green">Ice|MagicalGPMod=9000|</i> <font size=1>(DOF)</font></font>
+15,<u>Special</u>: <i><font color="Green">Sacred|MagicalGPMod=4000|</i> <font size=1>(DOF)</font></font>
+10,<u>Special</u>: <i><font color="Green">Speed|MagicalGPMod=9000|</i> <font size=1>(DOF)</font></font>
+5,<u>Special</u>: <i><font color="Green">Undead Controlling|MagicalGPMod=16000|</i> <font size=1>(DOF)</font></font>
+8,<u>Special</u>: <i><font color="Green">Undead Disrupting|MagicalGPMod=4000|</i> <font size=1>(DOF)</font></font>
+25,<u>Special</u>: <i><font color="Green">Light Fortification|MagicalGPMod=1000|</i> <font size=1>(DMG 3.5)</font></font>
+15,<u>Special</u>: <i><font color="Green">Slick|MagicalGPMod=3750|</i> <font size=1>(DMG 3.5)</font></font>
+10,<u>Special</u>: <i><font color="Green">Shadow|MagicalGPMod=3750|</i> <font size=1>(DMG 3.5)</font></font>
+15,<u>Special</u>: <i><font color="Green">Silent Moves|MagicalGPMod=3750|</i> <font size=1>(DMG 3.5)</font></font>
+15,<u>Special</u>: <i><font color="Green">Spell Resistance (13)|MagicalGPMod=4000|</i> <font size=1>(DMG 3.5)</font></font>
+10,<u>Special</u>: <i><font color="Green">Improved Slick|MagicalGPMod=15000|</i> <font size=1>(DMG 3.5)</font></font>
+5,<u>Special</u>: <i><font color="Green">Improved Shadow|MagicalGPMod=15000|</i> <font size=1>(DMG 3.5)</font></font>
+10,<u>Special</u>: <i><font color="Green">Improved Silent Moves|MagicalGPMod=15000|</i> <font size=1>(DMG 3.5)</font></font>
+10,<u>Special</u>: <i><font color="Green">Acid Resistance|MagicalGPMod=18000|</i> <font size=1>(DMG 3.5)</font></font>
+10,<u>Special</u>: <i><font color="Green">Cold Resistance|MagicalGPMod=18000|</i> <font size=1>(DMG 3.5)</font></font>
+10,<u>Special</u>: <i><font color="Green">Electricity Resistance|MagicalGPMod=18000|</i> <font size=1>(DMG 3.5)</font></font>
+10,<u>Special</u>: <i><font color="Green">Fire Resistance |MagicalGPMod=18000|</i> <font size=1>(DMG 3.5)</font></font>
+10,<u>Special</u>: <i><font color="Green">Sonic Resistance|MagicalGPMod=18000|</i> <font size=1>(DMG 3.5)</font></font>
+15,<u>Special</u>: <i><font color="Green">Ghost Touch|MagicalGPMod=9000|</i> <font size=1>(DMG 3.5)</font></font>
+20,<u>Special</u>: <i><font color="Green">Invulnerability|MagicalGPMod=9000|</i> <font size=1>(DMG 3.5)</font></font>
+15,<u>Special</u>: <i><font color="Green">Moderate Fortification|MagicalGPMod=9000|</i> <font size=1>(DMG 3.5)</font></font>
+15,<u>Special</u>: <i><font color="Green">Spell Resistance (15)|MagicalGPMod=9000|</i> <font size=1>(DMG 3.5)</font></font>
+10,<u>Special</u>: <i><font color="Green">Greater Slick|MagicalGPMod=33750|</i> <font size=1>(DMG 3.5)</font></font>
+5,<u>Special</u>: <i><font color="Green">Greater Shadow|MagicalGPMod=33750|</i> <font size=1>(DMG 3.5)</font></font>
+5,<u>Special</u>: <i><font color="Green">Greater Silent Moves|MagicalGPMod=33750|</i> <font size=1>(DMG 3.5)</font></font>
+5,<u>Special</u>: <i><font color="Green">Improved Acid Resistance|MagicalGPMod=42000|</i> <font size=1>(DMG 3.5)</font></font>
+5,<u>Special</u>: <i><font color="Green">Improved Cold Resistance|MagicalGPMod=42000|</i> <font size=1>(DMG 3.5)</font></font>
+5,<u>Special</u>: <i><font color="Green">Improved Electricity Resistance|MagicalGPMod=42000|</i> <font size=1>(DMG 3.5)</font></font>
+5,<u>Special</u>: <i><font color="Green">Improved Fire Resistance|MagicalGPMod=42000|</i> <font size=1>(DMG 3.5)</font></font>
+5,<u>Special</u>: <i><font color="Green">Improved Sonic Resistance|MagicalGPMod=42000|</i> <font size=1>(DMG 3.5)</font></font>
+10,<u>Special</u>: <i><font color="Green">Spell Resistance (17)|MagicalGPMod=16000|</i> <font size=1>(DMG 3.5)</font></font>
+5,<u>Special</u>: <i><font color="Green">Heavy Fortification|MagicalGPMod=25000|</i> <font size=1>(DMG 3.5)</font></font>
+5,<u>Special</u>: <i><font color="Green">Spell Resistance (19)|MagicalGPMod=25000|</i> <font size=1>(DMG 3.5)</font></font>
+1,<u>Special</u>: <i><font color="Green">Greater Acid Resistance|MagicalGPMod=66000|</i> <font size=1>(DMG 3.5)</font></font>
+1,<u>Special</u>: <i><font color="Green">Greater Cold Resistance|MagicalGPMod=66000|</i> <font size=1>(DMG 3.5)</font></font>
+1,<u>Special</u>: <i><font color="Green">Greater Electricity Resistance|MagicalGPMod=66000|</i> <font size=1>(DMG 3.5)</font></font>
+1,<u>Special</u>: <i><font color="Green">Greater Fire Resistance|MagicalGPMod=66000|</i> <font size=1>(DMG 3.5)</font></font>
+1,<u>Special</u>: <i><font color="Green">Greater Sonic Resistance|MagicalGPMod=66000|</i> <font size=1>(DMG 3.5)</font></font>
+5,<u>Special</u>: <i><font color="Green">Bludgeoning Resistance|MagicalGPMod=1000|</i> <font size=1>(A&A)</font></font>
+15,<u>Special</u>: <i><font color="Green">Buoyant|MagicalGPMod=1000|</i> <font size=1>(A&A)</font></font>
+10,<u>Special</u>: <i><font color="Green">Clamping|MagicalGPMod=1000|</i> <font size=1>(A&A)</font></font>
+15,<u>Special</u>: <i><font color="Green">Piercing Resistance|MagicalGPMod=1000|</i> <font size=1>(A&A)</font></font>
+25,<u>Special</u>: <i><font color="Green">Quick Don|MagicalGPMod=1000|</i> <font size=1>(A&A)</font></font>
+25,<u>Special</u>: <i><font color="Green">Quick Release|MagicalGPMod=1000|</i> <font size=1>(A&A)</font></font>
+25,<u>Special</u>: <i><font color="Green">Rust Proof|MagicalGPMod=1000|</i> <font size=1>(A&A)</font></font>
+15,<u>Special</u>: <i><font color="Green">Slashing Resistance|MagicalGPMod=1000|</i> <font size=1>(A&A)</font></font>
+10,<u>Special</u>: <i><font color="Green">Spell Storing|MagicalGPMod=1000|</i> <font size=1>(A&A)</font></font>
+10,<u>Special</u>: <i><font color="Green">Spell Casting|MagicalGPMod=1000|</i> <font size=1>(A&A)</font></font>
+5,<u>Special</u>: <i><font color="Green">Undetectable|MagicalGPMod=1000|</i> <font size=1>(A&A)</font></font>
+15,<u>Special</u>: <i><font color="Green">Variant|MagicalGPMod=1000|</i> <font size=1>(A&A)</font></font>
+10,<u>Special</u>: <i><font color="Green">Viscid|MagicalGPMod=1000|</i> <font size=1>(A&A)</font></font>
+25,<u>Special</u>: <i><font color="Green">Barbed/Bladed|MagicalGPMod=4000|</i> <font size=1>(A&A)</font></font>
+15,<u>Special</u>: <i><font color="Green">Bear's Armor +2 Con|MagicalGPMod=4000|</i> <font size=1>(A&A)</font></font>
+15,<u>Special</u>: <i><font color="Green">Bull's Armor +2 Str|MagicalGPMod=4000|</i> <font size=1>(A&A)</font></font>
+15,<u>Special</u>: <i><font color="Green">Cat's Armor +2 Dex|MagicalGPMod=4000|</i> <font size=1>(A&A)</font></font>
+20,<u>Special</u>: <i><font color="Green">Dark|MagicalGPMod=4000|</i> <font size=1>(A&A)</font></font>
+5,<u>Special</u>: <i><font color="Green">Dopple|MagicalGPMod=4000|</i> <font size=1>(A&A)</font></font>
+10,<u>Special</u>: <i><font color="Green">Glimmer|MagicalGPMod=4000|</i> <font size=1>(A&A)</font></font>
+10,<u>Special</u>: <i><font color="Green">Grotesque|MagicalGPMod=4000|</i> <font size=1>(A&A)</font></font>
+10,<u>Special</u>: <i><font color="Green">Greater Healing|MagicalGPMod=4000|</i> <font size=1>(A&A)</font></font>
+10,<u>Special</u>: <i><font color="Green">Imprinted|MagicalGPMod=4000|</i> <font size=1>(A&A)</font></font>
+5,<u>Special</u>: <i><font color="Green">Magnetic|MagicalGPMod=4000|</i> <font size=1>(A&A)</font></font>
+10,<u>Special</u>: <i><font color="Green">Morphic|MagicalGPMod=4000|</i> <font size=1>(A&A)</font></font>
+10,<u>Special</u>: <i><font color="Green">Muse|MagicalGPMod=4000|</i> <font size=1>(A&A)</font></font>
+15,<u>Special</u>: <i><font color="Green">Owl's Armor +2|MagicalGPMod=4000|</i> <font size=1>(A&A)</font></font>
+15,<u>Special</u>: <i><font color="Green">Raven's Armor +2|MagicalGPMod=4000|</i> <font size=1>(A&A)</font></font>
+5,<u>Special</u>: <i><font color="Green">Spell Reflection|MagicalGPMod=4000|</i> <font size=1>(A&A)</font></font>
+15,<u>Special</u>: <i><font color="Green">Reinvigorating|MagicalGPMod=4000|</i> <font size=1>(A&A)</font></font>
+10,<u>Special</u>: <i><font color="Green">Solace|MagicalGPMod=4000|</i> <font size=1>(A&A)</font></font>
+5,<u>Special</u>: <i><font color="Green">Dark Solace|MagicalGPMod=4000|</i> <font size=1>(A&A)</font></font>
+15,<u>Special</u>: <i><font color="Green">Stowing|MagicalGPMod=4000|</i> <font size=1>(A&A)</font></font>
+10,<u>Special</u>: <i><font color="Green">Water Breathing|MagicalGPMod=4000|</i> <font size=1>(A&A)</font></font>
+15,<u>Special</u>: <i><font color="Green">Weightless|MagicalGPMod=4000|</i> <font size=1>(A&A)</font></font>
+15,<u>Special</u>: <i><font color="Green">Wolverine's Armor +2 Cha|MagicalGPMod=4000|</i> <font size=1>(A&A)</font></font>
+5,<u>Special</u>: <i><font color="Green">Spell Absorption|MagicalGPMod=9000|</i> <font size=1>(A&A)</font></font>
+5,<u>Special</u>: <i><font color="Green">Auran|MagicalGPMod=9000|</i> <font size=1>(A&A)</font></font>
+5,<u>Special</u>: <i><font color="Green">Bear's Armor +4 Con|MagicalGPMod=9000|</i> <font size=1>(A&A)</font></font>
+5,<u>Special</u>: <i><font color="Green">Bull's Armor +4 Str|MagicalGPMod=9000|</i> <font size=1>(A&A)</font></font>
+5,<u>Special</u>: <i><font color="Green">Cat's Armor +4 Dex|MagicalGPMod=9000|</i> <font size=1>(A&A)</font></font>
+5,<u>Special</u>: <i><font color="Green">Greater Dark|MagicalGPMod=9000|</i> <font size=1>(A&A)</font></font>
+7,<u>Special</u>: <i><font color="Green">Deathwarding|MagicalGPMod=9000|</i> <font size=1>(A&A)</font></font>
+5,<u>Special</u>: <i><font color="Green">Firm Faith|MagicalGPMod=9000|</i> <font size=1>(A&A)</font></font>
+10,<u>Special</u>: <i><font color="Green">Impact Resistance|MagicalGPMod=9000|</i> <font size=1>(A&A)</font></font>
+5,<u>Special</u>: <i><font color="Green">Owl's Armor +4|MagicalGPMod=9000|</i> <font size=1>(A&A)</font></font>
+5,<u>Special</u>: <i><font color="Green">Phoenix|MagicalGPMod=9000|</i> <font size=1>(A&A)</font></font>
+5,<u>Special</u>: <i><font color="Green">Picker|MagicalGPMod=9000|</i> <font size=1>(A&A)</font></font>
+5,<u>Special</u>: <i><font color="Green">Raven's Armor +4|MagicalGPMod=9000|</i> <font size=1>(A&A)</font></font>
+2,<u>Special</u>: <i><font color="Green">Enhanced Spell Resistance|MagicalGPMod=9000|</i> <font size=1>(A&A)</font></font>
+5,<u>Special</u>: <i><font color="Green">Rusting|MagicalGPMod=9000|</i> <font size=1>(A&A)</font></font>
+1,<u>Special</u>: <i><font color="Green">Greater Spell Storing|MagicalGPMod=9000|</i> <font size=1>(A&A)</font></font>
+2,<u>Special</u>: <i><font color="Green">Summoned|MagicalGPMod=9000|</i> <font size=1>(A&A)</font></font>
+2,<u>Special</u>: <i><font color="Green">Terran|MagicalGPMod=9000|</i> <font size=1>(A&A)</font></font>
+2,<u>Special</u>: <i><font color="Green">Thorny|MagicalGPMod=9000|</i> <font size=1>(A&A)</font></font>
+1,<u>Special</u>: <i><font color="Green">Totem|MagicalGPMod=9000|</i> <font size=1>(A&A)</font></font>
+1,<u>Special</u>: <i><font color="Green">Vampiric|MagicalGPMod=9000|</i> <font size=1>(A&A)</font></font>
+5,<u>Special</u>: <i><font color="Green">Wolverine's Armor +4|MagicalGPMod=9000|</i> <font size=1>(A&A)</font></font>
+2,<u>Special</u>: <i><font color="Green">WyrdWeave|MagicalGPMod=9000|</i> <font size=1>(A&A)</font></font>
+2,<u>Special</u>: <i><font color="Green">Celestial Bone|MagicalGPMod=16000|</i> <font size=1>(A&A)</font></font>
+3,<u>Special</u>: <i><font color="Green">Fiendish Bone|MagicalGPMod=16000|</i> <font size=1>(A&A)</font></font>
+1,<u>Special</u>: <i><font color="Green">Greater Dopple|MagicalGPMod=16000|</i> <font size=1>(A&A)</font></font>
+2,<u>Special</u>: <i><font color="Green">Ignan|MagicalGPMod=16000|</i> <font size=1>(A&A)</font></font>
+1,<u>Special</u>: <i><font color="Green">Living|MagicalGPMod=16000|</i> <font size=1>(A&A)</font></font>
+1,<u>Special</u>: <i><font color="Green">Nagley|MagicalGPMod=16000|</i> <font size=1>(A&A)</font></font>
+1,<u>Special</u>: <i><font color="Green">Tecall|MagicalGPMod=16000|</i> <font size=1>(A&A)</font></font>
+5,<u>Special</u>: <i><font color="Green">Restorative|MagicalGPMod=16000|</i> <font size=1>(A&A)</font></font>
+1,<u>Special</u>: <i><font color="Green">Shifting|MagicalGPMod=16000|</i> <font size=1>(A&A)</font></font>
+2,<u>Special</u>: <i><font color="Green">Greater Solace|MagicalGPMod=16000|</i> <font size=1>(A&A)</font></font>
+1,<u>Special</u>: <i><font color="Green">Greater Dark Solace|MagicalGPMod=16000|</i> <font size=1>(A&A)</font></font>
+2,<u>Special</u>: <i><font color="Green">Tentacled|MagicalGPMod=16000|</i> <font size=1>(A&A)</font></font>
+1,<u>Special</u>: <i><font color="Green">Dire Totem|MagicalGPMod=16000|</i> <font size=1>(A&A)</font></font>
+1,<u>Special</u>: <i><font color="Green">Contingency|MagicalGPMod=25000|</i> <font size=1>(A&A)</font></font>
+1,<u>Special</u>: <i><font color="Green">Greater Spell Reflection|MagicalGPMod=25000|</i> <font size=1>(A&A)</font></font>
+1,<u>Special</u>: <i><font color="Green">Greater Shifting|MagicalGPMod=25000|</i> <font size=1>(A&A)</font></font>
+
+:SAShields
+1-90, 
+91-100, [SpecialAbilitiesShields]
+
+;SpecialAbilitiesShields
+25,<u>Special</u>: <i><font color="Green">Arrow Catching |MagicalGPMod=1000|</i> <font size=1>(DMG3.5)</font></font>
+20,<u>Special</u>: <i><font color="Green">Bashing|MagicalGPMod=1000|</i> <font size=1>(DMG 3.5)</font></font>
+15,<u>Special</u>: <i><font color="Green">Blinding|MagicalGPMod=1000|</i> <font size=1>(DMG 3.5)</font></font>
+20,<u>Special</u>: <i><font color="Green">Light Fortification|MagicalGPMod=1000|</i> <font size=1>(DMG 3.5)</font></font>
+25,<u>Special</u>: <i><font color="Green">Arrow Deflection|MagicalGPMod=4000|</i> <font size=1>(DMG 3.5)</font></font>
+10,<u>Special</u>: <i><font color="Green">Animated|MagicalGPMod=4000|</i> <font size=1>(DMG 3.5)</font></font>
+10,<u>Special</u>: <i><font color="Green">Spell Resistance (13)|MagicalGPMod=4000|</i> <font size=1>(DMG 3.5)</font></font>
+15,<u>Special</u>: <i><font color="Green">Acid Resistance|MagicalGPMod=18000|</i> <font size=1>(DMG 3.5)</font></font>
+15,<u>Special</u>: <i><font color="Green">Cold Resistance|MagicalGPMod=18000|</i> <font size=1>(DMG 3.5)</font></font>
+15,<u>Special</u>: <i><font color="Green">Electricity Resistance|MagicalGPMod=18000|</i> <font size=1>(DMG 3.5)</font></font>
+15,<u>Special</u>: <i><font color="Green">Fire Resistance|MagicalGPMod=18000|</i> <font size=1>(DMG 3.5)</font></font>
+15,<u>Special</u>: <i><font color="Green">Sonic Resistance|MagicalGPMod=18000|</i> <font size=1>(DMG 3.5)</font></font>
+18,<u>Special</u>: <i><font color="Green">Ghost Touch|MagicalGPMod=9000|</i> <font size=1>(DMG 3.5)</font></font>
+10,<u>Special</u>: <i><font color="Green">Moderate Fortification|MagicalGPMod=9000|</i> <font size=1>(DMG 3.5)</font></font>
+5,<u>Special</u>: <i><font color="Green">Spell Resistance (15)|MagicalGPMod=9000|</i> <font size=1>(DMG 3.5)</font></font>
+10,<u>Special</u>: <i><font color="Green">Wild|MagicalGPMod=9000|</i> <font size=1>(DMG 3.5)</font></font>
+10,<u>Special</u>: <i><font color="Green">Moderate Acid Resistance|MagicalGPMod=42000|</i> <font size=1>(DMG 3.5)</font></font>
+10,<u>Special</u>: <i><font color="Green">Moderate Cold Resistance|MagicalGPMod=42000|</i> <font size=1>(DMG 3.5)</font></font>
+10,<u>Special</u>: <i><font color="Green">Moderate Electricity Resistance|MagicalGPMod=42000|</i> <font size=1>(DMG 3.5)</font></font>
+10,<u>Special</u>: <i><font color="Green">Moderate Fire Resistance|MagicalGPMod=42000|</i> <font size=1>(DMG 3.5)</font></font>
+10,<u>Special</u>: <i><font color="Green">Moderate Sonic Resistance|MagicalGPMod=42000|</i> <font size=1>(DMG 3.5)</font></font>
+5,<u>Special</u>: <i><font color="Green">Spell Resistance (17)|MagicalGPMod=16000|</i> <font size=1>(DMG 3.5)</font></font>
+5,<u>Special</u>: <i><font color="Green">Undead Controlling|MagicalGPMod=49000|</i> <font size=1>(DMG 3.5)</font></font>
+5,<u>Special</u>: <i><font color="Green">Heavy Fortification|MagicalGPMod=25000|</i> <font size=1>(DMG 3.5)</font></font>
+5,<u>Special</u>: <i><font color="Green">Reflecting|MagicalGPMod=25000|</i> <font size=1>(DMG 3.5)</font></font>
+5,<u>Special</u>: <i><font color="Green">Spell Resistance (19)|MagicalGPMod=25000|</i> <font size=1>(DMG 3.5)</font></font>
+5,<u>Special</u>: <i><font color="Green">Greater Acid Resistance|MagicalGPMod=66000|</i> <font size=1>(DMG 3.5)</font></font>
+5,<u>Special</u>: <i><font color="Green">Greater Cold Resistance|MagicalGPMod=66000|</i> <font size=1>(DMG 3.5)</font></font>
+5,<u>Special</u>: <i><font color="Green">Greater Electricity Resistance|MagicalGPMod=66000|</i> <font size=1>(DMG 3.5)</font></font>
+5,<u>Special</u>: <i><font color="Green">Greater Fire Resistance|MagicalGPMod=66000|</i> <font size=1>(DMG 3.5)</font></font>
+5,<u>Special</u>: <i><font color="Green">Greater Sonic Resistance|MagicalGPMod=66000|</i> <font size=1>(DMG 3.5)</font></font>
+5,<u>Special</u>: <i><font color="Green">Clamping|MagicalGPMod=1000|</i> <font size=1>(A&A)</font></font>
+25,<u>Special</u>: <i><font color="Green">Gaze Protection|MagicalGPMod=1000|</i> <font size=1>(A&A)</font></font>
+10,<u>Special</u>: <i><font color="Green">Healing|MagicalGPMod=1000|</i> <font size=1>(A&A)</font></font>
+10,<u>Special</u>: <i><font color="Green">Inspiration|MagicalGPMod=1000|</i> <font size=1>(A&A)</font></font>
+25,<u>Special</u>: <i><font color="Green">Quick Don|MagicalGPMod=1000|</i> <font size=1>(A&A)</font></font>
+25,<u>Special</u>: <i><font color="Green">Quick Release|MagicalGPMod=1000|</i> <font size=1>(A&A)</font></font>
+20,<u>Special</u>: <i><font color="Green">Rust Proof|MagicalGPMod=1000|</i> <font size=1>(A&A)</font></font>
+10,<u>Special</u>: <i><font color="Green">Spell Storing|MagicalGPMod=1000|</i> <font size=1>(A&A)</font></font>
+10,<u>Special</u>: <i><font color="Green">Spellcasting|MagicalGPMod=1000|</i> <font size=1>(A&A)</font></font>
+10,<u>Special</u>: <i><font color="Green">Undetectable|MagicalGPMod=1000|</i> <font size=1>(A&A)</font></font>
+10,<u>Special</u>: <i><font color="Green">Variant|MagicalGPMod=1000|</i> <font size=1>(A&A)</font></font>
+5,<u>Special</u>: <i><font color="Green">Viscid|MagicalGPMod=1000|</i> <font size=1>(A&A)</font></font>
+25,<u>Special</u>: <i><font color="Green">Barbed/Bladed|MagicalGPMod=4000|</i> <font size=1>(A&A)</font></font>
+10,<u>Special</u>: <i><font color="Green">Dark|MagicalGPMod=4000|</i> <font size=1>(A&A)</font></font>
+5,<u>Special</u>: <i><font color="Green">Dopple|MagicalGPMod=4000|</i> <font size=1>(A&A)</font></font>
+10,<u>Special</u>: <i><font color="Green">Glimmer|MagicalGPMod=4000|</i> <font size=1>(A&A)</font></font>
+10,<u>Special</u>: <i><font color="Green">Grotesque|MagicalGPMod=4000|</i> <font size=1>(A&A)</font></font>
+10,<u>Special</u>: <i><font color="Green">Greater Healing|MagicalGPMod=4000|</i> <font size=1>(A&A)</font></font>
+10,<u>Special</u>: <i><font color="Green">Imprinted|MagicalGPMod=4000|</i> <font size=1>(A&A)</font></font>
+5,<u>Special</u>: <i><font color="Green">Magnetic|MagicalGPMod=4000|</i> <font size=1>(A&A)</font></font>
+5,<u>Special</u>: <i><font color="Green">Morphic|MagicalGPMod=4000|</i> <font size=1>(A&A)</font></font>
+5,<u>Special</u>: <i><font color="Green">Muse|MagicalGPMod=4000|</i> <font size=1>(A&A)</font></font>
+5,<u>Special</u>: <i><font color="Green">Spell Reflection|MagicalGPMod=4000|</i> <font size=1>(A&A)</font></font>
+7,<u>Special</u>: <i><font color="Green">Solace|MagicalGPMod=4000|</i> <font size=1>(A&A)</font></font>
+5,<u>Special</u>: <i><font color="Green">Dark Solace|MagicalGPMod=4000|</i> <font size=1>(A&A)</font></font>
+10,<u>Special</u>: <i><font color="Green">Stowing|MagicalGPMod=4000|</i> <font size=1>(A&A)</font></font>
+5,<u>Special</u>: <i><font color="Green">Water Breathing|MagicalGPMod=4000|</i> <font size=1>(A&A)</font></font>
+15,<u>Special</u>: <i><font color="Green">Weightless|MagicalGPMod=4000|</i> <font size=1>(A&A)</font></font>
+2,<u>Special</u>: <i><font color="Green">Spell Absorption|MagicalGPMod=9000|</i> <font size=1>(A&A)</font></font>
+2,<u>Special</u>: <i><font color="Green">Greater Dark|MagicalGPMod=9000|</i> <font size=1>(A&A)</font></font>
+3,<u>Special</u>: <i><font color="Green">Deathwarding|MagicalGPMod=9000|</i> <font size=1>(A&A)</font></font>
+2,<u>Special</u>: <i><font color="Green">Firm Faith|MagicalGPMod=9000|</i> <font size=1>(A&A)</font></font>
+5,<u>Special</u>: <i><font color="Green">Impact Resistance|MagicalGPMod=9000|</i> <font size=1>(A&A)</font></font>
+2,<u>Special</u>: <i><font color="Green">Picker|MagicalGPMod=9000|</i> <font size=1>(A&A)</font></font>
+1,<u>Special</u>: <i><font color="Green">Enhanced Spell Resistance|MagicalGPMod=9000|</i> <font size=1>(A&A)</font></font>
+1,b>Magical Special Ability:</b><i><font color="Green">Greater Spell Storing|MagicalGPMod=9000|</i> <font size=1>(A&A)</font></font>
+1,<u>Special</u>: <i><font color="Green">Summoned|MagicalGPMod=9000|</i> <font size=1>(A&A)</font></font>
+3,<u>Special</u>: <i><font color="Green">Thorny|MagicalGPMod=9000|</i> <font size=1>(A&A)</font></font>
+1,<u>Special</u>: <i><font color="Green">Totem|MagicalGPMod=9000|</i> <font size=1>(A&A)</font></font>
+1,<u>Special</u>: <i><font color="Green">WyrdWeave|MagicalGPMod=9000|</i> <font size=1>(A&A)</font></font>
+1,<u>Special</u>: <i><font color="Green">Celestial Bone|MagicalGPMod=16000|</i> <font size=1>(A&A)</font></font>
+1,<u>Special</u>: <i><font color="Green">Fiendish Bone|MagicalGPMod=16000|</i> <font size=1>(A&A)</font></font>
+1,<u>Special</u>: <i><font color="Green">Greater Dopple|MagicalGPMod=16000|</i> <font size=1>(A&A)</font></font>
+1,<u>Special</u>: <i><font color="Green">Living|MagicalGPMod=16000|</i> <font size=1>(A&A)</font></font>
+1,<u>Special</u>: <i><font color="Green">Recall|MagicalGPMod=16000|</i> <font size=1>(A&A)</font></font>
+2,<u>Special</u>: <i><font color="Green">Restorative|MagicalGPMod=16000|</i> <font size=1>(A&A)</font></font>
+1,<u>Special</u>: <i><font color="Green">Shifting|MagicalGPMod=16000|</i> <font size=1>(A&A)</font></font>
+1,<u>Special</u>: <i><font color="Green">Greater Solace|MagicalGPMod=16000|</i> <font size=1>(A&A)</font></font>
+1,<u>Special</u>: <i><font color="Green">Greater Dark Solace|MagicalGPMod=16000|</i> <font size=1>(A&A)</font></font>
+3,<u>Special</u>: <i><font color="Green">Tentacled|MagicalGPMod=16000|</i> <font size=1>(A&A)</font></font>
+1,<u>Special</u>: <i><font color="Green">Dire Totem|MagicalGPMod=25000|</i> <font size=1>(A&A)</font></font>
+1,<u>Special</u>: <i><font color="Green">Contingency|MagicalGPMod=25000|</i> <font size=1>(A&A)</font></font>
+2,<u>Special</u>: <i><font color="Green">Heavy Fortification|MagicalGPMod=25000|</i> <font size=1>(A&A)</font></font>
+1,<u>Special</u>: <i><font color="Green">Patchwork|MagicalGPMod=25000|</i> <font size=1>(A&A)</font></font>
+1,<u>Special</u>: <i><font color="Green">Greater Spell Reflection|MagicalGPMod=25000|</i> <font size=1>(A&A)</font></font>
+1,<u>Special</u>: <i><font color="Green">Antipathy|MagicalGPMod=16000|</i> <font size=1>(DOF)</font></font>
+5,<u>Special</u>: <i><font color="Green">Called|MagicalGPMod=1000|</i> <font size=1>(DOF)</font></font>
+2,<u>Special</u>: <i><font color="Green">Charming|MagicalGPMod=9000|</i> <font size=1>(DOF)</font></font>
+10,<u>Special</u>: <i><font color="Green">Command|MagicalGPMod=4000|</i> <font size=1>(DOF)</font></font>
+20,<u>Special</u>: <i><font color="Green">Daylight|MagicalGPMod=4000|</i> <font size=1>(DOF)</font></font>
+2,<u>Special</u>: <i><font color="Green">Energy Drain|MagicalGPMod=4000|</i> <font size=1>(DOF)</font></font>
+1,<u>Special</u>: <i><font color="Green">Ethereal, Self Only|MagicalGPMod=9000|</i> <font size=1>(DOF)</font></font>
+1,<u>Special</u>: <i><font color="Green">Ethereal, All in Contact|MagicalGPMod=16000|</i> <font size=1>(DOF)</font></font>
+5,<u>Special</u>: <i><font color="Green">Fearsome|MagicalGPMod=4000|</i> <font size=1>(DOF)</font></font>
+10,<u>Special</u>: <i><font color="Green">Feathered|MagicalGPMod=4000|</i> <font size=1>(DOF)</font></font>
+10,<u>Special</u>: <i><font color="Green">Ice|MagicalGPMod=9000|</i> <font size=1>(DOF)</font></font>
+10,<u>Special</u>: <i><font color="Green">Sacred|MagicalGPMod=4000|</i> <font size=1>(DOF)</font></font>
+5,<u>Special</u>: <i><font color="Green">Speed|MagicalGPMod=9000|</i> <font size=1>(DOF)</font></font>
+5,<u>Special</u>: <i><font color="Green">Undead Controlling|MagicalGPMod=16000|</i> <font size=1>(DOF)</font></font>
+10,<u>Special</u>: <i><font color="Green">Undead Disrupting|MagicalGPMod=4000|</i> <font size=1>(DOF)</font></font>
+
+# -----------------------------------------------------------------------------------
+# SUPPORT TABLES
+
+# -----------------------------------------------------------------------------------
+# Conditions
+
+;ArmorCondition
+1,|GetData=[EQ_Main.ArmorCondition]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_{If~%DataName%=Masterwork?|MWGPMod=%DataPercentMod%|/|PercentGPMod+%DataPercentMod%|}
+_%DataName%
+
+# -----------------------------------------------------------------------------------
+# Materials
+
+;WoodOrSteel
+1,|GetData=[EQ_Main.WoodOrSteel]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+;WoodOrSteel2
+1,|GetData=[EQ_Main.WoodOrSteel2]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+;HiltMaterial
+1,|GetData=[EQ_Main.HiltMaterial]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+;WeaponMetals
+1,|GetData=[EQ_Main.WeaponMetals]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+;MAMaterial
+1,|GetData=[EQ_Main.MAMaterial]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+;HideKindMagical
+1,|GetData=[EQ_Main.HideKindMagical]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+;HideKindMundane
+1,|GetData=[EQ_Main.HideKindMundane]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# -----------------------------------------------------------------------------------
+# Size Tables
+
+;BodySize
+1,|GetData=[EQ_Main.BodySize]|
+_{Split~GetData,"!!!",DataName,ArmorSizeMod}
+_%DataName%
+
+# -----------------------------------------------------------------------------------
+# Tables Related to the Extra features on Armor or Rods - Engravings and the like
+
+;AnyExtrasMundane
+1,|GetData=[EQ_Main.AnyExtrasMundane]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+;AnyExtrasMA
+1,|GetData=[EQ_Main.AnyExtrasMA]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# ----------------------------------------------------------------------------
+# Wood Tables
+
+;Woods
+1,|GetData=[EQ_Main.Woods]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%

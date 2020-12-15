@@ -1,0 +1,2181 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder August 20, 2006.
+# ---------------------------------------------------
+#
+# Tavern Patrons
+# This table is a composed from many sources of the web.
+# These are not my descriptions, Just my format to Table Smith.
+# If you make any changes or add new descriptions please send me a
+# copy of the changes: odell_williams@hotmail.com
+#
+# Rolls random patrons for an inn or tavern
+# Uses the Following Tables:
+#	Miscellaneous 	By: Bruce A. Gulke
+# This table when combined with Inn table (by me), Inn Events Table and
+# Inn Menu Table (By: Bruce A. Gulke) makes a good complete Inn or Tavern.
+#
+# There are several var. that need to be set up.
+#
+#
+#
+# Modified by Valminder, May 2002 / July 2003.
+#    I corrected some errors, added some {Plural~[]} functions and some 
+#       {AorAn} OR {Cap} where applicable.
+#    I changed the START line to put a {Loop~...} function instead.
+#    I added a new line (25) to the table ":Tables" linking it to the
+#       Rumors table.
+#    I also linked this table with a few others:
+#       Countries.Land
+#       Creatures.Humanoid2 (for common races)
+#       Creatures.Familiar
+#       Miscellaneous.Color
+#       Miscellaneous.Language
+#       Miscellaneous.Metal
+#       Miscellaneous.Precious Metal
+#       Miscellaneous.Other Material
+#       Religion.Deities
+#       Rumors.Generate
+#       Rune Generator.GenRune (from Monte Cook, to generate tatoos or signs)
+#
+#       :Race ==> [Creatures.Humanoid2]  (for more humanoids) 
+#       :Elves Race ==> [Creatures.Elf]
+#       All [weapons] subtable ==> [Equipment.Weapons] (to add wpns as we want)
+#
+#       NOTE: I put this table in the "~Reference" folder because I'll only
+#             use it with the "Inn Generator" table.
+#
+# Modified by Valminder, August 2006.
+#    I added Encounters and stuff from "InnEvents1.tab" by odell_williams@hotmail.com.
+#    Added more chances for bards to appear in an Inn.
+#    Changed "Inn Generator.tab" to call the "Inn Generator" subtable because Lockout~
+#       does not work when the table is called from the outside.
+#    Added some other kinds of bards, not only musicians, but dancers, buffoouns, etc.
+# Modified by Valminder, Octobre 2016
+#    Modified link "Countries.Start" to "Countries.Countries"
+#
+#
+#VAR  Male        	Female     	 Many
+###################################################
+#A%=	he			she		they
+#B%=	his			her		their
+#C%= 	him 			her		them
+#D%	s			s
+#E%	is			is		are
+#F%	has			has		have
+#G%	does not		does not	do not
+#H%  This is used to get the class of a certain race
+#I%   male        	female
+#J%	female		male
+#K%  Used to generate a random number of tables
+#L%  HE                 SHE		They
+#####################################################
+
+%A%,0
+%B%,0
+%C%,0
+%D%,0
+%E%,0
+%F%,0
+%G%,0
+%H%,0
+%I%,0
+%J%,0
+%K%,0
+%L%,0
+%Y%,0
+%Z%,0
+%TAB%,0
+
+:Start
+1,|K={Dice~2d4+8}||TAB={Dice~1d%K%}|
+_<br><b>There are %K% tables in this establishment, at this time %TAB% are occupied.</b> <br>{Loop~%TAB%,<br>[Tables]}
+
+# This line is for "Inn Generator.tab" because I don't want 2 bards in the same inn, they do not like competition. ;-)
+# That's what Lockout~ is for in "Tables" below. 
+:Inn Generator
+1,{Loop~{Dice~1d3},-{Cap~[Tables]}}
+
+;Tables
+# The first 2 lines are for bards (if you modify them, also modify Lockout~ below).
+6,[SetSingleVars]{Cap~[Pre Music]} [Post Music]. [Music Descr].<br>{Lockout~Tables,1-10}
+# Here are the new kind of bards
+4,[SetSingleVars]{Cap~[Pre Music]} [Post Music2]. [Music Descr2].<br>{Lockout~Tables,1-10}
+1,[SetSingleVars]{Cap~[Single Unclothed Patron]} [Post Sentence]. {Cap~[Patrons Descr]}.  {Cap~[Weapon or no Weapon]}<br>
+1,[SetSingleVars]{Cap~[Pre Sentence]} [Single Unclothed Patron]. {Cap~[Patrons Descr]}. {Cap~[Weapon or no Weapon]}<br>
+1,[SetSingleVars]{Cap~[Pre Sentence]} [Single Clothed Patron]. {Cap~[Patrons Descr]}.<br>
+1,[SetSingleVars]{Cap~[Single Clothed Patron]} [Post Sentence]. {Cap~[Patrons Descr]}. <br>
+1,[SetManyVars]{Cap~[Many Clothed Patron]} [Post Sentence]. {Cap~[Many Patron Descr]}.<br>
+1,[SetManyVars]{Cap~[Many Clothed Patron]} [Post Sentence]. {Cap~[Patrons Descr]}.<br>
+1,[SetManyVars]{Cap~[Pre Sentence]} [Many Clothed Patron]. {Cap~[Many Patron Descr]}.<br>
+1,[SetManyVars]{Cap~[Pre Sentence]} [Many Clothed Patron]. {Cap~[Patrons Descr]}. <br>
+1,[SetManyVars]{Cap~[Many Unclothed Patrons]} [Post Sentence]. {Cap~[Many Patron Descr]}. {Cap~[Weapon or no Weapon]}<br>
+1,[SetManyVars]{Cap~[Many Unclothed Patrons]} [Post Sentence]. {Cap~[Patrons Descr]}. {Cap~[Weapon or no Weapon]}<br>
+1,[SetManyVars]{Cap~[Pre Sentence]} [Many Unclothed Patrons]. {Cap~[Many Patron Descr]}. {Cap~[Weapon or no Weapon]}<br>
+1,[SetManyVars]{Cap~[Pre Sentence]} [Many Unclothed Patrons]. {Cap~[Patrons Descr]}. {Cap~[Weapon or no Weapon]}<br>
+1,[SetSingleVars=10]{Cap~[female Single]} [Post Sentence]. [Female Patron Select].<br>
+1,[SetSingleVars=10]{Cap~[Pre Sentence]} [female Single]. {Cap~[Female Patron Select]}.<br>
+1,[SetManyVars=10]{Cap~[Female many]} [Post Sentence]. {Cap~[Female Many Patron Select]}.<br>
+1,[SetManyVars=10]{Cap~[Pre Sentence]} [Female many]. {Cap~[Female Many Patron Select]}.<br>
+1,[SetManyVars]{Cap~[Sailors]} [Post Sentence]. {Cap~[Sailors Descr]}.<br>
+1,[SetManyVars]{Cap~[Pre Sentence]} [Sailors]. {Cap~[Sailors Descr]}.<br>
+1,[SetManyVars]{Cap~[Pre Family]} [Post Sentence Family]. [Family Descr].<br>
+1,[SetManyVars]{Cap~[Pre Sentence]} [Pre Family]. [Family Descr].<br>
+1,[SetManyVars]{Cap~[Couples]} [Couples Descr].<br>
+1,[SetManyVars]{Cap~[Couples]} [Post Sentence Family]. {Cap~[Many Patron Descr]}.<br>
+1,[SetManyVars]{Cap~[Pre Sentence]} [Couples]. {Cap~[Many Patron Descr]}.<br>
+3,<u>Encounter</u>: [Encounter].<br>
+
+;SetSingleVars
+4,|A=he| |B=his| |C=him| |D=s| |E=is| |F=has| |G=does not||I=male||J=female||L=He|
+1,|A=she| |B=her| |C=her| |D=s| |E=is| |F=has||G=does not||I=female||J=male||L=She|
+
+;SetManyVars
+4,|A=they| |B=their| |C=them| |D=| |E=are| |F=have| |G=do not||I=male||J=female||L=They|
+1,|A=they| |B=their| |C=them| |D=| |E=are| |F=have| |G=do not||I=female||J=male||L=They|
+
+:Weapon or no Weapon
+1-10,[Patrons Weapons].
+11-15,
+
+:Female Patron Select
+1-3,{Cap~[Female Descr]}
+4-5,{Cap~[Patrons Descr]}
+
+:Female Many Patron Select
+1-5,[Many Patron Descr]
+6-7,[Patrons Descr]
+8-10,[Female Many Descr]
+
+:Single Patron Select
+1,[Post Sentence Single]. {Cap~[Patrons Descr]}
+2,[Post Sentence Single]. {Cap~[Patrons Descr]}
+
+:Pre Sentence
+1,a rather attractive and muscular <b>[Creatures.Humanoid2]</b> barmaid is serving drinks to
+2,almost hidden in the half-light, sits
+3,as you look across at one table you notice
+4,at a long table in the center of the room sit
+5,at one table %E%
+6,at one table sits
+7,at the bar %E%
+8,at the center table, sits
+9,at the largest table, in the most ornate chair, sits
+10,at the table near the wall sits
+11,at this table sits
+12,at this table you notice
+13,by this table %E%
+14,centered in the room, at a small table %E%
+15,here you see
+16,in a badly lit corner booth sits
+17,in the corner sits
+18,in the dark corner of the tavern you notice
+19,in the darkest corner of the room sits
+20,in the far end of the tavern, at a table, sits
+21,in this corner sits
+22,at this table %E% sitting what appear to be
+23,leaning back in the chair sit%D%
+24,near the back sits
+25,near the fireplace you notice
+26,over in the corner, near the window, sits
+27,seated at the table
+28,seated %E%
+29,setting at a table together %E%
+30,sitting at the table %E%
+31,slouching at this table %E%
+32,standing near the bar %E%
+33,the table holds
+34,you notice
+35,you see
+
+:Post Sentence
+1,%E% at this table
+2,%E% resting here
+3,%E% seated about this table
+4,%E% seated at this table
+5,%E% sitting at this table
+6,%E% standing near the bar
+7,occupy%D% this table
+8,sit%D% almost hidden in the half-light
+9,sit%D% apart from the rest of the customers
+10,sit%D% at a long table in the center of the room
+11,sit%D% at a low, solid table
+12,sit%D% at a small table in the corner
+13,sit%D% at a table
+14,sit%D% at a table by the corner
+15,sit%D% at a table in the far end of the tavern
+16,sit%D% at large table
+17,sit%D% at one table
+18,sit%D% at the back of the bar
+19,sit%D% at the bar
+20,sit%D% at the center table
+21,sit%D% at the largest table, in the most ornate chair
+22,sit%D% at the table
+23,sit%D% at the table in the corner of the room
+24,sit%D% by this table
+25,sit%D% here
+26,sit%D% in a badly lit corner booth
+27,sit%D% in a well-lit corner
+28,sit%D% in the corner
+29,sit%D% in the dark corner of the tavern
+30,sit%D% in the darkest corner of the room
+31,sit%D% in the dim light
+32,sit%D% in this corner
+33,sit%D% leaning back in %B% chair
+34,sit%D% near a window
+35,sit%D% near the back
+36,sit%D% near the fireplace
+37,sit%D% over in the corner, near the window
+38,stand around a table
+
+:Post Sentence Family
+1,chat%D% and drink
+2,chews at %B% meal
+3,devours %B% meal
+4,%E% [Eating] a disgusting looking mess of food
+5,%E% [Eating] a wholesome, solid meal
+6,%E% [Eating] %B% meal slowly, looking around the tavern all the time
+7,%E% eating a flat cheesy food
+8,%E% having lunch
+9,%E% resting here
+10,%E% seated about this table
+11,%E% sitting at this table
+12,%E% enjoying a simple vegetable pottage for dinner
+13,eat%D% %B% meal
+14,enjoy%D% %B% meal
+15,enjoy%D% %B% meal and rest
+16,looking satisfied eats here
+17,occupy%D% this table
+18,picks over %B% plate of cheap food with little enthusiasm
+19,sit%D% apart from the rest of the customers
+20,sit%D% at a low, solid table
+21,sit%D% at a small table in the corner
+22,sit%D% at a table
+23,sit%D% at a table by the corner
+24,sit%D% at the table in the corner of the room
+25,sit%D% at this table
+26,sit%D% at this table, laughing loudly
+27,sit%D% here
+28,sit%D% here and attempts to spoon up %B% soup
+29,sit%D% here and eats %B% meal
+30,sit%D% here and eats bread
+31,sit%D% in a well-lit corner
+32,sit%D% here, literally sharing a meal
+33,dines at this table
+34,sit%D% at this table, quietly eating their meals
+35,share a simple meal at this table
+36,enjoy each others company as they finish their meager meal
+37,sit%D% at  the table, eating
+38,sit%D% at the table drinking water and eating bread
+39,%F% a silent dinner around the table
+40,%E% eating trail rations
+41,%E% eating with no matters
+
+:Single Unclothed Patron
+1,{AorAn~[Age]} [%I% Human]
+2,{AorAn~[Age]} [%I% Size], %I% [Race or Class]
+3,{AorAn~[Age]} [Race or Class]
+#4,{AorAn~[Age]} |A=[Race]|%A% [%A% Class]
+4,{AorAn~[Age]} |A=[Race]|%A% [Class]
+5,{AorAn~[Age]} frail <b>[Creatures.Humanoid2]</b>
+6,{AorAn~[Age]} %I%
+7,{AorAn~[Age]} %I% with crooked teeth
+8,{AorAn~[Age]}, frail %I%
+9,{AorAn~[Age]}, spectacled [%I% Human]
+10,{AorAn~[Age]} [SetSingleVars=1] [male Human] with a white beard and white hair
+11,{AorAn~[Age]} [SetSingleVars=1] bearded <b>[Creatures.Humanoid2]</b>
+12,{AorAn~[Age]} [SetSingleVars=10] <b>[Creatures.Humanoid2]</b> lady
+13,{AorAn~[Disposition]} [%I% Human] in %B% fifties with dusky skin and [Hair] hair
+14,{AorAn~[Disposition]} [Race or Class]
+15,{AorAn~[Disposition]} [Race or Class] with long [Hair] hair
+16,{AorAn~[Disposition]}, [Age] [Race or Class]
+17,{AorAn~[Eye Color]} eyed [Race or Class]
+18,{AorAn~[Hair]} haired [Race or Class]
+19,{AorAn~[%I% Human]} with [Eye Color] eyes
+20,{AorAn~[%I% Human]} with [Hair] hair, cut short
+21,{AorAn~[%I% Size]} [Age] <b>[Creatures.Humanoid2]</b> with a stern look and [Hair] hair
+22,{AorAn~[%I% Size]} [%I% Human], who is nearing forty with thick muscles,
+23,{AorAn~[%I% Size]} [Race or Class]
+24,{AorAn~[%I% Size]} [Race or Class] of middling height and age
+#25,{AorAn~[%I% Size]} |H=[Race]|%H% [%H% Class]
+25,{AorAn~[%I% Size]} |H=[Race]|%H% [Class]
+26,{AorAn~[%I% Size]} <b>[Creatures.Humanoid2]</b>
+27,{AorAn~[%I% Size]} <b>[Creatures.Humanoid2]</b> <b>[Miscellaneous.Class]</b>
+28,{AorAn~[%I% Size]} individual
+29,{AorAn~[%I% Size]} weasel faced [Race or Class]
+30,{AorAn~[%I% Size]}, scarred <b>[Creatures.Humanoid2]</b>
+31,{AorAn~[%I% Looks]} [%I% Human]
+32,{AorAn~[%I% Looks]} [Race or Class]
+#33,{AorAn~[%I% Looks]} |H=[Race]|%H% [%H% Class]
+33,{AorAn~[%I% Looks]} |H=[Race]|%H% [Class]
+34,{AorAn~[male Human]} [SetSingleVars=1] with [Hair] hair and a full beard
+35,{AorAn~[male Size]} [SetSingleVars=1] unshaven [%I% Human]
+36,{AorAn~[Patron Type]}
+37,{AorAn~[Race or Class]}
+38,{AorAn~[Race or Class]} with [Hair] hair
+39,{AorAn~[Race]}
+40,{AorAn~[Race]} at the bar
+41,{AorAn~[Race]} with eyeglasses
+42,{AorAn~[Race]} with what looks like a monkey on a leash
+43,{AorAn~[Skin Tone]} [%I% Human] with [Hair] hair
+44,{AorAn~[Skin Tone]} [Race or Class]
+45,{AorAn~[Skin Tone]} %I%
+46,a [Age] [Race or Class]
+47,a [Drunk] [Age] [Race or Class]
+48,a [Drunk] [Race or Class]
+49,a [Drunk] and amorous [Race or Class]
+50,a [Eye Color] eyed <b>[Creatures.Humanoid2]</b>
+51,a [Race or Class]
+52,a [Race or Class] in %B% mid-20's
+53,a [Race or Class] with eyeglasses
+#54,a |H=[Race]|%H% [%H% Class]
+54,a |H=[Race]|%H% [Class]
+55,a barbaric looking [Race or Class]
+56,a [SetSingleVars=1] dapper young <b>[Creatures.Humanoid2]</b> with his hair slicked back and his goatee trimmed
+57,a darkly tanned and weathered young [Race or Class]
+58,a dirty, scruffy-looking [Race or Class]
+59,a drunken [Race or Class]
+60,a famous <b>[Creatures.Humanoid2]</b> <b>[Miscellaneous.Class]</b>
+61,a fat <b>[Creatures.Humanoid2]</b> %I%
+62,a grumpy looking [Race or Class]
+63,a <b>[Creatures.Humanoid2]</b> of considerable size
+64,a <b>[Creatures.Humanoid2]</b> <b>[Miscellaneous.Class]</b>
+65,a %I% [Race or Class]
+66,a %I% <b>[Creatures.Humanoid2]</b>
+67,a %I% clearly totally drunk
+68,a %I% of <b>[Creatures.Humanoid2]</b> heritage
+69,a large <b>[Creatures.Humanoid2]</b>
+70,a large <b>[Creatures.Humanoid2]</b> <b>[Miscellaneous.Class]</b>
+71,a lone [Race or Class]
+72,a lone <b>[Creatures.Humanoid2]</b> <b>[Miscellaneous.Class]</b>
+73,a longhaired [Race or Class]
+74,a middle-aged <b>[Creatures.Humanoid2]</b> %I% with fine boots
+75,a middle-aged, overweight and balding <b>[Creatures.Humanoid2]</b>
+76,a non decrepit <b>[Creatures.Humanoid2]</b>
+77,a overweight <b>[Creatures.Humanoid2]</b>
+78,a pleasant [Hair] haired, [Eye Color] eyed <b>[Creatures.Humanoid2]</b>
+79,a quiet [Elves Race]
+80,a small <b>[Creatures.Humanoid2]</b> %I%
+81,a solitary [Race or Class]
+82,a stately [Race or Class]
+83,a stout <b>[Creatures.Humanoid2]</b>
+84,a stout <b>[Creatures.Humanoid2]</b> %I%
+85,a strong [Race or Class]
+86,a strong [Race or Class] %I%
+87,a tall <b>[Creatures.Humanoid2]</b>
+88,a thin <b>[Creatures.Humanoid2]</b> character
+89,a tired looking <b>[Creatures.Humanoid2]</b> %I%
+90,a wealthy <b>[Creatures.Humanoid2]</b> %I%
+91,a weather worn <b>[Creatures.Humanoid2]</b> bounty hunter
+92,a wild looking amber-eyed <b>[Creatures.Humanoid2]</b> %I%
+93,a worried looking [Race or Class]
+94,a young <b>[Creatures.Humanoid2]</b> adventurer, perhaps 20,
+95,a young looking <b>[Creatures.Humanoid2]</b> %I%
+96,a[SetSingleVars=1] bald [Race or Class]
+97,a[SetSingleVars=1] bearded [Race or Class]
+98,a[SetSingleVars=1] bearded musty [Race or Class]
+99,a[SetSingleVars=1] brooding well-muscled <b>[Creatures.Humanoid2]</b>
+100,a[SetSingleVars=1] cheerful <b>[Creatures.Humanoid2]</b> with long beard
+101,a[SetSingleVars=1] dark skinned <b>[Creatures.Humanoid2]</b>
+102,a[SetSingleVars=1] dark-skinned <b>[Creatures.Humanoid2]</b> with lively active eyes
+103,a[SetSingleVars=1] dwarf, his long gray beard almost reaching his knees
+104,a[SetSingleVars=1] hunched [Age] <b>[Creatures.Humanoid2]</b>
+105,a[SetSingleVars=1] large, broad-shouldered <b>[Creatures.Humanoid2]</b>
+106,a[SetSingleVars=1] little round <b>[Creatures.Humanoid2]</b> with a relaxed smile
+107,a[SetSingleVars=1] <b>[Creatures.Humanoid2]</b> with very large boots, far too big for his feet
+108,a[SetSingleVars=1] strong <b>[Creatures.Humanoid2]</b> man
+109,an athletic looking [%I% Human]
+110,an ugly, fat <b>[Creatures.Humanoid2]</b> %I%
+111,an unkempt <b>[Creatures.Humanoid2]</b>
+112,an[SetSingleVars=1] almost-handsome <b>[Creatures.Humanoid2]</b>
+113,an[SetSingleVars=10] older, though handsome, <b>[Creatures.Humanoid2]</b> lady
+114,the tavern owner
+
+:Single Clothed Patron
+1,{Cap~{AorAn~[Race]}} [Patron Type] in %B% early twenties
+2,{AorAn~[Age]} <b>[Creatures.Humanoid2]</b> vagabond
+3,{AorAn~[Age]} blind <b>[Creatures.Humanoid2]</b> beggar
+4,{AorAn~[Age]} <b>[Creatures.Humanoid2]</b> %I% [%I% Clothing 1]
+5,{AorAn~[Age]} <b>[Creatures.Humanoid2]</b> merchant
+6,{AorAn~[Age]} <b>[Creatures.Humanoid2]</b> Minstrel
+7,{AorAn~[Age]} <b>[Creatures.Humanoid2]</b> noble
+8,{AorAn~[%I% Size]}, <b>[Creatures.Humanoid2]</b> noble
+9,{AorAn~[Race or Class]}  [%I% Clothing 1]
+10,{AorAn~[Race]} [%I% Clothing 1]
+11,{AorAn~[Race]} [Patron Type]
+12,{AorAn~[Race]} %I% [%I% Clothing 1]
+13,{AorAn~[Race]} in a road wardens uniform
+14,{AorAn~[Race]} warrior in engraved plate-mail
+15,{AorAn~[Race]} with wild eyes, [%I% Clothing 1]
+16,a[SetSingleVars=1] barrel chested <b>[Creatures.Humanoid2]</b>, his muscles pushing to beak free from the cloth jerkin he wears
+17,a[SetSingleVars=1] bearded, bald <b>[Creatures.Humanoid2]</b>, [%I% Clothing 1]
+18,a[SetSingleVars=1] besotted, [Age] <b>[Creatures.Humanoid2]</b> gentleman
+19,a[SetSingleVars=1] blind <b>[Creatures.Humanoid2]</b>, his eyes pale and misted,
+20,a[SetSingleVars=1] burly, scarred <b>[Creatures.Humanoid2]</b> wearing a [Miscellaneous.Color] chestplate
+21,a[SetSingleVars=1] dark and exotic looking <b>[Creatures.Humanoid2]</b>, [%I% Clothing 1]
+22,an[SetSingleVars=1] unshaven, dirty <b>[Creatures.Humanoid2]</b>
+23,a[SetSingleVars=1] lovely <b>[Creatures.Humanoid2]</b> lady with [Hair] hair and [Skin Tone] skin, dressed in [Miscellaneous.Color], an older <b>[Creatures.Humanoid2]</b> lady with [Hair] hair, [Eye Color] eyes, dressed in [Miscellaneous.Color], and a younger boy <b>[Creatures.Humanoid2]</b> in work clothes of [Miscellaneous.Color] and grays
+24,{AorAn~[Age]} <b>[Creatures.Humanoid2]</b> %I% [%I% Clothing 1]
+25,<b>{AorAn~[Creatures.Humanoid2]}</b> [%I% Clothing 1]
+26,a bragging <b>[Creatures.Humanoid2]</b> warrior, in expensive armor and a [Miscellaneous.Color] cloak
+27,a fat <b>[Creatures.Humanoid2]</b> %I% [%I% Clothing 1]
+28,a fidgety <b>[Creatures.Humanoid2]</b> %I%
+29,a gaudy dressed <b>[Creatures.Humanoid2]</b>
+30,a grey-haired <b>[Creatures.Humanoid2]</b> [%I% Clothing 1]
+31,a group of <b>[Creatures.Humanoid2]</b> workers [Lower Clothing]
+32,a <b>[Creatures.Humanoid2]</b> peddler
+33,a haughty looking well-dressed <b>[Creatures.Humanoid2]</b> %I%
+34,a <b>[Creatures.Humanoid2]</b> scribe in %B% early twenties
+35,a hunched <b>[Creatures.Humanoid2]</b> figure [%I% Clothing 1]
+36,a <b>[Creatures.Humanoid2]</b> %I%
+37,a <b>[Creatures.Humanoid2]</b> %I% [%I% Clothing 1]
+38,a <b>[Creatures.Humanoid2]</b> %I% [%I% Clothing 1] and looking satisfied
+39,a %I% <b>[Creatures.Humanoid2]</b>, [%I% Clothing 1]
+40,a <b>[Creatures.Humanoid2]</b> %I% [Upper Clothing]
+41,a <b>[Creatures.Humanoid2]</b> %I% in [Miscellaneous.Color] leather armor
+42,a <b>[Creatures.Humanoid2]</b> %I% in studded leather armor and [Miscellaneous.Color] pants
+43,a <b>[Creatures.Humanoid2]</b> %I% with a very large ornate hat
+44,a <b>[Creatures.Humanoid2]</b> %I% with full plate armor
+45,a <b>[Creatures.Humanoid2]</b> %I% with one eye
+46,a <b>[Creatures.Humanoid2]</b> jeweler with <b>{AorAn~[Creatures.Humanoid2]}</b> guard
+47,a large blonde <b>[Creatures.Humanoid2]</b> warrior in [Armor] armor
+48,a large [Hair] haired <b>[Creatures.Humanoid2]</b> warrior in [Armor] armor
+49,a large uncouth <b>[Creatures.Humanoid2]</b>, [%I% Clothing 1] and a very wide belt
+50,a lone <b>[Creatures.Humanoid2]</b> [Patron Type]
+51,a lone <b>[Creatures.Humanoid2]</b> %I%
+52,a <b>[Creatures.Humanoid2]</b> lord of some sort
+53,a middle aged <b>[Creatures.Humanoid2]</b> %I% [%I% Clothing 1]
+54,a <b>[Creatures.Humanoid2]</b> [%I% Clothing 1]
+55,a richly clad <b>[Creatures.Humanoid2]</b>
+56,a rough looking <b>[Creatures.Humanoid2]</b> in [Armor] armor
+57,a short <b>[Creatures.Humanoid2]</b> %I% [%I% Clothing 1]
+58,a silent <b>[Creatures.Humanoid2]</b> %I% in a black or dark blue robe
+59,a single <b>[Creatures.Humanoid2]</b> %I%
+60,a slender <b>[Creatures.Humanoid2]</b> youth
+61,slight <b>[Creatures.Humanoid2]</b> and a <b>[Creatures.Humanoid2]</b> in [Armor] armor
+62,a slight <b>[Creatures.Humanoid2]</b> figure [%I% Clothing 1]
+63,a slight <b>[Creatures.Humanoid2]</b> %I% [%I% Clothing 1]
+64,a small <b>[Creatures.Humanoid2]</b> %I% in [Armor] armor
+65,a thin <b>[Creatures.Humanoid2]</b> %I% [%I% Clothing 1]
+66,a thin tall <b>[Creatures.Humanoid2]</b> %I% [%I% Clothing 1]
+67,a <b>[Creatures.Humanoid2]</b> trapper with a string of small dead animal corpses
+68,a traveling <b>[Creatures.Humanoid2]</b> peddler
+69,a twisted old [Race or Class]
+70,a very small <b>[Creatures.Humanoid2]</b> %I%
+71,a well dressed <b>[Creatures.Humanoid2]</b>
+72,a well-armored <b>[Creatures.Humanoid2]</b>
+73,a well-dressed [Race or Class]
+74,a well-dressed <b>[Creatures.Humanoid2]</b> %I%
+75,a young <b>[Creatures.Humanoid2]</b> noble, [Upper Clothing]
+76,a young <b>[Creatures.Humanoid2]</b>, spectacled %I%
+77,a youthful <b>[Creatures.Humanoid2]</b> noble
+78,a youthful, handsome <b>[Creatures.Humanoid2]</b> [%I% Clothing 1]
+79,a[SetSingleVars=1] [Hair] haired <b>[Creatures.Humanoid2]</b> gentleman
+80,a[SetSingleVars=1] <b>[Creatures.Humanoid2]</b> boy wearing the baldric marking him as a member of the local crier's guild
+81,a[SetSingleVars=1] bedraggled [Age] <b>[Creatures.Humanoid2]</b>
+82,a[SetSingleVars=1] bleary-eyed <b>[Creatures.Humanoid2]</b>
+83,a[SetSingleVars=1] drunken <b>[Creatures.Humanoid2]</b>
+84,a[SetSingleVars=1] <b>[Creatures.Humanoid2]</b> farmer
+85,a[SetSingleVars=1] homely <b>[Creatures.Humanoid2]</b> fellow [%I% Clothing 1]
+86,a[SetSingleVars=1] lanky young <b>[Creatures.Humanoid2]</b> with a stern look and shoulder length [Hair] hair
+87,a[SetSingleVars=1] lithe lanky haired <b>[Creatures.Humanoid2]</b> youth
+88,a[SetSingleVars=1] lone <b>[Creatures.Humanoid2]</b> [%I% Clothing 1]
+89,a[SetSingleVars=1] young <b>[Creatures.Humanoid2]</b> boy
+90,an ancient <b>[Creatures.Humanoid2]</b>
+91,an average appearing <b>[Creatures.Humanoid2]</b>
+92,an[SetSingleVars=1] aristocratic <b>[Creatures.Humanoid2]</b>
+93,an[SetSingleVars=1] elderly <b>[Creatures.Humanoid2]</b>
+
+:Patrons Descr
+1,%A% absently sipping at a glass of wine
+2,%A% appear seemingly harmless, yet the [~Creatures.Familiar] %A% softly strokes upon %B% lap gives you cause to give a wide birth, for it vanishes, and then reappears at regular intervals
+3,%A% appear%D% to be drinking cheap [Ale] with %B% food
+4,%A% appear%D% to be making some type of plans to enter a cave
+5,%A% appear%D% to have recently come back from a long journey
+6,%A% appear%D% to ignore %B% surroundings
+7,%A% appear%D% to be signing a book
+8,%A% appear%D% to be waiting for someone
+9,%A% become%D% anxious whenever a new patron enters the tavern
+10,%A% become%D% anxious whenever a new patron enters the tavern, pausing from %B% otherwise endless drinking
+11,%A% break%D% into lewd songs now and again
+12,%A% break%D% out again and again into loud laughter
+13,%A% break%D% out in tears again and again or roars with laughter
+14,%A% challeng%D% all comers to arm-wrestle. There are two people waiting and the last challenger is walking away rubbing %B% arm, obviously the loser. A heavyset man is counting out the winnings
+15,%A% clean%D% %B% nails with the fork
+16,%A% close%D% %B% eyes and bows %B% head unhappily from time to time
+17,%A% close%D% one eye in relaxation; an old scar running from forehead to lip permanently closes the other. The bare arms %A% folds across %B% massive chest contrast with the dark iron of %B% mail shirt and the scars on %B% forearms testify of the battles %A%'s won
+18,%A% count%D% out a small pile of copper coins again and again
+19,%A% cradle%D% a broken harp and %F% a bandage around %B% neck. Blood %E% seeping through the back of %B% shirt in the pattern of whiplashes
+20,%A% crash%D% %B% tankard%D% on the wooden tabletop
+21,%A% did well in %B% last outing and %E% now celebrating
+22,%A% dine%D% upon a rich meal
+23,%A% %G% seem angry but the frustration in %B% expression %E% unmistakable
+24,%A% doze%D% off to sleep as you watch %C%
+25,%A% drink%D% and complain%D% about everything in general
+26,%A% drink%D% the strongest [Ale] in the house
+27,%A% drink%D% a sip from a metal [Mug]
+28,%A% drink%D% thirstily, wiping the back of %B% hand across %B% mouth after every draught
+29,%A% %E% [Eating] a large cooked bird of some sort
+30,%A% %E% [Eating] %B% food while looking over some papers
+31,%A% %E% [Eating] rich food and fine wines
+32,%A% %E% [Eating] what seems to be a very large meal
+33,%A% %E% a bit tipsy, and deciderily to %C%self
+63,%A% %E% drinking furiously
+64,%A% %E% drinking the tavern's cheapest [Ale]
+65,%A% %E% drinking while talking to the serving girl
+66,%A% %E% drunkenly, yet accurately explaining the secrets of life to a couple of %B% grandsons
+67,%A% %E% eating a huge piece of meat straight from the bone. %L% only stops to call for more ale or to drink the ale %A% already has from a large leather tankard
+68,%A% %E% eating and drinking
+69,%A% %E% especially pale and %B% [Eye Color] eyes flit nervously around
+70,%A% %E% examining gold nuggets one by one
+71,%A% %E% explaining something to {AorAn~[Age]} <b>[Creatures.Humanoid2]</b>
+72,%A% %E% gently picking at %B% meal
+73,%A% %E% getting rather loud
+74,%A% %E% having a quiet, intellectual discussion with the barkeep about Elvish wine
+75,%A% %E% humming a tune to %C%self
+76,%A% %E% in a good mood
+77,%A% %E% interviewing laborers for a construction project
+78,%A% %E% not eating or drinking, but merely sitting
+79,%A% %E% laughing and giggling madly to %C%self, as %A% carves runes into the tabletop. No one pays attention to %B% and the waitresses keep %B% mug full. Upon looking at the table, you see runes already there
+80,%A% %E% leaning against the table
+81,%A% %E% leaning dangerously backward within %B% chair
+82,%A% %E% leaning forward on %B% stool, barely balanced while %A% gawks openly
+83,%A% %E% looking around the room, curiously. The other people in the bar keep distance from him
+84,%A% %E% looking happily and invitingly to anyone that passes %B% table
+85,%A% %E% looking out the window.  Occasionally, %A% turns and speaks to the empty chair next to %C%
+86,%A% %E% lost in a daydream, fighting imaginary dragons
+87,%A% %E% making lewd comments to the elven waitress
+88,%A% %E% making quite a lot of noise
+89,%A% %E% making rude noises and bellowing loudly
+90,%A% %E% not eating and appears to be merely taking up space
+91,%A% %E% not eating or drinking, but merely sitting
+92,%A% %E% nursing a bottle of dark liquor
+93,%A% %E% nursing a glass of some poisonous looking [Miscellaneous.Color] liquid
+94,%A% %E% obviously unable to stand up
+95,there is a pile of half eaten food and dishes, %A% %E% being loud
+96,%A% %E% occupied with writing something in a book
+97,%A% %E% occupied with writing something on a parchment
+98,%A% %E% playing a game of dice
+99,%A% %E% playing bones while drinking [Ale]
+100,%A% %E% playing dice
+101,%A% %E% playing idly with a small [Knifes]
+102,%A% %E% proposing loudly to some friends of a new business venture %A% would like them to join
+103,%A% %E% quietly sipping a glass of a finer wine while contemplating %B% whatever projects %A% %E% working on
+104,%A% %E% reading poetry
+105,%A% %E% reciting the legends and myths of %B% god ([~Religion.Deities])
+106,%A% %E% running a whetstone over the edge of %B% battle axe. %L% looks up and scowls, then returns to %B% task.  There is a small pool of blood on the floor underneath him
+107,%A% %E% scolding {AorAn~[Age]} woman vigorously
+108,%A% %E% scratching away it's surface with a short knife and occasionally glancing at the tavern owner to ensure that %A% has not been seen
+109,%A% %E% sharpening %B% dagger and muttering to %C%self
+110,%A% %E% silently carving small odds and ends of wood into miniature animal figurines
+111,%A% %E% sipping [Mug]s of [Ale]
+112,%A% %E% sipping a non-alcoholic beverage
+113,%A% %E% sit%D% and smokes %B% pipe
+114,%A% %E% sit%D% with %B% friend, who has passed out and is drooling slightly on the table
+115,%A% %E% sit%D% with <b>{Dice~1d4+2}</b> seedy looking {Plural~[Creatures.Humanoid2]}
+116,%A% %E% sitting alone eating and drinking [Ale]
+117,%A% %E% sitting at the table, playing dice
+118,%A% %E% sitting at this table enjoying %B% meal
+119,%A% %E% sitting down watching the place and enjoying a drink
+120,%A% %E% sitting here complaining noisily about the quality of %B% meal
+121,%A% %E% sitting next to {AorAn~[Age]} <b>[Creatures.Humanoid2]</b>
+122,%A% %E% sitting next to a pale <b>[Creatures.Humanoid2]</b> male
+123,%A% %E% sitting with a large, bearded, light haired man
+124,%A% %E% sitting with <b>{Dice~1d4+2}</b> {Plural~[Creatures.Humanoid2]}
+125,%A% %E% slumped over a table, snoring loudly
+126,%A% %E% smoking a pipe
+127,%A% %E% specifying to the, waitress %A% wants %B% bread to be stale
+128,%A% %E% spoons up %B% food listlessly
+129,%A% %E% staring off into the rafters
+130,%A% %E% staring off into the rafters. You would normally not give %C% a second glance, but %B% hands catch your attention as %A% spins a small [Knifes], hypnotically so fast, through %B% agile fingers
+131,%A% %E% straddling %B% chair backwards
+132,%A% %E% studying a [Miscellaneous.Metal] medallion with a strange symbol ([~Rune Generator.GenRune]). Sometimes you can make out of %B% mumbling, "What does it mean?"
+133,%A% %E% studying an old scroll. %L% swear%D% and looks like %A% has been ripped of. When %A% puts the scroll down, it's possible to make out a map
+134,%A% %E% sulking grumpily
+135,%A% %E% talking and look%D% in your direction
+136,%A% %E% talking to another man
+137,%A% %E% talking to another person
+138,%A% %E% talking very loud
+139,%A% %E% very intent and pay no notice to anyone else
+140,%A% %E% watching the place and enjoying a drink
+141,%A% %E% wearing all [~Miscellaneous.Color] and [~Miscellaneous.Color], and %E% carving what appears to be a back scratcher
+142,%A% %E% wearing black robes with the cowl drawn tight, hiding %B% true appearance, except for a pair of golden eyes and a patch of golden tanned skin
+143,%A% %E% wearing black trousers, white tunic, black vest and round glasses
+144,%A% %E% well armed and seem%D% not to care how much %A% %E% spending
+145,%A% %E% with seven other youths
+146,%A% %E% with two other men
+147,%A% %E% with two young boys standing by %B% sides
+148,%A% %E%, however, ignored by the landlord
+149,%A% %E%, in a good mood, and %B% laughter can be heard throughout the whole room
+150,%A% eat%D% hastily and silently
+151,%A% eat%D% %B% dinner nervously
+152,%A% eat%D% %B% food delicately, obviously savoring every mouthful
+153,%A% eat%D% hastily and casts suspicious looks at the other people in the room
+154,%A% enjoy%D% %B% [Ale] here
+155,%A% examine%D% %B% boot as %A% waits. The sole is loose and flapping. %L% takes a bit of string out of %B% pocket, and uses it to try to mend %B% footwear. %L% seems very unsatisfied with the result
+156,%A% %F% a drink in %B% hand and keep%D% looking at the door looking to see who is coming
+157,%A% %F% a mad look about %C%
+158,%A% %F% a monkey on a leash which he is feeding morsels to
+159,%A% %F% a narrow tattoo surrounding %B% pure black right eye, which occasionally glows a deep red. %B% other  eye is quite normal apart from the stark green or the iris
+160,%A% %F% a pipe clenched between %B% lips
+161,%A% %F% a pungent odor about %C%
+162,%A% %F% a small bird perched on %B% shoulder
+163,%A% %F% a tankard of ale and a large piece of meat
+164,%A% %F% a wild-eyed dog
+165,%A% %F% backed a waitress into a corner, as the %A% hurls profanities and vulgarities at her. All she does is sputter and cry in her defense
+166,%A% %F% been on the road for sometime
+167,%A% %F% drunk too much
+168,%A% %F% had more than enough to drink this day
+169,%A% %F% had one too many [Ale]s
+170,%A% %F% just returned after several days in the forest
+171,%A% %F% just walked through the door. A table is cleared of its current occupants to make room for %C%. At which point %A% orders ale, which is brought hurriedly
+172,%A% %F% obviously been on the road
+173,%A% %F% the contents of %B% pouches scattered before %C%
+174,%A% fall%D% silent
+175,%A% %G% look very happy
+176,%A% get%D% suspicious of you then go back to %B% [Mug]s of [Ale]
+177,%A% giggle%D% and sip %B% [Ale]
+178,%A% giggle%D% to %C%self here
+179,%A% give%D% off a terrible smell, and burps several times. Several other patrons glare at %C% at in disgust, and the barkeep seems on the verge of having %C% thrown out
+180,%A% grunt%D% at everyone that comes to close
+181,%A% has a broad bandage on %B% forehead sit%D% here and smokes %B% pipe. Every now and then, %A% breaths out a big smoke-ring
+182,%A% has a small bird perched on %B% shoulder. %L% speaks to the bird now and again, and sips from %B% mug
+183,%A% has clearly had to much to drink and %E% grumbling something about "Those damn <b>{Plural~[Creatures.Fantastic]}</b>! Ill get even someday!"
+184,%A% has two mugs of ale at the table and drinks only from one of them
+185,%A% has two very obvious rings on %B% left hand, made from [~Miscellaneous.Precious Metal]
+186,%A% hides %B% eyes beneath long, dark locks as %A% hunches over a mug of ale and a plate of mutton
+187,%A% hides %B% face behind %B% hood
+188,%A% hold%D% a [~Miscellaneous.Precious Metal] ring in %B% hands
+189,%A% holds %B% near empty mug of ale in a tight death grip, foam %E% still on %B% unshaven lip
+190,%A% hunches over %B% tiny glass
+191,%A% hurls small throwing knives across the room towards a crudely drawn target upon the wall. All of %B% knives hit the target near or within dead center
+192,%A% keep%D% getting in the way of the barmaid, but refuse to apologize
+193,%A% keep%D% moving from chair to chair of this table, seemingly uncertain of where %A% want%D% to sit
+194,%A% keep%D% muttering prayers to [~Religion.Deities] between glasses of [Ale]
+195,%A% keep%D% scratching %B% arms and mumbling to %B%self
+196,%A% keep%D% scratching %B% arms and mumbling to %C%self
+197,%A% laugh%D% aloud and you can sometimes understand a word or two: [~Miscellaneous.Other Material]... pretty woman... Excitement
+198,%A% laugh%D% and pat%D% the table excitedly
+199,%A% lie%D% face forward on a table next to the fire
+200,%A% look%D% around curiously and shares a friendly smile with newcomers
+201,%A% look%D% around the room listlessly
+202,%A% look%D% up and carefully scrutinize you
+203,%A% look%D% around curiously and shares a friendly smile with newcomers
+204,%A% look%D% around frantically with a frightened look in %B% face as if expecting something bad to happen
+205,%A% look%D% at the remains of the huge meal %A% has devoured and smiles, contentedly puffing on %B% pipe
+206,%A% look%D% grumpy, leaning on one hand with elbow propped on the table
+207,%A% look%D% uncomfortable and shuffles them around all the time
+208,%A% make%D% %B% way destructively toward a table
+209,%A% move%D% from left to right as %A% writes notes in a small [Book]
+210,%A% mutter%D% incessantly and constantly looks up to the door
+211,%A% occasional throw%D% back shots of hard liquor
+212,%A% occasionally sips from a small flask, but %A%  doesn't appear to have purchased anything form the tavern. Fortunately for %C%, the tavern keeper doesn't seem to be aware of the man's lack of spending, or even of the man's existence
+213,%A% orders food from a serving girl. After a while a young Elven Bard joins %C% at %B% table
+214,%A% patiently explains to a young girl for the fourth time that %A% %E% not a child and %A% %G% want to play
+215,%A% play%D% cards with %C%self
+216,%A% point%D% %B% fingers at %B% glass, and it %E% refilled
+217,%A% puff%D% merrily on %B% pipe, seemingly oblivious to those around %C%
+218,%A% read%D% a thick [Book]
+219,%A% read%D% from a well-worn [Scroll], tracing the writing with %B% finger
+220,%A% scratche%D% the tabletop with {AorAn~[Knifes]}
+221,%A% scribble%D% notes on a small, torn parchment
+222,%A% seem to celebrate something with a huge meal
+223,%A% seem%D% to be lost in thought
+224,%A% seem%D% to be oblivious of any other activity in the room
+225,%A% seem%D% to be the quiet type
+226,%A% seem%D% to be tired
+227,%A% seem%D% to be tired and talk%D% little
+228,%A% seem%D% to be very comfortable in this place
+229,%A% seem%D% to be watching you from a distance
+230,%A% seem%D% to have been on the road for a while
+231,%A% seem%D% to watch the door carefully
+232,%A% seem%D% both cheerful and very hungry
+233,%A% seem%D% to be lost in thought
+234,%A% seem%D% to be the quiet type
+235,%A% seem%D% to be trying to braid %B% long hair, drink from %B% mug, and carry out an animated conversation with %B% table-mates all at the same time
+236,%A% seems to be very nervous and uncomfortable with %B% surroundings. Every noise in the room causes %C% to jump and turn %B% head quickly toward the source of the sound. The look in %B% eyes reminds you of a trapped animal
+237,%A% seem%D% to be waiting for someone
+238,%A% seem%D% to have %B% eye on an attractive red-headed woman sitting all alone
+239,%A% seem%D% to watch the door carefully
+240,%A% seem%D% very curious
+241,%A% set%D% here waiting for customers
+242,%A% shake%D% %B% fist, then sighs and drinks from %B% tankard
+243,%A% shout%D% for more [Ale] but the tavern staff ignores %C%
+244,%A% shout%D% for more but the tavern staff ignores %C%
+245,%A% signal%D% the barkeep for another as %A% downs the last in %B% mug
+246,%A% sip%D% %B% drink
+247,%A% sit%D% across a scholar who is explaining to <b>{AorAn~[Creatures.Humanoid2]}</b> why magic cannot work
+248,%A% sit%D% across from <b>{AorAn~[Creatures.Humanoid2]}</b> %I%
+249,%A% sit%D% across from {AorAn~[Age]} <b>[Creatures.Humanoid2]</b>
+250,%A% sit%D% alone at this table
+251,%A% sit%D% alone watching the rest of the room
+252,%A% sit%D% beside a greasy haired merchant
+253,%A% sit%D% by %C%self, shivering
+254,%A% sit%D% by %C%self, shuffling a deck of cards. The smile within %B% eyes is inviting to all, and you consider for a moment, your poker skills
+255,%A% sit%D% drinking what look%D% like ass's milk, from a large leather mug
+256,%A% sit%D% here with a [Mug] of [Ale]
+257,%A% sit%D% here with a %J% <b>[Creatures.Humanoid2]</b>
+258,%A% sit%D% here with a jug of [Ale]
+259,%A% sit%D% here with two servants
+260,%A% sit%D% next to a nervous woman crunching on good firm apples
+261,%A% sit%D% quietly at this table, eating the house special. A vicious looking gray wolf rests comfortably under foot, yet when a drunken <b>[Creatures.Humanoid2]</b> wanders too close, you see the hackles of the  wolf rise, and a menacing growl within steers the intruder off into the opposite direction
+262,%A% sit%D% sits alone at the table and as you walk nearer you notice why - %A% smells strongly
+263,%A% sit%D% slowly and carefully drinking a glass of wine
+264,%A% sit%D% smoking a pipe
+265,%A% sit%D% speaking with a stranger in crisp black clothes that might be some sort of uniform. The latter seems to be in control of the conversation, and the former looks rather worried. As you watch, they rise to leave together. The man in black grips the other's elbow, and is steering %C% towards the door
+266,%A% sit%D% staring at the bottom of %B% [Mug]
+267,%A% sit%D% with a %I% who has obviously come down in the world
+268,%A% sit%D% with a merchant, discussing prices. At some outrageous comment from the man, the merchant stalks off in disgust
+269,%A% sit%D% with a portly merchant, haggling loudly over the price of goods to be traded. Although the discussion appears quite heated, both men seem to be enjoying the exchange when the occasional remark about who is robbing whom
+270,%A% sit%D% with an old bard at this table
+271,%A% sit%D% with four human males
+272,%A% sit%D% with two younger children
+273,%A% sit%D% with two younger men near the fire
+274,%A% sit%D%, concentrating on something. %B% eyes are closed, and %A% doesn't move
+275,%A% sit%D%, smoking a long stemmed pipe
+276,%A% slide%D% back and forth on %B% seat again and again and flings impatient looks towards the door
+277,%A% slowly sip%D% whatever upper class style wine %E% available and appears to be in deep concentration
+278,%A% smell%D% strongly
+279,%A% smile%D% at anyone who meets %B% glance
+280,%A% sorts through some documents, shaking %B% head sadly
+281,%A% spill%D% more than %A% eat%D%
+282,%A% spoon%D% up %B% food listlessly
+283,%A% stare%D% forlornly into %B% mead, as a tear falls onto the table
+284,%A% studie%D% a thick [Book] while %A% sip%D% %B% drink
+285,%A% swallowD5 the rest of %B% drink then drops a few coppers on the tables  before leaving
+286,%A% take%D% a long drink from %B% earthen [Mug]s and then smash them on the ground
+287,%A% talk%D% to a youthful <b>[Creatures.Humanoid2]</b>|Z=[Race]| warrior of the good 'old days. The young laughs at the others tales of prowess, and the chubby fellow is starting to get anger
+288,%A% trie%D% to impress two wenches with tales of %B% latest deeds
+289,%A% turn%D% around and look%D% at you curiously
+290,%A% wear%D% a few items of [~Miscellaneous.Precious Metal] but %A% %E% not rich at all
+291,%A% would prefer (it looks) to just jump up and leave
+292,%A% wrinkle%D% %B% forehead again and again and joggles %B% head. %L% appears to ignore %B% surroundings
+293,%A% write%D% notes in a small [Book]
+294,%B% [Weapons] lean against the wall behind %C%
+295,%B% beady eyes taking in the whole room. It appears that %A% %E% going to great lengths to keep %B% face in the shadows as anyone passes %B% table
+296,%B% face %E% rattled with dissipation and disappointment
+297,%B% face %E% rattled with dissipation and disappointment, nursing a glass of some poisonous looking green liquid. The regulars seem to avoid %B% table
+298,%B% hands exploring the body of a fat woman with grey hair. She snickers and coos at %B% touch and occasionally slaps %B% hands away from her
+299,%B% head %E% on the table. A mountain of mugs are gathered around him, reeking of strong liquor
+300,the barmaid gives %C% constant attention and addresses %C% by name. %L% spills %B% drink, but she %E% quick to clean it up. %L% apologizes and thanks her
+301,the hawk perched on %B% shoulder surveys the room and gives a periodic squawk as the man drinks %B% tankard of ale. The serving maids seem interested in the man, but gives the black-feathered hawk a wide berth
+302,there are many empty bottles around %C%
+303,there are some empty [Mug]s and three [Mug]s of [Ale]
+304,%A% %E% playing a game of darts
+305,%A% %E% playing a game of cards
+306,%A% %E% grooming, brushing and/or braiding his hair or beard
+307,%A% %E% flirting with a neighboring patron
+308,%A% %E% flirting with a serving wench
+309,%A% %E% flirting with a PC
+310,%A% %E% making basic armor repairs
+311,%A% %E% mending his clothes
+312,%A% %E% mending his shoes
+313,%A% %E% mending his cloak
+314,%A% %E% drinking [Ale] from a fancy mug in the shape of a [~Creatures.Start]
+315,%A% %E% smoking an ornate pipe with [~Creatures.Start] on it
+316,%A% %E% stroking a cat under the table
+317,%A% %E% stroking a dog under the table
+318,%A% %E% stroking {AorAn~[~Creatures.Familiar]} under the table
+319,%A% %E% stroking a wolf under the table
+320,%A% %E% feeding a pet bird
+321,%A% %E% carving something into the table with {AorAn~[Knifes]}
+322,%A% %E% twirling fingers over a table candle
+323,%A% %E% twirling fingers in a lantern
+324,%A% %E% burning straw strands over a table flame
+325,%A% %E% mixing herbal ingredients into a mug
+326,%A% %E% juggling
+327,%A% %E% doing knife tricks with his [Knifes]
+328,%A% %E% sleeping with %B% head on the table
+329,%A% %E% sleeping on a bench
+330,%A% %E% sleeping in a corner
+331,%A% %E% sleeping in a chair by the fireplace
+332,%A% %E% nervously tapping fingers
+333,%A% %E% talking to %C%self
+334,%A% %E% drowning sorrows, telling a neighbor about his life story
+335,%A% %E% cutting food into very small pieces
+336,%A% %E% carving a stick of wood in the shape of {AorAn~[~Creatures.Start]}
+337,%A% %E% staring off into the rafters. You would normally not give %C% a second glance, but %B% hands catch your attention as %A% spins a silver coin, hypnotically so fast, through %B% agile fingers
+338,%A% %E% making rude noises and pretending not to
+339,%A% %E% desperately looking for someone ({AorAn~[Creatures.Humanoid]} named [Names Generator.NAME Random])
+340,%A% %E% cleaning weapons
+341,%A% %E% shouting about slow service
+342,%A% %E% grumbling about slow service
+343,%A% %E% angrily watching the other patrons
+344,%A% %E% talking to an invisible friend
+345,%A% %E% trying to recruit adventurers
+346,%A% %E% getting ready to leave
+347,%A% %E% watching the barkeep
+348,%A% %E% watching someone at the next table
+349,%A% %E% just settling in
+350,%A% %E% watching the fire, mesmerized,
+351,%A% %E% looking at the PCs
+352,%A% %E% examining a piece of parchment
+353,%A% %E% looking at a small object
+354,%A% %E% looking at an object that they try to keep hidden
+355,%A% %E% poring over a picture of a <b>[Creatures.Humanoid2]</b>
+356,%A% %E% poring over a bounty for a [Race or Class] (reward of <b>{Dice~1d100*25}</b> gp)
+357,%A% %E% taking notes
+358,%A% %E% trying to sell something
+359,%A% %E% questioning another patron roughly
+360,%A% %E% questioning another patron politely
+361,%A% %E% watching the door
+362,%A% %E% watching the barmaid
+363,%A% %E% talking to the innkeeper, but looking often at the PCs,
+364,%A% %E% sketching with charcoal
+365,%A% %E% arguing with the barmaid about prices
+366,%A% %E% arguing with the barkeep about the food's quality
+367,%A% %E% sipping fine [Ale]
+368,%A% %E% enjoying a dessert
+369,%A% %E% writing a letter
+370,%A% %E% writing a poem
+371,%A% %E% picking at food
+372,%A% %E% trying to pick a fight
+373,%A% %E% liberally salting or spicing food
+374,%A% %E% polishing boots
+375,%A% %E% being ignored by the barmaid or serving wench
+376,%A% %E% having boots polished by a <b>[Creatures.Humanoid2]</b> boy
+377,%A% %E% reading a book
+378,%A% %E% writing in a journal while eating
+379,%A% %E% sitting very close to the fire
+380,%A% %E% looking asleep but %A% %E% dead
+381,%A% %E% watching the exits
+382,%A% %E% piercing a friend's ear
+383,%A% %E% giving a friend a tatoo of <b>{AorAn~[~Rune Generator.GenRune]}</b>
+384,%A% %E% buying traveling supplies
+385,%A% %E% slipping a powder into neighbor's mug
+386,%A% %E% eavesdropping on neighboring table
+387,%A% %E% sharpening weapons, many of them,
+388,%A% %E% tying neighbor's bootlaces under the table
+389,%A% %E% using a spell to create food
+390,%A% %E% using a spell to create water
+391,%A% %E% using a spell to purify is food
+392,%A% %E% using a spell to detect poison in his food
+393,%A% %E% using a spell to neutralize poison in his food
+394,%A% %E% asking a friend to taste the food before eating it
+395,%A% %E% asking a friend to taste his [Ale] before drinking it
+396,%A% %E% using a spell to create a picture of a <b>[Creatures.Start]</b> on the wall
+
+:Patrons Weapons
+1,[Knifes] are embedded in %B% belt and {AorAn~[Swords]} leans next to %C% at the bench
+2,{AorAn~[Weapons]} leans on the wall next to %C%
+3,a silver [Knifes] is strapped upside down on %B% back and {AorAn~[Weapons]} leans against the wall
+4,%A% carries a fat purse, with %B% hands held fast over it, {AorAn~[Knifes]} and {AorAn~[Weapons]} hang at %B% belt
+5,%A% %F% {AorAn~[Knifes]} and a purse at %B% belt
+6,%A% %F% a large, round sack next to %B% foot, which %A% keep%D% glancing at every few moments
+7,%A% %F% a sack bulging with items
+8,%A% %F% {AorAn~[Swords]} slung at %B% belt in a jeweled scabbard
+9,%A% %F% a small, slightly-curved [Knifes] on %B% hip
+10,%A% %E% armored and dressed entirely in [Miscellaneous.Color]
+11,%A% %E% dressed in [Armor] armor and %B% helmet %E% sitting beside %C%
+12,%A% %E% in [Armor] armor and %F% {AorAn~[Weapons]} sitting next to %C%
+13,%A% %F% rested %B% [Weapons] against the table
+14,%A% %F% two sheathed {Plural~[Knifes]} in %B% belt and a [Bows] and quiver leaning against %B% chair
+15,%A% %E% wearing [Armor] armor and heavy leather gauntlets
+16,%A% %E% wearing [Armor] armor with a [Miscellaneous.Color] cloak draped over the armor
+17,%A% %E% wearing a suit of armor made of wolf fur
+18,%A% %E% wearing elven chainmail with a [Bows] strung on %B% back and a long, slender sword %B% side
+19,%A% %E% wearing {AorAn~[Swords]} at %B% waist and [Bows] which lean against the wall next to %C%
+20,%A% %F% {AorAn~[Weapons]} slung across %B% back
+21,%A% %F% a strong, well used [Swords] on %B% belt
+22,%A% seem%D% unaware of the swords at %B% belt or the shield on %B% chair back
+23,%A% wear%D% [Armor] armor
+24,%A% wear%D% [Miscellaneous.Color] leather armor
+25,%A% wear%D% a long silver [Knifes]
+26,%A% wield%D% {AorAn~[Weapons]}, but %E% not wearing any armor
+27,all of %B% rucksacks are leaning next to %C%
+28,at %B% side is a very odd  sword; about the length and thickness of a thin longsword, but curved slightly and with only one edge. It has a handle that could be used  by one hand or two
+29,%A%  %E% armed to the teeth ({Loop~{Dice~1d3+2},[Weapons], })
+30,%B% [Armor] armor is worn but well cared-for, and %B% [Weapons] appears to have something written on it in an unrecognizable runic script
+31,%B% chain mail is shiny though %B% cloak and %B% boots are dusty
+32,%B% chain mail is shiny though %B% cloaks and boots are dusty
+33,%B% rucksack lies on the seat next to %C% with {AorAn~[Weapons]} above it
+34,%B% [Weapons] lean against the wall behind %C%
+35,belted at %B% waist is an unusual looking sword
+36,next to %C% sits a chest with two poles attached to it, one at each long edge
+37,no weapons or armor are apparent
+38,several {Plural~[Knifes]} are attached at %B% side next to several pouches
+39,the fire in %B% eyes indicate that the [Weapons] at %B% side is probably used for more than decoration
+40,the [Weapons] lying against the table has {AorAn~[Miscellaneous.Other Material]} handle intricately inlaid with the image of {AorAn~[Creatures.Start]}
+41,there %E% longswords hanging from %B% belt
+42,there is a little bag on %B% belt and {AorAn~[Weapons]} on %B% back
+43,three small rucksacks are next to %C% on the floor
+44,to %B% left is a delicate looking [Weapons]
+45,you notice %A% carry {AorAn~[Weapons]} by %B% side
+46,you notice %A% %E% wearing [Armor] armor and {AorAn~[Weapons]} %E% beside %C%
+47,you notice an elven longsword in %B% belt
+48,you notice that the [Weapons] strapped securely to %B% back is easily accessible
+49,you notice two {Plural~[Weapons]}
+50,a long staff leans next to %B% seat
+51,%A% %F% some bags attached to %B% belt
+52,%A% %E% carrying a pack nearly as large as %C%self. %L% carefully lowers the pack to the floor
+53,A small purse is next to the %C% on the table
+54,There is a big leather bag on the table before %C%
+55,a big leather bag hangs on %B% belt
+56,%B% shields and {Plural~[Weapons]} are leaning against the table
+57,%B% purse %E% sitting on the table next to %C%
+58,A small, lumpy leather bag is visible on the table
+59,A large [Miscellaneous.Color] leather pouch hangs is on the table
+60,%B% shields lying beside %B% chair and {AorAn~[Weapons]} hangs from %B% belt
+61,%B% armor and weapons seem to be used
+62,from %B% belt hangs {AorAn~[Swords]}
+63,on the table next to %C% is a wicked looking [Weapons]
+64,%A% %E% wearing shining chainmail covered with a strange symbol ([~Rune Generator.GenRune]) and on %B% belt hangs a heavy mace
+65,a dark, rune-marked ([~Rune Generator.GenRune]), [Weapons] is strapped to %B% back
+66,short bows of Elven make can be seen close at hand, and finely wrought quivers filled with gray fletched arrows.
+
+:Many Clothed Patron
+1,[How Many] [Armor]-armored <b>{Plural~[Creatures.Humanoid2]}</b>
+2,[How Many] <b>[Creatures.Humanoid2]</b> maids, [female Clothing] and wearing a set of [Armor] armor
+3,a pair of <b>{Plural~[Creatures.Humanoid2]}</b> dressed like barbarians
+4,some travel-wearied <b>{Plural~[Creatures.Humanoid2]}</b> in rough, [Lower Clothing]
+5,[How Many] <b>{Plural~[Creatures.Humanoid2]}</b> [%I% Clothing 1]
+6,[How Many] <b>{Plural~[Creatures.Humanoid2]}</b> wearing studded and spiked armor and sporting [Miscellaneous.Color] and [Miscellaneous.Color] spiked hair, respectively,
+7,[How Many] <b>{Plural~[Creatures.Humanoid2]}</b>, 3 males and 1 female, [male Clothing 1]
+8,[How Many] <b>{Plural~[Creatures.Humanoid2]}</b> and <b>{AorAn~[Creatures.Humanoid2]}</b> in [Armor] armor
+9,[How Many] <b>{Plural~[Creatures.Humanoid2]}</b> [%I% Clothing 1]
+10,[How Many] <b>{Plural~[Creatures.Humanoid2]}</b> <b>{Plural~[Miscellaneous.Class]}</b> in [Armor] armor
+11,[How Many] <b>{Plural~[Creatures.Humanoid2]}</b> priests of [~Religion.Deities] in [Miscellaneous.Color] robes
+12,[How Many] male <b>{Plural~[Creatures.Humanoid2]}</b> [%I% Clothing 1]
+13,[How Many] <b>{Plural~[Creatures.Humanoid2]}</b> in [Armor] armor
+14,[How Many] <b>{Plural~[Creatures.Humanoid2]}</b> [Upper Clothing] and a female dressed less elegantly
+15,[How Many] <b>{Plural~[Creatures.Humanoid2]}</b> wearing sailor's clothing
+16,[How Many] older <b>[Creatures.Humanoid2]</b> gentlemen [%I% Clothing 1]
+17,[How Many] over-dressed <b>[Creatures.Humanoid2]</b> merchants [Upper Clothing]
+18,[How Many] rough looking <b>[Creatures.Humanoid2]</b> trappers, dressed mostly in fur trimmed leather
+19,[How Many] ruggedly handsome <b>{Plural~[Creatures.Humanoid2]}</b> with [Armor] armor, shortened polearm, and [Swords]
+20,[How Many] strong <b>{Plural~[Creatures.Humanoid2]}</b> workers [Lower Clothing]
+21,[How Many] unarmored <b>[Creatures.Humanoid2]</b> axe men
+22,[How Many] well-dressed <b>{Plural~[Creatures.Humanoid2]}</b> [Upper Clothing], with felt hats
+23,[How Many] young <b>{Plural~[Creatures.Humanoid2]}</b>, dressed in identical [Armor] armor
+24,[How Many] <b>{Plural~[Creatures.Humanoid2]}</b> in shabby coats
+25,a lovely |H=[Race]|%H% lady with [Hair] hair and [Skin Tone] skin, dressed in [Miscellaneous.Color], an older %H% lady with [Hair] hair, [Eye Color] eyes, dressed in [Miscellaneous.Color], and a younger boy %H% in work clothes of [Miscellaneous.Color] and grays
+26,a group of <b>[Creatures.Humanoid2]</b> workers [Lower Clothing]
+27,a large muscular <b>[Creatures.Humanoid2]</b> %I% wearing [Armor] armor and a small wiry %J% [%J% Clothing 1]
+28,a pair of <b>{Plural~[Creatures.Humanoid2]}</b> %I%s dressed like barbarians
+29,a party of [How Many] darkly dressed <b>{Plural~[Creatures.Humanoid2]}</b>
+30,a slight <b>[Creatures.Humanoid2]</b> and <b>{AorAn~[Creatures.Humanoid2]}</b> in [Armor] armor
+31,a small group of <b>[Creatures.Humanoid2]</b> merchants in strange, foreign garb (from [~Countries.Land])
+32,[How Many] <b>{Plural~[Creatures.Humanoid2]}</b> in [Armor] armor
+33,a party of [How Many] darkly dressed <b>{Plural~[Creatures.Humanoid2]}</b>
+
+
+:Many Unclothed Patrons
+1,a pair of [%I% Human]
+2,a psychotic looking <b>[Creatures.Humanoid2]</b> and a quiet <b>[Creatures.Humanoid2]</b>
+3,a rowdy group of [Patron Type]
+4,a twisted [Age] %I% and [How Many] adolescent %J% <b>{Plural~[Creatures.Humanoid2]}</b>, {AorAn~{Plural~[Creatures.Humanoid2]}} and <b>{AorAn~[Creatures.Humanoid2]}</b>
+5,a party of [How Many] <b>{Plural~[Creatures.Humanoid2]}</b>
+6,{AorAn~[%I% Size]} [male Human] and <b>{AorAn~[Creatures.Humanoid2]}</b>
+7,{AorAn~[%I% Size]} [male Human] of middling height and age
+8,{AorAn~[%I% Size]} woman and a thin [male Human]
+9,[How Many] [Age] [%I% Human]
+10,[How Many] [Age] gentlemen
+11,[How Many] [Age] men
+12,[How Many] [Age] <b>[Creatures.Humanoid2]</b> nobles
+13,[How Many] [Age] <b>[Creatures.Humanoid2]</b> toughs
+14,[How Many] <b>{Plural~[Creatures.Humanoid2]}</b>, a <b>[Creatures.Humanoid2]</b> and [How Many] <b>[Creatures.Humanoid2]</b> adventurers
+15,[How Many] [%I% Looks] [%I% Human]
+16,[How Many] [%I% Looks] [Race or Class]s
+17,[How Many] [%I% Size] people
+18,[How Many] [Patron Type]
+19,[How Many] [Patron Type] with boots stained with mud
+20,[How Many] [Race or Class]s
+21,[How Many] <b>{Plural~[Creatures.Humanoid2]}</b>
+22,[How Many] <b>{Plural~[Creatures.Humanoid2]}</b> [Patron Type]
+23,[How Many] <b>{Plural~[Creatures.Humanoid2]}</b> and [How Many] halflings
+24,[How Many] <b>{Plural~[Creatures.Humanoid2]}</b> and a gnome
+25,[How Many] <b>{Plural~[Creatures.Humanoid2]}</b> and a halfling
+26,[How Many] <b>{Plural~[Creatures.Humanoid2]}</b> in merchants
+27,two clerics of [~Religion.Deities] one <b>[Creatures.Humanoid2]</b> and one <b>[Creatures.Humanoid2]</b>
+28,[How Many] <b>{Plural~[Creatures.Humanoid2]}</b> male
+29,three females, one a <b>[Creatures.Humanoid2]</b> the other two <b>{Plural~[Creatures.Humanoid2]}</b>
+30,[How Many] city guards
+31,[How Many] confident <b>[Creatures.Humanoid2]</b> youths
+32,[How Many] dirty and dusty [Race or Class]s
+33,[How Many] <b>[Creatures.Humanoid2]</b> drunks
+34,[How Many] dwarven miners
+35,three <b>{Plural~[Creatures.Humanoid2]}</b>  one %I% and two %J%
+36,three <b>[Creatures.Humanoid2]</b> warriors,  two %I% and a %J%
+37,[How Many] <b>[Creatures.Humanoid2]</b> Calvary men
+38,[How Many] <b>{Plural~[Creatures.Humanoid2]}</b> and <b>{AorAn~[Creatures.Humanoid2]}</b>
+39,[How Many] female <b>{Plural~[Creatures.Humanoid2]}</b> and two male <b>{Plural~[Creatures.Humanoid2]}</b>
+40,[How Many] feminine <b>[Creatures.Humanoid2]</b> and a male <b>[Creatures.Humanoid2]</b>
+41,[How Many] frail-looking [Age] <b>[Creatures.Humanoid2]</b> [%I% Human]
+42,[How Many] <b>{Plural~[Creatures.Humanoid2]}</b>
+43,there is a group of [How Many] <b>{Plural~[Creatures.Humanoid2]}</b>
+44,[How Many] <b>[Creatures.Humanoid2]</b> workmen
+45,[How Many] graying <b>[Creatures.Humanoid2]</b> [%I% Human]
+46,[How Many] grinning mud covered <b>[Creatures.Humanoid2]</b> boys
+47,[How Many] hairy northern <b>[Creatures.Humanoid2]</b> barbarians
+48,[How Many] <b>{Plural~[Creatures.Humanoid2]}</b>
+49,ten or twelve <b>[Creatures.Humanoid2]</b> [Patron Type]
+50,[How Many] <b>{Plural~[Creatures.Humanoid2]}</b>
+51,[How Many] half-orcs
+52,[How Many] heavy set, but older, <b>{Plural~[Creatures.Humanoid2]}</b>
+53,[How Many] hulking <b>{Plural~[Creatures.Humanoid2]}</b> laborers
+54,[How Many] human <b>{Plural~[Miscellaneous.Class]}</b>
+55,six <b>[Creatures.Humanoid2]</b> nobles five men and a woman
+56,some <b>[Creatures.Humanoid2]</b> [Patron Type]
+57,[How Many] %I% [Race or Class]s
+58,[How Many] %I% [Race or Class]s and [How Many] %J% [Race or Class]s
+59,[How Many] %I% [Race or Class]s and a %J% half-elf
+60,[How Many] %I% <b>{Plural~[Creatures.Humanoid2]}</b>
+61,several <b>[Creatures.Humanoid2]</b> male with callused hands
+62,[How Many] male <b>{Plural~[Creatures.Humanoid2]}</b>
+63,several <b>{Plural~[Creatures.Humanoid2]}</b>
+64,[How Many] <b>[Creatures.Humanoid2]</b> males
+65,[How Many] members of the town guard
+66,[How Many] <b>[Creatures.Humanoid2]</b> males and <b>{AorAn~[Creatures.Humanoid2]}</b> woman
+67,[How Many] men at arms
+68,a twisted old <b>[Creatures.Humanoid2]</b> and four adolescent male <b>{Plural~[Creatures.Humanoid2]}</b>
+69,two %I% one [Elves Race] and one [%I% Human]
+70,at one table, a collection of gnarled half-orcs
+71,[How Many] mournful <b>[Creatures.Humanoid2]</b> [Patron Type]
+72,[How Many] novice <b>[Creatures.Humanoid2]</b> priests of [~Religion.Deities] with shaven heads
+73,[How Many] of the tavern staff
+74,several <b>[Creatures.Humanoid2]</b> [%I% Human] with strange features
+75,[How Many] <b>[Creatures.Humanoid2]</b> people
+76,[How Many] priests clearly of different sects ({Loop~{Dice~1d4+2},[~Religion.Deities], })
+77,[How Many] ragged looking <b>{Plural~[Creatures.Humanoid2]}</b>
+78,several <b>[Creatures.Humanoid2]</b> [Patron Type]
+79,one [Age] <b>[Creatures.Humanoid2]</b> and one [Age] <b>[Creatures.Humanoid2]</b>
+80,<b>{AorAn~[Creatures.Humanoid2]}</b> %I% and [How Many] %J% warriors
+81,[How Many] sullen, bored-looking <b>{Plural~[Creatures.Humanoid2]}</b>
+82,[How Many] tough-looking <b>{Plural~[Creatures.Humanoid2]}</b> mercenaries
+83,an adventuring party of [How Many] <b>{Plural~[Creatures.Humanoid2]}</b>
+84,[How Many] warriors of various races ({Loop~{Dice~1d3+1},<b>[Creatures.Humanoid2]</b>, })
+85,a young <b>[Creatures.Humanoid2]</b> boy and a <b>[Creatures.Humanoid2]</b> %I% in %B% forties
+86,[How Many] <b>[Creatures.Humanoid2]</b> women caked with road grime
+87,[How Many] <b>[Creatures.Humanoid2]</b> women with [Hair Length] [Hair] hair
+88,[How Many] <b>[Creatures.Humanoid2]</b> woodsmen
+89,[How Many] <b>[Creatures.Humanoid2]</b> workers still covered with the signs of their labors
+90,[How Many] young <b>{Plural~[Creatures.Humanoid2]}</b>
+91,[How Many] young <b>{Plural~[Creatures.Humanoid2]}</b>
+92,[How Many] <b>{Plural~[Creatures.Humanoid2]}</b> youths
+93,<b>{AorAn~[Creatures.Humanoid2]}</b> woodwright and [How Many] apprentices
+94,a [Drunk] and amorous <b>[Creatures.Humanoid2]</b> <b>[Miscellaneous.Class]</b>
+95,a [%I% Looks] %I% and a [Race or Class]
+96,a [%I% Size] [Elves Race] and a [%I% Human]
+97,a [%I% Looks] <b>{Plural~[Creatures.Humanoid2]}</b> and a quiet <b>[Creatures.Humanoid2]</b>
+98,a party of [How Many] [Race or Class]s
+99,a <b>[Creatures.Humanoid2]</b> [Patron Type] & <b>[Creatures.Humanoid2]</b> [Patron Type]
+100,a <b>[Creatures.Humanoid2]</b> [Patron Type] and %B% son
+101,a <b>[Creatures.Humanoid2]</b> [Patron Type] surrounded by [Age] <b>[Creatures.Humanoid2]</b> women
+102,a [Race or Class] and a woman
+103,a [Race or Class] and %B% [How Many] attractive %J% companions
+104,a [Race or Class] and %B% son
+105,two <b>[Creatures.Humanoid2]</b> maidens, one a veritable beauty, the other, not a veritable beauty
+106,<b>{AorAn~[Creatures.Humanoid2]}</b> [Patron Type] and %B% son
+107,<b>{AorAn~[Creatures.Humanoid2]}</b> and <b>{AorAn~[Creatures.Humanoid2]}</b>
+108,<b>{AorAn~[Creatures.Humanoid2]}</b> and <b>{AorAn~[Creatures.Humanoid2]}</b>
+109,<b>{AorAn~[Creatures.Humanoid2]}</b> and {AorAn~[Elves Race]}
+110,<b>{AorAn~[Creatures.Humanoid2]}</b>, [How Many] <b>{Plural~[Creatures.Humanoid2]}</b> and <b>{AorAn~[Creatures.Humanoid2]}</b>
+111,a collection of gnarled half-orcs
+112,a pair of <b>{Plural~[Creatures.Humanoid2]}</b>
+113,a very rowdy bunch of <b>{Plural~[Creatures.Humanoid2]}</b>
+114,a couple of <b>[Creatures.Humanoid2]</b> [Patron Type]
+115,a couple of foreign looking <b>[Creatures.Humanoid2]</b> [%I% Human] from [~Countries.Land]
+116,a dwarf %I%,  a warrior halfling %J% and [How Many] <b>{Plural~[Miscellaneous.Class]}</b> human %J%s
+117,two <b>[Creatures.Humanoid2]</b> waitresses
+118,two beautiful <b>[Creatures.Humanoid2]</b> serving wenches, seeming identical in every way
+119,a fat <b>[Creatures.Humanoid2]</b> and <b>{AorAn~[Creatures.Humanoid2]}</b>
+120,a fellow band of <b>[Miscellaneous.Class]</b>
+121,a group of [Age] <b>[Creatures.Humanoid2]</b> [%I% Human]
+122,a group of [How Many] <b>[Creatures.Humanoid2]</b>
+123,a group of [How Many] [%I% Looks] <b>[Creatures.Humanoid2]</b> [%I% Human]
+124,a group of [How Many] <b>[Creatures.Humanoid2]</b> {Plural~[Patron Type]}
+125,a group of [How Many] <b>[Creatures.Humanoid2]</b> priests who worship [~Religion.Deities]
+126,a group of [How Many] slimy looking <b>[Creatures.Humanoid2]</b> [%I% Human]
+127,a group of [How Many] <b>[Creatures.Humanoid2]</b> traders
+128,a group of [How Many] <b>[Creatures.Humanoid2]</b> [Patron Type]
+129,a group of [%I% Looks] <b>[Creatures.Humanoid2]</b> mercenaries
+130,a group of <b>[Creatures.Humanoid2]</b> [Patron Type]
+131,a group of about [How Many] <b>[Creatures.Humanoid2]</b>
+132,a group of <b>[Creatures.Humanoid2]</b> adventurers
+133,a group of boisterous <b>{Plural~[Creatures.Humanoid2]}</b>
+134,a group of {Dice~1d4+2} <b>[Creatures.Humanoid2]</b> farmers
+135,a group of <b>[Creatures.Humanoid2]</b> [Patron Type]
+136,a group of noisy young <b>{Plural~[Creatures.Humanoid2]}</b>
+137,a group of robed <b>{Plural~[Creatures.Humanoid2]}</b> (male or female only)
+138,a group of robed <b>{Plural~[Creatures.Humanoid2]}</b> - both male and female
+139,a group of rowdy [Race or Class]s
+140,a group of surly figures (<b>[Creatures.Humanoid2]</b>)
+141,a group of the [Age] <b>[Creatures.Humanoid2]</b> nobility
+142,a group of <b>[Creatures.Humanoid2]</b> travelers
+143,a female <b>[Creatures.Humanoid2]</b> and a male <b>[Creatures.Humanoid2]</b>
+144,<b>{AorAn~[Creatures.Humanoid2]}</b> and <b>{AorAn~[Creatures.Humanoid2]}</b>
+145,<b>{AorAn~[Creatures.Humanoid2]}</b> girl, <b>{AorAn~[Creatures.Humanoid2]}</b> farmer, and a lame <b>[Creatures.Humanoid2]</b> beggar
+146,<b>{AorAn~[Creatures.Humanoid2]}</b> male and <b>{AorAn~[Creatures.Humanoid2]}</b> female
+147,a halfling and <b>{AorAn~[Creatures.Humanoid2]}</b>
+148,a half-orc dating <b>{AorAn~[Creatures.Humanoid2]}</b> female
+149,a %I% [Elves Race] and a [%I% Human]
+150,a %I% <b>[Creatures.Humanoid2]</b> an elven girl and [How Many] <b>{Plural~[Creatures.Humanoid2]}</b> %J%s
+151,two men, one Elven and one <b>[Creatures.Humanoid2]</b>
+152,a %I% human, <b>{AorAn~[Creatures.Humanoid2]}</b> and a %J% <b>[Miscellaneous.Class]</b>
+153,a %J% elf and a %I% human
+154,<b>{AorAn~[Creatures.Humanoid2]}</b> jeweler with <b>{AorAn~[Creatures.Humanoid2]}</b> guard
+155,[SetSingleVars=10] <b>{AorAn~[Creatures.Humanoid2]}</b> lady [female Clothing] with an old <b>[Creatures.Humanoid2]</b> bard
+156,a large group of <b>{Plural~[Creatures.Humanoid2]}</b>
+157,a loud bunch of <b>{Plural~[Creatures.Humanoid2]}</b>
+158,<b>{AorAn~[Creatures.Humanoid2]}</b> woman and <b>{AorAn~[Creatures.Humanoid2]}</b>
+159,a male <b>[Creatures.Humanoid2]</b> and a male <b>[Creatures.Humanoid2]</b>
+160,a male <b>[Creatures.Humanoid2]</b>, <b>{AorAn~[Creatures.Humanoid2]}</b> girl and two <b>[Creatures.Humanoid2]</b> males
+161,<b>{AorAn~[Creatures.Humanoid2]}</b> male and <b>{AorAn~[Creatures.Humanoid2]}</b> female [female Clothing]
+162,two identical twin brothers (<b>[Creatures.Humanoid2]</b>)
+163,a mix of races ({Loop~{Dice~1d3+2},<b>[Creatures.Humanoid2]</b>, })
+164,a <b>[Creatures.Humanoid2]</b> Monk and %B% <b>[Creatures.Humanoid2]</b> companion
+165,an old <b>[Creatures.Humanoid2]</b> and <b>{AorAn~[Creatures.Humanoid2]}</b>
+
+:Many Patron Descr
+1,they appear to be discussing the value of a gem they %F% found. The gem is small and blue and the <b>{Plural~[Creatures.Humanoid2]}</b> are passing it back and forth for inspection
+2,they appear to wait for someone
+3,they developed a pattern, simultaneously they refill their ale from a pitcher then trade glass and start again
+4,they dice for coppers with each other
+5,they are appear to discussing the value of gem they have found
+6,they are arguing about <b>{AorAn~[Creatures.Humanoid2]}</b> girlfriend
+7,they are arguing as they smoke their pipes
+8,they are arm-wrestling as their friends cheer %C% on
+9,they are bent over a small wooden box. When they lifts its lid the sound of very high beautiful tinkling music ushers forth
+10,they are boring %B% companions with a long drawn out lecture on ancient cults
+11,they are deep in a conversation about taxes and sales
+12,they are discussing The Orcan Wars with a younger men
+13,they are discussing the ways of their god (God: [~Religion.Deities])
+14,they are discussing treatment for the vapors
+15,they are drinking ale and talking of battle tactics
+16,they are drinking and chatting merrily
+17,they are drinking the strong stuff and talking about battles from two hundred years ago
+18,they are exchanging stories over a fine spread of food and drink
+19,they are excitedly discussing an upcoming archery tournament
+20,they are facing each other
+21,they are glaring at each other and taking huge gulps of beer from large jugs
+22,they are laughing and talking
+23,they are passing a scrap of paper from one to the other
+24,they are sitting across from each other discussing something quietly
+25,they are sitting and arguing over something on the table
+26,they are sitting and talking as they drink wine and eat cheese
+27,they are sitting here drinking while discussing about something on the table
+28,they are sitting next to each other at the bar
+29,they are speaking softly
+30,they are staring into their drinks and muttering to one another
+31,they are taking their break
+32,they are talking about breaking a stallion for a local lord as they drink their mead
+33,they are talking and drinking
+34,they are talking with each other quietly
+35,they are telling jokes to each other
+36,they have tankards in hand  arguing quietly among themselves
+37,they seem to be in a very serious conversation
+38,they share a large bowl of fish broth
+39,they share a simple meal at this table
+40,they share out the contents of a flagon of dark rich [Ale]
+41,they sit side-by-side reading the same [Scroll]
+42,they sit together at this table and drink [Ale]
+43,they sit%D% together at this table and drink ale
+44,they trade their tales of woe and abandonment
+45,they enjoy each others company as they finish their meager meal
+46, although they speak amongst themselves in hushed tones, occasionally you can make out a solitary word or phrase
+47,every now and then, they all laugh together, almost as if in chorus
+48,On the table, in front of each of them, are several pouches of tobacco. they share a pipe full and then like connoisseurs of fine wine, they talk ,at length about the qualities of each blend
+49,the mood is somber and they are talking quietly, and not often
+50,they all have drinks, and sing loudly to someone who is sitting out of view
+51,they all take a long drink from their earthen mugs and then smash them on the ground
+52,they appear to be drinking thin ale with their food
+53,they appear to have recently come back from a long journey
+54,they are [Eating] soup
+55,they are all talking about things on the table. It appears they are trading items  among themselves. you notice one of the items being traded appears to be a normal looking sword except the for the occasional glow it gives off
+56,they are already half drunk, but continue to take long drinks
+57,they are arguing but soon begin to laugh
+58,they are arguing loudly in a different language (common from [~Countries.Land]), but in a good natured manner
+59,they are conversing and as you approach they eye you suspiciously, then go back to their mugs of ale and gossip
+60,they are conversing and as you approach they get suspicious
+61,they are deep in a conversation about taxes and sales
+62,they are discussing a recent battle on the outskirts of town
+63,they are drinking ale and occasionally talk to the barkeep about something inconsequential
+64,they are drinking furiously and one is calling to the innkeeper for more ale
+65,they are eating and talking
+66,they are grim of expression and strong of limb
+67,they are having a heated discussion
+68,they are huddled around the center of the table
+69,they are huddled together
+70,they are in a good mood, and their laughter can be heard throughout the whole room
+71,they are in a very good mood
+72,they are making quite a lot of noise, although two of them have drank more than they should and have fallen asleep with their heads on the table and their hands firmly clenching their mugs. The other <b>{Plural~[Creatures.Humanoid2]}</b> seem to be caught in a quarrel
+73,they are noisily drunk and seem to be very exited about something that they jabber in a strange language (common from [~Countries.Land]). With a horrible accent they order mead and when the barmaid brings it they make grabs at her and laugh loudly
+74,they are not locals ([~Countries.Countries])
+75,they are singing loud songs about someone's true love and laughing uproariously as they invent new details
+76,they are sitting down watching the place and enjoying a drink
+77,they are speaking in the <b>[Creatures.Humanoid2]</b> language
+78,they are sulking grumpily
+79,they are talking about the projects, which they are each currently working on
+80,they are talking about their plans for a mine somewhere in <b>[Creatures.Humanoid2]</b> lands
+81,they are talking loudly to each other while eating
+82,they are wearing leather shirts and trousers and have high boots that, although dusty from the road, are clearly well cared for and are often shined
+83,they are well armed and seem not to care how much they are spending
+84,they aren't eating or drinking much
+85,they both wear cloaks, and one of them has %B% hood drawn
+86,they break into lewd songs now and again
+87,they break out again and again into loud laughter
+88,they casually drink but seem engrossed in their conversation
+89,they converse good naturedly, and a laugh erupts from them every now and again
+90,they converse good-naturedly
+91,they drink and complain about everything in general
+92,they drink sparingly and discuss the rumors in their master's factory
+93,they each have a pipe clenched between their lips and a small cloud of smoke hovering overhead
+94,they each have set before them a plate of fish and a glass of wine
+95,they eat hastily and silently
+96,they eat slowly while they talk quietly among themselves
+97,they gawk openly at any women, but say nothing
+98,they grumble loudly about all the outsiders who keep passing through their village
+99,they have a [Mug] of [Ale] each
+100,they have a [Mug] of [Ale] each and discuss something in low voices. As soon as anyone draws near they fall silent
+101,they have drunk too much and their rowdy behavior is unsettling other tavern customers
+102,they have obviously been on the road; dust and red dirt cling to their high boots and long cloaks
+103,they have obviously fallen upon hard times
+104,they laugh boisterously and clink their mugs several times in toasts to the future
+105,they loudly  discuss what seems like where they shall travel
+106,they produce small pouches from their cloaks and trade them with each other
+107,they push and shove one another and shout rudely at the barkeep
+108,they seem eager about something, and talk in hushed voices
+109,they seem frustrated and angry
+110,they seem like they are celebrating something, and a large pile of gold lies in the middle of the table
+111,they seem more interested in four small bags they are haggling over than they are in drinking
+112,they seem much more interested in their [Mug]s of [Ale]
+113,they seem to be discussing some sort of deal
+114,they seem to be eating with great gusto and hardly notice their surroundings
+115,they seem to be finalizing a deal on several horses
+116,they seem to be gossiping about this and that
+117,they seem to be in a good mood about something that has happened recently
+118,they seem to be in a very serious conversation
+119,they seem to be oblivious of any other activity in the room
+120,they seem to be talking about a lost treasure
+121,they seem to be talking about fish, and disputing each other's tall stories
+122,they seem to be tired and talk little
+123,they seem to be trying to work out what is written on a piece of parchment, and are cheerfully arguing over the words
+124,they seem to be very comfortable in the place and give the air of being regulars
+125,they seem to be watching you from a distance but every time you look at them, they look away and continue their  conversation
+126,they seem to disagree about something, but your presence seems to unsettle them
+127,they seem to have been on the road for a while
+128,they seem very friendly as if they have known each other for years
+129,they sip at their drinks very slowly
+130,they speak rarely to each other
+131,they speak seldom, and when they do their voices are almost silent
+132,they speak too quietly to be understood
+133,they take turns throwing knives at a target drawn on the wall
+134,they talk in [~Miscellaneous.Language] and seem to be enjoying themselves
+135,they talk of old battles and booty taken in the 'Good Old Days'
+136,they talk quietly
+137,they talk quietly among themselves
+138,they talk quietly among themselves, but appear to be content watching and smiling at people
+139,they talk quietly amongst themselves at  about the weather affecting the wheat crops this year
+140,they talk to each other but seem more interested in searching the tavern through slitted eyes for any who dares to challenge them
+141,they talk to one another occasionally
+142,they talk to one another occasionally and look about the room
+143,they toast each other loudly in an odd dialect containing many strange words
+144,they were commoners clothing and both have a look about them with a certain degree of innocence
+145,they're laughter fills the whole room as they clutch their sides
+146,whenever somebody enters the room, they turn around and look at them curiously. However, they quickly loose interest and turn background to their beer
+147,they play a game of darts
+148,they play a game of cards
+149,they watch while 2 others are playing a game of chess
+150,they watch while 2 others are playing a game of checkers
+151,they watch while 2 others are playing a game of dice
+152,they watch while 2 others are playing a game of cards
+153,they watch while 2 others are playing a game of darts
+154,they play a drinking game
+155,they watch while 2 others are playing a drinking game
+156,they are arm wrestling
+157,they watch while 2 others are arm wrestling
+158,they talk in sign language
+159,they speak in "cant" (Innuendo skill)
+160,they speak a foreign language (common tongue or slang from [~Countries.Land])
+161,they are dancing even without music
+162,they are talking quietly
+163,they are arguing quietly
+164,they are getting ready to leave
+165,they are poking fun at a local
+166,they are arguing about politics
+167,they are arguing about religion
+168,they are celebrating a victory
+169,they are sharing the same meal
+170,they are gossiping about locals
+171,they are gossiping about adventurers
+
+:female Single
+1,a wide eyed <b>[Creatures.Humanoid2]</b> female, [female Clothing 1]
+2,a willowy girl of <b>[Creatures.Humanoid2]</b> descent [female Clothing 1]
+3,a [%I% Size] <b>[Creatures.Humanoid2]</b> woman [female Clothing 1]
+4,a [%I% Size] <b>[Creatures.Humanoid2]</b> girl with wispy [Hair] hair and a fine flute [female Clothing 1]
+5,{AorAn~[female Looks]} young <b>[Creatures.Humanoid2]</b> girl [female Clothing 1]
+6,<b>{AorAn~[Creatures.Humanoid2]}</b> barmaid
+7,{AorAn~[female Looks]} [female Human] who may be <b>{AorAn~[Creatures.Humanoid2]}</b> [female Clothing]
+8,{AorAn~[female Looks]} <b>[Creatures.Humanoid2]</b> [female Human] with long [Hair] braids down her back [female Clothing 1]
+9,a dark robed <b>[Creatures.Humanoid2]</b> [female Human] [female Clothing 1]
+10,a female <b>[Creatures.Humanoid2]</b> [female Clothing 1]
+11,{AorAn~[female Looks]} [female Human] <b>[Creatures.Humanoid2]</b> [female Clothing 1]
+12,<b>{AorAn~[Creatures.Humanoid2]}</b> [female Human] [female Clothing 1]
+13,{AorAn~[female Human]} <b>[Creatures.Humanoid2]</b> [female Clothing 1]
+14,{AorAn~[female Human]} <b>[Creatures.Humanoid2]</b> [female Clothing 1]
+15,a large muscular <b>[Creatures.Humanoid2]</b> wearing [Armor] armor
+16,{AorAn~[Age]} <b>[Creatures.Humanoid2]</b> [female Human] [female Clothing 1]
+17,{AorAn~[female Looks]} [Age] <b>[Creatures.Humanoid2]</b> [female Human] [female Clothing 1]
+18,{AorAn~[female Looks]} and muscular <b>[Creatures.Humanoid2]</b> barmaid
+19,{AorAn~[female Looks]} <b>[Creatures.Humanoid2]</b> [female Human] [female Clothing 1]
+20,a scantly clad and totally [Drunk] <b>[Creatures.Humanoid2]</b> [female Human]
+21,{AorAn~[%I% Size]} <b>[Creatures.Humanoid2]</b> with long, [Hair] hair [female Clothing 1]
+22,{AorAn~[female Looks]} [Hair] haired <b>[Creatures.Humanoid2]</b> [female Human] [female Clothing 1]
+23,{AorAn~[female Looks]} <b>[Creatures.Humanoid2]</b> [female Human], with raven black hair and blank staring [Eye Color] eyes
+24,{AorAn~[%I% Size]} [female Looks] <b>[Creatures.Humanoid2]</b> [female Human] [female Clothing 1]
+25,{AorAn~[%I% Size]} <b>[Creatures.Humanoid2]</b> [female Human] [female Clothing 1]
+26,{AorAn~[%I% Size]} [female Looks] <b>[Creatures.Humanoid2]</b> [female Human] [female Clothing 1]
+27,{AorAn~[%I% Size]}, [Hair] haired <b>[Creatures.Humanoid2]</b> [female Human]
+28,{AorAn~[female Looks]} <b>[Creatures.Humanoid2]</b> [female Human] [female Clothing 1]
+29,{AorAn~[female Looks]}, scantily clad <b>[Creatures.Humanoid2]</b> [female Human]
+30,a wide-eyed little <b>[Creatures.Humanoid2]</b> girl
+31,<b>{AorAn~[Creatures.Humanoid2]}</b> [female Human] [female Clothing 1]
+32,<b>{AorAn~[Creatures.Humanoid2]}</b> [female Human] with long [Hair] hair and the appearance of a mercenary
+33,{AorAn~[Age]} <b>[Creatures.Humanoid2]</b> [female Human] with [Hair] hair and stunning [Eye Color] eyes [female Clothing 1]
+34,{AorAn~[Age]}, pale <b>[Creatures.Humanoid2]</b> [female Human] [female Clothing 1]
+35,{AorAn~[female Looks]} [Age] <b>[Creatures.Humanoid2]</b> girl
+36,{AorAn~[female Looks]} [Age] <b>[Creatures.Humanoid2]</b> [female Human] [female Clothing 1]
+37,a old <b>[Creatures.Humanoid2]</b> spinster
+38,{AorAn~[Age]} <b>[Creatures.Humanoid2]</b> [female Human] [female Clothing 1]
+39,{AorAn~[Age]} <b>[Creatures.Humanoid2]</b> [female Human] [female Clothing 1]
+40,a ugly, fat <b>[Creatures.Humanoid2]</b> [female Human] [female Clothing 1]
+41,{AorAn~[Hair]} haired, tanned young <b>[Creatures.Humanoid2]</b> [female Human]
+42,a shy looking [Hair] haired <b>[Creatures.Humanoid2]</b> girl [female Clothing 1]
+43,a stout <b>[Creatures.Humanoid2]</b> lady with a basket full of spun wool
+44,<b>{AorAn~[Creatures.Humanoid2]}</b> maiden [female Clothing 1]
+45,<b>{AorAn~[Creatures.Humanoid2]}</b> woman [female Clothing 1]
+46,<b>{AorAn~[Creatures.Humanoid2]}</b> woman wearing farming clothes
+47,{AorAn~[female Looks]} dark-haired, dark-eyed <b>[Creatures.Humanoid2]</b> woman
+48,a [Skin Tone] skinned <b>[Creatures.Humanoid2]</b> woman [female Clothing 1]
+49,a [Skin Tone] skinned, curly-haired <b>[Creatures.Humanoid2]</b> woman [female Clothing 1]
+50,a fancy <b>[Creatures.Humanoid2]</b> lady [female Clothing 1]
+51,{AorAn~[female Looks]} <b>[Creatures.Humanoid2]</b> [female Human] [female Clothing 1]
+52,<b>{AorAn~[Creatures.Humanoid2]}</b> [female Human] [female Clothing 1]
+53,a little pinch-faced [Age] <b>[Creatures.Humanoid2]</b> lady [female Clothing 1]
+54,{AorAn~[female Looks]} <b>[Creatures.Humanoid2]</b> woman with [Hair], curly locks [female Clothing 1]
+55,{AorAn~[female Looks]} <b>[Creatures.Humanoid2]</b> woman [female Clothing 1]
+56,a slight round-eyed <b>[Creatures.Humanoid2]</b> girl
+57,a small <b>[Creatures.Humanoid2]</b> female with long, [Hair] hair [female Clothing 1]
+58,<b>{AorAn~[Creatures.Humanoid2]}</b> woman [female Clothing 1]
+59,a youthful and {AorAn~[female Looks]} <b>[Creatures.Humanoid2]</b> girl
+60,Sitting at this table is an elderly <b>[Creatures.Humanoid2]</b> female [female Clothing 1]
+61,<b>{AorAn~[Creatures.Humanoid2]}</b> female [female Clothing 1]
+
+:Female many
+1,[How Many] <b>[Creatures.Humanoid2]</b> [female Human]s
+2,[How Many] <b>[Creatures.Humanoid2]</b> [female Human]s
+3,the [How Many] <b>[Creatures.Humanoid2]</b> [female Human]s
+4,[How Many] almost-dressed <b>[Creatures.Humanoid2]</b> [female Human]s
+5,[How Many] <b>[Creatures.Humanoid2]</b> [female Human]s
+6,[How Many] <b>{Plural~[Creatures.Humanoid2]}</b>
+7,[How Many] <b>[Creatures.Humanoid2]</b> [female Human]s
+8,[How Many] <b>[Creatures.Humanoid2]</b> girls
+9,[How Many] <b>[Creatures.Humanoid2]</b> ladies of the night
+10,[How Many] <b>[Creatures.Humanoid2]</b> [female Human]s
+11,[How Many] young <b>[Creatures.Humanoid2]</b> girls
+12,[How Many] [female Looks] <b>[Creatures.Humanoid2]</b> [female Human]s
+13,[How Many] [Drunk]-looking <b>[Creatures.Humanoid2]</b> [female Human]s
+14,[How Many] <b>[Creatures.Humanoid2]</b> maids
+15,[How Many] <b>[Creatures.Humanoid2]</b> [female Human]s
+16,[How Many] <b>[Creatures.Humanoid2]</b> serving girls
+17,[How Many] <b>[Creatures.Humanoid2]</b> [female Human] with short [Hair] hair
+18,[How Many] [Age] <b>[Creatures.Humanoid2]</b> [female Human]s
+19,[How Many] [Age] <b>[Creatures.Humanoid2]</b> [female Human]s who look like travelers
+20,[How Many] young <b>[Creatures.Humanoid2]</b> women, dressed like farmer's daughters
+21,[How Many] <b>[Creatures.Humanoid2]</b> women wearing exotic silks
+22,a group of [How Many] women
+23,[How Many] almost-dressed <b>[Creatures.Humanoid2]</b> [female Human]s
+24,[How Many] drunken looking <b>[Creatures.Humanoid2]</b> [female Human]s
+25,[How Many] plain <b>[Creatures.Humanoid2]</b> matrons
+26,a group of [How Many] [%I% Size] <b>[Creatures.Humanoid2]</b> girls
+
+:Female Descr
+1,her hands are folded presentably before herself but her expression is worried as she casts her eyes about the place as though unsure of what she is looking for
+2,she scowls at a bevy of small even more austerely dressed girls. Whenever they fidget, smile or laugh, she scolds them very thoroughly
+3,she seems to be practicing the flute, but so softly that you can only hear the occasional soft note. Her eyes are very pale blue and her face is sharp and freckled.
+4,she is paying for 3 bottles of liquor. A young man approaches her and whispers something to her. She turns and slaps him, to which his friends in the corner laugh loudly, one falling out of his chair. The girl quickly takes the bottles and leaves
+5,she is trying to talk her boyfriend into going home. He's had far too much to drink, and has convinced himself he's fallen in love with the waitress. There is a small bundle of new clothes sitting on the table
+6,she affectionately pats an old dwarf on his bald head, and is calling him 'papa'
+7,she dances on the long center table. Her hips move back and forth in time to the rhythm of a lively tune carried by the men sitting at the table. When the song ends, she bows, displaying her large, pale bosoms. The men bang their mugs and call for more, excitement and laughter in their voices
+8,she looks as if she has never been in an inn before
+9,she is sitting next to a middle-aged man in coveralls.  She has a firm grip on his arm as she looks around the room in a mixture of terror and excitement. He is smiling slightly and patting her hand. A bow leans against the wall behind him and a full quiver hangs at his belt
+10,the combination of her dress and her posture leave little or nothing to the imagination. She is surely wanting to attract male attention, but is too well-dressed to be a whore, and doesn't look as if finding a bed partner is her goal
+11,she sits expectantly, apparently waiting to be hired by someone
+12,she glances almost casually at the men crowding around her, and heaves a big sigh. She sits down and looks towards the door hopefully, but looks crest fallen when no-one enters
+13,one young man walks up to her, and gets a slap in the face for his effort much to the amusement of his companions
+14,a man walks over to her, and she begins some kind of trance, like a psychic
+15,she is singing in a language you don't quite understand, but you can tell the song is sad.  A long haired man next to her is weeping in his drink
+16,the woman is offered a drink by the serving wench, but she shakes her head briskly and ignores the serving wench
+17,she is spoon-feeding a stately elf, clad in a fine grey gown. He is clearly blind, and as you look across, she looks at you and gives you a brave but hopeful smile. Her food stands uneaten
+18,four young men come over and entice her to follow them into their room
+
+:Female Many Descr
+1,the smallest of them is very young indeed and also the most pretty. Her eyes shine very brightly when she speaks, and her hands move excitedly in accompaniment to her words
+2,they whisper and giggle at this table. One fiddles constantly with a ribbon. The bright blue band seems to have several oddly shaped beads strung upon it, and she pulls them to and from with a curiously mesmerizing motion
+3,they talk and giggle, as one of them promises to show the other some 'new dance moves'
+4,they are leaning against the wall near one of the tables. If anybody takes a place there, the girls will begin to engage them in intense flirtation
+5,they are telling each other about their husbands in loud, shrill voices.  As you look at them, one of them  a seems to look past you and smile at someone behind you
+6,they have purple splotches on their clothes and ingrained into their skin. As they eat their pottage and drink cheap ale you hear them talking. It ain't right, I've seen how much he gets for the purple cloth, five times what he pays for it! We does all the work & he pays us almost nothing'. It ain't right
+7,they have taken a seat by the fire. Partially finished meals sit before them, forgotten, as they cast furtive glances at the barkeep whom you sees to be a very handsome man, in his way. The girls are giggling amongst themselves about his charms in a feeble attempt not to be overheard
+8,they are gossipy shrewdly about someone called [Fantasy Names.Start]. Three of them say nothing but horrid, cold things about her, while the fourth seems rather more compassionate, often biting her tongue and looking shocked by things the others say
+9,all appear to be quite young and beautiful, but you can not be sure because of the dim lighting
+10,they are counting the days takings. They are dressed shabbily and look weary
+11,they are holding hands with each other. They are ignoring the food in front of them, choosing to look lovingly at each other, and occasionally stopping their conversation to kiss each other sensually with open mouths. No one around seems to mind
+12,they are experimenting with cosmetics
+13,they are looking around the room pointing at the men and laughing and smiling
+
+:Pre Family
+1,a family of stout ginger-haired <b>[Creatures.Humanoid2]</b> farm-folk
+2,a family of slightly oddly dressed <b>[Creatures.Humanoid2]</b> people
+3,a family of |Z=[Race]|<b>%Z%</b>,a family of farmers
+5,a family of <b>[Creatures.Humanoid2]</b> peasants
+6,a bearded |Z=[Race]|<b>%Z%</b>, a human woman & their children
+7,a father, pregnant mother and their children (all <b>[Creatures.Humanoid2]</b>)
+9,a mother, father and their children (all <b>[Creatures.Humanoid2]</b>)
+9,a father, mother and their children (all <b>[Creatures.Humanoid2]</b>)
+10,an elderly <b>[Creatures.Humanoid2]</b> couple with their children barley in their teens
+11,a family of stout ginger-haired <b>[Creatures.Humanoid2]</b> farm-folk
+12,two |Z=[Race]|%Z% and what appears to be %B% children
+13,an older <b>[Creatures.Humanoid2]</b> family and %B% young children
+14,a couple of |Z=[Race]|%Z%s and what appears to be %B% children
+15,small <b>[Creatures.Humanoid2]</b> children, both girls and boys, dressed in worn clothing ,a fair looking <b>[Creatures.Humanoid2]</b> woman and a man
+16,a peasant <b>[Creatures.Humanoid2]</b> family
+17,a farmer, his wife and their children (all <b>[Creatures.Humanoid2]</b>)
+
+
+:Family Descr
+1,They look tired, and the dust on their shoes and clothing suggests that they have been travelling some distance on foot. The children have lifeless weary eyes, and they sit quietly with their parent as if noisy play was the last thing on their minds
+2,The smallest child is playing contentedly with a miniature hedgehog that he had secreted away in his pouch. When he giggles, the mother looks over and says, <i>Junior, put that hedgehog down! You don't know where it's been.</i>
+3,They are dressed poorly and look as if they don't have two pennies to rub together. The young children are thin but are happily playing as their dad  reassures their ma : <i>Don't worry, there will be work in the city. You can stay at your brothers farm `till we get set</i>
+4,The father is enjoying an after dinner ale, while the mother suckles the youngest. The young boys, are playing bonkers. Each has a fire hardened horse chestnut threaded on to the end of a string. They take turns letting their nut hang down while the other swings his into it, hoping to shatter the hanging nut
+5,One of the children asks a question, and the parents laugh, though it looks strained
+6,The man is wearing a well worn [Armor] armor and has dual {Plural~[Swords]} strapped on his back, whereas the woman and children seem normal peasants. The man is leaning over the table towards the woman and speaks to her in a hushed voice. The children seem disinterested & bored
+7,One of the boys removes a live frog from a crock at his feet to tease his sister with. <i>Put him back now!</i> the mother threatens, <i>or your father will be very angry with you when we find a Wizard to change him back</i>
+8,They talk of crops and taxes, and plan what they will do with the much anticipated surplus Their clothes and their mannerisms are rough, but you get the impression that they are happy
+9,They are playing some sort of game involving tiles which are placed on top of each other. The boy is happy and the others are laughing. The young woman appears to have a [Miscellaneous.Metal]-handled [Knifes] and a purse
+10,They seem disinterested about other people in the tavern, except for the boy who looks around now and then and stares at the other patrons
+11,They wear patched, dirty clothes and broken shoes. The man tries to calm the boy who looks like he's going to burst into tears. He says: <i>Don't worry, son. We'll find her yet. I'm sure of it</i>
+12,They eat the cheapest dishes and look nervously around for someone to say they do not belong here
+13,Their faces are carved with the lines of a hard life, their noses red from the merciless sun
+14,The son is telling of how he wishes to travel
+15,They are trying to explain craftsmanship to %B% son. <i>A Dwarven music box will be plain but will withstand anything. Humans build functionally. An Elven Music Box will be beautiful beyond belief, but fragile. Halflings miniaturize. Gnomes combine the best traits of all the rest, but if the music box breaks it may kill anyone in the area</i>
+
+:Pre Music
+1,a <b>[Creatures.Humanoid2]</b> |Z=troubadour|%Z%
+2,a |Z=[Race]|%Z%
+3,a young <b>[Creatures.Humanoid2]</b> |Z=musician|%Z%
+4,a |Z=musician|%Z%
+5,a drunken and amorous <b>[Creatures.Humanoid2]</b> |Z=bard|%Z%
+6,{Cap~{AorAn~[Race]}} |Z=bard|%Z%
+7,{Cap~{AorAn~[Age]}} <b>[Creatures.Humanoid2]</b> |Z=bard|%Z%
+8,a very talented <b>[Creatures.Humanoid2]</b> |Z=bard|%Z%
+
+:Post Music
+1,surrounded by young women, is playing [~Music Instrument]
+2,is playing [~Music Instrument], almost as tall as %A% is
+3,is playing a tune on [~Music Instrument]
+4,is holding an interesting looking [~Equipment.Musical Instruments]
+5,tunes %B% [~Equipment.Musical Instruments], taking frequent draughts from a jug of wine
+6,sits at this table
+7,tunes %B% [~Equipment.Musical Instruments] here
+8,sings quite beautifully at this table
+9,plays [~Music Instrument] and sings a ballad
+10,sits at this table with a glass of wine and quietly plays melodies on %B% [~Equipment.Musical Instruments]
+11,tunes %B% [~Equipment.Musical Instruments] as three <b>[Creatures.Humanoid2]</b> maidens are clambering to sit next to him
+12,is playing %B% [~Equipment.Musical Instruments], while two <b>{Plural~[Creatures.Humanoid2]}</b> are listening
+13,tunes %B% [~Equipment.Musical Instruments], taking frequent draughts from a jug of [Ale]
+14,at this table quietly play melodies on %B% [~Equipment.Musical Instruments]
+15,is playing [~Music Instrument]
+16,is playing %B% [~Equipment.Musical Instruments]
+
+# Added other kind of bards.
+:Post Music2
+1,surrounded by young women, [Other Bard]
+2,[Other Bard]
+3,[Other Bard] while taking frequent draughts from a jug of wine
+4,sits at this table with a glass of wine. {Cap~%A%} [Other Bard]
+5,[Other Bard] as three <b>[Creatures.Humanoid2]</b> maidens are clambering to sit next to him
+6,[Other Bard], while two <b>{Plural~[Creatures.Humanoid2]}</b> are listening
+7,[Other Bard] and taking frequent draughts from a jug of [Ale]
+
+;Other Bard
+1,is making some mimes
+1,is acting some comedy
+1,is acting a drama
+1,is making acts of buffoonery
+1,is making limericks of [~Names Generator.NAME Random], the most famous [~Creatures.Humanoid2] bard 
+1,is reciting some {If~{Dice~1d6}=1?boring/really funny} jokes
+1,is making some incredible dance steps
+1,is reciting a tale
+1,is telling some interesting stories 
+1,is singing a ballad
+1,is chanting
+1,is singing a sweet melody 
+
+:Music Instrument
+1,{AorAn~[Equipment.Musical Instruments]}
+
+:Music Descr
+1,The women in the tavern seem more interested in the %Z%'s fine clothes than in the sounds comings from the instrument. The %Z% stops periodically to take small precise sips of mead from a metal chalice
+2,{Cap~%B%} eyes are closed and %B% head sways dreamily from side to side as %A% lovingly coaxes music from the instrument. The instrument front is a stunning carving of <b>{AorAn~[Creatures.Humanoid2]}</b> maid frozen in mid-song
+3,Other than the occasional squeak, %B% playing is not bad. %L% is collecting a medium sized pile of coppers from the customers as they pass his table. However, you suspect that the coppers may just be to keep him from picking up the bagpipes, displayed on the chair beside %C%
+4,{Cap~%B%} motions are fast, but competent. A bow stands beside %C% with a quiver of expensive arrows.  %A% appears to have few other possessions
+5,{Cap~%A%} is spouting bad poetry in a desperate attempt to woo a serving girl
+6,{Cap~%A%}'s dressed all in [Miscellaneous.Color] and  among %B% jacket pockets, you can see sometimes the hidden throwing daggers. There's also {AorAn~[Swords]} laid on the table, which the %Z% uses to clean %B% nails now and then
+7,Across the table sits |Y={AorAn~[Race]}|%Y% warrior who drums out a soft beat upon the tables surface with gnarled meaty hands. When the song ends but a moment later those about cheer enthusiastically, the elder %Y% cheering the loudest of all within his rumbling baritone
+8,The %Z% starts to play. The entire establishment quiets as %B% voice tells the tale of <b>[Formal Names.Start]</b>. On the table before %C% you see an illusion of the tale being played out in miniature. A performance fit for royalty! The crowd cheers
+9,From this table a beautiful sound fills the air as %A% sings, a small monkey goes from table to table proffering his small hat for coins. The ballad is interrupted by the laughter of the crowd when the monkey chastises a richly dressed man as it holds the single copper he placed in its cap.
+10,Nobody seems to pay attention to %C%
+11,{Cap~%A%} plays a funny tune, and two <b>{Plural~[Creatures.Humanoid2]}</b> really enjoy it. They move their heads to the music and sometimes whistle with the %Z%
+
+:Music Descr2
+1,The women in the tavern seem more interested in the %Z%'s fine clothes than in %B% performance. The %Z% stops periodically to take small precise sips of mead from a metal chalice
+2,{Cap~%B%} eyes are closed and %B% head sways dreamily from side to side as %A% performs his act
+3,{Cap~%B%} performance is not bad. %L% is collecting a medium sized pile of coppers from the customers as they pass his table. However, you suspect that the coppers may just be to keep him from picking up the bagpipes, displayed on the chair beside %C%
+4,{Cap~%B%} performance is fast, but competent. A bow stands beside %C% with a quiver of expensive arrows. %A% appears to have few other possessions
+5,{Cap~%A%} is occasionnally spouting bad poetry in a desperate attempt to woo a serving girl
+6,{Cap~%A%}'s dressed all in [~Miscellaneous.ColorNoType] and  among %B% jacket pockets, you can see sometimes the hidden throwing daggers. There's also {AorAn~[Swords]} laid on the table, which the %Z% uses to clean %B% nails now and then
+7,Across the table sits |Y={AorAn~[Race]}|%Y% warrior who drums out a soft beat upon the tables surface with gnarled meaty hands. When the performance ends but a moment later those about cheer enthusiastically, the elder %Y% cheering the loudest of all within his rumbling baritone
+8,The %Z% starts to perform. The entire establishment quiets as %B% voice tells the tale of <b>[~Formal Names.Start]</b>.
+9,From this table, a small monkey goes from table to table proffering his small hat for coins. The performance is interrupted by the laughter of the crowd when the monkey chastises a richly dressed man as it holds the single copper he placed in its cap.
+10,Nobody seems to pay attention to %C%
+11,{Cap~%B%} performance si quite funny, and two <b>{Plural~[Creatures.Humanoid2]}</b> really enjoy it. They move their heads, and tilt their head acknowledging %B% performance, and sometimes whistle with the %Z%
+
+:Sailors
+1,two merchant marine first officers
+2,one bleary-eyed <b>[Creatures.Humanoid2]</b> captain and his mates
+3,a couple of <b>[Creatures.Humanoid2]</b> sailors
+4,two <b>[Creatures.Humanoid2]</b> Sailors
+5,three drunken <b>[Creatures.Humanoid2]</b> sailors, well dressed and well armed
+6,a group of old <b>[Creatures.Humanoid2]</b> sailor
+7,a rowdy bunch of <b>[Creatures.Humanoid2]</b> sailors
+8,members of a <b>[Creatures.Humanoid2]</b> pirate crew
+9,a group of <b>[Creatures.Humanoid2]</b> merchant marine officers
+10,three <b>[Creatures.Humanoid2]</b> in hooded water-proofed jackets that hang to their knees
+11,a pair of <b>{Plural~[Creatures.Humanoid2]}</b>, stinking of fish
+12,a group of young <b>[Creatures.Humanoid2]</b> sailor
+13,a group of <b>{Dice~1d4+2}</b> <b>[Creatures.Humanoid2]</b> sailors
+14,two <b>[Creatures.Humanoid2]</b> sailors
+
+:Sailors Descr
+1,they are trying to out do the other with stories of their captain's incompetence and how they really run the ship
+2,all of a sudden one jumps up and screams <i>I saw it!. It was the biggest whale I have ever seen!</i> The other sailors laugh loudly
+3,they clank tankards together and begin a rousing chorus of Yo ho ho ho!. A salty sea dogs sit across from one another, staring at the cards in their hands. They slowly lower them, then one of them throws them down in disgust as the other gathers a pile of copper coins with a greedy smile
+4,one of them is slapped by the <b>[Creatures.Humanoid2]</b> serving girl after whispering something in her ear. His companion laughs at him and then continues with his drinks
+5,they are hunched over a cross shaped game board playing pirates and keep. Several Ales have slowed their play. There are 24 pirate ships and only 2 defenders. The Sailor directing the Pirates is trying to fill the section of the cross that represents the keep. The defender is trying to capture enough pirates to make that impossible
+6,they tell everybody who listens to him of the adventures to be found on the sea
+7,they are discussing a conflict between an island group that threatens the stability of the shipping lanes. Each boasts a separate story relating to their difficulties at sea. They obviously come from different ships
+8,they are enjoying a sailor's ditty being played on a flute. Their heads bob from side to side in time with the music as their mugs beat out a rhythm on the tabletop. When one of the Sailors starts dancing a jig both of the halflings drunkenly try to match his motions, much to the amusement of the other Sailors
+9,they are raising their mugs while they harmonize a sea chantey. While the volume is quite loud and the subject matter lurid and violent, the tune is catchy and their voices beautiful. A gaggle of peasant children gathers around them, their worshipful stares ignored by the happy seamen
+10,they recalling how they narrowly escaped a terrible storm at sea a few years ago
+11,they are listening to a <b>[Creatures.Humanoid2]</b> male recount an interesting tale of how he was washed overboard and rescued by beautiful, busty sea nymph who fulfilled his every desire
+12,one of them, with book, quill and an ink bottle, takes a seat and prepares to write. While he does this, another brings him a candle and lights it before joining his companion. They are asking the patrons of the bar to exchange the whereabouts of a certain pirate captain for a bag of gold coins
+13,one of them decides to brush the barmaid's breast as she serves drinks. She smiles, which he takes as encouragement. When she turns around, he stands and presses his body against her. She spins and knees him in the groin, sending him to the floor among the laughter of his friends
+14,one of them approaches the <b>[Creatures.Humanoid2]</b> girl at the bar. He says something to her, which you can't hear, but you guess at its meaning when she splashes her drink in his face
+15,they're-discussing mending their nets in the morning
+16,you can hear rumors of an undiscovered continent emanating from group
+17,one of them is sketching something on a piece of parchment. When you look over, you see that it's the front of a ship. He is drawing in the sculpture for the front
+18,<i>yer cap'n sucks chum! 'e couldn't navigate himself into woman, much less the seas!</i> you hear one shout. A rival crew is standing around a table in the back, hands at their weapons. <i>Yer cap'n is a yellow-livered scurvy frail!</i> It looks like a fight is very near breaking out
+19,one of them keep%D% trying to show the serving girls his snake. On the back of his hand and along the muscle of his forearm is an intricate snake tattoo. When he rotates his wrist the snake moves sinuously
+20,the remains of a substantial meal and a flock of empty tankards clutter the table before them. One of them is humming to himself as he patiently carves a scrimshaw picture into an [~Miscellaneous.Other Material] handled [Knifes]
+21,they are mocking their sea mate who is rapidly tying a series of intricate knots into fine cords of silk. <i>You can make fun all you want</i> the <b>[Creatures.Humanoid2]</b> counters <i>but I've sold every blessed bracelet I wove the entire voyage. The profit will buy spices to sell at the next port. Maybe I'll hire you two to attend me when I'm rich!</i>
+
+:Couples
+1,{AorAn~[Age]} <b>{Plural~[Creatures.Humanoid2]}</b> couple
+2,{AorAn~[Age]} <b>[Creatures.Humanoid2]</b> couple
+3,{AorAn~[Age]} <b>[Creatures.Humanoid2]</b> couple (a boy and a girl barely in their teens)
+4,a smiling <b>[Creatures.Humanoid2]</b> couple
+5,{AorAn~[Age]} <b>[Creatures.Humanoid2]</b> couple
+6,a [male Looks] <b>[Creatures.Humanoid2]</b> couple
+7,a couple of [Age] <b>[Creatures.Humanoid2]</b> lovers
+8,a couple of young <b>[Creatures.Humanoid2]</b> lovers
+9,{AorAn~[Age]} [%I% Human] and woman
+10,a <b>[Creatures.Humanoid2]</b> couple
+11,a young <b>[Creatures.Humanoid2]</b> couple
+12,a nervous looking <b>[Creatures.Humanoid2]</b> couple
+13,a smiling <b>[Creatures.Humanoid2]</b> couple
+14,a middle aged <b>[Creatures.Humanoid2]</b> couple
+15,a well dressed <b>[Creatures.Humanoid2]</b> and <b>{AorAn~[Creatures.Humanoid2]}</b> in farmer clothing
+16,<b>{AorAn~[Creatures.Humanoid2]}</b> male and <b>{AorAn~[Creatures.Humanoid2]}</b> female
+17,two young <b>[Creatures.Humanoid2]</b> lovers, a serving maid and a stable boy by the looks of them
+18,a young <b>[Creatures.Humanoid2]</b> male and <b>[Creatures.Humanoid2]</b> female
+
+:Couples Descr
+1,argue at a table. The man saying that it's improper for the woman to be in the tavern
+2,sits at this table whispering secret plans to elope.
+3,has just agreed to lease a store front from a merchant couple for their new business. They share drink to seal the bargain and the merchant toasts them, Good fortune in your venture, may it profit us all
+4,sits at a table near the doorway. The man seating cautiously and keep%D% looking around.  He casts glances at the woman every once in a while.  She is barely eating at all and seems scared.  Her eyes keep darting around the room and her shoulders are hunched and she has taken a sitting version of the fetal position
+5,sit across from an older woman. The couple is nervous and fidgety and holding hands tightly. The old woman says something you can't make out through the din of the other patrons, but then the women immediately erupts into loud sobs
+6,is sitting at a table arguing loudly, many empty mugs piled in front of them. The man looks like he's about to hit her, but suddenly calms down over what the woman hisses angrily at him. They continue arguing in a slightly lower voice
+7,argue at this table. The woman appears to be trying earnestly to persuade the man of what he is saying.  However, it seems that he has not understood what she is trying to say
+8,eat while talking to each other quietly
+9,are having a heated discussion about where they should go next. The woman seems to want to end the outing while the man is for venturing out to another place
+10,are sitting and arguing over something on the table. It appears the man is studying the object intensely. You notice that the mans purse is quite large
+11,are sitting together, with adoring looks in their eyes
+12,are sitting across from each other at this table. The woman is quite beautiful and bountiful. They appear to be in love since they are holding hands while drinking and eating their meal. They both seem very happy and they are oblivious to your stares
+13,are sitting together. The man is sweating and bleary, and appears to be sick or wounded.  The women is trying to get the man to drink some broth
+14,eat while talking to each other quietly. The women talk insistently at the man, but he only shakes his head
+15,talk to each other in soft, quiet tones while holding hands under the table. They seem so deeply focused on one another that their surroundings are totally lost to them
+
+
+:Race
+1,[Creatures.Humanoid2]
+
+:male Human
+1,human
+2,man
+3,gentleman
+4,fellow
+
+:Elves Race
+1,[Creatures.Elf]
+
+;Class
+12,barbarian
+13,bard
+9,cleric of [Religion.Deities]
+10,druid
+2,fighter
+3,paladin of [Religion.Deities]
+8,priest of [Religion.Deities]
+4,ranger
+11,rogue
+1,warrior
+5,wizard
+6,wizard (specialist)
+
+;elf Class
+1,cleric of [Religion.Elf Gods]
+1,fighter
+2,wizard
+1,rogue
+1,ranger
+1,[Miscellaneous.Class]
+
+;dwarf Class
+1,cleric of [Religion.Dwarf Gods]
+2,fighter
+1,rogue
+1,[Miscellaneous.Class]
+
+;half-elf Class
+1,cleric of [Religion.Deities]
+1,druid
+1,fighter
+1,ranger
+1,wizard
+1,rogue
+1,bard
+1,[Miscellaneous.Class]
+
+;gnome Class
+1,fighter
+1,rogue
+1,cleric of [Religion.Gnome Gods]
+2,illusionist
+2,bard
+1,[Miscellaneous.Class]
+
+;halfling Race
+2,hairfeets
+3,tallfellows
+1,stouts
+
+;halfling Class
+1,cleric of [Religion.Halfling Gods]
+1,fighter
+2,rogue
+1,[Miscellaneous.Class]
+
+;human Class
+1,warrior
+1,fighter
+1,paladin of [Religion.Deities]
+1,ranger
+1,wizard
+1,priest of [Religion.Deities]
+1,cleric of [Religion.Deities]
+1,druid
+1,rogue
+1,bard
+5,[Miscellaneous.Class]
+
+;Hair
+25,black
+25,[Shade] brown
+25,[Shade] auburn
+8,[Blond Shade] blonde
+7,[Shade] blonde
+4,gray/black
+5,salt-and-pepper
+1,white-haired
+
+;Blond Shade
+1,platinum
+1,strawberry
+1,
+
+;Shade
+1,dark
+1,light
+1,sandy
+1,
+
+;Hair Style
+2,[Hair Length] straight
+2,[Hair Length] curly
+1,[Hair Length] unbound
+1,[Hair Length] tied in the back
+4,
+
+;Hair Length
+3,short
+3,moderate length
+2,long straight
+2,long curly
+5,
+
+;Eye Color
+30,[Eye Shade] black
+30,[Eye Shade] brown
+10,[Eye Shade] blue
+10,[Eye Shade] green
+10,[Eye Shade] hazel
+5,[Eye Shade] gray
+5,[Eye Shade] blue-gray eye's
+
+;Eye Shade
+1,light
+1,dark
+1,
+
+;Race or Class
+1,<b>[Creatures.Humanoid2]</b>
+1,<b>[Creatures.Humanoid2]</b> <b>[Miscellaneous.Class]</b>
+
+;male Looks
+3,exceptionally big nosed
+2,psychotic looking
+5,non-decrepit
+3,phenomenally ugly
+5,dirty
+4,handsome
+4,[Drunk]-looking
+5,gruff-looking
+4,large muscular
+4,muscular
+4,travel-stained
+5,dour-looking
+5,rugged looking
+7,rough-looking
+5,nervous looking
+4,unusual looking
+4,abnormal looking
+4,mad looking
+4,insane looking
+4,deranged looking
+5,handsome
+33,admirable
+
+;Drunk
+1,drunken
+1,intoxicated
+1,inebriated
+1,tipsy
+
+:Skin Tone
+1,dark and exotic looking
+2,ruddy
+3,dark
+4,oriental yellow
+5,olive
+6,coffee brown
+7,reddish brown
+8,pale
+9,light tan
+10,dark tan
+
+:Disposition
+1,grizzled old
+2,bragging
+3,cheerful
+4,besotted
+5,dour-looking
+6,frightening looking
+7,grumpy looking
+8,silent
+9,severe looking
+10,silent
+11,stern, humorless
+12,tough-looking
+13,weasel-faced
+14,worried looking
+15,jolly
+16,grumpy
+17,grouchy
+18,sullen
+19,cantankerous
+20,cross
+21,crabby
+22,irritable
+
+:male Size
+1,very small
+2,fat
+3,thin
+4,tall
+5,stout
+6,small
+7,short sly-looking
+8,scrawny, bird like,
+9,portly
+10,large
+11,little
+12,lanky
+13,huge
+14,heavily muscled
+15,heavy set
+16,huge, bear-like
+17,slight
+18,burly
+19,overweight
+20,barrel chested
+21,big
+22,enormous
+23,colossal
+24,gigantic
+25,huge
+26,athletic
+
+:Age
+1,young
+2,old
+3,older
+4,aging
+5,ancient
+6,middle-aged
+7,immature
+9,childlike
+10,youthful
+11,inexperienced
+12,elderly
+13,very old
+14,elderly
+
+:How Many
+1,two
+2,three
+3,four
+4,five
+5,six
+6,seven
+7,eight
+8,a few
+9,a couple of
+10,several
+
+:Patron Type
+1,[Age] [%I% Human]
+2,city guard captain 
+3,city guards
+4,companions
+5,mercenaries
+6,strong workers
+7,suspicious-looking [%I% Human]
+8,villagers
+9,workers
+10-30,[Miscellaneous.Occupations]
+
+:female Looks
+1,beautiful
+2,gorgeous
+3,pretty
+4,rather attractive
+5,smashingly beautiful
+6,exotic
+7,very attractive
+8,voluptuous
+9,stunning beautiful
+10,stimulating
+11,attractive
+12,lovely
+13,gorgeous
+14,pretty
+15,ravishing
+16,exquisite
+17,good-looking
+18,radiant
+19,heavenly
+20,divine
+21,awe inspiring
+22,sensual
+23,hedonistic
+24,sumptuous
+25,erotic
+26,lustful
+27,exotic
+28,romantic
+29,strange
+30,mysterious
+
+:female Human
+2,sorceress
+3,harlot
+4,lady
+5,female
+6,maid
+7,wench
+8,seer
+9,prophet
+10,prostitute
+11,courtesan
+12,trollop
+13,lady
+14,dame
+15,matron
+16,maid
+17,lady-in-waiting
+
+:female Size
+1,very small
+3,thin
+4,tall
+6,small
+11,little
+17,slight
+18,burly
+19,overweight
+20,big chested
+21,big
+22,busty
+23,bosomy
+24,shapely
+25,full-bossomed
+26,stacked
+
+:Eating
+1-10,eating
+11-15,dining on
+16-20,feasting on
+
+:Scroll
+1,scroll
+2,roll of parchment
+3,ancient manuscript
+4,historical document
+5,rolled up paper
+
+;Book
+1,tome
+1,manuscript
+1,book
+
+:Ale
+1-10,ale
+11-12,brew
+13-14,wine
+15-16,whiskey
+17-18,liquor
+19-20,spirit
+21-22,brandy
+23,dwarven fire ale
+
+:Mug
+1-10,mug
+11-14,stein
+15-17,goblet
+18-20,tankard
+
+;Armor
+1,robes
+49,[Equipment.Armors Only]
+
+:female Clothing 1
+1-10,[female Clothing]
+11-15,[Upper Clothing]
+16-20,[Lower Clothing]
+21-30,
+
+:male Clothing 1
+1-10,[Upper Clothing]
+11-15,[Lower Clothing]
+
+:female Clothing
+1,[Pre Clothing] a [Miscellaneous.Color] and [Miscellaneous.Color] dress
+2,[Pre Clothing] [Miscellaneous.Color] pants and [Miscellaneous.Color] slippers
+3,[Pre Clothing] a dress
+4,[Pre Clothing] a fine evening gown and [Miscellaneous.Color] slippers
+5,[Pre Clothing] a flowery dress
+6,[Pre Clothing] a flowing [Miscellaneous.Color] and [Miscellaneous.Color] gown
+7,[Pre Clothing] a knee-length skirt that is slit up the front
+8,[Pre Clothing] a plain dress of woven cotton
+9,[Pre Clothing] a scantily clad dress
+10,[Pre Clothing] a see through dress
+11,[Pre Clothing] a silk dress
+12,[Pre Clothing] a velvet and sporting a large purse
+13,[Pre Clothing] a very sheer, revealingly cut dress
+14,[Pre Clothing] a well worn plain [Miscellaneous.Color] dress
+15,[Pre Clothing] a knee-length skirt slit front and back
+16,[Pre Clothing] a [Miscellaneous.Color] blouse embroidered with [Miscellaneous.Color] flowers. [Miscellaneous.Color] strips bind the material above the elbow and wrist. She is wearing black pants and slippers.
+17,[Pre Clothing] a skirt that has a slit up the leg and reveals a lot of thigh.
+18,[Pre Clothing] a tight, low cut top that exposes her midriff and shoulders and a pair of tight breeches
+
+:Upper Clothing
+1,[Pre Clothing] a [Miscellaneous.Color]
+2,[Pre Clothing] a [Miscellaneous.Color] blouse embroidered with [Miscellaneous.Color] flowers
+3,[Pre Clothing] a [Miscellaneous.Color] cassock
+4,[Pre Clothing] a [Miscellaneous.Color] clothes
+5,[Pre Clothing] a [Miscellaneous.Color] coat
+6,[Pre Clothing] a [Miscellaneous.Color] jacket
+7,[Pre Clothing] a [Miscellaneous.Color] riding cloak and gloves of fine make
+8,[Pre Clothing] a [Miscellaneous.Color] robe
+9,[Pre Clothing] a [Miscellaneous.Color] shirt and a [Miscellaneous.Color] vest
+10,[Pre Clothing] [Miscellaneous.Color] trousers
+11,[Pre Clothing] a [Miscellaneous.Color] tunic
+12,[Pre Clothing] a [Miscellaneous.Color] waistcoat
+13,[Pre Clothing] hunting clothes
+14,[Pre Clothing] cloth jerkin
+15,[Pre Clothing] a common robe and overcoat
+16,[Pre Clothing] a dark [Miscellaneous.Color] cloak with an odd shield-shaped brooch pinned to the front
+17,[Pre Clothing] exotic silks
+18,[Pre Clothing] a fine clothes and a lace collar
+19,[Pre Clothing] flowing [Miscellaneous.Color], bright [Miscellaneous.Color] and [Miscellaneous.Color],
+20,[Pre Clothing] forest greens
+21,[Pre Clothing] [Miscellaneous.Color] and [Miscellaneous.Color]
+22,[Pre Clothing] heavily worn clothes
+23,[Pre Clothing] high-quality riding clothes
+24,[Pre Clothing] hunters clothes and nice but worn boots.
+25,[Pre Clothing] a leather shirt and pants
+26,[Pre Clothing] light [Miscellaneous.Color] clothes
+27,[Pre Clothing] a long [Miscellaneous.Color] cloak
+28,[Pre Clothing] a loose tunic and leather breaches
+29,dressed mostly a fur trimmed leather
+30,[Pre Clothing] outdoorsy clothing
+31,[Pre Clothing] [Miscellaneous.Color] tones,
+32,[Pre Clothing] rough [Miscellaneous.Color] clothes
+33,[Pre Clothing] a rusty brown hooded cloak
+34,[Pre Clothing] silk
+35,[Pre Clothing] silks and various other fineries
+36,[Pre Clothing] traveling leathers
+37,[Pre Clothing] well dressed clothing
+38,[Pre Clothing] a [Miscellaneous.Color] tunic and tan breeches
+39,[Pre Clothing] a [Miscellaneous.Color], collared shirt with a leather vest and leathers pants
+40,[Pre Clothing] a velvety [Miscellaneous.Color] robe over the top of a deep [Miscellaneous.Color] and floor length tunic
+
+:Lower Clothing
+1,[Pre Clothing]	[Miscellaneous.Color] rags
+2,[Pre Clothing]	dirty robes
+3,[Pre Clothing]	farming clothes
+4,[Pre Clothing]	grey, drab clothes
+5,[Pre Clothing]	a long leather apron
+6,[Pre Clothing]	normal peasants clothing
+7,[Pre Clothing]	patched, dirty clothes and broken shoes
+8,[Pre Clothing]	well worn clothing
+9,[Pre Clothing]	rough, well-worn clothing
+10,dressed shabbily
+11,[Pre Clothing] a shabby coat
+12,[Pre Clothing] a simple [Miscellaneous.Color] blouse and [Miscellaneous.Color] pants
+13,[Pre Clothing] simple clothes
+14,[Pre Clothing] simple clothing
+15,[Pre Clothing] a tattered cloak of bearskin
+16,[Pre Clothing] worn clothing
+17,[Pre Clothing] worn trousers and a loose cotton shirt
+18,[Pre Clothing] worn but well maintained clothes
+
+:Pre Clothing
+1,wearing
+2,dressed in
+
+:Weapons
+1,[Equipment.Weapons]
+
+;Knifes
+1,[Equipment.Knives]
+
+;Axe and Hammers
+1,[Equipment.Axe and Hammers]
+
+;Bows
+1,[Equipment.Bows]
+
+;Swords
+1,[Equipment.Swords]
+
+;Misc
+1,[Equipment.Misc]
+
+# ----------------------------------------------------------------
+
+;Encounter
+### Customers
+1,[SetSingleVars=1]{Cap~[Single Unclothed Patron]} is abusive and [Drunk]. {Cap~%A%} [Post Sentence] and challenges the leader of the group to a fight. If the challenge is refused the drunk will [Abusive Drunk]
+1,[SetManyVars=1]{Cap~[Single Unclothed Patron]} is abusive and [Drunk]. With {Dice~2d4} companions, %A%  [Post Sentence] and shout insults for a few minutes and then challenge all members of the group to a fist fight. If the challenge is refused the drunks will [Abusive Group]
+1,A brawl breaks out between two [Drunken brawl] 
+2,The group is approached by <b>{Dice~1d6}</b> [~Creatures.Humanoid2] prostitutes offering sexual favours for a price
+1,[SetSingleVars]{Cap~[Pre Sentence]} {If~{Dice~1d2}=1?[Single Clothed Patron]/[Single Unclothed Patron]}. {Cap~%A%} generously buys the entire house a free tankard of the most locally popular alcoholic beverage
+### Events, Mysterious
+1,All the candles are mysteriously snuffed out{If~{Dice~1d3}=1? and are as mysteriously reignited}
+1,You hear [~Miscellaneous.Sound] coming from {If~{Dice~1d2}=1?upstairs/behind a wall}
+### Events, Normal
+2,The serving wench dropped <b>{Dice~2d6}</b> {If~{Dice~1d4}=1?copper/silver} coins on the floor {If~{Dice~1d3}=1?and continues toward the kitchen/and starts to pick them up}
+2,A loud noise comes from the kitchen. [Kitchen]
+2,The wind opens {If~{Dice~1d2}=1?a window/the door}
+2,A {If~{Dice~1d2}=1?customer/serving wench} drops a drink on {If~{Dice~1d6}=1?another customer/the floor}
+1,The winds snuffs the candle on your table
+1,A mouse scurries on the floor{If~{Dice~1d4}=1? scarrying the serving wench}
+### Fire and fireplace
+1,A fire breaks out in the {If~{Dice~1d2}=1?kitchen/main hall} [Fire]
+1,The fire is low, wood should be put in
+1,The fireplace is blazingly hot. {If~{Dice~1d4}=1?A lone [~Creatures.Humanoid] sits in front of it, reveling in its heat/Everybody stays far away}
+1,A log in the fireplace falls down and rolls on the floor {If~{Dice~1d4}=1?{If~{Dice~1d2}=1?burning a {If~{Dice~1d2}=1?customer/serving wench}/putting the thick rug on fire}/without damage}
+1,The pile of wood by the fireplace falls down when a {If~{Dice~1d2}=1?customer/serving wench} takes a log
+1,The pile of wood by the fireplace falls down by itself
+### Objects
+1,A chair breaks under your weight
+1,A name is carved in the wood of the {If~{Dice~1d2}=1?table/wall} ([~Names Generator.NAME Random])
+1,A symbol is carved in the wood of the {If~{Dice~1d2}=1?table/floor} ([~Rune Generator.GenRune])
+1,A decoration on the wall falls on the floors, broken by a {If~{Dice~1d2}=1?customer/serving wench}
+1,You find {Dice~1d4} {If~{Dice~1d2}=1?copper/silver} coins under the table
+1,You find a note tucked under the {If~{Dice~1d2}=1?chair/table}. The note, written in [~Miscellaneous.Language], says: "[Note]"
+1,Without you knowing, someone slipped a note in your pocket. The note, written in [~Miscellaneous.Language], says: "[Note]"
+1,Someone of the group forgot an item inside the inn{If~{Dice~1d2}=1?, but you see the serving wench coming out after you/{If~{Dice~1d3}=1? and it's not there anymore when you return}}
+
+;Abusive Drunk
+1,attack the player
+2,simply return, cursing and taunting, to %A% table
+
+;Abusive Group
+1,attack the characters party
+2,simply return to their table, loudly proclaiming the group to be cowards and weaklings
+
+;Drunken brawl
+2,[SetSingleVars]individual characters, {If~{Dice~1d2}=1?[Single Clothed Patron]/[Single Unclothed Patron]} and {If~{Dice~1d2}=1?[Single Clothed Patron]/[Single Unclothed Patron]}
+1,[SetManyVars]groups of characters.<br>Group 1: {If~{Dice~1d2}=1?[Many Clothed Patron]/[Many Unclothed Patrons]},<br>Group 2: {If~{Dice~1d2}=1?[Many Clothed Patron]/[Many Unclothed Patrons]}
+
+;Fire
+2,and is rapidely stopped by the {If~{Dice~1d2}=1?innkeeper/serving wench}
+1,and spreads quickly to the whole inn
+
+;Kitchen
+1,It sounds like the cook dropped his cauldron
+1,It sounds like a breaking vase
+1,It sounds like a body which fell on the ground
+1,It sounds like a door breaking in
+1,It sounds like a run-away chicken
+1,It sounds like pots and pans falling on the floor
+1,It sounds like a fight in the {If~{Dice~1d2}=1?kitchen/back alley}
+1,It sounds like an argument between the innkeeper and an unhappy customer
+1,It sounds like a hammer
+1,It sounds as if a {If~{Dice~1d2}=1?rat/cat} is causing trouble
+1,It sounds as if a {If~{Dice~1d2}=1?bird/dog} entered the inn
+
+;Note
+1,[~The Oracle.Start]
+1,[~Ethics.Generate]
+2,[~Pockets.Note]
+2,[~Rumors.Alternate]
+
+
+
+
+

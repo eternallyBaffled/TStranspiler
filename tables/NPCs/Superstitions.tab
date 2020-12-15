@@ -1,0 +1,234 @@
+# ------------------------------------------------------
+# Last Update: modified by Valminder July 24, 2010.
+# ------------------------------------------------------
+#
+# Superstitions
+#
+# This Table was done quick and Dirty and definitely can use a lot of work, but it is a 
+# starting point for someone to flesh out.  It will provide with a functional Superstition.
+#
+# By Ashon November 7, 2007
+# With Thanks to Johnny Four @ Roleplayingtips.com
+#    I Currently Call the following tables:
+#    Equipment.Start
+#    Equipment.textiles
+#    Creatures.Start
+#    Countries.Start
+#    Calendar.Months and DaysGR
+# Modified by Valminder July 24, 2010.
+#    Added a lot of modifications and links to other tables.
+#    Tried to make it more readable, even if there are still some mistakes.
+# Modified by Valminder, Octobre 2016
+#    Modified link "Countries.Start" to "Countries.Countries"
+#
+
+#
+# NOTE: Change the "World" parameter in "Calendar.tab" to permanently assign a world.
+#
+
+:Start
+1,{Status~By Ashon 2007, Valminder 2010}[Display]
+
+:Display
+1,<b>Superstition:</b> [Generate]<br>
+
+;Generate
+3,[DontNever] [Action] or else you will [Bad Cons].
+3,If you [Action], you will [Good Cons].
+3,{Cap~[Object]} [Special] means you will [Consequence].
+3,If you spot [Object] then you will [Consequence].
+3,{Cap~[Passive Action]} is a sign that you will [Consequence].
+3,If [Passive Action] (happens), do [~Action] or else you will [Bad Cons].
+1,The [~ADV Instant Adventure Namer.Generate] means you will [Consequence].
+
+# Don't XXX
+# Never XXX
+;Action
+1,cut bread in an uneven manner
+1,have an itchy nose
+1,drink from {AorAn~[~Equipment.container drinking]}
+1,drink from {AorAn~[~Equipment.container liquid]}
+2,drop {AorAn~[Equipment.StartNoGPNoSize]}
+1,light {AorAn~[~Equipment.container fire]}
+1,light {AorAn~[~Equipment.lightdevices]}
+1,open {AorAn~[~Equipment.container solid]}
+2,play the [~Equipment.Musical Instruments]
+2,put on your [~Equipment.Clothing] inside out 
+10,[ActionVerb] {AorAn~[~ActionItem]}
+1,use [~Equipment.Poisons] (poison)
+2,wear {AorAn~[~Equipment.Clothing]} [~Miscellaneous.ColorNoType]
+2,wear {AorAn~[~Equipment.MWArmors Only NoSize]}
+
+;ActionVerb
+1,accept
+1,be in contact with
+1,break
+1,buy
+1,damage
+1,fabricate
+1,give
+1,handle
+1,manipulate
+1,repair
+1,sell
+1,use
+1,use a spell on
+
+;ActionItem
+2,[Equipment.Alchemical]
+1,[Equipment.Clothing]
+1,[Equipment.container drinking]
+1,[Equipment.container liquid]
+1,[Equipment.container solid]
+1,[Equipment.MWArmors Only NoSize]
+2,[Equipment.ObjectSmall decorate]
+2,[Equipment.ObjectSmall mundane]
+2,[Equipment.textiles]
+2,[Equipment.tools]
+2,[Equipment.weapon container]
+2,[Equipment.WeaponsNoSize]
+
+;Animal
+5,[Creatures.Start]
+2,[Miscellaneous.ColorNoType] [Creatures.Start]
+2,adult [Creatures.Start]
+1,albino [Creatures.Start]
+1,angelic [Creatures.Start]
+2,baby [Creatures.Start]
+1,celestial [Creatures.Start]
+1,climbing [Creatures.Start]
+2,dead [Creatures.Start]
+1,demonic [Creatures.Start]
+2,diseased [Creatures.Start]
+1,fiendish [Creatures.Start]
+2,flying [Creatures.Start]
+1,mounted [Creatures.Start]
+2,singing [Creatures.Start]
+2,sleeping [Creatures.Start]
+1,spectral [Creatures.Start]
+1,swimming [Creatures.Start]
+1,undead [Creatures.Start]
+
+# Also add the contrary to Good Cons
+# that you will XXX
+;Bad Cons
+1,attract the attention of a powerful fiend
+1,attract the wrath of a magical entity
+1,attract the wrath of the {Cap~[~Creatures.MajorMenace]}
+1,curse your childrens
+1,curse your kingdom
+1,curse your loved ones
+1,be cursed
+1,be cursed by the witch
+1,be cursed by the lords of another plane ([~Countries.Planes])
+1,be doomed
+1,be doomed to failure
+1,be forced to do something you would never have done
+1,be forced to live a life of misery
+1,be forced to live a life of pain
+1,be forced to live a life of solitude
+1,be forced to live a life of sorrow
+1,go live in exile
+1,go to hell
+1,have no loved ones
+1,have no children
+1,have to do the unthinkable
+1,lose a loved one
+1,lose something precious
+1,lose your life
+1,quarrel with someone
+1,suffer eternal damnation
+1,suffer severe illness
+1,suffer the curse of the gods
+1,suffer the curse of [~Religion.Evil Gods]
+1,wake a terrible menace
+1,wake the slumbering {Cap~[~Creatures.MajorMenace]}
+
+;Consequence
+1,[Good Cons]
+1,[Bad Cons]
+
+;DontNever
+1,Don't
+1,Do not
+1,Never
+1,You must never
+
+# Also add the contrary to Bad Cons
+# that you will XXX
+;Good Cons
+1,attract the attention of a powerful angel
+1,be blessed by a magical entity
+1,be a blessing to your childrens
+1,be a blessing to kingdom
+1,be a blessing to loved ones
+1,be blessed
+1,be blessed by the gods
+1,be blessed by [~Religion.Good Gods]
+1,be blessed by the lords of another plane ([~Countries.Planes])
+1,be blessed to always succeed
+1,be living a life of friendship
+1,be living a life of glory
+1,be living a life of happiness
+1,bless a loved one
+1,break a spell
+1,bring luck and ensure a long life
+1,go to heaven
+1,have a long life
+1,have a lot of childrens
+1,make peace with someone
+1,never be ill
+1,prolong your life
+1,recover something precious
+1,shortly receive a present
+1,vanquish a terrible menace
+1,vanquish the slumbering {Cap~[~Creatures.MajorMenace]}
+
+;Object
+8,{AorAn~[~Animal]}
+8,{AorAn~[~Equipment.StartNoGPNoSize]}
+1,the sign of [~Rune Generator.GenRune]
+1,{AorAn~[~Miscellaneous.Odor]}
+1,{AorAn~[~Miscellaneous.Shape]-shaped} item
+
+# XXX is a sign of
+# If XXX (happens), do
+;Passive Action
+1,sparks jump(ing) out of the fire
+1,{AorAn~[~Animal]} (is) on a roof
+1,a bell rings(ing)
+1,the first butterfly you see in the year is white
+1,a candle (is) lighted as part of a ceremony blows out
+1,a baby crying(cries) during a storm
+1,[~Miscellaneous.ColorNoType] frog
+1,a falling star
+1,a bird enters(ing) your house
+1,a fly lands(ing) on your nose
+1,a fly lands(ing) on your food
+1,the birds fly low
+1,the clouds are low
+1,the crickets are signing during the day
+1,dense fog
+1,hard rain
+1,high winds
+1,a rainbow
+1,the black moon
+1,the black moon passes(ing) over Nuitari
+1,the black moon passes(ing) over Solinari
+1,Nuitari passes(ing) over Solinari
+1,the full moon of Nuitari
+1,the full moon of Solinari
+1,the new moon of Nuitari
+1,the new moon of Solinari
+1,the sun (is) hiding all day
+1,thunder
+
+;Special
+1,seen in the [~Countries.Countries] on [~Calendar.Months and Days]
+1,seen on [~Calendar.Months and Days]
+
+
+
+
+
+

@@ -1,0 +1,411 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder August 24, 2006.
+# ---------------------------------------------------
+#
+# Clothier
+#
+# Sean Hlousek
+#
+# -------------------------------------------------------------------------
+#
+# To call this table from another one:
+#    [EQ Clothier.Generate(%Rolls%)
+#
+#    Parameters: (%Rolls%,%GenItem%)
+#
+#    Rolls:    (1) Enter the number of items needed.
+#
+# -------------------------------------------------------------------------
+#
+# Modified by Valminder, August  2006.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+#    I heavily modified this table. I could modify it more by
+#       removing all the variables for the cost, but it would
+#       be too long. For now, it works fine.
+#    The final price need to be adjusted for some items, but it
+#       seems relatively OK.
+#    I diminished the price variation in [Store].
+#    Cost of Items: Put the cost in GP, the output will modify it
+#       for gp, sp, or cp.
+#       1 sp = 0.1 gp
+#       1 cp = 0.01 gp
+#
+
+%ArtisansOutfit%,1
+%Cleric'sVestments%,5
+%ColdWeatherOutfit%,8
+%Courtier'sOutfit%,30
+%Entertainer'sOutfit%,3
+%Explorer'sOutfit%,10
+%Monk'sOutfit%,5
+%Noble'sOutfit%,75
+%Peasent'sOutfit%,0.1
+%RoyalOutfit%,200
+%Scholar'sOutfit%,5
+%Traveler'sOutfit%,1
+%Alchemist'sRobe%,10
+%ArcaneRobe%,55
+%CombatRobe%,115
+%DeepPocketsRobe%,5
+%Miser'sRobe%,8
+%ShadowsilkRobe%,35
+%WinterbaneRobe%,400
+%WizardsClothes%,200
+%AcrobaticArmor%,500
+%ElegantClothes%,30
+%Jester'sOutfit%,25
+%ReversibleBardicDoublet%,5
+%ReversibleClothes%,50
+%HolyRobes%,250
+%HolyVestment's%,40
+%SilkBodysuit%,10
+%Hunter'sOutfit%,8
+%Mountaineer'sOutfit%,10
+%SwampDweller'sOutfit%,5
+%UndergroundOutfit%,5
+%BladedCloak%,40
+%ElvenBoots%,45
+%StarRobes%,375
+%ElvishTravellingCloak%,6
+%Soldier'sOutfit%,2
+%Officer'sOutfit%,15
+%HideApron%,4
+%Baldric%,8
+%Belt%,0.2
+%LargeBuckle%,2
+%BlackBodysuit%,8
+%HighBoots%,1
+%HipBoots%,15
+%LowBoots%,0.8
+%RidingBoots%,7
+%Smuggler'sBoots%,6
+%SackclothPants%,0.7
+%CottonPants%,1.5
+%LeatherPants%,4
+%WoolenPants%,3
+%VelvetPants%,6
+%SilkPants%,12
+%HalfCape%,0.4
+%FullCape%,0.7
+%SackClothChemise%,1.2
+%LinenChemise%,4
+%SilkChemise%,9
+%CottonJerkin%,0.8
+%LeatherJerkin%,10
+%WinterJerkin%,1
+%VelvetJerkin%,40
+%SilkJerkin%,80
+%FurJerkin%,20
+%CottonCloak%,1
+%WoolCloak%,10
+%FurCloak%,50
+%Codpiece%,3
+%SpikedCollar%,10
+%Corset%,5
+%CottonDoublet%,1
+%LeatherDoublet%,2
+%VelvetDoublet%,2
+%BrocadeDoublet%,3
+%PeasantDress%,0.2
+%AverageDress%,1
+%WinterFullcloth%,8
+%Girdle%,4
+%LeatherGloves%,1
+%CanvasGloves%,0.2
+%Mittens%,0.1
+%SilkGloves%,2
+%Broad-BrimmedHat%,3
+%FurTrimmedHat%,1
+%CottonCap%,0.1
+%WoolCap%,1
+%SilkNightshirt%,3
+%SackclothRobe%,0.2
+%CottonRobe%,1
+%VelvetRobe%,8
+%SilkRobe%,15
+%CottonSash%,0.2
+%WoolSash%,0.1
+%SilkSash%,10
+%SackclothShirt%,1.2
+%CottonShirt%,2
+%VelvetShirt%,4
+%SilkShirt%,9
+%LeatherShoes%,1
+%Sandals%,0.1
+%LeatherWarrior'sSkirt%,2
+%Stockings%,2
+%Tabard%,0.6
+%PeasantToga%,0.3
+%VelvetToga%,1
+%SilkToga%,2
+%SackclothTunic%,0.2
+%CottonTunic%,0.8
+%VelvetTunic%,1
+%SilkTunic%,2
+
+### Was %Base%
+%PercentGPMod%,1
+### This is the Store modifier on all its prices 70% to 200% (normal 95% - 105%)
+%STVR%,0
+### How many items to roll
+%Rolls%,0
+#### Was %Base1%
+%MagicalGPMod%,0
+
+# New variables Aug 2006.
+%Item%,0
+%Book%,0
+%Cost%,0
+%Condition%,0
+%GenItem%,0
+# 1= Mundane Item, 2= Magical Item
+%Magic%,1
+%MWGPMod%,0
+%ArmorSizeMod%,1
+# To be used with "EQ_Main.tab"
+%GetData%,0
+%DataName%,0
+%DataPercentMod%,0
+%SpecialEffect%,0
+%Temp%,0
+%MoneyType%,gp
+
+@Rolls,10,How many Items are in this Shop?
+#@GenItem,9,What do you want to generate,
+
+:Start
+1,{Status~By Sean Hlousek, Valminder 2006}[Generate]
+
+:Generate
+1,|STVR=1|[Store]
+#_[Multiplier]
+_{Loop~%Rolls%,|PercentGPMod=0||MagicalGPMod=0||Magic=1||MWGPMod=0||ArmorSizeMod=1|
+_|SpecialEffect=0|
+_[Clothier][Print=%Magic%]
+_{If~%Rolls%>1?<br>}}
+
+:Print
+1,<b>Item:</b> <i><font color="Purple">%Item%</font></i>[Print2]
+2,<b>Item:</b> <i><font color="Blue">(Magic) %Item%</font></i>[Print2]
+
+:Print2
+1,{If~%SpecialEffect%!=0? [PrintExtraMW]} <font size=1>(%Book%)</font> ([BodySize] size)
+_|Cost+%MagicalGPMod%||Cost+%MWGPMod%|{If~%Magic%=1?|Cost*%ArmorSizeMod%|}
+_[Calculate Cost]
+_ (%Condition%, [AddComma.Start(%Cost%)] %MoneyType%)
+
+:PrintExtraMW
+1,<u>Extra MW Effect</u>: %SpecialEffect%.
+
+# This will give a modifier to the cost of the items.
+;Store
+2,|STVR-{Calc~({Dice~1d10+20}/100)}|
+4,|STVR-{Calc~({Dice~1d10+10}/100)}|
+8,|STVR-{Calc~({Dice~1d10+5}/100)}|
+15,|STVR-{Calc~({Dice~1d5}/100)}|
+70,|STVR=1|
+30,|STVR+{Calc~({Dice~1d5}/100)}|
+15,|STVR+{Calc~({Dice~1d10+5}/100)}|
+8,|STVR+{Calc~({Dice~1d10+10}/100)}|
+4,|STVR+{Calc~({Dice~1d15+20}/100)}|
+2,|STVR+{Calc~({Dice~1d25+35}/100)}|
+1,|STVR+{Calc~({Dice~1d50+50}/100)}|
+
+:Multiplier
+1,Price Multiplier: %STVR%<br>
+
+:Calculate Cost
+1,|Cost={Calc~((%STVR%+%PercentGPMod%)*%Cost%)}|
+_{If~%Cost%>=5?|Cost={Trunc~%Cost%}||MoneyType=gp|}
+_{If~{And~%Cost%>=1,%Cost%<5}=1?{If~%Cost%={Trunc~%Cost%}?|MoneyType=gp|/|Cost={Round~1,%Cost%}||Cost*10||MoneyType=sp|}}
+_{If~%Cost%<0.1?|Cost*100||Cost={Trunc~%Cost%}|{If~%Cost%=0?|Cost=1|}|MoneyType=cp|/{If~%Cost%<1?|Cost*10||Cost={Trunc~%Cost%}|{If~%Cost%=0?|Cost=1|}|MoneyType=sp|}}
+
+# --------------------------------------------------------------------
+;Clothier
+20,|Item=Artisans Outfit</font></i> The outfit is colored [RobeColorsMix].||Book=PHB3.5||Condition=[Condition]||Cost=%ArtisansOutfit%|
+5,|Item=Cleric's Vestments</font></i> The outfit is colored [RobeColorsMix].||Book=PHB3.5||Condition=[Condition]||Cost=%Cleric'sVestments%|
+15,|Item=Cold Weather Outfit</font></i> [ColdWeatherAccents].||Book=PHB3.5||Condition=[Condition]||Cost=%ColdWeatherOutfit%|
+10,|Item=Courtier's Outfit</font></i> The outfit is colored [RobeColorsMix].||Book=PHB3.5||Condition=[Condition]||Cost=%Courtier'sOutfit%|
+20,|Item=Entertainer's Outfit</font></i> The outfit is colored [RobeColorsMix].||Book=PHB3.5||Condition=[Condition]||Cost=%Entertainer'sOutfit%|
+20,|Item=Explorer's Outfit</font></i> The outfit is colored [RobeColorsMix].[Accents].||Book=PHB3.5||Condition=[Condition]||Cost=%Explorer'sOutfit%|
+5,|Item=Monk's Outfit</font></i> The outfit is colored [RobeColorsMix].||Book=PHB3.5||Condition=[Condition]||Cost=%Monk'sOutfit%|
+5,|Item=Noble's Outfit</font></i> The outfit is colored [RobeColorsMix].[Accents]||Book=PHB3.5||Condition=[Condition]||Cost=%Noble'sOutfit%|
+50,|Item=Peasent's Outfit</font></i> The outfit is colored [RobeColorsMix].||Book=PHB3.5||Condition=[Condition]||Cost=%Peasent'sOutfit%|
+1,|Item=Royal Outfit</font></i> The outfit is colored [RobeColorsMix].[ColdWeatherAccents]||Book=PHB3.5||Condition=[Condition]||Cost=%RoyalOutfit%|
+15,|Item=Scholar's Outfit</font></i> The outfit is colored [RobeColorsMix].||Book=PHB3.5||Condition=[Condition]||Cost=%Scholar'sOutfit%|
+20,|Item=Traveler's Outfit</font></i> The outfit is colored [RobeColorsMix].[Accents]||Book=PHB3.5||Condition=[Condition]||Cost=%Traveler'sOutfit%|
+5,|Item=Alchemist's Robe</font></i> The robe is colored [RobeColors].[Accents]||Book=UEG||Condition=[Condition]||Cost=%Alchemist'sRobe%|
+20,|Item=Arcane Robe</font></i> The robe is colored [RobeColors].[Accents]||Book=UEG||Condition=[Condition]||Cost=%ArcaneRobe%|
+5,|Item=Combat Robe</font></i> The robe is colored [RobeColors].||Book=UEG||Condition=[Condition]||Cost=%CombatRobe%|
+5,|Item=Deep Pockets Robe</font></i> The robe is colored [RobeColors].||Book=UEG||Condition=[Condition]||Cost=%DeepPocketsRobe%|
+15,|Item=Miser's Robe</font></i> The robe is colored [RobeColors].[Accents]||Book=UEG||Condition=[Condition]||Cost=%Miser'sRobe%|
+2,|Item=Shadowsilk Robe</font></i>||Book=UEG||Condition=[Condition]||Cost=%ShadowsilkRobe%|
+5,|Item=Winterbane Robe</font></i> This winterbane robe is made mostly of [Furs2] fur.||Book=UEG||Condition=[FurCondition]||Cost=%WinterbaneRobe%|
+10,|Item=<u>Service</u>: This clothier either knows someone who can, or can themselves, make Wizards Clothes||Book=UEG||Condition=n/a||Cost=%WizardsClothes%|
+10,|Item=<u>Service</u>: This clothier either knows someone who can, or can themselves, make Acrobatic Armor||Book=UEG||Condition=n/a||Cost=%AcrobaticArmor%|
+5,|Item=Elegant Clothes</font></i>  These clothes are colored [RobeColorsMix].||Book=UEG||Condition=[Condition]||Cost=%ElegantClothes%|
+5,|Item=Jester's Outfit</font></i>||Book=UEG||Condition=[Condition]||Cost=%Jester'sOutfit%|
+10,|Item=Reversible Bardic Doublet</font></i> This doublet is colored [RobeColors] on the "inside" while it is [RobeColors] on the "outside".||Book=UEG||Condition=[Condition]||Cost=%ReversibleBardicDoublet%|
+10,|Item=Reversible Clothes</font></i> These clothes are colored [RobeColors] on the "inside" while they are [RobeColors] on the "outside".||Book=UEG||Condition=[Condition]||Cost=%ReversibleClothes%|
+2,|Item=Holy Robes</font></i> The outfit is colored [RobeColorsMix].||Book=UEG||Condition=[Condition]||Cost=%HolyRobes%|
+2,|Item=Holy Vestment's</font></i> The outfit is colored [RobeColorsMix].||Book=UEG||Condition=[Condition]||Cost=%HolyVestment's%|
+1,|Item=Silk Bodysuit</font></i>||Book=UEG||Condition=[Condition]||Cost=%SilkBodysuit%|
+20,|Item=Hunter's Outfit</font></i> The outfit is colored [RobeColorsMix].[Accents].||Book=UEG||Condition=[Condition]||Cost=%Hunter'sOutfit%|
+10,|Item=Mountaineer's Outfit</font></i> [ColdWeatherAccents].||Book=UEG||Condition=[Condition]||Cost=%Mountaineer'sOutfit%|
+5,|Item=Swamp Dweller's Outfit</font></i>||Book=UEG||Condition=[Condition]||Cost=%SwampDweller'sOutfit%|
+5,|Item=Underground Outfit</font></i>||Book=UEG||Condition=[Condition]||Cost=%UndergroundOutfit%|
+2,|Item=Bladed Cloak</font></i> This cloak is colored [RobeColorsMix].[Accents].||Book=UEG||Condition=[Condition]||Cost=%BladedCloak%|
+2,|Item=Elven Boots</font></i> They are made out of [HiltMaterial].||Book=UEG||Condition=[Condition]||Cost=%ElvenBoots%|
+1,|Item=Star Robes</font></i>||Book=UEG||Condition=[Condition]||Cost=%StarRobes%|
+5,|Item=Elvish Travelling Cloak</font></i> This elvish cloak is colored [RobeColorsMix].||Book=UEG||Condition=[Condition]||Cost=%ElvishTravellingCloak%|
+5,|Item=Soldier's Outfit</font></i>||Book=UEG||Condition=[Condition]||Cost=%Soldier'sOutfit%|
+5,|Item=Officer's Outfit</font></i>||Book=UEG||Condition=[Condition]||Cost=%Officer'sOutfit%|
+5,|Item=Hide Apron</font></i> It is made out of [HiltMaterial].||Book=A&E||Condition=[Condition]||Cost=%HideApron%|
+2,|Item=Baldric</font></i>||Book=A&E||Condition=[Condition]||Cost=%Baldric%|
+20,|Item=Belt</font></i> It is made out of [HiltMaterial].||Book=A&E||Condition=[Condition]||Cost=%Belt%|
+5,|Item=Large Buckle</font></i> It is [CommonRingMetal].||Book=A&E||Condition=[Condition]||Cost=%LargeBuckle%|
+1,|Item=Black Bodysuit</font></i>||Book=A&E||Condition=[Condition]||Cost=%BlackBodysuit%|
+20,|Item=High Boots</font></i> They are made out of [HiltMaterial].||Book=A&E||Condition=[Condition]||Cost=%HighBoots%|
+10,|Item=Hip Boots</font></i> They are made out of [HiltMaterial].||Book=A&E||Condition=[Condition]||Cost=%HipBoots%|
+25,|Item=Low Boots</font></i> They are made out of [HiltMaterial].||Book=A&E||Condition=[Condition]||Cost=%LowBoots%|
+20,|Item=Riding Boots</font></i> They are made out of [HiltMaterial].||Book=A&E||Condition=[Condition]||Cost=%RidingBoots%|
+5,|Item=Smuggler's Boots</font></i> They are made out of [HiltMaterial].||Book=A&E||Condition=[Condition]||Cost=%Smuggler'sBoots%|
+25,|Item=Sackcloth Pants</font></i> These pants are colored [CommonClothingColors].||Book=A&E||Condition=[Condition]||Cost=%SackclothPants%|
+20,|Item=Cotton Pants</font></i> These pants are colored [RobeColors].||Book=A&E||Condition=[Condition]||Cost=%CottonPants%|
+10,|Item=Leather Pants</font></i> They are made out of [HiltMaterial].||Book=A&E||Condition=[Condition]||Cost=%LeatherPants%|
+10,|Item=Woolen Pants</font></i> They are colored [RobeColors].||Book=A&E||Condition=[Condition]||Cost=%WoolenPants%|
+2,|Item=Velvet Pants</font></i> They are colored [RobeColors].||Book=A&E||Condition=[Condition]||Cost=%VelvetPants%|
+1,|Item=Silk Pants</font></i> They are colored [RobeColors].||Book=A&E||Condition=[Condition]||Cost=%SilkPants%|
+25,|Item=Half Cape</font></i>  The cape is colored [RobeColors].||Book=A&E||Condition=[Condition]||Cost=%HalfCape%|
+20,|Item=Full Cape</font></i> The cape is colored [RobeColors].||Book=A&E||Condition=[Condition]||Cost=%FullCape%|
+25,|Item=Sack Cloth Chemise</font></i> This chemise is colored [CommonClothingColors].||Book=A&E||Condition=[Condition]||Cost=%SackClothChemise%|
+10,|Item=Linen Chemise</font></i> This chemise is colored [RobeColors].||Book=A&E||Condition=[Condition]||Cost=%LinenChemise%|
+1,|Item=Silk Chemise</font></i> This chemise is colored [RobeColors].||Book=A&E||Condition=[Condition]||Cost=%SilkChemise%|
+25,|Item=Cotton Jerkin</font></i> This jerkin is colored [RobeColors].||Book=A&E||Condition=[Condition]||Cost=%CottonJerkin%|
+10,|Item=Leather Jerkin</font></i> This jerkin is made of [HiltMaterial] ||Book=A&E||Condition=[Condition]||Cost=%LeatherJerkin%|
+10,|Item=Winter Jerkin</font></i> This jerkin is made of [HiltMaterial] and [Furs2] fur.||Book=A&E||Condition=[FurCondition]||Cost=%WinterJerkin%|
+5,|Item=Velvet Jerkin</font></i>  This jerkin is colored [RobeColors].||Book=A&E||Condition=[Condition]||Cost=%VelvetJerkin%|
+1,|Item=Silk Jerkin</font></i> This jerkin is colored [RobeColors].||Book=A&E||Condition=[Condition]||Cost=%SilkJerkin%|
+5,|Item=Fur Jerkin</font></i> This jerkin is made of [Furs2] fur.||Book=A&E||Condition=[FurCondition]||Cost=%FurJerkin%|
+25,|Item=Cotton Cloak</font></i> This cloak is colored [RobeColors].||Book=A&E||Condition=[Condition]||Cost=%CottonCloak%|
+20,|Item=Wool Cloak</font></i>  This cloak is colored [RobeColors].||Book=A&E||Condition=[Condition]||Cost=%WoolCloak%|
+5,|Item=Fur Cloak</font></i>  This cloak is made of [Furs2] fur.||Book=A&E||Condition=[FurCondition]||Cost=%FurCloak%|
+5,|Item=Codpiece</font></i>||Book=A&E||Condition=[Condition]||Cost=%Codpiece%|
+5,|Item=Spiked Collar</font></i>||Book=A&E||Condition=[Condition]||Cost=%SpikedCollar%|
+15,|Item=Corset</font></i> This corset is colored [RobeColors].[Accents].||Book=A&E||Condition=[Condition]||Cost=%Corset%|
+25,|Item=Cotton Doublet</font></i> This doublet is colored [RobeColors].||Book=A&E||Condition=[Condition]||Cost=%CottonDoublet%|
+10,|Item=Leather Doublet</font></i> This doublet is made of [HiltMaterial].||Book=A&E||Condition=[Condition]||Cost=%LeatherDoublet%|
+5,|Item=Velvet Doublet</font></i> This doublet is colored [RobeColors].[Accents].||Book=A&E||Condition=[Condition]||Cost=%VelvetDoublet%|
+2,|Item=Brocade Doublet</font></i> This doublet is colored [RobeColorsMix].[Accents].||Book=A&E||Condition=[Condition]||Cost=%BrocadeDoublet%|
+25,|Item=Peasant Dress</font></i> This dress is colored [RobeColors].||Book=A&E||Condition=[Condition]||Cost=%PeasantDress%|
+15,|Item=Average Dress</font></i> This dress is colored [RobeColors].||Book=A&E||Condition=[Condition]||Cost=%AverageDress%|
+10,|Item=Winter Fullcloth</font></i> [ColdWeatherAccents].||Book=A&E||Condition=[Condition]||Cost=%WinterFullcloth%|
+5,|Item=Girdle||Book=A&E||Condition=[Condition]||Cost=%Girdle%|
+20,|Item=Leather Gloves</font></i> They are made of [HiltMaterial] ||Book=A&E||Condition=[Condition]||Cost=%LeatherGloves%|
+15,|Item=Canvas Gloves</font></i> colored [RobeColors].||Book=A&E||Condition=[Condition]||Cost=%CanvasGloves%|
+5,|Item=Mittens</font></i> [ColdWeatherAccents]||Book=A&E||Condition=[Condition]||Cost=%Mittens%|
+1,|Item=Silk Gloves</font></i> colored [RobeColors].||Book=A&E||Condition=[Condition]||Cost=%SilkGloves%|
+20,|Item=Broad-Brimmed Hat</font></i> colored [RobeColors].||Book=A&E||Condition=[Condition]||Cost=%Broad-BrimmedHat%|
+5,|Item=Fur Trimmed Hat</font></i> The hat is trimmed with [Furs2] fur.||Book=A&E||Condition=[FurCondition]||Cost=%FurTrimmedHat%|
+10,|Item=Cotton Cap</font></i> The cap is colored [RobeColors].||Book=A&E||Condition=[Condition]||Cost=%CottonCap%|
+5,|Item=Wool Cap</font></i> The cap is colored [RobeColors].||Book=A&E||Condition=[Condition]||Cost=%WoolCap%|
+1,|Item=Silk Nightshirt</font></i> The nighshirt is colored [CommonClothingColors].||Book=A&E||Condition=[Condition]||Cost=%SilkNightshirt%|
+25,|Item=Sackcloth Robe</font></i> The robe is colored [CommonClothingColors].||Book=A&E||Condition=[Condition]||Cost=%SackclothRobe%|
+20,|Item=Cotton Robe</font></i> The robe is colored [RobeColors].||Book=A&E||Condition=[Condition]||Cost=%CottonRobe%|
+5,|Item=Velvet Robe</font></i> The robe is colored [RobeColors].||Book=A&E||Condition=[Condition]||Cost=%VelvetRobe%|
+1,|Item=Silk Robe</font></i> The robe is colored [RobeColors].||Book=A&E||Condition=[Condition]||Cost=%SilkRobe%|
+25,|Item=Cotton Sash</font></i> The sash is colored [RobeColors].||Book=A&E||Condition=[Condition]||Cost=%CottonSash%|
+20,|Item=Wool Sash</font></i> The sash is colored [RobeColors].||Book=A&E||Condition=[Condition]||Cost=%WoolSash%|
+1,|Item=Silk Sash</font></i> The sash is colored [RobeColors].||Book=A&E||Condition=[Condition]||Cost=%SilkSash%|
+25,|Item=Sackcloth Shirt</font></i> The shirt is colored [CommonClothingColors].||Book=A&E||Condition=[Condition]||Cost=%SackclothShirt%|
+20,|Item=Cotton Shirt</font></i> The shirt is colored [RobeColors].||Book=A&E||Condition=[Condition]||Cost=%CottonShirt%|
+5,|Item=Velvet Shirt</font></i> The shirt is colored [RobeColors].||Book=A&E||Condition=[Condition]||Cost=%VelvetShirt%|
+1,|Item=Silk Shirt</font></i> The shirt is colored [RobeColors].||Book=A&E||Condition=[Condition]||Cost=%SilkShirt%|
+25,|Item=Leather Shoes</font></i> They are made out of [HiltMaterial].||Book=A&E||Condition=[Condition]||Cost=%LeatherShoes%|
+15,|Item=Sandals</font></i> They are made out of [HiltMaterial].||Book=A&E||Condition=[Condition]||Cost=%Sandals%|
+10,|Item=Leather Warrior's Skirt</font></i> It is made of [HiltMaterial].||Book=A&E||Condition=[Condition]||Cost=%LeatherWarrior'sSkirt%|
+20,|Item=Stockings</font></i> They are colored [RobeColors].||Book=A&E||Condition=[Condition]||Cost=%Stockings%|
+20,|Item=Tabard</font></i> It is colored [RobeColorsMix].||Book=A&E||Condition=[Condition]||Cost=%Tabard%|
+20,|Item=Peasant Toga</font></i> It is colored [CommonClothingColors].||Book=A&E||Condition=[Condition]||Cost=%PeasantToga%|
+2,|Item=Velvet Toga</font></i> It is colored [RobeColors].||Book=A&E||Condition=[Condition]||Cost=%VelvetToga%|
+1,|Item=Silk Toga</font></i> It is colored [RobeColors].||Book=A&E||Condition=[Condition]||Cost=%SilkToga%|
+25,|Item=Sackcloth Tunic</font></i>  It is colored [CommonClothingColors].||Book=A&E||Condition=[Condition]||Cost=%SackclothTunic%|
+20,|Item=Cotton Tunic</font></i> It is colored [RobeColors].||Book=A&E||Condition=[Condition]||Cost=%CottonTunic%|
+5,|Item=Velvet Tunic</font></i> It is colored [RobeColors].||Book=A&E||Condition=[Condition]||Cost=%VelvetTunic%|
+1,|Item=Silk Tunic</font></i> It is colored [RobeColors].||Book=A&E||Condition=[Condition]||Cost=%SilkTunic%|
+
+# -----------------------------------------------------------------------------------
+# SUPPORT TABLES
+
+# -----------------------------------------------------------------------------------
+# Conditions
+
+;Condition
+1,|GetData=[EQ_Main.Condition]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+;FurCondition
+1,|GetData=[EQ_Main.FurCondition]|
+_{Split~GetData,"!!!",DataName,DataPercentMod,SpecialEffect}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# -----------------------------------------------------------------------------------
+# Materials
+
+;HiltMaterial
+1,|GetData=[EQ_Main.HiltMaterial]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+;CommonRingMetal
+1,|GetData=[EQ_Main.CommonRingMetal]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# -----------------------------------------------------------------------------------
+# Size Tables
+
+;BodySize
+1,|GetData=[EQ_Main.BodySize]|
+_{Split~GetData,"!!!",DataName,ArmorSizeMod}
+_%DataName%
+
+# -----------------------------------------------------------------------------------
+# Clothing Colors and Other Colors
+
+;RobeColors
+1,[~Miscellaneous.Color+1]
+
+;RobeColorsMix
+3,[~Miscellaneous.Color+1]
+6,[~Miscellaneous.Color+1] and [~Miscellaneous.Color+1]
+1,[~Miscellaneous.Color+1], [~Miscellaneous.Color+1], and [~Miscellaneous.Color+1]
+
+;CommonClothingColors
+1,[~Miscellaneous.Color+1]
+
+:Accents
+1,|GetData=[EQ_Main.Accents]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+;ColdWeatherAccents
+1,|GetData=[EQ_Main.ColdWeatherAccents]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+;Furs2
+1,|GetData=[EQ_Main.Furs]!!!%Temp%|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+                                                                                                                                                         

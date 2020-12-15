@@ -1,0 +1,319 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder Jan 10, 2006.
+# ---------------------------------------------------
+#
+# Ethics Gen v3
+#
+# Created By Ashon
+#
+# For Use in the Monastary Generator, Knight Generator,
+# And General Purpose for individual Ethics...
+# New Virtues need to be in the BE conjugation (whatever)
+#
+# This Table requires the Countries.tab & Creatures.Tab
+#
+# Any Additions to the list can as always be emailed to me.
+#
+# Modified/expanded by Joey Joe Joe, summer 2005
+#
+# Modified by Valminder, Jan 2006.
+#    Adapted for TSv5.
+#    Renamed "Ethics.tab"
+#    Corrected some errors.
+#    Linked this table with: "DUN Graffiti.tab"
+#                            "Curios.tab"
+# Modified by Valminder, Octobre 2016
+#    Modified link "Countries.Start" to "Countries.Countries"
+#
+
+:Start
+1,{Status~By Ashon and Joey Joe Joe 2005}[Generate].
+
+;Generate
+#This Group is referenced by other tables and line 1 and 2 should not be modified
+1,[PaladinVirtues]
+1,[MonkVirtues]
+1,[General]
+1,[Defense]
+1,{Cap~{AorAn~[vowpledgeoath]}} of [vows]
+
+;PaladinVirtues
+1,Believe in [cause]
+1,Trust your [paladinnouns]
+1,Spread the [benefit] of your deity
+1,{Cap~[for]} shall be enforced
+1,{Cap~[nouns]} shall embrace [vows]
+1,{Cap~[cause]} shall be the rule of the land
+1,Strike down those who oppose [for]
+1,Those who {LCase~[bad actions]} the [good types] shall meet justice
+1,Never waver in the fight for [cause]
+1,Always {LCase~[good actions]} lawful authorities
+
+;MonkVirtues
+1,To be [in] [mvEndings]
+1,To be full of [for] [mvEndings]
+1,Those who seek [cause] must first know [for]
+1,True [cause] comes only through [vows]
+1,The [good types] shall lead the way to {AorAn~[in]} life
+
+;General
+1,Dedicate your life to being [in]
+1,Dedicate your life to [cause]
+1,Always be [in] in your dealings with [nouns]
+1,In every aspect of your life, strive to be [in]
+1,Believe in the ideals of [for] and obey it's teachings!
+1,Respect and pity the [nouns], and be steadfast in defending them!
+1,[good actions] your country!
+1,Refuse to retreat before the [bad types]!
+1,Be courteous to [nouns]! 
+1,Be [in] for the truth and the pledged word!
+1,[good actions] the [good types]
+1,[bad actions] the [bad types]
+1,Live a life of [cause]
+1, {Cap~[cause]} can bring [for] to [nouns]
+#the next line probably needs to be redone
+1, Be [in] with all, but to be overly [in] is to be [bad types]
+
+;Defense
+1,Be [in] in combat
+1,Be [against] in protection of [Countries.Land]
+1,Be [against] in protection of [Countries.Countries]
+#1,Be [against] in protection of [Countries.Regions]
+1,Be [against] in protection of [Countries.Generate]
+1,Always fight for [cause]
+1,The greatest honor is to defend the [nouns]
+1,The highest priority is to defend those who are models of [for]
+1,You must defend the [in]
+1,Ever watch over the [good types]
+
+;!vowpledgeoath
+1,oath
+1,pledge
+1,vow{Unlock~vowpledgeoath,3}
+1,[modifier] [vowpledgeoath]
+
+;modifier
+1,blood
+1,blessed
+1,consecrated
+1,holy
+1,steadfast
+1,sacred
+1,sworn
+1,solemn
+
+;vows
+1,silence
+1,separation from [nouns]
+1,poverty
+1,retribution against the [bad types]
+1,suffering by the [bad types]
+1,obedience to [nouns]
+1,sacrifice
+1,chastity
+1,upholding the [good types]
+
+
+;cause
+1,enlightenment
+1,freedom
+1,glory
+1,honor
+1,justice
+1,knowledge
+1,love
+1,order
+1,peace
+1,respect
+1,strength
+1,truth
+1,wisdom
+
+
+;endings
+1,ry
+1,ness
+1,ty
+
+;mvEndings
+1,is to be strong
+1,is the first stage of enlightenment
+1,is to be true in spirit
+1,is to be true to your heart
+1,is to realize your true potential
+1,is to advance to the next level of spirituality
+1,is the core of our beliefs
+1,is to be [verb] [Site] of [cause]
+1,brings forth great change in those around you
+1,sets an example to your enemies
+1,sets an example for the children
+
+;Site
+1,on the pillar
+1,on a tower
+1,on the bedrock
+1,on a foundation
+1,on the core
+1,in the heart
+1,with the seed
+
+;verb
+1,standing
+1,building 
+1,living
+
+;nouns
+1,authorities
+1,children
+1,common man
+1,Dwarves
+1,Elves
+1,Humans
+1,knowledge
+1,women
+1,[Countries.Peoples]
+1,[Creatures.Monsters]s
+
+#Virtue in -- allthings/combat/social interactions/dealing with races
+;in
+1,assertive
+1,brave
+1,courtious
+1,creative
+1,confident
+1,couragous
+1,committed
+1,cautious
+1,curious
+1,compassionate
+1,detached
+1,discrete
+1,determined
+1,diligent
+1,enthusiastic
+1,excellent
+1,flexible
+1,forgiving
+1,helpful
+1,honorable
+1,honest
+1,humble
+1,full of integrity
+1,industrious
+1,idealistic
+1,joyful
+1,kind
+1,loyal
+1,moderate
+1,modest
+1,orderly
+1,patient
+1,prudent
+1,responsible
+1,self-disciplined
+1,tactful
+1,trustworthy
+1,truthful
+1,unyielding
+
+;for
+#virtue for -- People/places/races/
+1,care
+1,committment
+1,compassion
+1,consideration for others
+1,friendliness
+1,generosity
+1,gentleness
+1,grace
+1,helpfulness
+1,justice
+1,obedience
+1,peacefulness
+1,responsibility for others
+1,tactfulness
+1,tolerance
+1,trust
+1,understanding
+1,unity
+
+;against
+#Basically just a subset of the for table
+1,committed
+1,defiant
+1,steadfast
+1,united
+1,vengeful
+
+;good types
+1,innocent
+1,just
+1,pure
+1,poor
+1,sincere
+1,sickly
+1,simpletons
+1,war-stricken
+1,weak
+1,wronged
+
+;bad types
+1,chaos-bred
+1,evil
+1,enemy
+1,faithless
+1,greedy
+1,hateful
+1,impulsive
+1,malicious
+1,silver-tongues
+1,sinister
+1,tricksters
+1,wicked
+1,[Creatures.Monsters2]s
+
+;good actions
+1,Avenge
+1,Celebrate
+1,Defend
+1,Honor
+1,Love
+1,Obey
+1,Pity
+1,Protect
+
+;bad actions
+1,Contain
+1,Destroy
+1,Exhibit [for] for
+1,Expell 
+1,Kill
+1,Yield not to
+
+;paladinnouns
+1,compassion
+1,deity
+1,faith
+1,heart
+1,lance
+1,lord abbot
+1,mace
+1,rightousness
+1,spirit
+1,sword
+1,strength
+
+;benefit
+1,belief
+1,commands
+1,domain
+1,faith
+1,fear
+1,honor
+1,justice
+1,knowledge
+1,order
+1,power
+1,reach
+1,shield
+1,word

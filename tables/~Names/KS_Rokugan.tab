@@ -1,0 +1,167 @@
+# Last Update: verified by Valminder Dec 20, 2005.
+# 
+# Intended to generate names by clan
+#  for Rokugan (setting of Oriental Adventures and
+#  Legend of 5 Rings)
+#
+# This file is intended for use with the default setting for 3e Oriental
+# Adventures and the Legend of the 5 Rings. It allows the select of a clan
+# and will generate a name with a FAMILY Name appropriate to that clan. It
+# depends on the KS_JapaneseNames file for its first name returns. It has a
+# clan parameter with each of the Major Clans (Unicorn, Lion, Crane, etc),
+# a single Minor Clan group, a Clanless group, and a Random group; it
+# defaults to Random. 
+# The randomizer has a parameter for male or female, defaulting to male.
+# By Ed Hastings 11 Oct 2001
+#
+# Modified by Valminder July 2003.
+#    Added explanation text (above).
+#    Changed the Start line and added the Generate line.
+#
+# Modified by Valminder July 2003.
+#    Removed HEADER from START line.
+#
+
+%Gender%,0
+%Clan%,0
+
+@Gender,4,Select Gender,Male,Female,Random,Both
+@Clan,1,Select Clan,Random,MinorClan,Crab,Crane,Dragon,Lion,Phoenix,Scorpion,Unicorn,Clanless
+
+;Start
+1,[Choose=%Gender%]<br>
+
+:Choose
+1,[Male]
+2,[Female]
+3,|Gender={Dice~1d2}|[Choose=%Gender%]
+4,[Generate]
+
+:Generate
+1,<u>Male</u>: [Male]<br>
+_<u>Female</u>: [Female]<br>
+
+;Start ORIGINAL
+1,{Cap~[CLAN=%Clan%]}
+
+:Male
+1,|Gender=1|[CLAN=%Clan%]
+
+:Female
+1,|Gender=2|[CLAN=%Clan%]
+
+:CLAN
+1,{Cap~[Random]}
+2,{Cap~[MinorClan=%Gender%]} (Minor Clan)
+3,{Cap~[Crab=%Gender%]} (Crab Clan)
+4,{Cap~[Crane=%Gender%]} (Crane Clan)
+5,{Cap~[Dragon=%Gender%]} (Dragon Clan)
+6,{Cap~[Lion=%Gender%]} (Lion Clan)
+7,{Cap~[Phoenix=%Gender%]} (Phoenix Clan)
+8,{Cap~[Scorpion=%Gender%]} (Scorpion Clan)
+9,{Cap~[Unicorn=%Gender%]} (Unicorn Clan)
+10,[CLANOther=%Gender%] (Clanless)
+
+:CLANOther
+1,{Cap~[KS_JapaneseNames.male]}
+2,{Cap~[KS_JapaneseNames.female]}
+
+:Random
+1,[CLANOther=%Gender%] (Clanless)
+2,{Cap~[MinorClan=%Gender%]} (Minor Clan)
+3,{Cap~[Crab=%Gender%]} (Crab Clan)
+4,{Cap~[Crane=%Gender%]} (Crane Clan)
+5,{Cap~[Dragon=%Gender%]} (Dragon Clan)
+6,{Cap~[Lion=%Gender%]} (Lion Clan)
+7,{Cap~[Phoenix=%Gender%]} (Phoenix Clan)
+8,{Cap~[Scorpion=%Gender%]} (Scorpion Clan)
+9,{Cap~[Unicorn=%Gender%]} (Unicorn Clan)
+
+:MinorClan
+1,{Cap~[mcLNAME]} {Cap~[KS_JapaneseNames.mName=%Gender%]}
+2,{Cap~[mcLNAME]} {Cap~[KS_JapaneseNames.fName=%Gender%]}
+ 
+
+;mcLNAME
+5,Yoritomo
+5,Moshi
+1,Tsuruchi
+1,Kitsune
+1,Tonbo
+1,Suzume
+1,Ichiro
+
+:Crab
+1,{Cap~[crabLNAME]} {Cap~[KS_JapaneseNames.mName=%Gender%]}
+2,{Cap~[crabLNAME]} {Cap~[KS_JapaneseNames.fName=%Gender%]}
+
+;crabLNAME
+5,Hida
+5,Kaiu
+1,Hiruma
+1,Kuni
+1,Yasuki
+1,Toritaka
+
+:Crane
+1,{Cap~[craneLNAME]} {Cap~[KS_JapaneseNames.mName=%Gender%]}
+2,{Cap~[craneLNAME]} {Cap~[KS_JapaneseNames.fName=%Gender%]}
+
+;craneLNAME
+5,Doji
+5,Daidoji
+1,Kakita
+1,Asahina
+
+:Dragon
+1,{Cap~[dragonLNAME]} {Cap~[KS_JapaneseNames.mName=%Gender%]}
+2,{Cap~[dragonLNAME]} {Cap~[KS_JapaneseNames.fName=%Gender%]}
+
+;dragonLNAME
+5,Mirumoto
+5,Togashi
+5,Tamori
+5,Kitsuki
+
+:Lion
+1,{Cap~[lionLNAME]} {Cap~[KS_JapaneseNames.mName=%Gender%]}
+2,{Cap~[lionLNAME]} {Cap~[KS_JapaneseNames.fName=%Gender%]}
+
+;lionLNAME
+5,Akodo
+5,Ikoma
+5,Kitsu
+5,Matsu
+
+:Phoenix
+1,{Cap~[phoenixLNAME]} {Cap~[KS_JapaneseNames.mName=%Gender%]}
+2,{Cap~[phoenixLNAME]} {Cap~[KS_JapaneseNames.fName=%Gender%]}
+
+;phoenixLNAME
+5,Isawa
+1,Agasha
+5,Shiba
+5,Asako
+
+
+:Scorpion
+1,{Cap~[scorpionLNAME]} {Cap~[KS_JapaneseNames.mName=%Gender%]}
+2,{Cap~[scorpionLNAME]} {Cap~[KS_JapaneseNames.fName=%Gender%]}
+
+;scorpionLNAME
+5,Bayushi
+5,Shoshuro
+5,Soshi
+5,Yogo
+
+
+:Unicorn
+1,{Cap~[unicornLNAME]} {Cap~[KS_JapaneseNames.mName=%Gender%]}
+2,{Cap~[unicornLNAME]} {Cap~[KS_JapaneseNames.fName=%Gender%]}
+
+;unicornLNAME
+5,Moto
+5,Shinjo
+5,Utaku
+5,Iuchi
+5,Ide

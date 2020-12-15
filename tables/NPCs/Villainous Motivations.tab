@@ -1,0 +1,301 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder May 23, 2018.
+# ---------------------------------------------------
+#
+# Villainous Motivations
+# by Larry Cormier
+#
+# Every Campaign needs a Villain. It's a fact of Gaming life - but the concept is generally frowned
+# upon in our modern world of political correctness and 'Love thy Neighbor' mentality... so, for
+# most of us GMs - that's often a stumbling block. This table offers Villainous motivations to
+# provide that little extra impetus that we often need to provide suitable challenges for our players.
+#
+# Culled from an assortment of suggestions from a variety of sources - both on-line, and in books, this
+# table can provide a few ideas to give your villain a starting point in your games.
+
+# With a little imagination, and a healthy dose of creativity, hopefully, you should be able to create
+# a truly memorable villain for your next campaign
+#
+# Enjoy, and good luck!
+#
+# Larry Cormier
+#
+# -------------------------------------------------------------------------
+#
+# To call this table from another one:
+#    [Villainous Motivations.Alternate(%Gender%)
+#    [Villainous Motivations.GenerateMotivation(%Gender%) 
+#
+#    Gender:       3  1=Male  2=Female  3=Random
+#
+# -------------------------------------------------------------------------
+# This Table Links to these tables as required:
+#    NONE
+#
+# -------------------------------------------------------------------------
+# This table is called by:
+#    NPC stat block v3_5
+#    NPC Stat Block Pathfinder
+#
+# -------------------------------------------------------------------------
+#
+# Modified by Valminder, Jan 2008.
+#    Changed Villian to Villain (and Villianous to Villainous) everywhere.
+#    Removed some LN.
+#    Added a Gender parameter to work with NPC stat block v3_5.
+# 
+
+/OverrideRolls 1
+
+# Define Variables
+%Chance%,0
+%Gender%,0
+%PC_Gender%,0
+%InsanityFlag%,0
+%MotivationFlag%,0
+
+@Gender,3,Determine Gender,Male,Female,Random
+
+:Start
+1,{Status~by Larry Cormier}
+_<b><u>{If~%Gender%=3?|Gender={Dice~1d2}|}
+_This [ManWoman]'s </u></b>[~GenerateMotivation]
+
+:Chanceof
+1,|Chance={Dice~1d100}|
+
+:GenerateMotivation
+1,|PC_Gender=%Gender%|<b><u>Villainous Motivation: [MotivationsDescription]</u></b><br>[MotivationsBranch=%MotivationFlag%]
+
+# Called GroupVillainousMotivation in 'NPC stat block v3_5' and "NPC Stat Block Pathfinder"
+:Alternate
+1,|PC_Gender=%Gender%|<b><u>[MotivationsDescription]</u></b><br>[MotivationsBranch=%MotivationFlag%]
+
+;MotivationsBranch
+1,[SpreadHateAndFear]
+1,[CorruptEveryone]
+1,[ControlTheKids]
+1,[LeaveMeInPeace]
+1,[RegainWhatIsLost]
+1,[SaveHumanity]
+1,[GetRich]
+1,[ServeTheFuhrer]
+1,[Revenge]
+1,[RuinAHero]
+1,[AnnihilateRazeLayWaste]
+1,[PersonalPower]
+1,[WinTheWar]
+1,[RulePartOfTheWorld]
+1,[RuleTheWorld]
+1,[ProtectOrSaveSomething]
+1,[ProtectOrSaveSomeone]
+1,[ScienceForTheSakeOfScience]
+1,[WinTheLoveOfSomeone]
+1,[ForTheLoveOfTheGame]
+1,[IsNotA Person]
+1,[YouWereMyFriend]
+1,[LovedOne]
+1,[BestIntentions]
+1,[RightThingToDo]
+1,[InsanityPlea]
+
+;MotivationsDescription
+1,Spread Hate and Fear|MotivationFlag=1|
+1,Corrupt Everyone|MotivationFlag=2|
+1,Control the Kids|MotivationFlag=3|
+1,Leave Me in Peace|MotivationFlag=4|
+1,Regain what's Lost|MotivationFlag=5|
+1,Save Humanity|MotivationFlag=6|
+1,Get Rich|MotivationFlag=7|
+1,Serve the Fuhrer|MotivationFlag=8|
+1,Revenge|MotivationFlag=9|
+1,Ruin a Hero|MotivationFlag=10|
+1,Annihilate, Raze, Lay Waste|MotivationFlag=11|
+1,Personal Power|MotivationFlag=12|
+1,Win the War|MotivationFlag=13|
+1,Rule Part of the World|MotivationFlag=14|
+1,Rule the World|MotivationFlag=15|
+1,Protect, or Save Something|MotivationFlag=16|
+1,Protect or Save Someone|MotivationFlag=17|
+1,Science for the Sake of Science|MotivationFlag=18|
+1,Win the Love of Someone|MotivationFlag=19|
+1,For the Love of the Game|MotivationFlag=20|
+1,This is not a Person|MotivationFlag=21|
+1,You were My Friend|MotivationFlag=22|
+1,It's a Loved One!|MotivationFlag=23|
+1,With the best of intentions|MotivationFlag=24|
+1,It's the right thing to do|MotivationFlag=25|
+1,True Insanity|MotivationFlag=26|
+
+;SpreadHateAndFear
+1,This villain wants to make the world a little bit worse. {Cap~[HeShe]} tries to spread hate and bigotry.
+_ By the time the heroes arrive to stop [HimHer], there are riots in the streets and the city is in flames.
+1,This villain wants to make the world a little bit worse. {Cap~[HeShe]} tries to spread hate and bigotry.
+_ When the heroes arrive to stop [HimHer], [HeShe] has just started to put [HisHer] plan in motion, [HisHer] minions are
+_ starting their plan to start riots and burn the city.
+
+:CorruptEveryone
+1,This villain works on individuals, usually powerful people.
+_ {Cap~[HeShe]} exploits their weaknesses, working behind the scenes to corrupt the kind-hearted and indulge the mean-spirited.
+
+:ControlTheKids
+1,This villain wants an army of puppets and zombies... people who will carry out [HisHer] orders in secret and in concert.
+_ {Cap~[HeShe]} might use some kind of psychic power, weird science, or [HeShe] may just drug the water supply.
+
+:LeaveMeInPeace
+1,This villain just wants to be left alone, but something (or someone) drags [HimHer] into the campaign.
+_ When [HeShe] is pushed too far, [HeShe] attacks. As long as the heroes leave [HimHer] alone, [HeShe] will be content.
+_ But if they try to stop [HimHer], [HeShe] will kick their asses. But [HeShe] really means no harm.
+
+:RegainWhatIsLost
+1,This villain is on a quest for a missing lover, relative, or object. Or, [HeShe] might be searching for [HisHer] homeland and brethren.
+_ {Cap~[HeShe]} may want to regain [HisHer] lost humanity. As long as no hero, group of people, or place stands in [HisHer] way, everything's okay.
+_ But when [HeShe] decides that the world stands between [HimHer] and [HisHer] goal, it's time for the heroes to get involved.
+
+;SaveHumanity
+1,This villain does things that [HeShe] believes will benefit mankind. {Cap~[HisHer]} methods may require many crimes,
+_ both personal and political, but others may not see it [HisHer] way. {Cap~[HisHer]} goal is admirable, but the heroes may not think that the end justified the means.
+_ The heroes will have to decide whether or not the villain really is villainous; each crime will have to be considered in its own context.
+1,This villain says [HeShe] wants to save humanity, but [HeShe]'s really just a dangerous nutcase. {Cap~[HeShe]} has to destroy the village to save it.
+_ Or, [HeShe] might save mankind by forcing them to behave correctly… when, of course, [HisHer] version of "correct" is very disturbing.
+
+:GetRich
+1,This villain is basically greedy. {Cap~[HeShe]} wants to steal something from a museum (or other place) and sell it to the highest bidder,
+_ rob a bank, or extort millions from the king or a rich merchant to help [HimHer] attain [HisHer] base goals of untold wealth or decadant affluence.
+_ It is a basic, yet simple motivation that is needed to 'make [HimHer]self better'.
+
+:ServeTheFuhrer
+1,This villain might serve someone (or some force) that no one else ever sees. Even the greatest criminal minds will bow to a higher power,
+_ and although [HeShe] may be smarter and more capable than [HisHer] master, this villain will serve that master nonetheless.
+
+;Revenge
+1,This villain wants revenge against a hero, maybe one of the PCs. {Cap~[HeShe]} has to defend [HisHer] honor, whether the revenge is warranted, intentional, or not. 
+1,This villain wants revenge against a hero, maybe one of the PCs. {Cap~[HeShe]} has to defend [HisHer] honor because [HisHer] brother/sister was accidentally murdered, whether the revenge is warranted, intentional, or not. 
+1,This villain wants revenge against a hero, maybe one of the PCs. {Cap~[HeShe]} has to defend [HisHer] honor because [HeShe]'s been disfigured as the result of the PC's actions, whether the revenge is warranted, intentional, or not. 
+
+:RuinAHero
+1,This villain wants to ruin the life of a particular hero (or hero team).
+_ As a twist, instead of defaming a hero, the villain might try to eliminate the hero's support network... or attempt to subvert the Hero - making the hero evil. 
+
+;AnnihilateRazeLayWaste
+1,This villain doesn't care about the minds of men, money, or revenge. {Cap~[HeShe]} just wants to see the world blow up ASAP.
+1,This villain wants to destroy just one thing. That one thing has to be something near and dear to other people, something the PC heroes feel is worthy of protection. It could be a place, a powerful artifact, a person, or even the moon.
+
+:PersonalPower
+1,This villain, on the way to a greater goal, will try to increase [HisHer] powers, enlarge [HisHer] resources, gain new followers, or find the key to immortality.
+_ Once the heroes get wind of this, they should try to intervene, otherwise, [HeShe] will be a stronger, tougher opponent next time [HeShe] tries to take over the world.
+_ If they wait, it might be too late. If the heroes aren't likely to catch wind of the villain's scheme, link the villain's increase in power directly to the heroes.
+_ Maybe [HeShe] has to steal something from them, drain their resources, or get vital information from one of their sidekicks.
+_ This should tip off the heroes to the potential threat - allowing them an opportunity to respond in time.
+
+:WinTheWar
+1,This villain's quintessential purpose in life is to conquer a major power block, destroy any allies and support communities, and generally usher in the
+_ Thousand-Year Empire. This goal is always available because there is always a war going on, so there is plenty of room for villains (and heroes) whose sole
+_ purpose in life is to eliminate or cripple the enemy. In the meantime, there are other wars around the globe for villains to serve, or migate to, to start over once again.
+
+:RulePartOfTheWorld
+1,This villain wants to take control of a major city, a small country in the Northern reaches, a foreign nation, the Southern Ocean, etc.
+_ {Cap~[HeShe]}'s too smart to think [HeShe] can take over the whole world. {Cap~[HeShe]}'d rather be Supreme Ruler of a large chunk of it.
+_ Sometimes this motive seems legitimate. What if the villain was replaced by an even worse King? What if the Half-Elves liked [HimHer]?
+
+:RuleTheWorld
+1,This villain wants to know what's so bad about being Supreme Global Ruler? [HeShe] wants to reconfigure the world politically, so it will serve a central Power - [HimHer].
+_ But that's only half the problem. Figuring out how to get everyone to obey you after you've killed all the heroes could add some tension to the enterprise.
+_ Every would-be world-ruler has to have a plan, a scheme that explains how everyone will be forced to do what [HeShe] says.
+_ The best villains of this kind will also have a plan for making that dictatorship permanent... once [HeShe] wins, that's it for humanity.
+_ Ruling the world has a lot of fringe benefits (like increased powers for those villains who feed off of other people's life force),
+_ but most villains of this type are in it for the power. No drug or orgasm compares to the knowledge that you control everyone and everything on the planet.
+_ That's why these villains tend to be half-crazed the moment they arrive on the scene... just the anticipation of total power is enough to make them overconfident,
+_ megalomaniacal, and delusional.
+
+:ProtectOrSaveSomething
+1,This villain is motivated by the desire to preserve something [HeShe] values more than anything that gets in [HisHer] way.
+_ It might be a civilization, an artifact, a priceless object, or even another planet.
+
+:ProtectOrSaveSomeone
+1,This villain is motivated by the desire to preserve someone [HeShe] values more than anything that gets in [HisHer] way.
+
+:ScienceForTheSakeOfScience
+1,This villain wants to research something for the purpose of using it, like a Death Ray Spell, or a spell that induces Earthquakes.
+_ However, some merely want to discover things just for the sake of knowledge. Of course, they might require large amounts of money for funds,
+_ or human subjects for inhumane experiments, or any number of other things that put them at odds with the heroes.
+
+:WinTheLoveOfSomeone
+1,This villain believes that doing the awful things [HeShe] does will make someone love/respect [HimHer].
+_ {Cap~[HeShe]} may have started a crime spree to attract the attention of a particular socialite that [HeShe] desired, gain the respect
+_ and love of [HisHer] estranged father/mother, or committed [HisHer] crimes so that [HisHer] daughter/son would have all the material things [HeShe]
+_ wanted and subsequently love [HimHer] as the result of it.
+
+:ForTheLoveOfTheGame
+1,This villain sees [HisHer] unsavory pursuits as all just a pastime, a momentary diversion.
+_ {Cap~[HeShe]} commits crimes and challenge heroes for the sheer joy of pitting [HimHer]self against obstacles and overcoming opponents;
+_ the harder the goal and the more formidable the adversary the better. It's all sport to [HimHer].
+
+:IsNotA Person
+1,The villain isn't even a person in this case - although it may be associated with a person.
+_ The villainous motivation itself can be categorized as a force of nature, or merely something as abstract as life itself.
+_ The motivation can be the Hero's insecurities, an addiction, poverty, or possibly even an illness or bigotry.
+_ The real challenge will be for the PCs to discover the basic nature of the evil force that has subverted your villain, then find a way to triumph over it.
+
+;YouWereMyFriend
+1,This villain is a trusted friend working behind the scenes (even to the extent of staging fake attacks on themselves).
+1,This villain is yet another flunky, and the real mastermind is the shady majordomo/bodyguard [HeShe]'s never seen without...
+_ that to date, has gotten the "Trusted Friend" to safety for the PCs while they fight off other threats.
+
+:LovedOne
+1,This villain is [HisHer] Dad, Mom, or mentor, Who trained [HimHer]? What, [HeShe] didn't know? [HeShe]'ll soon find out...
+
+:BestIntentions
+1,This villain is a well-meaning individual. Examples: the Inquisition was supposed to weed out the sinners,
+_ Missionaries tried to save people around the world by destroying their culture, the Government interred 'foreigners' during the war to make the country safe.
+_ Yes, those people were wrong, but at the time, they had "good" intentions.
+
+:RightThingToDo
+1,This villain has a good reason for doing what [HeShe]'s doing. {Cap~[HeShe]} believes [HeShe] is right, and [HeShe] has something to back it up.
+_ Ideally, it should be something plausible, rather than wimping out and blaming it on insanity - both sides should consider themselves justified.
+
+:InsanityPlea
+1,This villain really is insane. There is no plausible reason that [HeShe] does what [HeShe] does outside of the reasons [HeShe] makes up for [HimHer]self.
+_ Insanity cannot be explained logically, and there is likely to be no real reason that [HeShe] does what [HeShe] does, aside from the fact that [HeShe] wants to do it
+_ - so go with it. Just be careful not to take the affliction too far without some type of control, as it could jeopardize any 'logical' conclusions the PCs may manufacture
+_ for themselves to provide some type of resolution to the problem|InsanityFlag={Dice~1d19}|[Chanceof]{If~%Chance%>25?. Therapeutically, [HeShe] also [Insanity=%InsanityFlag%]/}.
+
+;Insanity
+1,suffers from Dipsomania, a Mild form of insanity which forces the afflicted person to drink excessively when anywhere near Large quantities of Spirituous Liquors, until they pass out. If they are denied that alcohol, they will react violently to procure it.
+1,suffers from Kleptomania, a mild from of insanity that manifests itself in the uncontrollable desire to pocket any small object available, regardless of its intrinsic worth.
+1,suffers from a mild form of insanity known as Schizoid; that manifests itself in total personality loss. The afflicted character will select a Role Model to emulate, in effect becoming that Role Model in all ways possible as dictated by the current conditions.
+1,is a Pathological Liar. [HeShe] is afflicted with a form of Insanity that forces the character to formulate outrageous and questionable stories regarding [HisHer] abilities and skills. Not only will the afflicted character lie uncontrollably, but [HeShe] will be utterly convinced that [HisHer] lies are the honest truth, as [HeShe] sees it.
+1,suffers from a form of Insanity; Monomania; that manifests itself once the character is presented with an idea, or goal that seems promising or purposeful to [HimHer]. At that point, [HeShe] will pursue the accomplishment of that task until it is finished. {Cap~[HeShe]} will think of nothing else, talk of nothing else, and will neither plan nor act in any task save those that will accomplish the fixed end [HeShe] is striving for. [HeShe] expects the same unwavering devotion to [HisHer] set path, brooking no swerving from that path from any friend or associat1,Once the task is complete [HeShe] will become lethargic, depressed, and uninterested in anything until a new purpose is eventually found.
+1,suffers from Dementia Praecox. This form of insanity forces the afflicted character to become uninterested in virtually any undertaking presented to [HimHer]. [HeShe] is continually filled with lassitude and depression. No matter how important the situation, there is a 25[Percent] chance that the Character will choose to ignore the situation as meaningless to [HimHer].
+1,suffers from Melancholia, a form of Insanity that makes the afflicted subject to black moods, fits of brooding, and feelings of hopelessness. There is a 50[Percent] chance that the afflicted character ignore any situation due to a fit of Melancholia coming upon [HimHer].
+1,suffers from Megalomania. A form of Insanity which causes the afflicted character to believe that [HeShe] is the best at everything. The smartest, wisest, strongest, fastest, handsomest, and most powerful member of [HisHer] chosen profession, [HeShe] will take umbrage to anyone or anything that feels otherwise,[HeShe] will demand to lead, perform any important action, make decisions, etc.
+1,suffers from Delusional Insanity. [HeShe] believes that [HeShe] is some famous figure, a Monarch, Demi-God, or some other Heroic, powerful figure. [HeShe] will act appropriate to the personae that [HeShe] is emulating, ordering those around [HimHer], as well as non-existent troops, etc, as if [HeShe] really was that personage.
+1,suffers from Schizophrenia, a form of insanity that manifests itself in the well-known 'Split Personality Disorder'. The Character will be subject to 'Split Personalities' whenever placed in a stressful situation. Typically, there will only be 1d4,distinct personalities that can exist in an individual with [HisHer] disorder. But when subjected to a stressful situation, there will be a 1,in 6,chance that a new personality will manifest once per round, while the stressful situation endures.
+1,suffers from Mania, a form of insanity that strikes suddenly and violently. The afflicted character will become hysterical and enraged, shrieking, raging and behaving violently. The Maniac is unreasoning, but will possess great cunning. They possess exceptional strength while insane, but will not believe that they were acting insanely once they finally recover from the Mania.
+1,suffers from Lunacy. When the Moon is full, the afflicted character will act violently and behave maniacally. Possibly even to the point of homicide. When the moon is in it's first or last quarter, the afflicted character will act normally, although [HeShe] will be subject to fits of Melancholy.
+1,suffers from Paranoia. Characters who suffer from this form of insanity will be convinced that everyone is out to get them. It will start with the Character believing that "They" are after [HisHer] possession, and take elaborate precautions to protect [HisHer] things. Gradually, the Character begins to believe that "They" are actually after [HisHer] life, and may plot homicide, or hire assassins to tackle care of "Them". Friends and companions will eventually join the ranks of the perceived plotters, and will be subject to the same dangers as the rest of "Them".
+1,is Maniac-Depressive. This alternating form of insanity causes the afflicted character to be subject to fits of Mania and Depression that alternate approximately every 4,days. While suffering from Mania, the Character becomes violent and Homicidal. While Depressed, [HeShe] will suffer fits of Depression and Hopelessness.
+1,suffers from Hallucinatory Insanity. This form of insanity causes the afflicted character to see, hear, and otherwise sense things that do not exist. It typically will not manifest unless the Character is under a stressful situation. If the situation is non-stressful, the Character will usually act normally.
+1,suffers from a case of Sado-Masochism. This form of insanity typically alternates between Sadism and Masochism. The Sadistic Phase causes the Character to have an obsessive desire to inflict pain and death upon any living creature, while the Masochistic phase causes the Character to have the overwhelming desire to be hurt, suffering pain [HimHer]self. Once the urges have been satisfied, the Character will act normally for 1,to 3,days, after which the urges are likely to return.
+1,suffers from Homicidal Mania. The individual afflicted with this form of Insanity will appear completely normal until the Insanity itself actually manifests itself. It will typically be foreshadowed by an all-consuming interest in weapons, Poisons, or other lethal devices that triggers an uncontrollable urge to kill. If prevented from killing his victim, (Which must be of the same race as the Character) the Character will become uncontrollably maniacal and will attempt to kill the first person [HeShe] sees. Once the urge is satisfied, however, [HeShe] will be come melancholy until the next manifestation of [HisHer] affliction.
+1,suffers from a form of Insanity called Hebephrenia that will cause the afflicted character to periodically withdraw from reality. [HeShe] will wander aimlessly, talk to [HimHer]self, giggle and mutter, and act childishly, until the affliction plays itself out and the Character passes out, catatonic.
+1,suffers from Suicidal Mania. Characters afflicted with this form of Insanity will have an overwhelming urge to destroy themselves whenever the means presents itself.
+#1,suffers from Catatonia. This form of Insanity causes the afflicted character to completely withdraw from reality. The character will sit staring at nothing caring about nothing, and will not react to any outside stimuli. The individual can be moved, led around, fed and so forth, but will do nothing personally.
+
+:ManWoman
+1,{If~%Gender%=1?man/woman}
+
+:HeShe
+1,{If~%Gender%=1?he/she}
+
+:HisHer
+1,{If~%Gender%=1?his/her}
+
+:HimHer
+1,{If~%Gender%=1?him/her}
+
+# ------------------------------------------
+# Leave at the end
+
+:Percent
+1,/%

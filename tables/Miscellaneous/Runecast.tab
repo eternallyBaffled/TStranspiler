@@ -1,0 +1,132 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder Feb 28, 2006.
+# ---------------------------------------------------
+#
+# Runecast
+#
+# Just a fun little graphical table; nothing
+# to be taken seriously (though could be useful
+# for the gypsies or oracles in your RPG).
+# 
+# None of the runes come up in a reversed position,
+# though the table and graphics could be modified
+# to accomodate this.
+#
+# Copyright 2001 by Bruce A. Gulke
+#
+# Modified by Valminder, July 2003.
+#   Changed [CC~] to {Cap~[]}
+#
+# Modified by Valminder, Feb 2006.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+#
+
+/OverrideRolls 1
+
+%Path1%,<IMG SRC="Graphics\Runes\
+%Path2%,.jpg" WIDTH="103" HEIGHT="91" BORDER="0">
+%Past%,0
+%Present%,0
+%Outcome%,0
+%Help%,0
+%Hindrance%,0
+
+:Start
+1,{Status~By Bruce A. Gulke 2001}
+_|Past=[Rolls]|
+_|Present=[Rolls]|
+_|Outcome=[Rolls]|
+_|Help=[Rolls]|
+_|Hindrance=[Rolls]|
+_[DrawRunes]
+_[DisplayMeaning]
+
+:DrawRunes
+1,<p align=center>
+_%Path1%Blank%Path2%
+_%Path1%[Runes=%Help%]%Path2%
+_%Path1%Blank%Path2%<br>
+_%Path1%[Runes=%Past%]%Path2%
+_%Path1%[Runes=%Present%]%Path2%
+_%Path1%[Runes=%Outcome%]%Path2%<br>
+_%Path1%Blank%Path2%
+_%Path1%[Runes=%Hindrance%]%Path2%
+_%Path1%Blank%Path2%<br><br><br><hr>
+
+:DisplayMeaning
+1,<p align=center>
+_<b>Help:</b> {Cap~[Meanings=%Help%]}<br><br>
+_<b>Past:</b> {Cap~[Meanings=%Past%]}  /  
+_<b>Present:</b> {Cap~[Meanings=%Present%]}  /  
+_<b>Future:</b> {Cap~[Meanings=%Outcome%]}<br><br>
+_<b>Hindrance:</b> {Cap~[Meanings=%Hindrance%]}<br>
+
+;!Rolls
+1,1
+1,2
+1,3
+1,4
+1,5
+1,6
+1,7
+1,8
+1,9
+1,10
+1,11
+1,12
+1,13
+1,14
+1,15
+1,16
+1,17
+1,18
+1,19
+1,20
+1,21
+
+:Runes
+1,Algiz
+2,Ansuz
+3,Berkana
+4,Dagaz
+5,Ehwaz
+6,Fehu
+7,Gifu
+8,Hagalaz
+9,Isa
+10,Jera
+11,Kano
+12,Laguz
+13,Mannaz
+14,Nauthiz
+15,Othila
+16,Perth
+17,Raido
+18,Sowelu
+19,Tyr
+20,Uruz
+21,Wunjo
+
+:Meanings
+1,protection
+2,signals
+3,growth
+4,breakthrough
+5,movement
+6,possessions
+7,partnership
+8,disruption
+9,standstill
+10,harvest
+11,opening
+12,flow
+13,the Self
+14,constraint
+15,separation
+16,initiation
+17,journey
+18,wholeness
+19,warrior
+20,strength
+21,joy

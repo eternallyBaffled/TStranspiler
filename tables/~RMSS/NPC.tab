@@ -1,0 +1,242 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder Dec 20, 2005.
+# ---------------------------------------------------
+#
+# Ship's Crew generator
+#
+# Verified by Valminder, Jan 2004.
+#
+
+:Start
+1,<b>Name:</b> [Name] <i>([sex])</i><br><b>Position:</b> [job]<br><b>Profession:</b> [Profs.Start]<br><b>Personality:</b> {Loop~{Dice~1d3},[Traits]}[Perks.Start][TP.Start]
+
+:Name
+1-3,[Formal Names.Start]
+4-6,[Fantasy Names.Start] [Fantasy Names.Start]
+7-9,[Names Generator.NAME Random]
+10,[Names Generator.NAME Random] of [Ven]
+11-13,[Elven Names.Start]
+14-16,[Names Generator.NAME Random] of [Town Names.Generate]
+17-20,[Names Generator.NAME Random]
+
+:sex
+1-10,Female
+11-100,Male
+
+:job
+1-15,Able-Bodied Seaman <b>Skill:</b> {Dice~3d6+60}
+16-65,Ordinary Seaman <b>Skill:</b> {Dice~3d6+45}
+66-75,Deckboy <b>Skill:</b> {Dice~3d6+25}
+76-85,Unguilded Seaman <b>Skill:</b> {Calc~({Dice~3d6}*4)}
+86-90,Pilot <b>Skill:</b> {Dice~3d6+65}
+91,Pilot's Apprentice <b>Skill:</b> {Calc~({Dice~3d6}*4)}
+92-94,Chippy <b>Skill:</b> {Dice~3d6+60}
+95,Chippy's Mate <b>Skill:</b> {Dice~3d6+30}
+96-100,[Other]
+
+:Other
+1-4,Supercargo <b>Skill:</b> {Dice~3d6+60}
+5-8,Ship's Physician <b>Skill:</b> {Dice~3d6+60}
+9,Marine Commander <b>Skill:</b> {Dice~3d6+60}
+10,Marine Lieutenant <b>Skill:</b> {Dice~3d6+45}
+11-12,Ordinary Marine <b>Skill:</b> {Dice~3d6+30}
+
+
+:Ven
+1,{Cap~[Rdm]}[Con][Vowel][Con]
+2,{Cap~[Vowel]}[Con][Con][Vowel][Con][Vowel][Con]
+3,{Cap~[Rdm]}[Con][Vowel][Con]
+4,{Cap~[Vowel]}[Con][Con][Vowel][Con][Vowel][Con]
+5,{Cap~[Rdm]}'[Con][Vowel][Con]
+6,{Cap~[Vowel]}[Con]'[Con][Vowel][Con][Vowel][Con]
+7,{Cap~[Rdm]}'[Con][Vowel][Con]
+8,{Cap~[Vowel]}[Con]'[Con][Vowel][Con][Vowel][Con]
+
+:Rdm
+1-2,[Vowel]
+3-10,[Con]
+11,[Vowel][Con]
+
+:Vowel
+1-4,a
+5-8,e
+9-12,i
+13-16,o
+17-20,u
+21,y
+
+:Con
+1,b
+2,c
+3,d
+4,f
+5,g
+6,h
+7,j
+8,k
+9,l
+10,m
+11,n
+12,p
+13,q
+14,r
+15,s
+16,t
+17,v
+18,w
+19,x
+20,y
+21,z
+
+
+:Traits
+1,Curious <i>([TS])</i><br>
+2,Hedonist <i>([TS])</i><br>
+3,Precise <i>([TS])</i><br>
+4,Studious <i>([TS])</i><br>
+5,Mysterious <i>([TS])</i><br>
+6,Loquacious <i>([TS])</i><br>
+7,Silent <i>([TS])</i><br>
+8,Foppish <i>([TS])</i><br>
+9,Immaculate <i>([TS])</i><br>
+10,Even-tempered <i>([TS])</i><br>
+11,Rough <i>([TS])</i><br>
+12,Skeptic <i>([TS])</i><br>
+13,Immature <i>([TS])</i><br>
+14,Rash <i>([TS])</i><br>
+15,Extroverted <i>([TS])</i><br>
+16,Introverted <i>([TS])</i><br>
+17,Materialistic <i>([TS])</i><br>
+18,Aesthetic <i>([TS])</i><br>
+19,Amoral <i>([TS])</i><br>
+20,Dreamy <i>([TS])</i><br>
+21,Creative <i>([TS])</i><br>
+22,Leader <i>([TS])</i><br>
+23,Follower <i>([TS])</i><br>
+24,emotional <i>([TS])</i><br>
+25,Emotionless <i>([TS])</i><br>
+26,Humourous <i>([TS])</i><br>
+27,Grim <i>([TS])</i><br>
+28,Conservative <i>([TS])</i><br>
+29,Liberal <i>([TS])</i><br>
+30,Aggressive <i>([TS])</i><br>
+31,Passive <i>([TS])</i><br>
+32,Self-sufficient <i>([TS])</i><br>
+33,Dependent <i>([TS])</i><br>
+34,Romantic <i>([TS])</i><br>
+35,Logical <i>([TS])</i><br>
+36,Illogical <i>([TS])</i><br>
+37,Frivolous <i>([TS])</i><br>
+38,Aloof <i>([TS])</i><br>
+39,Atheistic <i>([TS])</i><br>
+40,Optimist <i>([TS])</i><br>
+41,Altruist <i>([TS])</i><br>
+42,Helpful <i>([TS])</i><br>
+43,Kindly <i>([TS])</i><br>
+44,Careful <i>([TS])</i><br>
+45,Considerate <i>([TS])</i><br>
+46,Sober <i>([TS])</i><br>
+47,Teetotaler <i>([TS])</i><br>
+48,Trusting <i>([TS])</i><br>
+49,Peaceful <i>([TS])</i><br>
+50,Peacemaker <i>([TS])</i><br>
+51,Pious <i>([TS])</i><br>
+52,Honest <i>([TS])</i><br>
+53,Loving <i>([TS])</i><br>
+54,Giving <i>([TS])</i><br>
+55,Organized <i>([TS])</i><br>
+56,Clean <i>([TS])</i><br>
+57,Punctual <i>([TS])</i><br>
+58,Self-confident <i>([TS])</i><br>
+59,Couragous <i>([TS])</i><br>
+60,Respectful <i>([TS])</i><br>
+61,Calm <i>([TS])</i><br>
+62,Patient <i>([TS])</i><br>
+63,Wise <i>([TS])</i><br>
+64,Generous <i>([TS])</i><br>
+65,Imaginative <i>([TS])</i><br>
+66,Forgiving <i>([TS])</i><br>
+67,Virtuous <i>([TS])</i><br>
+68,Dependable <i>([TS])</i><br>
+69,Well-mannerd <i>([TS])</i><br>
+70,Benign <i>([TS])</i><br>
+71,Friendly <i>([TS])</i><br>
+72,Humble <i>([TS])</i><br>
+73,Energetic <i>([TS])</i><br>
+74,Truthful <i>([TS])</i><br>
+75,Cheerful <i>([TS])</i><br>
+76,Enthusiastic <i>([TS])</i><br>
+77,Thrifty <i>([TS])</i><br>
+78,Diplomatic <i>([TS])</i><br>
+79,Pessimist <i>([TS])</i><br>
+80,Egoist <i>([TS])</i><br>
+81,Obstructive <i>([TS])</i><br>
+82,Cruel <i>([TS])</i><br>
+83,Careless <i>([TS])</i><br>
+84,Thoughtless <i>([TS])</i><br>
+85,Flippant <i>([TS])</i><br>
+86,Drunkard <i>([TS])</i><br>
+87,Suspicious <i>([TS])</i><br>
+88,Violent <i>([TS])</i><br>
+89,Argumentative <i>([TS])</i><br>
+90,Irreverent <i>([TS])</i><br>
+91,Cheat <i>([TS])</i><br>
+92,Hateful <i>([TS])</i><br>
+93,Selfish <i>([TS])</i><br>
+94,Slovenly <i>([TS])</i><br>
+95,Filthy <i>([TS])</i><br>
+96,Tardy <i>([TS])</i><br>
+97,Self-doubting <i>([TS])</i><br>
+98,Cowardly <i>([TS])</i><br>
+99,Disrepectful <i>([TS])</i><br>
+100,Angry <i>([TS])</i><br>
+101,Impatient <i>([TS])</i><br>
+102,Foolish <i>([TS])</i><br>
+103,Greedy <i>([TS])</i><br>
+104,Dull <i>([TS])</i><br>
+105,Vengeful <i>([TS])</i><br>
+106,Immoral <i>([TS])</i><br>
+107,Untrustworthy <i>([TS])</i><br>
+108,Rude <i>([TS])</i><br>
+109,Harsh <i>([TS])</i><br>
+110,Unfriendly <i>([TS])</i><br>
+112,Egotistic <i>([TS])</i><br>
+113,Lazy <i>([TS])</i><br>
+114,Liar <i>([TS])</i><br>
+115,Morose <i>([TS])</i><br>
+116,Unenthusiastic <i>([TS])</i><br>
+117,Spendthrift <i>([TS])</i><br>
+118,Tactless <i>([TS])</i><br>
+119,[BT] <i>([TS])</i><br>
+
+
+:TS
+1-10,Trivial
+11-29,Weak
+30-59,Average
+60-79,Strong
+80-94,Driving
+95-100,Obsessive
+
+:BT
+1,Absentminded
+2,Addict
+3,Anarchist
+4,Distinctive Possession
+5,Ego Signature
+6,Hiccuping
+7,Insomniac
+8,Know-it-all
+9,Neatnik
+10,Stuttering
+11,Pet Lover
+12,Political Activist
+13,Practical Joker
+14,Secret Identity
+15,Slob
+16,Packrat
+17,Unique physical habit
+18,Vandal
+19,Yes-man
+20,{Loop~{Dice~1d3},[BT] }
+

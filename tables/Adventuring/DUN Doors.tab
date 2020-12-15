@@ -1,0 +1,669 @@
+# ------------------------------------------------------
+# Last Update: re-verified by Valminder Jan 10, 2012.
+# ------------------------------------------------------
+#
+# Made by ....
+#
+# Modified by Valminder April 2002
+#    Source: Dungeon Master's Guide 3rd edition.
+#    I added some links to these other tables:
+#        CoatsOfArms.Start
+#        Countries.Land
+#        Creatures.Start
+#        Miscellaneous.Alignment
+#        Miscellaneous.Color
+#        Miscellaneous.Language
+#        Names Generator.NAME Random
+#        Religion.Deities
+#        Rune Generator.GenRune
+#        Traps.Generate
+#
+# Modified by Valminder, Jan 2004
+# from "Door Too" by Lawrence H. Cormier 1996
+# The Registered Version of TableMaster(tm) is required to use this table.
+#
+# They have just stepped into the Hallway of an ancient Castle. There are
+# hundreds of doors lining the Hall. Your players step up to the first one
+# on the right, then begin to ask you: What does it look like? Is it made of
+# Metal, Wood or Stone? Which direction does it open? Does it have a lock?
+# Can we hear anything beyond the door? I'm checking for traps...
+# Sound familiar? With this table, you can answer all those questions and
+# more! Are you ready? Start answering those questions!
+#
+#    New links to:
+#        Creatures.Battle
+#        Creatures.Humanoid
+#        DUN Graffiti.GenerateDoor
+#        DUN Graffiti.GenerateSpecial
+#        DUN Graffiti.Graffiti
+#        Equipment.Size
+#        Miscellaneous.Alignment2
+#        Miscellaneous.Color
+#        Miscellaneous.Language
+#        Miscellaneous.Odor
+#        Miscellaneous.Personality
+#        Miscellaneous.Precious Material
+#        Miscellaneous.Shape
+#        Miscellaneous.Sound
+#        Names Generator.XXX (many subtables)
+#        Religion.Deities
+#        Rumors.Alternate
+#
+#    -Added a "Book Selection". If you have the book, change the "0"
+#     to "1" for the book (ex: "%DR190%,0" means you do not want to use
+#     the items found in Dragon Magazine 190. "%DR190%,1" will mean
+#     that you want to use the items of Dragon Magazine 190).
+#     DRXXX : Dragon Magazine XXX.
+#     DUXXX : Dungeon Magazine XXX.
+#
+# Modified by Valminder, Nov 2005.
+#     Removed header fromt [Start] line.
+# Modified by Valminder, Feb 2006.
+#     I added the informations from Ashon's table "Locks.tab"
+#     Added links to:
+#        Equipment.PoisonsCheckerType
+#        Names Generator.NAME For All
+#        Random Traps.MagicalTrap
+#
+
+/OverrideRolls 1
+
+%Trap%,0
+%Roll%,0
+
+%CurrentCount%,0
+%Total%,0
+%DamagePoints%,0
+%HPDamage%,0
+%Effects%,0
+%FallHeight%,0
+%Value%,0
+%NumberOfArms%,0
+%ArmCount%,0
+%Count%,0
+%TempNumber%,0
+%Chance%,0
+
+%Closed%,0
+%Material%,0
+%SearchBody%,0
+%Temp%,0
+%Temp2%,0
+
+# This is from Ashon's table "Locks.tab"
+%ctype%,0
+%numtumbler%,0
+%desc1%,0
+%desc2%,0
+%LSName%,0
+
+# Equipment.tab
+%Item%,0
+%CRValLook%,0
+%Cost%,0
+%Book%,0
+%Damage%,0
+%MagEffect%,0
+%Type%,0
+%TypeNeeded%,0
+
+:Start
+1,{Status~Created by Valminder and Larry Cormier}[Generate1]
+
+:Generate1
+1,<u><b>Door</u>:</b> {Cap~[Generate]}<br>
+_<u><i>Open/Closed</u>:</i> {Cap~[OpenClose]}<br>
+_<u><i>Lock</u>:</i> [Lock]<br>
+_<u><i>Stucked</u>:</i>|SearchBody=0| {If~%Closed%=1? [Stuck]/No.}<br><br>
+_<u>Description</u>: [Description]<br>
+_{Space~5}[Decorated]<br><br>
+_<u>Opening the Door</u>: [Opens]<br><br>
+_<u>Trap</u>: [Trap]<br>
+_<u>Sound</u>: [Sound]<br><br>
+_<font size=1><u>Locks/Hinges</u>: Hardness 10, 30 hp.</font>
+
+:Chanceof
+1,|Chance={Dice~1d100}|
+
+#---------------------------------------------------------------------------
+
+;Generate
+30,a simple wooden door (1", Hard 5, 10 hp, Stucked 13, Locked 15)|Material=1|
+20,a good wooden door (1.5", Hard 5, 15 hp, Stucked 16, Locked 18)|Material=1|
+20,a strong wooden door (2", Hard 5, 20 hp, Stucked 23, Locked 25)|Material=1|
+10,a stone door (4", Hard 8, 60 hp, Stucked/Locked 28)|Material=2|
+10,an iron door (2", Hard 10, 60 hp, Stucked/Locked 28)|Material=3|
+5,a wooden portcullis (3", Hard 5, 30 hp, Stucked 24, Locked 26, Lift 25)|Material=1|
+5,an iron portcullis (2", Hard 10, 60 hp, Stucked 28, Locked 28, Lift 25)|Material=3|
+
+#--------------------------------------------------------------------------
+
+;OpenClose
+3,closed|Closed=1|
+1,[Open]|Closed=0|
+
+:Open
+5,slightly ajar.
+2,wide open.
+2,smashed open.
+1,hanging open by one hinge.
+
+# ---------------------------------------------------------------------------
+
+;Lock
+9,None.[ArcaneLock]
+5,[LockUnlock] padlock ([LockQuality])[DoorSwing][KeyLock1].[ArcaneLock]
+5,[LockUnlock] with a standard key-type lock ([LockQuality])[KeyLock2].[ArcaneLock]
+1,[ManyLocks]
+# This is from Ashon's table "Locks.tab"
+2,[LockUnlock] [Type of Lock] ([LockQuality])[DoorSwing].[ArcaneLock] [More Info]
+
+;ArcaneLock
+7,
+2, The door is also held shut by a <i>Hold Portal</i> spell (caster level |Temp={Dice~1d20}|%Temp%) for another |Chance={Dice~1d%Temp%-1}|{If~%Chance%>0? %Chance% minutes/{Dice~1d8+1} rounds} (+5 DC to force open).
+1, The door is also <i>Arcane Locked</i> (caster level {Dice~1d17+2}).
+
+;DoorSwing
+1, on your side of the door
+1, on the other side of the door
+
+;KeyLock1
+15,
+1, with a broken key in the lock
+1, with a broken lockpick in the lock
+1, with a broken dagger tip in the lock
+
+;KeyLock2
+15,
+1, with a broken key in the lock [DoorSwing]
+1, with a broken lockpick in the lock [DoorSwing]
+1, with a broken dagger tip in the lock [DoorSwing]
+
+;LockQuality
+1,rudimentary[SpecialLock] DC{Calc~%Temp%+15}
+4,very simple[SpecialLock] DC{Calc~%Temp%+20}
+8,average[SpecialLock] DC{Calc~%Temp%+25}
+4,good[SpecialLock] DC{Calc~%Temp%+30}
+2,pretty good[SpecialLock] DC{Calc~%Temp%+35}
+1,amazing[SpecialLock] DC{Calc~%Temp%+40}
+
+:Locksmith
+1,|LSName=[~Names Generator.NAME For All]|%LSName%'s sigil appears on the lock. %LSName% was [~Locksmith Mastery].
+
+;Locksmith Mastery
+15,an Apprentice Locksmith
+60,a Journeyman Locksmith
+10,a Gifted Locksmith
+10,a Master Locksmith
+5,a Grandmaster Locksmith
+
+;LockUnlock
+10,Unlocked
+10,[Chanceof]{If~%Closed%=1? Locked/{If~%Chance%<50? Locked/Unlocked}}
+
+;ManyLocks
+1,It has |Temp={Dice~1d3+1}|<b>%Temp%</b> [LockUnlock+5] padlocks[DoorSwing] ({Loop~%Temp%,[LockQuality]; }). All must be unlocked.[ArcaneLock]
+2,It has |Temp={Dice~1d3+1}|<b>%Temp%</b> [LockUnlock+5] key-type locks ({Loop~%Temp%,[LockQuality]; }). All must be unlocked.[ArcaneLock]
+2,It has one [LockUnlock] padlock on this side of the door[KeyLock1] ([LockQuality]) and one other [LockUnlock] padlock[KeyLock1] on the other side of the door ([LockQuality]). All must be unlocked.[ArcaneLock]
+3,It has one [LockUnlock] standard key-type lock[KeyLock2] ([LockQuality]) and one other [LockUnlock] padlock[KeyLock1][DoorSwing] ([LockQuality]). All must be unlocked.[ArcaneLock]
+
+:More Info
+1,{If~{Dice~1d100}<20? The lock is trapped [Traps]<br>}%desc1% {If~{Dice~1d100}<25? [~Locksmith]}
+
+;Rusted
+35,
+8, but slightly damaged|Temp=2|
+4, but rusted|Temp=5|
+2, but damaged by acid|Temp=10|
+1, but totally smashed|Temp=50|
+
+;SpecialLock
+9,[Rusted]
+1, but broken and cannot be relocked
+
+# For TSv4, change Round~ to {Round~Calc,0}
+;Traps
+40,with a needle coated with |TypeNeeded=Injury|[~ChoosePoisonType] set within the Lock. (Search/Disable DC{Calc~({Dice~1d3*5}+15)}).
+5,with contact poison coated on it. The poison is |TypeNeeded=Contact|[~ChoosePoisonType] set within the Lock. (Search/Disable DC{Calc~({Dice~1d3*5}+15)}).
+15,with a spray trap within the lock ({Dice~2d5}d6 [~Energy], Reflex DC{Dice~1d10+15}). (Search/Disable DC{Calc~({Dice~1d3*5}+15)}).
+5,with a magical trap within the lock ([~Random Traps.MagicalTrap]). (Search/Disable DC{Calc~({Dice~1d3*5}+15)}).
+
+:Energy
+1,acid
+1,cold
+1,electric
+1,fire
+1,sonic
+
+:ChoosePoisonType
+1,[EQCallPoisonType][Print Poisons]
+
+:EQCallPoisonType
+1,|Item=ERROR||Cost=0||Book=1||MagEffect=0|
+_|Temp=[Equipment.PoisonsCheckerType(0,%TypeNeeded%)]|
+_{Split~Temp,",",Item,CRValLook,Cost,Book,Type,Damage,MagEffect}
+_{If~%Book%=0 ? [EQCallPoisonType]}
+
+:Print Poisons
+1,%Item% (<u>Type</u>: %Type%. <u>Damage</u>: %Damage%. {If~%MagEffect%!=0? [PrintMag]} CR%CRValLook%)
+
+:PrintMag
+1,<u>Magical Poison</u>: %MagEffect%.
+
+# -------------------------------------------------------------------------
+
+;Type of Lock
+3,[Tumbler]
+1,[Latch Lock]
+
+;Latch Lock
+1,latch lock|Temp-5|[LT Desc One=4]
+
+;Tumbler
+1,[Number of Tumblers]|Temp+%numtumbler%||numtumbler+3|
+_ tumbler lock (%numtumbler% tumblers)[LT Desc One=1]
+1,[Combination Type][Number of Tumblers]|numtumbler+3|[LT Desc Two=%Temp2%]
+_ combination tumbler lock (%numtumbler% tumblers)
+_|Temp+%numtumbler%|[LT Desc One=2]
+1,[Combination Type][Number of Tumblers]|Temp+%ctype%||Temp+%numtumbler%|
+_|numtumbler+2|[LT Desc Two=%Temp2%] wheeled tumbler lock (%numtumbler% tumblers)[LT Desc One=3]
+
+;Combination Type
+75,numerical|ctype=5||Temp2=1|
+20,alphabetical|ctype=5||Temp2=2|
+5,exotic|ctype=10||Temp2=3|
+
+:LT Desc One
+1,|desc1=This lock has %numtumbler% internal tumblers and is usually opened by a key.|
+2,|desc1=This lock has %numtumbler% tumblers. %desc2% It is usually opened by rotating the tumblers into the proper combination.|
+3,|desc1=This lock has a %numtumbler% combination wheels. %desc2% It is opened by rotating the wheel in the proper order.|
+4,|desc1=This lock is a deadbolt lock and is usually opened by a key.|
+
+:LT Desc Two
+1,|desc2=There are numbers on these tumblers, from 0 to {Calc~(%numtumbler%-1)}.|
+2,|desc2=There are [~Miscellaneous.Language Common] letters on these tumblers.|
+3,|desc2=There are Exotic Symbols ([~Miscellaneous.Language]) on these tumblers.|
+
+;Number of Tumblers
+1,|numtumbler={Dice~2d3}|
+
+#--------------------------------------------------------------------------
+
+;Stuck
+40,No.
+1,No but held shut by [Obstruction] the door. {If~%SearchBody%=1? [SearchBody]}
+3,Jammed shut as a result of warped wood.
+1,Jammed shut as a result of a [Wedge] wedged [Chanceof]{If~%Chance%<50? under the door/along the door jamb} [DoorSwing] (DC +2)
+1,Stucked with a stout drop bar [DoorSwing] (as locked) 
+1,The [Chanceof]{If~%Chance%<75? hinges are/latching mechanism is} corroded and useless. The door cannot be opened without being smashed.
+
+;Obstruction
+1,a pile of rubble [FrontBack]
+1,heavy chains [Attachment={Dice~1d25+75}] to the wall [FrontBack]
+1,a damaged [Chanceof]{If~%Chance%<50? threshold at the base of/header jamb at the top of}
+1,a <i>Wall of Force</i> (caster level {Dice~1d12+8}) [FrontBack]
+1,a wall of [Chanceof]{If~%Chance%<75 ? stone blocks/bricks} that have been mortared [FrontBack]
+1,a dead [Chanceof]{If~%Chance%<75? [~Creatures.Humanoid]/  [~Creatures.Battle]} [FrontBack]|SearchBody=1|
+1,a discarded or lost [Object] that is blocking
+
+:Attachment
+1-50,nailed
+51-60,glued
+61-75,stapled
+76-85,bolted
+86-100,riveted
+
+:FrontBack
+1,[Chanceof]{If~%Chance%<50? in front of/beyond}
+
+:SearchBody
+1,[Chanceof]{If~%Chance%<55? Searching this body reveals an overlooked pouch or treasure. {Generate~0,Click to generate the treasure or pouch.,Pockets.Generate}/There is nothing of value left on this body.}
+
+;Object
+1,shoe
+1,boot
+1,pack
+1,metal flask
+1,caltrop
+1,belt buckle
+1,glove
+1,broken sword hilt
+1,torch handle
+1,broken shard of pottery
+
+:Wedge
+1-75,steel spike
+76-95,[~Equipment.Size] dagger
+96-100,[~Equipment.Size] short sword
+
+# ---------------------------------------------------------------------------
+
+;Opens
+5,It opens to the right [WhichDirection]. It is opened with [HandleType] on the left side of the door.[HideHinges]
+5,It opens to the left [WhichDirection]. It is opened with [HandleType] on the right side of the door.[HideHinges]
+1,It opens [SpecialOpening]
+
+:WhichDirection
+1,[Chanceof]{If~%Chance%<50? and away from you/and towards you}
+
+;HandleType
+2,a standard doorknob that [Rotation] and is located
+2,a standard turn-latch that [Rotation] and is located
+1,a fixed doorknob that is located
+1,a fixed latch that is located
+1,a pull-ring that is located
+1,a standard pull-handle 
+
+:Rotation
+1,[Chanceof]{If~%Chance%<50? rotates clockwise/rotates counterclockwise}
+
+:HideHinges
+1,[Chanceof]{If~%Chance%<25?  [HideHinges2]}
+
+;HideHinges2
+1, The hinges are hidden or concealed.
+1, It has awfully rusty, extremely squeaky hinges.
+
+;SpecialOpening
+5,by sliding into the wall and to the right. It is opened by [HandleType={Dice~1d4+4}] on the left side of the door.
+5,by sliding into the wall and to the left. It is opened by [HandleType={Dice~1d4+4}] on the right side of the door.
+2,by sliding into the ceiling. It is opened by [HandleType={Dice~1d4+4}] on the bottom of the door.
+1,by sliding into the floor. It is opened by [HandleType={Dice~1d4+4}] on the top of the door.
+1,toward the ceiling [WhichDirection] and is hinged at the top [DoorSwing]. [HideHinges]
+1,toward the floor [WhichDirection] and is hinged at the bottom [DoorSwing]. [HideHinges]
+
+# ---------------------------------------------------------------------------
+
+;Description
+1,It appears to be constructed of [~Construction=%Material%] and is [Condition].
+
+# 1=Wood / 2=Stone / 3=Metal
+:Construction
+1,[Wood]
+2,[Stone]
+3,[Metal]
+
+:Wood
+4,[Wood2]
+1,[Wood2] [Composite]
+
+:Wood2
+1-65,Oak
+66-70,Ash
+71-75,Maple
+76-80,Ironwood
+81-85,Pine
+86-89,Mahogany
+90-93,Teak
+94-96,Cedar
+97-98,Fruitwood
+99-100,Redwood
+
+:Metal
+1-60,Steel
+61-75,Cast Iron
+76-80,[Chanceof]{If~%Chance%<25? oxidized} Bronze
+81-85,[Chanceof]{If~%Chance%<25? oxidized} Brass
+86-89,Pot Metal
+90-93,Copper
+94-95,Nickel
+96-98,Tin
+99,Mithril (Hardness 15)
+100,Adamantine (Hardness 20 80hp)
+
+:Stone
+1-75,[StoneColor] Granite [Chanceof]{If~%Chance% < 25 ? with [StoneColor] veins}
+76-85,[StoneColor] Basalt [Chanceof]{If~%Chance% < 25 ? with [StoneColor] veins}
+86-90,[StoneColor] stone of mysterious origin [Chanceof]{If~%Chance% < 25 ? with [StoneColor] veins}
+91-95,[StoneColor] Marble [Chanceof]{If~%Chance% < 25 ? with [StoneColor] veins}
+96-99,[StoneColor] native Stone [Chanceof]{If~%Chance% < 25 ? with [StoneColor] veins}
+100,black Obsidian [Chanceof]{If~%Chance% < 25 ? with [StoneColor] veins}
+
+:!StoneColor
+1-20,black
+21-40,olive green
+41-60,white
+61-70,[Chanceof]{If~%Chance% < 50 ? light gray/dark gray}
+71-80,[Chanceof]{If~%Chance% < 50 ? light brown/dark brown}
+81-85,[Chanceof]{If~%Chance% < 50 ? light green/dark green}
+86-90,[Chanceof]{If~%Chance% < 50 ? light beige/dark beige}
+91-95,[Chanceof]{If~%Chance% < 50 ? light tan/dark tan}
+96,red
+97,pink
+98,pink
+99-100,ochre colored
+
+;Composite
+3,[Chanceof]{If~%Chance% < 75 ? sheathed in [Metal]/protected by {Dice~1d4}" [Metal] Straps [Attachment] to the Door}
+1,with a [Chanceof]{If~%Chance% < 75 ? [Metal] core/hollow core (1/2 hp and hardness)}
+
+:Condition
+1-5,in excellent condition. It looks like it has just been repaired
+6-85,in good condition. There are no major signs of damage
+86-94,in poor condition (1/2 hp). It is [DoorDamage=%Material%][Broken]
+95-100,in poor condition (1/2 hp). It is [DoorDamage=%Material%] and [DoorDamage=%Material%][Broken]
+
+;DoorDamage
+1,[WoodDamage]
+1,[StoneDamage]
+1,[MetalDamage]
+
+;!WoodDamage
+1,battered
+1,rotten
+1,in disrepair
+1,termite infested
+1,covered with ice
+1,scarred
+1,burned
+1,splintered
+1,dented
+1,covered with patches of mold
+1,damaged by a sonic attack
+1,damaged by acid
+
+;!StoneDamage
+1,battered
+1,covered with ice
+1,scarred
+1,burned
+1,dented
+1,covered with patches of mold
+1,damaged by a sonic attack
+1,damaged by acid
+
+;!MetalDamage
+1,battered
+1,corroded
+1,in disrepair
+1,covered with ice
+1,scarred
+1,burned
+1,dented
+1,covered with patches of mold
+1,damaged by a sonic attack
+1,damaged by acid
+
+;Broken
+8,
+1,, and after having opened it, it will be stucked open
+1,, and it will fall off its hinges when opened
+
+# ---------------------------------------------------------------------------
+
+;!Decorated
+30,There are no additional decorations[Chanceof]{If~%Chance%<15?, but there [OtherThings]/.}
+6,[DecoratedCommon]
+3,[DecoratedUncommon]
+1,[DecoratedRare]
+
+;!DecoratedCommon
+1,It has been carved [Carvings].
+1,It has <b>[Painted]</b> painted on it.
+1,It has [Ornament].
+1,It has a strange rune or sigil on it. It is [~Rune Generator.GenRune].
+1,This is actually a double doors.
+1,It is painted [~Miscellaneous.Color] and in good shape.
+1,It is painted [~Miscellaneous.Color] but in need of a new coat of paint.
+1,It is painted [~Miscellaneous.Color] and the paint is still wet.
+1,It is reinforced (break DC +3, +5 hp).
+
+;!DecoratedUncommon
+1,It has been inlaid with fine [Wood] patterns that resemble [Designs] [Chanceof]{If~%Chance%<75? and [Designs]}.
+1,It has been inlaid with fine [~Miscellaneous.Precious Material] patterns that resemble [Designs] [Chanceof]{If~%Chance%<75? and [Designs]}.
+1,It has been decorated with [Chanceof]{If~%Chance%<75? [Wood]/ [Metal]} latticework.
+1,It is magically reinforced. (Break DC 30 for wooden, DC 40 for stone/iron doors).
+1,It is moss-covered.
+1,It is covered with moulds and fungi.
+1,It is covered in [~Miscellaneous.Color] slime with {AorAn~[Miscellaneous.Odor]}.
+1,It has a knob or handle that falls off if touched.
+1,It has a doorbell.
+1,It is a huge double door with a row of ancient runes along the top. Try to get up there if you want to read them. Those are carved runes [DUN Graffiti.GenerateSpecial].
+1,It is fireproof.
+1,It is old but in good shape.
+1,It is old, in good shape but covered in cobwebs.
+1,It opens by itself when someone gets close to it.
+1,Its a fake. There's a blind wall behind it.
+1,One round after being opened, it swings back closed!
+1,The door contains a treasure. (Search DC<b>{Dice~1d10+10}</b> to find).
+1,There are stakes set into the door. It can't be bashed open. If a character bashes through the door, he is attacked by 1d6 stakes for 1d4 damage each. <b>|Roll={Dice~1d100}|{If~%Roll%<10? The stakes are invisible.}</b>
+1,When opened, a loud siren goes off for <b>{Dice~1d6}</b> round(s). (Or as the <i>alarm</i> spell).
+1,It has a symbol on it, a kind of coat of arms. It is [~CoatsOfArms.Start].
+
+;!DecoratedRare
+1,The door will explode if bashed open (3d6 fire damage, Ref save DC<b>{Dice~1d10+10}</b> in 5' radius).
+1,|Temp=1|It has been inlaid with [FineJewels] and [~Miscellaneous.Precious Material] that is worth <b>{Calc~({Dice~2d10*200}*%Temp%)}</b> gold pieces total if removed.
+1,It has been trimmed in [~Miscellaneous.Precious Material] and [Chanceof]{If~%Chance%<10? [FineJewels]/ [~Miscellaneous.Precious Material]} that is worth <b>{Dice~2d10*100}</b> gold pieces total if removed.
+1,It has a brass knob shaped like a <b>[Creatures.Start]'s</b> head. It will snap at any fingers coming close enough to touch it (+5 Attack Roll (20/x2), 1d6 damade, PC is surprised).
+1,It has SR<b>{Dice~1d10+10}</b>.
+1,It is an intelligent door. ([~Names Generator.NAME Random], [~Miscellaneous.Alignment2], {Generate~0,Click to generate personality,Miscellaneous.Personality}, {Generate~0,Click to generate one known rumor,Rumors.Alternate}).
+1,It is on fire! But it isn't consumed...
+1,The door knob gives a random disease if touched.
+1,The door turns to mud, sand or muck when opened.
+1,This is not a real door. Someone painted the door on the wall.
+1,Water is seeping through cracks from top to bottom...
+1,When touched, the door says "Go away!" "Leave me alone!" "Push off!" and similar unfriendly messages, as with a <i>magic mouth</i> spell.
+
+;AnotherOpening
+1,a peephole
+1,a {Dice~2d12}" wide x {Dice~2d18}" tall [Chanceof]{If~%Chance%<75? barred window/window}
+1,a ragged hole in the door
+1,a neatly [Chanceof]{If~%Chance%<75? drilled/burned} hole in the door about {Dice~1d3}" in diameter
+1,a {Dice~1d30+3}" crack
+
+;Carvings
+1,in a simple Gothic style design that depicts [Designs][Chanceof]{If~%Chance%<75? and [Designs]}
+1,in a simple Art Deco style design that depicts [Designs][Chanceof]{If~%Chance%<75? and [Designs]}
+1,in an intricate Gothic style design that depicts [Designs][Chanceof]{If~%Chance%<75? and [Designs]}
+1,in an intricate Art Deco style design that depicts [Designs][Chanceof]{If~%Chance%<75? and [Designs]}
+
+:!Designs
+1,squares
+2,rectangles
+3,triangles
+4,circles
+5,ovals
+6,various geometrical shapes
+7,flowers
+8,animals
+9,assorted fruits
+10,gargoyles
+11,heroic scenes
+12,boxes 
+
+;DoorKnockers
+1,a bull-headed
+1,a wolf-headed
+1,a dragon-headed
+1,an ape-shaped
+1,{AorAn~[Creatures.Humanoid]}-headed
+1,{AorAn~[Miscellaneous.Shape]}-shaped
+
+;!FineJewels
+1,Rubies|Temp+2|
+1,Emeralds|Temp+2|
+1,Garnets
+1,Diamonds|Temp+4|
+1,Amber
+
+;NamesBranch
+10,[Names Generator.NAME Random]
+10,|TempNumber={Dice~1d100}|{If~%TempNumber%>25? [Names Generator.NAME Human Male]/ [Names Generator.NAME Human Female]}
+4,|TempNumber={Dice~1d100}|{If~%TempNumber%>25? [Names Generator.NAME Dwarf Male]/ [Names Generator.NAME Dwarf Female]}
+6,[Names Generator.NAME Elf]
+3,|TempNumber={Dice~1d100}|{If~%TempNumber%>25? {Cap~[Names Generator.NAME Gnome Male]}/ [Names Generator.NAME Gnome Female]}
+2,[Names Generator.NAME Elf]
+2,[Names Generator.NAME Orc]
+1,|TempNumber={Dice~1d100}|{If~%TempNumber%>25? [Names Generator.NAME Halfling Male]/ [Names Generator.NAME Halfling Female]}
+
+;Ornament
+1,<b>{Dice~1d6+1}</b> [Chanceof]{If~%Chance%<50? arrows/bolts} stuck in it
+1,a dagger stuck in it
+1,a dagger and a note, stuck in it, [DUN Graffiti.Graffiti].
+1,a linen cover. With completely tasteless [~Miscellaneous.Color] flowers
+1,little carvings of <b>{Plural~[Creatures.Start]}</b> on it
+1,ornamental steel bands
+1,some flowers chiseled on it
+1,some intricate knotwork decorating it
+1,the heraldic symbols of [~Countries.Land] engraved on it
+1,the symbol of [~Religion.Deities] engraved on it
+
+;OtherThings
+5,is [AnotherOpening] [Chanceof]{If~%Chance%<25? located in the center of the door about {Dice~1d5}' off the floor/located about {Dice~1d5}' off the floor on the [Sides]-hand side of the door}
+1,|Temp=1|is [DoorKnockers] doorknocker made of [Chanceof]{If~%Chance%<90? [~Metal]/|Temp+3|[~Miscellaneous.Precious Material]}[Chanceof]{If~%Chance%<20? |Temp+3|, with [~FineJewels] for eyes}. It is located about 5' off the floor in the center of the door, and is worth <b>{Calc~({Dice~5d10*10}*%Temp%)}</b> gold pieces if removed
+1,|Temp=0|is a common ring-type doorknocker made of [Chanceof]{If~%Chance%<90? [~Metal]/|Temp+3|[~Miscellaneous.Precious Material]}[Chanceof]{If~%Chance%<20? |Temp+3|, with [~FineJewels] for accents}. It is located about 5' off the floor in the center of the door, and is worth {If~%Temp%=0? nothing if removed / <b>{Calc~({Dice~5d10*10}*%Temp%)}</b> gold pieces if removed}
+1,[Chanceof]is {If~%Chance%<75? a common ring-type/ [DoorKnockers]} doorknocker made of [~Metal]. It has no intrinsic value if removed.
+20,is[DUN Graffiti.GenerateDoor]
+
+;Painted
+1,a [~Creatures.Start]
+1,a big "X"
+1,a bunny rabbit
+1,a fist
+1,a dagger
+1,a helmet
+1,a map
+1,a shield
+1,a sword
+1,an axe
+1,an eye
+1,flowers
+1,the face of a dwarf
+1,the symbol of a god ([~Religion.Deities])
+1,two eyes
+1,two eyes and a mouth
+
+:Sides
+1,[Chanceof]{If~%Chance%<50? left/right}
+
+# ---------------------------------------------------------------------------
+
+;Trap
+75,None.<br>
+22,[Trap2]<br>
+3,|CurrentCount={Dice~1d2+1}| (%CurrentCount%)<br>{Loop~%CurrentCount%,-[Trap2]<br>}
+
+;Trap2
+9,[Traps.DoorTrapsMain]
+1,[Traps.Generate]
+
+# ---------------------------------------------------------------------------
+
+;Sound
+9,None.
+1,There is [Sounds] beyond the door.
+
+;Sounds
+1,an eerie moaning sound [NearDistance]
+1,the sound of chains being rattled [NearDistance]
+1,[Chanceof]{If~%Chance%<50? the clink of metal/a sharp clank of metal} [NearDistance]
+1,[Chanceof]{If~%Chance%<75? footsteps/the sound of something running} [NearDistance]
+1,a slight whispering sound
+1,shuffling sounds
+1,muffled whispers that could be conversation
+1,the sound of a closing door [NearDistance]
+1,the sounds of dripping water
+5,a sound of [~Miscellaneous.Sound] [NearDistance]
+
+:NearDistance
+1,[Chanceof]{If~%Chance%<75? in the distance/nearby}

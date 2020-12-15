@@ -1,0 +1,167 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder Sept 15, 2006.
+# ---------------------------------------------------
+#
+# Game Setup
+#
+# Modified by Valminder, April 2002.
+#
+# Source: Cities of Mystery.
+#
+# Modified by Valminder April 2002
+#    I modified the "City Encounters" table.
+# Modified by Valminder, Jan 2006.
+#    Adapted for TSv5.
+#    Added link to: "City District Map.Alternate"
+# Modified by Valminder, Sept 2006.
+#    Changed the way it works with "City Encounters.tab".
+#
+
+/OverrideRolls 1
+
+%Counter%,0
+%Total%,0
+%tod%,0
+%ENC_URE%,No
+
+@tod,2,Time of Day,Show Instructions,Random,Day,Night,Morning,Afternoon,Evening,Midnight
+@ENC_URE,,DO NOT MODIFY --- For ENC Ultimate Random Encouter
+
+:Start
+1,{Status~From Cities of Mystery boxed set (TSR)}
+_{If~%tod%=1 ? [Instructions]/[Alternate]}
+
+:Instructions
+1,Use parameters to change the time of day.
+
+# This Alternate subtable generates without the input function.
+:Alternate
+1,<b><u>Time</u>:</b> [ShowTime=%tod%]<br><br>[alley=1][street=1][lg street=1][major=1]
+_<br>{Generate~0,Click to generate Backstreet map,MAP City District.Alternate}
+
+:ENC_URE
+1,[ENC_URE_Time][alley=%tod%]{Space~5}[street=%tod%]{Space~5}[lg street=%tod%]{Space~5}[major=%tod%]
+#_<br>{Generate~0,Click to generate Backstreet map,MAP City District.Alternate}
+#_[ENC Ultimate Random Encounter.ShowMap2=4]
+
+:ENC_URE_Time
+1,{If~%ENC_URE%=Morning?|tod=5|
+_     /{If~%ENC_URE%=Afternoon?|tod=6|
+_     /{If~%ENC_URE%=Evening?|tod=7|
+_     /{If~%ENC_URE%=Night?|tod=4|
+_}}}}
+
+:ShowTime
+1,[Instructions]
+2,|tod={Dice~1d6+2}|[ShowTime=%tod%]
+3,Day
+4,Night
+5,Morning
+6,Afternoon
+7,Evening
+8,Midnight
+
+:Generate
+1,{Input~tod,Time of Day? 1=Instructions 2=Random 3=Day 4=Night 5=Morning 6=Afternoon 7=Evening 8=Midnight,2}
+_[Alternate]
+
+:alley
+1,<b><u>Alley</u>:</b> |Counter=1|{If~{Dice~1d100}<60?|Total={Dice~1d2}|[GenEnc]/None<br>}|Counter=0|
+# Night
+2-4,{Generate~0,ALLEY,Alley_Night}
+# Morning
+5,{Generate~0,ALLEY,Alley_Morning}
+# Afternoon
+6,{Generate~0,ALLEY,Alley_Afternoon}
+# Evening
+7,{Generate~0,ALLEY,Alley_Evening}
+
+:Alley_Night
+1,<br><b><u>Alley</u>:</b>|tod=4||Counter=1|{If~{Dice~1d100}<60?|Total={Dice~1d2}|[GenEnc]/ None<br>}|Counter=0|
+
+:Alley_Morning
+1,<br><b><u>Alley</u>:</b>|tod=5||Counter=1|{If~{Dice~1d100}<60?|Total={Dice~1d2}|[GenEnc]/ None<br>}|Counter=0|
+
+:Alley_Afternoon
+1,<br><b><u>Alley</u>:</b>|tod=6||Counter=1|{If~{Dice~1d100}<60?|Total={Dice~1d2}|[GenEnc]/ None<br>}|Counter=0|
+
+:Alley_Evening
+1,<br><b><u>Alley</u>:</b>|tod=7||Counter=1|{If~{Dice~1d100}<60?|Total={Dice~1d2}|[GenEnc]/ None<br>}|Counter=0|
+
+:street
+1,<br><b><u>Street</u>:</b><br>|Counter=1|{If~{Dice~1d100}<60?|Total={Dice~1d4}|[GenEnc]/None<br>}|Counter=0|
+# Night
+2-4,{Generate~0,STREET,Street_Night}
+# Morning
+5,{Generate~0,STREET,Street_Morning}
+# Afternoon
+6,{Generate~0,STREET,Street_Afternoon}
+# Evening
+7,{Generate~0,STREET,Street_Evening}
+
+:Street_Night
+1,<br><b><u>Street</u>:</b>|tod=4||Counter=1|{If~{Dice~1d100}<60?|Total=1|[GenEnc]/ None<br>}|Counter=0|
+
+:Street_Morning
+1,<br><b><u>Street</u>:</b>|tod=5||Counter=1|{If~{Dice~1d100}<80?|Total={Dice~1d4}|[GenEnc]/ None<br>}|Counter=0|
+
+:Street_Afternoon
+1,<br><b><u>Street</u>:</b>|tod=6||Counter=1|{If~{Dice~1d100}<80?|Total={Dice~1d4}|[GenEnc]/ None<br>}|Counter=0|
+
+:Street_Evening
+1,<br><b><u>Street</u>:</b>|tod=7||Counter=1|{If~{Dice~1d100}<70?|Total={Dice~1d3}|[GenEnc]/ None<br>}|Counter=0|
+
+:lg street
+1,<br><b><u>Large Street</u>:</b><br>|Counter=1|{If~{Dice~1d100}<60?|Total={Dice~2d3}|[GenEnc]/None<br>}|Counter=0|
+# Night
+2-4,{Generate~0,LARGE STREET,Large_Street_Night}
+# Morning
+5,{Generate~0,LARGE STREET,Large_Street_Morning}
+# Afternoon
+6,{Generate~0,LARGE STREET,Large_Street_Afternoon}
+# Evening
+7,{Generate~0,LARGE STREET,Large_Street_Evening}
+
+:Large_Street_Night
+1,<br><b><u>Large Street</u>:</b>|tod=4||Counter=1|{If~{Dice~1d100}<70?|Total={Dice~1d2}|[GenEnc]/ None<br>}|Counter=0|
+
+:Large_Street_Morning
+1,<br><b><u>Large Street</u>:</b>|tod=5||Counter=1|{If~{Dice~1d100}<90?|Total={Dice~2d2}|[GenEnc]/ None<br>}|Counter=0|
+
+:Large_Street_Afternoon
+1,<br><b><u>Large Street</u>:</b>|tod=6||Counter=1|{If~{Dice~1d100}<90?|Total={Dice~2d3}|[GenEnc]/ None<br>}|Counter=0|
+
+:Large_Street_Evening
+1,<br><b><u>Large Street</u>:</b>|tod=7||Counter=1|{If~{Dice~1d100}<70?|Total={Dice~2d2}|[GenEnc]/ None<br>}|Counter=0|
+
+:major
+1,<br><b><u>Major Street</u>:</b><br>|Counter=1|{If~{Dice~1d100}<60?|Total={Dice~2d4}|[GenEnc]/None<br>}|Counter=0|
+# Night
+2-4,{Generate~0,MAJOR STREET,Major_Street_Night}
+# Morning
+5,{Generate~0,MAJOR STREET,Major_Street_Morning}
+# Afternoon
+6,{Generate~0,MAJOR STREET,Major_Street_Afternoon}
+# Evening
+7,{Generate~0,MAJOR STREET,Major_Street_Evening}
+
+:Major_Street_Night
+1,<br><b><u>Major Street</u>:</b>|tod=4||Counter=1|{If~{Dice~1d100}<80?|Total={Dice~1d3}|[GenEnc]/ None<br>}|Counter=0|
+
+:Major_Street_Morning
+1,<br><b><u>Major Street</u>:</b>|tod=5||Counter=1|{If~{Dice~1d100}<90?|Total={Dice~2d3}|[GenEnc]/ None<br>}|Counter=0|
+
+:Major_Street_Afternoon
+1,<br><b><u>Major Street</u>:</b>|tod=6||Counter=1|{If~{Dice~1d100}<90?|Total={Dice~2d4}|[GenEnc]/ None<br>}|Counter=0|
+
+:Major_Street_Evening
+1,<br><b><u>Major Street</u>:</b>|tod=7||Counter=1|{If~{Dice~1d100}<70?|Total={Dice~2d3}|[GenEnc]/ None<br>}|Counter=0|
+
+:GenEnc
+#1,{If~%Counter%<=%Total%?[City Encounters.Start(%tod%)]<br>|Counter+1|[GenEnc]} 
+1,{If~%Counter%<=%Total%?[GenEnc2]}
+
+:GenEnc2
+1,{If~%ENC_URE%!=No?{If~%Total%>1?{If~%Counter%=1?{CR~}}%Counter%-}}
+_ [City Encounters.Start(%tod%)]|Counter+1|
+_{If~%Counter%<=%Total%?[GenEnc]}

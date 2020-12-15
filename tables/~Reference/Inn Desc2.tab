@@ -1,0 +1,579 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder Dec 20, 2005.
+# ---------------------------------------------------
+#
+# Inn Desc 2
+# This table is a composed from many sources of the web. These are not my
+# descriptions, Just my format to Table Smith. If you make any changes or
+# add new descriptions please send me a copy of the changes:
+# odell_williams@hotmail.com
+#
+# Rolls random description for an Inn or Tavern
+# Uses the Following Tables:
+#     Inn and Tavern Names 	By: Bruce A. Gulke
+#
+# This table when combined with Tavern Patrons table (by me), Inn Events
+# table (by me) and Inn Menu Table (By: Bruce A. Gulke) makes a good complete
+# Inn or Tavern.
+#
+# Modified by Valminder, Jan 2004.
+#    I now use this table to work with "Inn Generator.tab".
+#    It gives a more thorough description of an Inn.
+#    I added links to:
+#       Names Generator.NAME Human Female
+#       NPC Appearance.Eyes
+#
+# Modified by Valminder, Nov 2005.
+#    I added links to:
+#       Miscellaneous.Wood
+#
+#############################################################################
+
+%Inn%,Ye Olde Inn
+%Wood%,oak
+
+:Start
+1,|Inn=[Inn and Tavern Names.Names]|
+_<font color=purple><font size=2><b>Note:</b> Look at the bottom for the menu and the patrons of the inn.<br><br></font></font>
+_[Sign]<br><br>
+_[Construction]<br><br>
+_[Entrance]<br><br>
+_[Common Room]<br><br>
+_[Kitchen]<br><br>
+_[Cellar]<br><br>
+_[Stairs]<br><br>
+_[Guest Rooms]<br><br>
+_[Owners Room]<br><br>
+_[Stables] <br><br>
+#_[Inn Owner.Start] <br>
+_<hr>The tavern offers the following:<br><br>[Inn Menu.Generate]<br>
+_[Tavern Patrons.Start]
+
+# This is for the "Inn Generator.tab" table.
+:Alternate
+1,<br><hr><br><b><u>Inn's Description</u>:</b><br><br>
+_<u>Sign</u>: [Sign2]<br><br>
+_<u>Description</u>: [Inn Descr]<br><br>
+_<u>Construction</u>: [Construction]<br><br>
+_<u>Entrance</u>: [Entrance]<br><br>
+_<u>Common Room</u>: [Common Room]<br><br>
+_<u>Kitchen</u>: [Kitchen]<br><br>
+_<u>Cellar</u>: [Cellar]<br><br>
+_<u>Stairs</u>: [Stairs]<br><br>
+_<u>Rooms</u>: [Guest Rooms]<br><br>
+_<u>Owner's Room</u>: [Owners Room]<br><br>
+_<u>Stables</u>: [Stables] <br><br>
+
+# Sign
+#############################################################################
+;Sign
+1,The sign of <b>"%Inn% "</b> is to the [Direction]; you can tie your horses on the [Direction] side of the building. [Inn Descr]
+1,A small sign hangs outside above the main entrance to the inn with the words <b>"%Inn%"</b> carved into it. [Inn Descr]
+1,On a small post is a sign which reads <b>"%Inn%"</b>. [Inn Descr]
+1,Above the main door hangs a sign that reads <b>"%Inn%"</b>. [Inn Descr]
+1,A sign for the <b>"%Inn%"</b> juts out into the road secured by chains to a stout iron bracket above the door. [Inn Descr]
+1,The exterior of this building has a jutting wrought iron sign proudly displaying <b>"%Inn%"</b> the taverns name. [Inn Descr]
+
+;Sign2
+1,The sign of this Inn is to the [Direction]; you can tie your horses on the [Direction] side of the building.
+1,A small sign hangs outside above the main entrance to the inn with the name of the Inn carved into it.
+1,On a small post is a sign which reads the name of the Inn.
+1,Above the main door hangs a sign with the name of the Inn.
+1,A sign for the Inn juts out into the road secured by chains to a stout iron bracket above the door.
+1,The exterior of this building has a jutting wrought iron sign proudly displaying the tavern's name.
+
+;Direction
+1,right
+1,left
+
+# Description
+#############################################################################
+;Inn Descr
+1,This seedy establishment is devoted to drinking - hard drinking - nothing but drinking.
+1,This is a neighborly tavern noted for the good behavior of its patrons.
+1,This is the oldest inn in town, providing rooms to sleep in, rooms to meet in, an open commons room, a bar, full food services and nightly entertainment.
+1,This small, seedy little establishment is only known for its fighting stage, where fisticuffs and other sorts of matches are regularly scheduled.
+1,It is especially well known for its desserts, and even nobles will venture into the inn to partake of its cherries jubilee, pastries, puddings and parfaits.
+1,This establishment is open 24 hours a day and has a working relationship with the town guards and the local community to remain a relatively safe haven for its patrons.
+1,This is a somewhat unsavory establishment known for its expensive and unique house specialty, the "Spider's Web," a lethal concoction of five varieties of hard alcohol, three fruit juices, and a drop or two of tincture of opium.
+1,It is most popular for [~Names Generator.NAME Human Female] the blue-eyed, voluptuous, tawny-blonde beauty who dances in the tavern three times a night, twice a week.
+1,The occasional hooker might pass through, and a gambler or sharp trader might set up business at one of the tables, but unless they consume their space's worth, they're encouraged to go elsewhere.
+1,Known as a bit of a shady establishment, the establishment is long suspected of being a thief's den, but as of now the Watch have been unable to prove any allegations.
+1,This is a highly contrived place, a dark and dangerous establishment, filled with colorful strangers and run with an iron hand.
+1,It is here that hardened heroes come to trade stories and news, and to be hired by the mysterious strangers that always seem to be hanging around in the shadows by the fireside.
+1,The Inn holds an unlimited amount of people and has several elaborate rooms upstairs for the weary traveler or perhaps and excited couple or two.
+1,The inn used to be known as the "Red Wench" after one of the prior bar maids!
+1,The inn used to be known as the "Bloody Fist" after the bare-knuckle fights held weekly.
+
+# Construction
+#############################################################################
+;Construction
+1,The inn is constructed from [Construction Material]
+1,The building was constructed over <b>{Dice~4d10+10}</b> years ago of [Construction Material]
+1,The building is solidly built of [Construction Material]
+1,The building is built around a wooden frame, [Fill]
+
+;Construction Material
+1,masonary. [Roof Construction]
+1,timber frame  [Fill]
+1,fieldstone. [Roof Construction]
+1,half-frame [Fill]
+1,timber. [Roof Construction]
+1,stone. [Roof Construction]
+1,nice squared and mortared stone. [Roof Construction]
+1,irregular stone. [Roof Construction]
+1,cobble stones. [Roof Construction]
+1,irregular brick sizes. [Roof Construction]
+1,all wood construction. [Roof Construction]
+1,of local stone and lumber. [Roof Construction]
+1,common granite fieldstone. [Roof Construction]
+
+;Fill
+1,with brick fill. [Brick Type]
+1,with nice squared and mortared stone. [Roof Construction]
+1,with cobblestone fill. [Roof Construction]
+1,with irregular brick fill. [Roof Construction]
+1,with irregular stone fill. [Roof Construction]
+1,with fieldstone fill. [Roof Construction]
+1,with stone fill. [Roof Construction]
+1,with common granite fieldstone fill. [Roof Construction]
+
+;Brick Type
+1,The brickwork is made of a mix of the local clay-laden soil and grasses baked in the sun. [Roof Construction]
+1,The bricks are the bright red color of the local clay. [Roof Construction]
+1,[Roof Construction]
+
+;Roof Construction
+1,The whole of this building is roofed with [Roof]
+1,The roof is covered with [Roof]
+1,The roof is made of [Roof]
+1,[Porch]
+
+;Roof
+1,baked-clay tiles. [Porch]
+1,clay tiles. [Porch]
+1,thatch. [Porch]
+1,tile. [Porch]
+1,lead sheets. [Porch]
+1,slate tiles. [Porch]
+1,wooden shingles. [Porch]
+1,straw. [Porch]
+1,reddish brown tiles. [Porch]
+1,grey-brown tiles. [Porch]
+1,interlocking scalloped red terra cotta tiles. [Porch]
+
+;Porch
+1,The front porch offers shelter from the weather and sun. [Upper Story]
+1,The main floor of the inn is raised a foot above ground level and is accessible by climbing three wooden steps. [Upper Story]
+1,The ground floor of this establishment is raised a foot above street level to keep rain water flowing out rather than in. [Upper Story]
+1,The front porch wraps around both sides of the building. [Upper Story]
+1,[Upper Story]
+
+;Upper Story
+1,The upper story overhangs the lower by about five feet. [Windows]
+1,The second story support beams stick out through the outer wall to provide the anchor for an awning against the summer heat. [Windows]
+1,The upper story has been painted an apricot color. [Windows]
+1,The upper level is whitewashed each season. [Windows]
+1,The beams of the upper floor are exposed and grayed with age. [Windows]
+1,[Windows]
+
+;Windows
+1,The building room has large windows, giving it plenty of light during the daytime and shutters to ward of the cold of night.
+1,The Inn has a few small-unglazed windows with oxhide shutters.
+1,At night, the diamond-paned windows flicker with a warm light, and the sounds of merriment burst forth whenever the heavy wooden door is opened.
+1,The Inn has a few small-unglazed windows with small wooden shutters.
+1,There are several shuttered windows on the wall, all painted red.
+1,Windows on the ground and upper floors are small and covered by unpainted shutters during cool or windy nights.
+1,The building has several large windows, each with graying wooden shutters that creak from age when they move.
+1,The Inn has lots of small windows which have small triangulate pains of leaded glass.
+1,Unusually for the district, all the windows are glazed, with some being shuttered on the inside.
+1,On warm nights the shutters are opened to allow the cooling breeze to flow through.
+1,There are two large windows at the front of the Inn looking out to the front cobblestone path.
+1,Large arched windows, in turned hardwood frames, are decorated with boxes of flowers and tumbling ivy.
+1,The bow fronted leaded windows are unusual and are like nothing you have ever seen.
+1,The front windows are made out of cut glass.
+1,
+
+# Entrance
+#############################################################################
+:Entrance
+1,The main entry [Entrance 1]
+2,The only entrance [Entrance 1]
+3,The main entrance [Entrance 1]
+4,The entrance [Entrance 1]
+
+:Entrance 1
+1,to this establishment is through a [Door]
+2,is a [Door]
+3,is through a [Door]
+
+:Door
+1,pair of large double doors [Door Construction]
+2,stout wooden door [Door Construction]
+3,heavy |Wood=[Wood]|%Wood%-paneled door [Door Construction]
+4,pair sturdy double doors [Door Construction]
+5,heavy ornately-carved door [Door Construction]
+6,large and ornately carved double doors [Door Construction]
+
+;Wood
+1,oak
+1,pine
+1,fir
+1,maple
+1,ash
+1,[~Miscellaneous.Wood]
+
+:Door Construction
+1,constructed of reinforced iron. [Entryway]
+2,with metal reinforced studs along its length and breadth. [Entryway]
+3,wich appear newly constructed. [Entryway]
+4,wich open easily to reveal the front lobby. [Entryway]
+5,. [Entryway]
+
+;Entryway
+1,The entranceway is richly decorated with fine wood paneling around its entirety and finely carved molding around the doors and archways. [Front Desk]
+1,Directly ahead, as you enter the lobby, a staircase of fine wood ascends to the inn's upper floors. [Front Desk]
+1,All the interior woodwork is carefully crafted and detailed with running vines and grass-flowers. [Front Desk]
+2,The tavern has a comfortable lobby where you can wait for friends to join you before leaving or as you arrive. [Front Desk]
+2,The short hall opens onto the large lobby of the inn. [Front Desk]
+2,The entrance hall is lined by wood paneling darkened by age, with a good quality wood block floor. [Front Desk]
+2,The entrance is illuminated by lanterns placed on either side of the main entrance. [Front Desk]
+2,The large windows on the right wall form niches into which two bench seats have been placed. [Front Desk]
+
+:Front Desk
+1,Here is located the front desk. [Front Desk Descr]
+2,The front desk is located here. [Front Desk Descr]
+3,This is where the front desk is located. [Front Desk Descr]
+4,The front desk is located in this room. [Front Desk Descr]
+5,In the front entrance is the inn's front desk. [Front Desk Descr]
+
+;Front Desk Descr
+1,The front desk is indeed a well-crafted piece of furniture. [Front Desk Descr 1]
+3,This long and finely detailed counter is clean and well polished. [Front Desk Descr 1]
+1,Fashioned from ash and stained a rich, dark color, it is carved along its edges with scenes of frolicking elves and prancing unicorns. [Front Desk Descr 1]
+1,Highly polished brass fittings add to its impressive look. [Front Desk Descr 1]
+3,A finely engraved wooden plaque has been fastened to the wall above the front desk, which is the price of rooms. [Front Desk Descr 1]
+1,Behind the Desk, built into the back wall of the room, is a cabinet of small boxes or pigeonholes, each with a numbered brass plate below it. [Front Desk Descr 1]
+
+;Front Desk Descr 1
+1,Upon it sits a fine brass bell and a large open book with leather binding.
+1,Keys hang from little hooks near each of the room tags, with quite a number of keys missing.
+1,Ringing the bell will bring owner to the area quickly, if not already present.
+1,Here everything is warm and inviting.
+1,Hanging brass lanterns polished to a mirror-like finish, light the area well and gives the room a cozy, warm feeling.
+1,Double doors lead to the to the public common room.
+1,Arrangements for the hire of rooms can be made here.
+
+:Condition
+1,has major faults
+2,is in a bad state of repair
+3,has minor faults
+4,is in good state of repair
+5,is well maintained
+6,looks like new
+7,is a clean and well tended place
+8,is in good shape
+9,is neat and well-constructed
+
+# Common Room
+#############################################################################
+:Common Room
+1,The common room is a backward "C" shape around the kitchen/stairs, creating many corners for quiet conversation. [Common Room Descr]
+2,The layout of the common room is rectangular, with the kitchen in one corner. [Common Room Descr]
+3,The inside of the common room is comfortably dark and filled with the smells of good food and fine drink. [Common Room Descr]
+4,The common room is just a great hall with a floor of fir planks. [Common Room Descr]
+5,The common room is roughly square and separated from the main body of the inn by a central door. [Common Room Descr]
+6,The common room (roughly L-shaped) is spacious by rural standards. [Common Room Descr]
+7,A large common room with seven-foot ceilings, a bar, fireplace and stairs occupy the central area of the inn. [Common Room Descr]
+8,The common room is where all alcohol and food is served. [Common Room Descr]
+9,The common room is a rich room of dark woods and dancing shadows. [Common Room Descr]
+10,The common room is quite large with a seemingly low beamed roof, the walls are whitewashed and the floor is of cream flagstone , which are scrubbed daily. [Common Room Descr]
+11,The elegant decor of the common room is quite dark and restful, almost somber. [Common Room Descr]
+
+:Common Room Descr
+1,Large beams and studs cut from oak and elm support the ceiling and walls of this  room. [Bar Descr]
+2,This large and well-lit room is accessible by two small steps leading from the lobby. [Bar Descr]
+3,Two large oak pillars support the ceiling, each seemingly carved from old and weathered trees that have grown through the floor. [Bar Descr]
+4,Light is flooded into the chamber by five burning, brass lanterns and three large windows. [Bar Descr]
+5,Two windows allow patrons a clear view of the goings-on on the road outside the inn. [Bar Descr]
+6,All about the room hooded lanterns have been hung, giving the room a warm, cozy feeling. [Bar Descr]
+7,The smell of cooking food teases the pallet from the kitchen beyond, where the sounds of preparation can be heard. [Bar Descr]
+8,The room is illuminated by candlesticks placed on the tables and oil-lanterns around the walls. [Bar Descr]
+9,There are some unusual cast bronze oil lamp fittings too. [Bar Descr]
+10,If you're lucky you may even see the ghost, said to be that of an officer who was flogged to death for cheating at cards. [Bar Descr]
+11,[Bar Descr]
+
+:Bar Descr
+1,The bar is well stocked with ale, mead and cider. [Tables]
+2,Wine and brandy are kept under lock and key. [Tables]
+3,Drinks, other than ale, will generally not be served without a meal before noon. [Tables]
+4,The bar is in the far corner of the room, behind which is the Inn's small brew room, and ale and wine store. [Tables]
+5,Along a [Wood]-panel wall rest the casks of ales, cider, and mead on a stout table. Drinking horns hang from knotted straps above the casks. [Tables]
+6,The bar offers the usual complement of drinks, and a clientele of regulars that enjoys gambling on card games, dice games or dagger pitching.
+7,Stools line the wooden bar, giving patrons a comfortable place to relax as they sip upon ale or wine
+8,The bar of dark wood stands against the wall. [Tables]
+9,The bar is Huge, with a gold railing surrounding it, and plenty of barstools sit on. [Tables]
+10,Behind the bar shelves are stocked with every drink imaginable. [Tables]
+11,[Tables]
+
+:Tables
+1,Trestle tables and benches of mismatched sizes fill the area. [Fireplace]
+2,It has 3 long tables, plus benches along the outside walls, with smaller tables filling the center of the room. [Fireplace]
+3,There are booths going around the walls with smaller tables filling in the center. [Fireplace]
+4,There is seating for up to 40 people comfortably on stools and rough-made chairs. [Fireplace]
+5,The common room has several rough benches scattered about, with tables that line the walls. [Fireplace]
+6,The common is filled with tables, seating just over thirty and is warmed by two large fireplaces. [Fireplace]
+7,Square tables fill one side of the room with round tables spaced to fill the remaining area. [Fireplace]
+8,The entire room is dotted with sizable round tables, each surrounded by several chairs
+9,There are several tables of different sizes and large posts in between obviously holding up the ceiling. [Fireplace]
+10,A literal forest of well-kept, circular wooden tables fill the dining hall, each surrounded by matching high-backed chairs.  [Fireplace]
+11,[Fireplace]
+
+:Fireplace
+1,In the middle of the main hall is a stone fireplace below a smokehole in the peaked thatch roof.
+2,The fire is always lit with charcoal or hardwoods, although it often is little more than smoldering embers.
+3,Against the short southern wall on either side of the stone fireplace rest many wine casks, their tops facing the room and branded with labels in strange scripts.
+4,There is a fireplace, shared with the kitchen, in the southwest corner.
+5,The illumination is provided by the fireplace (and oil lamps if additional light is needed).
+6,A large stone fireplace occupies most of one wall, with two brass bins to either side containing kindling or larger logs respectively.
+7,A large fire burns in the grate and a smaller one nearer the bar lends its own warmth to the room.
+8,A large, cheery fireplace stands against the one wall, while a second, smaller fireplace stands in the opposite wall.
+9,A large open fireplace displays highly polished tools of brass in one corner of the room.
+
+# Kitchen
+#############################################################################
+:Kitchen
+1,The kitchen is separated from the main room by a bar-table and by the fireplace. [Kitchen Fireplace]
+2,The kitchen occupies one corner of the common room, and opens directly in to it. [Kitchen Fireplace]
+3,The kitchen shares a fireplace with the common room and has a baking oven on the top of the furnace. [Kitchen Fireplace]
+3,At the back  of the main floor is the kitchen, with its own stone firepit and chimney. [Kitchen Fireplace]
+4,A large plate-glass window in the kitchen allows plentiful amounts of light into this chamber, keeping it bright. [Kitchen Fireplace]
+5,Guests are rarely welcomed into the kitchen unless they are delivering meat to be cooked. [Kitchen Fireplace]
+6,Meals can be taken to rooms if desired; but guests are required to come down to the kitchen and get them, unless a serving girl is paid to fetch their dinner. [Kitchen Fireplace]
+7,The large kitchen is laid out in a neat and orderly fashion so as to facilitate work. [Kitchen Fireplace]
+
+:Kitchen Fireplace
+1,A tiny oven on the side of the fireplace seems far too small to produce the immense number of baked goods required for the inns meals. [Kitchen Counter]
+2,The hearth always holds baking tins for bread and biscuits, as well as pots of stew and cooking meat. [Kitchen Counter]
+3,The massive stone fireplace always has a fire burning steadily within. [Kitchen Counter]
+4,Two great fireplaces are kept burning here close to 20 hours out of every day, cooking the delicious meals that make the inn's menu so famous. [Kitchen Counter]
+5,The one end of the room is filled by a large inglenook fireplace, bread oven, wood-store and butler's sink. [Kitchen Counter]
+6,[Kitchen Counter]
+
+:Kitchen Counter
+1,The kitchen counters are lined with preserves and spice bottles. [Kitchen Table]
+2,Shelves have been built along the southern wall and are crammed with an assortment of fine dinnerware, goblets, steins, and cutlery. [Kitchen Table]
+3,Two large cabinets hold a variety of spices and herbs, while supplies such as flour and oil are kept in one corner. [Kitchen Table]
+4,There is a  large bookcase-like shelf, jammed full of jars and bottles of spices, herbs and the like. [Kitchen Table]
+5,The walls lined with shelves of dried, pickled, smoked and salted meats and vegetables. [Kitchen Table]
+6,What walls that are not covered by shelves are whitewashed, but much blackened by smoke. [Kitchen Table]
+7,A pantry filled with cheeses, jars and pots of pickles, honey and fruit, flour occupies a corner of the room. [Kitchen Table]
+8,[Kitchen Table]
+
+:Kitchen Table
+1,A large table in the center of the kitchen is a hub of activity ranging from carving and chopping to pastry rolling. [Kitchen Pots]
+2,In the center of the room is a large block of wood, marred by many scrapes and cuts. Its original color is lost amongst stains of food and blood. [Kitchen Pots]
+3, In the center of the kitchen are two massive wooden blocks. Each is marred by stains and gouges but seem to be sturdy and well kept. [Kitchen Pots]
+4,The final furnishings are a large kitchen table and dresser. [Kitchen Pots]
+5,[Kitchen Pots]
+
+:Kitchen Pots
+1,Hanging from the ceiling is a veritable forest of hanging pots, pans, and kettles of all types. [Kitchen Exit]
+2,Pots and pans of all shapes and sizes hang from the walls. [Kitchen Exit]
+3,Pot, kettles and tied herbs hang from the ceiling.
+4,[Kitchen Exit]
+
+:Kitchen Exit
+1,There is a door opening to the back of the Inn[Backyard]
+2,Another door opens to the backyard[Backyard]
+3,There is an exit to the back of the inn[Backyard]
+4,There is a smaller door leading out from the kitchen to a small garden plot.
+5,A side door to the garden is located at the back of the kitchen.
+6,There is a door with a latch, opening to the backyard[Backyard]
+7,
+
+:Backyard
+1,, where there is a garden plot.
+2,, where there is a huge garden.
+3,. The backyard is fenced (to keep the animals inside and others' outside), and there is a small garden plot in the backyard (with a sturdy fence to keep the pigs out).
+4,. The delightful courtyard garden at the rear (centuries ago, an animal pen), is brick paved and planted with flowers.
+5,. The superb garden has plenty of seating and is well used on warm days.
+6,. On fine days the garden is the place to be, nicely laid-out with plenty of tables.
+7,. Outside there are two pleasant seating areas, with climbing plants and hanging baskets of flowers.
+
+# Cellar
+#############################################################################
+:Cellar
+1,The cellar is a little more than a crawl space 4' high beneath the kitchen. [Cellar Descr]
+2,The cellar floor is about 1 meter below ground. [Cellar Descr]
+3,Below the kitchen there is a cellar with a 6-foot ceiling running the width of the building and north for half the length of the building. [Cellar Descr]
+4,The cellar is partially underground and the upper floor is built on the top of it, i.e. is slightly above the ground floor (about 1 meter). [Cellar Descr]
+5,The basement of the inn is a roughly hewn room just below the kitchen. [Cellar Descr]
+6,The cellar is vast, musty and dark, consisting of rough hewn masonry walls, with regularly spaced columns holding up the vaulted ceiling, and a rough flagstone floor. [Cellar Descr]
+
+:Cellar Descr
+1,The walls are of stone but the floor is packed earth. [Cellar Storage]
+2,The cellar is where the inn brews the ales, meads, and ciders that are sold. [Cellar Storage]
+3,There is no source of light in this room. [Cellar Storage]
+4,During the long winter, the cellar is plagued by mice, so all stored food is protected as best they can, but there is always a chance of spoilage. [Cellar Storage]
+5,The cellar is accessed through a trapdoor beneath the cutting board in the kitchen, via a stout ladder. [Cellar Storage]
+6,A table in the kitchen covers the trapdoor leading to the cellar. [Cellar Storage]
+7,The circular staircase down into the basement leads into a room that remains cool even in the hottest days of the year. [Cellar Storage]
+8,Four strong timber posts have been driven into the hard, packed earth floor to support the weight of the inn.
+9,Stair leads down into the inn's secondary supply room in the cellar.  They are old and creak loudly if walked upon, but they are sturdy and not dangerous.
+10,Accessible only by a door on the outside leading to stairs down, this cellar is damp and chilly
+11,The cellar contains a secret door to a small room containing the owners treasure stash of gold and gems totaling <b>{Dice~2d100+100}</b> gp.
+12,The room is totally unilluminated by natural sources.
+13,Their are also two trapdoor set in the ceiling, one leads to the bar and is used to hoist barrels between the two areas, the second trap door is at the top of an inclined ramp, used for delivering barrels and sacks of grain, where the trap door opens out. [Cellar Storage]
+14,[Cellar Storage]
+
+:Cellar Storage
+1,The room is cool year round and most goods are stored on blocks of wood to prevent damage from minor flooding during heavy rains.
+2,Stored here are several barrels of mead, ale and beer, plus any other preserved foodstuff that the inn has.
+3,The cellar is where all the inn's food is stored: great stoneware urns filled with brine and pickled meats and vegetables, dried apples hanging on linen threads, cabbages and onions on pine shelves  whole hams hanging from the ceiling, salted fish in pine boxes, 50-pound sacks of rye, oats, and barley on flagstone benches, 16-gallon casks of vinegar, cider, mead and ale, and sometimes some local cheeses wrapped in linen.
+4,The cellar is filled with hundreds of shillings worth of wines, drugs, spices, and preserved foods.
+5,The cellar contains barrels of food and ale and a secret door to a small room containing the owners treasure stash of gold and gems totaling <b>{Dice~2d100+100}</b> gp.
+6,Scattered about this underground chamber are assorted piles of crates, bags, barrels and casks.
+7,It is here that all of the vegetables, wines, ales, and dried foods. The meat is not stored, but rather brought fresh every morning from other merchants in town.
+8,This dark room is lined with large oak casks of wine, ale, beer, brandy, and whisky.  Each barrel is marked to denote contents and the date it was made.
+9,Along the west wall is a floor-to-ceiling wine rack, filled with dusty bottles of wine of all kinds.
+10,The cellar is filled with varying amounts of furniture, supplies, and building materials.
+11,Descending the stairs from the kitchen brings workers to the cellar, where most of the inn's supplies are kept.
+12,Found here are barrels of sausages, pickles, onions, and fish. Sacs of flour, wheat, grain, rice, and potatoes are also stored here.
+13,The cellar is filled with a variety of crates, sacs and barrels. The crates contain such things as dried herbs and spices (thyme, bay, ginger, and cinnamon). The sacs contain rice, wheat, flour and the four large barrels against the south wall are filled with the Nightingale's own house wine.  There are two barrels of both the red and white.
+14,Most of the fruits and vegetables are shipped to the inn on a daily basis, but many of the herbs, oils, sauces, and drink are stored here.
+15,The cellars is filled with barrels, some standing singly, others on rack up to four deep.
+16,It is said that a prisoner lost his life in the cellar under the pub whilst trying to escape and that his ghost still haunts the cellars today!
+
+# Stairs
+#############################################################################
+:Stairs
+1,A flight of stairs runs from the middle of the common area upward to a hallway. [Hallway]
+2,The southern end of the common room has a flight of stairs going up. [Hallway]
+3,Behind a curtained doorway is a set of stairs going upstairs to a hallway. [Hallway]
+4,The stairs from the common room lead to a short corridor off the guest's rooms. [Hallway]
+5,The stairs from below lead up to this well lit hallway. [Hallway]
+
+:Hallway
+1,Highly polished lanterns, with slightly tinted blue glass give this area a cozy and warm feeling. <br><br>[Bath]
+2,The hall is lined with no less than 14 doors of stained and polished oak.  Each of these doors has a small brass plate attached to it at eye level with a number engraved on it, as well as having a polished brass handle and lock.<br><br> [Bath]
+3,Two doors, (the ones at each end of the hall), bear brass plates with the words "Privy" instead of a number.<br><br> [Bath+1]
+4,The hall is well illuminated by two hanging lanterns, which bounce light off of the well-polished wood of the walls.<br><br> [Bath]
+
+:Bath
+1,There are no indoor facilities for the guests to bath, and they must use the latrines outside. It contains a toilet, bathtub, medicine cabinet, towel rack, and sink.
+2,The bathing room is big enough for one bather in a large wine barrel. [Bath Descr]
+3,The bathing chamber contains a single copper sitting tub. [Bath Descr]
+
+:Bath Descr
+1,A fireplace just outside the bathing room is used to heat the water and warm the second floor. [Bath Descr 1]
+2,On the side of the tub is a small wire rack that holds soap. [Bath Descr 1]
+3,A serving girl will fill the tub with steaming hot water from the kitchen upon request. [Bath Descr 1]
+4,When the patron is finished, all they have to do is pull the cork stopper at the bottom of the tub and the water will drain down pipes built between the floor and wall joists.  These pipes snake their way throughout the inn and eventually descend through the cellar and into the ground, to eventually drain into the sewers below.
+5,Each of these privies is well kept and fresh smelling (sweet smelling flowers are kept on pedestals year round to fight odors). [Bath Descr 1]
+
+:Bath Descr 1
+1,Also in the room is a small cabinet containing towels.
+2,A stone shaft descends beneath the floor under each privy, allowing waste to fall directly down into the sewers below the cellar.
+3,There is also extra bedding and towels in a closet.
+4,
+
+# Guest Rooms
+#############################################################################
+:Guest Rooms
+1,The guest rooms have straw mattresses laid atop the floor[Guest Rooms Furnishing]
+2,The guest rooms are simple with single beds[Guest Rooms Furnishing]
+3,The guestrooms have beds that always have enough covers, blankets and comforters to keep even the thinnest-skinned patron warm,[Guest Room Descr]
+4,The guestrooms contain a double bed, chamber pot[Guest Rooms Furnishing]
+5,The guest rooms are equipped with a double bed[Guest Rooms Furnishing]
+6,The guestrooms are of varying sizes, some with double beds and others with single beds[Guest Rooms Furnishing]
+7,The guestrooms are uniformly tasteful and comfortable, and the walls are hung with heavy tapestries on rickety poles. It is hard to hear anything through the walls. [Guest Room Descr]
+8,The guestrooms contain two small beds[Guest Rooms Furnishing]
+9,Each guest room is furnished, with one bed[Guest Rooms Furnishing]
+10,The guestrooms are simple, but comfortable, containing two small beds[Guest Rooms Furnishing]
+11,Each is simply furnished with beds [Guest Rooms Furnishing]
+12,Each guestroom contains two simple, but well-crafted beds[Guest Rooms Furnishing]
+
+:Guest Rooms Furnishing
+1, and a small table. [Guest Room Descr]
+2, and either a table or writing desk with two chairs or stools. [Guest Room Descr]
+3, and a clothes chest. [Guest Room Descr]
+4,, all have tables and comfortable chairs. [Guest Room Descr]
+5, a footlocker and a small table. [Guest Room Descr]
+6, and a simple desk and table. [Guest Room Descr]
+7, and a small table and chairs. [Guest Room Descr]
+8,, each with it's own nightstand. [Guest Room Descr]
+9,, a small chest for personal belongings and a small circular table along with two chairs. [Guest Room Descr]
+10, and a small corner-desk and one chair. [Guest Room Descr]
+
+:Guest Room Descr
+1,Light enters by way of a window placed in the roof. [Extra Guest Rooms]
+2,Light is allowed to flow in from windows in the roof. [Extra Guest Rooms]
+3,The room is well lit during the day by windows and during the night by small, hooded table lamps. [Extra Guest Rooms]
+4,In time of need another bed can be added to any of the rooms for additional patrons. [Extra Guest Rooms]
+5,All of the chambers are well lit by either a hooded brass lantern during the night, or by outside light during the day. [Extra Guest Rooms]
+6,The décor is pleasant and refreshing, with colorful drapes and bedding. [Extra Guest Rooms]
+7,These chambers are roomy none-the-less and visitors will find them very comfortable. [Extra Guest Rooms]
+8,The decor is simple but tasteful. [Extra Guest Rooms]
+9,A slow burning hooded lantern that hangs from a peg on the far wall lights this chamber. [Extra Guest Rooms]
+10,There are no windows to allow light from outside to penetrate.  [Extra Guest Rooms]
+11,The linens are fresh - but everything else must be purchased.  [Extra Guest Rooms]
+12,These rooms are heated by braziers when it gets cold.  [Extra Guest Rooms]
+13,The chamber is cozy, even for its size. [Extra Guest Rooms]
+
+:Extra Guest Rooms
+1,<br><br>One guestroom appears to have no entry, and is not numbered. The thinner wall that leads into the corridor opens to reveal a hidden room. It is the same as all the other guestrooms, but is used regularly by the black-market contacts. It is explained as being a novelty room that costs extra to rent, and is currently rented by a traveling merchant. [Extra Guest Room Descr]
+2,<br><br>The dormitory has three double bunk beds which are used by those sharing a room. Additional guests can sleep in the private common room but this is exceedingly rare. [Extra Guest Room Descr]
+3,<br><br>The master suite has a giant bed with a feather-down blanket atop a straw mattress. The mattresses smell slightly odd as they are full of a special anti-flea and bed bug powder. The mattresses are changed each spring and fall. The room has its own full-sized hearth, lockable trunk and freestanding water basin. It is the largest, and most expensive room in the inn. [Extra Guest Room Descr]
+4,<br><br>The master suit, compared to the other rooms in the inn is truly grand. Four single beds are here, each with their own personal footlocker. [Extra Guest Room Descr]
+5,<br><br>The master suit is the most comfortable rooms on the second floor, which includes four oak beds, a large oval table with chairs, a chest of four drawers, a plush, high-backed armchair, and a beautifully fragrant potted plant upon it's own brass stand. [Extra Guest Room Descr]
+6,<br><br>The master suite is two rooms, the front half of each suite is furnished with a small table for dining as well as with several comfortable sitting chairs.  The bedroom is separated from the rest of the room by a simple archway and contains four solid oak beds. [Extra Guest Room Descr]
+7,
+
+:Extra Guest Room Descr
+1,The room is airy and is well lit by not one, but two large windows.
+2,It also includes it's own private bath.
+3,A large table occupies one end of the room with four high-backed chairs.
+4,Upon a table is a small five-gallon cask and four glasses, a complimentary sample of the homemade stock of the establishment.
+5,Another small door leads off of the room to a tiny closet lined with pegs for the hanging of cloaks and furs.
+6,The doors to each of these rooms remain locked when the room is not in use.  Only the occupant of the room and the owner possess keys.
+7,
+
+# Owners Room
+#############################################################################
+:Owners Room
+1,The owner's room is a single room with a double bed, a small desk at which the owner works on private ledgers and accounting. [Owners Room Descr]
+2,The owners room is quite comfortable (though somewhat crammed), with a double bed, couple of chairs, a writing table and next to the door a small table with a washing bowl. [Owners Room Descr]
+3,The owner's room is equipped with a double bed, chest of drawers and a small linen press. [Owners Room Descr]
+4,The owner's room is simple with double bed and a small table and a chest. [Owners Room Descr]
+5,The owner's room contain a double bed, chamber pot, writing desk with two chairs and a chest for clothes. [Owners Room Descr]
+6,In the Owners room is a small double bed is placed against the wall along with a low night table. [Owners Room Descr]
+7,The owner's room contains a queen-sized bed, nightstand, fireplace, desk, and bookshelf.
+
+:Owners Room Descr
+1,The private office leads from the bedroom, it contains his desk and shelf of curios. His cash reserve is also hidden here
+2,There is a shuttered window on one wall and a small, locked chest under the bed (it contains the family jewelry plus money)
+3,The small wooden desk, and a series of ledgers are used for accounting
+4,On the table sits a plain iron candleholder with a half burner taper.
+5,The chamber is plain and unadorned, with the exception of a small shelf unit against one wall.
+6,Under the bed is hidden two strongboxes. The first is the inn's treasury. It presently contains <b>{Dice~3d100+50}</b> cp, <b>{Dice~2d100+50}</b> sp, and <b>{Dice~3d10+10}</b> gp. The second holds personal items.
+
+# Stables
+#############################################################################
+:Stables
+1,The large outbuilding houses the stable and the ostler's quarters. [Stable Descr]
+2,The stable and exercise area is small but well used. [Stable Descr]
+3,The Ostlery is a large stable with living quarters hidden away upstairs amidst the hay storage. [Stable Descr]
+4,The small ostlery is located on the western end of the inn and has space for 6 horses. [Stable Descr]
+5,The stables are located behind inn. [Stable Descr]
+6,
+
+:Stable Descr
+1,The stable area is often quite fragrant.
+2,It can hold up to 16 horses, and has a sizable fenced in horse-paddock.
+3,The paddock's fence has graying, but still stout, posts and crossbeams.
+4,The paddock's fence posts are about two feet apart, and the crossbeams are at 3ft and 5ft off the ground.
+5,When the stables are full, the remaining horses spend the night in a tiny adjacent, rail fenced yard.
+6,The 16-stalled stables are made of graying wood in a simple square construction.
+7,A ladder along the middle of one wall provides access to a ceiling trap door, which leads to the loft and attic storage areas.
+8,There are a total of 16 stalls here.

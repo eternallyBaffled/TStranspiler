@@ -1,0 +1,57 @@
+# ------------------------------------------------------
+# Last Update: verified by Valminder Jan 01, 2014.
+# ------------------------------------------------------
+#
+
+%name%,0
+%weight%,0
+%value%,0
+%vmod%,1
+%wmod%,1
+%appraisalDC%,12
+
+%format%,0
+
+@format,1,Select format:,Human-readable,Delimited for other table
+
+;Start
+1,|name=[Furniture]||value*%vmod%||weight*%wmod%||weight={Round~1,%weight%}|[DisplayItem=%format%]
+
+# Format: name!value!weight
+:DisplayItem
+1,{Bold~{Cap~%name%}}{CR~}Value: %value% gp{CR~}Weight: %weight% lbs.
+2,%name%!%value%!%weight%!%appraisalDC%
+
+;Furniture
+1,[WoodType] bookcase|value=5||weight=15|
+1,[WoodType] desk|value=10||weight=50|
+1,[WoodType] table|value=5||weight=40|
+1,[WoodType] chair|value=2||weight=10|
+1,[WoodType] bench|value=3||weight=15|
+1,[WoodType] stool|value=1||weight=3|
+1,[WoodType] pallet|value=2||weight=10|
+1,[WoodType] armoire|value=25||weight=125|
+1,[WoodType] cabinet|value=20||weight=100|
+1,[WoodType] chest of drawers|value=20||weight=100|
+1,[WoodType] loom|value=18||weight=200|
+1,[MetalType] brazier|value=15||weight=25|
+1,[MetalType] candelabrum|value=20||weight=4|
+
+# Include fantasy-world specific wood here
+;WoodType
+19,pine|vmod=0.5||wmod=0.6|
+18,maple|vmod=1.1||wmod=1|
+18,oak|vmod=1||wmod=1|
+7,beech|vmod=1.2||wmod=1|
+7,birch|vmod=0.9||wmod=0.8|
+6,poplar|vmod=0.8||wmod=0.6|
+6,ash|vmod=1||wmod=0.8|
+5,cherry|vmod=0.7||wmod=0.8|
+5,hickory|vmod=1.4||wmod=1|
+5,cottonwood|vmod=0.6||wmod=0.6|
+2,mahogany|vmod=1.5||wmod=0.8||appraisalDC=20|
+2,teak|vmod=0.8||wmod=0.8||appraisalDC=20|
+
+;MetalType
+1,iron|vmod=1||wmod=1|
+1,brass|vmod=1.5||wmod=1|

@@ -1,0 +1,464 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder Jan 03, 2006.
+# ---------------------------------------------------
+# 
+# Underdark names from Dragon 281
+# 
+# Adapted by Valminder June 2003.
+#
+# This table creates names for:
+# -Derro
+# -Duergar
+# -Illithid (Mind Flayers)
+# -Kuo-Toa
+# -Svifnerblin
+#
+# Other tables linked to this one:
+#   Dwarven Names.Alternate
+#      (I Modified the "Dwarven Names" table to work with this one)
+#
+# 
+# Modified tables to fully use this table:
+#   Places
+#      I added this line in the Start subtable before Dwarven Place:
+#         _<u>Duergar</u>: [~Underdark (DR281).DuergarPlace]<br>
+#      I added this line in the Generate subtable before Dwarven Place:
+#         1,[Underdark (DR281).DuergarPlace] (Duergar Place)
+#
+#   Names Generator
+#      I added those lines, in alphabetical order, in the Start subtable:
+#         _<b>Derro (Dwarf):</b> [Underdark.DerroNoMeaning]<br>
+#         _<b>Duergar (Dwarf):</b> [Underdark.DuergarNoMeaning]<br>
+#         _<b>Illithid (Mind Flayer):</b> [Underdark.IllithidNoMeaning]<br>
+#         _<b>Kuo-Toa:</b> [Underdark.KuoToaNoMeaning]<br>
+#         _<b>Svifneblin (Gnome):</b> [Underdark.SvifneblinMaleNoMeaning] (M)
+#                   / [Underdark.SvifneblinFemaleNoMeaning] (F)<br>
+#
+#      I also added those lines in the "NAME Random" subtable, at the end:
+#         1,[Underdark.DerroNoMeaning]
+#         1,[Underdark.DuergarNoMeaning]
+#         1,[Underdark.IllithidNoMeaning]
+#         1,[Underdark.KuoToaNoMeaning]
+#         1,[Underdark.SvifneblinMaleNoMeaning]
+#         1,[Underdark.SvifneblinFemaleNoMeaning]
+# Modified by Valminder, Jan 2006.
+#    Added stuff from table "Mnstr Duergar Names.tab" and discarded it.
+#
+
+%KuoA%,0
+%KuoB%,0
+%Kuo1a%,0
+%Kuo1b%,0
+%Kuo2a%,0
+%Kuo2b%,0
+%Kuo3a%,0
+%Kuo3b%,0
+%Meaning2%,0
+%Meaning3%,0
+%Meaning4%,0
+%Meaning6%,0
+%Meaning7%,0
+%Meaning9%,0
+%Meaning11%,0
+%TempoA%,0
+%TempoB%,0
+
+:Start
+1,<b><u>Underdark Names</u>:</b> from Dragon Magazine 281<br><font size=2>(Words in parenthesis are the meaning of the name)<font><br><br><br>[Generate]<br>
+
+:Generate
+1,<b>Derro:</b> [Derro].<br><br>
+_<b>Duergar:</b> [Duergar].<br><br>
+_<b>Illithid:</b> [Illithid].<br><br>
+_<b>Kuo-Toa:</b> [KuoToa].<br><br>
+_<b>Svifnerblin, Male:</b> [SvifneblinMale].<br><br>
+_<b>Svifnerblin, Female:</b> [SvifneblinFemale].<br><br>
+_<hr><br><b>Duergar Place Name:</b> [DuergarPlace].<br><br>
+
+:GenerateNoMeaning
+1,<b>Derro:</b> [DerroNoMeaning].<br><br>
+_<b>Duergar:</b> [DuergarNoMeaning].<br><br>
+_<b>Illithid:</b> [IllithidNoMeaning].<br><br>
+_<b>Kuo-Toa:</b> [KuoToaNoMeaning].<br><br>
+_<b>Svifnerblin, Male:</b> [SvifneblinMaleNoMeaning].<br><br>
+_<b>Svifnerblin, Female:</b> [SvifneblinFemaleNoMeaning].<br><br>
+_<hr><br><b>Duergar Place Name:</b> [DuergarPlace].<br><br>
+
+# --------------------------------------------------------------------------
+
+;Derro
+1,{Cap~[Table2]}[Table3][Table11]<br><font size=2>(%Meaning2% AND %Meaning3% AND %Meaning11%)</font>
+1,{Cap~[Table11]}|TempoA=%Meaning11%|[Table11][Table4]<br><font size=2>(%TempoA% AND %Meaning11% AND %Meaning4%)</font>
+1,{Cap~[Table3]}[Table2][Table11]|TempoA=%Meaning11%|[Table11]<br><font size=2>(%Meaning3% AND %Meaning2% AND %TempoA% AND %Meaning11%)</font>
+1,{Cap~[Table2]}[Table4][Table11]<br><font size=2>(%Meaning2% AND %Meaning4% AND %Meaning11%)</font>
+2,{Cap~[Table4]}[Table11][Table2]|TempoA=%Meaning2%|[Table2]<br><font size=2>(%Meaning4% AND %Meaning11% AND %TempoA% AND %Meaning2%)</font>
+
+;DerroNoMeaning
+1,{Cap~[Table2]}[Table3][Table11]
+1,{Cap~[Table11]}[Table11][Table4]
+1,{Cap~[Table3]}[Table2][Table11][Table11]
+1,{Cap~[Table2]}[Table4][Table11]
+2,{Cap~[Table4]}[Table11][Table2][Table2]
+
+# --------------------------------------------------------------------------
+
+:Duergar
+1,[DuergarMale]
+2,[DuergarFemale]
+
+;DuergarMale
+4,{Cap~[Table3]}[Table4] [DuergarMore] <font size=2>(%Meaning3% AND %Meaning4%)</font>
+1,[Dwarven Names.Alternate] [DuergarMore]
+
+;DuergarMore
+1,
+2,Than <i>(child of)</i> {Cap~[Table3]}[Table4]
+2,Than <i>(child of)</i> [Dwarven Names.Alternate]
+1,{Cap~[DuergarItem]}
+1,the {Cap~[DuergarCharacter]}
+
+;DuergarItem
+1,skull [DuergarItem Action={Dice~1d5+1}]
+1,head [DuergarItem Action={Dice~1d5+1}]
+1,spine [DuergarItem Action={Dice~1d4}]
+1,bone [DuergarItem Action={Dice~1d4}]
+1,shield [DuergarItem Action={Dice~1d4+1}]
+1,helmet [DuergarItem Action={Dice~1d4+1}]
+1,helm [DuergarItem Action={Dice~1d4+1}]
+1,treasure [DuergarItem Action={Dice~1d2+8}]
+
+;DuergarItem Action
+1,Snapper
+1,Breaker
+1,Crusher
+1,Cracker
+1,Crasher
+1,Basher
+1,Splitter
+1,Eater
+1,Taker
+1,Stealer
+
+;DuergarCharacter
+1,sneak
+1,backstabber
+1,thief
+1,trickster
+1,raider
+1,greedy
+1,pillager
+1,plunderer
+
+;DuergarFemale
+4,{Cap~[Table3]}[Table4] <font size=2>(%Meaning3% AND %Meaning4%)</font>
+1,[Dwarven Names.Alternate]
+
+:DuergarNoMeaning
+1,[DuergarMaleNoMeaning]
+2,[DuergarFemaleNoMeaning]
+
+;DuergarMaleNoMeaning
+4,{Cap~[Table3]}[Table4] [DuergarMore]
+1,[Dwarven Names.Alternate] [DuergarMore]
+
+;DuergarFemaleNoMeaning
+4,{Cap~[Table3]}[Table4]
+1,[Dwarven Names.Alternate]
+
+;DuergarPlace
+1,{Cap~[Table3]}{LCase~[Dwarven Names.Alternate]}
+1,[Dwarven Names.Alternate][Table4]
+
+# --------------------------------------------------------------------------
+
+;Illithid
+1,{Cap~[Table6]}[Table7] <font size=2>(%Meaning6% AND %Meaning7%)</font>
+1,{Cap~[Table6]}[Table7]|TempoA=%Meaning7%|[Table7] <font size=2>(%Meaning6% AND %TempoA% AND %Meaning7%)</font>
+1,{Cap~[Table6]}|TempoA=%Meaning6%|[Table6][Table7] <font size=2>(%TempoA% AND %Meaning6% AND %Meaning7%)</font>
+
+;IllithidNoMeaning
+1,{Cap~[Table6]}[Table7]
+1,{Cap~[Table6]}[Table7][Table7]
+1,{Cap~[Table6]}[Table6][Table7]
+
+# --------------------------------------------------------------------------
+
+;KuoToa
+1,[Table9]{Cap~%KuoA%}%KuoB% <br><font size=2>(%Meaning9%)</font>
+1,[Table9]|TempoA=%Meaning9%||Kuo1a=%KuoA%||Kuo1b=%KuoB%|[Table9]|Kuo2a=%KuoA%||Kuo2b=%KuoB%|{Cap~%Kuo2a%}%Kuo1a%%Kuo1b%%Kuo2b% <br><font size=2>(%TempoA% AND %Meaning9%)</font>
+1,[Table9]|TempoA=%Meaning9%||Kuo1a=%KuoA%||Kuo1b=%KuoB%|[Table9]|TempoB=%Meaning9%||Kuo2a=%KuoA%||Kuo2b=%KuoB%|[Table9]|Kuo3a=%KuoA%||Kuo3b=%KuoB%|{Cap~%Kuo3a%}%Kuo2a%%Kuo1a%%Kuo1b%%Kuo2b%%Kuo3b% <br><font size=2>(%TempoA% AND %TempoB% AND %Meaning9%)</font>
+
+;KuoToaNoMeaning
+1,[Table9]{Cap~%KuoA%}%KuoB%
+1,[Table9]|Kuo1a=%KuoA%||Kuo1b=%KuoB%|[Table9]|Kuo2a=%KuoA%||Kuo2b=%KuoB%|{Cap~%Kuo2a%}%Kuo1a%%Kuo1b%%Kuo2b%
+1,[Table9]|Kuo1a=%KuoA%||Kuo1b=%KuoB%|[Table9]|Kuo2a=%KuoA%||Kuo2b=%KuoB%|[Table9]|Kuo3a=%KuoA%||Kuo3b=%KuoB%|{Cap~%Kuo3a%}%Kuo2a%%Kuo1a%%Kuo1b%%Kuo2b%%Kuo3b%
+
+# --------------------------------------------------------------------------
+
+;SvifneblinMale
+3,{Cap~[Table11Male]}<br><font size=2>(%Meaning11%)</font>
+2,{Cap~[Table11Male]}|TempoA=%Meaning11%|[Table11Male]<br><font size=2>(%TempoA% AND %Meaning11%)</font>
+2,{Cap~[Table11Male]}|TempoA=%Meaning11%|'[Table11Male]<br><font size=2>(%TempoA% AND %Meaning11%)</font>
+3,{Cap~[Table11Male]}|TempoA=%Meaning11%|[Table11Male]|TempoB=%Meaning11%|[Table11Male]<br><font size=2>(%TempoA% AND %TempoB% AND %Meaning11%)</font>
+
+;SvifneblinMaleNoMeaning
+3,{Cap~[Table11Male]}
+2,{Cap~[Table11Male]}[Table11Male]
+2,{Cap~[Table11Male]}'[Table11Male]
+3,{Cap~[Table11Male]}[Table11Male][Table11Male]
+
+;SvifneblinFemale
+3,{Cap~[Table11Female]}<br><font size=2>(%Meaning11%)</font>
+2,{Cap~[Table11Female]}|TempoA=%Meaning11%|[Table11Female]<br><font size=2>(%TempoA% AND %Meaning11%)</font>
+2,{Cap~[Table11Female]}|TempoA=%Meaning11%|'[Table11Female]<br><font size=2>(%TempoA% AND %Meaning11%)</font>
+3,{Cap~[Table11Female]}|TempoA=%Meaning11%|[Table11Female]|TempoB=%Meaning11%|[Table11Female]<br><font size=2>(%TempoA% AND %TempoB% AND %Meaning11%)</font>
+
+;SvifneblinFemaleNoMeaning
+3,{Cap~[Table11Female]}
+2,{Cap~[Table11Female]}[Table11Female]
+2,{Cap~[Table11Female]}'[Table11Female]
+3,{Cap~[Table11Female]}[Table11Female][Table11Female]
+
+# --------------------------------------------------------------------------
+
+:!Table2
+1,adj|Meaning2=Charmer, leader, ruler|
+2,ari|Meaning2=Dagger, hidden, sword|
+3,diin|Meaning2=Fool, loser, lost|
+4,diir|Meaning2=Lucky, treacherous|
+5,faka|Meaning2=Scout, thief, wisdom|
+6,inka|Meaning2=Savant, wizard|
+7,kara|Meaning2=Cursed, insane|
+8,miirn|Meaning2=Dance, dancer, war, warrior|
+9,sec|Meaning2=Gilded, jeweled, ornamental|
+10,uriin|Meaning2=Poison, tool, weapon|
+11,xeer|Meaning2=Hate, joy, pain|
+12,zan|Meaning2=Brother|
+
+:!Table3
+1-2,aer|Meaning3=Giant|
+3,agr|Meaning3=Powerful|
+4-5,auk|Meaning3=Fiery, fire|
+6,an|Meaning3=Rage|
+7-10,bhir|Meaning3=Chaos, elf, energy|
+11-13,dak|Meaning3=Blood, kin, order|
+14-15,dek|Meaning3=Home|
+16,deku|Meaning3=Rock, stone|
+17-18,du|Meaning3=Grey, son|
+19-20,duer|Meaning3=Grey, daughter|
+21-23,dwar|Meaning3=Hidden, wise|
+24-26,fadu|Meaning3=Mithril, tough, unyielding|
+27-28,gat|Meaning3=Color|
+29-30,gath|Meaning3=Jewel|
+31-33,gurk|Meaning3=Dutiful, loyal, obedient|
+34-36,jarl|Meaning3=King/Queen, overlord, overseer|
+37-38,jer|Meaning3=Berserk|
+39-40,jeru|Meaning3=Dangerous, fierce|
+41-43,kern|Meaning3=Anarchy, goblin, riot, weak|
+44-45,kras|Meaning3=Dead, death|
+46,ku|Meaning3=Foe|
+47-50,ladu|Meaning3=Harsh, stern, stone|
+51-53,lond|Meaning3=Fool, independent, thief|
+54-55,onic|Meaning3=Strength, strong|
+56,onu|Meaning3=Strength, strong|
+57-58,rac|Meaning3=Ghost, soul|
+59-60,racu|Meaning3=Skull|
+61-63,rigu|Meaning3=Battle, life, war|
+64-65,sur|Meaning3=Elder, old|
+66,sura|Meaning3=First|
+67-70,stur|Meaning3=Blade, steel, weapon|
+71-73,suer|Meaning3=Efficient, grim, silent|
+74-76,tenu|Meaning3=Gold, metal, silver|
+77-78,thar|Meaning3=Craft|
+79-80,tharu|Meaning3=Forge|
+81-83,then|Meaning3=Bond, oath, vow|
+84-86,thuer|Meaning3=Ancient, arcane, forgotten|
+87-90,udu|Meaning3=Drow, rats, vermin|
+91,urt|Meaning3=Rune, runic|
+92-93,ur|Meaning3=Rune, runic|
+94-96,valu|Meaning3=Dragon, magic, magical|
+97-98,vari|Meaning3=Heavy, stout, sturdy|
+99-100,vili|Meaning3=Short|
+
+:!Table4
+1-3,alk|Meaning4=Iron, sword|
+4,alz|Meaning4=Anvil, hammer|
+5-6,az|Meaning4=Mason|
+7-10,ark|Meaning4=Noble, ruler|
+11-12,ar|Meaning4=Axe|
+13,arn|Meaning4=Guard, guardian|
+14,b|Meaning4=Captain|
+15-16,bar|Meaning4=Speech, voice|
+17-20,bael|Meaning4=Judge, priest|
+21-22,buk|Meaning4=Assassin, killer, slayer|
+23,bur|Meaning4=Assassin, killer, slayer|
+24-26,byr|Meaning4=Army, fist, gauntlet|
+27-28,dak|Meaning4=Rider, steed|
+29-30,dek|Meaning4=Spider, swift|
+31,d|Meaning4=Mine, miner|
+32-33,dur|Meaning4=Mole|
+34-36,duz|Meaning4=Exile, outcast, pariah|
+37-38,er|Meaning4=Messenger|
+39-40,eur|Meaning4=Speaker|
+41-42,far|Meaning4=Hunter|
+43,ff|Meaning4=Scout|
+44-46,fell|Meaning4=Armor, shield, warrior|
+47-50,gar|Meaning4=Dwarf, hero, man|
+51-53,gert|Meaning4=Crystal, prophet, seer|
+54-56,glen|Meaning4=Eternal, night, void|
+57-60,gor|Meaning4=Eye, spear|
+61-63,guer|Meaning4=Father/Mother, lord, master/mistress|
+64-65,kar|Meaning4=Artificer, wizard|
+66,kuar|Meaning4=Hand|
+67-70,khil|Meaning4=Chest, fortitude, heart|
+71,m|Meaning4=Bearer, keeper|
+72-73,mar|Meaning4=Giver|
+74-76,moru|Meaning4=Constitution, duergar, endurance|
+77-78,nar|Meaning4=Fantasy|
+79-80,naru|Meaning4=Friend|
+81-83,oruk|Meaning4=Delver, leader|
+84-86,ruar|Meaning4=Wanderer|
+87-88,th|Meaning4=Drink, mead|
+89-90,thu|Meaning4=Peace|
+91-93,ther|Meaning4=Garrison, home, secure|
+94-96,thuar|Meaning4=Crafter, smith|
+97-100,vaur|Meaning4=Black, child|
+
+:!Table6
+1,abster|Meaning6=Memory|
+2,al|Meaning6=Dead, death|
+3,illi|Meaning6=Mind|
+4,ilsen|Meaning6=Brain|
+5,lugri|Meaning6=Fear, feared|
+6,maanze|Meaning6=Creed, law|
+7,malin|Meaning6=Arcane, psionic|
+8,quas|Meaning6=Honor|
+9,uli|Meaning6=Noble|
+10,ullip|Meaning6=Thought|
+11,urop|Meaning6=Servant, slave, thrall|
+12,xalli|Meaning6=Disgust, pain|
+
+:!Table7
+1,arint|Meaning7=Gourmet of, taster|
+2,ator|Meaning7=Elder, revered|
+3,bossk|Meaning7=Lord, master|
+4,corian|Meaning7=Leader, liaison|
+5,hion|Meaning7=Black, dark, darkness|
+6,hoon|Meaning7=Abomination, outsider|
+7,mious|Meaning7=Sage, scholar|
+8,ordell|Meaning7=Golem, humanoid, mind flayer|
+9,sine|Meaning7=Great, powerful|
+10,tharid|Meaning7=Devour, devourer|
+11,thelid|Meaning7=Conquerer, eater|
+12,thid|Meaning7=Flayer, ruler|
+13,tor|Meaning7=Eider, revered|
+
+:!Table9
+1,|KuoA=aku||KuoB=ab||Meaning9=Black, chaotic, swirling, water|
+2,|KuoA=bli||KuoB=p||Meaning9=Pincer, powerful|
+3,|KuoA=b||KuoB=ool||Meaning9=Ancient, churning, rough, sea|
+4,|KuoA=dii||KuoB=yl||Meaning9=Crayfish, lobster, monitor, warrior|
+5,|KuoA=d||KuoB=oolp||Meaning9=Dangerous, guardian, mother|
+6,|KuoA=ka||KuoB=olb||Meaning9=Enemy, hated, octopus|
+7,|KuoA=key||KuoB=k||Meaning9=Fanatic, loyal, whip|
+8,|KuoA=kuo||KuoB=p||Meaning9=Fingerling (a young kuo-toa), original, true|
+9,|KuoA=la||KuoB=od||Meaning9=Fire, pain, painful, red, staff|
+10,|KuoA=la||KuoB=ual||Meaning9=Mysterious, mystery, seeker , thief, trap|
+11,|KuoA=lee||KuoB=plo||Meaning9=Relic, magic, magical, storm|
+12,|KuoA=maku||KuoB=ld||Meaning9=Pearl, treasure, valuable|
+13,|KuoA=moy||KuoB=i||Meaning9=King, noble, queen, ruler|
+14,|KuoA=ney||KuoB=pt||Meaning9=Foreigners, slaves, strangers, weak|
+15,|KuoA=p||KuoB=oolp||Meaning9=Judge, jury, priest, wise|
+16,|KuoA=sy||KuoB=oop||Meaning9=Eye, knowledge, learned|
+17,|KuoA=to||KuoB=al||Meaning9=Masters, strong|
+18,|KuoA=ye||KuoB=ley||Meaning9=Hell, surface, terrible, unknown|
+19,|KuoA=yii||KuoB=lp||Meaning9=Harpoon, leader, swift|
+20,|KuoA=yula||KuoB=yp||Meaning9=Armor, clam, slow, vault|
+
+;Table11
+1,[Table11Male]
+1,[Table11Female]
+
+:!Table11Male
+1-3,arg|Meaning11=Air, immense, sky, vast|
+4-5,avf|Meaning11=Dark, hidden, home, safe|
+6-8,basv|Meaning11=Aged, elder, master/mistress|
+9-11,blin|Meaning11=Ally, brother, family, kin|
+12-14,clad|Meaning11=False, illusion, lie, lying|
+15-16,chik|Meaning11=Friend, jewel, treasure, treasured|
+17-19,dlim|Meaning11=Ally, good, trusted|
+20-22,derv|Meaning11=Dead, dust, harsh, waste|
+23-25,ea|Meaning11=Black, dark, home, safe|
+26-27,eirf|Meaning11=Defense, rock, shield|
+28-29,ekl|Meaning11=Cousin, kin, small, strong|
+30-31,fadk|Meaning11=Enemy, evil, silent|
+32-34,flear|Meaning11=Clumsy, dangerous, giant, large|
+35-36,fyvn|Meaning11=Hidden, sly, small, thief|
+37-39,gar|Meaning11=Father, first, honored|
+40-42,gtri|Meaning11=Fire, pain, red, wound|
+43-44,hna|Meaning11=Divine, guardian, priest, secret|
+45-46,hyrl|Meaning11=Noble, sturdy, virtue, virtuous|
+47-48,jbyr|Meaning11=Dagger, knife, sharp, tool|
+49-51,jhrl|Meaning11=Colleague, counterpart, mate, twin|
+52-53,kerl|Meaning11=Hero, heroic, mighty, powerful|
+54-56,lbik|Meaning11=Beautiful, skill, skilled|
+57-59,lin|Meaning11=Blue, cold, ice, water|
+60-61,mot|Meaning11=Darkness, shadow, silent|
+62-64,nebl|Meaning11=Determined, friend, grim|
+65-66,nmyr|Meaning11=Beast, berserk, beserker, wild|
+67-68,perx|Meaning11=Demon, dragon, nemesis|
+69-70,phir|Meaning11=Blood, bloody, lava, magma|
+71-72,pyn|Meaning11=Skill, skilled, useful, valued|
+73-74,ran|Meaning11=Holiday, joy, joyful, ritual|
+75-76,rzyr|Meaning11=Artifact, grand, old, relic|
+77-78,slir|Meaning11=Disease, diseased, tall, twisted|
+79-81,surl|Meaning11=Elder, knowledge, learned, scholar|
+82-84,svif|Meaning11=Axe, force, forceful, hammer, weapon|
+85-87,thal|Meaning11=Blacksmith, crafty, wise|
+88-90,tjyr|Meaning11=New, weak, young|
+91-93,vir|Meaning11=Child, childish, jest, joker|
+94-96,vuln|Meaning11=Airy, high, rival, tricky|
+97-98,wahr|Meaning11=Burrower, cave, deep, mole|
+99-100,win|Meaning11=Hard, mithril, steely|
+
+:!Table11Female
+1-3,argh|Meaning11=Air, immense, sky, vast|
+4-5,ava|Meaning11=Dark, hidden, home, safe|
+6-8,bisf|Meaning11=Aged, elder, master/mistress|
+9-11,blis|Meaning11=Ally, sister, family, kin|
+12-14,clagh|Meaning11=False, illusion, lie, lying|
+15-16,chir|Meaning11=Friend, jewel, treasure, treasured|
+17-19,dlis|Meaning11=Ally, good, trusted|
+20-22,dera|Meaning11=Dead, dust, harsh, waste|
+23-25,eagh|Meaning11=Black, dark, home, safe|
+26-27,eirs|Meaning11=Defense, rock, shield|
+28-29,ekgh|Meaning11=Cousin, kin, small, strong|
+30-31,fadi|Meaning11=Enemy, evil, silent|
+32-34,flea|Meaning11=Clumsy, dangerous, giant, large|
+35-36,fysn|Meaning11=Hidden, sly, small, thief|
+37-39,gagh|Meaning11=Mother, first, honored|
+40-42,gera|Meaning11=Fire, pain, red, wound|
+43-44,hni|Meaning11=Divine, guardian, priest, secret|
+45-46,hyfa|Meaning11=Noble, sturdy, virtue, virtuous|
+47-48,jbla|Meaning11=Dagger, knife, sharp, tool|
+49-51,jyff|Meaning11=Colleague, counterpart, mate, twin|
+52-53,kerf|Meaning11=Hero, heroic, mighty, powerful|
+54-56,lbli|Meaning11=Beautiful, skill, skilled|
+57-59,lyrf|Meaning11=Blue, cold, ice, water|
+60-61,mors|Meaning11=Darkness, shadow, silent|
+62-64,nebli|Meaning11=Determined, friend, grim|
+65-66,nmi|Meaning11=Beast, berserk, beserker, wild|
+67-68,pers|Meaning11=Demon, dragon, nemesis|
+69-70,phifs|Meaning11=Blood, bloody, lava, magma|
+71-72,pyna|Meaning11=Skill, skilled, useful, valued|
+73-74,ryrr|Meaning11=Holiday, joy, joyful, ritual|
+75-76,rzi|Meaning11=Artifact, grand, old, relic|
+77-78,slan|Meaning11=Disease, diseased, tall, twisted|
+79-81,surla|Meaning11=Elder, knowledge, learned, scholar|
+82-84,syffa|Meaning11=Axe, force, forceful, hammer, weapon|
+85-87,thil|Meaning11=Blacksmith, crafty, wise|
+88-90,tja|Meaning11=New, weak, young|
+91-93,vifs|Meaning11=Child, childish, jest, joker|
+94-96,vuli|Meaning11=Airy, high, rival, tricky|
+97-98,wa|Meaning11=Burrower, cave, deep, mole|
+99-100,wyff|Meaning11=Hard, mithril, steely|

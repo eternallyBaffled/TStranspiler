@@ -1,0 +1,111 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder Oct 30, 2003.
+# ---------------------------------------------------
+#
+# SMS
+# 06/20/03
+# Forgotten Realms Table 47: Temperate Moor (EL 5-15) random encounter tables
+#
+# Corrected by Valminder, Oct 2003
+#   -{If~} and {Dice~}
+#
+#Variables
+
+%Time%,0
+%Temp%,0
+
+#Parameters
+
+@Time,3,Select a time of day,Day,Night,_
+
+#
+#  Starts by putting up the instructions
+#
+
+:Start
+1,{If~%Time% = 3 ? [Instructions]/[Temperate Moor %Time%]}
+
+;Instructions
+1,<b>Forgotten Realms Table 47: Temperate Moor (EL 5-15)</b></br></br><h3>Instructions:</h3>
+_<b>Determine whether an encounter should occur before using this table. The chance of an encounter is based on terrain type and travel (chance per hour):</b><br>
+_<table border=1><tr><th>Terrain</th><th>Normal Travel</th><th>Cautious Travel</th><th>Hiding</th></tr>
+_<tr><td>Desolate/wasteland</td><td>5/%</td><td>2/%</td><td>1/%</td></tr>
+_<tr><td>Frontier/wilderness</td><td>8/%</td><td>4/%</td><td>2/%</td></tr>
+_<tr><td>Verdant/civilized area</td><td>10/%</td><td>5/%</td><td>2/%</td></tr>
+_<tr><td>Heavily traveled</td><td>12/%</td><td>6/%</td><td>3/%</td></tr>
+_</table>
+_<ul><li>Use the Parameter Box (below) to indicate whether it is day or night. Selecting "_" displays these instructions.</li>
+_<li>This table applies to all Temperate Moor regions of the Realms so there is no need to select a region</li></ul><br>
+
+# 1 corresponds to time="Day"
+:Temperate Moor 1
+01-02,{Dice~1d2} Behir
+03-05,{Dice~1d6} Chuul
+06,Cryohydra, {Dice~1d6+4} heads
+07-10,{Dice~1d10+10} Dire rat
+11-14,{Dice~1d4+4} Dire wolf
+15-23,Dragon: [TM_Dragon]
+24-28,{Dice~1d3+1} Ettin
+29-31,{Dice~1d4+1} Fog giant
+32-34,Gibbering mouther
+35-39,Hobgoblin raiders: {Dice~1d6+3} hobgoblins, {Dice~1d2} level {Dice~1d2} fighters, and {Dice~1d2} dire wolves
+40-43,{Dice~1d6+4} Krenshar
+44-46,{Dice~1d6+6} Harpy
+47-52,Hydra, {Dice~1d8+4} heads
+53-62,<b>NPCs:</b><br>{Loop~{Dice~1d3+2},[FR_Random_NPC.FR_SM_NPC]}
+63,Nishruu (MoF)
+64,Nyth (MoF)
+65-69,{Dice~1d4+4} Ogre
+70-76,Orc Patrol: {Dice~1d4+4} orcs, {Dice~1d2} level {Dice~1d3} orc barbarians, led by level {Dice~1d4+2} [FR_Misc.Orc_Class]
+77-82,{Dice~1d3+1} Troll
+83-85,{Dice~1d4+4} Werewolf
+86-89,Werewolf Troupe: {Dice~1d4+1} Werewolves and {Dice~1d4+4} wolves
+90-95,{Dice~1d6+5} Animal: wolf
+96-100,{Dice~1d6+5} Worg
+
+# 2 corresponds to time="Night"
+:Temperate Moor 2
+01-02,{Dice~1d6+6} Banedead
+03-04,{Dice~1d2} Behir
+05,Bodak
+06-08,{Dice~1d6} Chuul
+09,Cryohydra, {Dice~1d6+4} heads
+10-12,{Dice~1d2+2} Darkenbeast
+13-14,{Dice~1d10+10} Dire rat
+15-16,{Dice~1d4+4} Dire wolf
+17-25,Dragon: [TM_Dragon]
+26-30,{Dice~1d3+1} Ettin
+31-33,{Dice~1d4+1} Fog giant
+34-36,Gibbering mouther
+37,Ghast pack: {Dice~1d3+1} ghasts and {Dice~1d6+6} ghouls
+38-39,{Dice~1d6+6} Ghoul
+40-42,Hobgoblin raiders: {Dice~1d6+3} hobgoblins, {Dice~1d2} level {Dice~1d2} fighters, and {Dice~1d2} dire wolves
+43-44,{Dice~2d6} Dread warrior (MoF)
+45-46,{Dice~1d6+4} Krenshar
+47-48,{Dice~1d6+6} Harpy
+49-51,Hydra, {Dice~1d8+4} heads
+52-60,<b>NPCs:</b><br>{Loop~{Dice~1d3+2},[FR_Random_NPC.FR_SM_NPC]}
+61,Nishruu (MoF)
+62,Nyth (MoF)
+63-66,{Dice~1d4+4} Ogre
+67-72,Orc Patrol: {Dice~1d4+4} orcs, {Dice~1d2} level {Dice~1d3} orc barbarians, led by level {Dice~1d4+2} [FR_Misc.Orc_Class]
+73-75,{Dice~1d6} Spectre
+76-80,{Dice~1d3+1} Troll
+81-84,{Dice~1d8+1} Wight
+85-86,{Dice~1d6} Will-o'-wisp
+87-88,{Dice~1d6} Wraith
+89-91,{Dice~1d4+4} Werewolf
+92-93,Werewolf Troupe: {Dice~1d4+1} Werewolves and {Dice~1d4+4} wolves
+93-95,{Dice~1d6+5} Animal: wolf
+96-97,{Dice~1d6+5} Worg
+98,{Dice~1d6+5} Yeth hound
+99-100,{Dice~1d6+6} Zombie, medium
+
+:TM_Dragon
+01-10,Copper, young adult
+11-20,Fang, mature adult (MoF)
+21,Dracolich: Fang, adult
+22-34,Gold, adult
+35-36,Dracolich: Red, young adult
+37-72,Red, young adult
+73-100,Silver, young adult

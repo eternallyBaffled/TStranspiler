@@ -1,0 +1,119 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder Oct 30, 2003.
+# ---------------------------------------------------
+#
+# SMS
+# 06/23/03
+# Forgotten Realms Table 35: Northern Grasslands (EL 2-6) random encounter tables
+#
+# Corrected by Valminder, Oct 2003
+#   -{If~} and {Dice~}
+#
+#Variables
+
+%Time%,0
+%Temp%,0
+
+#Parameters
+
+@Time,3,Select a time of day,Day,Night,_
+
+#
+#  Starts by putting up the instructions
+#
+
+:Start
+1,{If~%Time% = 3 ? [Instructions]/[Northern Grasslands %Time%]}
+
+;Instructions
+1,<b>Forgotten Realms Table 35: Northern Grasslands (EL 2-6)</b></br></br><h3>Instructions:</h3>
+_<b>Determine whether an encounter should occur before using this table. The chance of an encounter is based on terrain type and travel (chance per hour):</b><br>
+_<table border=1><tr><th>Terrain</th><th>Normal Travel</th><th>Cautious Travel</th><th>Hiding</th></tr>
+_<tr><td>Desolate/wasteland</td><td>5/%</td><td>2/%</td><td>1/%</td></tr>
+_<tr><td>Frontier/wilderness</td><td>8/%</td><td>4/%</td><td>2/%</td></tr>
+_<tr><td>Verdant/civilized area</td><td>10/%</td><td>5/%</td><td>2/%</td></tr>
+_<tr><td>Heavily traveled</td><td>12/%</td><td>6/%</td><td>3/%</td></tr>
+_</table>
+_<ul><li>Use the Parameter Box (below) to indicate whether it is day or night. Selecting "_" will show these instructions.</li>
+_<li>This table applies to all Northern Grasslands areas in the Realms (so there is no need to input a region)</li></ul><br>
+
+# 1 corresponds to time="Day"
+:Northern Grasslands 1
+01,Annis (hag)
+02,Barghest Pack: {Dice~1d2} barghest and {Dice~1d4+4} goblins
+03-04,Dire Lion
+05-08,{Dice~1d10+10} Dire rat
+09-11,Dire wolf
+12-17,Dragon: [NG_Dragon]
+18-20,{Dice~1d3+1} Gargoyle
+21-22,Greenhag (hag)
+23-26,Lightfoot halfling scouts: {Dice~1d4+4} 1st level warriors, {Dice~1d3+1} dogs, led by level {Dice~1d6+2} [FR_Misc.Halfling_Class]
+27-28,{Dice~1d3+1} Hell hound
+29,{Dice~1d2} Hellcat (devil)
+30-32,Ibrandlin (MoF)
+33-40,Ice serpent (MoF)
+41-50,<b>NPCs:</b><br>{Loop~{Dice~1d3+2},[FR_Random_NPC.FR_SM_NPC]}
+51-63,Nomads (human Nar tribesmen, barbarians from the Ride, Shaar horsemen, or Tuigan bands): {Dice~1d4+2} 1st level warriors led by [FR_Misc.Nomad_Leader], all mounted on light warhorses
+64-68,{Dice~1d3+1} Ogre
+69-72,Orc Patrol: {Dice~1d4+4} orcs, {Dice~1d2} level {Dice~1d3} orc barbarians, led by level {Dice~1d4+2} [FR_Misc.Orc_Class]
+73-75,Snow tiger or Red tiger: (Red tiger is found from the Nether Mtns to the Spine of the World, the Snow tiger is found in Rashemen and its coloring changes with the seasons) 
+76-80,{Dice~1d10+10} Surface rothe
+81-85,Troll
+86,{Dice~1d6} Unicorn, black (MoF)
+87,Werebear
+88,{Dice~1d6+4} Wererat
+89-90,{Dice~1d2} Werewolf
+91-97,{Dice~1d6+3} Wolf
+98-100,{Dice~1d4} Worg
+
+# 2 corresponds to time="Night"
+:Northern Grasslands 2
+01,Allip
+02,Annis (hag)
+03,Baneguard (MoF)
+04-06,Barghest Pack: {Dice~1d2} barghest and {Dice~1d4+4} goblins
+07-08,{Dice~1d2} Darkenbeast (MoF)
+09-10,Dire Lion
+11-12,{Dice~1d10+10} Dire rat
+13-15,Dire wolf
+16-21,Dragon: [NG_Dragon]
+22-24,{Dice~1d3+1} Gargoyle
+25-26,{Dice~1d3+1} Ghast
+27,Ghast pack: {Dice~1d3+1} ghasts and {Dice~1d6+6} ghouls
+28-30,{Dice~1d3+3} Ghoul
+31-32,Greenhag (hag)
+33-34,Lightfoot halfling scouts: {Dice~1d4+4} 1st level warriors, {Dice~1d3+1} dogs, led by level {Dice~1d6+2} [FR_Misc.Halfling_Class]
+35-36,{Dice~1d3+1} Hell hound
+37-38,{Dice~1d2} Hellcat (devil)
+39,{Dice~1d2} Hound archon (celestial)
+40-41,Ibrandlin (MoF)
+42-47,Ice serpent (MoF)
+48-57,<b>NPCs:</b><br>{Loop~{Dice~1d3+2},[FR_Random_NPC.FR_SM_NPC]}
+58-59,Nightmare
+60-66,Nomads (human Nar tribesmen, barbarians from the Ride, Shaar horsemen, or Tuigan bands): {Dice~1d4+2} 1st level warriors led by [FR_Misc.Nomad_Leader], all mounted on light warhorses
+67-68,{Dice~1d3+1} Ogre
+69-72,Orc Patrol: {Dice~1d4+4} orcs, {Dice~1d2} level {Dice~1d3} orc barbarians, led by level {Dice~1d4+2} [FR_Misc.Orc_Class]
+73,{Dice~1d6} Shadow
+74-75,Shadow mastiff
+76,Spectral panther
+77,Snow tiger or Red tiger: (Red tiger is found from the Nether Mtns to the Spine of the World, the Snow tiger is found in Rashemen and its coloring changes with the seasons) 
+78-81,Troll
+82,{Dice~1d6} Unicorn, black (MoF)
+83,{Dice~1d3+1} Vampire spawn
+84-85,{Dice~1d4+1} Vargouille
+86,Werebear
+87,{Dice~1d6+4} Wererat
+88-90,{Dice~1d2} Werewolf
+91-93,{Dice~1d6} Wight
+94-96,{Dice~1d6+3} Wolf
+97-98,{Dice~1d4} Worg
+99,{Dice~1d3} Wraith
+100,{Dice~1d4+6} Zombie, medium
+
+:NG_Dragon
+01-10,Brown, young (MoF)
+11-14,Gold, young
+15-30,Song, young (MoF)
+31-45,White, Clutch of {Dice~1d4+1} very young
+46-99,White, young adult
+100,Dracolich: White, young (FRCS)

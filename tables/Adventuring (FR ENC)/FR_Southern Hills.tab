@@ -1,0 +1,118 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder Oct 30, 2003.
+# ---------------------------------------------------
+#
+# SMS
+# 06/20/03
+# Forgotten Realms Table 25: Southern Hills (EL 2-7) random encounter tables
+#
+# Corrected by Valminder, Oct 2003
+#   -{If~} and {Dice~}
+#
+#Variables
+
+%Region%,0
+%Time%,0
+%Temp%,0
+
+#Parameters
+
+@Time,3,Select a time of day,Day,Night,_
+
+#
+#  Starts by putting up the instructions
+#
+
+:Start
+1,{If~%Time% = 3 ? [Instructions]/[Southern Hills %Time%]}
+
+;Instructions
+1,<b>Forgotten Realms Table 25: Southern Hills (EL 2-7)</b></br></br><h3>Instructions:</h3>
+_<b>Determine whether an encounter should occur before using this table. The chance of an encounter is based on terrain type and travel (chance per hour):</b><br>
+_<table border=1><tr><th>Terrain</th><th>Normal Travel</th><th>Cautious Travel</th><th>Hiding</th></tr>
+_<tr><td>Desolate/wasteland</td><td>5/%</td><td>2/%</td><td>1/%</td></tr>
+_<tr><td>Frontier/wilderness</td><td>8/%</td><td>4/%</td><td>2/%</td></tr>
+_<tr><td>Verdant/civilized area</td><td>10/%</td><td>5/%</td><td>2/%</td></tr>
+_<tr><td>Heavily traveled</td><td>12/%</td><td>6/%</td><td>3/%</td></tr>
+_</table>
+_<b>Use the Parameter Box (below) to indicate whether it is day or night. Selecting "_" displays these instructions</b>
+_<br>This table doesn't have specific locales classified as "Southern Hills".
+
+# 1 corresponds to time="Day"
+:Southern Hills 1
+01-02,{Dice~1d4+2} Azer
+03-04,Basilisk
+05-08,{Dice~1d3} Animal: Bear, Black
+09-16,Dragon: [SH_Dragon]
+17-20,{Dice~1d2} Ettin
+21-23,{Dice~1d3} Gargoyle
+24-26,Goblin patrol: {Dice~1d6+3} goblins, led by level {Dice~1d3} goblin fighter
+27,Goblin raiders: {Dice~1d3+2} goblins, led by level {Dice~1d3} goblin fighter, all mounted on worgs
+28-31,Gold Dwarf Patrol:  {Dice~1d4+4} 1st level fighters, {Dice~1d2} level {Dice~1d4} cleric of [Religion.Dwarf Gods],  {Dice~1d2} level {Dice~1d4} sorcerers, led by a level {Dice~1d4+2} [FR_Misc.GoldDwarf_Class]
+32-33,{Dice~1d2} Griffon
+34-35,Strongheart halfling patrol: {Dice~1d6+6} 1st level warriors, {Dice~1d2} level {Dice~1d3} cleric of [Religion.Halfling Gods], led by level {Dice~1d4+2} [FR_Misc.StrongheartHalfling_Class]
+36-37,{Dice~1d2} Hellhound
+38,Devil: Hellcat
+39-41,{Dice~1d2} Hieracosphinx
+42-45,Hill Giant
+46-47,{Dice~1d2} Hippogriff
+48-49,{Dice~1d6+1} Hobgoblin
+50-51,{Dice~1d2} Leucrotta (MoF)
+55-66,<b>NPCs:</b><br>{Loop~{Dice~1d3+2},[FR_Random_NPC.FR_SM_NPC]}
+67-69,Medusa
+70-72,{Dice~1d3+1} Ogre
+73-77,{Dice~1d3+1} Orc
+78-79,Vermin: Giant Praying Mantis
+80-82,{Dice~1d2} Salamander (average)
+83-84,Trendiculos
+85-86,{Dice~1d2} Werebear
+87-88,{Dice~1d2} Weretiger
+89-95,{Dice~1d6+2} Animal: wolf
+96-100,Wyvern
+
+# 2 corresponds to time="Night"
+:Southern Hills 2
+01-02,Allip
+03-04,{Dice~1d4+2} Azer 
+05-06,{Dice~1d3} Animal: Bear, Black
+07-13,{Dice~1d4+2} Dire bat
+14-23,Dragon: [SH_Dragon]
+24-25,{Dice~1d4} Dread warrior (MoF)
+26-29,{Dice~1d2} Ettin
+30-32,{Dice~1d3} Gargoyle
+33-34,{Dice~1d3+1} Ghast
+35-36,{Dice~1d4+2} Ghouls
+37-38,Goblin patrol: {Dice~1d6+3} goblins, led by level {Dice~1d3} goblin fighter
+39-41,Goblin raiders: {Dice~1d3+2} goblins, led by level {Dice~1d3} goblin fighter, all mounted on worgs
+42,Gold Dwarf Patrol:  {Dice~1d4+4} 1st level fighters, {Dice~1d2} level {Dice~1d4} cleric of [Religion.Dwarf Gods],  {Dice~1d2} level {Dice~1d4} sorcerers, led by a level {Dice~1d4+2} [FR_Misc.GoldDwarf_Class]
+43,Strongheart halfling patrol: {Dice~1d6+6} 1st level warriors, {Dice~1d2} level {Dice~1d3} cleric of [Religion.Halfling Gods], led by level {Dice~1d4+2} [FR_Misc.StrongheartHalfling_Class]
+44-45,{Dice~1d2} Hellhound
+46,Devil: Hellcat
+47-48,{Dice~1d2} Hieracosphinx
+49-50,Hill Giant
+51-53,{Dice~1d6+1} Hobgoblin
+54-57,{Dice~1d2} Leucrotta (MoF)
+58-66,<b>NPCs:</b><br>{Loop~{Dice~1d3+2},[FR_Random_NPC.FR_SM_NPC]}
+67-72,{Dice~1d4+4} Nighthunter bat (MoF)
+73-74,Nightmare
+75-77,{Dice~1d3+1} Ogre
+78-80,{Dice~1d3+1} Orc
+81,{Dice~1d2} Salamander (average)
+82-84,Spectral panther (MoF)
+85-86,{Dice~1d4} Shadow
+87-89,{Dice~1d2+1} Vampire spawn
+90,{Dice~1d2} Werebear
+91-92,{Dice~1d2} Weretiger
+93-94,{Dice~1d4+1} Wight
+95-96,{Dice~1d6+2} Animal: wolf
+97-99,{Dice~1d2} Wraith
+100,Wyvern
+
+:SH_Dragon
+01-10,Blue, young
+11-30,Copper, juvenile
+31-40,Fang, young (MoF)
+41-50,Gold, young
+51,Dracolich, Red, very young (FRCS)
+52-81,Red, young
+82-100,Song, young (MoF)

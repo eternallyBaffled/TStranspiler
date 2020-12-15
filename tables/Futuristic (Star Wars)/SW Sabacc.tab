@@ -1,0 +1,564 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder Jan 20, 2006.
+# ---------------------------------------------------
+#
+# Star Wars Sabacc
+# (a Star Wars game of chance)
+# 
+# Hodak 11-8-05
+# 
+# Modified by Valminder, Jan 2006.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+#
+
+/OverrideRolls 1
+
+%Dcard1%,0
+%Dcard2%,0
+%Dcard3%,0
+%Dcard4%,0
+%Dtot%,0
+%Dstatus%,0
+%Dwin%,0
+
+%Pcard1%,0
+%Pcard2%,0
+%Pcard3%,0
+%Pcard4%,0
+%Ptot%,0
+%Pstatus%,0
+%Pwin%,0
+
+%CardVal%,0
+%Array%,0
+%ArrayChk%,No
+%Rules%,1
+%Game%,3
+%Players%,5
+
+%CC1%,0
+%CC2%,0
+%CC3%,0
+%CC4%,0
+%CC5%,0
+%CardDump%,0
+
+@Game,3,What style of Sabacc?,Casino Style,Poker Style,View Instructions
+@Rules,1,What Rules are you using?,Old Republic,Rebel Alliance,Imperial,Cloud City,Mos Eisley,Corellian,Corporate Sector,Crseih Station
+@Players,5,Number of Players (max 5) Only used in Poker Style:
+@CardDump,24,How many remaining cards would you like to see? (max 24)
+
+:Start
+1,{Status~By Patrick Hodak 2005}[Game=%Game%]
+
+:Game
+1,<h3>[Rules=%Rules%] Casino Rules Sabacc</h3>
+_[Dcard]<hr>[Pcard]<br><b>[Winner]</b>
+2,<h3>[Rules=%Rules%] Rules Sabacc</h3>{If~%Players% > 5 ? |Players=5|}
+_[Dcard]{Loop~%Players%,<hr>[Pcard]<br>}<hr>
+#_|CardDump={Calc~60-4*%Players%+4}|<b>Remaining Cards:</b><br>
+_{If~%CardDump% > 24 ? |CardDump=24|}<b>Next %CardDump% Cards:</b><br>
+_{Loop~%CardDump%,[Cards]<br>}
+3,[Instructions]
+
+:Rules
+1,Old Republic
+2,Rebel Alliance
+3,Imperial
+4,Cloud City
+5,Mos Eisley
+6,Corellian
+7,Corporate Sector
+8,Crseih Station
+
+:Dcard
+1,<b>Dealer Cards</b><br> 
+#_{Loop~4,[Cards]<br>}
+_[Cards]|Dcard1=%CardVal%|<br>
+_[Cards]|Dcard2=%CardVal%|<br>
+_[Cards]|Dcard3=%CardVal%|<br>
+_[Cards]|Dcard4=%CardVal%|<br>
+_|Dtot={Calc~%Dcard1%+%Dcard2%+%Dcard3%+%Dcard4%}|
+_{If~%Dtot% = 23 ? |Dstatus=Pure Sabacc||Dwin=15|}
+_{If~%Dtot% = 46 ? |Dstatus=Sabacc||Dwin=10|}
+_{If~%Dtot% > 46 ? |Dstatus=too many points||Dwin=-1||Dtot=0|}
+_{If~%Dtot% > 23 ? |Dtot={Calc~%Dtot%-23}|}
+_{If~%ArrayChk%=Yes? [Check=1]}|Array=0|
+_Dealer has {If~%Dstatus% = 0 ? %Dtot% / %Dstatus%}
+
+:Pcard
+1,<b>{Note~Player Cards}</b><br> 
+_[Cards]|Pcard1=%CardVal%|<br>
+_[Cards]|Pcard2=%CardVal%|<br>
+_[Cards]|Pcard3=%CardVal%|<br>
+_[Cards]|Pcard4=%CardVal%|<br>
+_|Ptot={Calc~%Pcard1%+%Pcard2%+%Pcard3%+%Pcard4%}|
+_{If~%Ptot% = 23 ? |Pstatus=Pure Sabacc||Pwin=15|}
+_{If~%Ptot% = 46 ? |Pstatus=Sabacc||Pwin=10|}
+_{If~%Ptot% > 46 ? |Pstatus=too many points||Pwin=-1||Ptot=0|}
+_{If~%Ptot% > 23 ? |Ptot={Calc~%Ptot%-23}|}
+_{If~%ArrayChk%=Yes? [Check=2]}|Array=0|
+_Player has {If~%Pstatus% = 0 ? %Ptot% / %Pstatus%}|Pstatus=0|
+
+:Winner
+1,{If~%Pwin% > %Dwin% ? Player Wins}
+_{If~%Dwin% > %Pwin% ? Dealer Wins}
+_{If~%Pwin% = %Dwin% ? [Win2]}
+
+:Win2
+1,{If~%Ptot% > %Dtot% ? Player Wins}
+_{If~%Dtot% > %Ptot% ? Dealer Wins}
+_{If~%Ptot% = %Dtot% ? Draw}
+
+:Check
+1,{If~%Array% = 6 ? |Dstatus=Idiot's Array||Dwin=5|}
+2,{If~%Array% = 6 ? |Pstatus=Idiot's Array||Pwin=5|}
+
+:Cards
+1-15,{If~%CC1% = 15 ? [Cards] / [Staves] of Staves|CC1+1|}
+16-30,{If~%CC2% = 15 ? [Cards] / [Jugs] of Jugs|CC2+1|}
+31-45,{If~%CC3% = 15 ? [Cards] / [Sabers] of Sabers|CC3+1|}
+46-60,{If~%CC4% = 15 ? [Cards] / [Coins] of Coins|CC4+1|}
+61-68,{If~%CC5% = 8 ? [Cards] / [Special%Rules%]|CC5+1|}
+
+:!Staves
+1,One|CardVal=1||Array+1|
+2,Two|CardVal=2||Array+2|
+3,Three|CardVal=3||Array+3|
+4,Four|CardVal=4|
+5,Five|CardVal=5|
+6,Six|CardVal=6|
+7,Seven|CardVal=7|
+8,Eight|CardVal=8|
+9,Nine|CardVal=9|
+10,Ten|CardVal=10|
+11,Eleven|CardVal=11|
+12,Commander|CardVal=12|
+13,Mistress|CardVal=13|
+14,Master|CardVal=14|
+15,Ace|CardVal=15|
+
+:!Sabers
+1,One|CardVal=1||Array+1|
+2,Two|CardVal=2||Array+2|
+3,Three|CardVal=3||Array+3|
+4,Four|CardVal=4|
+5,Five|CardVal=5|
+6,Six|CardVal=6|
+7,Seven|CardVal=7|
+8,Eight|CardVal=8|
+9,Nine|CardVal=9|
+10,Ten|CardVal=10|
+11,Eleven|CardVal=11|
+12,Commander|CardVal=12|
+13,Mistress|CardVal=13|
+14,Master|CardVal=14|
+15,Ace|CardVal=15|
+
+:!Jugs
+1,One|CardVal=1||Array+1|
+2,Two|CardVal=2||Array+2|
+3,Three|CardVal=3||Array+3|
+4,Four|CardVal=4|
+5,Five|CardVal=5|
+6,Six|CardVal=6|
+7,Seven|CardVal=7|
+8,Eight|CardVal=8|
+9,Nine|CardVal=9|
+10,Ten|CardVal=10|
+11,Eleven|CardVal=11|
+12,Commander|CardVal=12|
+13,Mistress|CardVal=13|
+14,Master|CardVal=14|
+15,Ace|CardVal=15|
+
+:!Coins
+1,One|CardVal=1||Array+1|
+2,Two|CardVal=2||Array+2|
+3,Three|CardVal=3||Array+3|
+4,Four|CardVal=4|
+5,Five|CardVal=5|
+6,Six|CardVal=6|
+7,Seven|CardVal=7|
+8,Eight|CardVal=8|
+9,Nine|CardVal=9|
+10,Ten|CardVal=10|
+11,Eleven|CardVal=11|
+12,Commander|CardVal=12|
+13,Mistress|CardVal=13|
+14,Master|CardVal=14|
+15,Ace|CardVal=15|
+
+#Old Republic
+:!Special1
+1,<font color="blue">Idiot|CardVal=0||ArrayChk=Yes|</font>
+2,<font color="green">Rancor (9)|CardVal=9|</font>
+3,<font color="green">Jedi Knight (3)|CardVal=3|</font>
+4,<font color="green">Jedi Master (3)|CardVal=3|</font>
+5,<font color="red">Dark Jedi (-14)|CardVal=-14|</font>
+6,<font color="green">Lord of the Sith (10)|CardVal=10|</font>
+7,<font color="green">Smuggler (10)|CardVal=10|</font>
+8,<font color="green">Bounty Hunter (9)|CardVal=9|</font>
+
+#Rebel Alliance
+:!Special2
+1,<font color="blue">Idiot|CardVal=0||ArrayChk=Yes|</font>
+2,<font color="green">Rancor (7)|CardVal=7|</font>
+3,<font color="green">Jedi Knight (3)|CardVal=3|</font>
+4,<font color="green">Jedi Master (4)|CardVal=4|</font>
+5,<font color="green">Dark Jedi (12)|CardVal=12|</font>
+6,<font color="red">Lord of the Sith (-10)|CardVal=-10|</font>
+7,<font color="green">Smuggler (5)|CardVal=5|</font>
+8,<font color="green">Bounty Hunter (9)|CardVal=9|</font>
+
+#Imperial
+:!Special3
+1,<font color="blue">Idiot|CardVal=0||ArrayChk=Yes|</font>
+2,<font color="green">Rancor (7)|CardVal=7|</font>
+3,<font color="green">Jedi Knight (15)|CardVal=15|</font>
+4,<font color="red">Jedi Master (-9)|CardVal=-9|</font>
+5,<font color="green">Dark Jedi (3)|CardVal=3|</font>
+6,<font color="green">Lord of the Sith (4)|CardVal=4|</font>
+7,<font color="green">Smuggler (7)|CardVal=7|</font>
+8,<font color="green">Bounty Hunter (3)|CardVal=3|</font>
+
+#Cloud City
+:!Special4
+1,<font color="blue">Idiot|CardVal=0||ArrayChk=Yes|</font>
+2,<font color="green">Rancor (7)|CardVal=7|</font>
+3,<font color="green">Jedi Knight (4)|CardVal=4|</font>
+4,<font color="green">Jedi Master (6)|CardVal=6|</font>
+5,<font color="green">Dark Jedi (9)|CardVal=9|</font>
+6,<font color="red">Lord of the Sith (-8)|CardVal=-8|</font>
+7,<font color="green">Smuggler (5)|CardVal=5|</font>
+8,<font color="green">Bounty Hunter (7)|CardVal=7|</font>
+
+#Mos Eisley
+:!Special5
+1,<font color="blue">Idiot|CardVal=0||ArrayChk=Yes|</font>
+2,<font color="green">Rancor (5)|CardVal=5|</font>
+3,<font color="green">Jedi Knight (7)|CardVal=7|</font>
+4,<font color="green">Jedi Master (8)|CardVal=8|</font>
+5,<font color="red">Dark Jedi (-11)|CardVal=-11|</font>
+6,<font color="green">Lord of the Sith (10)|CardVal=10|</font>
+7,<font color="green">Smuggler (6)|CardVal=6|</font>
+8,<font color="green">Bounty Hunter (5)|CardVal=5|</font>
+
+#Corellian
+:!Special6
+1,<font color="blue">Idiot|CardVal=0||ArrayChk=Yes|</font>
+2,<font color="green">Rancor (4)|CardVal=4|</font>
+3,<font color="green">Jedi Knight (10)|CardVal=10|</font>
+4,<font color="red">Jedi Master (-13)|CardVal=-13|</font>
+5,<font color="green">Dark Jedi (11)|CardVal=11|</font>
+6,<font color="green">Lord of the Sith (11)|CardVal=11|</font>
+7,<font color="green">Smuggler (4)|CardVal=4|</font>
+8,<font color="green">Bounty Hunter (3)|CardVal=3|</font>
+
+#Corporate Sector
+:!Special7
+1,<font color="blue">Idiot|CardVal=0||ArrayChk=Yes|</font>
+2,<font color="green">Rancor (5)|CardVal=5|</font>
+3,<font color="red">Jedi Knight (-7)|CardVal=-7|</font>
+4,<font color="green">Jedi Master (8)|CardVal=8|</font>
+5,<font color="green">Dark Jedi (7)|CardVal=7|</font>
+6,<font color="green">Lord of the Sith (8)|CardVal=8|</font>
+7,<font color="green">Smuggler (6)|CardVal=6|</font>
+8,<font color="green">Bounty Hunter (3)|CardVal=3|</font>
+
+#Crseih Station
+:!Special8
+1,<font color="blue">Idiot|CardVal=0||ArrayChk=Yes|</font>
+2,<font color="green">Rancor (7)|CardVal=7|</font>
+3,<font color="green">Jedi Knight (8)|CardVal=8|</font>
+4,<font color="red">Jedi Master (-6)|CardVal=-6|</font>
+5,<font color="green">Dark Jedi (5)|CardVal=5|</font>
+6,<font color="green">Lord of the Sith (4)|CardVal=4|</font>
+7,<font color="green">Smuggler (6)|CardVal=6|</font>
+8,<font color="green">Bounty Hunter (6)|CardVal=6|</font>
+
+:Instructions
+1,<center><b>Welcome to the World Series of Sabacc</b></center><br>
+_<p>Sabacc is a card game where players try to obtain a score of either 
+_23, "Pure Sabacc," or 46, "Sabacc". If no player has a score of 23 
+_or 46, then the winner is the player with the highest card score. This 
+_score is based on the total point values of each card. If the player's 
+_total card value is less than 23, then his score is that value. If 
+_a player's total card value is greater than 23, then his score is that 
+_value minus 23.</p>
+_<p>A player can also win if he has the "Idiot's Array," which is comprised 
+_of the Idiot card (discussed later), as well as the One, Two, and Three of any 
+_suit. However, "Sabacc" and "Pure Sabacc" win over the "Idiot's Array."</p>
+_<p>There are four suits: Staves, Jugs, Coins, and Sabers. Each suit is 
+_comprised of 15 cards. The individual cards and values are as follows:
+_<ul>
+_<li><b>Numerical, One - Eleven:</b> These values are as the numerical value dicatates.</li>
+_<li><b>Commander:</b> Worth 12 points</li>
+_<li><b>Mistress:</b> Worth 13 points</li>
+_<li><b>Master:</b> Worth 14 points</li>
+_<li><b>Ace:</b> Worth 15 points</li></ul></p>
+_<p>There is one additional set of cards that are compromised of the following: 
+_The Idiot, The Rancor, The Jedi Knight, The Jedi Master, The Dark Jedi, 
+_The Lord of the Sith, The Smuggler, and The Bounty Hunter. The individual 
+_values of these cards change based on the the differing sets of rules. 
+_The different rule varients are listed at the bottom of this screen.</p>
+_<p>This file includes two styles of play: Casino style and Poker style. 
+_<b>Poker style</b> is the traditional form of play in which a maximum of 5 players 
+_and one dealer are dealt cards from the deck. In a real game of Sabacc, players 
+_would be able to swap out cards as they see fit. In this version, players 
+_are stuck with the hand they are given. <b>Casino style</b> plays more like 
+_blackjack than poker. The player and dealer are dealt one hand and whomever's 
+_is best wins the hand.
+#
+_<table width="100&#37;" border=1 cellpadding=0>
+_<tr valign="top"><td width="25&#37;" colspan=2>
+_<center><b>Old Republic Rules</b></center>
+_</td>
+_<td width="25&#37;" colspan=2>
+_<center><b>Rebel Alliance Rules</b></center>
+_</td></tr>
+_<tr valign="top" align="center">
+_<td width="25&#37;"><b>Card</b>
+_<td width="25&#37;"><b>Value</b>
+_<td width="25&#37;"><b>Card</b>
+_<td width="25&#37;"><b>Value</b>
+_</td></tr>
+_<tr valign="top" align="center">
+_<td width="25&#37;">The Idiot
+_<td width="25&#37;">0
+_<td width="25&#37;">The Idiot
+_<td width="25&#37;">0
+_</td></tr>
+_<tr valign="top" align="center">
+_<td width="25&#37;">The Rancor
+_<td width="25&#37;">9
+_<td width="25&#37;">The Rancor
+_<td width="25&#37;">7
+_</td></tr>
+_<tr valign="top" align="center">
+_<td width="25&#37;">Jedi Knight
+_<td width="25&#37;">3
+_<td width="25&#37;">Jedi Knight
+_<td width="25&#37;">3
+_</td></tr>
+_<tr valign="top" align="center">
+_<td width="25&#37;">Jedi Master
+_<td width="25&#37;">3
+_<td width="25&#37;">Jedi Master
+_<td width="25&#37;">4
+_</td></tr>
+_<tr valign="top" align="center">
+_<td width="25&#37;">Dark Jedi
+_<td width="25&#37;">-14
+_<td width="25&#37;">Dark Jedi
+_<td width="25&#37;">12
+_</td></tr>
+_<tr valign="top" align="center">
+_<td width="25&#37;">Sith Lord
+_<td width="25&#37;">10
+_<td width="25&#37;">Sith Lord
+_<td width="25&#37;">-10
+_</td></tr>
+_<tr valign="top" align="center">
+_<td width="25&#37;">The Smuggler
+_<td width="25&#37;">10
+_<td width="25&#37;">The Smuggler
+_<td width="25&#37;">5
+_</td></tr>
+_<tr valign="top" align="center">
+_<td width="25&#37;">Bounty Hunter
+_<td width="25&#37;">9
+_<td width="25&#37;">Bounty Hunter
+_<td width="25&#37;">9
+_</td></tr>
+_</table>
+#
+_<table width="100&#37;" border=1 cellpadding=0>
+_<tr valign="top"><td width="25&#37;" colspan=2>
+_<center><b>Imperial Rules</b></center>
+_</td>
+_<td width="25&#37;" colspan=2>
+_<center><b>Cloud City Rules</b></center>
+_</td></tr>
+_<tr valign="top" align="center">
+_<td width="25&#37;"><b>Card</b>
+_<td width="25&#37;"><b>Value</b>
+_<td width="25&#37;"><b>Card</b>
+_<td width="25&#37;"><b>Value</b>
+_</td></tr>
+_<tr valign="top" align="center">
+_<td width="25&#37;">The Idiot
+_<td width="25&#37;">0
+_<td width="25&#37;">The Idiot
+_<td width="25&#37;">0
+_</td></tr>
+_<tr valign="top" align="center">
+_<td width="25&#37;">The Rancor
+_<td width="25&#37;">7
+_<td width="25&#37;">The Rancor
+_<td width="25&#37;">7
+_</td></tr>
+_<tr valign="top" align="center">
+_<td width="25&#37;">Jedi Knight
+_<td width="25&#37;">15
+_<td width="25&#37;">Jedi Knight
+_<td width="25&#37;">4
+_</td></tr>
+_<tr valign="top" align="center">
+_<td width="25&#37;">Jedi Master
+_<td width="25&#37;">-9
+_<td width="25&#37;">Jedi Master
+_<td width="25&#37;">6
+_</td></tr>
+_<tr valign="top" align="center">
+_<td width="25&#37;">Dark Jedi
+_<td width="25&#37;">3
+_<td width="25&#37;">Dark Jedi
+_<td width="25&#37;">9
+_</td></tr>
+_<tr valign="top" align="center">
+_<td width="25&#37;">Sith Lord
+_<td width="25&#37;">4
+_<td width="25&#37;">Sith Lord
+_<td width="25&#37;">-8
+_</td></tr>
+_<tr valign="top" align="center">
+_<td width="25&#37;">The Smuggler
+_<td width="25&#37;">7
+_<td width="25&#37;">The Smuggler
+_<td width="25&#37;">5
+_</td></tr>
+_<tr valign="top" align="center">
+_<td width="25&#37;">Bounty Hunter
+_<td width="25&#37;">3
+_<td width="25&#37;">Bounty Hunter
+_<td width="25&#37;">7
+_</td></tr>
+_</table>
+#
+_<table width="100&#37;" border=1 cellpadding=0>
+_<tr valign="top"><td width="25&#37;" colspan=2>
+_<center><b>Mos Eisley Rules</b></center>
+_</td>
+_<td width="25&#37;" colspan=2>
+_<center><b>Corellian Rules</b></center>
+_</td></tr>
+_<tr valign="top" align="center">
+_<td width="25&#37;"><b>Card</b>
+_<td width="25&#37;"><b>Value</b>
+_<td width="25&#37;"><b>Card</b>
+_<td width="25&#37;"><b>Value</b>
+_</td></tr>
+_<tr valign="top" align="center">
+_<td width="25&#37;">The Idiot
+_<td width="25&#37;">0
+_<td width="25&#37;">The Idiot
+_<td width="25&#37;">0
+_</td></tr>
+_<tr valign="top" align="center">
+_<td width="25&#37;">The Rancor
+_<td width="25&#37;">5
+_<td width="25&#37;">The Rancor
+_<td width="25&#37;">4
+_</td></tr>
+_<tr valign="top" align="center">
+_<td width="25&#37;">Jedi Knight
+_<td width="25&#37;">7
+_<td width="25&#37;">Jedi Knight
+_<td width="25&#37;">10
+_</td></tr>
+_<tr valign="top" align="center">
+_<td width="25&#37;">Jedi Master
+_<td width="25&#37;">8
+_<td width="25&#37;">Jedi Master
+_<td width="25&#37;">-13
+_</td></tr>
+_<tr valign="top" align="center">
+_<td width="25&#37;">Dark Jedi
+_<td width="25&#37;">-11
+_<td width="25&#37;">Dark Jedi
+_<td width="25&#37;">11
+_</td></tr>
+_<tr valign="top" align="center">
+_<td width="25&#37;">Sith Lord
+_<td width="25&#37;">10
+_<td width="25&#37;">Sith Lord
+_<td width="25&#37;">11
+_</td></tr>
+_<tr valign="top" align="center">
+_<td width="25&#37;">The Smuggler
+_<td width="25&#37;">6
+_<td width="25&#37;">The Smuggler
+_<td width="25&#37;">4
+_</td></tr>
+_<tr valign="top" align="center">
+_<td width="25&#37;">Bounty Hunter
+_<td width="25&#37;">5
+_<td width="25&#37;">Bounty Hunter
+_<td width="25&#37;">3
+_</td></tr>
+_</table>
+#
+_<table width="100&#37;" border=1 cellpadding=0>
+_<tr valign="top"><td width="25&#37;" colspan=2>
+_<center><b>Corporate Sector Rules</b></center>
+_</td>
+_<td width="25&#37;" colspan=2>
+_<center><b>Crsieh Station Rules</b></center>
+_</td></tr>
+_<tr valign="top" align="center">
+_<td width="25&#37;"><b>Card</b>
+_<td width="25&#37;"><b>Value</b>
+_<td width="25&#37;"><b>Card</b>
+_<td width="25&#37;"><b>Value</b>
+_</td></tr>
+_<tr valign="top" align="center">
+_<td width="25&#37;">The Idiot
+_<td width="25&#37;">0
+_<td width="25&#37;">The Idiot
+_<td width="25&#37;">0
+_</td></tr>
+_<tr valign="top" align="center">
+_<td width="25&#37;">The Rancor
+_<td width="25&#37;">5
+_<td width="25&#37;">The Rancor
+_<td width="25&#37;">7
+_</td></tr>
+_<tr valign="top" align="center">
+_<td width="25&#37;">Jedi Knight
+_<td width="25&#37;">-7
+_<td width="25&#37;">Jedi Knight
+_<td width="25&#37;">8
+_</td></tr>
+_<tr valign="top" align="center">
+_<td width="25&#37;">Jedi Master
+_<td width="25&#37;">8
+_<td width="25&#37;">Jedi Master
+_<td width="25&#37;">-6
+_</td></tr>
+_<tr valign="top" align="center">
+_<td width="25&#37;">Dark Jedi
+_<td width="25&#37;">7
+_<td width="25&#37;">Dark Jedi
+_<td width="25&#37;">5
+_</td></tr>
+_<tr valign="top" align="center">
+_<td width="25&#37;">Sith Lord
+_<td width="25&#37;">8
+_<td width="25&#37;">Sith Lord
+_<td width="25&#37;">4
+_</td></tr>
+_<tr valign="top" align="center">
+_<td width="25&#37;">The Smuggler
+_<td width="25&#37;">6
+_<td width="25&#37;">The Smuggler
+_<td width="25&#37;">6
+_</td></tr>
+_<tr valign="top" align="center">
+_<td width="25&#37;">Bounty Hunter
+_<td width="25&#37;">3
+_<td width="25&#37;">Bounty Hunter
+_<td width="25&#37;">6
+_</td></tr>
+_</table>

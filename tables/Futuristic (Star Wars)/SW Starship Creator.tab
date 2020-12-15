@@ -1,0 +1,634 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder Jan 30, 2006.
+# ---------------------------------------------------
+#
+# Starship Creator
+# (randomly generates a Starship using the SotG rules)
+#
+# Created by Patrick Hodak
+#
+# Modified by Valminder, Jan 2006.
+#    Adapted for TSv5.
+#    Added "Space Freighter or Starfighter" parameter.
+#    Modified value of %Skill%
+#       :Quality
+#       2,|skill=0|
+#       4,|skill=2|
+#       8,|skill=4|
+#    Added link to:
+#       AddComma.Start
+#       SW Starship Names.Start
+#
+
+/OverrideRolls 1
+
+%check%,0
+%class%,0
+%size%,0
+%crew%,0
+%init%,0
+%man%,0
+%def%,0
+%SP%,0
+%HP%,0
+%Cu%,0
+%Cn%,0
+%HD%,0
+%Pass%,0
+%CC%,0
+%Con%,0
+%MS%,0
+%AS%,0
+%EQ%,0
+%EB%,0
+%mansys%,0
+
+%a%,0
+%b%,0
+%c%,0
+%temp%,0
+
+%wc%,0
+%FC%,0
+%SM%,0
+%wpn1%,0
+%wpn2%,0
+%wpn3%,0
+%wpn4%,0
+%wpn5%,0
+%skill%,0
+%dmg%,0
+%arc%,0
+%wpn%,0
+%MQ%,0
+%Fire%,1
+
+%ConPt%,0
+%CCnum%,0
+%Connum%,0
+%EP%,0
+%Cmult%,1
+
+%ShipType%,3
+
+@ShipType,3,Choose type of ship,Space Freighter,Starfighter,Random
+
+:Start
+1,{Status~By Patrick Hodak 2005, Valminder 2006}
+_<h3>[Random=%ShipType%]</h3>
+_<table width="100&#37;" border=0 cellpadding=0>
+_<tr valign="top"><td width="24&#37;"><b>
+_Class:<br>
+_Size:<br>
+_Hyperdrive:<br>
+_Passengers:<br>
+_Cargo Capacity:<br>
+_Consumables:<br>
+#_Cost (new):</b><br>
+_</td><td width="24&#37;">
+_%class%<br>
+_{Split~size,",",a,b}%a% (%b%m)<br>
+_%HD%<br>
+_%Pass%<br>
+_%CC%<br>
+_%Con%<br>
+#_{If~%Cn% > 0 ? %Cn% / Not available for sale}<br>
+_</td><td width="20&#37;"><b>
+_Crew:<br>
+_Initiative:<br>
+_Maneuver:<br>
+_Defense:<br>
+_Shield Points:<br>
+_Hull Points:<br>
+_{If~%Cu% > 0 ? Cost (used): }</b><br>
+_</td><td width="32&#37;">
+_{Split~crew,",",a,b}%a% (Skilled +%b%)[Quality=%b%]<br>
+_{Split~init,",",a,b,c}[plus=3]%a% ([plus=1]%b% size, +%c% crew)<br>
+_{Split~man,",",a,b,c}[plus=3]%a%[EQ=1][MS=1] ([plus=1]%b% size, +%c% crew)<br>
+_{Split~def,",",a,b,c}[plus=3]%a% ([plus=1]%b% size, +%c% armor)|SM=%b%|<br>
+_{Split~SP,",",a,b}{If~%a% = 0 ? None / %a% (DR %b%)}<br>
+_{Split~HP,",",a,b}%a% (DR %b%)<br>
+#_{If~%Cu% > 0 ? %Cu%}<br>
+_</td></tr></table>
+_<table width="100&#37;" border=0 cellpadding=0>
+_<tr valign="top"><td width="30&#37;">
+_<b>Maximum Speed:</b><br>
+_<b>Atmospheric Speed:</b><br>
+_</td><td width="70&#37;">
+_{Split~MS,",",a,b}%a% (%b% squares/action)<br>
+_{Split~AS,",",a,b}{If~%a% > 0 ? [AS] / Not Applicable}<br>
+_</td></tr></table>
+_<hr>
+_{If~%wpn1%>0? [Weapon1=%wc%]}
+_{If~%wpn2%>0? <br>[Weapon2=%wc%]}
+_{If~%wpn3%>0? <br>[Weapon3=%wc%]}
+_{If~%wpn4%>0? <br>[Weapon4=%wc%]}
+_{If~%wpn5%>0? <br>[Weapon5=%wc%]}
+_<hr>
+_{If~%EQ%>0? [EQ=2]}
+_{If~%EQ%<0? [EQ=3]}
+_{If~%mansys%>0? [MS=2]}
+_{If~%check%>0? [EB=%wc%]}
+_[Fire=%Fire%]</font><br>
+# Added Trunc~ for TSv5
+_[WeaponsSuite=%EP%]
+_|ConPt*%Cmult%||ConPt={Trunc~%ConPt%}|[BaseCost=%ConPt%]
+_<center><font size="+2" face="arial"><b>Price:</b> <u><font color="red">|Cn={Trunc~%Cn%}|[AddComma.Start(%Cn%)]</font></u> credits</font></center>
+
+:AS
+1,%a% km/h (%b% squares/action)
+
+:Random
+1,|class={Param~ShipType,%ShipType%}||wc=2|[Freighter], [SW Starship Names.Start]
+2,|class={Param~ShipType,%ShipType%}||wc=1|[Starfighter], [SW Starship Names.Start]
+3,|ShipType={Dice~1d2}|[Random=%ShipType%]
+
+:Starfighter
+1,[FightShipYard] [StarfighterTypes][FightSize]{Split~crew,",",a,b}|init={Calc~%b%+%SM%},%SM%,%b%|
+_{If~%Pass%=None? [Sustain=%a%] / [Sustain={Calc~%a%+%Pass%}]}
+_{If~%CC% = %CCnum% kg ? [Stowage1=%CCnum%] / [Stowage2=%CCnum%]}
+_{If~%Con% = %Connum% day(s) ? [ConDay=%Connum%]}
+_{If~%Con% = %Connum% week(s) ? [ConWeek=%Connum%]}
+_{If~%Con% = %Connum% month(s) ? [ConMonth=%Connum%]}
+_{If~%Con% = %Connum% year(s) ? [ConYear=%Connum%]}
+_[FightHyper]
+_{If~%HD% = None ? / [FightBackup]}
+_[FightEngine]|man={Calc~%b%+%SM%+%EQ%},%SM%,%b%|
+_[FightShield][FightHull]
+#_[BaseCost=%ConPt%]
+
+:Freighter
+1,[FreightShipYard] [FreighterTypes][FreightSize]{Split~crew,",",a,b}|init={Calc~%b%+%SM%},%SM%,%b%|
+_{If~%Pass%=None? [Sustain=%a%] / [Sustain={Calc~%a%+%Pass%}]}
+_{If~%CC% = %CCnum% kg ? [Stowage1=%CCnum%] / [Stowage2=%CCnum%]}
+_{If~%Con% = %Connum% day(s) ? [ConDay=%Connum%]}
+_{If~%Con% = %Connum% week(s) ? [ConWeek=%Connum%]}
+_{If~%Con% = %Connum% month(s) ? [ConMonth=%Connum%]}
+_{If~%Con% = %Connum% year(s) ? [ConYear=%Connum%]}
+_[FreightHyper]
+_{If~%HD% = None ? / [FreightBackup]}
+_[FreightEngine]|man={Calc~%b%+%SM%+%EQ%},%SM%,%b%|
+_[FreightShield][FreightHull]
+#_[BaseCost=%ConPt%]
+
+;StarfighterTypes
+5,[FightDesig] Defender
+_|crew=1,2||ConPt+10||Pass=None||CCnum={Dice~1d111-1}||CC=%CCnum% kg|
+_|Connum={Dice~1d3}||Con=%Connum% week(s)||AS=1050,18||wpn1=1||wpn2=2|
+5,[FightDesig] Interceptor
+_|crew=1,2||ConPt+10||Pass=None||CCnum={Dice~1d66-1}||CC=%CCnum% kg|
+_|Connum={Dice~1d3}||Con=%Connum% day(s)||AS=1200,20||wpn1=1|
+5,[FightDesig] Fighter
+_|crew=1,2||ConPt+10||Pass=None||CCnum={Dice~1d66-1}||CC=%CCnum% kg|
+_|Connum={Dice~1d3}||Con=%Connum% week(s)||AS=1150,19||wpn1=1||wpn2=2|
+3,[FightDesig] Bomber
+_|crew=2,2||ConPt+10||Pass=None||CCnum={Dice~10d5*10}||CC=%CCnum% kg|
+_|Connum={Dice~1d3}||Con=%Connum% day(s)||AS=1000,17||wpn1=1||wpn2=2|
+5,[alpha.greek]-class Shuttle
+_|crew=6,2||ConPt+8||Pass=15||CCnum={Dice~10d5}||CC=%CCnum% tons|
+_|Connum={Dice~1d3}||Con=%Connum% month(s)||AS=1000,17||wpn1=1||wpn2=1|
+2,[alpha.aurabesh]-[alpha.aurabesh] Gunship
+_|crew=4,2||ConPt+9||Pass=None||CCnum={Dice~1d111-1}||CC=%CCnum% kg|
+_|Connum={Dice~1d3}||Con=%Connum% day(s)||AS=1000,17||wpn1=1||wpn2=1||wpn3=3||wpn4=2|
+
+;FightSize
+10,|size=Tiny,{Dice~1d10+10}.{Dice~1d9}||ConPt+1||def=22,2,10||SM=2|
+5,|size=Diminutive,{Dice~1d5+5}.{Dice~1d9}||ConPt+1||def=24,4,10||SM=4|
+1,|size=Fine,{Dice~1d5}||ConPt+1||def=28,8,10||SM=8|
+
+;FightCrew
+10,|crew=1,2||ConPt+10|
+5,{Split~size,",",a,b}{If~%a% = Fine ? |crew=1,2||ConPt+10| / |crew={Dice~1d2},2||ConPt+10|}
+2,{Split~size,",",a,b}{If~%a% = Fine ? |crew=1,2||ConPt+10| / |crew={Dice~1d2+2},2||ConPt+9|}
+
+;FightHyper
+10,|HD=None|
+20,|HD=x6||ConPt+1|
+20,|HD=x3||ConPt+2|
+30,|HD=x2||ConPt+7|
+30,|HD=x1.5||ConPt+14|
+10,|HD=x1||ConPt+21|
+2,|HD=x0.75||ConPt+50|
+1,|HD=x0.5||ConPt+75|
+
+;FightBackup
+10,
+10,|HD=%HD% (x12)||ConPt+1|
+5,|HD=%HD% (x10)||ConPt+2|
+5,|HD=%HD% (x8)||ConPt+3|
+1,|HD=%HD% (x{Dice~1d4+3})||ConPt+4|
+
+;FightEngine
+20,|MS=Ramming,{Dice~1d2+8}||ConPt+12|
+10,|MS=Ramming,{Dice~1d2+8}||ConPt+20||EQ=2||EB=2|
+5,|MS=Ramming,10||ConPt+30||EQ=3||EB=3|
+1,|MS=Ramming,10||ConPt+40||EQ=4||EB=4|
+
+;FightShield
+10,|SP=0,0|
+10,|SP=30,10||ConPt+3|
+10,|SP=60,10||ConPt+5|
+5,|SP=90,10||ConPt+7|{Split~size,",",a,b}{If~%a% = Fine ? |ConPt+7|}{If~%a% = Diminutive ? |ConPt+7|}
+5,|SP=120,10||ConPt+10|{Split~size,",",a,b}{If~%a% = Fine ? |ConPt+10|}{If~%a% = Diminutive ? |ConPt+10|}{If~%a% = Tiny ? |ConPt+10|}
+2,|SP=150,10||ConPt+15|{Split~size,",",a,b}{If~%a% = Fine ? |ConPt+15|}{If~%a% = Diminutive ? |ConPt+15|}{If~%a% = Tiny ? |ConPt+15|}
+1,|SP=200,10||ConPt+20|{Split~size,",",a,b}{If~%a% = Fine ? |ConPt+20|}{If~%a% = Diminutive ? |ConPt+20|}{If~%a% = Tiny ? |ConPt+20|}
+
+;FightHull
+5,|HP=40,10|
+10,|HP=60,10||ConPt+1|
+15,|HP=90,10||ConPt+2|
+10,|HP=120,10||ConPt+3|
+5,{Split~size,","a,b}{If~%a% = Tiny ? |HP=150,10||ConPt+5| / |HP=120,10||ConPt+3|}
+
+;FreighterTypes
+5,[FreightDesig] Transport
+_|crew={Dice~1d2},2||ConPt+10||Pass=6||CCnum={Dice~1d50*10}||CC=%CCnum% tons|
+_|Connum={Dice~1d3*3}||Con=%Connum% months||AS=800,13||wpn1=1||wpn2={Dice~1d3-1}|
+2,[FreightDesig] Patrol and Attack Craft
+_|crew=1,2||ConPt+10||Pass=6||CCnum={Dice~1d7*10}||CC=%CCnum% tons|
+_|Connum={Dice~1d3}||Con=%Connum% month(s)||AS=1050,18||wpn1=1||wpn2=4|
+2,[FreightDesig] Cruiser
+_|crew={Dice~1d8*2},2||ConPt+9||Pass={Dice~1d6*2}||CCnum={Dice~1d50*20}||CC=%CCnum% tons|
+_|Connum={Dice~1d3}||Con=%Connum% month(s)||AS=1150,19||wpn1=1||wpn2={Dice~1d3-1}|
+4,[FreightDesig] Bulk Transport
+_|crew=8,2||ConPt+8||Pass=None||CCnum={Dice~1d15*2000}||CC=%CCnum% tons|
+_|Connum={Dice~1d3}||Con=%Connum% month(s)||AS=800,13||wpn1={Dice~1d2-1}|
+1,[FreightDesig] Assault Shuttle
+_|crew=5,2||ConPt+8||Pass={Dice~20d3}||CCnum={Dice~1d5}||CC=%CCnum% tons|
+_|Connum={Dice~1d3}||Con=%Connum% week(s)||AS=1050,18||wpn1=1||wpn2=4||wpn3={Dice~1d3-1}|
+5,[FreightDesig] Freighter
+_|crew=2,2||ConPt+10||Pass=4||CCnum={Dice~1d60*10}||CC=%CCnum% tons|
+_|Connum={Dice~1d3}||Con=%Connum% month(s)||AS=800,13||wpn1=1|
+3,[FreightDesig] Civilian Cruiser
+_|crew={Dice~1d2},2||ConPt+10||Pass={Dice~1d8*10}||CCnum={Dice~2d10*10}||CC=%CCnum% tons|
+_|Connum={Dice~1d3*3}||Con=%Connum% months||AS=1000,17||wpn1=1||wpn2=3||wpn3={Dice~1d3-1}|
+
+;FreightSize
+10,|size=Small,{Dice~10d4+10}.{Dice~1d9}||ConPt+3||def=21,1,10||SM=1|
+5,|size=Medium,{Dice~1d50+49}.{Dice~1d9}||ConPt+12||def=20,0,10||SM=0|
+
+;FreightHyper
+10,|HD=None|
+10,|HD=x6||ConPt+1|
+40,|HD=x3||ConPt+2|
+30,|HD=x2||ConPt+7|
+30,|HD=x1.5||ConPt+14|
+10,|HD=x1||ConPt+21|
+2,|HD=x0.75||ConPt+50|
+1,|HD=x0.5||ConPt+75|
+
+;FreightBackup
+5,
+15,|HD=%HD% (x12)||ConPt+1|
+10,|HD=%HD% (x10)||ConPt+2|
+5,|HD=%HD% (x8)||ConPt+3|
+1,|HD=%HD% (x{Dice~1d4+3})||ConPt+4|
+
+;FreightEngine
+20,|MS=Attack,{Dice~1d4+4}||ConPt+8|
+10,|MS=Cruising,{Dice~1d3+1}||ConPt+4|
+
+;FreightShield
+10,|SP=0,0|
+20,|SP=90,20||ConPt+7|{Split~size,",",a,b}{If~%a% = Medium ? |SP=90,30|}
+20,|SP=120,20||ConPt+10|{Split~size,",",a,b}{If~%a% = Medium ? |SP=120,30|}
+10,|SP=150,20||ConPt+15|{Split~size,",",a,b}{If~%a% = Small ? |ConPt+15|}{If~%a% = Medium ? |SP=150,30|}
+10,|SP=200,20||ConPt+20|{Split~size,",",a,b}{If~%a% = Small ? |ConPt+20|}{If~%a% = Medium ? |ConPt+20||SP=200,30|}
+5,|SP=250,20||ConPt+30||ConPt+30|{Split~size,",",a,b}{If~%a% = Medium ? |SP=250,30|}
+
+;FreightHull
+1,|HP=40,20|{Split~size,",",a,b}{If~%a% = Medium ? |SP=40,30|}
+1,|HP=60,20||ConPt+1|{Split~size,",",a,b}{If~%a% = Medium ? |SP=60,30|}
+5,|HP=90,20||ConPt+2|{Split~size,",",a,b}{If~%a% = Medium ? |SP=90,30|}
+10,|HP=120,20||ConPt+3|{Split~size,",",a,b}{If~%a% = Medium ? |SP=120,30|}
+10,|HP=150,20||ConPt+5|{Split~size,",",a,b}{If~%a% = Medium ? |SP=150,30|}
+5,|HP=180,20||ConPt+7|{Split~size,",",a,b}{If~%a% = Medium ? |SP=180,30|}
+8,|HP=240,30||ConPt+9|{If~%a% = Small ? |HP=180,20||ConPt-2|}
+1,|HP=300,30||ConPt+14|{If~%a% = Small ? |HP=180,20||ConPt-7|}
+1,|HP=360,30||ConPt+19|{If~%a% = Small ? |HP=180,20||ConPt-12|}
+
+:Weapon1
+1,[Fighter Weapons=%wpn1%]
+2,[Freighter Weapons=%wpn1%]
+3,[Capital Ship Weapons=%wpn1%]
+#line 398
+:Weapon2
+1,[Fighter Weapons=%wpn2%]
+2,[Freighter Weapons=%wpn2%]
+3,[Capital Ship Weapons=%wpn2%]
+
+:Weapon3
+1,[Fighter Weapons=%wpn3%]
+2,[Freighter Weapons=%wpn3%]
+3,[Capital Ship Weapons=%wpn3%]
+
+:Weapon4
+1,[Fighter Weapons=%wpn4%]
+2,[Freighter Weapons=%wpn4%]
+3,[Capital Ship Weapons=%wpn4%]
+
+:Weapon5
+1,[Fighter Weapons=%wpn5%]
+2,[Freighter Weapons=%wpn5%]
+3,[Capital Ship Weapons=%wpn5%]
+
+:Fighter Weapons
+1,[FighterCannon][Cannon]
+2,[FighterTorpedo][Torpedo]
+3,[FighterIon][Cannon]
+
+;!FighterCannon
+1,|wpn=Laser Cannons (4 fire-linked)||arc=Front||FC=6||dmg=6d10x2||Cn+22000||EP+9|
+5,|wpn=Laser Cannons (2 fire-linked)||arc=Front||FC=4||dmg=5d10x2||Cn+11000||EP+7|
+4,|wpn=Laser Cannons (2 fire-linked)||arc=Front||FC=6||dmg=5d10x2||Cn+16000||EP+7|
+3,|wpn=Laser Cannons (2 sets of 2 fire-linked)||arc=Front||FC=4||dmg=5d10x2||Cn+22000||EP+14|
+2,|wpn=Heavy Laser Cannons (2 fire-linked)||arc=Front||FC=4||dmg=6d10x2||Cn+13000||EP+9|
+1,|wpn=Heavy Laser Cannons (3 fire-linked)||arc=Front||FC=4||dmg=6d10x2||Cn+17000||EP+10|
+1,|wpn=Heavy Laser Cannons (4 fire-linked)||arc=Front||FC=8||dmg=7d10x2||Cn+36000||EP+11|
+2,|wpn=Heavy Laser Cannons (2 fire-linked)||arc=Front||FC=6||dmg=6d10x2||Cn+18000||EP+9|
+3,|wpn=Heavy Laser Cannons (2 fire-linked)||arc=Turret||FC=2||dmg=6d10x2||Cn+9500||EP+9|
+5,|wpn=Blaster Cannons*** (2 fire-linked)||arc=Front||FC=2||dmg=5d10x2||Fire=2||Cn+6000||EP+9|
+3,|wpn=Blaster Cannons*** (2 sets of 2 fire-linked)||arc=1 front, 1 rear||FC=2||dmg=5d10x2||Fire=2||Cn+12000||EP+18|
+1,|wpn=Assault Laser Cannon||arc=Front||FC=2||dmg=7d10x2||Cn+10000||EP+10|
+1,|wpn=Assault Laser Cannon||arc=Front||FC=4||dmg=7d10x2||Cn+15000||EP+10|
+1,|wpn=Assault Laser Cannons (2 fire-linked)||arc=Front||FC=2||dmg=8d10x2||Cn+22000||EP+11|
+5,|wpn=Autoblasters*** (2)||arc=Front||FC=4||dmg=3d10x2||Fire=3||Cn+14000||EP+12|
+3,|wpn=Autoblasters*** (2 fire-linked)||arc=Front||FC=4||dmg=4d10x2||Fire=3||Cn+11000||EP+7|
+5,|wpn=Twin Laser Cannons*** (2)||arc=Front||FC=4||dmg=2d10x2||Fire=2||Cn+13000||EP+8|
+5,|wpn=Twin Laser Cannons*** (2 fire-linked)||arc=Front||FC=4||dmg=3d10x2||Fire=2||Cn+10000||EP+5|
+5,|wpn=Light Laser Cannons (2 fire-linked)||arc=Front||FC=2||dmg=4d10x2||Cn+5000||EP+5|
+3,|wpn=Light Laser Cannons (2 fire-linked)||arc=Front||FC=4||dmg=4d10x2||Cn+10000||EP+5|
+5,|wpn=Light Laser Cannons (2)||arc=Front||FC=4||dmg=3d10x2||Cn+13000||EP+8|
+# line 446
+;FighterTorpedo
+5,|wpn=Proton torpedo Launchers (2, 3 missiles each)||arc=Front||dmg=9d10x2||MQ=Ordinary (+10)||Cn+8800||EP+6|
+3,|wpn=Proton torpedo Launchers (2, 3 missiles each)||arc=Front||dmg=9d10x2||MQ=Good (+15)||Cn+11200||EP+6|
+1,|wpn=Proton torpedo Launchers (2, 3 missiles each)||arc=Front||dmg=9d10x2||MQ=Superb (+20)||Cn+13600||EP+6|
+5,|wpn=Proton Torpedo Launchers (2, 8 missiles each)||arc=Front||dmg=9d10x2||MQ=Marginal (+5)||Cn+{Calc~5000+16*400}||EP+8|
+3,|wpn=Proton Torpedo Launchers (2, 8 missiles each)||arc=Front||dmg=9d10x2||MQ=Ordinary (+10)||Cn+{Calc~5000+16*800}||EP+8|
+5,|wpn=Proton torpedo Launchers (2, 4 missiles each)||arc=Front||dmg=9d10x2||MQ=Ordinary (+10)||Cn+{Calc~4000+8*800}||EP+8|
+2,|wpn=Proton torpedo Launchers (2 fire-linked, 5 missiles each)||arc=Front||dmg=10d10x2||MQ=Ordinary (+10)||Cn+{Calc~7000+10*800}||EP+5|
+1,|wpn=Proton torpedo launchers (2 fire-linked, 8 total)||arc=Front||dmg=10d10x2||MQ=Ordinary (+10)||Cn+{Calc~6000+8*800}||EP+4|
+1,|wpn=Proton torpedo launchers (2 fire-linked, 20 total)||arc=Front||dmg=10d10x2||MQ=Ordinary (+10)||Cn+{Calc~7000+20*800}||EP+5|
+2,|wpn=Proton torpedo launcher (16 missiles)||arc=Front||dmg=9d10x2||MQ=Ordinary (+10)||Cn+{Calc~2500+16*800}||EP+4|
+3,|wpn=Proton Torpedo launcher (6 missiles)||arc=Front||dmg=9d10x2||MQ=Ordinary (+10)||Cn+{Calc~2500+6*800}||EP+3|
+1,|wpn=Heavy Proton torpedo Tubes (2 fire-linked, 16 each)||arc=Front||dmg=11d10x2||MQ=Ordinary (+10)||Cn+{Calc~7000+32*2000}||EP+5|
+5,|wpn=Concussion missile launchers (2 fire-linked, 8 missiles each)||arc=front||dmg=8d10x2||MQ=Ordinary (+10)||Cn+{Calc~7000+16*500}||EP+4|
+3,|wpn=Concussion missile launchers (2 fire-linked, 8 missiles each)||arc=front||dmg=8d10x2||MQ=Good (+15)||Cn+{Calc~7000+16*750}||EP+4|
+5,|wpn=Concussion Missile Launcher (6 missiles)||arc=Front||dmg=7d10x2||MQ=Ordinary (+10)||Cn+{Calc~2500+6*500}||EP+3|
+3,|wpn=Concussion Missile Launcher (6 missiles)||arc=Front||dmg=7d10x2||MQ=Good (+15)||Cn+{Calc~2500+6*750}||EP+3|
+1,|wpn=Concussion Missile Launcher (6 missiles)||arc=Front||dmg=7d10x2||MQ=Superb (+20)||Cn+{Calc~2500+6*1000}||EP+3|
+1,|wpn=Proton torpedo launchers (2 fire-linked, 16 missiles each)||arc=front||dmg=10d10x2||MQ=Ordinary (+10)||Cn+{Calc~7000+32*800}||EP+5|
+1,|wpn=Proton torpedo Launchers (2 fire-linked, 4 hvy missiles each)||arc=Front||dmg=11d10x2||MQ=Ordinary (+10)||Cn+{Calc~6000+8*2000}||EP+4|
+
+;FighterIon
+1,|wpn=Light Ion Cannons (2 fire-linked)||arc=Turret (front)||FC=6||dmg=4d10x2||Cn+12000||EP+2|
+1,|wpn=Light Ion Cannons (2 fire-linked)||arc=Front||FC=8||dmg=4d10x2||Cn+24000||EP+2|
+2,|wpn=Light Ion Cannons (2 fire-linked)||arc=Rear||FC=2||dmg=4d10x2||Cn+4000||EP+2|
+5,|wpn=Light Ion Cannon||arc=Front||FC=4||dmg=3d10x2||Cn+6000||EP+1|
+5,|wpn=Light Ion Cannons (2 fire-linked)||arc=Front||FC=4||dmg=4d10x2||Cn+7000||EP+2|
+
+:Freighter Weapons
+1,[FreighterCannon][Cannon]
+2,[FreighterTorpedo][Torpedo]
+3,[FreighterIon][Cannon]
+4,[FreighterTrac][Cannon]
+
+;FreighterCannon
+1,|wpn=Blaster Cannons***(2)||arc=Turret||FC=4||dmg=5d10x2||Fire=2||Cn+17000||EP+16|
+1,|wpn=Laser Cannons (4)||arc=2 front, 2 turret||FC=6||dmg=5d10x2||Cn+51000||EP+24|
+5,|wpn=Laser Cannon||arc=Turret||FC=2||dmg=4d10x2||Cn+3500||EP+6|
+5,|wpn=Laser Cannon||arc=Turret||FC=4||dmg=4d10x2||Cn+8500||EP+6|
+3,|wpn=Laser Cannon||arc=Turret||FC=6||dmg=4d10x2||Cn+13500||EP+6|
+1,|wpn=Laser Cannon||arc=Turret||FC=8||dmg=4d10x2||Cn+23500||EP+6|
+5,|wpn=Laser Cannons (2 fire-linked)||arc=Turret||FC=4||dmg=5d10x2||Cn+14000||EP+7|
+3,|wpn=Laser Cannons (2 fire-linked)||arc=Turret||FC=6||dmg=5d10x2||Cn+19000||EP+7|
+2,|wpn=Light Turbolasers (2)||arc=Turret||FC=2||dmg=4d10x2||Cn+13000||EP+14|
+5,|wpn=Heavy Laser Cannon||arc=Turret||FC=2||dmg=5d10x2||Cn+4500||EP+8|
+5,|wpn=Heavy Laser Cannon||arc=Turret||FC=4||dmg=5d10x2||Cn+9500||EP+8|
+3,|wpn=Heavy Laser Cannon||arc=Turret||FC=6||dmg=5d10x2||Cn+14500||EP+8|
+1,|wpn=Heavy Laser Cannon||arc=Turret||FC=8||dmg=5d10x2||Cn+24500||EP+8|
+3,|wpn=Heavy Laser Cannons (2)||arc=Turret||FC=4||dmg=5d10x2||Cn+19000||EP+16|
+3,|wpn=Heavy Laser Cannon (2 fire-linked)||arc=Turret||FC=4||dmg=6d10x2||Cn+16000||EP+9|
+3,|wpn=Quadlaser Cannon***||arc=Turret||FC=4||dmg=6d10x2||Fire=3||Cn+11500||EP+8|
+2,|wpn=Quadlaser Cannons*** (2)||arc=Turret||FC=4||dmg=6d10x2||Fire=3||Cn+23000||EP+16|
+2,|wpn=Quadlaser Cannon*** (2 fire-linked)||arc=Turret||FC=4||Fire=3||dmg=7d10x2||Cn+20000||EP+9|
+1,|wpn=Assault Laser Cannon||arc=Turret||FC=4||dmg=7d10x2||Cn+18000||EP+10|
+5,|wpn=Light Laser Cannon||arc=Turret||FC=4||dmg=3d10x2||Cn+8000||EP+4|
+5,|wpn=Light Laser Cannons (2)||arc=Turret||FC=4||dmg=3d10x2||Cn+16000||EP+8|
+3,|wpn=Light Laser Cannons (2 fire-linked)||arc=Turret||FC=4||dmg=4d10x2||Cn+13000||EP+5|
+1,|wpn=Turbolaser Cannons (2)||arc=Turret||FC=6||dmg=2d10x5||Cn+21000||EP+12|
+1,|wpn=Twin Laser Cannons*** (4 fire-linked)||arc=Turret||FC=2||dmg=4d10x2||Fire=2||Cn+16000||EP+7|
+
+;FreighterTorpedo
+5,|wpn=Proton torpedo Launchers (2, 3 missiles each)||arc=Front||dmg=9d10x2||MQ=Ordinary (+10)||Cn+8800||EP+6|
+3,|wpn=Proton torpedo Launchers (2, 3 missiles each)||arc=Front||dmg=9d10x2||MQ=Good (+15)||Cn+11200||EP+6|
+1,|wpn=Proton torpedo Launchers (2, 3 missiles each)||arc=Front||dmg=9d10x2||MQ=Superb (+20)||Cn+13600||EP+6|
+5,|wpn=Proton Torpedo Launchers (2, 8 missiles each)||arc=Front||dmg=9d10x2||MQ=Marginal (+5)||Cn+{Calc~5000+16*400}||EP+8|
+3,|wpn=Proton Torpedo Launchers (2, 8 missiles each)||arc=Front||dmg=9d10x2||MQ=Ordinary (+10)||Cn+{Calc~5000+16*800}||EP+8|
+5,|wpn=Proton torpedo Launchers (2, 4 missiles each)||arc=Front||dmg=9d10x2||MQ=Ordinary (+10)||Cn+{Calc~4000+8*800}||EP+8|
+2,|wpn=Proton torpedo Launchers (2 fire-linked, 5 missiles each)||arc=Front||dmg=10d10x2||MQ=Ordinary (+10)||Cn+{Calc~7000+10*800}||EP+5|
+1,|wpn=Proton torpedo launchers (2 fire-linked, 8 total)||arc=Front||dmg=10d10x2||MQ=Ordinary (+10)||Cn+{Calc~6000+8*800}||EP+4|
+1,|wpn=Proton torpedo launchers (2 fire-linked, 20 total)||arc=Front||dmg=10d10x2||MQ=Ordinary (+10)||Cn+{Calc~7000+20*800}||EP+5|
+1,|wpn=Proton torpedo launchers (2 fire-linked, 16 missiles each)||arc=front||dmg=10d10x2||MQ=Ordinary (+10)||Cn+{Calc~7000+32*800}||EP+5|
+2,|wpn=Proton torpedo launcher (16 missiles)||arc=Front||dmg=9d10x2||MQ=Ordinary (+10)||Cn+{Calc~2500+16*800}||EP+4|
+3,|wpn=Proton Torpedo launcher (6 missiles)||arc=Front||dmg=9d10x2||MQ=Ordinary (+10)||Cn+{Calc~2500+6*800}||EP+3|
+5,|wpn=Proton torpedo launcher (4 hvy torpedos)||arc=Front||dmg=10d10x2||MQ=Ordinary (+10)||Cn+{Calc~2000+4*2000}||EP+3|
+1,|wpn=Proton torpedo Launchers (2 fire-linked, 4 hvy missiles each)||arc=Front||dmg=11d10x2||MQ=Ordinary (+10)||Cn+{Calc~6000+8*2000}||EP+4|
+1,|wpn=Proton torpedo Launchers (2 fire-linked, 16 hvy missiles each)||arc=Front||dmg=11d10x2||MQ=Ordinary (+10)||Cn+{Calc~7000+32*2000}||EP+5|
+5,|wpn=Concussion missile launchers (2 fire-linked, 8 missiles each)||arc=front||dmg=8d10x2||MQ=Ordinary (+10)||Cn+{Calc~7000+16*500}||EP+4|
+3,|wpn=Concussion missile launchers (2 fire-linked, 8 missiles each)||arc=front||dmg=8d10x2||MQ=Good (+15)||Cn+{Calc~7000+16*750}||EP+4|
+5,|wpn=Concussion Missile Launcher (6 missiles)||arc=Front||dmg=7d10x2||MQ=Ordinary (+10)||Cn+{Calc~2500+6*500}||EP+3|
+3,|wpn=Concussion Missile Launcher (6 missiles)||arc=Front||dmg=7d10x2||MQ=Good (+15)||Cn+{Calc~2500+6*750}||EP+3|
+1,|wpn=Concussion Missile Launcher (6 missiles)||arc=Front||dmg=7d10x2||MQ=Superb (+20)||Cn+{Calc~2500+6*1000}||EP+3|
+3,|wpn=Concussion missile launcher (15 missiles)||arc=Front||dmg=8d10x2||MQ=Ordinary (+10)||Cn+{Calc~3500+12*500}||EP+6|
+5,|wpn=Concussion missile tube (12 missiles)||arc=Front||dmg=8d10x2||MQ=Ordinary (+10)||Cn+{Calc~3500+12*500}||EP+6|
+5,|wpn=Concussion missile laucher (8 hvy missiles)||arc=Front||dmg=9d10x2||MQ=Ordinary (+10)||Cn+{Calc~2500+8*750}||EP+3|
+
+;FreighterIon
+1,|wpn=Ion Cannons (2 sets of 2 fire-linked)||arc=Turret||FC=2||dmg=5d10x2||Cn+16000||EP+6|
+5,|wpn=Ion Cannons (2 fire-linked)||arc=Turret||FC=4||dmg=5d10x2||Cn+13000||EP+3|
+2,|wpn=Ion Cannons (3 fire-linked)||arc=Front||FC=4||dmg=5d10x2||Cn+12500||EP+4|
+1,|wpn=Ion Cannons (4)||arc=2 front, 1 right and left||FC=4||dmg=4d10x2||Cn+22000||EP+8|
+10,|wpn=Ion Cannon||arc=Turret||FC=4||dmg=4d10x2||Cn+8000||EP+2|
+5,|wpn=Ion Cannon||arc=Turret||FC=6||dmg=4d10x2||Cn+13000||EP+2|
+1,|wpn=Ion Cannon||arc=Turret||FC=8||dmg=4d10x2||Cn+23000||EP+2|
+
+;FreighterTrac
+10,|wpn=Tractor Beam Projector||arc=Front||FC=2||dmg=Special||Cn+8000||EP+5|
+5,|wpn=Tractor Beam Projector||arc=Front||FC=4||dmg=Special||Cn+13000||EP+5|
+2,|wpn=Tractor Beam Projector||arc=Front||FC=6||dmg=Special||Cn+18000||EP+5|
+1,|wpn=Tractor Beam Projector||arc=Front||FC=8||dmg=Special||Cn+28000||EP+5|
+3,|wpn=Tractor Beam Projectors (2)||arc=1 right and left||FC=4||dmg=Special||Cn+26000||EP+10|
+3,|wpn=Tractor Beam Projectors (2)||arc=front||FC=4||dmg=Special||Cn+26000||EP+10|
+
+# Prints Weapons
+:Cannon
+1,<b>Weapon:</b> %wpn% <b>Fire Arc:</b> %arc%<br>
+_<b>Attack Bonus:</b> [plus=4]{Calc~%SM%+%skill%+%FC%+%EB%}{If~%EB% > 0 ? [EB=4]} ([plus=2]%SM% size, +%skill% crew, +%FC% fire control) 
+_<b>Damage:</b> %dmg%{If~%EB% > 0 ? |check=%EB%|}<br>
+
+:Torpedo
+1,<b>Weapon:</b> %wpn% <b><br>Fire Arc:</b> %arc% 
+_<b>Missile Quality:</b> %MQ% <b>Damage:</b> %dmg%<br>
+
+:Special
+1,<b>Weapon:</b> Jammer <b>Fire Arc:</b> All <br>
+_<b>Damage:</b> Enemy ships suffer a penalty to sensor checks (fighter -4, transports -2)<br>
+2,<b>Weapon:</b> Sensor Mask <b>Fire Arc:</b> n/a<br>
+_<b>Damage:</b> Increase DC of finding ship with sensors by +6
+3,<b>Weapon:</b> Mass Pulse Generator tubes (4, 4 mines each)
+4,<b>Weapon:</b> Gravity well projectors (4)
+
+# Miscellaneous Tables
+# I had to remove the "+" sign of the %skill% variable (Valminder jan 2006)
+:Quality
+2,|skill=0|
+4,|skill=2|
+8,|skill=4|
+
+:plus
+1,{If~%b% >= 0 ? +}
+2,{If~%SM% >= 0 ? +}
+3,{If~%a% >= 0 ? +}
+4,{If~{Calc~%SM%+%skill%+%FC%+%EB%} >= 0 ? +}
+
+:EQ
+1,{If~%EQ% > 0 ? *}{If~%EQ% < 0 ? *}
+2,<font size="-1">* Improved Engine Quality adds +%EQ% to maneuvering</font><br>
+3,<font size="-1">* Reduced Engine Quality reduces maneuvering by %EQ%</font><br>
+
+:EB
+1,<font size="-1">** Improved Control provides +%check% to attack bonus</font><br>
+2,<font size="-1">** Battery Fire provides +%check% to attack bonus</font><br>
+3,<font size="-1">** Battery Fire provides +%check% to attack bonus</font><br>
+4,{If~%EB% > 0 ? **}
+
+:Fire
+1,
+2,<font size="-1">*** Capable of Multifire
+3,<font size="-1">*** Capable of Autofire
+
+:MS
+1,{If~%mansys% > 0 ? *}
+2,<font size="-1">* Maneuvering system adds +%mansys% to maneuvering</font><br>
+
+# -----------------
+:Sustain
+1-2,|ConPt+1|
+3-4,|ConPt+2|
+5-16,|ConPt+3|
+17-32,|ConPt+4|
+33-64,|ConPt+5|
+65-120,|ConPt+6|
+121-200,|ConPt+7|
+201-300,|ConPt+8|
+301-425,|ConPt+9|
+426-500,|ConPt+10|
+501-850,|ConPt+11|
+851-1500,|ConPt+12|
+
+:Stowage1
+1-65,|ConPt+1|
+66-110,|ConPt+2|
+111-500,|ConPt+3|
+501-999,|ConPt+4|
+
+:Stowage2
+1,|ConPt+4|
+2-50,|ConPt+5|
+51-100,|ConPt+7|
+101-150,|ConPt+11|
+151-200,|ConPt+15|
+201-500,|ConPt+20|
+501-1000,|ConPt+25|
+1001-5000,|ConPt+30|
+5001-20000,|ConPt+35|
+20001-30000,|ConPt+45|
+
+:ConDay
+1,
+2,|ConPt+1|
+3,|ConPt+2|
+
+:ConWeek
+1,|ConPt+3|
+2,|ConPt+4|
+3,|ConPt+5|
+
+:ConMonth
+1,|ConPt+6|
+2,|ConPt+7|
+3,|ConPt+8|
+4-6,|ConPt+9|
+7-9,|ConPt+10|
+
+:ConYear
+1,|ConPt+11|
+2,|ConPt+13|
+3,|ConPt+14|
+
+:WeaponsSuite
+1-4,|ConPt+1|
+5-8,|ConPt+2|
+9-13,|ConPt+3|
+14-18,|ConPt+6|
+19-32,|ConPt+9|
+33-46,|ConPt+12|
+47-60,|ConPt+17|
+61-90,|ConPt+22|
+
+:BaseCost
+1-19,|Cn+{Calc~5000*%ConPt%}|
+20-29,|Cn+{Calc~55000+(%ConPt%-20)*750}|
+30-39,|Cn+{Calc~65000+(%ConPt%-30)*1000}|
+40-49,|Cn+{Calc~80000+(%ConPt%-40)*1500}|
+50-59,|Cn+{Calc~100000+(%ConPt%-50)*2000}|
+60-69,|Cn+{Calc~125000+(%ConPt%-60)*2500}|
+70-79,|Cn+{Calc~155000+(%ConPt%-70)*5000}|
+80-89,|Cn+{Calc~215000+(%ConPt%-80)*10000}|
+90-99,|Cn+{Calc~325000+(%ConPt%-90)*15000}|
+100-109,|Cn+{Calc~490000+(%ConPt%-100)*20000}|
+110-119,|Cn+{Calc~715000+(%ConPt%-110)*25000}|
+120-129,|Cn+{Calc~1000000+(%ConPt%-120)*30000}|
+130-139,|Cn+{Calc~1330000+(%ConPt%-130)*35000}|
+140-149,|Cn+{Calc~2050000+(%ConPt%-140)*40000}|
+150-159,|Cn+{Calc~2490000+(%ConPt%-150)*50000}|
+160-169,|Cn+{Calc~3040000+(%ConPt%-160)*60000}|
+170-179,|Cn+{Calc~3700000+(%ConPt%-170)*80000}|
+180-189,|Cn+{Calc~4580000+(%ConPt%-180)*100000}|
+
+;FightShipYard
+1,Alderaan Royal Engineers|Cmult=0.75|
+2,Corellian Engineering Corporation|Cmult=0.75|
+4,FreiTek Incorporated|Cmult=0.5|
+6,Incom Corporation|Cmult=1|
+2,Koensayr|Cmult=1.5|
+4,Kuat Drive Yards|Cmult=0.5|
+4,Kuat Systems Engineering|Cmult=0.75|
+2,Mon Calamari|Cmult=0.75|
+1,Silvuit Corporation|Cmult=1|
+6,Sienar Fleet Systems|Cmult=1|
+2,SoroSuub|Cmult=1.25|
+
+;FreightShipYard
+8,Corellian Engineering Corporation|Cmult=0.75|
+2,Gallofree Yards Incorporated|Cmult=1.25|
+1,Koensayr|Cmult=1.5|
+4,Kuat Drive Yards|Cmult=0.5|
+3,Kuat Systems Engineering|Cmult=0.75|
+2,Mon Calamari|Cmult=0.75|
+3,Sienar Fleet Systems|Cmult=1|
+4,SoroSuub|Cmult=1.25|
+
+;FightDesig
+8,[alpha.alphabet]-{Dice~1d99}
+6,[alpha.alphabet][alpha.alphabet][alpha.alphabet]
+4,[alpha.alphabet]-{Dice~1d99}[alpha.alphabet]
+2,[alpha.alphabet]-{Dice~1d99}[alpha.alphabet][alpha.alphabet]{Dice~1d9}
+
+;FreightDesig
+5,[alpha.alphabet][alpha.alphabet]-{Dice~1d99}00
+2,{Dice~1d9}[alpha.alphabet][alpha.alphabet]-[alpha.alphabet][alpha.alphabet]
+3,[alpha.alphabet]-Type
+2,[alpha.aurabesh]-Class

@@ -1,0 +1,143 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder Oct 30, 2003.
+# ---------------------------------------------------
+#
+# SMS
+# 06/24/03
+# Forgotten Realms Table 42: Temperate Marsh (EL 5-15) random encounter tables
+#
+# Corrected by Valminder, Oct 2003
+#   -{If~} and {Dice~}
+#
+#Variables
+
+%Region%,0
+%Time%,0
+%Temp%,0
+
+#Parameters
+
+@Time,1,Select a time of day,Day,Night
+@Region,1,Select a value for region (1-2 see instructions for details)
+
+#
+#  Starts by putting up the instructions
+#
+
+:Start
+1,{If~%Region% = 0 ? [Instructions]/[Temperate Marsh %Time%]}
+
+;Instructions
+1,<b>Forgotten Realms Table 42: Temperate Marsh (EL 5-15)</b></br></br><h3>Instructions:</h3>
+_<b>Determine whether an encounter should occur before using this table. The chance of an encounter is based on terrain type and travel (chance per hour):</b><br>
+_<table border=1><tr><th>Terrain</th><th>Normal Travel</th><th>Cautious Travel</th><th>Hiding</th></tr>
+_<tr><td>Desolate/wasteland</td><td>5/%</td><td>2/%</td><td>1/%</td></tr>
+_<tr><td>Frontier/wilderness</td><td>8/%</td><td>4/%</td><td>2/%</td></tr>
+_<tr><td>Verdant/civilized area</td><td>10/%</td><td>5/%</td><td>2/%</td></tr>
+_<tr><td>Heavily traveled</td><td>12/%</td><td>6/%</td><td>3/%</td></tr>
+_</table>
+_<ul><li>Use the Parameter Box (below) to indicate whether it is day or night.</li>
+_<li>Then indicate whether the region is<font color=blue><ol><li>Chelimber Marsh</li><li>Lizard Marsh</li></ol></li></ul><br></font>
+
+# 1 corresponds to time="Day"
+:Temperate Marsh 1
+01,{Dice~1d2} Aballin (MoF)
+02,{Dice~1d4} Banelar
+03-04,{Dice~1d2} Behir
+05-06,Black pudding
+07-10,{Dice~1d2*4} Bullywug
+11-13,{Dice~1d6} Chuul
+14,{Dice~4d6} Crawling Claw (MoF)
+15-17,{Dice~1d10+10} Dire rat
+18,Cryohydra {Dice~1d6+4} heads
+19-26,Dragon: [TM_Dragon]
+27-29,{Dice~1d4+1} Fog giant (MoF)
+30-32,Gibbering mouther
+33-35,Gulguthydra (MoF)
+36-38,{Dice~1d6+6} Harpy
+39-45,Hydra {Dice~1d8+4} heads
+46-48,{Dice~1d4+1} Monstrous centipede, large (vermin)
+49,Lernaean cryohydra {Dice~1d4+4} heads
+50,Lernaean hydra {Dice~1d6+4} heads
+51-56,Lizardfolk Warband: {Dice~1d6+6} lizardfolk, {Dice~1d2} level {Dice~1d3} druids, led by level {Dice~1d4+2} [FR_Misc.Lizardfolk_Class]
+57-65,[TM_Local]
+66-68,{Dice~1d2} Meazel (MoF)
+69-71,{Dice~1d6+2} Merrow (ogre)
+72,Nishruu (MoF)
+73,Nyth (MoF)
+74-75,Ochre jelly (ooze)
+76-78,{Dice~1d6+2} Ogre
+79-82,Orc Patrol: {Dice~1d4+4} orcs, {Dice~1d2} level {Dice~1d3} orc barbarians, led by level {Dice~1d4+2} [FR_Misc.Orc_Class]
+83,Pyrohydra, {Dice~1d6+4} heads
+84-86,{Dice~1d3+2} Shambling Mound
+87-91,Siv Squad: {Dice~1d6+6} sivs, {Dice~1d4+1} 2nd level siv monks, led by a level {Dice~1d2} [FR_Misc.Siv_Class]
+92-94,{Dice~1d3+1} Scrag
+95-96,{Dice~1d4+2} Snake, Large viper
+97-98,{Dice~1d3+1} Snake, Huge viper
+99-100,{Dice~1d3+1} Troll
+
+# 2 corresponds to time="Night"
+:Temperate Marsh 2
+01,{Dice~1d2} Aballin (MoF)
+02-03,{Dice~1d4} Abishai, black
+04,Avoral guardinal (celestial)
+05,{Dice~1d6+6} Banedead
+06,{Dice~1d4} Banelar
+07-08,{Dice~1d2} Behir
+09-10,Black pudding
+11-12,{Dice~1d2*4} Bullywug
+13-14,{Dice~1d6} Chuul
+15-16,{Dice~4d6} Crawling Claw (MoF)
+17-18,{Dice~1d2+2} Darkenbeast
+19-20,{Dice~1d10+10} Dire rat
+21-22,Cryohydra {Dice~1d6+4} heads
+23-30,Dragon: [TM_Dragon]
+31-32,{Dice~1d4+3} Dread warrior
+33-35,{Dice~1d4+1} Fog giant (MoF)
+36-38,Gibbering mouther
+39-41,Gulguthydra (MoF)
+42-44,{Dice~1d6+6} Harpy
+45-49,Hydra {Dice~1d8+4} heads
+50-51,{Dice~1d4+1} Monstrous centipede, large (vermin)
+52,Lernaean cryohydra {Dice~1d4+4} heads
+53,Lernaean hydra {Dice~1d6+4} heads
+54-58,Lizardfolk Warband: {Dice~1d6+6} lizardfolk, {Dice~1d2} level {Dice~1d3} druids, led by level {Dice~1d4+2} [FR_Misc.Lizardfolk_Class]
+59-68,[TM_Local]
+69-70,{Dice~1d2} Meazel (MoF)
+71-73,{Dice~1d6+2} Merrow (ogre)
+74,Nishruu (MoF)
+75,Nyth (MoF)
+76-77,Ochre jelly (ooze)
+78-80,{Dice~1d6+2} Ogre
+81-83,Orc Patrol: {Dice~1d4+4} orcs, {Dice~1d2} level {Dice~1d3} orc barbarians, led by level {Dice~1d4+2} [FR_Misc.Orc_Class]
+84,Pyrohydra, {Dice~1d6+4} heads
+85-87,{Dice~1d3+2} Shambling Mound
+88-90,Siv Squad: {Dice~1d6+6} sivs, {Dice~1d4+1} 2nd level siv monks, led by a level {Dice~1d2} [FR_Misc.Siv_Class]
+91-92,{Dice~1d3+1} Scrag
+93-94,{Dice~1d4+2} Snake, Large viper
+95-96,{Dice~1d3+1} Snake, Huge viper
+97-98,{Dice~1d3+1} Troll
+99-100,{Dice~1d6} Will-o'-wisp
+
+:TM_Local
+01-50,Local creatures: [TM_Local%Region%]
+51-100,<b>NPCs:</b><br>{Loop~{Dice~1d3+2},[FR_Random_NPC.FR_SM_NPC]}
+
+#Chelimber Marsh
+:TM_Local1
+01-45,{Dice~1d2*8} Bullywug
+46-80,Lizardfolk Warband: {Dice~1d6+6} lizardfolk, {Dice~1d2} level {Dice~1d3} druids, led by level {Dice~1d4+2} [FR_Misc.Lizardfolk_Class]
+81-100,Siv Squad: {Dice~1d6+6} sivs, {Dice~1d4+1} 2nd level siv monks, led by a level {Dice~1d2} [FR_Misc.Siv_Class]
+
+#Lizard Marsh
+:TM_Local2
+01-30,Dragon: Black, adult
+31-90,{Dice~1d6+4} Lizardfolk
+91-100,Lizardfolk Warband: {Dice~1d6+6} lizardfolk, {Dice~1d2} level {Dice~1d3} druids, led by level {Dice~1d4+2} [FR_Misc.Lizardfolk_Class]
+
+:TM_Dragon
+01,Dracolich: Black, mature adult
+02-34,Black, very young (clutch of {Dice~1d4+1})
+35-86,Black, old
+87-93,Gold, adult
+94-100,Song, mature adult (MoF)

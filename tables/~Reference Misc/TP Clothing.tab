@@ -1,0 +1,175 @@
+# ------------------------------------------------------
+# Last Update: modified by Valminder Jan 01, 2014.
+# ------------------------------------------------------
+#
+# Modified by Valminder
+#      Added link to
+#           Miscellaneous.ColorNoType
+#           Miscellaneous.Metal
+#           Miscellaneous.Shape
+#           Religion.Deities(1)
+#
+
+%name%,0
+%weight%,0
+%value%,0
+%vmod%,1
+%wmod%,1
+%size%,0
+%material%,0
+%appraisalDC%,12
+%format%,0
+
+@format,1,Select format:,Human-readable,Delimited for other table
+
+;Start
+1,|appraisalDC=12||name=[Clothing]||value*%vmod%||weight*%wmod%||weight={Round~1,%weight%}|[DisplayItem=%format%]
+
+# Format: name!value!weight
+:DisplayItem
+1,{Bold~{Cap~%name%}}{CR~}Value: %value% gp{CR~}Weight: %weight% lbs.
+2,%name%!%value%!%weight%!%appraisalDC%
+
+;Clothing
+1,[Size][Color] [GenMaterial=5] apron[Adornment]{If~%size%!=medium? (%size%)}|value=0.2||weight=1|
+1,[Size][Color] [GenMaterial=8] belt[Adornment]{If~%size%!=medium? (%size%)}|value=0.3||weight=0.5|
+1,[Size][Color] [GenMaterial=8] boots[Adornment]{If~%size%!=medium? (%size%)}|value=1||weight=2|
+1,[Size][Color] [GenMaterial=5] cap[Adornment]{If~%size%!=medium? (%size%)}|value=0.1||weight=0.5|
+1,[Size][Color] [GenMaterial=9] cape[Adornment]{If~%size%!=medium? (%size%)}|value=0.7||weight=2|
+1,[Size][Color] [GenMaterial=6] cloak[Adornment]{If~%size%!=medium? (%size%)}|value=1||weight=3|
+1,[Size][Color] [GenMaterial=2] coat[Adornment]{If~%size%!=medium? (%size%)}|value=7||weight=5|
+1,[Size][Color] [GenMaterial=5] doublet[Adornment]{If~%size%!=medium? (%size%)}|value=1||weight=4|
+1,[Size][Color] [GenMaterial=7] dress[Adornment]{If~%size%!=medium? (%size%)}|value=0.2||weight=2|
+1,[Size][Color] [GenMaterial=7] garter[Adornment]{If~%size%!=medium? (%size%)}|value=0.1||weight=0.25|
+1,[Size][Color] [GenMaterial=1] gloves[Adornment]{If~%size%!=medium? (%size%)}|value=0.5||weight=0.25|
+1,[Size][Color] [GenMaterial=7] gown[Adornment]{If~%size%!=medium? (%size%)}|value=15||weight=3|
+1,[Size][Color] [GenMaterial=5] hat[Adornment]{If~%size%!=medium? (%size%)}|value=0.1||weight=1|
+1,[Size][Color] [GenMaterial=5] hood[Adornment]{If~%size%!=medium? (%size%)}|value=0.2||weight=1|
+1,[Size][Color] [GenMaterial=8] jerkin[Adornment]{If~%size%!=medium? (%size%)}|value=1||weight=3|
+1,[Size][Color] [GenMaterial=7] leggings[Adornment]{If~%size%!=medium? (%size%)}|value=0.6||weight=0.5|
+1,[Size][Color] [GenMaterial=4] loincloth[Adornment]{If~%size%!=medium? (%size%)}|value=0.6||weight=0.25|
+1,[Size][Color] [GenMaterial=4] mask[Adornment]{If~%size%!=medium? (%size%)}|value=0.5||weight=0.25|
+1,[Size][Color] [GenMaterial=7] robe[Adornment]{If~%size%!=medium? (%size%)}|value=0.9||weight=3|
+1,[Size][Color] [GenMaterial=8] sandals[Adornment]{If~%size%!=medium? (%size%)}|value=1||weight=1|
+1,[Size][Color] [GenMaterial=7] sash[Adornment]{If~%size%!=medium? (%size%)}|value=0.1||weight=0.5|
+1,[Size][Color] [GenMaterial=7] scarf[Adornment]{If~%size%!=medium? (%size%)}|value=0.1||weight=0.5|
+1,[Size][Color] [GenMaterial=3] shawl[Adornment]{If~%size%!=medium? (%size%)}|value=0.2||weight=1|
+1,[Size][Color] [GenMaterial=7] shift[Adornment]{If~%size%!=medium? (%size%)}|value=0.1||weight=1|
+1,[Size][Color] [GenMaterial=7] shirt[Adornment]{If~%size%!=medium? (%size%)}|value=2||weight=1|
+1,[Size][Color] [GenMaterial=8] shoes[Adornment]{If~%size%!=medium? (%size%)}|value=1||weight=1|
+1,[Size][Color] [GenMaterial=4] skirt[Adornment]{If~%size%!=medium? (%size%)}|value=0.2||weight=0.5|
+1,[Size][Color] [GenMaterial=4] slippers[Adornment]{If~%size%!=medium? (%size%)}|value=1.5||weight=0.5|
+1,[Size][Color] [GenMaterial=7] stockings[Adornment]{If~%size%!=medium? (%size%)}|value=0.5||weight=0.5|
+1,[Size][Color] [GenMaterial=9] tabard[Adornment]{If~%size%!=medium? (%size%)}|value=0.6||weight=2|
+1,[Size][Color] [GenMaterial=7] toga[Adornment]{If~%size%!=medium? (%size%)}|value=0.3||weight=2|
+1,[Size][Color] [GenMaterial=7] trousers[Adornment]{If~%size%!=medium? (%size%)}|value=2||weight=1|
+1,[Size][Color] [GenMaterial=5] tunic[Adornment]{If~%size%!=medium? (%size%)}|value=1||weight=1.5|
+1,[Size][Color] [GenMaterial=10] veil[Adornment]{If~%size%!=medium? (%size%)}|value=0.1||weight=0.25|
+1,[Size][Color] [GenMaterial=5] vest[Adornment]{If~%size%!=medium? (%size%)}|value=0.5||weight=1|
+
+;Size
+1,|size=tiny||vmod=0.5||wmod=0.10|
+4,|size=small||wmod=0.50|
+16,|size=medium||vmod=1||wmod=1|
+4,|size=large||vmod=2||wmod=2|
+1,|size=huge||vmod=4||wmod=5|
+
+;Color
+40,brown
+20,green
+12,grey
+10,black
+8,white
+4,red
+4,blue
+1,purple
+1,yellow
+10,[~Color2]
+
+;Color2
+1,{Cap~[Miscellaneous.ColorNoType]}
+
+;Adornment
+90,
+10,, [Adornment%material%]
+
+# Leather
+;Adornment1
+1,adorned with small [~Miscellaneous.Metal] studs|vmod+2|
+1,embossed with arcane symbols|vmod+2|
+1,embossed with divine ([~Religion.Deities(1)]) symbols|vmod+2|
+1,embossed with a knotwork pattern|vmod+2|
+4,embossed with a [~Miscellaneous.Shape] pattern|vmod+2|
+
+# Wool
+;Adornment2
+1,embroidered with arcane symbols|vmod+2|
+1,embroidered with divine ([~Religion.Deities(1)]) symbols|vmod+2|
+1,embroidered with a [Creature] pattern|vmod+1.5|
+5,embroidered with a [~Miscellaneous.Shape] pattern|vmod+1.5|
+1,trimmed with small [~Metal] buttons|vmod+3|
+1,embroidered with a knotwork pattern|vmod+2|
+
+# Fur
+;Adornment3
+1,lined with {If~{Dice~1d2}=2?red/black} silk|vmod+5|
+
+# Silk
+;Adornment4
+1,interwoven with [~Metal] thread|vmod+1|
+
+;Metal
+1,gold
+1,silver
+1,copper
+5,[Miscellaneous.Metal]
+
+;Creature
+1,dragon
+1,eagle
+1,stag
+1,unicorn
+1,skull
+1,horse
+
+;Fur
+12,[Common Fur]|vmod+0.5|
+6,[Expensive Fur]|vmod+10||appraisalDC=15|
+1,[Exotic Fur]|vmod+25||appraisalDC=20|
+
+;Common Fur
+1,bear
+1,fox
+1,otter
+1,rabbit
+1,wolf
+
+;Expensive Fur
+1,ermine
+1,marten
+1,mink
+1,sable
+
+;Exotic Fur
+1,leopard
+1,lion
+1,tiger
+1,zebra
+
+:!Material
+1-10,|vmod*10||wmod*2||material=1|leather
+11-20,|vmod*1||wmod*1||material=2|wool
+21-24,|vmod*1||wmod*2||material=3|[Fur]-fur
+25,|vmod*20||wmod*0.75||material=4||appraisalDC=15|silk
+
+:GenMaterial
+1,{Reset~Material}[Material]
+2,{Reset~Material}{Lockout~Material,25}[Material]
+3,{Reset~Material}{Lockout~Material,1}[Material]
+4,{Reset~Material}{Lockout~Material,21}[Material]
+5,{Reset~Material}{Lockout~Material,21,25}[Material]
+6,{Reset~Material}{Lockout~Material,1,25}[Material]
+7,{Reset~Material}{Lockout~Material,1,21}[Material]
+8,{Reset~Material}{Lockout~Material,11,21,25}[Material]
+9,{Reset~Material}{Lockout~Material,1,21,25}[Material]
+10,{Reset~Material}{Lockout~Material,1,11,21}[Material]

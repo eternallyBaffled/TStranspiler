@@ -1,0 +1,667 @@
+# ------------------------------------------------------
+# Last Update: re-verified by Valminder Jan 10, 2012.
+# ------------------------------------------------------
+#
+# Heavily Modified by Valminder, Dec 2005.
+#    Adapted to 3.5E
+#    Added links to:
+#       Creatures.Humanoid
+#       Creatures.Humanoid2
+#       Dragon Stats.XXX
+#       Jewelry.Alternate
+#       Miscellaneous.Color
+#       Miscellaneous.DiseaseFull
+#       Miscellaneous.Language
+#       Monster Stats.XXX
+#       Monsters Stats by Terrain.XXX
+#       Names Generator.NAME Random
+#       NPC Appearance.GenCreature
+#       NPC Appearance.GenDemon
+#
+
+/OverrideRolls 1
+
+%Bonus0Level%,2
+%Creature%,0
+%Creature2%,0
+%CR1%,0
+%CR2%,0
+%DragonAge%,0
+%DragonFlag%,0
+%DragonType%,0
+%MonsterID%,0
+%MonsterID2%,0
+%Part%,0
+%Sound%,0
+
+@Bonus0Level,1,OPTIONAL Do you want bonus 0-level spells based on Prime Attribute (same bonus as 1st-level spells),Yes,No
+
+;Start
+1,[Basket]
+1,[Centaur]
+1,[Contact]
+5,[Damsel]
+1,[Errand]
+2,[Escape]
+1,[Fish]
+1,[Fishing]
+1,[Freak]
+1,[Game]
+1,[Gang]
+2,[Hunter]
+1,[Insects]
+1,[Inversion]
+2,[Need]
+1,[Orga]
+1,[Pudding]
+2,[Shadow]
+1,[Sick]
+1,[Tar]
+2,[Threat]
+1,[Village]
+1,[Welcome]
+
+# ---------------------------------------------------------------------------
+
+:Basket
+1,<b>Title</b>- ...In a Handbasket<br><b>Danger</b>- High<br><b>Climate</b>- Any<br><b>Terrain</b>- Dungeon<br><b>Attribute</b>- Intelligence<br><b>Encounter</b>- Device<br><b>Experience</b>- None, unless they continue adventuring.<br><b>Description</b>- As the PCs enter the area, they see a magical circle inscribed on the floor. It looks as if it has been inlaid with gold, the diagrams inside with silver. It seems to radiate a strong conjuration magic. This circle is directly connected to the Lower Planes. Anyone approaching within 5' of the circle must make a Will save DC<b>{Dice~1d10+10}</b>, or find themselves drawn into the circle. As soon as any part of a PC's body crosses the plane of the circle and touches the floor beyond, there is a blinding flash of light.  When the smoke clears, the PC has vanished.<br>The circle takes the PC to the first of the Nine Levels. They are in a shadowy cave made of hot, red rock. Hazy red light filters in from the mouth of the cave, carrying the odour of sulphur. If the PCs have damaged the circle, they are stranded in the lower planes until they can find their own way out. If the circle is undamaged, all the PCs need to do to return home is to say the word `Home', and they will find themselves back in the dungeon.<br>
+
+:Centaur
+1,[CentaurChoose]{If~%MonsterID%!=0?|Creature=[Monster Stats.MonsterNames=%MonsterID%]|}
+_<b>Title</b>- %Creature% Vengeance<br><b>Danger</b>- Low<br><b>Climate</b>- Temperate<br><b>Terrain</b>- Plains<br><b>Attribute</b>- Charisma<br><b>Encounter</b>- Monster<br><b>Experience</b>- As CR.<br><b>Description</b>- As the PCs cross the plains, they hear a faint thunder that is growing ever louder. Within a few moments, the party sees some {Plural~%Creature%}, %Part% straight at the party with no signs of slowing. The party has two rounds to move aside before they are trampled. The {Plural~%Creature%} have expressions of anger and grief on their faces. %Sound%<br>The {Plural~%Creature%} are willing to parlay. They are [CentaurHunt]. If the PCs can convince the {Plural~%Creature%} that they are innocent, the {Plural~%Creature%} will not kill them, and may even enlist their aid in finding the real killers.<br>
+_{If~%MonsterID%!=0?<br>[Monster Stats.DetermineRandomMonster(%MonsterID%,%Bonus0Level%,,0)]}<br><br>
+_<hr><b>Leader's</b> [NPC Appearance.GenCreature]
+
+;CentaurChoose
+# Blink Dog
+1,|MonsterID=49||Part=running||Sound=They bark at the party.|
+# Centaur
+5,|MonsterID=68||Part=galloping||Sound=They have spears and broadswords raised and ready to strike at the party.|
+# Gnoll
+1,|MonsterID=167||Part=riding horses||Sound=They have battleaxes and shortbows raised and ready to strike at the party.|
+# Goblin
+1,|MonsterID=169||Part=riding worgs||Sound=They have morningstars and javelins raised and ready to strike at the party.|
+# Worg
+1,|MonsterID=396||Part=running||Sound=They howl and growl at the party.|
+
+;CentaurHunt
+1,hunting the killers of their youngs, and know that the murderers fled in this direction
+1,hunting the kidnappers of their youngs, and know that the kidnappers fled in this direction
+1,hunting the destroyers of their village, and know that they fled in this direction
+1,hunting thieves, and know that the thieves fled in this direction
+
+:Contact
+1,<b>Title</b>- First Contact<br><b>Danger</b>- High<br><b>Climate</b>- Temperate<br><b>Terrain</b>- Urban<br><b>Attribute</b>- Strength<br><b>Encounter</b>- Monster<br><b>Experience</b>- As CR.<br><b>Description</b>- While seated in a dark tavern, the PCs gain the attention of an arcane, visiting the land in search of new mercantile opportunities. Concealed by the cowl of its cloak, the arcane will approach the party, and request to join them at their table. If the party agrees, the arcane sits and then proceeds to order refreshments for the group, though none for itself. It is reluctantly willing to remove the cowl, should the party ask, but will drink only water. The arcane will then ask questions, well into the wee hours. The questions range from what type of economy does the local government encourage to what colour is a healthy goat. At the end of the evening, the arcane will leave, giving each PC 2 pp for their time. During the period of questioning, the arcane will continue to buy the drinks.<br> 
+_<hr>[NPC Appearance.GenCreature]<hr>
+
+:Damsel
+1,[DamselChoose]{If~%MonsterID%!=0?|Creature=[Monster Stats.MonsterNames=%MonsterID%]|}
+_<b>Title</b>- Damsel in Distress<br><b>Danger</b>- Medium<br><b>Climate</b>- Temperate<br><b>Terrain</b>- Forest<br><b>Attribute</b>- Wisdom<br><b>Encounter</b>- Monster<br><b>Experience</b>- Full for aiding the %Creature%, 0 if the party kills the %Creature%<br><b>Description</b>- This Encounter takes place in a deep forest far from human habitation. The party is travelling through the forest's depths when they hear frantic %Sound% about 20 yards into the forest. If they investigate, the PC's find a frantic %Creature%. The %Creature% has gotten one of her %Part% caught between two tree roots. The %Creature% has been trapped for about an hour, and she has already injured herself trying to break free.<br>When she sees the party, the %Creature% will become very still and wary. If any PCs approach her she will attack wildly. If the PCs wish to save the %Creature%, they will have to find a way to calm her down. The %Creature%, speaks [~Miscellaneous.Language] and it's possible to reason with her. Casting spells might calm her, as <i>calm emotions</i>. Another option is to render her immobile without hurting her, perhaps with a <i>hold monster</i> spell. Once freed, she will be very happy. Before leaving, the %Creature% will offer to get some of her fellows and fly the PCs to their destination.<br>
+_{If~%MonsterID%!=0?<br>[Monster Stats.DetermineRandomMonster(%MonsterID%,%Bonus0Level%,,99)]}<br>
+_<hr>[NPC Appearance.GenCreature]<hr>
+_[~MAP Clearings.GenRandomMapWild]
+
+;DamselChoose
+1,|MonsterID=28||Sound=moaning||Part=rear legs|
+1,|MonsterID=37||Sound=roaring||Part=rear legs|
+1,|MonsterID=52||Sound=roaring||Part=rear legs|
+1,|MonsterID=53||Sound=roaring||Part=rear legs|
+3,|MonsterID=68||Sound=moaning||Part=rear legs|
+3,|MonsterID=110||Sound=moaning||Part=legs|
+2,|MonsterID=134||Sound=moaning||Part=legs|
+1,|MonsterID=157||Sound=moaning||Part=claws|
+1,|MonsterID=178||Sound=roaring||Part=claws|
+1,|MonsterID=183||Sound=moaning||Part=legs|
+1,|MonsterID=189||Sound=moaning||Part=legs|
+1,|MonsterID=218||Sound=moaning||Part=legs|
+1,|MonsterID=221||Sound=howling||Part=rear legs|
+5,|MonsterID=271||Sound=moaning||Part=legs|
+1,|MonsterID=284||Sound=roaring||Part=hind legs|
+5,|MonsterID=286||Sound=whinnying||Part=rear legs|
+1,|MonsterID=291||Sound=moaning||Part=legs|
+1,|MonsterID=295||Sound=moaning||Part=legs|
+2,|MonsterID=347||Sound=cursing||Part=legs|
+1,|MonsterID=367||Sound=moaning||Part=rear legs|
+1,|MonsterID=380||Sound=moaning||Part=legs|
+1,|MonsterID=383||Sound=moaning||Part=legs|
+2,|MonsterID=391||Sound=howling||Part=rear legs|
+1,|MonsterID=392||Sound=howling||Part=rear legs|
+2,|MonsterID=395||Sound=moaning||Part=legs|
+
+:Errand
+1,<b>Title</b>- Errand Boy<br><b>Danger</b>- High<br><b>Climate</b>- Temperate<br><b>Terrain</b>- Dungeon<br><b>Attribute</b>- Strength<br><b>Encounter</b>- Monster<br><b>Experience</b>- As CR.<br><b>Description</b>- As the party travels deep in a dungeon, they meet a NPC (see description below) who is barrelling towards them as fast as he can. He is panicked, and won't stop for 1-5 rounds. When the party finally catches up with him, he tells them he was sent by his master, to recover some items in the possession of a creature. A coward at heart, he is happy to point out the direction of the creature. He will also pay them 500 gp if they bring him [~Jewelry.Alternate] which is in the possession or in the lair of the creature. The creature is actually following the man, and will catch up in 20 rounds.<br>The creature has this treasure in his lair: {Dice~1d5000} {If~{Dice~1d100}<80?sp/cp}{If~{Dice~1d100}<60?, {Dice~1d1200} gp}{If~{Dice~1d100}<40?, {Dice~1d120} pp}{If~{Dice~1d100}<80?{Loop~{Dice~2d2-1},, and [~Jewelry.Alternate]}}.<br>
+_<br>[NPC Appearance.Generate]<hr><br>
+_[Monsters Stats by Terrain.GenerateMonsters(2,%Bonus0Level%)]<br>
+_<br>[NPC Appearance.GenCreature]<hr><br>
+
+:Escape
+1,[EscapeChoose]{If~%MonsterID%!=0?|Creature=[Monster Stats.MonsterNames=%MonsterID%]|}
+_{If~%MonsterID2%!=0?|Creature2=[Monster Stats.MonsterNames=%MonsterID2%]|}
+_<b>Title</b>- Escaped Slave<br><b>Danger</b>- Medium<br><b>Climate</b>- Temperate<br><b>Terrain</b>- Forest<br><b>Attribute</b>- Wisdom<br><b>Encounter</b>- Monster<br><b>Experience</b>- As CR.<br><b>Description</b>- This Encounter takes place in a remote area where {AorAn~%Part%}. {Cap~{AorAn~%Creature%}} has managed to escape. The creature is close to being captured when it stumbles on the PCs. It has been attacked several times by its captors{If~{Dice~1d100}<30?, and is affected by a slow spell}. The %Creature% will do something unexpected. It will plead with the PCs for help. Even if they can't understand the language, it will be clear that it wants help. The %Creature2% are not far behind. Any attempt to protect the %Creature% will cause the %Creature2% to attack. If the PCs look weak, the %Creature2% will attack any way for more slaves and food. The %Creature2% have no treasure, and the %Creature% will only grow more dangerous the longer the PCs hang around.<br>
+_{If~%DragonFlag%=0?{If~%MonsterID%!=0?<br>[Monster Stats.DetermineRandomMonster(%MonsterID%,%Bonus0Level%,,99)]}/ <br>[Dragon Stats.CheckVariableStatus(%DragonType%,%DragonAge%,%Bonus0Level%,,1,1)]}<br><br>
+_<b>Slave's</b> [NPC Appearance.GenCreature]<hr>
+_{If~%MonsterID2%!=0?<br>[Monster Stats.DetermineRandomMonster(%MonsterID2%,%Bonus0Level%,,0)]}<br>
+_<br><b>Leader's</b> [NPC Appearance.GenCreature]<hr><br>
+_[~MAP Clearings.GenRandomMapInput(,,3,3,2)]
+
+;EscapeChoose
+#umber hulk and neogi
+1,|MonsterID=366||MonsterID2=0||Creature2=neogi||Part=neogi spelljammer has set down for supplies|
+#goblin and bugbear
+1,|MonsterID=169||MonsterID2=59||Part=bugbear warband is forming|
+#goblin and ogre
+1,|MonsterID=169||MonsterID2=274||Part=ogre band is looking for trouble|
+1,|MonsterID=169||MonsterID2=275||Part=ogre band is looking for trouble|
+1,|MonsterID=169||MonsterID2=276||Part=ogre band is looking for trouble|
+#goblin and ettin
+1,|MonsterID=169||MonsterID2=128||Part=ettin troop is having fun|
+#orc and ettin
+1,|MonsterID=279||MonsterID2=128||Part=ettin troop is having fun|
+#kobold and duergar
+1,|MonsterID=218||MonsterID2=111||Part=duergar patrol is hunting a criminal|
+# drow and drow
+1,|MonsterID=109||MonsterID2=109||Part=drow patrol is out on a hunt|
+#drider and drow
+1,|MonsterID=108||MonsterID2=109||Part=drow patrol is out on a hunt|
+#goblin and gnoll
+1,|MonsterID=169||MonsterID2=167||Part=gnoll scouting party|
+#troll and hobgoblin
+1,|MonsterID=361||MonsterID2=203||Part=hobgoblin hunting party|
+#troll and gnoll
+1,|MonsterID=361||MonsterID2=167||Part=gnoll hunting party looks for trouble|
+#troll and troll hunter
+1,|MonsterID=361||MonsterID2=362||Part=troll hunter group is on the trail of a criminal of their tribe|
+#goblin and goblin
+1,|MonsterID=169||MonsterID2=169||Part=goblin press gang is out in search of prey|
+#goblin and hobgoblin
+1,|MonsterID=169||MonsterID2=203||Part=hobgoblin warband is prowling the region|
+#grimlock and medusa
+1,|MonsterID=184||MonsterID2=242||Part=medusa mistress is in the region|
+#grimlock and mind flayer
+1,|MonsterID=184||MonsterID2=248||Part=spelljammer nautiloid ship has crashed in the region|
+#grimlock and mind flayer sorcerer
+1,|MonsterID=184||MonsterID2=249||Part=spelljammer nautiloid ship has landed in the region|
+#ogre and hag annis
+1,|MonsterID=184||MonsterID2=13||Part=covey of hags is searching for slaves|
+#ogre and hag green
+1,|MonsterID=184||MonsterID2=179||Part=covey of hags is searching for slaves|
+#ogre and hag night
+1,|MonsterID=184||MonsterID2=264||Part=covey of hags is searching for slaves|
+#ogre and hag sea
+1,|MonsterID=184||MonsterID2=319||Part=covey of hags is searching for slaves|
+#dire lion and cloud giant
+1,|MonsterID=232||MonsterID2=78||Part=cloud giants have made their home|
+#ettin and fire giant
+1,|MonsterID=128||MonsterID2=131||Part=fire giants have made their home|
+#troll and fire giant
+1,|MonsterID=361||MonsterID2=131||Part=fire giants have made their home|
+#red dragon and fire giant
+1,|DragonFlag=1||DragonType=4||DragonAge=3||MonsterID=306||MonsterID2=131||Part=fire giants have made their home|
+#ogre and frost giant
+1,|MonsterID=274||MonsterID2=136||Part=frost giants are on a mission|
+#white dragon and frost giant
+1,|DragonFlag=1||DragonType=5||DragonAge=3||MonsterID=386||MonsterID2=136||Part=frost giants are on a mission|
+#ogre and hill giant
+1,|MonsterID=274||MonsterID2=201||Part=hill giants are foraging|
+#hezrou and balor
+1,|MonsterID=198||MonsterID2=30||Part=gate to the evil planes has opened|
+#vrock and glabrezu
+1,|MonsterID=373||MonsterID2=166||Part=gate to the evil planes has opened|
+#vrock and nalfeshnee
+1,|MonsterID=373||MonsterID2=262||Part=gate to the evil planes has opened|
+#barbed devil and pit fiend
+1,|MonsterID=31||MonsterID2=290||Part=gate to the evil planes has opened|
+#vampire spawn and vampire
+1,|MonsterID=369||MonsterID2=368||Part=old burial mound has been disturbed|
+#red dragon and githyanki
+1,|DragonFlag=1||DragonType=4||DragonAge=3||MonsterID=306||MonsterID2=164||Part=githyanki group is looking for a missing dragon|
+1,|DragonFlag=1||DragonType=4||DragonAge=6||MonsterID=306||MonsterID2=164||Part=githyanki group is looking for a missing dragon|
+
+:Fish
+1,[FishChoose]{If~%MonsterID%!=0?|Creature=[Monster Stats.MonsterNames=%MonsterID%]|}
+_<b>Title</b>- Fish Out of Water<br><b>Danger</b>- Medium<br><b>Climate</b>- Temperate<br><b>Terrain</b>- Aquatic, Rough<br><b>Attribute</b>- Wisdom<br><b>Encounter</b>- Monster<br><b>Description</b>- This encounter takes place in the rough land approximately 1/2 a mile inland from the sea. The day before the encounter, there was a tidal wave. A curious young %Creature% was caught by the wave, and cast onto the ground a good half mile from the water's edge. He has been staying in a small pool of rapidly vaporating water, and has only a few hours of oxygen left. He cannot breathe air, and has no way of reaching the ocean. The PCs will see a young man lying face down in a pool his legs are hidden by rocks. If the PCs try to pull him out, the %Creature% will try to re-enter the water. At this point, the PCs see him as what it really is. The %Creature% does not speak common and is desperate enough to ask for aid, even from surface dwellers.<br>It is up to the PCs to find a way to get the %Creature% to water. He can only live for five rounds while breathing air. If the PCs help, the %Creature% will give them [~Jewelry.Alternate].<br>
+_{If~%MonsterID%!=0?<br>[Monster Stats.DetermineRandomMonster(%MonsterID%,%Bonus0Level%,,99)]}<br><br>
+_<hr>[NPC Appearance.GenCreature]<hr>
+_[~MAP Clearings.GenRandomMap]
+
+;FishChoose
+# Merfolk
+1,|MonsterID=245|
+# Locathah
+1,|MonsterID=235|
+# Triton
+1,|MonsterID=359|
+# Aquatic Elf
+1,|MonsterID=16|
+# Sahuagin
+1,|MonsterID=314|
+# Merrow Ogre
+1,|MonsterID=406|
+# Scrag troll
+1,|MonsterID=407|
+
+:Fishing
+1,[FishingChoose]{If~%MonsterID%!=0?|Creature=[Monster Stats.MonsterNames=%MonsterID%]|}
+_[FishingChoose2]{If~%MonsterID2%!=0?|Creature2=[Monster Stats.MonsterNames=%MonsterID2%]|}
+_<b>Title</b>- Gone Fishin'<br><b>Danger</b>- High<br><b>Climate</b>- Temperate<br><b>Terrain</b>- Hills<br><b>Attribute</b>- Strength<br><b>Encounter</b>- Monster<br><b>Experience</b>- As CR.<br><b>Description</b>- While the PCs move through an area of rough hills, they hear the sounds of brutish laughter echoing over a lake. There is a quick flowing stream nearby. If they investigate, the PCs see some {Plural~%Creature%} fishing with saplings and thick rope. Three pikes lie next to the {Plural~%Creature%}. As the PCs watch, the {Plural~%Creature%} reach into a wicker basket and pull out a tiny, struggling figure. One of the {Plural~%Creature%} shouts <i>"Let me pull off his wings this time!"</i>. There is a small shriek, followed by a louder one as the %Creature% shove the figure onto the large metal fish hook. The brutes then cast into the lake.<br>The {Plural~%Creature%} are using {Plural~%Creature2%} as lures. As the PCs watch, the one on the hook is eaten by a pike. If the PCs save the rest of the {Plural~%Creature2%}, the {Plural~%Creature2%} will reward them with six random magic items assuming the PCs escort them back to their lair.<br>
+_{If~%MonsterID%!=0?<br>[Monster Stats.DetermineRandomMonster(%MonsterID%,%Bonus0Level%,,0)]}<br><br>
+_<b>Leader's</b> [NPC Appearance.GenCreature]<hr>
+_{If~%MonsterID2%!=0?<br>[Monster Stats.DetermineRandomMonster(%MonsterID2%,%Bonus0Level%,,99)]}<br><br>
+_<b>Leader's</b> [NPC Appearance.GenCreature]<hr>
+
+;FishingChoose
+# Athach
+1,|MonsterID=22|
+# Ettin
+1,|MonsterID=128|
+# Hill Giant
+1,|MonsterID=201|
+# Ogre
+1,|MonsterID=274|
+# Troll
+1,|MonsterID=361|
+
+;FishingChoose2
+# Grig
+1,|MonsterID2=183|
+# Pixie
+1,|MonsterID2=291|
+
+:Freak
+1,[FreakChoose]{If~%MonsterID%!=0?|Creature=[Monster Stats.MonsterNames=%MonsterID%]|}
+_<b>Title</b>- The Freak Show<br><b>Danger</b>- Medium<br><b>Climate</b>- Temperate<br><b>Terrain</b>- Urban<br><b>Attribute</b>- Strength<br><b>Encounter</b>- Monster<br><b>Experience</b>- As CR.<br><b>Description</b>- This encounter takes place in a large city. A greedy zoo owner has recently procured a rare specimen - {AorAn~%Creature%} - for his travelling show. While the party is viewing the exibit or browsing in a nearby bazaar, the mistreated %Creature% rips through the bars of its cage and begins attacking the nearest person.<br>Killing the %Creature% earns the enmity of the owner, who will demand financial recompense for the loss of the creature and its potential monetary earnings. If the party refuses, the owner will set his four thugs on them later that evening.<br>Contrary to the owner's opinions, the mayor and the public are quite happy to have the carnage ended, and will offer the PCs alot of gratitude and a little gold. Moreover, the mayor will view the party in good favour, considering them for employment and further dangerous excursions at high pay.<br>
+_{If~%DragonFlag%=0?{If~%MonsterID%!=0?<br>[Monster Stats.DetermineRandomMonster(%MonsterID%,%Bonus0Level%,,99)]}/ <br>[Dragon Stats.CheckVariableStatus(%DragonType%,%DragonAge%,%Bonus0Level%,,1,1)]}<br>
+_<hr><b>Owner's</b> [NPC Appearance.Generate]<hr>
+
+;FreakChoose
+# Dire Ape
+1,|MonsterID=15|
+# Athach
+1,|MonsterID=22|
+# Dire Bear
+1,|MonsterID=39|
+# DireBoar
+1,|MonsterID=53|
+# Bulette
+1,|MonsterID=60|
+# Chimera
+1,|MonsterID=72|
+# Chaos Beast
+1,|MonsterID=70|
+# Ettin
+1,|MonsterID=128|
+# Gargoyle
+1,|MonsterID=140|
+# Girallon
+1,|MonsterID=163|
+# Gray Render
+1,|MonsterID=175|
+# Howler
+1,|MonsterID=209|
+# Hydra
+1,|MonsterID=210|
+# Dire Lion
+1,|MonsterID=232|
+# Mantocire
+1,|MonsterID=239|
+# Monstrous Spider
+1,|MonsterID=256|
+# Monstrous Scorpion
+1,|MonsterID=255|
+# Monstrous Centipede
+1,|MonsterID=254|
+# Owlbear
+1,|MonsterID=284|
+# Dire Tiger
+1,|MonsterID=353|
+# Troll
+1,|MonsterID=361|
+# Umber Hulk
+1,|MonsterID=366|
+# Dire Wolf
+1,|MonsterID=392|
+# Yeti
+1,|MonsterID=0||Creature=Yeti|
+# Dragon Black
+1,|DragonFlag=1||DragonType=1||DragonAge={Dice~1d3}||MonsterID=47|
+# Dragon Blue
+1,|DragonFlag=1||DragonType=2||DragonAge={Dice~1d3}||MonsterID=50|
+# Dragon Green
+1,|DragonFlag=1||DragonType=3||DragonAge={Dice~1d3}||MonsterID=178|
+# Dragon Red
+1,|DragonFlag=1||DragonType=4||DragonAge={Dice~1d3}||MonsterID=306|
+# Dragon White
+1,|DragonFlag=1||DragonType=5||DragonAge={Dice~1d3}||MonsterID=386|
+
+:Game
+1,<b>Title</b>- It's Only a Game<br><b>Danger</b>- Medium<br><b>Climate</b>- Any<br><b>Terrain</b>- Urban<br><b>Attribute</b>- Dexterity, Strength<br><b>Encounter</b>- NPC<br><b>Experience</b>- As determined by DM (ex: 500 for getting in the game, 1000 for not being bullied, or a successful defense)<br><b>Description</b>- Encounter takes place in an unused back lot. There is a pattern of colored lines on the round.<br>While the PCs are in this area, 13 [~Creatures.Humanoid2] come around the corner, carrying a large amount of gear, including armor and strangely shaped wood sticks. Half are dressed in [~Miscellaneous.Color], the other in [~Miscellaneous.Color]. If the PCs stay, one of the reds approaches and asks either the most agile looking or burliest PC if they would like to get in the game, since the red team is one short. If the PCs decline, he mocks their bravery and rejoins his friends.<br>If the PC accepts the red captain explains the game - the object is to knock a wooden ball into the other teams goal, while preventing the other team from scoring. The gear consists of a thick paddle (1d6 dmg)  and a leather helmet. The ball does 1d4 dmg. Since the PC has no idea of the rules, the red team constantly berates him - `You can't cross the line till the ball does, idiot!'. The black team looks on and laughs. The DM is encouraged to make up rules the PC will violate. Any time the PC does anything, the red team yells at him. <br>
+_<hr><b>Leader's</b> [NPC Appearance.GenCreature]<hr>
+
+:Gang
+1,[GangChoose]{If~%MonsterID%!=0?|Creature=[Monster Stats.MonsterNames=%MonsterID%]|}
+_<b>Title</b>-Youth Gang<br><b>Danger</b>- Medium<br><b>Climate</b>- Any<br><b>Terrain</b>- Swamp<br><b>Attribute</b>- Strength<br><b>Encounter</b>- Monster<br><b>Experience</b>- As CR. Determine number of {Plural~%Creature%} for the required CR.<br><b>Description</b>- The swamp is dank and dismal, with half-rotted logs floating in the reeking water. The swamp gives off a fetid mist, which obscures vision past 100 feet. The sky is grey, and insects feast on the PCs. As the PCs slog through the swamp, the noice of gutteral laughter drifts through the air. Hulking shapes move in the mist, far enough away that their true nature is hidden. The shapes move closer, revealing them to be young {Plural~%Creature%}. They wear [~Miscellaneous.Color] rags tied around their upper arms. If the PCs also don rags of the same color on their arms, the %Creature% gang will leave them alone. They attack anyone who is not wearing a blue band. They fight to the death. The {Plural~%Creature%} have been organized into a gang by a local [~Creatures.Humanoid] shaman, who wants to control all the people and monsters in the area. The young {Plural~%Creature%} were impressed by the shaman's magic, and agreed. The PCs may later see other gangs, with similar or different colors, depending on how far the DM wants to take this idea. <br>
+_{If~%MonsterID%!=0?<br>[Monster Stats.DetermineRandomMonster(%MonsterID%,%Bonus0Level%,,99)]}<br><br>
+_<hr><b>Leader's</b> [NPC Appearance.GenCreature]
+_<hr><b>Shaman's</b> [NPC Appearance.GenCreature]<hr>
+
+;GangChoose
+# Doppleganger
+1,|MonsterID=102|
+# Elf
+1,|MonsterID=123|
+# Goblin
+1,|MonsterID=169|
+# Green Hag
+1,|MonsterID=179|
+# Halfling
+1,|MonsterID=193|
+# Gray Render
+1,|MonsterID=175|
+# Annis Hag
+1,|MonsterID=13|
+# Harpy
+1,|MonsterID=194|
+# Lizardfolk
+1,|MonsterID=234|
+# Medusa
+1,|MonsterID=242|
+# Ogre
+1,|MonsterID=274|
+# Orc
+1,|MonsterID=279|
+# Troll
+1,|MonsterID=361|
+
+:Hunter
+1,[HunterChoose][HuntedChoose]{If~%CR2%>=%CR1%?[Hunter]}{If~%MonsterID%!=0?|Creature=[Monster Stats.MonsterNames=%MonsterID%]|}{If~%MonsterID2%!=0?|Creature2=[Monster Stats.MonsterNames=%MonsterID2%]|}
+_<b>Title</b>-The Hunter<br><b>Danger</b>- High<br><b>Climate</b>- Temperate<br><b>Terrain</b>- Rough<br><b>Attribute</b>- Strength<br><b>Encounter</b>- Monster<br><b>Experience</b>- As CR.<br><b>Description</b>- There is {AorAn~%Creature%} here, chasing a renegade %Creature2%. Using telepathy, it will contact the party, and attempt to determine what they know, doing nothing to hide it's purpose. First it will want to know if they have seen the %Creature2%, and then questions concerning possible rumours they may have heard. Finally, it will accuse them of witholding information and, as a show of power, it will attempt a bad spell against a PC. The %Creature% will then attack, to prevent its target from hearing of its existence here. Before the party gets too close, the %Creature% will fire off as many spells as it can.<br>
+_{If~%MonsterID%!=0?<br>[Monster Stats.DetermineRandomMonster(%MonsterID%,%Bonus0Level%,,99)]}<br><br>
+_<b>Hunter's</b> [NPC Appearance.GenDemon]<hr>
+_{If~%MonsterID2%!=0?<br>[Monster Stats.DetermineRandomMonster(%MonsterID2%,%Bonus0Level%,,99)]}<br><br>
+_<b>Hunted's</b> [NPC Appearance.GenDemon]<hr>
+
+;HunterChoose
+# Babau
+1,|MonsterID=25||CR1=6|
+# Balor
+1,|MonsterID=30||CR1=20|
+# Glabrezu
+1,|MonsterID=166||CR1=13|
+# Hezrou
+1,|MonsterID=198||CR1=11|
+# Marilith
+1,|MonsterID=240||CR1=17|
+# Nalfeshnee
+1,|MonsterID=262||CR1=14|
+# Vrock
+1,|MonsterID=373||CR1=9|
+# Bebilith
+3,|MonsterID=42||CR1=10|
+# Retriever
+3,|MonsterID=309||CR1=11|
+# Barbed Devil
+1,|MonsterID=31||CR1=8|
+# Bearded Devil
+1,|MonsterID=41||CR1=5|
+# Bone Devil
+1,|MonsterID=55||CR1=9|
+# Chain Devil
+1,|MonsterID=69||CR1=6|
+# Horned Devil
+1,|MonsterID=205||CR1=16|
+# Ice Devil
+1,|MonsterID=212||CR1=13|
+# Pit Fiend
+1,|MonsterID=290||CR1=20|
+
+;HuntedChoose
+# Babau
+1,|MonsterID2=25||CR2=6|
+# Glabrezu
+1,|MonsterID2=166||CR2=13|
+# Hezrou
+1,|MonsterID2=198||CR2=11|
+# Bebilith
+1,|MonsterID2=42||CR2=10|
+# Retriever
+1,|MonsterID2=309||CR2=11|
+# Quasit
+1,|MonsterID2=299||CR2=2|
+# Succubus
+1,|MonsterID2=344||CR2=7|
+# Vrock
+1,|MonsterID2=373||CR2=9|
+# Barbed Devil
+1,|MonsterID2=31||CR2=8|
+# Bearded Devil
+1,|MonsterID2=41||CR2=5|
+# Chain Devil
+1,|MonsterID2=69||CR2=6|
+# Erinyes
+1,|MonsterID2=124||CR2=8|
+# Ice Devil
+1,|MonsterID2=212||CR2=13|
+# Imp 
+1,|MonsterID2=214||CR2=2|
+
+:Insects
+1,[InsectsChoose]{If~%MonsterID%!=0?|Creature=[Monster Stats.MonsterNames=%MonsterID%]|}
+_<b>Title</b>- Like Little Insects<br><b>Danger</b>- High<br><b>Climate</b>- Temperate<br><b>Terrain</b>- Plains<br><b>Attribute</b>- Strength<br><b>Encounter</b>- Monster<br><b>Experience</b>- As CR.<br><b>Description</b>- Lost while wandering, the party comes across strange terrain. They can make a DC10 Survival check or Knowledge (Nature) check to notice that the flora has changed slightly. Off in the distance, the party can see an anatosaur milling about. Suddenly, the party becomes aware of {AorAn~%Creature%}, searching the open plains for food. However, when this dinosaur chooses to make its appearance, the party has lots of warning. The {AorAn~%Creature%} hunts down and kills the anatosaur. After eating it's victim, the {AorAn~%Creature%} scents the party, and turns on them. It can reach the PCs after two rounds  unless they have run off.<br>
+_{If~%MonsterID%!=0?<br>[Monster Stats.DetermineRandomMonster(%MonsterID%,%Bonus0Level%,,0)]}<br><br>
+
+;InsectsChoose
+# Megaraptor
+1,|MonsterID=243|
+# T-Rex
+1,|MonsterID=365|
+
+:Inversion
+1,<b>Title</b>- Inversion<br><b>Danger</b>- High<br><b>Climate</b>- Any<br><b>Terrain</b>- Any<br><b>Attribute</b>- Intelligence<br><b>Encounter</b>- Device<br><b>Experience</b>- As CR.<br><b>Description</b>- <i>It is recommended that DM not use this encounter unless the PCs are in an area where they are not likely to be seriously threatened.</i> While the PCs travel, they trip across a magical effect, generally known  only to sages and high level wizards - an "inversion zone". This zone changes the PCs perceptions and perspectives, making up seem down, left seem right, forward backward, and so forth. Language written and spoken seems backward, and the PCs `hand' changes ie, a left handed PC feels that he has become right handed, though he still suffers the penalties from using the right hand. If the PCs make a successful Intelligence check DC10, they can adjust to this new reality. Otherwise they stumble around with -4 to their attack and damage rolls, as well as skill checks and ability checks. Also, those who fail the Intelligence check (or WIS or CHA) are unable to cast spells. If any mounts or unitelligent beings pass through the zone, they go comatose for 1d20 hours. Fortunately for the PCs, the effects of the inversion vanish after 2d12 hours. But these few hours may prove dangerous, and even fatal.<br>
+
+:Need
+1,[NeedChoose]{If~%MonsterID%!=0?|Creature=[Monster Stats.MonsterNames=%MonsterID%]|}
+_<b>Title</b>- A Friend in Need<br><b>Danger</b>- Medium<br><b>Climate</b>- Temperate<br><b>Terrain</b>- Forest<br><b>Attribute</b>- Wisdom<br><b>Encounter</b>- Monster<br><b>Experience</b>- 300 per PC for saving the forest<br><b>Description</b>- Takes place near a small forest clearing, close to a road. A small forest fire has started in the %Creature%'s forest. The %Creature% has been unsuccessfully trying to extinguish the fire, which is getting dangerously close to a section of old, dry forest. Due to dire circumstances, the %Creature% will approach the party and tell them of the danger. The %Creature% speaks in powerful, flowery language, but will not waste time. If the party quickly agrees to help in 2 rounds or less, the fire takes only 4 rounds to put out, but every round the PCs delay adds 2 rounds to the fire's duration.  For every round a PC fights the fire, he will take 1d4 dmg from heat and smoke. If the PCs refuse, the %Creature% will be angry, but will leave. Much of the forest will be destroyed within two weeks, the %Creature% and its allies will find the party and attack them for their malicious indifference.<br>
+_{If~%MonsterID%!=0?<br>[Monster Stats.DetermineRandomMonster(%MonsterID%,%Bonus0Level%,,99)]}<br><br>
+_<hr>[NPC Appearance.GenCreature]<hr>
+_[~MAP Clearings.GenRandomMapRoad]
+
+;NeedChoose
+# Yuan-ti Abomination
+1,|MonsterID=4|
+# Yuan-ti Pureblood
+1,|MonsterID=296|
+# Yuan-ti Half-Blood
+1,|MonsterID=192|
+# Winter Wolf
+1,|MonsterID=390|
+# Werewolf
+1,|MonsterID=383|
+# Werewolf Lord
+1,|MonsterID=384|
+# Weretiger
+1,|MonsterID=382|
+# Wereboar
+1,|MonsterID=380|
+# Werebear
+1,|MonsterID=379|
+# Unicorn
+10,|MonsterID=367|
+# Treant
+1,|MonsterID=357|
+# Satyr
+1,|MonsterID=317|
+# Pseudodragon
+1,|MonsterID=295|
+# Pegasus
+1,|MonsterID=286|
+# Nymph
+1,|MonsterID=271|
+# Kobold
+1,|MonsterID=218|
+# Halfling
+1,|MonsterID=193|
+# Giant Owl
+1,|MonsterID=157|
+# Wild Elf
+1,|MonsterID=388|
+# Wood Elf
+1,|MonsterID=395|
+# Dryad
+1,|MonsterID=110|
+# Centaur
+1,|MonsterID=68|
+# Aranea
+1,|MonsterID=17|
+
+:Orga
+1,<b>Title</b>- The lover<br><b>Danger</b>- High<br><b>Climate</b>- Any<br><b>Terrain</b>- Any<br><b>Attribute</b>- Intelligence<br><b>Encounter</b>- NPC<br><b>Experience</b>- As CR for convincing the NPC to leave the PC alone.<br><b>Description</b>- She is an ugly woman who developped an atttraction for one of the male PCs. She follows him everywhere, hoping to win his affection, and very little will dissuade her. The PC might wake at night to find her lying at his side, gazing at him raptly. If she perceives a danger to him, she cuts it to pieces. If things go bad, she is there to make sure that shopkeepers and those who thwart her beloved's will quickly see things his way. She meddles in any situation she sees as dangerous. This makes it hard to negotiate, perform experiments, etc. The PCs must find a way to get rid of her, if he wants to, that will not anger her.<br>
+_<hr>[NPC Appearance.Generate3]<hr>
+
+:Pudding
+1,[PuddingChoose]{If~%MonsterID%!=0?|Creature=[Monster Stats.MonsterNames=%MonsterID%]|}
+_<b>Title</b>- Ooze Peril<br><b>Danger</b>- Medium<br><b>Climate</b>- Temperate<br><b>Terrain</b>- Dungeon<br><b>Attribute</b>- Strength<br><b>Encounter</b>- Monster<br><b>Experience</b>- As CR.<br><b>Description</b>- The wood flooring was placed in this room recently. There is a gap between wooden floor and the orginal stone floor. One or more %Creature% lurks just beneath the floor bards on the stone below. The ooze is beginning to eat away the wooden flooring when the party enters the room. The floor beneath one of the PCs gives way, and the PC falls 2-3 feet, landing in the %Creature% itself.   The ooze will immediately attack the character. However, if reduced to half hit points, the %Creature% will oozed away and begin eating away at a different section of flooring. If the PCs flee the room the %Creature% will attempt to follow, staying beneath the floor boards. The %Creature% has no treasure, however the DM may chose to place a hidden door or passage beneath the wooden floor.<br>
+_{If~%MonsterID%!=0?<br>[Monster Stats.DetermineRandomMonster(%MonsterID%,%Bonus0Level%,,0)]}<br><br>
+
+;PuddingChoose
+2,|MonsterID=48|
+1,|MonsterID=142|
+2,|MonsterID=174|
+2,|MonsterID=272|
+
+:Shadow
+1,[ShadowChoose]{If~%MonsterID%!=0?|Creature=[Monster Stats.MonsterNames=%MonsterID%]|}
+_<b>Title</b>- {Plural~%Creature%} in the Mist<br><b>Danger</b>- Medium<br><b>Climate</b>- Temperate<br><b>Terrain</b>- Swamp<br><b>Attribute</b>- Strength<br><b>Encounter</b>- Monster<br><b>Experience</b>- As determined by CR.<br><b>Description</b>- An old graveyard stands next to a small trail, the gravestones are tilted and sinking in the mire. Clouds have swept in suddenly, and although there would normally be light for another few hours, it has already grown dark. The {Plural~%Creature%} gathered here are very restive, so they will surround the party and attack.<br>They will be driven off if 3 or more are destroyed or turned. If the PCs look for the %Creature%'s treasure, the remaining {Plural~%Creature%} will attack.<br>
+_The treasure is in the split trunk of a rotted tree. It consists of {Dice~1d5000} {If~{Dice~1d100}<80?sp/cp}{If~{Dice~1d100}<60?, {Dice~1d1200} gp}{If~{Dice~1d100}<40?, {Dice~1d120} pp}{If~{Dice~1d100}<80?{Loop~{Dice~2d2-1},, and [~Jewelry.Alternate]}}.<br>
+_{If~%MonsterID%!=0?<br>[Monster Stats.DetermineRandomMonster(%MonsterID%,%Bonus0Level%,,0)]}<br><br>
+_<hr><b>Leader's</b> [NPC Appearance.GenCreature]<hr>
+
+;ShadowChoose
+# Allip
+1,|MonsterID=9|
+# Ghost
+1,|MonsterID=146|
+# Shadow
+1,|MonsterID=320|
+# Spectre
+1,|MonsterID=334|
+# Vampire
+1,|MonsterID=368|
+# Vampire Spawn
+1,|MonsterID=369|
+# Wraith
+1,|MonsterID=397|
+
+:Sick
+1,<b>Title</b>- Treat the Sick...<br><b>Danger</b>- Medium<br><b>Climate</b>- Any<br><b>Terrain</b>- Urban<br><b>Attribute</b>- Intelligence<br><b>Encounter</b>- Device<br><b>Experience</b>- As determined by DM. Must find the cause and help the village<br><b>Description</b>- The area is a dusty little desert town, but its ramshackle houses have all been closed.  Red quarantine flags hang from every house. The wind howls, and thunderheads are building in the distance. A free roaming herd of cattle grazes outside of town. There is a well in the center of the street.<br>When the PCs walk down the dusty street, one of the doors opens and an emaciated person staggers out.  She flops in the dust at the PCs feet, begging for water and healing. She is pale, and her skin is clammy. If healed, she will tell the PCs of the disease that has stricken the town. After the well was dug, the people let the cows drink from the pond. However, some sort of illness crept into their town after the well was dug, and the villagers fear they have angered the gods. In truth, the water from the well has been tainted, being fed from the same spring that feeds the pond. The villagers must learn to boil their water first and keep the cows away from the pond. To learn this, the PCs might heal the woman, only to see her sick again a few days after drinking the water.  If the PCs drink, they must make a Fortitude save or become ill as well.<br><br><u><b>Disease</u>:</b> [~Miscellaneous.DiseaseFull]<br>
+_<hr>[NPC Appearance.Generate]<hr>
+
+:Tar
+1,[TarChoose]{If~%MonsterID%!=0?|Creature=[Monster Stats.MonsterNames=%MonsterID%]|}
+_<b>Title</b>- Terror in the Tar<br><b>Danger</b>- Medium<br><b>Climate</b>- Tropical<br><b>Terrain</b>- Dungeon<br><b>Attribute</b>- Strength<br><b>Encounter</b>- Monster<br><b>Experience</b>- As per CR.<br><b>Description</b>- This encounter takes place in a large underground cavern riddled with tar pits and pools of sulphurous water. The {Plural~%Creature%} were assassins killed for treason. Their bodies were thrown into the tar pits, but they rose as undead killers. The cavern is dark and clouds of vapour are everywhere. When the party reaches the center of this cavern, they are engulfed in steam. Some of the steam clouds, darker than the rest, are actually {Plural~%Creature%}. These conditions has more chance to cause PCs to be surprised. The {Plural~%Creature%} will try to back the PCs into tar pits. If a %Creature% rolls a 20, the PC must make a Reflex save DC15 or fall in, taking 2d6 dmg/round until he escapes. If the PCs flee, the {Plural~%Creature%} will not follow. The {Plural~%Creature%}' treasure is hidden in the tar pits.<br>
+_The treasure is in the cavern. It consists of {Dice~1d5000} {If~{Dice~1d100}<80?sp/cp}{If~{Dice~1d100}<60?, {Dice~1d1200} gp}{If~{Dice~1d100}<40?, {Dice~1d120} pp}{If~{Dice~1d100}<80?{Loop~{Dice~2d2-1},, and [~Jewelry.Alternate]}}.<br>
+_{If~%MonsterID%!=0?<br>[Monster Stats.DetermineRandomMonster(%MonsterID%,%Bonus0Level%,,0)]}<br><br>
+_<hr><b>Leader's</b> [NPC Appearance.GenCreature]<hr>
+
+;TarChoose
+# Allip
+1,|MonsterID=9|
+# Ghost
+1,|MonsterID=146|
+# Shadow
+1,|MonsterID=320|
+# Spectre
+1,|MonsterID=334|
+# Wraith
+1,|MonsterID=397|
+
+:Threat
+1,[ThreatChoose]{If~%MonsterID%!=0?|Creature=[Monster Stats.MonsterNames=%MonsterID%]|}
+_<b>Title</b>- Triple Threat<br><b>Danger</b>- Medium<br><b>Climate</b>- Temperate<br><b>Terrain</b>- Forest, Hills<br><b>Attribute</b>- Strength<br><b>Encounter</b>- Monster<br><b>Experience</b>- As CR.<br><b>Description</b>- The PCs crest a sharp rise, only to find {AorAn~%Creature%} sitting on the trail, staring at them with its baleful gaze. Pay careful attention to what the PCs do because this %Creature% is acting as a decoy, as two others fly silently towards the party from above and behind. The decoy %Creature% will remain grounded until the other {Plural~%Creature%} arive 1d2 rounds later.<br>If the PCs immediately attack the %Creature%, they will be surprised by the other {Plural~%Creature%}. However, if the PCs state they are being cautious, roll normally for surprise.<br>The airborne {Plural~%Creature%} will attempt to snatch up unarmored PCs and then fly out of range. The grounded %Creature% will attack for one round before attempting to fly. After the initial rounds, the {Plural~%Creature%} will remain airborne, using diving attacks. If a %Creature% is reduced to 10 hp or less, it will try to escape.<br>If the PCs move directly under one of the larger trees in the area, the {Plural~%Creature%} will have to land to attack.<br>
+_The treasure is in their lair. It consists of {Dice~1d5000} {If~{Dice~1d100}<80?sp/cp}{If~{Dice~1d100}<60?, {Dice~1d1200} gp}{If~{Dice~1d100}<40?, {Dice~1d120} pp}{If~{Dice~1d100}<80?{Loop~{Dice~2d2-1},, and [~Jewelry.Alternate]}}.<br>
+_{If~%DragonFlag%=0?{If~%MonsterID%!=0?<br>[Monster Stats.DetermineRandomMonster(%MonsterID%,%Bonus0Level%,,99)]}/ <br>[Dragon Stats.CheckVariableStatus(%DragonType%,%DragonAge%,%Bonus0Level%,,1,1)]}<br>
+_<hr><b>Leader's</b> [NPC Appearance.GenCreature]<hr>
+_[~MAP Clearings.GenRandomMapRoad]
+
+;ThreatChoose
+# Arrowhawk
+1,|MonsterID=19|
+# Chimera
+5,|MonsterID=72|
+# Cockatrice
+1,|MonsterID=79|
+# Dire Bat
+1,|MonsterID=36|
+# Dragonne
+1,|MonsterID=105|
+# Air Elemental
+1,|MonsterID=7|
+# Gargoyle
+1,|MonsterID=140|
+# Griffon
+3,|MonsterID=182|
+# Harpy
+3,|MonsterID=194|
+# Hippogriff
+3,|MonsterID=200|
+# Manticore
+5,|MonsterID=239|
+# Roc
+1,|MonsterID=311|
+# Spectre
+1,|MonsterID=334|
+# Criosphinx
+1,|MonsterID=84|
+# Gynosphinx
+1,|MonsterID=186|
+# Hieracosphinx
+1,|MonsterID=199|
+# Stirge
+1,|MonsterID=340|
+# Vampire Spawn
+1,|MonsterID=369|
+# Wyvern
+5,|MonsterID=398|
+# Yrthak
+1,|MonsterID=402|
+# Dragon Black
+3,|DragonFlag=1||DragonType=1||DragonAge={Dice~1d5+2}||MonsterID=47|
+# Dragon Blue
+3,|DragonFlag=1||DragonType=2||DragonAge={Dice~1d5+2}||MonsterID=50|
+# Dragon Green
+3,|DragonFlag=1||DragonType=3||DragonAge={Dice~1d5+2}||MonsterID=178|
+# Dragon Red
+3,|DragonFlag=1||DragonType=4||DragonAge={Dice~1d5+2}||MonsterID=306|
+# Dragon White
+3,|DragonFlag=1||DragonType=5||DragonAge={Dice~1d5+2}||MonsterID=386|
+
+:Village
+1,[VillageChoose]{If~%MonsterID%!=0?|Creature=[Monster Stats.MonsterNames=%MonsterID%]|}
+_<b>Title</b>- The Moonlit Village<br><b>Danger</b>- Medium<br><b>Climate</b>- Temperate<br><b>Terrain</b>- Urban<br><b>Attribute</b>- Strength, Wisdom<br><b>Encounter</b>- Monster<br><b>Experience</b>- As CR for each one killed, subdued, or cured<br><b>Description</b>- This is a peacefull village. If the PCs elect to stop off in another village and speak of travelling to this place, the peasants fork the evil eye. They won't speak of the village, except to warn the PCs away from it. The will not say why, muttering something about a curse. The village is comprised entirely of lycanthropes.  Almost all of them are curse lycanthropes, capable of being cured. A few are true lycanthropes, who will do anything to prevent any of those who live here to escape the curse.<br> The lycanthropes of the village have built very secure stables and barns, and have agreed to try not to kill the beasts of the nearby villages. Anyone who enters the village during the time of the moon, however, is fair game, whether they are outside or in the inn. Those who flee the village after the time of the change are also fair game; since the werewolves have so little control over their instincts once they have changed, the chase cannot stop once it has begun.<br>
+_{If~%MonsterID%!=0?<br>[Monster Stats.DetermineRandomMonster(%MonsterID%,%Bonus0Level%,,0)]}<br><br>
+_<hr><b>Leader's</b> [NPC Appearance.GenCreature]<hr>
+_[~MAP Clearings.GenRandomMapInhabited]
+
+;VillageChoose
+# Werewolf
+1,|MonsterID=383|
+# Werewolf Lord
+1,|MonsterID=384|
+# Weretiger
+1,|MonsterID=382|
+# Wereboar
+1,|MonsterID=380|
+# Werebear
+1,|MonsterID=379|
+# Wererat
+1,|MonsterID=381|
+
+:Welcome
+1,[WelcomeChoose]{If~%MonsterID%!=0?|Creature=[Monster Stats.MonsterNames=%MonsterID%]|}
+_<b>Title</b>- Welcome to My Parlor ...<br><b>Danger</b>- Medium<br><b>Climate</b>- Temperate<br><b>Terrain</b>- Forest<br><b>Attribute</b>- Strength<br><b>Encounter</b>- Monster<br><b>Experience</b>- As CR.<br><b>Description</b>- A %Creature% has spun its giant web on the very tops of some trees. The %Creature% has particulary long and agile legs. It is preparing to lay eggs, and has begun to feast on the road's travellers. The party is on the road when the %Creature% attacks from behind with her vicious attack. If the %Creature% kills a party member it will attempt to take the body to its nest, ignoring the other PCs unless they follow it, in which case it will renew its attack. If the %Creature% loses more than 3/4 of its hit points, it will flee. If the PCs try to flee, it will have no problems following, unless they teleport. The %Creature% will pursue for no more than a mile before returning to its nest.<br>
+_{If~%MonsterID%!=0?<br>[Monster Stats.DetermineRandomMonster(%MonsterID%,%Bonus0Level%,,99)]}<br><br>
+_[~MAP Clearings.GenRandomMapInput(,,3,1,2)]
+
+;WelcomeChoose
+1,|MonsterID=288|
+1,|MonsterID=256|
+

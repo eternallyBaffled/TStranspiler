@@ -1,0 +1,141 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder Oct 30, 2003.
+# ---------------------------------------------------
+#
+# SMS
+# 06/20/03
+# Forgotten Realms Table 46: Northern Moor (EL 5-15) random encounter tables
+#
+# Corrected by Valminder, Oct 2003
+#   -{If~} and {Dice~}
+#
+#Variables
+
+%Region%,0
+%Time%,0
+%Temp%,0
+
+#Parameters
+
+@Time,1,Select a time of day,Day,Night
+@Region,0,Select a value for region (1-3 see instructions for details)
+
+#
+#  Starts by putting up the instructions
+#
+
+:Start
+1,{If~%Region% = 0 ? [Instructions]/[Northern Moor %Time%]}
+
+;Instructions
+1,<b>Forgotten Realms Table 46: Northern Moor (EL 5-15)</b></br></br><h3>Instructions:</h3>
+_<b>Determine whether an encounter should occur before using this table. The chance of an encounter is based on terrain type and travel (chance per hour):</b><br>
+_<table border=1><tr><th>Terrain</th><th>Normal Travel</th><th>Cautious Travel</th><th>Hiding</th></tr>
+_<tr><td>Desolate/wasteland</td><td>5/%</td><td>2/%</td><td>1/%</td></tr>
+_<tr><td>Frontier/wilderness</td><td>8/%</td><td>4/%</td><td>2/%</td></tr>
+_<tr><td>Verdant/civilized area</td><td>10/%</td><td>5/%</td><td>2/%</td></tr>
+_<tr><td>Heavily traveled</td><td>12/%</td><td>6/%</td><td>3/%</td></tr>
+_</table>
+_<ul><li>Use the Parameter Box (below) to indicate whether it is day or night.</li>
+_<li>Then indicate whether the region is<font color=blue><ol><li>Battle of Bones</li><li>Evermoors</li><li>Lonely Moor</li></ol></li></ul><br></font>
+
+# 1 corresponds to time="Day"
+:Northern Moor 1
+01-02,{Dice~1d2} Behir
+03-06,{Dice~1d3+1} Bugbear
+07,Bugbear Band: {Dice~1d10+10} bugbears, {Dice~1d3} level {Dice~1d3} fighters, led by a level {Dice~1d4+2} fighter
+08-11,{Dice~1d10+10} Dire rat
+12-15,{Dice~1d4+4} Dire wolf
+16-24,Dragon: [NM_Dragon]
+25-29,{Dice~1d3+1} Ettin
+30-32,{Dice~1d4+1} Fog giant
+33-35,Gibbering mouther
+36-38,{Dice~1d3+1} Ice serpent (MoF)
+39-42,{Dice~1d6+4} Krenshar
+43-53,[NM_Local]
+54,Nishruu (MoF)
+55,Nyth (MoF)
+56-59,{Dice~1d4+4} Ogre
+60-68,Orc Patrol: {Dice~1d4+4} orcs, {Dice~1d2} level {Dice~1d3} orc barbarians, led by level {Dice~1d4+2} [FR_Misc.Orc_Class]
+69-74,{Dice~1d3+1} Troll
+75-77,Troll Warband: {Dice~1d6+1} trolls, led by level {Dice~1d3} troll [FR_Misc.Troll_Class]
+78-83,{Dice~1d4+4} Werewolf
+84-87,Werewolf Troupe: {Dice~1d4+1} Werewolves and {Dice~1d4+4} wolves
+88-91,{Dice~1d6} Winter wolf
+92-95,{Dice~1d6+5} Animal: wolf
+96-99,{Dice~1d6+5} Worg
+100,{Dice~1d6+5} Yeth hound
+
+# 2 corresponds to time="Night"
+:Northern Moor 2
+01-02,{Dice~1d6+6} Banedead
+03-04,{Dice~1d2} Behir
+05,Bodak
+06-08,{Dice~1d3+1} Bugbear
+09,Bugbear Band: {Dice~1d10+10} bugbears, {Dice~1d3} level {Dice~1d3} fighters, led by a level {Dice~1d4+2} fighter
+10-12,{Dice~1d2+2} Darkenbeast
+13-15,{Dice~1d10+10} Dire rat
+16-17,{Dice~1d4+4} Dire wolf
+18-26,Dragon: [NM_Dragon]
+27-28,{Dice~1d4+3} Dread warrior (MoF)
+29-32,{Dice~1d3+1} Ettin
+33-35,{Dice~1d4+1} Fog giant
+36-37,Gibbering mouther
+38-39,Ghast pack: {Dice~1d3+1} ghasts and {Dice~1d6+6} ghouls
+40-44,{Dice~1d6+6} Ghoul
+45-47,{Dice~1d3+1} Ice serpent (MoF)
+48-49,{Dice~1d6+4} Krenshar
+50-59,[NM_Local]
+60,Nishruu (MoF)
+61,Nyth (MoF)
+62-64,{Dice~1d4+4} Ogre
+65-69,Orc Patrol: {Dice~1d4+4} orcs, {Dice~1d2} level {Dice~1d3} orc barbarians, led by level {Dice~1d4+2} [FR_Misc.Orc_Class]
+70-71,{Dice~1d6} Spectre
+72-73,{Dice~1d3+1} Troll
+74-75,Troll Warband: {Dice~1d6+1} trolls, led by level {Dice~1d3} troll [FR_Misc.Troll_Class]
+76-77,{Dice~1d8+1} Wight
+78-79,{Dice~1d6} Will-o'-wisp
+80-81,{Dice~1d6} Wraith
+82-83,{Dice~1d4+4} Werewolf
+84-85,Werewolf Troupe: {Dice~1d4+1} Werewolves and {Dice~1d4+4} wolves
+86-89,{Dice~1d6} Winter wolf
+90-93,{Dice~1d6+5} Animal: wolf
+94-98,{Dice~1d6+5} Worg
+99,{Dice~1d6+5} Yeth hound
+100,{Dice~1d6+6} Zombie, medium
+
+:NM_Local
+01-50,Local creatures: [NM_Local%Region%]
+51-100,<b>NPCs:</b><br>{Loop~{Dice~1d3+2},[FR_Random_NPC.FR_SM_NPC]}
+
+#Battle of Bones
+:NM_Local1
+01-15,{Dice~2d4} Bonebat (MoF)
+16-20,Devourer
+21-30,{Dice~2d6} Dread warrior (MoF)
+31-70,Ghast pack: {Dice~1d3+1} ghasts and {Dice~1d6+6} ghouls
+71-80,{Dice~1d3+1} Mohrg
+81-85,{Dice~1d2} Nightwing (nightshade)
+86-100,{Dice~1d6+5} Spectre
+
+#Evermoors
+:NM_Local2
+01-10,{Dice~1d3+1} Ettin
+11-25,{Dice~1d4+1} Hill giant
+26-90,{Dice~1d3+1} Troll
+91-100,Troll Warband: {Dice~1d6+1} trolls, led by level {Dice~1d3} troll [FR_Misc.Troll_Class]
+
+#Lonely Moor
+:NM_Local3
+01-20,{Dice~1d2} Bulette
+21-40,Gnoll war party: {Dice~1d6+1} gnolls, led by a level {Dice~1d6+2} gnoll ranger, accompanied by {Dice~1d3} tigers
+41-65,{Dice~1d2*2} Leucrotta (MoF)
+66-85,Orc Raiders: {Dice~1d10+5} orcs and {Dice~1d2} level {Dice~1d3} barbarians
+86-100,{Dice~1d2*2} Peryton
+
+:NM_Dragon
+01-15,Black, young (clutch of {Dice~1d4+1})
+16-40,Black, old
+41-49,Gold, young adult
+50-99,White, old
+100,Dracolich: White, adult

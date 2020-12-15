@@ -1,0 +1,316 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder Feb 28, 2006.
+# ---------------------------------------------------
+#
+# Mental Disorders
+# Potential problems for PCs who go insane, see something they can't handle, etc.
+# Copyright 1998 Bruce A. Gulke
+#
+# Modified by Valminder April 2002
+#    I changed the "START" line.
+# Modified by Dawn M. Burge November 2004
+#    Redid the "Start" line
+#    Depreciated HTML removal
+#    Added input line
+#    Phobias, Manias, and Philias added
+#    Phobias, Manias, and Philias collected from Forthright's Phrontistery (http://phrontistery.50megs.com/index.html)
+#
+# Modified by Valminder, Feb 2006.
+#    Adapted for TSv5.
+#    I removed the header from the "START" line.
+#    I removed "Override" and "Input~"
+#
+
+#/OverrideRolls 1
+
+%desc%,
+%G%,1
+
+@G,1,Enter the number of disorders to generate
+
+:Start
+1,{Status~By Bruce A. Gulke 1998, Dawn M. Burge 2002}
+#_{Input~G,How many disorders would you like to generate?,1}
+_{Loop~%G%,{Cap~[Generate]}.}
+#1,<h1>Mental Disorders & Insanities</h1><h2>by Bruce A. Gulke and <a href=mailto:fantasy@xecu.net>Dawn M. Burge</a></h2>{Input~G,How many disorders would you like to generate?,1}{Loop~%G%,<div>[Generate]</div>}
+
+;Generate
+6,[Disorder]
+2,[Desc]phobia (fear of %desc%)
+2,[Desc]mania (obsession of <u>or</u> with %desc%)
+2,[Desc]philia (insatiable desire for %desc%)
+
+:Disorder
+1,amnesia
+2,catatonia
+3,dementia
+4,hallucinatory insanity
+5,manic despression
+6,paranoia
+7,schizophrenia
+
+:Desc
+1,abluto|desc=washing or bathing|
+2,acaro|desc=ticks and mites, and the diseases they transmit|
+3,aero|desc=air, atmosphere, weather, or gas|
+4,agro|desc=agricultural soils, or open spaces|
+5,ailuro|desc=cats|
+6,algo|desc=algae|
+7,ambulo|desc=walking|
+8,andro|desc=men|
+9,anemo|desc=wind, by wind, air drafts, or whim|
+10,angelo|desc=angels|
+11,angio|desc=blood vessels and flow and lymphatic system|
+12,Anglo|desc=England, the English, and English culture|
+13,antho|desc=flowers|
+14,anthropo|desc=human, humans, humanity, or society|
+15,apio|desc=bees|
+16,arachno|desc=spiders|
+17,arist|desc=the best or noble|
+18,arithmo|desc=numbers|
+19,astro|desc=stars and celestial space|
+20,audio|desc=noise, speech, hearing, or sound|
+21,bacterio|desc=bacteria|
+22,baro|desc=gravity or gravitational forces|
+23,biblio|desc=books|
+24,bio|desc=life or living material|
+25,botano|desc=plants|
+26,bronto|desc=thunder and lightning|
+27,cano|desc=dogs|
+28,carcino|desc=cancer|
+29,cardio|desc=heart|
+30,carpo|desc=fruit|
+31,carto|desc=cards|
+32,catapeda|desc=jumping from high or low places|
+33,catoptro|desc=mirrors|
+34,cerauno|desc=thunder, lightning, and thunderbolts|
+35,chiro|desc=hands|
+36,chromo|desc=colors|
+37,chrono|desc=time|
+38,chryso|desc=precious metals|
+39,clino|desc=bed|
+40,comet|desc=comets|
+41,concho|desc=shells|
+42,copro|desc=feces and fecal matter|
+43,cosmarchy|desc=cosmos, universe, or the entire world|
+44,crimino|desc=crime or criminals|
+45,crystallo|desc=crystals, glass, or clear objects|
+46,cyto|desc=cells|
+47,dactylo|desc=fingers or rings|
+48,deipno|desc=dining and dinner conversations|
+49,demon|desc=demons or evil forces|
+50,dendro|desc=trees|
+51,dermato|desc=skin or skin disease|
+52,diabeto|desc=diabetes|
+53,diabo|desc=Devil or devils|
+54,dino|desc=dancing, dizziness, or whirlpools|
+55,diplo|desc=double|
+56,dipso|desc=alcohol or drinking|
+57,disco|desc=disco music or sound recordings|
+58,dora|desc=furs|
+59,dromo|desc=travel or crossing|
+60,ecclesi|desc=church, church affairs|
+61,eco|desc=environment|
+62,electro|desc=electricity|
+63,eleuthero|desc=freedom|
+64,embryo|desc=embryos|
+65,emeto|desc=vomiting|
+66,entomo|desc=insects|
+67,epistemo|desc=knowledge|
+68,ergasio|desc=work or functioning, or surgeon's operating|
+69,ergo|desc=work|
+70,eroto|desc=sex or erotisism|
+71,ethn|desc=ethnic group or race|
+72,felino|desc=cats|
+73,flori|desc=flowers|
+74,Franco|desc=France, the French, and the French culture|
+75,gamo|desc=marriage|
+76,geo|desc=earth|
+77,geomorpho|desc=land forms|
+78,Germano|desc=German, the Germans, and the German Culture|
+79,geronto|desc=the elderly or aging|
+80,giganto|desc=giant|
+81,glosso|desc=language, the tongue, or speaking|
+82,gnosio|desc=knowledge|
+83,grapho|desc=writing|
+84,grapto|desc=handwriting|
+85,gymno|desc=nudity or nakedness|
+86,gyn|desc=women|
+87,hagio|desc=saints, sainthood, or holy persons or things|
+88,halo|desc=salt or salt-water|
+89,helio|desc=sun and sunlight|
+90,helmintho|desc=worms|
+91,hemato|desc=blood|
+92,hepato|desc=liver|
+93,herpeto|desc=reptiles, amphibians, or creepy, crawly things|
+94,hiero|desc=priests, religious ministers, or sacred matters and things|
+95,hippo|desc=horses|
+96,histo|desc=tissues of organisms|
+97,historio|desc=history|
+98,homo|desc=sameness or monotony|
+99,hoplo|desc=weapons or firearms|
+100,horo|desc=time measure, sundials, or clocks|
+101,hydro|desc=water|
+102,hygro|desc=humidity, liquids, dampness, or moisture|
+103,hyper|desc=extremety or severety|
+104,hypno|desc=sleep or hypnosis|
+105,ichthyo|desc=fish|
+106,icono|desc=icons, portraits, or symbols|
+107,ideo|desc=ideas or mental|
+108,idolo|desc=idols|
+109,immuno|desc=immunity or immune response|
+110,infant|desc=infant|
+111,insect|desc=insects|
+112,iso|desc=sameness or similarity of origin, equal|
+113,Japano|desc=Japan or the Japanese|
+114,kineto|desc=movement or motion|
+115,klepto|desc=stealing or thieves|
+116,konio|desc=atmospheric pollutants and dust|
+117,lepro|desc=leprosy|
+118,limno|desc=bodies of fresh water, ponds, lakes, or marshes|
+119,litho|desc=rocks|
+120,logo|desc=words|
+121,lygo|desc=darkness|
+122,macro|desc=large, long|
+123,math|desc=magnitude, number, and forms|
+124,megalo|desc=grand or large|
+125,melo|desc=music|
+126,mero|desc=part or segment|
+127,metallo|desc=metal or metal deposits|
+128,meteoro|desc=meteors|
+129,micro|desc=small objects or trivialities|
+130,mono|desc=1, single, or being alone|
+131,myco|desc=funguses or mushrooms|
+132,myo|desc=muscles|
+133,myrmeco|desc=ants|
+134,mytho|desc=myths, fables, tales, or lies|
+135,necro|desc=death, dying, or dead things|
+136,neo|desc=new, novelty, or inexperienced|
+137,nepho|desc=clouds|
+138,neuro|desc=nervous system|
+139,nomo|desc=law, legal system, or the rule of law|
+140,noo|desc=the mind or intellect|
+141,noso|desc=diseases|
+142,nosto|desc=home or familiar places|
+143,numero|desc=numbers|
+144,oceano|desc=oceans|
+145,ochlo|desc=crowds or mobs|
+146,octo|desc=8|
+147,odonto|desc=teeth|
+148,oeno|desc=wine|
+149,oiko|desc=home surroundings, houses, being in a house, or housekeeping|
+150,olfacto|desc=smells or odors|
+151,ombro|desc=rain|
+152,onco|desc=cancerous tumours|
+153,oneiro|desc=dreams|
+154,onomato|desc=words or names|
+155,onto|desc=being or existence|
+156,oo|desc=eggs|
+157,ophio|desc=snakes|
+158,ophthalmo|desc=eyes|
+159,opto|desc=seeing or sight|
+160,orchido|desc=orchids|
+161,ornitho|desc=birds|
+162,oro|desc=mountains and mountain-building|
+163,osmo|desc=smells, odors, and olfactory processes|
+164,osteo|desc=bones|
+165,ourano|desc=heaven or the heavens|
+166,paedo|desc=children|
+167,paleo|desc=ancient or early|
+168,pan|desc=universal|
+169,panto|desc=everything or all being equal|
+170,papa|desc=the Pope|
+171,papyro|desc=paper|
+172,parasito|desc=parasites|
+173,partheno|desc=virgins or young girls|
+174,patho|desc=disease|
+175,patri|desc=men or fathers|
+176,petro|desc=rocks|
+177,phago|desc=food or eating|
+178,pharmaco|desc=drugs|
+179,philemato|desc=kissing|
+180,philo|desc=love|
+181,philoso|desc=knowledge or wisdom|
+182,phobio|desc=fear|
+183,photo|desc=light|
+184,phyllo|desc=leaves or tea leaves|
+185,physio|desc=life or nature|
+186,phyto|desc=plants|
+187,planeto|desc=planets|
+188,pluto|desc=wealth|
+189,pogono|desc=beards|
+190,polemo|desc=war|
+191,politico|desc=politics and politicians|
+192,poly|desc=many|
+193,potamo|desc=rivers or running water|
+194,poto|desc=alcohol|
+195,procto|desc=rectum|
+196,psepho|desc=elections, voting, lots, or markers|
+197,pseudo|desc=lying|
+198,psycho|desc=mind or soul|
+199,psychro|desc=cold|
+200,pterido|desc=ferns|
+201,pyro|desc=fire or heat|
+202,radio|desc=radiation or x-rays|
+203,retro|desc=things of the past|
+204,rhabdo|desc=rod or stick|
+205,rheo|desc=flowing matter (water)|
+206,rhino|desc=nose|
+207,rhizo|desc=roots|
+208,Russo|desc=Russia, the Russians, and the Russian culture|
+209,sarco|desc=flesh|
+210,satano|desc=Satan, devil|
+211,scato|desc=excrement, feces,  fecal matter|
+212,scia|desc=shading, shadows|
+213,scio|desc=shadows|
+214,scopo|desc=being seen or stared at|
+215,seleno|desc=moon|
+216,semio|desc=signs, signals, and symbols|
+217,sidero|desc=stars and celestial space|
+218,Sino|desc=Chinese, and the Chinese culture|
+219,sitio|desc=food|
+220,socio|desc=society|
+221,sopho|desc=ideas and learning|
+222,spectro|desc=specters or ghosts|
+223,spermi|desc=sperm|
+224,squatter|desc=squatters|
+225,squire|desc=squires|
+226,strato|desc=army, military rule, or despotism|
+227,symbol|desc=symbols and symbolism|
+228,syphilo|desc=syphilis|
+229,taeni|desc=tapeworms|
+230,taphro|desc=movement in/of the earth’s crust|
+231,tauro|desc=bull|
+232,techno|desc=technology|
+233,terat|desc=monsters, freaks, abnormal growths, or deformed people|
+234,Teuto|desc=German, the Germans, or German Culture|
+235,thalass|desc=sea|
+236,thanat|desc=death, dying, dead things, and its customs|
+237,thaumato|desc=miracles, doctrine of the miraculous origin of life|
+238,theatro|desc=plays, or theaters|
+239,theo|desc=religion, religious doctrine, oracles, or priests|
+240,thermo|desc=heat|
+241,timbro|desc=postage stamps|
+242,tiro|desc=cheese|
+243,toco|desc=obstetrics, midwifery, pregnancy, or childbirth|
+244,tomo|desc=surgical operations|
+245,topo|desc=places, landforms, or situations, and their natural features|
+246,toxico|desc=poisons|
+247,traumato|desc=injury|
+248,tricho|desc=hair|
+249,tropo|desc=seasonal extremes of climate or changes in general|
+250,typhlo|desc=blindness and the blind|
+251,typho|desc=fever|
+252,typo|desc=printing or using type|
+253,tyrann|desc=tyrant|
+254,ur|desc=urine|
+255,urano|desc=heaven, the heavens, astronomy, or divinity|
+256,urbano|desc=cities|
+257,verbo|desc=words|
+258,verm|desc=worms|
+259,viro|desc=viruses|
+260,xeno|desc=foreigners, strangers, foreign things, or outside causes|
+261,xero|desc=dry conditions or dryness|
+262,xylo|desc=wood, wooden objects, or forests|
+263,zoo|desc=animals|
+264,zym|desc=fermentation|

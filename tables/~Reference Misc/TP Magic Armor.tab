@@ -1,0 +1,409 @@
+# ------------------------------------------------------
+# Last Update: verified by Valminder Jan 01, 2014.
+# ------------------------------------------------------
+#
+# This table generates an item, determines if it 
+# falls within the desired range, and if not, re-rolls. 
+# It'll try this based on the passed-in number of tries.
+# If a result doesn't come up in that time, it returns nothing.
+#
+
+%MinVal%,0
+%MaxVal%,99999999
+%Type%,1
+###%ShowDesc%,0
+###%ShowAura%,0
+%format%,0
+%Continue%,1
+%GroupName%,0
+%ctr%,0
+%temp%,0
+%temp2%,0
+%name%,0
+%value%,0
+%weight%,0
+%desc%,0
+%LowerLimit%,0
+%UpperLimit%,0
+
+%tries%,0
+
+%basebonus%,0
+%bonus%,0
+%abilityrolls%,0
+%item%,0
+%abilities%,0
+%auras%,0
+%ptr%,0
+
+%ctr2%,0
+%powerlist%,0
+%auralist%,0
+%tmppower%,0
+%tmpaura%,0
+
+@MinVal,0,Enter minimum value (in gp):
+@MaxVal,99999999,Enter maximum value (in gp):
+@Type,4,Degree of Power:,Minor,Medium,Major,Random
+@format,1,Select format:,Human-readable,Delimited for other table
+@tries,10,Number of attempts:
+
+:Start
+1,|ctr=0|[Init]
+_{If~%Continue%=1?[GenLoop]}
+_{Status~}
+
+:GenLoop
+1,[GenItem]
+_{If~{Find~1,!,%temp%}!=0?[SpecItem]/[BuildItem]}
+_[RangeCheck]
+_{If~%Continue%=1?[DisplayArmor=%format%]/[ReLoop]}
+
+:DisplayArmor
+1,{Bold~{Cap~%name%}{IIf~%abilityrolls%>0?, with {Italic~%abilities%}}}
+_{CR~}Description: {Cap~%desc%}{CR~}Value: %value% gp{CR~}Weight: %weight% lbs.
+_{CR~}Aura(s): [DefAura]{Italic~%auras%}
+2,%name%{If~%abilityrolls%>0?, with %abilities%}!%value%!%weight%![DefAura]%auras%!%desc%
+
+:DefAura
+1,{If~%abilityrolls%=0?|auras=faint evocation|}
+_{If~%abilityrolls%>0?|temp={Length~%auras%}||auras={Left~{Calc~%temp%-1},%auras%}|}
+
+:ReLoop
+1,|ctr+1|{If~%ctr%<%tries%?[GenLoop]/[Error=2]}
+
+:SpecItem
+1,{Split~temp,"!",name,value,weight,auras,desc}
+
+:BuildItem
+1,|temp=[{Cap~%temp%}]|
+_{Split~temp,"!",name,temp2,weight,desc}
+_|name& +%basebonus%|
+_|temp2+[BonusCost=%bonus%]||value+%temp2%|
+_{If~{Length~%auras%}=0?|auras=faint abjuration|}
+
+:BonusCost
+1,1000
+2,4000
+3,9000
+4,16000
+5,25000
+6,36000
+7,49000
+8,64000
+9,81000
+10,100000
+
+# - Reset groups/variables
+# - Generate base for:
+#   - Shield or armor
+#   - Current bonus
+#   - Number of rolls on ability tables
+# - Generate abilities
+:GenItem
+1,[ResetAll]
+_{Status~Attempt ARMOR {Calc~%ctr%+1} of %tries%}
+_|temp=[%GroupName%]||basebonus=%bonus%|
+_|ctr2=0|
+_{If~%abilityrolls%>0?[GenAbilities][ConvertLists]}
+_|abilities={OrderAsc~"_",%abilities%}|
+_|abilities={Replace~_,; ,%abilities%}|
+_{If~{Length~%abilities%}>0?|abilities={Left~{Calc~{Length~%abilities%}},%abilities%}|}
+_|auras={OrderAsc~"_",%auras%}|
+_|auras={Replace~_,; ,%auras%}|
+
+:GenAbilities
+1,|temp2=[{Cap~%temp%}Abilities%GroupName%]|
+_[SplitIntoLists]
+_|ctr2+1|
+_{If~%ctr2%<%abilityrolls%?[GenAbilities]}
+
+:SplitIntoLists
+1,|ptr={Find~1,!,%temp2%}|
+_|powerlist&{Left~{Calc~%ptr%-1},%temp2%}!|
+_|temp2={Right~{Calc~{Length~%temp2%}-%ptr%},%temp2%}|
+_|ptr={Find~1,!,%temp2%}|
+_|auralist&{Left~{Calc~%ptr%-1},%temp2%}!|
+_|temp2={Right~{Calc~{Length~%temp2%}-%ptr%},%temp2%}|
+_{If~{Length~%temp2%}>0?[SplitIntoLists]}
+
+# Convert into comma-delimited lists
+:ConvertLists
+1,[ConvertPowerList][ConvertAuraList]
+
+:ConvertPowerList
+1,|ptr={Find~1,!,%powerlist%}|
+_|abilities&{Left~{Calc~%ptr%-1},%powerlist%}|
+_|powerlist={Right~{Calc~{Length~%powerlist%}-%ptr%},%powerlist%}|
+_{If~{Length~%powerlist%}>0?|abilities&_|[ConvertPowerList]}
+
+:ConvertAuraList
+1,|ptr={Find~1,!,%auralist%}|
+_|auras&{Left~{Calc~%ptr%-1},%auralist%}|
+_|auralist={Right~{Calc~{Length~%auralist%}-%ptr%},%auralist%}|
+_{If~{Length~%auralist%}>0?|auras&_|[ConvertAuraList]}
+
+:RangeCheck
+1,{If~%MinVal%<=%value%?[RangeCheck2]/[TryAgain]}
+
+:RangeCheck2
+1,{If~%MaxVal%<=%value%?[TryAgain]}
+
+:TryAgain
+1,|Continue=0|
+
+# ----------------------------------------------------
+# Initialization and parameter validation
+
+:Init
+1,|GroupName={If~%Type%=4?[Type]/[Type=%Type%]}|
+_{If~%tries%<1?|tries=1|}
+_{If~{If~%MinVal%>%MaxVal%?0/1}=1?|Continue=1|/[Error=1]}
+
+:Type
+1,Minor
+2,Medium
+3,Major
+
+:Error
+1,ERR001: Min greater than max!0|Continue=0|
+2,ERR005: Couldn't generate item in %tries% tries!0|Continue=0|
+
+:ResetAll
+1,{Reset~ShieldAbilities%GroupName%}
+_{Reset~ArmorAbilities%GroupName%}
+_|bonus=0||abilityrolls=0||powerlist=||auralist=||abilities=||auras=||value=0|
+
+# ----------------------------------------------------
+;Minor
+60,shield|bonus+1|
+20,armor|bonus+1|
+5,shield|bonus+2|
+2,armor|bonus+2|
+2,{If~%abilityrolls%=0?[SpecArmorMinor]/[Minor]}
+2,{If~%abilityrolls%=0?[SpecShieldMinor]/[Minor]}
+9,|abilityrolls+1|[Minor]
+
+;Medium
+5,shield|bonus+1|
+5,armor|bonus+1|
+10,shield|bonus+2|
+10,armor|bonus+2|
+10,shield|bonus+3|
+10,armor|bonus+3|
+5,shield|bonus+4|
+2,armor|bonus+4|
+3,{If~%abilityrolls%=0?[SpecArmorMedium]/[Medium]}
+3,{If~%abilityrolls%=0?[SpecShieldMedium]/[Medium]}
+37,|abilityrolls+1|[Medium]
+
+;Major
+8,shield|bonus+3|
+8,armor|bonus+3|
+11,shield|bonus+4|
+11,armor|bonus+4|
+11,shield|bonus+5|
+8,armor|bonus+5|
+3,{If~%abilityrolls%=0?[SpecArmorMajor]/[Major]}
+3,{If~%abilityrolls%=0?[SpecShieldMajor]/[Major]}
+37,|abilityrolls+1|[Major]
+
+;Armor
+1,padded!155!10!suit of masterwork padded armor
+1,leather!160!15!suit of masterwork leather armor
+15,studded leather!175!20!suit of masterwork studded leather armor
+15,chain shirt!250!25!masterwork chain shirt
+10,hide!165!25!suit of masterwork hide armor
+1,scale mail!200!30!suit of masterwork scale mail
+1,chainmail!300!40!suit of masterwork chainmail
+13,breastplate!350!30!masterwork breastplate
+1,splint mail!350!45!suit of masterwork splint mail
+1,banded mail!400!35!suit of masterwork banded mail
+1,half-plate!750!50!suit of masterwork half-plate armor
+40,full plate!1650!50!suit of masterwork full plate armor
+
+;Shield
+10,buckler!165!5!masterwork buckler
+5,shield (light/wooden)!153!5!light, wooden, masterwork shield
+5,shield (light/steel)!159!6!light, steel, masterwork shield
+10,shield (heavy/wooden)!157!10!heavy, wooden, masterwork shield
+65,shield (heavy/steel)!170!15!heavy, steel, masterwork shield
+5,shield (tower)!180!45!masterwork tower shield
+
+;!ShieldAbilitiesMinor
+20,arrow catching!moderate abjuration!|bonus+1|
+20,bashing!moderate transmutation!|bonus+1|
+10,blinding!moderate evocation!|bonus+1|
+25,fortification (light)!strong abjuration!|bonus+1|
+17,arrow deflection!faint abjuration!|bonus+2|
+5,animated!strong transmutation!|bonus+2|
+2,spell resistance (13)!strong abjuration!|bonus+2|
+1,[ShieldAbilitiesMinor][ShieldAbilitiesMinor]
+
+;!ShieldAbilitiesMedium
+10,arrow catching!moderate abjuration!|bonus+1|
+10,bashing!moderate transmutation!|bonus+1|
+5,blinding!moderate evocation!|bonus+1|
+15,fortification (light)!strong abjuration!|bonus+1|{Lockout~ShieldAbilitiesMedium,86}
+10,arrow deflection!faint abjuration!|bonus+2|
+7,animated!strong transmutation!|bonus+2|
+2,spell resistance (13)!strong abjuration!|bonus+2|{Lockout~ShieldAbilitiesMedium,96}
+4,acid resistance!faint abjuration!|value+18000|
+4,cold resistance!faint abjuration!|value+18000|
+4,electricity resistance!faint abjuration!|value+18000|
+4,fire resistance!faint abjuration!|value+18000|
+4,sonic resistance!faint abjuration!|value+18000|
+6,ghost touch!strong transmutation!|bonus+3|
+10,fortification (moderate)!strong abjuration!|bonus+3|{Lockout~ShieldAbilitiesMedium,26}
+3,spell resistance (15)!strong abjuration!|bonus+3|{Lockout~ShieldAbilitiesMedium,58}
+1,wild!moderate transmutation!|bonus+3|
+1,[ShieldAbilitiesMedium][ShieldAbilitiesMedium]
+
+;!ShieldAbilitiesMajor
+5,arrow catching!moderate abjuration!|bonus+1|
+3,bashing!moderate transmutation!|bonus+1|
+2,blinding!moderate evocation!|bonus+1|
+5,fortification (light)!strong abjuration!|bonus+1|{Lockout~ShieldAbilitiesMajor,47,88}
+5,arrow deflection!faint abjuration!|bonus+2|
+5,animated!strong transmutation!|bonus+2|
+3,acid resistance!faint abjuration!|value+18000|{Lockout~ShieldAbilitiesMajor,60,95}
+3,cold resistance!faint abjuration!|value+18000|{Lockout~ShieldAbilitiesMajor,65,96}
+3,electricity resistance!faint abjuration!|value+18000|{Lockout~ShieldAbilitiesMajor,70,97}
+3,fire resistance!faint abjuration!|value+18000|{Lockout~ShieldAbilitiesMajor,75,98}
+3,sonic resistance!faint abjuration!|value+18000|{Lockout~ShieldAbilitiesMajor,80,99}
+6,ghost touch!strong transmutation!|bonus+3|
+10,fortification (moderate)!strong abjuration!|bonus+3|{Lockout~ShieldAbilitiesMajor,11,88}
+2,spell resistance (15)!strong abjuration!|bonus+3|{Lockout~ShieldAbilitiesMajor,85,94}
+1,wild!moderate transmutation!|bonus+3|
+5,acid resistance (improved)!moderate abjuration!|value+42000|{Lockout~ShieldAbilitiesMajor,26,95}
+5,cold resistance (improved)!moderate abjuration!|value+42000|{Lockout~ShieldAbilitiesMajor,29,96}
+5,electricity resistance (improved)!moderate abjuration!|value+42000|{Lockout~ShieldAbilitiesMajor,32,97}
+5,fire resistance (improved)!moderate abjuration!|value+42000|{Lockout~ShieldAbilitiesMajor,35,98}
+5,sonic resistance (improved)!moderate abjuration!|value+42000|{Lockout~ShieldAbilitiesMajor,38,99}
+2,spell resistance (17)!strong abjuration!|bonus+4|{Lockout~ShieldAbilitiesMajor,57,94}
+1,undead controlling!strong necromancy!|value+49000|
+4,fortification (heavy)!strong abjuration!|bonus+5|{Lockout~ShieldAbilitiesMajor,11,47}
+2,reflecting !strong abjuration!|bonus+5|
+1,spell resistance (19)!strong abjuration!|bonus+5|{Lockout~ShieldAbilitiesMajor,57,85}
+1,acid resistance (greater)!moderate abjuration!|value+66000|{Lockout~ShieldAbilitiesMajor,26,60}
+1,cold resistance (greater)!moderate abjuration!|value+66000|{Lockout~ShieldAbilitiesMajor,29,65}
+1,electricity resistance (greater)!moderate abjuration!|value+66000|{Lockout~ShieldAbilitiesMajor,32,70}
+1,fire resistance (greater)!moderate abjuration!|value+66000|{Lockout~ShieldAbilitiesMajor,35,75}
+1,sonic resistance (greater)!moderate abjuration!|value+66000|{Lockout~ShieldAbilitiesMajor,38,80}
+1,[ShieldAbilitiesMajor][ShieldAbilitiesMajor]
+
+;!ArmorAbilitiesMinor
+25,glamered!moderate illusion!|value+2700|
+7,fortification (light)!strong abjuration!|bonus+1|
+20,slick!faint conjuration!|value+3750|{Lockout~ArmorAbilitiesMinor,97}
+20,shadow!faint illusion!|value+3750|{Lockout~ArmorAbilitiesMinor,98}
+20,silent moves!faint illusion!|value+3750|{Lockout~ArmorAbilitiesMinor,99}
+4,spell resistance (13)!strong abjuration!|bonus+2|
+1,slick (improved)!moderate conjuration!|value+15000|{Lockout~ArmorAbilitiesMinor,33}
+1,shadow (improved)!moderate illusion!|value+15000|{Lockout~ArmorAbilitiesMinor,53}
+1,silent moves (improved)!moderate illusion!|value+15000|{Lockout~ArmorAbilitiesMinor,73}
+1,[ArmorAbilitiesMinor][ArmorAbilitiesMinor]
+
+;!ArmorAbilitiesMedium
+5,glamered!moderate illusion!|value+2700|
+3,fortification (light)!strong abjuration!|bonus+1|{Lockout~ArmorAbilitiesMedium,85}
+3,slick!faint conjuration!|value+3750|{Lockout~ArmorAbilitiesMedium,20}
+3,shadow!faint illusion!|value+3750|{Lockout~ArmorAbilitiesMedium,30}
+3,silent moves!faint illusion!|value+3750|{Lockout~ArmorAbilitiesMedium,40}
+2,spell resistance (13)!strong abjuration!|bonus+2|{Lockout~ArmorAbilitiesMedium,90}
+10,slick (improved)!moderate conjuration!|value+15000|{Lockout~ArmorAbilitiesMedium,9}
+10,shadow (improved)!moderate illusion!|value+15000|{Lockout~ArmorAbilitiesMedium,12}
+10,silent moves (improved)!moderate illusion!|value+15000|{Lockout~ArmorAbilitiesMedium,15}
+5,acid resistance!faint abjuration!|value+18000|
+5,cold resistance!faint abjuration!|value+18000|
+5,electricity resistance!faint abjuration!|value+18000|
+5,fire resistance!faint abjuration!|value+18000|
+5,sonic resistance!faint abjuration!|value+18000|
+5,ghost touch!strong transmutation!|bonus+3|
+5,invulnerability!strong abjuration!|bonus+3|
+5,fortification (moderate)!strong abjuration!|bonus+3|{Lockout~ArmorAbilitiesMedium,6}
+5,spell resistance (15)!strong abjuration!|bonus+3|{Lockout~ArmorAbilitiesMedium,18}
+5,wild!moderate transmutation!|bonus+3|
+1,[ArmorAbilitiesMedium][ArmorAbilitiesMedium]
+
+;!ArmorAbilitiesMajor
+3,glamered!moderate illusion!|value+2700|
+1,fortification (light)!strong abjuration!|bonus+1|{Lockout~ArmorAbilitiesMajor,36,91}
+3,slick (improved)!moderate conjuration!|value+15000|{Lockout~ArmorAbilitiesMajor,44}
+3,shadow (improved)!moderate illusion!|value+15000|{Lockout~ArmorAbilitiesMajor,49}
+3,silent moves (improved)!moderate illusion!|value+15000|{Lockout~ArmorAbilitiesMajor,54}
+3,acid resistance!faint abjuration!|value+18000|{Lockout~ArmorAbilitiesMajor,59,95}
+3,cold resistance!faint abjuration!|value+18000|{Lockout~ArmorAbilitiesMajor,64,96}
+3,electricity resistance!faint abjuration!|value+18000|{Lockout~ArmorAbilitiesMajor,69,97}
+3,fire resistance!faint abjuration!|value+18000|{Lockout~ArmorAbilitiesMajor,74,98}
+3,sonic resistance!faint abjuration!|value+18000|{Lockout~ArmorAbilitiesMajor,79,99}
+5,ghost touch!strong transmutation!|bonus+3|
+2,invulnerability!strong abjuration!|bonus+3|
+5,fortification (moderate)!strong abjuration!|bonus+3|{Lockout~ArmorAbilitiesMajor,4,91}
+2,spell resistance (15)!strong abjuration!|bonus+3|{Lockout~ArmorAbilitiesMajor,84,93}
+1,wild!moderate transmutation!|bonus+3|
+5,slick (greater)!moderate conjuration!|value+33750|{Lockout~ArmorAbilitiesMajor,5}
+5,shadow (greater)!moderate illusion!|value+33750|{Lockout~ArmorAbilitiesMajor,8}
+5,silent moves (greater)!moderate illusion!|value+33750|{Lockout~ArmorAbilitiesMajor,11}
+5,acid resistance (improved)!moderate abjuration!|value+42000|{Lockout~ArmorAbilitiesMajor,14,95}
+5,cold resistance (improved)!moderate abjuration!|value+42000|{Lockout~ArmorAbilitiesMajor,17,96}
+5,electricity resistance (improved)!moderate abjuration!|value+42000|{Lockout~ArmorAbilitiesMajor,20,97}
+5,fire resistance (improved)!moderate abjuration!|value+42000|{Lockout~ArmorAbilitiesMajor,23,98}
+5,sonic resistance (improved)!moderate abjuration!|value+42000|{Lockout~ArmorAbilitiesMajor,26,99}
+5,spell resistance (17)!strong abjuration!|bonus+4|{Lockout~ArmorAbilitiesMajor,41,93}
+1,etherealness !strong transmutation!|value+49000|
+1,undead controlling!strong necromancy!|value+49000|
+2,fortification (heavy)!strong abjuration!|bonus+5|{Lockout~ArmorAbilitiesMajor,4,36}
+2,spell resistance (19)!strong abjuration!|bonus+5|{Lockout~ArmorAbilitiesMajor,41,84}
+1,acid resistance (greater)!moderate abjuration!|value+66000|{Lockout~ArmorAbilitiesMajor,14,59}
+1,cold resistance (greater)!moderate abjuration!|value+66000|{Lockout~ArmorAbilitiesMajor,17,64}
+1,electricity resistance (greater)!moderate abjuration!|value+66000|{Lockout~ArmorAbilitiesMajor,20,69}
+1,fire resistance (greater)!moderate abjuration!|value+66000|{Lockout~ArmorAbilitiesMajor,23,74}
+1,sonic resistance (greater)!moderate abjuration!|value+66000|{Lockout~ArmorAbilitiesMajor,26,79}
+1,[ArmorAbilitiesMajor][ArmorAbilitiesMajor]
+
+;SpecArmorMinor
+50,mithral shirt!1100!10!no aura!light chain shirt made of very fine mithral links|abilityrolls=0|
+30,dragonhide plate!3300!50!no aura!suit of full plate made of dragonhide|abilityrolls=0|
+20,elven chain!4150!20!no aura!light chainmail made of very fine mithral links|abilityrolls=0|
+
+;SpecArmorMedium
+25,mithral shirt!1100!10!no aura!light chain shirt made of very fine mithral links|abilityrolls=0|
+20,dragonhide plate!3300!50!no aura!suit of full plate made of dragonhide|abilityrolls=0|
+12,elven chain!4150!20!no aura!light chainmail made of very fine mithral links|abilityrolls=0|
+10,rhino hide!5165!25!moderate transmutation!suit of hide armor|abilityrolls=0|
+15,adamantine breastplate!10200!30!no aura!adamantine breastplate|abilityrolls=0|
+15,dwarven plate!16500!50!no aura!suit of adamantine full plate armor|abilityrolls=0|
+3,banded mail of luck!18900!35!strong enchantment!suit of banded mail adorned with ten gems|abilityrolls=0|
+
+;SpecArmorMajor
+10,adamantine breastplate!10200!30!no aura!adamantine breastplate|abilityrolls=0|
+10,dwarven plate!16500!50!no aura!suit of adamantine full plate armor|abilityrolls=0|
+12,banded mail of luck!18900!35!strong enchantment!suit of banded mail adorned with ten gems|abilityrolls=0|
+18,celestial armor!22400!20!faint transmutation (good)!light, fine, bright {If~{Dice~1d2}=1?silver/gold} chainmail|abilityrolls=0|
+10,plate armor of the deep!24650!50!moderate abjuration!suit of plate armor decorated with a fish and wave motif|abilityrolls=0|
+15,breastplate of command!25400!30!strong enchantment!finely-crafted breastplate|abilityrolls=0|
+15,mithral full plate of speed!26500!25!faint transmutation!fine set of light full plate armor|abilityrolls=0|
+10,demon armor!52260!50!strong necromancy (evil)!suit of plate armor fashioned to look like a demon|abilityrolls=0|
+
+;SpecShieldMinor
+30,darkwood buckler!205!2.5!no aura!light wooden shield of dark wood|abilityrolls=0|
+50,darkwood shield!257!5!no aura!heavy wooden shield of dark wood|abilityrolls=0|
+15,mithral heavy shield!1020!5!no aura!heavy-looking steel shield|abilityrolls=0|
+5,caster’s shield!3153!5!moderate abjuration!light wooden shield with a small leather strip on the back|abilityrolls=0|
+
+;SpecShieldMedium
+20,darkwood buckler!205!2.5!no aura!light wooden shield of dark wood|abilityrolls=0|
+25,darkwood shield!257!5!no aura!heavy wooden shield of dark wood|abilityrolls=0|
+25,mithral heavy shield!1020!5!no aura!heavy-looking steel shield|abilityrolls=0|
+15,caster’s shield!3153!5!moderate abjuration!light wooden shield with a small leather strip on the back|abilityrolls=0|
+5,spined shield!5580!15!moderate evocation!heavy steel shield covered in spines|abilityrolls=0|
+5,lion’s shield!9170!15!moderate conjuration!heavy steel shield fashioned in the shape of a roaring lion's head|abilityrolls=0|
+5,winged shield!17257!10!faint transmutation!round heavy wooden shield encircled by small, feathered wings|abilityrolls=0|
+
+;SpecShieldMajor
+20,caster’s shield!3153!5!moderate abjuration!light wooden shield with a small leather strip on the back|abilityrolls=0|
+20,spined shield!5580!15!moderate evocation!heavy steel shield covered in spines|abilityrolls=0|
+20,lion’s shield!9170!15!moderate conjuration!heavy steel shield fashioned in the shape of a roaring lion's head|abilityrolls=0|
+30,winged shield!17257!10!faint transmutation!round heavy wooden shield encircled by small, feathered wings|abilityrolls=0|
+10,absorbing shield!50170!15!strong transmutation!flat black heavy steel shield|abilityrolls=0|

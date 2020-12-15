@@ -1,0 +1,131 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder Oct 30, 2003.
+# ---------------------------------------------------
+#
+# SMS
+# 06/21/03
+# Forgotten Realms Table 27: Temperate Low Mountains (EL 6-12) random encounter tables
+#
+# Corrected by Valminder, Oct 2003
+#   -{If~} and {Dice~}
+#
+#Variables
+
+%Region%,0
+%Time%,0
+%Temp%,0
+
+#Parameters
+
+@Time,1,Select a time of day,Day,Night
+@Region,0,Select a value for region (1-3 see instructions for details)
+
+#
+#  Starts by putting up the instructions
+#
+
+:Start
+1,{If~%Region% = 0 ? [Instructions]/[Temperate Low Mountains %Time%]}
+
+;Instructions
+1,<b>Forgotten Realms Table 27: Temperate Low Mountains (EL 6-12)</b></br></br><h3>Instructions:</h3>
+_<b>Determine whether an encounter should occur before using this table. The chance of an encounter is based on terrain type and travel (chance per hour):</b><br>
+_<table border=1><tr><th>Terrain</th><th>Normal Travel</th><th>Cautious Travel</th><th>Hiding</th></tr>
+_<tr><td>Desolate/wasteland</td><td>5/%</td><td>2/%</td><td>1/%</td></tr>
+_<tr><td>Frontier/wilderness</td><td>8/%</td><td>4/%</td><td>2/%</td></tr>
+_<tr><td>Verdant/civilized area</td><td>10/%</td><td>5/%</td><td>2/%</td></tr>
+_<tr><td>Heavily traveled</td><td>12/%</td><td>6/%</td><td>3/%</td></tr>
+_</table>
+_<ul><li>Use the Parameter Box (below) to indicate whether it is day or night.</li>
+_<li>Then indicate whether the region is<font color=blue><ol><li>Cloven Mtns</li><li>Deepwing Mtns</li><li>Troll Mtns</li></ol></li></ul><br></font>
+
+# 1 corresponds to time="Day"
+:Temperate Low Mountains 1
+01-05,Aarakocra Patrol: {Dice~1d4+4} aarakocra and {Dice~1d2} level {Dice~1d4+1} rangers
+06-09,{Dice~1d4+3} Alaghi (MoF)
+10-13,Bugbear Band: {Dice~1d10+10} bugbears, {Dice~1d3} level {Dice~1d3} fighters, led by a level {Dice~1d4+2} fighter
+14-16,Cloud giant
+17-18,{Dice~1d2} Dire bear
+19-26,Dragon: [TLM_Dragon]
+27-30,{Dice~1d3+1} Ettin
+31-35,Goblin war party: {Dice~1d10+5} goblins, {Dice~1d2+1} worgs, {Dice~1d2+1} level {Dice~1d3} fighters, {Dice~1d2+1} level {Dice~1d3+1} adepts, led by a level {Dice~1d4+2} [FR_Misc.Goblin_Class]
+36-38,{Dice~1d12+2} Dekanter goblin (MoF)
+39-43,Gold Dwarf Patrol: {Dice~1d4+4} 1st level fighters, {Dice~1d2} level {Dice~1d4} cleric of [Religion.Dwarf Gods],  {Dice~1d2} level {Dice~1d4} sorcerers, led by a level {Dice~1d4+2} [FR_Misc.GoldDwarf_Class]
+44,Gray render
+45-47,{Dice~2d4+2} Griffon
+48-50,{Dice~1d4+1} Hill Giant
+51-54,{Dice~1d6+6} Hippogriff
+55-56,Hobgoblin war party: {Dice~1d10+5} hobgoblins, {Dice~1d3+1} dire apes, {Dice~1d2} level {Dice~1d3} fighters, led by level {Dice~1d6+2} [FR_Misc.Hobgoblin_Class]
+57-59,4 Leucrotta
+60-72,[TLM_Local]
+73-75,{Dice~1d4+4} Ogre
+76-78,Orc Raiders: {Dice~1d10+5} orcs and {Dice~1d2} level {Dice~1d3} barbarians
+79-82,{Dice~1d4+3} Peryton
+83-85,{Dice~1d2} Roc
+86-88,{Dice~1d3+2} Stone Giant
+89-94,{Dice~1d10+6} Animal: wolf
+95-97,{Dice~1d2} Wyvern
+98-100,{Dice~1d3} Yrthak
+
+# 2 corresponds to time="Night"
+:Temperate Low Mountains 2
+01-04,{Dice~1d3+1} Abishai, red
+05-07,{Dice~1d4+3} Alaghi (MoF)
+08-11,Bugbear Band: {Dice~1d10+10} bugbears, {Dice~1d3} level {Dice~1d3} fighters, led by a level {Dice~1d4+2} fighter
+12-15,Cloud giant
+16-18,{Dice~1d2} Dire bear
+19-25,Dragon: [TLM_Dragon]
+26-29,{Dice~1d3+1} Ettin
+30-34,Goblin war party: {Dice~1d10+5} goblins, {Dice~1d2+1} worgs, {Dice~1d2+1} level {Dice~1d3} fighters, {Dice~1d2+1} level {Dice~1d3+1} adepts, led by a level {Dice~1d4+2} [FR_Misc.Goblin_Class]
+35-37,{Dice~1d12+2} Dekanter goblin (MoF)
+38-39,Gold Dwarf Patrol: {Dice~1d4+4} 1st level fighters, {Dice~1d2} level {Dice~1d4} cleric of [Religion.Dwarf Gods],  {Dice~1d2} level {Dice~1d4} sorcerers, led by a level {Dice~1d4+2} [FR_Misc.GoldDwarf_Class]
+40,Gray render
+41-44,Hill Giant Raiders: {Dice~1d6+5} Hill giants and {Dice~1d3+1} dire wolves
+45,{Dice~1d4+1} Hill Giant
+46-50,Hobgoblin war party: {Dice~1d10+5} hobgoblins, {Dice~1d3+1} dire apes, {Dice~1d2} level {Dice~1d3} fighters, led by level {Dice~1d6+2} [FR_Misc.Hobgoblin_Class]
+51-53,4 Leucrotta
+54-64,[TLM_Local]
+65-70,{Dice~1d4+4} Ogre
+71-79,Orc Raiders: {Dice~1d10+5} orcs and {Dice~1d2} level {Dice~1d3} barbarians
+80-82,{Dice~1d3+2} Stone Giant
+83-84,{Dice~1d2} Vampire
+85-87,{Dice~1d4+1} Vampire spawn
+88-89,Vampire Troupe: {Dice~1d2} vampires and {Dice~1d4+1} vampire spawn
+90-94,{Dice~1d10+6} Animal: wolf
+95-96,{Dice~1d2} Wyvern
+97-100,{Dice~1d3} Yrthak
+
+:TLM_Local
+01-50,Local creatures: [TLM_Local%Region%]
+51-100,<b>NPCs:</b><br>{Loop~{Dice~1d3+2},[FR_Random_NPC.FR_SM_NPC]}
+
+#Cloven Mtns
+:TLM_Local1
+01-25,{Dice~1d3+1} Bugbear
+26-60,Goblin patrol: {Dice~1d6+3} goblins, led by level {Dice~1d3} goblin fighter
+61-75,Hobgoblin raiders: {Dice~1d6+3} hobgoblins, {Dice~1d2} level {Dice~1d2} fighters, and {Dice~1d2} dire wolves
+76-100,Orc Raiders: {Dice~1d10+5} orcs and {Dice~1d2} level {Dice~1d3} barbarians
+
+#Deepwing Mtns
+:TLM_Local2
+01-20,Dragon: Red, juvenile
+21-35,{Dice~1d2} Griffon
+36-50,{Dice~1d6+6} Hippogriff
+51-100,{Dice~1d4+2} Manticore
+
+#Troll Mtns
+:TLM_Local3
+01-20,{Dice~1d3+1} Bugbear
+21-40,Orc Raiders: {Dice~1d10+5} orcs and {Dice~1d2} level {Dice~1d3} barbarians
+41-80,{Dice~1d3+1} Troll
+81-100,Troll Warband: {Dice~1d6+1} trolls, led by level {Dice~1d3} troll [FR_Misc.Troll_Class]
+
+:TLM_Dragon
+01-15,Copper, adult
+16-35,Fang, mature adult (MoF)
+36-45,Gold, young adult
+46,Dracolich, Red, juvenile (FRCS)
+47-65,Red, young adult
+66-75,Shadow, adult (MoF)
+76-85,Silver, juvenile
+86-100,Song, adult (MoF)

@@ -1,0 +1,231 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder August 5, 2006.
+# ---------------------------------------------------
+#
+# This table was written to help the DM quickly determine how long
+# it will take a Weaponsmith/Armorer to make that Great weapon/Armor
+# the PC wants.
+#
+# Written by Rich Martinez
+#
+# Modified by Valminder, August  2006.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+#    Greatly modified and added a few features.
+#
+
+/OverrideRolls 1
+
+%Price%,0
+%CraftSkill%,0
+%Item%,0
+%MasterWork%,0
+%Double%,0
+%ArmorBonus%,0
+%StrBonus%,0
+%Tools%,0
+%Check%,0
+%Iname%,0
+%DC%,0
+%Roll%,0
+%RawMaterialCost%,0
+%ToolType%,0
+%CostToCreate%,0
+%FailCost%,0
+%Currency%,0
+%Time%,0
+%TempDC%,0
+%Week%,0
+%WorkStatus%,0
+%CurrentWork%,0
+%Time%,Week
+%Take10%,2
+%TargetPrice%,0
+%Quicker%,2
+%MasterWorkPrice%,0
+%TempTotalCost%,0
+%DisplayMaster%,0
+%Repair%,0
+
+# Obtain the information about the item being made
+@Repair,1,Craft or Repair,Craft,Repair
+@Price,0,How much is the NORMAL price of the finished product in gold pieces (gp)?
+@CraftSkill,0,What is the Character's craft skill?
+@Item,1,What is being made?,Longbow or Shortbow (Bowmaking DC12),Composite Longbow or Shortbow (Bowmaking DC15),Mighty Composite Shortbow (Bowmaking DC15+2xSTR),Mighty Composite Longbow (Bowmaking DC15+2xSTR),Crossbow (Weaponsmithing DC15),Simple Melee or Thrown Weapon (Weaponsmithing DC12),Martial Melee or Thrown Weapon (Weaponsmithing DC15),Exotic Melee or Thrown Weapon (Weaponsmithing DC18),Armor or Shield (Armorsmithing DC10+Armor Bonus),Very Simple Item (Wooden Spoon DC5),Typical Item (Iron Pot DC10),High-Quality Item (Bell DC15),Complex or Superior Item (Lock DC20),Alchemical Item (you'll need to input the DC)
+@MasterWork,2,Is it Masterwork?,Yes,No
+@Double,2,Is this a Double Weapon?,Yes,No
+@ArmorBonus,0,If this is to make Armor or Shield; enter the AC Bonus?
+@StrBonus,0,If this is any Mighty Bow; enter the Strength Bonus.
+@Tools,2,What kind of tools are being used?,None (-2 Craft check),Normal (only change if not included in Craft skill above),Masterwork (+2 Craft check)
+@Check,1,How often to check?,Weekly,Daily
+@Take10,2,Do you Take 10?,Yes,No
+@Quicker,2,Do you want to craft the item quicker (+10 DC),Yes,No
+
+:Start
+1,{Status~By Rich Martinez, Valminder 2006}
+_{If~%Price%=0?[Instructions]/[GenCreation]}
+
+:Tab
+1,&nbsp&nbsp&nbsp&nbsp&nbsp
+
+:Instructions
+1,<h3>Instructions:</h3>
+_Please click the parameters button (upper left corner) and answer ALL of the questions to properly create the time table.
+_<br><br>
+_<font size=5><b>CRAFT (INT)</b></font> (from the SRD)<br>
+_Like Knowledge, Perform, and Profession, Craft is actually a number of separate skills. You could have several Craft skills, each with its own ranks, each purchased as a separate skill.<br>
+_[Tab]A Craft skill is specifically focused on creating something. If nothing is created by the endeavor, it probably falls under the heading of a Profession skill.<br><br>
+_<b>Check:</b> You can practice your trade and make a decent living, earning about half your check result in gold pieces per week of dedicated work. You know how to use the tools of your trade, how to perform the craft’s daily tasks, how to supervise untrained helpers, and how to handle common problems. (Untrained laborers and assistants earn an average of 1 silver piece per day.)<br>
+_[Tab]The basic function of the Craft skill, however, is to allow you to make an item of the appropriate type. The DC depends on the complexity of the item to be created. The DC, your check results, and the price of the item determine how long it takes to make a particular item. The item’s finished price also determines the cost of raw materials.<br>
+_[Tab]In some cases, the <i>fabricate</i> spell can be used to achieve the results of a Craft check with no actual check involved. However, you must make an appropriate Craft check when using the spell to make articles requiring a high degree of craftsmanship.<br>
+_[Tab]A successful Craft check related to woodworking in conjunction with the casting of the <i>ironwood</i> spell enables you to make wooden items that have the strength of steel.<br>
+_[Tab]When casting the spell <i>minor creation</i>, you must succeed on an appropriate Craft check to make a complex item.<br>
+_[Tab]All crafts require artisan’s tools to give the best chance of success. If improvised tools are used, the check is made with a –2 circumstance penalty. On the other hand, masterwork artisan’s tools provide a +2 circumstance bonus on the check.<br>
+_[Tab]To determine how much time and money it takes to make an item, follow these steps.<br>
+_[Tab]1. Find the item’s price. Put the price in silver pieces (1 gp = 10 sp).<br>
+_[Tab]2. Find the DC from the table below.<br>
+_[Tab]3. Pay one-third of the item’s price for the cost of raw materials.<br>
+_[Tab]4. Make an appropriate Craft check representing one week’s work. If the check succeeds, multiply your check result by the DC. If the result × the DC equals the price of the item in sp, then you have completed the item. (If the result × the DC equals double or triple the price of the item in silver pieces, then you’ve completed the task in one-half or one-third of the time. Other multiples of the DC reduce the time in the same manner.) If the result × the DC doesn’t equal the price, then it represents the progress you’ve made this week. Record the result and make a new Craft check for the next week. Each week, you make more progress until your total reaches the price of the item in silver pieces.<br>
+_[Tab]<u>If you fail a check by 4 or less</u>, you make no progress this week.<br>
+_[Tab]<u>If you fail by 5 or more</u>, you ruin half the raw materials and have to pay half the original raw material cost again.<br><br>
+_<u>Progress by the Day</u>: You can make checks by the day instead of by the week. In this case your progress (check result × DC) is in copper pieces instead of silver pieces.<br><br>
+_<u>Creating Masterwork Items</u>: You can make a masterwork item — a weapon, suit of armor, shield, or tool that conveys a bonus on its use through its exceptional craftsmanship, not through being magical. To create a masterwork item, you create the masterwork component as if it were a separate item in addition to the standard item. The masterwork component has its own price (300 gp for a weapon or 150 gp for a suit of armor or a shield) and a Craft DC of 20. Once both the standard component and the masterwork component are completed, the masterwork item is finished. Note: The cost you pay for the masterwork component is one-third of the given amount, just as it is for the cost in raw materials.<br><br>
+_<u>Repairing Items</u>: Generally, you can repair an item by making checks against the same DC that it took to make the item in the first place. The cost of repairing an item is one-fifth of the item’s price.<br><br> 
+_When you use the Craft skill to make a particular sort of item, the DC for checks involving the creation of that item are typically as given on the following table.<br>
+_<table border=4>
+_<tr><td><b>Item</b></td><td><b>Craft Skill</b></td><td><b>Craft DC</b></td></tr>
+_<tr><td>Acid</td><td>Alchemy (1)</td><td>15</td></tr>
+_<tr><td>Alchemist’s fire, smokestick, or tindertwig</td><td>Alchemy (1)</td><td>20</td></tr>
+_<tr><td>Antitoxin, sunrod, tanglefoot bag, or thunderstone</td><td>Alchemy (1)</td><td>25</td></tr>
+_<tr><td>Armor or shield</td><td>Armorsmithing</td><td>10 + AC bonus</td></tr>
+_<tr><td>Longbow or shortbow</td><td>Bowmaking</td><td>12</td></tr>
+_<tr><td>Composite longbow or composite shortbow</td><td>Bowmaking</td><td>15</td></tr>
+_<tr><td>Mighty Composite longbow/shortbow</td><td>Bowmaking</td><td>15 + (2 × rating)</td></tr>
+_<tr><td>Crossbow</td><td>Weaponsmithing</td><td>15</td></tr>
+_<tr><td>Simple melee or thrown weapon</td><td>Weaponsmithing</td><td>12</td></tr>
+_<tr><td>Martial melee or thrown weapon</td><td>Weaponsmithing</td><td>15</td></tr>
+_<tr><td>Exotic melee or thrown weapon</td><td>Weaponsmithing</td><td>18</td></tr>
+_<tr><td>Mechanical trap</td><td>Trapmaking</td><td>Varies (2)</td></tr>
+_<tr><td>Very simple item (wooden spoon)</td><td>Varies</td><td>5</td></tr>
+_<tr><td>Typical item (iron pot)</td><td>Varies</td><td>10</td></tr>
+_<tr><td>High-quality item (bell)</td><td>Varies</td><td>15</td></tr>
+_<tr><td>Complex or superior item (lock)</td><td>Varies</td><td>20</td></tr>
+_</table>
+_1 You must be a spellcaster to craft any of these items.<br>
+_2 Traps have their own rules for construction.<br><br>
+_<b>Action:</b> Does not apply. Craft checks are made by the day or week (see above).<br>
+_<b>Try Again:</b> Yes, but each time you miss by 5 or more, you ruin half the raw materials and have to pay half the original raw material cost again.<br>
+_<b>Special:</b> A dwarf has a +2 racial bonus on Craft checks that are related to stone or metal, because dwarves are especially capable with stonework and metalwork.<br>
+_[Tab]A gnome has a +2 racial bonus on Craft (alchemy) checks because gnomes have sensitive noses.<br>
+_[Tab]You may voluntarily add +10 to the indicated DC to craft an item. This allows you to create the item more quickly (since you’ll be multiplying this higher DC by your Craft check result to determine progress). You must decide whether to increase the DC before you make each weekly or daily check.<br>
+_[Tab]To make an item using Craft (alchemy), you must have alchemical equipment and be a spellcaster. If you are working in a city, you can buy what you need as part of the raw materials cost to make the item, but alchemical equipment is difficult or impossible to come by in some places. Purchasing and maintaining an alchemist’s lab grants a +2 circumstance bonus on Craft (alchemy) checks because you have the perfect tools for the job, but it does not affect the cost of any items made using the skill.<br>
+_<b>Synergy:</b> If you have 5 ranks in a Craft skill, you get a +2 bonus on Appraise checks related to items made with that Craft skill.<br>
+
+
+# -----------------------------------------------------
+
+:GenCreation
+1,<table border=1>
+_[ItemName=%Item%]
+_{If~%Quicker%=1?|DC+10|}
+_|ToolType=[ToolType=%Tools%]|
+_{IIf~{Calc~(20+%CraftSkill%+%ToolType%)}<%DC%?<font color=purple>You cannot make this item even if you roll 20s</font>{Stop~}}
+_|TargetPrice=%Price%|
+_|RawMaterialCost=%Price%|
+_{If~%Check%=1?[Weekly]/[Daily]}
+_<tr><td><font size=+2>Standard Component DC%DC%</font></td><td><b>Craft Skill: +%CraftSkill%</b></td><td>{If~%Tools%=1? -2 tools}{If~%Tools%=3? +2 tools}{IIf~%Repair%=2?<font color=purple>   (REPAIR)</font>}</td></tr>
+_<tr width=500><td><font size=+1>{If~%MasterWork%=1?Masterwork }%Iname%</font></td><td><font size=+1>Sell Cost: %Price% gp</font></td><td><font size=+1>Starting Material: %RawMaterialCost% %Currency%</font></td></tr>
+_<tr width=500><td><b><u>%Time% Number</u></b></td><td><b><u>Roll Outcome?</u></b></td><td><b><u>Current Progress</u></b></td></tr>
+_|Week=0|
+_[PreRoll]
+_{If~%MasterWork%=1?[Master]}
+_</Table>
+
+# -----------------------------------------------------
+
+:ItemName
+1,|Iname=Longbow or Shortbow||DC=12|
+2,|Iname=Composite Longbow or Shortbow||DC=15|
+3,|Iname=Mighty Composite Shortbow||DC=15|{If~%StrBonus%=0?|StrBonus={InputText~1,Enter the STR Bonus of the Composite bow}|}|DC={Calc~%DC%+(%StrBonus%*2)}|
+4,|Iname=Mighty Composite Longbow||DC=15|{If~%StrBonus%=0?|StrBonus={InputText~1,Enter the STR Bonus of the Composite bow}|}|DC={Calc~%DC%+(%StrBonus%*2)}|
+5,|Iname=Crossbow||DC=15|
+6,|Iname=Simple Melee or Thrown||DC=12|
+7,|Iname=Martial Melee or Thrown||DC=15|
+8,|Iname=Exotic Melee or Thrown||DC=18|
+9,|Iname=Armor or Shield||DC=10||DC+%ArmorBonus%|
+10,|Iname=Very Simple Item (Wooden Spoon)||DC=5|
+11,|Iname=Typical Item (Iron Pot)||DC=10|
+12,|Iname=High-Quality Item (Bell)||DC=15|
+13,|Iname=Complex or Superior Item (Lock)||DC=20|
+14,|Iname=Alchemical Item||DC={InputText~15,Enter the Craft DC of the Alchemical Item}|
+
+:ToolType
+1,-2
+2,0
+3,2
+
+:Weekly
+1,|Time=Week||TargetPrice*10||RawMaterialCost*10|{IIf~%Repair%=1?|RawMaterialCost/3|:|RawMaterialCost/5|}
+_|RawMaterialCost={Round~0,%RawMaterialCost%}||Currency=sp||Time=Week|
+
+:Daily
+1,|Time=Day||TargetPrice*100||RawMaterialCost*100|{IIf~%Repair%=1?|RawMaterialCost/3|:|RawMaterialCost/5|}
+_|RawMaterialCost={Round~0,%RawMaterialCost%}||Currency=cp||Time=Day|
+
+:PreRoll
+1,|CostToCreate=%RawMaterialCost%|
+_|FailCost=%RawMaterialCost%||FailCost/2||FailCost={Round~0,%FailCost%}|
+_[RollCheck]
+
+:RollCheck
+1,{If~%Take10%=1?[Take10]/|Roll={Dice~1d20}|}
+_|Roll+%CraftSkill%||Roll+%ToolType%|
+_|Week+1|
+_{If~%Roll%>=%DC%?[RollSuccess]/[RollFail]}
+
+:Take10
+1,|Roll=10|{IIf~{Calc~(%Roll%+%CraftSkill%+%ToolType%)}<%DC%?<font color=purple>You cannot take 10 because you'll never be able to craft the item</font>|Take10=2|[RollCheck]}
+
+:RollSuccess
+1,|WorkStatus={Calc~%Roll%*%DC%}|
+_|CurrentWork+%WorkStatus%|
+_<tr>
+_<td>%Time%: %Week% (Roll Result: %Roll%)</td><td>Success</td><td>%CurrentWork% %Currency%</td>
+_</tr>
+#_{If~%CurrentWork%>=%RawMaterialCost%?[Display]/[RollCheck]}
+_{If~%CurrentWork%>=%TargetPrice%?{If~%DisplayMaster%=1?[DisplayMaster]/[Display]}/[RollCheck]}
+
+:RollFail
+1,|TempDC=%DC%||TempDC-4|
+_<tr>
+_<td>%Time%: %Week% (Roll Result: <font color=red>%Roll%</font>)</td><td><font color=red>Failed</font></td><td>%CurrentWork% %Currency%</td>
+_</tr>
+_{If~%Roll%<%TempDC%?[AddCost]/[RollCheck]}
+
+:AddCost
+1,|CostToCreate+%FailCost%|
+_[RollCheck]
+
+:Display
+1,<tr width 500><td><b>Crafting took %Week% %Time%s</b></td><td><b>Finished</b></td><td><b>Material Cost: %CostToCreate% %Currency%</b></td></tr>
+
+# -------------------------------------------------
+
+:Master
+1,|DC=20||TempTotalCost=%CostToCreate%|
+_{If~%Item%>9?|MasterWorkPrice=%Price%|}
+_{If~%Item%=9?|MasterWorkPrice=150|}
+_{If~%Item%<9?|MasterWorkPrice=300|{If~%Double%=1?|MasterWorkPrice+300|}}
+_|TargetPrice=%MasterWorkPrice%|
+_|RawMaterialCost=%MasterWorkPrice%|
+_{If~%Check%=1?[Weekly]/[Daily]}
+_<tr><td><br><font size=+2>Masterwork Component DC%DC%</font></td></tr>
+_<tr width=500><td><font size=+1>{If~%MasterWork%=1?Masterwork }%Iname%</font></td><td><font size=+1>Cost: %MasterWorkPrice%</font></td><td><font size=+1>Starting Material: %RawMaterialCost% %Currency%</font></td></tr>
+_<tr width=500><td><b><u>%Time% Number</u></b></td><td><b><u>Roll Outcome?</u></b></td><td><b><u>Current Progress</u></b></td></tr>
+_|CurrentWork=0||DisplayMaster=1|
+_[PreRoll]
+
+:DisplayMaster
+1,<tr width 500><td><b>Crafting took %Week% %Time%s</b></td><td><b>Finished</b></td><td><b>Material Cost: %CostToCreate% %Currency%<br>Total Cost: {Calc~%CostToCreate%+%TempTotalCost%} %Currency%</b></td></tr>
+
+

@@ -1,0 +1,277 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder August 4, 2006.
+# ---------------------------------------------------
+#
+# Criticals and Fumbles
+#
+# by Valminder, March 2002, modified for 3rd Edition D&D
+# based on the "Good hits & bad misses" from Dragon Magazine #39
+# (July 1980) and reprinted in the Best of Dragon magazine, vol. V
+# (May 1986).
+# Modified, August 2005. 
+#    -Halved the duration of stun effects.
+#    -Added some alternate fumbles.
+# Modified, Jan 2006.
+#    -Added fumbles: Disease, fatigue.
+#    -Reworked the fumble table and removed the Fumble2 table.
+#    -Fumble: removed the stunned condition on the first fumble.
+#    -piercing: added punctured artery.
+# Modified, Dec 2010
+#    -Criticals and Fumbles for Spells and Magic.
+#
+
+/OverrideRolls 1
+
+:Start
+1,<i>Bite:</i> slashing, blunt, and piercing (choose one of the 3 effects).<br>
+_<i>Claw / Rake:</i> blunt and piercing (choose on of the 2 effects).<br>
+_<i>Gore:</i> piercing.<br>
+_<i>Slap / Slam:</i> blunt.<br>
+_<i>Sting:</i> piercing.<br>
+_<i>Tentacle:</i> blunt (sometimes slashing).<br><br>
+_<hr><br><b>Slashing:</b> [~Slashing]
+_<br><b>Blunt:</b> [~Blunt]
+_<br><b>Piercing:</b> [~Piercing]
+_<br><b>Magic:</b> [~Magic]
+_<br><br><b><i>Fumble:</b></i> [~Fumble]
+_<br><b><i>Fumble, Magical:</b></i> [~FumbleMagic]
+_<br><br><hr><u>Prone Condition</u>: The character is on the ground. -4 AC vs melee attacks, +4 AC vs ranged attacks.
+_<br><u>Prone and Stunned Condition</u>: (As above) Drop everything held, can't take actions, -2 penalty to AC (total -6 vs melee; +2 vs ranged), and loses his Dexterity bonus to AC (if any).
+_<br>*<u>Shield/Helmet destroyed</u>: the item is destroyed but you don't suffer the effect of the critical hit.
+_<br><hr><br><b><u>Critical Hit:</b></u><br>
+_A threat is made as per the normal rules from the <i>Player's Handbook</i>. If the threat roll hits the target again, a critical hit is scored and the attacker rolls 1d100 in the appropriate table: blunt, piercing, or slashing.<br>
+_<u>Optional Rule</u>: If, on the threat roll, the attacker hits the target and gets another threat, he must roll again for an extra critical hit. If this second threat hits the target, the critical hit is much better, and the damage are multiplied by x2 (as per the rules, if it was x2 it becomes x3). The attacker continues like this as long as he gets a threat and hits the target with the threat. Roll only once in the critical hit table.<br><br>
+_<b><u>Critical Hits: Special Effects</b></u> (-2 penalties)<br>
+_<b>Arm:</b> Climb and Swim; attack rolls and Strength.<br>
+_<b>Hand:</b> Alchemy, Climb, Craft, Disable Device, Escape Artist, Forgery, Heal, Open Lock, Pick Pocket, and Use Rope; attack rolls.<br>
+_<b>Eye (1):</b> Appraise, Alchemy, Craft, Decipher Script, Disable Device, Forgery, Open Lock, Read Lips, Scry, Search, Sense Motive, Spellcraft, Spot, Wilderness Lore (track only); initiative; Dex checks; Reflex saves. Blind if both eyes.<br>
+_<b>Ear (1):</b> Listen; initiative. Deaf if both ears.<br>
+_<b>Feet/Leg:</b> Balance, Climb, Jump, Move Silently, Ride, Swim, Tumble; Dex checks, Reflex saves.<br>
+_<b>Head:</b> Attack rolls, all saving throws, all other checks.<br><br>
+_<b>Example</b>: If the "Primary arm (weapon) struck" critical hit is rolled, the target suffers a -2 penalty on its attack rolls, Climb and Swim checks, and its Strength score.<br><br>
+_<u>Until Healed</u>: all the damage received from a critical hit must be healed to prevent the special effects of this critical hit. (Example: For the "Chest injuries (death in 2d4 rounds)" critical hit, all damage from this critical hit must be healed or death will happen in 2d4 rounds, even if only 1 hit point was not restored.)"<br><br>
+_<b><u>Fumble:</b></u><br>
+_A <i>fumble</i> is obtained when a natural "1" si rolled on any attack roll. This has 2 effects:<br>
+_1- All attacks after the "1", in the same action (not for AoO made later in the round), are cancelled. So, a "1" on an AoO cancels only this AoO.<br>
+_2- The attacker rolls 1d100 in the fumble table and suffers the consequences.<br><br>
+_Note: if the critical hit or the fumble result rolled does not apply (ex: the target does not have a shield), the critical hit is made normally or there is no other effects from the fumble, except losing the attacks after the "1".<br>
+
+;Tab
+1,{Loop~5,&nbsp;}
+
+:Slashing
+1-45,Normal Critical Hit.
+46-60,Critical Hit +1x.
+61-62,Shield destroyed.
+63,Helmet destroyed (or other head-worn item).
+64,Helm removed (lose 1 ear and <i>stun</i> <b>{Dice~1d4}</b> rounds).
+65,Voice box punctured (no talking) or helmet destroyed*.
+66,Ear removed or helmet destroyed*.
+67,Ear removed (no effect if helmed).
+68,Eye removed or helmet destroyed*.
+69,Eye removed.
+70,Knee split (½ MV).
+71,Knee split (no MV).
+72,{Dice~1d3} fingers removed.
+73,Leg removed at ankle (no MV).
+74,Leg removed at knee (no MV).
+75,Leg removed at hip (no MV).
+76,Shield arm removed at wrist or shield destroyed*.
+77,Shield arm removed at elbow or shield destroyed*.
+78,Shield arm removed at shoulder or shield destroyed*.
+79,Shield arm removed at wrist.
+80,Shield arm removed at elbow.
+81,Shield arm removed at shoulder.
+82,Primary arm (weapon) removed at wrist.
+83,Primary arm (weapon) removed at elbow.
+84,Primary arm (weapon) removed at shoulder.
+85,Abdominal injuries (½ carrying capacity).
+86,Chest injuries (½ carrying capacity).
+87,Abdominal injuries (death in <b>{Dice~1d6}</b> days).
+88,Chest injuries (death in <b>{Dice~1d4}</b> days).
+89,Abdominal injuries (death in <b>{Dice~2d6}</b> rounds).
+90,Chest injuries (death in <b>{Dice~2d4}</b> rounds).
+91,Abdominal injuries (death in 1 round).
+92,Chest injuries (death in 1 round).
+93,Throat cut (death in 1 round) or helmet destroyed*.
+94,Throat cut (death in 1 round).
+95,Decapitated (immediate death) or helmet destroyed*.
+96,Decapitated (immediate death).
+97-100,Critical Hit +2x.
+
+:Blunt
+1-45,Normal Critical Hit.
+46-60,Critical Hit +1x.
+61-62,Shield destroyed.
+63,Helmet destroyed (or other head-worn item).
+64-65,Shield arm struck (no shield for <b>{Dice~1d6}</b> rounds).
+66-67,Shield arm broken or shield destroyed*.
+68-69,Primary arm (weapon) struck.
+70-71,Primary arm (weapon) struck hard (effects at -4).
+72-73,Primary arm (weapon) broken (unusable).
+74-75,Primary hand (weapon) struck.
+76-77,Primary hand (weapon) broken (unusable).
+78-80,Chest struck (<i>stun</i> <b>{Dice~1d4}</b> rounds).
+81-82,Ribs broken, lungs punctured (no MV, -2 everything).
+83,Ribs broken, heart punctured (death in 1 round).
+84-86,Leg struck; fall down.
+87-88,Leg struck; fall down (½ MV).
+89-90,Leg broken; fall down (no MV).
+91-92,Head struck (lose <b>{Dice~1d3}</b> INT) or helmet destroyed*.
+93-94,Head struck (lose <b>{Dice~1d3}</b> INT).
+95,Skull crushed (immediate death) or helmet destroyed*.
+96,Skull crushed (immediate death).
+97-100,Critical Hit +2x.
+
+:Piercing
+1-45,Normal Critical Hit.
+46-60,Critical Hit +1x.
+61,Helmet removed (or other head-worn item).
+62-63,Shield arm unusable (no shield for <b>{Dice~1d6}</b> rounds).
+64-65,Primary arm (weapon) struck.
+66-67,Primary arm (weapon) struck (effects at -4).
+68-69,Primary arm (weapon) struck (unusable).
+70-71,Lungs punctured (no MV, -4 everything).
+72-73,Artery punctured (lose 1 hp/round).
+74,Heart punctured (death in 1 round).
+75-76,Abdominal injuries (death in <b>{Dice~1d6}</b> days).
+77-78,Chest injuries (death in <b>{Dice~1d4}</b> days).
+79-80,Abdominal injuries (death in <b>{Dice~2d4}</b> rounds).
+81-82,Chest injuries (death in <b>{Dice~2d4}</b> rounds).
+83,Abdominal injuries (death in 1 round).
+84,Chest injuries (death in 1 round).
+85-86,Eye punctured or helmet destroyed*.
+87-88,Eye punctured.
+89-90,Larynx punctured (no talking) or helmet destroyed*.
+91-92,Larynx punctured (no talking).
+93,Throat struck (death in 1 round) or helmet destroyed*.
+94,Throat struck (death in 1 round).
+95,Head struck (immediate death) or helmet destroyed*.
+96,Head struck (immediate death).
+97-100,Critical Hit +2x.
+
+:Magic
+01-45,Critical hit x2.
+46-60,Critical hit x3.
+61-64,Crit x2. Spell if harder to dispel (DC13 + caster level).
+65-68,Crit x2. Save: +2 DC.
+69-72,Crit x2. +2 Caster Level check vs SR.
+73-76,Crit x2. Target failing its save is knocked prone (no effect if no save).
+77-79,Crit x2. Target failing its save is <i>staggered</i> until your next action (1 Move or Standard action only) (no effect if no save).
+80,Crit x2. Target failing its save is <i>stunned</i> until your next action (drops everything held, no actions, -2 AC, loses DEX to AC) (no effect if no save).
+81-84,Crit x2. +1d6 energy damage per spell level. Random energy ([~MagicEnergy]) or as per the spell's energy.
+85-86,Crit x2. The spell tries to dispel (see <i>dispel magic</i>) <b>ONE</b> spell on the target. The active spell of the highest level is affected.
+_<br>[Tab]Caster level check (max 1d20+10) vs DC 11+caster level.
+_<br>[Tab]It affects only spells active on a creature or object.
+_<br>[Tab]Independant spells or spells affecting an area (<i>wall of fire, antimagic field,</i> illusions or summoned monsters) cannot pe dispelled, even if they prevent your spell from affecting the target.
+87-90,Crit x2. The spell tries to dispel all spell effect on the target which interacts directly with itself.
+_<br>[Tab]Caster level check (max 1d20+10) vs DC 11+caster level.
+_<br>[Tab]Ex: <i>fireball vs protection from elements (fire)</i> already active. If the dispel check succeds, the spell is "cancelled" before the <i>fireball</i> takes effect. But immediately after, the spell <i>protection from elements (fire)</i> is "reactivated" and continues to affect its target.
+_<br>[Tab]It affects only spells active on a creature or object. Independant spells or spells affecting an area (<i>wall of fire, antimagic field,</i> illusions or summoned monsters) cannot pe dispelled, even if they prevent your spell from affecting the target.
+91-96,Crit x2. Special Effect:
+_<br>-<u>Acid</u>: one object is affected by acid (as if a natural "1" as rolled on its save). Save or object is destroyed.
+_<br>-<u>Cold</u>: target receives 1d4 (<b>{Dice~1d4}</b>) DEX dmg.
+_<br>-<u>Electricity</u>: target in metal armor receives 1d6 dmg/spell level.
+_<br>-<u>Fire</u>: target automatically catches on fire.
+_<br>[Tab]1d6 (<b>{Dice~1d6}</b>) Fire dmg.
+_<br>[Tab]<u>Extinguishing Flames</u>: Full-round, DC15 Reflex.
+_<br>[Tab]<u>Rolling on ground or smothering</u>: +4 save.
+_<br>[Tab]<u>Jumping in water</u>: SAVE successful.
+_<br>[Tab][Tab]<u>Save made</u>: fire extinguished.
+_<br>[Tab][Tab]<u>Save failed</u>: 1d6 (<b>{Dice~1d6}</b>) Fire damage.
+_<br>-<u>Negative Energy</u>: target has one negative level (save in 24 hours = same DC as the spell).
+_<br>-<u>Positive Energy</u>: you (tha caster) are cured of the same "damage" done (before critical effect is applied).
+_<br>-<u>Sonic</u>: target receives 1d4 (<b>{Dice~1d4}</b>) dmg on INT or SAG (<b>[~MagicIntWis]</b>).
+97-100,Critical hit x4.
+
+;MagicEnergy
+1,Acid
+2,Electricity
+3,Fire
+4,Cold
+
+;MagicIntWis
+1,INT
+2,WIS
+
+:!Fumble
+1-20,<u>Slip</u>: Balance (DC 10) or fall down.
+21-30,<u>Stumble</u>: Balance (DC 10) or fall down and <i>stunned</i> <b>{Dice~1d4}</b> rounds.
+31-35,<u>Trip and fall</u>: <i>stunned</i> <b>{Dice~1d3}</b> rounds.
+36-37,<u>Twist ankle</u>: 1 damage, ½ MV, Balance (DC10) or fall down.
+38-39,<u>Off balance</u>: Balance (DC 10) or no action next round.
+40-41,<u>Disease</u>: You are exposed to the Filth Fever disease (DC12 Fortitude save). Incubation period: 1d3 <b>({Dice~1d3})</b> days, Damage: 1d3 Dex/Con.
+42-45,<u>Fatigue</u>: CON (DC10) or you become fatigued. If already fatigued, you become exhausted. The Endurance feat gives +4 to this check.
+46-48,<u>Lose grip on weapon</u>: DEX (DC 10) (Perform (Juggling)) or no attack next round.{Lockout~Fumble,49-53}
+49-51,<u>Lose grip on weapon</u>: DEX (DC 10) (Perform (Juggling)) or drop weapon.{Lockout~Fumble,46-53}
+52-53,<u>Lose grip on weapon</u>: drop weapon. Random for <b>{Dice~1d3}</b> 5' squares(s).{Lockout~Fumble,46-51}
+54-55,<u>Lose item</u>: drop one useful item (usually magical) other than a weapon (ex: helm, cloak, shield).
+56-57,<u>Damaged armor</u>: -1 AC for your armor or shield (player's choice). Craft (armorsmithing) DC 10 to fix.
+58-61,<u>Helm or hood slips</u>: DEX (DC 10) to fix (partial action) or ½ concealment (20 <b>percent</b> miss chance).{Lockout~Fumble,58-63}
+62-63,<u>Helm or hood slips</u>: DEX (DC 10) to fix (partial action) or total concealment (50 <b>percent</b> miss chance).{Lockout~Fumble,58-63}
+64-65,<u>Shield becomes tangled with opponent</u>: next round, remove shield or no actions (lose DEX bonus to AC).
+66-67,<u>Tangled with opponent</u>: you and opponent have no action until your next round (lose DEX bonus to AC).
+68-69,<u>Weapon tangled with opponent</u>: next round, drop weapon or no actions (lose DEX bonus to AC).
+70-71,<u>Distracted</u>: you lose your DEX bonus to AC until the next round.
+72-75,<u>Damaged weapon</u>: reduce weapon damage by one dice category (ex: 1d6 to 1d4). Craft (weaponsmithing) DC10 to fix.
+76-78,<u>Weapon breaks</u>: 100 <b>percent</b> (no effect for a magical weapon).{Lockout~Fumble,76-79}
+79,<u>Weapon breaks</u>: 100 <b>percent</b> (-10 per "+" of the weapon, including powers).{Lockout~Fumble,76-79}
+80-81,<u>Ouverture</u>: the opponent can make an attack of opportunity against you.
+82-84,<u>Hit self (on opponent's weapons?)</u>: ½ dmg of your weapon.{Lockout~Fumble,82-87}
+85-86,<u>Hit self (on opponent's weapons?)</u>: dmg of your weapon.{Lockout~Fumble,82-87}
+87,<u>Hit self (on opponent's weapons?)</u>: 2x dmg of your weapon.{Lockout~Fumble,82-87}
+88-90,<u>Hit friend in reach</u>: ½ dmg of your weapon.{Lockout~Fumble,88-93}
+91-92,<u>Hit friend in reach</u>: dmg of your weapon.{Lockout~Fumble,88-93}
+93,<u>Hit friend in reach</u>: 2x dmg of your weapon.{Lockout~Fumble,88-93}
+94-95,<u>Critical, hit self (on opponent's weapons?)</u>: si above in blunt, piercing, or slashing.
+96-97,<u>Critical, Hit friend in reach</u>:  si above in blunt, piercing, or slashing.
+98-99,<u>Roll twice</u>:{Lockout~Fumble,98-100}<br> [Fumble]<br>[Fumble]
+100,<u>Roll 3 times</u>:{Lockout~Fumble,98-100}<br> [Fumble]<br>[Fumble]<br>[Fumble]
+
+:!FumbleMagic
+01-20,<u>Slip</u>: Balance (DC 10) or fall down.
+21-30,<u>Stumble</u>: Balance (DC 10) or fall down and <i>stunned</i> <b>{Dice~1d4}</b> rounds.
+31-35,<u>Trip and fall</u>: <i>stunned</i> <b>{Dice~1d3}</b> rounds.
+36-38,<u>Lesser Energy Backlash</u>: 1 damage, ½ MV, Balance (DC10) or fall down.
+39-40,<u>Major Energy Backlash</u>: you receive 1d6 energy dmg per spell level. Random energy ([~MagicEnergy]) or as per the spell's energy. Balance (DC10) or prone.
+41,<u>Flashy Cancellation</u>: you are blinded until your next action (-2 AC, no DEX to AC, ½ MV, -4 Search/STR-DEX checks, 50 <b>percent</b> concealment for oppenents).
+42-43,<u>Magical Off Balance</u>: Balance (DC 10) or no action next round.
+44-47,<u>Fatigue</u>: CON (DC10) or you become fatigued. If already fatigued, you become exhausted. The Endurance feat gives +4 to this check.
+48-57,<u>Lesser Component Destruction</u>: all "free" M components of this spell are used up. The spell cannot be cast again until other components are found (magical component pouch: 1 hour before it replenishes).
+58,<u>Major Component Destruction</u>: all components of this spell are used up and destroyed (including Focus and Divine Focus).
+59-63,<u>Magical Fatique</u>: you cannot cast spells on the following round.
+64-65,<u>Magical Damage</u>: 1d3 (<b>{Dice~1d3}</b>) dmg INT-SAG-CHA (as per your spellcasting class).
+66-69,<u>Lesser Magical Drain</u>: INT-SAG-CHA (DC 10 + spell level) or you lose one spell of the same level or higher (random).
+70-71,<u>Greater Magical Drain</u>: INT-SAG-CHA (DC 15 + spell level) or you lose one spell of each inferior level of the spell you just cast (random).
+72,<u>Are Magic Drain</u>: Starting with you, the spell drains a number of charges from magical items equal to the spell level of the fumbled spell (stat with wands, then staves and others afterward, 1 charge per object and, if charges are left to drain, we continue starting with you).
+73-74,<u>Distracted</u>: you lose your DEX bonus to AC until the next round.
+75-76,<u>Ouverture</u>: the opponent can make an attack of opportunity against you (or any other opponent in melee).
+77-81,<u>Wild Magic</u>: your spell has a special effect:<br>[Tab][Tab]<i>[~FumbleWild]</i>
+82-84,<u>Your spell affects you</u>: ½ effect of the spell.{Lockout~FumbleMagic,82-87}
+85-86,<u>Your spell affects you</u>: effect of the spell.{Lockout~FumbleMagic,82-87}
+87,<u>Your spell affects you</u>: 2x effect of the spell.{Lockout~FumbleMagic,82-87}
+88-90,<u>You affect an ally in range</u>: ½ effect of the spell.{Lockout~FumbleMagic,88-93}
+91-92,<u>You affect an ally in range</u>: effect of the spell.{Lockout~FumbleMagic,88-93}
+93,<u>You affect an ally in range</u>: 2x effect of the spell.{Lockout~FumbleMagic,88-93}
+94-95,<u>Critical, your spell affects you</u>: [~Magic].
+96-97,<u>Critical, your spell affects an ally in range</u>: [~Magic].
+98-99,Roll twice.{Lockout~FumbleMagic,98-100}<br> [FumbleMagic]<br>[FumbleMagic]
+100,Roll three times.{Lockout~FumbleMagic,98-100}<br> [FumbleMagic]<br>[FumbleMagic]<br>[FumbleMagic]
+
+:!FumbleWild
+01-19,Spell rebounds on caster with normal effect. If the spell cannot affect the caster, it fails.
+20-23,A circular pit 15' wide opens under caster's feet; it is 10' deep/level of the caster.
+24-27,Spell fails, but target(s) of the spell are pelted with a rain of small objects (anything from flowers to rotten fruit), which disappear upon striking. The barrage continues for 1 round. During this time the targets are blinded and must make Concentration checks (DC 15 + spell level) to cast spells.
+28-31,Spell affects random target/area. Randomly choose a different target from among those in range of the spell or center the spell at a random place within range of the spell. 
+_<br>[Tab]<u>Direction</u>: roll 1d8 (<b>{Dice~1d8}</b>) and count clockwise around the compass, starting with south.
+_<br>[Tab]<u>Range</u>: 3d6 (<b>{Dice~3d6}</b>) x5' (close range), x20' (medium), x80' (long).	
+32-35,Spell functions normally. Material components are not consumed. The spell is not expended from the caster's mind. Item does not lose charges, and the effect does not count gainst an item's or SP ability's use limit. 
+36-39,Spell does not function. Everyone (friend or foe) within 30' of the caster receives the effect of a heal spell.
+40-43,Spell does not function. Deeper darkness and silence effect cover a 30' radius around the caster for 2d4 (<b>{Dice~2d4}</b>) rounds.
+44-47,Spell does not function. Reverse gravity effect covers a 30' radius around caster for 1 round.
+48-51,Spell functions, but shimmering colors swirl around the caster for 1d4 (<b>{Dice~1d4}</b>) rounds. Treat this a glitterdust effect with a save DC of 10 + the level of the spell that generated this result.
+52-59,Nothing happens. Spell does not function. Any material components are used up. The spell or spell slot is used up, and charges or uses from an item are used up.
+60-71,Nothing happens. Spell does not function. Any material components are not consumed.Spell is not expended from the caster's mind. An item does not lose charges, and the effect does not count against an item's or spell-like ability's use limit.
+72-98,The spell functions normally.
+99-100,The spell functions strongly. Saving throws against the spell incur a -2 penalty. The spell has the maximum possible effect, as if it were cast with the Maximize Spell feat. If the spell is already maximized with the feat, there is no further effect. 	
+

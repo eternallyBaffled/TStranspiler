@@ -1,0 +1,2907 @@
+/Background ./exptextb.jpg
+
+# ---------------------------------------------------
+# Last Update: verified by Valminder Jan 30, 2006.
+# ---------------------------------------------------
+#
+# Quick Roll Background
+#
+# Modified by Valminder, Jan 2006.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+#
+
+/OverrideRolls 1
+
+%CharactersRace%,None
+%CsR%,1
+%CharacterName%,None
+%CharactersFirstClass%,None
+%CFC%,1
+%PCSex%,None
+%PCS%,0
+
+%Gender%,None
+%Pronoun%,None
+%Pronoun2%,None
+%Pronoun3%,None
+%DevilPrefix%,None
+%SPV%,0
+%Verb1%,None
+%Verb2%,None
+%Verb3%,None
+%Verb4%,None
+%Verb5%,None
+%Tense1%,None
+%Race%,None
+%M%,None
+%F%,None
+%Parent%,None
+%NumOfSibs%,0
+%Sibling%,None
+%NumOfCorPSkills%,0
+%Counter%,0
+
+@CsR,12,Select your character's race,Brandobian,Dejy,Fhokki,Kalamaran,Reanaarian,Svimohz,Dwarf,Elf,Gnome,Halfling,Hobgoblin,Random
+@CharacterName,XXX,Enter your Character's Name
+@PCS,3,Select your character's sex,Male,Female,Random
+@CFC,1,Select your character's first class,Barbarian,Bard,Basiran Dancer,Brigand,Cleric,Druid,Fighter,Gladiator,Infiltrator,Monk,Paladin,Psion,Psychic Warrior,Ranger,Rogue,Shaman,Sorcerer,Spellsinger,Wizard
+@NumOfCorPSkills,1,Enter the total number of different Craft and/or Profession skills you started with.
+
+:Start
+#
+# Set certain variables from parameters
+#
+1,{If~%CsR%=12?|CsR={Dice~1d11}|}
+_{If~%CharacterName%=XXX?|CharacterName=[Names Generator.NAME Random]|}
+_{If~%PCS%=3?|PCS={Dice~1d2}|}
+_|CharactersRace={Param~CsR,%CsR%}|
+_|PCSex={Param~PCS,%PCS%}]|
+_|CharactersFirstClass={Replace~ ,,{Param~CFC,%CFC%}}|
+#
+# Section 1 - Title and Character's Name
+#
+_<font size=5><b>Quick Roll Background for {Note~%CharacterName%}</b></font><br />{Line~left,50}
+_{Param~PCS,%PCS%} {Param~CsR,%CsR%}<br>{Line~left,50}
+#
+# Section 2 - Ancient Family History
+#    1 - Title
+#    2 - 1d6+1 Rolls on Ancient Family History Table
+#
+_<font size=4>Ancient Family History</font><br /><br />
+_{Loop~{Dice~1d6+1},[AncientFamilyHistory]<br />}
+_{Line~left,50}
+#
+# Section 3 - Recent Family History
+#    1 - Title
+#    2 - 1d4 Rolls on Recent Family History Table
+#
+_<font size=4>Recent Family History</font><br /><br />
+_{Loop~{Dice~1d4},[RecentFamilyHistory]<br />}
+_{Line~left,50}
+#
+# Section 4 - Parental History
+#    1 - Title
+#    2 - Roll to determine Parental Status (Living or Dead for each parent)
+#    3 - Set the variable Parent=mother and depending on whether the mother
+#        is living or not, set the following variables:
+#        a - Verb1: either is or was
+#        b - Verb2: either can or could
+#        c - Verb3: either has or had
+#        d - Verb4: either are or were
+#        e - Verb5: either does or did
+#        f - Tense1: either s or ed
+#        g - Pronoun: her
+#    4 - Roll once for the mother on the Parental History Table
+#    5 - Set the variable Parent=father and depending on whether the father
+#        is living or not, set the following variables:
+#        a - Verb1: either is or was
+#        b - Verb2: either can or could
+#        c - Verb3: either has or had
+#        d - Verb4: either are or were
+#        e - Verb5: either does or did
+#        f - Tense1: either s or ed
+#        g - Pronoun: him
+#    6 - Roll once for the father on the Parental History Table
+#
+_<font size=4>Parental History</font><br /><br />
+_[Parents]<br />
+_|Parent=mother|
+_{If~%M% = L ? |Verb1=is||Tense1=s||Verb2=can||Verb3=has||Verb4=are||Verb5=does| / |Verb1=was||Tense1=ed||Verb2=could||Verb3=had||Verb4=were||Verb5=did|}|Pronoun=her|
+_[ParentalHistory]<br />
+_|Parent=father|
+_{If~%F% = L ? |Verb1=is||Tense1=s||Verb2=can||Verb3=has||Verb4=are||Verb5=does| / |Verb1=was||Tense1=ed||Verb2=could||Verb4=were||Verb3=had||Verb5=did|}|Pronoun=him|
+_[ParentalHistory]<br />
+_{Line~left,50}
+#
+# Section 5 - Sibling Relations
+#    1 - Title
+#    2 - Determine the number of siblings by rolling on the NumberOfSiblings table
+#    3 - Display the number of siblings.
+#    4 - For each sibling, do the following:
+#        a - Determine the type of sibling, either sister or brother
+#        b - Determine that sibling relation to the character
+#
+_<font size=4>Sibling Relations</font><br /><br />
+_|NumOfSibs=[NumberOfSiblings]|
+_[DisplaySiblingString={Calc~(%NumOfSibs%+1)}]<br />
+_{Loop~%NumOfSibs%,[SetSibling][SiblingRelations]<br />}
+_{Line~left,50}
+#
+# Section 6 - PC Childhood
+#    1 - Title
+#    2 - Roll 1d4 times on the PCChildhood table
+#
+_<font size=4>Childhood</font><br /><br />
+_{Loop~{Dice~1d4},[PCChildhood]<br />}
+_{Line~left,50}
+#
+# Section 7 - PC Adolescence
+#    1 - Title
+#    2 - Roll twice on the PC Adolescence table
+#
+_<font size=4>Adolescence</font><br /><br />
+_{Loop~2,[PCAdolescence]<br />}
+_{Line~left,50}
+#
+# Section 8 - First Character Class Training
+#    1 - Title
+#    2 - Roll once on the appropriate Class Training Table
+#
+_<font size=4>{Param~CFC,%CFC%} Training</font><br /><br />
+_[%CharactersFirstClass%Training]<br />
+_{Line~left,50}
+#
+# Section 9 - Craft/Profession Training
+#    1 - Title
+#    2 - Roll the appropriate number of times on the 
+#        Craft/Profession Training Table, if necessary.
+#
+_<font size=4>Craft/Profession Training</font><br /><br />
+_{If~%NumOfCorPSkills%=0 ? You did not start with any Craft or Professions skills. / {Loop~%NumOfCorPSkills%,|Counter+1|For your {Ordinal~%Counter%} Craft or Profession skill - [CraftProfessionTraining]<br />}}
+_{Line~left,100}
+
+#
+# Chapter 4 - Random Name Generation
+#
+
+#
+# The following collection of tables are used for random name generation based on a
+# Race and a Gender. The gender is determined by a variable called %Gender% and needs
+# to be set before calling the appropriate table. The [Race]Name tables will generate
+# names according to the conventions for that race by calling a [Race]%Gender table
+# and then possibly a [Race]Surname table. If you wish to generate a specific
+# [Race]%Gender% name, you can call a table directly, such as BrandobianMale.
+#
+
+#
+# Brandobian Name Generation
+#
+# If you wish to add more names, just add an entry at the end of the appropriate gender
+# or surname table. All table entries are equally weighted, so just increase the
+# generation number by one for each new entry.
+#
+
+:BrandobianName
+1,[Brandobian%Gender%] [BrandobianSurname]
+
+#
+# Brandobian Male Names
+#
+
+:BrandobianMale
+1,Aldus
+2,Altamir
+3,Benren
+4,Brandven
+5,Drendoln
+6,Brensen
+7,Brondil
+8,Coldon
+9,Coldran
+10,Colnor
+11,Corbren
+12,Crend
+13,Dandol
+14,Darmin
+15,Debben
+16,Defrin
+17,Colcor
+18,Dolm
+19,Dorran
+20,Ervlen
+21,Eselnor
+22,Estand
+23,Folcor
+24,Fornol
+25,Fortind
+26,Glandal
+27,Granden
+28,Gruthal
+29,Hurthal
+30,Ichil
+31,Ilthan
+32,Lanomar
+33,Lonvlen
+34,Maldus
+35,Munvaln
+36,Nandten
+37,Norbren
+38,Nurband
+39,Plonthal
+40,Randar
+41,Randoln
+42,Senden
+43,Sevlen
+44,Stromen
+45,Transen
+46,Tronben
+47,Valdesin
+48,Voldomar
+49,Vrasten
+50,Vrindon
+
+#
+# Brandobian Female Names
+#
+
+:BrandobianFemale
+1,Anseleen
+2,Avita
+3,Benita
+4,Bledsen
+5,Blesel
+6,Brava
+7,Brennor
+8,Brildrel
+9,Coldrel
+10,Cosolel
+11,Crendril
+12,Dandrel
+13,Debnor
+14,Debsela
+15,Elbren
+16,Elvled
+17,Evelna
+18,Evle
+19,Foladel
+20,Forlema
+21,Gulda
+22,Hanadrel
+23,Lelten
+24,Lencrita
+25,Lensel
+26,Mindan
+27,Mindoleen
+28,Mindrel
+29,Norlel
+30,Norlen
+31,Norvita
+32,Olelita
+33,Pandred
+34,Pelema
+35,Ranselita
+36,Rennor
+37,Sabeleen
+38,Sarva
+39,Selguld
+40,Selmel
+41,Strolema
+42,Tabulan
+43,Telvril
+44,Tindolel
+45,Vosita
+46,Vurethel
+47,Wencrel
+48,Wuldra
+49,Yavlel
+50,Yulan
+
+#
+# Brandobian Surnames
+#
+
+:BrandobianSurname
+1,Blondol
+2,Blonmil
+3,Bransol
+4,Brendril
+5,Brodoran
+6,Bronvidar
+7,Celdon
+8,Colden
+9,Colnandar
+10,Corolm
+11,Corvled
+12,Crindar
+13,Crinmol
+14,Crintonolm
+15,Dandrilon
+16,Dolcrindel
+17,Doldor
+18,Dolmonor
+19,Dorbren
+20,Dorguld
+21,Edarn
+22,Eplon
+23,Folnester
+24,Fordril
+25,Fortron
+26,Galborn
+27,Guldbrin
+28,Guldselan
+29,Ingamin
+30,Lelten
+31,Melcodin
+32,Melran
+33,Minel
+34,Norcol
+35,Norcrensel
+36,Olmcrelnel
+37,Olmvril
+38,Plonnor
+39,Rancren
+40,Randoran
+41,Rondstern
+42,Selcran
+43,Seldarlen
+44,Stron
+45,Thronel
+46,Torist
+47,Trolendar
+48,Velsin
+49,Vleldin
+50,Vovren
+
+#
+# Dejy Name Generation
+#
+# If you wish to add more names, just add an entry at the end of the appropriate gender
+# table (Dejy do not use surnames). All table entries are equally weighted, so just
+# increase the generation number by one for each new entry.
+#
+
+:DejyName
+1,[Dejy%Gender%]
+
+#
+# Dejy Male Names
+#
+
+:DejyMale
+1,Bajesh
+2,Bajyr
+3,Chojani
+4,Chojen
+5,Darja
+6,Gyrjen
+7,Janad
+8,Janesh
+9,Jaresh
+10,Jijen
+11,Jish
+12,Jorath
+13,Jorjen
+14,Khodri
+15,Kokevi
+16,Konish
+17,Kotesh
+18,Nyrash
+19,Nyrtesh
+20,Rijani
+21,Rojen
+22,Roshani
+23,Roshnyr
+24,Sajyr
+25,Sanyr
+26,Saryf
+27,Shajen
+28,Shako
+29,Shanath
+30,Shanjen
+31,Shanko
+32,Shathy
+33,Shiseth
+34,Shyja
+35,Shynath
+36,Thajani
+37,Thakyr
+38,Thaseth
+39,Thekevi
+40,Theryf
+
+#
+# Dejy Female Names
+#
+
+:DejyFemale
+1,Adagyr
+2,Adako
+3,Asesh
+4,Ashny
+5,Ashsha
+6,Chada
+7,Chasha
+8,Cheshy
+9,Daresh
+10,Darshy
+11,Doka
+12,Dolshy
+13,Freesha
+14,Jondar
+15,Jynda
+16,Jynjen
+17,Jynko
+18,Koda
+19,Koji
+20,Kony
+21,Koshy
+22,Kylsha
+23,Kyra
+24,Nyrko
+25,Rijko
+26,Rokada
+27,Rosharek
+28,Roshy
+29,Shaji
+30,Shary
+31,Slajen
+32,Theja
+33,Thena
+34,Vashel
+35,Vashshy
+36,Yendo
+37,Teren
+38,Yerjen
+39,Yoji
+40,Yokoji
+
+#
+# Fhokki Name Generation
+#
+# If you wish to add more names, just add an entry at the end of the appropriate gender
+# table (Fhokki do not use surnames). All table entries are equally weighted, so just
+# increase the generation number by one for each new entry.
+#
+
+:FhokkiName
+1,[Fhokki%Gender%]
+
+#
+# Fhokki Male Names
+#
+
+:FhokkiMale
+1,Artakk
+2,Arturr
+3,Dvokk
+4,Dvorn
+5,Elmin
+6,Eselvan
+7,Fralnurr
+8,Forljar
+9,Fythur
+10,Gornarr
+11,Gortakk
+12,Gortha
+13,Gurthay
+14,Gurvarr
+15,Hostud
+16,Hreath
+17,Hreathwrot
+18,Hurgil
+19,Hurrkal
+20,Lokkal
+21,Lokkur
+22,Mantak
+23,Murrjar
+24,Ragil
+25,Rasttak
+26,Rastur
+27,Rasvokk
+28,Ronarr
+29,Rythok
+30,Rywrott
+31,Thalnawr
+32,Thelturr
+33,Thelvan
+34,Thurtok
+35,Thurvan
+36,Thurvokk
+37,Viljar
+38,Voskkal
+39,Vosted
+40,Brytherr
+
+#
+# Fhokki Female Names
+#
+
+:FhokkiFemale
+1,Defyn
+2,Dortha
+3,Dunilla
+4,Dythrok
+5,Elkka
+6,Enga
+7,Fontharra
+8,Fyvena
+9,Ganarra
+10,Genakk
+11,Gulli
+12,Gytha
+13,Halvena
+14,Hanula
+15,Lontharra
+16,Otha
+17,Oyatha
+18,Ranalkka
+19,Renerra
+20,Rortakk
+21,Rothla
+22,Ryndar
+23,Rythrok
+24,Shrokker
+25,Sorykka
+26,Sulli
+27,Sylla
+28,Tankarra
+29,Tenga
+30,Thanarkka
+31,Thelka
+32,Thilla
+33,Thillena
+34,Thotha
+35,Thraya
+36,Thrayd
+37,Ullagakk
+38,Unula
+39,Venena
+40,Vrykor
+
+#
+# Kalamaran Name Generation
+#
+# If you wish to add more names, just add an entry at the end of the appropriate gender
+# or surname table. All table entries are equally weighted, so just increase the
+# generation number by one for each new entry.
+#
+
+:KalamaranName
+1,[Kalamaran%Gender%] [KalamaranSurname]
+
+#
+# Kalamaran Male Names
+#
+
+:KalamaranMale
+1,Balamir
+2,Balan
+3,Baram
+4,Bavamir
+5,Darokar
+6,Desamir
+7,Famalan
+8,Fanam
+9,Fedamir
+10,Feledar
+11,Feranis
+12,Folikar
+13,Fonamar
+14,Galinon
+15,Gulasar
+16,Halanar
+17,Haraman
+18,Holaras
+19,Hovaran
+20,Hul'Mar
+21,Humatar
+22,Lakaran
+23,Lanokar
+24,Malaran
+25,Minon
+26,Minoral
+27,Molamer
+28,Moranam
+29,Morisato
+30,Nelata
+31,Nerator
+32,P'Ligel
+33,Palar
+34,Parama
+35,Pavaran
+36,Pilamel
+37,Piramar
+38,Pitar
+39,Pulan
+40,Puramel
+41,Relemir
+42,Resemer
+43,Saterus
+44,Satira
+45,Selemar
+46,Selinoras
+47,Senovar
+48,Sulat
+49,Suramit
+50,Vanamir
+
+#
+# Kalamaran Female Names
+#
+
+:KalamaranFemale
+1,Aneta
+2,Asa
+3,Benali
+4,Berisa
+5,Dela
+6,Derilu
+7,Dorata
+8,Dorena
+9,Elenaru
+10,Falara
+11,Falinena
+12,Famaril
+13,Fanam
+14,Febelu
+15,Felana
+16,Fera
+17,Fitolima
+18,Gimane
+19,Gira
+20,Goranu
+21,Gosalaka
+22,Hal'Vena
+23,Helena
+24,Hilu'A
+25,Hiralu
+26,Ilubek
+27,Inara
+28,Irana
+29,Kalila
+30,Kaperele
+31,Ki'Isa
+32,Kilisa
+33,Kinura
+34,Kobela
+35,Korasela
+36,Lalare
+37,Lamasaru
+38,Linura
+39,Lisanara
+40,Melana
+41,Mepate
+42,Nelata
+43,Pakara
+44,Pamabe
+45,Radama
+46,Selata
+47,Takane
+48,Tolali
+49,Tomare
+50,Torare
+
+#
+# Kalamaran Surnames
+#
+
+:KalamaranSurname
+1,Arami
+2,Arotur
+3,B'Peratak
+4,Balemo
+5,Bilasek
+6,Bimelo
+7,Darisek
+8,Dilegel
+9,Dilomas
+10,Doraga
+11,Elepari
+12,Esamil
+13,Falama
+14,Fapeki
+15,Faseri
+16,Firinas
+17,Gomanas
+18,Goteris
+19,Hakaru
+20,Heran
+21,Hiralego
+22,Kasar
+23,Kolantinus
+24,Koraga
+25,Ku'Ato
+26,Kuwaki
+27,Legora
+28,Lesepar
+29,Melinar
+30,Mokira
+31,Moneta
+32,Naritur
+33,Norash
+34,P'Folosip
+35,P'Mare
+36,Palorin
+37,Pateris
+38,Pilomas
+39,Ragarela
+40,Ragosip
+41,Remel
+42,Remosa
+43,Saketi
+44,Selekarin
+45,Sepiter
+46,Setiran
+47,Tesipo
+48,Tolivar
+49,Vikirel
+50,Vitisar
+
+#
+# Reanaarian Name Generation
+#
+# If you wish to add more names, just add an entry at the end of the appropriate gender
+# or surname table. All table entries are equally weighted, so just increase the
+# generation number by one for each new entry.
+#
+
+:ReanaarianName
+1,[Reanaarian%Gender%] [ReanaarianSurname]
+
+#
+# Reanaarian Male Names
+#
+
+:ReanaarianMale
+1,Belaar
+2,Boelain
+3,Bouzaar
+4,Daavao
+5,Dealaan
+6,Elaruulan
+7,Emearer
+8,Geolain
+9,Govuur
+10,Haaneir
+11,Haar
+12,Lealaur
+13,Lenaiz
+14,Liamar
+15,Luurear
+16,Mearaxiu
+17,Mouzaar
+18,Naavoor
+19,Naerum
+20,Neila
+21,Peasor
+22,Poataar
+23,Raalain
+24,Raizix
+25,Reenea
+26,Reolaar
+27,Reolain
+28,Ruuariz
+29,Seevaar
+30,Seluuk
+31,Sortureer
+32,Sutilla
+33,Taofoor
+34,Taunaar
+35,Vaxea
+36,Veeroa
+37,Vuuawa
+38,Wiuxiu
+39,Wuuvoor
+40,Zaarmau
+
+#
+# Reanaarian Female Names
+#
+
+:ReanaarianFemale
+1,Alixoor
+2,Arisee
+3,Biasa
+4,Boebea
+5,Ceonai
+6,Ceopeari
+7,Daaralau
+8,Daolia
+9,Gaafoor
+10,Giitova
+11,Haavau
+12,Huurum
+13,Kaavou
+14,Keilaaw
+15,Laarairi
+16,Leugoo
+17,Lewao
+18,Luuboor
+19,Malee
+20,Miana
+21,Morrrau
+22,Naatea
+23,Naavabi
+24,Norria
+25,Raasaava
+26,Rianoo
+27,Saosee
+28,Seolana
+29,Taakei
+30,Teelia
+31,Vaalee
+32,Vaatisea
+33,Vandakeer
+34,Vaolai
+35,Vauvoor
+36,Veuza
+37,Viasea
+38,Vuubou
+39,Zaeria
+40,Ziliana
+
+#
+# Reanaarian Surnames
+#
+
+:ReanaarianSurname
+1,Bouratao
+2,Daaroe
+3,Faawiu
+4,Feamau
+5,Feasiari
+6,Feaveu
+7,Fooromau
+8,Gazee
+9,Geoorva
+10,Haavuu
+11,Huuraew
+12,Laaria
+13,Laarumau
+14,Leenoorova
+15,Loolaika
+16,Lorot
+17,Luurailain
+18,Nae
+19,Naizix
+20,Narituir
+21,Nearoo
+22,Needaar
+23,Noorooe
+24,Paar
+25,Raeroa
+26,Reemae
+27,Roaanar
+28,Rooxea
+29,Saaerum
+30,Seetoov
+31,Soruukei
+32,Sumoraa
+33,Taaroemae
+34,Tarealeon
+35,Vaizee
+36,Vaotal
+37,Vousia
+38,Vuria
+39,Xookaer
+40,Xoorva
+
+#
+# Svimohz Name Generation
+#
+# If you wish to add more names, just add an entry at the end of the appropriate gender
+# or surname table. All table entries are equally weighted, so just increase the
+# generation number by one for each new entry.
+#
+
+:SvimohzName
+1,[Svimohz%Gender%] [SvimohzSurname]
+
+#
+# Svimohz Male Names
+#
+
+:SvimohzMale
+1,Amar
+2,Anarvis
+3,Ansven
+4,Azhanimahr
+5,Azvan
+6,Dashaz
+7,Hilano
+8,Hilanozh
+9,Himvho
+10,Imoh
+11,Izvan
+12,Jovohr
+13,Lahzni
+14,Lonamvho
+15,Mehnozh
+16,Mesvanish
+17,Miznamvho
+18,Mizovohr
+19,Movazh
+20,Nimozh
+21,Onsvar
+22,Ozhivahn
+23,Pahnish
+24,Ranozh
+25,Razhan
+26,Rhovan
+27,Roshanaz
+28,Sanozh
+29,Selevahn
+30,Shazahn
+31,Shozar
+32,Suvar
+33,Vahni
+34,Vozohr
+35,Whehan
+36,Wherahzni
+37,Zharven
+38,Zhulurahn
+39,Zohshanam
+40,Zovazh
+
+#
+# Svimohz Female Names
+#
+
+:SvimohzFemale
+1,Amazha
+2,Anasvish
+3,Daresvim
+4,Dezha
+5,Ehnamo
+6,Ehnosham
+7,Emeni
+8,Hava
+9,Hazhasha
+10,Jizavah
+11,Lashasvow
+12,Hehano
+13,Leshan
+14,Lezosa
+15,Manona
+16,Menahvna
+17,Mensha
+18,Minona
+19,Mohlamo
+20,Morashez
+21,Movamo
+22,Nenimah
+23,Nomishim
+24,Parahvna
+25,Savano
+26,Sharresh
+27,Shazi
+28,Shizresh
+29,Sisi
+30,Svazha
+31,Svowano
+32,Vanazha
+33,Vemresh
+34,Vorazam
+35,Wheminah
+36,Yozham
+37,Zeminah
+38,Zhani
+39,Zhashosa
+40,Zoravam
+
+#
+# Svimohz Surnames
+#
+
+:SvimohzSurname
+1,Arhomven
+2,Ashoz
+3,Azhana
+4,Aziri
+5,Damozh
+6,Dezhul
+7,Eshom
+8,Eshovim
+9,Ghanim
+10,Hasorohm
+11,Hezonesh
+12,Izahn
+13,Izornoh
+14,Lanshavazh
+15,Lhamizh
+16,Mezahn
+17,Mizani
+18,Mowani
+19,Mozaresh
+20,Narahzna
+21,Neshnamohn
+22,Nhomvor
+23,Ohmdalz
+24,Ohvamo
+25,Piranozar
+26,Shaneshna
+27,Sharesh
+28,Shenshal
+29,Svowmizh
+30,Vezdor
+31,Vlan
+32,Whamohnan
+33,Whenonesh
+34,Whezani
+35,Yahul
+36,Zalden
+37,Zhamish
+38,Zhanahn
+39,Zhasorozh
+40,Zhenshi
+
+#
+# Dwarf Name Generation
+#
+# If you wish to add more names, just add an entry at the end of the appropriate gender
+# or surname table. All table entries are equally weighted, so just increase the
+# generation number by one for each new entry.
+#
+
+:DwarfName
+1,[Dwarf%Gender%] [DwarfSurname]
+
+#
+# Dwarf Male Names
+#
+
+:DwarfMale
+1,Adurmak
+2,Arzabak
+3,Blim
+4,Bolburd
+5,Borli
+6,Burlom
+7,Dargrum
+8,Durmak
+9,Fargad
+10,Fargel
+11,Folok
+12,Forbarek
+13,Fulkaft
+14,Fuwek
+15,Golzumak
+16,Gurum
+17,Kelterak
+18,Khazuk
+19,Klim
+20,Kordur
+21,Lomburd
+22,Lurgrum
+23,Rorak
+24,Rurik
+25,Tregel
+26,Trezhek
+27,Ulgrum
+28,Urdur
+29,Urgaz
+30,Urik
+
+#
+# Dwarf Female Names
+#
+
+:DwarfFemale
+1,Ada
+2,Adel
+3,Agmar
+4,Angelka
+5,Dagmar
+6,Darloka
+7,Dorra
+8,Edda
+9,Elta
+10,Farada
+11,Femek
+12,Monera
+13,Ganila
+14,Gomore
+15,Gunor
+16,Imelka
+17,Inafa
+18,Kanura
+19,Kelarr
+20,Ketta
+21,Klass
+22,Kombar
+23,Kormeta
+24,Kuoro
+25,Mieka
+26,Mosko
+27,Nadel
+28,Zarakil
+29,Zedda
+30,Zomed
+
+#
+# Dwarf Surames
+#
+
+:DwarfSurname
+1,Angklim
+2,Damvalk
+3,Fermost
+4,Gramdal
+5,Gunterm
+6,Kerak
+7,Rulmal
+8,Talek
+9,Tukurz
+10,Zarduk
+
+#
+# Elf Name Generation
+#
+# If you wish to add more names, just add an entry at the end of the appropriate gender
+# or surname table. All table entries are equally weighted, so just increase the
+# generation number by one for each new entry.
+#
+
+:ElfName
+1,[Elf%Gender%] [ElfSurname]
+
+#
+# Elf Male Names
+#
+
+:ElfMale
+1,Amascai
+2,Amator
+3,Amelad
+4,Bare
+5,Cateine
+6,Cyrn
+7,Devarel
+8,Elamaryn
+9,Hulirrad
+10,Hullitee
+11,Hurell
+12,Jumar
+13,Melidor
+14,Mellitee
+15,Selemar
+16,Sellitad
+17,Shifan
+18,Sinatai
+19,Sincarel
+20,Telarai
+21,Torasceine
+22,Toratin
+23,Wecarel
+24,Werlen
+25,Wevelin
+
+#
+# Elf Female Names
+#
+
+:ElfFemale
+1,Ameris
+2,Asaivelia
+3,Asanita
+4,Celmereian
+5,Coleiana
+6,Colinaseti
+7,Culerena
+8,Culessa
+9,Hanasila
+10,Jelanica
+11,Jelena
+12,Jeserel
+13,Laraneai
+14,Mehamia
+15,Mehelet
+16,Setita
+17,Seviavena
+18,Tessevi
+19,Tulmeree
+20,Tultetika
+21,Wylameia
+22,Wylee
+23,Wylica
+24,Zasaina
+25,Zowale
+
+#
+# Elf Surnames
+#
+
+:ElfSurname
+1,Aladanna
+2,Avalariel
+3,Bereralaen
+4,Calaeclya
+5,Calberiel
+6,Cebaenaryn
+7,Daramariel
+8,Dareriabrilla
+9,Elobalaen
+10,Gavalennon
+11,Halamaela
+12,Halonannon
+13,Harrobalaea
+14,Isachariel
+15,Jenneriaeclya
+16,Jolarilia
+17,Laberiaddlaen
+18,Lhaberel
+19,Mavabessi
+20,Naedredar
+21,Nalabouranna
+22,Onaeriel
+23,Paraddlaen
+24,Ranamaeriel
+25,Sheiredar
+
+#
+# Gnome Name Generation
+#
+# If you wish to add more names, just add an entry at the end of the appropriate gender
+# or surname table. All table entries are equally weighted, so just increase the
+# generation number by one for each new entry.
+#
+
+:GnomeName
+1,[Gnome%Gender%] [GnomeSurname]
+
+#
+# Gnome Male Names
+#
+
+:GnomeMale
+1,Banarak
+2,Banil
+3,Faeram
+4,Faerbast
+5,Forbor
+6,Bulmmor
+7,Gromar
+8,Gruthal
+9,Gultemp
+10,Gumari
+11,Habarak
+12,Herjrast
+13,Hreslin
+14,Merbast
+15,Raxil
+16,Restam
+17,Rmoari
+18,Romlin
+19,Sil
+20,Sulin
+
+#
+# Gnome Female Names
+#
+
+:GnomeFemale
+1,Caila
+2,Cainfreda
+3,Fulansa
+4,Galfreda
+5,Habamel
+6,Jandy
+7,Lulla
+8,Meileen
+9,Merabal
+10,Meripa
+11,Nandy
+12,Raxeen
+13,Rella
+14,Saleen
+15,Salipa
+16,Semanba
+17,Semaneo
+18,Vandy
+19,Vulansa
+20,Zarabel
+
+#
+# Gnome Surnames
+#
+
+:GnomeSurname
+1,Bagazi
+2,Bagborn
+3,Cainfort
+4,Chivralpa
+5,Dalfort
+6,Davazi
+7,Galborn
+8,Galman
+9,Gozer
+10,Gulazi
+11,Herazi
+12,Herit
+13,Lulman
+14,Meilayt
+15,Nitanni
+16,Piulman
+17,Semafel
+18,Tesafel
+19,Vuler
+20,Zarayt
+
+#
+# Halfling Name Generation
+#
+# If you wish to add more names, just add an entry at the end of the appropriate gender
+# or surname table. All table entries are equally weighted, so just increase the
+# generation number by one for each new entry.
+#
+
+:HalflingName
+1,[Halfling%Gender%] [HalflingSurname]
+
+#
+# Halfling Male Names
+#
+
+:HalflingMale
+1,Babaktar
+2,Batar
+3,Bodan
+4,Borin
+5,Furokam
+6,Furum
+7,Gondan
+8,Gonflen
+9,Guvrokam
+10,Karum
+11,Kavleta
+12,Murdan
+13,Nardan
+14,Nolan
+15,Nurtan
+16,Ralan
+17,Sonom
+18,Tarin
+19,Theartan
+20,Zandi
+
+#
+# Halfling Female Names
+#
+
+:HalflingFemale
+1,Arenou
+2,Arshela
+3,Bagela
+4,Bousrah
+5,Catrakkan
+6,Furda
+7,Gonjeyla
+8,Kavra
+9,Mari
+10,Murnou
+11,Noolau
+12,Nurri
+13,Sahar
+14,Sarlau
+15,Sarshar
+16,Sejeyla
+17,Tajela
+18,Vinou
+19,Virda
+20,Zarah
+
+#
+# Halfling Surnames
+#
+
+:HalflingSurname
+1,Almalal
+2,Altean
+3,Bojardi
+4,Guleki
+5,Kapran
+6,Kazi
+7,Maleki
+8,Mapran
+9,Murmalal
+10,Namar
+11,Murtean
+12,Padravan
+13,Ramin
+14,Sadek
+15,Sajardi
+16,Sapran
+17,Sarazi
+18,Tadek
+19,Takhti
+20,Zatean
+
+#
+# Hobgoblin Name Generation
+#
+# If you wish to add more names, just add an entry at the end of the appropriate gender
+# or surname table. All table entries are equally weighted, so just increase the
+# generation number by one for each new entry.
+#
+
+:HobgoblinName
+1,[Hobgoblin%Gender%] [HobgoblinSurname]
+
+#
+# Hobgoblin Male Names
+#
+
+:HobgoblinMale
+1,Azgran
+2,Azzak
+3,Bakkron-Naz
+4,Bohagazh
+5,Dolmak
+6,Dozhgran
+7,Ganakh
+8,Gharzagh
+9,Ghekkgaz
+10,Ghottak
+11,Gornatt
+12,Graz-Naz
+13,Grezat
+14,Gulak
+15,Harrgran
+16,Herkuul
+17,Kargran
+18,Kelghaz
+19,Kelrand
+20,Kinshag
+21,Koron
+22,Krihtak
+23,Kurgaz
+24,Orakh
+25,Paggagh
+26,Pagrahzak
+27,Patukhar
+28,Pulmak
+29,Puwagh
+30,Raitagh
+31,Rargaz
+32,Sagrhar
+33,Senakh
+34,Shagraz
+35,Sokak
+36,Thaltak
+37,Thanagazh
+38,Tizraz
+39,Tukkraz
+40,Tuvagh
+
+#
+# Hobgoblin Female Names
+#
+
+:HobgoblinFemale
+1,Akagh
+2,Arazagh
+3,Brogarz
+4,Brogatu
+5,Brogulda
+6,Bulanaz
+7,Dazulka
+8,Dokamett
+9,Gubrakk
+10,Guldaz
+11,Gulkumek
+12,Gulmabek
+13,Gulmardar
+14,Gultta
+15,Kaghaz
+16,Kaghe
+17,Kakrana
+18,Kanabek
+19,Kanaraz
+20,Kathal
+21,Kolmarz
+22,Krokamel
+23,Makkel
+24,Makranmek
+25,Mekkulka
+26,Mrogul
+27,Mukli
+28,Mulakk
+29,Nagraz
+30,Norog
+31,Raggazh
+32,randarz
+33,Silkathal
+34,Sulkro
+35,Thakarz
+36,Thazu
+37,Tubrak
+38,Tukrome
+39,Vuthal
+40,Wrogga
+
+#
+# Hobgoblin Surnames
+#
+
+:HobgoblinSurname
+1,Akdrenned
+2,Akolovik
+3,Dazarnog
+4,Diaddun
+5,Drolannik
+6,Folenazel
+7,Gabrazel
+8,Grazlak
+9,Grond
+10,Gultahl
+11,Furand
+12,Haadrik
+13,Harrag
+14,Hulimak
+15,Kagghaz
+16,Kelggred
+17,Kolredden
+18,Korenkol
+19,Krolovik
+20,Kubannik
+21,Kuglek
+22,Kurgar
+23,Lhakrol
+24,Lugguk
+25,Mabrogguk
+26,Malzurek
+27,Mravroshkha
+28,Narennd
+29,Narragg
+30,Ranttaz
+31,Rondarg
+32,Sekrott
+33,Serenggur
+34,Stirnog
+35,Terenkol
+36,Thrakkol
+37,Thulhak
+38,Ulkromak
+39,Vakhtan
+40,Vradhka
+
+#
+# Chapter 5 Tables and support tables
+#
+
+#
+# Races - Table 5-1
+#
+
+:Races
+1-4,Dwarf (hill)|Race=Dwarf|
+5-8,Dwarf (mountain)|Race=Dwarf|
+9,Dwarf (stone)|Race=Dwarf|
+10,Elf (dark)|Race=Elf|
+11-12,Elf (gray)|Race=Elf|
+13-16,Elf (high)|Race=Elf|
+17,Elf (wild)|Race=Elf|
+18-19,Elf (wood)|Race=Elf|
+20,Gnome (deep)|Race=Gnome|
+21-22,Gnome (forest)|Race=Gnome|
+23-24,Gnome (rock)|Race=Gnome|
+25-30,Half-elf|Race=Elf|
+31-33,Half-hobgoblin|Race=Hobgoblin|
+34,Halfling (golden)|Race=Halfling|
+35-37,Halfling (lightfoot)|Race=Halfling|
+38-39,Half-Orc|Race=Svimohz|
+40,Hobgoblin (Dazlak)|Race=Hobgoblin|
+41-44,Hobgoblin (Kargi)|Race=Hobgoblin|
+45,Hobgoblin (Kors)|Race=Hobgoblin|
+46-49,Hobgoblin (Kargi)|Race=Hobgoblin|
+50,Hobgoblin (Rankki)|Race=Hobgoblin|
+51-60,Human (Brandobian)|Race=Brandobian|
+61-65,Human (Dejy)|Race=Dejy|
+66-70,Human (Fhokki)|Race=Fhokki|
+71-83,Human (Kalamaran)|Race=Kalamaran|
+84-92,Human (Reanaarian)|Race=Reanaarian|
+93-100,Human (Svimohz)|Race=Svimohz|
+
+#
+# Ancient Family Relations - Table 5-2
+#
+# This table determines ancient family relations. In addition, it sets several
+# variables for use in name generation (if you want a name to go with the
+# family member), pronouns and prefixes for use in detailed descriptions.
+# They are:
+#   Gender - the gender of the family member
+#   Pronoun - either him or her
+#   Pronoun2 - either his or her
+#   DevilPrefix - either su or in for the determination of incubus/sucubus
+#
+
+:AncientFamilyRelations
+1-8,Great-grandfather|Gender=Male||Pronoun=him||Pronoun2=his||DevilPrefix=su||Pronoun3=he|
+9-16,Great-grandmother|Gender=Female||Pronoun=her||Pronoun2=her||DevilPrefix=in||Pronoun3=she|
+17-26,Great-great-grandfather|Gender=Male||Pronoun=him||Pronoun2=his||DevilPrefix=su||Pronoun3=he|
+27-36,Great-great-grandmother|Gender=Female||Pronoun=her||Pronoun2=her||DevilPrefix=in||Pronoun3=she|
+37-75,Ancestral male|Gender=Male||Pronoun=him||Pronoun2=his||DevilPrefix=su||Pronoun3=he|
+76-100,Ancestral female|Gender=Female||Pronoun=her||Pronoun2=her||DevilPrefix=in||Pronoun3=she|
+
+#
+# Ancient Family History - Table 5-3
+#
+# This table is rolled on several times to determine background information
+# about ancient family history.
+#
+
+:AncientFamilyHistory
+1-8,Your [AncientFamilyRelations], [%CharactersRace%Name], angered a prominent [Races].
+9-14,Your [AncientFamilyRelations], [%CharactersRace%Name], slew a dragon.
+15-25,Your [AncientFamilyRelations], [%CharactersRace%Name], fled from religious persecution.
+26-33,Your [AncientFamilyRelations], [%CharactersRace%Name], was a widely know scholar of herbs.
+34-37,Your [AncientFamilyRelations], [%CharactersRace%Name], was a widely know scholar of goblins.
+38-42,Your [AncientFamilyRelations], [%CharactersRace%Name], was a widely know scholar of poisons.
+43-50,Your [AncientFamilyRelations], [%CharactersRace%Name], was a widely know scholar of heraldry.
+51-58,Your [AncientFamilyRelations], [%CharactersRace%Name], was a widely know scholar of paints and pigments.
+59-66,Your [AncientFamilyRelations], [%CharactersRace%Name], was a widely know scholar of languages.
+67-72,Your [AncientFamilyRelations], [%CharactersRace%Name], was a widely know scholar of astronomy.
+73-80,Your [AncientFamilyRelations], [%CharactersRace%Name], was a widely know scholar of mathematics.
+81-88,Your [AncientFamilyRelations], [%CharactersRace%Name], was a widely know scholar of alchemy.
+89-95,Your [AncientFamilyRelations], [%CharactersRace%Name], was a widely know scholar of trade laws.
+96-104,Your [AncientFamilyRelations], [%CharactersRace%Name], was a widely know scholar of monstrous humaniods.
+105-112,Your [AncientFamilyRelations], [%CharactersRace%Name], was a widely know scholar of engineering.
+113-118,Your [AncientFamilyRelations], [%CharactersRace%Name], was a widely know scholar of warfare and siege tactics.
+119-124,Your [AncientFamilyRelations], [%CharactersRace%Name], was a renowned chef.
+125-130,Your [AncientFamilyRelations], [%CharactersRace%Name], was a gambler who lost the family fortune.
+131-139,Your [AncientFamilyRelations], [%CharactersRace%Name], was a pirate.
+140-146,Your [AncientFamilyRelations], [%CharactersRace%Name], was a slaver.
+147-155,Your [AncientFamilyRelations], [%CharactersRace%Name], was a slave.
+156-165,Your [AncientFamilyRelations], [%CharactersRace%Name], was enslaved to a cruel owner who beat %Pronoun% regularly.
+166-172,Your [AncientFamilyRelations], [%CharactersRace%Name], was a slave who escaped with the help of the Brotherhood of the Broken Chain.
+173-180,Your [AncientFamilyRelations], [%CharactersRace%Name], was a priest of [Religions].
+181-185,Your [AncientFamilyRelations], [%CharactersRace%Name], was an artist for a minor noble.
+186-191,Your [AncientFamilyRelations], [%CharactersRace%Name], was imprisoned for stealing.
+192-199,Your [AncientFamilyRelations], [%CharactersRace%Name], was flogged and imprisoned for stealing.
+200-208,Your [AncientFamilyRelations], [%CharactersRace%Name], was a pirate who went missing somewhere in Reanaaria Bay.
+209-217,Your [AncientFamilyRelations], [%CharactersRace%Name], was a healer of some skill.
+218-224,Your [AncientFamilyRelations], [%CharactersRace%Name], was a pathetic excuse of a healer who caused more death and suffering than they cured.
+225-230,Your [AncientFamilyRelations], [%CharactersRace%Name], was a gifted athlete.
+231-240,Your [AncientFamilyRelations], [%CharactersRace%Name], was convicted of murder.
+241-248,Your [AncientFamilyRelations], [%CharactersRace%Name], was convicted of mudering a wealthy merchant.
+249-255,Your [AncientFamilyRelations], [%CharactersRace%Name], was convicted of murdering a noble.
+256-260,Your [AncientFamilyRelations], [%CharactersRace%Name], was convicted of murdering a member of the royalty.
+261-271,Your [AncientFamilyRelations], [%CharactersRace%Name], was wanted for murder.
+272-280,Your [AncientFamilyRelations], [%CharactersRace%Name], was wanted for murdering a noble.
+281-288,Your [AncientFamilyRelations], [%CharactersRace%Name], was wrongly convicted of murder.
+289-299,Your [AncientFamilyRelations], [%CharactersRace%Name], was wrongly convicted of murdering a wealthy merchant.
+300-310,Your [AncientFamilyRelations], [%CharactersRace%Name], was a horse rustler.
+311-325,Your [AncientFamilyRelations], [%CharactersRace%Name], was a pig thief.
+326-330,Your [AncientFamilyRelations], [%CharactersRace%Name], was framed for murder.
+331-340,Your [AncientFamilyRelations], [%CharactersRace%Name], was arrested for smuggling.
+341-349,Your [AncientFamilyRelations], [%CharactersRace%Name], was a smuggler.
+350-358,Your [AncientFamilyRelations], [%CharactersRace%Name], was a renowned weapons smith.
+359-368,Your [AncientFamilyRelations], [%CharactersRace%Name], was a reonwned weapons expert.
+369-389,Your [AncientFamilyRelations], [%CharactersRace%Name], trained people in the use of weapons.
+390-400,Your [AncientFamilyRelations], [%CharactersRace%Name], was a teacher.
+401-410,Your [AncientFamilyRelations], [%CharactersRace%Name], was a private tutor for a minor noble's children.
+411-420,Your [AncientFamilyRelations], [%CharactersRace%Name], was rumored to have been a wizard.
+421-435,Your [AncientFamilyRelations], [%CharactersRace%Name], was a con man who once conned a town out of {Dice~2d6},000 gp by selling fake potions.
+436-450,Your [AncientFamilyRelations], [%CharactersRace%Name], was the apprentice of a renowned hero.
+451-470,Your [AncientFamilyRelations], [%CharactersRace%Name], was the town crier.
+471-500,Your [AncientFamilyRelations], [%CharactersRace%Name], was the town fool.
+501-515,Your [AncientFamilyRelations], [%CharactersRace%Name], was a pillar of the community.
+516-521,Your [AncientFamilyRelations], [%CharactersRace%Name], was an important figure in local politics.
+522-530,Your [AncientFamilyRelations], [%CharactersRace%Name], was a bard of great renown.
+531-538,Your [AncientFamilyRelations], [%CharactersRace%Name], was a warrior in an adventuring party who later had songs sung of them.
+539-544,Your [AncientFamilyRelations], [%CharactersRace%Name], was an assassin.
+545-560,Your [AncientFamilyRelations], [%CharactersRace%Name], was a bodyguard for a rich merchant.
+561-570,Your [AncientFamilyRelations], [%CharactersRace%Name], was a member of a thieves' guild.
+571-590,Your [AncientFamilyRelations], [%CharactersRace%Name], was a ranking member in the local militia.
+591-600,Your [AncientFamilyRelations], [%CharactersRace%Name], was once ambushed by several goblins but managed to fight them off unarmed.
+601-615,Your [AncientFamilyRelations], [%CharactersRace%Name], was the town drunk.
+616-625,Your [AncientFamilyRelations], [%CharactersRace%Name], was a liar and a thief.
+626-635,Your [AncientFamilyRelations], [%CharactersRace%Name], was a lawyer.
+636-640,Your [AncientFamilyRelations], [%CharactersRace%Name], was a lawyer, a liar and a thief.
+641-650,Your [AncientFamilyRelations], [%CharactersRace%Name], was a klutz who once caused the collapse of a build. People still remember the antics.
+651-660,Your [AncientFamilyRelations], [%CharactersRace%Name], started a new sect of [Religions].
+661-665,Your [AncientFamilyRelations], [%CharactersRace%Name], started a cult that quickly disbanded.
+666-670,Your [AncientFamilyRelations], [%CharactersRace%Name], started a cult that became entrenched and only ended with the death of the founder.
+671-680,Your [AncientFamilyRelations], [%CharactersRace%Name], started a cult that drew the attention of a passing paladin.
+681-690,Your [AncientFamilyRelations], [%CharactersRace%Name], started a cult that still exists.
+691-700,Your [AncientFamilyRelations], [%CharactersRace%Name], was an artist of great skill that created techniques that are still used today.
+701-710,Your [AncientFamilyRelations], [%CharactersRace%Name], was a sculptor of great skill.
+711-720,Your [AncientFamilyRelations], [%CharactersRace%Name], was a peeping tom who regularly received public beatings.
+721-732,Your [AncientFamilyRelations], [%CharactersRace%Name], was a pyromaniac.
+733-745,Your [AncientFamilyRelations], [%CharactersRace%Name], was a gladiator.
+746-750,Your [AncientFamilyRelations], [%CharactersRace%Name], was a gladiator of renown.
+751-761,Your [AncientFamilyRelations], [%CharactersRace%Name], died in the gladiatorial arena.
+762-768,Your [AncientFamilyRelations], [%CharactersRace%Name], fought for civil justice.
+769-790,Your [AncientFamilyRelations], [%CharactersRace%Name], was a scheming merchant.
+791-800,Your [AncientFamilyRelations], [%CharactersRace%Name], disappeared while out walking.
+801-809,Your [AncientFamilyRelations], [%CharactersRace%Name], was gored to death by a bull.
+810-813,Your [AncientFamilyRelations], [%CharactersRace%Name], was killed by dire otters.
+814-820,Your [AncientFamilyRelations], [%CharactersRace%Name], was an explorer.
+821-828,Your [AncientFamilyRelations], [%CharactersRace%Name], was killed exploring the Vohven jungle.
+829-835,Your [AncientFamilyRelations], [%CharactersRace%Name], moved here from Giilia.
+836-840,Your [AncientFamilyRelations], [%CharactersRace%Name], was a violent criminal.
+841-850,Your [AncientFamilyRelations], [%CharactersRace%Name], stole from a [Races] family. They still hold a grudge.
+851-855,Your [AncientFamilyRelations], [%CharactersRace%Name], died shortly after poking a giant sleeping lizard with a stick.
+856-860,Your [AncientFamilyRelations], [%CharactersRace%Name], was orphaned at age 6.
+861-870,Your [AncientFamilyRelations], [%CharactersRace%Name], loved to play practical jokes.
+871-875,Your [AncientFamilyRelations], [%CharactersRace%Name], was a renowned brewer.
+876-882,Your [AncientFamilyRelations], [%CharactersRace%Name], was a wizard who studied divination magic.
+883-890,Your [AncientFamilyRelations], [%CharactersRace%Name], was a wizard who studied enchantment magic.
+891-895,Your [AncientFamilyRelations], [%CharactersRace%Name], was said to be of mixed [Races] and [Races] heritage. You may still have some small vestige of the other race in you.
+896-900,Your [AncientFamilyRelations], [%CharactersRace%Name], was a renowned hunter
+901-908,Your [AncientFamilyRelations], [%CharactersRace%Name], was a renowned archer.
+909-915,Your [AncientFamilyRelations], [%CharactersRace%Name], was a serious student of comedic plays.
+916-922,Your [AncientFamilyRelations], [%CharactersRace%Name], had a love of history.
+923-924,Your [AncientFamilyRelations], [%CharactersRace%Name], was a musician.
+925-927,Your [AncientFamilyRelations], [%CharactersRace%Name], was a writer.
+928-930,Your [AncientFamilyRelations], [%CharactersRace%Name], was a military officer decorated for bravery.
+931-933,Your [AncientFamilyRelations], [%CharactersRace%Name], was a military officer who abandoned %Pronoun2% post.
+934-940,Your [AncientFamilyRelations], [%CharactersRace%Name], was a military officer executed for treason.
+941-945,Your [AncientFamilyRelations], [%CharactersRace%Name], died shortly after the birth of %Pronoun2% first child.
+946-949,Your [AncientFamilyRelations], [%CharactersRace%Name], was killed by a group of marauding kobolds.
+950-953,Your [AncientFamilyRelations], [%CharactersRace%Name], was a sailor who disappeared from a ship during a storm.
+954-956,Your [AncientFamilyRelations], [%CharactersRace%Name], was a grave robber who stumbled upon an ancient curse (DM's call) that has plagued your family ever since.
+957-968,Your [AncientFamilyRelations], [%CharactersRace%Name], disappeared under mysterious circumstances.
+969-970,Your [AncientFamilyRelations], [%CharactersRace%Name], was murdered and is now a ghost residing where they were killed.
+971-974,Your [AncientFamilyRelations], [%CharactersRace%Name], led a double life with two families, leaving you with an extended family that you are unaware of.
+975-976,Your [AncientFamilyRelations], [%CharactersRace%Name], was an adventurer who had a magical sword which is still in the family.
+977-978,Your [AncientFamilyRelations], [%CharactersRace%Name], was lost at sea.
+979-980,Your [AncientFamilyRelations], [%CharactersRace%Name], made a pact with a powerful entity that will soon come to claim payment for services rendered to the family.
+981,Your [AncientFamilyRelations], [%CharactersRace%Name], would only wear red clothes.
+982,Your [AncientFamilyRelations], [%CharactersRace%Name], was the mayor of a small city.
+983,Your [AncientFamilyRelations], [%CharactersRace%Name], was a [Professions].
+984,Your [AncientFamilyRelations], [%CharactersRace%Name], captured a giant squid.
+985,Your [AncientFamilyRelations], [%CharactersRace%Name], owned several exotic turtles.
+986,Your [AncientFamilyRelations], [%CharactersRace%Name], had a pet hamster that he/she talked to all of the time.
+987,Your [AncientFamilyRelations], [%CharactersRace%Name], had an encounter with an %DevilPrefix%cubus.
+988,Your [AncientFamilyRelations], [%CharactersRace%Name], was a nudist.
+989,Your [AncientFamilyRelations], [%CharactersRace%Name], is now a vampire that still monitors the family.
+990,Your [AncientFamilyRelations], [%CharactersRace%Name], angered a god [Religions].
+991,Your [AncientFamilyRelations], [%CharactersRace%Name], sold sibling into slavery.
+992,Your [AncientFamilyRelations], [%CharactersRace%Name], had preternatural strength.
+993,Your [AncientFamilyRelations], [%CharactersRace%Name], was eaten by a dragon who now seeks out member of this family for food.
+994,Your [AncientFamilyRelations], [%CharactersRace%Name], owed a great debt of honor to the royal family.
+995,Your [AncientFamilyRelations], [%CharactersRace%Name], swore the everlasting fealty of %Pronoun2% family to a local noble.
+996,Your [AncientFamilyRelations], [%CharactersRace%Name], swore the everlasting fealty of %Pronoun2% family to the Emperor of Kalamar.
+997,Your [AncientFamilyRelations], [%CharactersRace%Name], was a member of a secret society.
+998,Your [AncientFamilyRelations], [%CharactersRace%Name], is a powerful lich who will soon seek out %Pronoun2% descendants.
+999-1000,Your [AncientFamilyRelations], [%CharactersRace%Name], drooled continuously while muttering.
+
+#
+# Recent Family Relations - Table 5-4
+#
+# This table determines recent family relations. In addition, it sets several
+# variables for use in name generation (if you want a name to go with the
+# family member), pronouns and prefixes for use in detailed descriptions.
+# They are:
+#   Gender - the gender of the family member
+#   Pronoun - either him or her
+#   Pronoun2 - either his or her
+#   Pronoun3 - either he or she
+#   DevilPrefix - either su or in for the determination of incubus/sucubus
+#
+
+:RecentFamilyRelations
+1-18,Grandfather|Gender=Male||Pronoun=him||Pronoun2=his||DevilPrefix=su||Pronoun3=he|
+19-30,Grandmother|Gender=Female||Pronoun=her||Pronoun2=her||DevilPrefix=in||Pronoun3=she|
+31-40,Great-uncle|Gender=Male||Pronoun=him||Pronoun2=his||DevilPrefix=su||Pronoun3=he|
+41-50,Great-aunt|Gender=Female||Pronoun=her||Pronoun2=her||DevilPrefix=in||Pronoun3=she|
+51-70,Uncle|Gender=Male||Pronoun=him||Pronoun2=his||DevilPrefix=su||Pronoun3=he|
+71-80,Aunt|Gender=Female||Pronoun=her||Pronoun2=her||DevilPrefix=in||Pronoun3=she|
+81-100,Cousin|Gender=[ChooseGender]|
+
+#
+# Choose Gender
+#
+# Helper table to equally select a gender, primarily used to determine the
+# sex of a cousin.  In addition, it sets several variables for use in name
+# generation (if you want a name to go with the family member), pronouns
+# and prefixes for use in detailed descriptions.
+# They are:
+#   Gender - the gender of the family member, it is directly returned by the
+#            call to the table.
+#   Pronoun - either him or her
+#   Pronoun2 - either his or her
+#   Pronoun3 - either he or she
+#   DevilPrefix - either su or in for the determination of incubus/sucubus
+#
+
+:ChooseGender
+1,Male|Pronoun=him||Pronoun2=his||DevilPrefix=su||Pronoun3=he|
+2,Female|Pronoun=her||Pronoun2=her||DevilPrefix=in||Pronoun3=she|
+
+#
+# Recent Family History - Table 5-5
+#
+# This table is rolled on several times to determine background information
+# about recent family history.
+#
+
+:RecentFamilyHistory
+1,Your [RecentFamilyRelations], [%CharactersRace%Name], was a senator.
+2,Your [RecentFamilyRelations], [%CharactersRace%Name], was eaten by a shark.
+3,Your [RecentFamilyRelations], [%CharactersRace%Name], recently disappeared without a trace.
+4,Your [RecentFamilyRelations], [%CharactersRace%Name], recently died of a long illness.
+5,Your [RecentFamilyRelations], [%CharactersRace%Name], is a jovial sport who loves a good joke.
+6,Your [RecentFamilyRelations], [%CharactersRace%Name], is locally renowned as a good bar brawler.
+7,Your [RecentFamilyRelations], [%CharactersRace%Name], was known by the family to have been a lycanthrope.
+8,Your [RecentFamilyRelations], [%CharactersRace%Name], was murdered by an unknown doppleganger.
+9,Your [RecentFamilyRelations], [%CharactersRace%Name], is a low-level wizard.
+10,Your [RecentFamilyRelations], [%CharactersRace%Name], is a cleric of [Religions].
+11,Your [RecentFamilyRelations], [%CharactersRace%Name], is a hopeless romantic.
+12,Your [RecentFamilyRelations], [%CharactersRace%Name], had three kids with three different people.
+13,Your [RecentFamilyRelations], [%CharactersRace%Name], was murdered by a large Fhokki for an unknown reason.
+14,Your [RecentFamilyRelations], [%CharactersRace%Name], contracted a disease that can only be cured by some rare exotic herb that only grows in jungles.
+15,Your [RecentFamilyRelations], [%CharactersRace%Name], is reputed to have been eaten by a monstrous humanoid.
+16,Your [RecentFamilyRelations], [%CharactersRace%Name], murdered %Pronoun2% spouse.
+17,Your [RecentFamilyRelations], [%CharactersRace%Name], was sacrificied by a cleric of the Harvester of Souls.
+18,Your [RecentFamilyRelations], [%CharactersRace%Name], is secretly a wererat.
+19,Your [RecentFamilyRelations], [%CharactersRace%Name], is a sage who swears to have encountered a tarrasque, although everyoneelse believes %Pronoun% mad.
+20,Your [RecentFamilyRelations], [%CharactersRace%Name], has a dog that family legend says lived to be 30 years old.
+21,Your [RecentFamilyRelations], [%CharactersRace%Name], was a druid who was always surrounded by animals.
+22,Your [RecentFamilyRelations], [%CharactersRace%Name], was your hero whom you love greatly.
+23,Your [RecentFamilyRelations], [%CharactersRace%Name], is a [Professions].
+24,Your [RecentFamilyRelations], [%CharactersRace%Name], is a wealthy merchant.
+25,Your [RecentFamilyRelations], [%CharactersRace%Name], is an unscrupulous merchant.
+26,Your [RecentFamilyRelations], [%CharactersRace%Name], was killed in a bar brawl.
+27,Your [RecentFamilyRelations], [%CharactersRace%Name], died while researching a new spell.
+28,Your [RecentFamilyRelations], [%CharactersRace%Name], had an embarrassing encounter involving a pig just before meeting the future in-laws.
+29,Your [RecentFamilyRelations], [%CharactersRace%Name], valiantly slew an ogre mage.
+30,Your [RecentFamilyRelations], [%CharactersRace%Name], had a large collection of exotic frogs.
+31,Your [RecentFamilyRelations], [%CharactersRace%Name], is a great cook.
+32,Your [RecentFamilyRelations], [%CharactersRace%Name], is a healer.
+33,Your [RecentFamilyRelations], [%CharactersRace%Name], is a scribe.
+34,Your [RecentFamilyRelations], [%CharactersRace%Name], was a bard who spoke in verse for hours on end.
+35,Your [RecentFamilyRelations], [%CharactersRace%Name], that %Pronoun3% was much funnier that they actually were.
+36,Your [RecentFamilyRelations], [%CharactersRace%Name], stole the family fortune.
+37,Your [RecentFamilyRelations], [%CharactersRace%Name], was attacked by a dire boar.
+38,Your [RecentFamilyRelations], [%CharactersRace%Name], is a sailor.
+39,Your [RecentFamilyRelations], [%CharactersRace%Name], is a fisher.
+40,Your [RecentFamilyRelations], [%CharactersRace%Name], drowned at sea.
+41,Your [RecentFamilyRelations], [%CharactersRace%Name], was eaten by a sea monster.
+42,Your [RecentFamilyRelations], [%CharactersRace%Name], was an adventurer who fought and killed dragons and vampires only to die at the hands of a backstabbing goblin.
+43,Your [RecentFamilyRelations], [%CharactersRace%Name], was gored by a deer.
+44,Your [RecentFamilyRelations], [%CharactersRace%Name], was a wizard who had a toad for a familiar. {UCase~%Pronoun3%} died but the familiar lives on.
+45,Your [RecentFamilyRelations], [%CharactersRace%Name], is an artist of little skill, but grand schemes.
+46,Your [RecentFamilyRelations], [%CharactersRace%Name], is an artist of great skill.
+47,Your [RecentFamilyRelations], [%CharactersRace%Name], likes to sit, drink a mug of ale and talk about the good old days.
+48,Your [RecentFamilyRelations], [%CharactersRace%Name], always complains about the weather.
+49,Your [RecentFamilyRelations], [%CharactersRace%Name], is a hypchondriac.
+50,Your [RecentFamilyRelations], [%CharactersRace%Name], suffers from some mental disease.
+51,Your [RecentFamilyRelations], [%CharactersRace%Name], is a shipbuilder of great skill.
+52,Your [RecentFamilyRelations], [%CharactersRace%Name], is a poor excuse for a farmer.
+53,Your [RecentFamilyRelations], [%CharactersRace%Name], is an average commoner.
+54,Your [RecentFamilyRelations], [%CharactersRace%Name], grew up as a street urchin.
+55,Your [RecentFamilyRelations], [%CharactersRace%Name], is an unscrupulous lawyer.
+56,Your [RecentFamilyRelations], [%CharactersRace%Name], falsified important land grant documents.
+57,Your [RecentFamilyRelations], [%CharactersRace%Name], traffics in illegal goods.
+58,Your [RecentFamilyRelations], [%CharactersRace%Name], is a member of a secret society.
+59,Your [RecentFamilyRelations], [%CharactersRace%Name], took a secret with %Pronoun% to the grave.
+60,Your [RecentFamilyRelations], [%CharactersRace%Name], faked thier own death.
+61,Your [RecentFamilyRelations], [%CharactersRace%Name], is rumored to be an undead creature.
+62,Your [RecentFamilyRelations], [%CharactersRace%Name], lives a normal life, despite being one of the planetouched.
+63,Your [RecentFamilyRelations], [%CharactersRace%Name], is a sage searching for an item that was lost centuries ago.
+64,Your [RecentFamilyRelations], [%CharactersRace%Name], is a liar, thief and a cheat, but otherwise fun to be around.
+65,Your [RecentFamilyRelations], [%CharactersRace%Name], is a sleepwalker.
+66,Your [RecentFamilyRelations], [%CharactersRace%Name], frequently has nightmares.
+67,Your [RecentFamilyRelations], [%CharactersRace%Name], is very old but still as fit as a fiddle.
+68,Your [RecentFamilyRelations], [%CharactersRace%Name], has secretly hidden over {Dice~2d6},000 gp.
+69,Your [RecentFamilyRelations], [%CharactersRace%Name], owes over |SPV={Dice~2d6}|{If~{Length~%SPV%} = 1 ? %SPV%/ {Left~1,%SPV%},{Right~1,%SPV%}}00 sp to the local thieves' guild.
+70,Your [RecentFamilyRelations], [%CharactersRace%Name], is a paladin.
+71,Your [RecentFamilyRelations], [%CharactersRace%Name], is said to be best friends with a [Races].
+72,Your [RecentFamilyRelations], [%CharactersRace%Name], is rumored to be of mixed [Races] and [Races] heritage.
+73,Your [RecentFamilyRelations], [%CharactersRace%Name], died while robbing a noble.
+74,Your [RecentFamilyRelations], [%CharactersRace%Name], is imprisoned for attempting to steal from the church of [Religions].
+75,Your [RecentFamilyRelations], [%CharactersRace%Name], was killed by an exotic pet that they bought from an unscrupulous merchant.
+76,Your [RecentFamilyRelations], [%CharactersRace%Name], died shortly after the birth of %Pronoun2% first child.
+77,Your [RecentFamilyRelations], [%CharactersRace%Name], is imprisoned for theft.
+78,Your [RecentFamilyRelations], [%CharactersRace%Name], recently became a slave.
+79,Your [RecentFamilyRelations], [%CharactersRace%Name], is a scholar of great renown.
+80,Your [RecentFamilyRelations], [%CharactersRace%Name], is not spoken of in your family.
+81,Your [RecentFamilyRelations], [%CharactersRace%Name], was a cruel vindictive person who got what was coming.
+82,Your [RecentFamilyRelations], [%CharactersRace%Name], tried to cheat a wealthy [Races].
+83,Your [RecentFamilyRelations], [%CharactersRace%Name], was shot by a [Races] [Professions] but survived.
+84,Your [RecentFamilyRelations], [%CharactersRace%Name], is an explorer whose tales first interested you in the life of an adventurer.
+85,Your [RecentFamilyRelations], [%CharactersRace%Name], was a failure as a cooper and a blacksmith but makes a good farmer.
+86,Your [RecentFamilyRelations], [%CharactersRace%Name], is a weakling who sits and reads all day.
+87,Your [RecentFamilyRelations], [%CharactersRace%Name], barely manages to keep from drooling on themselves.
+88,Your [RecentFamilyRelations], [%CharactersRace%Name], has not been the same since a [Races] mace struck %Pronoun2% head five years back.
+89,Your [RecentFamilyRelations], [%CharactersRace%Name], has a fascination with creatures that has gotten %Pronoun% into trouble more times then they dare count.
+90,Your [RecentFamilyRelations], [%CharactersRace%Name], is an amateur undead hunter who survives due to the apparent lack of undead in the region.
+91,Your [RecentFamilyRelations], [%CharactersRace%Name], knows much less than %Pronoun3% thinks.
+92,Your [RecentFamilyRelations], [%CharactersRace%Name], is a scholar of great misinformation.
+93,Your [RecentFamilyRelations], [%CharactersRace%Name], has an uniformed opinion on everything and thinks that everyone must stop and listen.
+94,Your [RecentFamilyRelations], [%CharactersRace%Name], is a prophet.
+95,Your [RecentFamilyRelations], [%CharactersRace%Name], is the luckiest person that you ever met.
+96,Your [RecentFamilyRelations], [%CharactersRace%Name], must have angered the gods due to everything that has happened to them.
+97,Your [RecentFamilyRelations], [%CharactersRace%Name], fled during military service.
+98,Your [RecentFamilyRelations], [%CharactersRace%Name], is an unscrupulous military officer.
+99,Your [RecentFamilyRelations], [%CharactersRace%Name], dishonored the family and is not well liked in the community.
+100,Your [RecentFamilyRelations], [%CharactersRace%Name], is important in local politics.
+
+#
+# Parents - Table 5-6
+#
+# Determines the status of a characters mother and father.
+#
+
+:Parents
+1-20,Your mother is living and your father is deceased.|M=L||F=D|
+21-40,Your mother is deceased and your father is living.|M=D||F=L|
+41-80,Your mother and father are living.|M=L||F=L|
+81-100,Your mother and father are deceased.|M=D||F=D|
+
+#
+# Parental History - Table 5-7
+#
+# This table determines some background information about each parent. All values are
+# equally weighted in this table.
+#
+
+:ParentalHistory
+1, Your %Parent% was once a spy for the largest nearby military force.
+2, Your %Parent% has a twin.
+3, Your %Parent% %Verb1% of mixed [Races] and [Races] heritage.
+4, Your %Parent% was raised by a [Races].
+5, Your %Parent% %Verb1% an average [Professions].
+6, Your %Parent% own%Tense1% a mysterious artifact from the Vohven jungle.
+7, Your %Parent% %Verb1% a wanderer.
+8, Your %Parent% %Verb1% a famous goblin slayer.
+9, Your %Parent% %Verb1% an adventurer who settled down and started a family.
+10, Your %Parent% %Verb2% breathe underwater.
+11, Your %Parent% %Verb1% a sailor; you visited several ports before the age of ten.
+12, Your %Parent% %Verb1% a troublemaker.
+13, Your %Parent% %Verb1% an alcoholic.
+14, Your %Parent% work%Tense1% in a brotherl.
+15, Your %Parent% %Verb1% addicted to a narcotic.
+16, Your %Parent% %Verb3% a secret life, DM's discretion.
+17, Your %Parent% disappeared {If~%Tense1% = s ?last month/a month before dying} under mysterious circumstances.
+18, Your %Parent% suffer%Tense1% from a form of mental illness.
+19, Your %Parent% look%Tense1% much younger than they %Verb4%.
+20, Your %Parent% %Verb3% a collection of fine artwork.
+21, Your %Parent% %Verb1% a hypochondriac.
+22, Your %Parent% %Verb1% an adventurer.
+23, Your %Parent% %Verb1% a guard.
+24, Your %Parent% %Verb1% a military officer.
+25, Your %Parent% %Verb1% a glutton.
+26, Your %Parent% %Verb3% a great love of animals
+27, Your %Parent% %Verb1% a great hunter.
+28, Your %Parent% %Verb1% well known as a wise person.
+29, Your %Parent% %Verb1% the town sage
+30, Your %Parent% %Verb1% a well-respected bard.
+31, Your %Parent% %Verb1% a true believer of [Religions].
+32, Your %Parent% %Verb1% a great artist.
+33, Your %Parent% disappeared and has been reported seen as undead.
+34, Your %Parent% %Verb1% a scholar of the undead.
+35, Your %Parent% hunt%Tense1% undead creatures.
+36, Your %Parent% was forced to kill a sibling who was under the influence of some evil force.
+37, Your %Parent% %Verb1% a pacifist and disapprov{If~%Tense1%=s?es/ed} of your adventuring ways.
+38, Your %Parent% %Verb1% a paladin.
+39, Your %Parent% was convicted of murder.
+40, Your %Parent% %Verb1% a rogue.
+41, Your %Parent% %Verb3% a nemesis.
+42, Your %Parent% %Verb3% a [Races] friend, |Gender=[ChooseGender]|[%Race%Name], that they %Verb4% always competing with.
+43, Your %Parent% %Verb1% a lycanthrope.
+44, Your %Parent% %Verb1% a well-respected brewer.
+45, Your %Parent% %Verb2% read, write and speak several languages.
+46, Your %Parent% %Verb3% a best friend who %Verb1% a [Races].
+47, Your %Parent% %Verb3% a great love for children.
+48, Your %Parent% %Verb1% known for being honest.
+49, Your %Parent% %Verb1% a spellsinger.
+50, Your %Parent% %Verb1% imprisoned for a minor crime that they committed.
+51, Your %Parent% %Verb1% imprisoned for a minor that they did not commit.
+52, Your %Parent% %Verb1% a gifted orator.
+53, Your %Parent% %Verb1% a fun person.
+54, Your %Parent% fanci{If~%Tense1%=s?es/ed} %Pronoun%self as an inventor.
+55, Your %Parent% own%Tense1% a vast collection of exotic wines.
+56, Your %Parent% %Verb1% an exceptionally skilled [Professions].
+57, Your %Parent% %Verb1% a moneylender who creat{If~%Tense1%=s?es/ed} counterfeit coins.
+58, Your %Parent% %Verb1% very knowledgeable in monster lore.
+59, Your %Parent% %Verb5% not believe in monsters.
+60, Your %Parent% %Verb1% a daredevil who lik{If~%Tense1%=s?es/ed} to take risks, the bigger the risk the better.
+61, Your %Parent% %Verb1% a cook once trained by a halfling.
+62, Your %Parent% %Verb1% a retired military officer.
+63, Your %Parent% possess{If~%Tense1%=s?es/ed} one of the famous Silver Dragon coins.
+64, Your %Parent% %Verb1% a mercenary.
+65, Your %Parent% %Verb1% a skilled apothecary who %Verb1% near to finishing a new potion.
+66, Your %Parent% lov{If~%Tense1%=s?es/ed} to travel and see exotic lands.
+67, Your %Parent% %Verb1% a minor noble who own%Tense1% a small amount of land.
+68, Your %Parent% %Verb3% never traveled more than 15 miles from home.
+69, Your %Parent% %Verb1% obsessed by jewelry and %Verb3% a small number of hidden items.
+70, Your %Parent% had an affair and %Verb3% not told your {If~%Parent%=mother?father/mother}.
+71, Your %Parent% %Verb3% dreams of becoming an adventurer.
+72, Your %Parent% %Verb1% extremely timid.
+73, Your %Parent% want%Tense1% nothing more that a few friends to share a mug of ale with.
+74, Your %Parent% %Verb1% known for being extremely lucky.
+75, Your %Parent% %Verb1% a compulsive gambler.
+76, Your %Parent% %Verb1% a small merchant but actually %Verb3% ties to the local thieves' guild.
+77, Before settling down, your %Parent% had a secret life of crime that {If~%Tense1%=s?will some come/came} back to haunt %Pronoun%.
+78, Your %Parent% broke an arrange marriage to marry your {If~%Parent%=mother?father/mother}.
+79, Your %Parent%'s parents never married. 
+80, Your mother was raped, gave birth to you and your %Parent% never told you the truth.
+81, Your %Parent% %Verb1% obsessed with get rich schemes.
+82, Your %Parent% %Verb1% a deep and meaningful thinker.
+83, Your %Parent% %Verb1% deaf.
+84, Your %Parent% %Verb1% blind.
+85, Your %Parent% %Verb1% a paraplegic.
+86, Your %Parent% %Verb1% a mute.
+87, Your %Parent% {If~%Tense1%=s?speaks/spoke} very little and {If~%Tense1%=s?says/said} only wise words.
+88, Your %Parent% lov{If~%Tense1%=s?es/ed} to watch theater.
+89, Your %Parent% lov{If~%Tense1%=s?es/ed} to watch gladiators fight.
+90, Your %Parent% own%Tense1% slaves.
+91, Your %Parent% %Verb1% a former assassin.
+92, Your %Parent% liv{If~%Tense1%=s?es/ed} an unusually boring life.
+93, Your %Parent% %Verb1% a gifted cartographer.
+94, Your %Parent% received an excellent formal education.
+95, Your %Parent% %Verb3% many odd ideas about foreign lands that may affect you.
+96, Your %Parent% %Verb3% disowned you for your adventuring life.
+97, Your %Parent% seem%Tense1% to have{If~%Tense1%=s? / had} a normal life but %Verb1% acutally a spy for a secret society.
+98, Your %Parent% %Verb1% a member of the Golden Alliance.
+99, Your %Parent% %Verb1% secretly the ruler of the local thieves' guild.
+100, Your %Parent% %Verb1% actually an ousider, hiding {If~%Parent%=mother?her/his} identity.
+
+#
+# Number of Siblings - Table 5-8
+#
+# Determines the number of siblings a character has.
+#
+
+:NumberOfSiblings
+1-15,0
+16-30,1
+31-50,2
+51-70,3
+71-80,4
+81-90,5
+91-94,6
+95,7
+96,8
+97,9
+98,10
+99,11
+100,{Calc~(10+{Dice~1d10})}
+
+#
+# Display the sibling string
+#
+
+:DisplaySiblingString
+1,You do not have any siblings.
+2,You have 1 sibling.
+3-21,You have %NumOfSibs% siblings.
+
+#
+# Set the sex of the Sibling
+#
+
+;SetSibling
+1,|Sibling=sister||Gender=Female||Pronoun=her||Pronoun2=she|
+1,|Sibling=brother||Gender=Male||Pronoun=his||Pronoun2=he|
+
+#
+# Sibling Relations - Table 5-9
+#
+# This table determines some background information about each sibling. All values are
+# equally weighted in this table.
+#
+
+:SiblingRelations
+1, Your %Sibling%, [%CharactersRace%%Gender%], is a troublemaker who always finds ways of making your life interesting.
+2, Your %Sibling%, [%CharactersRace%%Gender%], is always getting into fistfights.
+3, Your %Sibling%, [%CharactersRace%%Gender%], is an adventurer and your rival.
+4, Your %Sibling%, [%CharactersRace%%Gender%], is {Dice~1d10} years old.
+5, Your %Sibling%, [%CharactersRace%%Gender%], is a [Professions].
+6, Your %Sibling%, [%CharactersRace%%Gender%], is married and has {Dice~1d4} children.
+7, Your %Sibling%, [%CharactersRace%%Gender%], has married into money, %Pronoun% spouse is a wealthy merchant.
+8, Your %Sibling%, [%CharactersRace%%Gender%], is a military officer.
+9, Your %Sibling%, [%CharactersRace%%Gender%], is a cleric of [Religions].
+10, Your %Sibling%, [%CharactersRace%%Gender%], is an academic who has studied the would but never traveled.
+11, Your %Sibling%, [%CharactersRace%%Gender%], has married into money, %Pronoun% is a knight.
+12, Your %Sibling%, [%CharactersRace%%Gender%], is married and has lost a child to disease.
+13, Your %Sibling%, [%CharactersRace%%Gender%], is mute.
+14, Your %Sibling%, [%CharactersRace%%Gender%], is an apprentice [Professions].
+15, Your %Sibling%, [%CharactersRace%%Gender%], is a mediocre [Professions].
+16, Your %Sibling%, [%CharactersRace%%Gender%], is a superb [Professions].
+17, Your %Sibling%, [%CharactersRace%%Gender%], is a gifted healer.
+18, Your %Sibling%, [%CharactersRace%%Gender%], is a paladin.
+19, Your %Sibling%, [%CharactersRace%%Gender%], is a member of a cult.
+20, Your %Sibling%, [%CharactersRace%%Gender%], is the town fool.
+21, Your %Sibling%, [%CharactersRace%%Gender%], is a drunkard.
+22, Your %Sibling%, [%CharactersRace%%Gender%], is not on speaking terms with you.
+23, Your %Sibling%, [%CharactersRace%%Gender%], is currently imprisoned for failure to pay tax.
+24, Your %Sibling%, [%CharactersRace%%Gender%], trades in illegal goods.
+25, Your %Sibling%, [%CharactersRace%%Gender%], is a smuggler.
+26, Your %Sibling%, [%CharactersRace%%Gender%], owns a small fram.
+27, Your %Sibling%, [%CharactersRace%%Gender%], is a gifted hunter.
+28, Your %Sibling%, [%CharactersRace%%Gender%], was murdered by a [Races].
+29, Your %Sibling%, [%CharactersRace%%Gender%], is insane.
+30, Your %Sibling%, [%CharactersRace%%Gender%], is criminally insane.
+31, Your %Sibling%, [%CharactersRace%%Gender%], is secretly a murderer.
+32, Your %Sibling%, [%CharactersRace%%Gender%], has been disowned by the family.
+33, Your %Sibling%, [%CharactersRace%%Gender%], is lecherous.
+34, Your %Sibling%, [%CharactersRace%%Gender%], is an aspiring necromancer who is shunned by the people of the area.
+35, Your %Sibling%, [%CharactersRace%%Gender%], is a compulsive liar.
+36, Your %Sibling%, [%CharactersRace%%Gender%], is a hypochondriac.
+37, Your %Sibling%, [%CharactersRace%%Gender%], is suffering from a wasting disease.
+38, Your %Sibling%, [%CharactersRace%%Gender%], had a child out of wedlock.
+39, Your %Sibling%, [%CharactersRace%%Gender%], was abducted by slavers.
+40, Your %Sibling%, [%CharactersRace%%Gender%], was murdered by members of an evil religion (DM's choice).
+41, Your %Sibling%, [%CharactersRace%%Gender%], is agoraphobic (afraid of the outdoors).
+42, Your %Sibling%, [%CharactersRace%%Gender%], is homeless and refuses to live indoors.
+43, Your %Sibling%, [%CharactersRace%%Gender%], has horrible nightmares.
+44, Your %Sibling%, [%CharactersRace%%Gender%], beats %Pronoun% mate, much to the family's chagrin.
+45, Your %Sibling%, [%CharactersRace%%Gender%], killed a friend.
+46, Your %Sibling%, [%CharactersRace%%Gender%], was killed in an accident.
+47, Your %Sibling%, [%CharactersRace%%Gender%], died of a childhood disease.
+48, Your %Sibling%, [%CharactersRace%%Gender%], was killed by animals.
+49, Your %Sibling%, [%CharactersRace%%Gender%], committed suicide at a young age.
+50, Your %Sibling%, [%CharactersRace%%Gender%], is a compulsive gambler.
+51, Your %Sibling%, [%CharactersRace%%Gender%], is an alcoholic.
+52, Your %Sibling%, [%CharactersRace%%Gender%], is a druid who lives in the wilderness.
+53, Your %Sibling%, [%CharactersRace%%Gender%], is a shipbuilder.
+54, Your %Sibling%, [%CharactersRace%%Gender%], loves to go fishing.
+55, Your %Sibling%, [%CharactersRace%%Gender%], had a family heirloom stolen from %Pronoun% house.
+56, Your %Sibling%, [%CharactersRace%%Gender%], ia an amazing orator.
+57, Your %Sibling%, [%CharactersRace%%Gender%], is deaf.
+58, Your %Sibling%, [%CharactersRace%%Gender%], is blind.
+59, Your %Sibling%, [%CharactersRace%%Gender%], is mute.
+60, Your %Sibling%, [%CharactersRace%%Gender%], is intellectually challenged.
+61, Your %Sibling%, [%CharactersRace%%Gender%], is a jovial sort who loves to crack jokes.
+62, Your %Sibling%, [%CharactersRace%%Gender%], is crippled and can not walk.
+63, Your %Sibling%, [%CharactersRace%%Gender%], speaks with a slurred speach.
+64, Your %Sibling%, [%CharactersRace%%Gender%], is ridiculed by people because of "the incident".
+65, Your %Sibling%, [%CharactersRace%%Gender%], is highly uncoordinated.
+66, Your %Sibling%, [%CharactersRace%%Gender%], is a gifted athlete.
+67, Your %Sibling%, [%CharactersRace%%Gender%], is a warrior.
+68, Your %Sibling%, [%CharactersRace%%Gender%], is a successful adventurer who slew an ogre mage.
+69, Your %Sibling%, [%CharactersRace%%Gender%], is a ranger who hunts evil beasts in the local area.
+70, Your %Sibling%, [%CharactersRace%%Gender%], is widowed, %Pronoun% mate was killed in a bar brawl.
+71, Your %Sibling%, [%CharactersRace%%Gender%], is a local constable.
+72, Your %Sibling%, [%CharactersRace%%Gender%], is a thief.
+73, Your %Sibling%, [%CharactersRace%%Gender%], is a renowned scholar of ancient literature.
+74, Your %Sibling%, [%CharactersRace%%Gender%], is a bodyguard for a local merchant.
+75, Your %Sibling%, [%CharactersRace%%Gender%], is a member of the town guard.
+76, Your %Sibling%, [%CharactersRace%%Gender%], is a renowned scholar of herbs.
+77, Your %Sibling%, [%CharactersRace%%Gender%], thinks that %Pronoun2% is a gifted intellectual.
+78, Your %Sibling%, [%CharactersRace%%Gender%], has little tact.
+79, Your %Sibling%, [%CharactersRace%%Gender%], isn't on speaking terms with {If~%NumOfSibs=1?{If~{Dice~1d2}=1?your mother/your father}/another sibling}.
+80, Your %Sibling%, [%CharactersRace%%Gender%], has a highly visible scar that %Pronoun2% received in an accident that killed %Pronoun% best friend.
+81, Your %Sibling%, [%CharactersRace%%Gender%], lost an eye.
+82, Your %Sibling%, [%CharactersRace%%Gender%], lost an arm.
+83, Your %Sibling%, [%CharactersRace%%Gender%], lost a leg.
+84, Your %Sibling%, [%CharactersRace%%Gender%], killed a kobold with a hammer when %Pronoun2% was ten.
+85, Your %Sibling%, [%CharactersRace%%Gender%], is shunned by the townsfolk because %Pronoun2% caused an accident that killed a local priest.
+86, Your %Sibling%, [%CharactersRace%%Gender%], is an engineer who is always creating new inventions....most of which work.
+87, Your %Sibling%, [%CharactersRace%%Gender%], is a glassblower who specializes in arcane equipment for wizards.
+88, Your %Sibling%, [%CharactersRace%%Gender%], has recently come i nto a great deal of money but will not say where it came from.
+89, Your %Sibling%, [%CharactersRace%%Gender%], has a best friend who is a [Races].
+90, Your %Sibling%, [%CharactersRace%%Gender%], has a different father.
+91, Your %Sibling%, [%CharactersRace%%Gender%], loves to play games.
+92, Your %Sibling%, [%CharactersRace%%Gender%], inherited a lot of money from an uncle.
+93, Your %Sibling%, [%CharactersRace%%Gender%], found a magical weapon of great potency.
+94, Your %Sibling%, [%CharactersRace%%Gender%], is haunted by a ghost.
+95, Your %Sibling%, [%CharactersRace%%Gender%], has become an undead creature.
+96, Your %Sibling%, [%CharactersRace%%Gender%], is secretly a lycanthrope.
+97, Your %Sibling%, [%CharactersRace%%Gender%], throws axes as a hobby.
+98, Your %Sibling%, [%CharactersRace%%Gender%], is a gifted artist.
+99, Your %Sibling%, [%CharactersRace%%Gender%], is a deaf sculptor who expresses %Pronoun%self with art.
+100, Your %Sibling%, [%CharactersRace%%Gender%], is very happy with %Pronoun% boring life.
+
+#
+# PC Childhood - Table 5-10
+#
+# This table determines some background information about the characters early
+# childhoon. All values are equally weighted in this table.
+#
+
+:!PCChildhood
+1, Best friend was a [Races].
+2, Nothing special.
+3, You had a normal urban upbringing.
+4, You had a normal rural upbringing.
+5, You had many friends of different races and beliefs.
+6, You were a frequent troublemaker.
+7, You had a strict upbringing.
+8, Your best friend died in an accident at the age of {Dice~1d10+6}.
+9, You are indirectly responsible for the death of a loved one.
+10, You are indirectly responsible for the death of a family pet.
+11, You watched a friend die.
+12, You had a childhood [Races] sweetheart.
+13, You are still friendly with the first person you were romantically involved with.
+14, You had an encounter with a ghost.
+15, You were obsessed with sailing ships.
+16, You loved to fish with your father.
+17, You nearly drowned at the age of {Dice~1d10}.
+18, You had a childhood dream of growing up and becoming a [Professions].
+19, You had a childhood dream of growing up and becoming a dragon slayer.
+20, You had a childhood dream of growing up and becoming a wizard.
+21, You had a childhood dream of growing up and becoming a knight.
+22, You had a childhood dream of growing up and becoming a cleric of [Religions].
+23, You had a fascination with fire.
+24, You had a fascination with horses.
+25, You had a fascination with snakes and lizards.
+26, You feared fire.
+27, You were afraid of insects.
+28, You were afraid of being abducted by monsters.
+29, You grew up disliking [Races].
+30, You were orphaned as a child.
+31, You were separated from you family at the age of {Dice~1d10}.
+32, {If~%NumOfSibs%=0 ? One of your siblings/ {If~{Dice~1d2}=1 ? Your mother/ Your father}} was abducted as a child.
+33, You loved horses and ponies.
+34, You became quite ill but overcame a life-threatening illness.
+35, {If~%NumOfSibs%=0 ? One of your siblings/ {If~{Dice~1d2}=1 ? Your mother/ Your father}} became quite ill but overcame a life-threatening illness.
+36, One of your close blood relatives died of a hereditary disease.
+37, You accidentally burned down a small building.
+38, Your childhood sweetheart died of a communicable disease.
+39, At a young age, you showed promise as an artist.
+40, You grew up with a close relative instead of your parents.
+41, An accident with a runaway cart left you feeling responsible for the dog that was hit and injured.
+42, You used to "sword fight" with sticks, often getting into trouble.
+43, Bullies picked on you.
+44, Bullies picked on you, but you learned to fight back.
+45, You had an intense desire to travel to other lands.
+46, You were continually disappointed about your lackluster upbringing.
+47, You had no interest in anything dangerous.
+48, You were a troublemaker.
+49, You were a bully.
+50, You learned how to steal early in life but may have forgotten those skills.
+51, You had a secret friendship with someone that your parents didn't approve of.
+52, You were indirectly responsible for a family member being arrested for a crime.
+53, You accidentally poisoned yourself but lived due to the help of a local healer.
+54, Ghost stories and local superstitions frightened you.
+55, You caught{If~%NumOfSibs%=0 ? an older sibling / {If~{Dice~1d2}=1 ? your mother/ your father}} committing an illegal act, but have kept the secret thus far.
+56, You were rasied by {If~{Dice~1d2}=1?your mother/your father}.
+57, You traveled often.
+58, {If~%NumOfSibs%=0 ? One of your siblings/ {If~{Dice~1d2}=1 ? Your mother/ Your father}} used you to distract people while they picked pockets.
+59, You were raised in an orphanage.
+60, Your parents could not afford to keep you so they eventually sold you into slavery.
+61, {If~%NumOfSibs%=0 ? One of your siblings/ {If~{Dice~1d2}=1 ? Your mother/ Your father}} was sold into slavery.
+62, You refused to eat fish.
+63, You refused to eat meat.
+64, At age {Dice~1d4+8}, you stole a bottle of wine from your parents and drank it with a friend.
+65, You saw a monster attack a person at a young age and swore to fight creatures of its kind.
+66, You once impressed a passing adventurer.
+67, You spent many hours making friends with a kindly old man whom others in the community think mad. In actuality, he is a sorcerer of some power.
+68, As a child, you did something that easned the enmity of a peer, who still seeks revenge.
+69, Your superstitious parents overreacted because of one bad reading from a supposedly phony mystic. What the mystic said (DM's call) still haunts you.
+70, You had a fevered dream where you saw yourself as an adult adventurer fighting evil. Whether this was a vision or just what promted you to take up adventuring is not known.
+71, You earned a name for honesty when you returned a money pouch brimming with gold coins to a merchant who dropped it.
+72, You earned a name for honesty when you returned a lost family heirloom to a local politician.
+73, You were blessed by a local cleric of [Religions].
+74, You used to hide in barrels all of the time.
+75, You have a good luck charm. It was handed down to you by your [RecentFamilyRelations].
+76, You had an unusual pet.
+77, You were clumsy until you reached puberty.
+78, An old woman once put a curse on you; the curse may or may not be real.
+79, You broke a leg falling out of a tree.
+80, You broke an arm.
+81, You had poor eyesight as a child.
+82, You disliked religion as a child.
+83, You loved attending religious services, as you felt safe there.
+84, You loved maps of all kinds and even tried to draw some.
+85, You were once lost in the woods, but found your way back home.
+86, You developed a food allergy (player's call) as a child.
+87, You were stung several times by insects and developed an allergy.
+88, You sneeze whenever in bright light.
+89, You received a nasty scar when a dog bit you.
+90, An arraw struck you in the leg; you now walk with a bit of a limp.
+91, You had a toy that you still keep as a reminder of your childhood.
+92, You do not remember much of you childhood.
+93, You do not like to talk of your childhood.
+94, You were a gifted athlete as a child.
+95, You showed great promise as an intellectual, even when quite young.
+96, You had no particular gifts but worked very hard as a child.
+97, Some people have bad childhoods - you are one of them.
+98, You nearly lost your eyesight due to a disease.
+99, You were always hungry as a child.
+100, You often got into fights.
+
+#
+# PC Adolescence - Table 5-11
+#
+# This table determines some background information about the character's adolescence.
+# All values are equally weighted in this table.
+#
+
+:!PCAdolescence
+1, You worked on a farm.
+2, You had a significant other that you grew apart from.
+3, You got into a lot of trouble several times.
+4, You {If~PCSex=Male ? fathered / mothered} an illegitimate child.
+5, You spent a lot of time reading.
+6, You had a lot of time to think and contemplate.
+7, You loved to spend time surrounded by nature.
+8, You spent time traveling about the countryside.
+9, You had dreams of becoming an adventurer and purchased a bow to start practicing.
+10, You took part in hunting parties.
+11, You fell in love and you are still in contact with your paramour.
+12, You had a friend who is a [Races].
+13, You showed pro,ise as an apprentice [Professions].
+14, You forged a close bond with a relative.
+15, You were a "late bloomer" and did not physically develop until after your peers.
+16, You were always asking questions about monsters and far off lands.
+17, You wanted nothing more than to settle down and have a family. (The reason for this change is up to the player.)
+18, You had a pet that you were quite fond of.
+19, The death of a close relative deeply affected you.
+20, You were given a good luck charm by a close friend.
+21, A friend of yours disappeared mysteriously.
+22, You saved a friend from a lycanthrope's attack. The friend is now secretly a lycanthrope, and blames you for their condition.
+23, You were once lost in the woods until rescued.
+24, You studied local herbs and showed great promise as an apothecary.
+25, You had a failed apprenticeship as a [Professions].
+26, You were a bully.
+27, You received a severe beating at the hand of some thugs.
+28, You made a [Races] friend who was devoted to [Religions]. This friend introduced you to their religion.
+29, You had an unusual pet.
+30, You were bullied.
+31, You beat up a bully and became a pillar of the local community.
+32, You were always broke.
+33, You were approached by a secret society, but later rejected for membership.
+34, You befriended a local fighter; you often meet for a drink.
+35, You befriended a local wizard; you often meet for a drink.
+36, You befriended a local bard; you often meet for a drink.
+37, A traveling bard impressed you.
+38, You once saved the life of an experienced woodsman by chasing off a wild animal.
+39, You had a secret, forbidden love affair.
+40, You had a friendship that was frowned upon by society.
+41, You have friends in low places gained through a misspent youth.
+42, You have several lowlife contacts in various cities.
+43, You spent some time in prison for theft.
+44, You inherited a shortsword from an adventuring ancestor.
+45, You have a rival that is a gifted hunter.
+46, You spent some time in prison for assault.
+47, A friend of yours was arrested for assault and placed in prison.
+48, A friend of yours was beaten for thieving by the local thieves' guild.
+49, A friend of yours was murdered for thieving by the local thieves' guild.
+50, You once rescued a person lost in the woods.
+51, You befriended the son of a local politician.
+52, You lost a friend to a monster.
+53, You watched as a friend was attacked and killed by a vampire.
+54, You missed an opportunity to make a great deal of money, however your rival did not miss the opportunity.
+55, You studied with a healer for a short time.
+56, You found a copy of a canon from an evil religion.
+57, You possess a minor religious artifact, but are unaware of the fact. This item could be almost anything = even part of your current equipment (DM's call).
+58, You discovered an ornate axe. This axe is actually a famous, lost dwarven axe. Any mountain dwarf will recognize it and demand its return immediately.
+59, You had a friend that had several unusual pets.
+60, You had a friend that became a sorcerer.
+61, You had a friend that became a cleric.
+62, You had a friend that became a mercenary.
+63, You had a friend that became a military officer.
+64, You had a friend that became a bard.
+65, You had a friend that became a gladiator.
+66, You had a friend that became a thief.
+67, You had a friend that became an infiltrator.
+68, You had a friend that became a wizard.
+69, You had a friend that became a fighter.
+70, You had a friend that became a paladin.
+71, You had a friend that became a Basiran dancer.
+72, You had a friend that became a shaman.
+73, You had a friend that became a druid.
+74, You had a friend who became a necromancer and was banished by the community.
+75, You had a friend that mysteriously disappeared.
+76, You had a rival that had several unusual pets.
+77, You had a rival that became a sorcerer.
+78, You had a rival that became a cleric.
+79, You had a rival that became a mercenary.
+80, You had a rival that became a military officer.
+81, You had a rival that became a bard.
+82, You had a rival that became a gladiator.
+83, You had a rival that became a thief.
+84, You had a rival that became am infiltrator.
+85, You had a rival that became a wizard.
+86, You had a rival that became a fighter.
+87, You had a rival that became a paladin.
+88, You had a rival that became a Basiran dancer.
+89, You had a rival that became a shaman.
+90, You had a rival that became a druid.
+91, You have a rival that was always able to best you.
+92, You witnessed the death of a close loved one.
+93, A misunderstanding with your parents destroyed your dreams of a quiet life.
+94, You earned the enmity of a [Races] in a drunken bar brawl.
+95, You gained the trust of a [Races] wizard at a young age.
+96, You had an embarrassing nickname that some people still use.
+97, A very embarrassing event took place that you never talk about.
+98, You leaned not to make fun of old wizards.
+99, You dicovered a treasure map that you have not used yet.
+100, You found a book with inscriptions that you could not read.
+
+#
+# Barbarian Training - Table 5-12
+#
+# This table is used to determine a background item for the character's
+# first class.
+#
+
+:BarbarianTraining
+1,A true master of the wild, who hails from a fierce tribe from the far north, trained you.
+2,During your training you became rivals with another apprentice and were always thring to see who was the best hunter.
+3,Your master use to call you by the name of some timid creature.
+4,You once encountered a vicious creature in the wild and managed to kill it - turns out it was a kobold.
+5,Whether by luck or skill, you gained a reputation as a good tracker.
+6,You were once told that you "show promise".
+7,An inept hunter accidentally shot you in the leg with an arrow, during your training.
+8,Once, while hunting, you set baited traps and were later surprised to find that it attracted an owlbear.
+9,Your master once told you that he had known your family from birth and had witnessed your rage while merely a toddler. He expects great things from you.
+10,You were taught the ways of the barbarian by a suprisingly wise monstrous humaniod.
+
+#
+# Bard Training - Table 5-13
+#
+# This table is used to determine a background item for the character's
+# first class.
+#
+
+:BardTraining
+1,You are embarassed because one of your parents shows no artistic skill whatsoever.
+2,A local celebrity trained you. She may not be well known to the world but in your community, that carries a lot of prestige.
+3,You were given a musical instrument from your master that was in his family for several generations.
+4,You memorized a small book of poetry that a friend gave you.
+5,A former friend once stole a song of yours, and claimed it as her own. It has become well known in your hometown, and people laugh at you for claiming it is yours.
+6,You have an idea for a play that you are certain will make you famous. However, you first need to find the right subject for your already brilliant story.
+7,You used to suffer a bit of stage fright and you actually vomited before your first public performance. You are now very comfortable in front of crowds.
+8,Your master once told you that to be taken seriously as a bard, you must look the part - dressed in fine clothes, well-mannered, dashing and friendly, yet still more than a bit of mystery.
+9,People from where you grew up see you as "the kid who made good".
+10,You once made a friend by writing a song he could serenade a girl with. They were married the next spring.
+
+#
+# Basiran Dancer Training - Table 5-14
+#
+# This table is used to determine a background item for the character's
+# first class.
+#
+
+:BasiranDancerTraining
+1,Your father has "two left feet".
+2,Your mother was a graceful dancer who seemed to float across the dance floor.
+3,Once you tripped and fell while performing - it was quite embarrassing.
+4,You have a knack for spinning and incorporate this in most of your dances.
+5,Your master is well known and respected throughout the country of your origin.
+6,You have a rival that in your opinion does not dance as well as you, but you do admit that she does know how to move gracefully.
+7,You have memories of your family singing and dancing from as far back as you can remember. When you were old enough you would join the dance - it was then you finally discovered yourself.
+8,Your master gave you a colorful sash to wear when dancing, saying it would bring you luck.
+9,You have a particular type of instrument that you do not like to dance to.
+10,You were trained in the samarata by a master of the art. He has since passed on and it is up to you to carry on the tradition.
+
+#
+# Brigand Training - Table 5-15
+#
+# This table is used to determine a background item for the character's
+# first class.
+#
+
+:BrigandTraining
+1,You are a brigand, as your father was before you.
+2,You did not choose a life as an outlaw; it was thrust upon you by an evil lord.
+3,You do not like being a brigand, but you do take pride in doing the job well.
+4,You have fled the law for most of your life and fear that settling down will be the end of you.
+5,You did something horrible and refuse to talk about it. This is why you have exiled yourself into a life of crime.
+6,You have a rival brigand that you compete with to see who can pull off the most outlandish crime. Currently, you lead the competition.
+7,You have a nemesis - a constable who has sworn to bring you to justice. Usually, you are only a step ahead of this thorn in your side.
+8,You take pride in the fact that you have never been forced to hurt anyone while robbing them.
+9,Your master, who has since been imprisoned, taught you the ways of the outlaw.
+10,You love to tell stories of your escapades and near misses. Unfortunately, this sometimes leads to trouble.
+
+#
+# Cleric Training - Table 5-16
+#
+# This table is used to determine a background item for the character's
+# first class.
+#
+
+:ClericTraining
+1,You once got in trouble when you accidentally ate some of the sacraments.
+2,You were trained by a harsh disciplinarian and are now quite thankful for their efforts.
+3,After your first day at the temple, you had a dream where your deity spoke to you and told you that you would be given a mission when the time was right.
+4,Despite your devotion to your god, you almost left the church because of a horrible prank pulled on you during your first week of training.
+5,One of your favorite reachers gave you an old, worn copy of your religion's canon.
+6,You once caught a person stealing from the temple and had the guards arrest the person. You later found out that it was a childhood friend.
+7,You once caught a priest in an illegal activity, but did not alert the authorities.
+8,Your parents placed you in the care of the church at an early age ({Dice~1d12} years old).
+9,You spent much of your early career traveling to various temples.
+10,You are considered an average student, but plan to become greater.
+
+#
+# Druid Training - Table 5-17
+#
+# This table is used to determine a background item for the character's
+# first class.
+#
+
+:DruidTraining
+1,You were once accidentally poisoned.
+2,Your master was a renowned scholar of dangerous beasts.
+3,You were once lost in the wilds, but managed to find your way back home after three weeks.
+4,Over the years, you noticed that some of your favorite edible plants are disappearing.
+5,You like to watch some of nature's most dangerous beasts from afar.
+6,You once stumbled upon an ancient grove that you are certain is a place of great power. However, try as you might, you cannot find the place again.
+7,You gathered most of your equipment from the band of deceased adventurers you stumbled across while tending to your chores.
+8,You are amazed at how inept most city folk are at traveling through the wilds. You have seen adventurers enter the forest ill equipped and then nearly starve to death because they were unwilling to eat what nature provided.
+9,You remember seeing a warrior enter the forest to kill a noble beast. As ready as he was to face the poor animal, he was not prepared for the scolding that you gave him.
+10,You once stumbled across a strange, mysterious creature, and intend to find out what it was.
+
+#
+# Fighter Training - Table 5-18
+#
+# This table is used to determine a background item for the character's
+# first class.
+#
+
+:FighterTraining
+1,Your master is a renowned swordsman.
+2,You were taught that wit and skill are more important than strength alone. However,, you only learned this after being embarrassed many times by your teacher.
+3,One of your master's other students tried to kill him in hopes of gaining a reputation. The master survived, but the student managed yo escape. Someday your paths will cross again.
+4,You were trained at a prestigious martial school.
+5,You met one of your best friends during a drunken bar brawl. You have remained close ever since.
+6,Another apprentice of your master is now your rival. You both frequently compete and jest with each other, with no intention of hurting the other.
+7,Your master gave you a special gift when you finished your training (this is one of your starting items).
+8,Once, during a sparing match, you disarmed one of the more experienced students. She has never forgiven you for embarrassing her.
+9,Once, your master introduced a friend to help teach the class a lesson. The friend was a monk, who quickly defeated the entire class. That experience taught you not to underestimate an opponent - especially one you know little about.
+10,Your master taught you a special feat you have not yet mastered.
+
+#
+# Gladiator Training - Table 5-19
+#
+# This table is used to determine a background item for the character's
+# first class.
+#
+
+:GladiatorTraining
+1,Your master was a gladiator of renown, who eventually won his freedom and began training others.
+2,A piece of your equipment was gathered from a friend who was killed in the arena.
+3,A vicious ogre killed a friend of yours during a pit fight.
+4,You bear a scar that remionds you to keep track of your friends during combat.
+5,You were nearly run over by a chariot, but were pushed out of the way by a fighter who is now a good friend.
+6,One of your worst experiences was fighting a small man who kept tripping you. It made you fell slow and ineffectual.
+7,Your master gave you a piece of armor after you defeated your first foe. You have cherished it ever since.
+8,A piece of your equipment was taken from a foe you killed in the arena.
+9,One of your childhood friends also became a gladiator. The two of you have fought on several occasions, but neither of you would ever seriously harm the other.
+10,You have a rival you have fought several times. Each of you had the feeling that one of you will die at the other's hand.
+
+#
+# Infiltrator Training - Table 5-20
+#
+# This table is used to determine a background item for the character's
+# first class.
+#
+
+:InfiltratorTraining
+1,You were trained by the best. Your master is reputed to have once stolen the money pouch of the captain of the guard.
+2,You have a rival that always attempts to best you.
+3,You were arrested once but freed from jail by a friend. You await the time when you can repay your friend.
+4,To prove a point, you once crept into a noble's house and rearranged their furniture. Of course, a few items may have been reported stolen...
+5,A former friend once gave you a gift that turned out to be stolen. You were areested, and instantly knew that your "friend" had betrayed you to cover her own crime.
+6,You enjoy the sense of freedom that infiltration provides, though you wish you could tell others of your deeds.
+7,You are one of the few infiltrators that were actually trained by the military.
+8,You have the skills, but are still to make a name for yourself.
+9,You know that your mother would not approve of your career choice, but you cannot deny the call of the adventurer.
+10,You were once hired as a spy for rival nobles. Both sides paid you for informatino on the other noble. Eventually, your game was discovered and both nobles tried to have you killed.
+
+#
+# Monk Training - Table 5-21
+#
+# This table is used to determine a background item for the character's
+# first class.
+#
+
+:MonkTraining
+1,Your parents left you at the monastery at an early age ({Dice~1d10} years old). They have kept contact since but rarely visit.
+2,A weapon master of great skill trained you. She could defend herself against attacks from many opponents, even unseen ones.
+3,Once you were blindfolded and attacked. Later, your master said that you showed promise.
+4,You were nicknamed after some harmless insect.
+5,You once sparred with a master of over three styles. He beat you, but you learned much that day.
+6,You are certain that you left your body once while you were meditating, but have not been able to achieve that result again.
+7,You spent much of your training traveling with your master. You saw many exotic lands and people, but never stayed in one place long enough to learn the customs and languages.
+8,You prefer the exertion of physical trainging to tedious book learning.
+9,A friend of yours left the monastery for an unknown reason.
+10,Your master gave you a weapon, joking that you would need it until you learned your craft properly.
+
+#
+# Paladin Training - Table 5-22
+#
+# This table is used to determine a background item for the character's
+# first class.
+#
+
+:PaladinTraining
+1,You dream of the animal that will one day be your mount. You can picture the animal in detail and are certain that it will appear.
+2,Your mentor gave you your first sword, which you have kept to this day.
+3,Once of your favorite teachers gave you an old, worn copy of your religion's canon.
+4,You gained notoriety by foiling an assassination attempt against the temple's head cleric.
+5,You have a good friend who is a cleric of [Religions]. The two of you are always teasing the other about converting them.
+6,During your training, you accidentally injured one of your fellow trainees. It was an accident, but you still feel responsible.
+7,As a joke, you loosened the straps on one of your fellow trainee's saddles. Unfortunately, he flew off his horse in front of a crowd of spectators. You are sorry, but also glad he does not know that it was you.
+8,While you were still a trainee, you attacked a hobgoblin that you believed evaded the temple guard. However, the hobgoblin was a worshipper. You were properly chastised.
+9,Before your final inspection at graduation, someone wrote obscene verses on the blade of your sword. You are not sure what would have happened if you had not noticed it, and still want to find out who did it.
+10,You were once stabbed in the leg during a brief scuffle. It has left a scar and aches just before a storm.
+
+#
+# Psion Training - Table 5-23
+#
+# This table is used to determine a background item for the character's
+# first class.
+#
+
+:PsionTraining
+1,A person claiming to be a Disciple of Avrynner once appeared to you in a dream. You are not sure what that meant, but he was wise, and helped you out a great deal in the time that you spoke with him.
+2,As a child, you knew that people thought that you were strange. now, you understand how you knew what their thoughts were.
+3,Your abilities appeared suddenly and without warning, as objects began flying across the room, surrounded in a mysterious glow.
+4,Once your abilities became apparent, people either thought that you were a demon or a miracle. The ones who thought you a miracle were the most frustrating, as they always wanted to know which of the gods you worshipped.
+5,You left your hometown because you feared how your friends would think of your powers.
+6,You once heard a story about a person with abilities like yours. You cannot remember much detail, or even who told it to you, but you are certain that you have heard the story.
+7,You once encountered another person who had powers like yours. You had a telepathic conversation about your life, your dreams and many other topics. The strange thing is that you only passed the person on the street in a crowd and you are not sure who the person was.
+8,You had a mentor who sought you out and trained you. He also gave you a small crystal and told you that you would know what to do with it when the time came.
+9,You once encountered a horrible creature that invaded your thoughts and tried to kill you. You are not sure how you escaped, but you did. The thing is sitll present in your nightmares.
+10,Although you have never told anyone, your powers manifested early. You remember being quizzed at school and plucking the answers out of the teacher's mind.
+
+#
+# Psychic Warrior Training - Table 5-24
+#
+# This table is used to determine a background item for the character's
+# first class.
+#
+
+:PsychiWarriorTraining
+1,Your abilities first manifested furing a fight with a town bully. He never saw the attack coming, and you scared several of your friends that day.
+2,You dreamt of far off places and adventures. Now you are not so certain that they were all dreams.
+3,You were given a small weapon by a family friend who trained you how to fight; all she asked in return was that you help with some chores.
+4,Your abilities first became apparent during a game where you gambled a bit too much on the outcome. Your friends still think that you rigged the game that day.
+5,You once encountered a slug-like creature that seemed to have abilities similar to yours.
+6,You once fought a man who improved your abilities as a fighter. You later learned that he was a monk.
+7,You have always had a gift for hunting and now you know why. You seem to know how the animal will react.
+8,Sometimes you can tell a great deal about a person just by touching them.
+9,A person claiming to be a Disciple of Avrynner once appeared to you in a dream. You are not sure what that meant but he was wise, and helped you out a great deal in the time that you spoke with him.
+10,You once dreamt of your own death, and slept uneasy ever since.
+
+#
+# Ranger Training - Table 5-25
+#
+# This table is used to determine a background item for the character's
+# first class.
+#
+
+:RangerTraining
+1,As a child, your parents had feared you lost in the woods. They sent out a search party, who found you fishing 20 miles from where you disappeared.
+2,You used to go for long walks alone in the wilderness. You preferred that to the company of people, so you wandered away from home and haven't gone back since.
+3,You have always enjoyed nature and were saddened to see a guop of bullies tormenting a young deer. You tricked them into a large nest of wasps, where they learned the error of their ways.
+4,A friend was killed by the creature you chose as your first favored enemy.
+5,You feel at home in the wild palces, even when facing great adversity.
+6,You find it much easier to deal with the dangers of nature, than those of the city.
+7,A man who knew much of nature trained you. He claims to have never once set foot inside of a city.
+8,The ranger who trained you was fond of keeping many creatures, most of which you had never heard of, and some stranger than you could have imagined.
+9,You were trained by a druid to help manage the local herds and to keep poachers out of the forest.
+10,You became a ranger because of the thrill of the hunt, tracking some exotic beast to the end... The stuff legends are made of.
+
+#
+# Rogue Training - Table 5-26
+#
+# This table is used to determine a background item for the character's
+# first class.
+#
+
+:RogueTraining
+1,It is not that you planned to beome a rogue, but you had little choice growing up. The food had to come from somewhere. Still, you only stole from those who could afford it.
+2,All those times that you crept out of your parents' house, you never dared to dream that you were preparing for a future career.
+3,A friend of yours once lsot something very valuable to a bully. You retrieved it from the bully along with a few other items that you believe he stole from others.
+4,A guild thief who set up a small group of "personal assistants" once trained you.
+5,You were adpoted by the thieves' guild, who trained you and prepared you for your unsavory career choice. All they ask in return is a small fraction of whatever you stole - about 40%...
+6,You are one of the few rogues who actually were trained as a scout.
+7,While trainging, you did not enjoy stealing, but did enjoy picking locks and disabling complex traps.
+8,You were taught to only take what someone could afford to lose, though you think that if they failed to take adequate precautions, they can afford to lose whatever you steal.
+9,You like to take things, and always have. You do not know why, but you accept the fact that you will never be satisfied with what you own.
+10,You want to become famous without anyone actually knowing who you really are, perhaps by leaving a symbol at extravagant thefts.
+
+#
+# Shaman Training - Table 5-27
+#
+# This table is used to determine a background item for the character's
+# first class.
+#
+
+:ShamanTraining
+1,You were chosen by your tribe's previous shaman to succeed him. It has been a difficult road but you will soon have all of the tools you need to protect your tribe.
+2,You were anointed by your tribal spirit and blessed with its gifts ever since.
+3,You once helped save an important member of your tribe. That elder now owes you his life.
+4,You have the talent of the herbalist and can identify several medically important plants from your region.
+5,You once met several spirits that protect your tribe.
+6,You have a spirit guide that aided you on several occasions.
+7,You have a bitter rival, angry that you were chosen for training while he was not.
+8,Once you thought that tribal legends were not important, but you have learned that you were wrong.
+9,A young child died under your care; you accidentally gave hime the wrong herb for his illness.
+10,Your totem is particularly wise and potent. This gives you great comfort that such a powerful creature safeguards your tribe.
+
+#
+# Sorcerer Training - Table 5-28
+#
+# This table is used to determine a background item for the character's
+# first class.
+#
+
+:SorcererTraining
+1,You were born with power, and you do not know why.
+2,Members of your family clain to have a power in their blood that gives them the ability to see and know things that other cannot. While you are certain that most say that only to win arguments, you know there is enough truth to the family legends to warrant further thought.
+3,Your abilities appeared abruptly and without warning. You shocked your friends and family when faint glowing energy surrounded you during an argument. Ever since then, you have discovered other abilities, and probably many more are just waiting to be discovered.
+4,You have heard legends that the pwoer of the corcerer comes from the blood of dragons. However, you have found no dragons in your family history.
+5,For many years, you tried to deny your abilities, until one day when you used them to save the life of a loved one. Since then, you try to master your abilities in case the need ever arises again.
+6,You do not know why the gods have granted you this power, but you are going to master it and prepare for the day when their plans for you are revealed.
+7,You enjoy your powers, for they make you feel superior to other, but you are not yet confident in their use. For this reason, you accept aid from those who are not quite your peers.
+8,You are mystified by your abilities, and strive to discover their origin and meaning.
+9,You tried to train and become a wizard, but their way was confusing. You feel you have a better, more intuitive way to get the job done.
+10,You have heard stories that sorcery comes from having dragons as ancestors. You do not trust the stories but you would like to think that they are true.
+
+#
+# Spellsinger Training - Table 5-29
+#
+# This table is used to determine a background item for the character's
+# first class.
+#
+
+:SpellsingerTraining
+1,Your gift came upon you suddenly and in quite an embarrassing manner.
+2,Although you abilities are innate, you still sought voice training.
+3,You are just beginning to come into your powers, and still need opportunities to discover what else lays hidden within you.
+4,Once your voice faltered while singing. All you remember is waking up the next day with a ringing in your ear.
+5,You have always enjoyed singing, and it did not surprise you when your gift became apparent.
+6,You have a rival singer who does not have your particular gift.
+7,You have a rival singer who has similar abiltiies to you.
+8,You have a mentor that helped you discover your abilities.
+9,You love certain types of songs and seek out that style of music.
+10,In your youth, you met a man with a wonderful voice. You now believe that he was a spellsinger. You wish that you could find the man, as you have many questions to ask him.
+
+#
+# Wizard Training - Table 5-30
+#
+# This table is used to determine a background item for the character's
+# first class.
+#
+
+:WizardTraining
+1,You were accepted into traingin at a young age, and missed out on some of the normal childhood experiences for your race.
+2,You were almost dismissed from your apprenticeship because of an accident while mixing spell components.
+3,You got along well with your master, but have difficulties with his familiar.
+4,You were very smart as a child - so smart that you gained the attention of a wizard who began to teach you the arcane arts. Since then you completed your apprenticeship and realize the power that you have been given.
+5,You did not really want to become a wizard, even after you started your apprenticeship. Eventually you accepted your newfound abilities, but that was only after you discovered where they could take you.
+6,You were an excellent student but never stayed with a single taecher for long. You often switched masters in hope of finding a better way of doing things.
+7,You never really took to the life of a cloistered academic and prefer to live among the common folk. You have been involved in a few bar brawls and often need to mvoe after annoying the guards.
+8,You enjoy the art of magic but never really appreciated the study required.
+9,Another student of your master grew in power and then turned away from his peaceful teachings. She in now hunting and killing hew fellow students. You are uncertain when she will come for you.
+10,You have a rival that you compete with. Neither of you wishes to harm the other; simply prove who is the best.
+
+#
+# Professions - Table 5-31
+#
+# This table is used to determine a random craft or profession. All entries
+# in this table have an equal weight, so to add more to the table, just add
+# additional entries to the end of the table, increasing the generation number
+# by one for each additional entry.
+#
+
+:Professions
+1,Alchemist
+2,Animal Tender
+3,Animal Groomer
+4,Apothecary
+5,Architect
+6,Engineer
+7,Bartender
+8,Innkeeper
+9,Blacksmith
+10,Boater
+11,Beekeeper
+12,Bookbinder
+13,Brewer
+14,Butcher, animal
+15,Butcher, fowl
+16,Carpenter
+17,Cartographer
+18,Cook
+19,Doctor
+20,Driver
+21,Entertainer
+22,Farmer
+23,Fisher
+24,Fishmonger
+25,Fortune Teller
+26,Furrier
+27,Guide
+28,Scout
+29,Herbalist
+30,Herdsman
+31,Jeweler
+32,Gemcutter
+33,Laborer
+34,Lawyer
+35,Locksmith
+36,Mason
+37,Mercenary
+38,Merchant
+39,Miller
+40,Miner
+41,Misc. Craftsmen
+42,Plumber
+43,Porter
+44,Bearer
+45,Sage
+46,Sailor
+47,Scribe
+48,Shipmaker
+49,Siege Engineer
+50,Soldier
+51,Spy
+52,Steward
+53,Torch Bearer
+54,Weaponsmith
+55,Woodcutter
+56,Armorer
+
+#
+# Craft/Profession Training - Table 5-32
+#
+# This table is used if the character started with some ranks in either
+# a craft or profession skill. It is rolled on multiple times.
+#
+
+:CraftProfessionTraining
+1,You were nearly dismissed as an apprentice after "the incident".
+2,You did not really choose this as a career, but found that the skills came easily enough that it would allow ou the time to practice your adventuring skills.
+3,You never liked your master because he was harsh, but you do admire his skill.
+4,You were apprenticed to the irrefutable local master of the trade.
+5,You have a rival who was always just a bit better than you. This may have been what led you to a life of adventuring.
+6,You were dismissed from your apprenticeship after your master found you with his {If~PCSex=Male ? daughter / son }.
+7,You have the potential for great skill in your chosen career, if you only would put aside your dreams of adventuring.
+8,You have the skills but picked up an idiosyncratic way of doing things that makes it easy for someone to identfy your work.
+9,Your master gave you a tool that his master gave him. The two of you are on good terms.
+10,You never officially ended your apprenticeship. You claim to be taking a "break".
+
+:BrigandTraining
+#
+# NPC Religions - Table 5-33
+#
+# This table is used to determine a religion for an NPC. The table is
+# Kalamar specific and weighted for certain religions.
+#
+
+:Religions
+1-2,Knight of the Gods (LG)
+3-5,The Holy Mother (LG)
+6-7,The Speaker of the Word (LG)
+8-10,The True (LG)
+11-12,The Eternal Lantern (LG)
+13-15,The Raiser (NG)
+16-17,The Peacemaker (NG)
+18-20,The Pure One (NG)
+21-22,Lord of Silver Linigs (NG)
+23-25,The Traveler (NG)
+26-27,The Guardian (CG)
+28-30,Raconteur (CG)
+31-32,The Shimmering One (CG)
+33-35,The Great Huntress (CG)
+36-37,The Coddler (CG)
+38-39,The Founder (LN)
+40-41,The Mule (LN)
+42-43,Powermaster (LN)
+44-45,The Old Man (LN)
+46-47,Eye Opener (LN)
+48-49,Mother of the Elements (N)
+50-51,The Riftmaster (N)
+52-53,The Bear (N)
+54-55,The Landlord (N)
+56-57,Fate Scribe (N)
+58-59,Battle Rager (CN)
+60-61,The Watcher (CN)
+62-63,The Storm Lord (CN)
+64-65,Risk (CN)
+66-67,The Laugher (CN)
+68-70,The Corrupter (LE)
+71-72,The Overlord (LE)
+73-75,The Dark One (LE)
+76-77,The Flaymaster (LE)
+78-80,Harvester of Souls (NE)
+81-82,Locust Lord (NE)
+83-85,Emperor of Scorn (NE)
+86-87,The Seller of Scorn (NE)
+88-90,Rotlord (CE)
+91-92,The Confuser of Ways (CE)
+93-95,Prince of Terror (CE)
+96-97,Creator of Strife (CE)
+98-100,The Vicelord (CE)

@@ -1,0 +1,33 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder Jan 03, 2006.
+# ---------------------------------------------------
+#
+# Lizardfolk Names
+#
+# Converted from TableMaster Copyright 1995,by Wintertree Software
+# by Larry Cormier
+#
+# Modified by Valminder, Nov 2005.
+#    -Removed header.
+#    -Added to "Names Generator.tab"
+#
+
+# DefineVariables
+%Count%,0
+
+:Start
+1,[BuildLizardfolkName]
+
+:BuildLizardfolkName
+1,{Cap~[Letter]}|Count={Dice~2d4}|
+_{Loop~%Count%,[Letter]}
+_[Letter]
+
+;Letter
+4,s
+2,th
+2,ks
+3,i
+2,a
+1,y
+2,sh

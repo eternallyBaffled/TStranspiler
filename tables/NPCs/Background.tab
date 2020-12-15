@@ -1,0 +1,404 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder Feb 28, 2006.
+# ---------------------------------------------------
+#
+# Character Background
+# from the pages of Hero Builder's Guidebook @ WOTC
+#
+# Table created by Chris Kiraly
+#
+# Modified by Valminder April 2002
+#    I just cleaned it a little bit.
+#
+
+/OverrideRolls 1
+
+%R%,0
+
+@R,8,Choose the Race,1- Human,2- Dwarf,3- Elf,4- Gnome,5- Halfling,6- Half-Elf,7- Half-Orc,8- Random
+
+:Start
+1,{Status~By Chris Kiraly, from the Hero Builder's Guidebook (WotC).}
+_{If~%R%=8?|R={Dice~1d7}|}
+_<b><u>Character Background</u>:</b><br><br>(Choose race in parameters: Human, Dwarf, Elf, Gnome, Halfling, Half-Elf, Half-Orc)<br><br>
+_This <b>[Race=%R%]</b> character has the following skeletal background : <br><br><b><u>Location</u> :</b>
+_<br><u>Original Community Size</u>: [CommunityType=%R%]
+_<br><u>Climate and Terrain of Area</u>: [Climate]<br>[Terrain]
+_<br><br><b><u>Familial Information</u> : (These are about those that you consider family, not neccessarily blood relatives)</b>
+_<br><u>Economic Status</u>: [Family1]
+_<br><u>Social Standing</u>: [Family2]
+_<br><u>Defensive Readiness</u>: [Family3]
+_<br><u>Private Ethics</u>: [Family4]
+_<br><u>Public Ethics</u>: [Family5]
+_<br><u>Religious Commitment</u>: [Family6]
+_<br><u>Reputation</u>: [Family7]
+_<br><u>Political Views</u>: [Family8]
+_<br><u>Power Structure</u>: [Family9]
+_<br><u>Ancestors of Note</u>: [Family10]
+_<br><br><b><u>Education</u> : (All character learn some basic skills as children.  This may or may not provide direction for their later years.)</b>
+_<br><u>Early Childhood Instruction</u>: [Education1]
+_<br><u>Formal Education</u>: [Education2]
+_<br><u>Learning A Trade</u>: [Education3]
+_<br><br><b><u>Life Events (Thus Far)</u> : (Childhood triumphs and tragedies)</b>
+_<br><u>Early Childhood Events</u>: [Life1]
+_<br><u>Youth Events</u>: [Life2]
+_<br><u>Pivotal Events</u>: [Life3]
+_<br><br><b><u>Relationships</u> : (This is the basic information about your true family.)</b>
+_<br><u>Parents</u>: [Relationships1]
+_<br><u>Siblings</u>: [Relationships2]
+_<br><u>Grandparents</u>: [Relationships3]
+_<br><u>Extended Family (Aunts, Uncles, Cousins, Nephews, etc.)</u>: [Relationships4]
+_<br><u>Friends</u>: [Relationships5]
+_<br><u>Enemies</u>: [Relationships6]
+_<br><u>Instructors</u>: [Relationships7]
+
+:Relationships7
+1-15,<b>No Instructors Of Note</b><br>(Either they were forgettable, or you taught yourself.)
+16-40,<b>Basic</b><br>(A particularly good instructor taught you the basic skills (choose alive or dead, note NPC details).)
+41-50,<b>Advanced</b><br>(A top-notch instructor taught you more advanced military, religious, or arcane techniques.)
+51-55,<b>Angry</b><br>(You have angered or otherwise alienated an instructor of note.)
+56-60,<b>Vanished</b><br>(The instructor who taught you everything you know has vanished.)
+61-65,<b>Favor</b><br>(A favorite instuctor of note has requested an oath or service from you (describe oath or service).)
+66-70,<b>Unrelated</b><br>(The person who taught you the most isn't actually in your area of expertise.)
+71-80,<b>Upper Class</b><br>(Your instructor is of a higher social class than you.)
+81-90,<b>Lower Class</b><br>(Your instructor is of a lower social class than you.)
+91-95,<b>Other Race</b><br>(Your favorite instructor of note is of a different race than you.)
+96-100,<b>Exotic</b><br>(The instructor of note is exotic.)
+
+:Relationships6
+1-15,<b>No Enemies</b><br>(Yet...)
+16-25,<b>Minor Childhood Enemy</b><br>(Someone harbors a grudge or a prejudice against you but has no current basis for the antagonism.)
+26-30,<b>Jilted Lover</b><br>(You wronged someone in the matter of the heart.)
+31-35,<b>Jilted Lover's Friend Or Relative</b><br>(Someone harbors ill feelings for you due to your actions toward a loved one.)
+36-40,<b>Romantic Rival</b><br>(You edged someone out in some affair of the heart, and they hold a grudge.)
+41-50,<b>Enemy Of The Family</b><br>(Your family has earned the enmity of a person, group, or opposing family.)
+51-55,<b>The Enemy Of My Friend...</b><br>(One of your friends has an enemy, and now that person hates you, too.)
+56-60,<b>Social Rival</b><br>(You wronged someone (either actually or only in that person's imagination) in a social or business context.)
+61-65,<b>Villain</b><br>(One or more local villains have chosen to direct their hatred towards you, perhaps because of some minor adventure you completed.)
+66-70,<b>Monster</b><br>(One or more local monsters view you as a threat, perhaps as a result of some minor encounter.)
+71-75,<b>Alignment Enemy</b><br>(A person of an opposed alignment has a philosophical beef with you.)
+76-80,<b>Politcal Enemy</b><br>(A noble, officer, or other high-ranking official looks on you with disfavor, maybe due to your lack of manners (real or percieved) or because you inadvertently spoiled the enemy's secret plans.)
+81-85,<b>Arcane Rival</b><br>(A fellow apprentice or student of the arcane arts develops an intense dislike for you. Perhaps you were the instructor's favorite...)
+86-90,<b>Diabolic Enemy</b><br>(A demon, devil, or other powerful outsider identifies you as a current or future threat.)
+91-95,<b>Enemy Within</b><br>(Someone in your family hates and fears you, either openly or secretly.)
+96-100,<b>Imaginary Foe</b><br>(You falsely believe that someone is out to get you.)
+
+:Relationships5
+1-15,<b>No Friends</b><br>(You are a loner by choice or circumstance.)
+16-30,<b>Lost</b><br>(A significant friend is dead or missing.)
+31-50,<b>Few</b><br>(You don't make friends easily, but you're a good freind to them.  You have a few close friends.)
+51-80,<b>Some</b><br>(You have several friends who are companions or associates but who aren't imtimately close to you.)
+81-100,<b>Many</b><br>(You have light and pleasant relationships with many people but few if any significant ties.)
+
+:Relationships4
+1-10,<b>None</b><br>(You have no living relatives beyond the ones already discussed.)
+11-20,<b>No Known Relatives</b><br>(You have other relatives out there somewhere, but you don't know who or how many.)
+21-55,<b>Few Living Relatives</b><br>(You have {Dice~1d10} living relative(s).)
+56-90,<b>Many Living Relatives</b><br>(You have {Dice~2d12} living relatives.)
+91-100,<b>Huge Extended Family</b><br>(You know dozens of relatives from various generations.)
+
+:Relationships3
+1-20,<b>No Grandparents</b><br>(You remember them, but they have passed away.)
+21-30,<b>Mother's Parents Alive</b><br>(Father's parents are deceased.)
+31-40,<b>Father's Parents Alive</b><br>(Mother's parents are deceased.)
+41-60,<b>One Grandparent On Each Side</b><br>(You choose which ones.)
+61-70,<b>Three Grandparents Alive</b><br>(You choose which one is dead.)
+71-80,<b>Great-grandparents Alive</b><br>(At least one, maybe more.  You decide how many and who they are.  You also have [Relationships3={Dice~1d70}].)
+81-100,<b>Grandparents Unknown</b><br>(They all died before you were old enough to remember them.)
+
+:Relationships2
+1-25,<b>No Siblings</b><br>(You are an only child.)
+26-45,<b>Oldest</b><br>(You have {Dice~1d4} younger siblings.)
+46-75,<b>Middle</b><br>(You have {Dice~1d3} older siblings and {Dice~1d3} younger siblings.)
+76-95,<b>Youngest</b><br>(You have {Dice~1d4} older siblings.)
+96-100,<b>Twin</b><br>(You have a fraternal twin, identical twin, or two triplet siblings.)
+
+:Relationships1
+1-55,<b>Two Living Parents</b><br>(Both parents are alive and healthy.)
+56-65,<b>One Living Parent</b><br>(You choose which one is alive, and how the other one passed away.)
+66-70,<b>Both Parents Dead</b><br>(Again, you choose the circumstances.)
+71-80,<b>One Ill</b><br>(One parent has a long term illness or infirmity.)
+81-85,<b>Both Ill</b><br>(Both parents have a long term illness or infirmity.)
+86-95,<b>Parents Lost or Unknown</b><br>(You may learn about them in a future adventure, of course.)
+96-100,<b>Adoptive or Foster Parents</b><br>(You have adoptive/foster parents.  For them - [Relationships1={Dice~1d95}].)
+
+:Life3
+1-55,<b>No Pivotal Events</b>
+56-65,<b>Refugee</b><br>(As a result of some calamity, you were forced to become a displaced person.)
+66-70,<b>Cultural Shift</b><br>(A large, cohesive group moves to your home community, creating friction with the existing community.  As a result, you're exposed to a new culture and new challenges.)
+71-75,<b>Under Siege</b><br>(Attacks from organized raiders menace the community over a substantials period of time.)
+76-80,<b>Climactic Battle</b><br>(A significant monster or villain threatens the community and is eventually either destroyed or driven off.)
+81-85,<b>All-Out War</b><br>(An armed conflict engulfs your community.  This can be a traditional war, a revolution, or an invasion by a monstrous host.)
+86-95,<b>Community Crisis</b><br>(This includes structural problems like earthquake, climate shifts, famine, and repeated waves of plague.)
+96-100,<b>Religious Awakening</b><br>(A new faith is created, a schism tears an existing faith apart, or a prophecy is announced, for example.)
+
+:Life2
+1-15,<b>Battle</b><br>(You aided in the defense of the community against raiders or a marauding monster.)
+16-25,<b>Adventure</b><br>(You participated in a minor adventure such as building a homestead or working on a caravan on a new route.)
+26-35,<b>Politics</b><br>(Perhaps you spoke on behalf of a political movement or candidate, or stood up to an abuse of authority.)
+36-50,<b>Great Romance</b><br>(Lingering effects may include a jilted lover or a current relationship - and a reputation for boorishness or tenderness.)
+51-60,<b>Religion</b><br>(You served the character's faith in a minor capacity, perhaps including a minor vow or oath.)
+61-70,<b>Arcane</b><br>(You displayed an inate talent for arcane spellcasting or an affinity for magic.  Perhaps others took notice, or maybe you kept it a secret.)
+71-80,<b>Healing</b><br>(You cared for a recovering family member or hero.)
+81-95,<b>Crime</b><br>(You broke the law.  Either you got caught and suffered some form of punishment, or you learned how to dodge the consequences and survive.)
+96-100,<b>Discovery</b><br>(You found a unique aptitude or talent such as extrememly keen vision or a knack for ventriloquism.)
+
+:Life1
+01-15,<b>Survived Childhood Danger</b><br>(Perhaps you were menaced by a dangerous creature or kidnapped by raiders.)
+16-30,<b>Survived Major Danger To Community</b><br>(Flood, famine, plague, or another calamity struck when you were a child.)
+31-45,<b>Undertook Long Journey</b><br>(This could be a one-way or two-way trip.  You decide where you went and why.)
+46-55,<b>Witness</b><br>(You saw a horrible crime of violent event.)
+56-60,<b>Astronomical Event</b><br>(You were born under a strange moon, a comet in the sky, or some other phenomenon.)
+61-65,<b>Personal Epiphany</b><br>(You had an earthshaking brush with greatness, such as meeting a king or being contacted directly by a god.)
+66-75,<b>Became A Refuge</b><br>(War or some other disaster ruined your community.)
+76-85,<b>Death In The Family</b><br>(You lost a parent or other significant family member.)
+86-95,<b>Illness</b><br>(You contracted a lingering sickness or developed a congenital defect.)
+96-100,<b>Injury or Physical Defect</b><br>(This can range from burns and scars to more serious defects.)
+
+:Education3
+01-20,<b>Farmer</b><br>(You helped plant, weed, and harvest a crop.)
+21-30,<b>Hunter/Trapper</b><br>(You've spent time seeking animal skins or meat in the wilderness.)
+31-40,<b>Craft</b><br>(You've learned a craft (any of the categories possible for the Craft skill.)
+41-50,<b>Religious</b><br>(You've had advanced studies in a formal church setting.  Includes training as an acolyte or special functionary for religious practice.)
+51-60,<b>Politics</b><br>(You've been apprenticed to a political or bureaucratic functionary.)
+61-70,<b>Healing</b><br>(You've learned the skills of a healer or herbalist.)
+71-75,<b>Specialized</b><br>(You've learned an unusual trade such as bookkeeping or the law.)
+76-85,<b>Military Training</b><br>(Commoners typically become infantry or archers, and those with higher social status become staff officers or squires.)
+86-90,<b>Special Military Training</b><br>(Examples include artillery, armorer, underdark scout, aid de camp, and logistics.)
+91-95,<b>Monastery/Knightly Order</b><br>(You have been accepted for training by an order of monks or paladins.)
+96-100,<b>Arcanist</b><br>(You've been apprenticed to a wizard or sorcerer for arcane instruction.)
+
+:Education2
+1-25,<b>Agriculture</b><br>(You learned farming and animal husbandry techniques.)
+26-30,<b>History</b><br>(You learned basic local history.)
+31-35,<b>Politics</b><br>(You studied political philosophy.)
+36-40,<b>Religion</b><br>(You studied religious texts and philosophy.)
+41-45,<b>Natural History</b><br>(You studied biology and geology.)
+46-50,<b>Multicultural</b><br>(You studied comparative cultures of other races, or other nationalities.)
+51-55,<b>Arts</b><br>(You learned to illustrate, sculpt, dance, or create art in other ways.)
+56-60,<b>Literature</b><br>(You read poetry and prose extensively, and you have some skill in composition.)
+61-65,<b>Math</b><br>(You learned basic mathematics.)
+66-70,<b>Advanced Math</b><br>(You mastered more complex mathematics.)
+71-75,<b>Astronomy</b><br>(You studied the movement of the stars.  Depending on the culture, this may include an astrological aspect.)
+76-85,<b>Finishing School</b><br>(You are educated in courtly matters and etiquette.)
+86-95,<b>School Of Hard Knocks</b><br>(Your time on the street taught you minor thievery and con games.)
+96-100,<b>Magic</b><br>(You studied "Defense Against The Dark Arts" and learned ways to fight monsters and battle the influence of black magic.)
+
+:Education1
+1-20,<b>Outdoors</b><br>(You learned basic wilderness survival skills.)
+21-40,<b>Book Learning</b><br>(You learned how to read and write.)
+41-55,<b>Religious</b><br>(Your learned the religious beliefs of your community or family.  Perhaps you embraced them or perhaps your rejected them.)
+56-65,<b>Language</b><br>(You learned a foreign language.)
+66-75,<b>Arts</b><br>(You showed talent in singing, drawing, or another art.)
+76-85,<b>Multicultural</b><br>(You traveled or moved enough to learn that the world is a big place with many different people and places.)
+86-95,<b>Business/Politics</b><br>(You were curious about money or government.)
+96-100,<b>Magic</b><br>(You showed an affinity for the arcane arts.)
+
+:Family10
+1-49,<b>None</b><br>(Your family has no ancestors of note.)
+50-55,<b>Forgotten</b><br>(Your family has an ancestor of note who is unknown or forgotten.  Information about them could be revealed in a future adventure, however.)
+56-60,<b>Immigrant</b><br>(Your family has an ancestor who was a settler from a far-off land of which little is known.)
+61-63,<b>Master Artisan</b><br>(Your family has an ancestor who was an artisan of unmatched skill who left a legacy of excellence that is still used as a standard gauge of quality.)
+64-66,<b>Successful Merchant</b><br>(Your family has an ancestor who created a new business, trade good, or trade route that continues to contribute to the family's finances.)
+67-69,<b>Unsuccesful Merchant</b><br>(Your family has an ancestor who created a new business, trade good, or trade route that has been bought, lost, or stolen from the family.)
+70-72,<b>Cleric</b><br>(Your family has an ancestor who was a cleric of some repute.)
+73-75,<b>Arcanist</b><br>(Your family produced a wizard or sorcerer of some repute.)
+76-77,<b>Magic Item</b><br>(Your family has an ancestor who owned a magic item of specific or unusual note that may (or may not) have become a family heirloom.)
+78,<b>Spell Creator</b><br>(An ancestor is reputed to have created a spell that is now lost to common knowledge.)
+79,<b>Item Creator</b><br>(Your family has an ancestor who forged a magic item of significant reputation.)
+80-81,<b>Victorious Hero</b><br>(Your family produced a great military leader who was ultimately victorious.)
+82-83,<b>Defeated Hero</b><br>(Your family has an ancestor who was thoroughly defeated in a military campaign.)
+84,<b>Successful Founder</b><br>(Your family has an ancestor who founded a community that still thrives.)
+85,<b>Unsuccessful Founder</b><br>(Your family has an ancestor who founded a community that has ceased to exist.)
+86,<b>Successful Leader</b><br>(An ancestor held a high position in the current political system.)
+87,<b>Unsuccessful Leader</b><br>(An ancestor held a high position in a discredited political system.)
+88-90,<b>Successful Hero</b><br>(An ancestor is known to have been instrumental in completing a great quest, recovering an important artifact, or destroying a terrible monster or villain.)
+91,<b>Disbelieved Hero</b><br>(An ancestor did complete a great quest, recover an important artifact, or destroyed a terrible monster or villain, but no one believes the story.)
+92,<b>False Hero</b><br>(An ancestor made up a story (commonly accepted as fact) about completing a great quest, recovering an important artifact, or destroying a terrible monster or villain.)
+93,<b>Exile</b><br>(An ancestor was once a king or noble who lost power and fled to a new land.)
+94,<b>Failed Rebel</b><br>(An ancestor is known to have supported a failed rebellion.)
+95,<b>Traitor</b><br>(An ancestor is known to have betrayed the community or nation.)
+96,<b>Cultist</b><br>(An ancestor is known to have had a affiliation with a dark god or evil cult.)
+97,<b>Villain</b><br>(An ancestor was a terrible villain who caused great evil throughout the land.)
+98,<b>Prophecy</b><br>(An ancestor was the focus of some great omen.)
+99,<b>God-Touched</b><br>(Your family is rumored to have produced an ancestor who ascended to godhood or had meaningful contact with the gods in someway.)
+100,<b>Otherwordly</b><br>(An ancestor is reputed to have come from some place not of this world.)
+
+:Family9
+1-10,<b>Unorganized</b><br>(Your family has no internal organization.  Family members are responsible for their own actions.)
+11-30,<b>Elders</b><br>(The oldest members control your family.)
+31-40,<b>Patriarchy</b><br>(The male members control your family.)
+41-50,<b>Matriarchy</b><br>(The female members control your family.)
+51-60,<b>Oligarchy</b><br>(The richest members control your family.)
+61-70,<b>Meritcracy</b><br>(The members with the most talent (usually ability in the family business) control your family.)
+71-90,<b>Divided</b><br>(One branch of the family follows one leadership structure, and one or more others follow a different structure.  Your paternal side is [Family9={Dice~1d70}], while your maternal side is [Family9={Dice~1d70}].)
+91-95,<b>External</b><br>(Your family is lead by an outsider; liege lord or other person to whom the family has sworn support.)
+96-100,<b>Domination</b><br>(A violent or dangerous family member rules your family through fear.)
+
+
+:Family8
+1-15,<b>Apolitical</b><br>(Your family has no specific political stance.)
+16-30,<b>Supportive</b><br>(Your family supports the current political structure and rulers.)
+31-40,<b>Enfranchised</b><br>(Your family is a part of the system and supports it.)
+41-45,<b>Enfranchised Progressive</b><br>(Your faimly is a part of the system but is open to suggestions for change.)
+46-50,<b>Enfranchised Radical</b><br>(Your faimly is a part of the system but is actively seeking to change the system.)
+51-65,<b>Loyal Opposition</b><br>(Your family supports the current political structure but favors a change of rulers.)
+66-75,<b>Dissatisfied</b><br>(Your family is unhappy with current political structure but satisfied the current rulers are at least doing no real harm.)
+76-85,<b>Dissident</b><br>(Your family is secretly supporting a rebellion or movement to overthrow the political system or the existing rulers.)
+86-90,<b>Radical</b><br>(Your family is in open revolt against the current system and existing rulers.)
+91-100,<b>Mixed</b><br>(One part of your family supports the current system and/or rulers, and other factions are actively working to replace or remove that system and/or rulers.)
+
+:Family7
+1-40,<b>Unknown</b><br>(Your family has no perceived character.  Individuals are treated without regard to their family name.)
+41-55,<b>Good</b><br>(Your family is known as stalwart companions.)
+56-65,<b>Outstanding</b><br>(Your family is known to produce upstanding individuals but has an occasional bad apple.)
+66-75,<b>A Black Sheep or Two</b><br>(In general, your family is upstanding, but one or more members of family are known to be disreputable.)
+76-90,<b>Mostly Bad</b><br>(Family is treated in general with contempt, but occasionally a family member has demonstrated positive qualities and earned respect.)
+91-100,<b>Bad</b><br>(Others treat your family with contempt, and every member is assumed to be disreputable.)
+
+:Family6
+1-20,<b>Neutral/Uninterested</b><br>(Your family has no commitment or an inconsistent family religious direction.)
+21-40,<b>Strong</b>  (Your family is deeply committed to a patron diety (you choose which one.)
+41-60,<b>Historical</b><br>(Your family has worshipped a patron diety (you choose which one) for years but may not observe religious commitments consistently.)
+61-70,<b>Enmity</b><br>(Your family has a historical conflict with the followers of a particular diety (you choose which one).)
+71-80,<b>Participatory</b><br>(Your family is a part of a religious order.)
+81-85,<b>Open Heretics</b><br>(Your family believes in a religious movement considered heretical or dangerous by the community at large.)
+86-90,<b>Hidden Heretics</b><br>(Your family believes in a religious movement considered heretical or dangerous by the community at large.  However, your family hides this commitment from the public.)
+91-100,<b>Mixed</b><br>(Your family openly venerates one deity while privately venerating another.)
+
+:Family5
+1-60,<b>Normal</b><br>(Your family's ethical reputation matches their private ethics.)
+61-75,<b>Undeserved</b>  (Whether your family is unfairly painted as cheats or has a better reputation that they deserve, it's clear the community has the wrong idea.)
+76-90,<b>Recent Change</b><br>(Family policy has changed for the better or worse, but the family's reputation has not yet been affected.  Interesting question: How did the policy change, and why?)
+91-100,<b>Beyond Reproach/Beneath Contempt</b><br>(Regardless of your family's actual ethics, public opinion is so ingrained about your family that it's essentially unchangeable.  You decide whether public opinion is accurate or not.)
+
+:Family4
+1-25,<b>Neutral</b><br>(Your family has neutral ethics or no consistent family ethical direction.)
+26-50,<b>Fair</b><br>(Your family holds to the letter of contracts and agreements.)
+51-75,<b>Good</b><br>(Your family is known for involvement in the community and acting to help others.)
+76-90,<b>Untrustworthy</b><br>(Your family often tries to break agreements or recant promises.)
+91-100,<b>Evil</b><br>(Your family takes actions detremental to the community.)
+
+:Family3
+1-10,<b>None</b><br>(Your family has no ability to defend themselves.)
+11-20,<b>Low</b><br>(Your family maintains a low level of readiness including a few weapons and an occasional discussion of how to defend against raiders or low-level monsters.)
+21-40,<b>Rudimentary</b><br>(Most family members are versed in basics of using clubs, spears and knives in self-defense and defense of the family home.)
+41-55,<b>Medium</b><br>(Your family trains actively in matters martial and is prepared for combat with a few days of last-minute preparation.)
+56-70,<b>High</b><br>(Combat is a regular part of the lives of your family.  Most adult members are veterans of some combat, and martial weapons and training are commonplace.)
+71-80,<b>Outstanding</b><br>(Your family has a tradition of military service, and family member are taught from birth to be courageous and stalwart companions when battle is joined.  The family armory contains magic weapons and armor.)
+81-90,<b>Hired</b><br>(Your family relies on outside protection such as guards or mercenaries.)
+91-95,<b>Magical</b><br>(Your family relies on magical protection.)
+96-100,<b>Mixed</b><br>(Your family has no consistent pattern of preparedness.  Some members are very prepared for combat, but others are unprepared or unwilling to fight.)
+
+:Family2
+1-10,<b>Newcomer</b><br>(You and your family are settlers or refugees in your home.)
+11-15,<b>Criminal</b><br>(Members of your family may be guilty of crimes, or wrongly convicted of them.  Either way, other members of the community treat you poorly as a result.)
+16-20,<b>Slave</b><br>(Your family was considered another's property.  Some slaves lead pampered if restricted lives, while others do backbreaking manual labor.)
+21-45,<b>Lower Class</b><br>(Most laborers and servants fall into this category.)
+46-65,<b>Skilled Trade or Merchant Family</b><br>(You could be the child of someone as simple as the village cobbler, or as complex as the weaponsmith for the king.)
+66-75,<b>Religious, Arcane, Monastic, or Military Affiliation (Positive)</b><br>(Your family is closely tied to a group that's generally well regarded by the community, like a local church or helpful monastery.)
+76-85,<b>Religious, Arcane, Monastic, or Military Affiliation (Negative)</b><br>(Your family is closely tied to a group that's generally despised and distrusted by the community.  Perhaps your family is affiliated with the garrison of the invading army, or the mysterious wizards in the tower on the hill.)
+86-95,<b>Upper Class</b><br>(Your family is considered the 'upper crust' of your community.)
+96-100,<b>Noble</b><br>(Your family is at the very pinnacle of social standing in your community.)
+
+
+:Family1
+1-5,<b>Orphan</b><br>(You have no known family.)
+6-15,<b>Refugee</b><br>(After fleeing some calamity or war, your family owns nothing and has no regular income.)
+16-40,<b>Poor</b><br>(Sometimes your family had to beg for food and shelter.  They own no property and income barely covers basic needs.)
+41-60,<b>Moderate</b><br>(Your family owns at least a small dwelling or can make rent payments without significant concern.  The family's income slightly exceeds its needs.)
+61-75,<n>Wealthy</b><br>(Your family owns a dwelling and may own other property.  Family income significantly exceeds basic needs.)
+76-80,<b>Religious Order</b><br>(You were raised as part of a religious order.  While your 'family' didn't have much direct income, it had access to resources through its church.)
+81-85,<b>Arcane Order</b><br>(You were raised as part of an arcane order.  While your 'family' didn't have much direct income, it had access to resources through its wizards and sorcerers.)
+86-90,<b>Monastic Order</b><br>(An order of monks have taken your faimly in.  They live a spartan existence, and so does your family.)
+91-95,<b>Wealth Unimportant</b><br>(For some reason, your family's economic status was difficult to measure.  Perhaps you lived a solitary life on the frontier as a trapper or scout, living entirely off the land.)
+96-100,<b>Military Support</b><br>(You and your faimly are dependents of someone in the military (probably an officer).  This means little direct income, butthe army provides for your needs.)
+
+:Climate
+1-15,<b>Cold (Arctic/Subarctic)</b><br>(It's cold all year long, although seasons are still discernable.  The length of day and night changes greatly from season to season.)
+16-65,<b>Temperate</b><br>(Cold winters, but warm summers.)
+66-100,<b>Warm (Tropical/Subtropical)</b><br>(Conditions are warm year round.)
+
+:Terrain
+01-10,<b>Desert</b><br>(Anyplace where precipitation and vegetation are rare.  This could be anywhere from a sandy wasteland to a rugged field of lava.)
+11-30,<b>Plains</b><br>(Mostly flat and often cultivated by nearby settlements.)
+31-45,<b>Forest</b><br>(Whether it's a tangled jungle or sparser pines, trees are the dominant feature of the landscape.)
+46-60,<b>Hills</b><br>(Includes highlands, cliff dwellings, and any other rugged terrain.)
+61-70,<b>Mountains</b><br>(High altitude and rugged.  Vegetation is sparse above the tree line, but forests and meadows predominate the lower down.)
+71-80,<b>Marsh</b><br>(Includes swamps, moors, and other low, wet areas.)
+81-85,<b>Aquatic</b><br>(Includes shipboard life and any island small enough that the dominant terrain is the sea that surrounds it.  Or perhaps you grew up in an underwater city...)
+86-90,<b>Underground</b><br>(You grew up in a subterranean community far beneath the surface of the world.)
+91-100,<b>Nomadic People</b><br>(You don't have a specific home terrain because you migrated through more than one.)
+
+:CommunityType
+1,[HCHuman]
+2,[HCDwarf]
+3,[HCElf]
+4,[HCGnome]
+5,[HCHalfling]
+6,[HCHalfelf]
+7,[HCHalforc]
+
+:HCHuman
+1-5,<b>Small Tribe</b><br>(Life in the tiny community centers around centers around hunting and gathering, herding, or subsistence farming.  Your tribe has 100 people or less.)
+6-10,<b>Compound</b><br>(These communities tend to be close-knit and focused on a single interest (Religious, Arcane, Monastic, or Military).  Up to 200 people)
+11-20,<b>Frontier Homestead</b><br>(Life on the frontier was spartan and dangerous, but it encourages self-sufficiency.  Most homesteads include only one or two families.)
+21-35,<b>Thorp</b><br>(These small settlements are usually little more than a cluster of farmhouses.  Population ranges from 20 to 80.)
+36-55,<b>Hamlet</b><br>(Slightly larger than a thorp, hamlets have up to 400 people.)
+56-75,<b>Village</b><br>(The smallest community that will support a number of craftspeople.  Population ranges from 400 to 900.)
+76-80,<b>Small Town</b><br>(A town large enough to appear on most maps.  Population up to 2000.)
+81-85,<b>Large Town</b><br>(Large towns serve as regional and provincial centers.  Size ranges from 2000 to 5000 inhabitants.)
+86-90,<b>Small City</b><br>(With up to 12000 residents, small cities are big enough to be the capitals of smaller nations.)
+91-95,<b>Large City</b><br>(The dominant city in a large country will typically have between 12000 and 25000 inhabitants.)
+96-100,<b>Metropolis</b><br>(Only the largest cities in the world have more than 25000 residents.)
+
+:HCDwarf
+1-10,<b>Single-Family Redoubt</b><br>(You grew up on the edge of dwarven civilization, far from the rest of your clan.  Interesting question: Why?)
+11-20,<b>Prospecting Camp</b><br>(Anywhere from 5 to 20 dwarves call these camps home.  Often they represent an extended family trying to strike it rich.)
+21-30,<b>Small Mine</b><br>(The mine could be mundane metals like iron or copper, precious stones like diamonds, or something more exotic.  Population ranges from 20 to 50.)
+31-45,<b>Large Mine</b><br>(Up to 200 dwarves work a mine of this size.)
+46-65,<b>Delve</b><br>(A delve includes a large mine, forge, and smith works.  Up to 500 dwarves live in each one.)
+66-90,<b>Large Delve</b><br>(Like a delve, but with more extensive community structures and a population of up to 2000.)
+91-100,<b>Human-Dominated Area</b><br>(Dwarves raised in nondwarf settlements may be subject to unfair prejudice from their fellows for being 'contaminated' by outside ways.) The human area was a - [HCHuman]
+
+:HCElf
+1-50,<b>Encampment</b><br>(These elven camps are at least semi-nomadic and support between 10 and 50 elves.)
+51-85,<b>Village</b><br>(When an elven village forms, it is often a loose grouping of related families or crafts rather than a regimented town like the humans build.  Population ranges from 50 to 100 elves.)
+86-95,<b>Elven City</b><br>(Only a handful of these cities exist.  They are the center of elven government.  Between 2000 and 5000 elves call them home.)
+96-100,<b>Human-Dominated Area</b><br>(For some reason, your home is among humans.) The human area was a - [HCHuman]
+
+:HCGnome
+1-10,<b>Solitary Family</b><br>(Your family has found solitude.  Interesting question: Why did they crave it?)
+11-40,<b>Cluster</b><br>(Between two and ten gnome families form a loosely-knit cluster settlement.  The total population can approach 100 gnomes.)
+41-70,<b>Gathering</b><br>(Up to 1000 gnomes call this 'cluster of clusters' home.)
+71-80,<b>Human-Dominated Area</b><br>(Your family lives among the humans.) The human area was a - [HCHuman]
+81-90,<b>Dwarven-Dominated Area</b><br>(Your family lives among the dwarves.) The dwarven area was a - [HCDwarf]
+91-100,<b>Elven-Dominated Area</b><br>(Your family lives among the elves.) The elven area was a - [HCElf]
+
+:HCHalfling
+1-30,<b>Clan</b><br>(You grew up on the road with your extended family of up to 50 halflings.)
+31-65,<b>Troupe</b><br>(These larger bands of wandering halflings number up to 100.)
+66-80,<b>Shire</b><br>(Up to 500 halflings live in these semi-permanent villages.)
+81-90,<b>Town</b><br>(These towns are essentially shires that grew so much they could no longer pack up and move.  Between 500 and 1000 halflings live in a typical town.)
+91-95,<b>County</b><br>(Halflings refer to two or more towns withing a day's walk as a county; the most populous ones have close to 5000 inhabitants.)
+96-100,<b>Human-Dominated Area</b><br>(Your family lives among the humans.) The human area was a - [HCHuman]
+
+:HCHalfelf
+1-20,<b>Fringe Community</b><br>(These settlements consist of 5 to 50 half-elves, half-orcs, and other mixed breeds and outcasts.)
+21-85,<b>Human-Dominated Area</b><br>(Your family lives among the humans.) The human area was a - [HCHuman]
+86-100,<b>Elven-Dominated Area</b><br>(Your family lives among the elves.) The elven area was a - [HCElf]
+
+:HCHalforc
+1-20,<b>Fringe Community</b><br>(These settlements consist of 5 to 50 half-orcs, half-elves, and other mixed breeds and outcasts.)
+21-85,<b>Human-Dominated Area</b><br>(Your family lives among the humans.) The human area was a - [HCHuman]
+86-100,<b>Orc-Dominated Area</b><br>(Your family lives among the orcs.) 
+
+:Race
+1,human
+2,dwarven
+3,elvish
+4,gnomish
+5,halfling
+6,half-elven
+7,half-orcen
+

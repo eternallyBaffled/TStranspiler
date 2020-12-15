@@ -1,0 +1,1387 @@
+# ------------------------------------------------------
+# Last Update: re-verified by Valminder Jan 10, 2012.
+# ------------------------------------------------------
+# ---------------------------------------------------
+# Last Update: Updated by Larry Cormier Jan 21, 2006.
+# ---------------------------------------------------
+#
+# by Larry Cormier
+#
+# This Table is designed to Generate Random Monsters by Challenge Rating.
+# It will generate only a single SRD monster of the appropriate CR.
+#
+# -------------------------------------------------------------------------
+#
+# To call this table from another one:
+#   [Monster Stats by CR.CheckVariables(%LowValue%,%HighValue%,%Bonus0Level%)
+#
+#   Parameters: (%LowValue%,%HighValue%,%Bonus0Level%,%Instructions%)
+#
+#   LowValue:    (1)   Enter Lowest Challenge Rating Desired (A-F, 1-27).
+#   HighValue:   (27)  Enter Highest Challenge Rating Desired (A-F, 1-27).
+#                      A= 1/10; B= 1/8; C= 1/6; D= 1/4; E= 1/3; F= 1/2.
+#   Bonus0Level: (2)   1= Yes, add 0-Level bonus spells.
+#                      2= No 0-Level bonus spells.
+#   Instructions:(1)   1= Shows instructions (if called from .Start)
+#                      2= To activate the table (if called from .Start)
+#
+# -------------------------------------------------------------------------
+#
+# Modified by Valminder, Dec 2005.
+#    Corrected a lot of errors and adapted to TSv5.
+#
+# Modified by Larry Cormier, Jan 2006.
+#    Revised Parameter Prompts so they will not be 'Cut-off' due to
+#       prompt length limitations in TableSmith v4.5
+#    Revised 'DetermineDragon' Subtable - which generated:
+#       ###ERR:Unknown in Table: Dragon Stats / Group: DragonMain (Subscript
+#          out of range) ### errors in TableSmith v4.5
+#
+
+# Define Variables
+%Instructions%,0
+%ChallengeRating%,0
+%CR%,1
+%CR_Flag%,0
+%CR_Range%,0
+%FractionFlag%,0
+%TempNumber%,0
+%HighValue%,0
+%LowValue%,0
+%MonsterID%,0
+%BranchID%,0
+%DragonAge%,0
+%DragonType%,0
+%Bonus0Level%,2
+
+@LowValue,A,Enter the Lowest Challenge Rating Desired (A-F and/or 1-27):
+@HighValue,27,Enter the Highest Challenge Rating Desired (A-F and/or 1-27):
+@Bonus0Level,1,OPTIONAL: Bonus 0-level spells based on Prime Attribute? (same as 1st-level spells),Yes,No
+@Instructions,1,Continue showing Instructions?,Yes,No
+
+:Start
+1,{Status~Table by Larry Cormier and Valminder 2005}
+_{If~%Instructions%=1? [Instructions]/[CheckVariables]}
+
+:Instructions
+1,This table generates a Random list of 3.5 Edition D&D Monsters based on the <b>Challenge Rating</b> Desired.
+_<br><br>Use Whole Numbers or A= 1/10; B= 1/8; C= 1/6; D= 1/4; E= 1/3; F= 1/2.<br>
+_<b><i>Note, Enter Parameter window is Case Sensitive in the case of A-F.</i></b><br><br>
+_Use the Parameter Button located in the Upper Left-hand corner of the screen to Input the Challenge Rating Ranges desired to get started.<br><br>
+_To call this table from another one, you need to feed it the parameters in the order listed below:<br>
+_<font color=green>Monster Stats by CR.CheckVariable(LowValue,HighValue,Bonus0Level)</font><br><br>
+_<b>Example:</b> CR 2-4, without 0-Level bonus spells (if applicable).<br>
+_<font color=green>Monster Stats by CR.CheckVariable(2,4,2)</font> (You do not need the last parameter).<br><br>
+_<b>LowValue:</b><font color=darkred> (Default=A)</font>Enter Lowest Challenge Rating Desired (A-F and/or 1-27).<br>
+_<b>HighValue:</b> <font color=darkred>(Default=27)</font> Enter Highest Challenge Rating Desired (A-F and/or 1-27).<br><i>A= 1/10; B= 1/8; C= 1/6; D= 1/4; E= 1/3; F= 1/2.</i><br>
+_<b>Bonus0Level:</b> <font color=darkred>(Default=2)</font>  1= Yes, add 0-Level bonus spells. 2= No 0-Level bonus spells.<br>
+_<b>Instructions:</b> <font color=darkred>(Default=1)</font> 1= Shows instructions (if called from .Start) 2= To activate the table (if called from .Start)<br>
+
+:CheckVariables
+1,{If~%LowValue%=A ? |LowValue=101||FractionFlag=1|}
+_ {If~%HighValue%=A ? |HighValue=101||FractionFlag=1|}
+_ {If~%LowValue%=B ? |LowValue=102||FractionFlag=1|}
+_ {If~%HighValue%=B ? |HighValue=102||FractionFlag=1|}
+_ {If~%LowValue%=C ? |LowValue=103||FractionFlag=1|}
+_ {If~%HighValue%=C ? |HighValue=103||FractionFlag=1|}
+_ {If~%LowValue%=D ? |LowValue=104||FractionFlag=1|}
+_ {If~%HighValue%=D ? |HighValue=104||FractionFlag=1|}
+_ {If~%LowValue%=E ? |LowValue=105||FractionFlag=1|}
+_ {If~%HighValue%=E ? |HighValue=105||FractionFlag=1|}
+_ {If~%LowValue%=F ? |LowValue=106||FractionFlag=1|}
+_ {If~%HighValue%=F ? |HighValue=106||FractionFlag=1|}
+_ [CalculateCR_Range]
+_ {If~%DragonAge%=0?[DetermineMonster]/ [DetermineDragon]}
+
+:CalculateCR_Range
+1,{If~{And~%FractionFlag%=1,%HighValue%<100}=1 ? {If~%LowValue%<%HighValue% ? [ReverseRanges]}/{If~%LowValue%>%HighValue% ? [ReverseRanges]}}
+_ |CR_Range={Calc~((%HighValue%-%LowValue%)+1)}|
+_ {If~%CR_Range%<0?|CR_Range+106||CR_Flag=1|}
+_ |TempNumber={Dice~1d%CR_Range%}|
+_ |ChallengeRating={Calc~((%TempNumber%+%LowValue%)-1)}|
+_ {If~%LowValue%=%HighValue% ? |ChallengeRating=%LowValue%|}
+#_ [DisplayTestInfo]
+_ {If~%ChallengeRating%>100?
+_     {If~%ChallengeRating%>106?
+_         [WholeCR_Numbers={Calc~(%ChallengeRating%-106)}]/
+_         [CR_LessThanOneBranch=%ChallengeRating%]}
+_     / [WholeCR_Numbers=%ChallengeRating%]}
+
+:ReverseRanges
+1,|TempNumber=%LowValue%||LowValue=%HighValue%||HighValue=%TempNumber%|
+
+:DisplayTestInfo
+1,Challenge Rating Range:
+_ {If~%LowValue%>100 ? [CR_LessThanOneDisplay=%LowValue%]/%LowValue%} to
+_ {If~%HighValue%>100 ? [CR_LessThanOneDisplay=%HighValue%]/%HighValue%}<br><br>
+_ Lowest Range = %LowValue%<br>
+_ Highest Range = %HighValue%<br><br>
+_ CR Range: %CR_Range%<br>
+_ {If~%CR_Flag%=1 ? CR Range less than 1<br>}
+_ CR Rolled: %ChallengeRating%<br><br>
+
+:CR_LessThanOneDisplay
+1-101,1/10
+102,1/8
+103,1/6
+104,1/4
+105,1/3
+106,1/2
+
+:DetermineMonster
+1,[Monster Stats.DetermineRandomMonster(%MonsterID%,%Bonus0Level%,,%CR%)]
+
+# Note: Do not Remove extra prompt commas from this line - Errors Generated in TableSmith V4.5
+:DetermineDragon
+1,[Dragon Stats.DragonMain(%DragonType%,%DragonAge%,%Bonus0Level%,,,)]
+
+:CR_LessThanOneBranch
+1-101,[CR_OneTenth]
+102,[CR_OneEighth]
+103,[CR_OneSixth]
+104,[CR_OneFourth]
+105,[CR_OneThird]
+106,[CR_OneHalf]
+
+:WholeCR_Numbers
+1,[CR_1]
+2,[CR_2]
+3,[CR_3]
+4,[CR_4]
+5,[CR_5]
+6,[CR_6]
+7,[CR_7]
+8,[CR_8]
+9,[CR_9]
+10,[CR_10]
+11,[CR_11]
+12,[CR_12]
+13,[CR_13]
+14,[CR_14]
+15,[CR_15]
+16,[CR_16]
+17,[CR_17]
+18,[CR_18]
+19,[CR_19]
+20,[CR_20]
+21,[CR_21]
+22,[CR_22]
+23,[CR_23]
+24,[CR_24]
+25,[CR_25]
+26,[CR_26]
+27,[CR_27]
+
+;CR_OneTenth
+# Bat
+1,|MonsterID=35|
+# Toad
+1,|MonsterID=355|
+
+;CR_OneEighth
+# Monstrous centipede, Tiny
+1,|MonsterID=254||BranchID=11||CR=1|
+# Rat
+1,|MonsterID=302|
+
+;CR_OneSixth
+# Donkey
+1,|MonsterID=101|
+# Lizard
+1,|MonsterID=233|
+# Monkey
+1,|MonsterID=253|
+# Raven
+1,|MonsterID=304|
+
+;CR_OneFourth
+# Cat
+1,|MonsterID=64|
+# Kobold
+1,|MonsterID=218|
+# Monstrous centipede, Small
+1,|MonsterID=254||BranchID=11||CR=2|
+# Monstrous scorpion, Tiny
+1,|MonsterID=255||BranchID=12||CR=1|
+# Monstrous spider, Tiny
+1,|MonsterID=256||BranchID=13||CR=1|
+# Owl
+1,|MonsterID=282|
+# Pony
+1,|MonsterID=293||BranchID=14||CR=1|
+# Weasel
+1,|MonsterID=377|
+
+;CR_OneThird
+# Dire rat
+1,|MonsterID=303|
+# Dog
+1,|MonsterID=99|
+# Giant fire beetle
+1,|MonsterID=155|
+# Goblin
+1,|MonsterID=169|
+# Hawk
+1,|MonsterID=195|
+# Skeleton, human warrior
+1,|MonsterID=329||BranchID=17||CR=1|
+# Snake, Tiny viper
+1,|MonsterID=372||BranchID=20||CR=1|
+
+;CR_OneHalf
+# Aasimar (planetouched)
+1,|MonsterID=1|
+# Animated object, Tiny
+1,|MonsterID=11||BranchID=1||CR=1|
+# Baboon
+1,|MonsterID=26|
+# Badger
+1,|MonsterID=27|
+# Dwarf (any but duergar)
+1,|MonsterID=113|
+# Eagle
+1,|MonsterID=114|
+# Elf (any but drow)
+1,|MonsterID=123|
+# Fiendish dire rat
+1,|MonsterID=129||BranchID=6||CR=1|
+# Formian worker
+1,|MonsterID=135||BranchID=5||CR=1|
+# Gnome (any but svirfneblin)
+1,|MonsterID=168|
+# Halfling (any)
+1,|MonsterID=193|
+# Hobgoblin
+1,|MonsterID=203|
+# Locathah
+1,|MonsterID=235|
+# Merfolk
+1,|MonsterID=245|
+# Monstrous centipede, Medium
+1,|MonsterID=254||BranchID=11||CR=3|
+# Monstrous scorpion, Small
+1,|MonsterID=255||BranchID=12||CR=2|
+# Monstrous spider, Small
+1,|MonsterID=256||BranchID=13||CR=2|
+# Orc
+1,|MonsterID=279|
+# Pony, war
+1,|MonsterID=293||BranchID=14||CR=76|
+# Porpoise
+1,|MonsterID=294|
+# Snake, Small viper
+1,|MonsterID=372||BranchID=20||CR=11|
+# Stirge
+1,|MonsterID=340|
+# Tiefling (planetouched)
+1,|MonsterID=351|
+# Zombie, human commoner
+1,|MonsterID=404||BranchID=28||CR=6|
+# Zombie, kobold
+1,|MonsterID=404||BranchID=28||CR=1|
+
+;CR_1
+# Animated object, Small
+1,|MonsterID=11||BranchID=1||CR=11|
+# Camel
+1,|MonsterID=62|
+# Darkmantle
+1,|MonsterID=87|
+# Dog, riding
+1,|MonsterID=100|
+# Dwarf, duergar
+1,|MonsterID=111|
+# Elemental, Small (any)
+1,|MonsterID=121||BranchID=4||CR=1|
+# Elf, drow
+1,|MonsterID=109|
+# Ghoul
+1,|MonsterID=147|
+# Giant ant, worker
+1,|MonsterID=149||BranchID=7||CR=1|
+# Giant bee
+1,|MonsterID=150|
+# Githyanki
+1,|MonsterID=164|
+# Githzerai
+1,|MonsterID=165|
+# Gnoll
+1,|MonsterID=167|
+# Gnome, svirfneblin
+1,|MonsterID=345|
+# Grig (sprite)
+1,|MonsterID=183|
+# Grimlock
+1,|MonsterID=184|
+# Homunculus
+1,|MonsterID=204|
+# Horse, heavy
+1,|MonsterID=206||BranchID=9||CR=1|
+# Horse, light
+1,|MonsterID=206||BranchID=9||CR=51|
+# Horse, light war
+1,|MonsterID=206||BranchID=9||CR=91|
+# Hyena
+1,|MonsterID=211|
+# Krenshar
+1,|MonsterID=221|
+# Lemure (devil)
+1,|MonsterID=226|
+# Lizardfolk
+1,|MonsterID=234|
+# Manta ray
+1,|MonsterID=238|
+# Monstrous centipede, Large
+1,|MonsterID=254||BranchID=11||CR=4|
+# Monstrous scorpion, Medium
+1,|MonsterID=255||BranchID=12||CR=3|
+# Monstrous spider, Medium
+1,|MonsterID=256||BranchID=13||CR=3|
+# Mule
+1,|MonsterID=258|
+# Nixie (sprite)
+1,|MonsterID=270|
+# Octopus
+1,|MonsterID=273|
+# Pseudodragon
+1,|MonsterID=295|
+# Shark, Medium
+1,|MonsterID=323||BranchID=15||CR=1|
+# Shrieker (fungus)
+1,|MonsterID=327|
+# Skeleton, wolf
+1,|MonsterID=329||BranchID=17||CR=2|
+# Snake, Medium viper
+1,|MonsterID=372||BranchID=20||CR=26|
+# Spider swarm
+1,|MonsterID=346||BranchID=18||CR=6|
+# Squid
+1,|MonsterID=338|
+# Troglodyte
+1,|MonsterID=360|
+# Wolf
+1,|MonsterID=391|
+# Zombie, troglodyte
+1,|MonsterID=404||BranchID=28||CR=61|
+
+;CR_2
+# Animated object, Medium
+1,|MonsterID=11||BranchID=1||CR=26|
+# Ape
+1,|MonsterID=14|
+# Archon, lantern
+1,|MonsterID=225|
+# Azer
+1,|MonsterID=24|
+# Bat swarm
+1,|MonsterID=346||BranchID=18||CR=1|
+# Bear, black
+1,|MonsterID=37|
+# Bison
+1,|MonsterID=46|
+# Blink dog
+1,|MonsterID=49|
+# Boar
+1,|MonsterID=52|
+# Bugbear
+1,|MonsterID=59|
+# Cheetah
+1,|MonsterID=71|
+# Choker
+1,|MonsterID=73|
+# Crocodile
+1,|MonsterID=83|
+# Devil, imp
+1,|MonsterID=214|
+# Dire badger
+1,|MonsterID=28|
+# Dire bat
+1,|MonsterID=36|
+# Dire weasel
+1,|MonsterID=378|
+# Dretch (demon)
+1,|MonsterID=107|
+# Giant ant, queen
+1,|MonsterID=149||BranchID=7||CR=100|
+# Giant ant, soldier
+1,|MonsterID=149||BranchID=7||CR=76|
+# Giant bombardier beetle
+1,|MonsterID=151|
+# Hippogriff
+1,|MonsterID=200|
+# Horse, heavy war
+1,|MonsterID=206||BranchID=9||CR=76|
+# Kuo-toa
+1,|MonsterID=222|
+# Leopard
+1,|MonsterID=228|
+# Lizard, monitor
+1,|MonsterID=252|
+# Monstrous centipede, Huge
+1,|MonsterID=254||BranchID=11||CR=5|
+# Monstrous spider, Large
+1,|MonsterID=256||BranchID=13||CR=4|
+# Quasit (demon)
+1,|MonsterID=299|
+# Rat swarm
+1,|MonsterID=346||BranchID=18||CR=5|
+# Sahuagin
+1,|MonsterID=314|
+# Satyr
+1,|MonsterID=317|
+# Shark, Large
+1,|MonsterID=323||BranchID=15||CR=76|
+# Shocker lizard
+1,|MonsterID=326|
+# Skeleton, owlbear
+1,|MonsterID=329||BranchID=17||CR=3|
+# Skum
+1,|MonsterID=330|
+# Snake, constrictor
+1,|MonsterID=80|
+# Snake, Large viper
+1,|MonsterID=372||BranchID=20||CR=76|
+# Thoqqua
+1,|MonsterID=350|
+# Triton
+1,|MonsterID=359|
+# Vargouille
+1,|MonsterID=370|
+# Wererat (lycanthrope)
+1,|MonsterID=381||BranchID=23||CR={Dice~1d3}|
+# White Dragon (Wyrmling)
+1,|MonsterID=386||BranchID=34||DragonAge=1||DragonType=5|
+# Wolverine
+1,|MonsterID=393|
+# Worg
+1,|MonsterID=396|
+# Zombie, bugbear
+1,|MonsterID=404||BranchID=28||CR=71|
+
+;CR_3
+# Allip
+1,|MonsterID=9|
+# Animated object, Large
+1,|MonsterID=11||BranchID=1||CR=76|
+# Ankheg
+1,|MonsterID=12|
+# Arrowhawk, juvenile
+1,|MonsterID=19||BranchID=2||CR=1|
+# Assassin vine
+1,|MonsterID=20|
+# Black Dragon (Wyrmling)
+1,|MonsterID=47||BranchID=30||DragonAge=1||DragonType=1|
+# Blue Dragon (Wyrmling)
+1,|MonsterID=50||BranchID=31||DragonAge=1||DragonType=2|
+# Brass Dragon (Wyrmling)
+1,|MonsterID=57||BranchID=35||DragonAge=1||DragonType=6|
+# Bronze Dragon (Wyrmling)
+1,|MonsterID=58||BranchID=36||DragonAge=1||DragonType=7|
+# Centaur
+1,|MonsterID=68|
+# Cockatrice
+1,|MonsterID=79|
+# Copper Dragon (Wyrmling)
+1,|MonsterID=81||BranchID=37||DragonAge=1||DragonType=8|
+# Deinonychus (dinosaur)
+1,|MonsterID=91|
+# Derro
+1,|MonsterID=93|
+# Dire ape
+1,|MonsterID=15|
+# Dire wolf
+1,|MonsterID=392|
+# Doppelganger
+1,|MonsterID=102|
+# Dryad
+1,|MonsterID=110|
+# Eagle, giant
+1,|MonsterID=154|
+# Elemental, Medium (any)
+1,|MonsterID=121||BranchID=4||CR=6|
+# Ethereal filcher
+1,|MonsterID=125|
+# Ethereal marauder
+1,|MonsterID=126|
+# Ettercap
+1,|MonsterID=127|
+# Formian, warrior
+1,|MonsterID=135||BranchID=5||CR=76|
+# Gelatinous cube (ooze)
+1,|MonsterID=142|
+# Ghast
+1,|MonsterID=145|
+# Giant praying mantis
+1,|MonsterID=158|
+# Giant wasp
+1,|MonsterID=161|
+# Green Dragon (Wyrmling)
+1,|MonsterID=178||BranchID=32||DragonAge=1||DragonType=3|
+# Grick
+1,|MonsterID=181|
+# Hell hound
+1,|MonsterID=196|
+# Howler
+1,|MonsterID=209|
+# Lion
+1,|MonsterID=231|
+# Locust swarm
+1,|MonsterID=346||BranchID=18||CR=4|
+# Magmin
+1,|MonsterID=237|
+# Mephit (any)
+1,|MonsterID=244|
+# Monstrous scorpion, Large
+1,|MonsterID=255||BranchID=12||CR=4|
+# Ogre
+1,|MonsterID=274|
+# Ogre, merrow
+1,|MonsterID=406|
+# Owl, giant
+1,|MonsterID=283|
+# Pegasus
+1,|MonsterID=286|
+# Phantom fungus
+1,|MonsterID=287|
+# Rust monster
+1,|MonsterID=313|
+# Salamander, flamebrother
+1,|MonsterID=315||BranchID=16||CR=1|
+# Shadow
+1,|MonsterID=320|
+# Skeleton, troll
+1,|MonsterID=329||BranchID=17||CR=4|
+# Snake, Huge viper
+1,|MonsterID=372||BranchID=20||CR=91|
+# Tojanida, juvenile
+1,|MonsterID=356||BranchID=19||CR=1|
+# Unicorn
+# Violet fungus
+# Werewolf (lycanthrope)
+1,|MonsterID=383||BranchID=25||CR={Dice~1d3}|
+# White Dragon (Very Young)
+1,|MonsterID=386||BranchID=34||DragonAge=2||DragonType=5|
+# Wight
+1,|MonsterID=387|
+# Xorn, minor
+1,|MonsterID=400||BranchID=27||CR=1|
+# Yeth hound
+1,|MonsterID=401|
+# Yuan-ti, pureblood
+1,|MonsterID=296|
+# Zombie, ogre
+1,|MonsterID=404||BranchID=28||CR=75|
+
+;CR_4
+# Aranea
+1,|MonsterID=17|
+# Archon, hound
+1,|MonsterID=207|
+# Barghest
+1,|MonsterID=32|
+# Bear, brown
+1,|MonsterID=38|
+# Bear, polar
+1,|MonsterID=40|
+# Black Dragon (Very Young)
+1,|MonsterID=47||BranchID=30||DragonAge=2||DragonType=1|
+# Blue Dragon (Very Young)
+1,|MonsterID=50||BranchID=31||DragonAge=2||DragonType=2|
+# Brass Dragon (Very Young)
+1,|MonsterID=57||BranchID=35||DragonAge=2||DragonType=6|
+# Carrion crawler
+1,|MonsterID=63|
+# Celestial lion
+1,|MonsterID=408||BranchID=3||CR=1|
+# Crocodile, giant
+1,|MonsterID=153|
+# Dire boar
+1,|MonsterID=53|
+# Dire wolverine
+1,|MonsterID=394|
+# Displacer beast
+1,|MonsterID=97|
+# Gargoyle
+1,|MonsterID=140|
+# Giant stag beetle
+1,|MonsterID=160|
+# Gray ooze
+1,|MonsterID=174|
+# Green Dragon (Very Young)
+1,|MonsterID=178||BranchID=32||DragonAge=2||DragonType=3|
+# Griffon
+1,|MonsterID=182|
+# Harpy
+1,|MonsterID=194|
+# Hydra, five-headed
+1,|MonsterID=210||BranchID=10||CR=1|
+# Janni (genie)
+1,|MonsterID=217|
+# Mimic
+1,|MonsterID=247|
+# Minotaur
+1,|MonsterID=250|
+# Otyugh
+1,|MonsterID=281|
+# Owlbear
+1,|MonsterID=284|
+# Pixie (sprite)
+1,|MonsterID=291|
+# Red Dragon (Wyrmling)
+1,|MonsterID=306||BranchID=33||DragonAge=1||DragonType=4|
+# Rhinoceros
+1,|MonsterID=310|
+# Sea cat
+1,|MonsterID=318|
+# Sea hag
+1,|MonsterID=319|
+# Shark, Huge
+1,|MonsterID=323||BranchID=15||CR=91|
+# Silver Dragon (Wyrmling)
+1,|MonsterID=328||BranchID=39||DragonAge=1||DragonType=10|
+# Skeleton, chimera
+1,|MonsterID=329||BranchID=17||CR=5|
+# Swarm, Centipede
+1,|MonsterID=346||BranchID=18||CR=2|
+# Tiger
+1,|MonsterID=352|
+# Vampire spawn
+1,|MonsterID=369|
+# Wereboar (lycanthrope)
+1,|MonsterID=380||BranchID=22||CR={Dice~1d3}|
+# White Dragon (Young)
+1,|MonsterID=386||BranchID=34||DragonAge=3||DragonType=5|
+# Zombie, minotaur
+1,|MonsterID=404||BranchID=28||CR=81|
+# Zombie, wyvern
+1,|MonsterID=404||BranchID=28||CR=86|
+
+;CR_5
+# Achaierai
+1,|MonsterID=6|
+# Animated object, Huge
+1,|MonsterID=11||BranchID=1||CR=81|
+# Arrowhawk, adult
+1,|MonsterID=19||BranchID=2||CR=11|
+# Barghest, greater
+1,|MonsterID=33|
+# Basilisk
+1,|MonsterID=34|
+# Bearded devil (barbazu)
+1,|MonsterID=31|
+# Black Dragon (Young)
+1,|MonsterID=47||BranchID=30||DragonAge=3||DragonType=1|
+# Bronze Dragon (Very Young)
+1,|MonsterID=58||BranchID=36||DragonAge=2||DragonType=7|
+# Cloaker
+1,|MonsterID=77|
+# Copper Dragon (Very Young)
+1,|MonsterID=81||BranchID=37||DragonAge=2||DragonType=8|
+# Dire lion
+1,|MonsterID=232|
+# Djinni (genie)
+1,|MonsterID=98|
+# Elemental, Large (any)
+1,|MonsterID=121||BranchID=4||CR=21|
+# Gibbering mouther
+1,|MonsterID=162|
+# Gold Dragon (Wyrmling)
+1,|MonsterID=170||BranchID=38||DragonAge=1||DragonType=9|
+# Green Dragon (Young)
+1,|MonsterID=178||BranchID=32||DragonAge=3||DragonType=3|
+# Green hag
+1,|MonsterID=179|
+# Hieracosphinx
+1,|MonsterID=199|
+# Hydra, six-headed
+1,|MonsterID=210||BranchID=10||CR=2|
+# Manticore
+1,|MonsterID=239|
+# Monstrous spider, Huge
+1,|MonsterID=256||BranchID=13||CR=5|
+# Mummy
+1,|MonsterID=259|
+# Nightmare
+1,|MonsterID=266|
+# Ochre jelly (ooze)
+1,|MonsterID=272|
+# Orca
+1,|MonsterID=280|
+# Phase Spider
+1,|MonsterID=288|
+# Rast
+1,|MonsterID=301|
+# Ravid
+1,|MonsterID=305|
+# Red Dragon (Very Young)
+1,|MonsterID=306||BranchID=33||DragonAge=2||DragonType=4|
+# Shadow mastiff
+1,|MonsterID=321|
+# Silver Dragon (Very Young)
+1,|MonsterID=328||BranchID=39||DragonAge=2||DragonType=10|
+# Skeleton, ettin
+1,|MonsterID=329||BranchID=17||CR=6|
+# Snake, giant constrictor
+1,|MonsterID=152|
+# Spider eater
+1,|MonsterID=335|
+# Pixie (with Otto's Irresistible Dance) (sprite)
+1,|MonsterID=291|
+# Tojanida, adult
+1,|MonsterID=356||BranchID=19||CR=26|
+# Troll
+1,|MonsterID=361|
+# Troll, scrag
+1,|MonsterID=407|
+# Werebear (lycanthrope)
+1,|MonsterID=379||BranchID=21||CR={Dice~1d3}|
+# Weretiger (lycanthrope)
+1,|MonsterID=382||BranchID=24||CR={Dice~1d3}|
+# Winter wolf
+1,|MonsterID=390|
+# Wraith
+1,|MonsterID=397|
+# Yuan-ti, halfblood
+1,|MonsterID=192|
+# Zombie, umber hulk
+1,|MonsterID=404||BranchID=28||CR=96|
+
+;CR_6
+# Annis (hag)
+1,|MonsterID=13|
+# Baleen whale
+1,|MonsterID=29|
+# Belker
+1,|MonsterID=45|
+# Blue Dragon (Young)
+1,|MonsterID=50||BranchID=31||DragonAge=3||DragonType=2|
+# Bralani (eladrin)
+1,|MonsterID=56|
+# Brass Dragon (Young)
+1,|MonsterID=57||BranchID=35||DragonAge=3||DragonType=6|
+# Chain devil (kyton)
+1,|MonsterID=69|
+# Demon, babau
+1,|MonsterID=25|
+# Digester
+1,|MonsterID=96|
+# Megaraptor (dinosaur)
+1,|MonsterID=243|
+# Ettin
+1,|MonsterID=128|
+# Gauth (beholder)
+1,|MonsterID=141|
+# Girallon
+1,|MonsterID=163|
+# Half-black dragon, 4th-level human fighter
+1,|MonsterID=188|
+# Hydra, five-headed cryo-
+1,|MonsterID=210||BranchID=10||CR=1|
+# Hydra, five-headed pyro-
+1,|MonsterID=210||BranchID=10||CR=1|
+# Hydra, seven-headed
+1,|MonsterID=210||BranchID=10||CR=3|
+# Lamia
+1,|MonsterID=223|
+# Monstrous centipede, Gargantuan
+1,|MonsterID=254||BranchID=11||CR=6|
+# Salamander, average
+1,|MonsterID=315||BranchID=16||CR=2|
+# Shambling mound
+1,|MonsterID=322|
+# Skeleton, advanced megaraptor
+1,|MonsterID=329||BranchID=17||CR=7|
+# Tendriculos
+1,|MonsterID=349|
+# White Dragon (Juvenile)
+1,|MonsterID=386||BranchID=34||DragonAge=4||DragonType=5|
+# Will-o'-wisp
+1,|MonsterID=389|
+# Wyvern
+1,|MonsterID=398|
+# Xill
+1,|MonsterID=399|
+# Xorn, average
+1,|MonsterID=400||BranchID=27||CR=11|
+# Zombie, gray render
+1,|MonsterID=404||BranchID=28||CR=99|
+
+;CR_7
+# Aboleth
+1,|MonsterID=2|
+# Animated object, Gargantuan
+1,|MonsterID=11||BranchID=1||CR=91|
+# Black Dragon (Juvenile)
+1,|MonsterID=47||BranchID=30||DragonAge=4||DragonType=1|
+# Black pudding (ooze)
+1,|MonsterID=48|
+# Bronze Dragon (Young)
+1,|MonsterID=58||BranchID=36||DragonAge=3||DragonType=7|
+# Bulette
+1,|MonsterID=60|
+# Cachalot whale
+1,|MonsterID=61|
+# Chaos beast
+1,|MonsterID=70|
+# Chimera
+1,|MonsterID=72|
+# Chuul
+1,|MonsterID=75|
+# Copper Dragon (Young)
+1,|MonsterID=81||BranchID=37||DragonAge=3||DragonType=8|
+# Criosphinx
+1,|MonsterID=84|
+# Dire bear
+1,|MonsterID=39|
+# Dragonne
+1,|MonsterID=105|
+# Drider
+1,|MonsterID=108|
+# Elasmosaurus (dinosaur)
+1,|MonsterID=119|
+# Elemental, Huge (any)
+1,|MonsterID=121||BranchID=4||CR=56|
+# Elephant
+1,|MonsterID=122|
+# Formian, taskmaster
+1,|MonsterID=135||BranchID=5||CR=91|
+# Ghost, 5th-level human fighter
+1,|MonsterID=146|
+# Giant, hill
+1,|MonsterID=201|
+# Gold Dragon (Very Young)
+1,|MonsterID=170||BranchID=38||DragonAge=2||DragonType=9|
+# Golem, flesh
+1,|MonsterID=133|
+# Hellcat (devil)
+1,|MonsterID=197|
+# Hydra, eight-headed
+1,|MonsterID=210||BranchID=10||CR=4|
+# Hydra, six-headed cryo-
+1,|MonsterID=210||BranchID=10||CR=2|
+# Hydra, six-headed pyro-
+1,|MonsterID=210||BranchID=10||CR=2|
+# Invisible stalker
+1,|MonsterID=215|
+# Lillend
+1,|MonsterID=230|
+# Medusa
+1,|MonsterID=242|
+# Monstrous scorpion, Huge
+1,|MonsterID=255||BranchID=12||CR=5|
+# Naga, water
+1,|MonsterID=376|
+# Nymph
+1,|MonsterID=271|
+# Ogre barbarian
+1,|MonsterID=275|
+# Phasm
+1,|MonsterID=289|
+# Red Dragon (Young)
+1,|MonsterID=306||BranchID=33||DragonAge=3||DragonType=4|
+# Remorhaz
+1,|MonsterID=308|
+# Silver Dragon (Young)
+1,|MonsterID=328||BranchID=39||DragonAge=3||DragonType=10|
+# Skeleton, cloud giant
+1,|MonsterID=329||BranchID=17||CR=8|
+# Slaad, red
+1,|MonsterID=307|
+# Spectre
+1,|MonsterID=334|
+# Succubus (demon)
+1,|MonsterID=344|
+# Umber hulk
+1,|MonsterID=366|
+# Vampire, 5th-level human fighter
+1,|MonsterID=368|
+# Yuan-ti, abomination
+1,|MonsterID=4|
+
+;CR_8
+# Arrowhawk, elder
+1,|MonsterID=19||BranchID=2||CR=91|
+# Athach
+1,|MonsterID=22|
+# Behir
+1,|MonsterID=43|
+# Blue Dragon (Juvenile)
+1,|MonsterID=50||BranchID=31||DragonAge=4||DragonType=2|
+# Bodak
+1,|MonsterID=54|
+# Brass Dragon (Juvenile)
+1,|MonsterID=57||BranchID=35||DragonAge=4||DragonType=6|
+# Destrachan
+1,|MonsterID=94|
+# Dire tiger
+1,|MonsterID=353|
+# Djinni noble (genie)
+1,|MonsterID=98|
+# Efreeti (genie)
+1,|MonsterID=118|
+# Erinyes (devil)
+1,|MonsterID=124|
+# Giant, stone
+1,|MonsterID=341|
+# Gorgon
+1,|MonsterID=172|
+# Gray render
+1,|MonsterID=175|
+# Green Dragon (Juvenile)
+1,|MonsterID=178||BranchID=32||DragonAge=4||DragonType=3|
+# Gynosphinx
+1,|MonsterID=186|
+# Hellwasp swarm
+1,|MonsterID=346||BranchID=18||CR=3|
+# Hydra, nine-headed
+1,|MonsterID=210||BranchID=10||CR=5|
+# Hydra, seven-headed cryo-
+1,|MonsterID=210||BranchID=10||CR=3|
+# Hydra, seven-headed pyro-
+1,|MonsterID=210||BranchID=10||CR=3|
+# Lammasu
+1,|MonsterID=224|
+# Mind flayer
+1,|MonsterID=248|
+# Mohrg
+1,|MonsterID=251|
+# Monstrous spider, Gargantuan
+1,|MonsterID=256||BranchID=13||CR=6|
+# Naga, dark
+1,|MonsterID=86|
+# Octopus, giant
+1,|MonsterID=156|
+# Ogre mage
+1,|MonsterID=276|
+# Shield guardian
+1,|MonsterID=325|
+# Skeleton, young adult red dragon
+1,|MonsterID=329||BranchID=17||CR=9|
+# Shadow, greater
+1,|MonsterID=320|
+# Slaad, blue
+1,|MonsterID=51|
+# Treant
+1,|MonsterID=357|
+# Tyrannosaurus (dinosaur)
+1,|MonsterID=365| 
+# White Dragon (Young Adult)
+1,|MonsterID=386||BranchID=34||DragonAge=5||DragonType=5|
+# Xorn, elder
+1,|MonsterID=400||BranchID=27||CR=76|
+
+;CR_9
+# Androsphinx
+1,|MonsterID=10|
+# Avoral (guardinal)
+1,|MonsterID=23| 
+# Black Dragon (Young Adult)
+1,|MonsterID=47||BranchID=30||DragonAge=5||DragonType=1|
+# Bone devil (osyluth)
+1,|MonsterID=55| 
+# Bronze Dragon (Juvenile)
+1,|MonsterID=58||BranchID=36||DragonAge=4||DragonType=7|
+# Copper Dragon (Juvenile)
+1,|MonsterID=81||BranchID=37||DragonAge=4||DragonType=8|
+# Delver
+1,|MonsterID=92|
+# Dire shark
+1,|MonsterID=324|
+# Dragon turtle
+1,|MonsterID=104|
+# Elemental, greater (any)
+1,|MonsterID=121||BranchID=4||CR=81|
+# Giant, frost
+1,|MonsterID=136|
+# Giant, elder stone
+1,|MonsterID=341|
+# Gold Dragon (Young)
+1,|MonsterID=170||BranchID=38||DragonAge=3||DragonType=9|
+# Half-fiend, 7th-level human cleric
+1,|MonsterID=190|
+# Hydra, eight-headed cryo-
+1,|MonsterID=210||BranchID=10||CR=4|
+# Hydra, eight-headed pyro-
+1,|MonsterID=210||BranchID=10||CR=4|
+# Hydra, ten-headed
+1,|MonsterID=210||BranchID=10||CR=6|
+# Monstrous centipede, Colossal
+1,|MonsterID=254||BranchID=11||CR=7|
+# Naga, spirit
+1,|MonsterID=336|
+# Nessian warhound (hell hound)
+1,|MonsterID=263|
+# Night hag
+1,|MonsterID=264|
+# Roc
+1,|MonsterID=311|
+# Slaad, green
+1,|MonsterID=180|
+# Squid, giant
+1,|MonsterID=159|
+# Tojanida, elder
+1,|MonsterID=356||BranchID=19||CR=76|
+# Triceratops (dinosaur)
+1,|MonsterID=358|
+# Vrock (demon)
+1,|MonsterID=373|
+# Yrthak
+1,|MonsterID=402|
+# Zelekhut (inevitable)
+1,|MonsterID=403|
+
+;CR_10
+# Animated object, Colossal
+1,|MonsterID=11||BranchID=1||CR=96|
+# Bebilith (demon)
+1,|MonsterID=42|
+# Brass Dragon (Young Adult)
+1,|MonsterID=57||BranchID=35||DragonAge=5||DragonType=6|
+# Couatl
+1,|MonsterID=82|
+# Formian, myrmarch
+1,|MonsterID=135||BranchID=5||CR=96|
+# Giant, fire
+1,|MonsterID=131|
+# Golem, clay
+1,|MonsterID=76|
+# Hydra, eleven-headed
+1,|MonsterID=210||BranchID=10||CR=7|
+# Hydra, nine-headed cryo-
+1,|MonsterID=210||BranchID=10||CR=5|
+# Hydra, nine-headed pyro-
+1,|MonsterID=210||BranchID=10||CR=5|
+# Monstrous scorpion, gargantuan
+1,|MonsterID=255||BranchID=12||CR=6|
+# Naga, guardian
+1,|MonsterID=185|
+# Rakshasa
+1,|MonsterID=300|
+# Red Dragon (Juvenile)
+1,|MonsterID=306||BranchID=33||DragonAge=4||DragonType=4|
+# Salamander, noble
+1,|MonsterID=315||BranchID=16||CR=3|
+# Silver Dragon (Juvenile)
+1,|MonsterID=328||BranchID=39||DragonAge=4||DragonType=10|
+# Slaad, gray
+1,|MonsterID=176|
+# White Dragon (Adult)
+1,|MonsterID=386||BranchID=34||DragonAge=6||DragonType=5|
+
+;CR_11
+# Barbed devil (hamatula)
+1,|MonsterID=31|
+# Black Dragon (Adult)
+1,|MonsterID=47||BranchID=30||DragonAge=6||DragonType=1|
+# Blue Dragon (Young Adult)
+1,|MonsterID=50||BranchID=31||DragonAge=5||DragonType=2|
+# Cauchemar (nightmare)
+1,|MonsterID=65|
+# Copper Dragon (Young Adult)
+1,|MonsterID=81||BranchID=37||DragonAge=5||DragonType=8|
+# Devourer
+1,|MonsterID=95|
+# Elemental, elder (any)
+1,|MonsterID=121||BranchID=4||CR=96|
+# Giant, cloud
+1,|MonsterID=78|
+# Gold Dragon (Juvenile)
+1,|MonsterID=170||BranchID=38||DragonAge=4||DragonType=9|
+# Golem, stone
+1,|MonsterID=342|
+# Green Dragon (Young Adult)
+1,|MonsterID=178||BranchID=32||DragonAge=5||DragonType=3|
+# Half-celestial, 9th-level human paladin
+1,|MonsterID=187|
+# Harpy archer
+1,|MonsterID=194|
+# Hill giant dire wereboar (lycanthrope)
+1,|MonsterID=202||BranchID=8||CR={Dice~1d3}|
+# Hezrou (demon)
+1,|MonsterID=198|
+# Hydra, ten-headed cryo-
+1,|MonsterID=210||BranchID=10||CR=6|
+# Hydra, ten-headed pyro-
+1,|MonsterID=210||BranchID=10||CR=6|
+# Hydra, twelve-headed
+1,|MonsterID=210||BranchID=10||CR=8|
+# Monstrous spider, Colossal
+1,|MonsterID=256||BranchID=13||CR=7|
+# Retriever (demon)
+1,|MonsterID=309|
+# Troll hunter
+1,|MonsterID=362|
+# Wraith, dread
+1,|MonsterID=106|
+
+;CR_12
+# Basilisk, Abyssal greater
+1,|MonsterID=5|
+# Black pudding, elder (ooze)
+1,|MonsterID=120|
+# Brass Dragon (Adult)
+1,|MonsterID=57||BranchID=35||DragonAge=6||DragonType=6|
+# Bronze Dragon (Young Adult)
+1,|MonsterID=58||BranchID=36||DragonAge=5||DragonType=7|
+# Displacer beast pack lord
+1,|MonsterID=285|
+# Frost worm
+1,|MonsterID=138|
+# Hydra, eleven-headed cryo-
+1,|MonsterID=210||BranchID=10||CR=7|
+# Hydra, eleven-headed pyro-
+1,|MonsterID=210||BranchID=10||CR=7|
+# Kolyarut (inevitable)
+1,|MonsterID=219|
+# Kraken
+1,|MonsterID=220|
+# Leonal (guardinal)
+1,|MonsterID=227|
+# Monstrous scorpion, Colossal
+1,|MonsterID=255||BranchID=12||CR=7|
+# Purple worm
+1,|MonsterID=297|
+# Roper
+1,|MonsterID=312|
+# White Dragon (Mature Adult)
+1,|MonsterID=386||BranchID=34||DragonAge=7||DragonType=5|
+
+;CR_13
+# Beholder
+1,|MonsterID=44|
+# Celestial charger (unicorn)
+1,|MonsterID=66|
+# Ghaele (eladrin)
+1,|MonsterID=144|
+# Glabrezu (demon)
+1,|MonsterID=166|
+# Giant, storm
+1,|MonsterID=343|
+# Golem, iron
+1,|MonsterID=216|
+# Green Dragon (Adult)
+1,|MonsterID=178||BranchID=32||DragonAge=6||DragonType=3|
+# Hydra, twelve-headed cryo-
+1,|MonsterID=210||BranchID=10||CR=8|
+# Hydra, twelve-headed pyro-
+1,|MonsterID=210||BranchID=10||CR=8|
+# Ice devil (gelugon)
+1,|MonsterID=212|
+# Lich, 11th-level human wizard
+1,|MonsterID=229|
+# Red Dragon (Young Adult)
+1,|MonsterID=306||BranchID=33||DragonAge=5||DragonType=4|
+# Silver Dragon (Young Adult)
+1,|MonsterID=328||BranchID=39||DragonAge=5||DragonType=10|
+# Slaad, death
+1,|MonsterID=88|
+
+;CR_14
+# Archon, trumpet
+1,|MonsterID=364|
+# Astral deva (angel)
+1,|MonsterID=21|
+# Black Dragon (Mature Adult)
+1,|MonsterID=47||BranchID=30||DragonAge=7||DragonType=1|
+# Blue Dragon (Adult)
+1,|MonsterID=50||BranchID=31||DragonAge=6||DragonType=2|
+# Copper Dragon (Adult)
+1,|MonsterID=81||BranchID=37||DragonAge=6||DragonType=8|
+# Gold Dragon (Young Adult)
+1,|MonsterID=170||BranchID=38||DragonAge=5||DragonType=9|
+# Nalfeshnee (demon)
+1,|MonsterID=262|
+# Nightwing (nightshade)
+1,|MonsterID=269|
+# Umber hulk, truly horrid
+1,|MonsterID=363|
+# Werewolf lord (lycanthrope)
+1,|MonsterID=384||BranchID=26||CR={Dice~1d3}|
+
+;CR_15
+# Brass Dragon (Mature Adult)
+1,|MonsterID=57||BranchID=35||DragonAge=7||DragonType=6|
+# Bronze Dragon (Adult)
+1,|MonsterID=58||BranchID=36||DragonAge=6||DragonType=7|
+# Marut (inevitable)
+1,|MonsterID=241|
+# Mummy lord
+1,|MonsterID=260|
+# Red Dragon (Adult)
+1,|MonsterID=306||BranchID=33||DragonAge=6||DragonType=4|
+# Silver Dragon (Adult)
+1,|MonsterID=328||BranchID=39||DragonAge=6||DragonType=10|
+# Vampire, half-elf Mnk 9/Shd 4
+1,|MonsterID=368|
+# White Dragon (Old)
+1,|MonsterID=386||BranchID=34||DragonAge=8||DragonType=5|
+
+;CR_16
+# Archon, hound hero
+1,|MonsterID=208|
+# Black Dragon (Old)
+1,|MonsterID=47||BranchID=30||DragonAge=8||DragonType=1|
+# Blue Dragon (Mature Adult)
+1,|MonsterID=50||BranchID=31||DragonAge=7||DragonType=2|
+# Copper Dragon (Mature Adult)
+1,|MonsterID=81||BranchID=37||DragonAge=7||DragonType=8|
+# Gold Dragon (Adult)
+1,|MonsterID=170||BranchID=38||DragonAge=6||DragonType=9|
+# Green Dragon (Mature Adult)
+1,|MonsterID=178||BranchID=32||DragonAge=7||DragonType=3|
+# Horned devil (cornugon)
+1,|MonsterID=205|
+# Golem, greater stone
+1,|MonsterID=342|
+# Nightwalker (nightshade)
+1,|MonsterID=268|
+# Planetar (angel)
+1,|MonsterID=292|
+
+;CR_17
+# Aboleth mage
+1,|MonsterID=3|
+# Brass Dragon (Old)
+1,|MonsterID=57||BranchID=35||DragonAge=8||DragonType=6|
+# Bronze Dragon (Mature Adult)
+1,|MonsterID=58||BranchID=36||DragonAge=7||DragonType=7|
+# Formian, queen
+1,|MonsterID=135||BranchID=5||CR=100|
+# Giant, frost jarl
+1,|MonsterID=137|
+# Marilith (demon)
+1,|MonsterID=240|
+# Mind flayer sorcerer
+1,|MonsterID=249|
+# White Dragon (Very Old)
+1,|MonsterID=386||BranchID=34||DragonAge=9||DragonType=5|
+
+;CR_18
+# Black Dragon (Very Old)
+1,|MonsterID=47||BranchID=30||DragonAge=9||DragonType=1|
+# Blue Dragon (Old)
+1,|MonsterID=50||BranchID=31||DragonAge=8||DragonType=2|
+# Green Dragon (Old)
+1,|MonsterID=178||BranchID=32||DragonAge=8||DragonType=3|
+# Nightcrawler (nightshade)
+1,|MonsterID=265|
+# Red Dragon (Mature Adult)
+1,|MonsterID=306||BranchID=33||DragonAge=7||DragonType=4|
+# Silver Dragon (Mature Adult)
+1,|MonsterID=328||BranchID=39||DragonAge=7||DragonType=10|
+# White Dragon (Ancient)
+1,|MonsterID=386||BranchID=34||DragonAge=10||DragonType=5|
+
+;CR_19
+# Black Dragon (Ancient)
+1,|MonsterID=47||BranchID=30||DragonAge=10||DragonType=1|
+# Blue Dragon (Very Old)
+1,|MonsterID=50||BranchID=31||DragonAge=9||DragonType=2|
+# Brass Dragon (Very Old)
+1,|MonsterID=57||BranchID=35||DragonAge=9||DragonType=6|
+# Bronze Dragon (Old)
+1,|MonsterID=58||BranchID=36||DragonAge=8||DragonType=7|
+# Copper Dragon (Old)
+1,|MonsterID=81||BranchID=37||DragonAge=8||DragonType=8|
+# Gold Dragon (Mature Adult)
+1,|MonsterID=170||BranchID=38||DragonAge=7||DragonType=9|
+# Green Dragon (Very Old)
+1,|MonsterID=178||BranchID=32||DragonAge=9||DragonType=3|
+# White Dragon (Wyrm)
+1,|MonsterID=386||BranchID=34||DragonAge=11||DragonType=5|
+
+;CR_20
+# Balor (demon)
+1,|MonsterID=30|
+# Black Dragon (Wyrm)
+1,|MonsterID=47||BranchID=30||DragonAge=11||DragonType=1|
+# Brass Dragon (Ancient)
+1,|MonsterID=57||BranchID=35||DragonAge=10||DragonType=6|
+# Bronze Dragon (Very Old)
+1,|MonsterID=58||BranchID=36||DragonAge=9||DragonType=7|
+# Copper Dragon (Very Old)
+1,|MonsterID=81||BranchID=37||DragonAge=9||DragonType=8|
+# Pit fiend (devil)
+1,|MonsterID=290| 
+# Red Dragon (Old)
+1,|MonsterID=306||BranchID=33||DragonAge=8||DragonType=4|
+# Silver Dragon (Old)
+1,|MonsterID=328||BranchID=39||DragonAge=8||DragonType=10|
+# Tarrasque
+1,|MonsterID=348|
+
+;CR_21
+# Blue Dragon (Ancient)
+1,|MonsterID=50||BranchID=31||DragonAge=10||DragonType=2|
+# Brass Dragon (Wyrm)
+1,|MonsterID=57||BranchID=35||DragonAge=11||DragonType=6|
+# Gold Dragon (Old)
+1,|MonsterID=170||BranchID=38||DragonAge=8||DragonType=9|
+# Green Dragon (Ancient)
+1,|MonsterID=178||BranchID=32||DragonAge=10||DragonType=3|
+# Red Dragon (Very Old)
+1,|MonsterID=306||BranchID=33||DragonAge=9||DragonType=4|
+# Silver Dragon (Very Old)
+1,|MonsterID=328||BranchID=39||DragonAge=9||DragonType=10|
+# Titan
+1,|MonsterID=354|
+# White Dragon (Great Wyrm)
+1,|MonsterID=386||BranchID=34||DragonAge=12||DragonType=5|
+
+;CR_22
+# Copper Dragon (Ancient)
+1,|MonsterID=81||BranchID=37||DragonAge=10||DragonType=8|
+# Black Dragon (Great Wyrm)
+1,|MonsterID=47||BranchID=30||DragonAge=12||DragonType=1|
+# Bronze Dragon (Ancient)
+1,|MonsterID=58||BranchID=36||DragonAge=10||DragonType=7|
+# Gold Dragon (Very Old)
+1,|MonsterID=170||BranchID=38||DragonAge=9||DragonType=9|
+# Green Dragon (Wyrm)
+1,|MonsterID=178||BranchID=32||DragonAge=11||DragonType=3|
+
+;CR_23
+# Blue Dragon (Wyrm)
+1,|MonsterID=50||BranchID=31||DragonAge=11||DragonType=2|
+# Brass Dragon (Great Wyrm)
+1,|MonsterID=57||BranchID=35||DragonAge=12||DragonType=6|
+# Bronze Dragon (Wyrm)
+1,|MonsterID=58||BranchID=36||DragonAge=11||DragonType=7|
+# Copper Dragon (Wyrm)
+1,|MonsterID=81||BranchID=37||DragonAge=11||DragonType=8|
+# Red Dragon (Ancient)
+1,|MonsterID=306||BranchID=33||DragonAge=10||DragonType=4|
+# Silver Dragon (Ancient)
+1,|MonsterID=328||BranchID=39||DragonAge=10||DragonType=10|
+# Solar (angel)
+1,|MonsterID=333|
+
+;CR_24
+# Gold Dragon (Ancient)
+1,|MonsterID=170||BranchID=38||DragonAge=10||DragonType=9|
+# Green Dragon (Great Wyrm)
+1,|MonsterID=178||BranchID=32||DragonAge=12||DragonType=3|
+# Red Dragon (Wyrm)
+1,|MonsterID=306||BranchID=33||DragonAge=11||DragonType=4|
+# Silver Dragon (Wyrm)
+1,|MonsterID=328||BranchID=39||DragonAge=11||DragonType=10|
+
+;CR_25
+# Blue Dragon (Great Wyrm)
+1,|MonsterID=50||BranchID=31||DragonAge=12||DragonType=2|
+# Bronze Dragon (Great Wyrm)
+1,|MonsterID=58||BranchID=36||DragonAge=12||DragonType=7|
+# Copper Dragon (Great Wyrm)
+1,|MonsterID=81||BranchID=37||DragonAge=12||DragonType=8|
+# Gold Dragon (Wyrm)
+1,|MonsterID=170||BranchID=38||DragonAge=11||DragonType=9|
+
+;CR_26
+# Red Dragon (Great Wyrm)
+1,|MonsterID=306||BranchID=33||DragonAge=12||DragonType=4|
+# Silver Dragon (Great Wyrm)
+1,|MonsterID=328||BranchID=39||DragonAge=12||DragonType=10|
+
+;CR_27
+# Gold Dragon (Great Wyrm)
+1,|MonsterID=170||BranchID=38||DragonAge=12||DragonType=9|

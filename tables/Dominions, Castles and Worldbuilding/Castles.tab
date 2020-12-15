@@ -1,0 +1,127 @@
+# ------------------------------------------------------
+# Last Update: re-verified by Valminder Jan 10, 2012.
+# ------------------------------------------------------
+# ---------------------------------------------------
+# Last Update: modified by Valminder July 2010
+# ---------------------------------------------------
+#
+# Castles
+#
+# Descriptions of castles and keeps that
+# a party may encounter while travelling
+# through the countryside.
+#
+# HTML-formatted
+#
+# Copyright 1998 Bruce A. Gulke
+#
+# Modified by Valminder, Jan 2006.
+#    Adapted for TRSv5.
+#    I changed the "START" line.
+# Modified by Valminder, Sep 2006.
+#    Modified <br> and some <b>.
+# Modified by Kheferen, May 2008
+#    Modified to have a random readable readout.
+# Modified by Valminder, July 2010
+#    I added the "Castle Hauntings" to the TableOutput and modified the "Castle Hauntings" table.
+#
+
+%ParamTable%,0
+%ParamDiceRoll%,0
+%Description%,0
+%Count%,1
+%NumItems%,1
+%Dice%,0
+
+/OverrideRolls 1
+/OutputType HTML
+
+# ---------------------------------------------------------
+# Parameters
+@ParamTable,1,View Format:,Screen Output,Table
+@ParamDiceRoll,2,Choose Dice Range if Output picked is Table?,1d4,1d6,1d10,1d20,1d100
+# ---------------------------------------------------------
+
+:Start
+1,{Status~by Bruce A. Gulke 1998; Valminder 2006,2008,2010; Kheferen 2008}
+_{If~%ParamTable% = 1 ? [ScreenOutput]/[TableOutput]}
+
+:ScreenOutput
+1,<b><u>Random Castle</u>: </b>
+# <br><br>
+_{Cap~[Generate]}<br>
+_[Castle Hauntings.Start2]
+
+:Start2
+1,[Generate]<br>[Castle Hauntings.Start2]
+
+:TableOutput
+1,
+_[NumItems]
+_|Count={Select~%ParamDiceRoll%,1,4,2,6,3,10,4,20,5,100,nil}|
+_|Count={Calc~(%Count% / %NumItems%)}|
+_<table border=1>
+_<tr align=center>
+_<th width=35><font size="2">Roll ({Param~ParamDiceRoll,%ParamDiceRoll%})</font></th>
+_<th width=150><font size="2">Random Castle Encounter</font></th>
+_</tr>
+_{Loop~%NumItems%,
+_<tr align=left>
+_<td align=center><font size="2">[DiceRoll]</font></td>
+_<td><font size="2">{Cap~[Generate]}[Castle Hauntings.Start3]</font></td>
+_</tr>
+_}
+
+:NumItems
+1,|NumItems=
+_{If~%ParamDiceRoll%=1?4}
+_{If~%ParamDiceRoll%=2?6}
+_{If~%ParamDiceRoll%=3?{Select~{1d4},1,5,2,5,3,5,4,10,nil}}
+_{If~%ParamDiceRoll%=4?{Select~{1d6},1,4,2,5,3,5,4,10,5,10,6,20,nil}}
+_{If~%ParamDiceRoll%=5?{Select~{1d6},1,5,2,10,3,20,4,20,5,25,6,50,nil}}
+_|
+
+:DiceRoll
+1,
+_{If~%Count%=1?|Dice+%Count%|%Dice%/
+_{Calc~1+%Dice%} - |Dice+%Count%|%Dice%}
+
+:Generate
+1-4,[Size][Condition]. Banners flying over the ramparts are of [~CoatsOfArms.Start]. <br>{Space~5}<u>Occupants</u>: [Noble Household Names.Start]
+5-7,[Size][Condition]. It is surrounded by [~Surroundings]. <br>{Space~5}<u>Occupants</u>: [Occupants]
+8-11,[Size][Condition]. <br>{Space~5}<u>Occupants</u>: None.
+12-14,[Size][Condition]. It is surrounded by [~Surroundings]. <br>{Space~5}<u>Occupants</u>: None.
+15-17,[Size][Condition]. It is surrounded by [~Surroundings]. Banners flying over the ramparts are of [~CoatsOfArms.Start]. <br>{Space~5}<u>Occupants</u>: [Noble Household Names.Start]
+18-20,[Size][Condition]. <br>{Space~5}<u>Occupants</u>: [Occupants]
+
+:Size
+1-2,a small keep
+3-5,a humble manor
+6-9,a small castle
+10-14,a good-sized castle
+15-17,a large citadel
+18-19,an impressive stronghold
+20,a mighty fortress
+
+:Condition
+1-9,
+10-14,, which has seen better days
+15-17,, apparently newly constructed
+18-20,, crumbling and in disrepair
+
+:Surroundings
+1-6,a moat
+7-15,a crenelated wall
+16-20,a many-towered wall
+
+:Occupants
+1,A bandit horde.
+2,A necromancer and his dark minions.
+3,A legion of orcs or other humanoids.
+4,A minor warlord and his soldiers.
+5,A band of mercenaries.
+6,A powerful enchantress and her servants.
+7,A vampire, his minions, and some of their victims.
+8,A local baronial garrison.
+9,A merchant prince and his servants.
+10,A slave trader, his men, and his "merchandise".

@@ -1,0 +1,92 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder Feb 28, 2006.
+# ---------------------------------------------------
+#
+##########################################################################
+## KingList                                                             ##
+##                                                                      ##
+## This table is a utility table for Roman Numerals. Currently the only	##
+## function implemented is 'Convert' which converts a number to roman   ##
+## numeral notation.                                                    ##
+##                                                                      ##
+## Note that this function currently has a limit of converting numbers  ##
+## than 1,000. If this limit is exceeded, the user will get the error   ##
+## text  *RomanNumerals.Convert: Conversion Limit Exceeded*             ##
+##                                                                      ##
+## The algorithm works digit by digit, and is not sophisticated enough  ##
+## to	render 999 as IC instead of CMXCIX. The conversion that this    ##
+## algorithm provides is correct, if not elegant.                       ##
+##                                                                      ##
+##	Written by Steve Davies                                         ##
+##                                                                      ##
+##########################################################################
+
+
+##########################################################################
+## VARIABLES                                                            ##
+##                                                                      ##
+## RomanNumber: This holds the number to be converted, typically passed	##
+##              as a parameter.                                         ##
+## Digit: Working variable to hold the original number so it can be     ##
+##        restored when the group completes.                            ##
+##                                                                      ##
+##########################################################################
+
+%RomanNumber%,NAN
+%Digit%,0
+
+##########################################################################
+## CONSTANTS                                                            ##
+##                                                                      ##
+## RN1:	The string of Roman numerals, parsed for 1s digit               ##
+## RN10:	The string of Roman numerals, parsed for 10s digit      ##
+## RN100:	The string of Roman numerals, parsed for the 100s digit	##
+##                                                                      ##
+##########################################################################
+
+# Modified by Valminder July 2003
+#    I added an Input function to make it easier to be used.
+#
+# Modified by Valminder, Feb 2006.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+#
+
+# this works with Trim~
+%RN1%,     I    II   III  IV   V    VI   VII  VIII IX   X    $
+%RN10%,     X    XX   XXX  XL   L    LX   LXX  LXXX XC   C    $
+%RN100%,     C    CC   CCC  CD   D    DC   DCC  DCCC CM   M    $
+
+@RomanNumber,NAN,Enter the number to convert to Roman Numerals:
+
+:Start
+1,{Input~RomanNumber,Enter the number to be converted (max 1000),0}
+_[Convert]
+
+;StartOld
+1,{If~%RomanNumber%=NAN?[Introduction]/[Convert]}
+
+;Introduction
+1,This is a utility Table designed to be called from other Tables and Groups.
+_The Groups currently implemented are:<BR>
+_Convert(Number to Convert):  Converts a number to a string of roman numerals.
+_Current implementation only allows numbers less than 1,000.
+
+;Convert
+1,{If~%RomanNumber%<0?[Error]/[Convert2]}
+
+;Convert2
+1,{If~%RomanNumber%>1000?[Error]/[Convert3]}
+
+;Convert3
+1,|Digit=%RomanNumber%|
+_{Trim~{Mid~5,{Calc~1+5*(%RomanNumber%\100)},%RN100%}}
+_|RomanNumber={Calc~(%RomanNumber%-(100*(%RomanNumber%\100)))}|
+_{If~%RomanNumber%>0?{Trim~{Mid~5,{Calc~1+5*(%RomanNumber%\10)},%RN10%}}}
+_|RomanNumber={Calc~%RomanNumber%-(10*(%RomanNumber%\10))}|
+_{If~%RomanNumber%>0?{Trim~{Mid~5,{Calc~1+5*%RomanNumber%},%RN1%}}}
+_|RomanNumber=%Digit%|
+
+;Error
+1,*RomanNumerals.Convert: Conversion Limit Exceeded*<br>
+_*Input number must be between 1 and 1000*

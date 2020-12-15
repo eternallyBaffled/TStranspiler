@@ -1,0 +1,816 @@
+# ---------------------------------------------------
+# Last Update: created by Valminder Jan 2015
+# ---------------------------------------------------
+#
+# CRs are calculted on this page https://legionofgeeks.net/encounter_calc.php
+#
+# Climate: Cold,Temperate,Warm,Underground
+# Terrain: Aquatic,Coastal,Desert,Extraplanar,Forest,Hill,Marsh,Mountain,Plain,Underground,Urban,
+#
+#          Abyss,Acheron,Arborea,Arcadia,Astral,Beastlands,Baator,Bytopia,Carceri,Celestia,Chaotic,
+#          Elemental Air,Elemental Earth,Elemental Fire,Elemental Water,Elysium,Ethereal,Evil,
+#          Gehenna,Good,Hades,Lawful,Limbo,Mechanus,Negative,Neutral,Nine Hells,Positive,Outlands,
+#          Pandemonium,Shadow,Ysgard
+# Abyss (Chaotic, Evil)       Acheron (Lawful)            Arborea (Chaotic, Good)
+# Arcadia (Lawful)            Astral (Neutral)            Beastlands (Good)
+# Bytopia (Good)              Carceri (Evil)              Celestia (Good, Lawful)
+# Elemental Air / Elemental Earth / Elemental Fire / Elemental Water
+# Elysium (Good, Positive)    Ethereal (Neutral)          Gehenna (Evil)
+# Hades (Evil)                Limbo (Air, Chaotic, Earth, Fire, Water)
+# Mechanus (Lawful)           Negative                    Nine Hells (Evil, Lawful)
+# Positive                    Outlands (Neutral)          Pandemonium (Chaotic)
+# Shadow (Neutral)            Ysgard (Chaotic, Positive)
+
+#
+# ADD IN COMPLETE TABLE
+# Except where noted otherwise, assume a Spot check (DC 15) is required to notice many of these hazards. A further 
+# Knowledge (nature), Craft (alchemy), Survival, Bardic Knowledge, etc., check (DC 15) is required to properly identify 
+# the hazard.
+#
+
+#
+# WORLD: Apocalypse, Future, Modern
+#
+
+/OverRideRolls 1
+
+# --- Common Variables ---
+%CRM%,0
+%CRSearch%,0
+%End%,0
+%EndCR%,0
+%Loop%,0
+%LoopCRM%,0
+%Temp%,0
+%Temp2%,0
+%Temp3%,0
+%Temp4%,0
+%Temp5%,0
+%Temp6%,0
+%Temp7%,0
+%Temp8%,0
+%TempBook%,0
+
+# --- Hazards ---
+%AL%,
+%Book%,0
+%Book2%,0
+%Book3%,0
+%Book4%,0
+%Book5%,0
+%Env%,Any Climate! Any Terrain
+%HazardDesc%,0
+%HazardLink%,0
+%HazardName%,0
+%Note%,0
+%RandomSpells%,0
+%T%,0
+%Type%,0
+%World%,0
+
+# --- Parameters ---
+%Bonus0Level%,0
+%CRNeeded%,0
+%TestTable%,0
+
+@CRNeeded,1,Enter the CR needed --- FOR EXTERNAL USE ONLY ---
+@Bonus0Level,1,OPTIONAL: Bonus 0-level spells based on Prime Attribute? (same as 1st-level spells),Yes,No
+@TestTable,1,DO NOT MODIFY PERMANENTLY --- Only to test the table ---,Yes,No
+
+:Start
+1,{Status~Valminder 2015}
+_[Start2=%TestTable%]
+
+:Start2
+1,{Msg~This will only test the hazards entries to try to show you any error.}
+_[Generate]
+2,
+
+:Generate
+1,|EndCR=1||LoopCRM=1|[SetData]
+
+:SetData
+1,{If~%EndCR%=1?
+_|CRM=[SetCRM=%LoopCRM%]|
+_|LoopCRM+1|
+_|End=1||Loop=1|
+_{If~%TestTable%=1?<hr>----- CR%CRM% -----<br>}
+_[AddData]
+_[SetData]
+_}
+
+;SetCRM
+#1,101
+#1,102
+#1,103
+#1,104
+#1,105
+#1,106
+1,0
+1,1
+1,2
+1,3
+1,4
+1,5
+1,6
+1,7
+1,8
+1,9
+1,10|EndCR=0|
+#1,11
+#1,12
+#1,13
+#1,14
+#1,15|EndCR=0|
+
+:AddData
+1,{If~%End%=1?
+_[ResetHVar]|HazardName=[HazardsCR%CRM%=%Loop%]|
+_{If~%TestTable%=1?- {Color~DarkBlue,%HazardName%}<br>}
+_{If~{And~%TestTable%=1,%HazardDesc%!=0}=1?{Space~5}%HazardDesc%<br>}
+_{If~{And~%TestTable%=1,%HazardLink%!=0}=1?{Space~5}[ShowLink]<br>}
+_|Loop+1|[AddData]
+_}
+
+:ShowLink 
+1,{IIf~{Or~{Find~1,www,%HazardLink%}>0,{Find~1,http,%HazardLink%}>0}=1?
+# Open in a new window
+_<a href="%HazardLink%" TARGET="_blank">%HazardLink%</a>
+_:<A HREF="%HazardLink%">%HazardLink%</A>
+_}
+
+:ResetHVar
+1,|HazardName=0||Book=0||Book2=0||Book3=0||Book4=0||Book5=0||Type=0||Note=0|
+_|Env=Any Climate! Any Terrain||T=6!5!5!5||AL=None||RandomSpells=0||World=0|
+_|HazardDesc=0||HazardLink=0|
+
+# ------------------------------------------------------------------------------------------------------
+# Will search through a specific table and output a hazard in "ENC Ultimate Random Encounter.tab"
+
+:RollHazard
+1,|End=1|[ResetHVar]
+_{If~{Used~HazardsCR%CRNeeded%,0}!=1?|HazardName=[HazardsCR%CRNeeded%]|/|HazardName=TableLocked|}
+_%End%!!-!!%HazardName%!!-!!%CRNeeded%!!-!!%Book%!!-!!%Book2%!!-!!%Book3%!!-!!%Book4%!!-!!%Book5%!!-!!%Type%!!-!!%Note%!!-!!%Env%!!-!!%T%!!-!!%AL%!!-!!%RandomSpells%!!-!!%World%!!-!!%HazardDesc%!!-!!%HazardLink%
+
+# ------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------
+
+:1d2
+1,{Dice~1d2}
+
+:1d3
+1,{Dice~1d3}
+
+:1d4
+1,{Dice~1d4}
+
+:1d4x10
+1,{Dice~1d4*10}
+
+:1d6
+1,{Dice~1d6}
+
+:1d6x5
+1,{Dice~1d6*5}
+
+:1d6x10
+1,{Dice~1d6*10}
+
+:1d6x20
+1,{Dice~1d6*20}
+
+:1d6x100
+1,{Dice~1d6*100}
+
+:1d6x500
+1,{Dice~1d6*500}
+
+:1d8
+1,{Dice~1d8}
+
+:1d10
+1,{Dice~1d10}
+
+:1d10x1d8
+1,{Calc~{Dice~1d10}*{Dice~1d8}}
+
+:1d10x10
+1,{Dice~1d10*10}
+
+:1d10x500
+1,{Dice~1d10*500}
+
+:1d100
+1,{Dice~1d100}
+
+:1d100x1000
+1,{Dice~1d100*1000}
+
+:1d100x10000
+1,{Dice~1d100*10000}
+
+:1d100x20000
+1,{Dice~1d100*20000}
+
+:1d20
+1,{Dice~1d20}
+
+:1d20p5
+1,{Dice~1d20+5}
+
+:2d3_1
+1,{Dice~2d3-1}
+
+:2d4
+1,{Dice~2d4}
+
+:2d4_1
+1,{Dice~2d4-1}
+
+:2d4x10
+1,{Dice~2d4*10}
+
+:2d6
+1,{Dice~2d6}
+
+:2d6x100
+1,{Dice~2d6*100}
+
+:3d4
+1,{Dice~3d4}
+
+:3d6
+1,{Dice~3d6}
+
+:3d10
+1,{Dice~3d10}
+
+:4d4
+1,{Dice~4d4}
+
+:4d6
+1,{Dice~4d6}
+
+:4d10
+1,{Dice~4d10}
+
+:5d10
+1,{Dice~5d10}
+
+:6d6
+1,{Dice~6d6}
+
+:6d10
+1,{Dice~6d10}
+
+:7d10
+1,{Dice~7d10}
+
+:8d6
+1,{Dice~8d6}
+
+:8d10
+1,{Dice~8d10}
+
+:9d10
+1,{Dice~9d10}
+
+:10d6
+1,{Dice~10d6}
+
+:12d6
+1,{Dice~12d6}
+
+:14d6
+1,{Dice~14d6}
+
+:16d6
+1,{Dice~16d6}
+
+:18d6
+1,{Dice~18d6}
+
+:20d6
+1,{Dice~20d6}
+
+# -------------------------------------------- HAZARDS -------------------------------------------------
+# Monster Entry Informations:
+#   -|Note=TO ADVANCE| = This hazard needs to be modified.
+#
+
+# Climate: Cold,Temperate,Warm,Underground
+# Terrain: Aquatic,Coastal,Desert,Extraplanar,Forest,Hill,Marsh,Mountain,Plain,Underground,Urban,
+
+#|Book=0||Type=0||Note=0||Env=Any Climate! Any Terrain||T=6!5!5!5||AL=None||RandomSpells=0||World=0||HazardDesc=0|
+#|Book=Val_Web||Type=0||Note=0||Env=Any Climate! Any Terrain||T=6!5!5!5||AL=None||RandomSpells=0||World=0||HazardDesc=0|
+#|Book=SRD||Type=0||Note=0||Env=Any Climate! Any Terrain||T=6!5!5!5||AL=None||RandomSpells=0||World=0||HazardDesc=0|
+#|Book=d20pfsrd||Type=0||Note=0||Env=Any Climate! Any Terrain||T=6!5!5!5||AL=None||RandomSpells=0||World=0||HazardDesc=0||HazardLink=0|
+#1,|Book=d20pfsrd||Type=0||Note=0||Env=Any Climate! Any Terrain||T=6!5!5!5||AL=None||RandomSpells=0||World=0||HazardDesc=0||HazardLink=0|
+#1,|Book=12HazDng1||Type=0||Env=Underground||HazardDesc=0||HazardLink=[Permanent_Variables.ShowLink(12HazDng1_Link)]|
+
+;Hazard_Any
+5,Cliff|Book=SRD||Type=Environmental! Mundane||Env=Any Climate! Desert! Plain! Forest! Hill! Mountain||HazardDesc=({Calc~20+{Dice~1d6*10}}' high, blocks further progress. If the area is heavily overgrown, those failing a Perception/Spot check (DC 15) must make a Reflex save DC20 or fall over the edge.|
+10,Cold Snap|Book=SRD||Type=Environmental! Weather||Env=Any Climate! Any Terrain||HazardDesc=Lower temperature by -10F (-5C).|
+1,Earthquake|Book=SRD||Type=Environmental! Weather||Env=Any Climate! Any Terrain||HazardDesc=Duration: [~1d20p5] rounds. Intensity (1d10): [~1d10]. Structures: 5+ intensity points of damage (minus Hardness). All creatures standing must make a Balance check (DC 10 + intensity) each round or fall over; those with four legs get +4 to the save, and those with 6 or more need not save.|
+10,Falling Trees|Book=d20pfsrd||Type=Living! Plant! Mundane||Env=Any Climate! Forest||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/environmental-hazards/falling-trees-cr|
+1,Flood|Book=SRD||Type=Environmental! Weather||Env=Temperate! Warm! Forest! Hill! Marsh! Mountain! Plain! Underground||HazardDesc=[ENC Random Terrain.Flood]|
+5,Fog Bank|Book=SRD||Type=Environmental! Weather||HazardDesc=Form of a low-lying cloud or a mist rising from the ground, fog obscures all sight, including darkvision, beyond 5'. Creatures 5' away have concealment.|
+3,Grassfire|Type=Environmental! Mundane||Env=Any Climate! Plain||HazardDesc=MV: [~1d6x10]'/round. Burns in an area for 1 minute before moving on. Those caught within the fire zone take 2d6 ([~2d6]) damage/round and risk being set afire.{CR~}{Space~5}{Bold~Catching on Fire:} Characters engulfed in a forest fire are at risk of catching on fire when the leading edge of the fire overtakes them, and are then at risk once per minute thereafter (see Catching on Fire, page 303).|
+10,Heat Wave|Book=SRD||Type=Environmental! Weather||HazardDesc=Raise temperature by +10F (+5C).|
+1,Hurricane|Book=SRD||Type=Environmental! Weather||HazardDesc=Wind: 75-174 mph (120-280 kph). Duration: [~1d6] days, but their major impact on characters will come in a 24-to-48-hour period when the center of the storm moves through their area.
+_{CR~}{Space~5}Hurricanes are accompanied by floods. Most adventuring activity is impossible under such conditions.
+_{CR~}{Space~5}Bring down branches, often fell trees. All flames are extinguished. Ranged weapon: {Color~Red,impossible}. Siege weapons: {Color~Red,-8 attack rolls}. Perception (Listen): {Color~Red,Impossible}, all you can hear is the roaring of the wind..
+_{CR~}{Space~5}Fort DC20 = {Bold~Medium or Smaller:} Blown away, {Bold~Large:} Knocked down, {Bold~ Huge:} Checked, {Bold~Gargantuan or Colossal:} None.
+_{CR~}{Space~5}{Bold~Blown Away:} On the ground: knocked prone and rolled [~1d4×10]', taking 1d4 nonlethal damage/10' feet (10'= [~1d4], 20'= [~2d4], 30'= [~3d4], 40'= [~4d4]). Flying: blown back [~2d6×10]' and take [~2d6] nonlethal damage due to battering and buffeting.
+_{CR~}{Space~5}{Bold~Checked:} Unable to move forward against the force of the wind. Flying creatures are blown back [~1d6×5]'.
+_{CR~}{Space~5}{Bold~Knocked Down:} Knocked prone by the force of the wind. Flying creatures are instead blown back [~1d6×10]'.
+_{CR~}{Space~5}[ENC Random Terrain.Flood]|
+3,Lightning|Book=d20pfsrd||Type=Environmental! Mundane||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/environmental-hazards/lightning-cr|
+2,Oasis|Book=SRD||Type=Environmental! Mundane||Env=Any Climate! Desert||HazardDesc=Finding a reliable watering hole is a rare occurrence. The water is {If~{Dice~1d10}=1?poisoned/safe to drink{If~{Dice~1d10}>=6? and guarded by some local sentient race.{CR~}[ENC Ultimate Random Encounter.DailyENC_Encounter=2]}}|
+2,Quicksand|Book=SRD||Type=Environmental! Mundane||Env=Any Climate! Desert! Marsh||HazardDesc=[ENC Random Terrain.Quicksand]|
+5,Sinkholes|Book=SRD||Type=Environmental! Mundane||Env=Any Climate! Desert! Plain||HazardDesc=The land in the area is a thin crust over a series of hollowed caverns.
+_{CR~}Every minute while in the area, there is a 10&#37; ([~1d100]&#37;) chance of breaking through, requiring a Reflex save (DC 15) to avoid tumbling down 10-20 feet.|
+10,Snowstorm|Book=SRD||Type=Environmental! Mundane||HazardDesc=Wind: 30-50 mph (50-80 kph). Duration: [~2d4_1] hours.
+_{CR~}{Space~5}Automatically extinguish candles, torches, and similar unprotected flames. Protected flames (ex: lantern) dance wildly and have a 50&#37; ([~1d100]&#37;) chance to extinguish these lights. Ranged weapon: {Color~Red,impossible}. Siege weapons: {Color~Red,-4 attack rolls}. Perception (visibility): {Color~Red,-8}, 1/4 range.
+_{CR~}{Space~5}Fort DC15 = {Bold~Tiny or Smaller:} Blown away, {Bold~Small:} Knocked down, {Bold~ Medium:} Checked, {Bold~Large to Colossal:} None.
+_{CR~}{Space~5}{Bold~Blown Away:} On the ground: knocked prone and rolled [~1d4×10]', taking 1d4 nonlethal damage/10' feet (10'= [~1d4], 20'= [~2d4], 30'= [~3d4], 40'= [~4d4]). Flying: blown back [~2d6×10]' and take [~2d6] nonlethal damage due to battering and buffeting.
+_{CR~}{Space~5}{Bold~Checked:} Unable to move forward against the force of the wind. Flying creatures are blown back [~1d6×5]'.
+_{CR~}{Space~5}{Bold~Knocked Down:} Knocked prone by the force of the wind. Flying creatures are instead blown back [~1d6×10]'.
+_{CR~}{Space~5}{Bold~Snow:} [~1d6]".
+_|
+10,Storm|Book=SRD||Type=Environmental! Mundane||HazardDesc=Wind: 30-50 mph (50-80 kph). Duration: [~2d4_1] hours.
+_{CR~}{Space~5}Automatically extinguish candles, torches, and similar unprotected flames. Protected flames (ex: lantern) dance wildly and have a 50&#37; ([~1d100]&#37;) chance to extinguish these lights. Ranged weapon: {Color~Red,-4}. Perception (visibility): {Color~Red,-4}.
+_{CR~}{Space~5}Fort DC15 = {Bold~Tiny or Smaller:} Blown away, {Bold~Small:} Knocked down, {Bold~ Medium:} Checked, {Bold~Large to Colossal:} None.
+_{CR~}{Space~5}{Bold~Blown Away:} On the ground: knocked prone and rolled [~1d4×10]', taking 1d4 nonlethal damage/10' feet (10'= [~1d4], 20'= [~2d4], 30'= [~3d4], 40'= [~4d4]). Flying: blown back [~2d6×10]' and take [~2d6] nonlethal damage due to battering and buffeting.
+_{CR~}{Space~5}{Bold~Checked:} Unable to move forward against the force of the wind. Flying creatures are blown back [~1d6×5]'.
+_{CR~}{Space~5}{Bold~Knocked Down:} Knocked prone by the force of the wind. Flying creatures are instead blown back [~1d6×10]'.
+_|
+10,Tainted Water|Book=d20pfsrd||Type=Environmental! Mundane||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/environmental-hazards/tainted-water-cr|
+10,Thunderstorm|Book=SRD||Type=Environmental! Mundane||HazardDesc=Wind: 30-50 mph (50-80 kph). Duration: [~2d4_1] hours.
+_{CR~}{Space~5}Automatically extinguish candles, torches, and similar unprotected flames. Protected flames (ex: lantern) dance wildly and have a 50&#37; ([~1d100]&#37;) chance to extinguish these lights. Ranged weapon: {Color~Red,impossible}. Siege weapons: {Color~Red,-4 attack rolls}. Perception (visibility): {Color~Red,-8}, 1/4 range.
+_{CR~}{Space~5}Fort DC15 = {Bold~Tiny or Smaller:} Blown away, {Bold~Small:} Knocked down, {Bold~ Medium:} Checked, {Bold~Large to Colossal:} None.
+_{CR~}{Space~5}{Bold~Blown Away:} On the ground: knocked prone and rolled [~1d4×10]', taking 1d4 nonlethal damage/10' feet (10'= [~1d4], 20'= [~2d4], 30'= [~3d4], 40'= [~4d4]). Flying: blown back [~2d6×10]' and take [~2d6] nonlethal damage due to battering and buffeting.
+_{CR~}{Space~5}{Bold~Checked:} Unable to move forward against the force of the wind. Flying creatures are blown back [~1d6×5]'.
+_{CR~}{Space~5}{Bold~Knocked Down:} Knocked prone by the force of the wind. Flying creatures are instead blown back [~1d6×10]'.
+_{CR~}{Space~5}{Bold~Lightning:} Can pose a hazard to characters without proper shelter (especially those in metal armor). 1 bolt/minute for a 1-hour period at the center of the storm. Bolt: [1d10x1d8] dmg.
+_|
+1,Volcanic Eruption|Book=SRD||Type=Environmental! Mundane||Env=Any Climate! Mountain||HazardDesc=Generally fairly rare, and active volcanoes are well-known.
+_{CR~}{Space~5}Those within a few miles of an eruption must deal with earthquakes, falling ash, clouds of toxic gas (as a cloudkill spell, Fort 1/2 DC15 [~1d4] Con), giant cinders falling from above, and possibly molten lava.
+_{CR~}{Space~5}{Bold~Earthquake:} Duration: [~1d20p5] rounds. Intensity (1d10): [~1d10]. Structures: 5+ intensity points of damage (minus Hardness). All creatures standing must make a Balance check (DC 10 + intensity) each round or fall over; those with four legs get +4 to the save, and those with 6 or more need not save.
+_|
+5,Waterspouts|Book=SRD||Type=Environmental! Mundane||Env=Any Climate! Aquatic||HazardDesc=Diaphenous twisters seen at sea that can damage sea vessels if it runs across them.
+_{CR~}{Space~5}Treat as a tornado, but with a Fort DC18, and only sweeping creatures and objects up for 1d4 ([~1d4]) rounds.
+_{CR~}{Space~5}{Bold~Tornado:} All flames are extinguished. All ranged attacks are impossible (even with siege weapons), as are Listen checks. 
+_{CR~}{Space~5}Instead of being blown away (see Table 3–24: Wind Effects), characters in close proximity to a tornado who fail their Fortitude saves are sucked toward the tornado. Those who come in contact with the actual funnel cloud are picked up and whirled around for 1d10 ([~1d10]) rounds, taking 6d6 ([~6d6]) damage/round, before being violently expelled (falling damage may apply).
+_{CR~}While a tornado’s rotational speed can be as great as 300 mph, the funnel itself moves forward at an average of 30 mph (roughly {Color~Brown,250'/round}). A tornado uproots trees, destroys buildings, and causes other similar forms of major destruction.
+_|
+1,Whirlpools|Book=SRD||Type=Environmental! Mundane||HazardDesc=Radius increment of 4+1d20' ({Bold~{Dice~1d20+4}'}). 
+_{CR~}{Space~5}At 5x this distance cratures move one increment towards it unless a Swim or Profession (sailor) check is made (DC 15).
+_{CR~}{Space~5}At 3x the radius increment: DC20.
+_{CR~}{Space~5}At 2x the radius increment: DC30.
+_{CR~}{Space~5}Within 1x increment: creature or vessel is sucked down to the bottom of the ocean, taking pressure and falling damage accordingly.|
+10,Windstorm|Book=SRD||Type=Environmental! Weather||HazardDesc=Wind: 51-74 mph (81-119 kph). Duration: [~1d6] hours.
+_{CR~}{Space~5}Powerful enough to bring down branches if not whole trees, automatically extinguish unprotected flames, 75 {Bold~percent} ([~1d100]) of blowing out protected flames, such as those of lanterns. Ranged weapon: {Color~Red,impossible}. Siege weapons: {Color~Red,-4 attack rolls}. Perception (Listen): {Color~Red,–8} due to the howling of the wind.
+_{CR~}{Space~5}Fort DC18 = {Bold~Small or Smaller:} Blown away, {Bold~Medium:} Knocked down, {Bold~Large or Huge:} Checked, {Bold~Gargantuan or Colossal:} None.
+_{CR~}{Space~5}{Bold~Blown Away:} On the ground: knocked prone and rolled [~1d4×10]', taking 1d4 nonlethal damage/10' feet (10'= [~1d4], 20'= [~2d4], 30'= [~3d4], 40'= [~4d4]). Flying: blown back [~2d6×10]' and take [~2d6] nonlethal damage due to battering and buffeting.
+_{CR~}{Space~5}{Bold~Checked:} Unable to move forward against the force of the wind. Flying creatures are blown back [~1d6×5]'.
+_{CR~}{Space~5}{Bold~Knocked Down:} Knocked prone by the force of the wind. Flying creatures are instead blown back [~1d6×10]'.
+_|
+#
+# A Dozen Hazards / 13 Hazards (Ronin Arts)
+10,Falling Trees|Book=12HazWil1||Type=Living! Plant! Mundane||Env=Any Climate! Forest||HazardLink=[Permanent_Variables.ShowLink(12HazWil1_Link)]|
+10,Rocky Ground|Book=12HazWil1||Type=Environmental! Mundane||Env=Any Climate! Any Terrain||HazardLink=[Permanent_Variables.ShowLink(12HazWil1_Link)]|
+10,Thorn Patch|Book=12HazWil1||Type=Living! Plant! Mundane||Env=Any Climate! Any Terrain||HazardLink=[Permanent_Variables.ShowLink(12HazWil1_Link)]|
+#
+# Misc
+1,Strange air coloration: The air has an unusual [~Miscellaneous.Color] tint{If~{Dice~1d2}=1? with an associated strange [~Miscellaneous.Odor] odor}. The effect is harmless unless the DM deems otherwise.
+1,Strange hush: An unnatural hush falls over the area; the wind does not blow, no animal sounds are heard, etc. The cause of this is left for the DM to determine.
+1,Supernatural climate/terrain: The group comes across a magically-produced environment, such as: water that flows uphill, a bottomless pit, a rock or mountain floating in midair, or a collection of smooth stone spires.
+1,Teleport zone: All within the area are subject to random teleportation at the DM’s whim. There is a noncumulative 10&#37; ([~ENC URE Hazards.1d100]&#37;) chance/10 minutes of this occurring, snatching up all creatures and their possessions.
+5,The group unknowingly comes into contact with a disease. Simple ailments such as the common cold or flu are most likely.
+1,Zone of confusion: An area of twisted passages, heavy undergrowth, etc. has been rendered more dangerous due to a faint magical aura that confuses the sense of
+_ direction of creatures traveling through it (-20 on Survival checks).
+
+;!HazardsCR0
+1,Bookworm (1/8)|Book=d20pfsrd||Type=Living! Vermin! Mundane||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/3rd-party-hazards/bookworm-1-8-tohc|
+1,Fog Bushes|Book=d20pfsrd||Type=Living! Plant! Mundane||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/environmental-hazards/fog-bushes-cr-7|
+1,Grabber Trees|Book=d20pfsrd||Type=Living! Plant||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/environmental-hazards/gorao-trees-cr|
+1,Leeches, Common|Book=d20pfsrd||Type=Living! Vermin! Mundane||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/environmental-hazards/leeches-common-cr|
+1,Leeches, Ghost (1/2)|Book=d20pfsrd||Type=Living! Vermin||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/environmental-hazards/leeches-ghost-leeches-cr-1-2|
+1,Monkey Trees|Book=d20pfsrd||Type=Living! Plant||Env=Warm! Forest||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/environmental-hazards/monkey-trees-cr|
+1,Phosphorescent Fungus|Book=SRD||Type=Living! Fungus! Mundane||HazardDesc=This strange underground fungus grows in clumps that look almost like stunted shrubbery. Drow elves cultivate it for food and light. It gives off a soft violet glow that illuminates underground caverns and passages as well as a candle does. Rare patches of fungus illuminate as well as a torch does.|
+1,Shrieker|Book=d20pfsrd||Type=Living! Fungus! Mundane||Env=Underground||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/environmental-hazards/shrieker-cr|
+1,Witchgrass (1/8)|Book=d20pfsrd||Type=Living! Plant||Env=Temperate! Warm! Any Terrain||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/3rd-party-hazards/witch-grass-cr-1-8-tohc|
+#
+# A Dozen Hazards / 13 Hazards (Ronin Arts)
+1,Door Moss|Book=12HazDng2||Type=Living! Fungus! Mundane||Env=Underground||HazardLink=[Permanent_Variables.ShowLink(12HazDng2_Link)]|
+1,Owl of Despair|Book=12HazWil1||Type=Magical! Curse||Env=Any Climate! Forest||HazardLink=[Permanent_Variables.ShowLink(12HazWil1_Link)]|
+1,Planar Mushrooms (NO Acidic attack)|Book=12HazDng2||Type=Living! Fungus||Env=Underground||HazardLink=[Permanent_Variables.ShowLink(12HazDng2_Link)]|
+1,Shadow Moss|Book=12HazWil1||Type=Living! Fungus||Env=Any Climate! Forest||HazardLink=[Permanent_Variables.ShowLink(12HazWil1_Link)]|
+1,Treasure-covered Floor|Book=12HazDra1||Type=Mundane||Env=Underground! Dragon's Lair||HazardLink=[Permanent_Variables.ShowLink(12HazDra1_Link)]|
+# All Hazards Great and Small (Silverthorne) AAGaS
+1,Healing Fungus|Book=AAGaS||Type=Living! Fungus! Mundane||Env=Any Climate! Forest! Marsh||HazardLink=[Permanent_Variables.ShowLink(AAGaS_Link)]|
+1,Witch Grass|Book=AAGaS||Type=Living! Plant! Mundane||Env=Temperate! Warm! Forest! Hill! Plain||HazardLink=[Permanent_Variables.ShowLink(AAGaS_Link)]|
+# Aquatic Hazards
+1,Driftwood Mold|Book=AqHaz||Type=Living! Fungus (Mold)! Magical||Env=Temperate! Warm! Aquatic||HazardLink=[Permanent_Variables.ShowLink(AqHaz_Link)]|
+1,Spell Sponge|Book=AqHaz||Type=Living! Plant! Magical||Env=Temperate! Warm! Aquatic||HazardLink=[Permanent_Variables.ShowLink(AqHaz_Link)]|
+1,|End=0|
+
+;!HazardsCR1
+1,Archer Bush|Book=0||Type=Living! Plant||HazardDesc=These bushes are more of a nuisance than anything else. They grow wild, quickly killing almost everything else that grows near them. The only plant capable of sustaining its life among archer bushes is the jupiter blood sucker and it is commonly found with them.{CR~}{Space~5}Some peasants or men of the woods occasionally hide treasures in the midst of many archer bushes. They simply shield themselves from the thorns by hiding behind a large makeshift shield, piece of wood or a clump or rocks, casting a handful of rocks at the bushes, entering the growth, hiding their valuables and then leaving the bushes before they have time to grow new thorns. Sometimes these bushes are used to hide openings in caves or other types of entranceways.{CR~}{Space~5}Archer bushes defend themselves by shooting small thorns at whatever disturbs them.{CR~}{Space~5}Archer bushes have a hardness of 2 and 4 hit points.{CR~}{Space~5}{Bold~Thorns (Ex):} The thorns of an archer bush grow along the branches of the plant and number in the thousands. The bush releases only the thorns on a branch that is disturbed. Any creature within 10' of a disturbed archer bush must make a Reflex save (DC 11) or be struck by several of these small, sharp thorns, taking 1d4 ([~1d4]) damage (10 thorns hit/point of damage taken). Any creature struck by the thorns will have a {Color~Red,–1 conditional modifier} until they are removed.{CR~}{Space~5}The small thorns work their way into the skin within one day, causing swelling and infections in 1d3 ([~1d3]) days unless the affected character makes a Fortitude save (DC 11). An infected character suffers a further {Color~Red,–1 conditional modifier} on all rolls for 1d6 ([~1d6]) days, at which time their body fights off the infection. A cure light wounds will cure the swelling and infections, but the thorns must be picked out by hand.{CR~}{Space~5}Thorn growth takes only 1 turn.|
+1,Bad Air|Book=d20pfsrd||Type=Environmental! Mundane||Env=Underground||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/environmental-hazards/bad-air-cr-1-or-4|
+1,Bulhorn Acadia|Book=d20pfsrd||Type=Living! Plant||Env=Warm! Forest||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/environmental-hazards/bullhorn-acacia-cr-1|
+1,Piercers|Book=d20pfsrd||Type=Living! Monster||Env=Underground||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/3rd-party-hazards/piercer-tohc|
+1,Poison Oak (slight exposure)|Book=d20pfsrd||Type=Living! Plant||Env=Temperate! Forest||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/environmental-hazards/poison-oak-cr-1-or-3|
+1,Treacherous Hillside|Book=d20pfsrd||Type=Environmental! Terrain! Mundane||Env=Any Climate! Hill||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/environmental-hazards/treacherous-hillside-cr-1|
+1,Vine Viper|Book=d20pfsrd||Type=Living! Monster||Env=Temperate! Warm! Forest||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/environmental-hazards/vine-viper-cr-1|
+1,Wirescreen|Book=d20pfsrd||Type=Living! Plant||Env=Warm! Any Terrain||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/3rd-party-hazards/wirescreen-cr-1|
+# Radiation (d20pfsrd) |HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/environmental-hazards/radiation|
+#
+# A Dozen Hazards / 13 Hazards (Ronin Arts)
+# 1,Dragon Scarabs (on a [~Creatures.DragonNoAge] ([~Creatures.Dragon Age={Dice~1d63+31}]; CR=1+ 1/10 HD (rounded up)|Book=12HazDra1||Type=Living! Fungus||Env=Underground||HazardLink=[Permanent_Variables.ShowLink(12HazDra1_Link)]|
+1,Acidic Sand Storm|Book=13HazFut1||Type=Environmental||Env=Temperate! Warm! Desert||World=Apocalypse||HazardLink=[Permanent_Variables.ShowLink(13HazFut1_Link)]|
+1,Boiling Pool (1x 5' square)|Book=12HazDra1||Type=Environmental! Terrain! Mundane||Env=Any Climate! Any Terrain! Red Dragon's Lair||HazardLink=[Permanent_Variables.ShowLink(12HazDra1_Link)]|
+1,Corrosive Pool|Book=13HazFut1||Type=Environmental||Env=Temperate! Warm! Desert||World=Apocalypse||HazardLink=[Permanent_Variables.ShowLink(13HazFut1_Link)]|
+1,Crumbling Stairs|Book=12HazDng2||Type=Mundane! Terrain! Mundane||Env=Underground! Urban||HazardLink=[Permanent_Variables.ShowLink(12HazDng2_Link)]|
+1,Destroyed Floor|Book=12HazDng2||Type=Mundane! Terrain! Mundane||Env=Underground! Urban||HazardLink=[Permanent_Variables.ShowLink(12HazDng2_Link)]|
+1,Dragoncorpse Trap|Book=12HazDra1||Type=Magical||Env=Any Climate! Any Terrain! Dragon' Lair||HazardLink=[Permanent_Variables.ShowLink(12HazDra1_Link)]|
+1,Falling Refuse ([Falling Refuse])|Book=12HazCit1||Type=Mundane||Env=Urban||HazardLink=[Permanent_Variables.ShowLink(12HazCit1_Link)]|
+1,Freezing Pool (1x 5' square)|Book=12HazDra1||Type=Environmental! Terrain! Mundane||Env=Cold! Any Terrain! White Dragon's Lair||HazardLink=[Permanent_Variables.ShowLink(12HazDra1_Link)]|
+1,Glass Rains|Book=13HazFut1||Type=Environmental||Env=Any Climate! Any Terrain||World=Apocalypse||HazardLink=[Permanent_Variables.ShowLink(13HazFut1_Link)]|
+1,Gravitational Fog|Book=13HazFut2||Type=Environmental! Fog||World=Future||HazardLink=[Permanent_Variables.ShowLink(13HazFut2_Link)]|
+1,Junkyard Moss|Book=13HazFut1||Type=Living! Fungus||Env=Any Climate! Any Terrain||World=Apocalypse||HazardLink=[Permanent_Variables.ShowLink(13HazFut1_Link)]|
+1,Loose Sewer Cover|Book=12HazCit1||Type=Mundane! Mundane||Env=Urban||HazardLink=[Permanent_Variables.ShowLink(12HazCit1_Link)]|
+1,Merchant's Mold|Book=12HazCit1||Type=Living! Fungus (Mold)||Env=Any Climate! Any Terrain! Urban||HazardLink=[Permanent_Variables.ShowLink(12HazCit1_Link)]|
+1,Pit Mushrooms (NO Acidic attack)|Book=12HazDng2||Type=Living! Fungus||Env=Underground||HazardLink=[Permanent_Variables.ShowLink(12HazDng2_Link)]|
+1,Shelter Growth|Book=13HazFut1||Type=Living! Plant||Env=Underground||World=Apocalypse||HazardLink=[Permanent_Variables.ShowLink(13HazFut1_Link)]|
+1,Stick Piercer|Book=12HazWil1||Type=Living! Monster||Env=Temperate! Warm! Forest||HazardLink=[Permanent_Variables.ShowLink(12HazWil1_Link)]|
+1,Wasteland Rains ([~Wasteland Rain])|Book=13HazFut1||Type=Environmental||Env=Any Climate! Any Terrain||World=Apocalypse||HazardLink=[Permanent_Variables.ShowLink(13HazFut1_Link)]|
+# All Hazards Great and Small (Silverthorne) AAGaS
+1,Bonepicker Scarabs (10 square ft.)|Book=AAGaS||Type=Living! Vermin||Env=Urban! Underground||HazardLink=[Permanent_Variables.ShowLink(AAGaS_Link)]|
+1,Crystal of the Shattered Mind|Book=AAGaS||Type=Living! Mineral! Magical||Env=Any Climate! Any Terrain (On dead bodies)||HazardLink=[Permanent_Variables.ShowLink(AAGaS_Link)]|
+1,Death's Bloom|Book=AAGaS||Type=Living! Fungus (Mushroom)! Mundane||Env=Any Climate! Any Terrain (On dead bodies)||HazardLink=[Permanent_Variables.ShowLink(AAGaS_Link)]|
+# Aquatic Hazards
+1,Planar Darkness|Book=AqHaz||Type=Environmental! Fog! Magical||Env=Underground! Aquatic||HazardLink=[Permanent_Variables.ShowLink(AqHaz_Link)]|
+1,Sea Fungus|Book=AqHaz||Type=Living! Fungus! Mundane||Env=Underground! Aquatic||HazardLink=[Permanent_Variables.ShowLink(AqHaz_Link)]|
+1,Spell Sponge|Book=AqHaz||Type=Living! Plant! Magical||Env=Temperate! Warm! Aquatic||HazardLink=[Permanent_Variables.ShowLink(AqHaz_Link)]|
+1,Vibrating Sea Fan ([~Miscellaneous.Color])|Book=AqHaz||Type=Living! Plant! Magical||Env=Temperate! Warm! Aquatic||HazardLink=[Permanent_Variables.ShowLink(AqHaz_Link)]|
+1,|End=0|
+
+;!HazardsCR2
+1,Abyssal Geyser (4d6 ([~4d6]) DC15)|Book=d20pfsrd||Type=Environmental! Magical! Terrain||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/special-hazards/abyssal-geysers-cr-2|
+1,Azure Fungus|Book=d20pfsrd||Type=Living! Fungus||Env=Underground||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/special-hazards/azure-fungus-cr-2|
+1,Brown Mold|Book=SRD||Type=Living! Fungus! Mundane||Env=Cold! Temperate! Any Terrain||HazardDesc=Brown mold feeds on warmth, drawing heat from anything around it. It normally comes in patches 5' in diameter, and the temperature is always cold in a 30' radius around it. Living creatures within 5' of it take 3d6 ([~3d6]) nonlethal cold damage. Fire brought within 5' of brown mold causes it to instantly double in size. Cold damage, such as from a cone of cold, instantly destroys it.||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/special-hazards/brown-mold-cr-2|
+1,Corrosive Rain|Book=d20pfsrd||Type=Environmental! Weather||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/environmental-hazards/corrosive-rain-cr-2-cr-4-for-downpour|
+1,Froghemoth Eggs|Book=d20pfsrd||Type=Living! Monster||Env=Temperate! Warm! Marsh||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/3rd-party-hazards/froghemoth-eggs-cr-2|
+1,Magnetized Ore|Book=d20pfsrd||Type=Mineral! Mundane||Env=Underground||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/environmental-hazards/magnetized-ore-cr-2|
+1,Mundane Insect Swarm|Book=d20pfsrd||Type=Living! Vermin! Mundane||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/environmental-hazards/mundane-insect-swarms-cr-2|
+1,Piercers|Book=d20pfsrd||Type=Living! Monster||Env=Underground||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/3rd-party-hazards/piercer-tohc|
+1,Purple Moss|Book=d20pfsrd||Type=Living! Fungus||Env=Underground||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/3rd-party-hazards/purple-moss-tohc|
+1,Spinal Leech|Book=d20pfsrd||Type=Living! Vermin||Env=Temperate! Warm! Marsh||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/3rd-party-hazards/spinal-leech-cr-2-tohc|
+#
+# A Dozen Hazards / 13 Hazards (Ronin Arts)
+1,Acidic Fog|Book=12HazDra1||Type=Environmental! Fog||Env=Temperate! Forest! Green Dragon's Lair||HazardLink=[Permanent_Variables.ShowLink(12HazDra1_Link)]|
+1,Apocalypse Vine|Book=13HazFut1||Type=Living! Plant||Env=Temperate! Any Terrain||World=Apocalypse||HazardLink=[Permanent_Variables.ShowLink(13HazFut1_Link)]|
+1,Bather's Mold|Book=12HazCit1||Type=Living! Fungus (Mold)||Env=Urban||HazardLink=[Permanent_Variables.ShowLink(12HazCit1_Link)]|
+1,Boiling Pool (2x 5' squares)|Book=12HazDra1||Type=Environmental! Terrain! Mundane||Env=Any Climate! Any Terrain! Red Dragon's Lair||HazardLink=[Permanent_Variables.ShowLink(12HazDra1_Link)]|
+1,Cave Blanket|Book=12HazWil1||Type=Living! Plant||Env=Any Climate! Any Terrain||HazardLink=[Permanent_Variables.ShowLink(12HazWil1_Link)]|
+1,Coffin Mold|Book=12HazDng1||Type=Living! Fungus (Mold)||HazardLink=[Permanent_Variables.ShowLink(12HazDng1_Link)]|
+1,Collapsing Chamber|Book=12HazDng2||Type=Mundane! Terrain||Env=Underground! Urban||HazardLink=[Permanent_Variables.ShowLink(12HazDng2_Link)]|
+1,Corrosive Membrane|Book=13HazFut2||Type=Living! Plant||World=Future||HazardLink=[Permanent_Variables.ShowLink(13HazFut2_Link)]|
+1,Crimson Fog|Book=12HazDng1||Type=Environmental! Fog||Env=Underground||HazardLink=[Permanent_Variables.ShowLink(12HazDng1_Link)]|
+1,Dragon's Breath |Temp=Red|(%Temp%, Fire)|Book=12HazDra1||Type=Environmental! Fog||Env=Underground! %Temp% Dragon's Lair||HazardLink=[Permanent_Variables.ShowLink(12HazDra1_Link)]|
+1,Dragon's Breath |Temp=White|(%Temp%, Cold)|Book=12HazDra1||Type=Environmental! Fog||Env=Underground! %Temp% Dragon's Lair||HazardLink=[Permanent_Variables.ShowLink(12HazDra1_Link)]|
+1,Endothermic Mold|Book=13HazFut2||Type=Living! Fungus (Mold)||World=Future||HazardLink=[Permanent_Variables.ShowLink(13HazFut2_Link)]|
+1,Freezing Pool (2x 5' squares)|Book=12HazDra1||Type=Environmental! Terrain! Mundane||Env=Cold! Any Terrain! White Dragon's Lair||HazardLink=[Permanent_Variables.ShowLink(12HazDra1_Link)]|
+1,Funeral Procession ([~Funeral Procession])|Book=12HazCit1||Type=Mundane||Env=Urban||HazardLink=[Permanent_Variables.ShowLink(12HazCit1_Link)]|
+1,Irradiated Zone ([~Irradiated Zone_Strength], [~Irradiated Zone_Size] [~Irradiated Zone_Shape])|Book=13HazFut1||Type=Living! Slime||Env=Any Climate! Any Terrain||World=Apocalypse||HazardLink=[Permanent_Variables.ShowLink(13HazFut1_Link)]|
+1,Leaf Slime|Book=12HazWil1||Type=Living! Plant||Env=Temperate! Warm! Forest||HazardLink=[Permanent_Variables.ShowLink(12HazWil1_Link)]|
+1,Nuclear Fog|Book=13HazFut1||Type=Environmental! Fog||Env=Any Climate! Any Terrain||World=Apocalypse||HazardLink=[Permanent_Variables.ShowLink(13HazFut1_Link)]|
+1,Ochre Slime|Book=12HazDng1||Type=Living! Slime||HazardLink=[Permanent_Variables.ShowLink(12HazDng1_Link)]|
+1,Overflowing Drainage Ditches|Book=12HazCit1||Type=Mundane||Env=Urban||HazardLink=[Permanent_Variables.ShowLink(12HazCit1_Link)]|
+1,Pit Mushrooms (Acidic)|Book=12HazDng2||Type=Living! Fungus||Env=Underground||HazardLink=[Permanent_Variables.ShowLink(12HazDng2_Link)]|
+1,Press Gang Surprise|Book=12HazCit1||Type=Mundane||Env=Urban||HazardLink=[Permanent_Variables.ShowLink(12HazCit1_Link)]|
+1,Radioactive Mold|Book=13HazFut1||Type=Living! Fungus (Mold)||Env=Any Climate! Any Terrain||World=Apocalypse||HazardLink=[Permanent_Variables.ShowLink(13HazFut1_Link)]|
+1,Razorvines|Book=12HazCit1||Type=Living! Plant||Env=Urban||HazardLink=[Permanent_Variables.ShowLink(12HazCit1_Link)]|
+1,Road Slime|Book=13HazFut1||Type=Living! Fungus (Slime)||Env=Any Climate! Any Terrain! Road||World=Apocalypse||HazardLink=[Permanent_Variables.ShowLink(13HazFut1_Link)]|
+1,Septic Slime|Book=12HazCit1||Type=Living! Fungus (Slime)||Env=Urban||HazardLink=[Permanent_Variables.ShowLink(12HazCit1_Link)]|
+1,Sewage Fog|Book=12HazCit1||Type=Environmental! Fog||Env=Urban||HazardLink=[Permanent_Variables.ShowLink(12HazCit1_Link)]|
+1,Steam Vents|Book=12HazDng2||Type=Environmental! Terrain||Env=Underground||HazardLink=[Permanent_Variables.ShowLink(12HazDng2_Link)]|
+1,Stick Piercer|Book=12HazWil1||Type=Living! Monster||Env=Temperate! Warm! Forest||HazardLink=[Permanent_Variables.ShowLink(12HazWil1_Link)]|
+1,Swarm of Thieves|Book=12HazCit1||Type=Mundane||Env=Urban||HazardLink=[Permanent_Variables.ShowLink(12HazCit1_Link)]|
+1,Wilting Mold|Book=12HazDng1||Type=Living! Fungus (Mold)||HazardLink=[Permanent_Variables.ShowLink(12HazDng1_Link)]|
+# All Hazards Great and Small (Silverthorne) AAGaS
+1,Amber Moss|Book=AAGaS||Type=Living! Fungus! Mundane||Env=Underground||HazardLink=[Permanent_Variables.ShowLink(AAGaS_Link)]|
+1,Bonepicker Scarabs (20 square ft.)|Book=AAGaS||Type=Living! Vermin||Env=Urban! Underground||HazardLink=[Permanent_Variables.ShowLink(AAGaS_Link)]|
+1,Gold Grub (x[~1d10x10])|Book=AAGaS||Type=Living! Vermin! Mundane||Env=Underground||HazardLink=[Permanent_Variables.ShowLink(AAGaS_Link)]|
+1,Mirthmist|Book=AAGaS||Type=Environmental! Fog||Env=Temperate! Warm! Coastal! Marsh! Underground||HazardLink=[Permanent_Variables.ShowLink(AAGaS_Link)]|
+1,Puffballs of Paralysis|Book=AAGaS||Type=Living! Plant! Mundane||Env=Temperate! Warm! Any Terrain! Underground||HazardLink=[Permanent_Variables.ShowLink(AAGaS_Link)]|
+1,Purple Moss|Book=AAGaS||Type=Living! Fungus! Mundane||Env=Underground||HazardLink=[Permanent_Variables.ShowLink(AAGaS_Link)]|
+1,Spinal Leech (x{Bold~{Dice~1d11+9}})|Book=AAGaS||Type=Living! Vermin! Mundane||Env=Temperate! Warm! Marsh! Underground||HazardLink=[Permanent_Variables.ShowLink(AAGaS_Link)]|
+# Aquatic Hazards
+1,Aurmaror's Breath|Book=AqHaz||Type=Living! Animal! Magical||Env=Temperate! Warm! Aquatic||HazardLink=[Permanent_Variables.ShowLink(AqHaz_Link)]|
+1,Saline Cloud|Book=AqHaz||Type=Environmental! Fog! Magical||Env=Any Climate! Aquatic||HazardLink=[Permanent_Variables.ShowLink(AqHaz_Link)]|
+1,Spell Sponge|Book=AqHaz||Type=Living! Plant! Magical||Env=Temperate! Warm! Aquatic||HazardLink=[Permanent_Variables.ShowLink(AqHaz_Link)]|
+1,|End=0|
+
+;!HazardsCR3
+1,Abyssal Geyser (6d6 ([~6d6]) DC16)|Book=d20pfsrd||Type=Magical! Terrain||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/special-hazards/abyssal-geysers-cr-2|
+1,Accursed Pool|Book=d20pfsrd||Type=Environmental! Terrain||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/special-hazards/accursed-pool-cr-3|
+1,Duststorm - Sandstorm|Book=SRD||Type=Environmental! Weather||Env=Any Climate! Desert||HazardDesc=It blows fine grains of sand that obscure vision, smother unprotected flames, and can even choke protected flames (50&#37; / [~1d100]&#37;). {IIf~{Dice~1d100}>10?This duststorm is accompanied by severe winds and leave behind a deposit of 1d6" ([~1d6]") of sand.:This is a greater duststorm accompanied by windstorm-magnitude winds.{CR~}{Space~5}{Italic~Greater duststorms:} 1d3 ([~1d3]) nonlethal damage/round to anyone caught out in the open without shelter and also pose a choking hazard (see Drowning, except that a character with a scarf or similar protection across her mouth and nose does not begin to choke until after a number of rounds equal to 10 × her Constitution score). Greater duststorms leave 2d3–1' ([~2d3_1]') of fine sand in their wake.}|
+1,Flash Flood|Book=d20pfsrd||Type=Environmental! Weather! Mundane||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/environmental-hazards/flash-flood-cr-3|
+1,Hellfire|Book=d20pfsrd||Type=Magical||Env=Nine Hells||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/special-hazards/hellfire-cr-3|
+1,Insect Swarm|Book=Val_Web||Type=Living! Vermin! Mundane||Temp={Dice~1d5}||Temp2={Dice~1d2}||HazardDesc=As individuals, velvet ants, grasshoppers, and locusts are relatively harmless. But in swarms, these insects can cause immense damage to fields and forests, as well as threatening the lives of all creatures in their path.{CR~}{Space~5}Insect swarms are migratory, sleeping at night wherever they happen to be. Females lay up to 100 eggs every year. These insects have no leaders or any specialized workers. They do not collect treasure.{CR~}{Space~5}{If~{Dice~1d2}=1?{Bold~Velvet Ants:} The velvet ant resembles a plump version of the common ant, except for the soft fuzz that covers its entire body. The fuzz is usually red or black, but it can also be yellow, brown, or orange ({IIf~%Temp%=1?red:{IIf~%Temp%=2?orange:{IIf~%Temp%=3?yellow:{IIf~%Temp%=4?brown:black}}}}). Velvet ants eat seeds, grasses, and meat, especially enjoying carrion. The poison of velvet ants renders them inedible to carnivores.{CR~}{Space~5}A velvet ant swarm eats everything in its path, animal matter, as well as vegetation. To determine the size of a swarm, roll 1d100x1000 ([~1d100x1000]). There are about 100 ants per square foot; therefore, a swarm of 10,000 ants forms a block about 10' per side, or 2,500 per 5' square.{CR~}{Space~5}If a swarm comes in contact with an obstacle, it turns 90º and continues. A victim in contact with a swarm is bitten for 1d4 ([~1d4]) damage. The victim must succeed at a Fortitude save (DC 14) or suffer intense pain for the next 2d4 ([~2d4]) minutes, making all attack and damage rolls with a {Color~Red,-2 circumstance penalty} during this time.{CR~}{Space~5}Each point of damage inflicted on an insect swarm kills 1d20 ([~1d20]) insects. They may be scattered with smoke or fire; immersion in water washes them off. If half of a swarm is killed, the survivors attempt to scatter and hide./{Bold~{IIf~%Temp2%=1?Grasshoppers:Locusts}:} They are about 2" in length and is usually green or brown in color. They can make leaps of about 4'.{If~%Temp2%=2? Locusts are a type of grasshopper, with shorter antennae. They can rub their hind legs against their wings to produce a distinctive chirp.} They prefer seeds and grains. Snakes, mice, birds, and spiders are among these insects' numerous natural enemies. Carnivores can eat grasshoppers and locusts. {CR~}{Space~5}The swarms fly from place to place in search of lush fields on which to settle and consume. These swarms move in straight lines and are easy to avoid. {CR~}{Space~5}The size of a {IIf~%Temp2%=1?grasshopper:locust} swarm is {IIf~%Temp2%=1?1d100x10,000 ([~1d100x10000]):1d100x20000 ([~1d100x20000])}. There are about 20 insects per square foot (500 per 5' square; for convenience, assume there are 20 insects per cubic foot when approximating the size of flying swarm, about 2,500 per 5' cube or 20,000 per 10' cube).{CR~}{Space~5}A victim in contact with a {IIf~%Temp2%=1?grasshopper:locust} swarm is bitten and takes 1 point of damage. Additionally, victims within a cloud of these insects have their vision reduced to 5'.{CR~}{Space~5}Each point of damage inflicted on an insect swarm kills 1d20 ([~1d20]) insects.They may be scattered with smoke or fire; immersion in water washes them off. If half of a swarm is killed, the survivors attempt to scatter.}|
+1,Leechweed|Book=d20pfsrd||Type=Living! Plant||Env=Temperate! Warm! Marsh||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/special-hazards/leechweed-cr-3|
+1,Mnemonic Crystals|Book=d20pfsrd||Type=Magical! Mineral||Env=Underground||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/special-hazards/mnemonic-crystals-cr-3|
+1,Poison Oak (severe exposure)|Book=d20pfsrd||Type=Living! Plant||Env=Temperate! Forest||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/environmental-hazards/poison-oak-cr-1-or-3|
+1,Spider Vines|Book=d20pfsrd||Type=Living! Plant||Env=Warm! Forest||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/environmental-hazards/spider-vines-cr-3|
+#
+# A Dozen Hazards / 13 Hazards (Ronin Arts)
+1,Blood Lichen|Book=12HazDng1||Type=Living! Fungus||Env=Underground||HazardLink=[Permanent_Variables.ShowLink(12HazDng1_Link)]|
+1,Boiling Pool (3x 5' squares)|Book=12HazDra1||Type=Environmental! Terrain! Mundane||Env=Any Climate! Any Terrain! Red Dragon's Lair||HazardLink=[Permanent_Variables.ShowLink(12HazDra1_Link)]|
+1,Cybernetic Slime|Book=13HazFut2||Type=Living! Fungus||World=Future||HazardLink=[Permanent_Variables.ShowLink(13HazFut2_Link)]|
+1,Draconic Fog ({IIf~{Dice~1d2}=1?Mature/4d10 ([~4d10]):Old/5d10 ([~5d10])} red dragon bones)|Book=12HazDng2||Type=Environmental! Fog||Env=Underground||HazardLink=[Permanent_Variables.ShowLink(12HazDng2_Link)]|
+1,Dragontrap Vines|Book=12HazDra1||Type=Living! Plant||Env=Underground! Dragon's Lair||HazardLink=[Permanent_Variables.ShowLink(12HazDra1_Link)]|
+1,Engine Slime|Book=13HazFut1||Type=Living! Slime||Env=Any Climate! Any Terrain||World=Apocalypse||HazardLink=[Permanent_Variables.ShowLink(13HazFut1_Link)]|
+1,Freezing Pool (3x 5' squares)|Book=12HazDra1||Type=Environmental! Terrain! Mundane||Env=Cold! Any Terrain! White Dragon's Lair||HazardLink=[Permanent_Variables.ShowLink(12HazDra1_Link)]|
+1,Gene Mold|Book=13HazFut2||Type=Living! Fungus (Mold)||World=Future||HazardLink=[Permanent_Variables.ShowLink(13HazFut2_Link)]|
+1,Harmonic Mushrooms|Book=12HazDng1||Type=Living! Fungus||Env=Underground||HazardLink=[Permanent_Variables.ShowLink(12HazDng1_Link)]|
+1,Mecha Rot|Book=13HazFut2||Type=Living! Fungus (Slime)||World=Future||HazardLink=[Permanent_Variables.ShowLink(13HazFut2_Link)]|
+1,Runaway Coach|Book=12HazCit1||Type=Mundane||Env=Urban||HazardLink=[Permanent_Variables.ShowLink(12HazCit1_Link)]|
+1,Space Fog|Book=13HazFut2||Type=Environmental! Fog||World=Future||HazardLink=[Permanent_Variables.ShowLink(13HazFut2_Link)]|
+1,Space Slime Pool|Book=13HazFut2||Type=Living! Fungus (Slime)||World=Future||HazardLink=[Permanent_Variables.ShowLink(13HazFut2_Link)]|
+1,Stone Egg{If~{Dice~1d2}=1? (use the variant from a [~Creatures.DragonNoAge] egg)}|Book=12HazDra1||Type=Magical||Env=Underground! Dragon's Lair||HazardLink=[Permanent_Variables.ShowLink(12HazDra1_Link)]|
+1,Victimweed|Book=12HazWil1||Type=Living! Plant||Env=Any Climate! Forest||HazardLink=[Permanent_Variables.ShowLink(12HazWil1_Link)]|
+# All Hazards Great and Small (Silverthorne) AAGaS
+1,Bonepicker Scarabs (30 square ft.)|Book=AAGaS||Type=Living! Vermin||Env=Urban! Underground||HazardLink=[Permanent_Variables.ShowLink(AAGaS_Link)]|
+1,Ear Seeker|Book=AAGaS||Type=Living! Vermin! Mundane||Env=Any Climate! Any Terrain||HazardLink=[Permanent_Variables.ShowLink(AAGaS_Link)]|
+1,Mushroom of Ambient Thought (x[~1d20])|Book=AAGaS||Type=Living! Fungus! Magical||Env=Underground||HazardLink=[Permanent_Variables.ShowLink(AAGaS_Link)]|
+1,Phantom|Book=AAGaS||Type=Living! Undead! Monster||Env=Any Climate! Any Terrain||HazardLink=[Permanent_Variables.ShowLink(AAGaS_Link)]|
+1,Rusting Fog|Book=AAGaS||Type=Environmental! Fog||Env=Underground||HazardLink=[Permanent_Variables.ShowLink(AAGaS_Link)]|
+# Aquatic Hazards
+1,Bone Dust|Book=AqHaz||Type=Living! Animal! Magical||Env=Any Climate! Aquatic||HazardLink=[Permanent_Variables.ShowLink(AqHaz_Link)]|
+1,Coral Song ([~Miscellaneous.Color])|Book=AqHaz||Type=Living! Plant! Magical||Env=Any Climate! Aquatic||HazardLink=[Permanent_Variables.ShowLink(AqHaz_Link)]|
+1,Infused Carvings|Book=AqHaz||Type=Special! Magical||Env=Any Climate! Aquatic||HazardLink=[Permanent_Variables.ShowLink(AqHaz_Link)]|
+1,Parasitic Seed|Book=AqHaz||Type=Living! Monster! Magical||Env=Any Climate! Aquatic||HazardLink=[Permanent_Variables.ShowLink(AqHaz_Link)]|
+1,Spell Sponge|Book=AqHaz||Type=Living! Plant! Magical||Env=Temperate! Warm! Aquatic||HazardLink=[Permanent_Variables.ShowLink(AqHaz_Link)]|
+1,Vortex Swarm|Book=AqHaz||Type=Environmental! Magical||Env=Any Climate! Aquatic||HazardLink=[Permanent_Variables.ShowLink(AqHaz_Link)]|
+1,|End=0|
+
+;!HazardsCR4
+1,Abyssal Geyser (8d6 ([~8d6]) DC17)|Book=d20pfsrd||Type=Magical! Terrain||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/special-hazards/abyssal-geysers-cr-2|
+1,Bad Air (Flammable)|Book=d20pfsrd||Type=Environmental! Mundane||Env=Underground||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/environmental-hazards/bad-air-cr-1-or-4|
+1,Corrosive Rain (downpour)|Book=d20pfsrd||Type=Weather||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/environmental-hazards/corrosive-rain-cr-2-cr-4-for-downpour|
+1,Fulgurate Mushrooms|Book=d20pfsrd||Type=Living! Fungus||Env=Temperate! Warm! Marsh! Underground||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/3rd-party-hazards/fulgurate-mushrooms-tohc|
+1,Gas Spore|Book=d20pfsrd||Type=Living! Fungus||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/3rd-party-hazards/gas-spore-tohc|
+1,Green Slime|Book=SRD||Type=Living! Fungus! Mundane||Env=Underground||AL=NN||HazardDesc=This dungeon peril is a dangerous variety of normal slime. Green slime devours flesh and organic materials on contact and is even capable of dissolving metal. Bright green, wet, and sticky, it clings to walls, floors, and ceilings in patches, reproducing as it consumes organic matter. It drops from walls and ceilings when it detects movement (and possible food) below. {CR~}{Space~5}A single 5-foot square of green slime deals 1d6 ([~1d6]) CON damage/round while it devours flesh. On the first round of contact, the slime can be scraped off a creature (most likely destroying the scraping device), but after that it must be frozen, burned, or cut away (dealing damage to the victim as well). Anything that deals cold or fire damage, sunlight, or a remove disease spell destroys a patch of green slime. Against wood or metal, green slime deals 2d6 ([~2d6]) damage/round, ignoring metal’s hardness but not that of wood. It does not harm stone. {CR~}{Space~5}Dwarves consider green slime to be one of the worst hazards of mining and underground construction. They have their own ways of burning it out of infested areas, methods that they say are thorough. “If you don’t do it proper, the stuff comes right back,” they claim.||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/environmental-hazards/green-slime-cr-4|
+1,Olive Slime|Book=d20pfsrd||Type=Living! Fungus||Env=Underground||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/3rd-party-hazards/olive-slime-tohc|
+1,Phantom|Book=d20pfsrd||Type=Living! Undead! Monster||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/3rd-party-hazards/phantom-tohc|
+1,Ravenous Mold|Book=d20pfsrd||Type=Living! Fungus||Env=Underground||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/environmental-hazards/ravenous-mold-cr-4|
+1,Rot Grub|Book=d20pfsrd||Type=Living! Vermin||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/3rd-party-hazards/rot-grub-cr-4-tohc|
+1,Rot Grub|Book=d20pfsrd||Type=Living! Vermin||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/environmental-hazards/rot-grub-cr-4|
+1,Symbiotic Jelly|Book=d20pfsrd||Type=Living! Ooze||Env=Underground||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/3rd-party-hazards/symbiotic-jelly-cr-4-tohc|
+1,Throat Leech|Book=d20pfsrd||Type=Living! Vermin||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/3rd-party-hazards/throat-leech-cr-4-tohc|
+1,Winter Bloom|Book=d20pfsrd||Type=Living! Plant||Env=Cold! Temperate! Any Terrain||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/3rd-party-hazards/winter-bloom-cr-4-tohc|
+#
+# A Dozen Hazards / 13 Hazards (Ronin Arts)
+1,Arcane Slime|Book=12HazDng1||Type=Magical! Slime||HazardLink=[Permanent_Variables.ShowLink(12HazDng1_Link)]|
+1,Boiling Pool (4x 5' squares)|Book=12HazDra1||Type=Environmental! Terrain! Mundane||Env=Any Climate! Any Terrain! Red Dragon's Lair||HazardLink=[Permanent_Variables.ShowLink(12HazDra1_Link)]|
+1,Desertbloom|Book=12HazDng1||Type=Living! Fungus||Env=Warm! Desert||HazardLink=[Permanent_Variables.ShowLink(12HazDng1_Link)]|
+1,Draconic Fog ({IIf~{Dice~1d2}=1?Very Old/6d10 ([~6d10]):Ancient/7d10 ([~7d10])} red dragon bones)|Book=12HazDng2||Type=Environmental! Fog||Env=Underground||HazardLink=[Permanent_Variables.ShowLink(12HazDng2_Link)]|
+1,Draconic Mushroom|Book=12HazDra1||Type=Living! Fungus||Env=Underground! Dragon' Lair||HazardLink=[Permanent_Variables.ShowLink(12HazDra1_Link)]|
+1,Draconic Slime|Book=12HazDra1||Type=Living! Slime||Env=Underground! Dragon's Lair||HazardLink=[Permanent_Variables.ShowLink(12HazDra1_Link)]|
+1,Druid's Kiss|Book=12HazWil1||Type=Living! Plant||Env=Temperate! Warm! Forest||HazardLink=[Permanent_Variables.ShowLink(12HazWil1_Link)]|
+1,Forestbloom|Book=12HazWil1||Type=Living! Plant||Env=Temperate! Warm! Forest||HazardLink=[Permanent_Variables.ShowLink(12HazWil1_Link)]|
+1,Freezing Pool (4x 5' squares)|Book=12HazDra1||Type=Environmental! Terrain! Mundane||Env=Cold! Any Terrain! White Dragon's Lair||HazardLink=[Permanent_Variables.ShowLink(12HazDra1_Link)]|
+1,Harmonic Lichen and Harmonic Mushrooms|Book=12HazDng2||Type=Living! Fungus||Env=Underground||HazardLink=[Permanent_Variables.ShowLink(12HazDng2_Link)]|
+1,Hellish Fog|Book=12HazDng2||Type=Environmental! Fog||Env=Underground||HazardLink=[Permanent_Variables.ShowLink(12HazDng2_Link)]|
+1,Nanite Slime|Book=13HazFut2||Type=Living! Fungus (Slime)||World=Future||HazardLink=[Permanent_Variables.ShowLink(13HazFut2_Link)]|
+1,Necromantic Fog|Book=12HazDng1||Type=Environmental! Fog||HazardLink=[Permanent_Variables.ShowLink(12HazDng1_Link)]|
+1,Putrid Fog (from a [~Creatures.DragonNoAge] on carcass of a [~Creatures.All])|Book=12HazDra1||Type=Environmental! Fog||Env=Any Climate! Any Terrain! Dragon' Lair||HazardLink=[Permanent_Variables.ShowLink(12HazDra1_Link)]|
+1,Scarlet Mold|Book=12HazDng1||Type=Living! Fungus (Mold)||HazardLink=[Permanent_Variables.ShowLink(12HazDng1_Link)]|
+1,Space Slime|Book=13HazFut2||Type=Living! Fungus (Slime)||World=Future||HazardLink=[Permanent_Variables.ShowLink(13HazFut2_Link)]|
+1,Terror Stones|Book=12HazWil1||Type=Magical||Env=Any Climate! Any Terrain||HazardLink=[Permanent_Variables.ShowLink(12HazWil1_Link)]|
+1,Winter Slime|Book=12HazDng1||Type=Living! Slime||Env=Cold! Underground||HazardLink=[Permanent_Variables.ShowLink(12HazDng1_Link)]|
+# All Hazards Great and Small (Silverthorne) AAGaS
+1,Bonepicker Scarabs (40 square ft.)|Book=AAGaS||Type=Living! Vermin||Env=Urban! Underground||HazardLink=[Permanent_Variables.ShowLink(AAGaS_Link)]|
+1,Fulgarate Mushroom|Book=AAGaS||Type=Living! Fungus! Magical||Env=Underground||HazardLink=[Permanent_Variables.ShowLink(AAGaS_Link)]|
+1,Magebane Moss|Book=AAGaS||Type=Living! Fungus! Magical||Env=Underground||HazardLink=[Permanent_Variables.ShowLink(AAGaS_Link)]|
+# Aquatic Hazards
+1,Planar Storm|Book=AqHaz||Type=Environmental! Weather! Magical||Env=Underground! Aquatic||HazardLink=[Permanent_Variables.ShowLink(AqHaz_Link)]|
+1,Spell Sponge|Book=AqHaz||Type=Living! Plant! Magical||Env=Temperate! Warm! Aquatic||HazardLink=[Permanent_Variables.ShowLink(AqHaz_Link)]|
+# Ice Tomb of the Dwarf Lord
+1,Frigid Fog|Book=ITotDL||Type=Environmental! Fog! Magical||Env=Cold! Any Terrain||HazardLink=[Permanent_Variables.ShowLink(ITotDL_Link)]|
+1,|End=0|
+
+;!HazardsCR5
+1,Abyssal Geyser (10d6 ([~10d6]) DC18)|Book=d20pfsrd||Type=Magical! Terrain||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/special-hazards/abyssal-geysers-cr-2|
+1,Aurus Mold|Book=d20pfsrd||Type=Living! Fungus! Mundane||Env=Temperate Warm! Any Terrain! Underground||HazardLink=https://www.d20pfsrd.com/bestiary/monster-listings/plants/mold-russet/|
+1,Ear Seeker|Book=d20pfsrd||Type=Living! Vermin||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/3rd-party-hazards/ear-seeker-infestation-vermin-tohc|
+1,Ear Seeker|Book=d20pfsrd||Type=Living! Vermin||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/environmental-hazards/ear-seeker-cr-5|
+1,Keep Kelp|Book=d20pfsrd||Type=Living! Plant||Env=Any Climate! Aquatic||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/3rd-party-hazards/keel-kelp-cr-5|
+1,Memory Moss (Obliviax)|Book=d20pfsrd||Type=Living! Fungus||Env=Temperate! Warm! Any Terrain||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/3rd-party-hazards/memory-moss-tohc|
+1,Thirsting Brambles|Book=d20pfsrd||Type=Living! Plant||Env=Temperate! Warm! Desert! Forest! Hill! Mountain! Plain||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/environmental-hazards/thirsting-brambles-cr-5|
+#
+# A Dozen Hazards / 13 Hazards (Ronin Arts)
+1,Bark Grubs|Book=12HazWil1||Type=Living! Vermin||Env=Any Climate! Forest||HazardLink=[Permanent_Variables.ShowLink(12HazWil1_Link)]|
+1,Boiling Pool ({Bold~{Dice~1d6+4}}x 5' squares)|Book=12HazDra1||Type=Environmental! Terrain! Mundane||Env=Any Climate! Any Terrain! Red Dragon's Lair||HazardLink=[Permanent_Variables.ShowLink(12HazDra1_Link)]|
+1,Freezing Pool ({Bold~{Dice~1d6+4}}x 5' squares)|Book=12HazDra1||Type=Environmental! Terrain! Mundane||Env=Cold! Any Terrain! White Dragon's Lair||HazardLink=[Permanent_Variables.ShowLink(12HazDra1_Link)]|
+1,Gasopool|Book=13HazFut1||Type=Living! Slime||Env=Any Climate! Any Terrain||World=Apocalypse||HazardLink=[Permanent_Variables.ShowLink(13HazFut1_Link)]|
+1,Jefferson's Root|Book=13HazFut2||Type=Living! Plant||World=Future||HazardLink=[Permanent_Variables.ShowLink(13HazFut2_Link)]|
+1,Lava Pool (1x5' square)|Book=12HazDra1||Type=Environmental! Terrain! Mundane||Env=Any Climate! Any Terrain! Red Dragon' Lair||HazardLink=[Permanent_Variables.ShowLink(12HazDra1_Link)]|
+1,Spectral Slime|Book=12HazDng2||Type=Living! Slime||Env=Underground||HazardLink=[Permanent_Variables.ShowLink(12HazDng2_Link)]|
+1,Starfallen Slime|Book=12HazDng1||Type=Living! Slime||HazardLink=[Permanent_Variables.ShowLink(12HazDng1_Link)]|
+# All Hazards Great and Small (Silverthorne) AAGaS
+1,Bonepicker Scarabs (50 square ft.)|Book=AAGaS||Type=Living! Vermin||Env=Urban! Underground||HazardLink=[Permanent_Variables.ShowLink(AAGaS_Link)]|
+1,Fleshrot Spores (x{Bold~{Dice~2d6+2}})|Book=AAGaS||Type=Living! Fungus (Slime)! Mundane||Env=Underground||HazardLink=[Permanent_Variables.ShowLink(AAGaS_Link)]|
+1,Tangleweed|Book=AAGaS||Type=Living! Plant! Mundane||Env=Temperate! Warm! Aquatic||HazardLink=[Permanent_Variables.ShowLink(AAGaS_Link)]|
+# Aquatic Hazards
+1,Dimensional Cloud|Book=AqHaz||Type=Environmental! Fog! Magical||Env=Underground! Aquatic||HazardLink=[Permanent_Variables.ShowLink(AqHaz_Link)]|
+1,Gravitating Cloud|Book=AqHaz||Type=Environmental! Fog! Magical||Env=Underground! Aquatic||HazardLink=[Permanent_Variables.ShowLink(AqHaz_Link)]|
+1,Rock Slime|Book=AqHaz||Type=Living! Fungus (Slime)! Magical||Env=Temperate! Warm! Aquatic||HazardLink=[Permanent_Variables.ShowLink(AqHaz_Link)]|
+1,Spell Sponge|Book=AqHaz||Type=Living! Plant! Magical||Env=Temperate! Warm! Aquatic||HazardLink=[Permanent_Variables.ShowLink(AqHaz_Link)]|
+1,|End=0|
+
+;!HazardsCR6
+1,Abyssal Geyser (12d6 ([~12d6]) DC19)|Book=d20pfsrd||Type=Magical! Terrain||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/special-hazards/abyssal-geysers-cr-2|
+1,Bowel Worms|Book=d20pfsrd||Type=Living! Vermin||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/special-hazards/bowel-worms-cr-6|
+1,Dweomersink|Book=d20pfsrd||Type=Magical||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/special-hazards/dweomersink-cr-6|
+1,Electromagnetic Field|Book=d20pfsrd||Type=Magical! Technology||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/environmental-hazards/electromagnetic-field-cr-6|
+1,Forest Fire|Book=SRD||Type=Environmental||Env=Any Climate! Forest! Mundane||HazardDesc=Most campfire sparks ignite nothing, but if conditions are dry, winds are strong, or the forest floor is dried out and flammable, a forest fire can result. Lightning strikes often set trees afire and start forest fires in this way. Whatever the cause of the fire, travelers can get caught in the conflagration. {CR~}{Space~5}{Bold~Spotting:} As far away as 2d6×100' ([~2d6x100]', Colossal -16 DC). {Color~Red,Failure:} the fire moves closer to the PCs. {Italic~Automatic Spot:} If at 1/2 original distance. {CR~}{Space~5}{Bold~Feeling the heat (if blinded or can't spot):} 100' away (automatically “spot” it). {CR~}{Space~5}The leading edge of a fire (the downwind side) can advance faster than a human can run (assume {Color~Brown,120'/round} for winds of moderate strength). Once a particular portion of the forest is ablaze, it remains so for 2d4×10 ([~2d4x10]) minutes before dying to a smoking smolder. Characters overtaken by a forest fire may find the leading edge of the fire advancing away from them faster than they can keep up, trapping them deeper and deeper in its grasp. {CR~}{Space~5}{Bold~Heat Damage:} Getting caught within a forest fire is even worse than being exposed to extreme heat (see Heat Dangers, page 303). Breathing the air causes a character to take 1d6 ([~1d6]) damage/round (no save). Fortitude save every 5 rounds (DC 15, +1/previous check) or take 1d4 nonlethal damage ([~1d4]).{CR~}{Space~5}{Italic~Holding your breath:} avoid the lethal damage, but not the nonlethal damage.{CR~}{Space~5}{Italic~Wearing heavy clothing or any sort of armor:} {Color~Red,–4 penalty} on their saving throws. In addition, those wearing {Color~Red,metal armor or coming into contact with very hot metal} are affected as if by a {Italic~heat metal} spell (see page 239 of the Player’s Handbook). {CR~}{Space~5}{Bold~Catching on Fire:} Characters engulfed in a forest fire are at risk of catching on fire when the leading edge of the fire overtakes them, and are then at risk once per minute thereafter (see Catching on Fire, page 303). {CR~}{Space~5}{Bold~Smoke Inhalation:} Forest fires naturally produce a great deal of smoke. A character who breathes heavy smoke must make a Fortitude save each round (DC 15, +1/previous check) or spend that round choking and coughing. A character who chokes for 2 consecutive rounds takes 1d6 ([~1d6]) nonlethal damage. Also, smoke obscures vision, providing concealment to characters within it.{CR~}{CR~}{Bold~Alternate Rules:} MV: [~1d4x10]'/round. Burns in an area for 10-30 ({Bold~{Dice~1d21+9}}) minutes before moving on. Those caught within the fire zone take 3d6 ([~3d6]) damage/round and risk being set afire.|
+1,Hound of Ill Omen|Book=d20pfsrd||Type=Magical! Curse||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/3rd-party-hazards/hound-of-ill-omen-tohc|
+1,Iron Mold|Book=d20pfsrd||Type=Living! Fungus! Mundane||Env=Underground||HazardLink=https://www.d20pfsrd.com/bestiary/monster-listings/plants/mold-russet/|
+1,Russet Mold|Book=PFB1||Type=Living! Fungus! Mundane||Env=Underground||HazardLink=https://www.d20pfsrd.com/bestiary/monster-listings/plants/mold-russet/|
+1,Yellow Mold|Book=SRD||Type=Living! Fungus! Mundane||Env=Underground||HazardDesc=If disturbed, a 5-foot square of this mold bursts forth with a cloud of poisonous spores. All within 10' of the mold are affected by its poison: Inhaled, 1d6 ([~1d6]) Con/2d6 ([~2d6]) Con (Fort DC15). Fire destroys yellow mold, and sunlight renders it dormant.||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/environmental-hazards/yellow-mold-cr-6|
+#
+# A Dozen Hazards / 13 Hazards (Ronin Arts)
+1,Draconic Fog ({IIf~{Dice~1d2}=1?Wyrm/8d10 ([~8d10]):Great Wyrm/9d10 ([~9d10])} red dragon bones)|Book=12HazDng2||Type=Environmental! Fog||Env=Underground||HazardLink=[Permanent_Variables.ShowLink(12HazDng2_Link)]|
+1,Lava Pool (2x5' squares)|Book=12HazDra1||Type=Environmental! Terrain! Mundane||Env=Any Climate! Any Terrain! Red Dragon' Lair||HazardLink=[Permanent_Variables.ShowLink(12HazDra1_Link)]|
+1,Toxic Slime|Book=13HazFut1||Type=Living! Fungus (Slime)||Env=Underground! Urban||World=Apocalypse||HazardLink=[Permanent_Variables.ShowLink(13HazFut1_Link)]|
+# All Hazards Great and Small (Silverthorne) AAGaS
+1,Bonepicker Scarabs (60 square ft.)|Book=AAGaS||Type=Living! Vermin||Env=Urban! Underground||HazardLink=[Permanent_Variables.ShowLink(AAGaS_Link)]|
+1,Vampiric Slime (aka Blood Slime)|Book=AAGaS||Type=Living! Fungus (Slime)! Mundane||Env=Underground||HazardLink=[Permanent_Variables.ShowLink(AAGaS_Link)]|
+# Aquatic Hazards
+1,Spell Sponge|Book=AqHaz||Type=Living! Plant! Magical||Env=Temperate! Warm! Aquatic||HazardLink=[Permanent_Variables.ShowLink(AqHaz_Link)]|
+1,|End=0|
+
+;!HazardsCR7
+1,Abyssal Geyser (14d6 ([~14d6]) DC20)|Book=d20pfsrd||Type=Magical! Terrain||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/special-hazards/abyssal-geysers-cr-2|
+1,Avalanche or Landslide|Book=SRD||Type=Environmental! Terrain! Mundane||Env=Any Climate! Hill! Mountain||HazardDesc=Avalanches of snow and ice, or of rock and soil.
+_{CR~}{Space~5}{Italic~Width:} 1d6×100' ([~1d6x100]') from one edge of the slide zone to the opposite edge. The bury zone in the center of the avalanche is 1/2 as wide as the avalanche’s full width.
+_{CR~}{Space~5}{Italic~Speed:} Snow and ice {Color~Brown,500'/round}, Rock {Color~Brown,250'/round}.
+_{CR~}{Space~5}{Italic~Precise location of characters:} 1d6x20' ([~1d6x20]') from the center of the path taken by the bury zone to the center of the party’s location.
+_{CR~}{Space~5}{Bold~Spotting:} As far away as 1d10×500' ([~1d10x500]') downslope (Spot DC4; -16 for Colossal Creature). {Color~Red,Failure: }the avalanche moves closer to them, and they automatically become aware of it when it closes to 1/2 the original distance.
+_{CR~}{Space~5}{Bold~Hearing:} Under optimum conditions (no other loud noises occurring), a DC15 Listen check can hear the avalanche or landslide when it is 1d6×500' ([~1d6x500]') away. DC20, 25+ in conditions where hearing is difficult (such as in the middle of a thunderstorm).
+_{CR~}{Space~5}{Bold~Bury Zone:} in the direct path of the falling debris. 8d6 ([~8d6]) damage (Reflex 1/2 DC15) and buried.
+_{CR~}{Space~5}{Bold~Slide Zone:} the area the debris spreads out to encompass. 3d6 ([~3d6]) damage or none (Reflex DC15). {Color~Red,Failure:} buried.
+_{CR~}{Space~5}{Bold~Buried:} 1d6 ([~1d6]) nonlethal/minute. If unconscious, Constitution DC15 or 1d6 ([~1d6]) lethal damage/minute thereafter until freed or dead.|
+1,Midnight Morel|Book=d20pfsrd||Type=Living! Fungus||Env=Temperate! Any Terrain||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/special-hazards/midnight-morel-cr-7|
+1,Twilight Mushroom|Book=d20pfsrd||Type=Living! Fungus||Env=Underground||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/3rd-party-hazards/twilight-mushrooms-cr-7-tohc|
+#
+# A Dozen Hazards / 13 Hazards (Ronin Arts)
+1,Doppleganger Mold|Book=12HazDng2||Type=Living! Fungus (Mold)||Env=Underground||HazardLink=[Permanent_Variables.ShowLink(12HazDng2_Link)]|
+1,Hunter's Mold|Book=12HazWil1||Type=Living! Fungus (Mold)||Env=Cold! Temperate! Any Terrain||HazardLink=[Permanent_Variables.ShowLink(12HazWil1_Link)]|
+1,Lava Pool (3x5' squares)|Book=12HazDra1||Type=Environmental! Terrain! Mundane||Env=Any Climate! Any Terrain! Red Dragon' Lair||HazardLink=[Permanent_Variables.ShowLink(12HazDra1_Link)]|
+# All Hazards Great and Small (Silverthorne) AAGaS
+1,Bonepicker Scarabs (70 square ft.)|Book=AAGaS||Type=Living! Vermin||Env=Urban! Underground||HazardLink=[Permanent_Variables.ShowLink(AAGaS_Link)]|
+1,Twilight Mushroom ({Bold~{Dice~1d6+4}} patches)|Book=AAGaS||Type=Living! Fungus! Mundane||Env=Underground||HazardLink=[Permanent_Variables.ShowLink(AAGaS_Link)]|
+1,|End=0|
+
+;!HazardsCR8
+1,Abyssal Geyser (16d6 ([~16d6]) DC21)|Book=d20pfsrd||Type=Magical! Terrain||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/special-hazards/abyssal-geysers-cr-2|
+1,Argent Mold|Book=d20pfsrd||Type=Living! Fungus! Mundane||Env=Underground||HazardLink=https://www.d20pfsrd.com/bestiary/monster-listings/plants/mold-russet/|
+1,Cave-ins and Collapses|Book=0||Type=Environmental! Mundane||Env=Underground||HazardDesc=It buries anyone in the middle of the collapsing area, and then sliding debris damages anyone in the periphery of the collapse. {CR~}{Space~5}{Bold~Typical size:} Bury zone with a 15' radius and a 10' radius slide zone extending beyond the bury zone. {CR~}{Space~5}{Bold~Spotting:} A weakened ceiling can be spotted with a DC 20 Knowledge (architecture and engineering) or DC 20 Craft (stonemasonry) check. A dwarf can make such a check if he simply passes within 10' of a weakened ceiling. {CR~}{Space~5}{Bold~Collapse when:} When subjected to a major impact or concussion. Or by destroying 1/2 the pillars holding the ceiling up. If you want to create a room where a collapse is a real possibility, include a number of pillars that have already toppled before the PCs arrive. (The presence of broken pillars is an obvious clue to a weakened ceiling, even for characters with no particular knowledge.) {CR~}{Space~5}{Bold~Bury zone:} 8d6 ([~8d6]) damage (Reflex 1/2 DC15) and buried. {CR~}{Space~5}{Bold~Slide zone:} 3d6 ([~3d6]) or none (Reflex DC15). {Color~Red,Failure:} buried. {CR~}{Space~5}{Bold~Buried:} 1d6 ([~1d6]) nonlethal/minute. If unconscious, Constitution DC15 or 1d6 ([~1d6]) lethal damage/minute thereafter until freed or dead.{CR~}{Space~5}{Bold~Digging your friends:} In {Color~Brown,1 minute}, using only her hands, a character can clear rocks and debris equal to {Color~Brown,5x her heavy load limit}. The amount of loose stone that fills a 5'x5' area weighs one ton (2,000 pounds).{CR~}{Space~5}Therefore, the average adventurer (Str 10, heavy load limit 100 lb.) takes 4 minutes to clear a 5-foot cube filled with stone (100 lb. × 5 = 500 lb.; 500 lb. × 4 = 2,000 lb.). A half-orc with 20 Strength (heavy load limit 400 lb.) can accomplish the same feat in 1 minute (400 lb. × 5 = 2,000 lb.). {CR~}{Space~5}{Italic~Appropriate tool:} Such as a pick, crowbar, or shovel, a digger can clear loose stone {Color~Green,twice as quickly} as by hand. {CR~}{Space~5}{Bold~Freeing yourself:} Strength DC25 to allow a buried character to free himself.||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/environmental-hazards/cave-in-or-collapse-cr-8|
+1,Murderer's Beard|Book=d20pfsrd||Type=Living! Fungus||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/special-hazards/murderer-s-beard-cr-8|
+#
+# A Dozen Hazards / 13 Hazards (Ronin Arts)
+1,Lava Pool (4x5' squares)|Book=12HazDra1||Type=Environmental! Terrain! Mundane||Env=Any Climate! Any Terrain! Red Dragon' Lair||HazardLink=[Permanent_Variables.ShowLink(12HazDra1_Link)]|
+# All Hazards Great and Small (Silverthorne) AAGaS
+1,Bonepicker Scarabs (80 square ft.)|Book=AAGaS||Type=Living! Vermin||Env=Urban! Underground||HazardLink=[Permanent_Variables.ShowLink(AAGaS_Link)]|
+1,Greyspore|Book=AAGaS||Type=Living! Mold! Mundane||Env=Underground||HazardLink=[Permanent_Variables.ShowLink(AAGaS_Link)]|
+1,|End=0|
+
+;!HazardsCR9
+1,Abyssal Geyser (18d6 ([~18d6]) DC22)|Book=d20pfsrd||Type=Magical! Terrain||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/special-hazards/abyssal-geysers-cr-2|
+#
+# A Dozen Hazards / 13 Hazards (Ronin Arts)
+1,Lava Pool (5x5' squares)|Book=12HazDra1||Type=Environmental! Terrain! Mundane||Env=Any Climate! Any Terrain! Red Dragon' Lair||HazardLink=[Permanent_Variables.ShowLink(12HazDra1_Link)]|
+# All Hazards Great and Small (Silverthorne) AAGaS
+1,Bonepicker Scarabs (90 square ft.)|Book=AAGaS||Type=Living! Vermin||Env=Urban! Underground||HazardLink=[Permanent_Variables.ShowLink(AAGaS_Link)]|
+1,|End=0|
+
+;!HazardsCR10
+1,Abyssal Geyser (20d6 ([~20d6]) DC23)|Book=d20pfsrd||Type=Magical! Terrain||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/special-hazards/abyssal-geysers-cr-2|
+1,Claws of Frozen Rage|Book=d20pfsrd||Type=Magical||Env=Cold! Any Terrain||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/special-hazards/claws-of-frozen-rage-cr-10|
+# Tornado: See in Waterspouts.
+1,Tornado|Book=SRD||Type=Environmental! Mundane||HazardDesc=All flames are extinguished. All ranged attacks are impossible (even with siege weapons), as are Listen checks. 
+_{CR~}{Space~5}Instead of being blown away (see Table 3–24: Wind Effects), characters in close proximity to a tornado who fail their Fortitude saves are sucked toward the tornado. Those who come in contact with the actual funnel cloud are picked up and whirled around for 1d10 ([~1d10]) rounds, taking 6d6 ([~6d6]) damage/round, before being violently expelled (falling damage may apply).
+_{CR~}While a tornado’s rotational speed can be as great as 300 mph, the funnel itself moves forward at an average of 30 mph (roughly {Color~Brown,250'/round}). A tornado uproots trees, destroys buildings, and causes other similar forms of major destruction.|
+#
+# A Dozen Hazards / 13 Hazards (Ronin Arts)
+1,Lava Pool (6x5' squares)|Book=12HazDra1||Type=Environmental! Terrain! Mundane||Env=Any Climate! Any Terrain! Red Dragon' Lair||HazardLink=[Permanent_Variables.ShowLink(12HazDra1_Link)]|
+# All Hazards Great and Small (Silverthorne) AAGaS
+1,Bonepicker Scarabs (100 square ft.)|Book=AAGaS||Type=Living! Vermin||Env=Urban! Underground||HazardLink=[Permanent_Variables.ShowLink(AAGaS_Link)]|
+1,|End=0|
+
+;!HazardsCR11
+#
+# A Dozen Hazards / 13 Hazards (Ronin Arts)
+1,Lava Pool (2 pools of 5x5' squares)|Book=12HazDra1||Type=Environmental! Terrain! Mundane||Env=Any Climate! Any Terrain! Red Dragon' Lair||HazardLink=[Permanent_Variables.ShowLink(12HazDra1_Link)]|
+1,|End=0|
+
+;!HazardsCR12
+#
+# A Dozen Hazards / 13 Hazards (Ronin Arts)
+1,Lava Pool (2 pools of 6x5' squares)|Book=12HazDra1||Type=Environmental! Terrain! Mundane||Env=Any Climate! Any Terrain||HazardLink=[Permanent_Variables.ShowLink(12HazDra1_Link)]|
+1,|End=0|
+
+;!HazardsCR13
+#
+# A Dozen Hazards / 13 Hazards (Ronin Arts)
+1,Lava Pool (4 pools of 5x5' squares)|Book=12HazDra1||Type=Environmental! Terrain! Mundane||Env=Any Climate! Any Terrain! Red Dragon' Lair||HazardLink=[Permanent_Variables.ShowLink(12HazDra1_Link)]|
+1,|End=0|
+
+;!HazardsCR14
+#
+# A Dozen Hazards / 13 Hazards (Ronin Arts)
+1,Lava Pool (4 pools of 6x5' squares)|Book=12HazDra1||Type=Environmental! Terrain! Mundane||Env=Any Climate! Any Terrain||HazardLink=[Permanent_Variables.ShowLink(12HazDra1_Link)]|
+1,|End=0|
+
+;!HazardsCR15
+1,Burning Geyser|Book=d20pfsrd||Type=Environmental! Mundane||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/environmental-hazards/burning-geyser-cr-15|
+#
+# A Dozen Hazards / 13 Hazards (Ronin Arts)
+1,Lava Pool (8 pools of 5x5' squares)|Book=12HazDra1||Type=Environmental! Terrain||Env=Any Climate! Any Terrain! Red Dragon' Lair||HazardLink=[Permanent_Variables.ShowLink(12HazDra1_Link)]|
+1,|End=0|
+
+;!HazardsCR16
+#
+# A Dozen Hazards / 13 Hazards (Ronin Arts)
+1,Lava Pool (8 pools of 6x5' squares)|Book=12HazDra1||Type=Environmental! Terrain! Mundane||Env=Any Climate! Any Terrain! Red Dragon' Lair||HazardLink=[Permanent_Variables.ShowLink(12HazDra1_Link)]|
+1,|End=0|
+
+;!HazardsCR17
+1,Negative Energy Field|Book=d20pfsrd||Type=Magical||HazardLink=http://www.d20pfsrd.com/gamemastering/traps-hazards-and-special-terrains/hazards/special-hazards/negative-energy-field-cr-17|
+1,|End=0|
+
+# ------------------------------------------------------------------------------------------------------
+
+;Falling Refuse
+2,Chamber pot contents; any that are affected must make a DC 12 Fortitude save or face the chance of contracting a {Color~Red,disease} of the DM’s choosing.
+2,Meal scraps; the leftovers that are unfit for man or beast. Rinds, peels, and assorted other slop land on the affected party, forcing a {Color~Red,-2 penalty on all Charisma-based checks} and skills until the material is cleaned away.
+4,Assorted, harmless trash; no negative effect.
+1,Small, slightly dangerous objects; nails, bits of broken wood, and other small, light objects. Affected individuals suffer 1d3 ([~1d3]) damage from the falling debris.
+1,Heavy objects; a broken chair, a battered trunk, anything no longer useful but still heavy. Affected individuals suffer 2d4 ([~2d4]) damage from falling debris.
+
+;Funeral Procession
+1,Small procession, {Bold~{Dice~4d6+1}} people on foot; hazard remains in effect for {Bold~{Dice~1d3}} rounds.
+1,Small procession mixed, {Bold~{Dice~6d6+2}} people on foot and a single carriage; hazard remains in effect for {Bold~{Dice~1d4+1}} rounds.
+1,Medium procession, {Bold~{Dice~8d6+3}} people on foot; hazard remains in effect for {Bold~{Dice~1d6+2}} rounds.
+1,Medium procession mixed, {Bold~{Dice~10d6+4}} people on foot and {Bold~{Dice~1d4+1}} carriages; hazard remains in effect for {Bold~{Dice~1d8+2}} rounds.
+1,Large procession, {Bold~{Dice~12d6+5}} people on foot; hazard remains in effect for {Bold~{Dice~1d12+2}} rounds.
+1,Large procession mixed, {Bold~{Dice~14d6+6}} people on foot and {Bold~{Dice~2d6+2}} carriages; hazard remains in effect for {Bold~{Dice~2d12+4}} rounds.
+
+;Irradiated Zone_Shape
+1,x [Irradiated Zone_Size] rectangle
+1,radius sphere
+1,cube
+
+:!Irradiated Zone_Size
+1,5'
+2,10'
+3,15'
+4,20'
+5,25'
+6,30'
+
+:Irradiated Zone_Strength
+1,lightly irradiated
+2-3,moderately irradiated
+4-5,highly irradiated
+6,severely irradiated
+
+:Wasteland Rain
+1,duration of [Wasteland Rain Time], [Irradiated Zone_Strength][Wasteland Rain Corrosive Pool]
+
+:Wasteland Rain Time
+1,|Temp={Dice~2d4}|{Bold~%Temp%} minutes
+2-3,|Temp={Dice~2d6+2}|{Bold~%Temp%} minutes
+4-5,|Temp={Dice~2d8+4}|{Bold~%Temp%} minutes
+6,|Temp={Dice~2d10+6}|{Bold~%Temp%} minutes
+
+:Wasteland Rain Corrosive Pool
+1,|Temp+5|{If~{Dice~1d100}<=%Temp%?, leaving {Bold~{Dice~2d4}} corrosive pools (see 13HazFut1)/, leaving no corrosive pools}
+_|Temp/2|{If~{Dice~1d100}<=%Temp%?, and creating an irradiated zone ( ([~Irradiated Zone_Strength], [~Irradiated Zone_Size] [~Irradiated Zone_Shape]; see 13HazFut1)}
+

@@ -1,0 +1,515 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder Feb 28, 2006.
+# ---------------------------------------------------
+#
+# Ranger Followers
+# Input by Dawn M. Burge
+# Source: The Complete Ranger's Handbook by Rick Swan, copywrite 1993 TSR, Inc.
+# Tables 33-43
+# There is no intent to infringe on any copywrite.
+#
+# Modified by Valminder, Feb 2006.
+#    Adapted for TSv5.
+#
+
+%Region%,0
+%Gender%,0
+%H%,
+%Cha%,
+%Dc%,
+
+@Region,4,Select Region,Arctic,Aquatic,Desert,Forest,Hill,Jungle,Mountain,Plains,Swamp,Underdark
+@Cha,10,Ranger's Charisma?
+@Gender,1,Select Gender (only applies in the Forest region),Male,Female
+
+:Start
+1,{Status~Ranger Followers}<p class="mar0">After 10th level a ranger starts to gather followers. They do not appear all at once, but over the ranger's lifetime.</p>
+_<p class="mar0b">The ranger's followers will be:
+_<ul style="margin:0 20px;">|H=[Hench=%Cha%]||Dc={Dice~2d6}|
+_{If~%H%>%Dc%?{Loop~%Dc%,<li />{Cap~[Region=%Region%]}}/{Loop~%H%,<li />{Cap~[Region=%Region%]}}}</ul></p>
+_<p class="mar0">There may be more followers than the ranger's charisma will permit.</p>
+
+:Hench
+1,0
+2,1
+3,1
+4,1
+5,2
+6,2
+7,3
+8,3
+9,4
+10,4
+11,4
+12,5
+13,5
+14,6
+15,7
+16,8
+17,10
+18,15
+19,20
+20,25
+21,30
+22,35
+23,40
+24,45
+25,50
+
+:Region
+1,[Arctic]
+2,[Aquatic]
+3,[Desert]
+4,[Forest]
+5,[Hill]
+6,[Jungle]
+7,[Mountain]
+8,[Plains]
+9,[Swamp]
+10,[Underdark]
+
+:Arctic
+1-7,[Arctic1] who can learn {Dice~2d4} tricks or tasks with low trainability
+8-15,[Arctic8] who can learn {Dice~2d4} tricks or tasks with low trainability
+16-25,polar bear who can learn {Dice~2d4+2} tricks or tasks with medium trainability
+26,[Arctic26] Elephant who can learn {Dice~2d4+2} tricks or tasks with medium trainability<li>{Cap~[Arctic]}
+27,elephant, oliphant who can learn {Dice~2d4+4} tricks or tasks with high trainability	
+28-30,snow leopard who can learn {Dice~2d4+2} tricks or tasks with medium trainability
+31-32,giant lynx who can learn {Dice~2d4+4} tricks or tasks with high trainability<li>{Cap~[Arctic]}
+33-34,smilodon who can learn {Dice~2d4+2} tricks or tasks with medium trainability<li>{Cap~[Arctic]}
+35-37,[Dog] dog who can learn {Dice~2d4+2} tricks or tasks with medium trainability
+38-43,[Arctic38] who can learn {Dice~2d4} tricks or tasks with low trainability
+44-45,remorhaz who can learn {Dice~2d4} tricks or tasks with low trainability<li>{Cap~[Arctic]}
+46-49,seal who can learn {Dice~2d4+2} tricks or tasks with medium trainability
+50-52,selkie
+53-54,ice Toad who can learn {Dice~2d4+4} tricks or tasks with high trainability<li>{Cap~[Arctic]}
+55-56,walrus who can learn {Dice~2d4+2} tricks or tasks with medium trainability
+57-62,[Arctic57] wolf who can learn {Dice~2d4+2} tricks or tasks with medium trainability
+63-66,[NG] wolverine who can learn {Dice~2d4+2} tricks or tasks with medium trainability
+67-70,yeti
+71-100,{Ordinal~{Dice~1d4}} level [HumanDemihuman]
+
+:Arctic1
+1,caribou
+2,reindeer
+3,musk-ox
+
+:Arctic8
+1,penguin
+2,tern
+3,snowy owl
+
+:Arctic26
+1,mammoth
+2,mastodon
+
+:Arctic38
+1,ermine
+2,snow hare
+
+:Arctic57
+1,common
+2,dire
+
+:Aquatic
+1-12,[Aquatic1] who can learn {Dice~2d4} tricks or tasks with low trainability
+13-14,giant crab who can learn {Dice~1d4-1} tricks with negligable trainability
+15-18,commom crocodile who can learn {Dice~1d4-1} tricks with negligable trainability
+19-20,[Aquatic19] eel who can learn {Dice~1d4-1} tricks with negligable trainability
+21-22,[Aquatic21] who can learn {Dice~2d4} tricks or tasks with low trainability
+23-24,giant frog who can learn {Dice~1d4-1} tricks with negligable trainability
+25-32,dolphin who can learn {Dice~2d4+4} tricks or tasks with high trainability
+33-34,hippocampus who can learn {Dice~2d4+4} tricks or tasks with high trainability<li>{Cap~[Aquatic]}
+35-36,locathah<li>{Cap~[Aquatic]}
+37-41,[Aquatic37] who can learn {Dice~2d4} tricks or tasks with low trainability
+42-43,merman
+44-45,nixie<li>{Cap~[Aquatic]}
+46-47,giant octopus who can learn {Dice~1d4-1} tricks with negligable trainability<li>{Cap~[Aquatic]}
+48-50,giant seahorse who can learn {Dice~2d4+2} tricks or tasks with medium trainability
+51-54,sea lion who can learn {Dice~2d4+2} tricks or tasks with medium trainability
+55-58,selkie
+59-60,triton<li>{Cap~[Aquatic]}
+61-100,{Ordinal~{Dice~1d4}} level [HumanDemihuman]
+
+:Aquatic1
+1,gull
+2,duck
+3,osprey
+4,parrot
+5,pelican
+
+:Aquatic19
+1,electric
+2,giant
+3,weed 
+
+:Aquatic21
+1,pike
+2,catfish
+
+:Aquatic37
+1,beaver
+2,sea otter
+3,giant otter
+
+:Desert
+1-8,[Desert1] who can learn {Dice~2d4} tricks or tasks with low trainability
+9-13,camel who can learn {Dice~2d4} tricks or tasks with low trainability
+14-23,[Dog] dog who can learn {Dice~2d4+2} tricks or tasks with medium trainability
+24-25,moon dog who can learn {Dice~2d4+4} tricks or tasks with high trainability<li>{Cap~[Desert]}
+26-28,griffon who can learn {Dice~2d4+2} tricks or tasks with medium trainability<li>{Cap~[Desert]}
+29-35,[Horse={Dice~1d3}] horse who can learn {Dice~2d4+2} tricks or tasks with medium trainability
+36-40,jackal who can learn {Dice~2d4+2} tricks or tasks with medium trainability
+41-42,jann<li>{Cap~[Desert]}
+43-44,giant lizard who can learn {Dice~1d4-1} tricks with negligable trainability
+45-50,[Desert45] who can learn {Dice~2d4} tricks or tasks with low trainability
+51-52,large scorpion who can learn {Dice~1d4-1} tricks with negligable trainability
+53-55,poisonous snake who can learn {Dice~1d4-1} tricks with negligable trainability
+56-58,thri-kreen
+59-60,[Desert59] toad who can learn {Dice~1d4-1} tricks with negligable trainability
+61-100,{Ordinal~{Dice~1d4}} level [HumanDemihuman]
+
+:Desert1
+1,falcon
+2,hawk
+3,owl
+4,vulture
+
+:Desert45
+1,jackrabbit
+2,kangaroo rat
+3,prairie dog
+
+:Desert59
+1,fire
+2,giant
+
+:Forest
+1-4,[Forest1] who can learn {Dice~2d4} tricks or tasks with low trainability
+5-12,[Forest5] who can learn {Dice~2d4} tricks or tasks with low trainability
+13-14,[CG] badger who can learn {Dice~2d4} tricks or tasks with low trainability
+15-16,[CG] bat who can learn {Dice~2d4} tricks or tasks with low trainability
+17-28,[Bear={Dice~1d2}] bear who can learn {Dice~2d4+2} tricks or tasks with medium trainability
+29-31,[WG] boar who can learn {Dice~2d4+2} tricks or tasks with medium trainability
+32-34,sylvan centaur
+35-41,[Forest35] who can learn {Dice~2d4} tricks or tasks with low trainability
+42,{If~%Gender%=1?pegasus/{If~{Dice~1d100}<50?pegasus/unicorn}}<li>{Cap~[Forest]}
+43,pixie<li>{Cap~[Forest]}
+44-45,[Porcu] porcupine who can learn {Dice~2d4} tricks or tasks with low trainability
+46,pseudodragon<li>{Cap~[Forest]}
+47,satyr<li>{Cap~[Forest]}
+48-49,[NG] skunk who can learn {Dice~2d4} tricks or tasks with low trainability
+50,treant<li>{Cap~[Forest]}
+51,voadkyn<li>{Cap~[Forest]}
+52-54,[WG] weasel who can learn {Dice~2d4} tricks or tasks with low trainability
+55,werebear<li>{Cap~[Forest]}
+56-60,wolf who can learn {Dice~2d4+2} tricks or tasks with medium trainability
+61-100,{Ordinal~{Dice~1d4}} level [HumanDemihuman]
+
+:Forest1
+1,deer
+2,stag
+
+:Forest5
+1,falcon
+2,hawk
+3,owl
+
+:Forest35
+1,ferret
+2,fox
+3,squirrel
+4,raccoon
+5,rabbit
+6,woodchuck
+7,chipmunk
+
+:Hill
+1-5,[Hill1] who can learn {Dice~2d4} tricks or tasks with low trainability
+6-7,aurumvorax<li>{Cap~[Hill]}
+8-17,[Hill8] who can learn {Dice~2d4} tricks or tasks with low trainability
+18-19,[CG] badger who can learn {Dice~2d4} tricks or tasks with low trainability
+20-21,[Bat] bat who can learn {Dice~2d4} tricks or tasks with low trainability
+22-32,[Bear] bear who can learn {Dice~2d4+2} tricks or tasks with medium trainability
+33-36,[WG] boar who can learn {Dice~2d4+2} tricks or tasks with medium trainability
+37,brownie<li>{Cap~[Hill]}
+38,firedrake who can learn {Dice~2d4+2} tricks or tasks with medium trainability<li>{Cap~[Hill]}
+39,hippogriff who can learn {Dice~2d4+2} tricks or tasks with medium trainability<li>{Cap~[Hill]}
+40-43,[Horse=(Dice~1d5}] horse who can learn {Dice~2d4+2} tricks or tasks with medium trainability
+44-46,minotaur lizard who can learn {Dice~1d4-1} tricks with negligable trainability
+47-54,[Hill47] who can learn {Dice~2d4+2} tricks or tasks with medium trainability
+55,pegasus who can learn {Dice~2d4+4} tricks or tasks with high trainability<li>{Cap~[Hill]}
+56-59,wolf who can learn {Dice~2d4+2} tricks or tasks with medium trainability
+60,wereboar<li>{Cap~[Hill]}
+61-100,{Ordinal~{Dice~1d4}} level [HumanDemihuman]
+
+:Hill1
+1,deer
+2,goat
+3,sheep
+
+:Hill8
+1,falcon
+2,hawk
+3,owl
+
+:Hill47
+1,fox
+2,mouse
+3,rabbit
+4,squirrel
+
+:Jungle
+1-5,[Jungle1] who can learn {Dice~2d4} tricks or tasks with low trainability
+6-7,carnivorous ape who can learn {Dice~2d4+4} tricks or tasks with high trainability<li>{Cap~[Jungle]}
+8-15,[Jungle8] who can learn {Dice~2d4} tricks or tasks with low trainability
+16-17,[Bat] bat who can learn {Dice~2d4} tricks or tasks with low trainability
+18-19,boalisk who can learn {Dice~2d4} tricks or tasks with low trainability
+20-21,warthog who can learn {Dice~2d4+2} tricks or tasks with medium trainability
+22,couatl<li>{Cap~[Jungle]}
+23-24,faerie dragon<li>{Cap~[Jungle]}
+25-26,elephant who can learn {Dice~2d4+2} tricks or tasks with medium trainability
+27-36,[Jungle27] who can learn {Dice~2d4+2} tricks or tasks with medium trainability
+37-38,Grippli who can learn {Dice~2d4+2} tricks or tasks with medium trainability
+39-40,advanced lizard man
+41-47,[Jungle41] who can learn {Dice~2d4} tricks or tasks with low trainability
+48-50,[Jungle48] who can learn {Dice~2d4+4} tricks or tasks with high trainability
+51-52,rhinoceros who can learn {Dice~2d4} tricks or tasks with low trainability<li>{Cap~[Jungle]}
+53-56,[Snake] snake who can learn {Dice~1d4-1} tricks with negligable trainability
+57-58,weretiger<li>{Cap~[Jungle]}
+59-60,tabaxi
+61-100,{Ordinal~{Dice~1d4}} level [HumanDemihuman]
+
+:Jungle1
+1,zebra
+2,giraffe
+3,antelope
+
+:Jungle8
+1,parrot
+2,cockatoo
+3,toucan
+
+:Jungle16
+1,common
+2,large
+
+:Jungle27
+1,lion
+2,tiger
+3,jaguar
+4,leopard
+
+:Jungle41
+1,ferret
+2,monkey
+3,mouse
+
+:Jungle48
+1,baboon
+2,orangutan
+
+:Mountain
+1-3,aarakocra<li>{Cap~[Mountain]}
+4-11,[Mountain4] who can learn {Dice~2d4} tricks or tasks with low trainability
+12-21,[Mountain12] who can learn {Dice~2d4} tricks or tasks with low trainability
+22-24,[CG] badger who can learn {Dice~2d4} tricks or tasks with low trainability
+25-36,[Bear] bear who can learn {Dice~2d4+2} tricks or tasks with medium trainability
+37,firedrake<li>{Cap~[Mountain]}
+38-39,giant eagle who can learn {Dice~2d4+4} tricks or tasks with high trainability<li>{Cap~[Mountain]}
+40,galeb duhr<li>{Cap~[Mountain]}
+41-45,mountain lion who can learn {Dice~2d4+2} tricks or tasks with medium trainability
+46-47,griffin who can learn {Dice~2d4+2} tricks or tasks with medium trainability<li>{Cap~[Mountain]}
+48-50,hippogriff who can learn {Dice~2d4+2} tricks or tasks with medium trainability<li>{Cap~[Mountain]}
+51-53,minotaur lizard who can learn {Dice~1d4-1} tricks with negligable trainability
+54-60,[Mountain54] who can learn {Dice~2d4+2} tricks or tasks with medium trainability
+61-65,wolf who can learn {Dice~2d4+2} tricks or tasks with medium trainability
+66-100,{Ordinal~{Dice~1d4}} level [HumanDemihuman]
+
+:Mountain4
+1,goat
+2,deer
+3,sheep
+
+:Mountain12
+1,wild eagle
+2,falcon
+3,hawk
+4,owl
+
+:Mountain54
+1,fox
+2,mouse
+3,squirrel
+4,beaver
+
+:Plains
+1-6,[Plains1] who can learn {Dice~2d4} tricks or tasks with low trainability
+7-18,[Plains7] who can learn {Dice~2d4} tricks or tasks with low trainability
+19-21,[CG] badger who can learn {Dice~2d4} tricks or tasks with low trainability
+22-24,[WG] boar who can learn {Dice~2d4+2} tricks or tasks with medium trainability
+25-26,brownie<li>{Cap~[Plains]}
+27-32,[Dog] dog who can learn {Dice~2d4+2} tricks or tasks with medium trainability
+33-35,blink dog who can learn {Dice~2d4+4} tricks or tasks with high trainability<li>{Cap~[Plains]}
+36-42,[Plains36] who can learn {Dice~2d4} tricks or tasks with low trainability
+43-44,[Plains43] small cat who can learn {Dice~2d4+2} tricks or tasks with medium trainability
+45-49,[Horse] horse who can learn {Dice~2d4+2} tricks or tasks with medium trainability
+50-51,hyena who can learn {Dice~2d4} tricks or tasks with low trainability
+52-53,[CG] rat who can learn {Dice~2d4+2} tricks or tasks with medium trainability	
+54-55,wemic
+56-100,{Ordinal~{Dice~1d4}} level [HumanDemihuman]
+
+:Plains1
+1,deer
+2,goat
+3,buffalo
+4,sheep
+5,cattle
+6,antelope
+
+:Plains7
+1,falcon
+2,hawk
+3,owl
+4,pigeon
+5,crow
+6,raven
+
+:Plains36
+1,mouse
+2,fox
+3,chipmunk
+4,rabbit
+5,wild pig
+6,gopher
+7,hamster
+
+:Plains43
+1,domestic
+2,wild
+
+:Swamp
+1-8,[Swamp1] who can learn {Dice~2d4} tricks or tasks with low trainability
+9-11,[CG] badger who can learn {Dice~2d4} tricks or tasks with low trainability
+12-14,[Bat] bat who can learn {Dice~2d4} tricks or tasks with low trainability
+15-17,[Swamp15] boar who can learn {Dice~2d4+2} tricks or tasks with medium trainability
+18-22,common crocodile who can learn {Dice~1d4-1} tricks with negligable trainability
+23-25,giant frog who can learn {Dice~1d4-1} tricks with negligable trainability
+26-28,giant lizard who can learn {Dice~1d4-1} tricks with negligable trainability
+29-32,advanced lizard man
+33-39,[Swamp33] who can learn {Dice~2d4} tricks or tasks with low trainability
+40-41,water naga<li>{Cap~[Swamp]}
+42-44,[Porcu] porcupine who can learn {Dice~2d4} tricks or tasks with low trainability
+45-47,[CG] rat who can learn {Dice~2d4+2} tricks or tasks with medium trainability
+48,shambling mound who can learn {Dice~2d4} tricks or tasks with low trainability<li>{Cap~[Swamp]}
+49-60,[Snake={Dice~1d2}] snake who can learn {Dice~1d4-1} tricks with negligable trainability
+61-63,giant toad who can learn {Dice~1d4-1} tricks with negligable trainability	
+64-65,werebear<li>{Cap~[Swamp]}
+61-100,{Ordinal~{Dice~1d4}} level [HumanDemihuman]
+
+:Swamp1
+1,owl
+2,heron
+3,loon
+4,raven
+
+:Swamp15
+1,wild
+2,giant
+3,warthog
+
+:Swamp33
+1,ferret
+2,fox
+3,otter
+4,mouse
+5,muskrat
+
+:Underdark
+1-6,[Bat] bat who can learn {Dice~2d4} tricks or tasks with low trainability
+7-18,cave bear who can learn {Dice~2d4+2} tricks or tasks with medium trainability
+19-21,[Underdark19] beetle who can learn {Dice~2d4} tricks or tasks with low trainability
+22-24,common crocodile who can learn {Dice~1d4-1} tricks with negligable trainability
+25-26,doppleganger<li>{Cap~[Underdark]}
+27-34,giant lizard who can learn {Dice~2d4+2} tricks or tasks with medium trainability
+35-38,subterranean lizard who can learn {Dice~1d4-1} tricks with negligable trainability
+39-40,common mimic who can learn {Dice~2d4+4} tricks or tasks with high trainability<li>{Cap~[Underdark]}
+41-48,mongrelman
+49-51,myconid who can learn {Dice~2d4} tricks or tasks with low trainability<li>{Cap~[Underdark]}
+52-53,otyugh who can learn {Dice~2d4+2} tricks or tasks with medium trainability<li>{Cap~[Underdark]}
+54-59,owlbear who can learn {Dice~2d4} tricks or tasks with low trainability
+60-62,[CG] rat who can learn {Dice~2d4+2} tricks or tasks with medium trainability
+63-65,giant—steeder spider who can learn {Dice~2d4+4} tricks or tasks with high trainability
+66-100,{Ordinal~{Dice~1d4}} level [HumanDemihuman]
+
+:Underdark19
+1,fire
+2,boring
+
+#Subspecies: This assumes a subspecies native to the Underdark that is more intelligent or trainable than the standard species.
+
+:!HumanDemihuman
+1-2,bard
+3,half-elven bard
+4-6,druid
+7-8,half-elven druid
+9-14,cleric
+15,Elven Cleric<li>{AorAn~{Ordinal~{Dice~1d4}} level [HumanDemihuman]}
+16,half-elven cleric
+17-23,elven fighter
+24-28,gnomish fighter
+29-33,halfling fighter
+34-51,fighter
+52,half-elven fighter/cleric
+53-54,Elven Fighter/Mage<li>{AorAn~{Ordinal~{Dice~1d4}} level [HumanDemihuman]}
+55,Gnomish Fighter/Illusionist<li>{AorAn~{Ordinal~{Dice~1d4}} level [HumanDemihuman]}
+56-67,half-elven ranger
+68-92,ranger
+93,half-elven ranger/cleric
+94-95,halfling thief
+96-97,thief
+98,gnomish thief
+99-100,[HumanDemihuman]
+
+:Bat
+1,common
+2,large
+
+:Bear
+1,black
+2,brown
+3,cave
+
+:WG
+1,wild
+2,giant
+
+:Dog
+1,wild
+2,war
+
+:Horse
+1,wild
+2,light
+3,medium
+4,pony
+5,mule
+6,heavy
+
+:Porcu
+1,black
+2,brown
+3,giant
+
+:Snake
+1,normal constrictor
+2,giant constrictor
+3,jaculi
+
+:CG
+1,common
+2,giant
+
+:NG
+1,normal
+2,giant

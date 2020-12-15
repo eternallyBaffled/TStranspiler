@@ -1,0 +1,2783 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder Feb 28, 2006.
+# ---------------------------------------------------
+#
+# Star Wars Character Generator 1.03
+# 
+# Created by Patrick Hodak
+#
+# Comments include: Brief Description, General Notes, Future Improvements 
+#
+# UPDATES FROM VERSION 0.50
+# Normal Classes Added, Normal Races Added, Random Class/Race Added
+# UPDATES FROM VERSION 0.75
+# Extended Races Added, Randomization changed to Probability Format
+# UPDATES FROM VERSION 0.85
+# AA Races Added, Attack Bonuses Added, Image Code Added
+# UPDATES FROM VERSION 0.90
+# AA Races included in randomization, Utilizes new weapon generator
+# UPDATES FROM VERSION 1.00
+# Tech Specialist Added, Altered Weapon Gen. Source
+# UPDATES FROM VERSION 1.01
+# Re-formatted output into complete table, added GM Archetypes
+# UPDATES FROM VERSION 1.02
+#
+# *********************************************************
+#         This table still needs feats and skills
+# ********************************************************* 
+#
+# Modified by Valminder, Jan 2006.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+#    Fixed
+#       Grapple attacks were not correct.
+#    Added
+#       Force Sensitive variable
+#       Graphics (the missing one) and updated others.
+#       Parameter: Level 1-20 (to generate completely random stuff)
+#       Race: Ewok.
+#       Some {Loop~} for the hit points.
+#    Added link to:
+#       Miscellaneous.Personality
+#       Names Generator.NAME Random (instead of only Fantasy Names.Start)
+# Modified by Valminder, Feb 2006.
+#    Removed "SortDesc~" and modified the table.
+#
+
+/OverrideRolls 1
+
+# If you have images of specific races, put them in the graphics folder
+# of Tablesmith. Small scale graphics are preferred.
+# %Path1%,<IMG SRC="C:\Program Files\Tablesmith\Graphics\NPC Gen\
+%Path1%,<IMG SRC="Graphics\SW NPC Gen\
+%Path2%,.jpg" WIDTH=0 HEIGHT=0>
+
+%Race%,1
+%Class%,1
+%Size%,Medium
+%Level%,1
+%Intro%,1
+%Pic%,1
+%UseArc%,2
+%Arc%,1
+# 1=Yes 2=No 3=Random
+%ForceSensitive%,3
+
+%DefSizeMod%,0
+%DefMiscMod%,0
+%AtkSizeMod%,0
+%GrapSizeMod%,0
+%FortMiscMod%,0
+%RefMiscMod%,0
+%WillMiscMod%,0
+%MelMiscMod%,0
+%RangMiscMod%,0
+%GrapMiscMod%,0
+
+%STR%,0
+%DEX%,0
+%CON%,0
+%INT%,0
+%CHA%,0
+%WIS%,0
+
+%ROLL1%,0
+%ROLL2%,0
+%ROLL3%,0
+%ROLL4%,0
+%ROLL5%,0
+%ROLL6%,0
+
+%Total%,0
+%LowRoll%,0
+%Die1%,0
+%Die2%,0
+%Die3%,0
+%Die4%,0
+
+%Lvl%,0
+%HP%,0
+%HPMod%,0
+%HPMod2%,0
+%X%,0
+
+%BASEATK%,0
+%BASEATK2%,0
+%BASEATK3%,0
+%BASEATK4%,0
+%CSTATS1%,0
+%BASEDEF%,0
+%Melee%,0
+%Ranged%,0
+%Grapple%,0
+%DefBon%,10
+%BASEREFLEX%,0
+%BASEFORT%,0
+%BASEWILL%,0
+%CSTATS2%,0
+%Reflex%,0
+%Fortitude%,0
+%Will%,0
+%speed%,10
+
+%temp%,0
+%A1%,0
+%B1%,0
+%C1%,0
+%D1%,0
+%E1%,0
+%F1%,0
+%G1%,0
+%H1%,0
+%A2%,0
+%B2%,0
+%C2%,0
+%D2%,0
+%E2%,0
+%F2%,0
+%G2%,0
+%H2%,0
+
+%ASTATS1%,0
+%ASTATS2%,0
+%ArcBonus%,0
+%Class1%,0
+%Class2%,0
+%Class3%,0
+%Lvl1%,0
+%Lvl2%,0
+%Lvl3%,0
+%MakeHuman%,0
+
+%ChkSTR%,0
+%ChkCON%,0
+%ChkDEX%,0
+%ChkWIS%,0
+%ChkINT%,0
+%ChkCHA%,0
+
+# Temporary variable to put the rolls in order (Feb 2006).
+%TempSort%,0
+
+@Intro,2,Would you like to view instructions?,Yes,No
+@Race,182,Choose Race,Human--CRB--,Cerean,Gungan,Ithorian,Mon Calamari,Rodian,Sullustan,Trandoshan,Twi'lek,Wookiee,Aqualish--AA--,Arcona,Arkanian,Barabel,Baragwin,Bimm,Bith,Chadra-Fan,Chagrian,Chev,Chevin,Chiss,Dashade,Devaronian,Drall,Duros,Elom,Elomin,Falleen,Farghul,Frozian,Gand,Gotal,Gran,Herglic,Hoojib,Ikotchi,Kel Dor,Kitonak,Klatoonian,Kubaz,Lahsbee,Mantellian Savrip,Morseerian,Mrissi,Omwati,Ortolan,Quarren,Quermian,Rybet,Sakiyan,Selonian,Shistavnen,Skrilling,Sluissi,Sneevel,Snivvian,Spiner,Squib,Ssi-Ruu,Talz,Toong,Toydarian,Ubese,Ugnaught,Verpine,Vuvrian,Woostoid,Xexto,Yevetha,Yinchorri,Zabrak,Bothan--RCRB--,Dug,Gamorrean,Hutt,Noghri,Droid,Abyssin--UAA--,Adarian,Advose,Amanin,Anomid,Anx,Anzat,Ayrou,Balosar,Bartokk,Besalisk,Blood Carver,Caamasi,Caarite,Cathar,Celegian,Charon,Clawdite,Codru-Ji,Colicoid,Cragmoloid,Dantari,Defel,Draethos,Dressellian,Ebranite,Em'Liy,Feeorin,Filordus,Geonosian Aristocrat,Geonosian Warrior,Givin,Gossam,H'nemthe,Ho'Din,Houk,Iotran,Ish Tib,Jawa,Jenet,Kaminoan,Kerestian,Khil,Khommite,Kian'thar,Koorivar,Krevaaki,Krish,Kushiban,Lannik,Lepi,Menahuun,Miraluka,Muun,Myneyrsh,Nagai,Nautolan,Nazzar,Neimoidian,Neti,Nikto,Nimbanel,Noehon,Nosaurian,Nuknog,Pacithhip,Phindian,Pho Ph'eahian,Psadan,Qwohog,Ranat,Ranth,Ryn,Sanyassan,Sarkan,Sauvax,Shi'ido,Skakoan,S'kytri,Sludir,Tarasin,Tarro,Temolak,Thakwaash,Thisspiasian,Tiss'shar,Togorian,Togruta,Trianii,T'surr,Tunroth,Tusken Raider,Umbaran,Vodran,Vor,Vratix,Weequay,Whiphid,Yarkora,Yuzzem,Zehethbra,Zeltron,Ewok,Random
+@Class,13,Choose Class,Soldier,Fringer,Noble,Scoundrel,Scout,Force Adept,Tech Specialist,Jedi Consular,Jedi Guardian,Diplomat,Expert,Thug,Random
+@UseArc,1,Would you prefer to select an Archetype?,No,Yes
+@Arc,29,Choose Archetype,Administrator,Assassin,Bounty Hunter,Con Artist,Crime Lord,Dark Jedi Guardian,Doctor,Elite Trooper,Fallen Jedi,Gambler,Jedi Investigator,Medic,Mercenary,Imperial Officer,Outlaw,Pirate,Peace Officer,Slicer,Smuggler,Spy,Pilot,Stormtrooper,Technician,Trader,Boarder (Ranged),Boarder (Melee),Gunner,Sniper,Random
+@Level,8,Select Level Range,1-3,4-6,7-9,10-12,13-15,16-18,19-21,Total Random (1-20)
+
+#----------------------------------------------------------------
+# Your Basic Program Start
+# Runs either NPC program or Droid program based on selection
+#----------------------------------------------------------------
+:Start
+1,{Status~by Patrick Hodak 2005, Valminder 2006}
+_{If~%Intro%=1? [IntroScreen] / [MaybeDroid]}
+
+:MaybeDroid
+1,{If~%Race%=78? [SW Droid Gen.Start] / [Organic=%UseArc%]}
+
+:Organic
+1,<font face="verdana" size="-1">
+_<table width="100&#37" border=0><tbody style="font-size: smaller">
+_<tr><td width="75&#37" valign=top>
+_<b>Name: </b>[~Names Generator.NAME Random]</br>
+_<b>Race: </b>{If~%Race%=182? [RandomRace] / [Race=%Race%]}<br>
+_{If~%Race%=78? [TableEnd]}
+_{If~%Race%=78? [SW Droid Gen.Start] / [Organic2]}
+2,[ArchetypeStart]
+
+:TableEnd
+1,</table></font>
+
+:Organic2
+1,<b>Size: </b>%Size%<br>
+_{If~%Size%=Small? |DefSizeMod+1||AtkSizeMod+1||GrapSizeMod-4|}
+_{If~%Size%=Large? |DefSizeMod-1||AtkSizeMod-1||GrapSizeMod+4|}
+_<b>Class: </b>{If~%Class%=13? [RandomClass] / [Class=%Class%]}<br>
+_<b>Level: </b>[Level=%Level%][ClassBonus=%Class%]<br>
+_<b>Personality: </b>[~Miscellaneous.Personality]<br>
+_<b>Force:</b> Character is [Force=%ForceSensitive%]
+_<td width="0&#37" rowspan=3>%Path1%%Pic%%Path2%</td></tr>
+_<td width="100&#37" align=center bgcolor="black"><b><font color="white">Race Abilities</font></b></td></tr>
+_<td width="100&#37" align=left valign=top>
+_<li>Base land speed: %speed%m
+_[Race Abilities=%Race%]</td>
+_</tr></tbody></table>
+_{Split~CSTATS1,",",BASEATK,BASEATK2,BASEATK3,BASEATK4}
+_{Split~CSTATS2,",",BASEDEF,BASEFORT,BASEREFLEX,BASEWILL}
+_[Initial Rolls]
+_[Stats=%Class%]
+_[Check1][Modify=%Race%]
+_[DisplayCharacter]</br>
+_<b><u>Primary Weapon </u></b><br>[Weapon 1=%Class%]</br>
+_<b><u>Secondary Weapon </u></b><br>[Weapon 2=%Class%]</br>
+_<b><u>Armor </u></b><br>[Armor=%Class%]</font></br>
+
+#----------------------------------------------------------------
+# Randomizes races. All are used for randomization.
+# 
+# NOTE: Humans are most common, followed by other playable
+# 	  Races from the Core Rulebook (not RCRB).
+#----------------------------------------------------------------
+:RandomRaceExport
+1,[RandomRace];%Pic%;%Path2%
+
+;RandomRace
+40,[Race=1]
+8,[Race=2]
+2,[Race=3]
+10,[Race=4]
+10,[Race=5]
+9,[Race=6]
+5,[Race=7]
+5,[Race=8]
+10,[Race=9]
+1,[Race=10]
+1,[Race=11]
+1,[Race=12]
+1,[Race=13]
+1,[Race=14]
+1,[Race=15]
+1,[Race=16]
+1,[Race=17]
+1,[Race=18]
+1,[Race=19]
+1,[Race=20]
+1,[Race=21]
+1,[Race=22]
+1,[Race=23]
+1,[Race=24]
+1,[Race=25]
+1,[Race=26]
+1,[Race=27]
+1,[Race=28]
+1,[Race=29]
+1,[Race=30]
+1,[Race=31]
+1,[Race=32]
+1,[Race=33]
+1,[Race=34]
+1,[Race=35]
+1,[Race=37]
+1,[Race=38]
+1,[Race=39]
+1,[Race=40]
+1,[Race=41]
+1,[Race=44]
+1,[Race=45]
+1,[Race=46]
+1,[Race=47]
+1,[Race=48]
+1,[Race=49]
+1,[Race=50]
+1,[Race=51]
+1,[Race=53]
+1,[Race=54]
+1,[Race=55]
+1,[Race=56]
+1,[Race=57]
+1,[Race=58]
+1,[Race=59]
+1,[Race=60]
+1,[Race=61]
+1,[Race=62]
+1,[Race=63]
+1,[Race=64]
+1,[Race=65]
+1,[Race=66]
+1,[Race=67]
+1,[Race=68]
+1,[Race=69]
+1,[Race=70]
+1,[Race=71]
+1,[Race=72]
+1,[Race=73]
+1,[Race=74]
+2,[Race=75]
+1,[Race=76]
+1,[Race=77]
+10,[Race=78]
+20,[Race={Dice~1d103+78}]
+# 181 races total (182 with "Random")
+
+#----------------------------------------------------------------
+# Prints Race based on parameter/randomization selection.
+# Displays racial graphic with .jpg extension.
+#
+# ******** ALL GRAPHICS MUST BE IN JPG for other tables to work
+#
+#----------------------------------------------------------------
+:Race
+1,Human |Race=1||Pic=Human||Path2=.jpg" HEIGHT=300>|
+2,Cerean |Race=2| |Pic=Cerean||Path2=.jpg">|
+3,Gungan |Race=3| |Pic=Gungan||Path2=.jpg">|
+4,Ithorian |Race=4| |Pic=Ithorian{Dice~1d3}||Path2=.jpg">|
+5,Mon Calamari |Race=5| |Pic=MonCalamari||Path2=.jpg">|
+6,Rodian |Race=6| |Pic=Rodian||Path2=.jpg">|
+7,Sullustan |Race=7| |Pic=Sullustan||Path2=.jpg">|
+8,Trandoshan |Race=8| |Pic=Trandoshan||Path2=.jpg">|
+9,Twi'lek |Race=9| |Pic=Twilek||Path2=.jpg" HEIGHT=150>|
+10,Wookiee |Race=10| |Pic=Wookiee||Path2=.jpg">|
+11,Aqualish |Race=11| |Pic=Aqualish||Path2=.jpg">|
+12,Arcona |Race=12| |Pic=Arcona||Path2=.jpg" HEIGHT=400>|
+13,Arkanian |Race=13| |Pic=Arkanian||Path2=.jpg" HEIGHT=400>|
+14,Barabel |Race=14| |Pic=Barabel||Path2=.jpg">|
+15,Baragwin |Race=15| |Pic=Baragwin||Path2=.jpg">||speed=6|
+16,Bimm |Race=16| |Pic=Bimm||Path2=.jpg">||speed=6||Size=Small|
+17,Bith |Race=17| |Pic=Bith||Path2=.jpg">|
+18,Chadra-Fan |Race=18| |Pic=Chadra-Fan||Path2=.jpg">||speed=6||Size=Small|
+19,Chagrian |Race=19| |Pic=Chagrian||Path2=.jpg">|
+20,Chev |Race=20| |Pic=Chev||Path2=.jpg">|
+21,Chevin |Race=21| |Pic=Chevin{Dice~1d3}||Path2=.jpg">|
+22,Chiss |Race=22| |Pic=Chiss||Path2=.jpg">|
+23,Dashade |Race=23| |Pic=Dashade||Path2=.jpg">|
+24,Devaronian |Race=24| |Pic=Devaronian||Path2=.jpg">|
+25,Drall |Race=25| |Pic=Drall||Path2=.jpg">||speed=6||Size=Small|
+26,Duros |Race=26| |Pic=Duros{Dice~1d2}||Path2=.jpg">|
+27,Elom |Race=27| |Pic=Elom||Path2=.jpg" Height=250>||speed=6||Size=Small|
+28,Elomin |Race=28| |Pic=Elomin||Path2=.jpg">|
+29,Falleen |Race=29| |Pic=Falleen||Path2=.jpg">|
+30,Farghul |Race=30| |Pic=Farghul||Path2=.jpg">|
+31,Frozian |Race=31| |Pic=Frozian||Path2=.jpg">||speed=12||Size=Large|
+32,Gand |Race=32| |Pic=Gand||Path2=.jpg">|
+33,Gotal |Race=33| |Pic=Gotal{Dice~1d3}||Path2=.jpg">|
+34,Gran |Race=34| |Pic=Gran{Dice~1d3}||Path2=.jpg">|
+35,Herglic |Race=35| |Pic=Herglic||Path2=.jpg">||speed=8||Size=Large|
+36,Hoojib |Race=36| 
+37,Iktotchi |Race=37| |Pic=Iktotchi||Path2=.jpg">|
+38,Kel Dor |Race=38| |Pic=KelDor||Path2=.jpg">|
+39,Kitonak |Race=39| |Pic=Kitonak||Path2=.jpg">||speed=6||Size=Small|
+40,Klatooinian |Race=40| |Pic=Klatooinian||Path2=.jpg">|
+41,Kubaz |Race=41| |Pic=Kubaz{Dice~1d2}||Path2=.jpg">|
+42,Lahsbee |Race=42| |Pic=Lahsbee||Path2=.jpg">|
+43,Mentallian Savrip |Race=43| |Pic=MentallianSavrip||Path2=.jpg">|
+44,Morseerian |Race=44| |Pic=Morseerian||Path2=.jpg">|
+45,Mrlssi |Race=45| |Pic=Mrlssi||Path2=.jpg">||speed=6||Size=Small|
+46,Omwati |Race=46| |Pic=Omwati||Path2=.jpg">|
+47,Ortolan |Race=47| |Pic=Ortolan||Path2=.jpg">||speed=6||Size=Small|
+48,Quarren |Race=48| |Pic=Quarren{Dice~1d2}||Path2=.jpg">|
+49,Quermian |Race=49| |Pic=Quermian||Path2=.jpg">|
+50,Rybet |Race=50| |Pic=Rybet||Path2=.jpg">||speed=6||Size=Small|
+51,Sakiyan |Race=51| |Pic=Sakiyan||Path2=.jpg">|
+52,Selonian |Race=52| |Pic=Selonian{Dice~1d2}||Path2=.jpg">|
+53,Shistavanen |Race=53| |Pic=Shistavanen{Dice~1d2}||Path2=.jpg">|
+54,Skrilling |Race=54| |Pic=Skrilling||Path2=.jpg">|
+55,Sluissi |Race=55| |Pic=Sluissi||Path2=.jpg">|
+56,Sneevel |Race=56| |Pic=Sneevel||Path2=.jpg">|
+57,Snivvian |Race=57| |Pic=Snivvian||Path2=.jpg">||speed=6||Size=Small|
+58,Spiner |Race=58| |Pic=Spiner||Path2=.jpg">|
+59,Squib |Race=59| |Pic=Squib||Path2=.jpg">||speed=6||Size=Small|
+60,Ssi-Ruuk |Race=60| |Pic=SsiRuuk||Path2=.jpg">|
+61,Talz |Race=61| |Pic=Talz||Path2=.jpg">|
+62,Toong |Race=62| |Pic=Toong||Path2=.jpg">|
+63,Toydarian |Race=63| |Pic=Toydarian||Path2=.jpg">||speed=6||Size=Small|
+64,Ubese |Race=64| |Pic=Ubese{Dice~1d2}||Path2=.jpg">|
+65,Ugnaught |Race=65| |Pic=Ugnaught||Path2=.jpg">||speed=6||Size=Small|
+66,Verpine |Race=66| |Pic=Verpine||Path2=.jpg">|
+67,Vuvrian |Race=67| |Pic=Vuvrian||Path2=.jpg">|
+68,Woostoid |Race=68| |Pic=Woostoid||Path2=.jpg">|
+69,Xexto |Race=69| |Pic=Xexto||Path2=.jpg">||speed=6||Size=Small|
+70,Yevetha |Race=70| |Pic=Yevetha||Path2=.jpg">|
+71,Yinchorri |Race=71| |Pic=Yinchorri||Path2=.jpg">|
+72,Zabrak |Race=72| |Pic=Zabrak||Path2=.jpg">|
+73,Bothan |Race=73| |Pic=Bothan||Path2=.jpg">|
+74,Dug |Race=74| |Pic=Dug||Path2=.jpg">||speed=6||Size=Small|
+75,Gamorrean |Race=75| |Pic=Gamorrean||Path2=.jpg">|
+76,Hutt |Race=76| |Pic=Hutt||Path2=.jpg">||speed=2||Size=Large|
+77,Noghri |Race=77| |Pic=Noghri||Path2=.jpg">||speed=6|
+78,Droid |Race=78|
+79,Abyssin |Race=79||Pic=Abyssin||Path2=.jpg">|
+80,Adarian |Race=80||Pic=Adarian{Dice~1d2}||Path2=.jpg">|
+81,Advose |Race=81||Pic=Advose{Dice~1d2}||Path2=.jpg">|
+82,Amanin |Race=82||Pic=Amanin{Dice~1d3}||Path2=.jpg" HEIGHT=400>|
+83,Anomid |Race=83||Pic=Anomid||Path2=.jpg">|
+84,Anx |Race=84||speed=12||Size=Large||Pic=Anx{Dice~1d3}||Path2=.jpg">|
+85,Anzat |Race=85||Pic=Anzat||Path2=.jpg">|
+86,Ayrou |Race=86||Pic=Ayrou||Path2=.jpg" HEIGHT=300>|
+87,Balosar |Race=87||Pic=Balosar||Path2=.jpg">|
+88,Bartokk |Race=88||Pic=Bartokk||Path2=.jpg">|
+89,Besalisk |Race=89||Pic=Besalisk||Path2=.jpg">|
+90,Blood Carver |Race=90||speed=12||Pic=Blood_Carver||Path2=.jpg">|
+91,Caamasi |Race=91||Pic=Caamasi||Path2=.jpg">|
+92,Caarite |Race=92||Size=Small||speed=6||Pic=Caarite||Path2=.jpg">|
+93,Cathar |Race=93||speed=12||Pic=Cathar||Path2=.jpg">|
+94,Celegian |Race=94||speed=6||Size=Large||Pic=Celegian||Path2=.jpg">|
+95,Charon |Race=95||speed=12||Size=Large||Pic=Charon||Path2=.jpg">|
+96,Clawdite |Race=96||Pic=Clawdite||Path2=.jpg">|
+97,Codru-Ji |Race=97||Pic=Codru-Ji||Path2=.jpg">|
+98,Colicoid |Race=98||Pic=Colicoid||Path2=.jpg">|
+99,Cragmoloid |Race=99||Size=Large||Pic=Cragmoloid||Path2=.jpg">|
+100,Dantari |Race=100||Pic=Dantari||Path2=.jpg">|
+101,Defel |Race=101||speed=6||Size=Small||Pic=Defel||Path2=.jpg">|
+102,Draethos |Race=102||Pic=Draethos||Path2=.jpg">|
+103,Dressellian |Race=103||Pic=Dresselian||Path2=.jpg">|
+104,Ebranite |Race=104||speed=6||Pic=Ebranite||Path2=.jpg">|
+105,Em'Liy |Race=105||Pic=Emliy||Path2=.jpg">|
+106,Feeorin |Race=106||Pic=Feeorin||Path2=.jpg">|
+107,Filordus |Race=107||speed=14||Pic=Filordus{Dice~1d2}||Path2=.jpg" HEIGHT=300>|
+108,Geonosian Aristocrat |Race=108||Pic=Geonosian A||Path2=.jpg">|
+109,Geonosian Warrior |Race=109||Pic=Geonosian W||Path2=.jpg">|
+110,Givin |Race=110||Pic=Givin||Path2=.jpg">|
+111,Gossam |Race=111||speed=6||Size=Small||Pic=Gossam||Path2=.jpg">|
+112,H'nemthe |Race=112||Pic=Hnemthe||Path2=.jpg">|
+113,Ho'Din |Race=113||speed=12||Size=Large||Pic=Hodin{Dice~1d2}||Path2=.jpg">|
+114,Houk |Race=114||Pic=Houk||Path2=.jpg">|
+115,Iotran |Race=115||Pic=Iotran||Path2=.jpg">|
+116,Ishi Tib |Race=116||Pic=Ishitib||Path2=.jpg">|
+117,Jawa |Race=117||speed=6||Size=Small||Pic=Jawa||Path2=.jpg" HEIGHT=250>|
+118,Jenet |Race=118||speed=12||Pic=Jenet||Path2=.jpg">|
+119,Kaminoan |Race=119||Pic=Kaminoan||Path2=.jpg">|
+120,Kerestian |Race=120||Pic=Kerestian||Path2=.jpg">|
+121,Khil |Race=121||Pic=Khil||Path2=.jpg">|
+122,Khommite |Race=122||Pic=Khommite||Path2=.jpg">|
+123,Kian'thar |Race=123||Pic=Kianthar||Path2=.jpg">|
+124,Koorivar |Race=124||Pic=Koorivar||Path2=.jpg">|
+125,Krivaaki |Race=125|
+126,Krish |Race=126|
+127,Kushiban |Race=127||Size=Small||speed=6||Pic=Kushiban{Dice~1d2}||Path2=.jpg">|
+128,Lannik |Race=128||Size=Small||speed=6||Pic=Lannik||Path2=.jpg">|
+129,Lepi |Race=129||Pic=Lepi||Path2=.jpg">|
+130,Menahuun |Race=130||Size=Small||speed=6||Pic=Menahuun||Path2=.jpg">|
+131,Miraluka |Race=131||Pic=Miraluka||Path2=.jpg">|
+132,Muun |Race=132||Pic=Muun||Path2=.jpg">|
+133,Myneyrsh |Race=133||Pic=Myneyrsh||Path2=.jpg">|
+134,Nagai |Race=134||Pic=Nagai||Path2=.jpg">|
+135,Nautolan |Race=135||Pic=Nautolan||Path2=.jpg">|
+136,Nazzar |Race=136||Pic=Nazzar||Path2=.jpg">|
+137,Neimoidian |Race=137||Pic=Neimoidian{Dice~1d2}||Path2=.jpg">|
+138,Neti |Race=138||Pic=Neti{Dice~1d2}||Path2=.jpg">|
+139,Nikto |Race=139||Pic=Nikto{Dice~1d4}||Path2=.jpg" HEIGHT=200>|
+140,Nimbanel |Race=140||Pic=Nimbanel||Path2=.jpg">|
+141,Noehon |Race=141||Size=Small||speed=6||Pic=Noehon||Path2=.jpg">|
+142,Nosaurian |Race=142||Pic=Nosaurian{Dice~1d3}||Path2=.jpg">|
+143,Nuknog |Race=143||Size=Small||Pic=Nuknog||Path2=.jpg">|
+144,Pacithhip |Race=144||speed=8||Pic=Pacithhip||Path2=.jpg">|
+#145,Pa'lowick |Race=145||Pic=Palowick||Path2=.jpg">|
+145,Phindian |Race=145||Pic=Phindian||Path2=.jpg">|
+146,Pho Ph'eahian |Race=146||Pic=PhoPheahian||Path2=.jpg">|
+147,Psadan |Race=147||speed=8||Pic=Psadan||Path2=.jpg">|
+148,Qwohog |Race=148||Size=Small||speed=6||Pic=Qwohog||Path2=.jpg">|
+149,Ranat |Race=149||Size=Small||Pic=Ranat||Path2=.jpg">|
+150,Ranth |Race=150||Pic=Ranth||Path2=.jpg">|
+151,Ryn |Race=151||Pic=Ryn||Path2=.jpg">|
+152,Sanyassan |Race=152||Pic=Sanyassan||Path2=.jpg">|
+153,Sarkan |Race=153||Pic=Sarkan||Path2=.jpg">|
+154,Sauvax |Race=154||Pic=Sauvax||Path2=.jpg">|
+155,Shi'ido |Race=155||Pic=Shiido||Path2=.jpg">|
+156,Skakoan |Race=156||Pic=Skakoan||Path2=.jpg">|
+157,S'kytri |Race=157||Pic=Skytri||Path2=.jpg">|
+158,Sludir |Race=158||Size=Large||Pic=Sludir||Path2=.jpg">|
+159,Tarasin |Race=159||Pic=Tarasin||Path2=.jpg">|
+160,Tarro |Race=160||Pic=Tarro||Path2=.jpg">|
+161,Temolak |Race=161||Pic=Temolak||Path2=.jpg">|
+162,Thakwaash |Race=162||Size=Large||Pic=Thakwaash||Path2=.jpg">|
+163,Thisspiasian |Race=163||speed=8||Pic=Thisspiasian||Path2=.jpg">|
+164,Tiss'shar |Race=164||speed=12||Pic=Tissshar||Path2=.jpg">|
+165,Togorian |Race=165||Size=Large||Pic=Togorian||Path2=.jpg">|
+166,Togruta |Race=166||Pic=togruta||Path2=.jpg">|
+167,Trianii |Race=167||Pic=Trianii||Path2=.jpg">|
+168,T'surr |Race=168||Size=Large||Pic=Tsurr||Path2=.jpg">|
+169,Tunroth |Race=169||Pic=Tunroth||Path2=.jpg">|
+170,Tusken Raider |Race=170||Pic=TuskenRaider||Path2=.jpg">|
+171,Umbaran |Race=171||Pic=Umbaran||Path2=.jpg">|
+172,Vodran |Race=172||Pic=Vodran||Path2=.jpg">|
+173,Vor |Race=173||Pic=Vor||Path2=.jpg">|
+174,Vratix |Race=174||Pic=Vratix||Path2=.jpg">|
+175,Weequay |Race=175||Pic=Weequay||Path2=.jpg">|
+176,Whiphid |Race=176||Size=Large||Pic=Whiphid||Path2=.jpg">|
+177,Yarkora |Race=177||Pic=Yarkora||Path2=.jpg">|
+178,Yuzzem |Race=178||Size=Large||Pic=Yuzzem||Path2=.jpg">|
+179,Zehethbra |Race=179||Pic=Zehethbra||Path2=.jpg">|
+180,Zeltron |Race=180||Pic=Zeltron{Dice~1d2}||Path2=.jpg">|
+181,Ewok |Race=181||speed=6||Size=Small||Pic=Ewok||Path2=.jpg">|
+
+#----------------------------------------------------------------
+# Prints Class Based on Parameter. Also sets level 1 HP.
+# WHAT-IT-NEEDS: Jedi Classes, Other sourcebook classes
+#----------------------------------------------------------------
+;RandomClass
+10,[Class=1]
+20,[Class=2]
+5,[Class=3]
+15,[Class=4]
+10,[Class=5]
+1,[Class=6]
+10,[Class=7]
+
+:Class
+1,Soldier|HP=10||Class=1||ForceSensitive=3|
+2,Fringer|HP=8||Class=2||ForceSensitive=3|
+3,Noble|HP=6||Class=3||ForceSensitive=3|
+4,Scoundrel|HP=6||Class=4||ForceSensitive=3|
+5,Scout|HP=8||Class=5||ForceSensitive=3|
+6,Force Adept|HP=8||Class=6||ForceSensitive=1|
+7,Tech Specialist|HP=6||Class=7||ForceSensitive=3|
+8,Jedi Consular|HP=8||Class=8||ForceSensitive=1|
+9,Jedi Guardian|HP=10||Class=9||ForceSensitive=1|
+10,Diplomat|HP=0||Class=10||ForceSensitive=3|
+11,Expert|HP=0||Class=11||ForceSensitive=3|
+12,Thug|HP=0||Class=12||ForceSensitive=3|
+13,
+14,Bounty Hunter|HP=10||Class=14||ForceSensitive=3|
+15,Crime Lord|HP=6||Class=15||ForceSensitive=3|
+16,Elite Trooper|HP=10||Class=16||ForceSensitive=3|
+17,Jedi Investigator|HP=8||Class=17||ForceSensitive=1|
+18,Officer|HP=8||Class=18||ForceSensitive=3|
+19,Starship Ace|HP=8||Class=19||ForceSensitive=3|
+20,Sharpshooter|HP=6||Class=20||ForceSensitive=3|
+
+#----------------------------------------------------------------
+# Used to Randomly select level within Parameter Range.
+# WHAT-IT-NEEDS:
+#----------------------------------------------------------------
+
+:Level
+1,[Level1]
+2,[Level2]
+3,[Level3]
+4,[Level4]
+5,[Level5]
+6,[Level6]
+7,[Level7]
+8,|Lvl={Dice~1d20}| %Lvl%
+
+;Level1
+3,|Lvl=1| %Lvl%
+2,|Lvl=2| %Lvl%
+1,|Lvl=3| %Lvl%
+
+;Level2
+3,|Lvl=4| %Lvl%
+2,|Lvl=5| %Lvl%
+1,|Lvl=6| %Lvl%
+
+;Level3
+3,|Lvl=7| %Lvl%
+2,|Lvl=8| %Lvl%
+1,|Lvl=9| %Lvl%
+
+;Level4
+3,|Lvl=10| %Lvl%
+2,|Lvl=11| %Lvl%
+1,|Lvl=12| %Lvl%
+
+;Level5
+3,|Lvl=13| %Lvl%
+2,|Lvl=14| %Lvl%
+1,|Lvl=15| %Lvl%
+
+;Level6
+3,|Lvl=16| %Lvl%
+2,|Lvl=17| %Lvl%
+1,|Lvl=18| %Lvl%
+
+;Level7
+3,|Lvl=19| %Lvl%
+2,|Lvl=20| %Lvl%
+1,|Lvl=21| %Lvl%
+
+#----------------------------------------------------------------
+# Calculates and Prints HitPoints
+# NOTE: EDIT THIS AT YOUR OWN PERIL.
+# Because I don't know how I got it to work right.
+# WHAT-IT-NEEDS:
+#----------------------------------------------------------------
+:HitPoints
+1,|HP+%HPMod%|{If~%HP%<0? |HPMod=0|}
+2,[HPRoll=%Class%] |HP+%HPMod%|{If~%HP%<0? |HPMod=0|}
+3,{Loop~2,[HPRoll=%Class%]}|HP+%HPMod%|{If~%HP%<0? |HPMod=0|}
+4,{Loop~3,[HPRoll=%Class%]}|HP+%HPMod%|{If~%HP%<0? |HPMod=0|}
+5,{Loop~4,[HPRoll=%Class%]}|HP+%HPMod%|{If~%HP%<0? |HPMod=0|}
+6,{Loop~5,[HPRoll=%Class%]}|HP+%HPMod%|{If~%HP%<0? |HPMod=0|}
+7,{Loop~6,[HPRoll=%Class%]}|HP+%HPMod%|{If~%HP%<0? |HPMod=0|}
+8,{Loop~7,[HPRoll=%Class%]}|HP+%HPMod%|{If~%HP%<0? |HPMod=0|}
+9,{Loop~8,[HPRoll=%Class%]}|HP+%HPMod%|{If~%HP%<0? |HPMod=0|}
+10,{Loop~9,[HPRoll=%Class%]}|HP+%HPMod%|{If~%HP%<0? |HPMod=0|}
+11,{Loop~10,[HPRoll=%Class%]}|HP+%HPMod%|{If~%HP%<0? |HPMod=0|}
+12,{Loop~11,[HPRoll=%Class%]}|HP+%HPMod%|{If~%HP%<0? |HPMod=0|}
+13,{Loop~12,[HPRoll=%Class%]}|HP+%HPMod%|{If~%HP%<0? |HPMod=0|}
+14,{Loop~13,[HPRoll=%Class%]}|HP+%HPMod%|{If~%HP%<0? |HPMod=0|}
+15,{Loop~14,[HPRoll=%Class%]}|HP+%HPMod%|{If~%HP%<0? |HPMod=0|}
+16,{Loop~15,[HPRoll=%Class%]}|HP+%HPMod%|{If~%HP%<0? |HPMod=0|}
+17,{Loop~16,[HPRoll=%Class%]}|HP+%HPMod%|{If~%HP%<0? |HPMod=0|}
+18,{Loop~17,[HPRoll=%Class%]}|HP+%HPMod%|{If~%HP%<0? |HPMod=0|}
+19,{Loop~18,[HPRoll=%Class%]}|HP+%HPMod%|{If~%HP%<0? |HPMod=0|}
+20,{Loop~19,[HPRoll=%Class%]}|HP+%HPMod%|{If~%HP%<0? |HPMod=0|}
+21,{Loop~20,[HPRoll=%Class%]}|HP+%HPMod%|{If~%HP%<0? |HPMod=0|}
+
+:HPRoll
+1,|HP+%HPMod%| |HP={Dice~1d10+%HP%}|
+2,|HP+%HPMod%| |HP={Dice~1d8+%HP%}|
+3,|HP+%HPMod%| |HP={Dice~1d6+%HP%}|
+4,|HP+%HPMod%| |HP={Dice~1d6+%HP%}|
+5,|HP+%HPMod%| |HP={Dice~1d8+%HP%}|
+6,|HP+%HPMod%| |HP={Dice~1d8+%HP%}|
+7,|HP+%HPMod%| |HP={Dice~1d6+%HP%}|
+8,|HP+%HPMod%| |HP={Dice~1d8+%HP%}|
+9,|HP+%HPMod%| |HP={Dice~1d10+%HP%}|
+10,|HPMod=0|
+11,|HPMod=0|
+12,|HPMod=0|
+13,
+14,|HP+%HPMod%| |HP={Dice~1d10+%HP%}|
+15,|HP+%HPMod%| |HP={Dice~1d6+%HP%}|
+16,|HP+%HPMod%| |HP={Dice~1d10+%HP%}|
+17-19,|HP+%HPMod%| |HP={Dice~1d8+%HP%}|
+20,|HP+%HPMod%| |HP={Dice~1d6+%HP%}|
+
+#----------------------------------------------------------------
+# Used to Determine Stats
+# 
+#----------------------------------------------------------------
+:Initial Rolls
+1,|ROLL1=[RollScore]| 
+_|ROLL2=[RollScore]| 
+_|ROLL3=[RollScore]| 
+_|ROLL4=[RollScore]| 
+_|ROLL5=[RollScore]| 
+_|ROLL6=[RollScore]| 
+# This was the old version with TSv4
+#_{SortDesc~ROLL1,ROLL2,ROLL3,ROLL4,ROLL5,ROLL6}</br>
+_|TempSort=%ROLL1%;%ROLL2%;%ROLL3%;%ROLL4%;%ROLL5%;%ROLL6%|
+#_Before sorting:<br>Roll1=%ROLL1%<br>Roll2=%ROLL2%<br>Roll3=%ROLL3%<br>Roll4=%ROLL4%<br>Roll5=%ROLL5%<br>Roll6=%ROLL6%<br><br>
+_|TempSort={OrderDesc~";",%TempSort%}|
+_{Split~TempSort,";",ROLL1,ROLL2,ROLL3,ROLL4,ROLL5,ROLL6}
+#_After sorting (descending):<br>Roll1=%ROLL1%<br>Roll2=%ROLL2%<br>Roll3=%ROLL3%<br>Roll4=%ROLL4%<br>Roll5=%ROLL5%<br>Roll6=%ROLL6%<br><br>
+#Now Rolls are %ROLL1% %ROLL2% %ROLL3% %ROLL4% %ROLL5% %ROLL6%
+
+:Stats
+# Places soldier stats
+1,|DEX=%ROLL1%|
+_|CON=%ROLL2%|
+_|STR=%ROLL3%|
+_|INT=%ROLL4%|
+_|WIS=%ROLL5%|
+_|CHA=%ROLL6%|
+# Places fringer stats
+2,|DEX=%ROLL1%|
+_|WIS=%ROLL2%|
+_|STR=%ROLL3%|
+_|CON=%ROLL4%|
+_|INT=%ROLL5%|
+_|CHA=%ROLL6%|
+# Places Noble Stats
+3,|CHA=%ROLL1%|
+_|WIS=%ROLL2%|
+_|INT=%ROLL3%|
+_|DEX=%ROLL4%|
+_|CON=%ROLL5%|
+_|STR=%ROLL6%|
+# Places Scoundrel Stats
+4,|DEX=%ROLL1%|
+_|INT=%ROLL2%|
+_|CHA=%ROLL3%|
+_|WIS=%ROLL4%|
+_|CON=%ROLL5%|
+_|STR=%ROLL6%|
+# Places Scout Stats
+5,|DEX=%ROLL1%|
+_|INT=%ROLL2%|
+_|WIS=%ROLL3%|
+_|STR=%ROLL4%|
+_|CON=%ROLL5%|
+_|CHA=%ROLL6%|
+# Places Force Adept Stats
+6,|WIS=%ROLL1%|
+_|INT=%ROLL2%|
+_|CHA=%ROLL3%|
+_|DEX=%ROLL4%|
+_|CON=%ROLL5%|
+_|STR=%ROLL6%|
+# Places Tech Spec Stats
+7,|INT=%ROLL1%|
+_|DEX=%ROLL2%|
+_|WIS=%ROLL3%|
+_|CON=%ROLL4%|
+_|STR=%ROLL5%|
+_|CHA=%ROLL6%|
+# Places Consular Stats
+8,|WIS=%ROLL1%|
+_|INT=%ROLL2%|
+_|CHA=%ROLL3%|
+_|CON=%ROLL4%|
+_|STR=%ROLL5%|
+_|DEX=%ROLL6%|
+# Places Jedi Guardian Stats
+9,|CON=%ROLL1%|
+_|STR=%ROLL2%|
+_|DEX=%ROLL3%|
+_|WIS=%ROLL4%|
+_|INT=%ROLL5%|
+_|CHA=%ROLL6%|
+# Diplomat
+10,[Stats=3]
+# Expert
+11,[Stats=7]
+# Thug
+12,|CON=%ROLL1%|
+_|STR=%ROLL2%|
+_|DEX=%ROLL3%|
+_|WIS=%ROLL4%|
+_|INT=%ROLL5%|
+_|CHA=%ROLL6%|
+13,
+# Bounty Hunter
+14,|DEX=%ROLL1%|
+_|CON=%ROLL2%|
+_|CHA=%ROLL3%|
+_|STR=%ROLL4%|
+_|INT=%ROLL5%|
+_|WIS=%ROLL6%|
+# Crime Lord
+15,|CHA=%ROLL1%|
+_|WIS=%ROLL2%|
+_|INT=%ROLL3%|
+_|CON=%ROLL4%|
+_|DEX=%ROLL5%|
+_|STR=%ROLL6%|
+# Elite Trooper
+16,[Stats=1]
+# Jedi Investigator
+17,[Stats=8]
+18,|CHA=%ROLL1%|
+_|INT=%ROLL2%|
+_|WIS=%ROLL3%|
+_|DEX=%ROLL4%|
+_|CON=%ROLL5%|
+_|STR=%ROLL6%|
+19,|DEX=%ROLL1%|
+_|INT=%ROLL2%|
+_|WIS=%ROLL3%|
+_|CON=%ROLL4%|
+_|STR=%ROLL5%|
+_|CHA=%ROLL6%|
+20,|DEX=%ROLL1%|
+_|CHA=%ROLL2%|
+_|CON=%ROLL3%|
+_|WIS=%ROLL4%|
+_|INT=%ROLL5%|
+_|STR=%ROLL6%|
+
+#----------------------------------------------------------------
+# Used to modify Attributes based on Race
+# WHAT-IT-NEEDS:
+#----------------------------------------------------------------
+:Modify
+1,
+2,|INT+2||WIS+2||DEX-2|
+3,|CON+2||WIS-2|
+4,|WIS+2||CHA+2||DEX-2|
+5,|INT+2||CON-2|
+6,|DEX+2||WIS-2||CHA-2|
+7,|DEX+2||CON-2|
+8,|STR+2||DEX-2|
+9,|CHA+2||WIS-2|
+10,|STR+4||DEX-2||WIS-2||CHA-2|
+11,|CON+2||WIS-2|
+12,
+13,|DEX-2||CON+2||INT+2||CHA-2|
+14,|STR+2||DEX-2||CON+2||WIS-4|
+15,|DEX-4||CON+4||INT+2||WIS+2||CHA-4|
+16,|STR-4||INT+2||CHA+2|
+17,|STR-2||DEX-2||CON-2||INT+4||WIS+2|
+18,|STR-2||DEX+2||WIS-2||CHA+2|
+19,
+20,|STR+2||WIS-2||CHA-2|
+21,|STR+2||DEX-2||CON+2||CHA-2|
+22,
+23,|DEX+2||WIS-2||CHA-2|
+24,|DEX-2||INT+2||WIS+2|
+25,|STR-2||DEX-2||INT+2||WIS+2||CHA+2|
+26,|STR-2||DEX+2||CON-2||INT+2|
+27,
+28,
+29,
+30,|STR-2||DEX+2||CON-2||CHA+2|
+31,|DEX-2||INT+2||WIS+2|
+32,|WIS+2||CHA-2|
+33,|CHA-2|
+34,|WIS-2||CHA+2|
+35,|STR+4||DEX-2||CON+2||INT-2||WIS-2||CHA-2|
+36,|STR-6||DEX+2||CON-4||INT+2||WIS+2||CHA+2|
+37,|DEX-2||CON+2||CHA-2|
+38,|STR-2||DEX+2||CON-2||INT+2|
+39,|DEX-2||CON+2||WIS+2||CHA-2|
+40,|CON+2||INT-2|
+41,|STR-2||DEX+2|
+42,|STR-2||DEX+2||INT-2||CHA+2|
+43,|STR+8||DEX-2||CON+2||INT-4||WIS-4||CHA-6|
+44,
+45,|STR-4||DEX-2||CON-2||INT+4||WIS+4||CHA+2|
+46,|STR-2||INT+2||WIS+2|
+47,|DEX-2||CON+2|
+48,|CON+2||WIS-2|
+49,
+50,|STR-2||DEX+2|
+51,
+52,|DEX+2||INT-2||WIS-2|
+53,
+54,|STR+2||DEX-2||INT-2||WIS+4||CHA-2|
+55,|DEX-2||INT+2||CHA+2|
+56,|DEX+6||WIS-2||INT-2||CHA-2|
+57,
+58,|STR+2||DEX+4||CON-2||WIS-2||CHA-2|
+59,|STR-2||DEX+2||WIS-2||CHA+2|
+60,|STR+2||WIS-2|
+61,|STR+2||CON+2||INT-2||WIS-2|
+62,|DEX+4||CON-2||WIS-2||CHA-2|
+63,|STR-4||DEX+4||CON-2|
+64,
+65,|DEX-2||CON+4||CHA-2|
+66,
+67,|STR-2||CHA+2|
+68,|STR-2||CON-2||INT+4|
+69,
+70,|STR+2||INT-2||CHA-2|
+71,
+72,
+73,|DEX+2||CON-2||WIS-2|
+74,|DEX+2||WIS-2||CHA-2|
+75,|STR+2||DEX-2|
+76,|STR+2||DEX-4||CON+2||INT+2||WIS+2||CHA+2|
+77,|DEX+2||WIS+2||CHA-4|
+78,
+79,|STR+2||CON+2||INT-4||CHA-2|
+80,|INT+4||CON-2|
+81,|CON+2||WIS+2||DEX-2|
+82,|STR+2||INT-2||CHA-2|
+83,|INT+2||CHA+2||STR-2|
+84,|STR+2||WIS-2|
+85,|STR+2||CHA-4|
+86,|WIS+2||CON-2|
+87,|DEX+2||CHA+2||CON-2||WIS-2|
+88,|STR+2||CON+2||INT-6||CHA-4|
+89,|CON+2||DEX-2|
+90,|DEX+2||WIS-2||CHA-2|
+91,|WIS+4||STR-2||CON-2|
+92,|CHA+2||CON-2|
+93,|DEX+2||INT-2|
+94,|INT+2||WIS+2||DEX-2||CHA-2|
+95,|STR+2||CON+2||INT+2||CHA-6|
+96,|STR-2|
+97,
+98,|DEX+2||INT+2||WIS-2||CHA-6|
+99,|STR+4||INT-2||DEX-2|
+100,|STR+2||INT-2|
+101,|INT+2||STR-2|
+102,|INT+2||CHA-2|
+103,|CON+2||CHA-2|
+104,|STR+2||CON+2||DEX-2||INT-2||CHA-2|
+105,|CON+2||WIS-2||CHA-2|
+106,|STR+2||CON+2||DEX-2||WIS-2||CHA-2|
+107,|CON+2||DEX-2|
+108,|DEX+2||CON-2|
+109,|STR+2||INT-2||CHA-2|
+110,|CON+2||INT+2||STR-2||WIS-2||CHA-2|
+111,|DEX+2||WIS+2||CHA+2||STR-2||CON-2|
+112,|DEX+2||WIS-2||CHA-2|
+113,|STR+2||DEX-2|
+114,|STR+4||CON+2||DEX-2||WIS-2||INT-2||CHA-4|
+115,|CON+2||INT-2||CHA-2|
+116,|INT+4||DEX-2|
+117,|DEX+2||STR-4||CHA-2|
+118,|DEX+2||INT+2||STR-2||CHA-4|
+119,|CON+2||WIS-2|
+120,|STR+2||INT-2||CHA-2|
+121,|INT+2||WIS+2||CON-2|
+122,|CON+2||INT+2||WIS-2|
+123,|CON+2||WIS+2||DEX-2||INT-2|
+124,|INT+2||CHA+2||CON-2|
+125,|WIS+2||CHA-2|
+126,|STR+2||INT-2||WIS-2|
+127,|DEX+4||STR-4|
+128,|DEX+2||WIS-2||CHA-2|
+129,|DEX+2||STR-2|
+130,|DEX+2||WIS+2||STR-2||CON-2||CHA-2|
+131,|INT+2||DEX-2|
+132,|INT+4||STR-2|
+133,|WIS+2||INT-2|
+134,|DEX+2||CON-2|
+135,|CON+2||INT-2|
+136,|STR+2||DEX+2||WIS-2||CHA-4|
+137,|INT+2||WIS+2||STR-2||CHA-2|
+138,|CON+2||INT+2||WIS+2||DEX-4|
+139,|CON+2||INT-2||CHA-2|
+140,|INT+2||WIS-2|
+141,|DEX+2||INT-2||CHA-2|
+142,|DEX+2||CHA-2|
+143,|DEX+2||INT-2||WIS-2|
+144,|STR+2||DEX-2|
+145,|INT+2||CHA-2|
+146,|INT+2||WIS-2|
+147,|STR+2||CON+4||DEX-2||INT-4||CHA-4|
+148,|DEX+2||WIS-2|
+149,|DEX+2||INT-2||CHA-2|
+150,|DEX+2||INT-2||WIS-2|
+151,
+152,|STR+2||CON+2||DEX-2||INT-2|
+153,|STR+2||CHA-4|
+154,|STR+2||CON+2||DEX-2||CHA-2|
+155,|CON-2|
+156,|INT+2||DEX-2|
+157,|STR+2||CON-2||WIS-2|
+158,|STR+2||CON+2||INT-2||WIS-2||CHA-4|
+159,|INT+2||STR-2|
+160,|STR+2||WIS-2||CHA-2|
+161,|STR+2||INT+2||WIS-4||CHA-2|
+162,|STR+4||DEX-2||WIS-2||CHA-2|
+163,|STR+2||WIS-2||CHA-2|
+164,|INT+2||WIS-2|
+165,|STR+4||CON+2||DEX-2||INT-2||WIS-2|
+166,|DEX+2||WIS+2||CON-2|
+167,|INT+2||WIS+2||STR-2|
+168,|STR+2||DEX-2|
+169,|STR+2||INT-2||CHA-2|
+170,|CON+2||INT-2||WIS-2|
+171,|WIS+2||CHA+2||CON-2|
+172,|CON+2||INT-2||CHA-2|
+173,|INT+2||CON-2|
+174,|INT+2||DEX-2||CHA-2|
+175,|STR+2||CON+2||INT-2||WIS-2||CHA-4|
+176,|STR+2||CON+2||INT-2||CHA-2|
+177,|WIS+2||CHA+2||DEX-2|
+178,|STR+4||CON+2||DEX-2||WIS-4||CHA-2|
+179,|STR+2||WIS-2||CHA-2|
+180,|CHA+4||CON-2||WIS-2|
+181,|STR-2||DEX+2|
+
+#----------------------------------------------------------------
+#----------------------------------------------------------------
+
+:Attack2
+1,|Melee-%BASEATK%||Melee+%BASEATK2%| / %Melee%
+2,|Ranged-%BASEATK%||Ranged+%BASEATK2%| / %Ranged%
+3,|Grapple-%BASEATK%||Grapple+%BASEATK2%| / %Grapple%
+
+:Attack3
+1,|Melee-%BASEATK2%||Melee+%BASEATK3%| / %Melee%
+2,|Ranged-%BASEATK2%||Ranged+%BASEATK3%| / %Ranged%
+3,|Grapple-%BASEATK2%||Grapple+%BASEATK3%| / %Grapple%
+
+:Attack4
+1,|Melee-%BASEATK3%||Melee+%BASEATK4%| / %Melee%
+2,|Ranged-%BASEATK3%||Ranged+%BASEATK4%| / %Ranged%
+3,|Grapple-%BASEATK3%||Grapple+%BASEATK4%| / %Grapple%
+
+#----------------------------------------------------------------
+# Randomly Selects Primary and Secondary Weapon
+# NOTE: Requires TableSmith Program: SW Weapon Gen
+# WHAT-IT-NEEDS: 
+#----------------------------------------------------------------
+:Weapon 1
+1,[~SW Weapon Gen.Classes=1]
+2,[~SW Weapon Gen.Classes=4]
+3,[~SW Weapon Gen.Classes=7]
+4,[~SW Weapon Gen.Classes=9]
+5,[~SW Weapon Gen.Classes=12]
+6,[~SW Weapon Gen.Classes=15]
+7,[~SW Weapon Gen.Classes=16]
+8-9,[JediWpn]
+10,[Weapon 1=3]
+11,[Weapon 1=7]
+12,[Weapon 1=1]
+13,
+# Prestige Classes
+14,[Weapon 1=1]
+15,[Weapon 1=4]
+16,[Weapon 1=1]
+17,[JediWpn]
+18,[Weapon 1=3]
+19,[Weapon 1=5]
+20,[~SW Weapon Gen.Start=6]
+21-29,
+# Used for Archetypes only
+30,[JediWpn]
+31-32,[~SW Weapon Gen.Start=6]
+33,[~SW Weapon Gen.NPC=2]
+
+
+:Weapon 2
+1,[~SW Weapon Gen.Classes=2]
+2,[~SW Weapon Gen.Classes=5]
+3,None
+4,[~SW Weapon Gen.Classes=10]
+5,[~SW Weapon Gen.Classes=13]
+6-11,None
+12,[Weapon 2=1]
+13,
+14,[Weapon 2=1]
+15,[Weapon 2=4]
+16,[Weapon 2=1]
+17-19,None
+20,[Weapon 2=2]
+21-29,
+30,[~SW Weapon Gen.Start=5]
+31,None
+32-33,[Weapon 2=1]
+
+:Armor
+1,[~SW Weapon Gen.Classes=3]
+2,[~SW Weapon Gen.Classes=6]
+3,[~SW Weapon Gen.Classes=8]
+4,[~SW Weapon Gen.Classes=11]
+5,[~SW Weapon Gen.Classes=14]
+6,None
+7,[~SW Weapon Gen.Classes=17]
+8-9,None
+10,None
+11,None
+12,[Armor=1]
+13,
+14,[Armor=1]
+15,[Armor=4]
+16,[Armor=1]
+17,None
+18,[Armor=3]
+19,[Armor=4]
+20,[Armor=2]
+21-29,
+30,None
+31,[SW Weapon Gen.NPC=1]
+32-33,[Armor=1]
+
+;JediWpn
+20,Light Saber<br><b>Damage: </b>2d8 <b>Critical: </b>19-20
+1,Double Light Saber<br><b>Damage: </b>2d8/2d8 <b>Critical: </b>19-20
+
+#----------------------------------------------------------------
+# Determines Force Sensitivity
+# WHAT-IT-NEEDS: Better Randomization
+# NOTE: I have commented the out line that calls this subroutine.
+#----------------------------------------------------------------
+:Force
+1,Force Sensitive [Force Yes]
+2,Not Force Sensitive
+3,|ForceSensitive={Dice~1d2}|[Force=%ForceSensitive%]
+
+:Force Yes
+1,(Alter)
+2,(Control)
+3,(Sense)
+4,(Alter and Control)
+5,(Alter and Sense)
+6,(Control and Sense)
+7,(Alter, Control and Sense)
+
+#----------------------------------------------------------------
+# Prints out the Attributes all nice and neat.
+# Taken straight from Gulke's Character Generator
+# NOTE: The variable that sets HP Modification is set within this
+#       program group.
+#----------------------------------------------------------------
+:DisplayCharacter
+1,
+_<table width="100&#37;" border=2 bordercolor="black" bgcolor="lightgrey"><tbody style="font-family: verdana; font-size: smaller">
+_<tr> 
+_<td width="25&#37;" align="center" bgcolor="#FFFFC0"><b>Ability</b></td>
+_<td width="15&#37;" align="center" bgcolor="#FFFFC0"><b>Race Mod</b></td>
+_<td width="15&#37;" align="center" bgcolor="#FFFFC0"><b>Score</b></td>
+_<td width="15&#37;" align="center" bgcolor="#FFFFC0"><b>Modifier</b></td>
+_<td width="30&#37;" align="center" bgcolor="#FFFFC0"><b>Wound Points</b></td>
+_</tr>
+_<tr>
+_<td width="25&#37;" align="center" bgcolor="white"><b>Strength</b></td>
+_<td width="15&#37;" align="center" bgcolor="white">[CheckSTR]</td>
+_<td width="15&#37;" align="center" bgcolor="white">%STR%</td>
+_<td width="15&#37;" align="center" bgcolor="white">[GetStatBonus=%STR%]</td>
+_<td width="30&#37;" align="center" rowspan=2 bgcolor="white"><font size="4" face="arial"><b>%CON%</b></font></td>
+_</tr>
+_<tr>
+_<td width="25&#37;" align="center" bgcolor="white"><b>Dexterity</b></td>
+_<td width="15&#37;" align="center" bgcolor="white">[CheckDEX]</td>
+_<td width="15&#37;" align="center" bgcolor="white">%DEX%</font></td>
+_<td width="15&#37;" align="center" bgcolor="white">[GetStatBonus=%DEX%]</td>
+_</tr>
+_<tr>
+_<td width="25&#37;" align="center" bgcolor="white"><b>Constitution</b></td>
+_<td width="15&#37;" align="center" bgcolor="white">[CheckCON]</td>
+_<td width="15&#37;" align="center" bgcolor="white">%CON%</font></td>
+_<td width="15&#37;" align="center" bgcolor="white">[GetStatBonus=%CON%]</td>|HPMod=%X%|
+_</tr>
+_<tr>
+_<td width="25&#37;" align="center" bgcolor="white"><b>Intelligence</b></td>
+_<td width="15&#37;" align="center" bgcolor="white">[CheckINT]</td>
+_<td width="15&#37;" align="center" bgcolor="white">%INT%</font></td>
+_<td width="15&#37;" align="center" bgcolor="white">[GetStatBonus=%INT%]</td>
+_<td width="30&#37;" align="center" bgcolor="#FFFFC0"><b>Vitality Points</b></td>
+_</tr>
+_<tr>
+_<td width="25&#37;" align="center" bgcolor="white"><b>Wisdom</b></td>
+_<td width="15&#37;" align="center" bgcolor="white">[CheckWIS]</td>
+_<td width="15&#37;" align="center" bgcolor="white">%WIS%</font></td>
+_<td width="15&#37;" align="center" bgcolor="white">[GetStatBonus=%WIS%]</td>
+_<td width="30&#37;" align="center" rowspan=2 bgcolor="white"><font size="4" face="arial"><b>{If~%UseArc%=1? [HitPoints=%Lvl%]}{If~%HP%<0? |HP=0|}%HP%</b></font></td>
+_</tr>
+_<tr>
+_<td width="25&#37;" align="center" bgcolor="white"><b>Charisma</b></td>
+_<td width="15&#37;" align="center" bgcolor="white">[CheckCHA]</td>
+_<td width="15&#37;" align="center" bgcolor="white">%CHA%</font></td>
+_<td width="15&#37;" align="center" bgcolor="white">[GetStatBonus=%CHA%]</td>
+_</tr>
+_</tbody></table>
+_<table width="100&#37;" border=2 bordercolor="black" bgcolor="lightgrey"><tbody style="font-family: verdana; font-size: smaller">
+_<tr>
+_<td width="20&#37;" align=center rowspan=2 bgcolor="#FFFFC0"><b>DEFENSE</b></td>
+_<td width="15&#37;" align=center bgcolor="white"><b>Class Bonus</b></td>
+_<td width="15&#37;" align=center bgcolor="white"><b>DEX Bonus</b></td>
+_<td width="15&#37;" align=center bgcolor="white"><b>Size Bonus</b></td>
+_<td width="15&#37;" align=center bgcolor="white"><b>Misc Bonus</b></td>
+_<td width="20&#37;" align=center bgcolor="white"><b>Total</b></td>
+_</tr>
+_<tr>
+_<td width="15&#37;" align=center bgcolor="white">%BASEDEF%</td>
+_<td width="15&#37;" align=center bgcolor="white">[GetStatBonus=%DEX%]|DefBon+%BASEDEF%||DefBon+%X%|</td>
+_<td width="15&#37;" align=center bgcolor="white">%DefSizeMod%|DefBon+%DefSizeMod%|</td>
+_<td width="15&#37;" align=center bgcolor="white">%DefMiscMod%|DefBon+%DefMiscMod%|</td>
+_<td width="20&#37;" align=center bgcolor="white">%DefBon%</td>
+_</tr>
+_</tbody></table>
+_<table width="100&#37;" border=2 bordercolor="black" bgcolor="lightgrey"><tbody style="font-family: verdana; font-size: smaller">
+_<tr>
+_<td width="25&#37;" align=center colspan=5 bgcolor="#FFFFC0">
+_<b>Saving Throws</b></td>
+_</tr>
+_<tr>
+_<td width="20&#37;" align=center></td>
+_<td width="20&#37;" align=center bgcolor="white"><b>Base</b></td>
+_<td width="20&#37;" align=center bgcolor="white"><b>Ability Mod</b></td>
+_<td width="20&#37;" align=center bgcolor="white"><b>Misc Mod</b></td>
+_<td width="20&#37;" align=center bgcolor="white"><b>Total</b></td>
+_</tr>
+_<td width="20&#37;" align=center bgcolor="white"><b>FORTITUDE</b></td>
+_<td width="20&#37;" align=center bgcolor="white">%BASEFORT%</td>
+_<td width="20&#37;" align=center bgcolor="white">[GetStatBonus=%CON%]|Fortitude+%BASEFORT%||Fortitude+%X%|</td>
+_<td width="20&#37;" align=center bgcolor="white">%FortMiscMod%|Fortitude+%FortMiscMod%|</td>
+_<td width="20&#37;" align=center bgcolor="white">%Fortitude%</td>
+_</tr>
+_<td width="20&#37;" align=center bgcolor="white"><b>REFLEX</b></td>
+_<td width="20&#37;" align=center bgcolor="white">%BASEREFLEX%</td>
+_<td width="20&#37;" align=center bgcolor="white">[GetStatBonus=%DEX%]|Reflex+%BASEREFLEX%||Reflex+%X%|</td>
+_<td width="20&#37;" align=center bgcolor="white">%RefMiscMod%|Reflex+%RefMiscMod%|</td>
+_<td width="20&#37;" align=center bgcolor="white">%Reflex%</td>
+_</tr>
+_</tr>
+_<td width="20&#37;" align=center bgcolor="white"><b>WILL</b></td>
+_<td width="20&#37;" align=center bgcolor="white">%BASEWILL%</td>
+_<td width="20&#37;" align=center bgcolor="white">[GetStatBonus=%WIS%]|Will+%BASEWILL%||Will+%X%|</td>
+_<td width="20&#37;" align=center bgcolor="white">%WillMiscMod%|Will+%WillMiscMod%|</td>
+_<td width="20&#37;" align=center bgcolor="white">%Will%</td>
+_</tr>
+_</tbody></table>
+_<table width="100&#37;" border=2 bordercolor="black" bgcolor="lightgrey"><tbody style="font-family: verdana; font-size: smaller">
+_<tr>
+_<td width="25&#37;" align=center colspan=6 bgcolor="#FFFFC0">
+_<b>Attack Bonus</b></td>
+_</tr>
+_<tr>
+_<td width="20&#37;" align=center></td>
+_<td width="20&#37;" align=center bgcolor="white"><b>Base</b></td>
+_<td width="20&#37;" align=center bgcolor="white"><b>Ability Mod</b></td>
+_<td width="10&#37;" align=center bgcolor="white"><b>Size</b></td>
+_<td width="10&#37;" align=center bgcolor="white"><b>Misc</b></td>
+_<td width="20&#37;" align=center bgcolor="white"><b>Total</b></td>
+_</tr>
+_<td width="20&#37;" align=center bgcolor="white"><b>MELEE</b></td>
+_<td width="20&#37;" align=center bgcolor="white">%BASEATK%</td>
+_<td width="20&#37;" align=center bgcolor="white">[GetStatBonus=%STR%]|Melee+%BASEATK%||Melee+%X%|</td>
+_<td width="10&#37;" align=center bgcolor="white">%AtkSizeMod%|Melee+%AtkSizeMod%|
+_<td width="10&#37;" align=center bgcolor="white">%MelMiscMod%|Melee+%MelMiscMod%|</td>
+_<td width="20&#37;" align=center bgcolor="white">%Melee%{If~%BASEATK%>=6? [Attack2=1]}{If~%BASEATK%>=11? [Attack3=1]}{If~%BASEATK%>=16? [Attack4=1]}</td>
+_</tr>
+_<td width="20&#37;" align=center bgcolor="white"><b>RANGED</b></td>
+_<td width="20&#37;" align=center bgcolor="white">%BASEATK%</td>
+_<td width="20&#37;" align=center bgcolor="white">[GetStatBonus=%DEX%]|Ranged+%BASEATK%||Ranged+%X%|</td>
+_<td width="10&#37;" align=center bgcolor="white">%AtkSizeMod%|Ranged+%AtkSizeMod%|
+_<td width="10&#37;" align=center bgcolor="white">%RangMiscMod%|Ranged+%RangMiscMod%|</td>
+_<td width="20&#37;" align=center bgcolor="white">%Ranged%{If~%BASEATK%>=6? [Attack2=2]}{If~%BASEATK%>=11? [Attack3=2]}{If~%BASEATK%>=16? [Attack4=2]}</td>
+_</tr>
+_<td width="20&#37;" align=center bgcolor="white"><b>GRAPPLE</b></td>
+_<td width="20&#37;" align=center bgcolor="white">%BASEATK%</td>
+_<td width="20&#37;" align=center bgcolor="white">[GetStatBonus=%STR%]|Grapple+%BASEATK%||Grapple+%X%|</td>
+_<td width="10&#37;" align=center bgcolor="white">%GrapSizeMod%|Grapple+%GrapSizeMod%|
+_<td width="10&#37;" align=center bgcolor="white">%GrapMiscMod%|Grapple+%GrapMiscMod%|</td>
+_<td width="20&#37;" align=center bgcolor="white">%Grapple%{If~%BASEATK%>=6? [Attack2=3]}{If~%BASEATK%>=11? [Attack3=3]}{If~%BASEATK%>=16? [Attack4=3]}</td>
+_</tr>
+_</tbody></table>
+
+# ----------------------------------------------------------------
+# Reference Tables
+#
+# RollScore: Takes the best 3 rolls out of 4d6's
+# GetStatBonus: Used throughout the program to add Stat Mods
+# ClassBonus:   Used to get Base Attack, Defense Bonuses and Saves
+# 
+# ----------------------------------------------------------------
+:RollScore
+1,|Die1={Dice~1d6}||Die2={Dice~1d6}||Die3={Dice~1d6}||Die4={Dice~1d6}|
+_|LowRoll={Min~%Die1%,%Die2%,%Die3%,%Die4%}|
+_|Total=0|
+_|Total+%Die1%||Total+%Die2%||Total+%Die3%||Total+%Die4%|
+_|Total-%LowRoll%|
+_%Total%
+
+:GetStatBonus
+1,-5 |X=-5|
+2-3,-4 |X=-4|
+4-5,-3 |X=-3|
+6-7,-2 |X=-2|
+8-9,-1 |X=-1|
+10-11,+0 |X=0|
+12-13,+1 |X=1|
+14-15,+2 |X=2|
+16-17,+3 |X=3|
+18-19,+4 |X=4|
+20-21,+5 |X=5|
+22-23,+6 |X=6|
+24-25,+7 |X=7|
+26-27,+8 |X=8|
+28-29,+9 |X=9|
+30-31,+10 |X=10|
+
+:ClassBonus
+1,[SoldierBonus=%Lvl%]
+2,[FringerBonus=%Lvl%]
+3,[NobleBonus=%Lvl%]
+4,[ScoundrelBonus=%Lvl%]
+5,[ScoutBonus=%Lvl%]
+6,[AdeptBonus=%Lvl%]
+7,[Tech SpecialistBonus=%Lvl%]
+8,[Jedi ConsularBonus=%Lvl%]
+9,[Jedi GuardianBonus=%Lvl%]
+10,[DiplomatBonus=%Lvl%]
+11,[ExpertBonus=%Lvl%]
+12,[ThugBonus=%Lvl%]
+13,
+14,[Bounty HunterBonus=%Lvl%]
+15,[Crime LordBonus=%Lvl%]
+16,[Elite TrooperBonus=%Lvl%]
+17,[Jedi InvestigatorBonus=%Lvl%]
+18,[OfficerBonus=%Lvl%]
+19,[Starship AceBonus=%Lvl%]
+20,[SharpshooterBonus=%Lvl%]
+
+# New Format
+# |CSTATS1=BASEATK,BASEATK2,BASEATK3,BASEATK4|
+# |CSTATS2=BASEDEF,BASEFORT,BASEREFLEX,BASEWILL|
+:SoldierBonus
+1,|CSTATS1=1,0,0,0||CSTATS2=3,2,0,0|
+2,|CSTATS1=2,0,0,0||CSTATS2=3,3,0,0|
+3,|CSTATS1=3,0,0,0||CSTATS2=4,3,1,1|
+4,|CSTATS1=4,0,0,0||CSTATS2=4,4,1,1|
+5,|CSTATS1=5,0,0,0||CSTATS2=5,4,1,1|
+6,|CSTATS1=6,1,0,0||CSTATS2=5,5,2,2|
+7,|CSTATS1=7,2,0,0||CSTATS2=6,5,2,2|
+8,|CSTATS1=8,3,0,0||CSTATS2=6,6,2,2|
+9,|CSTATS1=9,4,0,0||CSTATS2=7,6,3,3|
+10,|CSTATS1=10,5,0,0||CSTATS2=7,7,3,3|
+11,|CSTATS1=11,6,1,0||CSTATS2=8,7,3,3|
+12,|CSTATS1=12,7,2,0||CSTATS2=8,8,4,4|
+13,|CSTATS1=13,8,3,0||CSTATS2=9,8,4,4|
+14,|CSTATS1=14,9,4,0||CSTATS2=9,9,4,4|
+15,|CSTATS1=15,10,5,0||CSTATS2=10,9,5,5|
+16,|CSTATS1=16,11,6,1||CSTATS2=10,10,5,5|
+17,|CSTATS1=17,12,7,2||CSTATS2=11,10,5,5|
+18,|CSTATS1=18,13,8,3||CSTATS2=11,11,6,6|
+19,|CSTATS1=19,14,9,4||CSTATS2=12,11,6,6|
+20,|CSTATS1=20,15,10,5||CSTATS2=12,12,6,6|
+21,|CSTATS1=21,16,11,6||CSTATS2=13,12,7,7|
+
+:FringerBonus
+1,|CSTATS1=0,0,0,0||CSTATS2=3,2,1,0|
+2,|CSTATS1=1,0,0,0||CSTATS2=4,3,2,0|
+3,|CSTATS1=2,0,0,0||CSTATS2=4,3,2,1|
+4,|CSTATS1=3,0,0,0||CSTATS2=4,4,2,1|
+5,|CSTATS1=3,0,0,0||CSTATS2=5,4,3,1|
+6,|CSTATS1=4,0,0,0||CSTATS2=5,5,3,2|
+7,|CSTATS1=5,0,0,0||CSTATS2=6,5,4,2|
+8,|CSTATS1=6,1,0,0||CSTATS2=6,6,4,2|
+9,|CSTATS1=6,1,0,0||CSTATS2=6,6,4,3|
+10,|CSTATS1=7,2,0,0||CSTATS2=7,7,5,3|
+11,|CSTATS1=8,3,0,0||CSTATS2=7,7,5,3|
+12,|CSTATS1=9,4,0,0||CSTATS2=8,8,6,4|
+13,|CSTATS1=9,4,0,0||CSTATS2=8,8,6,4|
+14,|CSTATS1=10,5,0,0||CSTATS2=8,9,6,4|
+15,|CSTATS1=11,6,1,0||CSTATS2=9,9,7,5|
+16,|CSTATS1=12,7,2,0||CSTATS2=9,10,7,5|
+17,|CSTATS1=12,7,2,0||CSTATS2=10,10,8,5|
+18,|CSTATS1=13,8,3,0||CSTATS2=10,11,8,6|
+19,|CSTATS1=14,9,4,0||CSTATS2=10,11,8,6|
+20,|CSTATS1=15,10,5,0||CSTATS2=11,12,9,6|
+21,|CSTATS1=15,10,5,0||CSTATS2=11,12,9,7|
+
+:NobleBonus
+1,|CSTATS1=0,0,0,0||CSTATS2=2,0,1,2|
+2,|CSTATS1=1,0,0,0||CSTATS2=3,0,2,3|
+3,|CSTATS1=2,0,0,0||CSTATS2=3,1,2,3|
+4,|CSTATS1=3,0,0,0||CSTATS2=3,1,2,4|
+5,|CSTATS1=3,0,0,0||CSTATS2=4,1,3,4|
+6,|CSTATS1=4,0,0,0||CSTATS2=4,2,3,5|
+7,|CSTATS1=5,0,0,0||CSTATS2=5,2,4,5|
+8,|CSTATS1=6,1,0,0||CSTATS2=5,2,4,6|
+9,|CSTATS1=6,1,0,0||CSTATS2=5,3,4,6|
+10,|CSTATS1=7,2,0,0||CSTATS2=6,3,5,7|
+11,|CSTATS1=8,3,0,0||CSTATS2=6,3,5,7|
+12,|CSTATS1=9,4,0,0||CSTATS2=7,4,6,8|
+13,|CSTATS1=9,4,0,0||CSTATS2=7,4,6,8|
+14,|CSTATS1=10,5,0,0||CSTATS2=7,4,6,9|
+15,|CSTATS1=11,6,1,0||CSTATS2=8,5,7,9|
+16,|CSTATS1=12,7,2,0||CSTATS2=8,5,7,10|
+17,|CSTATS1=12,7,2,0||CSTATS2=9,5,8,10|
+18,|CSTATS1=13,8,3,0||CSTATS2=9,6,8,11|
+19,|CSTATS1=14,9,4,0||CSTATS2=9,6,8,11|
+20,|CSTATS1=15,10,5,0||CSTATS2=10,6,9,12|
+21,|CSTATS1=15,10,5,0||CSTATS2=10,7,9,12|
+
+:ScoundrelBonus
+1,|CSTATS1=0,0,0,0||CSTATS2=2,0,2,0|
+2,|CSTATS1=1,0,0,0||CSTATS2=2,0,3,0|
+3,|CSTATS1=2,0,0,0||CSTATS2=3,1,3,1|
+4,|CSTATS1=3,0,0,0||CSTATS2=3,1,4,1|
+5,|CSTATS1=3,0,0,0||CSTATS2=4,1,4,1|
+6,|CSTATS1=4,0,0,0||CSTATS2=4,2,5,2|
+7,|CSTATS1=5,0,0,0||CSTATS2=5,2,5,2|
+8,|CSTATS1=6,1,0,0||CSTATS2=5,2,6,2|
+9,|CSTATS1=6,1,0,0||CSTATS2=6,3,6,3|
+10,|CSTATS1=7,2,0,0||CSTATS2=6,3,7,3|
+11,|CSTATS1=8,3,0,0||CSTATS2=7,3,7,3|
+12,|CSTATS1=9,4,0,0||CSTATS2=7,4,8,4|
+13,|CSTATS1=9,4,0,0||CSTATS2=8,4,8,4|
+14,|CSTATS1=10,5,0,0||CSTATS2=8,4,9,4|
+15,|CSTATS1=11,6,1,0||CSTATS2=9,5,9,5|
+16,|CSTATS1=12,7,2,0||CSTATS2=9,5,10,5|
+17,|CSTATS1=12,7,2,0||CSTATS2=10,5,10,5|
+18,|CSTATS1=13,8,3,0||CSTATS2=10,6,11,6|
+19,|CSTATS1=14,9,4,0||CSTATS2=11,6,11,6|
+20,|CSTATS1=15,10,5,0||CSTATS2=11,6,12,6|
+21,|CSTATS1=15,10,5,0||CSTATS2=12,7,12,7|
+
+:ScoutBonus
+1,|CSTATS1=0,0,0,0||CSTATS2=2,1,1,1|
+2,|CSTATS1=1,0,0,0||CSTATS2=2,2,2,2|
+3,|CSTATS1=2,0,0,0||CSTATS2=3,2,2,2|
+4,|CSTATS1=3,0,0,0||CSTATS2=3,2,2,2|
+5,|CSTATS1=3,0,0,0||CSTATS2=4,3,3,3|
+6,|CSTATS1=4,0,0,0||CSTATS2=4,3,3,3|
+7,|CSTATS1=5,0,0,0||CSTATS2=5,4,4,4|
+8,|CSTATS1=6,1,0,0||CSTATS2=5,4,4,4|
+9,|CSTATS1=6,1,0,0||CSTATS2=6,4,4,4|
+10,|CSTATS1=7,2,0,0||CSTATS2=6,5,5,5|
+11,|CSTATS1=8,3,0,0||CSTATS2=7,5,5,5|
+12,|CSTATS1=9,4,0,0||CSTATS2=7,6,6,6|
+13,|CSTATS1=9,4,0,0||CSTATS2=8,6,6,6|
+14,|CSTATS1=10,5,0,0||CSTATS2=8,6,6,6|
+15,|CSTATS1=11,6,1,0||CSTATS2=9,7,7,7|
+16,|CSTATS1=12,7,2,0||CSTATS2=9,7,7,7|
+17,|CSTATS1=12,7,2,0||CSTATS2=10,8,8,8|
+18,|CSTATS1=13,8,3,0||CSTATS2=10,8,8,8|
+19,|CSTATS1=14,9,4,0||CSTATS2=11,8,8,8|
+20,|CSTATS1=15,10,5,0||CSTATS2=11,9,9,9|
+21,|CSTATS1=15,10,5,0||CSTATS2=12,9,9,9|
+
+:AdeptBonus
+1,|CSTATS1=0,0,0,0||CSTATS2=3,2,0,0|
+2,|CSTATS1=1,0,0,0||CSTATS2=4,3,0,0|
+3,|CSTATS1=2,0,0,0||CSTATS2=4,3,1,1|
+4,|CSTATS1=3,0,0,0||CSTATS2=4,4,1,1|
+5,|CSTATS1=3,0,0,0||CSTATS2=5,4,1,1|
+6,|CSTATS1=4,0,0,0||CSTATS2=5,5,2,2|
+7,|CSTATS1=5,0,0,0||CSTATS2=6,5,2,2|
+8,|CSTATS1=6,1,0,0||CSTATS2=6,6,2,2|
+9,|CSTATS1=6,1,0,0||CSTATS2=6,6,3,3|
+10,|CSTATS1=7,2,0,0||CSTATS2=7,7,3,3|
+11,|CSTATS1=8,3,0,0||CSTATS2=7,7,3,3|
+12,|CSTATS1=9,4,0,0||CSTATS2=8,8,4,4|
+13,|CSTATS1=9,4,0,0||CSTATS2=8,8,4,4|
+14,|CSTATS1=10,5,0,0||CSTATS2=8,9,4,4|
+15,|CSTATS1=11,6,1,0||CSTATS2=9,9,5,5|
+16,|CSTATS1=12,7,2,0||CSTATS2=9,10,5,5|
+17,|CSTATS1=12,7,2,0||CSTATS2=10,10,5,5|
+18,|CSTATS1=13,8,3,0||CSTATS2=10,11,6,6|
+19,|CSTATS1=14,9,4,0||CSTATS2=10,11,6,6|
+20,|CSTATS1=15,10,5,0||CSTATS2=11,12,6,6|
+21,|CSTATS1=15,10,5,0||CSTATS2=11,12,7,7|
+
+:Tech SpecialistBonus
+1,|CSTATS1=0,0,0,0||CSTATS2=2,0,1,1|
+2,|CSTATS1=1,0,0,0||CSTATS2=3,0,1,1|
+3,|CSTATS1=2,0,0,0||CSTATS2=3,0,1,2|
+4,|CSTATS1=3,0,0,0||CSTATS2=3,1,2,2|
+5,|CSTATS1=3,0,0,0||CSTATS2=4,1,2,2|
+6,|CSTATS1=4,0,0,0||CSTATS2=4,2,3,3|
+7,|CSTATS1=5,0,0,0||CSTATS2=5,2,3,3|
+8,|CSTATS1=6,1,0,0||CSTATS2=5,3,3,4|
+9,|CSTATS1=6,1,0,0||CSTATS2=5,3,4,4|
+10,|CSTATS1=7,2,0,0||CSTATS2=6,4,4,4|
+11,|CSTATS1=8,3,0,0||CSTATS2=6,4,5,5|
+12,|CSTATS1=9,4,0,0||CSTATS2=7,5,5,5|
+13,|CSTATS1=9,4,0,0||CSTATS2=7,5,5,6|
+14,|CSTATS1=10,5,0,0||CSTATS2=7,6,6,6|
+15,|CSTATS1=11,6,1,0||CSTATS2=8,6,6,6|
+16,|CSTATS1=12,7,2,0||CSTATS2=8,7,7,7|
+17,|CSTATS1=12,7,2,0||CSTATS2=9,7,7,7|
+18,|CSTATS1=13,8,3,0||CSTATS2=9,8,8,8|
+19,|CSTATS1=14,9,4,0||CSTATS2=9,8,8,8|
+20,|CSTATS1=15,10,5,0||CSTATS2=10,9,8,8|
+21,|CSTATS1=15,10,5,0||CSTATS2=10,9,9,9|
+
+:Jedi ConsularBonus
+1,|CSTATS1=0,0,0,0||CSTATS2=3,2,1,2|
+2,|CSTATS1=1,0,0,0||CSTATS2=4,3,2,3|
+3,|CSTATS1=2,0,0,0||CSTATS2=4,3,2,3|
+4,|CSTATS1=3,0,0,0||CSTATS2=4,4,2,4|
+5,|CSTATS1=3,0,0,0||CSTATS2=5,4,3,4|
+6,|CSTATS1=4,0,0,0||CSTATS2=5,5,3,5|
+7,|CSTATS1=5,0,0,0||CSTATS2=6,5,4,5|
+8,|CSTATS1=6,1,0,0||CSTATS2=6,6,4,6|
+9,|CSTATS1=6,1,0,0||CSTATS2=6,6,4,6|
+10,|CSTATS1=7,2,0,0||CSTATS2=7,7,5,7|
+11,|CSTATS1=8,3,0,0||CSTATS2=7,7,5,7|
+12,|CSTATS1=9,4,0,0||CSTATS2=8,8,6,8|
+13,|CSTATS1=9,4,0,0||CSTATS2=8,8,6,8|
+14,|CSTATS1=10,5,0,0||CSTATS2=8,9,6,9|
+15,|CSTATS1=11,6,1,0||CSTATS2=9,9,7,9|
+16,|CSTATS1=12,7,2,0||CSTATS2=9,10,7,10|
+17,|CSTATS1=12,7,2,0||CSTATS2=10,10,8,10|
+18,|CSTATS1=13,8,3,0||CSTATS2=10,11,8,11|
+19,|CSTATS1=14,9,4,0||CSTATS2=10,11,8,11|
+20,|CSTATS1=15,10,5,0||CSTATS2=11,12,9,12|
+21,|CSTATS1=15,10,5,0||CSTATS2=11,12,9,12|
+
+:Jedi GuardianBonus
+1,|CSTATS1=1,0,0,0||CSTATS2=3,2,2,1|
+2,|CSTATS1=2,0,0,0||CSTATS2=3,3,3,2|
+3,|CSTATS1=3,0,0,0||CSTATS2=4,3,3,2|
+4,|CSTATS1=4,0,0,0||CSTATS2=4,4,4,2|
+5,|CSTATS1=5,0,0,0||CSTATS2=5,4,4,3|
+6,|CSTATS1=6,1,0,0||CSTATS2=5,5,5,3|
+7,|CSTATS1=7,2,0,0||CSTATS2=6,5,5,4|
+8,|CSTATS1=8,3,0,0||CSTATS2=6,6,6,4|
+9,|CSTATS1=9,4,0,0||CSTATS2=7,6,6,4|
+10,|CSTATS1=10,5,0,0||CSTATS2=7,7,7,5|
+11,|CSTATS1=11,6,1,0||CSTATS2=8,7,7,5|
+12,|CSTATS1=12,7,2,0||CSTATS2=8,8,8,6|
+13,|CSTATS1=13,8,3,0||CSTATS2=9,8,8,6|
+14,|CSTATS1=14,9,4,0||CSTATS2=9,9,9,6|
+15,|CSTATS1=15,10,5,0||CSTATS2=10,9,9,7|
+16,|CSTATS1=16,11,6,1||CSTATS2=10,10,10,7|
+17,|CSTATS1=17,12,7,2||CSTATS2=11,10,10,8|
+18,|CSTATS1=18,13,8,3||CSTATS2=11,11,11,8|
+19,|CSTATS1=19,14,9,4||CSTATS2=12,11,11,8|
+20,|CSTATS1=20,15,10,5||CSTATS2=12,12,12,9|
+21,|CSTATS1=21,16,11,6||CSTATS2=13,12,12,9|
+
+:DiplomatBonus
+1,|CSTATS1=0,0,0,0||CSTATS2=0,0,0,2|
+2,|CSTATS1=1,0,0,0||CSTATS2=0,0,0,3|
+3,|CSTATS1=1,0,0,0||CSTATS2=1,1,1,3|
+4,|CSTATS1=2,0,0,0||CSTATS2=1,1,1,4|
+5,|CSTATS1=2,0,0,0||CSTATS2=1,1,1,4|
+6,|CSTATS1=3,0,0,0||CSTATS2=2,2,2,5|
+7,|CSTATS1=3,0,0,0||CSTATS2=2,2,2,5|
+8,|CSTATS1=4,0,0,0||CSTATS2=2,2,2,6|
+9,|CSTATS1=4,0,0,0||CSTATS2=3,3,3,6|
+10,|CSTATS1=5,0,0,0||CSTATS2=3,3,3,7|
+11,|CSTATS1=5,0,0,0||CSTATS2=3,3,3,7|
+12,|CSTATS1=6,1,0,0||CSTATS2=4,4,4,8|
+13,|CSTATS1=6,1,0,0||CSTATS2=4,4,4,8|
+14,|CSTATS1=7,2,0,0||CSTATS2=4,4,4,9|
+15,|CSTATS1=7,2,0,0||CSTATS2=5,5,5,9|
+16,|CSTATS1=8,3,0,0||CSTATS2=5,5,5,10|
+17,|CSTATS1=8,3,0,0||CSTATS2=5,5,5,10|
+18,|CSTATS1=9,4,0,0||CSTATS2=6,6,6,11|
+19,|CSTATS1=9,4,0,0||CSTATS2=6,6,6,11|
+20,|CSTATS1=10,5,0,0||CSTATS2=6,6,6,12|
+21,|CSTATS1=10,5,0,0||CSTATS2=7,7,7,12|
+
+:ExpertBonus
+1,|CSTATS1=0,0,0,0||CSTATS2=0,0,0,2|
+2,|CSTATS1=1,0,0,0||CSTATS2=0,0,0,3|
+3,|CSTATS1=2,0,0,0||CSTATS2=1,1,1,3|
+4,|CSTATS1=3,0,0,0||CSTATS2=1,1,1,4|
+5,|CSTATS1=3,0,0,0||CSTATS2=1,1,1,4|
+6,|CSTATS1=4,0,0,0||CSTATS2=2,2,2,5|
+7,|CSTATS1=5,0,0,0||CSTATS2=2,2,2,5|
+8,|CSTATS1=6,1,0,0||CSTATS2=2,2,2,6|
+9,|CSTATS1=6,1,0,0||CSTATS2=3,3,3,6|
+10,|CSTATS1=7,2,0,0||CSTATS2=3,3,3,7|
+11,|CSTATS1=8,3,0,0||CSTATS2=3,3,3,7|
+12,|CSTATS1=9,4,0,0||CSTATS2=4,4,4,8|
+13,|CSTATS1=9,4,0,0||CSTATS2=4,4,4,8|
+14,|CSTATS1=10,5,0,0||CSTATS2=4,4,4,9|
+15,|CSTATS1=11,6,1,0||CSTATS2=5,5,5,9|
+16,|CSTATS1=12,7,2,0||CSTATS2=5,5,5,10|
+17,|CSTATS1=12,7,2,0||CSTATS2=5,5,5,10|
+18,|CSTATS1=13,8,3,0||CSTATS2=6,6,6,11|
+19,|CSTATS1=14,9,4,0||CSTATS2=6,6,6,11|
+20,|CSTATS1=15,10,5,0||CSTATS2=6,6,6,12|
+21,|CSTATS1=15,10,5,0||CSTATS2=7,7,7,12|
+
+:ThugBonus
+1,|CSTATS1=1,0,0,0||CSTATS2=1,2,0,0|
+2,|CSTATS1=2,0,0,0||CSTATS2=1,3,0,0|
+3,|CSTATS1=3,0,0,0||CSTATS2=1,3,1,1|
+4,|CSTATS1=4,0,0,0||CSTATS2=2,4,1,1|
+5,|CSTATS1=5,0,0,0||CSTATS2=2,4,1,1|
+6,|CSTATS1=6,1,0,0||CSTATS2=2,5,2,2|
+7,|CSTATS1=7,2,0,0||CSTATS2=3,5,2,2|
+8,|CSTATS1=8,3,0,0||CSTATS2=3,6,2,2|
+9,|CSTATS1=9,4,0,0||CSTATS2=3,6,3,3|
+10,|CSTATS1=10,5,0,0||CSTATS2=4,7,3,3|
+11,|CSTATS1=11,6,1,0||CSTATS2=4,7,3,3|
+12,|CSTATS1=12,7,2,0||CSTATS2=4,8,4,4|
+13,|CSTATS1=13,8,3,0||CSTATS2=5,8,4,4|
+14,|CSTATS1=14,9,4,0||CSTATS2=5,9,4,4|
+15,|CSTATS1=15,10,5,0||CSTATS2=5,9,5,5|
+16,|CSTATS1=16,11,6,1||CSTATS2=6,10,5,5|
+17,|CSTATS1=17,12,7,2||CSTATS2=6,10,5,5|
+18,|CSTATS1=18,13,8,3||CSTATS2=6,11,6,6|
+19,|CSTATS1=19,14,9,4||CSTATS2=7,11,6,6|
+20,|CSTATS1=20,15,10,5||CSTATS2=7,12,6,6|
+21,|CSTATS1=21,16,11,6||CSTATS2=7,12,7,7|
+
+:Bounty HunterBonus
+1,|CSTATS1=1,0,0,0||CSTATS2=1,1,1,1|
+2,|CSTATS1=2,0,0,0||CSTATS2=2,2,2,2|
+3,|CSTATS1=3,0,0,0||CSTATS2=2,2,2,2|
+4,|CSTATS1=4,0,0,0||CSTATS2=2,2,2,2|
+5,|CSTATS1=5,0,0,0||CSTATS2=3,3,3,3|
+6,|CSTATS1=6,1,0,0||CSTATS2=3,3,3,3|
+7,|CSTATS1=7,2,0,0||CSTATS2=4,4,4,4|
+8,|CSTATS1=8,3,0,0||CSTATS2=4,4,4,4|
+9,|CSTATS1=9,4,0,0||CSTATS2=4,4,4,4|
+10,|CSTATS1=10,5,0,0||CSTATS2=5,5,5,5|
+
+:Crime LordBonus
+1,|CSTATS1=0,0,0,0||CSTATS2=1,0,1,2|
+2,|CSTATS1=1,0,0,0||CSTATS2=2,0,2,3|
+3,|CSTATS1=1,0,0,0||CSTATS2=2,1,2,3|
+4,|CSTATS1=2,0,0,0||CSTATS2=2,1,2,4|
+5,|CSTATS1=2,0,0,0||CSTATS2=3,1,3,4|
+6,|CSTATS1=3,0,0,0||CSTATS2=3,2,3,5|
+7,|CSTATS1=3,0,0,0||CSTATS2=4,2,4,5|
+8,|CSTATS1=4,0,0,0||CSTATS2=4,2,4,6|
+9,|CSTATS1=4,0,0,0||CSTATS2=4,3,4,6|
+10,|CSTATS1=5,0,0,0||CSTATS2=5,3,5,7|
+
+:Elite TrooperBonus
+1,|CSTATS1=1,0,0,0||CSTATS2=1,2,1,1|
+2,|CSTATS1=2,0,0,0||CSTATS2=2,3,2,2|
+3,|CSTATS1=3,0,0,0||CSTATS2=2,3,2,2|
+4,|CSTATS1=4,0,0,0||CSTATS2=2,4,2,2|
+5,|CSTATS1=5,0,0,0||CSTATS2=3,4,3,3|
+6,|CSTATS1=6,1,0,0||CSTATS2=3,5,3,3|
+7,|CSTATS1=7,2,0,0||CSTATS2=4,5,4,4|
+8,|CSTATS1=8,3,0,0||CSTATS2=4,6,4,4|
+9,|CSTATS1=9,4,0,0||CSTATS2=4,6,4,4|
+10,|CSTATS1=10,5,0,0||CSTATS2=5,7,5,5|
+
+:Jedi InvestigatorBonus
+1,|CSTATS1=0,0,0,0||CSTATS2=1,1,1,1|
+2,|CSTATS1=1,0,0,0||CSTATS2=2,2,2,2|
+3,|CSTATS1=2,0,0,0||CSTATS2=2,2,2,2|
+4,|CSTATS1=3,0,0,0||CSTATS2=2,2,2,2|
+5,|CSTATS1=3,0,0,0||CSTATS2=3,3,3,3|
+
+:OfficerBonus
+1,|CSTATS1=0,0,0,0||CSTATS2=1,1,1,1|
+2,|CSTATS1=1,0,0,0||CSTATS2=2,2,2,2|
+3,|CSTATS1=2,0,0,0||CSTATS2=2,2,2,2|
+4,|CSTATS1=3,0,0,0||CSTATS2=2,2,2,2|
+5,|CSTATS1=3,0,0,0||CSTATS2=3,3,3,3|
+6,|CSTATS1=4,0,0,0||CSTATS2=3,3,3,3|
+7,|CSTATS1=5,0,0,0||CSTATS2=4,4,4,4|
+8,|CSTATS1=6,1,0,0||CSTATS2=4,4,4,4|
+9,|CSTATS1=6,2,0,0||CSTATS2=4,4,4,4|
+10,|CSTATS1=7,3,0,0||CSTATS2=5,5,5,5|
+
+:Starship AceBonus
+1,|CSTATS1=0,0,0,0||CSTATS2=1,1,2,1|
+2,|CSTATS1=1,0,0,0||CSTATS2=2,2,3,2|
+3,|CSTATS1=2,0,0,0||CSTATS2=2,2,3,2|
+4,|CSTATS1=3,0,0,0||CSTATS2=3,2,4,2|
+5,|CSTATS1=3,0,0,0||CSTATS2=3,3,4,3|
+6,|CSTATS1=4,0,0,0||CSTATS2=4,3,5,3|
+7,|CSTATS1=5,0,0,0||CSTATS2=4,4,5,4|
+8,|CSTATS1=6,1,0,0||CSTATS2=5,4,6,4|
+9,|CSTATS1=6,2,0,0||CSTATS2=5,4,6,4|
+10,|CSTATS1=7,3,0,0||CSTATS2=6,5,7,5|
+
+:SharpshooterBonus
+1,|CSTATS1=0,0,0,0||CSTATS2=1,0,1,2|
+2,|CSTATS1=1,0,0,0||CSTATS2=1,0,2,3|
+3,|CSTATS1=2,0,0,0||CSTATS2=2,1,2,3|
+4,|CSTATS1=3,0,0,0||CSTATS2=2,1,2,4|
+5,|CSTATS1=3,0,0,0||CSTATS2=2,1,3,4|
+6,|CSTATS1=4,0,0,0||CSTATS2=3,2,3,5|
+7,|CSTATS1=5,0,0,0||CSTATS2=3,2,4,5|
+8,|CSTATS1=6,1,0,0||CSTATS2=4,2,4,6|
+9,|CSTATS1=6,2,0,0||CSTATS2=4,3,4,6|
+10,|CSTATS1=7,3,0,0||CSTATS2=4,3,5,7|
+
+# ----------------------------------------------------------------
+:IntroScreen
+1,
+_<table width="100&#37" border=2 bgcolor="black" bordercolor="black" cellpadding=5>
+_<tr><td width="100&#37" align=center>
+_<IMG SRC="Graphics\SW NPC Gen\SW_LOGO.jpg"></td></tr>
+_<td width="100&#37" bgcolor="white">
+_<font face="rockwell">
+_<center><h3>Star Wars NPC Generator</h3></center>
+_This table will create an NPC with a large assortment of statistical information 
+_based on information provided by the Revised Core Rulebook. There are also a few 
+_parameters you can choose from, including Race, Class, and Level of character. 
+_The default settings for Race and Class are Random, while Level of character is 
+_default to levels 1-3.<br><br>
+_There are a large variety of Races to choose from, including a vast majority of 
+_those listed in the Alien Anthology. Classes are currently limited to those found 
+_in the Revised Core Rulebook. Character levels range from 1 to 21 and are broken 
+_up into groups of three for parameter selection.<br><br>
+_There are also a number of GM Archetypes to choose from including such Archetypes 
+_as Stormtroopers, Smugglers, or Pirates. Note that selecting an Archetype overrides 
+_the selection of regular classes.<br><br>
+_<center><b>Parameter Descriptions</b></center>
+_<font size="2"><br>
+_<b>View Instructions:</b> Choose whether or not to view these instructions.<br>
+_<b>Choose Race:</b> Select appropriate NPC race or have selection randomized.<br>
+_<b>Choose Class:</b> Select appropriate NPC class or have selection randomized.<br>
+_<b>Archetype Override: </b> Choose whether or not to use an Archetype instead.<br>
+_<b>Choose Archetype:</b> Select appropriate NPC archetype of have selection randomized.<br>
+_<b>Choose Level Range:</b> Choose the appropriate level range (Default 1-3).<br>
+_</font></tr></td></table>
+
+# ----------------------------------------------------------------
+# Archetype Section
+# ----------------------------------------------------------------
+:ArchetypeStart
+1,<font face="verdana" size="-1">
+_<table width="100&#37" border=0><tbody style="font-size: smaller">
+#_<tr><td width="75&#37">
+# Modified as per "Organic" above (Jan 2006)
+_<tr><td width="75&#37" valign=top>
+_<b>Name: </b>[~Names Generator.NAME Random]</br>
+_<b>Archetype: </b>{If~%Arc%=29? [Archetype] / [Archetype=%Arc%]}[ForceHuman=%Arc%]</br>
+_<b>Race: </b>{If~%MakeHuman%=0? [AlienChance]/ |Race=1|[AlienChance]}<br>
+_<b>Size: </b>%Size%<br>
+# Added from Organic2 above (Jan 2006)
+_{If~%Size%=Small? |DefSizeMod+1||AtkSizeMod+1||GrapSizeMod-4|}
+_{If~%Size%=Large? |DefSizeMod-1||AtkSizeMod-1||GrapSizeMod+4|}
+_<b>Level: </b>[Level=%Level%][%ArcBonus%=%Lvl%]<br>
+_<b>Class: </b>%Class1% %Lvl1% {If~%Lvl2%>0? - %Class2% %Lvl2%}{If~%Lvl3%>0? - %Class3% %Lvl3%}<br>
+_<b>Personality: </b>[~Miscellaneous.Personality]<br>
+_<b>Force:</b> Character is [Force=%ForceSensitive%]
+_<td width="0&#37" rowspan=8>%Path1%%Pic%%Path2%</td></tr>
+_<td width="100&#37" align=center bgcolor="black"><b><font color="white">Race Abilities</font></b></td></tr>
+_<td width="100&#37" align=left valign=top>
+_<li>Base land speed: %speed%m
+_[Race Abilities=%Race%]</td>
+_</tr></tbody></table>
+_{Split~ASTATS1,",",BASEATK,BASEATK2,BASEATK3,BASEATK4}
+_{If~%BASEATK%>=6? |BASEATK2={Calc~%BASEATK%-5}|}
+_{If~%BASEATK2%>=6? |BASEATK3={Calc~%BASEATK2%-5}|}
+_{If~%BASEATK3%>=6? |BASEATK4={Calc~%BASEATK3%-5}|}
+_{Split~ASTATS2,",",BASEDEF,BASEFORT,BASEREFLEX,BASEWILL}
+_[Initial Rolls]
+_[AStats=%Arc%]
+# Added from Organic2 above (Jan 2006)
+_[Check1]
+_[Modify=%Race%]
+_[DisplayCharacter]</br>
+_<b><u>Primary Weapon </u></b><br>[Weapon 1=%Class%]</br>
+_<b><u>Secondary Weapon </u></b><br>[Weapon 2=%Class%]</br>
+_<b><u>Armor </u></b><br>[Armor=%Class%]</font></br>
+# Added from Organic2 above (Jan 2006)
+
+:ForceHuman
+1-13,
+14,|MakeHuman=1|
+15-21,
+22,|MakeHuman=1|
+23-50,
+
+:AlienChance
+1,{If~%Race%=182? [RandomRace] / [Race=%Race%]}
+
+:DoASTAT
+1,{Split~CSTATS1,",",A1,B1,C1,D1}{Split~CSTATS2,",",E1,F1,G1,H1}
+2,{Split~CSTATS1,",",A2,B2,C2,D2}{Split~CSTATS2,",",E2,F2,G2,H2}
+3,|A2+%A1%||B2+%B1%||C2+%C1%||D2+%D1%||E2+%E1%||F2+%F1%||G2+%G1%||H2+%H1%|
+_|ASTATS1=%A2%,%B2%,%C2%,%D2%||ASTATS2=%E2%,%F2%,%G2%,%H2%|
+
+:DoArcBonus
+1,[%Class1%Bonus=%Lvl1%][DoASTAT=1]
+2,[%Class2%Bonus=%Lvl2%][DoASTAT=2]
+
+:Archetype
+1,Administrator|ArcBonus=Administrator|
+2,Assassin|ArcBonus=Assassin|
+3,Bounty Hunter|ArcBonus=Bounty Hunter|
+4,Con Artist|ArcBonus=Con Artist|
+5,Crime Lord|ArcBonus=Crime Lord|
+6,Dark Jedi Guardian|ArcBonus=Dark Jedi Guardian|
+7,Doctor|ArcBonus=Doctor|
+8,Elite Trooper|ArcBonus=Elite Trooper|
+9,Fallen Jedi|ArcBonus=Fallen Jedi|
+10,Gambler|ArcBonus=Gambler|
+11,Jedi Investigator|ArcBonus=Jedi Investigator|
+12,Medic|ArcBonus=Medic|
+13,Mercenary|ArcBonus=Mercenary|
+14,Imperial Officer|ArcBonus=Imperial Officer||Arc=14|
+15,Outlaw|ArcBonus=Outlaw|
+16,Pirate|ArcBonus=Pirate|
+17,Peace Officer|ArcBonus=Peace Officer|
+18,Slicer|ArcBonus=Slicer|
+19,Smuggler|ArcBonus=Smuggler|
+20,Spy|ArcBonus=Spy|
+21,Pilot|ArcBonus=Pilot|
+22,Stormtrooper|ArcBonus=Stormtrooper||Arc=22|
+23,Technician|ArcBonus=Technician|
+24,Trader|ArcBonus=Trader|
+25,Boarder (Ranged)|ArcBonus=Boarder1|
+26,Boarder (Melee)|ArcBonus=Boarder2|
+27,Gunner|ArcBonus=Mercenary|
+28,Sniper|ArcBonus=Sniper|
+
+:AStats
+# Places  stats
+1,[Stats=3]
+2,|DEX=%ROLL1%|
+_|CHA=%ROLL2%|
+_|WIS=%ROLL3%|
+_|INT=%ROLL4%|
+_|CON=%ROLL5%|
+_|STR=%ROLL6%|
+3,[Stats=14]
+4,|CHA=%ROLL1%|
+_|WIS=%ROLL2%|
+_|DEX=%ROLL3%|
+_|INT=%ROLL4%|
+_|CON=%ROLL5%|
+_|STR=%ROLL6%|
+5,[Stats=15]
+6,|STR=%ROLL1%|
+_|CON=%ROLL2%|
+_|DEX=%ROLL3%|
+_|WIS=%ROLL4%|
+_|INT=%ROLL5%|
+_|CHA=%ROLL6%|
+7,[Stats=7]
+8,[Stats=1]
+9,|DEX=%ROLL1%|
+_|STR=%ROLL2%|
+_|CON=%ROLL3%|
+_|INT=%ROLL4%|
+_|WIS=%ROLL5%|
+_|CHA=%ROLL6%|
+10,[Stats=4]
+11,[Stats=17]
+12,[Stats=11]
+13,[Stats=1]
+14,[Stats=18]
+15,[Stats=2]
+16,[Stats=1]
+17,[Stats=12]
+18,[Stats=7]
+19-20,[Stats=4]
+21,[Stats=19]
+22,[Stats=1]
+23,[Stats=11]
+24,[Stats=10]
+25,[Stats=1]
+26,|STR=%ROLL1%|
+_|CON=%ROLL2%|
+_|DEX=%ROLL3%|
+_|WIS=%ROLL4%|
+_|INT=%ROLL5%|
+_|CHA=%ROLL6%|
+27,[Stats=1]
+28,[Stats=20]
+
+# Archetype Information
+:Administrator
+1-21,|HP=0|[DiplomatBonus=%Lvl%]|ASTATS1=%CSTATS1%||ASTATS2=%CSTATS2%|
+_|Lvl1=%Lvl%||Class=10||Class1=Diplomat|
+
+:Assassin
+1-4,[Assassin2=%Lvl%]|HP=6||Class=4||Class1=Scoundrel|[HitPoints=%Lvl1%]
+_[%Class1%Bonus=%Lvl%]|ASTATS1=%CSTATS1%||ASTATS2=%CSTATS2%|
+5-21,[Assassin2=%Lvl%]|HP=6|
+_|Class=4||Class1=Scoundrel|[HitPoints=%Lvl1%][DoArcBonus=1]
+_|Class=1||Class2=Soldier|[HitPoints=%Lvl2%][DoArcBonus=2]|E2-2|[DoASTAT=3]|Class=4|
+
+:Assassin2
+1-4,|Lvl1=%Lvl%|
+5,|Lvl1=4||Lvl2=1|
+6,|Lvl1=5||Lvl2=1|
+7,|Lvl1=5||Lvl2=2|
+8,|Lvl1=6||Lvl2=2|
+9,|Lvl1=6||Lvl2=3|
+10,|Lvl1=7||Lvl2=3|
+11,|Lvl1=7||Lvl2=4|
+12,|Lvl1=7||Lvl2=5|
+13,|Lvl1=8||Lvl2=5|
+14,|Lvl1=8||Lvl2=6|
+15,|Lvl1=9||Lvl2=6|
+16,|Lvl1=9||Lvl2=7|
+17,|Lvl1=10||Lvl2=7|
+18,|Lvl1=10||Lvl2=8|
+19,|Lvl1=11||Lvl2=8|
+20,|Lvl1=11||Lvl2=9|
+21,|Lvl1=12||Lvl2=9|
+
+:Bounty Hunter
+1-4,[BHunter=%Lvl%]|HP=8||Class=5||Class1=Scout|[HitPoints=%Lvl1%]
+_[%Class1%Bonus=%Lvl%]|ASTATS1=%CSTATS1%||ASTATS2=%CSTATS2%|
+5-6,[BHunter=%Lvl%]|HP=8|
+_|Class=5||Class1=Scout|[HitPoints=%Lvl1%][DoArcBonus=1]
+_|Class=4||Class2=Scoundrel|[HitPoints=%Lvl2%][DoArcBonus=2]|E2-2|[DoASTAT=3]|Class=5|
+7-21,[BHunter=%Lvl%]|HP=8|
+_|Class=5||Class1=Scout|[HitPoints=%Lvl1%][DoArcBonus=1][DoASTAT=3]
+_|Class=4||Class2=Scoundrel|[HitPoints=%Lvl2%][%Class2%Bonus=%Lvl2%][DoASTAT=1]|E2-2|[DoASTAT=3]
+_|Class=14||Class3=Bounty Hunter|[HitPoints=%Lvl3%][%Class3%Bonus=%Lvl3%][DoASTAT=1][DoASTAT=3]
+
+:BHunter
+1-4,|Lvl1=%Lvl%|
+5,|Lvl1=4||Lvl2=1|
+6,|Lvl1=4||Lvl2=2|
+7,|Lvl1=4||Lvl2=2||Lvl3=1|
+8,|Lvl1=4||Lvl2=2||Lvl3=2|
+9,|Lvl1=4||Lvl2=2||Lvl3=3|
+10,|Lvl1=4||Lvl2=2||Lvl3=4|
+11,|Lvl1=4||Lvl2=2||Lvl3=5|
+12,|Lvl1=4||Lvl2=2||Lvl3=6|
+13,|Lvl1=4||Lvl2=2||Lvl3=7|
+14,|Lvl1=4||Lvl2=2||Lvl3=8|
+15,|Lvl1=4||Lvl2=2||Lvl3=9|
+16,|Lvl1=4||Lvl2=2||Lvl3=10|
+17,|Lvl1=5||Lvl2=2||Lvl3=10|
+18,|Lvl1=5||Lvl2=3||Lvl3=10|
+19,|Lvl1=6||Lvl2=3||Lvl3=10|
+20,|Lvl1=6||Lvl2=4||Lvl3=10|
+21,|Lvl1=7||Lvl2=4||Lvl3=10|
+
+:Con Artist
+1-4,[ConArt=%Lvl%]|HP=6||Class=4||Class1=Scoundrel|[HitPoints=%Lvl1%]
+_[%Class1%Bonus=%Lvl%]|ASTATS1=%CSTATS1%||ASTATS2=%CSTATS2%|
+5-21,[ConArt=%Lvl%]|HP=6|
+_|Class=4||Class1=Scoundrel|[HitPoints=%Lvl1%][DoArcBonus=1]
+_|Class=3||Class2=Noble|[HitPoints=%Lvl2%][DoArcBonus=2]|E2-2|[DoASTAT=3]|Class=4|
+
+:ConArt
+1-4,|Lvl1=%Lvl%|
+5,|Lvl1=4||Lvl2=1|
+6,|Lvl1=5||Lvl2=1|
+7,|Lvl1=5||Lvl2=2|
+8,|Lvl1=6||Lvl2=2|
+9,|Lvl1=6||Lvl2=3|
+10,|Lvl1=7||Lvl2=3|
+11,|Lvl1=7||Lvl2=4|
+12,|Lvl1=7||Lvl2=5|
+13,|Lvl1=8||Lvl2=5|
+14,|Lvl1=8||Lvl2=6|
+15,|Lvl1=9||Lvl2=6|
+16,|Lvl1=9||Lvl2=7|
+17,|Lvl1=10||Lvl2=7|
+18,|Lvl1=10||Lvl2=8|
+19,|Lvl1=11||Lvl2=8|
+20,|Lvl1=11||Lvl2=9|
+21,|Lvl1=12||Lvl2=9|
+
+:Crime Lord
+1-2,[CLord=%Lvl%]|HP=6||Class=4||Class1=Scoundrel|[HitPoints=%Lvl1%]
+_[%Class1%Bonus=%Lvl%]|ASTATS1=%CSTATS1%||ASTATS2=%CSTATS2%|
+3-7,[CLord=%Lvl%]|HP=6|
+_|Class=4||Class1=Scoundrel|[HitPoints=%Lvl1%][DoArcBonus=1]
+_|Class=3||Class2=Noble|[HitPoints=%Lvl2%][DoArcBonus=2]|E2-2|[DoASTAT=3]|Class=4|
+8-21,[CLord=%Lvl%]|HP=6|
+_|Class=4||Class1=Scoundrel|[HitPoints=%Lvl1%][DoArcBonus=1][DoASTAT=3]
+_|Class=3||Class2=Noble|[HitPoints=%Lvl2%][%Class2%Bonus=%Lvl2%][DoASTAT=1]|E2-2|[DoASTAT=3]
+_|Class=15||Class3=Crime Lord|[HitPoints=%Lvl3%][%Class3%Bonus=%Lvl3%][DoASTAT=1][DoASTAT=3]
+
+:CLord
+1-2,|Lvl1=%Lvl%|
+3,|Lvl1=2||Lvl2=1|
+4,|Lvl1=2||Lvl2=2|
+5,|Lvl1=3||Lvl2=2|
+6,|Lvl1=4||Lvl2=2|
+7,|Lvl1=5||Lvl2=2|
+8,|Lvl1=5||Lvl2=2||Lvl3=1|
+9,|Lvl1=5||Lvl2=2||Lvl3=2|
+10,|Lvl1=5||Lvl2=2||Lvl3=3|
+11,|Lvl1=5||Lvl2=2||Lvl3=4|
+12,|Lvl1=5||Lvl2=2||Lvl3=5|
+13,|Lvl1=5||Lvl2=2||Lvl3=6|
+14,|Lvl1=5||Lvl2=2||Lvl3=7|
+15,|Lvl1=5||Lvl2=2||Lvl3=8|
+16,|Lvl1=5||Lvl2=2||Lvl3=9|
+17,|Lvl1=5||Lvl2=2||Lvl3=10|
+18,|Lvl1=5||Lvl2=3||Lvl3=10|
+19,|Lvl1=6||Lvl2=3||Lvl3=10|
+20,|Lvl1=6||Lvl2=4||Lvl3=10|
+21,|Lvl1=7||Lvl2=4||Lvl3=10|
+
+:Dark Jedi Guardian
+1-21,|HP=10|[Jedi GuardianBonus=%Lvl%]|ASTATS1=%CSTATS1%||ASTATS2=%CSTATS2%|
+_|Lvl1=%Lvl%||Class=9||Class1=Jedi Guardian|[HitPoints=%Lvl1%]
+
+:Doctor
+1-21,|HP=6|[Tech SpecialistBonus=%Lvl%]|ASTATS1=%CSTATS1%||ASTATS2=%CSTATS2%|
+_|Lvl1=%Lvl%||Class=7||Class1=Tech Specialist|[HitPoints=%Lvl1%]
+
+:Elite Trooper
+1-6,[ETroop=%Lvl%]|HP=10||Class=1||Class1=Soldier|[HitPoints=%Lvl1%]
+_[%Class1%Bonus=%Lvl%]|ASTATS1=%CSTATS1%||ASTATS2=%CSTATS2%|
+7-8,[ETroop=%Lvl%]|HP=6|
+_|Class=1||Class1=Soldier|[HitPoints=%Lvl1%][DoArcBonus=1]
+_|Class=5||Class2=Scout|[HitPoints=%Lvl2%][DoArcBonus=2]|E2-2|[DoASTAT=3]|Class=1|
+9-21,[ETroop=%Lvl%]|HP=6|
+_|Class=1||Class1=Scoundrel|[HitPoints=%Lvl1%][DoArcBonus=1][DoASTAT=3]
+_|Class=5||Class2=Noble|[HitPoints=%Lvl2%][%Class2%Bonus=%Lvl2%][DoASTAT=1]|E2-2|[DoASTAT=3]
+_|Class=16||Class3=Elite Trooper|[HitPoints=%Lvl3%][%Class3%Bonus=%Lvl3%][DoASTAT=1][DoASTAT=3]
+
+:ETroop
+1-5,|Lvl1=%Lvl%|
+6,|Lvl1=5||Lvl2=1|
+7,|Lvl1=5||Lvl2=2|
+8,|Lvl1=5||Lvl2=2||Lvl3=1|
+9,|Lvl1=5||Lvl2=2||Lvl3=2|
+10,|Lvl1=5||Lvl2=2||Lvl3=3|
+11,|Lvl1=5||Lvl2=2||Lvl3=4|
+12,|Lvl1=5||Lvl2=2||Lvl3=5|
+13,|Lvl1=5||Lvl2=2||Lvl3=6|
+14,|Lvl1=5||Lvl2=2||Lvl3=7|
+15,|Lvl1=5||Lvl2=2||Lvl3=8|
+16,|Lvl1=5||Lvl2=2||Lvl3=9|
+17,|Lvl1=5||Lvl2=2||Lvl3=10|
+18,|Lvl1=6||Lvl2=2||Lvl3=10|
+19,|Lvl1=6||Lvl2=3||Lvl3=10|
+20,|Lvl1=6||Lvl2=4||Lvl3=10|
+21,|Lvl1=6||Lvl2=5||Lvl3=10|
+
+:Fallen Jedi
+1-6,[FallJedi=%Lvl%]|HP=10||Class=9||Class1=Jedi Guardian|[HitPoints=%Lvl1%]
+_[%Class1%Bonus=%Lvl%]|ASTATS1=%CSTATS1%||ASTATS2=%CSTATS2%||Class=30|
+7-21,[FallJedi=%Lvl%]|HP=10|
+_|Class=9||Class1=Jedi Guardian|[HitPoints=%Lvl1%][DoArcBonus=1]
+_|Class=5||Class2=Scout|[HitPoints=%Lvl2%][DoArcBonus=2]|E2-2|[DoASTAT=3]|Class=30|
+
+:FallJedi
+1-6,|Lvl1=%Lvl%|
+7,|Lvl1=6||Lvl2=1|
+8,|Lvl1=6||Lvl2=2|
+9,|Lvl1=6||Lvl2=3|
+10,|Lvl1=6||Lvl2=4|
+11,|Lvl1=6||Lvl2=5|
+12,|Lvl1=6||Lvl2=6|
+13,|Lvl1=6||Lvl2=7|
+14,|Lvl1=6||Lvl2=8|
+15,|Lvl1=6||Lvl2=9|
+16,|Lvl1=6||Lvl2=10|
+17,|Lvl1=6||Lvl2=11|
+18,|Lvl1=6||Lvl2=12|
+19,|Lvl1=6||Lvl2=13|
+20,|Lvl1=6||Lvl2=14|
+21,|Lvl1=6||Lvl2=15|
+
+:Gambler
+1-21,|HP=6|[ScoundrelBonus=%Lvl%]|ASTATS1=%CSTATS1%||ASTATS2=%CSTATS2%|
+_|Lvl1=%Lvl%||Class=4||Class1=Scoundrel|[HitPoints=%Lvl1%]
+
+:Jedi Investigator
+1-5,[JediInvest=%Lvl%]|HP=8||Class=8||Class1=Jedi Consular|[HitPoints=%Lvl1%]
+_[%Class1%Bonus=%Lvl%]|ASTATS1=%CSTATS1%||ASTATS2=%CSTATS2%|
+6-21,[JediInvest=%Lvl%]|HP=8|
+_|Class=8||Class1=Jedi Consular|[HitPoints=%Lvl1%][DoArcBonus=1]
+_|Class=17||Class2=Jedi Investigator|[HitPoints=%Lvl2%][DoArcBonus=2][DoASTAT=3]
+
+:JediInvest
+1-5,|Lvl1=%Lvl%|
+6,|Lvl1=5||Lvl2=1|
+7,|Lvl1=5||Lvl2=2|
+8,|Lvl1=5||Lvl2=3|
+9,|Lvl1=5||Lvl2=4|
+10,|Lvl1=5||Lvl2=5|
+11,|Lvl1=6||Lvl2=5|
+12,|Lvl1=7||Lvl2=5|
+13,|Lvl1=8||Lvl2=5|
+14,|Lvl1=9||Lvl2=5|
+15,|Lvl1=10||Lvl2=5|
+16,|Lvl1=11||Lvl2=5|
+17,|Lvl1=12||Lvl2=5|
+18,|Lvl1=13||Lvl2=5|
+19,|Lvl1=14||Lvl2=5|
+20,|Lvl1=15||Lvl2=5|
+21,|Lvl1=16||Lvl2=5|
+
+:Medic
+1-21,|HP=0|[ExpertBonus=%Lvl%]|ASTATS1=%CSTATS1%||ASTATS2=%CSTATS2%|
+_|Lvl1=%Lvl%||Class=11||Class1=Expert|
+
+:Mercenary
+1-21,|HP=6|[SoldierBonus=%Lvl%]|ASTATS1=%CSTATS1%||ASTATS2=%CSTATS2%|
+_|Lvl1=%Lvl%||Class=1||Class1=Soldier|[HitPoints=%Lvl1%]
+
+:Imperial Officer
+1-2,[ImpOff=%Lvl%]|HP=6||Class=3||Class1=Noble|[HitPoints=%Lvl1%]
+_[%Class1%Bonus=%Lvl%]|ASTATS1=%CSTATS1%||ASTATS2=%CSTATS2%|
+4-6,[ImpOff=%Lvl%]|HP=6|
+_|Class=3||Class1=Noble|[HitPoints=%Lvl1%][DoArcBonus=1]
+_|Class=1||Class2=Soldier|[HitPoints=%Lvl2%][DoArcBonus=2]|E2-2|[DoASTAT=3]|Class=3|
+7-21,[ImpOff=%Lvl%]|HP=6|
+_|Class=3||Class1=Noble|[HitPoints=%Lvl1%][DoArcBonus=1][DoASTAT=3]
+_|Class=1||Class2=Soldier|[HitPoints=%Lvl2%][%Class2%Bonus=%Lvl2%][DoASTAT=1]|E2-2|[DoASTAT=3]
+_|Class=18||Class3=Officer|[HitPoints=%Lvl3%][%Class3%Bonus=%Lvl3%][DoASTAT=1][DoASTAT=3]
+
+:ImpOff
+1-2,|Lvl1=%Lvl%|
+3,|Lvl1=2||Lvl2=1|
+4,|Lvl1=2||Lvl2=2|
+5,|Lvl1=2||Lvl2=3|
+6,|Lvl1=2||Lvl2=4|
+7,|Lvl1=2||Lvl2=4||Lvl3=1|
+8,|Lvl1=2||Lvl2=4||Lvl3=2|
+9,|Lvl1=2||Lvl2=4||Lvl3=3|
+10,|Lvl1=2||Lvl2=4||Lvl3=4|
+11,|Lvl1=2||Lvl2=4||Lvl3=5|
+12,|Lvl1=2||Lvl2=4||Lvl3=6|
+13,|Lvl1=2||Lvl2=4||Lvl3=7|
+14,|Lvl1=2||Lvl2=4||Lvl3=8|
+15,|Lvl1=2||Lvl2=4||Lvl3=9|
+16,|Lvl1=2||Lvl2=4||Lvl3=10|
+17,|Lvl1=3||Lvl2=4||Lvl3=10|
+18,|Lvl1=3||Lvl2=5||Lvl3=10|
+19,|Lvl1=4||Lvl2=5||Lvl3=10|
+20,|Lvl1=4||Lvl2=6||Lvl3=10|
+21,|Lvl1=5||Lvl2=6||Lvl3=10|
+
+:Outlaw
+1-21,[Outlaw2=%Lvl%]|HP=8|
+_|Class=2||Class1=Fringer|[HitPoints=%Lvl1%][DoArcBonus=1]
+_|Class=4||Class2=Scoundrel|[HitPoints=%Lvl2%][DoArcBonus=2]|E2-2|[DoASTAT=3]|Class=2|
+
+:Outlaw2
+1,|Lvl1=1|
+2,|Lvl1=1||Lvl2=1|
+3,|Lvl1=2||Lvl2=1|
+4,|Lvl1=2||Lvl2=2|
+5,|Lvl1=3||Lvl2=2|
+6,|Lvl1=3||Lvl2=3|
+7,|Lvl1=4||Lvl2=3|
+8,|Lvl1=4||Lvl2=4|
+9,|Lvl1=5||Lvl2=4|
+10,|Lvl1=5||Lvl2=5|
+11,|Lvl1=6||Lvl2=5|
+12,|Lvl1=6||Lvl2=6|
+13,|Lvl1=7||Lvl2=6|
+14,|Lvl1=7||Lvl2=7|
+15,|Lvl1=8||Lvl2=7|
+16,|Lvl1=8||Lvl2=8|
+17,|Lvl1=9||Lvl2=8|
+18,|Lvl1=9||Lvl2=9|
+19,|Lvl1=10||Lvl2=9|
+20,|Lvl1=10||Lvl2=10|
+21,|Lvl1=11||Lvl2=10|
+
+:Pirate
+1-2,[Pirate2=%Lvl%]|HP=6||Class=4||Class1=Scoundrel|[HitPoints=%Lvl1%]
+_[%Class1%Bonus=%Lvl%]|ASTATS1=%CSTATS1%||ASTATS2=%CSTATS2%|
+3-21,[Pirate2=%Lvl%]|HP=6|
+_|Class=4||Class1=Scoundrel|[HitPoints=%Lvl1%][DoArcBonus=1]
+_|Class=1||Class2=Soldier|[HitPoints=%Lvl2%][DoArcBonus=2][DoASTAT=3]
+
+:Pirate2
+1-2,|Lvl1=%Lvl%|
+3,|Lvl1=2||Lvl2=1|
+4,|Lvl1=3||Lvl2=1|
+5,|Lvl1=3||Lvl2=2|
+6,|Lvl1=4||Lvl2=2|
+7,|Lvl1=4||Lvl2=3|
+8,|Lvl1=5||Lvl2=3|
+9,|Lvl1=5||Lvl2=4|
+10,|Lvl1=6||Lvl2=4|
+11,|Lvl1=6||Lvl2=5|
+12,|Lvl1=7||Lvl2=5|
+13,|Lvl1=7||Lvl2=6|
+14,|Lvl1=8||Lvl2=6|
+15,|Lvl1=8||Lvl2=7|
+16,|Lvl1=9||Lvl2=7|
+17,|Lvl1=9||Lvl2=8|
+18,|Lvl1=10||Lvl2=8|
+19,|Lvl1=10||Lvl2=9|
+20,|Lvl1=11||Lvl2=9|
+21,|Lvl1=11||Lvl2=10|
+
+:Peace Officer
+1-21,|HP=0|[ThugBonus=%Lvl%]|ASTATS1=%CSTATS1%||ASTATS2=%CSTATS2%|
+_|Lvl1=%Lvl%||Class=12||Class1=Thug|
+
+:Slicer
+1-21,|HP=6|[Tech SpecialistBonus=%Lvl%]|ASTATS1=%CSTATS1%||ASTATS2=%CSTATS2%|
+_|Lvl1=%Lvl%||Class=7||Class1=Tech Specialist|[HitPoints=%Lvl1%]
+
+:Smuggler
+1-21,[Smuggler2=%Lvl%]|HP=6|
+_|Class=4||Class1=Scoundrel|[HitPoints=%Lvl1%][DoArcBonus=1]
+_|Class=5||Class2=Scout|[HitPoints=%Lvl2%][DoArcBonus=2]|E2-2|[DoASTAT=3]|Class=4|
+
+:Smuggler2
+1,|Lvl1=1|
+2,|Lvl1=1||Lvl2=1|
+3,|Lvl1=2||Lvl2=1|
+4,|Lvl1=2||Lvl2=2|
+5,|Lvl1=3||Lvl2=2|
+6,|Lvl1=3||Lvl2=3|
+7,|Lvl1=4||Lvl2=3|
+8,|Lvl1=4||Lvl2=4|
+9,|Lvl1=5||Lvl2=4|
+10,|Lvl1=5||Lvl2=5|
+11,|Lvl1=6||Lvl2=5|
+12,|Lvl1=6||Lvl2=6|
+13,|Lvl1=7||Lvl2=6|
+14,|Lvl1=7||Lvl2=7|
+15,|Lvl1=8||Lvl2=7|
+16,|Lvl1=8||Lvl2=8|
+17,|Lvl1=9||Lvl2=8|
+18,|Lvl1=9||Lvl2=9|
+19,|Lvl1=10||Lvl2=9|
+20,|Lvl1=10||Lvl2=10|
+21,|Lvl1=11||Lvl2=10|
+
+:Spy
+1-2,[Spy2=%Lvl%]|HP=8||Class=5||Class1=Scout|[HitPoints=%Lvl1%]
+_[%Class1%Bonus=%Lvl%]|ASTATS1=%CSTATS1%||ASTATS2=%CSTATS2%|
+3-21,[Spy2=%Lvl%]|HP=8|
+_|Class=5||Class1=Scout|[HitPoints=%Lvl1%][DoArcBonus=1]
+_|Class=4||Class2=Scoundrel|[HitPoints=%Lvl2%][DoArcBonus=2][DoASTAT=3]
+
+:Spy2
+1-2,|Lvl1=%Lvl%|
+3,|Lvl1=2||Lvl2=1|
+4,|Lvl1=2||Lvl2=2|
+5,|Lvl1=2||Lvl2=3|
+6,|Lvl1=2||Lvl2=4|
+7,|Lvl1=2||Lvl2=5|
+8,|Lvl1=2||Lvl2=6|
+9,|Lvl1=3||Lvl2=6|
+10,|Lvl1=4||Lvl2=6|
+11,|Lvl1=4||Lvl2=7|
+12,|Lvl1=4||Lvl2=8|
+13,|Lvl1=4||Lvl2=9|
+14,|Lvl1=4||Lvl2=10|
+15,|Lvl1=5||Lvl2=10|
+16,|Lvl1=6||Lvl2=10|
+17,|Lvl1=6||Lvl2=11|
+18,|Lvl1=6||Lvl2=12|
+19,|Lvl1=6||Lvl2=13|
+20,|Lvl1=6||Lvl2=14|
+21,|Lvl1=6||Lvl2=15|
+
+:Pilot
+1-6,[Pilot2=%Lvl%]|HP=10||Class=1||Class1=Soldier|[HitPoints=%Lvl1%]
+_[%Class1%Bonus=%Lvl%]|ASTATS1=%CSTATS1%||ASTATS2=%CSTATS2%|
+7-21,[Pilot2=%Lvl%]|HP=10|
+_|Class=1||Class1=Soldier|[HitPoints=%Lvl1%][DoArcBonus=1]
+_|Class=19||Class2=Starship Ace|[HitPoints=%Lvl2%][DoArcBonus=2][DoASTAT=3]
+
+:Pilot2
+1-6,|Lvl1=%Lvl%|
+7,|Lvl1=6||Lvl2=1|
+8,|Lvl1=6||Lvl2=2|
+9,|Lvl1=6||Lvl2=3|
+10,|Lvl1=6||Lvl2=4|
+11,|Lvl1=6||Lvl2=5|
+12,|Lvl1=6||Lvl2=6|
+13,|Lvl1=6||Lvl2=7|
+14,|Lvl1=6||Lvl2=8|
+15,|Lvl1=6||Lvl2=9|
+16,|Lvl1=6||Lvl2=10|
+17,|Lvl1=7||Lvl2=10|
+18,|Lvl1=8||Lvl2=10|
+19,|Lvl1=9||Lvl2=10|
+20,|Lvl1=10||Lvl2=10|
+21,|Lvl1=11||Lvl2=10|
+
+:Stormtrooper
+1-21,|HP=0|[ThugBonus=%Lvl%]|ASTATS1=%CSTATS1%||ASTATS2=%CSTATS2%|
+_|Lvl1=%Lvl%||Class=12||Class1=Thug||Class=31|
+
+:Technician
+1-21,|HP=0|[ExpertBonus=%Lvl%]|ASTATS1=%CSTATS1%||ASTATS2=%CSTATS2%|
+_|Lvl1=%Lvl%||Class=11||Class1=Expert|
+
+:Trader
+1-21,|HP=0|[DiplomatBonus=%Lvl%]|ASTATS1=%CSTATS1%||ASTATS2=%CSTATS2%|
+_|Lvl1=%Lvl%||Class=10||Class1=Diplomat|
+
+:Boarder1
+1-21,[Pirate=%Lvl%]|Class=32|
+
+:Boarder2
+1-21,[Pirate=%Lvl%]|Class=33|
+
+:Gunner
+1-21,[Mercenary=%Lvl%]
+
+:Sniper
+1-6,[Sniper2=%Lvl%]|HP=10|
+_|Class=1||Class1=Soldier|[HitPoints=%Lvl1%][DoArcBonus=1]
+_|Class=2||Class2=Scout|[HitPoints=%Lvl2%][DoArcBonus=2]|E2-2|[DoASTAT=3]|Class=20|
+7-21,[Sniper2=%Lvl%]|HP=10|
+_|Class=1||Class1=Soldier|[HitPoints=%Lvl1%][DoArcBonus=1][DoASTAT=3]
+_|Class=2||Class2=Scout|[HitPoints=%Lvl2%][%Class2%Bonus=%Lvl2%][DoASTAT=1]|E2-2|[DoASTAT=3]
+_|Class=20||Class3=Sharpshooter|[HitPoints=%Lvl3%][%Class3%Bonus=%Lvl3%][DoASTAT=1][DoASTAT=3]
+
+:Sniper2
+1,|Lvl1=1|
+2,|Lvl1=1||Lvl2=1|
+3,|Lvl1=2||Lvl2=1|
+4,|Lvl1=2||Lvl2=2|
+5,|Lvl1=3||Lvl2=2|
+6,|Lvl1=3||Lvl2=3|
+7,|Lvl1=3||Lvl2=3||Lvl3=1|
+8,|Lvl1=3||Lvl2=3||Lvl3=2|
+9,|Lvl1=3||Lvl2=3||Lvl3=3|
+10,|Lvl1=3||Lvl2=3||Lvl3=4|
+11,|Lvl1=3||Lvl2=3||Lvl3=5|
+12,|Lvl1=3||Lvl2=3||Lvl3=6|
+13,|Lvl1=3||Lvl2=3||Lvl3=7|
+14,|Lvl1=3||Lvl2=3||Lvl3=8|
+15,|Lvl1=3||Lvl2=3||Lvl3=9|
+16,|Lvl1=3||Lvl2=3||Lvl3=10|
+17,|Lvl1=4||Lvl2=3||Lvl3=10|
+18,|Lvl1=4||Lvl2=4||Lvl3=10|
+19,|Lvl1=5||Lvl2=4||Lvl3=10|
+20,|Lvl1=5||Lvl2=5||Lvl3=10|
+21,|Lvl1=6||Lvl2=5||Lvl3=10|
+
+:Race Abilities
+1,<li>Bonus Skill Points: 4 extra points at 1st level, 1 extra point each additional level.
+_<li>Bonus Feat at 1st level.
+2,<li>+2 Species Bonus on initiative checks: Despite their general lack of coordination, the Cereans' reaction speed is superior to that of most other species.
+3,<li>Low-light Vision.
+_<li>Hold Breath: A Gungan can hold his breath for 25 rounds before he needs to make checks against drowning.
+_<li>+4 species bonus to Swim checks
+_<li>+2 species bonus to Listen checks
+_<li>+1 species bonus to Reflex saves.|RefMiscMod+1|
+4,<li>+2 species bonus on Knowledge (Wilderness Lore) checks.
+_<li>+4 species bonus to Survival checks.
+_<li>+1 species bonus on Will saves.|WillMiscMod+1|
+5,<li>Low-light vision.
+_<li>Breath Underwater: As amphibious creatures, Mon Calamari can't drown in water.
+_<li>+4 species bonus to Swim and Craft checks.
+_<li>+1 species bonus on Will saves in moist or watery environments.
+_<li>-1 species penalty to Will saves in dry or arid conditions.
+6,<li>+2 species bonus to Listen, Search, and Spot checks.
+_<li>Bonus Feat: Track.
+7,<li>Dark Vision (20m)
+_<li>+2 species bonus to Climb and Listen checks.
+8,<li>+1 natural armor bonus|DefMiscMod+1|
+_<li>Dark Vision (20m)
+9,<li>Low-light Vision
+_<li>+1 species bonus on Fortitude Saves.|FortMiscMod+1|
+10,<li>+4 species bonus to Intimidate
+_<li>Wookie Rage: +4 STR, +2 VP, +2 Will and Fortitude Saves, -2 Defense. Lasts 5 rounds.
+_<li>Extraordinary Recuperation: A Wookie regains vitality and wound points at twice the normal rate.
+11,<li>Breath Underwater: As amphibious creatures, Aqualish cannon drown in water.
+_<li>+2 species bonus to Swim checks
+12,<li>+1 natural armor bonus|DefMiscMod+1|
+_<li>Salt Addiction: If salt is consumed, Arconas must make a Fortitude save of DC 22 or suffer: 1d4 points of temporary CON damage and -2 penalties on attack rolls, ability checks, and saving throws. After 24 hours the Arcona can make a Will save (DC 20) to resist addiction. Effects of poisioning last for 1d3 days after addiction is broken.
+13,
+14,<li>+2 natural armor bonus|DefMiscMod+2|
+_<li>Dark Vision (20m)
+_<li>Low-light Vision
+_<li>[Primitive] Primitive and Simple Weapons.
+_<li>Natural Weapons: Instead of a normal attack, Barabels can claw, bite, or tail slap for 1d6 damage plus STR modifier. These attacks do not provoke an attack of opportunity.
+_<li>+2 species bonus on Fortitude saves vs. radiation
+_<li>+4 species bonus to Intimidation.
+15,<li>+2 natural armor bonus|DefMiscMod+2|
+_<li>One bonus feat in Skill Emphasis of either Computer Use, Craft, Disable Device, or Repair.
+_<li>Mood Sense: A Baragwin can sense another being's mood and general demeanor with a successful Sense Motive check of DC 15. This ability has a 10m range.
+16,
+17,<li>Heightened Smell: Can ID individuals by smell at 10m with a successful WIS check of DC 15.
+_<li>Micro-Vision: +4 species bonus to Search and Spot checks within 4m. They are also Myopic and suffer a -2 penalty on Spot checks to notice things 10m or farther away. They also suffer a -4 penalty instead of -2 for each range increment.
+_<li>Meditative Trance: Can meditate for 4 hours instead of sleeping for 8 hours. They can still make Spot and Listen checks to avoid being surprised.
+18,<li>Dark Vision (20m)
+_<li>Low-light Vision
+_<li>Isolation Aversion: After each 24 hour period alone, a Chadra-Fan must make a successful Will save (DC 15) or suffer 1d4 points of temporary STR, DEX, and CON damage. A Chadra-Fan reduced to 0 STR or DEX falls unconscious. A Chadra-Fan reduced to 0 CON and WP dies.
+_<li>+2 species bonus on Repair checks.
+19,<li>Low-Light Vivsion
+_<li>Breath Underwater: As amphibious creatures, Chagrians cannot drown underwater.
+_<li>+4 species bonus on Swim checks
+_<li>+4 species bonus on Fortitude saves vs. radiation.
+20,<li>Bonus feat: Rugged
+21,<li>+1 natural armor bonus|DefMiscMod+1|
+22-25,
+26,<li>Bonus Feat: Spacer
+27,<li>Elom have a 6 meter move even while carrying a medium or heavy load.
+_<li>Blindness: If an Elom ventures into any light stronger than that of early dawn, they are effectively blind.
+28,<li>Xenophobic: -4 speices penalty on CHA or Diplomacy checks made to improve the attitudes of other species. Likewise, other species have a -4 penalty on similar checks against Elomin.
+29,<li>Pheromones: +1 species bonus on Bluff, Diplomacy, Entertain, Gather Information, and Intimidate checks made to targets in range and who have respiratory systems. For each hour of meditation, this bonus can be increased another +1 (max +4). The effects last for 1 hour after meditation is over.
+_<li>Hold Breath: Can hold breath for 10 before they need to make checks vs. drowning.
+30,<li>Prehensile Tail: A Farghul with the Martial Arts feat can use their tail to wield a weapon to gain an extra off-hand attack. Penalties for two-weapon fighting still apply. The tail itself is not a weapon but can be used to grapple.
+31,<li>Reach: 4m
+32,<li>+2 natural armor bonus|DefMiscMod+2|
+_<li>Dark Vision (20m)
+33,<li>Low-light Vision
+_<li>Energy Reading: Gotals can read the emotions of any sentient being they focus on with 10m. This gives them a +3 species bonus on Bluff, Diplomacy, Intimidate, and Sense Motive for those beings. A Gotal with the Track feat can use it to locate a member of a specific species or a being they've met before, within 10m.
+_<li>Uncanny Dodge: Always retains DEX bonus to Defense, even when caught flat-footed or by surprise.
+34,<li>Dark Vision (20m)
+_<li>Low-light Vision
+_<li>Bonus Feat: Sharp-eyed
+35,<li>Reach: 4m
+_<li>+2 natural armor bonus|DefMiscMod+2|
+_<li>Gambling Addiction: When expose to a game of chance, Herglics must make a successful Will save (DC 15) to resist the urge to play. The DC can be modified depending on the urgency of the Herglic's current exploit.
+36,
+37,<li>+1 natural armor bonus|DefMiscMod+1|
+_<li>Bonus Feat: Starship Operation
+_<li>Precognition: Iktotchi possess limited precognition in the forms of dreams or daydreams. These visions normally foretell the fate of millions. Iktotchi with the Force-sensitive feat and at least 1 rank in Farseeing can purposefully see the future with a Farseeing check (DC 20).
+_<li>+2 species bonus to Pilot check
+38,<li>Gas Breather: Kel Dor require their native atmosphere to survive. Without protective goggles outside their homeworld, they are considered blind. Without a breating mask, they begin to suffocate.
+39,<li>+2 natural armor bonus|DefMiscMod+2|
+_<li>-2 species penalty on Intimidate checks
+_<li>Resistant to Persuasion: Other species take a -4 penalty on Bluff, Diplomacy, and Intimidate checks.
+40,<li>+2 bonus on Will saves.|WillMiscMod+2|
+41,<li>Light Sensitivity: -4 penalty to attack rolls, skill/ability checks made in normal daylight. -2 penalty in dim light. Can be corrected with protective goggles. If exposed to intense light without protection, Kubaz are blinded for 2d6 hours.
+_<li>+2 species bonus on Gather Information checks.
+42-43,
+44,<li>Bonus Feat: Multidexterity
+_<li>Methane-Breather: While in a non-methane rich environment, Morseerians can breath for 10 rounds before needing to make CON checks to avoid suffocation.
+_<li>Extra-limbs: Morseerian have 1 primary and 3 off-hands. They can use four weapons at once, but suffer normal penalties.
+_<li>+4 species bonus to Climb and Grapple checks.|GrapMiscMod+4|
+45,<li>Natural Weapons: Claw (1d4)
+_<li>+8 species bonus on Spot checks.
+46,<li>Bonus feat: Gearhead
+47,<li>Keen Smell: +4 species bonus on Survival checks when using the Track feat to track a creature within 2km.
+_<li>+2 species bonus on Fortitude saves against ingested poison.
+_<li>+4 species bonus on Survival checks when foraging for food.
+48,<li>Low-light Vision
+_<li>Breath Underwater: As amphibious creatures, Quarren can't drown in water.
+_<li>+4 species bonus to Swim checks.
+49,<li>Short-range Telepathy: Can communicate with other Quermians or Force Users with the Sense feat. This takes a full-round action, and a successful Will save (DC 10}. This can be resisted by a Will save (DC 20). The Quermain must make eye contact, and must re-roll the Will save each round. They can only transmit simple phrases and emotions.
+50,<li>Bonus Feat: Spacer
+_<li>Breath Underwater: As amphibious creatures, Rybet cannot drown in water.
+_<li>+4 species bonus to Swim checks.
+51,<li>Dark Vision (20m)
+_<li>Bonus Feat: Lightning Reflexes
+_<li>+2 species bonus on Listen, Search and Spot checks
+_<li>+2 species bonus to Survival when tracking by scent.
+52,<li>Natural Weapons: Claw (1d3)
+_<li>Low-light Vision
+_<li>Alternative Speed: Scurry (legs and arms) Xm
+_<li>Agoraphobic: Upon entering any outdoor or spacious area, Selonians must make a successful Will save (DC 12) or suffer a -4 penalty to all skill checks and attack rolls. They must make this save every 4 rounds until the save is failed, each time increasing by 2. A Selonian may spend 4 skill points to remove this penalty.
+_<li>+4 species bonus on Swim checks.
+53,<li>Low-light Vision
+_<li>Bonus Feats: Alertness, Improved Initiative
+_<li>Xenophobic: -4 speices penalty on CHA or Diplomacy checks made to improve the attitudes of other species. Likewise, other species have a -4 penalty on similar checks against Shistavanen.
+54,<li>Nauseating Vomit: Once every 1d4 rounds, Skilling can vomit on an adjacent foe by making a melee touch attack. A successful attack causes the foe to become nauseated (can do nothing but a single move action each round) unless they make a sucessful Fortitude save (DC 15). The nauseating effect lasts for 2d6 rounds.
+_<li>+2 species bonus on Bluff, Diplomacy, and Sense Motive checks
+55,<li>Bonus Feat: Gearhead
+56,
+57,<li>+2 natural armor bonus|DefMiscMod+2|
+_<li>Resistant to cold (5)
+_<li>Creative Pursuits: A Snivvian must spend at least 2 skill points per level on a Craft, Profession, or Knowledge skill pertaining to artisitic or creative endeavors.
+58,<li>Quills: May fire as an Exotic Weapon, up to 8 quills each day. Each quill does 2d4 damage, criticals on a 20, and has a range increment of 6m. The spines grow back very quickly.
+59,<li>All Squib have Diplomacy as a Class Skill.
+_<li>+2 species bonus on Appraise and Diplomacy checks.
+60,<li>+2 natural armor bonus|DefMiscMod+2|
+_<li>Bonus Feat: Persuasive
+_<li>Force Blind: Cannot take levels in any Force-Using classes, learn Force feats or skills, or take the Force-sensitive feat.
+_<li>Keen Smell: +2 species bonus on Sense Motive checks when they can smell their target.
+_<li>-2 species penalty on Spot checks.
+61,<li>Natural Weapon: Clas (1d4)
+_<li>Dark Vision (20m)
+_<li>[Primitive] Primitive Weapons only.
+_<li>Insulating Fur: +4 species bonus on Fortitude saves to resist the effects of cold.
+_<li>Light Protection: Talz are never blinded by intense illumination or bright flashes on light.
+62,<li>Bonus Feat: Improved Initiative
+_<li>Social Anxiety: Toong feat social interactions with anyone outside their close group of friends. The have a -4 species penalty to all checks involving social interactions. A Toong can spend 1 skill point a level to lower the penalty, and eventually reduce the penalty to 0.
+63,<li>Bonus Feat: Trick
+_<li>Alternative Speed: Fly 18m (good)
+_<li>+8 species bonus on Will saves to resist any Force skill that allows a Will save.
+64,<li>Bonus Feats: Armor Proficiency (light), Gearhead
+_<li>Xenophobic: -4 species penalty on CHA or Diplomacy checks made to improve the attitudes of other species. Likewise, other species have a -4 penalty on similar checks against Ubese.
+_<li>+2 species bonus to Survival checks.
+65,<li>Bonus Feat: Endurance
+66,<li>+2 natural armor bonus|DefMiscMod+2|
+_<li>Bonus Feats: Gearhead
+_<li>Telecommunication: Can broadcast radio waves through their antennae. They have a 1km range and can communicate with other Verpine or specially tuned comlinks. If broadcasting from a hive the range increases to 50km per broadcasting Verpine.
+_<li>+2 species bonus on Search and Spot checks. They gain an additional +2 within 6m.
+67,<li>Bonus Feats: Trustworthy, Aware
+_<li>Pain Sensitivity: -1 species penalty on all Fortitude saves.|FortMiscMod-1| Whenever a Vuvarian takes wound damage, they must make a successful Will save (DC 12) or be stunned.
+_<li>+4 species bonus on Spot checks.
+68,<li>Pacifism: When faced with a violent situtation, a Woostoid must succeed at a Will save (DC 15) before rolling initiative. If they failed the save, they get a -1 penalty on all attack rolls and defense. This lasts for the duration of combat.
+69,<li>Bonus Feat: Multidexterity
+_<li>Extra Limbs: Xexto have 1 primary and 3 off-hands. They can use four weapons at once, but suffer normal penalties.
+_<li>+4 species bonus to Climb and Grapple checks.|GrapMiscMod+4|
+70,<li>Natural Weapons: Claw (1d4)
+_<li>Bonus Feat: Ambidexterity
+_<li>Xenophobic: -8 species penalty on CHA or Diplomacy checks made to improve the attitudes of other species. Likewise, other species have a -8 penalty on similar checks against Yevetha.
+_<li>+2 species bonus on Repair checks.
+71,<li>Bonus Feat: Great Fortitude
+_<li>+8 species bonus on Will saves to resist any Force skills that allows a Will save.
+_<li>Cold-blooded: +4 species bonus to Fortitude saves vs. extreme heat.
+72,<li>+2 species bonus to Fortitude and Will saves.|FortMiscMod+2||WillMiscMod+2|
+73,<li>+2 species bonus on Gather Information and Search checks.
+74,<li>Bonus Feat: Lightning Reflexes
+_<li>+2 species bonus on Climb and Jump Checks
+75,<li>Bonus Feat: Power Attack
+_<li>[Primitive] Primitive and Simple Weapons.
+_<li>+2 species bonus on Fortitude saves.|FortMiscMod+2|
+76,<li>Space/Reach: 2m x 4m/2m
+_<li>Bonus Feat: Infamy
+_<li>+6 species bonus on saves against mind-influencing effects that allow a Will save, including Force effects.
+_<li>Stable: Hutts cannot be knocked prone.
+77,<li>[Primitive] Primitive weapons only.
+_<li>Scent: Can identify an individiual by smell at a range of 10m normally, 20m upwind, 6m downwind.
+78,
+79,<li>[Primitive] Primitive and Simple weapons.
+_<li>Extraordinary Recuperation: An Abyssin regains vitality and wound points at double the normal rate.
+_<li>Limb Regeneration: With 3 days of rest, an Abyssin can completely regrow a lost limb or organ.
+_<li>Poor Depth Perception: -1 to all ranged attacks.|RangMiscMod-1|
+_<li>+4 species bonus on Survival checks in arid environments.
+80,<li>Long Call: As a full-round action, can create a subsonic call that affect all non-Adarian within 4m. All within range take 2d4 sonic damage or half on a successful Fortitude save (DC 9). All who fail are also stunned for 1 round. This ability can be used 3 times per day without taking damage.
+_<li>+2 species bonus on Listen, Search, and Spot checks.
+81,<li>+2 natural armor bonus.|DefMiscMod+2|
+_<li>Low-light Vision.
+_<li>Herbivorous: 1d6 temporary CON damage whenever this character ingests animal protein of any type.
+_<li>+2 species bonus on Search and Spot checks.
+_<li>Pessimist: -4 species penalty on Diplomacy checks.
+82,<li>[Primitive] Primitive weapons only.
+_<li>Roll: Can roll into a ball and double their movement while moving in a straight line, but suffers a -4 penalty to Listen and Spot checks in this form.
+_<li>+4 species bonus on Climb checks.
+83,<li>+2 species bonus on Craft and Repair checks while dealing with items of a technical nature.
+_<li>Wealthy: Roll an extra die of the same type when determining starting money.
+_<li>+4 species bonus on Knowledge (aliens) checks.
+_<li>+2 species bonus on Diplomacy checks.
+84,<li>Space/Reach: 2m/4m
+_<li>Bonus Feat: Run
+_<li>Communicate at Distance: Anx can communicate with other Anx within 5km, although adverse weather conditions may reduce this.
+_<li>-4 species penalty to Bluff checks if not wearing a fin cloak.
+_<li>Anx with the Martial Arts feat deal 1d6 damage with an unarmed strike, and threaten on a 18-20.
+85,<li>Bonus Feats: Force-Sensitive, Infamy, Stealthy
+_<li>Anzati Tracking: Can use a See Force skill check, rather than Survival when using the Track feat, with a bonus equal to the level of the target.
+_<li>Hypnosis: Can take a full-round action to stun a target for 1 round. The target must be within 2m, and must be flat-footed or unaware of the Anzat. The target gets a Will save of DC 10 to negate.
+_<li>Proboscices: Can furl or un-furl as a free action, and can attack a stunned, grappled, or helpless target. A successful attack stuns the target (Fortitude DC 15) for the duration of the attack and drains 1 temporary CON point per round.
+86,<li>Bonus Feat: Trustworthy
+87,<li>+4 species bonus to Listen checks while antennapalps are extended.
+_<li>+4 species bonus to Fortitude on saves vs. poison.
+_<li>Bluff and Diplomacy checks targetting a Balosar are at +4 if the Balosar is promised profit or power.
+88,<li>+1 natural armor bonus.|DefMiscMod+1|
+_<li>Natural Weapon: Claw (1d6)
+_<li>Damage Reduction 2
+_<li>Extra Limbs: Bartokk have 1 primary and 3 off-hands. They can use four weapons at once, but suffer normal penalties.
+_<li>+4 species bonus to Climb and Grapple checks.|GrapMiscMod+4|
+_<li>Compartmentalized Biology: Severed Bartokk body parts act as normal on the Bartokk's initiative count. The parts die 8 hours after dismemberment.
+89,<li>Extra Limbs: Besaliks have 1 primary and 3 off-hands. They can use four weapons at once, but suffer normal penalties.
+_<li>+4 species bonus to Climb and Grapple checks.|GrapMiscMod+4|
+_<li>Food Stores: Besalisks can go without food for 8 days and without water for 3 days.
+_<li>+4 species bonus to Survival checks in arctic conditions.
+_<li>+2 species bonus on Swim checks.
+90,<li>Sneak Attack: A Blood Carver gets +1d6 dmg for all melee and ranged attacks made within 10m to creatures with discernable anatomies and who are flat-footed.
+_<li>+2 species bonus on Escape Artist checks.
+91,<li>Memory Sharing (Memni): Caamasi can share their memories with other Caamasi. No roll is required, just the same amount of time the original event took fold. Force-using characters can attempt a Telepathy check (DC 15) to experience memnii from a willing Caamasi. Remembering specific details with Telepathy requires an INT check (DC 18).
+_<li>+2 species bonus to Diplomacy checks.
+92,<li>+2 species bonus to Survival checks in hot climates and -2 species penalty in cold climates.
+93,<li>Natural Weapon: Claw (1d6)
+94,<li>Space/Reach: 2m/4m
+#_<li>Alternate Speed: Fly Xm (...)
+_<li>Telepathy 500m: A Celegian can communicate with any number of beings at one time. To resist this telepathic bond requires a successful Will save (DC 11). All creatures know they've been contacted and understand the words in their native dialect.
+_<li>Cyanogen Breather: Must be in a Cyanogen atmosphere. Every round outside of which, the Celegian must make a successful Fortitude save (DC 10). This save increases by 4 for every subsequent round, and every failed check causes 1d6 temporary CON damage.
+_<li>+10 species bonus to Swim checks.
+95,<li>Space/Reach: 2m/4m
+_<li>Natural Weapon: Claw (1d6)
+_<li>Damage Reduction 2
+_<li>Quadrupedal: +4 stability bonus against Bantha rushes and Trip attacks.
+_<li>Extra Limbs: Charon have 1 primary and 1 off-hand. They can carry items using all 4 arms, but can only attack with 2.
+_<li>+4 species bonus on Climb and Grapple checks.|GrapMiscMod+4|
+_<li>Web: 4 times per day, Charon can shoot a web from it's abdomen. Charon can attempt a ranged touch attack to entangle an oppenent within 12m. As a full-round action, can fill a 2m cube with web, with hardness 0 and 15 WP, break of DC 30.
+96,<li>Shapeshift: A Clawdite can alter their appearance as other medium-sized humanoid species. Chaning is a full-round action and grants a +10 species bonus to Disguise checks. A Clawdite gains no special features or abilities of the mimicked species, but the effects last for as long as the Clawdite wishes. Whenever changing from Clawdite to other species, they must make a successful Fortitude save (DC 12) or suffer 1 point of temporary CON dmg. The time can be reduced to a move action, but the DC increases to 18. A Clawdite cannot create or conceal heavy clothing, and revert to there normal state when stunned, fatigued, exhausted, unconscious, dying, or dead.
+97,<li>Bonus Feat: Multidexterity
+_<li>Extra Limbs: Codru-Ji have 1 primary and 3 off-hands. They can use 4 weapons at once, but suffer normal penalties.
+_<li>+4 species bonus to Climb and Grapple checks.|GrapMiscMod+4|
+98,<li>Bonus Feat: Alertness
+_<li>Damage Reduction 2
+_<li>Poison: A stinger on the tail injects poison into the victim: Injury DC 12, initial 1d6+STR, secondary 2d6
+_<li>+10 species bonus to Will saves against any Force effects that allow a Will save.
+_<li>Defensive Ball: As a full-round action, a Colicoid can curl itself into a tight ball, giving it a natural +4 armor bonus. While in a ball, the Colicoid cannot any move or attack actions, and can only grasp a small object in one hand. They cannot see in this form, but can smell and hear perfectly fine. As a free action, the Colicoid and unroll into a full standing position and make its attack.
+_<li>-2 species penalty on Diplomacy or Charisma checks to improve the attitude of another species.
+99,<li>Space/Reach: 2m/4m
+_<li>+2 Natural armor bonus|DefMiscMod+2|
+_<li>Natural Weeapon: Gore (2d6)
+100,<li>[Primitive] Primitive and Simple weapons.
+101,<li>Invisibility: If the Defel is in anything less than direct normal daylight, or an equivalent artificial light, they gain +2 bonus to attacks, and its target loses their DEX bonus to defense. Attacks against Defel under these conditions have a 50&#37 miss chance. Under extremely low lighting conditions, the attacker must also guess which 2m square the Defel is in.
+_<li>Blindness: Off of their homeworld, Defel are blind unless they are wearing special goggles (100 credits).
+102,<li>+1 Natural armor bonus|DefMiscMod+1|
+_<li>Low-light Vision
+_<li>Telepathy 500m: A Draethos can communicate with any number of beings at one time. To resist this telepathic bond requires a Will save (DC 10). All creatures know they've been contacted and understand words in their native dialect.
+103,<li>[Primitive] Simple and Slug-thrower weapons.
+_<li>+2 Will save against fear effects and impose a -2 penalty on Intimidate checks used against them.
+104,<li>+2 Natural armor bonus|DefMiscMod+2|
+_<li>Dark Vision 20m
+_<li>[Primitive] Primitive weapons only.
+#_<li>Alternate Speed: Fly (Xm)
+_<li>Extra Limbs: Ebranite have 1 primary and 3 off-hands. They can use four weapons at once, but suffer normal penalties.
+_<li>+6 species bonus to Climb and Grapple checks.|GrapMiscMod+6|
+_<li>Rage: Once per day, +4 STR, +2 VP, +2 Fortitude and Will saves, -2 defense, Lasts for 6 rounds.
+_<li>+4 species bonus to Hide checks in mountainous or rocky terrain.
+105,<li>Bonus Feats: Skill Emphasis (survival), Stealthy
+_<li>Spirit of Battle: Once per day, +4 STR, +2 bonus to defense, +2 VP, +2 bonus to all saving throws. Lasts for 6 rounds.
+106,<li>Low-light Vision
+_<li>Bonus Feat: Endurance
+_<li>Stronger by age: A Feeorin's STR, DEX, and CON increase by 1 at middle age and again at old age. Their WIS, INT, and CHA do not go up.
+_<li>+2 species bonus on Fortitude Saves.|FortMiscMod+2|
+107,<li>Natural Weapon: Pincer (1d6)
+_<li>Extra Limbs: Filordus can use all 4 limbs in combat, but only 2 arms can use weapons. When attacking, if just pincers used, then one pincer is primary. If any hands are used with pincers, then one hand is primary and all others are off-hand attacks and suffer normal penalties.
+_<li>+4 species bonus to Listen checks, but -2 penalty on saving throws vs. sonic attacks.
+108,<li>+2 Natural armor bonus|DefMiscMod+2|
+_<li>Low-light Vision
+_<li>Alternate Speed: Fly 16m (poor)
+_<li>+2 species bonus on Fortitude saves vs. radiation
+_<li>+2 species bonus on all Craft checks.
+109,[Race Abilities=108]
+_<li>Bonus Feat: Exotic Weapon Proficiency (either electrostaff or sonic staff)
+110,<li>+2 Natural armor bonus|DefMiscMod+2|
+_<li>Damage Reduction 2
+_<li>Unique Physiology: Givin have no internal organs and don't breath in a conventional sense. They are immune to vacuum effects, and inhaled chemicals and poisons.
+_<li>+4 species bonus on any check involving mathematics i.e. Astrogate, Knowledge (business, engineering, and physics)
+111,<li>+4 species bonus on Diplomacy checks when haggling over price.
+112,<li>Natural Weapons (females only): Tongue (1d6) Critical 19-20
+_<li>+2 species bonus to Search and Spot checks
+_<li>+2 species bonus to Diplomacy and Sense Motive checks made against warm-blooded sentients within 20m.
+113,<li>Cold-Blooded: -4 species penalty to Fortitude saves vs. extreme cold.
+_<li>+2 species bonus to Climb checks
+_<li>+4 species bonus to Knowledge (Wilderness Lore)
+_<li>+2 species bonus on Survival checks made in forests.
+114,<li>+2 Natural armor bonus|DefMiscMod+2|
+_<li>Houk can use their STR modifier instead of their CHA modifier on Intimidate checks.
+115,<li>Bonus Feat: Weapon Proficiency (slugthrowers)
+116,<li>Natural Weapon: Beak (1d4)
+_<li>Breath Underwater: As amphibious creatures, Ish Tib can't drown in water.
+_<li>+4 species bonus on Swim checks.
+_<li>Rage: when wounded, +4 STR, +2 VP, +2 Will and Fortitude, -2 Defense. Lasts for 5 rounds. Must choose a target at start of rage and must continue to attack target until rage ends or target is reduce to 0 WP, at which point the rage ends.
+_<li>Hydration: Must bath in salt water for 1 minute each day or suffer 1d4 temporary CON damage each day.
+117,<li>Dark Vision 20m
+_<li>[Primitive] Primitive and Simple weapons.
+_<li>+2 species bonus to Survival checks.
+118,<li>Low-light Vision
+_<li>Bonus Feats: Alertness, Run
+_<li>Photographic Memory: Jenet can make a WIS check to recall any information they have come across. DC determined by GM.
+_<li>+2 species bonus to Climb, Escape Artist, Jump, and Swim checks.
+119,<li>+2 species bonus to Survival checks.
+120,<li>Bonus Feat: Toughness
+_<li>+1 species bonus to Fortitude saves|FortMiscMod+1|
+_<li>+2 species bonus to Survival checks.
+121,<li>Hullepi: Do not suffer from starvation as normal. If in a sterile environment such as a well kept ship or station, they suffer as normal.
+_<li>+4 species bonus to Entertain (sing) checks.
+122,<li>Clone: Kommites suffer 10&#37 experience penalty if they multiclass to any other classes other than Force-Adept, Jedi Guardian, or Jedi Consular.
+123,<li>+1 Natural armor bonus|DefMiscMod+1|
+_<li>Bonus Feat: Animal Affinity
+_<li>Empath: +4 species bonus to Bluff and Sense Motive checks targeting beings within 10m. Force-users gain +4 species bonus to Friendship and Empathy checks.
+_<li>+4 species bonus to Swim checks.
+124,<li>Wealthy: Roll an extra die of the same type when determining starting wealth.
+_<li>+1 species bonus on Will saves|WillMiscMod+1|
+_<li>+2 species bonus to Sense Motive checks.
+125,<li>+2 Natural armor bonus|DefMiscMod+2|
+_<li>Tentacles: Krevaaki have 8 tentacles rather than arms and legs. They use 6 tentacles for walking and 2 for arms, but all can be used to grasp. If they have the Martial Arts feat, they gain +2 to grapple checks. The tentacles are not as dextrous as human hands, and they suffer a -4 penalty to manipulate small objects. This can be negated with proper tools.
+_<li>+2 species bonus to Climb checks.
+_<li>Stoic: Due to their non-moving face, other species take a -4 penalty to any Sense Motive checks during face-to-face communications.
+_<li>+1 species bonus on Will saves|WillMiscMod+1|
+126,<li>Bonus Feat: One of the following: Althletic, Gearhead, Headstrong, Stealthy, Toughness, or any Non-exotic Weapon Group Proficiency.
+_<li>Easily Distracted: In order to stay focused on the current task when a puzzle or game presents itself, the Krish must make a successful Will save (DC 10) or be dazed for 1 round. They can defend normally but cannot attack unless threatened or provoked.
+_<li>+2 species bonus on Gamble checks.
+127,<li>Bonus Feat: Improved Initiative
+_<li>Mood Fur: Fur changes color to match mood. Anyone familiar with the colors gets a +2 bonus on Sense Motive against a Kushiban.
+_<li>+4 species bonus on Escape Artist and Jump checks.
+128,<li>Bonus Feat: Iron Will
+_<li>Fearless: Intimidate checks made against Lannik are at a -4 penalty. Also, Lannik gain a +2 bonus to Will saves against fear effects.
+129,<li>Bonus Feat: Weapon Finess (Kick)
+_<li>Natural Weapon: A Leki has a natural Kick attack, and can use this instead of hands for all normal attacks. The kick does 1d4 damage plus STR mod.
+_<li>+8 species bonus on Jump checks
+_<li>+2 species bonus on Listen checks.
+130,<li>Bonus Feat: Alertness
+_<li>[Primitive] Primitive weapons only.
+_<li>+8 species bonus on Climb checks
+_<li>+2 species bonus on Survival checks.
+131,<li>Bonus Feats: Force-Sensitive, Sense
+_<li>+2 species bonus to Initiative.
+_<li>Force Sight: Can only see things through the Force. They cannot see any wavelengths of light. This costs no VP and can be used as a free action.
+132,<li>+2 species bonus to Appraise, Knowledge (business), and Profession (merchant), but only if there is 1 or more ranks in appropriate skill.
+_<li>+4 species bonus to Diplomacy checks when haggling over price.
+133,<li>+2 Natural armor bonus|DefMiscMod+2|
+_<li>Bonus Feats: Alertness, Stealthy
+_<li>[Primitive] Primitive weapons only.
+134,<li>Bonus Feat: Lightning Reflexes
+_<li>+2 species bonus to Bluff, Diplomacy, Gather Information, and Intimidate checks so long as the target can understand the Nagai's words.
+135,<li>+1 Natural armor bonus|DefMiscMod+1|
+_<li>Low-light Vision
+_<li>Breath Underwater: As amphibious creatures, Nautolan cannot drown in water.
+_<li>+4 species bonus to Swim checks
+_<li>Pheromonal Sensor: +1 species bonus to all Sense Motive checks. This bonus increases to +4 while in the water.
+136,
+137,<li>+2 species bonus on Appraise and Bluff checks
+138,<li>Bonus Feat: Force Sensitive
+_<li>Metamorph: Neti can alter their size and shape by taking a full-round action. They can vary their size from Medium to Huge. They can be in humanoid form, quadrupedal form, or tree form. They can attack in all 3 forms as well as manipulate objects with their tendrils, but are immoble in tree from. While in quadrupedal or tree form, they gain either a +4 or +12 stability bonus against bantha rushes or trip attacks. A Neti who has taken 12 WP cannot morph into a smaller form without first healing.
+_<li>Photosynthesis: Neti gain energy from sunlight. They do not need to eat, but if kept from sunlight, they will starve. They need only 1/10th the water of other species.
+_<li>+8 circumstance bonus to Hide checks while in tree form and concealed within trees or foliage.
+139,<li>+2 Natural armor bonus|DefMiscMod+2|
+_<li>+4 species bonus on Survival (desert) checks and can survive for up to 1 week without having to make CON checks for thirst.
+140,<li>+2 species bonus on Computer Use checks
+_<li>+4 species bonus on Knowledge (bureaucracy) checks.
+141,<li>Bonus Feat: Multidexterity
+_<li>Extra Limbs: Noehon have 1 primary and 3 off-hands. They can use 4 weapons at once, but suffer normal penalties.
+_<li>Musk: Noehon have an overpowering scent that takes 3d10 days of regular cleaning to remove from oneself or an item,
+_<li>+8 species bonus on Climb checks and can always take 10.
+_<li>Limited Linguist: It costs 2 skill points instead of 1 to learn to speak another language.
+142,<li>Natural Weapon: Gore (1d6)
+_<li>+2 species bonus to Climb and Survival checks.
+143,<li>Rush: 3 times a day, a Nuknog can gain +4 temporary DEX points and move twice their speed. They cannot use any abilities which require patience or concentration while rushing. This lasts for 5 rounds.
+_<li>+2 species bonus on Listen, Search and Spot checks.
+144,<li>+2 Natural armor bonus|DefMiscMod+2|
+_<li>Natural Weapon: Gore (1d6)
+_<li>Stable: +4 stability bonus on checks to resist bantha rushes and trip attacks due to their tail.
+_<li>+2 species bonus on Spot checks. Pacithhips can see in all directions at once.
+145,<li>Bonus Feat: Gearhead
+146,<li>Extra Limbs: Pho Ph'eahian have 1 primary and 3 off-hands. They can use four weapons at once, but suffer normal penalties.
+_<li>+ 4 species bonus to Climb and Grapple checks|GrapMiscMod+4|
+_<li>Thermal Fur: +4 species bonus on Fortitude saves to resist cold effects.
+_<li>+4 species bonus on Survival checks in mountainous environments.
+147,<li>+2 Natural armor bonus|DefMiscMod+2|
+_<li>Damage Reduction 3
+_<li>[Primitive] Primitive weapons only.
+_<li>+1 species bonus on Will saves.|WillMiscMod+1|
+148,<li>Breath Underwater: As amphibious creatures, Qwohog cannot drown in water.
+_<li>+8 species bonus to Swim checks and can always take 10, even under adverse conditions.
+_<li>Saltwater Aversion: After 10 minutes submerged in salt water, Qwohog take 1 point of damager per extra minute.
+149,<li>Natural weapons: Bite (1d4)
+_<li>Dark Vision 20m
+_<li>[Primitive] Primitive weapons only.
+_<li>Flexible Body: +4 species bonus to Escape Artist checks and can move through openings too tight for small creatures but large enough for Tiny creatures.
+_<li>-2 species penalty on Bluff, Diplomacy, Entertain, Gather Information, and Intimidate checks when dealing with Humans.
+150,<li>Natural weapon: Claw (1d3)
+_<li>Bonus Feat: Alertness
+_<li>Thermal Fur: +4 species bonus on Fortitude saves to resist cold effects.
+_<li>+2 species bonus on Survival checks in arctic climates.
+151,<li>Bonus Feat: Infamy
+_<li>Musical Beak: Ryn can play their beak as a musical instrument. They can also imitate the binary language of droids with a successful Entertain (flute) check (DC 20). Unless they have the Speak Binary skill, they cannot communicate in this fashion.
+_<li>Prehensile Tail: A Ryn can use its tail to grab items and carry a light load, but cannot be used to make attacks. The tail does provide a +2 to any Grapple or Disarm check.|GrapMiscMod+2|
+_<li>+2 species bonus to Entertain checks.
+152,<li>+1 Natural armor bonus|DefMiscMod+1|
+_<li>+2 species bonus on Intimidate and Survival checks.
+153,<li>Natural Weapon: Claw (1d3)
+_<li>A Sarkan who takes the Martial Arts feat can strike an oppenent using its tail instead of a claw attack. The deals 1d6+1, and criticals on 20.
+154,<li>+4 Natural armor bonus|DefMiscMod+4|
+_<li>Natural Weapon: Claw (1d6)
+_<li>Bonus Feat: Weapon Group (Primitive)
+_<li>Breath Underwater: Sauvax cannot drown in water.
+_<li>+4 species bonus to Swim checks.
+_<li>Pincers: Sauvax can manipulate simple objects or primitive weapons, but nothing small or articulate such as blasters, lightsabers, datapads, medpacs, or other gear designed for species with hands.
+_<li>+2 species bonus on Listen and Spot checks.
+155,<li>Telepathy: As a move action, Shi'ido can project a telepathic impression to any number of beings within 100m. Each creature that fails its Will save (DC 6) suffers a -4 penalty on Spot checks to penetrate the Shi'ido's disguise.
+_<li>Shapeshift: A Shi'ido can alter their appearance and clothes to appear as another medium-size humanoid creature. Changing is a full-round action and grants +10 species bonus to Disguise checks. A Shi'ido gains no special features or abilities of the mimic. This lasts as long as the Shi'ido wishes.
+_<li>+4 species bonus on Escape Artist checks.
+156,<li>Bonus Feats: Armor proficiency (light), Gearhead
+_<li>Unique Physiology: Standard atmospheres and pressures are poisonous and detrimental to Skakoans. Each round exposed to either condition results in 1d6 damage per round, 2d6 damage if exposed to both. They can reduce the damage to half with a successful Fortitude save (DC 20), but a new save is required each round.
+157,<li>Alternate Speed: Fly 10m (poor)
+_<li>Flight: Can fly but only with a medium load or less.
+_<li>+1 species bonus on Will saves|WillMiscMod+1|
+158,<li>+1 Natural armor bonus|DefMiscMod+1|
+_<li>Bonus Feat: Run
+_<li>Damage Reduction 2
+_<li>Battle Honor: Must succeed a Will save (DC=Current WP) in order to disengage from combat or to decline to engage any creature which has already provoked, goaded, threatened, or challenged the Sludir.
+_<li>Hexapedal: Sludir have 6 legs and gain +4 stability bonus against bantha rushes or trip attacks.
+_<li>Physical Intimidation: Can use their STR mod rather than CHA mod for Intimidate checks.
+_<li>+2 species bonus on Will saves to resist fear effects.
+159,<li>Cold-Blooded: +4 species bonus to Fortitude saves vs. extreme heat.
+_<li>Skin Color Change: By changing its skin color, a Tarasin can gain a +4 species bonus to Hide checks. They also take a -2 species penalty on Bluff and Sense Motive checks as their colors show emotions.
+_<li>A Tarasin with the Force-Sensitive and Sense feats gains a +2 species bonus on See Force Checks.
+_<li>Silent Communication: A Tarasin can communicate with any other Tarasin within 10m using its skin color changing ability. Other creatures can learn this language, but can never speak it.
+160,<li>Natural Weapons: Claw (1d4) Bite (1d4)
+_<li>Independant: Can only cooperate on Skill checks if leading the effort. They receive no bonus from a noble's inspire abilities, and other characters targeting Tarro using Diplomacy suffer a -4 to their check. Tarro with 4 or more ranks in Diplomacy ignore this ability.
+_<li>Physical Intimidation: Can use STR mod rather than CHA mod for Intimidate checks.
+161,<li>+1 Natural armor bonus|DefMiscMod+1|
+_<li>+2 species bonus on Fortitude saves|FortMiscMod+2|
+162,<li>Space/Reach: 2mX2m/4m
+_<li>+1 Natural armor bonus|DefMiscMod+1|
+_<li>Multiple Personality Disorder: A Thakwaash has multiple personalites, each with their own specialty. As a move action, they can change to a new desired personality with a successful CHA check (DC 10). Each personality has a seperate demeanor as well. Each personality gains +4 species bonus on a single skill, and a -2 species penalty on every other skill. These modifiers persist until the Thakwaash is stunned, dazed, or unconscious, in which case they adopt a neutral form with no modifiers. If a Thakwaash is in the same personality for an hour, they must make a Will save (DC 19) or switch to a random personality, even a neutral one. They must make this check for every hour in the same form.
+163,<li>Bonus Feat: Weapon Group (simple)
+_<li>Prehensile Tail: Never provokes an attack of opportunity when making a trip attacks with tail. Can use tail to carry a medium load, leaving the hands free, but their speed is reduced to 2m. If the tail can be anchored, Thisspiasians can lift double a heavy load.
+_<li>Constrict: On a successful Grapple check, a Thisspiasian can constrict with its tail for 1d6 damage (1d8 with Martial Arts feat) + STR mod.
+164,<li>+1 Natural armor bonus|DefMiscMod+1|
+_<li>Natural Weapon: Bite (1d6)
+_<li>Dark Vision 20m
+_<li>Bonus Feat (depending on Sub-Species): orl-ar (Acrobatic), isk-ar (Gearhead), ask-ar (Nimble), kal-ar (Persuasive), nil-ar (Stealthy) or sil-ar (Trustworthy)
+165,<li>Space/Reach: 2mX2m/4m
+_<li>Low-light Vision
+_<li>Bonus Feat: Weapon Group (simple)
+_<li>Physical Intimidation: Can use STR mod rather than CHA mod for Intimidate checks.
+166,<li>Spatial Awareness: Have a primitive form of echo-location. A blind Togruta can make a Listen check (DC 13) to retain their DEX bonus. All other bonuses still apply for blindness.
+_<li>+2 species bonus on Hide checks.
+167,<li>Natural Weapon: Claw (1d3)
+_<li>Bonus Feat: Acrobatic
+_<li>Prehensile Tail: Can carry and manipulate Medium-sized or smaller weapons and objects. Can carry Melee weapon using their tail and make an off-hand attack. Also gains a +2 bonus to Grapple checks if their tail is free and not carrying anything.
+_<li>+2 species bonus on Climb checks.
+168,<li>Space/Reach: 2mX2m/4m
+_<li>+1 Natural armor bonus|DefMiscMod+1|
+_<li>Low-light Vision
+_<li>Bonus Feat: Alertness
+_<li>Superior Depth Perception: +1 on all ranged attacks|RangMiscMod+1|
+_<li>Physical Intimidation: Can use STR mod rather than CHA mod for Intimidate checks.
+_<li>+2 species bonus on Intimidate checks.
+169,<li>Bonus Feats: Track, Weapon Group (primitive)
+_<li>+2 species bonus to Survival checks while using the Track feat.
+170,[Primitive] Primitive and Simple weapons.
+_<li>+2 species bonus on Hide, Move Silently, and Survival checks.
+171,<li>Dark Vision 20m
+_<li>Low-light Vision
+_<li>Bonus Feat: Influence
+_<li>Light Sensitivity: Umbaran's xposed to bright sunlight are blinded for 1 round. They also suffer a -1 penalty on all attack rolls, saves, and checks while operating in bright light without protective eyewear.
+_<li>+2 species bonus to Sense Motive checks.
+172,<li>+1 Natural armor bonus|DefMiscMod+1|
+173,<li>Alternate Speed: Fly 16m (average)
+_<li>+2 species bonus on Bluff and Diplomacy checks.
+174,<li>+2 Natural armor bonus|DefMiscMod+2|
+_<li>Quadrupedal: +4 stability bonus against bantha rushes and trip attacks.
+_<li>Produce Bacta: Each day, with the right materials, a Vratix can produce up to a liter of bacta.
+_<li>+4 species bonus on Jump and Listen checks.
+175,<li>Pheromonal Communication: Can communicate silently with other members of their tribe by creating a scent that other Weequay and creatures with a scent ability can detect. Only members of the tranmitter's clan can understand the scent's meaning. The communication can be detected from 20m away (10m downwind, 40m upwind).
+176,<li>Natural Weapon: Claw (1d6)
+_<li>[Primitive] Primitive and Simple weapons.
+_<li>Scent: Can detect scents at 10m normally, 20m if upwind, and 6m downwind. Strong or Overwelming scents at 2X or 3X the range.
+_<li>Insulating Fur: +4 species bonus on Fortitude saves to resist cold effects.
+177,<li>Bonus Feat: Persuasive
+_<li>+4 species bonus on Gather Information checks.
+178,<li>Natural Weapons: Claw (1d8) Bite (1d8)
+_<li>Scent: Can detect scents at 10m normally, 20m if upwind, and 6m downwind. Strong or Overwelming scents at 2X or 3X the range.
+_<li>Physical Intimidation: Can use STR mod rather than CHA mod for Intimidate checks.
+_<li>Fearless: +4 species bonus on Will saves to resist fear effects.
+_<li>+2 species bonus on Climb checks.
+179,<li>Spray: Once per day, can emit a stinging biochemical spray in a 4m radius. All in the area of effect must make a successful Fortitude save (DC 15) or be nauseated for 2d6 rounds. A nauseated creature can only take a simple move action each round. All Zehethbra are immune to this effect.
+180,<li>Empathy: As a free action, can detect the general mood, attitude, and emotial state of one being within 10m. Only one being can be read at a time. A character with at least 1 Dark Side Point and a successful Will save (DC 12) can resist this effect. Regardless of whether the target saves, doesn't save, or gets no save, they are unaware that Empathy was used. The Zeltron gains a +2 species bonus on Diplomacy, Gather Information, and Sense Motive checks made against the target, as long as they continue to read their mood.
+_<li>Pheromones: +2 inherent bonus on Bluff, Diplomacy, Entertain, Handle Animal, and Intimidate checks made against targets within 10m and have respiratory systems. This doesn't affect any being with at least 1 DSP.
+_<li>All Zeltron gain Entertain as a class skill.
+181,<li>[Primitive] Primitive and Simple weapons.
+_<li>Bonus Feats: Alertness.
+
+:Primitive
+1,Primitive: This race has weapon group feats that replace the weapon group feats on any class they take.
+
+#Check for Race Modifiers
+:Check1
+1,|ChkSTR=%STR%||ChkCON=%CON%||ChkDEX=%DEX%||ChkINT=%INT%||ChkWIS=%WIS%||ChkCHA=%CHA%|
+
+:CheckSTR
+1,|ChkSTR-%STR%|{If~%ChkSTR%<=0? |ChkSTR={Abs~%ChkSTR%}|+/ |ChkSTR=-%ChkSTR%|}%ChkSTR%
+:CheckCON
+1,|ChkCON-%CON%|{If~%ChkCON%<=0? |ChkCON={Abs~%ChkCON%}|+/ |ChkCON=-%ChkCON%|}%ChkCON%
+:CheckDEX
+1,|ChkDEX-%DEX%|{If~%ChkDEX%<=0? |ChkDEX={Abs~%ChkDEX%}|+/ |ChkDEX=-%ChkDEX%|}%ChkDEX%
+:CheckWIS
+1,|ChkWIS-%WIS%|{If~%ChkWIS%<=0? |ChkWIS={Abs~%ChkWIS%}|+/ |ChkWIS=-%ChkWIS%|}%ChkWIS%
+:CheckINT
+1,|ChkINT-%INT%|{If~%ChkINT%<=0? |ChkINT={Abs~%ChkINT%}|+/ |ChkINT=-%ChkINT%|}%ChkINT%
+:CheckCHA
+1,|ChkCHA-%CHA%|{If~%ChkCHA%<=0? |ChkCHA={Abs~%ChkCHA%}|+/ |ChkCHA=-%ChkCHA%|}%ChkCHA%

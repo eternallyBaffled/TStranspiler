@@ -1,0 +1,554 @@
+# ------------------------------------------------------
+# Last Update: created by Valminder Apr 22, 2018.
+# ------------------------------------------------------
+#
+
+/OverRideRolls 1
+
+%Agriculture%,Yes
+%Atmo%,Yes
+%Climate%,Yes
+%Days%,0
+%DaysTemp%,0
+%GasGiant%,No
+%Gravity%,Yes
+%Hours%,Yes
+%Hydro%,Yes
+%Moons%,0
+%PlanetNum%,0
+%Pop%,Yes
+%Satellites%,Yes
+%Temp1%,0
+
+:Start
+1,{Bold~System Type:} {Cap~[SystemType]}.<br>
+_{Bold~Planets:} {Cap~[PlanetNum]}.<br>
+_|Days=0|
+_{If~%PlanetNum%>0?|Temp1=0|{While~%Temp1%<%PlanetNum%,|Temp1+1|[PrintPlanet]<br>}}
+_<font size=2>
+_For information: Mercury (87 days/orbit around the sun, 58 days/rotation) Venus (224 d/o, 0.9 rotations/y) Moon (365 d/o, 27 days/r) Mars (686 d/o, 24.5h/r) Jupiter (4,332 d/o, 10h/r) Saturn (10,759 d/o, 10.5 h/r) Uranus (30,685 d/o, 17.25 h/r) Neptune (60,189 d/0, 16h/r) Pluto (90,465d/o, 6.2 days/r)
+_</font>
+
+:Tab
+1,{Space~5}
+
+:SystemType
+1,binary star system ([StarType] and [StarType])
+2,black hole
+3-5,nebula/dust cloud
+6-14,single star system ([StarType])
+15-18,double star system ([StarType] and [StarType])
+19,triple star system ([StarType], [StarType], and [StarType])
+20,[SystemType2] star system
+
+;SystemType2
+4096,quadruple ({Loop~3,[StarType], }and [StarType])
+2048,quintuple ({Loop~4,[StarType], }and [StarType])
+1024,sextuple (6) ({Loop~5,[StarType], }and [StarType])
+512,septuple (7) ({Loop~6,[StarType], }and [StarType])
+256,octuple (8) ({Loop~7,[StarType], }and [StarType])
+64,nonuple (9) ({Loop~8,[StarType], }and [StarType])
+16,decuple (10) ({Loop~9,[StarType], }and [StarType])
+4,hendecuple (11) ({Loop~10,[StarType], }and [StarType])
+1,duedecuple (12) ({Loop~11,[StarType], }and [StarType])
+
+;StarType
+1,Brown
+1,Red
+1,Orange
+1,Yellow
+1,Yellow-White
+1,Blue-White
+1,White
+1,Blue
+
+:PlanetNum
+1,None|PlanetNum=0|
+2,1|PlanetNum=1|
+3,2|PlanetNum=2|
+4,3|PlanetNum=3|
+5-6,4|PlanetNum=4|
+7-8,5|PlanetNum=5|
+9-10,6|PlanetNum=6|
+11-13,7|PlanetNum=7|
+14-16,8|PlanetNum=8|
+17-18,9|PlanetNum=9|
+19,|PlanetNum={Dice~1d12+9}|%PlanetNum%
+20,extrasolar world (outside the system) of [PlanetNum={Dice~1d18+1}] planet(s)
+
+:PrintPlanet
+1,|GasGiant=No||Satellites=Yes||Moons=0||Atmo=Yes||Hours=Yes||Climate=Yes||Gravity=Yes|
+_|Pop=Yes||Agriculture=Yes||Hydro=Yes|
+_{Reset~DominateEnvironment2}{Reset~SignificantFeature2}
+_[Tab]{Bold~Planet %Temp1%:} {Cap~[PlanetType]} (Name: [~SW Planet Names.Start(1,2)], code: [~SW Planet Names.Start(5,2)]).
+_{If~%Satellites%=Yes?<br>[PrintMoon]}
+_{If~%Gravity%=Yes?<br>[Tab][Tab]-Gravity: [~Gravity].}
+_<br>[Tab][Tab]-Atmosphere: {If~%Atmo%=Yes?[~Atmosphere]/{Color~Red,None}}.
+_{If~%Hydro%=Yes?[Tab][Tab]-Hydrosphere: [~Hydrosphere].}
+_{If~%Hours%=Yes?<br>[Tab][Tab]-Hours per day: [~HoursPerDay]}
+_{IIf~%Hours%=Yes? / :<br>[Tab][Tab]-}Days per Year: {If~%Days%=0?|Days=[DaysPerYear]|/[DaysPerYearSet]}[AddComma.Start(%Days%)].
+_{If~%Climate%=Yes?[Tab][Tab]-Climate: [~Climate].}
+_{If~%Climate%=Yes?[Tab][Tab]-Dominate Environment: [DominateEnvironment].}
+_{If~%Pop%=Yes?<br>[Tab][Tab]-Population: [~Population].}
+_{If~%Pop%=Yes?<br>[Tab][Tab]-Technology: [~Technology].}
+_{If~%Pop%=Yes?<br>[Tab][Tab]-Starport: [~Starport].}
+_{If~%Pop%=Yes?<br>[Tab][Tab]-Dominant Government: [~Government].}
+_{If~%Pop%=Yes?[Tab][Tab]-Economic Basis: [~Economic].}
+_{If~{Dice~1d100}=1?<br>[Tab][Tab]{Color~Purple,-Significant Feature:} [SignificantFeature].}
+_{If~{And~%Pop%=Yes,{Dice~1d30}=1}=1?<br>[Tab][Tab]{Color~Purple,-Cultural Quirk:} [~CulturalQuirk].}
+_{If~{And~%Pop%=Yes,{Dice~1d30}=1}=1?<br>[Tab][Tab]{Color~Purple,-Family Customs:} [~FamilyCustoms].}
+_{If~{And~%Pop%=Yes,{Dice~1d50}=1}=1?<br>[Tab][Tab]{Color~Purple,-Cities and Architecture:} [~CitiesArchitecture].}
+_<br>
+
+:PlanetType
+1,artificial (as a space station but not one)|Hydro=No|
+2,space station|Hydro=No|
+3-4,gas giant|GasGiant=Yes||Atmo=No||Climate=No||Gravity=No||Pop=No||Hydro=No|
+5-12,terrestrial planet
+13,asteroid field (no satellites)|Satellites=No||Atmo=No||Hours=No||Climate=No||Gravity=No||Agriculture=No||Hydro=No|
+14,asteroid belt (no satellites)|Satellites=No||Atmo=No||Hours=No||Climate=No||Gravity=No||Agriculture=No||Hydro=No|
+15-16,dwarf planet|Atmo=No||Climate=No||Pop=No||Hydro=No|
+17-18,planetoid|Satellites=No||Atmo=No||Hours=No||Climate=No||Pop=No||Hydro=No|
+19-20,satellite orbiting {AorAn~[PlanetType={Dice~1d12}]}
+
+:PrintMoon
+1,[Tab][Tab]-Moon(s): |Moons=0|{If~%GasGiant%=Yes?{Loop~2,[MoonType={Dice~1d14}]}/[MoonType]}{If~%Moons%<99?{If~%Moons%=0?None/%Moons%}}.
+
+:Atmosphere
+1-2,{Color~Red,None}
+3-11,{Color~Green,Breathable}
+12,{Color~Orange,Breath mask suggested}
+13-15,{Color~Orange,Breath mask required}
+16-18,{Color~Red,Environment suit required}
+19-20,{Color~Red,Hazardous environment suit required}
+
+;CitiesArchitecture
+1,Different building types are different shapes (ex: houses are squares, government buildings are spheres)
+1,All cities are built on the tops of large trees/plants
+1,All cities are built inside large trees/plants
+1,Cities are built on massive barges, and the land is untouched by civilization
+1,The more important a building, the more mirrored surfaces it has
+3,All housing are built underground
+1,Every building features a built-in weapon
+1,Every building features a representation of a historical figure, such as a bust, a statue, or a painting
+1,Junkyards and prisons serve the same purpose
+1,Repulsorlifts are forbidden within city limits, and beasts of burden are used for transport
+1,Every city has a large city center featuring an artificial environment completely different from the planet's natural climate
+1,Buildings are built of modular materials that are easily disassembled and rebuilt
+1,Each building is named for a person famous for a noteworthy deed
+1,The single city on the planet exists inside a sphere surrounded by a hostile environment
+1,Buildings are cultivated liek gardens
+1,The city is a virtual creation explored through electronic data sent to a ship in orbit
+1,Residences have no furniture that touches the floor
+1,All buildings are transparent
+1,Restaurants are made entirely of natural substances
+1,Only natives can touch the planet; off-worlders must use a series of elevated walkways
+1,The city is a complex connection of airlocks, ships, and other space vehicles
+
+:Climate
+1,Arid
+2-3,Temperate
+4,Tropical
+5,Subarctic
+6,Superheated
+
+;CulturalQuirk
+5,Violence if forbindden and punishable by death
+5,Violence if forbindden and punishable by a life sentence in the spice mines
+1,Protocol droids are believed to be evil spirits
+1,Protocol droids must always be used when speaking with a local
+1,Wearing a weapon to a formal dinner is an insult to your host
+1,Not wearing a weapon to a formal dinner is an insult to your host
+1,Official, formal language, such as legal proclamations or business deals, is always sung
+1,Official, formal language, such as legal proclamations or business deals, is always a long process taking days
+1,Guests thank a host for a good meal by eating messily and chewing with their mouths open
+1,Guests thank a host for a good meal by eating properly and never chewing with their mouths open
+1,Droids are first-class citizens and organics are slaves
+3,Droids are treated badly and have no rights
+3,An item common to the heroes is valuable, such as water, glow rods, or mesh tape
+1,Alliances and friendships are cemented by an exchange of hair clippings
+1,Alliances and friendships are cemented by an exchange of a scarf or other item
+1,Alliances and friendships are cemented by an exchange of a sculpture
+1,Ships are treated as sentient beings
+1,Passengers must remove their shoes before boarding ships
+5,All technology is barred from religious sites
+1,Pets are given as part of a military alliance; the alliance lasts only as long as the pet lives
+1,There is non concept of ownership - anything anyone wants, he or she takes
+5,Off-worlders are required to wear a certain piece or type of clothing at all times
+1,A variation of Basic is spoken, such as speaking backward or adding a prefix to nouns/verbs
+10,A variation of Basic is spoken
+1,Looking someone in the eyes is an insult
+1,Not looking someone in the eyes is an insult
+1,Any gift accepted must be refused three times first
+1,Any gift accepted must be refused twice first
+1,Any gift accepted must be one time first
+5,IDs must be worn and shown at all times
+5,IDs of off-worlders must be worn and shown at all times
+5,No weapons are allowed
+5,No visible weapons are allowed
+5,Off-worlders cannot exit the spaceports
+10,Off-worlders must first receive a visa to explore the planet
+5,Off-worlders must always be accompanied by a local guide
+5,Droids are illegal outside the spaceport
+10,Droids must receive a license to exit the spaceport
+5,Droids must be fitted with an official restraining bolt (security forces can activate it)
+5,Off-worlders must first pay homage to the local religious site before exiting the spaceport
+5,Non-human off-worlders cannot leave the spaceport
+1,Only non-human off-worlders can leave the spaceport
+1,The Force is believed to be in everything
+1,The Force is believed not to exist
+1,The Dark Side of the Force is in all off-worlders
+1,Inhabitants of this planet cannot leave it for any reason
+
+:DaysPerYear
+1,{Dice~1d40+60}
+2,{Dice~1d101+99}
+3-4,{Dice~1d50+200}
+5-7,{Dice~1d50+251}
+8-10,{Dice~1d50+300}
+11-13,{Dice~1d50+350}
+14-15,{Dice~1d50+400}
+16-17,{Dice~1d50+450}
+18,{Dice~1d100+500}
+19,{Dice~1d100+600}
+20,{Dice~1d1000+700}
+
+;DaysPerYearSet
+512,|DaysTemp=%Days%||DaysTemp*{Dice~1d60+40}||DaysTemp\100||Days+%DaysTemp%|
+256,[DaysPerYearSet2]|DaysTemp+%Days%||Days+%DaysTemp%|
+128,[DaysPerYearSet2]|DaysTemp+{Calc~2*%Days%}||Days+%DaysTemp%|
+64,[DaysPerYearSet2]|DaysTemp+{Calc~3*%Days%}||Days+%DaysTemp%|
+32,[DaysPerYearSet2]|DaysTemp+{Calc~4*%Days%}||Days+%DaysTemp%|
+16,[DaysPerYearSet2]|DaysTemp+{Calc~5*%Days%}||Days+%DaysTemp%|
+8,[DaysPerYearSet2]|DaysTemp+{Calc~6*%Days%}||Days+%DaysTemp%|
+4,[DaysPerYearSet2]|DaysTemp+{Calc~7*%Days%}||Days+%DaysTemp%|
+2,[DaysPerYearSet2]|DaysTemp+{Calc~8*%Days%}||Days+%DaysTemp%|
+1,[DaysPerYearSet2]|DaysTemp+{Calc~9*%Days%}||Days+%DaysTemp%|
+
+:DaysPerYearSet2
+1,|DaysTemp=%Days%|
+#_<hr>Days= %Days% (Temp= %DaysTemp%)<hr>
+_|DaysTemp*{Dice~1d100}|
+#_<hr>Days (x1d100)= %Days% (Temp= %DaysTemp%)<hr>
+_|DaysTemp\100|
+#_<hr>Days (div 100)= %Days% (Temp= %DaysTemp%)<hr>
+
+;DominateEnvironment
+7,[DominateEnvironment3]
+2,[DominateEnvironment2], and [DominateEnvironment2]
+1,[DominateEnvironment2], [DominateEnvironment2], and [DominateEnvironment2]
+
+:!DominateEnvironment2
+1,Arctic ([~DominateEnvironmentArctic])
+2,Atmospheric [~DominateEnvironmentAtmo]
+3,Barren ([~DominateEnvironmentBarren])
+4,Craters ([~DominateEnvironmentCraters])
+5-6,Desert ([~DominateEnvironmentDesert])
+7,Forest ([~DominateEnvironmentForest])
+8,Island ([~DominateEnvironmentIsland])
+9,Jungle ([~DominateEnvironmentJungle])
+10,Mountainous ([~DominateEnvironmentMountainous])
+11,Ocean ([~DominateEnvironmentOcean])
+12-13,Plains ([~DominateEnvironmentPlains])
+14,Subtarrenean ([~DominateEnvironmentSubtarrenean])
+15,Swamp ([~DominateEnvironmentSwamp])
+16-17,Urban ([~DominateEnvironmentUrban])
+18-19,Volcanic ([~DominateEnvironmentVolcanic])
+
+:DominateEnvironment3
+1-19,[DominateEnvironment2]
+20,{Color~Red,Vacuum} or [DominateEnvironment2={Dice~1d19}]
+
+;DominateEnvironmentArctic
+1,glacier
+1,ice shelf
+1,slushy
+1,snowy
+
+;DominateEnvironmentAtmo
+1,clouds
+1,fog
+1,fumes
+1,steam
+
+;DominateEnvironmentBarren
+1,boulder fields
+1,canyons
+1,dusty
+1,eroded badlands
+1,rocky
+
+;DominateEnvironmentCraters
+1,deep
+1,massive
+1,overlapping
+1,shallow
+1,waterfilled
+
+;DominateEnvironmentDesert
+1,arid
+1,dusty
+1,frozen
+1,hot
+1,sandy
+1,searing
+1,rocky
+
+;DominateEnvironmentForest
+1,conifer
+1,deciduous
+1,temperate
+
+;DominateEnvironmentIsland
+1,archipelago
+1,atoll
+1,island chain
+1,isolated islands
+
+;DominateEnvironmentJungle
+1,dense
+1,rain forest
+1,sparse
+1,wet
+
+;DominateEnvironmentMountainous
+1,ancient and worn
+1,jagged
+1,massive ranges
+1,peaks
+1,pinnacles
+1,spires
+1,rocky hills
+
+;DominateEnvironmentOcean
+1,frozen/icy
+1,impossibly deep
+1,methane
+1,shallow
+1,underwater features
+
+;DominateEnvironmentPlains
+1,grassy
+1,salt
+1,savanna
+1,steppes
+
+;DominateEnvironmentSubtarrenean
+1,cave systems
+1,sinkholes
+1,underground canyons
+
+;DominateEnvironmentSwamp
+1,dank
+1,forested
+1,open
+1,overgrown
+1,sprawling
+1,wetlands
+
+;DominateEnvironmentUrban
+1,dense urban cores surrounded by impassible terrain
+1,planetwide city
+1,polluted
+1,sprawling
+
+;DominateEnvironmentVolcanic
+1,active ranges
+1,continuous lava flows
+1,mega-sized
+1,oceanic islands
+
+;Economic
+2,None
+1,Academic
+2,{If~%Agriculture%=Yes?Agricultural/[Economic]}
+1,Abandoned Colony
+1,Colony
+1,Disaster
+1,Entertainment
+2,Exploration
+1,Administrative/Government Center
+1,Hidden Base ([~EconomicHiddenBase])
+1,High Technology
+1,Industrial/Manufacturing
+1,Leisure
+1,Medical
+1,Military
+1,Mining
+1,Outpost ([~EcomonicOutpost])
+1,Research
+1,Subsistence
+1,Trading
+
+;EconomicHiddenBase
+1,corporate
+1,criminal
+1,government
+1,Rebel
+
+;EcomonicOutpost
+1,recon
+1,research
+
+;FamilyCustoms
+1,Only unmarried beings can carry weapons in public
+1,Only married beings can carry weapons in public
+1,Even-numbered children can hold office; odd-numbered children are expected to raise families
+1,Odd-numbered children can hold office; even-numbered children are expected to raise families
+3,Males can hold office; females are expected to raise families
+1,Females can hold office; males are expected to raise families
+1,The groom and the best man fight a duel on the wedding day, and the winner marries the bride
+1,The elderly are granted a small ship upon retirement but are never allowed to return to the planet again
+1,The elderly are granted a small ship upon retirement
+1,Once a year, each family in a village exchanges one of its children with another family
+1,The family ancestral weapon is given as a token of betrothal
+1,If a wife dies, the husband must join a monastic order
+1,If a husband dies, the wife must join a monastic order
+1,If a husband dies, the wife must leave her family and become a spacer
+1,If a wife dies, the husband must leave his family and become a spacer
+1,If the spouse dies, the other must remarry in the next year
+1,If both of a child's parents die, the child is taught the ways of mysticism and, possibly the Force
+1,If both of a child's parents die, the child is put to death
+1,If both of a child's parents die, the child is put sent to another planet
+1,If both of a child's parents die, the child is put sold in slavery
+1,If both of a child's parents die, the child is put sold to another family
+1,Marriages can be performed only by off-worlders
+1,Marriages can be performed only on another planet
+1,Marriages can be performed only in space
+1,Marriages can be performed only by a reprensentative of the galactic government
+1,The dead must be buried on the same spot they are married, and unmarried beings are buried in space
+1,The dead must be buried on the same spot they died
+1,The dead must be buried is space
+1,The dead must be burned
+1,The dead are sent to a special factory to be processed
+1,Children have their earlobe removed at birth
+1,Children have their eyebrows removed at birth
+1,Children have their little finger removed at birth
+1,Children have their little toe removed at birth
+1,Children have their family's sigil tattooed at birth
+1,Children are removed at birth from their family to train in a religious site
+1,Children are removed at birth from their family to train in warfare
+1,Children are removed at birth from their family and given as apprentice to learn a profession
+1,At birth, every child is given a bottle of liquor that he or she must drink only before heading in battle
+1,A deceased relative is buried with the flowers of the last family bride, and a bride wears jewelry belonging to the last deceased relative
+1,The youngest sibling is raised by older brothers and sisters until he or she is replaced or reaches the age of maturity
+1,The status of eldest sibling is determined by an unarmed duel that can take place at any time and at any location
+1,The eldest daughter must return to her homeworld each year; if she cannot, she is not permitted to return to the planet again
+1,When a feud begins, both parties abstain from food and sleep; the first to pass out from exhaustion is considered to be the guilty party
+1,Starships are available only to married couples
+1,Starships are available only to unmarried persons
+1,When a ship jumps to hyperspace, the cockpits lights are extinguished in remembrance of family members lost in space
+
+;Force
+1,dark side
+1,light side
+
+;Government
+5,Affiliated with dominant galactic government
+5,Controlled by galactic government (Governor)
+1,Anarchy
+1,None
+1,Competing States
+1,Confederation
+1,Corporatocracy
+1,Participating Democracy
+1,Representative Democracy
+1,Dictatorship
+1,Family
+1,Federation
+1,Feudalism
+1,Guild/Professional Organization
+1,Independent empire
+1,Military
+1,Monarchy
+1,Oligarchy
+1,Organized crime
+1,Rebel Alliance/New Republic
+1,Republic
+1,Ruler by Selection/Rite
+1,Socialist
+1,Technocracy
+1,Theocracy
+1,Tribal/Clan
+
+:Gravity
+1,{Color~Red,Dangerously Low}
+2-10,{Color~Orange,Low}
+11-50,{Color~Green,Standard}
+51-59,{Color~Orange,High}
+60,{Color~Red,Dangerously High}
+
+:HoursPerDay
+1,{Dice~1d5+3}
+2-5,{Dice~1d4+8}
+6-8,{Dice~1d8+12}
+9-12,{Dice~1d4+20}
+13-15,{Dice~1d6+24}
+16-18,{Dice~1d5+30}
+19,{Dice~1d5+35}
+20,{Dice~1d20+40}
+
+;Hydrosphere
+1,Arid
+7,Dry
+20,Moderate
+7,Moist
+1,Saturated
+
+:MoonType
+1-4,|Moons+0|
+5-7,|Moons+1|
+8-10,|Moons+2|
+11,|Moons+3|
+12,|Moons+4|
+13,|Moons+5|
+14,|Moons+{Dice~1d12+5}|
+15-17,|Moons=99|rings
+18-19,|Moons=99|asteroid cluster
+20,|Moons=99|artificial debris field
+
+:Population
+1-2,None|Pop=No|
+3,{Dice~1d9}{Dice~1d100}
+4,{Dice~1d9},{Dice~1d1000}
+5,{Dice~1d9}{Dice~1d10},{Dice~1d1000}
+6,{Dice~1d9}{Dice~1d100},{Dice~1d1000}
+7,{Dice~1d999} millions
+8,{Dice~1d999} billions
+
+;SignificantFeature
+99,[~SignificantFeature2]
+1,[~SignificantFeature2], and [~SignificantFeature2]
+
+:!SignificantFeature2
+1,Planetwide aurora
+2,Continent-sized volcano
+3-4,Crater, hundreds of kilometers deep
+5,City is a 20-km square solid structure
+6,Artificially carved and scuplted mountain range
+7-8,Waterfalls, many kilometers high
+9,Nearly constant earthquakes
+10,Constant, extreme thunderstorms
+11,Force nexus ([~Force])
+12-13,Frequent ion storms
+14,Sprawling, ancient ruins the size of large cities
+15-16,Ancient battlefield
+17,Recent battlefield
+18,Massive test range for {If~{Dice~1d2}=1?weapons/machinery} ({If~{Dice~1d2}=1?abandoned/in use})
+19,Sith tomb
+20,Marooned colony from an ancient {If~{Dice~1d2}=1?knowm/unknown} civilization
+
+;Starport
+1,Landing Field
+9,Limited Services
+16,Standard Class
+9,Stellar Class
+1,Imperial Class
+
+:Technology
+1,{Color~Green,Atomic}
+2,Computerized/Information
+3,Industrial
+4,{Color~Orange,Middle Age}
+5,{Color~Orange,Stone Age}
+6,{Color~Green,Technologically Advanced}

@@ -1,0 +1,588 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder Jan 30, 2006.
+# ---------------------------------------------------
+#
+# Inn Generator
+#
+# Conversion of the "Tavern/Menu Random Generator" from
+# the Wizards of the Coast website (www.wizards.com)
+#
+# Some enhancements made
+#
+# Modified by Valminder April 2002
+#    I added QUIRKS for the owner, linking it with:
+#        Miscellaneous.Quirks
+#    I modified clientele by linking it with:
+#        Tavern Patrons.Tables
+#    "Rumors" became "Things Overheard" and I linked it with:
+#        Rumors.Generate
+#    I also added the {Loop} function to "clientele" and "rumors".
+# Modified by Valminder, Jan 2004.
+#    From "Inn Owner.tab" by Erik C. Mattsen, I added the Staff.
+#    Also modified the owner's informations.
+#    From "Inn Services.tab" by Erik C. Mattsen, I added the
+#       Services (Stable/Laundry/Bath/Messenger subtables)
+#    Added linked to "Inn.tab" (now "Inn Desc2.tab") by
+#       odell_williams@hotmail.com 
+# Modified by Valminder, Jan 2006.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+#    MENU: Added links to "Inn Menu.tab"
+
+/OverrideRolls 1
+
+%Accommodations%,0
+
+%Cntr%,0
+%Chance%,0
+%Check%,0
+
+%Cost%,0
+%GenCost%,0
+
+%Breakfast1%,0
+%Breakfast2%,0
+%Breakfast3%,0
+%Breakfast4%,0
+%Breakfast5%,0
+%Lunch1%,0
+%Lunch2%,0
+%Lunch3%,0
+%Lunch4%,0
+%Supper1%,0
+%Supper2%,0
+%Supper3%,0
+%Supper4%,0
+%Supper5%,0
+%Snack1%,0
+%Snack2%,0
+%Snack3%,0
+
+%A%,1
+%mod price%,1
+%piece%,gp
+%Staff%,0
+%Temp%,0
+
+@Accommodations,5,What sort of accommodations?,Poor,Common,Good,Noble,Random
+
+:Start
+1,{Status~By Valminder 2006}<b><u>Inn's Name</u>: </b>[~TavernName].<br><br>
+_<b><u>Bartender</u>: </b>[Bartender]. (Look at the bottom)<br>
+_<b><u>Bartender's Alignment</u>:</b> [~Miscellaneous.Alignment2]<br>
+_<b><u>Bartender's Personality</u>:</b> [~Miscellaneous.Personality].<br>
+_<b><u>Bartender's Quirks</u>:</b> [~Miscellaneous.Quirks].<br>
+_<b><u>Bartender's Initial Reaction</u>:</b> [~Miscellaneous.Reaction]<br><br>
+_<b><u>Layout</u>: </b>[~Inn Desc.Alternate]<br>
+_<b><u>Accommodations</u>: </b>|Staff=0|[~GenAccommodations]. (Look at the bottom)<br>
+_<b><u>Services</u>:</b> |Temp={Dice~1d6+%Accommodations%}|[Stable=%Temp%]
+_|Temp={Dice~1d6+%Accommodations%}|[Laundry=%Temp%]
+_{If~%Accommodations%=4? Private Bath (Included)/|Temp={Dice~1d6+%Accommodations%}|[Bath=%Temp%]}
+_|Temp={Dice~1d6+%Accommodations%}|[Messenger=%Temp%]<br>
+_<b><u>Staff</u>:</b> [StaffCalc][Staff=%Temp%].<br>
+_<b><u>Staff's Initial Reaction</u>:</b> [~Miscellaneous.Reaction]<br>
+_<br><b><u>Interesting Clientele</u>:</b> [Crowd] (|Temp={Dice~2d8+2}||Temp+%Staff%|%Temp% Tables)<br> [Tavern Patrons.Inn Generator]
+_<br><b><u>Things Overheard</u>: </b><br>{Loop~{Dice~1d3},-[Rumors.Generate]<br>}<br><br>
+_<hr><p align="center"><b>TODAY'S MENU</b><br><br>
+_{If~{Dice~1d3}=1? [GenMenuA] / [Inn Menu.GenerateInn]}
+_</p>
+_[NPC Appearance.Bartender]
+_[Inn Desc2.Alternate]
+
+:GenMenuA
+1,<b><i>Breakfast</i></b><br>[GenCost][GenBreakfast][DisplayBreakfast]<br>
+_<b><i>Lunch</i></b><br>[GenLunch][DisplayLunch]<br>
+_<b><i>Supper</i></b><br>[GenSupper][DisplaySupper]<br>
+_<b><i>Snack</i></b><br>[GenSnack][DisplaySnack]</p>
+_[Inn Menu.House Specials Inn]
+_<p align="center"><b><i><u>Drinks</i></u></b>[Inn Menu.DrinksInn]
+
+;TavernName
+1,The [Adjective] [Root]
+4,[Tavern Names.NAME]
+4,[Inn and Tavern Names.Names]
+
+:Bartender
+1,[~Names Generator.NAME Random], [~Gender] [~Creatures.Humanoid2], [~Level] [~Class]
+
+:GenAccommodations
+1,{If~%Accommodations%=5 ? [Accommodations1]/[Accommodations2=%Accommodations%]}
+
+:StaffCalc
+1,|Temp={Dice~1d11}||Temp+%Staff%|{If~%Temp%<1? |Temp=1|}{If~%Temp%>11? |Temp=11|}
+
+# Note: if you add stuff in Staff subtable, modify the StaffCalc subtable.
+;Staff
+1,The owner is alone
+2,The owner is assisted by 1 serving girl ([~Names Generator.NAME Human Female])
+5,The owner is assisted by |A={Dice~1d4}|<b>%A%</b> serving girl(s).<br>{Space~5}<u>Serving Wenches</u>: {Loop~%A%, [Wenches]}
+2,The owner is assisted by a barkeep ([Name]) and |A={Dice~1d5+1}|<b>%A%</b> serving girls.<br>{Space~5}<u>Serving Wenches</u>: {Loop~%A%, [Wenches] }
+1,The owner is assisted by a cook ([Name]), a barkeep ([Name]) and |A={Dice~2d5}|<b>%A%</b> serving girls.<br>{Space~5}<u>Serving Wenches</u>: {Loop~%A%, [Wenches] }
+
+:Name
+1,[~Names Generator.NAME Random], [~Gender] [~Creatures.Humanoid2]
+
+:Wenches
+1,[Names Generator.NAME Human Female],
+
+# ---------------------------------------------------------------------------
+# Crowd
+
+;Crowd
+1,The inn is full, with mostly <b>{Plural~[Creatures.Humanoid2]}</b> and <b>{Plural~[Creatures.Humanoid2]}</b>.
+1,The inn is quite empty, only {Dice~1d3} <b>{Plural~[Creatures.Humanoid2]}</b>.
+3,The inn as a few customers ({Dice~1d6+4}), mostly <b>{Plural~[Creatures.Humanoid2]}</b>.
+
+# ---------------------------------------------------------------------------
+# Tavern Names
+
+;Adjective
+1,Angry
+1,Blissful
+1,Brave
+1,Bright
+1,Comfortable
+1,Courageous
+1,Emerald
+1,Fair
+1,Gray
+1,Pale
+1,Fiery
+1,Goodly
+1,Happy
+1,Home of the
+1,Laughing
+1,Lonesome
+1,Lovely
+1,Massacred
+1,Motley
+1,Pious
+1,Purple
+1,Sad
+1,Sign of the
+1,Simple
+1,Sorrowful
+1,Stalwart
+1,Stately
+1,Weary
+1,Whisky
+1,Whispering
+1,Silly
+1,Adventuring
+
+;Root
+1,Maiden
+1,Gnome
+1,Master
+1,Warrior
+1,Jug
+1,Glass
+1,Brewery
+1,Inn
+1,Hostelry
+1,Tavern
+1,Hero
+1,Castle
+1,Dragon
+1,Unicorn
+1,Pony
+1,Cup
+1,Plate
+1,Beard
+1,Sword
+1,Bow
+1,Axe
+1,Devil
+1,Blackguard
+1,Giant
+1,Fiend
+1,Shield
+1,Tankard
+1,Ranger
+1,Cloud
+1,Fisher
+1,God
+1,Elf
+1,Dwarf
+1,Orc
+1,Bed
+1,Bear
+1,Lion
+1,Moose
+1,Gargoyle
+
+# ---------------------------------------------------------------------------
+# Bartender
+
+;Gender
+1,Male
+2,Female
+
+;Level
+3,1st-level
+3,2nd-level
+3,3rd-level
+1,{Dice~1d7+3}th-level
+
+;Class
+2,aristocrat
+1,barbarian
+3,bard
+1,cleric
+3,commoner
+5,expert
+3,fighter
+1,monk
+1,ranger
+2,rogue
+1,sorcerer
+2,warrior
+1,wizard
+
+
+# ---------------------------------------------------------------------------
+# Accomodations
+
+;Accommodations1
+5,Poor (a place on the floor near the hearth and a flea-ridden blanket amongst the riff-raff) for {Dice~1d6+2} cp/day|Accommodations=1||Staff-3|
+9,Common (a place on a raised, heated floor, blanket and pillow, amongst higher-class company) for {Dice~1d6+2} sp/day|Accommodations=2|
+5,Good (a small private room with one bed, some amenities and a covered chamber pot) for {Dice~1d6+8} sp/day|Accommodations=3||Staff+2|
+1,Noble (a large private room with large bed, private bath with hot water on request, snacks on request, and private chamber pot in a separate chamber) for {Dice~1d6+2} gp/day|Accommodations=4||Staff+4|
+
+:Accommodations2
+1,Poor (a place on the floor near the hearth and a flea-ridden blanket amongst the riff-raff) for {Dice~1d6+2} cp/day|Staff-3|
+2,Common (a place on a raised, heated floor, blanket and pillow, amongst higher-class company) for {Dice~1d6+2} sp/day|Staff=0|
+3,Good (a small private room with one bed, some amenities and a covered chamber pot) for {Dice~1d6+8} sp/day|Staff+2|
+4,Noble (a large private room with large bed, private bath with hot water on request, snacks on request, and private chamber pot in a separate chamber) for {Dice~1d6+2} gp/day|Staff+4|
+
+:Stable
+1-2,
+3-5,[StallCost=%Accommodations%]Horse stall [PieceChecker][Included]{If~%Cost%=Included? (%Cost%)/(%Cost% %piece%)} 
+6-8,[StallCost=%Accommodations%]Horse stall and Grooming [PieceChecker][Included]{If~%Cost%=Included? (%Cost%)/(%Cost% %piece%)} 
+9-10,[StallCost=%Accommodations%]Horse stall, grooming and exercises [PieceChecker][Included]{If~%Cost%=Included? (%Cost%)/(%Cost% %piece%)} 
+
+:StallCost
+1,|Cost=0.1| 
+2,|Cost=0.3| 
+3,|Cost=0.5| 
+4,|Cost=2| 
+
+:Laundry
+1-4,
+5-10,Laundry Service |Cost={Dice~1d6+2}|[Included]{If~%Cost%=Included? (%Cost%)/(%Cost% cp)} 
+
+:Bath
+1-3,
+4-7,Shared Bath |Cost={Dice~1d6}|[Included]{If~%Cost%=Included? (%Cost%)/(%Cost% cp)} 
+8-10,Private Bath |Cost={Dice~1d6+2}|[Included]{If~%Cost%=Included? (%Cost%)/(%Cost% sp)} 
+
+:Messenger
+1-3,
+4-7,Foot Messenger in city |Cost={Dice~1d2}|(%Cost% sp)
+8-10,Foot Messenger in city |Cost={Dice~1d2}|(%Cost% sp) Horse Messenger in city |Cost={Dice~1d3+1}|(%Cost% sp)
+
+:Included
+1,|Temp={Dice~1d6+%Accommodations%}|[Included2=%Temp%]
+
+:Included2
+1-7,
+8-10,|Cost=Included|
+
+
+# -------------------------------------------------------------
+
+:PieceChecker
+1,|piece=gp|{If~%Cost%<1 ? |Cost*10||piece=sp|{If~%Cost%<1 ? |Cost*10||piece=cp|{If~%Cost%=0 ? |piece=gp|}}}
+
+;Price Modifier
+1,|Temp=0.05||Temp*{Dice~1d10}||mod price={Calc~(1-%Temp%)}|
+2,|Temp=0.05||Temp*{Dice~1d4}||mod price={Calc~(1-%Temp%)}|
+5,|mod price=1|
+2,|Temp=0.05||Temp*{Dice~1d10}||mod price={Calc~(1+%Temp%)}|
+1,|Temp=0.05||Temp*{Dice~2d10}||mod price={Calc~(1+%Temp%)}|
+
+# -------------------------------------------------------------
+# 	Breakfast
+# -------------------------------------------------------------
+:GenBreakfast
+1,|Cost=%GenCost%|
+_|Breakfast1=[Submenu13A]|
+_|Breakfast2=[Menu14]|
+_|Breakfast3=[Menu15]|
+_|Breakfast4=[Menu16]|
+_|Breakfast5=[Menu17]|
+_|Cost*1.5|
+
+:DisplayBreakfast
+1,%Breakfast1%, %Breakfast2%, %Breakfast3%, %Breakfast4%, %Breakfast5% ([Inn Menu.Taste], [DisplayCost])<br>
+#1,%Breakfast1%, %Breakfast2%, %Breakfast3%, %Breakfast4%, %Breakfast5%<br>Cost: [DisplayCost]<br>
+
+# -------------------------------------------------------------
+# 	Lunch
+# -------------------------------------------------------------
+:GenLunch
+1,|Cost=%GenCost%|
+_|Lunch1=[Submenu13B]|
+_|Lunch2=[Menu14]|
+_|Lunch3=[Menu15]|
+_|Lunch4=[Menu16]|
+_|Cost*2|
+
+:DisplayLunch
+1,%Lunch1%, %Lunch2%, %Lunch3%, %Lunch4% ([Inn Menu.Taste], [DisplayCost])<br>
+#1,%Lunch1%, %Lunch2%, %Lunch3%, %Lunch4%<br>Cost: [DisplayCost]<br>
+
+# -------------------------------------------------------------
+# 	Supper
+# -------------------------------------------------------------
+:GenSupper
+1,|Cost=%GenCost%|
+_|Supper1=[Submenu13C]|
+_|Supper2=[Menu15]|
+_|Supper3=[Menu15]|
+_|Supper4=[Menu17]|
+_|Supper5=[Menu18]|
+_|Cost*2.5|
+
+:DisplaySupper
+1,%Supper1%, %Supper2%, %Supper3%, %Supper4%, %Supper5% ([Inn Menu.Taste], [DisplayCost])<br>
+#1,%Supper1%, %Supper2%, %Supper3%, %Supper4%, %Supper5%<br>Cost: [DisplayCost]<br>
+
+# -------------------------------------------------------------
+# 	Snack
+# -------------------------------------------------------------
+:GenSnack
+1,|Cost=%GenCost%|
+_|Snack1=[Menu14]|
+_|Snack2=[Menu16]|
+_|Snack3=[Menu17]|
+
+:DisplaySnack
+1,%Snack1%, %Snack2%, %Snack3% ([Inn Menu.Taste], [DisplayCost])<br>
+#1,%Snack1%, %Snack2%, %Snack3%<br>Cost: [DisplayCost]<br>
+
+# -------------------------------------------------------------
+# 	General
+# -------------------------------------------------------------
+:DisplayCost
+1,{If~%Cost%>=10 ? [CostInGP]/[CostInSP]}
+
+:CostInGP
+1,|Cost/10|%Cost% gp
+
+:CostInSP
+1,%Cost% sp
+
+# -------------------------------------------------------------
+# 	Menu items
+# -------------------------------------------------------------
+;Submenu13A
+1,Bacon
+1,Ham
+1,Beef steak
+1,Kippers
+1,Smoked sausage
+1,Blood pudding
+1,Fried perch
+1,Hash
+1,Meatballs
+1,|Check={Dice~1d100}||Chance=[ExoticChance=%Accommodations%]|{If~%Check%<=%Chance% ? [Submenu1A]/[Submenu13A]}
+
+;Submenu13B
+1,Pork chop
+1,Chicken half
+1,Leg of mutton
+1,Rabbit stew
+1,Sausage
+1,Veal sweetbreads
+1,Lamb stew
+1,|Check={Dice~1d100}||Chance=[ExoticChance=%Accommodations%]|{If~%Check%<=%Chance% ? [Submenu1A]/[Submenu13B]}
+
+;Submenu13C
+1,Beef steak
+1,Whole duck
+1,Pork liver
+1,Mixed grill
+1,Stuffed trout
+1,Lamb chop
+1,Broiled catfish
+1,|Check={Dice~1d100}||Chance=[ExoticChance=%Accommodations%]|{If~%Check% <= %Chance% ? [Submenu1A]/[Submenu13C]}
+
+;Submenu1A
+1,[Exotic Meats]|Cost+[ExoticCost=%Accommodations%]|
+
+;!Exotic Meats
+1,Dog stew
+1,Cat cutlet
+1,Frog legs
+1,Octopus
+1,Wyvern shank
+1,Monkey brain
+1,Triceratops steak
+1,Basilisk tail
+1,Bulette fin
+1,Darkmantle
+1,Eagle breast
+1,Owlbear chop
+1,Wild boar headcheese
+1,Giant toad tongue
+1,Shark filet
+
+;!Menu14
+1,Chicken eggs
+1,Duck eggs
+1,Goose eggs
+1,Sharp cheese
+1,Soft cheese
+1,Curds
+1,|Check={Dice~1d100}||Chance=[ExoticChance=%Accommodations%]|{If~%Check% <= %Chance% ? [Menu14]/[Submenu14A]}
+
+;Submenu14A
+1,[Exotic Dairy]|Cost+[ExoticCost=%Accommodations%]|
+
+;Exotic Dairy
+1,Hippogriff egg
+1,Griffin-milk cheese
+1,Gnomes’ yogurt
+1,Deep dwarven blue cheese
+1,Dragon turtle omelet
+1,Quail eggs
+
+;!Menu15
+1,Carrots
+1,Turnips
+1,Potato
+1,Taro
+1,Yams
+1,Onions
+1,Cabbage
+1,Leeks
+1,Collard greens
+1,Broccoli
+1,Spinach
+1,Corn
+1,Chick peas
+1,Peas
+1,Succotash
+1,Green beans
+1,Lentils
+1,Broad beans
+1,Black beans
+1,|Check={Dice~1d100}||Chance=[ExoticChance=%Accommodations%]|{If~%Check% <= %Chance% ? [Menu15]/[Submenu15A]}
+
+;Submenu15A
+1,[Exotic Vegetables]|Cost+[ExoticCost=%Accommodations%]|
+
+;!Exotic Vegetables
+1,Udoroot frond
+1,Giant bean
+1,Assassin vine leaf
+1,Shrieker steak
+1,Pumpkin
+1,Okra
+1,Seaweed
+1,Artichoke
+
+;Menu16
+1,Apple
+1,Pear
+1,Peach
+1,Dates
+1,Strawberries
+1,Raspberries
+1,Blackberries
+1,Blueberries
+1,Currants
+1,Raisins
+1,Melon
+1,Stewed prunes
+1,|Check={Dice~1d100}||Chance=[ExoticChance=%Accommodations%]|{If~%Check% <= %Chance% ? [Submenu16A]/[Menu16]}
+
+;Submenu16A
+1,[Exotic Fruit]|Cost+[ExoticCost=%Accommodations%]|
+
+;Exotic Fruit
+1,Assassin vine berries
+1,Coconut
+1,Pomegranite
+1,Banana
+1,Guava
+1,Black apple
+1,Underdark glowfruit
+1,Sea-grapes
+1,Breadfruit
+
+;Menu17
+1,Coarse rye bread
+1,Nut bread
+1,Rice
+1,Millet
+1,Flatbread
+1,Corn pone
+1,Mush
+1,Oatmeal
+1,|Check={Dice~1d100}||Chance=[ExoticChance=%Accommodations%]|{If~%Check% <= %Chance% ? [Submenu17A]/[Menu17]}
+
+;Submenu17A
+1,[Exotic Grain]|Cost+[ExoticCost=%Accommodations%]|
+
+;Exotic Grain
+1,Wild rice
+1,Sunflower loaf
+1,Goblin bannock
+1,Centaur rye
+1,Sea oats
+1,Tahini
+1,Pine nuts
+1,Marzipan
+
+;Menu18
+1,Berry pie
+1,Apple pie
+1,Raisin pie
+1,Pecan pie
+1,Mince pie
+1,Rhubarb pie
+1,Plain cake
+1,Walnut cake
+1,Fruitcake
+1,Spice bread
+1,Custard
+1,Plum pudding
+1,Rice pudding
+1,Applesauce
+1,|Check={Dice~1d100}||Chance=[ExoticChance=%Accommodations%]|{If~%Check% <= %Chance% ? [Submenu18A]/[Menu18]}
+
+;Submenu18A
+1,[Exotic Dessert]|Cost+[ExoticCost=%Accommodations%]|
+
+;Exotic Dessert
+1,Wood-elven crisp cakes
+1,Crème brulée
+1,Sherbet
+1,Honey-cake
+1,Spiced, stuffed pumpkin
+1,Chocolate torte
+1,Toffee
+1,Vanilla fudge
+
+:GenCost
+1,|GenCost=[MealCost=%Accommodations%]|
+
+;MealCost
+1,1
+1,{Dice~2d2-1}
+1,{Dice~1d4+2}
+1,{Dice~1d8+4}
+
+;ExoticCost
+1,0
+1,{Dice~1d3}
+1,{Dice~1d3+2}
+1,{Dice~1d5+2}
+
+;ExoticChance
+1,0
+1,5
+1,15
+1,35

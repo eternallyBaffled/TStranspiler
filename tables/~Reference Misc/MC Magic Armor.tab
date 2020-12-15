@@ -1,0 +1,351 @@
+﻿# ------------------------------------------------------
+# Last Update: modified by Valminder Jan 01, 2014.
+# ------------------------------------------------------
+#
+# MC Treasure Generator (from Magic Compendium)
+#
+# Magic Armor
+#
+
+%item%,0
+%value%,0
+%type%,0
+%metal%,0
+%light%,0
+%weight%,0
+
+%temp%,0
+%bonus%,1
+%plus%,0
+%props%,0
+%target%,0
+%showSrc%,0
+%propNum%,0
+
+%propsRaw%,0
+%propsDS%,0
+%ctr%,0
+
+%page%,0
+%name%,0
+
+@type,1,Armor or shield?,Random,Armor,Shield
+@bonus,11,Enter bonus value,1,2,3,4,5,6,7,8,9,10,Random
+@target,1,Human-readable or for another table?,Human,Table
+@showSrc,1,Show property source,No,Yes
+
+:Start
+1,[GenArmor]
+_[DisplayItem=%target%]
+
+:GenArmor
+1,|temp=[DetermineType=%type%]|
+_{If~%bonus%=11?|bonus={Dice~1d10}|}
+_{Split~temp,"!",item,value,type,metal,light,weight}
+_|propsDS=|{DSCreate~propsDS,page,xxx,name,xxx}
+_[GenProps]
+_{DSSort~propsDS,name,0}
+_|props=[ListProps]|
+_|value={Calc~({Power~%bonus%^2}*1000)+%value%}|
+
+# The "ShowProp" outside the loop is to prevent a hanging comma
+;ListProps
+1,|ctr=0|{While~%ctr%<{Calc~{DSCount~propsDS}-1},|temp={Calc~%ctr%+1}|[ShowProp], |ctr+1|}
+_|temp={DSCount~propsDS}|
+_{If~%temp%>0?[ShowProp]}
+
+;ShowProp
+1,{DSGet~propsDS,%temp%,name}{If~%showSrc%=2? ({DSGet~propsDS,%temp%,page})}
+
+:DetermineType
+1,[ArmorShields]
+2,[ArmorShields={Dice~1d92}]
+3,[ArmorShields={Dice~1d8+92}]
+
+;GenProps
+1,|propsRaw=[Props%bonus%]|
+_|ctr={Find~1,#,%propsRaw%}|
+_{While~%ctr%,[ParseData]}
+
+;ParseData
+1,|temp={Left~{Calc~%ctr%-1},%propsRaw%}|
+_{Split~temp,"!",page,name}
+_|propsRaw={Right~{Calc~{Length~%propsRaw%}-%ctr%},%propsRaw%}|
+_|temp={DSAdd~propsDS,page,%page%,name,%name%}|
+_|ctr={Find~1,#,%propsRaw%}|
+
+:DisplayItem
+1,{Bold~{Cap~%item%} +%plus%{If~%plus%<%bonus%?, {Italic~%props%}}}{CR~}Value: %value% gp{CR~}Weight: %weight% lbs.
+2,%item% +%plus%{If~%plus%<%bonus%?, {Italic~%props%}}!xxxxx!%weight%!%value%
+
+# format: item!value!type (1=armor,2=shield)!metal!light armor!weight
+;ArmorShields
+2,padded!155!1!0!1!10
+4,leather!160!1!0!1!15
+15,studded leather!175!1!0!1!20
+16,chain shirt!250!1!1!1!25
+15,hide!165!1!0!0!25
+3,scale mail!200!1!1!0!30
+4,chainmail!300!1!1!0!40
+15,breastplate!350!1!1!0!30
+3,splint mail!350!1!1!0!45
+4,banded mail!400!1!1!0!35
+4,half-plate!750!1!1!0!50
+7,full plate!1650!1!1!0!50
+1,buckler!165!2!1!0!5
+2,light wooden shield!153!2!0!0!5
+1,light steel shield!159!2!1!0!6
+2,heavy wooden shield!157!2!0!0!10
+1,heavy steel shield!170!2!1!0!15
+1,tower shield!180!2!1!0!45
+
+:Props1
+1,|plus=1|
+
+:Props2
+1-62,|plus=2|
+63-100,|plus=1||propNum=1|[GenProp]
+
+:Props3
+1-44,|plus=3|
+45-79,|plus=2||propNum=1|[GenProp]
+80-91,|plus=1||propNum=2|[GenProp]
+92-100,|plus=1||propNum=1|[GenProp][GenProp]
+
+:Props4
+1-44,|plus=4|
+45-79,|plus=3||propNum=1|[GenProp]
+80-91,|plus=2||propNum=2|[GenProp]
+92-100,|plus=1||propNum=3|[GenProp]
+
+:Props5
+1-40,|plus=5|
+41-75,|plus=4||propNum=1|[GenProp]
+76-88,|plus=3||propNum=2|[GenProp]
+89-95,|plus=2||propNum=3|[GenProp]
+96-100,|plus=1||propNum=4|[GenProp]
+
+:Props6
+1-43,|plus=5||propNum=1|[GenProp]
+44-77,|plus=4||propNum=2|[GenProp]
+78-89,|plus=3||propNum=3|[GenProp]
+90-95,|plus=2||propNum=4|[GenProp]
+96-100,|plus=1||propNum=5|[GenProp]
+
+:Props7
+1-47,|plus=5||propNum=2|[GenProp]
+48-79,|plus=4||propNum=3|[GenProp]
+80-92,|plus=3||propNum=4|[GenProp]
+93-100,|plus=2||propNum=5|[GenProp]
+
+:Props8
+1-52,|plus=5||propNum=3|[GenProp]
+53-85,|plus=4||propNum=4|[GenProp]
+86-100,|plus=3||propNum=5|[GenProp]
+
+:Props9
+1-52,|plus=5||propNum=4|[GenProp]
+53-85,|plus=4||propNum=3|[GenProp]|propNum=2|[GenProp]
+86-100,|plus=4||propNum=5|[GenProp]
+
+:Props10
+1-50,|plus=5||propNum=3|[GenProp]|propNum=2|[GenProp]
+51-85,|plus=5||propNum=5|[GenProp]
+86-100,|plus=4||propNum=3|[GenProp]|propNum=3|[GenProp]
+
+# Dynamically creates the name of the table to call:
+# XXXXPropsY where XXXX is "Armor" or "Shield" and "Y" is 1 to 5
+;GenProp
+1,[{Param~type,{Calc~%type%+1}}Props%propNum%]
+
+;EnergyType
+1,acid
+1,cold
+1,electricity
+1,fire
+1,sonic
+
+;!ArmorProps1
+2,M6!agility#
+2,M15!stamina#
+2,{If~%metal%=1?M9!blueshine#/[ArmorProps1]}
+2,M10!easy travel#
+3,M9!called#
+3,M9!commander#
+3,D219!glamered#
+3,M9!daylight#
+4,M13!mindarmor#
+3,M6!acidic#
+4,M6!anchoring#
+4,M9!blurring#
+3,M10!death ward#
+3,M10!displacement#
+3,{If~%light%=1?M10!dragondodger#/[ArmorProps1]}
+3,M10!ectoplasmic feedback#
+3,D219!light fortification#
+4,M11!ghost ward#
+4,{If~%light%=1?M13!mobility#/[ArmorProps1]}
+4,M13!nimbleness#
+2,M14!soulbound#
+3,M15!styptic#
+3,M15!twilight#
+3,M7!balance#
+4,D219!shadow#
+4,D219!silent moves#
+4,D219!slick#
+3,M9!buoyant#
+3,M12!landing#
+3,M6!improved agility#
+3,M15!improved stamina#
+3,M13!quickness#
+
+;!ShieldProps1
+7,M12!heartening#
+7,M9!called#
+3,M9!commander#
+6,M9!daylight#
+6,M13!mindarmor#
+3,M6!acidic#
+4,M6!anchoring#
+4,D218!arrow catching#
+8,D218!bashing#
+8,D218!blinding#
+3,M10!death ward#
+9,D219!light fortification#
+8,M11!ghost ward#
+8,{If~%item%=tower shield?[ShieldProps1]/M13!ranged#}
+5,M14!soulbound#
+11,M15!variable#
+
+;!ArmorProps2
+3,M11!gilled#
+5,M12!linked#
+9,M14!speed#
+8,M12!healing#
+7,M6!greater anchoring#
+7,M7!axeblock#
+4,M7!beastskin#
+8,M11!energy defense ([EnergyType])#
+9,M11!energy immunity ([EnergyType])#
+7,M12!hammerblock#
+6,M14!retaliation#
+7,M14!spearblock#
+8,D219!spell resistance (13)#
+5,M15!woodwalk#
+7,M12!magic-eating#
+
+;!ShieldProps2
+8,M12!linked#
+5,M12!manifester#
+7,M14!speed#
+4,M6!greater anchoring#
+9,D218!animated#
+8,D218!arrow deflection#
+8,M7!axeblock#
+8,M11!ectoplasmic wall#
+9,M11!energy defense ([EnergyType])#
+9,M11!energy immunity ([EnergyType])#
+8,M12!hammerblock#
+8,M14!spearblock#
+9,D219!spell resistance (13)#
+
+;!ArmorProps3
+1,M10!deepdweller#
+4,M7!improved balance#
+4,M6!greater agility#
+4,M15!greater stamina#
+4,M7!bane blind#
+5,M9!blinking#
+4,M11!fearsome#
+5,D219!improved shadow#
+6,D219!improved silent moves#
+5,D219!improved slick#
+4,M9!greater blurring#
+5,D219!moderate fortification#
+4,D219!ghost touch#
+4,D219!invulnerability#
+3,M14!roaring#
+2,M14!greater soulbound#
+5,D219!spell resistance (15)#
+4,M15!vanishing#
+3,D219!wild#
+5,D217!acid resistance#
+5,D218!cold resistance#
+5,D218!electricity resistance#
+5,D218!fire resistance#
+3,D219!sonic resistance#
+1,|propNum=2|[GenProp]|propNum=1|[GenProp]
+
+;!ShieldProps3
+7,M11!fearsome#
+7,M7!averter#
+8,D219!moderate fortification#
+8,D219!ghost touch#
+3,M14!greater soulbound#
+9,D219!spell resistance (15)#
+7,M15!vanishing#
+5,D219!wild#
+9,D217!acid resistance#
+9,D218!cold resistance#
+9,D218!electricity resistance#
+9,D218!fire resistance#
+8,D219!sonic resistance#
+2,|propNum=2|[GenProp]|propNum=1|[GenProp]
+
+;!ArmorProps4
+7,M13!radiant#
+12,D219!spell resistance (17)#
+9,M13!menacing#
+10,M12!greater healing#
+10,M7!greater balance#
+10,D219!greater shadow#
+11,D219!greater silent moves#
+9,D219!greater slick#
+11,|propNum=3|[GenProp]|propNum=1|[GenProp]
+11,|propNum=2|[GenProp]|propNum=2|[GenProp]
+
+;!ShieldProps4
+37,D219!spell resistance (17)#
+25,|propNum=3|[GenProp]|propNum=1|[GenProp]
+38,|propNum=2|[GenProp]|propNum=2|[GenProp]
+
+;!ArmorProps5
+4,D219!heavy fortification#
+5,M11!freedom#
+6,D219!spell resistance (19)#
+4,M6!aporter#
+5,M12!masking#
+8,D217!improved acid resistance#
+8,D218!improved cold resistance#
+8,D218!improved electricity resistance#
+8,D219!improved fire resistance#
+7,D219!improved sonic resistance#
+5,D218!etherealness#
+2,D219!undead controlling#
+6,D218!greater acid resistance#
+6,D218!greater cold resistance#
+6,D218!greater electricity resistance#
+6,D219!greater fire resistance#
+4,D219!greater sonic resistance#
+1,|propNum=4|[GenProp]|propNum=1|[GenProp]
+1,|propNum=3|[GenProp]|propNum=2|[GenProp]
+
+;!ShieldProps5
+4,D219!heavy fortification#
+7,D219!reflecting#
+7,D219!spell resistance (19)#
+6,M15!time buttress#
+4,M6!aporter#
+8,D217!improved acid resistance#
+8,D218!improved cold resistance#
+8,D218!improved electricity resistance#
+8,D219!improved fire resistance#
+7,D219!improved sonic resistance#
+2,D219!undead controlling#
+6,D218!greater acid resistance#
+6,D218!greater cold resistance#
+6,D218!greater electricity resistance#
+6,D219!greater fire resistance#
+5,D219!greater sonic resistance#
+1,|propNum=4|[GenProp]|propNum=1|[GenProp]
+1,|propNum=3|[GenProp]|propNum=2|[GenProp]

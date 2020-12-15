@@ -1,0 +1,117 @@
+# Last Update: verified by Valminder Dec 20, 2005.
+# 
+# Intended to generate Oriental sounding names
+# by Ed Hastings
+#
+# This will generates generic oriental-sounding
+# Consonant-Vowel-Consonant-Vowel-etc type names.
+# No effort has been made to pattern them after any particular
+# real-world Asian dialect/language.
+#
+# Its return is intended to be read FAMILY Name PERSONAL Name,
+# but because it is generic most returns can be read either way.
+# The randomizer has a parameter for male or female,
+# defaulting to male.
+#
+#
+# Modified by Valminder July 2003.
+#    Added explanation text (above).
+#    Changed the Start line and added the Generate line.
+#
+# Modified by Valminder Oct 2005.
+#    Removed Header from START line.
+#    Adapted for TS v5.
+#
+
+%Gender%,0
+@Gender,1,Select Gender,Male,Female
+
+;Start
+1,[Choose=%Gender%]
+
+:Choose
+1,[Male]
+2,[Female]
+3,|Gender={Dice~1d2}|[Choose=%Gender%]
+4,[Generate]
+
+:Generate
+1,<u>Male</u>: [Male]<br>
+_<u>Female</u>: [Female]<br>
+
+:Generate Random
+1,[GENDER=%Gender%]
+
+#YASUAKI
+:GENDER
+1,[Male]
+2,[Female]
+
+:Male
+1,{Cap~[LNAME]} {Cap~[FNAME]}
+
+:Female
+1,{Cap~[LNAME]} {Cap~[FNAME]}[femSUF]
+
+;femSUF
+10,ko
+10,mi
+1,
+
+;LNAME
+1,[SYLVOWCON][SUF]
+100,[SYLVOWCON]
+
+;FNAME
+1,[SYLVOWCON]
+
+;SYLVOWCON
+1,[VOW][CON][VOW]
+1,[VOW][CON][VOW][CON][VOW]
+1,[CON][VOW][CON][VOW]
+3,[SYL][VOW]
+3,[SYL][VOW][CON][VOW]
+
+;VOW
+1,[vow]n
+1,[vow]
+
+;vow
+1,a
+1,e
+1,i
+1,o
+1,u
+
+
+;CON
+1,b
+1,d
+1,g
+1,h
+1,j
+1,k
+1,m
+1,n
+1,p
+1,r
+1,s
+1,t
+1,y
+1,z
+
+;SYL
+1,ch
+1,ts
+1,sh
+1,w
+
+;SUF
+1,[CON]an[VOW]
+1,[CON]ag[VOW]
+1,san
+1,sama
+1,ito
+1,senshu
+1,kun
+1,oshi

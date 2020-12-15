@@ -1,0 +1,119 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder Oct 30, 2003.
+# ---------------------------------------------------
+#
+# SMS
+# 06/21/03
+# Forgotten Realms Table 30: Northern High Mountains (EL 7-14) random encounter tables
+#
+# Corrected by Valminder, Oct 2003
+#   -{If~} and {Dice~}
+#
+#Variables
+
+%Region%,0
+%Time%,0
+%Temp%,0
+
+#Parameters
+
+@Time,1,Select a time of day,Day,Night
+@Region,0,Select a value for region (1-3 see instructions for details)
+
+#
+#  Starts by putting up the instructions
+#
+
+:Start
+1,{If~%Region% = 0 ? [Instructions]/[Northern High Mountains %Time%]}
+
+;Instructions
+1,<b>Forgotten Realms Table 30: Northern High Mountains (EL 7-14)</b></br></br><h3>Instructions:</h3>
+_<b>Determine whether an encounter should occur before using this table. The chance of an encounter is based on terrain type and travel (chance per hour):</b><br>
+_<table border=1><tr><th>Terrain</th><th>Normal Travel</th><th>Cautious Travel</th><th>Hiding</th></tr>
+_<tr><td>Desolate/wasteland</td><td>5/%</td><td>2/%</td><td>1/%</td></tr>
+_<tr><td>Frontier/wilderness</td><td>8/%</td><td>4/%</td><td>2/%</td></tr>
+_<tr><td>Verdant/civilized area</td><td>10/%</td><td>5/%</td><td>2/%</td></tr>
+_<tr><td>Heavily traveled</td><td>12/%</td><td>6/%</td><td>3/%</td></tr>
+_</table>
+_<ul><li>Use the Parameter Box (beHigh) to indicate whether it is day or night.</li>
+_<li>Then indicate whether the region is<font color=blue><ol><li>Earthspur Mtns</li><li>Galena Mtns</li><li>Spine of the World</li></ol></li></ul><br></font>
+
+# 1 corresponds to time="Day"
+:Northern High Mountains 1
+01-06,Arctic Dwarf Hunters: {Dice~1d4+4} 1st level warriors, {Dice~1d3+1} level {Dice~1d3+3} barbarians
+07-10,{Dice~1d3+1} Cloud giants and {Dice~1d4} griffons
+11-13,{Dice~1d2} Dire bear
+14-23,Dragon: [NHM_Dragon]
+24-28,{Dice~1d3+2} Ettin
+29-31,{Dice~1d3+2} Fire giants
+32-41,{Dice~1d3+2} Frost giant
+42-47,Frost worm
+48-50,{Dice~1d2} Giant eagle
+51-55,Hill Giant Raiders: {Dice~1d6+5} Hill giants and {Dice~1d3+1} dire wolves
+56-57,{Dice~1d6+1} Kir-lanan gargoyle (FRCS)
+58-63,{Dice~1d4+4} Ogre
+64-69,Shield Dwarf Patrol: {Dice~1d4+4} 1st level fighters, {Dice~1d2} level {Dice~1d3} cleric of [Religion.Dwarf Gods], led by a level {Dice~1d4+2} [FR_Misc.Dwarf_Class]
+70-82,[NHM_Local]
+83-86,{Dice~1d2} Remorhaz
+87-91,{Dice~1d3+2} Tall mouther
+92-94,{Dice~1d3+2} Weretiger
+95-100,{Dice~1d3+2} Yrthak
+
+# 2 corresponds to time="Night"
+:Northern High Mountains 2
+01-04,Arctic Dwarf Hunters: {Dice~1d4+4} 1st level warriors, {Dice~1d3+1} level {Dice~1d3+3} barbarians
+05-09,{Dice~1d4+4} Abishai, red (MoF)
+10-12,{Dice~1d3+1} Cloud giants and {Dice~1d4} griffons
+13-14,{Dice~1d2} Dire bear
+15-24,Dragon: [NHM_Dragon]
+25-28,{Dice~1d3+2} Ettin
+29-32,{Dice~1d3+2} Fire giants
+33-39,{Dice~1d3+2} Frost giant
+40-44,Frost worm
+45-49,Hill Giant Raiders: {Dice~1d6+5} Hill giants and {Dice~1d3+1} dire wolves
+50,{Dice~1d6+1} Kir-lanan gargoyle (FRCS)
+51-55,{Dice~1d4+4} Ogre
+56-59,Shield Dwarf Patrol: {Dice~1d4+4} 1st level fighters, {Dice~1d2} level {Dice~1d3} cleric of [Religion.Dwarf Gods], led by a level {Dice~1d4+2} [FR_Misc.Dwarf_Class]
+60-71,[NHM_Local]
+72-74,{Dice~1d2} Remorhaz
+75-78,{Dice~1d3+2} Tall mouther
+79-80,{Dice~1d2} Vampire
+81-82,{Dice~1d4+1} Vampire spawn
+83-86,Vampire Troupe: {Dice~1d2} vampires and {Dice~1d4+1} vampire spawn
+87-89,{Dice~1d3+2} Weretiger
+90-95,{Dice~1d6+5} Wraith
+96-100,{Dice~1d3+2} Yrthak
+
+:NHM_Local
+01-50,Local creatures: [NHM_Local%Region%]
+51-100,<b>NPCs:</b><br>{Loop~{Dice~1d3+2},[FR_Random_NPC.FR_SM_NPC]}
+
+#Earthspur Mtn
+:NHM_Local1
+01-25,Bugbear Band: {Dice~1d10+10} bugbears, {Dice~1d3} level {Dice~1d3} fighters, led by a level {Dice~1d4+2} fighter
+26-40,Drow squad: {Dice~1d6+6} 1st level warriors, 1 level {Dice~1d3+1} wizard, 1 level {Dice~1d4+1} cleric, led by a level {Dice~1d4+3} [FR_Misc.Drow_Class]
+41-70,Goblin war party: {Dice~1d10+5} goblins, {Dice~1d2+1} worgs, {Dice~1d2+1} level {Dice~1d3} fighters, {Dice~1d2+1} level {Dice~1d3+1} adepts, led by a level {Dice~1d4+2} [FR_Misc.Goblin_Class]
+71-90,Hobgoblin war party: {Dice~1d10+5} hobgoblins, {Dice~1d3+1} dire apes, {Dice~1d2} level {Dice~1d3} fighters, led by level {Dice~1d6+2} [FR_Misc.Hobgoblin_Class]
+91-100,Orc Raiders: {Dice~1d10+5} orcs and {Dice~1d2} level {Dice~1d3} barbarians
+
+#Galena Mtns
+:NHM_Local2
+01-35,Shield Dwarf Patrol: {Dice~1d4+4} 1st level fighters, {Dice~1d2} level {Dice~1d3} cleric of [Religion.Dwarf Gods], led by a level {Dice~1d4+2} [FR_Misc.Dwarf_Class]
+36-60,{Dice~1d3+1} Frost giant
+61-80,Hill Giant Raiders: {Dice~1d6+5} Hill giants and {Dice~1d3+1} dire wolves
+81-100,{Dice~1d4+1} Stone giant
+
+#Spine of the World
+:NHM_Local3
+01-40,{Dice~1d6+3} Frost giant
+41-65,{Dice~1d10+10} Ghost rothe (FRCS)
+66-75,{Dice~1d4+4} Hill giant
+76-100,Orc Squad: {Dice~1d10+10} orcs, {Dice~1d3} level {Dice~1d4} fighters, led by a level {Dice~1d4+2} [FR_Misc.Orc_Class]
+
+:NHM_Dragon
+01-29,Fang, old (MoF)
+30-39,Gold, adult
+40-60,White, juvenile (clutch of {Dice~1d4+1})
+61-99,White, old
+100,Dracolich, White mature adult (FRCS)

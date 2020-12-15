@@ -1,0 +1,61 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder Nov 30, 2005.
+# ---------------------------------------------------
+#
+# Table by "dante_acq"
+#
+# Class A  weapons do grievous injury on rolls of 01 through 20. 
+# Class B weapons do grievous injuries on rolls of 21 through 80. 
+# Class C weapons do grievous injuries on rolls of 70 through 100.
+#
+# Modified by Valminder, Nov 2005.
+#
+
+%dado%,0
+
+:Start
+1,<b><u>Dragonquest - Grievous Injury table</u>:</b><br>|dado={Dice~1d100} |Result = %dado% <br>Appliable to [Class=%dado%]<br><br>[Grevious=%dado%]
+
+:Class
+1-20,Thrusting weapons. (A)
+21-69,Slashing weapon. (B)
+69-80,Slashing and Crushing weapons. (B)(C)
+81-100,Crushing weapons. (C)
+
+:Grevious
+01-05, Congratulations! It’s a bleeder in your primary arm! Take 1 damage from endurance immediately and 1 per pulse thereafter until the flow is staunched by a healer, hospitaler, or ranger of appropriate rank. If the bleeding is not stopped you will die.
+06-07, Oh no! Your opponent’s weapon has entered your secondary arm’s elbow joint and the tip has broken off. Take 2 damage points immediately to endurance and that arm is useless until the sliver is removed by a healer of rank 3 of higher. Chance of infection is increased by 30%.
+08,A vicious puncture wound to the groin! Take 3 damage points to endurance and reduce your TMR by 2 until fully recovered, which will take about 2 months. In additional, add 30% to your chance of being infected. (Assuming you live long enough for such things to matter.)
+09-10,You have been stabbed in your secondary arm. Drop whatever you were holding in it and take 2 damage points immediately from endurance. It will take a full week for the arm to be useful to you whatsoever.
+11,Your aorta is severed and you are quite dead. Rest assured your companions will do their best to comfort your widow (er).
+12,A stomach puncture. Nasty. You suffer 3 damage points to endurance and loose 2 from TMR until fully recovered, which will take about two months. Also you are automatically stunned for the next pulse after which you will recover. Add 20% to being infected.
+13,Your opponent’s weapon has entered your eye: roll D10 (<b>{Dice~1d10}</b>). On a roll of 1, the weapon has entered your brain and you are dead. On a roll of 2-5, your left eye is blinded; on a roll of 6–10, your right eye is blinded. If you are lucky enough to be blinded instead of killed, you have suffered 2 damage points to endurance.  In addition, a person who is blinded suffers the following subtractions: -2 to physical beauty, -4 from perception; -1 from dexterity.  A figure blinded in one eye reduces his base chance with missile or thrown weapons by 30%.
+14-18,Tsk, Tsk. A wound to the solid viscera. Usually fatal. Take 3 damage points to endurance immediately and 1 per pulse thereafter until the bleeding is stopped by a healer of rank 2 or above or you die. Add 30% to the base chance of an infection.
+19-20,Take a stab in the leg (your choice as to which one) resulting in a deep puncture of the thigh muscle. Suffer 1 damage point to endurance immediately and reduce your TMR by 1 until you heal which will take four weeks.
+21-25,A chest wound. Take 2 damage ponts to endurance and reduce your TMR by 1 until recovered (about 2 months). Look on the bright side,  though. Your attacker’s weapons is caught in your rib cage and has been wrenched from his grasp.
+26-27, Bad luck! Your secondary hand has been severed at the wrist. Take two damage points endurance and subtract 1 per pulse from fatigue thereafter (endurance when fatigue is exhausted) until you are dead or the bleeding is staunched by a healer of rank 2 or above. If you live your manual dexterity is reduced by 2. 
+28-30,Worse luck! Your primary hand has been severed at the wrist. Take two damage points endurance and subtract 1 per pulse from fatigue thereafter (endurance when fatigue is exhausted) until you are dead or the bleeding is staunched by a healer of rank 2 or above. If you live your manual dexterity is reduced by 2.
+31-34,A minor wound. You face is slashed open ruining your boyish good looks and causing blood to spurt into your eyes. Reduce your physical beauty by 4 permanently unless you have the wound treated by a healer of rank 4 or higher.
+35,Your secondary arm is sliced off at the shoulder. Take 5 damage points to endurance and 1 per pulse thereafter from fatigue, endurance when  fatigue is exhausted until you are dead or the bleeding is stopped by a healer or rank 2 or higher. Reduce your manual dexterity by 2 and  your agility by 1.
+36,Your primary arm is sliced off at the shoulder. Take 5 damage points to endurance and 1 per pulse thereafter from fatigue, endurance when  fatigue is exhausted until you are dead or the bleeding is stopped by a healer or rank 2 or higher. Reduce your manual dexterity by 2 and  your agility by 1.
+37-40,You have been eviscerated! Take 4 damage points to endurance and 1 per pulse thereafter (endurance when fatigue is exhausted ) until you are unconscious or the bleeding is stopped by a healer of rank 2 or higher. Increase your chance of infection by 40%.
+41-42,A glancing blow lays open your scalp and severs one ear (your choice as to which one). Take 2 damage points to endurance and reduce your perception by 1 and physical beauty by 2. If you are a member of a race that primarily relies on hearing your perception is reduced by 5.
+43,A savage slash rips open your cheek and jaw. Next pulse you are stunned (if you aren’t already stunned from the damage). Your physical beauty is increased by 1 because your wound brings out the maternal/paternal instincts in the opposite gender.
+44-50,A slash along your primary arm, and it’s a bleeder. Take 2 damage points to endurance and lose 1 fatigue per pulse and endurance when that is exhausted until the bleeding is stopped by a rank 2 healer or you die.
+51-52,Hamstrung! Roll D10 (<b>{Dice~1d10}</b>). On a roll of 1-4 it is your left leg, on a roll of 5-10 it is your right leg. Take 4 damage to endurance and fall prone. You may not stand unassisted until the wound is healed by a healer or 3 months of recovery. Your agility is reduced by 3.
+53-60,Your primary arm is crippled by a wicked slash! Take 2 damage points to endurance and drop anything you have in your primary arm. The arm is unusable until healed by a healer or 3 months of recovery.
+61-67,Your secondary arm is crippled by a wicked slash! Take 2 damage points to endurance and drop anything you have in your primary arm. The arm is unusable until healed by a healer or 3 months of recovery. 
+68-69,A nasty slash in the region of the shoulder and neck. Roll 1D10 (<b>{Dice~1d10}</b>). On a roll of 1-3 your head is severed and your corpse tumbles to the ground. A roll of 4-6 crushes your secondary collar bone, on a roll of 7-10 it is your secondary collar bone. You suffer four points of damage to endurance and drop anything in that hand. The arm will be unusable for 3 months.
+70-74,A crushing blow smashes your helmet and causes a concussion. Take 3 damage points to endurance and reduce your agility and manual dexterity by 4 for 3 days. 
+75-80,A massive chest wound accompanied by broken ribs and crushed tissues. Very ugly, this. Take 5 damage points to endurance and reduce dexterity and agility by 3 until this wound heals in about 4 months. Increase you chance of infection by 10%.
+81-84,A crushing blow smashes tissues and produces internal injuries. Take 2 damage points to endurance and 1 per pulse thereafter to fatigue (endurance when fatigue is gone) until unconscious or you receive the attention of a healer of rank 2 or higher.
+85-87,A jarring blow to your primary shoulder inflicts 2 points of damage to endurance and causes you to drop anything held in that hand. You will be unable to use the blow for D10 (<b>{Dice~1d10}</b>) pulses. (Assuming you don’t die).
+88-89,A jarring blow to your secondary shoulder inflicts 2 points of damage to endurance and causes you to drop anything held in that hand. You will be unable to use the blow for D10 (<b>{Dice~1d10}</b>) pulses. (Assuming you don’t die).
+90-92,Your right hip is smashed horribly. Take 5 damage points to endurance and fall prone. You will be unable to walk for 6 months. Good fun! When healed you will still have a limp which will reduced your TMR by 1 and agility by 2 unless a healer treats your injury.
+93-94,Your right hip is smashed horribly. Take 5 damage points to endurance and fall prone. You will be unable to walk for 6 months. Good fun! When healed you will still have a limp which will reduced your TMR by 1 and agility by 2 unless a healer treats your injury.
+95-97,Your opponents weapon comes crashing down on your head and fractures your skull. You fall prone and are unconscious and take 8 damage points to endurance. IF you survive reduce your agility, dexterity and perception by 2. It will take a year to recover in bed from this injury.
+98-100,A crushing blow shatters your pelvis. Take 7 damage points to endurance and fall prone. Try to roll under your willpower on D100 (<b>{Dice~1d100}</b>) to avoid going unconscious.  If you survive you will be unable to move for D10 (<b>{Dice~1d10}</b>) months.
+
+
+
+

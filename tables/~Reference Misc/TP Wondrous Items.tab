@@ -1,0 +1,788 @@
+# ------------------------------------------------------
+# Last Update: verified by Valminder Jan 12, 2014.
+# ------------------------------------------------------
+#
+# Note for customizing: Each table assumes that
+# the items are listed in order of value.
+#
+
+%minVal%,0
+%maxVal%,99999999
+%power%,1
+%format%,0
+%tries%,0
+%maxTries%,0
+%temp%,0
+%inRange%,0
+%group%,0
+%item%,0
+%name%,0
+%value%,0
+%weight%,0
+%desc%,0
+%aura%,0
+%valMinItem%,0
+%valMaxItem%,0
+
+@minVal,0,Enter minimum value (in gp):
+@maxVal,99999999,Enter maximum value (in gp):
+@power,4,Degree of Power:,Minor,Medium,Major,Random
+@format,1,Select format:,Human-readable,Delimited for other table
+@maxTries,10,Number of attempts:
+
+:Start
+1,|temp=[CheckParams]|{If~%temp%=OK?[Continue]/ %temp%}
+_{Status~}
+
+:Continue
+1,|tries=0|{While~%tries%<%maxTries%,[GenItem][CheckValueInRange]{If~%inRange%=yes?|tries=maxTries|/|tries+1|}}
+_{If~%inRange%=no?[Error=4]/ [DisplayItem=%format%]}
+
+:GenItem
+1,|group={Iif~%power%=4?{Param~power,{Dice~1d3}}:{Param~power,%power%}}|
+_{Status~Attempt WONDROUS #{Calc~%tries%+1} of %maxTries%}
+_|item=[%group%]|
+_{Split~item,"!",name,value,weight,aura,desc}
+
+:DisplayItem
+1,{Bold~{Cap~%name%}}
+_{CR~}Description: {Cap~%desc%}{CR~}Value: %value% gp{CR~}Weight: %weight% lbs.
+_{CR~}Aura: {Italic~%aura%}
+2,%name%!%value%!%weight%!%aura%!%desc%
+
+# ----------------------------------------------------
+# Initialization and parameter validation
+:CheckParams
+1,{If~%minVal%<=%maxVal%?{If~%power%!=4?[CheckRangeAgainstPower]/OK}/ [Error=1]}
+
+:CheckRangeAgainstPower
+1,|temp=[{Param~power,%power%}={MinVal~{Param~power,%power%},1}]|
+_{Split~temp,"!",name,value,weight,aura,desc}|valMinItem=%value%|
+_|temp=[{Param~power,%power%}={MaxVal~{Param~power,%power%},{Count~{Param~power,%power%}}}]|
+_{Split~temp,"!",name,value,weight,aura,desc}|valMaxItem=%value%|
+_{If~%minVal%>=%valMaxItem%?[Error=2]}
+_{If~%maxVal%<=%valMinItem%?[Error=3]}
+_{If~{And~%minVal%<=%valMaxItem%,%maxVal%>=%valMinItem%}=1?OK}
+
+:CheckValueInRange
+1,|inRange={If~{And~%minVal%<=%value%,%value%<=%maxVal%}=1?yes/no}|
+
+:Error
+1,ERR001: Invalid min and/or max values
+2,ERR002: Minimum value given greater than maximum value for selected group
+3,ERR003: Maximum value given less than minimum value for selected group
+4,ERR005: Couldn't generate item in %tries% tries
+
+# ----------------------------------------------------
+
+;!Minor
+1,feather token, anchor!50!0!moderate conjuration![DescFeather]
+1,universal solvent!50!0!strong transmutation![DescJar]
+1,elixir of love!150!0!faint transmutation![DescBottle]
+1,unguent of timelessness!150!0!faint transmutation![DescBottle]
+1,feather token, fan!200!0!moderate conjuration![DescFeather]
+1,dust of tracelessness!250!0!faint transmutation![DescPouch]
+1,elixir of hiding!250!0!faint illusion![DescBottle]
+1,elixir of sneaking!250!0!faint illusion![DescBottle]
+1,elixir of swimming!250!0!faint illusion![DescBottle]
+1,elixir of vision!250!0!faint divination![DescBottle]
+1,silversheen!250!0!faint transmutation![DescBottle]
+1,feather token, bird!300!0!moderate conjuration![DescFeather]
+1,feather token, tree!400!0!moderate conjuration![DescFeather]
+1,feather token, swan boat!450!0!moderate conjuration![DescFeather]
+1,elixir of truth!500!0!faint enchantment![DescBottle]
+1,feather token, whip!500!0!moderate conjuration![DescFeather]
+1,dust of dryness!850!0!moderate transmutation![DescPouch]
+1,bag of tricks, gray!900!0!faint conjuration![DescBag]
+1,hand of the mage!900!2!faint transmutation![DescHand]
+1,bracers of armor +1!1000!0!moderate conjuration![DescBracers]
+1,cloak of resistance +1!1000!1!faint abjuration![DescCape]
+1,pearl of power, 1st-level spell!1000!0!strong transmutation![DescPearl]
+1,phylactery of faithfulness!1000!0!faint divination![DescAmulet]
+1,salve of slipperiness!1000!0!faint conjuration![DescBottle]
+1,elixir of fire breath!1100!0!moderate evocation![DescBottle]
+1,pipes of the sewers!1150!3!faint conjuration![DescPipes]
+1,dust of illusion!1200!0!faint illusion![DescPouch]
+1,goggles of minute seeing!1250!0!faint divination![DescGoggles]
+1,brooch of shielding!1500!0!faint abjuration![DescBrooch]
+1,necklace of fireballs type I!1650!0!moderate evocation![DescAmulet]
+1,dust of appearance!1800!0!faint conjuration![DescPouch]
+1,hat of disguise!1800!0!faint illusion![DescHat]
+1,pipes of sounding!1800!3!faint illusion![DescPipes]
+1,efficient quiver!1800!2!moderate conjuration![DescQuiver]
+1,amulet of natural armor +1!2000!0!faint transmutation![DescAmulet]
+1,handy haversack!2000!5!moderate conjuration![DescBag]
+1,horn of fog!2000!1!faint conjuration![DescHorn]
+1,elemental gem ([Element])!2250!0!moderate conjuration![DescGem]
+1,robe of bones!2400!1!moderate necromancy (evil)![DescRobe]
+1,sovereign glue!2400!0.5!strong transmutation![DescJar]
+1,bag of holding type I!2500!15!moderate conjuration![DescBag]
+1,boots of elvenkind!2500!1!faint transmutation![DescBoots]
+1,boots of the winterlands!2500!1!faint abjuration and transmutation![DescBoots]
+1,candle of truth!2500!0.5!faint enchantment![DescCandle]
+1,cloak of elvenkind!2500!1!faint illusion![DescCape]
+1,eyes of the eagle!2500!1!moderate transmutation![DescLenses]
+1,scarab, golembane!2500!0!moderate divination![DescBrooch]
+1,necklace of fireballs type II!2700!0!moderate evocation![DescAmulet]
+1,stone of alarm!2700!2!faint abjuration![DescStone]
+1,bag of tricks, rust!3000!0!faint conjuration![DescBag]
+1,bead of force!3000!0!moderate evocation![DescBead]
+1,chime of opening!3000!1!moderate transmutation![DescChime]
+1,horseshoes of speed!3000!12!faint transmutation![DescHorseshoes]
+1,rope of climbing!3000!3!faint transmutation![DescRobe]
+1,dust of disappearance!3500!0!moderate illusion![DescPouch]
+1,lens of detection!3500!1!moderate divination![DescLens]
+1,vestment, druid’s!3750!0!moderate transmutation![DescVestments]
+1,figurine of wondrous power, silver raven!3800!0!faint enchantment and transmutation![DescFigurine]
+1,amulet of health +2!4000!0!moderate transmutation![DescAmulet]
+1,bracers of armor +2!4000!0!moderate conjuration![DescBracers]
+1,cloak of charisma +2!4000!2!moderate transmutation![DescCape]
+1,cloak of resistance +2!4000!1!faint abjuration![DescCape]
+1,gauntlets of ogre power!4000!2!moderate transmutation![DescGauntlets]
+1,gloves of arrow snaring!4000!0!faint abjuration![DescGloves]
+1,gloves of dexterity +2!4000!0!moderate transmutation![DescGloves]
+1,headband of intellect +2!4000!0!moderate transmutation![DescHeadband]
+1,ioun stone, clear spindle!4000!0!moderate varied![DescStone]
+1,restorative ointment!4000!0.5!faint conjuration![DescJar]
+1,marvelous pigments!4000!0!strong conjuration![DescJar]
+1,pearl of power, 2nd-level spell!4000!0!strong transmutation![DescPearl]
+1,periapt of wisdom +2!4000!0!moderate transmutation![DescAmulet]
+1,stone salve!4000!0!strong abjuration and transmutation![DescJar]
+1,necklace of fireballs type III!4350!0!moderate evocation![DescAmulet]
+1,circlet of persuasion!4500!0!faint transmutation![DescHeadband]
+1,slippers of spider climbing!4800!0.5!faint transmutation![DescSlippers]
+1,incense of meditation!4900!1!moderate enchantment![DescBlock]
+1,bag of holding type II!5000!25!moderate conjuration![DescBag]
+1,bracers of archery, lesser!5000!0!faint transmutation![DescBracers]
+1,ioun stone, dusty rose prism!5000!0!moderate varied![DescStone]
+1,helm of comprehend languages and read magic!5200!3!faint divination![DescHelm]
+1,vest of escape!5200!0!faint conjuration and transmutation![DescVest]
+1,eversmoking bottle!5400!1!faint transmutation![DescBottle]
+1,sustaining spoon!5400!0!faint conjuration![DescSpoon]
+1,necklace of fireballs type IV!5400!0!moderate evocation![DescAmulet]
+1,boots of striding and springing!5500!1!faint transmutation![DescBoots]
+1,wind fan!5500!0!faint evocation![DescFan]
+1,amulet of mighty fists +1!6000!0!faint evocation![DescAmulet]
+1,horseshoes of a zephyr!6000!4!faint transmutation![DescHorseshoes]
+1,pipes of haunting!6000!3!faint necromancy![DescPipes]
+1,necklace of fireballs type V!6150!0!moderate evocation![DescAmulet]
+1,gloves of swimming and climbing!6250!0!faint transmutation![DescGloves]
+1,bag of tricks, tan!6300!0!moderate conjuration![DescBag]
+1,circlet of blasting, minor!6480!0!faint evocation![DescHeadband]
+1,horn of goodness/evil!6500!1!faint abjuration![DescHorn]
+1,robe of useful items!7000!1!moderate transmutation![DescRobe]
+1,boat, folding!7200!4!faint transmutation![DescBox]
+1,cloak of the manta ray!7200!1!moderate transmutation![DescCape]
+1,bottle of air!7250!2!moderate transmutation![DescBottle]
+1,bag of holding type III!7400!35!moderate conjuration![DescBag]
+1,periapt of health!7400!0!faint conjuration![DescAmulet]
+
+;!Medium
+1,boots of levitation!7500!1!faint transmutation![DescBoots]
+1,harp of charming!7500!5!faint enchantment![DescLyre]
+1,amulet of natural armor +2!8000!0!faint transmutation![DescAmulet]
+1,golem manual, flesh!8000!5!moderate enchantment, necromancy (evil), and transmutation![DescBook]
+1,hand of glory!8000!2!faint varied![DescHand]
+1,ioun stone, deep red sphere!8000!0!moderate varied![DescStone]
+1,ioun stone, incandescent blue sphere!8000!0!moderate varied![DescStone]
+1,ioun stone, pale blue rhomboid!8000!0!moderate varied![DescStone]
+1,ioun stone, pink and green sphere!8000!0!moderate varied![DescStone]
+1,ioun stone, pink rhomboid!8000!0!moderate varied![DescStone]
+1,ioun stone, scarlet and blue sphere!8000!0!moderate varied![DescStone]
+1,deck of illusions!8100!0.5!faint illusion![DescDeck]
+1,necklace of fireballs type VI!8100!0!moderate evocation![DescAmulet]
+1,candle of invocation!8400!0.5!strong conjuration![DescCandle]
+1,bracers of armor +3!9000!0!moderate conjuration![DescBracers]
+1,cloak of resistance +3!9000!1!faint abjuration![DescCape]
+1,decanter of endless water!9000!2!moderate transmutation![DescCup]
+1,necklace of adaptation!9000!0!moderate transmutation![DescAmulet]
+1,pearl of power, 3rd-level spell!9000!0!strong transmutation![DescPearl]
+1,talisman of the sphere!9000!1!strong transmutation![DescAmulet]
+1,figurine of wondrous power, serpentine owl!9100!0!moderate transmutation![DescFigurine]
+1,necklace of fireballs type VII!9150!0!moderate evocation![DescAmulet]
+1,strand of prayer beads, lesser!9600!0!faint (many schools)![DescAmulet]
+1,bag of holding type IV!10000!60!moderate conjuration![DescBag]
+1,figurine of wondrous power, bronze griffon!10000!0!moderate transmutation![DescFigurine]
+1,figurine of wondrous power, ebony fly!10000!0!moderate transmutation![DescFigurine]
+1,glove of storing!10000!0!faint transmutation![DescGlove]
+1,ioun stone, dark blue rhomboid!10000!0!moderate varied![DescStone]
+1,stone horse, courser!10000!6000!strong transmutation![DescHorseStatue]
+1,cape of the mountebank!10080!1!moderate conjuration![DescCape]
+1,phylactery of undead turning!11000!0!moderate necromancy (good)![DescAmulet]
+1,gauntlet of rust!11500!4!faint transmutation![DescGauntlet]
+1,boots of speed!12000!1!moderate transmutation![DescBoots]
+1,goggles of night!12000!0!faint transmutation![DescGoggles]
+1,golem manual, clay!12000!5!moderate conjuration, divination, enchantment, and transmutation![DescBook]
+1,medallion of thoughts!12000!0!faint divination![DescAmulet]
+1,pipes of pain!12000!3!faint enchantment and evocation![DescPipes]
+1,blessed book!12500!1!moderate transmutation![DescBook]
+1,belt, monk’s!13000!1!moderate transmutation![DescBelt]
+1,gem of brightness!13000!0!faint evocation![DescGem]
+1,lyre of building!13000!5!faint transmutation![DescLyre]
+1,cloak of arachnida!14000!1!faint conjuration and transmutation![DescCape]
+1,stone horse, destrier!14800!6000!strong transmutation![DescHorseStatue]
+1,belt of dwarvenkind!14900!1!moderate divination![DescBelt]
+1,periapt of wound closure!15000!0!moderate conjuration![DescAmulet]
+1,horn of the tritons!15100!2!moderate conjuration and transmutation![DescHorn]
+1,pearl of the sirines!15300!0!moderate abjuration and transmutation![DescPearl]
+1,figurine of wondrous power, onyx dog!15500!0!moderate transmutation![DescFigurine]
+1,amulet of health +4!16000!0!moderate transmutation![DescAmulet]
+1,belt of giant strength +4!16000!1!moderate transmutation![DescBelt]
+1,boots, winged!16000!1!faint transmutation![DescBoots]
+1,bracers of armor +4!16000!0!moderate conjuration![DescBracers]
+1,cloak of charisma +4!16000!2!moderate transmutation![DescCape]
+1,cloak of resistance +4!16000!1!faint abjuration![DescCape]
+1,gloves of dexterity +4!16000!0!moderate transmutation![DescGloves]
+1,headband of intellect +4!16000!0!moderate transmutation![DescHeadband]
+1,pearl of power, 4th-level spell!16000!0!strong transmutation![DescPearl]
+1,periapt of wisdom +4!16000!0!moderate transmutation![DescAmulet]
+1,scabbard of keen edges!16000!1!faint transmutation![DescScabbard]
+1,figurine of wondrous power, golden lions!16500!0!moderate transmutation![DescFigurine]
+1,chime of interruption!16800!1!moderate evocation![DescChime]
+1,broom of flying!17000!3!moderate transmutation![DescBroom]
+1,figurine of wondrous power, marble elephant!17000!0!moderate transmutation![DescFigurine]
+1,amulet of natural armor +3!18000!0!faint transmutation![DescAmulet]
+1,ioun stone, iridescent spindle!18000!0!moderate varied![DescStone]
+1,bracelet of friends!19000!0!strong conjuration![DescBracelet]
+1,carpet of flying, 5 ft. by 5 ft.!20000!8!moderate transmutation![DescCarpet]
+1,horn of blasting!20000!1!moderate evocation![DescHorn]
+1,ioun stone, pale lavender ellipsoid!20000!0!moderate varied![DescStone]
+1,ioun stone, pearly white spindle!20000!0!moderate varied![DescStone]
+1,portable hole!20000!0!moderate conjuration![DescCloth]
+1,stone of good luck (luckstone)!20000!0!faint evocation![DescStone]
+1,figurine of wondrous power, ivory goats!21000!0!moderate transmutation![DescFigurine]
+1,rope of entanglement!21000!5!moderate transmutation![DescRobe]
+1,golem manual, stone!22000!5!strong abjuration and enchantment![DescBook]
+1,mask of the skull!22000!3!strong necromancy and transmutation![DescMask]
+1,mattock of the titans!23348!120!strong transmutation![DescHammer]
+1,circlet of blasting, major!23760!0!strong evocation![DescHeadband]
+1,amulet of mighty fists +2!24000!0!faint evocation![DescAmulet]
+1,cloak of displacement, minor!24000!1!faint illusion![DescCape]
+1,helm of underwater action!24000!3!faint transmutation![DescHelm]
+1,bracers of archery, greater!25000!0!moderate transmutation![DescBracers]
+1,bracers of armor +5!25000!0!moderate conjuration![DescBracers]
+1,cloak of resistance +5!25000!1!faint abjuration![DescCape]
+1,eyes of doom!25000!1!moderate necromancy![DescLenses]
+1,pearl of power, 5th-level spell!25000!0!strong transmutation![DescPearl]
+1,maul of the titans!25305!160!strong evocation![DescHammer]
+1,strand of prayer beads!25800!0!moderate (many schools)![DescAmulet]
+1,cloak of the bat!26000!1!moderate transmutation![DescCape]
+1,iron bands of binding!26000!1!strong evocation![DescShackles]
+1,cube of frost resistance!27000!0!faint abjuration![DescCube]
+1,helm of telepathy!27000!3!faint divination and enchantment![DescHelm]
+1,periapt of proof against poison!27000!0!faint conjuration![DescAmulet]
+1,robe of scintillating colors!27000!1!moderate illusion![DescRobe]
+1,manual of bodily health +1!27500!5!strong evocation![DescBook]
+1,manual of gainful exercise +1!27500!5!strong evocation![DescBook]
+1,manual of quickness in action +1!27500!5!strong evocation![DescBook]
+1,tome of clear thought +1!27500!5!strong evocation![DescBook]
+1,tome of leadership and influence +1!27500!5!strong evocation![DescBook]
+1,tome of understanding +1!27500!5!strong evocation![DescBook]
+
+;!Major
+1,dimensional shackles!28000!5!moderate abjuration![DescShackles]
+1,figurine of wondrous power, obsidian steed!28500!0!strong conjuration and transmutation![DescFigurine]
+1,drums of panic!30000!10!moderate necromancy![DescDrums]
+1,ioun stone, orange!30000!0!moderate varied![DescStone]
+1,ioun stone, pale green prism!30000!0!moderate varied![DescStone]
+1,lantern of revealing!30000!2!faint evocation![DescLantern]
+1,robe of blending!30000!1!moderate illusion![DescRobe]
+1,amulet of natural armor +4!32000!0!faint transmutation![DescAmulet]
+1,amulet of proof against detection and location!35000!0!moderate abjuration![DescAmulet]
+1,carpet of flying, 5 ft. by 10 ft.!35000!15!moderate transmutation![DescCarpet]
+1,golem manual, iron!35000!5!strong conjuration, enchantment and transmutation![DescBook]
+1,amulet of health +6!36000!0!moderate transmutation![DescAmulet]
+1,belt of giant strength +6!36000!1!moderate transmutation![DescBelt]
+1,bracers of armor +6!36000!0!moderate conjuration![DescBracers]
+1,cloak of charisma +6!36000!2!moderate transmutation![DescCape]
+1,gloves of dexterity +6!36000!0!moderate transmutation![DescGloves]
+1,headband of intellect +6!36000!0!moderate transmutation![DescHeadband]
+1,ioun stone, vibrant purple prism!36000!0!moderate varied![DescStone]
+1,pearl of power, 6th-level spell!36000!0!strong transmutation![DescPearl]
+1,periapt of wisdom +6!36000!0!moderate transmutation![DescAmulet]
+1,scarab of protection!38000!0!strong abjuration and necromancy![DescBrooch]
+1,ioun stone, lavender and green ellipsoid!40000!0!moderate varied![DescStone]
+1,ring gates!40000!2!strong conjuration![DescHoops]
+1,crystal ball!42000!7!moderate divination![DescOrb]
+1,golem manual, greater stone!44000!5!strong abjuration and enchantment![DescBook]
+1,orb of storms!48000!6!strong varied![DescOrb]
+1,boots of teleportation!49000!3!moderate conjuration![DescBoots]
+1,bracers of armor +7!49000!0!moderate conjuration![DescBracers]
+1,pearl of power, 7th-level spell!49000!0!strong transmutation![DescPearl]
+1,amulet of natural armor +5!50000!0!faint transmutation![DescAmulet]
+1,cloak of displacement, major!50000!1!moderate illusion![DescCape]
+1,crystal ball with see invisibility!50000!7!moderate divination![DescOrb]
+1,horn of valhalla!50000!2!strong conjuration![DescHorn]
+1,crystal ball with detect thoughts!51000!7!moderate divination![DescOrb]
+1,carpet of flying, 6 ft. by 9 ft.!53000!11!moderate transmutation![DescCarpet]
+1,amulet of mighty fists +3!54000!0!faint evocation![DescAmulet]
+1,wings of flying!54000!2!moderate transmutation![DescCape]
+1,cloak of etherealness!55000!1!strong transmutation![DescCape]
+1,instant fortress!55000!0!strong conjuration![DescCube]
+1,manual of bodily health +2!55000!5!strong evocation![DescBook]
+1,manual of gainful exercise +2!55000!5!strong evocation![DescBook]
+1,manual of quickness in action +2!55000!5!strong evocation![DescBook]
+1,tome of clear thought +2!55000!5!strong evocation![DescBook]
+1,tome of leadership and influence +2!55000!5!strong evocation![DescBook]
+1,tome of understanding +2!55000!5!strong evocation![DescBook]
+1,eyes of charming!56000!1!moderate enchantment![DescLenses]
+1,robe of stars!58000!1!strong varied![DescRobe]
+1,carpet of flying, 10 ft. by 10 ft.!60000!10!moderate transmutation![DescCarpet]
+1,darkskull!60000!5!moderate evocation (evil)![DescSkull]
+1,cube of force!62000!0!moderate evocation![DescCube]
+1,bracers of armor +8!64000!0!moderate conjuration![DescBracers]
+1,pearl of power, 8th-level spell!64000!0!strong transmutation![DescPearl]
+1,crystal ball with telepathy!70000!7!moderate divination![DescOrb]
+1,horn of blasting, greater!70000!1!strong evocation![DescHorn]
+1,pearl of power, two spells!70000!0!strong transmutation![DescPearl]
+1,helm of teleportation!73500!3!moderate conjuration![DescHelm]
+1,gem of seeing!75000!0!moderate divination![DescGem]
+1,robe of the archmagi!75000!1!strong varied![DescRobe]
+1,mantle of faith!76000!0!strong abjuration (good)![DescCape]
+1,crystal ball with true seeing!80000!7!moderate divination![DescOrb]
+1,pearl of power, 9th-level spell!81000!0!strong transmutation![DescPearl]
+1,well of many worlds!82000!0!strong conjuration![DescCloth]
+1,manual of bodily health +3!82500!5!strong evocation![DescBook]
+1,manual of gainful exercise +3!82500!5!strong evocation![DescBook]
+1,manual of quickness in action +3!82500!5!strong evocation![DescBook]
+1,tome of clear thought +3!82500!5!strong evocation![DescBook]
+1,tome of leadership and influence +3!82500!5!strong evocation![DescBook]
+1,tome of understanding +3!82500!5!strong evocation![DescBook]
+1,apparatus of the crab!90000!500!strong evocation and transmutation![DescBarrel]
+1,mantle of spell resistance!90000!0!moderate abjuration![DescCape]
+1,mirror of opposition!92000!45!strong necromancy![DescMirror]
+1,strand of prayer beads, greater!95800!0!strong (many schools)![DescAmulet]
+1,amulet of mighty fists +4!96000!0!faint evocation![DescAmulet]
+1,eyes of petrification!98000!1!faint divination![DescLenses]
+1,bowl of commanding water elementals!100000!3!strong conjuration![DescBowl]
+1,brazier of commanding fire elementals!100000!5!strong conjuration![DescBrazier]
+1,censer of controlling air elementals!100000!1!strong conjuration![DescCenser]
+1,stone of controlling earth elementals!100000!5!strong conjuration![DescStone]
+1,manual of bodily health +4!110000!5!strong evocation![DescBook]
+1,manual of gainful exercise +4!110000!5!strong evocation![DescBook]
+1,manual of quickness in action +4!110000!5!strong evocation![DescBook]
+1,tome of clear thought +4!110000!5!strong evocation![DescBook]
+1,tome of leadership and influence +4!110000!5!strong evocation![DescBook]
+1,tome of understanding +4!110000!5!strong evocation![DescBook]
+1,amulet of the planes!120000!0!strong conjuration![DescAmulet]
+1,robe of eyes!120000!1!moderate divination![DescRobe]
+1,helm of brilliance!125000!3!strong varied![DescHelm]
+1,manual of bodily health +5!137500!5!strong evocation![DescBook]
+1,manual of gainful exercise +5!137500!5!strong evocation![DescBook]
+1,manual of quickness in action +5!137500!5!strong evocation![DescBook]
+1,tome of clear thought +5!137500!5!strong evocation![DescBook]
+1,tome of leadership and influence +5!137500!5!strong evocation![DescBook]
+1,tome of understanding +5!137500!5!strong evocation![DescBook]
+1,efreeti bottle!145000!1!strong conjuration![DescBottle]
+1,amulet of mighty fists +5!150000!0!faint evocation![DescAmulet]
+1,chaos diamond!160000!1!strong varied![DescGem]
+1,cubic gate!164000!0!strong conjuration![DescCube]
+1,iron flask!170000!1!strong conjuration![DescBottle]
+1,mirror of mental prowess!175000!40!strong conjuration and divination![DescMirror]
+1,mirror of life trapping!200000!50!strong abjuration![DescMirror]
+
+;Element
+1,air
+1,earth
+1,fire
+1,water
+
+;DescAmulet
+1,{Reset~Miscellaneous.Material}[~Miscellaneous.Material] amulet[DescAmulet2]
+1,{Reset~Miscellaneous.Material}[~Miscellaneous.Material] medallion[DescAmulet2]
+1,{Reset~Miscellaneous.Material}[~Miscellaneous.Material] necklace[DescAmulet2]
+1,{Reset~Miscellaneous.Material}[~Miscellaneous.Material] periapt[DescAmulet2]
+1,{Reset~Miscellaneous.Material}[~Miscellaneous.Material] phylactery[DescAmulet2]
+1,{Reset~Miscellaneous.Material}[~Miscellaneous.Material] talisman[DescAmulet2]
+1,{Reset~Miscellaneous.Material}[~Miscellaneous.Material] torc[DescAmulet2]
+
+;DescAmulet2
+5,
+5, decorated with this: [NPC Appearance.Tatoo]
+
+;DescArm
+1,mithral arm
+
+;DescBag
+1,leather bag
+1,[~Miscellaneous.Color] {Reset~Miscellaneous.Cloth}[~Miscellaneous.Cloth] bag
+1,[~Miscellaneous.Color] {Reset~Miscellaneous.Cloth}[~Miscellaneous.Cloth] sack
+1,leather backpack
+1,leather haversack
+1,[~Miscellaneous.Color] {Reset~Miscellaneous.Cloth}[~Miscellaneous.Cloth] haversack
+
+;DescBarrel
+1,large metal barrel
+
+;DescBead
+1,[~Miscellaneous.Color] {Reset~Miscellaneous.Material}[~Miscellaneous.Material] bead
+1,small [~Miscellaneous.Color] {Reset~Miscellaneous.Material}[~Miscellaneous.Material] sphere
+1,[~Miscellaneous.Color] {Reset~Miscellaneous.Material}[~Miscellaneous.Material] pellet
+1,small [~Miscellaneous.Color] {Reset~Miscellaneous.Material}[~Miscellaneous.Material] stone ([~Miscellaneous.Stone])
+
+;DescBelt
+1,large leather belt[DescAmulet2-1]
+1,thin leather belt[DescAmulet2-1]
+1,[~Miscellaneous.Color] sash
+1,[~Miscellaneous.Color] band of {Reset~Miscellaneous.Cloth}[~Miscellaneous.Cloth]
+
+;DescBlock
+1,block of incense
+1,brick of incense
+
+;DescBook
+1,book
+1,libram
+1,tome
+1,manual
+1,grimoire
+1,volume
+
+;DescBoots
+1,pair of {If~{Dice~1d4}=1?[~Miscellaneous.Color] {Reset~Miscellaneous.Cloth}[~Miscellaneous.Cloth]/leather} low boots
+1,couple of {If~{Dice~1d4}=1?[~Miscellaneous.Color] {Reset~Miscellaneous.Cloth}[~Miscellaneous.Cloth]/leather} low boots
+1,pair of {If~{Dice~1d4}=1?[~Miscellaneous.Color] {Reset~Miscellaneous.Cloth}[~Miscellaneous.Cloth]/leather} high boots
+1,couple of {If~{Dice~1d4}=1?[~Miscellaneous.Color] {Reset~Miscellaneous.Cloth}[~Miscellaneous.Cloth]/leather} high boots
+1,pair of {If~{Dice~1d4}=1?[~Miscellaneous.Color] {Reset~Miscellaneous.Cloth}[~Miscellaneous.Cloth]/leather} riding boots
+1,couple of {If~{Dice~1d4}=1?[~Miscellaneous.Color] {Reset~Miscellaneous.Cloth}[~Miscellaneous.Cloth]/leather} riding boots
+1,pair of {If~{Dice~1d4}=1?[~Miscellaneous.Color] {Reset~Miscellaneous.Cloth}[~Miscellaneous.Cloth]/leather} shoes
+1,couple of {If~{Dice~1d4}=1?[~Miscellaneous.Color] {Reset~Miscellaneous.Cloth}[~Miscellaneous.Cloth]/leather} shoes
+1,pair of {If~{Dice~1d4}=1?[~Miscellaneous.Color] {Reset~Miscellaneous.Cloth}[~Miscellaneous.Cloth]/leather} sandals
+1,couple of {If~{Dice~1d4}=1?[~Miscellaneous.Color] {Reset~Miscellaneous.Cloth}[~Miscellaneous.Cloth]/leather} sandals
+1,pair of {If~{Dice~1d4}=1?[~Miscellaneous.Color] {Reset~Miscellaneous.Cloth}[~Miscellaneous.Cloth]/leather} mocassins
+1,couple of {If~{Dice~1d4}=1?[~Miscellaneous.Color] {Reset~Miscellaneous.Cloth}[~Miscellaneous.Cloth]/leather} mocassins
+
+;DescBottle
+2,[~TP Potions.Material] bottle
+2,[~TP Potions.Material] flask
+1,[~TP Potions.Material] phial
+2,[~TP Potions.Material] vial
+
+;DescBowl
+1,[~TP Potions.Material+7] bowl
+1,[~TP Potions.Material+7] tureen
+1,[~TP Potions.Material+7] urn
+
+;DescBox
+1,small wooden ([~Miscellaneous.Wood]) box
+1,small {Reset~Miscellaneous.Material}[~Miscellaneous.Material] container
+1,small {Reset~Miscellaneous.Material}[~Miscellaneous.Material] coffer
+
+;DescBracelet
+1,{Reset~Miscellaneous.Material}[~Miscellaneous.Material] bracelet[DescAmulet2]
+1,{Reset~Miscellaneous.Material}[~Miscellaneous.Material] bangle[DescAmulet2]
+1,{Reset~Miscellaneous.Material}[~Miscellaneous.Material] armlet[DescAmulet2]
+
+;DescBracers
+1,[TwoItems] bracers[DescAmulet2]
+1,[TwoItems] armbands[DescAmulet2]
+1,[TwoItems] wristguards[DescAmulet2]
+
+;DescBrazier
+1,[~Miscellaneous.Metal] brazier
+1,[~Miscellaneous.Metal] hod
+1,[~Miscellaneous.Metal] scuttle
+
+;DescBrooch
+1,{Reset~Miscellaneous.Material}[~Miscellaneous.Material] brooch[DescAmulet2]
+1,{Reset~Miscellaneous.Material}[~Miscellaneous.Material] scarab[DescAmulet2]
+1,{Reset~Miscellaneous.Material}[~Miscellaneous.Material] clasp[DescAmulet2]
+1,{Reset~Miscellaneous.Material}[~Miscellaneous.Material] hasp[DescAmulet2]
+1,{Reset~Miscellaneous.Material}[~Miscellaneous.Material] pin[DescAmulet2]
+
+;DescBroom
+1,{If~{Dice~1d2}=1?medium/{If~{Dice~1d4}=1?large/small}} broom
+
+;DescCaltrops
+1,[Collection] [~Miscellaneous.Metal] caltrops
+
+;DescCandle
+1,[~Miscellaneous.Color] {If~{Dice~1d2}=1?beeswax /{If~{Dice~1d10}=1?[~Creatures.Humanoid] fat }}candle
+1,taper
+
+;DescCape
+1,[~Miscellaneous.Color] {Reset~Miscellaneous.Cloth}[~Miscellaneous.Cloth] cape[DescAmulet2-4]
+1,[~Miscellaneous.Color] {Reset~Miscellaneous.Cloth}[~Miscellaneous.Cloth] cloak[DescAmulet2-4]
+1,[~Miscellaneous.Color] {Reset~Miscellaneous.Cloth}[~Miscellaneous.Cloth] mantle[DescAmulet2-4]
+
+;DescCarpet
+1,[~Miscellaneous.Color] {Reset~Miscellaneous.Cloth}[~Miscellaneous.Cloth] carpet[DescAmulet2-4]
+1,[~Miscellaneous.Color] {Reset~Miscellaneous.Cloth}[~Miscellaneous.Cloth] rug[DescAmulet2-4]
+1,[~Miscellaneous.Color] {Reset~Miscellaneous.Cloth}[~Miscellaneous.Cloth] tapestry[DescAmulet=6] 
+
+;DescCenser
+1,[~Miscellaneous.Metal] censer[DescAmulet2-2]
+1,[~Miscellaneous.Metal] incense burner[DescAmulet2-2]
+
+;DescChime
+5,[~Miscellaneous.Metal] chime[DescAmulet2-2]
+5,[~Miscellaneous.Metal] bell[DescAmulet2-2]
+1,[~Miscellaneous.Metal] tintinnabulum[DescAmulet2-2]
+
+;DescCloth
+1,circle of [~Miscellaneous.Color] {Reset~Miscellaneous.Cloth}[~Miscellaneous.Cloth][DescAmulet2-2]
+
+;DescCollar
+1,{If~{Dice~1d4}=1?[~Miscellaneous.Color] {Reset~Miscellaneous.Cloth}[~Miscellaneous.Cloth]/leather} collar[DescAmulet2-4]
+1,{If~{Dice~1d4}=1?[~Miscellaneous.Color] {Reset~Miscellaneous.Cloth}[~Miscellaneous.Cloth]/leather} choker[DescAmulet2-4]
+
+;DescCube
+1,small {Reset~Miscellaneous.Material}[~Miscellaneous.Material] cube
+1,square hunk of {Reset~Miscellaneous.Material}[~Miscellaneous.Material]
+1,cubic ingot of {Reset~Miscellaneous.Material}[~Miscellaneous.Material]
+
+;DescCup
+1,[~TP Potions.Material] cup[DescAmulet2-4]
+1,[~TP Potions.Material] decanter[DescAmulet2-4]
+1,[~TP Potions.Material] chalice[DescAmulet2-4]
+1,[~TP Potions.Material] goblet[DescAmulet2-4]
+
+;DescDeck
+6,deck of cards
+2,stack of plaques
+1,bag of runestones
+1,bag of bones
+
+;DescDrums
+1,[~Miscellaneous.Color] drums
+
+;DescEyePatch
+1,{If~{Dice~1d2}=1?[~Miscellaneous.Color] {Reset~Miscellaneous.Cloth}[~Miscellaneous.Cloth]/leather} eye patch[DescAmulet2-4]
+
+;DescFan
+1,[~Miscellaneous.Color] fan[DescAmulet2-4]
+
+;DescFeather
+1,feather of [DescFeather2]
+1,plume of [DescFeather2]
+1,quill of [DescFeather2]
+
+;DescFeather2
+1,a falcon
+1,an eagle
+1,a hawk
+1,a raven
+1,an owl
+ 
+;DescFigurine
+1,{Reset~Miscellaneous.Material}[~Miscellaneous.Material] figurine
+1,{Reset~Miscellaneous.Material}[~Miscellaneous.Material] figure
+1,{Reset~Miscellaneous.Material}[~Miscellaneous.Material] effigy
+1,{Reset~Miscellaneous.Material}[~Miscellaneous.Material] model
+
+;DescFlute
+1,{Reset~Miscellaneous.Material}[~Miscellaneous.Material] flute[DescAmulet2-4]
+1,{Reset~Miscellaneous.Material}[~Miscellaneous.Material] pipe[DescAmulet2-4]
+1,{Reset~Miscellaneous.Material}[~Miscellaneous.Material] recorder[DescAmulet2-4]
+
+;DescGauntlet
+5,{If~{Dice~1d4}=1?[~Miscellaneous.Color] {Reset~Miscellaneous.Cloth}[~Miscellaneous.Cloth]/leather} gauntlet
+4,[~Miscellaneous.Metal] gauntlet
+1,[DescGlove]
+
+;DescGauntlets
+1,[TwoItems] [DescGauntlet]
+
+;DescGem
+1,emerald
+1,diamond
+1,sapphire
+1,ruby
+1,[~Miscellaneous.Stone]
+
+;DescGlove
+1,{If~{Dice~1d4}=1?[~Miscellaneous.Color] {Reset~Miscellaneous.Cloth}[~Miscellaneous.Cloth]/leather} glove[DescAmulet2-4]
+
+;DescGloves
+1,[TwoItems] [DescGloves]
+
+;DescGoggles
+1,[TwoItems-1] goggles[DescAmulet2-4]
+1,[TwoItems-1] spectacles[DescAmulet2-4]
+1,monocle[DescAmulet2-4]
+
+;DescHammer
+1,mallet
+1,hammer
+1,maul
+1,mattock
+1,warhammer
+1,warmaul
+
+;DescHand
+1,mummified [~Creatures.Humanoid2] hand
+1,withered [~Creatures.Humanoid2] hand
+
+;DescHat
+4,{If~{Dice~1d2}=1?[~Miscellaneous.Color] {Reset~Miscellaneous.Cloth}[~Miscellaneous.Cloth]/leather} hat[DescAmulet2-4]
+4,{If~{Dice~1d2}=1?[~Miscellaneous.Color] {Reset~Miscellaneous.Cloth}[~Miscellaneous.Cloth]/leather} cap[DescAmulet2-4]
+1,{If~{Dice~1d2}=1?[~Miscellaneous.Color] {Reset~Miscellaneous.Cloth}[~Miscellaneous.Cloth]/leather} fez[DescAmulet2-4]
+
+;DescHeadband
+1,{Reset~Miscellaneous.Material}[~Miscellaneous.Material] circlet[DescAmulet2-3]
+1,{Reset~Miscellaneous.Material}[~Miscellaneous.Material] headband[DescAmulet2-3]
+1,{Reset~Miscellaneous.Material}[~Miscellaneous.Material] coronal[DescAmulet2-3]
+
+;DescHelm
+1,[~Miscellaneous.Metal] helm[DescAmulet2-4]
+1,[~Miscellaneous.Metal] helmet[DescAmulet2-2]
+
+;DescHoops
+2,[TwoItems] [~Miscellaneous.Metal] hoops
+1,[TwoItems] {Reset~Miscellaneous.Material}[~Miscellaneous.Material] hoops
+2,[TwoItems] iron hoops
+
+;DescHorn
+1,horn
+
+;DescHorseshoes
+1,[TwoItems] [~Miscellaneous.Metal] horseshoes
+
+;DescHorseStatue
+1,horse {Reset~Miscellaneous.Material}[~Miscellaneous.Material] statue
+1,equine {Reset~Miscellaneous.Material}[~Miscellaneous.Material] figure
+
+;DescJar
+1,[~TP Potions.Material] jar[DescAmulet2-4]
+1,[~TP Potions.Material] pot[DescAmulet2-4]
+1,[~TP Potions.Material] ewer[DescAmulet2-4]
+1,[~TP Potions.Material] crock[DescAmulet2-4]
+
+;DescLantern
+1,lantern[DescAmulet2-4]
+1,lamp[DescAmulet2-4]
+
+;DescLens
+1,{If~{Dice~1d10}=1?crystal/glass} lens
+1,round {If~{Dice~1d10}=1?crystal/glass} 
+1,{If~{Dice~1d10}=1?crystal/glass}  prism
+
+;DescLenses
+4,[TwoItems] {If~{Dice~1d10}=1?crystal/glass} lenses
+1,[TwoItems] {If~{Dice~1d10}=1?crystal/glass} cusps
+4,[TwoItems] {If~{Dice~1d10}=1?crystal/glass} cupped lenses
+
+;DescLute
+1,lute
+1,mandolin
+
+;DescLyre
+1,lyre
+1,harp
+
+;DescMask
+1,{If~{Dice~1d2}=1?[~Miscellaneous.Color] {Reset~Miscellaneous.Cloth}[~Miscellaneous.Cloth]/leather} mask of a [~Creatures.All][DescAmulet2-4]
+1,{If~{Dice~1d2}=1?[~Miscellaneous.Color] {Reset~Miscellaneous.Cloth}[~Miscellaneous.Cloth]/leather} hood[DescAmulet2-4]
+1,{If~{Dice~1d2}=1?[~Miscellaneous.Color] {Reset~Miscellaneous.Cloth}[~Miscellaneous.Cloth]/leather} veil[DescAmulet2-4]
+
+;DescMirror
+1,{If~{Dice~1d6}=1?glass/silver} mirror[DescAmulet2-4]
+
+;DescMenhir
+1,menhir[DescAmulet2-4]
+1,standing stone[DescAmulet2-4]
+1,huge rock[DescAmulet2-4]
+
+;DescOrb
+1,orb[DescAmulet2-4]
+1,ball[DescAmulet2-4]
+1,sphere[DescAmulet2-4]
+
+;DescPearl
+1,pearl
+1,small white orb
+
+;DescPipes
+1,set of {Reset~Miscellaneous.Material}[~Miscellaneous.Material] pipes[DescAmulet2-4]
+
+;DescPouch
+1,{If~{Dice~1d2}=1?[~Miscellaneous.Color] {Reset~Miscellaneous.Cloth}[~Miscellaneous.Cloth]/leather} pouch[DescAmulet2-4]
+1,{If~{Dice~1d2}=1?[~Miscellaneous.Color] {Reset~Miscellaneous.Cloth}[~Miscellaneous.Cloth]/leather} packet[DescAmulet2-4]
+
+;DescQuiver
+1,{If~{Dice~1d6}=1?[~Miscellaneous.Color] {Reset~Miscellaneous.Cloth}[~Miscellaneous.Cloth]/leather} quiver[DescAmulet2-4]
+
+;DescRobe
+4,{If~{Dice~1d10}=1?leather/[~Miscellaneous.Color] {Reset~Miscellaneous.Cloth}[~Miscellaneous.Cloth]} robe[DescAmulet2-4]
+4,{If~{Dice~1d10}=1?leather/[~Miscellaneous.Color] {Reset~Miscellaneous.Cloth}[~Miscellaneous.Cloth]} gown[DescAmulet2-4]
+1,{If~{Dice~1d10}=1?leather/[~Miscellaneous.Color] {Reset~Miscellaneous.Cloth}[~Miscellaneous.Cloth]} frock[DescAmulet2-4]
+
+;DescRope
+1,rope
+1,cord
+1,lanyard
+
+;DescSandals
+1,[~Miscellaneous.Color] sandals[DescAmulet2-4]
+1,[TwoItems] [~Miscellaneous.Color] sandals[DescAmulet2-4]
+
+;DescScabbard
+1,{If~{Dice~1d6}=1?[~Miscellaneous.Color] {Reset~Miscellaneous.Cloth}[~Miscellaneous.Cloth]/leather} scabbard[DescAmulet2-4]
+1,{If~{Dice~1d3}=1?[~Miscellaneous.Color] {Reset~Miscellaneous.Cloth}[~Miscellaneous.Cloth]/leather} sheath[DescAmulet2-4]
+
+;DescShackles
+1,[TwoItems] [~Miscellaneous.Metal] shackles[DescAmulet2-4]
+1,[TwoItems] [~Miscellaneous.Metal] fetters[DescAmulet2-4]
+1,[TwoItems] [~Miscellaneous.Metal] manacles[DescAmulet2-4]
+
+;DescSkull
+1,small [~Creatures.All] skull[DescAmulet2-4]
+
+;DescSlippers
+1,[TwoItems] [~Miscellaneous.Color] {Reset~Miscellaneous.Cloth}[~Miscellaneous.Cloth] slippers[DescAmulet2-4]
+
+;DescSpoon
+1,[~Miscellaneous.Metal] spoon[DescAmulet2-4]
+1,[~Miscellaneous.Metal]-wood spoon[DescAmulet2-4]
+
+;DescStone
+4,[~Miscellaneous.Color] stone[DescAmulet2-4]
+1,[~Miscellaneous.Color] rock[DescAmulet2-4]
+
+;DescStraps
+1,[Collection] straps
+1,[Collection] bands
+1,[Collection] ties
+1,[Collection] thongs
+1,[Collection] strops
+
+;DescStrings
+1,[Collection] strings
+1,[Collection] threads
+1,[Collection] twine
+
+;DescSymbol
+1,religious symbol ([~Religion.Deities])
+1,symbol ([NPC Appearance.Tatoo])
+
+;DescTorch
+1,burning torch
+1,flaming stick
+
+;DescVest
+1,{If~{Dice~1d4}=1?leather/[~Miscellaneous.Color] {Reset~Miscellaneous.Cloth}[~Miscellaneous.Cloth]} vest[DescAmulet2-4]
+
+;DescVestments
+3,set of {If~{Dice~1d4}=1?leather/[~Miscellaneous.Color] {Reset~Miscellaneous.Cloth}[~Miscellaneous.Cloth]} vestments[DescAmulet2-1]
+1,cassock
+
+;TwoItems
+1,pair of
+1,set of
+1,couple of
+
+;Collection
+1,bunch of
+1,set of
+1,collection of
+
+#
+# Note: No provision is currently made for intelligent items
+#
+;Clue
+3,; {AorAn~[ClueType]} provides some clue as to its function
+7,
+
+;ClueType
+1,design
+1,inscription

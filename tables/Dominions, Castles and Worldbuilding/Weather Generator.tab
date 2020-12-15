@@ -1,0 +1,695 @@
+# ------------------------------------------------------
+# Last Update: re-verified by Valminder Jan 10, 2012.
+# ------------------------------------------------------
+# ---------------------------------------------------
+# Last Update: modified by Valminder Jan 30, 2006.
+# ---------------------------------------------------
+#
+# I am officially dubing this as Ver 1.  11/2001
+# 
+# The environment tables that has been developed is provided free of charge.
+#
+# Michael Long
+#
+# The following files are included.
+# Weather.tab   -   Main program for generating random Weather
+# Foraging.tab   - Main program for foraging results
+# z_fauna_z1.tab - Referenced Table for wildlife in the Artic zone.
+# z_fauna_z2.tab - Referenced Table for wildlife in the Sub-artic zone.
+# z_fauna_z3.tab - Referenced Table for wildlife in the Temperate zone.
+# z_fauna_z4.tab - Referenced Table for wildlife in the Sub-Tropical zone.
+# z_fauna_z5.tab - Referenced Table for wildlife in the Tropical zone.
+# z_flora_z1.tab - Referenced Table for plants in the Artic zone.
+# z_flora_z2.tab - Referenced Table for plants in the Sub-artic zone.
+# z_flora_z3.tab - Referenced Table for plants in the Temperate zone.
+# z_flora_z4.tab - Referenced Table for plants in the Sub-Tropical zone.
+# z_flora_z5.tab - Referenced Table for plants in the Tropical zone.
+# z_herbs_z1.tab - Referenced Table for herbs in the Artic zone.
+# z_herbs_z2.tab - Referenced Table for herbs in the Sub-artic zone.
+# z_herbs_z3.tab - Referenced Table for herbs in the Temperate zone.
+# z_herbs_z4.tab - Referenced Table for herbs in the Sub-Tropical zone.
+# z_herbs_z5.tab - Referenced Table for herbs in the Tropical zone.
+#
+# REFERENCES:
+# The Weather table is based on the following resources.
+#   1) WEATHER IN THE WORLD OF GREYHAWK by David Axler (Dragon Mag # 68).
+#   2) THE OFFICIAL AD&D WILDERNESS SURVIVAL GUIDE By Kim Mohn
+# The foraging tables have been developed with heavy reference on the 
+# following documents.
+#   1) THE GUIDE TO PLANTS FOR RPGS 1st Edition By Michael Long 2001. 
+#   2) THE GUIDE TO HERBS FOR RPGS 5th Edition by Shaun Hately (c) 1997.
+#   3) THE NET BOOK OF POISONS revised and expanded by Adrienne Mills.
+#
+# Based on the following resources.
+# "Weather in the World of Greyhawk" by David Axler (Dragon Mag # 68).
+# The Official AD&D Wilderness Survival Guide By Kim Mohn
+# 
+# %C = Climate Zone, %L = Location type %M = Month %D =  Days
+# %TH = High Temperature %TL = Low Temperature %W = windspeed
+#
+# %SETTINGS = Display variable settings
+#
+# Modified by Valminder, Jan 2006.
+#    Adapted for TSv5.
+#    Slight modifications since it was generating error.
+#
+
+##### VARIABLE SETTINGS
+# %SETTINGS = Display variable settings
+#
+# %C% = Climates 
+# 1-Artic(Polar) 2-Sub-artic(Cold) 3-Temperate 4-Sub-Tropical 5-Tropical
+# 6-Random
+#
+# %L% = Location
+# 1-Sea 2-Coast 3-Desert 4-Forest 5-Plains(Grassland)
+# 6-Hills 7-Jungle 8-Mountains 9-Swamp 10-River
+# 11-Rural 12-Underworld 13-Wasteland 14-Random
+#
+# %M% = Months (of Greyhawk)
+# 1-Hammer(Wi) 2-Alturiak(Wi)    3-Ches(Sp)      4-Tarsakh(Sp) 
+# 5-Mirtul(Sp) 6-Kythorn(Su)     7-Flamerule(Su) 8-Eleasias(Su) 
+# 9-Eleint(Au) 10-Marpenoth(Au) 11-Uktar(Au)    12-Nightal(Wi)
+# 13-Random
+#
+# %D% = Number of days to be rolled
+# %TD% = Current day
+#
+# %TH% & %TL% = High temperature & Low Temperature respectively
+# %W% = Max Wind
+#
+# Modified by Valminder, Jan 2004
+#    Changed unsupported functions.
+#    Add celsius/farenheit, kph/mph, mm/in.
+#    Fixed a long to find error when you had more than 1 day of weather.
+#    CUSTOMIZATION: (default set to Mystara)
+#       To customize this table for your game world, change the "Month"
+#       subtable and the "Parameters" to the months of your world.
+#
+
+/OverrideRolls 1
+
+%C%,0
+%L%,0
+%M%,0
+
+%D%,0
+%TD%,0
+
+%TH%,0
+%TL%,0
+%W%,0
+
+%Metric%,0
+%CH%,0
+%CL%,0
+%kph%,0
+%inch%,0
+%mm%,0
+%Temp%,0
+%Temp2%,0
+%TempIn%,0
+
+%SETTINGS%,0
+
+# from other table or chosen for this one
+@SETTINGS,1,Run Table (do not show instructions),Yes,No
+@C,6,Select Climate,Artic (Polar),Sub-artic (Cold),Temperate,Sub-Tropical,Tropical,Random
+@L,14,Select Location,Sea,Coast,Desert,Forest,Plains(Grassland),Hills,Jungle,Mountains,Swamp,River,Rural,Underworld,Wasteland,Random
+@M,13,Select Month,1) Nuwmont (Wi),2) Vatermont (Wi),3) Thaumont (Sp),4) Flaurmont (Sp),5) Yarthmont (Sp),6) Klarmont (Su),7) Felmont (Su),8) Firmont (Su),9) Ambyrmont (Au),10) Sviftmont (Au),11) Eirmont (Au),12) Caldmont (Wi),Random
+@D,2,Quantity of Days
+@Metric,3,Do you want in,Farenheit / mph / in,Celsius / kph / mm,Both
+
+# This is the Greyhawk parameters, change with line above.
+#@M,1,Select Month,1) Hammer (Wi),2) Alturiak (Wi),3) Ches (Sp),4) Tarsakh (Sp),5) Mirtul (Sp),6) Kythorn (Su),7) Flamerule (Su),8) Eleasias (Su),9) Eleint (Au),10) Marpenoth (Au),11) Uktar (Au),12) Nightal (Wi)
+
+:Start
+1,{If~%SETTINGS%=2? [DISPLAY]/[Generate]}
+
+:DISPLAY
+1,<b><u>Weather Generator</u>:</b> by Michael Long (modified by Valminder).<br><br>
+_<TABLE BORDER="0" CELLPADDING="5" CELLSPACING="5">
+_<B><U>VARIABLE SETTINGS</B></U>
+_<br><i>To activate this table, change the parameters</i>
+_<TD><B>Climates</B>
+_<br>1) Artic(Polar)<br>2) Sub-artic(Cold)<br>3) Temperate<br>4) Sub-Tropical<br>5) Tropical<br>6) Random
+_</TD>
+_<TD><B>Location</B>
+_<br>1) Sea<br>2) Coast<br>3) Desert<br>4) Forest<br>5) Plains(Grassland)<br>6) Hills<br>7) Jungle
+_<br>8) Mountains<br>9) Swamp<br>10) River<br>11) Rural<br>12) Underworld<br>13) Wasteland<br>14) Random
+_</TD>
+_<TD><B>Months (Greyhawk / Mystara)</B>
+_<br>1) Hammer / Nuwmont (Wi)<br>2) Alturiak / Vatermont (Wi)<br>3) Ches / Thaumont (Sp)<br>4) Tarsakh / Flaurmont (Sp)<br>5) Mirtul / Yarthmont (Sp)<br>6) Kythorn / Klarmont (Su)
+_<br>7) Flamerule / Felmont (Su)<br>8) Eleasias / Firmont (Su)<br>9) Eleint / Ambyrmont (Au)<br>10) Marpenoth / Sviftmont (Au)<br>11) Uktar / Eirmont (Au)<br>12) Nightal / Caldmont (Wi)
+_<br>13) Random
+_</TD>
+_</TABLE>
+_You can customize this table for your game world by changing the "Month"       subtable and the "Parameters" to the months of your world (it now includes Greyhawk and Mystara month names).
+
+;Tab
+1,{Loop~3,&nbsp;} 
+
+:CalculateCelsius
+1,|CH={Ceil~{Calc~((%TH%-32)*5/9)}}||CL={Ceil~{Calc~((%TL%-32)*5/9)}}|
+
+:Calculatekph
+1,|kph={Ceil~{Calc~(%W%/0.6093)}}|
+#1,|kph={Ceil~{Calc~(%W%/0.6)}}||Temp= mph||W&%Temp%||Temp= kph||kph&%Temp%|
+
+:Calcmm
+1,|mm={Ceil~{Calc~(%inch%/0.03937)}}|
+#1,|mm={Ceil~{Calc~(%inch%/0.04)}}||Temp= in||inch&%Temp%||Temp= mm||mm&%Temp%|
+
+# ---------------------------------------------------------------------------
+
+:Generate
+1,{Status~by Michael Long 2001, Modified by Valminder 2002, 2006}<b><u>Weather Generator</u>:</b><br>
+_{If~%C%=6?|C={Dice~1d5}|}
+_{If~%L%=14?|L={Dice~1d13}|}
+_{If~%M%=13?|C={Dice~1d12}|}
+_-Climate  : <b>[Climate=%C%]</b><br>
+_-Location : <b>[Location=%L%]</b><br><br>
+_This is the <b>[Number=%M%]</b> month which is called <b>[Month=%M%]</b><br>
+_|TD=1|[Day]
+
+:Day
+1,<br><b><u>Day %TD%</u>:</b><br>
+_|D-1||TD+1|[MWeather=%M%]
+_{If~%D%>0? |TH=0||TL=0||W=0|[ClimateSetTemp=%C%][LocationSetTemp=%L%][Day]}
+
+:Time
+1,{Dice~1d24-1}:{Dice~1d6-1}0
+
+:MWeather
+1,[Month1][Temp]
+2,[Month2][Temp]
+3,[Month3][Temp]
+4,[Month4][Temp]
+5,[Month5][Temp]
+6,[Month6][Temp]
+7,[Month7][Temp]
+8,[Month8][Temp]
+9,[Month9][Temp]
+10,[Month10][Temp]
+11,[Month11][Temp]
+12,[Month12][Temp]
+
+:Temp
+1,Other aspects are: <br>
+_{If~%W%<=0? [NoWind]/[Wind]}<br>
+_<li>High/Low temps are: [CalculateCelsius][ChooseCelsius%Metric%]
+
+:ChooseCelsius1
+1,<font color=red>%TH%</font> / <font color=blue>%TL%</font> deg F</li><br>
+
+:ChooseCelsius2
+1,<font color=red>%CH%</font> / <font color=blue>%CL%</font> deg C</li><br>
+
+:ChooseCelsius3
+1,<br><dd><font color=red>%TH%</font> / <font color=blue>%TL%</font> deg F<br>
+_<dd><font color=red>%CH%</font> / <font color=blue>%CL%</font> deg C</li><br>
+
+:NoWind
+1,<li>no wind</li>
+
+:Wind
+1,<li>Windy, Max speed <b>[Calculatekph][ChooseSpeed%Metric%]</b> peaking at [~Time]</li><br>
+_[Tab]The wind is primarly from the [WindFrom=%C%]
+_</li>
+
+:WindFrom
+1,[~ArticWind]
+2,[~SArticWind]
+3,[~TempWind]
+4,[~TempWind]
+5,[~TropWind]
+
+:ChooseSpeed1
+1,%W% mph
+
+:ChooseSpeed2
+1,%kph% kph
+
+:ChooseSpeed3
+1,%W% mph / %kph% kph
+
+# ---------------------------------------------------------------------------
+# Determining Precipation Type 
+
+:PrcpType
+1,{If~%TL%>=36? [HighPrcpType]}
+_{If~%TH%<=36? [Tempforsleet]}
+
+:Tempforsleet
+1,{If~%TH%<30? [LowPrcpType]}
+_{If~%TL%>=30? [SleetPossible]}
+
+:SleetPossible
+1,[LowPrcpType]
+2,[Sleet]
+
+:ChooseMM1
+1,<b>%inch% in</b>
+
+:ChooseMM2
+1,<b>%mm% mm</b>
+
+:ChooseMM3
+1,<b>%inch% in // %mm% mm</b>
+
+;HighPrcpType
+3,A trace rain starts at [~Time].<br>
+_<li>less than |inch=1/8||mm=3|[ChooseMM%Metric%] of rain falls in <b>{Dice~5d6}</b> minutes.</li><br>
+5,A light rain starts at [~Time].<br>
+_<li>About |Temp={Dice~2d4}||inch={Calc~(1/ %Temp%)}||TempIn=1/ %Temp%|[Calcmm]|inch=%TempIn%|[ChooseMM%Metric%] of rain falls in <b>{Dice~1d2}</b> hour(s).</li><br>
+4,A moderate rain starts at [~Time].<br>
+_<li>About |Temp={Dice~1d3}||Temp2={Dice~3d2}||inch={Calc~(%Temp% / %Temp2%)}||TempIn=%Temp% / %Temp2%|[Calcmm]|inch=%TempIn%|[ChooseMM%Metric%] of rain falls in <b>{Dice~4d2}</b> hours.</li><br>
+2,A Heavy rain starts at [~Time].<br>
+_<li>About |Temp={Dice~2d2}||Temp2={Dice~2d2}||inch={Calc~(%Temp% / %Temp2%)}||TempIn=%Temp% / %Temp2%|[Calcmm]|inch=%TempIn%|[ChooseMM%Metric%] of rain falls in <b>{Dice~1d4}</b> hour(s).</li><br>
+1,A rain downpour starts at [~Time].<br>
+_<li>About |inch={Dice~2d3}|[Calcmm][ChooseMM%Metric%] of rain falls in <b>{Dice~1d4}</b> hour(s).</li><br>
+
+;LowPrcpType
+3,A trace snow starts at [~Time].<br>
+_<li>less than |inch=1/2||mm=13|[ChooseMM%Metric%] of snow falls in <b>{Dice~5d6}</b> minutes.</li><br>
+5,A light snow starts at [~Time].<br>
+_<li>About |Temp={Dice~1d8}||inch={Calc~(1/ %Temp%)}||TempIn=1/ %Temp%|[Calcmm]|inch=%TempIn%|[ChooseMM%Metric%] of snow falls in <b>{Dice~1d2}</b> hour(s).</li><br>
+4,A moderate snow starts at [~Time].<br>
+_<li>About |Temp={Dice~1d4}||Temp2={Dice~2d2}||inch={Calc~(%Temp% / %Temp2%)}||TempIn=%Temp% / %Temp2%|[Calcmm]|inch=%TempIn%|[ChooseMM%Metric%] of snow falls in <b>{Dice~4d2}</b> hours.</li><br>
+2,A Heavy snow starts at [~Time].<br>
+_<li>About |Temp={Dice~2d2}||Temp2={Dice~2d2}||inch={Calc~(%Temp% / %Temp2%)}||TempIn=%Temp% / %Temp2%|[Calcmm]|inch=%TempIn%|[ChooseMM%Metric%] of snow falls in <b>{Dice~1d4}</b> hour(s).</li><br>
+1,A snow downpour starts at [~Time].<br>
+_<li>About |inch={Dice~3d4}|[Calcmm][ChooseMM%Metric%] of snow falls in <b>{Dice~1d4}</b> hour(s).</li><br>
+
+;Sleet
+3,A trace sleet starts at [~Time].<br>
+_<li>less than |inch=1/8||mm=3|[ChooseMM%Metric%] of sleet falls in <b>{Dice~5d6}</b> minutes.</li><br>
+5,A light sleet starts at [~Time].<br>
+_<li>About |Temp={Dice~2d4}||inch={Calc~(1/ %Temp%)}||TempIn=1/ %Temp%|[Calcmm]|inch=%TempIn%|[ChooseMM%Metric%] of sleet falls in <b>{Dice~1d2}</b> hour(s).</li><br>
+4,A moderate sleet starts at [~Time].<br>
+_<li>About |Temp={Dice~1d3}||Temp2={Dice~3d2}||inch={Calc~(%Temp% / %Temp2%)}||TempIn=%Temp% / %Temp2%|[Calcmm]|inch=%TempIn%|[ChooseMM%Metric%] of sleet falls in <b>{Dice~4d2}</b> hours.</li><br>
+2,A Heavy sleet starts at [~Time].<br>
+_<li>About |Temp={Dice~2d2}||Temp2={Dice~2d2}||inch={Calc~(%Temp% / %Temp2%)}||TempIn=%Temp% / %Temp2%|[Calcmm]|inch=%TempIn%|[ChooseMM%Metric%] of sleet falls in <b>{Dice~1d4}</b> hour(s).</li><br>
+1,A sleet downpour starts at [~Time].<br>
+_<li>About |inch={Dice~2d3}|[Calcmm][ChooseMM%Metric%] of sleet falls in <b>{Dice~1d4}</b> hour(s).</li><br>
+
+:SpecialStorm
+1,{If~%TL%>=36? [HighStorms]}
+_{If~%TH%<=36? [LowStorms]}
+
+;HighStorms
+5,A hailstorm starts at [~Time].<br>
+_<li>[~stonesize] size hailstones falls in <b>{Dice~1d6+4}</b> minutes.</li>
+_|W={Dice~1d10+15}|<br>
+10,A heavy fog starts at [~Time].<br>
+_<li>The fog last for <b>{Dice~1d6}</b> hour(s).</li>
+_|W={Dice~1d8}|<br>
+15,A light fog occurs.</b><br>
+_<li>The fog last for <b>{Dice~1d4}</b> hour(s).</li>
+_|W={Dice~1d4}|<br>
+10,A heavy mist starts at [~Time].<br>
+_<li>The fog last for <b>{Dice~1d6}</b> hour(s).</li>
+_|W={Dice~1d8}|<br>
+15,A light mist starts at [~Time].<br>
+_<li>The fog last for <b>{Dice~1d4}</b> hour(s).</li>
+_|W={Dice~1d4}|<br>
+10,A severe rainstorm starts at [~Time].<br>
+_<li>|inch={Dice~3d2+2}|[Calcmm][ChooseMM%Metric%] of rain falls in <b>{Dice~1d6}</b> hour(s).</li>
+_|W={Dice~5d6+10}|<br>
+5,A thunderstorm starts at [~Time].<br>
+_<li>|Temp={Dice~1d3}||Temp2={Dice~3d2}||inch={Calc~(%Temp% / %Temp2%)}||TempIn=%Temp% / %Temp2%|[Calcmm]|inch=%TempIn%|[ChooseMM%Metric%] of rain falls in <b>{Dice~6d4+5}</b> minutes.</li>
+_|W={Dice~5d6+10}|<br>
+5,A Gale starts at [~Time].<br>
+_<li>There is a danger of blowing Sand, Dust, or Snow </li>
+_|W={Dice~5d6+40}|<br>
+1,{If~%L%=2? [Hurricane]/[Tornado]}
+
+;LowStorms
+10,A blizzard starts at [~Time].<br>
+_<li>|inch={Dice~2d6+6}|[Calcmm][ChooseMM%Metric%] of snow falls in <b>{Dice~2d4+1}</b> hours.</li>
+_|W={Dice~5d6+15}|<br>
+15,A severe snowstorm starts at [~Time].<br>
+_<li>|inch={Dice~3d4+2}|[Calcmm][ChooseMM%Metric%] of snow falls in <b>{Dice~1d6}</b> hour(s).</li>
+_|W={Dice~3d10}|<br>
+1,A ice storm starts at [~Time].<br>
+_<li>|inch={Dice~1d2}|[Calcmm][ChooseMM%Metric%] of ice falls in <b>{Dice~1d6}</b> hour(s).</li>
+_|W={Dice~3d10}|<br>
+5,A Gale starts at [~Time].<br>
+_<li>There is a danger of blowing Sand, Dust, or Snow </li>
+_|W={Dice~5d6+40}|<br>
+
+:stonesize
+1,[stonesize2][ChooseMM%Metric%]
+
+;stonesize2
+5,|inch=1/4||mm=7|
+5,|inch=1/2||mm=13|
+5,|inch=3/4||mm=13|
+3,|inch=1||mm=25|
+3,|inch=1 1/4||mm=32|
+3,|inch=1 1/2||mm=38|
+2,|inch=1 3/4||mm=44|
+2,|inch=2||mm=50|
+2,|inch=2 1/2||mm=63|
+1,|inch=3||mm=75|
+1,|inch=3 1/2||mm=88|
+
+:Hurricane
+1,A Hurricane starts at [~Time].<br>
+_<li>|inch={Dice~2d4+8}|[Calcmm][ChooseMM%Metric%] of rain falls in <b>{Dice~1d4+5}</b> hours.</li>
+_|W={Dice~20d6+60}|<br>
+
+:Tornado
+1,A Tornado starts at [~Time].<br>
+_<li>|inch={Dice~1d4}|[Calcmm][ChooseMM%Metric%] of rain falls in <b>{Dice~1d3}</b> hour(s).</li>
+_<li>The speed of the funnel is |Temp2=%W%||W={Dice~1d10+35}|<b>[Calculatekph][ChooseSpeed%Metric%]|W=%Temp2%|</b>.</li>
+_<li>The path of the twister is primarly from the 
+_{If~%C%=1? [~ArticWind]}
+_{If~%C%=2? [~SArticWind]}
+_{If~%C%=3? [~TempWind]}
+_{If~%C%=4? [~TempWind]}
+_{If~%C%=5? [~TropWind]}
+_</li><br>
+
+# ------------------------------------------------------------------------
+# Wind directions based on climate zone
+
+;ArticWind
+5,north
+5,south
+1,west
+20,east
+10,northeast
+2,northwest
+10,southeast
+2,southwest
+8,north northeast
+3,north northwest
+8,south southeast
+3,south southwest
+15,east northeast
+1,west northwest
+15,east southeast
+1,west southwest
+
+;SArticWind
+5,north
+5,south
+1,west
+5,east
+15,northeast
+3,northwest
+15,southeast
+3,southwest
+10,north northeast
+4,north northwest
+10,south southeast
+4,south southwest
+10,east northeast
+2,west northwest
+10,east southeast
+2,west southwest
+
+;TempWind
+10,north
+10,south
+10,west
+1,east
+3,northeast
+10,northwest
+3,southeast
+10,southwest
+6,north northeast
+10,north northwest
+6,south southeast
+10,south southwest
+2,east northeast
+10,west northwest
+2,east southeast
+10,west southwest
+
+;TropWind
+8,north
+8,south
+1,west
+20,east
+15,northeast
+4,northwest
+15,southeast
+4,southwest
+10,north northeast
+6,north northwest
+10,south southeast
+6,south southwest
+18,east northeast
+2,west northwest
+18,east southeast
+2,west southwest
+
+# -------------------------------------------------------------------------
+# Selecting Climate, Location, and Month 
+
+:Climate
+1,artic |TH-40||TL-50||W+{Dice~5d6-10}|
+2,sub-artic |TH-20||TL-25|
+3,temperate |W+{Dice~5d10-5}| 
+4,sub-tropical |TH+20||TL+15||W+{Dice~5d10-5}|
+5,tropical |TH+30||TL+25||W+{Dice~5d6-10}|
+
+:ClimateSetTemp
+1,|TH-40||TL-50||W+{Dice~5d6-10}|
+2,|TH-20||TL-25|
+3,|W+{Dice~5d10-5}| 
+4,|TH+20||TL+15||W+{Dice~5d10-5}|
+5,|TH+30||TL+25||W+{Dice~5d6-10}|
+
+:Location
+1,sea|TH+0||TL+0||W+10|
+2,coast|TH+0||TL+0||W+5|
+3,desert|TH+0||TL+0||W+5|
+4,forest|TH-5||TL-5||W-5|
+5,plains|TH+0||TL+0||W+5|
+6,hills|TH+0||TL+0||W+0|
+7,jungle|TH+5||TL+5||W-10|
+8,mountains|TH-3||TL-3||W+5|
+9,swamp|TH+5||TL+5||W-5|
+10,river|TH+0||TL+0||W+5|
+11,rural|TH+0||TL+0||W+0|
+12,underworld|TH+0||TL+0||W+0|
+13,wasteland|TH+0||TL+0||W+0|
+
+:LocationSetTemp
+1,|TH+0||TL+0||W+10|
+2,|TH+0||TL+0||W+5|
+3,|TH+0||TL+0||W+5|
+4,|TH-5||TL-5||W-5|
+5,|TH+0||TL+0||W+5|
+6,|TH+0||TL+0||W+0|
+7,|TH+5||TL+5||W-10|
+8,|TH-3||TL-3||W+5|
+9,|TH+5||TL+5||W-5|
+10,|TH+0||TL+0||W+5|
+11,|TH+0||TL+0||W+0|
+12,|TH+0||TL+0||W+0|
+13,|TH+0||TL+0||W+0|
+
+:Number
+1,first
+2,second
+3,third
+4,fourth
+5,fifth
+6,sixth
+7,seventh
+8,eigth
+9,ninth
+10,tenth
+11,eleventh
+12,twelfth
+
+:Month
+1,Nuwmont (Wi)
+2,Vatermont (Wi)
+3,Thaumont (Sp)
+4,Flaurmont (Sp)
+5,Yarthmont (Sp)
+6,Klarmont (Su)
+7,Felmont (Su)
+8,Firmont (Su)
+9,Ambyrmont (Au)
+10,Sviftmont (Au)
+11,Eirmont (Au)
+12,Caldmont (Wi)
+
+:MonthGreyhawk
+1,Hammer (Wi)
+2,Alturiak (Wi)
+3,Ches (Sp)
+4,Tarsakh (Sp)
+5,Mirtul (Sp)
+6,Kythorn (Su)
+7,Flamerule (Su)
+8,Eleasias (Su)
+9,Eleint (Au)
+10,Marpenoth (Au)
+11,Uktar (Au)
+12,Nightal (Wi)
+
+# ---------------------------------------------------------------------------
+# The following tables must exist for each month.
+
+:Month1
+1,|TH+{Dice~1d10+32}||TL+{Dice~1d20+11}|[Sky1]
+
+:Sky1
+1-23,<li>clear sky</li><br>
+24-50,<li>partly cloudy sky</li><br>[Precip1]
+51-100,<li>cloudy sky</li><br>[Precip1]
+
+:Precip1
+1-46,[PrcpType]
+47-97,
+98-100,[SpecialStorm]
+
+:Month2
+1,|TH+{Dice~1d6+40}||TL+{Dice~1d10+21}|[Sky2]
+
+:Sky2
+1-25,<li>clear sky</li><br>
+26-50,<li>partly cloudy sky</li><br>[Precip2]
+51-100,<li>cloudy sky</li><br>[Precip2]
+
+:Precip2
+1-40,[PrcpType]
+41-97,
+98-100,[SpecialStorm]
+
+;Month3
+1,|TH+{Dice~1d8+46}||TL+{Dice~1d10+27}|[Sky3]
+
+:Sky3
+1-27,<li>clear sky</li><br>
+28-54,<li>partly cloudy sky</li><br>[Precip3]
+55-100,<li>cloudy sky</li><br>[Precip3]
+
+:Precip3
+1-44,[PrcpType]
+45-97,
+98-100,[SpecialStorm]
+
+;Month4
+1,|TH+{Dice~1d10+58}||TL+{Dice~1d8+39}|[Sky4]
+
+:Sky4
+1-20,<li>clear sky</li><br>
+21-55,<li>partly cloudy sky</li><br>[Precip4]
+56-100,<li>cloudy sky</li><br>[Precip4]
+
+:Precip4
+1-42,[PrcpType]
+43-97,
+98-100,[SpecialStorm]
+
+;Month5
+1,|TH+{Dice~1d10+69}||TL+{Dice~1d10+46}|[Sky5]
+
+:Sky5
+1-20,<li>clear sky</li><br>
+21-53,<li>partly cloudy sky</li><br>[Precip5]
+54-100,<li>cloudy sky</li><br>[Precip5]
+
+:Precip5
+1-42,[PrcpType]
+43-97,
+98-100,[SpecialStorm]
+
+:Month6
+1,|TH+{Dice~1d8+79}||TL+{Dice~1d6+58}|[Sky6]
+
+:Sky6
+1-20,<li>clear sky</li><br>
+21-60,<li>partly cloudy sky</li><br>[Precip6]
+61-100,<li>cloudy sky</li><br>[Precip6]
+
+:Precip6
+1-36,[PrcpType]
+37-97,
+98-100,[SpecialStorm]
+
+:Month7
+1,|TH+{Dice~1d6+81}||TL+{Dice~1d6+64}|[Sky7]
+
+:Sky7
+1-22,<li>clear sky</li><br>
+23-62,<li>partly cloudy sky</li><br>[Precip7]
+63-100,<li>cloudy sky</li><br>[Precip7]
+
+:Precip7
+1-33,[PrcpType]
+34-97,
+98-100,[SpecialStorm]
+
+:Month8
+1,|TH+{Dice~1d4+81}||TL+{Dice~1d6+62}|[Sky8]
+
+:Sky8
+1-25,<li>clear sky</li><br>
+26-60,<li>partly cloudy sky</li><br>[Precip8]
+61-100,<li>cloudy sky</li><br>[Precip8]
+
+:Precip8
+1-33,[PrcpType]
+34-97,
+98-100,[SpecialStorm]
+
+:Month9
+1,|TH+{Dice~1d8+74}||TL+{Dice~1d8+53}|[Sky9]
+
+:Sky9
+1-33,<li>clear sky</li><br>
+34-53,<li>partly cloudy sky</li><br>[Precip9]
+54-100,<li>cloudy sky</li><br>[Precip9]
+
+:Precip9
+1-33,[PrcpType]
+34-97,
+98-100,[SpecialStorm]
+
+:Month10
+1,|TH+{Dice~1d10+62}||TL+{Dice~1d10+41}|[Sky10]
+
+:Sky10
+1-35,<li>clear sky</li><br>
+36-60,<li>partly cloudy sky</li><br>[Precip10]
+61-100,<li>cloudy sky</li><br>[Precip10]
+
+:Precip10
+1-36,[PrcpType]
+37-97,
+98-100,[SpecialStorm]
+
+:Month11
+1,|TH+{Dice~1d10+52}||TL+{Dice~1d10+31}|[Sky11]
+
+:Sky11
+1-20,<li>clear sky</li><br>
+21-50,<li>partly cloudy sky</li><br>[Precip11]
+51-100,<li>cloudy sky</li><br>[Precip11]
+
+:Precip11
+1-40,[PrcpType]
+41-97,
+98-100,[SpecialStorm]
+
+:Month12
+1,|TH+{Dice~1d8+38}||TL+{Dice~1d20+12}|[Sky12]
+
+:Sky12
+1-25,<li>clear sky</li><br>
+26-50,<li>partly cloudy sky</li><br>[Precip12]
+51-100,<li>cloudy sky</li><br>[Precip12]
+
+:Precip12
+1-43,[PrcpType]
+44-97,
+98-100,[SpecialStorm]

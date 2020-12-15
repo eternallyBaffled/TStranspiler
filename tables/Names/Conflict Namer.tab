@@ -1,0 +1,218 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder August 8, 2006.
+# ---------------------------------------------------
+#
+# Conflict Names Generator
+# by Larry Cormier
+#
+# For all those heroes out there, and for those who need names for a Major
+# War or Minor Conflict in their campaign that may have had a traumatic or
+# otherwise marked effect on their character or family’s life… my Grandfather
+# died in this particular war… I lost my leg to that particular altercation,
+# etc., this table could provide the missing pieces, or possibly even spark
+# the creative juices to build an adventure around them! Have fun! 
+#
+# -------------------------------------------------------------------------
+# This Table Links to these tables as required:
+#    Countries.Land
+#    Creatures.tab
+#    Group Designer.tab
+#    Miscellaneous.tab
+#    Names Generator.tab
+#    Notable Event Names.tab
+#    Places.tab
+#    Religion.tab
+#    Town Names.tab
+#
+# -------------------------------------------------------------------------
+# This table is called by:
+#    NPC Stat Block Pathfinder
+#
+# -------------------------------------------------------------------------
+#
+# Modified by Valminder, Feb 2006.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+#    I added a choice between the Core Gods or "Religion.tab"
+#    I replaced "Random Deity.DeityNames" to "Religion.Deities"
+#    Added link to:
+#       Creatures.Humanoid
+#       Group Designer.Generate(5)
+#       Miscellaneous.ClassName
+#       Miscellaneous.ClassSpecialist
+#       Miscellaneous.Titles
+#       Places.Alternate
+#    A link to this table was added in "Book Titles.tab".
+# Modified by Valminder, August  2006.
+#    Added link to: Notable Event Names.tab
+#
+
+# Define Variables
+%Chance%,0
+%DeityUsed%,0
+
+@DeityUsed,2,Choose which pantheon of gods to use.,Core Rule Book I,Religion.tab
+
+:Start
+1,{Status~By Larry Cormier, Valminder 2006}[Generate].
+
+;Generate
+2,The [~Occupations]'s
+_[Chanceof]{If~%Chance%>75? [~MajorConflict]/ [~MinorConflict]}
+_[Chanceof]{If~%Chance%>60? 
+_[Chanceof]{If~%Chance%>50? of/ at} [~ChoosePlace]}
+1,The |Chance={Dice~1d10}|%Chance%-[~TimeIdentifierPlur] [~MajorConflict]
+_[Chanceof]{If~%Chance%>90? 
+_[Chanceof]{If~%Chance%>50? of/ at} [~ChoosePlace]}
+1,[~ChooseDeities=%DeityUsed%]'s [Chanceof]{If~%Chance%>75? Holy}
+_[Chanceof]{If~%Chance%<75? [~MajorConflict]/ [~MinorConflict]}
+_[Chanceof]{If~%Chance%>95? 
+_[Chanceof]{If~%Chance%>50? of/ at} [~ChoosePlace]}
+1,The [~RaceBranch] [Chanceof]{If~%Chance%<75? [~MajorConflict]/ [~MinorConflict]}
+_[Chanceof]{If~%Chance%>75? 
+_[Chanceof]{If~%Chance%>50? of/ at} [~ChoosePlace]}
+1,The [Chanceof]{If~%Chance%<75? [~MajorConflict]/ [~MinorConflict]}
+_[Chanceof]{If~%Chance%>50? of/ at} [~ChoosePlace]
+1,The [Chanceof]{If~%Chance%>75? [~MajorConflict]/ [~MinorConflict]} of the {Dice~1d10*100} [~CommonAdversaries]
+_[Chanceof]{If~%Chance%>90? 
+_[Chanceof]{If~%Chance%>50? of/ at} [~ChoosePlace]}
+1,[~Names Generator.NAME For All]'s [Chanceof]{If~%Chance%>75? [~MajorConflict]/ [~MinorConflict]} 
+_[Chanceof]{If~%Chance%>90? 
+_[Chanceof]{If~%Chance%>50? of/ at} [~ChoosePlace]}
+
+:Chanceof
+1,|Chance={Dice~1d100}|
+
+:ChooseDeities
+1,[Religion.CoreGods]
+2,[Religion.Deities(2)]
+
+:ChoosePlace
+3,[Countries.Land]
+1,[Places.Alternate]
+1,[Town Names.Generate]
+1,[Notable Event Names.Generate]
+
+:Occupations
+5,{CapEachWord~[Miscellaneous.Occupations]}
+2,{Cap~[Miscellaneous.ClassName]}
+1,{Cap~[Miscellaneous.ClassSpecialist]}
+2,[Miscellaneous.Titles]
+1,[Group Designer.Generate(5)]
+
+;CommonAdversaries
+1,Bugbears
+1,[DwarfBranch]
+1,[ElfBranch]
+1,[GiantBranch]
+1,Githyanki
+1,Githzerai
+1,Gnolls
+1,[Chanceof]{If~%Chance%>75?Svirfneblin} Gnomes
+1,Goblins
+1,[HalflingBranch]
+1,Hobgoblins
+1,Kobolds
+1,Lizardfolk
+1,Locathah
+1,Merfolk
+1,Orcs
+1,Troglodytes
+10,{CapEachWord~{Plural~[Creatures.Humanoid]}}
+
+;DwarfBranch
+1,Deep Dwarves
+1,Derro Dwarves
+1,Duergar Dwarves
+1,Hill Dwarves
+1,Mountain Dwarves
+
+;ElfBranch
+1,Aquatic Elves
+1,Drow Elves
+1,Grey Elves
+1,Wild Elves
+1,Wood Elves
+
+;GiantBranch
+1,Cloud Giants
+1,Fire Giants
+1,Frost Giants
+1,Hill Giants
+1,Stone Giants
+1,Storm Giants
+
+;HalflingBranch
+1,Deep Halflings
+1,Hairfoot Halflings
+1,Tallfellow Halflings
+
+;MajorConflict
+1,Battle
+1,Campaign
+1,Crusade
+1,Insurrection
+1,Rebellion
+1,Revolt
+1,Revolution
+1,Struggle
+1,Uprising
+1,War
+
+;MinorConflict
+1,Altercation
+1,Brawl
+1,Challenge
+1,Clash
+1,Conflict
+1,Confrontation
+1,Controversy 
+1,Debacle
+1,Demonstration 
+1,Disagreement
+1,Discord
+1,Dispute
+1,Dissension
+1,Disturbance
+1,Encounter
+1,Fight
+1,Fracas 
+1,Fray 
+1,Insurgence
+1,Meeting
+1,Mêlée 
+1,Mutiny
+1,Riot 
+1,Row
+1,Scuffle
+1,Skirmish
+1,Unrest
+1,Variance
+
+:TimeIdentifierPlur
+1,{If~%Chance%>1?{Plural~[TimeIdentifier]}/[TimeIdentifier]}
+
+;TimeIdentifier
+5,Day
+5,Month
+1,Year
+1,Week
+1,Hour
+1,Generation
+1,Decade
+1,Millenia
+1,Age
+1,Era
+
+;RaceBranch
+3,Human
+3,Dwarven
+3,Elven
+2,Gnomish
+1,Half-Elven
+1,Half-Orcish
+3,Halfling
+2,Humanoid
+2,Orcish
+1,Ogrish
+10,{CapEachWord~[Creatures.Humanoid]}'s

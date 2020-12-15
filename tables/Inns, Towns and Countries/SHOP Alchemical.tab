@@ -1,0 +1,307 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder Jan 25, 2012.
+# ---------------------------------------------------
+#
+# Alchemical Shop Generator version 1
+# By Ashon (tfcoug@hotmail.com)
+#
+# This Table generates a random Alchemical shop, and builds it's inventory
+# for you.  If You are playing High Magical Games you should modify the
+# precentage of the magical potions and whatnot available at the shop.
+#
+# The Price Fluctuates Dramatically also so you can change the die roll on
+# the mod price down below.
+#
+# Any Additions to the list can (as always be emailed to me)
+#
+# Modified by Valminder, Oct 2003.
+#  -Added links to:
+#     Inn Desc.Alternate
+#     Miscellaneous.Odor (Removed subtable "Smells Descriptor")
+#     NPC Appearance.NPC
+#  -Added paramaters to choose what to generate:
+#     Town Size : To set gp limit and other stuff.
+#     Owner: If you want always "NO", at "@GenOwner,1" change 1 to 2.
+#     Description of Poisons: as "owner" above.
+#
+# Modified by Valminder, Jan 2006.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+# Modified by Valminder, Jan 2006.
+#    Added description for Alchemical Items
+# Modified by Valminder, Jan 2012.
+#    Added a lot of alchemical items in Equipment.tab
+#    Added the description of each alchemical item in Equipemnt.tab
+#    Added a parameter to remove the description of the shop in the output.
+#
+# ******** An error sometimes occur linked to Equipment.tab
+# ******** when a poison is called, but I cannot find the
+# ******** error .... yet !!!!  ;-(
+#
+
+/OverrideRolls 1
+
+# variable Definitions
+%potion name%,0
+%poison name%,0
+%potions%,0
+%price%,0
+%description%,0
+%descALCH%,0
+%stocklevel%,1
+%clean%,0
+%mod price%, 0
+%item%,0
+%quantity%,0
+%poisons%,0
+%price2%,0
+%price3%,0
+%die%,0
+
+%Availability%,0
+%Book%,1
+%Cost%,0
+%CRVal%,0
+%Damage%,0
+%EQTable%,0
+%GenOwner%,1
+%Item%,0
+%ItemsOnly%,0
+%MagEffect%,0
+%MaxValue%,0
+%piece%,gp
+%showdesc%,1
+%showdescal%,1
+%Temp%,0
+%TownSize%,1
+%TownName%,0
+%Type%,0
+
+%A%,0
+%Assistant1%,0
+%Assistant2%,0
+%Assistant3%,0
+%Staff%,0
+
+@TownSize,9,Set the size of the town (Population),Thorp (20+),Hamlet (81+),Village (401+),Small Town (901+),Large Town (2001+),Small City (5001+),Large City (12001+),Metropolis (25001+),Random
+@ItemsOnly,1,Do you want generate the description of the shop?,Yes,No
+@GenOwner,1,Do you want to generate the owner?,Yes,No
+@showdescal,1,Do you want to show the description of alchemical items?,Yes,No
+@showdesc,1,Do you want to show the description of the poisons?,Yes,No
+
+;Start
+1,[Generate=%ItemsOnly%]
+
+:Generate
+1,[Describe Shop]<br>[Generate Items][Gen2]
+2,|stocklevel=1|[SetTownSize=%TownSize%][Generate Items][Gen2]
+
+:Gen2
+1,{If~%ItemsOnly%=1? {If~%GenOwner%=1? [NPC Appearance.Bartender]}}
+_{Status~Alchemical shop is complete. Made by Ashon, Valminder 2006}
+
+;Describe Shop
+1,<b><u>Shop Name</b></u>: [~Shop Names.Alchemists].<br><br>
+_|stocklevel=1|[SetTownSize=%TownSize%]
+_<b><u>Town Size</u>:</b> %TownName%.<br><br>
+_[Shop & Owner Description.Owner]
+_[Shop & Owner Description.Shop]<br>
+_[AS_Entrance]
+
+# --------------------------------------------------------------------------
+
+:StaffCalc
+1,|Assistant1=apprentice||Assistant2={If~{Dice~1d10}<4? sorcerer/wizard}||Assistant3=[GenAssistant3]|
+_|Temp={Dice~1d11}||Temp+%Staff%|
+_{If~%Temp%<1? |Temp=1|}{If~%Temp%>11? |Temp=11|}
+
+;GenAssistant3
+70,cleric of [~Religion.Deities2]
+21,adept of [~Religion.Deities2]
+9,druid
+
+# Note: if you add stuff in Staff subtable, modify the StaffCalc subtable.
+;Staff
+1,The owner is alone
+2,The owner is assisted by 1 [~Creatures.Humanoid2] %Assistant1% named [~Names Generator.NAME Random]
+5,The owner is assisted by |A={Dice~1d4}|<b>%A%</b> [~Creatures.Humanoid2] {Plural~%Assistant1%}.<br><u>{Cap~{Plural~%Assistant1%}}</u>: {Loop~%A%, [Assistant]}
+2,The owner is assisted by {AorAn~%Assistant2%} ([Name]) and |A={Dice~1d5+1}|<b>%A%</b> {Plural~%Assistant1%}.<br><u>{Cap~{Plural~%Assistant1%}}</u>: {Loop~%A%, [Assistant] }
+1,The owner is assisted by {AorAn~%Assistant2%} ([Name]), {AorAn~%Assistant3%} ([Name]) and |A={Dice~2d5}|<b>%A%</b> {Plural~%Assistant1%}.<br><u>{Cap~{Plural~%Assistant1%}}</u>: {Loop~%A%, [Assistant] }
+
+:Assistant
+1,[Names Generator.NAME Random],
+
+:Name
+1,[~Names Generator.NAME Random], [~Shop & Owner Description.Gender] [~Creatures.Humanoid2]
+
+# -------------------------------------------------------------------------
+# Shop Description
+
+;AS_Entrance
+1,<b><u>Description</u>:</b> [Door Open Event]
+_The shop is [Cleanliness].<br>
+_[AS_Shelves]<br><br>
+_<b><u>Staff</u>:</b> [StaffCalc][Staff=%Temp%].<br><br>
+_<b><u>Customer(s)</u>:</b> [Shop & Owner Description.Customers]<br>
+
+;Door Open Event
+1,As the door opens, <b>{AorAn~[Miscellaneous.Odor]}</b> wafts out of the building.<br>
+1,As the door opens, <b>[AnimalGen]</b> peers at you.<br>
+2,
+
+;AnimalGen
+3,{AorAn~[Creatures.Familiar]}
+1,{AorAn~[Creatures.Bird of Prey]}
+
+;Cleanliness
+1,dusty|clean=0|
+1,spotless|clean=1|
+1,disarrayed|clean=0|
+1,disorganized|clean=0|
+1,organized|clean=1|
+1,impeccable|clean=1|
+1,sterlized|clean=1|
+1,neat|clean=1|
+1,dishelved|clean=0|
+1,squalid|clean=0|
+
+;AS_Shelves
+1,The shelves are made out of [~Miscellaneous.Wood], and
+_ {If~%clean%=1 ? are clean. / are covered in thick dust.}<br>
+_ They [GenShopQuantity]
+
+;GenShopQuantity
+1,are almost bare of product.|stocklevel*0.25|
+3,contain very few products.|stocklevel*0.5|
+15,contain a decent amount of product.|stocklevel*1|
+3,contain a lot of product.|stocklevel*1.5|
+1,are overflowing with product.|stocklevel*2|
+
+:SetTownSize
+1,|TownName=Thorp||MaxValue=40||stocklevel*0.5||Availability=50||Staff-8|
+2,|TownName=Hamlet||MaxValue=100||stocklevel*0.75||Availability=60||Staff-4|
+3,|TownName=Village||MaxValue=200||stocklevel*1||Availability=75||Staff-2|
+4,|TownName=Small Town||MaxValue=800||stocklevel*1.333||Availability=90||Staff-1|
+5,|TownName=Large Town||MaxValue=3000||stocklevel*1.666||Availability=100||Staff+0|
+6,|TownName=Small City||MaxValue=15000||stocklevel*2||Availability=125||Staff+1|
+7,|TownName=Large City||MaxValue=40000||stocklevel*2.5||Availability=150||Staff+2|
+8,|TownName=Metropolis||MaxValue=100000||stocklevel*3||Availability=200||Staff+3|
+9,[SetTownSize={Dice~1d8}]
+
+# ------------------------------------------------------------------------
+# Items Generator
+
+;Generate Items
+1,[GenNumberItems]
+_<hr><b>Alchemical Items (%item%)</b><br><hr><table><tr height=1><td></td><td></td><td></td></tr>[GenItemLoop]</table>
+_<hr><b>Poisons (%poisons%)</b><br><hr><table><tr height=1><td></td><td></td><td></td></tr>[GenPoisonLoop]</table>
+_<hr><b>Potions (%potions%)</b><br><hr><table><tr height=1><td></td><td></td><td></td></tr>[GenPotionsLoop]</table>
+_<br><u>Note</u>: The price in parenthesis is the original price without modifications.
+
+;GenNumberItems
+1,|poisons=0||potions=0||item=0|
+_{If~{Dice~1d100} < %Availability% ? |potions={Dice~1d4+2}|}
+_|Availability/3|
+_{If~{Dice~1d100} < %Availability% ? |poisons={Dice~1d6}|}
+_|item={Calc~(%potions%+{Dice~1d3+1})}|
+_|poisons*%stocklevel%||poisons={Ceil~%poisons%}|
+_|potions*%stocklevel%||potions={Ceil~%potions%}|
+_|item*%stocklevel%||item={Ceil~%item%}|
+_{If~%TownSize%=1 ? |potions=0|}
+
+;GenItemLoop
+1,{Status~Generating item...}|item-1|{If~%item% >= 0 ? [Select Item]}{If~%item% >= 0 ? [GenItemLoop]}
+
+;GenPoisonLoop
+1,{Status~Generating Poisons...}|poisons-1|{If~%poisons% >= 0 ? [Select Poison]}{If~%poisons% >= 0 ?[GenPoisonLoop]}
+
+;GenPotionsLoop
+1,{Status~Generating Potions...}|potions-1|{If~%potions% >= 0 ? [Select Potion]}{If~%potions% >= 0 ?[GenPotionsLoop]}
+
+# ------------------------------------------------------------------------
+# Item caller, book checker, piece checker, price modifier
+
+# Alchemical Item
+:EQCall
+1,|Item=ERROR||Cost=0||Book=1||Temp=[Equipment.%EQTable%Checker]|
+_{Split~Temp,",",Item,Cost,Book,descALCH}{If~%Book%=0? [EQCall]}{If~%Cost%>%MaxValue%? [EQCall]}
+
+# Poison
+:EQCall2
+1,|Item=ERROR||Cost=0||Book=1||MagEffect=0|
+_|Temp=[Equipment.PoisonsCheckerCRVal]|
+_{Split~Temp,",",Item,CRVal,Cost,Book,Type,Damage,MagEffect}{If~%Book%=0 ? [EQCall2]}{If~%Cost%>%MaxValue% ? [EQCall2]}
+
+# Potion
+:EQCall3
+1,|Item=ERROR||Cost=0||Book=1||Temp=[Magical Items.%EQTable%Checker]|
+_{Split~Temp,",",Item,Cost,Book}{If~%Book%=0 ? [EQCall3]}{If~%Cost%>%MaxValue% ? [EQCall3]}
+
+:PieceChecker
+1,|piece=gp|{If~%Cost%<1 ? |Cost*10||piece=sp|{If~%Cost%<1 ? |Cost*10||piece=cp|{If~%Cost%=0 ? |piece=gp|}}}
+
+;Price Modifier
+1,|Temp=0.05||Temp*{Dice~1d10}||mod price={Calc~(1-%Temp%)}|
+2,|Temp=0.05||Temp*{Dice~1d4}||mod price={Calc~(1-%Temp%)}|
+5,|mod price=1|
+2,|Temp=0.05||Temp*{Dice~1d10}||mod price={Calc~(1+%Temp%)}|
+1,|Temp=0.05||Temp*{Dice~2d10}||mod price={Calc~(1+%Temp%)}|
+
+# ------------------------------------------------------------------------
+;Select Die
+1,{If~%Cost%>=125 ? |die=1|}
+_{If~%Cost%<125 ? |die=2|}
+_{If~%Cost%<100 ? |die=4|}
+_{If~%Cost%<75 ? |die=6|}
+_{If~%Cost%<50 ? |die=8|}
+
+;Select Die 2
+1,{If~%Cost%>=2000 ? |die=1|}
+_{If~%Cost%<1000 ? |die=2|}
+_{If~%Cost%<500 ? |die=3|}
+_{If~%Cost%<250 ? |die=4|}
+_{If~%Cost%<100 ? |die=5|}
+
+:Select Item
+1,|EQTable=Alchemical|[EQCall]
+_[Select Die]|price2=%Cost%|[Price Modifier]|Cost*%mod price%|
+_[PieceChecker]|Cost\1||quantity={Dice~2d%die%}|
+_|quantity*%stocklevel%||quantity={Ceil~%quantity%}|
+_<tr><td width=250> %Item%</td>
+_<td width=250><b>Price:</b> %Cost% %piece% {If~%price2%!=%Cost% ? [OriginalPrice]}</td>
+_<td width=250><b>Quantity:</b> %quantity%</td></tr>
+_{If~%showdescal%=1 ? {If~%descALCH%!=0? [Show Item Description]}}
+
+:Show Item Description
+1,</table><dd>{Color~Grey,<u>Effect</u>: %descALCH%}<table>
+
+:OriginalPrice
+1,|Cost=%price2%|[PieceChecker](%Cost% %piece%)
+
+;Select Poison
+1,|EQTable=Poisons|[EQCall2]
+_[Select Die 2]|price2=%Cost%|[Price Modifier]|Cost*%mod price%|
+_|Cost\1||quantity={Dice~1d%die%}|
+_|quantity*%stocklevel%||quantity={Ceil~%quantity%}|
+_<tr><td width=250> %Item% </td>
+_<td width=250><b>Price:</B> %Cost% gp {If~%price2%!=%Cost% ? (%price2% gp)}</td>
+_<td width=250><b>Quantity:</b> %quantity%</td></tr>
+_{If~%showdesc%=1 ? [Show Poison Description]}
+
+:Show Poison Description
+1,</table><dd><u>Type</u>: %Type%
+_<dd><u>Damage</u>: %Damage%
+_{If~%MagEffect%!=0? [PrintMag]}
+_<dd><u>CR</u>: %CRVal%<table>
+
+:PrintMag
+1,<dd><u>Magical Poison</u>: %MagEffect%
+
+;Select Potion
+1,|EQTable=Potions|[EQCall3]
+_[Select Die 2]|price2=%Cost%|[Price Modifier]|Cost*%mod price%|
+_|Cost\1||quantity={Dice~1d%die%}|
+_|quantity*%stocklevel%||quantity={Ceil~%quantity%}|
+_<tr><td width=250> %Item% </td>
+_<td width=250><b>Price:</b> %Cost% gp {If~%price2%!=%Cost% ? (%price2% gp)}</td>
+_<td width=250><b>Quantity:</b> %quantity%</td></tr>

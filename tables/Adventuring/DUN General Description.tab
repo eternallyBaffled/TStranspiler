@@ -1,0 +1,186 @@
+# ------------------------------------------------------
+# Last Update: re-verified by Valminder Jan 10, 2012.
+# ------------------------------------------------------
+#
+# table:	DUNGEON TERRAIN GENERATOR
+# by:		Kheferen
+# date:		12/4/04
+# version:	1.0
+#
+# DESCRIPTION:
+# This table generates type of walls, floor and doors that
+# are commonly found in a dungeon.
+#
+# Modified by Valminder, Dec 2005.
+#    Adapted to TSv5
+#
+# You can call this table from another one by using parameters
+#    [DUN Genral Description.Start(Type,DescriptionYN)
+#
+#    Type:          5  1=Ruined Structure  2=Occupied Structure
+#                      3=Safe Storage  4=Natural Cavern Complex  5=Random
+#    DescriptionYN: 1  1=Include description
+#                      2=No description
+#
+
+#OVERRIDES
+/OverrideRolls 1
+/OutputType HTML
+
+#Variables
+%DescriptionYN%,0
+%Type%,0
+%TypeDescription%,0
+%Walls%,0
+%WallDescription%,0
+%Floors%,0
+%FloorDescription%,0
+%Doors%,0
+%DoorDescription%,0
+%StuckDoors%,0
+%Traps%,0
+
+#Parameters
+@Type,5,Choose Type of Dungeon:,Ruined Structure,Occupied Structure,Safe Storage,Natural Cavern Complex,Random
+@DescriptionYN,1,Do you want to include descriptions?,Yes,No
+
+:Start
+1,{If~%Type% = 5 ? |Type={Dice~1d4}|}
+_[TypeOfDungeon=%Type%]
+_<b>Type of Dungeon:</b> %Type%<br>
+_<b>Walls:</b> %Walls%<br>
+_<b>Floors:</b> %Floors%<br>
+_<b>Doors:</b> %Doors%<br>
+_<b>Stuck Doors:</b> %StuckDoors% Percent<br>
+_<b>Traps:</b> %Traps% Percent<br>
+_{If~%DescriptionYN% = 1 ? [Description]}
+
+:Description
+1,
+_<hr>
+_<b>%Type%</b><br>%TypeDescription%<br>
+_<b>Walls: %Walls%</b><br>%WallDescription%<br>
+_<b>Floors: %Floors%</b><br>%FloorDescription%<br>
+_<b>Doors: %Doors%</b><br>%DoorDescription%<br>
+
+;TypeOfDungeon
+1,|Type=Ruined Structure|[Ruined Structure]|TypeDescription=[TypeDescription=1]|
+1,|Type=Occupied Structure|[Occupied Structure]|TypeDescription=[TypeDescription=2]|
+1,|Type=Safe Storage|[Safe Storage]|TypeDescription=[TypeDescription=3]|
+1,|Type=Natural Cavern Complex|[Natural Cavern Complex]|TypeDescription=[TypeDescription=4]|
+
+;Walls
+1,|Walls=Masonry||WallDescription=[WallDescription=1]|
+1,|Walls=Superior Masonry||WallDescription=[WallDescription=2]|
+1,|Walls=Hewn Stone||WallDescription=[WallDescription=3]|
+1,|Walls=Unworked Stone||WallDescription=[WallDescription=4]|
+
+;Doors
+1,|Doors=Wooden||DoorDescription=[DoorDescription=1]|
+1,|Doors=Iron||DoorDescription=[DoorDescription=2]|
+1,|Doors=Stone||DoorDescription=[DoorDescription=3]|
+1,|Doors=none||DoorDescription=These natural caves have no doors.|
+
+;WoodenDoors
+1,simple
+1,good
+1,strong
+
+;Floors
+1,|Floors=Flagstone||FloorDescription=[FloorDescription=1]|
+1,|Floors=Uneven Flagstone||FloorDescription=[FloorDescription=2]|
+1,|Floors=Hewn Stone||FloorDescription=[FloorDescription=3]|
+1,|Floors=Smooth Stone||FloorDescription=[FloorDescription=4]|
+1,|Floors=Natural Stone||FloorDescription=[FloorDescription=5]|
+
+;Ruined Structure
+10,[Walls=1][Floors=1][Doors=1]|StuckDoors=20||Traps=10|
+3,[Walls=1][Floors=1][Doors=2]|StuckDoors=10||Traps=10|
+20,[Walls=1][Floors=2][Doors=1]|StuckDoors=30||Traps=10|
+3,[Walls=1][Floors=2][Doors=2]|StuckDoors=25||Traps=10|
+5,[Walls=3][Floors=3][Doors=1]|StuckDoors=25||Traps=10|
+2,[Walls=3][Floors=3][Doors=2]|StuckDoors=15||Traps=10|
+2,[Walls=2][Floors=4][Doors=1]|StuckDoors=10||Traps=10|
+2,[Walls=2][Floors=4][Doors=2]|StuckDoors=5||Traps=10|
+1,[Walls=2][Floors=4][Doors=3]|StuckDoors=2||Traps=10|
+
+;Occupied Structure
+20,[Walls=1][Floors=1][Doors=1]|StuckDoors=5||Traps=30|
+10,[Walls=1][Floors=1][Doors=2]|StuckDoors=1||Traps=30|
+1,[Walls=1][Floors=2][Doors=1]|StuckDoors=10||Traps=30|
+1,[Walls=1][Floors=2][Doors=2]|StuckDoors=5||Traps=30|
+15,[Walls=3][Floors=3][Doors=1]|StuckDoors=5||Traps=30|
+10,[Walls=3][Floors=3][Doors=2]|StuckDoors=2||Traps=30|
+10,[Walls=2][Floors=4][Doors=1]|StuckDoors=1||Traps=30|
+5,[Walls=2][Floors=4][Doors=2]|StuckDoors=1||Traps=30|
+1,[Walls=2][Floors=4][Doors=3]|StuckDoors=1||Traps=30|
+
+;Safe Storage
+5,[Walls=1][Floors=1][Doors=1]|StuckDoors=10||Traps=30|
+5,[Walls=1][Floors=1][Doors=2]|StuckDoors=1||Traps=30|
+5,[Walls=1][Floors=2][Doors=1]|StuckDoors=15||Traps=30|
+5,[Walls=1][Floors=2][Doors=2]|StuckDoors=5||Traps=30|
+5,[Walls=3][Floors=3][Doors=1]|StuckDoors=10||Traps=30|
+5,[Walls=3][Floors=3][Doors=2]|StuckDoors=2||Traps=30|
+5,[Walls=2][Floors=4][Doors=1]|StuckDoors=5||Traps=30|
+10,[Walls=2][Floors=4][Doors=2]|StuckDoors=1||Traps=30|
+10,[Walls=2][Floors=4][Doors=3]|StuckDoors=1||Traps=30|
+
+;Natural Cavern Complex
+50,[Walls=3][Floors=3][Doors=4]|StuckDoors=0||Traps=5|
+35,[Walls=3][Floors=3][Doors=1]|StuckDoors=15||Traps=5|
+10,[Walls=3][Floors=3][Doors=2]|StuckDoors=5||Traps=5|
+5,[Walls=4][Floors=4][Doors=4]|StuckDoors=0||Traps=5|
+
+:TypeDescription
+#Ruined Structure
+1,Once occupied, this place is now abandoned (completely or in part) by its original creator or creators and other creatures have wandered in. Many subterranean creatures look for abandoned underground constructions in which to make their lairs. Any traps that might exist have probably been set off but wandering beasts might very well be common.
+
+#Occupied Structure
+2,This type of dungeon is still in use. Creatures (usually intelligent) live there although they may not be the dungeons creators. An occupied structure might be a home/a fortress/a temple/an active mine/a prison/or a headquarters. This type of dungeon is less likely to have traps or wandering beasts and more likely to have organized guards both on watch and on patrol. Traps or wandering beasts that might be encountered are usually under the control of the occupants. Occupied structures have furnishings to suit the inhabitants, as well as decorations - supplies - and the ability for occupants to move around (doors they can open - hallways large enough for them to pass through - and so on). The inhabitants might have a communication system - and they almost certainly control an access to the outside.<br>
+_Some dungeons are partially occupied and partially empty or in ruins. In such cases, the occupants are typically not the original builders but instead a group of intelligent creatures that have set up their base - lair or fortification within an abandoned dungeon.
+
+#Safe Storage
+3,When people want to protect something they might bury it underground. Whether the item they want to protect is a fabulous treasure - a forbidden artifact or the dead body of an important figure - these valuable objects are placed within a dungeon and surrounded by barriers - traps - and guardians.<br>
+_The safe storage type of dungeon is the most likely to have traps but the least likely to have wandering beasts. This type of dungeon normally is built for function rather than appearance - but sometimes it has ornamentation in the form of statuary or painted walls. This is particularly true of the tombs of important people.
+_Sometimes however - a vault or a crypt is constructed in such a way as to house living guardians. The problem with this strategy is that something must be done to keep the creatures alive between intrusion attempts. Magic is usually the best solution to provide food and water for these creatures. Even if theres no way anything living can survive in a safe storage dungeon - certain monsters can still serve as guardians. Builders of vaults or tombs often place undead creatures or constructs - both of which which have no need for sustenance or rest to guard their dungeons. Magic traps can attack intruders by summoning monsters into the dungeon. These guardians also need no sustenance since they appear only when they're needed and disappear when their task is done.
+
+#Natural Cavern Complex
+4,Underground caves provide homes for all sorts of subterranean monsters. Created naturally and connected by a labyrinthine tunnel system - these caverns lack any sort of pattern - order - or decoration. With no intelligent force behind its construction this type of dungeon is the least likely to have traps or even doors.<br>
+_Fungi of all sorts thrive in caves sometimes growing in huge forests of mushrooms and puffballs. Subterranean predators prowl these forests looking for those feeding upon the fungi. Some varieties of fungus give off a phosphorescent glow providing a natural cavern complex with its own limited light source. In other areas, a daylight spell or similar magical effect can provide enough light for green plants to grow.<br>
+_Often a natural cavern complex connects with another type of dungeons the caves having been discovered when the manufactured dungeon was delved. A cavern complex can connect two otherwise unrelated dungeons sometimes creating a strange mixed environment. A natural cavern complex joined with another dungeon often provides a route by which subterranean creatures find their way into a manufactured dungeon and populate it.
+
+:WallDescription
+#Masonry Walls
+1,The most common kind of dungeon wall - masonry walls are usually at least 1 foot thick. Often these ancient walls sport cracks and crevices and sometimes dangerous slimes or small monsters live in these areas and wait for prey. Masonry walls stop all but the loudest noises. It takes a DC 20 Climb check to travel along a masonry wall.
+#Superior Masonry Walls
+2,Sometimes masonry walls are better built (smoother with tighter-fitting stones and less cracking) and occasionally these superior walls are covered with plaster or stucco. Covered walls often bear paintings - carved reliefs or other decoration. Superior masonry walls are no more difficult to destroy than regular masonry walls but are more difficult to climb (DC 25).
+#Hewn Stone Walls
+3,Such walls usually result when a chamber or passage is tunneled out from solid rock. The rough surface of a hewn wall frequently provides minuscule ledges where fungus grows and fissures where vermin - bats and subterranean snakes live. When such a wall has an "other side" (it separates two chambers in the dungeon) the wall is usually at least 3 feet thick; anything thinner risks collapsing from the weight of all the stone overhead. It takes a DC 25 Climb check to climb a hewn stone wall.
+#Unworked Stone Walls
+4,These surfaces are uneven and rarely flat. They are smooth to the touch but filled with tiny holes hidden alcoves and ledges at various heights. They're also usually wet or at least damp since it's water that most frequently creates natural caves. When such a wall has an "other side" - the wall is usually at least 5 feet thick. It takes a DC 15 Climb check to move along an unworked stone wall.
+
+:FloorDescription
+#Flagstone
+1,Flagstone floors are made of fitted stones. They are usually cracked and only somewhat level. Slime and mold grows in these cracks. Sometimes water runs in rivulets between the stones or sits in stagnant puddles. Flagstone is the most common dungeon floor.
+#Uneven Flagstone
+2,Flagstone floors are made of fitted stones. They are usually cracked and only somewhat level. Slime and mold grows in these cracks. Sometimes water runs in rivulets between the stones or sits in stagnant puddles. Flagstone is the most common dungeon floor.<br>
+_Over time some floors can become so uneven that a DC 10 Balance check is required to run or charge across the surface. Failure means the character can't move in this round. Floors as treacherous as this should be the exception - not the rule.
+#Hewn Stone Floors
+3,Rough and uneven - hewn floors are usually covered with loose stones - gravel - dirt or other debris. A DC 10 Balance check is required to run or charge across such a floor. Failure means the character can still act but can't run or charge in this round.
+#Smooth Stone Floors
+4,Finished and sometimes even polished - smooth floors are found only in dungeons with capable and careful builders.
+#Natural Stone Floors
+5,The floor of a natural cave is as uneven as the walls. Caves rarely have flat surfaces of any great size. Rather their floors have many levels. Some adjacent floor surfaces might vary in elevation by only a foot - so that moving from one to the other is no more difficult than negotiating a stair step - but in other places the floor might suddenly drop off or rise up several feet or more requiring Climb checks to get from one surface to the other. Unless a path has been worn and well marked in the floor of a natural cave it takes 2 squares of movement to enter a square with a natural stone floor and the DC of Balance and Tumble checks increases by 5. Running and charging are impossible except along paths.
+
+:DoorDescription
+#Wooden Doors
+1,Constructed of thick planks nailed together - sometimes bound with iron for strength (and to reduce swelling from dungeon dampness) - wooden doors are the most common type. Wooden doors come in varying strengths: simple - good and strong doors.<br>
+_Simple doors (break DC 13) are not meant to keep out motivated attackers.<br>
+_Good doors (break DC 16), while sturdy and long-lasting, are still not meant to take much punishment.<br>
+_Strong doors (break DC 23) are bound in iron and are a sturdy barrier to those attempting to get past them.<br>
+_Iron hinges fasten the door to its frame, and typically a circular pull-ring in the center is there to help open it. Sometimes, instead of a pull-ring, a door has an iron pull-bar on one or both sides of the door to serve as a handle. In inhabited dungeons, these doors are usually well maintained (not stuck) and unlocked, although important areas are locked up if possible.
+#Iron
+2,Rusted but sturdy - iron doors in a dungeon are hinged like wooden doors. These doors are the toughest form of nonmagical door. They are usually locked or barred.
+#Stone
+3,Carved from solid blocks of stone these heavy and unwieldy doors are often built so that they pivot when opened - although dwarves and other skilled craftsfolk are able to fashion hinges strong enough to hold up a stone door. Secret doors concealed within a stone wall are usually stone doors. Otherwise, such doors stand as tough barriers protecting something important beyond. Thus they are often locked or barred.

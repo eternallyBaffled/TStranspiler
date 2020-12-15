@@ -1,0 +1,120 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder Oct 30, 2003.
+# ---------------------------------------------------
+#
+# SMS
+# 06/26/03
+# Forgotten Realms Table 59: Temperate Ocean (EL 5-13) random encounter tables
+#
+# Corrected by Valminder, Oct 2003
+#   -{If~} and {Dice~}
+#
+#Variables
+
+%Time%,0
+%Temp%,0
+
+#Parameters
+
+@Time,3,Select a time of day,Day,Night,_
+
+#
+#  Starts by putting up the instructions
+#
+
+:Start
+1,{If~%Time% = 3 ? [Instructions]/[Temperate Ocean %Time%]}
+
+;Instructions
+1,<b>Forgotten Realms Table 59: Temperate Ocean (EL 5-13)</b></br></br><h3>Instructions:</h3>
+_<b>Determine whether an encounter should occur before using this table. The chance of an encounter is based on terrain type and travel (chance per hour):</b><br>
+_<table border=1><tr><th>Terrain</th><th>Normal Travel</th><th>Cautious Travel</th><th>Hiding</th></tr>
+_<tr><td>Desolate/wasteland</td><td>5/%</td><td>2/%</td><td>1/%</td></tr>
+_<tr><td>Frontier/wilderness</td><td>8/%</td><td>4/%</td><td>2/%</td></tr>
+_<tr><td>Verdant/civilized area</td><td>10/%</td><td>5/%</td><td>2/%</td></tr>
+_<tr><td>Heavily traveled</td><td>12/%</td><td>6/%</td><td>3/%</td></tr>
+_</table>
+_<ol><li>Use the Parameter Box (below) to indicate whether it is day or night. Selecting "_" displays these instructions</li>
+_<li>This table applies to all Temperate Ocean areas so there is no region to set.</li></ul><br>
+
+# 1 corresponds to time="Day"
+:Temperate Ocean 1
+01-03,{Dice~1d10+10} Aquatic elf
+04-06,Baleen whale
+07-08,{Dice~1d6+5} Baleen whale
+09-11,Cachalot whale
+12-13,{Dice~1d6+5} Cachalot whale
+14-15,{Dice~1d2} Dire shark
+16-18,Dragon turtle
+19-22,Dragon: Bronze, adult
+23-24,{Dice~1d2} Kapoacinth (gargoyle)
+25-27,Kraken
+28,{Dice~1d6+6} Lacedon (ghoul)
+29-37,Merchant ship: a sailing ship carrying {Dice~4d4} 1st level commoners (sailors), {Dice~1d3+1} level {Dice~1d6} experts (the officers), and a group of merchants:<br>
+_[FR_Misc.Merchant_Race] Merchants: {Dice~2d4} 1st level commoners, {Dice~2d4} 1st level warriors, led by [FR_Misc.Merchant_Leader]
+38-42,{Dice~1d3+1} Merfolk
+43-44,Merfolk Patrol: {Dice~1d6+6} merfolk, {Dice~1d3+1} porpoises, lieutenants: {Loop~{Dice~1d3}, level {Dice~1d3+1} [FR_Misc.Merfolk_Class]}, led by a level {Dice~1d4+2} [FR_Misc.Merfolk_Class]
+45-48,<b>NPCs:</b><br>{Loop~{Dice~1d3+2},[FR_Random_NPC.FR_SM_NPC]}
+49-50,{Dice~1d6+5} Orca whale
+51-53,Orca whale
+54-56,Octopus, giant
+57-63,Pirate Ship ([FR_Misc.Pirate_Race]): a sailing ship carrying {Dice~10d10} 1st level commoners (sailors), {Dice~1d6+6} 1st level warriors, led by
+_{Loop~{Dice~1d4+2}, Level {Dice~1d6} [FR_Random_NPC.FR_Evil_Class]<br> }
+64-69,{Dice~2d10} Porpoise
+70,Purple worm
+71-72,{Dice~1d3+1} Scrag
+73,Sea hag (hag)
+74-76,Sea lion
+77-78,Shark, huge
+79-81,{Dice~1d4+1} Shark, large
+82-84,{Dice~1d6+5} Shark, medium
+85-86,{Dice~1d8+2} Shalarin (MoF)
+87,Shalarin Caste: {Dice~1d6+4} shalarin, {Loop~{Dice~1d2}, level {Dice~1d3} fighter,} and {Loop~{Dice~1d2}, level {Dice~1d4} adept}
+88-89,{Dice~1d6+5} Squid
+90,Squid, giant
+91,Storm giant
+92-93,{Dice~1d3+1} Tojanida, adult
+94,{Dice~1d3+1} Tojanida, elder
+95-98,Triton patrol: {Dice~1d10+1} tritons mounted on porpoises
+99-100,{Dice~1d2} Wereshark (MoF)
+
+# 2 corresponds to time="Night"
+:Temperate Ocean 2
+01-02,{Dice~1d10+10} Aquatic elf
+03-04,Baleen whale
+05,{Dice~1d6+5} Baleen whale
+06-07,Cachalot whale
+08,{Dice~1d6+5} Cachalot whale
+09-10,{Dice~1d2} Dire shark
+11-13,Dragon turtle
+14-18,Dragon: Bronze, adult
+19-25,{Dice~1d2} Kapoacinth (gargoyle)
+26-30,Kraken
+31-36,{Dice~1d6+6} Lacedon (ghoul)
+37-41,Merchant ship: a sailing ship carrying {Dice~4d4} 1st level commoners (sailors), {Dice~1d3+1} level {Dice~1d6} experts (the officers), and a group of merchants:<br>
+_[FR_Misc.Merchant_Race] Merchants: {Dice~2d4} 1st level commoners, {Dice~2d4} 1st level warriors, led by [FR_Misc.Merchant_Leader]
+42-45,{Dice~1d3+1} Merfolk
+46-47,Merfolk Patrol: {Dice~1d6+6} merfolk, {Dice~1d3+1} porpoises, lieutenants: {Loop~{Dice~1d3}, level {Dice~1d3+1} [FR_Misc.Merfolk_Class]}, led by a level {Dice~1d4+2} [FR_Misc.Merfolk_Class]
+48-51,<b>NPCs:</b><br>{Loop~{Dice~1d3+2},[FR_Random_NPC.FR_SM_NPC]}
+52,{Dice~1d6+5} Orca whale
+53-54,Orca whale
+55-57,Octopus, giant
+58-62,Pirate Ship ([FR_Misc.Pirate_Race]): a sailing ship carrying {Dice~10d10} 1st level commoners (sailors), {Dice~1d6+6} 1st level warriors, led by
+_{Loop~{Dice~1d4+2}, Level {Dice~1d6} [FR_Random_NPC.FR_Evil_Class]<br> }
+63-64,{Dice~2d10} Porpoise
+65-67,Purple worm
+68-72,{Dice~1d3+1} Scrag
+73-75,Sea hag (hag)
+76-77,Sea lion
+78-79,Shark, huge
+80-81,{Dice~1d4+1} Shark, large
+82-83,{Dice~1d6+5} Shark, medium
+84-85,{Dice~1d8+2} Shalarin (MoF)
+86,Shalarin Caste: {Dice~1d6+4} shalarin, {Loop~{Dice~1d2}, level {Dice~1d3} fighter,} and {Loop~{Dice~1d2}, level {Dice~1d4} adept}
+87-89,{Dice~1d6+5} Squid
+90-91,Squid, giant
+92,Storm giant
+93-94,{Dice~1d3+1} Tojanida, adult
+95,{Dice~1d3+1} Tojanida, elder
+96-99,Triton patrol: {Dice~1d10+1} tritons mounted on porpoises
+100,{Dice~1d2} Wereshark (MoF)

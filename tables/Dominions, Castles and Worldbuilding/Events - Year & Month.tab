@@ -1,0 +1,537 @@
+# ------------------------------------------------------
+# Last Update: re-verified by Valminder Jan 10, 2012.
+# ------------------------------------------------------
+# ---------------------------------------------------
+# Last Update: modified by Valminder Jan 10, 2006.
+# ---------------------------------------------------
+#
+# Events - Year & Month
+#
+# Taken from Gamemaster Law (ICE) or Oriental
+# Adventures (TSR) - both systems are pretty
+# much the same.
+#
+# By Bruce Gulke
+#
+# Modified by Valminder April 2002
+#    I added all the text and descriptions.
+#    I added some new events.
+#    I added some links to these other tables:
+#        Countries.Start
+#        Creatures.Humanoid
+#        Creatures.Humanoid2
+#        Miscellaneous.Class
+#        Miscellaneous.Direction
+#        Names Generator.NAME Random
+#        Religion.Deities
+# Modified by Valminder, Jan 2006.
+#    Adapted for TRSv5.
+#    I changed the "START" line.
+#    Added some slight modifications.
+# Modified by Valminder, Octobre 2016
+#    Modified link "Countries.Start" to "Countries.Countries"
+#
+
+/OverrideRolls 1
+
+%EventTable%,0
+%Roll%,0
+%Roll2%,0
+%Month%,1
+
+:Start
+1,{Status~By Valminder, 2002, 2006}
+_<b><u>Yearly Event</u>: </b>[YearlyEvent]
+_<b><u>Monthly Events</u></b><br>{Loop~12,[Monthly Events %EventTable%]}
+
+:!YearlyEvent
+1-4,Ambassador comes from another land ([~Date])<br><br>[Ambassador]<br><br>|EventTable=III|
+5-8,Ambassador is sent to another land ([~Date])<br><br>[Ambassador]<br><br>|EventTable=III|
+9-13,Assassination of a Lord ([~Date])<br><br>[Assassination]<br><br>|EventTable=I|
+14,Astrological Phenomena or Comet{Lockout~YearlyEvent,99-100} ([~Date])<br><br>[Comet]<br><br>
+15-29,Birth ([~Date])<br><br>[BirthYearly]<br><br>|EventTable=III|
+30-31,Cultural Discovery ([~Date])<br><br><u>This is discovered</u>: [Cultural Discovery]<br><br>|EventTable=III|
+32-39,Death of a Lord ([~Date])<br><br>[Death Of Lord]<br><br>|EventTable=III|
+40-42,Earthquake, Major (Disaster) ([~Date])<br><br>[Earthquake Major]<br><br>|EventTable=III|
+43-46,Famine (Disaster) ([~Date])<br><br>[Famine]<br><br>|EventTable=II|
+47-51,Fire, Major (Disaster) ([~Date])<br><br>[Fire Major]<br><br>|EventTable=II|
+52-55,Flood (Disaster) ([~Date])<br><br>[Flood Yearly]<br><br>|EventTable=II|
+56-57,Hurricane, Tornado, or Tsunami (Disaster) ([~Date])<br><br>[Hurricane]<br><br>|EventTable=II|
+58,Incursion, Major ([~Date])<br><br>[Incursion]<br><br>|EventTable=II|
+59-67,Marriage ([~Date])<br><br>[Marriage Yearly]<br><br>|EventTable=III|
+68,Meteor Strike (Disaster) ([~Date])<br><br>[Meteor Strike Major]<br><br>|EventTable=II|
+69,New Religion ([~Date])<br><br>[New Religion]<br><br>|EventTable=III|
+70-74,Plague (Disaster) ([~Date])<br><br>[Plague]<br><br>|EventTable=II|
+75-79,Political Plot ([~Date])<br><br>[Political Plot]<br><br>|EventTable=I|
+80,Pretender or Usurper ([~Date])<br><br>[Pretender or Usurper]<br><br>|EventTable=I|
+81-86,Rebellion ([~Date])<br><br>[Rebellion]<br><br>|EventTable=I|
+87,Visitation ([~Date])<br><br>[Visitation]<br><br>|EventTable=III|
+88,Volcano (Disaster) ([~Date])<br><br>[Volcano]<br><br>|EventTable=II|
+89-93,War, Ruler declares war to neighbor ([~Date])<br><br>[War]<br><br>|EventTable=I|
+94-98,War, Kingdom invaded by neighbor ([~Date])<br><br>[War]<br><br>|EventTable=I|
+99-100,<font color=purple>2 major yearly events.</font><br><br>{Loop~2,[YearlyEvent]<hr>}
+
+:Date
+1,[Calendar.Months and Days]
+
+:Monthly Events I
+1,{If~%Month%=13?|Month=1|/<br>%Month%- [Monthly Event I Roll] |Month+1|}
+
+:Monthly Event I Roll
+1-5,[Accident]<br>
+6-10,[Bandit Activity]<br>
+11-15,[Birth Monthly]<br>
+16-20,[Death]<br>
+21-25,[Excessive Taxes]<br>
+26-27,[Famous Person]<br>
+28,[Fire Minor]<br>
+29-30,[Haunting]<br>
+31-33,[Horrible Monster]<br>
+34-41,[Incursion Major]<br>
+42-51,[Incursion Minor]<br>
+52-54,[Injustice]<br>
+55-60,[Major Battle]<br>
+61,[Notorious Criminal]<br>
+62-66,[Recruiting]<br>
+67-71,[Troop Movements]<br>
+72-78,[Uprising]<br>
+79-80,[Vengeful Stranger]<br>
+81-82,[Traitor]<br>
+83-87,[Spies]<br>
+88-100,-<br>
+
+:Monthly Events II
+1,{If~%Month%=13?|Month=1|/<br>%Month%- [Monthly Event II Roll] |Month+1|}
+
+:Monthly Event II Roll
+1-5,[Accident]<br>
+6-15,[Bad Harvest]<br>
+16-22,[Bad Weather]<br>
+23-32,[Bandit Activity]<br>
+33-37,[Birth Monthly]<br>
+38-44,[Death]<br>
+45-49,[Earthquake Minor]<br>
+50-54,[Excessive Taxes]<br>
+55-60,[Fire Minor]<br>
+61-66,[Flooding]<br>
+67-69,[Haunting]<br>
+70-73,[Horrible Monster]<br>
+74-78,[Injustice]<br>
+79-82,[Landslide]<br>
+83,[Meteor Strike Minor]<br>
+84-87,[Maneater]<br>
+88-92,[Plague Monthly]<br>
+93,[Uprising]<br>
+94,[VIP Visit]<br>
+95-100,-<br>
+
+:Monthly Events III
+1,{If~%Month%=13?|Month=1|/<br>%Month%- [Monthly Event III Roll] |Month+1|}
+
+:Monthly Event III Roll
+1-5,[Accident]<br>
+6-7,[Bad Harvest]<br>
+8-10,[Bad Weather]<br>
+11-15,[Bandit Activity]<br>
+16-25,[Birth Monthly]<br>
+26-29,[Death]<br>
+30,[Market Glut]<br>
+31-33,[Famous Person]<br>
+34-35,[Population Change Gain]<br>
+36-40,[Fire Minor]<br>
+41-43,[Haunting]<br>
+44-50,[Injustice]<br>
+51-54,[Maiden of Virtue]<br>
+55,[Fanatic Cult]<br>
+56-60,[Maneater]<br>
+61,[Market Shortage]<br>
+62-66,[Marriage Monthly]<br>
+67-68,[Population Change Loss]<br>
+69,[Spies]<br>
+70-78,[Notorious Criminal]<br>
+79-80,[Vengeful Stranger]<br>
+81-82,[Trade Route Lost]<br>
+83,[Trade Route New]<br>
+84-87,[VIP Visit]<br>
+88-92,[Resident Specialist]<br>
+93,[Ressource Lost]<br>
+94,[Ressource Gain]<br>
+95-100,-<br>
+
+:Accident
+1,<b><u>Accident</u>:</b> Some type of terrible accident occurs in the area (DM's choice). A bridge across a raging river may collapse, lightning may strike a building, a horse-drawn cart may rampage through the streets, a levee may break, etc. It will be the topic of conversation for some time afterwards.<br><br>
+_<u>The accident will</u>: [Accident Effect]
+
+;Accident Effect
+35,cause only some inconvenience.
+35,cause some inconvenience and a loss of life.
+15,be a major accident.
+15,cause substential loss of life.
+
+:Ambassador
+1,Ambassador remains <b>{Dice~3d10}</b> months. His arrival is always a major event for those at the court (ceremonies, banquets).<br><br>
+_{If~{Dice~1d10}=10? The ambassador comes from a distant land beyond the Known World. / The ambassador comes from the [~Countries.Countries].}
+_<br><br><u>Mission of the ambassador</u>: [AmbassadorMission]
+
+;AmbassadorMission
+15,To prevent a war.
+15,To promote trade.
+15,To form a military alliance.
+15,To arrange a marriage.
+15,To pay tribute.
+15,To gain culture.
+10,Other reason.
+
+:Assassination
+1,A high-ranking lord (emperor, king, prince, chieftain, daimyos, governor, prime minister, minister of state) is assassinated. The PCs may fall under suspicion if they had dealings with that NPC. They are automatically suspected if they are enemies of the one assassinated.<br><br>
+_<u>Assassin(s)</u>: {If~{Dice~1d100}<=30? Taken alive. / Not caught or dead.}<br>
+_<u>PCs</u>: {If~{Dice~1d100}=1? Accused by the assassin if they have connections. / Not accused.}<br>
+_<u>Succession</u>: {If~{Dice~1d100}<=20? The one assassinated has no successor and a power struggles ensues, lasting {Dice~1d6} months (may result in war if DM desires). / The one assassinated has a successor (hereditary or not). The court is in turmoil.}<br>
+
+:Bad Harvest
+1,<b><u>Bad Harvest</u>:</b> Poor weather, lazy farmers, bad luck, and greedy crows have combined to yield poor crop. The peasants become dissatisfied and there is considerable grumbling about ill luck and bad fates. Often the bad harvest is blames on the actions of the ruler of the land. Supposedly, the poor crop is punishment for his evil actions.<br>
+_<u>Farm Income</u>: {IIf~{Dice~1d100}<=5? half normal (50 <b>percent</b>). : 3/4 normal (75 <b>percent</b>).}<br>
+_<u>Prices of Food</u>: {If~{Dice~1d100}<=10? tripled (x3). / doubled (x2).}<br>
+_<u>Famine caused by bad harvest</u>: {If~{Dice~1d100}<=5? There is a famine.<br><br>Famine:<br>[Famine]<br> / No famine.}
+
+:Bad Weather
+1,<b><u>Bad Weather</u>:</b> The weather throughout the month is foul.<br>
+_<u>In winter</u>, roads are choked by blizzards. The air is freezing cold.<br>
+_<u>In fall</u>, the rains are particularly heavy, turning everything into a sodden morass.<br>
+_<u>In summer</u>, the weather is exceptionally hot.<br>
+_All MV is reduced by 1/2 (half) with a like effect on trade. Armies in the field suffer a desertion rate of 15 <b>percent</b> during the month.<br>
+_<u>Farming income</u>: -15 <b>percent</b> (except in winter or late fall).
+
+:Bandit Activity
+1,<b><u>Bandit Activity</u>:</b> A force of <b>{Dice~1d10*20}</b> bandits (led by a [~Miscellaneous.Class] named [~Names Generator.NAME Random]) have moved into the area and are being particularly active. They may have been driven out of a neighboring region or may have naturally gravited here. They establish a stronghold in some remote place, preferably deep in the mountains.<br>
+_They have <u>spies and informers</u> in the towns and villages, appraising them of the movements of merchant caravans and treasury shipments.<br>Mercenary guards are in great demand. <u>If the government of the area is effective</u>, troops are called out to drive the bandits from the region. 
+_Merchants and travelers are suspicious of strangers. <u>If the government troops are ineffective</u>, the bandits stage raids on the small villages, robbing their grain shortly after each harvest. The bandits remain in the area until they are defeated or the pickings become too slim to be profitable.<br>
+_<u>A caravan moving through the region</u> has <b>50 percent chances</b> of being attacked (<b>100 percent</b> if a merchant or official is so indiscreet as to publicly let out that he is transporting a valuable cargo). <u>A lone traveler</u> has <b>80 percent chances</b> to be robbed.
+
+:Birth Monthly
+1,<b><u>Birth</u>:</b> Should any PC be married, he learns at this time that he is to have a child. The actual birth will occur in 8 months. <u>If this does not apply</u>, [Birth Monthly Alternate] There will be some feastings and celebrations. The child's name will be [~Names Generator.NAME Random].
+
+:Birth Monthly Alternate
+1-95, a local noble or government official has a child.
+96-100,there will be reports of the miraculous birth of a child to a peasant family. This is an event of great wonder. The child springs from a piece of cut wood, appears from the waters of a spring, is found in the local shrine, etc. The peasant family is hard-working, honest and pious. As the child grows, through the years, he will prove to be exceptional in some way (great strength, cleverness, magical ability, etc). Meanwhile, the fortunes of the peasant family will rise and they will become leaders of their community.
+
+:BirthYearly
+1,A high-ranking noble's family has given birth to a child, thereby ensuring the continuation of the line. Celebrations and feasting for several days. The child's name will be [~Names Generator.NAME Random].
+
+:Comet
+1,A bright comet (or other astrological phenomena) is sighted in the sky for <b>{Dice~1d4}</b> week(s). This is a portent of some great event. A second yearly event is chosen by the DM and occurs shortly after the comet passes.<br>
+_<br><u>Second Event</u>: [YearlyEvent]
+
+;Cultural Discovery
+25,Ruins of a shrine or temple.
+10,Ruins of a city or village.  
+25,An old tomb.                  
+15,A religious artefact.        
+10,A historical artefact.       
+15,Some historical Informations.   
+
+:Death
+1,<b><u>Death</u>:</b> A local noble or government official dies. He died [Death Of Lord How].<br>
+_<u>If the position vacated is hereditary</u>, it is filled by his son ([~Names Generator.NAME Random]). <u>If he has no heirs</u>, there is a <b>30 percent chances</b> (Roll = <b>{Dice~1d100}</b>) that some other person has inherited the property (adoption or assignment of rights). The succession goes smoothly<br>
+_<u>If the succession is unclear and there is a strong central government</u>, the fief is assigned to a new lord by the court.<br>
+_<u>If the central government if weak or non-existent</u>, neighboring lords attempt to seize the fief through force of arms. This can lead to armed clashes across the province.<br>
+_<u>If the vacated position is a government post</u>, the central government appoints a new official who arrives in <b>{Dice~1d6+1}</b> weeks. During the time before he arrives, no government duties relating to the post can be resolved. Thus, upon the death of a magistrate, no cases could be heard or resolved until the new magistrate arrived.
+
+:Death Of Lord
+1,A high-ranking noble (emperor, king, prince, chieftain, daimyos, governor, prime minister, minister of state) dies. He died [Death Of Lord How].<br><br>
+_<u>Assassination</u>: {If~{Dice~1d100}<=5? It was an assassination well disguised. / It was not an assassination.}<br>
+_<u>PCs</u>: {If~{Dice~1d100}=1? Suspected of an assassination attemps if they were in bad terms. / Not accused.}<br>
+_<u>Succession</u>: {IIf~{Dice~1d100}<=20? The Lord has no successor and a power struggles ensues, lasting <b>{Dice~1d6}</b> months (may result in war if DM desires). : The Lord has a successor (hereditary or not). The court is in turmoil.}<br>
+
+;Death Of Lord How
+15,in battle
+25,through misadventure
+30,from a disease
+30,peacefully in bed after a long life
+
+:Earthquake Major
+1,There is extensive destruction in a 50-mile-radius area (6 hex radius). DM chooses the center point. Before and after the earthquake, there are a series of lesser tremors, causing slight damage (decided by DM). The major earthquake destroys cities, reshapes lakes, coastlines, and rivers, causes great fires, and possibly kills hundreds of people. The effects on the PCs and their property in the radius is equal to an EARTHQUAKE spell (severity chosen by DM). The quake lasts only a few hours. Double (x2) the price of building materials for <b>{Dice~1d3+1}</b> months.<br><br>
+_The epicentre is in the <u>[Miscellaneous.Direction]</u> of the country.<br><br>
+_<u>Plague caused by earthquake</u>: {If~{Dice~1d100}<=40? There is a plague in the area.<br><br>[Plague]<br>/ No plague.}<br>
+_<u>Major Fire caused by earthquake</u>: {If~{Dice~1d100}<=70? There is a major fire in a town or a city.<br><br>[Fire Major]<br>/ No major fire.}<br>
+
+:Earthquake Minor
+1,<b><u>Minor Earthquake</u>:</b> There is a small earthquake in a 5-mile-radius area (1 hex only). DM chooses the center point. Before and after the earthquake, there are a series of lesser tremors, causing slight damage (decided by DM). Although loss of life is minor, half (50 <b>percent</b>) of the buildings will be damaged. The quake lasts only a few minutes. Double (x2) the price of building materials for <b>{Dice~1d2}</b> month(s).<br>
+_The epicentre is in the <u>[Miscellaneous.Direction]</u> of the country.<br><br>
+_<u>Fire caused by minor earthquake</u>: {If~{Dice~1d100}<=40? {If~{Dice~1d100}<=75? There is a minor fire in a town or a city.<br>[Fire Minor]<br> / There is a major fire in a town or city.<br>Major Fire:<br>[Fire Major]<br>} / No fire.}<br>
+
+:Excessive Taxes
+1,<b><u>Excessive Taxes</u>:</b> A new edict comes from the ruler of the land, setting the taxes upon the peasant at an impossible rate. The ruler may need to finance a military campaign, rebuild sections of the kingdom destroyed in a natural disaster, or may just be corrupt. Poorer peasants are driven into poverty or debt-slavery. Many are forced to sell their lands at low prices and take up begging. Everyone tries to find ways to avoid the new taxes (petitioning for special exemptions or hiding their goods).<br>
+_<u>Uprising by the peasants caused by excessive taxes</u>: {If~{Dice~1d100}<=30? There is an uprising.<br><br>[Uprising]<br> / No uprising.}<br>
+_<u>Increased bandit activity</u>: {If~{Dice~1d100}<=70? There is an increase in bandit activity as the impoverished peasants flee to the hills.<br><br>[Bandit Activity]<br> / No increase.}
+
+:Famine
+1,|Roll={Dice~1d6+1}|Drought and poor harvest result in the region undergoing famine. The signs of impending famine are obvious (crops wither, animals die, the poor begin to hunger, etc). It lasts <b>%Roll%</b> months. During this time, the price of food skyrockets (x10, x50, x100). Marauders groups appear, scavenging for food of any type (cattle, sheep, dogs, horses, etc). Farms in the region produce no income for the year and only 1/4 (one quarter) of their normal income in the next year.<br><br>
+_<u>Loss of Population</u>: |Roll*5|%Roll% <b>percent</b> (5 <b>percent</b> per month of famine).<br><br>
+_<u>Uprising by the peasants caused by the famine</u>: {If~{Dice~1d100}<=60? There is an uprising.<br><br>[Uprising]<br> / No uprising.}<br>
+_<u>Plague caused by the famine</u>: {If~{Dice~1d100}<=20? There is a plague in the area.<br><br>[Plague]<br>/ No plague.}<br>
+
+:Famous Person
+1,<b><u>Famous Person</u>:</b> A person of great renown (a [~Miscellaneous.Class] named [~Names Generator.NAME Random]), but no official position, has arrived in the area. The person is noted for exceptional skill in some art or craft (ex: painting, poetry, fighting style, philosophy). The famous visitor attempts to arrive quietly and pass his time without arousing notice. However, rumors soon get about his presence and his reputation. In addition, the person may have secret reasons for being in the region. The person remains in the area <b>{Dice~1d6}</b> week(s).
+
+:Fanatic Cult
+1,<b><u>Fanatic Cult</u>:</b> A fanatic sect appears in the land. They try to gain converts and followers. They seem to arrive instantaneously.<br>
+_<u>Hostility and Feuding</u>: {If~{Dice~1d100}<=30? It causes hostility and feuding between it and the established religions, leading to skirmishing, temple burning, and battles. Both sides attempting to gain support of the ruler of the land.<br> / No major problem.<br>}<br>
+_<u>Favors of the ruler</u>: {If~{Dice~1d100}<=10? The ruler comes out in favor of this cult {If~{Dice~1d100}<=40? and bans the other religions, burning their temples, forbidding their practices, and killing or banishing their priests. / but does not ban other religions.}<br>/ Ruler does not favor this new cult.}
+
+:Fire Major
+1,|Roll2={Dice~1d4+4}||Roll2*10|A huge conflagration sweeps a major city of the land, destroying <b>%Roll2% percent</b> of the city. The price of lumber and building materials is x10 for the next 4 months. Double (x2) the price of food for 1 month.<br><br>
+_The city is in the <u>[Miscellaneous.Direction]</u> of the country (or of the effect).<br><br>
+_<u>Loss of Population</u>: <b>{Dice~1d4*10} percent</b> of the city.<br><br>
+_<u>Property of the PCs in this city</u>: {If~{Dice~1d100}<=%Roll2%? Everything burned to the ground. / Nothing burned.}<br>
+_<u>Famine in the city</u>: {If~{Dice~1d100}<=10? There is a famine in the city.<br><br>[Famine]<br> / No famine.}<br>
+_<u>Plague in the city</u>: {If~{Dice~1d100}<=20? There is a plague in the city and area.<br><br>[Plague]<br>/ No plague.}<br>
+
+:Fire Minor
+1,<b><u>Minor Fire</u>:</b> A large fire sweeps a city, town or village. Double (x2) the cost of building materials. Loss of life is minor. Minor fires are a useful tool for the DM when he wishes to make some change in the buildings or day-to-day affairs of an established place.<br>Percentage of the buildings destroyed:<br>
+_<u>City</u>: {Dice~1d4*10} <b>percent</b>.<br>
+_|Roll={Dice~1d3+3}||Roll*10|<u>Town</u>: %Roll% <b>percent</b>.<br>
+_|Roll={Dice~1d3+5}||Roll*10|<u>Village</u>: %Roll% <b>percent</b>.<br>
+_The minor fire happens in the <u>[Miscellaneous.Direction]</u> of the country.
+
+:Flood Yearly
+1,(Not in desert or arid regions, roll again). <u>If on the coast</u>, severe storms cause the waters to flood the coastal regions. <u>If along a river</u>, a series of heavy rains cause the river to rage and overflow its banks, flooding the bottom land. <br><br>The water rises <b>{Dice~5d6}</b> feet.<br><br>
+_The flood will happen in the <u>[Miscellaneous.Direction]</u> of the country.<br><br>
+_Signs of the impending flood are obvious <b>{Dice~1d4+1}</b> days in advance and levees and dikes can be built to protect against it. Once the flood begins, the waters rise at the rate of 1/2 foot each hour, until the maximum is reached. They remain at their high point for <b>{Dice~4d6}</b> hours and the subside at the rate of 1 foot per day. Normal MV across the flooded areas is impossible.<br><br>
+_Price of all goods is doubles (x2) for <b>{Dice~1d4+1}</b> months.<br><br>
+_<u>Buildings</u> are extensively damaged, although only those in the path of the raging waters are destroyed.<br><br>If the flood strikes during the planting season (<b>Yarthmont, Klarmont</b>), income from farms in the area is reduced by 1/2 (half) for the year.<br>
+_If it strikes during the harvest season (<b>Firmont, Ambyrmont</b>), 80 <b>percent</b> of all farm income is lost and {If~{Dice~1d100}<=40? there will be a famine in {Dice~1d3} month(s) (unless steps are taken to prevent it).<br><br>Famine:<br>[Famine]<br> / there will be no famine.}<br><br>
+_<u>Loss of Population</u>: {Dice~1d10} <b>percent</b>.<br><br>
+_<u>Plague caused by the flood</u>: {If~{Dice~1d100}<=20? There is a plague in the area.<br><br>[Plague]<br>/ No plague.}<br>
+
+:Flooding
+1,<b><u>Flooding</u>:</b> Flooding is caused by the collapse of a levee, dam or dike, or by a sudden cloudburst upstream. The water rushes over the countryside in a great wave <b>{Dice~5d4}</b> feet high. The wave is <b>{Dice~1d100+100}</b> feet wide, centered about the riverbed of its source. It can easily snap trees, tear down buildings, and sweep men away. All those caught in the path of the wave are swept downstream to their deaths - unless they have some type of raft or other flotation device. After this passes the water level quickly falls to a height of <b>{Dice~3d12}</b> inches. It remains at this height until the collapsed construction is rebuilt or the water naturally evaporates.
+
+:Haunting
+1,<b><u>Haunting</u>:</b> It is rumored that some site in the region has recently been the center of strange supernatural events - often the site of a great battle, murder or accident. The DM decides if it is real or not. Hauntings may be simple affairs, or quite elaborate, with the spirit returning to complete some arduous task left unfulfilled or to right some wrong.<br>
+_The haunting happens in the <u>[Miscellaneous.Direction]</u> of the country.
+
+:Horrible Monster
+1,<b><u>Horrible Monster</u>:</b> Some creature of great evil and power moves into the area and begins terrorizing the local villages. The lair of the monster is some secluded site hidden from its hunters. However, the general location of the lair is known to the local peasants. They do not attack the monster, afraid of its power. If the monster is not defeated soon, the vilagers make offerings to it as an evil god, hoping to appease it. In addition, other of its kind (or young) appear in the same area and the infestation becomes stronger.<br>
+_The horrible monster appears in the <u>[Miscellaneous.Direction]</u> of the country.
+
+:Hurricane
+1,<b>(If near a sea, see Tsunami below)</b> A hurricane or tornado hits the area. It destroys an area of about 10-mile by 10-mile. Triple (x3) the prices of building materials and double (x2) all other goods. The effect on prices last <b>{Dice~1d2}</b> month(s).<br><br>
+_The hurricane or tornado will happen in the <u>[Miscellaneous.Direction]</u> of the country.<br><br>
+_<u>Loss of Population</u>: 50 <b>percent</b> in the affected area.<br><br>
+_<u>Plague caused by the hurricane</u>: {If~{Dice~1d100}<=10? There is a plague in the area.<br><br>[Plague]<br>/ No plague.}<br><br>
+_<b>(If near a sea)</b> A tsunami (or great wave) (as TSUNAMI spell) strikes a 50-mile (6 hex) section of coastline. The effects are the same as the spell. The wave is 100 to 200 feet high when it hits. It strikes with little warming. Triple (x3) the prices of building materials and double (x2) all other goods. The effect on prices lasts <b>{Dice~1d2}</b> month(s).<br><br>
+_The tsunami will happen in the <u>[Miscellaneous.Direction]</u> of the country.<br><br>
+_<u>Loss of Population</u>: 70 percent in the affected area.<br><br>
+_<u>Plague caused by the tsunami</u>: {If~{Dice~1d100}<=10? There is a plague in the area.<br><br>[Plague]<br>/ No plague.}<br><br>
+
+:Incursion
+1,A major migration of creatures enters the kingdom from outside its borders. Although this migration is not war it is not necessary peaceful. The size of the incursion should be in proportion to the size of the kingdom. Thus several hundreds creatures would be a major incursion for a small province, while several thousands creatures would migrate into a large kingdom. The migration might be a barbarian horde driven form its homeland or a race of hobgoblins expanding its territory.<br><br>
+_<u>Kind of creatures</u>: [Incursion Creatures].<br><br>
+_The newly arrived creatures attempt to live their life as they always have, retaining their old habits and speaking their own language. If given to violence and raiding, they continue these practices. The creatures remain until driven out. If allowed to stay, they will, over the years, adopt some of the habits and practices of the new land until they are considered a regular part of life. This migration occurs over a period of <b>{Dice~1d12}</b> month(s).
+
+;Incursion Creatures
+60,Humans and/or demihumans ([~Creatures.Humanoid2])
+30,Humanoids ([~Creatures.Humanoid])
+10,Monsters
+
+:Incursion Major
+1,<b><u>Major Incursion</u>:</b> A strong force has moved into the region, with the intent of establishing a permanent home there. The force may or may not be friendly or good. Like the yearly event, the size of the incursion is relative to the size of the territory. Unlike the yearly event, this incursion is not a gradual process but rather a sudden arrival of people or creatures from another area. Although this migration is not war, it is not necessary peaceful. Typical incursions are soldiers invading or retreating, refugees escaping disaster or war, bandits or monsters driven from another province, nomads following game, or even prospectors attracted to 
+_a recent mineral find.<br><br>
+_<u>Kind of creatures</u>: [Incursion Creatures].<br><br>
+_The newly arrived creatures attempt to live their life as they always have, retaining their old habits and speaking their own language. If given to violence and raiding, they continue these practices. The creatures remain until driven out. If allowed to stay, they will, over the years, adopt some of the habits and practices of the new land until they are considered a regular part of life.
+
+:Incursion Minor
+1,<b><u>Minor Incursion</u>:</b> A small force has moved into the region, with the intent of establishing a permanent home there. The force may or may not be friendly or good. Unlike the yearly event, this incursion is not a gradual process but rather a sudden arrival of people or creatures from another area. Typical incursions are a band of spies sent to investigate, reinforcements to a bandit gang, the punitive expedition of a neighboring warlord, or the raiding party of a tribe of monsters.<br><br>
+_<u>Kind of creatures</u>: [Incursion Creatures].
+
+:Injustice
+1,<b><u>Injustice</u>:</b> Wickedness has seized control of the local government and courts. Corrupt and greedy magistrates and court officials are jailing and punishing innocent people. This evil may occur because the magistrate has been bribed, wants to steal the property of the accused, has been tricked by others, is cruel, or is exacting official vengeance on rebels or traitors. Such injustice can be stopped if evidence can be brought to higher officials (assuming they are no corrupt) or the PCs decide to act as protectors to the innocent.<br>
+_<u>PCs</u>: {If~{Dice~1d100}<=5? A PC is wrongfully accused of a crime./ No effect.}<br>
+_<u>If the PCs have a powerful enemy</u>: {If~{Dice~1d100}<=20? A PC is wrongfully accused of a crime./ No additional effect.}
+
+:Landslide
+1,<b><u>Landslide</u>:</b> (Mountainous or hilly region only)<br>
+_A major landslide or avalanche has blocked one of the main roads of the province. The road cannot be used until the landslide is cleared. The peasants must be mobilized to clear the road and the work takes <b>{Dice~1d2}</b> week(s) unless spells are used to speed the task.<br>
+_The landslide will happen in the <u>[Miscellaneous.Direction]</u> of the country.
+
+:Maiden of Virtue
+1,<b><u>Maiden of Virtue</u>:</b> A young woman (or man) of exceptional grace, wit, and beauty has appeared in the region (Random Name: [~Names Generator.NAME Random]). 
+_She is <u>[Maiden Origin]</u><br><br>
+_She charms and impresses all who meet her. She has an exceptionally fine writing style that reveals her pure nature. She is skilled in the playing of musical instruments and other artistic accomplishments. She is properly 
+_respectful of her parents (ih she has any).<br>
+_<u>If the maiden is any but the daughter of a powerful noble</u>, she can be courted (and posibly wed) without the full formalities. However, being aware (but no in vain) of her own qualities, she does not accept just any one. Her accepted suitor must possess exceptional qualities of his own. He must also be a model of virtue and likewise skilled in the arts. He must possess heroic qualities. To even attract her notice, he must produce some artistic item of quality (poem, painting, exceptional handwriting, etc). He must also have a CHA of at least 13. <u>Maidens of mysterious origin or princesses</u> may set impossible tasks as a condition for any successful suitor. The social rank of the character is not as important as the qualities mentioned above. The handling of the courtship, the degree of attention between the two, and the final result of any courtship are left to the DM.<br>
+_The maiden of virtue will appear in the <u>[Miscellaneous.Direction]</u> of the country.
+
+;Maiden Origin
+50,the daughter of a powerful noble.
+30,a maiden of mysterious and magical origin.
+10,an exiled princess.
+10,a commoner.
+
+:Major Battle
+1,<b><u>Major Battle</u>:</b> A large and important battle is fought in the region. As with war and similar events, the DM must decide the forces involved on each side and the site of the battle. Prior to the engagement, there are many troops moving through the area (possibly creating many interesting encounters). After the battle, the losers are forced to retreat, possibly in flight. During this retreat, many peasants take up arms to protect their villages and hunt down the losers. Patrols of the victorious force scour the countryside looking for stragglers, deserters and small bands of the enemy.<br>
+_The major battle will happen in the <u>[Miscellaneous.Direction]</u> of the country.
+
+:Maneater
+1,<b><u>Maneater</u>:</b> A leopard, tiger, wolf, or similar creature has acquired a taste for human flesh and is raiding the local villages, carrying off women, children, and farmers. The animal strikes 1-2 times a week, killing its prey and dragging it into the woods. The villagers are paralyzed by fear, unwilling to venture outside alone after dark. They petition the government, a powerful NPC, or the PCs for aid. The maneater remains active until captured or killed.<br>
+_The maneater appears in the <u>[Miscellaneous.Direction]</u> of the country.<br>
+_<u>Special</u>: {If~{Dice~1d100}<=15? Lycanthropy is in cause. / Nothing special.}
+
+:Market Glut
+1,<b><u>Market Glut</u>:</b> There is too much merchandise to sell in the area. All prices are cut by 30 <b>percent</b> for <b>{Dice~1d3}</b> month(s).<br>
+_<u>Tax Income</u>: -30 <b>percent</b> for these months.
+
+:Market Shortage
+1,<b><u>Market Shortage</u>:</b> There is not enough merchandise to sell in the area. All prices are raised by 50 <b>percent</b> for <b>{Dice~1d3}</b> month(s).<br>
+_<u>Tax Income</u>: +30 <b>percent</b> for these months.
+
+:Marriage Monthly
+1,<b><u>Marriage</u>:</b> Should one of the PC currently be courting a member of the opposite sex, his or her proposal of marriage is accepted (unless the DM rules otherwise).<br>
+_<u>If this is not the case</u>, an important or influential person in the region either marries or completes the marriage arrangements for one of his children. If the PCs are known to the NPC, they are invited to attend the wedding, feasting and celebration.
+
+:Marriage Yearly
+1,The ruler of the land has arranged an important diplomatic marriage involving either himself or his children. There will be festivals and feastings.<br><br>
+_<u>Motivations of this marriage</u>: [Marriage Motives]<br>
+
+;Marriage Motives
+25,To secure alliances.
+25,To gain control of a smaller kingdom.
+25,To settle disputes.
+25,To appease the overlords.
+
+:Meteor Strike Major
+1,A great meteorite strike the surface of the planet, causing extensive destruction. Everything is destroyed in a 25-mile-radius (3 hex radius), causing a great crater. There is also extensive damage in a 50-mile-radius area (6 hex radius) around the crater. Before and after the impact, there are a series of lesser tremors, causing slight damage (decided by DM). The wave of destruction destroys cities, reshapes lakes, coastlines, and rivers, causes great fires, and possibly kills hundreds of people. The effects on the PCs and their property in the radius is equal to an EARTHQUAKE spell (severity chosen by DM). The quake caused by the impact lasts only a few hours. Double (x2) the prices of building materials for <b>{Dice~1d3+1}</b> months.<br><br>
+_The impact will be in the <u>[Miscellaneous.Direction]</u> of the country (or DM's choice).<br><br>
+_<u>Major Fire caused by the meteor strike</u>: {If~{Dice~1d100}<=70? There will be a major fire in a town or city in the area.<br><br>[Fire Major]<br> / No major fire.}<br>
+_<u>Plague caused by the meteor strike</u>: {If~{Dice~1d100}<=40? There is a plague in the area.<br><br>[Plague]<br>/ No plague.}<br>
+
+:Meteor Strike Minor
+1,<b><u>Minor Meteor Strike</u>:</b> This small meteorite destroys (and makes a crater) a region of a 1-mile-radius. The impact affects a 5-mile-radius area around the crater (one hex, impactpoint chosen by the DM). Although loss of life is minor, 50 <b>percent</b> of the buildings will be damaged. Double (x2) the price of building materials for <b>{Dice~1d2}</b> month(s).<br>
+_The impact point of the minor meteor strike is in the <u>[Miscellaneous.Direction]</u> of the country.<br>
+_<u>Fire caused by minor meteor strike</u>: {If~{Dice~1d100}<=40? {If~{Dice~1d100}<=75? There is a minor fire in a town or a city.<br>[Fire Minor]<br> / There is a major fire in a town or city.<br>Major Fire:<br>[Fire Major]<br>} / No fire.}
+
+:New Religion
+1,A new religion or sect of an established religion appears in the land, quickly gaining converts and followers. The initial arrival of the new religion takes <b>{Dice~1d6+1}</b> months, while the feuding between the different religions may last for centuries.<br><br>
+_<u>Hostility and Feuding</u>: {If~{Dice~1d100}<=75? It causes hostility and feuding between it and the established religions, leading to skirmishing, temple burning, and battles. Both sides attempting to gain support of the ruler of the land.<br> / No major problem.<br>}<br>
+_<u>Favors of the ruler</u>: {If~{Dice~1d100}<=60? The ruler comes out in favor of the new religion {If~{Dice~1d100}<=40? and bans the other religions, burning their temples, forbidding their practices, and killing or banishing their priests. Rulers often find it convenient to support new religions as a tool for breaking the political power of established religions. / but does not ban other religions.}<br>/ Ruler does not favor any religion or stays with the old ones.}<br>
+
+:Notorious Criminal
+1,<b><u>Notorious Criminal</u>:</b> A wanted villain (a [~Miscellaneous.Class] named [~Names Generator.NAME Random]) is rumored to be in the area. He may be a banished lord who has secretly returned, a traitor fleeing the wrath of the emperor, an escaped convict, a famous bandit, etc. There may be a reward posted for the capture or slaying of the criminal. His presence may only be a rumor, leading to nothing but a wild goose chase.
+
+:Plague
+1,|Roll2={Dice~2d6}|A terrible disease sweeps the land faster than the priests can check it with their spells. It lasts for <b>%Roll2%</b> months. Those untouched by the disease and those of neighboring lands are suspicious of strangers. Traders do not enter plagued lands and the cost of normal goods is doubled (x2). When a plague strikes, the entire country does not become diseased all at once. Rather, the plague moves about, sweeping from town to town.<br><br>
+_|Roll=%Roll2%||Roll*5|<u>Loss of Population</u>: %Roll% <b>percent</b> (5 <b>percent</b> per month).<br><br>
+_<u>Chances to contract the disease</u>: 40 <b>percent</b> per month spent in the region, 60 <b>percent</b> if in the company of a diseased person.<br>
+
+:Plague Monthly
+1,<b><u>Plague</u>:</b> [Plague]
+
+:Political Plot
+1,A plot to overthrow the present government is discovered or the ruler of the land is convinced that such a plot exists. Many nobles and government officials are stripped of their rank, banished or excuted. Spies and secret police are everywhere, ready to arrest people on the slightest evidence. 
+_It lasts <b>{Dice~1d3}</b> month(s).<br><br>
+_<u>PCs</u>: {If~{Dice~1d100}<=40? They are accused of complicity if they hold positions within the government or are involved in political affairs. They must either prove their innocence or suffer the consequences.<br> / No major problem.<br>}<br>
+_<u>If the PCs have powerful enemies</u>: {If~{Dice~1d100}<=80? They are accused of complicity if they hold positions within the government or are involved in political affairs. They must either prove their innocence or suffer the consequences.<br> / No major problem.<br>}<br>
+_<u>Rebellion</u>: {If~{Dice~1d100}<=20? A noble or group of nobles rises in rebellion.<br><br>[Rebellion]<br> / None for now.<br>}<br>
+
+:Population Change Gain
+1,<b><u>Population Change (gain)</u>:</b> (Dominion only)<br> The population change is double the normal amount for the year.
+
+:Population Change Loss
+1,<b><u>Population Change (loss)</u>:</b> (Dominion only)<br> The dominion loses some of its population. Look for the standard amount of population change for the year and substract this percentage instead of adding it.
+
+:Pretender or Usurper
+1,A NPC wants to take control of the region, either rightfully or by deception. This may cause some additional problems.<br><br>[Pretender or Usurper Problems]
+
+;Pretender or Usurper Problems
+20,<b><u>Assassination of a Lord</u>:</b><br>[Assassination]
+35,<b><u>Political Plot</u>:</b><br>[Political Plot]
+35,<b><u>Rebellion</u>:</b><br>[Rebellion]
+10,<b><u>War</u>:</b><br>[War]                    
+
+:Rebellion
+1,<b><u>[Rebellion Force]</b></u> attempts to overthrow the government.<br><br>
+_The purpose of the rebellion may be to gain independence in the government, avoid taxation and brutal treatment, gain special privileges, or seize the throne (DM's choice). The exact strength of the rebellion and the final outcome are left to the DM. The rebellion lasts <b>{Dice~1d6}</b> month(s) before succeeding (highly unlikely) or failing. Captured and defeated rebels can expect no mercy from their masters.
+
+;Rebellion Force
+20,A powerful lord
+20,A secret society
+20,A religious sect
+20,An army commander
+20,An army of peasants
+
+:Recruiting
+1,<b><u>Recruiting</u>:</b> Men are needed to shoulder arms and special measures are taken to recruit soldiers. These include enforced levies of peasants, bounties offered to capable officers, and recruiting gangs.<br>
+_<u>PCs</u>: {If~{Dice~1d100}<=20? They are swept up by one of these gangs and forced into the army, unless they do something. / Nothing special.}
+
+:Resident Specialist
+1,<b><u>Resident Specialist</u>:</b> (Dominion) A new resident comes into the town to establish a business or to retire. It is a [Resident Kind 1].
+
+:Resident Kind 1
+1-75,[~Creatures.Humanoid2] [~Miscellaneous.OccupationsMeanings] named [~Names Generator.NAME Random]
+76-95,high-level [~Creatures.Humanoid2] NPC [~Miscellaneous.Class] named [~Names Generator.NAME Random]
+96-100,<b>special creature to help the area</b>.
+
+:Ressource Lost
+1,<b><u>Lost of a Ressource</u>:</b> (Dominion) The area loses one of its ressource due to a cause determined by the DM. If the area has only one ressource, it gives only half (50 <b>percent</b>) of its income each month, until the problem is resolved or it is cancelled by the "Gain a new Ressource" event. 
+
+:Ressource Gain
+1,<b><u>Gain a new Ressource</u>:</b> (Dominion) The area gains a new ressource for <b>{Dice~1d12}</b> month(s) or permanently if it doesn't have its required number of ressource. It also cancels the effect of a "Lost of a Ressource" event.
+
+:Spies
+1,<b><u>Spies</u>:</b> Spies are sent into the region by another province. They come to gather information for their lord.<br>
+_<u>Spies are discovered</u>: {If~{Dice~1d100}<=30? {If~{Dice~1d100}<=70? yes. The lord of the province starts an operation to determine if he was the only spy. / yes.} / no.}<br>
+_<u>PCs (if spies are discovered)</u>: {If~{Dice~1d100}<=5? A PC (or all of them) are wrongfully accused of spying. / nothing special.}<br>
+_<u>PCs with a powerful enemy (if spies are discovered)</u>: {If~{Dice~1d100}<=20? A PC (or all of them) are wrongfully accused of spying. / nothing special.}<br>
+_<u>Injustice (if spies are discovered)</u>: {If~{Dice~1d100}<=10? [Injustice] / none.}
+
+:Trade Route Lost
+1,<b><u>Loss of trade route</u>:</b> The province loses a trade route, meaning that they lose some importation and exportation businesses. It loses <b>{Dice~1d20+10} <b>percent</b></b> of its income for <b>{Dice~1d12}</b> month(s).
+
+:Trade Route New
+1,<b><u>New trade route</u>:</b> Some other country or province wants the goods of the area, opening a new market. The country or province gains a <b>{Dice~1d20+10} <b>percent</b></b> increase of its income for <b>{Dice~1d12}</b> month(s).
+
+:Traitor
+1,<b><u>Traitor</u>:</b> 
+_{If~{Dice~1d100}<=50? A NPC ([~Miscellaneous.Class] named [~Names Generator.NAME Random]) is sent by the enemy to gain the confidence of the lord and to pass informations. / One of the men of the lord turns to the enemy, bringing informations with him.}
+
+:Troop Movements
+1,<b><u>Troop Movements</u>:</b> Organized groups of soldiers, either friendly or enemy (perhaps both at the same time) sweeps through the territory. In either case there is a fair amount of looting and collections of grain and horses. No repayment can be expected for this, although notes may be issued for items taken.<br>Friendly troops do not engage in wholesale pillaging and neither do enemy troops (most of the time). Barbarians and enemies on raids burn buildings and cause as much damage as possible in addition to carrying off anything of value.<br>
+_<u>PCs</u>: {If~{Dice~1d100}<=10? A PC is arrested as a spy. / Nothing special.}<br>
+_<u>PCs as spies</u>: {If~{Dice~1d100}<=40? Spy PCs are given orders to spy on the enemy. / Nothing special.}
+
+:Uprising
+1,<b><u>Uprising</u>:</b> Dissatisfied with their poor lot, the peasants rise spontaneously in rebellion. Their leader is a [~Miscellaneous.Class] named [~Names Generator.NAME Random]. They may be protesting against injustice, excessive taxes, or their general misfortune. The uprising begins in one or two villages and spreads quickly to the other rural areas of the region. The peasants arm themselves with whatever is at hand. Only 10 <b>percent</b> of the peasants involved have proper armor.<br>
+_The peasants have no military plan or strategy, simply attacking and ambushing any troops and officials of the government they find. <u>If a strong leader</u> should arrive in their midst, they can be trained into an effective fighting force in <b>{Dice~1d3+1}</b> months. Of course, uprising are dealt with severely by the government and reinforcement troops are dispatched to deal with them. No mercy or quarter is shown, a fact that causes the peasants to fight to the death.<br>
+_When an uprising occurs, there are many positions a PC can fill. Unless the PCs can manage to swing the balance of power the uprising is doomed to failure and all who took part (and their families) may be executed if captured.<br>
+_The DM must determine the size and type of the forces involved.<br>
+_<u>Monastery in the area</u>: {If~{Dice~1d100}<=60? It supports them, giving them troops, shelter, and aid. / It does not support the uprising.}<br>
+_<u>Government</u>: {If~{Dice~1d100}<=70? The government listens and reacts to the complaints of the peasants (ex: lowering taxes, replacing official). / It does not react to the complaints of the peasants.}<br>
+_<u>Bandit Activity</u>: {If~{Dice~1d100}<=70? Increased bandit activity in the area for {Dice~1d3} months after the uprising, as the surviving peasants take to the hills to escape punishment. / No increase in bandit activity.}
+
+:Vengeful Stranger
+1,<b><u>Vengeful Stranger</u>:</b> A mysterious NPC (a [~Miscellaneous.Class] named [~Names Generator.NAME Random]) arrives in the area, searching for a particular person. He travels through the region making discreet inquiries in the villages and town. He seeks revenge for some past wrong (possibly a murder or insult).<br>
+_<u>If the PCs have offended of wronged some family or person in the past</u>, the stranger is looking for them. {If~{Dice~1d100}<=70? He learns their whereabouts. / He does not learn their whereabouts.}<br>
+_<u>If the stranger is not looking for the PCs</u>, he may enlist their aid in his search (or his prey may do the same). Most often the local government is neutral in the matter, but the local officials may attempt to intervene and end the feud.
+
+:VIP Visit
+1,<b><u>VIP Visit</u>:</b> An important official (a [~Miscellaneous.Class] named [~Names Generator.NAME Random]) comes on a formal visit to the province. The purpose of his visit is to the DM to decide.<br>
+_<u>If he has arrived to investigate the misdeeds of the local officials</u>, they certainly try to eliminate him. However, in this case he is traveling in disguise.<br>
+_PCs may be hired to protect the VIP or do away with him. Otherwise the visit is marked by official banquets and feasts (PCs may be invited).
+
+:Visitation
+1,A major deity ([~Religion.Deities]) appears somewhere in the land, either for good or ill. News of the appearance travels fast and the site is revered or despised depending on the nature of the visitation.<br><br>
+_<u>If the site is revered</u>, it becomes the object of pilgrimages by the faithful. The religion orders _the construction of a temple or shrine on the site.<br><br>
+_<u>If the site is despised</u>, the fortune of those in a 5-mile radius fall. Common folk move away if possible and the area is generally shunned. It becomes the secret meeting place of evil followers and monsters.<br><br>
+_The visitation appears in the <u>[Miscellaneous.Direction]</u> of the country.<br>
+
+:Volcano
+1,<u>{If~{Dice~1d100}<=70? A dormant volcano erupts.<br> / A new volcano appears.<br>}</u><br>
+_The eruption is preceeded by tremors and rumblings identical to those that preceed a major earthquake. When the eruption occurs, it is of exceptional violence. All within a 5-mile radius is destroyed and clouds of thick ash rain down up to 30 miles downwind. The volcano spews smoke and ash for the remainder ot the month. Thereafter, the volcano remains active for <b>{Dice~1d12}</b> month(s), with a <u>10 <b>percent</b> chance per month</u> of another major eruption.<br><br>
+_The volcano is active in the <u>[Miscellaneous.Direction]</u> of the country.<br>
+
+:War
+1,The size of the armies range into the thousands or tens of thousands. As with the rebellion, the exact causes, forces, and outcome of the war are left to the DM.<br><br>
+_One major campaign is fought per year and lasts <b>{Dice~1d4+1}</b> months (generally in the summer). The war lasts <b>{Dice~1d3}</b> year(s). PCs are readily accepted into the ranks of the army and, depending on their actions, may be able to quickly rise to high rank.<br><br>
+_The effects of the war are varied. Prices are {If~{Dice~1d100}<=70? doubled (x2) / tripled (x3)}, farm incomes in the area fought over are reduced by 1/2 (half), and the civilian population generally moves away.<br><br>Away from the front, other groups may take advantage of the situation and stage a rebellion or uprising. Press gangs roam the countryside, seeking new "recruits". The younger sons of peasants desert their homes, seeking fame and fortune as soldiers.<br><br>
+_<u>Special outcomes</u>: {If~{Dice~1d100}<=30? {If~{Dice~1d100}<=50? There is a rebellion.<br><br>Rebellion: [Rebellion] / There is an uprising.<br><br>Uprising: [Uprising]}<br>/ None.}<br>

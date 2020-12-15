@@ -1,0 +1,100 @@
+# ------------------------------------------------------
+# Last Update: modified by Valminder Jan 01, 2014.
+# ------------------------------------------------------
+#
+
+%name%,0
+%weight%,0
+%value%,0
+%vmod%,1
+%wmod%,1
+%appraisalDC%,12
+
+%format%,0
+
+@format,1,Select format:,Human-readable,Delimited for other table
+
+;Start
+1,|name=[Figurine]||value*%vmod%||weight*%wmod%||weight={Round~1,%weight%}|[DisplayItem=%format%]
+
+# Format: name!value!weight
+:DisplayItem
+1,{Bold~{Cap~%name%}}{CR~}Value: %value% gp{CR~}Weight: %weight% lbs.
+2,%name%!%value%!%weight%!%appraisalDC%
+
+;Figurine
+1,[FigurineSize] [FigurineMaterialType] figurine of {AorAn~[FigurineSubject]}
+
+;FigurineSize
+1,tiny|weight=0.1||value=0.5|
+1,small|weight=0.5||value=1|
+
+;FigurineMaterialType
+3,lead|vmod=1||wmod=1|
+2,steel|vmod=2||wmod=0.7|
+1,silver|vmod=3||wmod=1||appraisalDC=15|
+1,ivory|vmod=20||wmod=0.2||appraisalDC=15|
+1,gold|vmod=30||wmod=1.7||appraisalDC=15|
+
+;FigurineSubject
+1,[TP Statue.AnimalSubjects]
+1,[TP Statue.HumanoidSubjects]
+1,[TP Statue.FlyerSubjects]
+1,[Structure]
+1,[Vehicle]
+1,[Item]
+
+# XXXXXXXXXXXXXXXXXX
+;Structure
+2,castle
+2,tower
+2,tree
+2,house
+1,lighthouse
+1,mansion
+1,manor
+1,hut
+1,cave
+1,cathedral
+1,church
+
+# XXXXXXXXXXXXXXXXX
+;Vehicle
+5,wagon
+5,cart
+5,ship
+1,airship
+1,galleon
+1,galley
+
+;Item
+1,anchor
+1,anvil
+1,arrow
+1,axe
+1,barrel
+1,bell
+1,blade
+1,bone
+1,boot
+1,bottle
+1,chalice
+1,claw
+1,crown
+1,cup
+1,dagger
+1,eye
+1,fang
+1,fist
+1,hammer
+1,hand
+1,harp
+1,horn
+1,key
+1,rose
+1,shield
+1,skull
+1,sword
+1,throne
+1,tooth
+1,wheel

@@ -1,0 +1,102 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder August 31, 2006.
+# ---------------------------------------------------
+#
+# Magic Items: includes
+#    Armors and Shields
+#    Potions
+#    Rings
+#    Rods
+#    Scrolls
+#    Staffs
+#    Wands
+#    Wondrous Items
+#
+# Sean Hlousek
+#
+# -------------------------------------------------------------------------
+#
+# To call this table from another one:
+#    [EQ Magic Items.Generate(%Rolls%,%GenItem%)
+#
+#    Parameters: (%Rolls%,%GenItem%)
+#
+#    Rolls:    (1) Enter the number of items needed.
+#    Gen Item: (1) 1= ALL Items
+#                  2= Armor (Magical)
+#                  3= Shields (Magical)
+#                  4= Armor and Shields (Magical)
+#                  5= Potions
+#                  6= Rings
+#                  7= Rods
+#                  8= Scrolls (ALL)
+#                  9= Scrolls (ALL Divine Scrolls (Clr - Drd - Pal - Rng))
+#                  10= Scrolls (Arcane)
+#                  11= Scrolls (Cleric)
+#                  12= Scrolls (Druid)
+#                  13= Scrolls (Paladin)
+#                  14= Scrolls (Ranger)
+#                  15= Staffs
+#                  16= Wands
+#                  17= Wondrous Items
+#                  18= Weapons (Melee and Ranged)
+#
+# -------------------------------------------------------------------------
+#
+# Modified by Valminder, August  2006.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+#    I heavily modified this table. I could modify it more by
+#       removing all the variables for the cost, but it would
+#       be too long. For now, it works fine.
+#    The final price need to be adjusted for some items, but it
+#       seems relatively OK.
+#    I diminished the price variation in [Store].
+#    Cost of Items: Put the cost in GP, the output will modify it
+#       for gp, sp, or cp.
+#       1 sp = 0.1 gp
+#       1 cp = 0.01 gp
+#
+
+%Rolls%,0
+%GenItem%,0
+
+@Rolls,10,How many Items are in this Shop?
+@GenItem,1,What do you want to generate,ALL Items,Armors (Magical),Shields (Magical),Armors and Shields (Magical),Potions,Rings,Rods,Scrolls (ALL),Scrolls (ALL Divine Scrolls (Clr - Drd - Pal - Rng)),Scrolls (Arcane),Scrolls (Cleric),Scrolls (Druid),Scrolls (Paladin),Scrolls (Ranger),Staffs,Wands,Wondrous Items,Weapons
+
+:Start
+1,{Status~By Sean Hlousek, Valminder 2006}[Generate]
+
+:Generate
+1,{Loop~%Rolls%,[ItemGen=%GenItem%]}
+                               
+:ItemGen
+1,[RandomItem]
+2,[EQ Armory.Generate(1,4)]
+3,[EQ Armory.Generate(1,5)]
+4,[EQ Armory.Generate(1,6)]
+5,[EQ Magic Potions.Generate(1)]
+6,[EQ Magic Rings.Generate(1)]
+7,[EQ Magic Rods.Generate(1)]
+8,[EQ Magic Scrolls.Generate(1,1,99)]
+9,[EQ Magic Scrolls.Generate(1,2,99)]
+10,[EQ Magic Scrolls.Generate(1,3,99)]
+11,[EQ Magic Scrolls.Generate(1,4,99)]
+12,[EQ Magic Scrolls.Generate(1,5,99)]
+13,[EQ Magic Scrolls.Generate(1,6,99)]
+14,[EQ Magic Scrolls.Generate(1,7,99)]
+15,[EQ Magic Staffs.Generate(1)] 
+16,[EQ Magic Wands.Generate(1)]
+17,[EQ Magic Wondrous Items.Generate(1,1)]
+18,[EQ Blacksmith.Generate(1,3)]
+
+;RandomItem
+10,[EQ Armory.Generate(1,6)]
+10,[EQ Blacksmith.Generate(1,3)]
+10,[EQ Magic Potions.Generate(1)]
+10,[EQ Magic Rings.Generate(1)]
+10,[EQ Magic Rods.Generate(1)]
+15,[EQ Magic Scrolls.Generate(1,1,99)]
+10,[EQ Magic Staffs.Generate(1)] 
+10,[EQ Magic Wands.Generate(1)]
+20,[EQ Magic Wondrous Items.Generate(1,1)]

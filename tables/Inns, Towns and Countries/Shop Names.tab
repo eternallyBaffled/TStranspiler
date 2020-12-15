@@ -1,0 +1,515 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder Jan 30, 2006.
+# ---------------------------------------------------
+#
+# Shop Names
+#
+# From Dragon Annual 2000
+#
+# From the article "Sages, Shops & Smithies"
+# by Owen K.C. Stephens
+#
+# Converted to TableSmith by MadHatter
+#
+# Modified by Valminder April 2002
+#    I changed the "START" line to have a quick look at all shop types,
+#       without having to play with the parameters.
+#    I addded "GenShop2" from Ed Hasting' Shop Names table.
+#    
+
+/OverrideRolls 1
+
+%type%,0
+%race%,0
+%plural%,1
+
+#@type,0,0 Any/1 Market/2 Library/3 Smithies/4 Merchants/5 Alchemists/6 Generic
+@race,1,Race,Any,Dwarf,Elf
+
+:Start
+# 1,|plural=1|{If~%type%=0 ? [GenShop]/[GenShop=%type%]}
+1,<b><u>Shop Names</u>:</b> (Change Parameters to choose race)<br>
+_{Status~Dragon Annual 2000}
+_{IIf~%race%=2? <br><b>Dwarven Shop Names</b>}
+_{IIf~%race%=3? <br><b>Elven Shop Names</b>}
+_<br><br><u>Alchemists, Sages, and Spellcasters</u>: [~Alchemists].
+_<br><br><u>Farms and Markets</u>: [~Markets].
+_<br><br><u>Inn and Tavern</u>: [~Inn and Tavern Names.Names].
+_<br><br><u>Librairies, Scholars, and Mage Supply Stores</u>: [~Libraries].
+_<br><br><u>Merchant Shops</u>: [~Merchants].
+_<br><br><u>Smithies and Armories</u>: [~Smithies].
+_<br><br><u>Tavern</u>: [~Tavern Names.NAME].
+_<br><br><u>Generic</u>: [~Generic].
+
+
+:GenShop
+1,[Markets]{If~%type%=0 ? [Shop Type=1]}
+2,[Libraries]{If~%type%=0 ? [Shop Type=2]}
+3,[Smithies]{If~%type%=0 ? [Shop Type=3]}
+4,[Merchants]{If~%type%=0 ? [Shop Type=4]}
+5,[Alchemists]{If~%type%=0 ? [Shop Type=5]}
+6,[Generic]{If~%type%=0 ? [Shop Type=6]}
+
+:GenShop2
+1,[Markets]
+2,[Libraries]
+3,[Smithies]
+4,[Merchants]
+5,[Alchemists]
+#6,[Generic]
+
+:Shop Type
+1, (Farms and Markets)
+2, (Libraries, Scholars, and Mage Supply Stores)
+3, (Smithies and Armories)
+4, (Merchant Shops)
+5, (Alchemists, Sages, and Spellcasters)
+6, (Generic)
+
+:Markets
+1,{Cap~[S1=%race%]} {Cap~[S2=%race%]} Farms
+2,The {Cap~[S7=%race%]}'s Market
+3,The {Cap~[S7=%race%]}'s {Cap~[S8=%race%]} & {Cap~[S8=%race%]}
+4,{Cap~[S8=%race%]}[AddS=%plural%] & {Cap~[S6=%race%]}
+5,The {Cap~[S8=%race%]} {Cap~[S5=%race%]}
+6,The {Cap~[S1=%race%]} {Cap~[S7=%race%]}'s {Cap~[S6=%race%]} & {Cap~[S8=%race%]}
+7,{Cap~[S11=%race%]} {Cap~[S2=%race%]} Barns
+8,{Cap~[S2=%race%]} Square
+9,The {Cap~[S7=%race%]}'s {Cap~[S8=%race%]} {Cap~[S5=%race%]}
+10,{Cap~[S4=%race%]} {Cap~[S6=%race%]} Orchards
+
+:Libraries
+1,The {Cap~[S10=%race%]} & {Cap~[S6=%race%]}
+2,The {Cap~[S4=%race%]} Quill
+3,{Cap~[S5=%race%]} of {Cap~[S10=%race%]}[AddS=%plural%]
+4,{Cap~[S10=%race%]} & {Cap~[S2=%race%]}
+5,The {Cap~[S7=%race%]}'s Library
+6,The {Cap~[S1=%race%]} Wizard
+7,The {Cap~[S12=%race%]} {Cap~[S9=%race%]}
+8,The {Cap~[S9=%race%]} & {Cap~[S10=%race%]}
+
+:Smithies
+1,{Cap~[S11=%race%]} {Cap~[S5=%race%]}
+2,{Cap~[S6=%race%]} & {Cap~[S6=%race%]} Smithy
+3,The {Cap~[S2=%race%]}'s {Cap~[S9=%race%]}
+4,The {Cap~[S1=%race%]} Blacksmiths
+5,{Cap~[S4=%race%]} {Cap~[S6=%race%]} {Cap~[S11=%race%]}monger
+6,{Cap~[S4=%race%]} {Cap~[S7=%race%]}'s Forge
+7,{Cap~[S9=%race%]}[AddS=%plural%] & {Cap~[S9=%race%]}[AddS=%plural%]
+8,The {Cap~[S4=%race%]} {Cap~[S9=%race%]}
+9,The {Cap~[S11=%race%]} {Cap~[S9=%race%]}
+10,The {Cap~[S9=%race%]} {Cap~[S5=%race%]}
+
+:Merchants
+1,The {Cap~[S12=%race%]} {Cap~[S6=%race%]}
+2,From {Cap~[S6=%race%]}[AddS=%plural%] to {Cap~[S8=%race%]}[AddS=%plural%]
+3,Trader's {Cap~[S5=%race%]}
+4,{Cap~[S3=%race%]} of Merchants
+5,{Cap~[S4=%race%]} {Cap~[S6=%race%]} Dry Goods
+6,The {Cap~[S1=%race%]} {Cap~[S7=%race%]} Shop
+7,{Cap~[S6=%race%]} {Cap~[S6=%race%]} & {Cap~[S6=%race%]}
+8,The {Cap~[S2=%race%]}'s Bazaar
+
+:Alchemists
+1,The {Cap~[S1=%race%]} Sage
+2,Sorcerer's {Cap~[S2=%race%]}
+3,The {Cap~[S7=%race%]}'s {Cap~[S12=%race%]} {Cap~[S5=%race%]}
+4,{Cap~[S6=%race%]}[AddS=%plural%] & Potions
+5,The {Cap~[S2=%race%]}'s {Cap~[S3=%race%]}
+6,The {Cap~[S12=%race%]} {Cap~[S10=%race%]}
+7,The {Cap~[S3=%race%]} of {Cap~[S10=%race%]}[AddS=%plural%]
+8,The {Cap~[S12=%race%]} {Cap~[S5=%race%]}
+
+:Generic
+1,{Cap~[S1=%race%]} {Cap~[S2=%race%]}'s {Cap~[S3=%race%]}
+2,The {Cap~[S4=%race%]} {Cap~[S5=%race%]}
+3,The {Cap~[S11=%race%]} {Cap~[S7=%race%]}
+4,The {Cap~[S7=%race%]}'s {Cap~[S4=%race%]}
+5,The {Cap~[S6=%race%]} {Cap~[S9=%race%]}
+6,The {Cap~[S9=%race%]} {Cap~[S3=%race%]}
+7,The {Cap~[S1=%race%]} {Cap~[S7=%race%]}
+8,The {Cap~[S12=%race%]} {Cap~[S6=%race%]}
+9,The {Cap~[S4=%race%]} {Cap~[S2=%race%]}
+10,The {Cap~[S6=%race%]} {Cap~[S5=%race%]}
+
+:AddS
+1,s
+2,es
+3,
+
+:S1
+1,[Descriptives]
+2,[Descriptives={Dice~3d10}]
+3,[Descriptives={Dice~3d10+70}]
+
+:S2
+1,[Beasts]
+2,[Beasts={Dice~3d10}]
+3,[Beasts={Dice~3d10+70}]
+
+:S3
+1,[Animal Dwellings]
+2,[Animal Dwellings={Dice~1d4}]
+3,[Animal Dwellings={Dice~1d4+6}]
+
+:S4
+1,[Adjectives]
+2,[Adjectives={Dice~4d10}]
+3,[Adjectives={Dice~4d10+60}]
+
+:S5
+1,[Places={Dice~3d10}]
+2,[Places={Dice~1d8+2}]
+3,[Places={Dice~1d10+20}]
+
+:S6
+1,[Items]
+2,[Items={Dice~3d10}]
+3,[Items={Dice~3d10+70}]
+
+:S7
+1,[People={Dice~4d10}]
+2,[People={Dice~1d8+3}]
+3,[People={Dice~1d10+30}]
+
+:S8
+1,[Food]
+2,[Food={Dice~1d10}]
+3,[Food={Dice~1d8+12}]
+
+:S9
+1,[Arms and Armor]
+2,[Arms and Armor={Dice~1d10}]
+3,[Arms and Armor={Dice~1d10+10}]
+
+:S10
+1,[Writings]
+2,[Writings={Dice~1d4}]
+3,[Writings={Dice~1d6+4}]
+
+:S11
+1,[Metals]
+2,[Metals={Dice~1d4}]
+3,[Metals={Dice~1d4+6}]
+
+:S12
+1,[Magic]
+2,[Magic={Dice~1d4}]
+3,[Magic={Dice~1d4+4}]
+
+:Descriptives
+1-4,grumpy
+5-8,old
+9-12,stout
+13-16,crafty
+17-20,bold
+21-24,drunken
+25-28,sleeping
+29-32,hearty
+33-36,buxom
+37-40,blind
+41-44,crazy
+45-48,honest
+49-52,frowning
+53-56,blinking
+57-60,wandering
+61-64,welcoming
+65-68,merry
+69-72,good
+73-76,lucky
+77-80,laughing
+81-84,beautiful
+85-88,blue-eyed
+89-92,flying
+93-96,gallant
+97-100,fair
+
+:Beasts
+1-3,serpent
+4-5,badger
+6-8,frog
+9-10,dragon
+11-13,rat
+14-15,boar
+16-18,mole
+19-20,bat
+21-23,hound
+24-25,ram
+26-28,hog
+29-30,bear
+31-33,monster
+34-35,eel
+36-38,pullet
+39-40,beholder
+41-43,goat
+44-45,bull
+46-48,lion
+49-50,spider
+51-53,rooster
+54-55,tiger
+56-58,hare
+59-60,wolf
+61-63,horse
+64-65,wasp
+66-68,raven
+69-70,eagle
+71-73,cat
+74-75,phoenix
+76-78,owl
+79-80,fox
+81-83,hawk
+84-85,pegasus
+86-88,drake
+89-90,swan
+91-93,stag
+94-95,falcon
+96-98,unicorn
+99-100,gryphon
+
+:Animal Dwellings
+1,den
+2,burrow
+3,lair
+4,hole
+5,patch
+6,web
+7,lodge
+8,briar
+9,nest
+10,eyrie
+
+:Adjectives
+1-2,wet
+3-5,half
+6-7,red
+8-10,secret
+11-13,black
+14-19,[Metals]
+20-21,short
+22-24,buried
+25-27,gray
+28-30,crossed
+31-33,honored
+34-36,broken
+37-39,fireside
+40-42,yellow
+43-45,two
+46-48,three
+49-51,four
+52-54,five
+55-57,burning
+58-60,frozen
+61-63,ashen
+64-66,sweet
+67-69,hidden
+70-72,shining
+73-75,white
+76-78,royal
+79-81,green
+82-84,wooden
+85-90,[Magic]
+91-93,blue
+94-96,ancient
+97-100,mystic
+
+:Places
+1-3,clan
+4,guild
+5,keep
+6,camp
+7,bailey
+8,bridge
+9,gate
+10,castle
+11,donjon
+12,ford
+13,balcony
+14,abby
+15,home
+16,room
+17,dale
+18,barn
+19,galleon
+20,moor
+21,grove
+22,court
+23,palace
+24,garden
+25,forest
+26,house
+27,lodge
+28,vale
+29,meadow
+30,coliseum
+
+:Items
+1-2,lamp
+3-4,barrel
+5,ale
+6-7,horn
+8-9,earth|plural=3|
+10,nail
+11-12,arms|plural=3|
+13-14,cleaver
+15,anvil
+16-17,mug
+18-24,[Arms and Armor]
+25,rock
+26-27,boot
+28-29,stone
+30,cork
+31-32,miter
+33-34,anchor
+35,fire
+36-37,basket
+38-39,book
+40,coal
+41-42,bell
+43-44,bottle
+45,candle
+46-47,ash|plural=2|
+48-49,cup
+50,water
+51-52,hammock
+53-54,tun
+55,cobblestone
+56-57,broom
+58-59,cart
+60-62,[Arms and Armor]
+63-64,board
+65,skull
+66-67,crown
+68-69,lily
+70,star
+71-72,rod
+73-74,crystal
+75,sun
+76-77,oak
+78-79,flute
+80,acorn
+81-82,air
+83-84,staff
+85,harp
+86-93,[Arms and Armor]
+94,rose
+95-96,ring
+97,wand
+98-99,moon
+100,elm
+
+:People
+1-4,warrior
+5,brewer
+6,baker
+7,priest
+8,merchant
+9,lad
+10,lass
+11,smith
+12,hero
+13,witch
+14,corsair
+15,paladin
+16,beggar
+17,hag
+18,brigand
+19,sister
+20,brother
+21,mother
+22,father
+23,jester
+24,elf
+25,halfing
+26,dwarf
+27,gnome
+28,angel
+29,mariner
+30,druid
+31,lady
+32,lord
+33,scholar
+34,wizard
+35,knight
+36,archer
+37,dancer
+38,woodsman
+39,harper
+40,bard
+
+:Food
+1,sausage
+2,ale
+3,roast
+4,mead
+5,cabbage
+6,mushroom
+7,soup
+8,pepper
+9,cheese
+10,bread
+11,rye
+12,barley
+13,fowl|plural=3|
+14,cream
+15,pastry
+16,berry
+17,apple
+18,wine
+19,milk
+20,cake
+
+:Arms and Armor
+1,gauntlet
+2,axe
+3,pick
+4,helm
+5,hammer
+6,pike
+7,mace
+8,flail
+9,bolt
+10,hatchet
+11,greave
+12,blade
+13,spur
+14,mail|plural=3|
+15,spear
+16,dagger
+17,arrow
+18,shield
+19,lance
+20,sword
+
+:Writings
+1,runestone
+2,book
+3,tome
+4,manual
+5,text
+6,parchment
+7,scroll
+8,folio
+9,script
+10,page
+
+:Metals
+1,iron
+2,steel
+3,mithril
+4,brass
+5,copper
+6,bronze
+7,silver
+8,gold
+9,platinum
+10,adamantine
+
+:Magic
+1,runic
+2,cryptic
+3,magical
+4,divine
+5,arcane
+6,mystic
+7,secret
+8,sorcerous

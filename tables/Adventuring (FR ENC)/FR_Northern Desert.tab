@@ -1,0 +1,124 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder Oct 30, 2003.
+# ---------------------------------------------------
+#
+# SMS
+# 06/26/03
+# Forgotten Realms Table 52: Northern Sandy/Rocky Desert (EL 5-10) random encounter tables
+#
+# Corrected by Valminder, Oct 2003
+#   -{If~} and {Dice~}
+#
+#Variables
+
+%Region%,1
+%Time%,0
+%Temp%,0
+
+#Parameters
+
+@Time,3,Select a time of day,Day,Night,_
+
+#
+#  Starts by putting up the instructions
+#
+
+:Start
+1,{If~%Time% = 3 ? [Instructions]/[Northern Desert %Time%]}
+
+;Instructions
+1,<b>Forgotten Realms Table 52: Northern Sandy/Rocky Desert (EL 5-10)</b></br></br><h3>Instructions:</h3>
+_<b>Determine whether an encounter should occur before using this table. The chance of an encounter is based on terrain type and travel (chance per hour):</b><br>
+_<table border=1><tr><th>Terrain</th><th>Normal Travel</th><th>Cautious Travel</th><th>Hiding</th></tr>
+_<tr><td>Desolate/wasteland</td><td>5/%</td><td>2/%</td><td>1/%</td></tr>
+_<tr><td>Frontier/wilderness</td><td>8/%</td><td>4/%</td><td>2/%</td></tr>
+_<tr><td>Verdant/civilized area</td><td>10/%</td><td>5/%</td><td>2/%</td></tr>
+_<tr><td>Heavily traveled</td><td>12/%</td><td>6/%</td><td>3/%</td></tr>
+_</table>
+_<ol><li>Use the Parameter Box (below) to indicate whether it is day or night. Selecting "_" displays these instructions.</li>
+_<li>The only region this table applies to is <font color=blue>Anauroch</font> so there is no region parameter</li></ul><br>
+
+# 1 corresponds to time="Day"
+:Northern Desert 1
+01-04,Barghest Pack: {Dice~1d2} barghest and {Dice~1d4+4} goblins
+05-08,{Dice~1d2} Dire lion
+09,{Dice~1d6+4} Dire lion
+10-12,{Dice~1d4+4} Dire wolf
+13-22,Dragon: [ND_Dragon]
+23-27,{Dice~1d6} Ettin
+28-32,{Dice~1d3+1} Gargoyle
+33-36,{Dice~1d3+1} Hell hound
+37-38,{Dice~1d2} Hellcat (devil)
+39-40,Ibrandlin (MoF)
+41-45,{Dice~1d3+1} Janni (genie)
+46-49,{Dice~1d4+1} Kir-lanan gargoyle (FRCS)
+50-52,{Dice~1d2} Lamia
+53-63,[ND_Local]
+64,{Dice~1d3+1} Mummy
+65,Nishruu (MoF)
+66,Nyth (MoF)
+67-72,{Dice~1d3+1} Ogre
+73-83,Orc Patrol: {Dice~1d4+4} orcs, {Dice~1d2} level {Dice~1d3} orc barbarians, led by level {Dice~1d4+2} [FR_Misc.Orc_Class]
+84-88,Troll
+89-95,{Dice~1d6+3} Animal: wolf
+96-100,{Dice~1d4} Worg
+
+# 2 corresponds to time="Night"
+:Northern Desert 2
+01-02,{Dice~1d2} Abishai, blue (MoF)
+03-04,Baneguard (MoF)
+05-06,Barghest Pack: {Dice~1d2} barghest and {Dice~1d4+4} goblins
+07-09,{Dice~1d2} Darkenbeast
+10-11,{Dice~1d2} Dire lion
+12,{Dice~1d6+4} Dire lion
+13-14,{Dice~1d4+4} Dire wolf
+15-24,Dragon: [ND_Dragon]
+25-26,Dread warrior (MoF)
+27-29,{Dice~1d6} Ettin
+30-31,{Dice~1d3+1} Gargoyle
+32-33,{Dice~1d3+1} Ghast
+34-35,Ghast pack: {Dice~1d3+1} ghasts and {Dice~1d6+6} ghouls
+36-38,{Dice~1d3+3} Ghoul
+39-40,{Dice~1d3+1} Hell hound
+41-42,{Dice~1d2} Hellcat (devil)
+44-45,Ibrandlin (MoF)
+46-49,{Dice~1d3+1} Janni (genie)
+50-52,{Dice~1d4+1} Kir-lanan gargoyle (FRCS)
+53-54,{Dice~1d2} Lamia
+55-65,[ND_Local]
+66-70,{Dice~1d3+1} Mummy
+71,Nishruu (MoF)
+72,Nyth (MoF)
+73-75,{Dice~1d3+1} Ogre
+76-85,Orc Patrol: {Dice~1d4+4} orcs, {Dice~1d2} level {Dice~1d3} orc barbarians, led by level {Dice~1d4+2} [FR_Misc.Orc_Class]
+86-87,{Dice~1d6} Shadow
+88,{Dice~1d2} Shadow mastiff
+89-92,Troll
+93,{Dice~1d4+1} Vargouille
+94-95,{Dice~1d6} Wight
+96-97,{Dice~1d6+3} Animal: wolf
+98-99,{Dice~1d4} Worg
+100,{Dice~1d3} Wraith
+
+:ND_Local
+01-50,Local creatures: [ND_Local%Region%]
+51-100,<b>NPCs:</b><br>{Loop~{Dice~1d3+2},[FR_Random_NPC.FR_SM_NPC]}
+
+#Anauroch local creatures when Region = 1
+:ND_Local1
+01-45,{Dice~1d4+1} Asabi (MoF)
+46-60,Bedine Band (usually Chaotic Good): scouting group of {Dice~1d3+1} 1st level warriors, {Dice~1d2} level {Dice~1d3+2} rangers, led by level {Dice~1d3+1} [FR_Misc.Bedine_Class], mounted on camels
+61-70,{Dice~1d2} Phaerimm
+71-85,Shadovar Patrol (usually Neutral Evil): {Dice~1d4+4} 1st level human fighters, {Dice~1d2} level {Dice~1d4} human fighters, {Dice~1d2} level {Dice~1d6} human sorcerer, led by [FR_Misc.Shade_Leader]
+_{If~{Dice~1d100} < 26 ? mounted on dire bats/}
+86-100,{Dice~1d4+1} Stingtail (asabi) (MoF)
+
+:ND_Dragon
+01-10,Blue, juvenile
+11-20,Brass, young adult
+21,Dracolich: Brown, juvenile
+22-55,Brown, yound adult (MoF)
+56-65,Copper, young adult
+66-70,Gold, juvenile
+71-99,White, adult
+100,Dracolich, White, young adult (FRCS)

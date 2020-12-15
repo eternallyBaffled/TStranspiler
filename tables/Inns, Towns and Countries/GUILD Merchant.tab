@@ -1,0 +1,319 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder Jan 30, 2006.
+# ---------------------------------------------------
+#
+# Guild Generator 
+# By Ashon (tfcoug@hotmail.com)
+#
+# This Table generates a random Professional Guild for your game, giving you
+# the name, the number of members, the type of leadership in the guild, what
+# they deal with, who the guild master is, and gives you a basic Guild
+# Charter. It also gives you some contracts (Adventures) that can be had
+# through the guild.
+#
+# The Price Fluctuates Dramatically also so you can change the die roll on
+# the mod price down below.
+#
+# It Currently Calls the following external tables:
+#    Names Generator.NAME For All
+#    Rune Generator.GenRune
+#    Countries.Generate
+#    Miscellaneous.Shop
+#
+# Any Additions to the list can (as always be emailed to me)
+#
+# Modified by Valminder, Jan 2006.
+#    Adapted for TSv5
+#    I added some ~ functions to be able to modify some outputs.
+#    Added a choiced of world (Greyhawk or Mystara).
+#       Added link to "Countries.Countries"
+#    Slightly modified the "GenGuildBehavior" subtable to work with
+#       %guild_align% variable which could be numberered 1 to 9.
+# Modified by Valminder, Octobre 2016
+#    Modified link "Countries.Start" to "Countries.Countries"
+#
+# Modified by Ashon, Sept 2007.
+#    Added: [Get Guild Name] so that the guild could be used in other tables
+ 
+
+/OverrideRolls 1
+
+# variable Definitions
+%guild_name%,0
+%guild_goods%,0
+%guild_home%,0
+%guild_arms%,0
+%guild_size%,0
+%guild_Nb_APPRENTICES%,0
+%guild_Nb_JOURNEYMEN%,0
+%guild_Nb_MASTERS%,0
+%guild_leadership%,0
+%guild_alignment%,0
+%guild_align%,0
+%guild_practices%,0
+%payscale%,10
+%payscale1%,0
+%hours%,10
+%payscale2%,0
+%guild_name_formatting%,0
+%conduct_public%,0
+%conduct_contracts%,0
+%conduct_guild%,0
+%temp_name%,0
+
+%World%,1
+
+@World,2,Choose the world you want,Greyhawk,Mystara
+
+:Start
+1,{Status~By Ashon, Valminder 2006}[GENERATE][Output]
+
+:Tab2
+1,&nbsp&nbsp
+
+:Tab4
+1,&nbsp&nbsp&nbsp&nbsp
+
+:GetGUILD
+1, 
+
+:GENERATE
+1,|guild_goods=[Guild Goods]|
+_ |guild_home=[Guild Home=%World%]|
+#_ |guild_name={CapEachWord~[Guild Name1]}|
+_ |guild_name={Cap~[Guild Name1]}|
+#_ |guild_arms=[Guild Suit of Arms]|
+_ [Guild Membership]
+_ |guild_leadership=[Guild Leadership]|
+_ [GenGuildBehavior=%guild_align%]
+_ |guild_practices=[Guild Practices=%guild_align%][Guild Charter]|
+
+:Output
+1,<b>GUILD NAME:</b> %guild_name%<br>
+_<b>Tradestuffs:</b> %guild_goods%<br>
+_<b>Guild home:</b> %guild_home%<br>
+#_<b>Guild Arms:</b> %guild_arms%<br>
+_<b>Guild Arms:</b> [~Guild Suit of Arms]<br>
+_<b>Guild Membership:</b> %guild_size% (Total Membership)<br>
+_[Tab2] <b>Guild Power Structure:</b> %guild_leadership%<br>
+_[Tab2] <b>Guild Representitive:</b> [~Names Generator.NAME For All]<Br>
+_[Tab2] Masters: %guild_Nb_MASTERS%[Tab4]
+_Journeymen: %guild_Nb_JOURNEYMEN%[Tab4]
+_Apprentices: %guild_Nb_APPRENTICES%<br>
+_%guild_practices%
+_<hr><B>Available Contracts</b><br>
+_{Loop~{Dice~1d3},[Extras]<Br>} 
+
+:Guild Practices
+1,[Guild Practices LG]
+2,[Guild Practices NG]
+3,[Guild Practices CG]
+4,[Guild Practices LN]
+5,[Guild Practices N]
+6,[Guild Practices CN]
+7,[Guild Practices LE]
+8,[Guild Practices NE]
+9,[Guild Practices CE]
+
+;Guild Charter
+1,<hr><b>The guild charter:</b><Br>
+_<u>Rights of the Apprentice</u>:<Br>
+_Pay: %payscale1% [Tab4] Hours Worked: %hours%<br>
+_An Apprentice may apply to his master once a year to rise to the level of Journeymen he must meet the following requirements:<br>
+_Show Moderate Skill in the craft (Profession/Craft DC:{Dice~1d8+4})<br>
+_Vow, in front of witnesses to serve the master for {Dice~1d4+2} years<br><br>
+_<u>Rights of the Journeyman</u>:<br>
+_Pay: %payscale2% [Tab4] Hours Worked: %hours%<br>
+_A Journeyman may apply to his master when he completes his Journeymen's service, and once a year afterwards, he must meet the following requirements:<br>
+_Show Good Skill in the craft (Profession/Craft DC:{Dice~1d12+8})<br>
+_Vow, in front of witnesses to serve the master for an additional {Dice~1d2+1} years<br>
+_Locate an Area that is not currently being served by the Guild and setting up shop<br><br>
+_None other then a Master of the Guild may sell any goods provided by the guild.<br>
+_He shall charge exactly: {Dice~1d200+15}[Percent] (of Items market price)
+_[Behavioral Charter]
+
+# --------------------------------------------------------------------------
+
+:Behavioral Charter
+1,<hr><b>Members of this Guild can be expected to act in the following manners:</b><br>
+_A master shall <i>%conduct_public%</i> when they are dealing with the public in a regards to the business of the guild.<br>
+_A master shall <i>%conduct_contracts%</i> in regards to dealing with contracts.<br>
+_A master shall handle other guild members <i>%conduct_guild%</i>.<Br>
+
+:GenGuildBehavior
+1,[Lawful]
+2,[Neutral]
+3,[Chaotic]
+4,[Lawful]
+5,[Neutral]
+6,[Chaotic]
+7,[Lawful]
+8,[Neutral]
+9,[Chaotic]
+
+;Lawful
+1,|conduct_public=follow the law|
+_ |conduct_contracts=strictly interpret|
+_ |conduct_guild=within guild defined parameters|
+
+;Neutral
+1,|conduct_public=act as they see fit|
+_ |conduct_contracts=interpret at their own whim|
+_ |conduct_guild=as is most beneficial for the master|
+
+;Chaotic
+1,|conduct_public=take every advantage|
+_ |conduct_contracts=interpret in their own best interest|
+_ |conduct_guild=however the master feels like handling them|
+
+;Guild Practices LG
+1,|payscale1={Calc~ %payscale% + {Dice~1d5}}sp|
+_|payscale2={Calc~ %payscale% + {Dice~1d10+5}}sp|
+_|hours={Calc~%hours% - {Dice~1d4}}|
+
+;Guild Practices NG
+1,|payscale1={Calc~ %payscale% + {Dice~1d4}}sp|
+_|payscale2={Calc~ %payscale% + {Dice~1d10+4}}sp|
+_|hours={Calc~%hours% - {Dice~1d3}}|
+
+;Guild Practices CG
+1,|payscale1=whatever he and his Master agree upon|
+_|payscale2=whatever he and his Master agree upon|
+_|hours=whatever he and his Master agree upon|
+
+;Guild Practices LN
+1,|payscale1={Calc~ %payscale% + {Dice~1d2}}sp|
+_|payscale2={Calc~ %payscale% + {Dice~1d10+2}}sp|
+_|hours={Calc~%hours% - {Dice~1d4}}|
+
+;Guild Practices N
+1,|payscale1=whatever the master feels is fair|
+_|payscale2=whatever the master feels is fair|
+_|hours=as many hours as the master feels fit|
+
+;Guild Practices CN
+1,|payscale1={Calc~ %payscale% + {Dice~1d1}}sp|
+_|payscale2={Calc~%payscale% + {Dice~1d10+1}}sp|
+_|hours={Calc~%hours% + {Dice~1d6}}|
+
+;Guild Practices LE
+1,|payscale1={Calc~%payscale% - {Dice~1d5}}sp|
+_|payscale2={Calc~%payscale% + {Dice~1d5}}sp|
+_|hours={Calc~%hours% + {Dice~1d8}}|
+
+;Guild Practices NE
+1,|payscale1=whatever the master pays|
+_|payscale2=whatever the master pays|
+_|hours=as long as the master orders|
+
+;Guild Practices CE
+1,|payscale1=whatever pitiance the master gives them|
+_|payscale2=whatever pitiance the master gives them|
+_|hours=whatever hours the master commands|
+
+:Guild Leadership
+1-13,[Guild PowerConv] - [Guild Alignment]
+14-18,[Guild PowerNonStd] - [Guild Alignment]
+
+:Guild Alignment
+1,|guild_alignment=[Alignment Types]|%guild_alignment%
+
+:Alignment Types
+1-35,LG|guild_align=1|
+36-39,NG|guild_align=2|
+40-41,CG|guild_align=3|
+42-61,LN|guild_align=4|
+62-63,N|guild_align=5|
+64,CN|guild_align=6|
+65-90,LE|guild_align=7|
+91-98,NE|guild_align=8|
+99-100,CE|guild_align=9|
+
+;Guild PowerConv
+1,Guild Master
+1,Guild Council
+
+;Guild PowerNonStd
+1,Subservient to Another Guild
+1,Council of Retired Master Level Guild Members
+1,Trivumate of Three Master Level Guild Members
+
+;Guild Membership
+1,|guild_size={Dice~2d40+20}|
+_|guild_Nb_APPRENTICES={Round~0,{Calc~%guild_size%*.5}}|
+_|guild_Nb_JOURNEYMEN={Round~0,{Calc~%guild_size%*.35}}|
+_|guild_Nb_MASTERS={Round~0,{Calc~%guild_size%*.15}}|
+
+;Guild Membership(TSv4)
+1,|guild_size={Dice~2d40+20}|
+_|guild_Nb_APPRENTICES={Round~{Calc~%guild_size%*.5},0}|
+_|guild_Nb_JOURNEYMEN={Round~{Calc~%guild_size%*.35},0}|
+_|guild_Nb_MASTERS={Round~{Calc~%guild_size%*.15},0}|
+
+# --------------------------------------------------------------------------
+
+;Guild Suit of Arms
+1,[Rune Generator.GenRune]
+
+# 1= GReyhawk, 2=Mystara
+:Guild Home
+1,[Countries.Generate]
+2,[Countries.Countries]
+
+;Guild Goods
+1,[Miscellaneous.Shop]
+
+# --------------------------------------------------------------------------
+
+;Get Guild Name
+1,|guild_goods=[Guild Goods]|
+_ |guild_home=[Guild Home=%World%]|
+_ |guild_name={Cap~[Guild Name1]}|%guild_name%
+
+;Guild Name1
+1,|guild_name_formatting=%guild_goods%|
+_|guild_name_formatting={Replace~shop,,%guild_name_formatting%}|
+_|guild_name_formatting={Replace~master,,%guild_name_formatting%}|
+_|guild_name_formatting={Replace~ist,ical,%guild_name_formatting%}|
+_|guild_name_formatting={Replace~office,,%guild_name_formatting%}|
+_|guild_name_formatting={Replace~worker,,%guild_name_formatting%}|
+_|guild_name_formatting={Replace~smith,,%guild_name_formatting%}|
+_|guild_name_formatting={Trim~%guild_name_formatting%}|
+_|guild_name_formatting={Plural~%guild_name_formatting%}|
+_[Guild Name2]
+
+;Guild Name2
+1,House of %guild_name_formatting%
+1,%guild_name_formatting% masters
+1,Master %guild_name_formatting%
+1,|guild_name_formatting={Replace~a,ae,%guild_name_formatting%}|[Guild Name2]
+1,%guild_name_formatting% Chapter House
+1,%guild_name_formatting% of %guild_home%
+1,Order of %guild_name_formatting%
+
+# --------------------------------------------------------------------------
+
+;Extras
+1,The %guild_name%, has a contract to deliver a cart full of %guild_goods% to [Names Generator.NAME For All] in [~Guild Home=%World%].
+1,The %guild_name%, has a Bounty on one of their {If~{Dice~1d2}=1 ? 
+_ Masters,|temp_name=[Names Generator.NAME For All]| %temp_name% who is [Master Bounty Reason]. /
+_ Journeymen, |temp_name=[Names Generator.NAME For All] |%temp_name% who is [Journey Bounty Reason].}
+_ %temp_name% currently resides in [~Guild Home=%World%]
+1,The %guild_name%, has a contract to pick up it's yearly tax from the masters in [~Guild Home=%World%].
+1,The %guild_name%, has a contract to deliver raw goods from [~Guild Home=%World%] to %guild_home%.
+1,The %guild_name%, has a contract to protect a Caravan from [~Guild Home=%World%] to [~Guild Home=%World%].
+1,The %guild_name%, has a contract to find [Names Generator.NAME For All] who was sworn to service to the guild, but has disappeared.
+
+;Master Bounty Reason
+1, selling goods at a deep discount
+1, trading in illegal goods
+1, acting as a non-authorized Reprensitive of the Guild Council
+1, selling trade secrets
+
+;Journey Bounty Reason
+1, representing themselves as a Master, but who hasn't been initiated into the Guild as a Master
+1, has gone rogue, and is working without a license
+1, selling trade secrets
+
+:Percent
+1,/%

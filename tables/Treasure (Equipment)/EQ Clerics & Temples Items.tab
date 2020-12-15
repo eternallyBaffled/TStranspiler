@@ -1,0 +1,399 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder August 24, 2006.
+# ---------------------------------------------------
+#
+# Clerical & Holy Items
+#
+# Sean Hlousek
+#
+# -------------------------------------------------------------------------
+#
+# To call this table from another one:
+#    [EQ Clerics & Temples Items.Generate(%Rolls%)
+#
+#    Parameters: (%Rolls%)
+#
+#    Rolls:    (1) Enter the number of items needed.
+#
+# -------------------------------------------------------------------------
+#
+# Modified by Valminder, August  2006.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+#    I heavily modified this table. I could modify it more by
+#       removing all the variables for the cost, but it would
+#       be too long. For now, it works fine.
+#    The final price need to be adjusted for some items, but it
+#       seems relatively OK.
+#    I diminished the price variation in [Store].
+#    Cost of Items: Put the cost in GP, the output will modify it
+#       for gp, sp, or cp.
+#       1 sp = 0.1 gp
+#       1 cp = 0.01 gp
+#
+
+%HolyRobes%,250
+%HolyVestments%,40
+%EmblazonedShield%,150
+%SacredArmor%,300
+%Kartika%,1
+%Athame%,20
+%Dorje%,150
+%Scourge%,20
+%SprinklingFlail%,12
+%SacredWeapon%,500
+%AltarShroud%,15
+%BackTravois%,100
+%Banner%,175
+%SacredBanner%,350
+%Bell%,50
+%Besom%,1
+%BlessedFood(perMeal)%,0.5
+%Bull-Roarer%,5
+%CandleSnuffer%,0.5
+%CandlemakingKit%,20
+%Chalice%,100
+%Cleric'sTravelingOutfit%,25
+%Cleric'sVestments%,5
+%Crystal's%,1
+%Diadem%,250
+%DivineSymbolFlask%,25
+%CeremonialDrum%,25
+%EstuaryCase%,60
+%FairyDust%,5
+%FieldHealer'sKit%,50
+%FireWheel%,15
+%GraveyardSoil%,1
+%Glyphbook%,10
+%RitualHeadgear%,50
+%Healer'sKit%,50
+%HolySymbol%,25
+%HolySymbolFlameTouched%,750
+%HolyTexts%,200
+%HolyWater(1pintflask)%,25
+%Horn%,10
+%KneelingBar%,30
+%Mandala%,1
+%ManiWheel%,200
+%OfferingBowl%,20
+%Pendulum%,100
+%Pennant%,200
+%SacredPennant%,300
+%Pipe%,0.1
+%PoisonAntidoteKit%,100
+%PortableAltar%,30
+%PrayerBeads%,10
+%PrayerBook%,50
+%PrayerRug%,40
+%PreservativeFluid(1PintFlask)%,30
+%RelicCase%,65
+%RitualSword%,100
+%SacredCords(10Feet)%,1
+%SacrificialImplements%,50
+%SeaSaly%,3
+%Shaman'sOutfit%,4
+%SingingBowlandPujaStick%,35
+%SmudgingStick%,1
+%HolyWaterSprinkler%,20
+%Thurible%,125
+%Tingshas%,60
+%Vase%,20
+%RitualWine(perbottle)%,15
+%SacredOil:AshOak&Thorn%,200
+%SacredOil:Brairwood%,85
+%SacredOil:Cedar%,100
+%SacredOil:Diamond%,350
+%SacredOil:Erinyes'Tears%,145
+%SacredOil:Feywing%,600
+%SacredOil:Hellstorm%,115
+%SacredOil:Jasper&Yarrow%,200
+%SacredOil:Leafrot%,120
+%SacredOil:Myrrh%,50
+%SacredOil:Nightshade%,150
+%SacredOil:Purity%,210
+%SacredOil:RitualFocus%,300
+%AlterCase%,15
+%AlterCloth%,3
+%Aspergillum%,20
+%Brazier%,17
+%FieldBrazier%,4
+%Candelabra%,25
+%TempleCandle%,2
+%12HourCandle%,0.1
+%TimeKeepingCandle%,1
+%VigilCandle%,10
+%Candlestick%,12
+%Hand-HeldCandlestick%,1
+%Censer%,1
+%Incense-Common%,1
+%Incense-Exotic%,15
+%SnuffingBell%,6
+
+### Was %Base%
+%PercentGPMod%,1
+### This is the Store modifier on all its prices 70% to 200% (normal 95% - 105%)
+%STVR%,0
+### How many items to roll
+%Rolls%,0
+#### Was %Base1%
+%MagicalGPMod%,0
+
+# New variables Aug 2006.
+%Item%,0
+%Book%,0
+%Cost%,0
+%Condition%,0
+%GenItem%,0
+# 1= Mundane Item, 2= Magical Item
+%Magic%,1
+%MWGPMod%,0
+%ArmorSizeMod%,1
+# To be used with "EQ_Main.tab"
+%GetData%,0
+%DataName%,0
+%DataPercentMod%,0
+%BodySize%,0
+%MoneyType%,gp
+
+@Rolls,10,How many Items are in this Shop?
+
+:Start
+1,{Status~By Sean Hlousek, Valminder 2006}[Generate]
+
+:Generate
+1,|STVR=1|[Store]
+#_[Multiplier]
+_{Loop~%Rolls%,|BodySize=0||PercentGPMod=0||MagicalGPMod=0||Magic=1||MWGPMod=0||ArmorSizeMod=1|
+_[HolyItems][Print=%Magic%]{If~%Rolls%>1?<br>}}
+
+:Print
+1,<b>Item:</b> <i><font color="Purple">%Item%</font></i>[Print2]
+2,<b>Item:</b> <i><font color="Blue">(Magic) %Item%</font></i>[Print2]
+
+:Print2
+1, <font size=1>(%Book%)</font>{If~%BodySize%=1? ([BodySize] size)}
+_|Cost+%MagicalGPMod%||Cost+%MWGPMod%|{If~%Magic%=1?|Cost*%ArmorSizeMod%|}
+_[Calculate Cost]
+_ (%Condition%, [AddComma.Start(%Cost%)] %MoneyType%)
+
+# This will give a modifier to the cost of the items.
+;Store
+2,|STVR-{Calc~({Dice~1d10+20}/100)}|
+4,|STVR-{Calc~({Dice~1d10+10}/100)}|
+8,|STVR-{Calc~({Dice~1d10+5}/100)}|
+15,|STVR-{Calc~({Dice~1d5}/100)}|
+70,|STVR=1|
+30,|STVR+{Calc~({Dice~1d5}/100)}|
+15,|STVR+{Calc~({Dice~1d10+5}/100)}|
+8,|STVR+{Calc~({Dice~1d10+10}/100)}|
+4,|STVR+{Calc~({Dice~1d15+20}/100)}|
+2,|STVR+{Calc~({Dice~1d25+35}/100)}|
+1,|STVR+{Calc~({Dice~1d50+50}/100)}|
+
+:Multiplier
+1,Price Multiplier: %STVR%<br>
+
+:Calculate Cost
+1,|Cost={Calc~((%STVR%+%PercentGPMod%)*%Cost%)}|
+_{If~%Cost%>=5?|Cost={Trunc~%Cost%}||MoneyType=gp|}
+_{If~{And~%Cost%>=1,%Cost%<5}=1?{If~%Cost%={Trunc~%Cost%}?|MoneyType=gp|/|Cost={Round~1,%Cost%}||Cost*10||MoneyType=sp|}}
+_{If~%Cost%<0.1?|Cost*100||Cost={Trunc~%Cost%}|{If~%Cost%=0?|Cost=1|}|MoneyType=cp|/{If~%Cost%<1?|Cost*10||Cost={Trunc~%Cost%}|{If~%Cost%=0?|Cost=1|}|MoneyType=sp|}}
+
+#-------------------------------------------------------------------------------
+;HolyItems
+25,|Item=Holy Robes of [~Religion.Deities2(2)]</font></i> colored [RobeColorsMix].||BodySize=1||Book=UEG||Condition=[Condition]||Cost=%HolyRobes%|
+10,|Item=Holy Vestments of [~Religion.Deities2(2)]</font></i> colored [RobeColorsMix].||BodySize=1||Book=UEG||Condition=[Condition]||Cost=%HolyVestments%|
+5,|Item=Emblazoned Shield of [~Religion.Deities2(2)]</font></i>[CommonRingMetal].||Book=UEG||Condition=[Condition]||Cost=%EmblazonedShield%|
+2,|Item=Sacred Armor</font></i>[CommonRingMetal].||Book=UEG||Condition=[Condition]||Cost=%SacredArmor%|
+2,|Item=Kartika</font></i> with a bludgening end[CommonRingMetal], a haft[WoodOrSteel] and a hilt made out of [HiltMaterial].||Book=UEG||Condition=[Condition]||Cost=%Kartika%|
+1,|Item=Athame</font></i> with a blade[CommonRingMetal], a haft[WoodOrSteel] and a hilt made out of [HiltMaterial].||Book=UEG||Condition=[Condition]||Cost=%Athame%|
+2,|Item=Dorje||Book=UEG||Condition=[Condition]||Cost=%Dorje%|
+5,|Item=Scourge</font></i> with whipping ends made out of [HiltMaterial], a haft[WoodOrSteel] and a hilt made out of [HiltMaterial].||Book=UEG||Condition=[Condition]||Cost=%Scourge%|
+7,|Item=Sprinkling Flail</font></i> with a bludgening end[CommonRingMetal], a haft[WoodOrSteel] and a hilt made out of [HiltMaterial].||Book=UEG||Condition=[Condition]||Cost=%SprinklingFlail%|
+#|Item=Sacred Weapon||Book=UEG||Condition=[Condition]||Cost=%SacredWeapon%|
+10,|Item=Altar Shroud</font></i> colored [RobeColorsMix].||Book=UEG||Condition=[Condition]||Cost=%AltarShroud%|
+10,|Item=Back Travois||Book=UEG||Condition=[Condition]||Cost=%BackTravois%|
+5,|Item=Banner</font></i> colored [RobeColorsMix].||Book=UEG||Condition=[Condition]||Cost=%Banner%|
+1,|Item=Sacred Banner of [~Religion.Deities2(2)]</font></i>||Book=UEG||Condition=[Condition]||Cost=%SacredBanner%|
+20,|Item=Bell</font></i>[CommonRingMetal].||Book=UEG||Condition=[InstrumentCondition]||Cost=%Bell%|
+5,|Item=Besom</font></i> made out of [Woods].||Book=UEG||Condition=[Condition]||Cost=%Besom%|
+3,|Item=Blessed Food of [~Religion.Deities2(2)] (per Meal)||Book=UEG||Condition=[Condition]||Cost=%BlessedFood(perMeal)%|
+2,|Item=Bull-Roarer</font></i>[InstrumentCondition].||Book=UEG||Condition=[Condition]||Cost=%Bull-Roarer%|
+15,|Item=Candle Snuffer</font></i>[CommonRingMetal].||Book=UEG||Condition=[Condition]||Cost=%CandleSnuffer%|
+15,|Item=Candlemaking Kit||Book=UEG||Condition=[Condition]||Cost=%CandlemakingKit%|
+5,|Item=Chalice</font></i>[WoodOrSteel].||Book=UEG||Condition=[Condition]||Cost=%Chalice%|
+20,|Item=Cleric's Traveling Outfit of [~Religion.Deities2(2)]</font></i> colored [RobeColorsMix].||BodySize=1||Book=UEG||Condition=[Condition]||Cost=%Cleric'sTravelingOutfit%|
+5,|Item=Cleric's Vestments of [~Religion.Deities2(2)]</font></i> colored [RobeColorsMix].||BodySize=1||Book=UEG||Condition=[Condition]||Cost=%Cleric'sVestments%|
+2,|Item=Crystal's||Book=UEG||Condition=[Condition]||Cost=%Crystal's%|
+5,|Item=Diadem</font></i>[CommonRingMetal].||Book=UEG||Condition=[Condition]||Cost=%Diadem%|
+5,|Item=Divine Symbol Flask of [~Religion.Deities2(2)]||Book=UEG||Condition=[Condition]||Cost=%DivineSymbolFlask%|
+5,|Item=Ceremonial Drum</font></i> made out of [HiltMaterial].||Book=UEG||Condition=[InstrumentCondition]||Cost=%CeremonialDrum%|
+5,|Item=Estuary Case</font></i> made out of [Woods].||Book=UEG||Condition=[Condition]||Cost=%EstuaryCase%|
+2,|Item=Fairy Dust||Book=UEG||Condition=[Condition]||Cost=%FairyDust%|
+20,|Item=Field Healer's Kit||Book=UEG||Condition=[Condition]||Cost=%FieldHealer'sKit%|
+5,|Item=Fire Wheel||Book=UEG||Condition=[Condition]||Cost=%FireWheel%|
+30,|Item=Glyphbook</font></i>[WoodOrSteel2].||Book=ECS||Condition=[Condition]||Cost=%Glyphbook%|
+10,|Item=Graveyard Soil||Book=UEG||Condition=[Condition]||Cost=%GraveyardSoil%|
+5,|Item=Ritual Headgear of [~Religion.Deities2(2)]</font></i>[WoodOrSteel].||Book=UEG||Condition=[Condition]||Cost=%RitualHeadgear%|
+25,|Item=Healer's Kit||Book=UEG||Condition=[Condition]||Cost=%Healer'sKit%|
+30,|Item=Holy Symbol of [~Religion.Deities2(2)]</font></i>[WoodOrSteel2].||Book=UEG||Condition=[Condition]||Cost=%HolySymbol%|
+20,|Item=Holy Symbol, Flame Touched of [~Religion.Deities2(2)]</font></i>[WoodOrSteel2].||Book=ECS||Condition=[Condition]||Cost=%HolySymbolFlameTouched%|
+5,|Item=Holy Texts of [~Religion.Deities2(2)]||Book=UEG||Condition=[Condition]||Cost=%HolyTexts%|
+25,|Item=Holy Water (1 pint flask)||Book=UEG||Condition=[Condition]||Cost=%HolyWater(1pintflask)%|
+15,|Item=Horn</font></i>[CommonRingMetal].||Book=UEG||Condition=[InstrumentCondition]||Cost=%Horn%|
+5,|Item=Kneeling Bar||Book=UEG||Condition=[Condition]||Cost=%KneelingBar%|
+5,|Item=Mandala||Book=UEG||Condition=[Condition]||Cost=%Mandala%|
+1,|Item=Mani Wheel||Book=UEG||Condition=[Condition]||Cost=%ManiWheel%|
+5,|Item=Offering Bowl</font></i>[WoodOrSteel].||Book=UEG||Condition=[Condition]||Cost=%OfferingBowl%|
+1,|Item=Pendulum||Book=UEG||Condition=[Condition]||Cost=%Pendulum%|
+5,|Item=Pennant||Book=UEG||Condition=[Condition]||Cost=%Pennant%|
+1,|Item=Sacred Pennant of [~Religion.Deities2(2)]||Book=UEG||Condition=[Condition]||Cost=%SacredPennant%|
+20,|Item=Pipe:</font></i> [PipeGen].||Book=UEG||Condition=[Condition]||Cost=%Pipe%|
+15,|Item=Poison Antidote Kit||Book=UEG||Condition=[Condition]||Cost=%PoisonAntidoteKit%|
+5,|Item=Portable Altar||Book=UEG||Condition=[Condition]||Cost=%PortableAltar%|
+5,|Item=Prayer Beads||Book=UEG||Condition=[Condition]||Cost=%PrayerBeads%|
+10,|Item=Prayer Book of [~Religion.Deities2(2)]</font></i>||Book=UEG||Condition=[Condition]||Cost=%PrayerBook%|
+2,|Item=Prayer Rug||Book=UEG||Condition=[Condition]||Cost=%PrayerRug%|
+5,|Item=Preservative Fluid (1 Pint Flask)||Book=UEG||Condition=[Condition]||Cost=%PreservativeFluid(1PintFlask)%|
+2,|Item=Relic Case of [~Religion.Deities2(2)]</font></i> made out of [Woods].||Book=UEG||Condition=[Condition]||Cost=%RelicCase%|
+2,|Item=Ritual Sword</font></i>[MAMaterial] with a hilt [MAHilt].||Book=UEG||Condition=[Condition]||Cost=%RitualSword%|
+2,|Item=Sacred Cords (10 Feet)||Book=UEG||Condition=[Condition]||Cost=%SacredCords(10Feet)%|
+1,|Item=Sacrificial Implements||Book=UEG||Condition=[Condition]||Cost=%SacrificialImplements%|
+8,|Item=Sea Salt||Book=UEG||Condition=[Condition]||Cost=%SeaSaly%|
+4,|Item=Shaman's Outfit||Book=UEG||Condition=[Condition]||Cost=%Shaman'sOutfit%|
+8,|Item=Singing Bowl and Puja Stick||Book=UEG||Condition=[Condition]||Cost=%SingingBowlandPujaStick%|
+4,|Item=Smudging Stick||Book=UEG||Condition=[Condition]||Cost=%SmudgingStick%|
+15,|Item=Holy Water Sprinkler||Book=UEG||Condition=[Condition]||Cost=%HolyWaterSprinkler%|
+10,|Item=Thurible||Book=UEG||Condition=[Condition]||Cost=%Thurible%|
+5,|Item=Tingshas</font></i>[CommonRingMetal].||Book=UEG||Condition=[Condition]||Cost=%Tingshas%|
+10,|Item=Vase||Book=UEG||Condition=[Condition]||Cost=%Vase%|
+5,|Item=Ritual Wine (per bottle)||Book=UEG||Condition=[Condition]||Cost=%RitualWine(perbottle)%|
+10,|Item=Sacred Oil: Ash, Oak & Thorn||Book=UEG||Condition=[Condition]||Cost=%SacredOil:AshOak&Thorn%|
+10,|Item=Sacred Oil: Brairwood||Book=UEG||Condition=[Condition]||Cost=%SacredOil:Brairwood%|
+10,|Item=Sacred Oil: Cedar||Book=UEG||Condition=[Condition]||Cost=%SacredOil:Cedar%|
+10,|Item=Sacred Oil: Diamond||Book=UEG||Condition=[Condition]||Cost=%SacredOil:Diamond%|
+10,|Item=Sacred Oil: Erinyes' Tears||Book=UEG||Condition=[Condition]||Cost=%SacredOil:Erinyes'Tears%|
+1,|Item=Sacred Oil: Feywing||Book=UEG||Condition=[Condition]||Cost=%SacredOil:Feywing%|
+10,|Item=Sacred Oil: Hellstorm||Book=UEG||Condition=[Condition]||Cost=%SacredOil:Hellstorm%|
+10,|Item=Sacred Oil: Jasper & Yarrow||Book=UEG||Condition=[Condition]||Cost=%SacredOil:Jasper&Yarrow%|
+10,|Item=Sacred Oil: Leafrot||Book=UEG||Condition=[Condition]||Cost=%SacredOil:Leafrot%|
+10,|Item=Sacred Oil: Myrrh||Book=UEG||Condition=[Condition]||Cost=%SacredOil:Myrrh%|
+10,|Item=Sacred Oil: Nightshade||Book=UEG||Condition=[Condition]||Cost=%SacredOil:Nightshade%|
+10,|Item=Sacred Oil: Purity||Book=UEG||Condition=[Condition]||Cost=%SacredOil:Purity%|
+10,|Item=Sacred Oil: Ritual Focus||Book=UEG||Condition=[Condition]||Cost=%SacredOil:RitualFocus%|
+10,|Item=Alter Case</font></i>[WoodOrSteel].||Book=DOF||Condition=[Condition]||Cost=%AlterCase%|
+5,|Item=Alter Cloth</font></i> colored [RobeColors].||Book=DOF||Condition=[Condition]||Cost=%AlterCloth%|
+15,|Item=Aspergillum</font></i>[MAMaterial].||Book=DOF||Condition=[Condition]||Cost=%Aspergillum%|
+15,|Item=Brazier</font></i>[CommonRingMetal].||Book=DOF||Condition=[Condition]||Cost=%Brazier%|
+10,|Item=Field Brazier</font></i>[CommonRingMetal].||Book=DOF||Condition=[Condition]||Cost=%FieldBrazier%|
+10,|Item=Candelabra</font></i>[CommonRingMetal].||Book=DOF||Condition=[Condition]||Cost=%Candelabra%|
+5,|Item=Temple Candle</font></i>. This candle has a duration of {Dice~1d20+20} hours.||Book=DOF||Condition=[Condition]||Cost=%TempleCandle%|
+2,|Item=12 Hour Candle||Book=DOF||Condition=[Condition]||Cost=%12HourCandle%|
+2,|Item=Time Keeping Candle||Book=DOF||Condition=[Condition]||Cost=%TimeKeepingCandle%|
+5,|Item=Vigil Candle||Book=DOF||Condition=[Condition]||Cost=%VigilCandle%|
+10,|Item=Candlestick</font></i>[CommonRingMetal].||Book=DOF||Condition=[Condition]||Cost=%Candlestick%|
+5,|Item=Hand-Held Candlestick</font></i>[CommonRingMetal].||Book=DOF||Condition=[Condition]||Cost=%Hand-HeldCandlestick%|
+10,|Item=Censer</font></i>[MAMaterial].||Book=DOF||Condition=[Condition]||Cost=%Censer%|
+10,|Item=Incense - Common||Book=DOF||Condition=[Condition]||Cost=%Incense-Common%|
+3,|Item=Incense - Exotic||Book=DOF||Condition=[Condition]||Cost=%Incense-Exotic%|
+5,|Item=Snuffing Bell</font></i>[CommonRingMetal].||Book=DOF||Condition=[Condition]||Cost=%SnuffingBell%|
+
+# -----------------------------------------------------------------------------------
+# SUPPORT TABLES
+
+# -----------------------------------------------------------------------------------
+# Conditions
+
+;Condition
+1,|GetData=[EQ_Main.Condition]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+
+# -----------------------------------------------------------------------------------
+# Materials
+
+;WoodOrSteel
+1,|GetData=[EQ_Main.WoodOrSteel]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+;WoodOrSteel2
+1,|GetData=[EQ_Main.WoodOrSteel2]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+;HiltMaterial
+1,|GetData=[EQ_Main.HiltMaterial]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+;MAHilt
+1,|GetData=[EQ_Main.MAHilt]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+;CommonRingMetal
+1,|GetData=[EQ_Main.CommonRingMetal]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+;MAMaterial
+1,|GetData=[EQ_Main.MAMaterial]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# -----------------------------------------------------------------------------------
+# Pipe Generator
+
+;PipeGen
+1,|GetData=[EQ_Main.PipeGen]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# -----------------------------------------------------------------------------------
+# Size Tables
+
+;BodySize
+1,|GetData=[EQ_Main.BodySize]|
+_{Split~GetData,"!!!",DataName,ArmorSizeMod}
+_%DataName%
+
+# -----------------------------------------------------------------------------------
+# Musical Instrument Related Tables
+
+;InstrumentCondition
+1,|GetData=[EQ_Main.InstrumentCondition]|
+_{Split~GetData,"!!!",DataName,DataPercentMod,SpecialEffect}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+
+# -----------------------------------------------------------------------------------
+# Clothing Colors and Other Colors
+
+;RobeColors
+1,[~Miscellaneous.Color+1]
+
+;RobeColorsMix
+3,[~Miscellaneous.Color+1]
+6,[~Miscellaneous.Color+1] and [~Miscellaneous.Color+1]
+1,[~Miscellaneous.Color+1], [~Miscellaneous.Color+1], and [~Miscellaneous.Color+1]
+
+# -----------------------------------------------------------------------------------
+# Woods and Wood Tables
+
+;Woods
+1,|GetData=[EQ_Main.Woods]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+  

@@ -1,0 +1,81 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder Oct 30, 2003.
+# ---------------------------------------------------
+#
+# SMS
+# 06/25/03
+# Forgotten Realms Table 51: Glacier (EL 7-12) random encounter tables
+#
+# Corrected by Valminder, Oct 2003
+#   -{If~} and {Dice~}
+#
+#Variables
+
+%Time%,0
+%Temp%,0
+
+#Parameters
+
+@Time,3,Select a time of day,Day,Night,_
+
+#
+#  Starts by putting up the instructions
+#
+
+:Start
+1,{If~%Time% = 3 ? [Instructions]/[Glacier %Time%]}
+
+;Instructions
+1,<b>Forgotten Realms Table 51: Glacier (EL 7-12)</b></br></br><h3>Instructions:</h3>
+_<b>Determine whether an encounter should occur before using this table. The chance of an encounter is based on terrain type and travel (chance per hour):</b><br>
+_<table border=1><tr><th>Terrain</th><th>Normal Travel</th><th>Cautious Travel</th><th>Hiding</th></tr>
+_<tr><td>Desolate/wasteland</td><td>5/%</td><td>2/%</td><td>1/%</td></tr>
+_<tr><td>Frontier/wilderness</td><td>8/%</td><td>4/%</td><td>2/%</td></tr>
+_<tr><td>Verdant/civilized area</td><td>10/%</td><td>5/%</td><td>2/%</td></tr>
+_<tr><td>Heavily traveled</td><td>12/%</td><td>6/%</td><td>3/%</td></tr>
+_</table>
+_<ol><li>Use the Parameter Box (below) to indicate whether it is day or night. Selecting "_" displays these instructions</li>
+_<li>This table applies to all Glaciers so there is no region to set.</li></ul><br>
+
+# 1 corresponds to time="Day"
+:Glacier 1
+01-07,Arctic Dwarf Hunters: {Dice~1d4+4} 1st level warriors, {Dice~1d3+1} level {Dice~1d3+3} barbarians
+08-17,Dragon, old white
+18-24,{Dice~1d4+1} Ettin
+25-34,{Dice~1d4+1} Frost giant
+35-38,Frost worm
+39-44,{Dice~1d3+1} Ice serpent
+45-46,{Dice~1d4+1} Kir-lanan gargoyle (FRCS)
+47-51,<b>NPCs:</b><br>{Loop~{Dice~1d3+2},[FR_Random_NPC.FR_SM_NPC]}
+52-56,{Dice~1d4+4} Ogre
+57-62,{Dice~1d2} Polar bear
+63-68,Remorhaz
+69-79,{Dice~1d10+10} Surface rothe (FRCS)
+80-85,{Dice~1d3+1} Troll
+86-93,{Dice~1d4+4} Winter wolf
+94-100,{Dice~1d6+5} Worg
+
+# 2 corresponds to time="Night"
+:Glacier 2
+01-04,Arctic Dwarf Hunters: {Dice~1d4+4} 1st level warriors, {Dice~1d3+1} level {Dice~1d3+3} barbarians
+05-09,{Dice~1d3} Darkenbeast
+10-21,Dragon, old white
+22-24,{Dice~1d4+3} Dread warrior
+25-30,{Dice~1d4+1} Ettin
+31-37,{Dice~1d4+1} Frost giant
+38-41,Frost worm
+42-44,{Dice~1d3+1} Ice serpent
+45-46,{Dice~1d4+1} Kir-lanan gargoyle (FRCS)
+47,{Dice~1d3+1} Morhg
+48-51,<b>NPCs:</b><br>{Loop~{Dice~1d3+2},[FR_Random_NPC.FR_SM_NPC]}
+52-57,{Dice~1d4+4} Ogre
+58-59,{Dice~1d2} Polar bear
+60-66,Remorhaz
+67-70,{Dice~1d6} Spectre
+71-73,{Dice~1d10+10} Surface rothe (FRCS)
+74-78,{Dice~1d3+1} Troll
+79-84,{Dice~1d8+1} Wight
+85-86,{Dice~1d6} Will-o'-wisp
+87-91,{Dice~1d6} Wraith
+92-97,{Dice~1d4+4} Winter wolf
+98-100,{Dice~1d6+5} Worg

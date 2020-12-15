@@ -1,0 +1,477 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder August 28, 2006.
+# ---------------------------------------------------
+#
+# Potion Shop Inventory Generator
+#
+# Sean Hlousek
+#
+# This table generates random potions from several sources.  
+# The variables are set as they are in the sources. 
+# However, those items from Relics & Rituals are set at my own
+# levels since they do not give prices for those items.
+#
+# -------------------------------------------------------------------------
+#
+# To call this table from another one:
+#    [EQ Magic Potions.Generate(%Rolls%)
+#
+#    Parameters: (%Rolls%)
+#
+#    Rolls:    (1) Enter the number of items needed.
+#
+# -------------------------------------------------------------------------
+#
+# Modified by Valminder, August  2006.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+#    I heavily modified this table. I could modify it more by
+#       removing all the variables for the cost, but it would
+#       be too long. For now, it works fine.
+#    The final price need to be adjusted for some items, but it
+#       seems relatively OK.
+#    I diminished the price variation in [Store].
+#    Cost of Items: Put the cost in GP, the output will modify it
+#       for gp, sp, or cp.
+#       1 sp = 0.1 gp
+#       1 cp = 0.01 gp
+#
+
+%CureLightWounds%,50
+%EndureElements%,50
+%HideFromAnimals%,50
+%HideFromUndead%,50
+%Jump%,50
+%MageArmor%,50
+%MagicFang%,50
+%MagicStone%,50
+%MagicWeapon%,50
+%PassWithoutTrace%,50
+%ProtectionFromAlignment%,50
+%RemoveFear%,50
+%Sanctuary%,50
+%ShieldofFaith+2%,50
+%Shillelagh%,50
+%BlessWeapon%,100
+%EnlargePerson%,250
+%ReducePerson%,250
+%Aid%,300
+%Barkskin%,300
+%BearsEndurance%,300
+%Blur%,300
+%BullsStrength%,300
+%CatsGrace%,300
+%CureModerateWounds%,300
+%Darkness%,300
+%Darkvision%,300
+%DelayPoison%,300
+%EaglesSplendor%,300
+%FoxsCunning%,300
+%Invisibility%,300
+%LesserRestoration%,300
+%Levitate%,300
+%Misdirection%,300
+%OwlsWisdom%,300
+%ProtectionfromArrows10Magic%,900
+%RemoveParalysis%,300
+%ResistEnergyType10%,300
+%ShieldofFaith+3%,300
+%SpiderClimb%,300
+%UndectectableAlignment%,300
+%Barkskin+3%,600
+%ShieldofFaith+4%,60
+%ResistEnergyType20%,700
+%CureSeriousWounds%,750
+%Daylight%,750
+%Displacement%,750
+%FlameArrow%,750
+%Fly%,750
+%GasousForm%,750
+%GreaterMagicFang+1%,750
+%GreaterMagicWeapon+1%,750
+%Haste%,750
+%Heroisim%,750
+%KeenEdge%,750
+%MagicCircleAgainstAlignment%,750
+%MagicVestment+1%,750
+%NeutralizePoison%,750
+%Nondectection%,750
+%ProtectionfromEnergyType%,750
+%Rage%,750
+%RemoveBlindnessDeafness%,750
+%RemoveCurse%,750
+%RemoveDisease%,750
+%Tongues%,750
+%WaterBreathing%,750
+%WaterWalk%,750
+%Barkskin+4%,900
+%ShieldofFaith+5%,900
+%GoodHope%,1050
+%ResistEnergyType30%,1100
+%Barkskin+5%,600
+%GreaterMagicFang+2%,600
+%GreaterMagicWeapon+2%,600
+%MagicVestment+2%,600
+%ProtectionfromArrows15magic%,750
+%GreaterMagicFang+3%,900
+%GreaterMagicWeapon+3%,900
+%MagicVestment+3%,900
+%GreaterMagicFang+4%,2400
+%GreaterMagicWeapon+4%,2400
+%MagicVestment+4%,2400
+%GreaterMagicFang+5%,1500
+%GreaterMagicWeapon+5%,1500
+%MagicVestment+5%,1500
+%AnimateDead%,1550
+%Infertility%,150
+%AcidSpittle%,100
+%ChameleonSkin%,100
+%AdheretoWood%,100
+%GazeofTruth%,100
+%CircleofSounds%,100
+%Clean%,100
+%Disappear%,300
+%Glue%,100
+%QuickSober%,50
+%RabbitFeet%,200
+%ArmorinaBottle%,200
+%ShadesSight%,200
+%CommandingPresence%,200
+%Gloom%,200
+%Intoxicate%,200
+%DivineWisdom%,600
+%FalseDeath%,400
+%FrogTongue%,200
+%PerfectRecollection%,200
+%PrevaricationsBounty%,200
+%SleepoftheDead%,600
+%CurseofTerror%,2000
+%KadumsBlood%,400
+%DragonsBreath%,1000
+%MindRaid%,2400
+%MormosVisage%,2000
+%ShadowTouch%,200
+%TerolesTranslator%,1200
+%FeltonsRed%,600
+%TouchoftheEel%,800
+%HedradasBalance%,400
+%LimbsofEndurance%,400
+%VangalsTouch%,2000
+%AuraofMenance%,50
+%ShockWeapon%,50
+%TrueStrike%,50
+%BodyofSand%,50
+%ChardunsGlory%,50
+%Foreaction%,50
+%MagicWeapon%,150
+%BifurcatedTongue%,300
+%ParalyzingWeapon%,300
+%Dragonflight%,300
+%Dragonhide%,300
+%HuntersMoon%,300
+%KeshmeeriRefuge%,300
+%SharpenSenses%,300
+%Focus%,500
+%FlameWeapon%,600
+%FrostWeapon%,600
+%Horns%,600
+%ArcaneParry%,750
+%KeenEdge%,750
+%EnhancedSenses%,750
+%GhostBody%,750
+%Serpentlure%,750
+%GreaterMagicWeapon%,900
+%VampiricWeapon%,900
+%AnimalSenses%,380
+%WateryBreath%,300
+%ElixirArmorBeetle%,8300
+%ElixirArmorElectricEel%,2050
+%ElixirArmorPorcupine%,2300
+%ElixirArmorRhino%,17500
+%AnimalLogic%,150
+%NaturalClarity%,150
+%UnerringDirection%,150
+%FalseLife%,300
+%FlamingFists%,300
+%LastGasp%,6200
+
+### Was %Base%
+%PercentGPMod%,1
+### This is the Store modifier on all its prices 70% to 200% (normal 95% - 105%)
+%STVR%,0
+### How many items to roll
+%Rolls%,0
+#### Was %Base1%
+%MagicalGPMod%,0
+
+# New variables Aug 2006.
+%Item%,0
+# Put Book=2 in the item's description if you do not want books to appear.
+%Book%,0
+%Cost%,0
+%Condition%,0
+%GenItem%,0
+# 1= Mundane Item, 2= Magical Item
+%Magic%,1
+%MWGPMod%,0
+%ArmorSizeMod%,1
+# To be used with "EQ_Main.tab"
+%GetData%,0
+%DataName%,0
+%DataPercentMod%,0
+%SpecialEffect%,0
+%BodySize%,0
+%MoneyType%,gp
+%Temp%,0
+
+@Rolls,10,How many Items are in this Shop?
+#@GenItem,9,What do you want to generate
+
+:Start
+1,{Status~By Sean Hlousek, Valminder 2006}[Generate]
+
+:Generate
+1,|STVR=1|[Store]
+#_[Multiplier]
+_{Loop~%Rolls%,|BodySize=0||PercentGPMod=0||MagicalGPMod=0||Magic=2||MWGPMod=0||ArmorSizeMod=1||SpecialEffect=0|
+_|Condition=n/a|
+_[Potions][Print=%Magic%]}
+
+:Print
+1,<b>Item:</b> <i><font color="Purple">%Item%</font></i>[Print2]
+2,<b>Item:</b> <i><font color="Blue">(Magic) %Item%</font></i>[Print2]
+
+:Print2
+1,{If~%SpecialEffect%!=0? [PrintExtraMW]}
+_{IIf~%Book%!=2?  <font size=1>(%Book%)</font>}
+#If you do not want BodySize for everything put |BodySize=0| above and |BodySize=1| in item's description.
+_{If~%BodySize%=1? ([BodySize] size)}
+_|Cost+%MagicalGPMod%||Cost+%MWGPMod%|{If~%Magic%=1?|Cost*%ArmorSizeMod%|}
+_[Calculate Cost]
+_ (%Condition%, [AddComma.Start(%Cost%)] %MoneyType%)<br>
+
+:PrintExtraMW
+1,<u>Extra MW Effect</u>: %SpecialEffect%.
+
+# This will give a modifier to the cost of the items.
+;Store
+2,|STVR-{Calc~({Dice~1d10+20}/100)}|
+4,|STVR-{Calc~({Dice~1d10+10}/100)}|
+8,|STVR-{Calc~({Dice~1d10+5}/100)}|
+15,|STVR-{Calc~({Dice~1d5}/100)}|
+70,|STVR=1|
+30,|STVR+{Calc~({Dice~1d5}/100)}|
+15,|STVR+{Calc~({Dice~1d10+5}/100)}|
+8,|STVR+{Calc~({Dice~1d10+10}/100)}|
+4,|STVR+{Calc~({Dice~1d15+20}/100)}|
+2,|STVR+{Calc~({Dice~1d25+35}/100)}|
+1,|STVR+{Calc~({Dice~1d50+50}/100)}|
+
+:Multiplier
+1,Price Multiplier: %STVR%<br>
+
+:Calculate Cost
+1,|Cost={Calc~((%STVR%+%PercentGPMod%)*%Cost%)}|
+_{If~%Cost%>=5?|Cost={Trunc~%Cost%}||MoneyType=gp|}
+_{If~{And~%Cost%>=1,%Cost%<5}=1?{If~%Cost%={Trunc~%Cost%}?|MoneyType=gp|/|Cost={Round~1,%Cost%}||Cost*10||MoneyType=sp|}}
+_{If~%Cost%<0.1?|Cost*100||Cost={Trunc~%Cost%}|{If~%Cost%=0?|Cost=1|}|MoneyType=cp|/{If~%Cost%<1?|Cost*10||Cost={Trunc~%Cost%}|{If~%Cost%=0?|Cost=1|}|MoneyType=sp|}}
+
+# -----------------------------------------------------------------------------
+;Potions
+20,|Item=Potion of Cure Light Wounds||Book=DMG3.5||Cost=%CureLightWounds%|
+8,|Item=Potion of Endure Elements||Book=DMG3.5||Cost=%EndureElements%|
+8,|Item=Potion of Hide From Animals||Book=DMG3.5||Cost=%HideFromAnimals%|
+8,|Item=Potion of Hide From Undead||Book=DMG3.5||Cost=%HideFromUndead%|
+11,|Item=Potion of Jump||Book=DMG3.5||Cost=%Jump%|
+11,|Item=Potion of Mage Armor||Book=DMG3.5||Cost=%MageArmor%|
+8,|Item=Potion of Magic Fang||Book=DMG3.5||Cost=%MagicFang%|
+7,|Item=Oil of Magic Stone||Book=DMG3.5||Cost=%MagicStone%|
+7,|Item=Oil of Magic Weapon||Book=DMG3.5||Cost=%MagicWeapon%|
+4,|Item=Potion of Pass Without Trace||Book=DMG3.5||Cost=%PassWithoutTrace%|
+6,|Item=Potion of Protection from [AlignmentPotion]||Book=DMG3.5||Cost=%ProtectionFromAlignment%|
+11,|Item=Potion of Remove Fear||Book=DMG3.5||Cost=%RemoveFear%|
+8,|Item=Potion of Sanctuary||Book=DMG3.5||Cost=%Sanctuary%|
+11,|Item=Potion of Shield of Faith+2||Book=DMG3.5||Cost=%ShieldofFaith+2%|
+5,|Item=Oil of Shillelagh||Book=DMG3.5||Cost=%Shillelagh%|
+8,|Item=Oil of Bless Weapon||Book=DMG3.5||Cost=%BlessWeapon%|
+6,|Item=Potion of Enlarge Person||Book=DMG3.5||Cost=%EnlargePerson%|
+6,|Item=Potion of Reduce Person||Book=DMG3.5||Cost=%ReducePerson%|
+7,|Item=Potion of Aid||Book=DMG3.5||Cost=%Aid%|
+6,|Item=Potion of Barkskin||Book=DMG3.5||Cost=%Barkskin%|
+11,|Item=Potion of Bear's Endurance||Book=DMG3.5||Cost=%BearsEndurance%|
+20,|Item=Potion of Blur||Book=DMG3.5||Cost=%Blur%|
+11,|Item=Potion of Bull's Strength||Book=DMG3.5||Cost=%BullsStrength%|
+11,|Item=Potion of Cat's Grace||Book=DMG3.5||Cost=%CatsGrace%|
+21,|Item=Potion of Cure Moderate Wounds||Book=DMG3.5||Cost=%CureModerateWounds%|
+6,|Item=Oil of Darkness||Book=DMG3.5||Cost=%Darkness%|
+8,|Item=Potion of Darkvision||Book=DMG3.5||Cost=%Darkvision%|
+11,|Item=Potion of Delay Poison||Book=DMG3.5||Cost=%DelayPoison%|
+19,|Item=Potion of Eagle's Splendor||Book=DMG3.5||Cost=%EaglesSplendor%|
+11,|Item=Potion of Fox's Cunning||Book=DMG3.5||Cost=%FoxsCunning%|
+1,|Item=Potion of Invisibility||Book=DMG3.5||Cost=%Invisibility%|
+6,|Item=Potion of Lesser Restoration||Book=DMG3.5||Cost=%LesserRestoration%|
+6,|Item=Potion of Levitate||Book=DMG3.5||Cost=%Levitate%|
+5,|Item=Potion of Misdirection||Book=DMG3.5||Cost=%Misdirection%|
+11,|Item=Potion of Owl's Wisdom||Book=DMG3.5||Cost=%OwlsWisdom%|
+9,|Item=Potion of Protection from Arrows 10/Magic||Book=DMG3.5||Cost=%ProtectionfromArrows10Magic%|
+11,|Item=Potion of Remove Paralysis||Book=DMG3.5||Cost=%RemoveParalysis%|
+5,|Item=Potion of Resist Energy 10 ([EnergyType])||Book=DMG3.5||Cost=%ResistEnergyType10%|
+6,|Item=Potion of Shield of Faith+3||Book=DMG3.5||Cost=%ShieldofFaith+3%|
+7,|Item=Potion of SpiderClimb||Book=DMG3.5||Cost=%SpiderClimb%|
+5,|Item=Potion of Undectectable Alignment||Book=DMG3.5||Cost=%UndectectableAlignment%|
+7,|Item=Potion of Barkskin+3||Book=DMG3.5||Cost=%Barkskin+3%|
+4,|Item=Potion of Shield of Faith+4||Book=DMG3.5||Cost=%ShieldofFaith+4%|
+15,|Item=Potion of Resist Energy 20 ([EnergyType])||Book=DMG3.5||Cost=%ResistEnergyType20%|
+20,|Item=Potion of Cure Serious Wounds||Book=DMG3.5||Cost=%CureSeriousWounds%|
+5,|Item=Oil of Daylight||Book=DMG3.5||Cost=%Daylight%|
+4,|Item=Potion of Displacement||Book=DMG3.5||Cost=%Displacement%|
+11,|Item=Oil of Flame Arrow||Book=DMG3.5||Cost=%FlameArrow%|
+1,|Item=Potion of Fly||Book=DMG3.5||Cost=%Fly%|
+3,|Item=Potion of Gasous Form||Book=DMG3.5||Cost=%GasousForm%|
+5,|Item=Potion of Greater Magic Fang+1||Book=DMG3.5||Cost=%GreaterMagicFang+1%|
+5,|Item=Oil of Greater Magic Weapon+1||Book=DMG3.5||Cost=%GreaterMagicWeapon+1%|
+5,|Item=Potion of Haste||Book=DMG3.5||Cost=%Haste%|
+6,|Item=Potion of Heroisim||Book=DMG3.5||Cost=%Heroisim%|
+9,|Item=Oil of Keen Edge||Book=DMG3.5||Cost=%KeenEdge%|
+5,|Item=Potion of Magic Circle Against [AlignmentPotion]||Book=DMG3.5||Cost=%MagicCircleAgainstAlignment%|
+5,|Item=Oil of Magic Vestment+1||Book=DMG3.5||Cost=%MagicVestment+1%|
+15,|Item=Potion of Neutralize Poison||Book=DMG3.5||Cost=%NeutralizePoison%|
+5,|Item=Potion of Nondectection||Book=DMG3.5||Cost=%Nondectection%|
+5,|Item=Potion of Protection from [EnergyType]||Book=DMG3.5||Cost=%ProtectionfromEnergyType%|
+11,|Item=Potion of Rage||Book=DMG3.5||Cost=%Rage%|
+14,|Item=Potion of Remove Blindness/Deafness||Book=DMG3.5||Cost=%RemoveBlindnessDeafness%|
+11,|Item=Potion of Remove Curse||Book=DMG3.5||Cost=%RemoveCurse%|
+11,|Item=Potion of RemoveDisease||Book=DMG3.5||Cost=%RemoveDisease%|
+6,|Item=Potion of Tongues||Book=DMG3.5||Cost=%Tongues%|
+10,|Item=Potion of WaterBreathing||Book=DMG3.5||Cost=%WaterBreathing%|
+4,|Item=Potion of Water Walk||Book=DMG3.5||Cost=%WaterWalk%|
+3,|Item=Potion of Barkskin+4||Book=DMG3.5||Cost=%Barkskin+4%|
+1,|Item=Potion of Shield of Faith+5||Book=DMG3.5||Cost=%ShieldofFaith+5%|
+9,|Item=Potion of Good Hope||Book=DMG3.5||Cost=%GoodHope%|
+4,|Item=Potion of Resist Energy 30 ([EnergyType])||Book=DMG3.5||Cost=%ResistEnergyType30%|
+1,|Item=Potion of Barkskin+5||Book=DMG3.5||Cost=%Barkskin+5%|
+3,|Item=Potion of Greater Magic Fang+2||Book=DMG3.5||Cost=%GreaterMagicFang+2%|
+5,|Item=Oil of Greater Magic Weapon+2||Book=DMG3.5||Cost=%GreaterMagicWeapon+2%|
+3,|Item=Oil of Magic Vestment+2||Book=DMG3.5||Cost=%MagicVestment+2%|
+5,|Item=Potion of Protection from Arrows 15/magic||Book=DMG3.5||Cost=%ProtectionfromArrows15magic%|
+2,|Item=Potion of Greater Magic Fang+3||Book=DMG3.5||Cost=%GreaterMagicFang+3%|
+2,|Item=Oil of Greater Magic Weapon+3||Book=DMG3.5||Cost=%GreaterMagicWeapon+3%|
+4,|Item=Oil of Magic Vestment+3||Book=DMG3.5||Cost=%MagicVestment+3%|
+1,|Item=Potion of Greater Magic Fang+4||Book=DMG3.5||Cost=%GreaterMagicFang+4%|
+1,|Item=Oil of Greater Magic Weapon+4||Book=DMG3.5||Cost=%GreaterMagicWeapon+4%|
+1,|Item=Oil of Magic Vestment+4||Book=DMG3.5||Cost=%MagicVestment+4%|
+1,|Item=Potion of Greater Magic Fang+5||Book=DMG3.5||Cost=%GreaterMagicFang+5%|
+1,|Item=Oil of Greater Magic Weapon+5||Book=DMG3.5||Cost=%GreaterMagicWeapon+5%|
+1,|Item=Oil of Magic Vestment+5||Book=DMG3.5||Cost=%MagicVestment+5%|
+3,|Item=Potion of Animate Dead||Book=MOF||Cost=%AnimateDead%|
+11,|Item=Potion of Infertility||Book=MOF||Cost=%Infertility%|
+5,|Item=Potion of Acid Spittle||Book=RR1||Cost=%AcidSpittle%|
+9,|Item=Potion of Chameleon Skin||Book=RR1||Cost=%ChameleonSkin%|
+10,|Item=Oil of Adhere to Wood||Book=RR1||Cost=%AdheretoWood%|
+4,|Item=Potion of Gaze of Truth||Book=RR1||Cost=%GazeofTruth%|
+6,|Item=Potion of Circle of Sounds||Book=RR1||Cost=%CircleofSounds%|
+15,|Item=Potion of Clean||Book=RR1||Cost=%Clean%|
+1,|Item=Potion of Disappear||Book=RR1||Cost=%Disappear%|
+9,|Item=Potion of Glue||Book=RR1||Cost=%Glue%|
+10,|Item=Potion of QuickSober||Book=RR1||Cost=%QuickSober%|
+7,|Item=Potion of Rabbit Feet||Book=RR1||Cost=%RabbitFeet%|
+10,|Item=Potion of Armor in a Bottle||Book=RR1||Cost=%ArmorinaBottle%|
+4,|Item=Potion of Shades Sight||Book=RR1||Cost=%ShadesSight%|
+4,|Item=Potion of Commanding Presence||Book=RR1||Cost=%CommandingPresence%|
+5,|Item=Potion of Gloom||Book=RR1||Cost=%Gloom%|
+11,|Item=Potion of Intoxicate||Book=RR1||Cost=%Intoxicate%|
+1,|Item=Potion of Divine Wisdom||Book=RR1||Cost=%DivineWisdom%|
+1,|Item=Potion of False Death||Book=RR1||Cost=%FalseDeath%|
+6,|Item=Potion of Frog Tongue||Book=RR1||Cost=%FrogTongue%|
+11,|Item=Potion of Perfect Recollection||Book=RR1||Cost=%PerfectRecollection%|
+5,|Item=Potion of Prevarications Bounty||Book=RR1||Cost=%PrevaricationsBounty%|
+5,|Item=Potion of Sleep of the Dead||Book=RR1||Cost=%SleepoftheDead%|
+5,|Item=Potion of Curse of Terror||Book=RR1||Cost=%CurseofTerror%|
+2,|Item=Potion of Kadums Blood||Book=RR1||Cost=%KadumsBlood%|
+6,|Item=Potion of [DragonsBreathType] Dragons Breath||Book=RR1||Cost=%DragonsBreath%|
+4,|Item=Potion of Mind Raid||Book=RR1||Cost=%MindRaid%|
+1,|Item=Potion of Mormos Visage||Book=RR1||Cost=%MormosVisage%|
+3,|Item=Potion of Shadow Touch||Book=RR1||Cost=%ShadowTouch%|
+9,|Item=Potion of Teroles Translator||Book=RR1||Cost=%TerolesTranslator%|
+7,|Item=Potion of Feltons Red||Book=RR1||Cost=%FeltonsRed%|
+4,|Item=Potion of Touch of the Eel||Book=RR1||Cost=%TouchoftheEel%|
+9,|Item=Potion of Hedradas Balance||Book=RR1||Cost=%HedradasBalance%|
+8,|Item=Potion of Limbs of Endurance||Book=RR1||Cost=%LimbsofEndurance%|
+1,|Item=Potion of Vangals Touch||Book=RR1||Cost=%VangalsTouch%|
+5,|Item=Potion of Aura of Menance||Book=RR2||Cost=%AuraofMenance%|
+11,|Item=Blade Oil of Shock Weapon||Book=RR2||Cost=%ShockWeapon%|
+11,|Item=Blade Oil of True Strike||Book=RR2||Cost=%TrueStrike%|
+4,|Item=Potion of Body of Sand||Book=RR2||Cost=%BodyofSand%|
+5,|Item=Potion of Charduns Glory||Book=RR2||Cost=%ChardunsGlory%|
+10,|Item=Potion of Foreaction||Book=RR2||Cost=%Foreaction%|
+6,|Item=Blade Oil of MagicWeapon||Book=RR2||Cost=%MagicWeapon%|
+5,|Item=Potion of Bifurcated Tongue||Book=RR2||Cost=%BifurcatedTongue%|
+11,|Item=Blade Oil of Paralyzing Weapon||Book=RR2||Cost=%ParalyzingWeapon%|
+3,|Item=Potion of Dragonflight||Book=RR2||Cost=%Dragonflight%|
+3,|Item=Potion of Dragonhide||Book=RR2||Cost=%Dragonhide%|
+7,|Item=Potion of Hunters Moon||Book=RR2||Cost=%HuntersMoon%|
+5,|Item=Potion of Keshmeeri Refuge||Book=RR2||Cost=%KeshmeeriRefuge%|
+8,|Item=Potion of Sharpen Senses||Book=RR2||Cost=%SharpenSenses%|
+7,|Item=Potion of Focus||Book=RR2||Cost=%Focus%|
+11,|Item=Blade Oil of Flame Weapon||Book=RR2||Cost=%FlameWeapon%|
+11,|Item=Blade Oil of Frost Weapon||Book=RR2||Cost=%FrostWeapon%|
+5,|Item=Potion of Horns||Book=RR2||Cost=%Horns%|
+6,|Item=Potion of Arcane Parry||Book=RR2||Cost=%ArcaneParry%|
+11,|Item=Blade Oil of Keen Edge||Book=RR2||Cost=%KeenEdge%|
+5,|Item=Potion of EnhancedSenses||Book=RR2||Cost=%EnhancedSenses%|
+3,|Item=Potion of Ghost Body||Book=RR2||Cost=%GhostBody%|
+1,|Item=Potion of Serpentlure||Book=RR2||Cost=%Serpentlure%|
+1,|Item=Blade Oil of Greater Magic Weapon||Book=RR2||Cost=%GreaterMagicWeapon%|
+1,|Item=Blade Oil of Vampiric Weapon||Book=RR2||Cost=%VampiricWeapon%|
+11,|Item=Potion of Animal Senses||Book=A&E||Cost=%AnimalSenses%|
+6,|Item=Potion of Watery Breath||Book=A&E||Cost=%WateryBreath%|
+1,|Item=Armor Elixir of the Beetle||Book=A&E||Cost=%ElixirArmorBeetle%|
+1,|Item=Armor Elixir of the Electric Eel||Book=A&E||Cost=%ElixirArmorElectricEel%|
+1,|Item=Armor Elixir of the Porcupine||Book=A&E||Cost=%ElixirArmorPorcupine%|
+1,|Item=Armor Elixir of the Rhino||Book=A&E||Cost=%ElixirArmorRhino%|
+11,|Item=Potion of Animal Logic||Book=MOW||Cost=%AnimalLogic%|
+11,|Item=Potion of Natural Clarity||Book=MOW||Cost=%NaturalClarity%|
+12,|Item=Potion of Unerring Direction||Book=MOW||Cost=%UnerringDirection%|
+5,|Item=Potion of False Life||Book=S&F||Cost=%FalseLife%|
+11,|Item=Potion of Flaming Fists||Book=S&F||Cost=%FlamingFists%|
+1,|Item=Potion of Last Gasp||Book=S&S||Cost=%LastGasp%|
+
+# ---------------------------------------------------------------------------
+
+;AlignmentPotion
+1,law
+1,chaos
+1,good
+1,evil
+
+;EnergyType
+3,acid
+5,cold
+4,electricity
+6,fire
+2,sonic
+
+;DragonsBreathType
+1,amethyst
+5,black
+5,blue
+5,brass
+5,bronze
+1,brown
+1,cloud
+5,copper
+1,crystal
+1,emerald
+1,fang
+5,gold
+5,green
+1,mist
+5,red
+1,sapphire
+1,shadow
+5,silver
+1,slarecian
+1,song
+1,topaz
+5,white
+

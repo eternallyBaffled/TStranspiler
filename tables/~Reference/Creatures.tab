@@ -1,0 +1,1778 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder Mar 23, 2018.
+# ---------------------------------------------------
+#
+# Creatures
+#
+# This table is intended to be used by other tables, 
+# and not by itself.
+#
+# Contains various animals and fantastic creatures.
+#
+# Originally created by Bruce A. Gulke
+#
+# -------------------------------------------------------------------------
+#
+# To call this table from another one:
+#    [Creatures.XXX
+#     XXX = various subtables. See ;All
+#
+#    [Creatures.SumMonX    (X=1-9 for Summon Monster 1-9 from 3.5E)
+#    [Creatures.SumNatAllX (X=1-9 for Summon Natural Ally 1-9 from 3.5E)
+#
+#    [Creatures.SumMonPFX    (X=1-9 for Summon Monster 1-9 from Pathfinder)
+#    [Creatures.SumNatAllPFX (X=1-9 for Summon Natural Ally 1-9 from Pathfinder)
+#
+# --------------------------------------------------------------------
+# ********************************************************************
+#
+# Summon subtables: Do not put a ";" in the name of the Monsters.
+#
+# ********************************************************************
+# --------------------------------------------------------------------
+# This Table Links to these tables as required:
+#    ENC URE Monsters.RollMMCreaturesTAB(%CRSearch%,,)
+#    Miscellaneous
+#
+# -------------------------------------------------------------------------
+# This table is called by:
+#    Many various tables.
+#    NPC Stat Block Pathfinder
+#
+# -------------------------------------------------------------------------
+#
+# Expanded and enhanced by Scott Barrie and Bruce A. Gulke
+# Modified by Valminder, 2002 to 2004
+# Aug 2005: added Humanoid3 for the Magical Items Quirks table
+# Nov 2005: Modified Familiar, added some animals.
+#    Added [Familiar Dragon]
+# Dec 2005:
+#    Added [SummonmonsterX] (added link in Fantastic subtable)
+#          [SummonnatureallyX] (added link in Animal subtable)
+#          [SummonElemental]
+#          [SummonMephit]
+# Feb 2006:
+#    Added [Elemental], [Golem], [Insect]
+# Modified by Valminder, Jan 2012
+#    Removed "," from some animals to work with "Equipment.tab"
+# Jan 2017: Pathfinder Summon Monster/Nature's Ally
+#    Added [SummonmonsterPFX] (added link in Fantastic subtable)
+#          [SummonnatureallyPFX] (added link in Animal subtable)
+#          [CelFie]
+# Feb 2017:
+#    Added [DragonColor] and modified the other Dragon subtables
+# 
+
+%Roll%,0
+%Size%,0
+%SummonLevel%,[SummonLevel]
+
+# ENC URE Monsters
+%CRM%,0
+%CRSearch%,0
+%DSALLDATA%,0
+%End%,0
+%MonsterName%,0
+%Note%,0
+%S%,0
+%SubT%,0
+%Type%,0
+%TypeNeeded%,0
+
+;Start
+1,[Animal]
+1,[Bird of Prey]
+1,[Fantastic]
+1,[Familiar]
+
+;Start2
+5,[Animal]
+4,[Bird of Prey]
+1,[Fantastic]
+
+;SummonLevel
+3,1
+3,2
+3,3
+2,4
+2,5
+2,6
+1,7
+1,8
+1,9
+
+;All
+5,[Animal]
+1,[Animal2]
+#,[AnimalPack]
+1,[AnimalPet]
+#,[AnimalRiding]
+1,[Battle]
+1,[Bird of Prey]
+1,[Dragon]
+#,[Dragon Age]
+1,[DragonNoAge]
+1,[Dwarf]
+1,[Elemental]
+1,[Elf]
+1,[Familiar]
+#,[Familiar Common]
+#,[Familiar Uncommon]
+#,[Familiar Rare]
+#,[Familiar Dragon]
+1,[Fantastic]
+1,[Flying]
+#,[FlyingTransport]
+1,[Giant]
+1,[Gnome]
+#,[Golem]
+1,[Halfling]
+1,[Humanoid]
+1,[Humanoid2]
+#,[Humanoid3]
+#,[Insect]
+#,[MajorMenace]
+#,[Monsters]
+#,[Monsters2]
+#,[Outsider Type]
+1,[Planetouched]
+1,[Summonmonster{Dice~1d9}]
+1,[Summonnatureally{Dice~1d9}]
+#,[SummonElemental]
+#,[SummonMephit]
+#,[Type]
+1,[Undead]
+1,[Vermin]
+1,[Yuanti]
+
+;AllNonHumanoid
+5,[Animal]
+1,[Animal2]
+#,[AnimalPack]
+1,[AnimalPet]
+#,[AnimalRiding]
+1,[Battle]
+1,[Bird of Prey]
+1,[Dragon]
+#,[Dragon Age]
+1,[DragonNoAge]
+#1,[Dwarf]
+1,[Elemental]
+#1,[Elf]
+1,[Familiar]
+#,[Familiar Common]
+#,[Familiar Uncommon]
+#,[Familiar Rare]
+#,[Familiar Dragon]
+1,[Fantastic]
+1,[Flying]
+#,[FlyingTransport]
+#1,[Giant]
+#1,[Gnome]
+#,[Golem]
+#1,[Halfling]
+#1,[Humanoid]
+#1,[Humanoid2]
+#,[Humanoid3]
+#,[Insect]
+#,[MajorMenace]
+#,[Monsters]
+#,[Monsters2]
+#,[Outsider Type]
+#1,[Planetouched]
+1,[Summonmonster{Dice~1d9}]
+1,[Summonnatureally{Dice~1d9}]
+#,[SummonElemental]
+#,[SummonMephit]
+#,[Type]
+1,[Undead]
+1,[Vermin]
+1,[Yuanti]
+
+#ALL animals
+;Animal
+20,[Summonnatureally%SummonLevel%]
+1,antelope|Size=4|
+1,ape|Size=5|
+1,axe beak|Size=6|
+1,auroch|Size=6|
+1,baboon|Size=4|
+2,badger|Size=4|
+1,bat|Size=2|
+2,bear (black)|Size=5|
+2,bear (brown/grizzly)|Size=6|
+1,bear (polar)|Size=6|
+1,beaver|Size=4|
+1,behemoth hippopotamus|Size=7|
+1,bison|Size=5|
+1,blue whale|Size=9|
+2,boar|Size=5|
+4,bull|Size=6|
+1,bull shark|Size=5|
+1,camel|Size=5|
+1,cat|Size=3|
+1,chameleon
+1,cheetah|Size=5|
+1,chicken|Size=3|
+1,constrictor snake|Size=5|
+1,cow
+1,crane
+1,crocodile|Size=5|
+1,crow
+1,deer
+1,digmaul|Size=5|
+1,dire ape|Size=6|
+1,dire badger|Size=5|
+1,dire bat|Size=6|
+1,dire bear|Size=6|
+1,dire boar(daeodon)|Size=6|
+1,dire crocodile|Size=8|
+1,dire hyena|Size=6|
+1,dire lion|Size=6|
+1,dire polar bear|Size=6|
+1,dire rat|Size=4|
+1,dire shark|Size=8|
+1,giant skunk|Size=6|
+1,dire tiger|Size=6|
+1,giant vulture|Size=6|
+1,dire wolf|Size=6|
+1,dire wolverine|Size=6|
+1,dire |Size=|
+1,dire |Size=|
+1,dog|Size=4|
+1,dolphin|Size=5|
+1,donkey
+1,duck
+1,eagle|Size=4|
+1,electric eel|Size=4|
+1,elk|Size=5|
+1,elephant|Size=7|
+1,fey deer
+1,flying fox|Size=3|
+1,flying squirrel|Size=3|
+2,fox|Size=3|
+1,frog|Size=2|
+1,frog father|Size=7|
+1,gar|Size=5|
+1,giant anaconda|Size=8|
+1,giant chameleon|Size=6|
+1,giant eagle|Size=6|
+1,giant frilled lizard|Size=6|
+1,giant frog|Size=5|
+1,giant gar|Size=7|
+1,giant gecko lizard|Size=5|
+1,giant lynx
+1,giant octopus|Size=6|
+1,giant moray eel|Size=6|
+1,giant porcupine|Size=5|
+1,giant seahorse|Size=5|
+1,giant snapping turtle|Size=8|
+1,giant squid|Size=7|
+1,giant toad|Size=6|
+1,giant tortoise|Size=5|
+1,giant weasel|Size=5|
+1,giraffe|Size=7|
+1,glacier toad|Size=6|
+1,goat|Size=4|
+1,goblin dog|Size=5|
+1,goliath frog|Size=6|
+1,goose
+1,gorilla|Size=6|
+1,great horned owl|Size=4|
+1,great white shark|Size=7|
+1,great white whale|Size=9|
+1,gull
+1,hare
+1,hawk|Size=3|
+1,hen
+1,heron
+1,hippopotamus|Size=5|
+5,horse|Size=6|
+2,hound
+1,hyena|Size=5|
+1,immense tortoise|Size=9|
+1,kangaroo|Size=5|
+1,killer seahorse|Size=7|
+1,lamb
+1,leopard|Size=5|
+3,lion|Size=6|
+1,lizard|Size=3|
+1,lynx
+1,manta ray|Size=6|
+1,mare
+1,mastodon|Size=7|
+1,monitor lizard|Size=5|
+1,monkey|Size=3|
+1,mountain lion
+1,mule
+1,narwhal|Size=6|
+1,orca|Size=7|
+1,octopus|Size=4|
+1,ostrich
+1,otter|Size=3|
+1,owl|Size=3|
+1,ox
+2,panther
+1,peacock
+1,penguin|Size=4|
+1,pheasant
+1,pig|Size=4|
+1,pigeon
+1,plowhorse
+1,poison frog|Size=3|
+1,pony|Size=5|
+1,porcupine|Size=3|
+1,raccoon|Size=3|
+2,ram|Size=5|
+1,rat|Size=3|
+1,raven|Size=3|
+1,red panda|Size=3|
+1,riding dog|Size=5|
+1,rhinoceros|Size=6|
+1,roc|Size=8|
+1,rooster
+1,salamander
+1,seal|Size=4|
+1,serpent
+1,shark|Size=6|
+1,skunk|Size=3|
+1,sloth|Size=3|
+1,venomous snake (adder)|Size=5|
+1,venomous snake (python)|Size=5|
+1,venomous snake (emperor cobra)|Size=6|
+1,snapping turtle|Size=3|
+1,songbird
+1,squid|Size=5|
+1,squirrel|Size=3|
+3,stag|Size=5|
+1,stallion
+1,stingray|Size=5|
+1,sturgeon
+1,swan|Size=4|
+1,thylacine marsupial|Size=4|
+2,tiger|Size=6|
+1,toad|Size=2|
+1,tuatara lizard|Size=3|
+1,viper|Size=3|
+1,vulture|Size=4|
+1,walrus|Size=5|
+1,emperor walrus|Size=8|
+1,war pony
+1,weasel|Size=3|
+1,whale|Size=8|
+3,wolf|Size=5|
+1,wolverine|Size=5|
+1,wooly rhinoceros|Size=6|
+1,yak
+5,[Familiar]
+
+#Common "civilized" animals
+;Animal2
+1,chicken
+1,bull
+1,camel
+1,cat
+1,cow
+1,dog
+1,donkey
+1,duck
+1,goat
+1,goose
+1,heavy horse
+1,heavy war horse
+1,hen
+1,hound
+1,lamb
+1,light horse
+1,light war horse
+1,mouse
+1,mule
+1,ox
+1,peacock
+1,pig
+1,pigeon
+1,pony
+1,ram
+1,rat
+1,riding dog
+1,rooster
+1,sheep
+1,songbird
+1,swan
+1,turkey
+1,war pony
+
+;AnimalPack
+1,camel
+3,donkey
+1,heavy horse
+3,light horse
+5,mule
+2,ox
+3,pony
+
+;AnimalPet
+1,badger
+2,bear
+1,boar
+1,cat
+3,dog
+1,fox
+2,horse
+1,lion
+2,lizard
+1,mountain lion
+1,panther
+1,rat
+1,snake
+1,squirrel
+1,tiger
+3,wolf
+5,[Familiar]
+
+;AnimalRiding
+1,camel
+3,donkey
+2,heavy horse
+1,heavy war horse
+5,light horse
+1,light war horse
+3,mule
+1,ox
+3,pony
+1,riding dog
+1,war pony
+
+;Battle
+2,[Animal]
+1,[Fantastic]
+1,[Dragon]
+1,[Golem]
+3,[Humanoid]
+3,[Humanoid2]
+
+;Bird of Prey
+3,eagle
+3,falcon
+3,hawk
+3,raven
+1,rook
+1,heron
+1,crane
+1,rooster
+2,crow
+1,gull
+1,condor
+3,owl
+1,merlin
+2,vulture
+
+;CelFie
+10,celestial
+10,fiendish
+
+:CreatureFine
+1,
+
+:CreatureDiminutive
+1,
+
+:CreatureTiny
+1,
+
+:CreatureSmall
+1,
+
+:CreatureMedium
+1,
+
+:CreatureLarge
+1,
+
+:CreatureHuge
+1,
+
+:CreatureGargantuan
+1,
+
+:CreatureColossal
+1,
+
+;Dinosaur
+1,ankylosaurus|Size=7|
+1,brachiosaurus|Size=8|
+1,deinonychus|Size=5|
+1,elasmosaurus|Size=7|
+1,pteranodon|Size=6|
+1,stegosaurus|Size=7|
+1,triceratops|Size=7|
+1,tyrannosaurus|Size=8|
+1,allosaurus|Size=7|
+1,compsognathus|Size=3|
+1,parasaurolophus|Size=7|
+1,tylosaurus|Size=8|
+1,dimetrodon|Size=6|
+1,iguanodon|Size=7|
+1,pachycephalosaurus|Size=6|
+1,spinosaurus|Size=8|
+1,dimorphodon|Size=5|
+1,diplodocus|Size=9|
+1,styracosaurus|Size=6|
+1,velociraptor|Size=4|
+1,archaeopteryx|Size=3|
+1,dodo|Size=4|
+1,platypus|Size=3|
+1,camaroceras|Size=7|
+1,ceratosaurus|Size=6|
+1,plesiosaurus|Size=6|
+1,therizinosaurus|Size=8|
+1,troodon|Size=5|
+1,|Size=|
+# Megafauna
+1,arsinoitherium|Size=6|
+1,glyptodon|Size=6|
+1,megaloceros|Size=6|
+1,megatherium|Size=7|
+1,archelon|Size=7|
+1,baluchitherium|Size=7|
+1,basilosaurus|Size=8|
+1,megalania|Size=7|
+1,megaprimatus (ape)|Size=8|
+1,chalicotherium|Size=6|
+1,kaprosuchus|Size=7|
+1,moa|Size=6|
+1,uintatherium|Size=6|
+1,|Size=|
+
+;Dragons
+1,[DragonNoAge]
+
+;Dragon
+1,[DragonColor] dragon ([Dragon Age])
+
+;Dragon Age
+1,Wyrmling
+2,Very Young
+4,Young
+8,Juvenile
+16,Adult
+32,Mature Adult
+16,Old
+8,Very Old
+4,Ancient
+2,Wyrm
+1,Great Wyrm
+
+;DragonNoAge
+1,[DragonColor] dragon
+
+;DragonColor
+1,amethyst
+1,astral
+10,black
+10,blue
+10,brass
+3,brine
+10,bronze
+3,cloud
+10,copper
+3,crystal
+1,dream
+1,emerald
+1,etheric
+3,forest
+10,gold
+10,green
+1,lunar
+3,magma
+1,nightmare
+1,occult
+10,red
+1,sapphire
+3,sea
+3,sky
+10,silver
+1,solar
+3,sovereign
+1,time
+1,topaz
+3,umbral
+3,underworld
+1,void
+1,vortex
+10,white
+
+# Also see Volo.tab
+;Dwarf
+1,deep dwarf
+1,derro dwarf
+1,duergar dwarf
+5,hill dwarf
+5,mountain dwarf
+
+;Elemental
+1,[SummonElemental] elemental
+
+# Also see Volo.tab
+;Elf
+1,aquatic elf
+1,drow elf
+5,gray elf
+5,high elf
+1,wild elf
+2,wild/grugach elf
+2,wood/sylvan elf
+
+:ENCUREMonsters
+1,|CRSearch={Dice~1d20}|
+_|DSALLDATA=[ENC URE Monsters.RollMMCreaturesTAB(%CRSearch%,,)]|
+_{Split~DSALLDATA,"!!-!!",End,MonsterName,CRM,Type,SubT,Note,S}
+
+# Aberration, Animal, Construct, Dragon, Elemental, Fey, Giant (3E PF=Subtype), Humanoid, Magical Beast, Monstrous HUMANOID, Ooze, Outsider, Plant, Undead, Vermin
+:ENCUREMonsters_Skin_nonhumanoid
+1,|TypeNeeded=Aberration,Animal,Dragon,Magical Beast|
+_[ENCUREMonsters]
+_{If~{Find~1,Group,%Note%}!=0?[ENCUREMonsters_Skin_nonhumanoid]
+_   /{If~{Find~1,TO ADVANCE,%Note%}!=0?[ENCUREMonsters_Skin_nonhumanoid]
+_   /{If~{Find~1,%Type%,%TypeNeeded%}=0?[ENCUREMonsters_Skin_nonhumanoid]
+_   /%MonsterName%!!-!!%CRSearch%!!-!!%S%
+_}}}
+
+:ENCUREMonsters_Skin_All
+1,|TypeNeeded=Aberration,Animal,Dragon,Fey,Humanoid,Magical Beast,Monstrous HUMANOID,Outsider|
+_[ENCUREMonsters]
+_{If~{Find~1,Group,%Note%}!=0?[ENCUREMonsters_Skin_All]
+_   /{If~{Find~1,TO ADVANCE,%Note%}!=0?[ENCUREMonsters_Skin_All]
+_   /{If~{Find~1,%Type%,%TypeNeeded%}=0?[ENCUREMonsters_Skin_All]
+_   /%MonsterName%!!-!!%CRSearch%!!-!!%S%
+_}}}
+
+;Familiar
+6,[Familiar Common]
+3,[Familiar Uncommon]
+1,[Familiar Rare]
+
+;Familiar Common
+1,bat
+1,cat
+1,ferret
+1,fox
+1,hawk
+1,lizard
+1,monkey
+1,mouse
+1,octopus
+1,owl
+1,rat
+1,raven
+1,seagull
+1,shrew
+1,squirrel
+1,viper
+1,thrush
+1,toad
+1,vulture
+1,weasel
+
+;Familiar Uncommon
+1,butterfly
+1,chameleon
+1,cricket
+1,dove
+1,gecko
+1,hedgehog
+1,hermit crab
+1,humming bird
+1,locust
+1,mantis
+1,parrot
+1,rabbit
+1,scorpion
+1,slug
+1,snail
+1,tarentella
+1,turtle
+
+;Familiar Rare
+1,blink dog
+2,celestial hawk
+2,construct |Roll={1d9}|{If~%Roll%<7 ? [Familiar Common]/[Familiar Uncommon]} 
+1,deathfang
+2,dire rat
+5,wyrmling [Familiar Dragon] dragon
+2,fiendish tiny viper
+1,flying snake
+2,formian worker
+2,giant lizard
+1,hell hound
+1,hippogriff
+2,homunculus
+1,howler
+2,ice mephit
+2,imp
+1,krenshar
+2,leopard
+1,lynx
+2,medium-size viper
+1,osquip
+2,pseudodragon
+2,quasit
+2,shocker lizard
+2,small air elemental
+2,small earth elemental
+2,small fire elemental
+2,small water elemental
+1,spitting crawler lizard
+2,stitched flesh |Roll={1d9}|{If~%Roll%<7 ? [Familiar Common]/[Familiar Uncommon]}
+2,stirge
+2,token |Roll={1d9}|{If~%Roll%<7 ? [Familiar Common]/[Familiar Uncommon]}
+1,tressym
+2,undead |Roll={1d9}|{If~%Roll%<7 ? [Familiar Common]/[Familiar Uncommon]}
+1,winter wolf
+2,wolverine
+1,worg
+
+;Familiar Dragon
+3,white
+3,black
+3,brass
+2,green
+2,copper
+2,blue
+1,bronze
+1,red
+1,silver
+1,gold
+
+;Fantastic
+10,[Summonmonster{Dice~1d9}]
+1,basilisk
+1,celestial
+1,chimera
+1,cyclop
+1,demon
+1,djinni
+2,[DragonNoAge]
+1,drow
+1,efreeti
+1,[Giant]
+2,griffin
+1,harpy
+2,hydra
+1,kraken
+1,kuo-toa
+1,illithid
+1,leviathon
+1,manticore
+1,ogre
+1,pegasus
+1,phoenix
+1,rakshasa
+1,serpentine owl
+1,sphinx
+1,troll
+2,unicorn
+1,[Undead]
+1,wyvern
+
+;Flying
+1,air elemental ([Miscellaneous.Size C])
+3,arrowhawk ([Miscellaneous.Size B])
+5,bat
+20,[Bird of Prey]
+1,chimera
+1,[Dragon]
+1,gargoyle
+3,giant eagle
+3,giant owl
+3,griffon
+1,harpy
+3,hippogriff
+5,[Humanoid2] with magical means
+1,lammasu
+1,manticore
+1,mephit
+1,nightmare
+3,pegasus
+1,roc
+1,sphinx
+3,stirge
+3,wyvern
+1,yrthak
+
+;FlyingTransport
+2,arrowhawk ([Miscellaneous.Size B])
+3,chimera
+2,[Dragon]
+10,giant eagle
+10,giant owl
+10,griffon
+10,hippogriff
+1,lammasu
+3,manticore
+1,nightmare
+5,pegasus
+2,roc
+5,wyvern
+
+;Furs
+5,bear
+5,deer
+3,fox, red
+2,fox, white
+3,horsehide
+1,jaguar
+1,leopard
+1,lion
+3,marten
+3,mink
+1,panther
+5,raccoon
+1,black sable
+2,sheep
+1,skunk
+2,squirrel
+1,tiger
+5,wolf
+1,wolf, winter
+
+;Giant
+1,cloud giant
+1,cyclops
+2,ettin
+2,fire giant
+2,frost giant
+3,hill giant
+1,mountain giant
+1,sea giant
+3,stone giant
+1,storm giant
+
+# Also see Volo.tab
+;Gnome
+1,arcane gnome
+10,gnome
+3,forest gnome
+1,river gnome
+1,svifnerblin gnome
+
+;Golem
+1,bone golem
+1,clay golem
+1,doll golem
+1,flesh golem
+1,iron golem
+1,stone golem
+1,wood golem
+
+# Also see Volo.tab
+;Halfling
+5,lightfoot halfling
+1,deep halfling
+5,tallfellow halfling
+
+# If you modify this subtable, you can also modify it in "EQ_Main.tab"
+# All humanoids
+;Humanoid
+1,bugbear
+1,doppleganger ([Humanoid2] shape)
+1,[Dwarf]
+1,[Elf]
+1,[Giant]
+1,gnoll
+1,[Gnome]
+1,goblin
+1,[Halfling]
+1,half-dryad
+1,half-elf
+1,half-ogre
+1,half-orc
+1,half-satyr
+1,hobgoblin
+1,human
+1,kender
+1,kobold
+1,lizard folk
+1,minotaur
+1,ogre
+1,orc
+1,[Planetouched]
+1,troll
+1,[Yuanti]
+
+# "Civilized" humanoids
+# Also Modify "OtherFolks" subtable in "Village Description.tab" if this subtable is modified.
+# Also see Volo.tab
+;Humanoid2
+1,bugbear
+1,doppleganger ([Humanoid2] shape)
+5,[Dwarf]
+5,[Elf]
+5,[Gnome]
+1,goblin
+5,[Halfling]
+1,half-dryad
+5,half-elf
+3,half-ogre
+5,half-orc
+1,half-satyr
+1,hobgoblin
+40,human
+3,kender
+1,lizard folk
+2,orc
+1,[Planetouched]
+
+# Blooded for Magical Items Quirks
+;Humanoid3
+1,bugbear
+1,doppleganger
+1,dragon
+5,dwarf
+5,elf
+1,fey
+1,giant
+1,gnoll
+5,gnome
+1,goblin
+5,halfling
+1,hobgoblin
+5,human
+5,kender
+1,kobold
+1,lizard folk
+1,minotaur
+1,ogre
+5,orc
+1,[Planetouched]
+1,troll
+1,undead
+1,yuan-ti
+
+;Insect
+1,ant
+1,bee
+1,beetle
+1,centipede
+1,fly
+1,ladybug
+1,mosquito
+1,scarab
+1,spider
+1,wasp
+
+;MajorMenace
+4,atropal
+4,balor
+4,behemoth
+4,brain collector
+4,cerberus
+4,chichimec
+2,Demon Lord
+2,Demon Prince
+4,Duke of Hell
+1,flesh colossus
+1,iron colossus
+1,stone colossus
+1,devastation beetle
+1,devastation centipede
+1,devastation scorpion
+1,devastation spider
+1,primal air elemental
+1,primal earth elemental
+1,primal fire elemental
+1,primal water elemental
+4,fallen solar angel
+4,force dragon
+4,gibbering orb
+4,gloom
+4,ha-naga
+4,hecatoncheires
+4,hell fire wyrm
+4,hunefer
+4,infernal
+4,kaiju
+4,lavawight
+4,leshay
+4,phaeton
+4,phane
+4,pit fiend
+4,prismasaurus
+4,prismatic dragon
+4,shadow of the void
+4,shape of fire
+1,slaad lord of entropy
+1,slaad lord of the insane
+1,black slaad
+1,white slaad
+4,tarrasque
+4,tayellah
+4,thorciasid
+4,titan
+4,umbral blot
+4,uvuudaum
+4,vermiurge
+4,winterwight
+4,worm that walks
+4,xixecal
+
+;Monsters
+1,[DragonNoAge]
+5,[Fantastic]
+3,[Flying]
+2,[Giant]
+2,[Undead]
+
+;Monsters2
+10,Dragon
+50,[Fantastic]
+30,[Flying]
+10,Giant
+20,[Undead]
+1,[MajorMenace]
+
+;Outsider Type
+2,Celestial
+2,Demon (Tanar'ri)
+2,Devil (Baatezu)
+2,Elemental
+2,Fiendish
+1,Half-Elemental
+2,Slaad
+1,Yugoloth
+
+# Also see Volo.tab
+;Planetouched
+1,aasimar
+1,tiefling
+
+# 3E Summon
+;Summonmonster1
+1,celestial dog (LG)
+1,celestial owl (LG)
+1,celestial giant fire beetle (NG)
+1,celestial porpoise (aquatic) (NG)
+1,celestial badger (CG)	
+1,celestial monkey (CG)
+1,fiendish dire rat (LE)
+1,fiendish raven (LE)
+1,Medium fiendish monstrous centipede (NE)
+1,Smallfiendish monstrous scorpion (NE)
+1,fiendish hawk (CE)
+1,Small fiendish monstrous spider (CE)
+1,fiendish octopus (aquatic) (CE)
+1,fiendish snake Small viper (CE)
+
+;Summonmonster2
+1,celestial giant bee (LG)
+1,celestial giant bombardier beetle (NG)
+1,celestial riding dog (NG)
+1,celestial eagle (CG)
+1,lemure (devil) (LE)
+1,fiendish squid (aquatic) (LE)
+1,fiendish wolf (LE)
+1,Largefiendish monstrous centipede (NE)
+1,Medium fiendish monstrous scorpion (NE)
+1,fiendish shark Medium (aquatic) (NE)
+1,Mediumfiendish monstrous spider (CE)
+1,Medium fiendish snake viper (CE)
+
+;Summonmonster3
+1,celestial black bear (LG)
+1,celestial bison (NG)
+1,celestial dire badger (CG)
+1,celestial hippogriff (CG)
+1,Small elemental ([SummonElemental]) (N)
+1,fiendish ape (LE)
+1,fiendish dire weasel (LE)
+1,hell hound (LE)
+1,fiendish snake, constrictor (LE)
+1,fiendish boar (NE)
+1,fiendish dire bat (NE)
+1,Huge fiendish monstrous centipede (NE)
+1,fiendish crocodile (CE)
+1,dretch (demon) (CE)
+1,Large fiendish snake viper (CE)
+1,fiendish wolverine (CE)
+
+;Summonmonster4
+1,lantern archon (LG)
+1,celestial giant owl (LG)
+1,celestial giant eagle (CG)
+1,celestial lion (CG)
+1,mephit ([SummonMephit]) (N)
+1,fiendish dire wolf (LE)
+1,fiendish giant wasp (LE)
+1,fiendish giant praying mantis (NE)
+1,fiendish shark, Large (aquatic) (NE)
+1,yeth hound (NE)
+1,Largefiendish monstrous spider (CE)
+1,Huge fiendish snake viper (CE)
+1,howler (CE)
+
+;Summonmonster5
+1,hound archon (LG)
+1,celestial brown bear (LG)
+1,celestial giant stag beetle (NG)
+1,celestial sea cat (aquatic) (NG)
+1,celestial griffon (CG)
+1,Medium elemental ([SummonElemental]) (N)
+1,achaierai (LE)
+1,devil, bearded (LE)
+1,fiendish deinonychus (LE)
+1,fiendish dire ape (LE)
+1,fiendish dire boar (NE)
+1,fiendish shark Huge (NE)
+1,Large fiendish monstrous scorpion (NE)
+1,shadow mastiff (NE)
+1,fiendish dire wolverine (CE)
+1,fiendish giant crocodile (CE)
+1,fiendish tiger (CE)
+
+;Summonmonster6
+1,celestial polar bear (LG)
+1,celestial orca whale (aquatic) (NG)
+1,bralani (eladrin) (CG)
+1,celestial dire lion (CG)
+1,Large elemental ([SummonElemental]) (N)
+1,janni (genie) (N)
+1,chaos beast (CN)
+1,devil, chain (LE)
+1,xill (LE)
+1,Gargantuan fiendish monstrous centipede (NE)
+1,fiendish rhinoceros (NE)
+1,fiendish elasmosaurus (aquatic) (CE)
+1,Huge fiendish monstrous spider (CE)
+1,fiendish giant constrictor (snake) (CE)
+
+;Summonmonster7
+1,celestial elephant (LG)
+1,avoral (guardinal) (NG)
+1,celestial baleen whale (aquatic) (NG)
+1,djinni (genie) (CG)
+1,Huge elemental ([SummonElemental]) (N)
+1,invisible stalker (N)
+1,devil, bone (LE)
+1,fiendish megaraptor (LE)
+1,Huge fiendish monstrous scorpion (NE)
+1,babau (demon) (CE)
+1,fiendish giant octopus (aquatic) (CE)
+1,fiendish girallon (CE)
+
+;Summonmonster8
+1,celestial dire bear (LG)
+1,celestial cachalot whale (aquatic) (NG)
+1,celestial triceratops (NG)
+1,lillend (CG)
+1,greater elemental ([SummonElemental]) (N)
+1,fiendish giant squid (aquatic) (LE)
+1,hellcat (LE)
+1,Colossal fiendish monstrous centipede (NE)
+1,fiendish dire tiger (CE)
+1,Gargantuan fiendish monstrous spider (CE)
+1,fiendish tyrannosaurus (CE)
+1,vrock (demon) (CE)
+
+;Summonmonster9
+1,couatl (LG)
+1,leonal (guardinal) (NG)
+1,celestial roc (CG)
+1,elder elemental ([SummonElemental]) (N)
+1,devil, barbed (LE)
+1,fiendish dire shark (aquatic) (E)
+1,Gargantuan fiendish monstrous scorpion (NE)
+1,night hag (NE)
+1,bebilith (demon) (CE)
+1,Colossal fiendish monstrous spider (CE)
+1,hezrou (demon) (CE)
+
+;SumMon1
+10,[Summonmonster1]
+
+;SumMon2
+6,[Summonmonster2]
+4,{Dice~1d2+1} [Summonmonster1]
+
+;SumMon3
+6,[Summonmonster3]
+3,{Dice~1d2+1} [Summonmonster2]
+1,{Dice~1d3+2} [Summonmonster1]
+
+;SumMon4
+6,[Summonmonster4]
+3,{Dice~1d2+1} [Summonmonster3]
+1,{Dice~1d3+2} [Summonmonster2]
+
+;SumMon5
+6,[Summonmonster5]
+3,{Dice~1d2+1} [Summonmonster3]
+1,{Dice~1d3+2} [Summonmonster2]
+
+;SumMon6
+6,[Summonmonster6]
+3,{Dice~1d2+1} [Summonmonster5]
+1,{Dice~1d3+2} [Summonmonster4]
+
+;SumMon7
+6,[Summonmonster7]
+3,{Dice~1d2+1} [Summonmonster6]
+1,{Dice~1d3+2} [Summonmonster5]
+
+;SumMon8
+6,[Summonmonster8]
+3,{Dice~1d2+1} [Summonmonster7]
+1,{Dice~1d3+2} [Summonmonster6]
+
+;SumMon9
+6,[Summonmonster9]
+3,{Dice~1d2+1} [Summonmonster8]
+1,{Dice~1d3+2} [Summonmonster7]
+
+;Summonnatureally1
+1,dire rat
+1,eagle (animal)
+1,monkey (animal)
+1,octopus (aquatic) (animal)
+1,owl (animal)
+1,porpoise (aquatic) (animal)
+1,snake, Small viper (animal)
+1,wolf (animal)
+
+;Summonnatureally2
+1,bear, black (animal)
+1,crocodile (animal)
+1,dire badger
+1,dire bat
+1,elemental - Small ([SummonElemental])
+1,hippogriff
+1,shark - Medium (aquatic) (animal)
+1,snake - Medium viper (animal)
+1,squid (aquatic) (animal)
+1,wolverine (animal)
+
+;Summonnatureally3
+1,ape (animal)
+1,dire weasel
+1,dire wolf
+1,giant eagle (NG)
+1,lion
+1,giant owl (NG)
+1,satyr (CN without pipes)
+1,Large shark (aquatic) (animal)
+1,constrictor snake (animal)
+1,Large viper (animal)
+1,thoqqua
+
+;Summonnatureally4
+1,arrowhawk, juvenile
+1,brown bear (animal)
+1,giant crocodile (animal)
+1,deinonychus (dinosaur)
+1,dire ape
+1,dire boar
+1,dire wolverine
+1,elemental - Medium ([SummonElemental])
+1,salamander (flamebrother) (NE)
+1,sea cat (aquatic)
+1,Huge shark (aquatic) (animal)
+1,Huge viper (animal)
+1,tiger (animal)
+1,juvenile tojanida (aquatic)
+1,unicorn (CG)
+1,minor xorn
+
+;Summonnatureally5
+1,arrowhawk, adult
+1,polar bear (animal)
+1,dire lion
+1,elasmosaurus (aquatic) (dinosaur)
+1,elemental - Large ([SummonElemental])
+1,griffon
+1,janni (genie)
+1,rhinoceros (animal)
+1,satyr (CN with pipes)
+1,giant constrictor snake (animal)
+1,nixie (sprite)
+1,adult tojanida (aquatic)
+1,orca whale (aquatic) (animal)
+
+;Summonnatureally6
+1,dire bear
+1,elemental - Huge ([SummonElemental])
+1,elephant (animal)
+1,girallon
+1,megaraptor (dinosaur)
+1,giant octopus (aquatic) (animal)
+1,pixie* (sprite) (NG no special arrows)
+1,average salamander (NE)
+1,baleen (whale - aquatic)
+1,average xorn
+
+;Summonnatureally7
+1,elder arrowhawk
+1,dire tiger
+1,elemental - greater ([SummonElemental])
+1,djinni (genie) (NG)
+1,invisible stalker
+1,pixie (sprite) (NG with sleep arrows - can’t cast irresistible dance)
+1,squid, giant (aquatic) (animal)
+1,triceratops (dinosaur)
+1,tyrannosaurus (dinosaur)
+1,cachalot (whale - aquatic) (animal)
+1,elder xorn
+
+;Summonnatureally8
+1,dire shark (aquatic)
+1,roc
+1,noble salamander (NE)
+1,elder tojanida
+
+;Summonnatureally9
+1,elemental - elder ([SummonElemental])
+1,grig (NG with fiddle) (sprite)
+1,pixie* (sprite) (NG with sleep and memory loss arrows - can cast irresistible dance)
+1,unicorn (celestial charger)
+
+;SumNatAll1
+10,[Summonnatureally1]
+
+;SumNatAll2
+6,[Summonnatureally2]
+4,{Dice~1d2+1} [Summonnatureally1]
+
+;SumNatAll3
+6,[Summonnatureally3]
+3,{Dice~1d2+1} [Summonnatureally2]
+1,{Dice~1d3+2} [Summonnatureally1]
+
+;SumNatAll4
+6,[Summonnatureally4]
+3,{Dice~1d2+1} [Summonnatureally3]
+1,{Dice~1d3+2} [Summonnatureally2]
+
+;SumNatAll5
+6,[Summonnatureally5]
+3,{Dice~1d2+1} [Summonnatureally4]
+1,{Dice~1d3+2} [Summonnatureally3]
+
+;SumNatAll6
+6,[Summonnatureally6]
+3,{Dice~1d2+1} [Summonnatureally5]
+1,{Dice~1d3+2} [Summonnatureally4]
+
+;SumNatAll7
+6,[Summonnatureally7]
+3,{Dice~1d2+1} [Summonnatureally6]
+1,{Dice~1d3+2} [Summonnatureally5]
+
+;SumNatAll8
+6,[Summonnatureally8]
+3,{Dice~1d2+1} [Summonnatureally7]
+1,{Dice~1d3+2} [Summonnatureally6]
+
+;SumNatAll9
+6,[Summonnatureally9]
+3,{Dice~1d2+1} [Summonnatureally8]
+1,{Dice~1d3+2} [Summonnatureally7]
+
+# Pathfinder Summon
+;SummonmonsterPF1
+1,[CelFie] dire rat
+1,[CelFie] dog
+1,[CelFie] dolphin
+1,[CelFie] eagle
+1,[CelFie] fire beetle
+1,[CelFie] poison frog
+1,[CelFie] pony (horse)
+1,[CelFie] viper (snake)
+
+;SummonmonsterPF2
+1,[CelFie] giant worker ant
+1,small elemental ([SummonElemental])
+1,[CelFie] giant centipede
+1,[CelFie] giant frog
+1,[CelFie] giant spider
+1,[CelFie] goblin dog
+1,[CelFie] horse
+1,[CelFie] hyena
+1,lemure (devil) (LE)
+1,[CelFie] octopus
+1,[CelFie] squid
+1,[CelFie] wolf
+
+;SummonmonsterPF3
+1,[CelFie] giant soldier ant
+1,[CelFie] ape
+1,[CelFie] aurochs
+1,[CelFie] boar
+1,[CelFie] cheetah
+1,[CelFie] constrictor snake
+1,[CelFie] crocodile
+1,[CelFie] dire bat
+1,dretch (demon) (CE)
+1,[CelFie] electric eel
+1,lantern archon (LG)
+1,[CelFie] leopard
+1,[CelFie] monitor lizard
+1,[CelFie] shark
+1,[CelFie] wolverine
+
+;SummonmonsterPF4
+1,[CelFie] giant drone ant
+1,[CelFie] bison
+1,[CelFie] deinonychus
+1,[CelFie] dire ape
+1,[CelFie] dire wolf
+1,elemental, Medium ([SummonElemental]) (N)
+1,[CelFie] giant scorpion
+1,[CelFie] giant wasp
+1,[CelFie] grizzly bear
+1,hell hound (LE)
+1,hound archon (LG)
+1,[CelFie] lion
+1,mephit ([SummonMephit]) (N)
+1,[CelFie] pteranodon
+1,[CelFie] rhinoceros
+
+;SummonmonsterPF5
+1,[CelFie] ankylosaurus
+1,babau (demon) (CE)
+1,bearded devil (LE)
+1,bralani azata/eladrin (CG)
+1,[CelFie] dolphin (orca)
+1,[CelFie] dire lion
+1,elemental, Large ([SummonElemental]) (N)
+1,[CelFie] giant moray eel
+1,kyton (LE)
+1,salamander (E)
+1,[CelFie] woolly rhinoceros
+1,xill (LE)
+
+;SummonmonsterPF6
+1,[CelFie] dire bear
+1,[CelFie] dire tiger
+1,[CelFie] elasmosaurus
+1,elemental, Huge ([SummonElemental]) (N)
+1,[CelFie] elephant
+1,erinyes (devil) (LE)
+1,[CelFie] giant octopus
+1,invisible stalker (Air)
+1,lillend azata/eladrin (CG)
+1,shadow demon (CE)
+1,succubus (demon) (CE)
+1,[CelFie] triceratops
+
+;SummonmonsterPF7
+1,bebilith (CE)
+1,bone devil (LE)
+1,[CelFie] brachiosaurus
+1,[CelFie] dire crocodile
+1,[CelFie] dire shark
+1,elemental, greater ([SummonElemental]) (N)
+1,[CelFie] giant squid
+1,[CelFie] mastodon (elephant)
+1,[CelFie] roc
+1,[CelFie] tyrannosaurus
+1,vrock (demon) (CE)
+
+;SummonmonsterPF8
+1,barbed devil (LE)
+1,elemental, elder ([SummonElemental]) (N)
+1,hezrou (demon) (CE)
+
+;SummonmonsterPF9
+1,astral deva (angel) (Good)
+1,ghaele azata/eladrin (CG)
+1,glabrezu (demon) (CE)
+1,ice devil (LE)
+1,nalfeshnee (demon) (CE)
+1,trumpet archon (LG)
+
+;SumMonPF1
+10,[SummonmonsterPF1]
+
+;SumMonPF2
+6,[SummonmonsterPF2]
+4,{Dice~1d2+1} [SummonmonsterPF1]
+
+;SumMonPF3
+6,[SummonmonsterPF3]
+3,{Dice~1d2+1} [SummonmonsterPF2]
+1,{Dice~1d3+2} [SummonmonsterPF1]
+
+;SumMonPF4
+6,[SummonmonsterPF4]
+3,{Dice~1d2+1} [SummonmonsterPF3]
+1,{Dice~1d3+2} [SummonmonsterPF2]
+
+;SumMonPF5
+6,[SummonmonsterPF5]
+3,{Dice~1d2+1} [SummonmonsterPF3]
+1,{Dice~1d3+2} [SummonmonsterPF2]
+
+;SumMonPF6
+6,[SummonmonsterPF6]
+3,{Dice~1d2+1} [SummonmonsterPF5]
+1,{Dice~1d3+2} [SummonmonsterPF4]
+
+;SumMonPF7
+6,[SummonmonsterPF7]
+3,{Dice~1d2+1} [SummonmonsterPF6]
+1,{Dice~1d3+2} [SummonmonsterPF5]
+
+;SumMonPF8
+6,[SummonmonsterPF8]
+3,{Dice~1d2+1} [SummonmonsterPF7]
+1,{Dice~1d3+2} [SummonmonsterPF6]
+
+;SumMonPF9
+6,[SummonmonsterPF9]
+3,{Dice~1d2+1} [SummonmonsterPF8]
+1,{Dice~1d3+2} [SummonmonsterPF7]
+
+;SummonnatureallyPF1
+1,dire rat
+1,dog
+1,dolphin
+1,eagle
+1,fire beetle
+1,giant centipede
+1,poison frog
+1,mite (gremlin)
+1,pony (horse)
+1,stirge
+1,viper (snake)
+
+;SummonnatureallyPF2
+1,giant worker ant
+1,small elemental ([SummonElemental])
+1,giant frog
+1,giant spider
+1,goblin dog
+1,horse
+1,hyena
+1,octopus
+1,squid
+1,wolf
+
+;SummonnatureallyPF3
+1,giant soldier ant
+1,ape
+1,aurochs
+1,boar
+1,cheetah
+1,constrictor snake
+1,crocodile
+1,dire bat
+1,electric eel
+1,giant crab
+1,leopard
+1,monitor lizard
+1,shark
+1,wolverine
+
+;SummonnatureallyPF4
+1,giant drone ant
+1,bison
+1,deinonychus
+1,dire ape
+1,dire boar
+1,dire wolf
+1,elemental, Medium ([SummonElemental]) (N)
+1,giant scorpion
+1,giant stag beetle
+1,giant wasp
+1,grifon
+1,grizzly bear
+1,lion
+1,mephit ([SummonMephit]) (N)
+1,owlbear
+1,pteranodon
+1,rhinoceros
+1,satyr
+1,tiger
+
+;SummonnatureallyPF5
+1,ankylosaurus
+1,cyclops
+1,dolphin (orca)
+1,dire lion
+1,elemental, Large ([SummonElemental]) (N)
+1,ettin
+1,giant moray eel
+1,girallon
+1,manticore
+1,woolly rhinoceros
+
+;SummonnatureallyPF6
+1,bulette
+1,dire bear
+1,dire tiger
+1,elasmosaurus
+1,elemental, Huge ([SummonElemental]) (N)
+1,elephant
+1,giant octopus
+1,hill giant
+1,stegosaurus
+1,stone giant (earth)
+1,triceratops
+
+;SummonnatureallyPF7
+1,brachiosaurus
+1,dire crocodile
+1,dire shark
+1,elemental, greater ([SummonElemental]) (N)
+1,fire giant (fire)
+1,frost giant (cold)
+1,giant squid
+1,mastodon (elephant)
+1,roc
+1,tyrannosaurus
+
+;SummonnatureallyPF8
+1,cloud giant (air)
+1,elemental, elder ([SummonElemental]) (N)
+1,purple worm
+
+;SummonnatureallyPF9
+1,pixie (NG with sleep arrows and irresistible dance)
+1,storm giant
+
+;SumNatAllPF1
+10,[SummonnatureallyPF1]
+
+;SumNatAllPF2
+6,[SummonnatureallyPF2]
+4,{Dice~1d2+1} [SummonnatureallyPF1]
+
+;SumNatAllPF3
+6,[SummonnatureallyPF3]
+3,{Dice~1d2+1} [SummonnatureallyPF2]
+1,{Dice~1d3+2} [SummonnatureallyPF1]
+
+;SumNatAllPF4
+6,[SummonnatureallyPF4]
+3,{Dice~1d2+1} [SummonnatureallyPF3]
+1,{Dice~1d3+2} [SummonnatureallyPF2]
+
+;SumNatAllPF5
+6,[SummonnatureallyPF5]
+3,{Dice~1d2+1} [SummonnatureallyPF4]
+1,{Dice~1d3+2} [SummonnatureallyPF3]
+
+;SumNatAllPF6
+6,[SummonnatureallyPF6]
+3,{Dice~1d2+1} [SummonnatureallyPF5]
+1,{Dice~1d3+2} [SummonnatureallyPF4]
+
+;SumNatAllPF7
+6,[SummonnatureallyPF7]
+3,{Dice~1d2+1} [SummonnatureallyPF6]
+1,{Dice~1d3+2} [SummonnatureallyPF5]
+
+;SumNatAllPF8
+6,[SummonnatureallyPF8]
+3,{Dice~1d2+1} [SummonnatureallyPF7]
+1,{Dice~1d3+2} [SummonnatureallyPF6]
+
+;SumNatAllPF9
+6,[SummonnatureallyPF9]
+3,{Dice~1d2+1} [SummonnatureallyPF8]
+1,{Dice~1d3+2} [SummonnatureallyPF7]
+
+;SummonElemental
+1,air
+1,earth
+1,fire
+1,water
+
+;SummonMephit
+1,air
+1,dust
+1,earth
+1,fire
+1,ice
+1,magma
+1,ooze
+1,salt
+1,steam
+1,water
+
+;Type
+1,Aberration
+1,Animal
+1,Construct
+1,Dragon
+1,Elemental
+1,Fey
+1,Giant
+1,Humanoid ([Humanoid])
+1,Magical Beast
+1,Monstrous Humanoid
+1,Ooze
+1,Outsider ([Outsider Type])
+1,Plant
+1,Shapechanger
+1,Undead
+1,Vermin
+
+;Undead
+1,allip
+2,banshee
+1,bodak
+1,devourer
+2,ghast
+5,ghoul
+5,ghost
+2,lich
+1,mohrg
+2,mummy
+1,nightshade
+5,shadow
+5,skeleton
+1,son of Kyuss
+2,spectre
+2,vampire
+2,vampire spawn
+2,wight
+2,wraith
+5,zombie
+
+;Undead_Physical
+1,bodak
+1,devourer
+2,ghast
+5,ghoul
+2,lich
+1,mohrg
+2,mummy
+5,skeleton
+1,son of Kyuss
+2,vampire
+2,vampire spawn
+2,wight
+5,zombie
+
+;Vermin
+1,giant ant
+1,giant bee
+1,giant bombardier beetle
+1,giant fire beetle
+1,giant stag beetle
+1,giant praying mantis
+1,giant wasp
+1,monstrous centipede ([VerminSize])
+1,monstrous scorpion ([VerminSize])
+1,monstrous spider ([VerminSize])
+
+;VerminSize
+1,Small
+2,Medium
+3,Large
+2,Huge
+1,Gargantuan
+
+;Yuanti
+1,yuan-ti abomination
+2,halfblooded yuan-ti
+2,pureblooded yuan-ti

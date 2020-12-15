@@ -1,0 +1,66 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder Jan 30, 2006.
+# ---------------------------------------------------
+#
+# Coats-of-arms
+#
+# Basic heraldric devices
+#
+# Originally created by Bruce A. Gulke
+#
+# Improved by Scott Barrie
+#
+# Modified by Valminder, Jan 2006.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+#
+
+:Start
+1,{Status~By Bruce Gulke, Scott Barrie, Valminder 2006}{Cap~[Generate]}.
+
+:Generate
+1-2,{AorAn~[Miscellaneous.Metal]} [Blazon I] [Blazon II]on {AorAn~[Miscellaneous.Color]} field
+3-4,{AorAn~[Miscellaneous.Color]} [Blazon I] [Blazon III]on {AorAn~[Miscellaneous.Metal]} field
+5,[NumWord={Dice~1d3+1}] [Miscellaneous.Metal] {Plural~[Blazon I]} [Blazon II]on {AorAn~[Miscellaneous.Color]} field
+6,[NumWord={Dice~1d3+1}] [Miscellaneous.Color] {Plural~[Blazon I]} [Blazon III]on {AorAn~[Miscellaneous.Metal]} field
+
+:Blazon I
+1,stripe
+2,sword
+3,tower
+4,fist
+5,skull
+6,star
+7,fleur-de-lys
+8-10,[Creatures.Animal]
+11-12,[Creatures.Bird of Prey]
+13-14,[Creatures.Fantastic]
+15,crown
+16,arrow
+17,tree
+18,cross
+19,bar
+20,shell
+21,harp
+22,ring
+23,axe
+24,ship
+25,sun
+26,moon
+27,set of scales
+
+:Blazon II
+1-4,
+5,and {AorAn~[Miscellaneous.Metal]} [Blazon I] 
+6,and [NumWord={Dice~1d3+1}] [Miscellaneous.Metal] [Blazon I]s 
+
+:Blazon III
+1-4,
+5,and [Miscellaneous.Color] [Blazon I] 
+6,and [NumWord={Dice~1d3+1}] [Miscellaneous.Color] [Blazon I]s 
+
+:NumWord
+1,one
+2,two
+3,three
+4,four

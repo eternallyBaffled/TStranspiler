@@ -1,0 +1,92 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder Oct 30, 2003.
+# ---------------------------------------------------
+#
+# SMS
+# 06/23/03
+# Forgotten Realms Table 33: Temperate Clear (EL 1-5) random encounter tables
+#
+# Corrected by Valminder, Oct 2003
+#   -{If~} and {Dice~}
+#
+#Variables
+
+%Time%,0
+%Temp%,0
+
+#Parameters
+
+@Time,3,Select a time of day,Day,Night,_
+
+#
+#  Starts by putting up the instructions
+#
+
+:Start
+1,{If~%Time% = 3 ? [Instructions]/[Temperate Clear %Time%]}
+
+;Instructions
+1,<b>Forgotten Realms Table 33: Temperate Clear (EL 1-5)</b></br></br><h3>Instructions:</h3>
+_<b>Determine whether an encounter should occur before using this table. The chance of an encounter is based on terrain type and travel (chance per hour):</b><br>
+_<table border=1><tr><th>Terrain</th><th>Normal Travel</th><th>Cautious Travel</th><th>Hiding</th></tr>
+_<tr><td>Desolate/wasteland</td><td>5/%</td><td>2/%</td><td>1/%</td></tr>
+_<tr><td>Frontier/wilderness</td><td>8/%</td><td>4/%</td><td>2/%</td></tr>
+_<tr><td>Verdant/civilized area</td><td>10/%</td><td>5/%</td><td>2/%</td></tr>
+_<tr><td>Heavily traveled</td><td>12/%</td><td>6/%</td><td>3/%</td></tr>
+_</table>
+_<ul><li>Use the Parameter Box (below) to indicate whether it is day or night. Selecting "_" will show these instructions.</li>
+_<li>This table applies to all Temperate Clear areas in the Realms (so there is no need to input a region)</li></ul><br>
+
+# 1 corresponds to time="Day"
+:Temperate Clear 1
+01-04,Ankheg
+05-13,Bandits, [FR_Misc.Bandit_Race] (usually Chaotic Evil): {Dice~1d3+1} 1st level warriors led by [FR_Misc.Bandit_Leader]
+14-15,{Dice~1d4} Dire rat
+16,Doppelganger
+17-18,Gargoyle
+19-20,Gnoll hunters: {Dice~1d4+1} gnolls led by a level {Dice~1d3+1} gnoll ranger
+21-23,{Dice~1d6+3} Kobold
+24-26,{Dice~1d2} Krenshar
+27-38,<b>NPCs:</b><br>{Loop~{Dice~1d3+2},[FR_Random_NPC.FR_SM_NPC]}
+39-51,[FR_Misc.Merchant_Race] Merchants: {Dice~2d4} 1st level commoners, {Dice~2d4} 1st level warriors, led by [FR_Misc.Merchant_Leader]
+52-61,[FR_Misc.Militia_Race] Militia: {Dice~1d4+4} 1st level warriors
+62-71,[FR_Misc.Militia_Race] Patrol: {Dice~1d3+1} 1st level fighters led by [FR_Misc.Patrol_Leader]
+72-77,[FR_Misc.Pilgrim_Race] Pilgrims: {Dice~3d4} 1st level commoners, {Dice~2d4} 1st level warriors, led by [FR_Misc.Pilgrim_Leader]
+78-81,[FR_Misc.Slaver_Race] Slavers (usually Neutral Evil): {Dice~1d4+2} 1st level warriors, {Dice~1d2} level {Dice~1d3} fighters, {Dice~1d2} level {Dice~1d3} rogues, and {Dice~2d8} captives (1st level commoners)
+82-84,{Dice~1d3} Tressym (FRCS)
+85-86,Wereboar
+87-93,{Dice~1d2} Wererat
+94-96,Werewolf
+97-100,{Dice~1d4} Wolf
+
+# 2 corresponds to time="Night"
+:Temperate Clear 2
+01,Allip
+02,Ankheg
+03-06,Bandits, [FR_Misc.Bandit_Race] (usually Chaotic Evil): {Dice~1d3+1} 1st level warriors led by [FR_Misc.Bandit_Leader]
+07,Baneguard (MoF)
+08-12,{Dice~1d4} Dire rat
+13-18,Doppelganger
+19,Dread Warrior (MoF)
+20-21,Gargoyle
+22,Ghast
+23,{Dice~1d6} Ghoul
+24-28,Goblin raiders: {Dice~1d3+2} goblins, led by level {Dice~1d3} goblin fighter, all mounted on worgs
+29-30,Gnoll hunters: {Dice~1d4+1} gnolls led by a level {Dice~1d3+1} gnoll ranger
+31-34,{Dice~1d6+3} Kobold
+35-37,{Dice~1d2} Krenshar
+38-48,<b>NPCs:</b><br>{Loop~{Dice~1d3+2},[FR_Random_NPC.FR_SM_NPC]}
+49-58,[FR_Misc.Militia_Race] Militia: {Dice~1d4+4} 1st level warriors
+59-63,{Dice~1d2} Ogre
+64-68,{Dice~1d3+1} Orc
+69-75,[FR_Misc.Militia_Race] Patrol: {Dice~1d3+1} 1st level fighters led by [FR_Misc.Patrol_Leader]
+76-79,[FR_Misc.Slaver_Race] Slavers (usually Neutral Evil): {Dice~1d4+2} 1st level warriors, {Dice~1d2} level {Dice~1d3} fighters, {Dice~1d2} level {Dice~1d3} rogues, and {Dice~2d8} captives (1st level commoners)
+79-81,Spectral Panther (MoF)
+82-84,{Dice~1d6} Skeleton, medium
+85-86,{Dice~1d2} Vampire spawn
+87-88,Wereboar
+89-90,{Dice~1d2} Wererat
+91-92,Werewolf
+93-94,{Dice~1d2} Wight
+95-98,{Dice~1d4} Wolf
+99-100,{Dice~1d4+1} Zombie, medium

@@ -1,0 +1,920 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder Jan 30, 2006.
+# ---------------------------------------------------
+#
+# Starship Generator
+# (randomly selects a Starship from the RCRB or SotG and displays stats)
+#
+# Created by Patrick Hodak
+#
+# Modified by Valminder, Jan 2006.
+#    Renamed "SW Starship Gen.tab" instead of "SW Starship Gen3.tab"
+#    Adapted for TSv5.
+#    Added Parameters:
+#       ShipType: Space Freighter, Starfighter, Capital Ship, Random.
+#       ModType:  Modified, Scrapped Together, Random.
+#    Modified color: Red => darkred      Lightblue => purple
+#    Modified value of %Skill%
+#       :Quality
+#       2,|skill=0|
+#       4,|skill=2|
+#       8,|skill=4|
+#       12,|skill=8|
+#
+
+/OverrideRolls 1
+
+%check%,0
+%class%,0
+%size%,0
+%crew%,0
+%init%,0
+%man%,0
+%def%,0
+%SP%,0
+%SPa%,0
+%SPb%,0
+%HP%,0
+%HPa%,-1
+%HPb%,0
+%Cu%,0
+%Cn%,0
+%HD%,0
+%HDa%,0
+%HDb%,0
+%Pass%,0
+%CC%,0
+%Con%,0
+%MS%,0
+%AS%,0
+%EQ%,0
+%EB%,0
+%mansys%,0
+
+%a%,0
+%b%,0
+%c%,0
+%div%,1
+
+%wc%,0
+%FC%,0
+%SM%,0
+%wpn1%,0
+%wpn2%,0
+%wpn3%,0
+%wpn4%,0
+%wpn5%,0
+%skill%,0
+%dmg%,0
+%arc%,0
+%wpn%,0
+%MQ%,0
+%Fire%,1
+%WpnType%,0
+
+%shipmod%,0
+%Emod%,0
+%Smod%,0
+%temp%,0
+%SpecialHD%,0
+
+%ShipType%,4
+%ModShip%,3
+
+@ShipType,4,Choose the type of ship,Space Freighter,Starfighter,Capital Ship,Random
+@ModShip,3,Do you want a modified ship? (Not for Capital Ships),Modified,Scrapped Together,Random
+
+:Start
+1,<h3>{If~%ShipType%=4? [Random]/[RandomShip=%ShipType%]} {If~%wc%<3? [Mod1=%ModShip%]}</h3>
+_<table width="100&#37;" border=0 cellpadding=0>
+_<tr valign="top"><td width="24&#37;"><b>
+_Class:<br>
+_Size:<br>
+_Hyperdrive:<br>
+_Passengers:<br>
+_Cargo Capacity:<br>
+_Consumables:<br>
+_Cost (new):</b><br>
+_</td><td width="24&#37;">
+_%class%<br>
+_{Split~size,",",a,b}%a% (%b%m)<br>
+_{Split~HD,",",HDa,HDb}
+_{If~%shipmod%=1? [HDmod]}
+_{If~%shipmod%=2? [HDmod2]}
+_{If~%HDa%=None? / x}%HDa%{If~%SpecialHD%!=0? (%SpecialHD%)}</font> {If~%HDb%=0? / %HDb%}<br>
+_%Pass%<br>
+_%CC%<br>
+_%Con%<br>
+_{If~%Cn% > 0 ? [AddComma.Start(%Cn%)] / Not available for sale}<br>
+_</td><td width="20&#37;"><b>
+_Crew:<br>
+_Initiative:<br>
+_Manuever:<br>
+_Defense:<br>
+_Shield Points:<br>
+_Hull Points:<br>
+_{If~%Cu%>0? Cost (used): }</b><br>
+_</td><td width="32&#37;">
+_{Split~crew,",",a,b}%a% (Skilled +%b%)[Quality=%b%]<br>
+_{Split~init,",",a,b,c}[plus=3]%a% ([plus=1]%b% size, +%c% crew)<br>
+_{Split~man,",",a,b,c}[plus=3]{If~%Emod% = 1 ? <font color="darkred">}{If~%Emod% = 2 ? <font color="purple">}{Calc~%a%+%EQ%+%mansys%}[EQ=1][MS=1]</font> ([plus=1]%b% size, +%c% crew)<br>
+_{Split~def,",",a,b,c}[plus=3]%a% ([plus=1]%b% size, +%c% armor)|SM=%b%|<br>
+_{Split~SP,",",a,b}{If~%SPa% > %a% ? <font color="darkred">%SPa% (DR %SPb%) / [Resolve]}</font><br>
+_{Split~HP,",",a,b}{If~%HPa% > 0 ? <font color="purple">%HPa% / %a%} (DR %b%)</font><br>
+_{If~%Cu%>0? [AddComma.Start(%Cu%)]}<br>
+_</td></tr></table>
+_<table width="100&#37;" border=0 cellpadding=0>
+_<tr valign="top"><td width="30&#37;">
+_<b>Maximum Speed:</b><br>
+_<b>Atmospheric Speed:</b><br>
+_</td><td width="70&#37;">
+_{Split~MS,",",a,b}%a% (%b% squares/action)<br>
+_{Split~AS,",",a,b}{If~%a% > 0 ? [AS] / Not Applicable}<br>
+_</td></tr></table></font>
+_<hr>
+_{If~%shipmod%=0? [NonModWpn] / [ModWpn=%wc%]}
+_<hr>{If~%EQ%>0? [EQ=2]}{If~%EQ%<0? [EQ=3]}
+_{If~%mansys%>0? [MS=2]}
+_{If~%check%>0? [EB=%wc%]}[Fire=%Fire%]<br>
+
+:AS
+1,%a% km/h (%b% squares/action)
+
+:SPprint
+1,{If~%a% = 0 ? None / [SPprint=2]}
+2,{If~%SPa% < {Calc~%a%-1} ? <font color="purple"> [SPprint=4] / [SPprint=3]}
+3,%a% (DR %b%)
+4,{If~%SPa% = 0 ? None / %SPa% (DR %SPb%)}
+5,{If~%a% = 0 ? None / %a% (DR %b%)}
+
+:Resolve
+1,{If~%shipmod% = 2 ? [SPprint=1] / [SPprint=5]}
+
+:NonModWpn
+1,{If~%wpn1% > 0 ? [Weapon1=%wc%]}
+_{If~%wpn2% > 0 ? <br>[Weapon2=%wc%]}
+_{If~%wpn3% > 0 ? <br>[Weapon3=%wc%]}
+_{If~%wpn4% > 0 ? <br>[Weapon4=%wc%]}
+_{If~%wpn5% > 0 ? <br>[Weapon5=%wc%]}
+
+# Do not modify random numbers, unless you modify "SW Hyperspace Time.tab"
+# under "Collision" subtable.
+;Random
+5,|class=Starfighter||wc=1|[Starfighter], [SW Starship Names.Start]
+10,|class=Space Freighter||wc=2|[Freighter], [SW Starship Names.Start]
+1,|class=Capital Ship||wc=3|[Capital Ship], [SW Starship Names.Start]
+
+:RandomShip
+1,|class=Space Freighter||wc=2|[Freighter], [SW Starship Names.Start]
+2,|class=Starfighter||wc=1|[Starfighter], [SW Starship Names.Start]
+3,|class=Capital Ship||wc=3|[Capital Ship], [SW Starship Names.Start]
+
+# ------------------------
+# Ship Data Section
+# ------------------------
+
+# IMPORTANT: If the hyperdrive as something special, add the |SpecialHD=XXX| variable as the Eta-2 Actis Interceptor.
+# HD: the first part of HD must be a number.
+
+;Starfighter
+3,Incom T-65B X-wing
+_|crew=1,4||init=6,2,4||man=6,2,4||def=22,2,10||SP=30,10||HP=120,10||Cu=65000||MS=Ramming,10|
+_|size=Tiny,12.5||HD=1,0||Pass=None||CC=110 kg||Con=1 week||Cn=150000||AS=1050,18||wpn1=1||wpn2=2|
+3,Koensayr BTL-S3 Y-Wing
+_|crew=1 or 2,4||init=6,2,4||man=6,2,4||def=22,2,10||SP=50,10||HP=120,10||Cu=65000||MS=Attack,8|
+_|size=Tiny,16||HD=1,0||Pass=None||CC=110 kg||Con=1 week||Cn=135000||AS=1000,17||wpn1=3||wpn2=4||wpn3=5|
+3,Sienar Fleet Systems TIE/1n
+_|crew=1,4||init=8,4,4||man=8,4,4||def=24,4,10||SP=0,0||HP=60,10||Cu=25000||MS=Ramming,10|
+_|size=Diminutive,6.3||HD=None,0||Pass=None||CC=65 kg||Con=2 days||Cn=60000||AS=1200,20||wpn1=3|
+1,Xi Char Variable Geometry Battle Droid Mark 1
+_|crew=None,2||init=10,8,2||man=10,8,2||def=28,8,10||SP=0,0||HP=120,10||Cu=5000||MS=Ramming,10|
+_|size=Fine,3.5||HD=None,0||Pass=None||CC=None||Con=None||Cn=19000||AS=1180,20||wpn1=3||wpn2=6|
+1,Theed Palace Space Vessel Engineering Corps N-1 Royal Starfighter
+_|crew=1,4||init=6,2,4||man=6,2,4||def=22,2,10||SP=30,10||HP=60,10||Cu=0||MS=Ramming,9|
+_|size=Tiny,11||HD=1,0||Pass=None||CC=65 kg||Con=1 week||Cn=0||AS=1100,18||wpn1=3||wpn2=7|
+2,Kuat Systems Engineering Delta-7 Aethersprite-class Starfighter
+_|crew=1,2||init=6,4,2||man=6,4,2||def=24,4,10||SP=30,10||HP=65,10||Cu=145000||MS=Ramming,10|
+_|size=Diminutive,8||HD=1,0||Pass=None||CC=60 kg||Con=1 week||Cn=180000||AS=1150,19||wpn1=1|
+2,Kuat Drive Yards A-9 Vigilance Interceptor
+_|crew=1,2||init=6,4,2||man=6,4,2||EQ=4||def=24,4,10||SP=0,0||HP=80,10||Cu=0||MS=Ramming,10||EB=4|
+_|size=Diminutive,7.4||HD=None,0||Pass=None||CC=55 kg||Con=1 day||Cn=130000||AS=1200,20||wpn1=8|
+1,Alliance A-Wing Starfighter
+_|crew=1,4||init=8,4,4||man=8,4,4||EQ=4||def=24,4,10||SP=30,10||HP=80,10||Cu=0||MS=Ramming,10||EB=4|
+_|size=Diminutive,9.6||HD=1,0||Pass=None||CC=40 kg||Con=1 week||Cn=175000||AS=1200,20||wpn1=9||wpn2=10|
+1,Slayn and Korpil B-Wing
+_|crew=1,4||init=6,2,4||man=6,2,4||def=22,2,10||SP=60,10||HP=90,10||Cu=0||MS=Ramming,10|
+_|size=Tiny,16.9||HD=2,0||Pass=None||CC=45 kg||Con=1 week||Cn=220000||AS=1000,17||wpn1=11||wpn2=12||wpn3=13||wpn4=14|
+1,Slayn and Korpil B-Wing/E2
+_|crew=2,4||init=6,2,4||man=6,2,4||def=22,2,10||SP=100,10||HP=150,10||Cu=0||MS=Ramming,10|
+_|size=Tiny,16.9||HD=2,0||Pass=None||CC=50 kg||Con=1 week||Cn=250000||AS=1000,17||wpn1=11||wpn2=15||wpn3=13|
+1,Kuat Systems Engineering Cloakshape Fighter
+_|crew=1,2||init=4,2,2||man=4,2,2||def=22,2,10||SP=0,0||HP=140,10||Cu=0||MS=Attack,8|
+_|size=Tiny,15||HD=None,0||Pass=None||CC=40 kg||Con=1 day||Cn=83000||AS=1000,17||wpn1=16||wpn2=17|
+1,FreiTek E-Wing Type B
+_|crew=1,8||init=10,2,8||man=10,2,8||EQ=3||def=22,2,10||SP=30,10||HP=150,10||Cu=0||MS=Ramming,10||EB=3|
+_|size=Tiny,11.2||HD=2,0||Pass=None||CC=110 kg||Con=1 week||Cn=200000||AS=1100,18||wpn1=18||wpn2=19|
+1,SoroSuub Gun Tug
+_|crew=1,2||init=4,2,2||man=4,2,2||def=22,2,0||SP=30,10||HP=90,10||Cu=0||MS=Ramming,10|
+_|size=Tiny,12||HD=2,0||Pass=1 (gunner)||CC=500 kg||Con=1 week||Cn=142000||AS=1100,18||wpn1=20||wpn2=21|
+2,Incom Corporation 1-7 Howlrunner
+_|crew=1,2||init=4,2,2||man=4,2,2||EQ=3||def=22,2,10||SP=40,10||HP=120,10||Cu=0||MS=Ramming,10||EB=3|
+_|size=Tiny,11.4||HD=None,0||Pass=None||CC=80 kg||Con=2 days||Cn=165000||AS=1100,18||wpn1=22|
+2,Sienar Fleet Systems Lamba-class Shuttle
+_|crew=1 to 6, 4||init=6,2,4||man=6,2,4||def=22,2,10||SP=50,10||HP=120,10||Cu=0||MS=Attack,8|
+_|size=Tiny,20||HD=1,0||Pass=20||CC=80 kg||Con=2 months||Cn=240000||AS=1000,17||wpn1=23||wpn2=24|
+2,Hapes Consortium Miy'til Fighter
+_|crew=1,2||init=6,4,2||man=6,4,2||EQ=3||def=24,4,10||SP=40,10||HP=90,10||Cu=0||MS=Ramming,10|
+_|size=Diminutive,7.5||HD=1.5,(backup x8)||Pass=0||CC=20 kg||Con=1 week||Cn=210000||AS=1150,19||wpn1=3||wpn2=25|
+1,Hapes Consortium Miy'til Bomber
+_|crew=2,2||init=4,2,2||man=4,2,2||def=22,2,10||SP=60,10||HP=120,10||Cu=0||MS=Ramming,10|
+_|size=Tiny,20||HD=2,(backup x12)||Pass=None||CC=400 kg||Con=2 days||Cn=200000||AS=1000,17||wpn1=3||wpn2=26|
+5,Incom/Subpro Z-95 Headhunter
+_|crew=1,4||init=6,2,4||man=6,2,4||def=22,2,10||SP=30,10||HP=120,10||Cu=45000||MS=Ramming,9|
+_|size=Tiny,11.8||HD=1,0||Pass=None||CC=85 kg||Con=1 day||Cn=80000||AS=1150,19||wpn1=27||wpn2=28|
+2,Kuat Systems Engineering S40K Phoenix Hawk Light Pinnace
+_|crew=1 or 2,2||init=4,2,2||man=4,2,2||def=22,2,10||SP=60,10||HP=150,10||Cu=0||MS=Cruising,4|
+_|size=Tiny,19.2||HD=2,0||Pass=4||CC=20 tons||Con=2 months||Cn=112000||AS=800,13||wpn1=29||wpn2=30|
+1,Sienar Systems Scimitar Assault Bomber
+_|crew=2,4||init=6,2,4||man=6,2,4||def=22,2,10||SP=50,10||HP=150,10||Cu=0||MS=Ramming,10|
+_|size=Tiny,13.8||HD=None,0||Pass=None||CC=200 kg||Con=2 days||Cn=120000||AS=1050,8||wpn1=32||wpn2=31|
+1,Silvuit Corporation Svelte-class Imperial Shuttle
+_|crew=6,2||init=4,2,2||man=4,2,2||def=22,2,10||SP=60,10||HP=140,10||Cu=0||MS=Ramming,9|
+_|size=Tiny,17||HD=1,(backup x5)||Pass=15||CC=50 tons||Con=2 months||Cn=280000||AS=1000,17||wpn1=33||wpn2=34|
+1,Incom X-wing T-65AC4
+_|crew=1,8||init=10,2,8||man=10,2,8||EQ=2||def=22,2,10||SP=50,10||HP=150,10||Cu=0||MS=Ramming,10|
+_|size=Tiny,12.5||HD=1,0||Pass=None||CC=150 kg||Con=2 days||Cn=200000||AS=1150,19||wpn1=35||wpn2=36|
+1,Sienar Fleet Systems TIE Advanced x1
+_|crew=1,8||init=12,4,8||man=12,4,8||def=24,4,10||SP=40,10||HP=90,10||Cu=0||MS=Ramming,10|
+_|size=Diminutive,7.8||HD=4,0||Pass=None||CC=150 kg||Con=5 days||Cn=96000||AS=1200,20||wpn1=8|
+1,Sienar Fleet Systems TIE Bomber
+_|crew=1,2||init=4,2,2||man=4,2,2||def=22,2,10||SP=0,0||HP=130,10||Cu=0||MS=Attack,8|
+_|size=Tiny,7.8||HD=None,0||Pass=None||CC=150 tons||Con=2 days||Cn=150000||AS=1000,17||wpn1=37||wpn2=19|
+1,Sienar Fleet Systems TIE Interceptor
+_|crew=1,4||init=8,4,4||man=8,4,4||EQ=2||def=24,4,10||SP=0,0||HP=90,10||Cu=0||MS=Ramming,10|
+_|size=Diminutive,6.6||HD=None,0||Pass=None||CC=75 kg||Con=2 days||Cn=120000||AS=1200,20||wpn1=1|
+1,Incom/Subpro ARC-170 (Aggressive ReConnaissance) Starfighter
+_|crew=3,4||init=6,2,4||man=6,2,4||def=22,2,10||SP=50,10||HP=150,10||Cu=70000||MS=Attack,7|
+_|size=Tiny,14.5||HD=1.5,0||Pass=None||CC=110 kg||Con=5 days||Cn=155000||AS=1050,18||wpn1=38||wpn2=39||wpn3=40|
+1,Kuat Systems Engineering Eta-2 Actis Interceptor
+_|crew=1,4||init=8,4,4||man=12,4,4||EQ=4||def=24,4,10||SP=0,0||HP=70,10||Cu=0||MS=Ramming,14|
+_|size=Diminutive,5.5||HD=1,0||SpecialHD=Booster Ring||Pass=None||CC=60 kg||Con=2 days||Cn=140000||AS=1500,25||wpn1=41||wpn2=42|
+2,Cygnus Spaceworks Theta-class T-2c Personnel Transport
+_|crew=2,4||init=6,2,4||man=6,2,4||def=22,2,10||SP=40,10||HP=120,10||Cu=0||MS=Attack,5|
+_|size=Tiny,18.5||HD=1,(backup x15)||Pass=16||CC=50 tons||Con=2 months||Cn=210000||AS=825,14||wpn1=43||wpn2=44|
+1,Kuat Systems Engineering Alpha-3 Nimbus-class "V-wing" Starfighter
+_|crew=1,4||init=8,4,4||man=11,4,4||EQ=3||def=24,4,10||SP=30,10||HP=60,10||Cu=45000||MS=Ramming,13|
+_|size=Diminutive,7.9||HD=None,0||Pass=None||CC=60 kg||Con=15 hours||Cn=102500||AS=1450,24||wpn1=45|
+1,Colla Designs/Phlac-Arphocc Automata Industries Tri-Fighter
+_|crew=0,4||init=8,4,4||man=8,4,4||def=24,4,10||SP=0,0||HP=120,10||Cu=8000||MS=Attack,8|
+_|size=Diminutive,5.4||HD=None,0||Pass=None||CC=None||Con=None||Cn=20000||AS=1050,18||wpn1=46||wpn2=47||wpn3=48|
+
+;Freighter
+5,Corellian Engineering Corporation YT-1300 Transport
+_|crew=1 or 2,2||init=3,1,2||man=3,1,2||def=21,1,10||SP=0,0||HP=120,20||Cu=25000||MS=Attack,8|
+_|size=Small,26.7||HD=2,(backup x12)||Pass=6||CC=100 tons||Con=12 months||Cn=100000||AS=800,13||wpn1=1|
+3,Kuat Systems Engineering Firespray-31 Patrol and Attack Craft
+_|crew=1,4||init=5,1,4||man=5,1,4||def=21,1,10||SP=60,20||HP=150,20||Cu=30000||MS=Ramming,10|
+_|size=Small,21.5||HD=3,(backup x15)||Pass=6||CC=70 tons||Con=1 month||Cn=120000||AS=1050,18||wpn1=2||wpn2=3|
+1,Sienar Fleet Systems Guardian-class Light Cruiser
+_|crew={Dice~1d8*2},4||init=5,1,4||man=5,1,4||def=21,1,10||SP=60,20||HP=150,20||Cu=0||MS=Attack,7|
+_|size=Small,42||HD=1,(backup x10)||Pass=6 (prisoners)||CC=200 tons||Con=3 months||Cn=0||AS=1150,19||wpn1=4|
+3,Corellian Engineering Corporation Action IV Bulk Transport
+_|crew=8,2||init=2,0,2||man=2,0,2||def=20,0,10||SP=0,0||HP=60,30||Cu=0||MS=Cruising,4|
+_|size=Medium,??||HD=3,(backup x7)||Pass=None||CC=75,000 tons||Con=3 months||Cn=945000||AS=800,13|
+1,Telgorn Corp Assault Shuttle
+_|crew=5,2||init=3,1,2||man=3,1,2||def=21,1,10||SP=250,20||HP=150,20||Cu=0||MS=Ramming,9|
+_|size=Small,30||HD=2,(backup x18)||Pass=40 (troops)||CC=5 tons||Con=1 week||Cn=855000||AS=1050,18||wpn1=5||wpn2=7||wpn3=6|
+3,Corellian Engieering Corporation Barloz Medium-size Freighter
+_|crew=2,2||init=3,1,2||man=3,1,2||def=21,1,10||SP=30,20||HP=180,20||Cu=0||MS=Cruising,4|
+_|size=Small,41||HD=2,(backup x12)||Pass=4||CC=120 tons||Con=2 months||Cn=120000||AS=800,13||wpn1=8|
+2,Koensayr 1LH-KK Citadel Civilian Cruiser
+_|crew=1 or 2,2||init=3,1,2||man=3,1,2||def=21,1,10||SP=60,20||HP=120,20||Cu=0||MS=Attack,8|
+_|size=Small,36||HD=2,0||Pass=14||CC=50 tons||Con=6 months||Cn=205000||AS=1000,17||wpn1=9||wpn2=11||wpn3=10|
+3,Gallofree Yards Transport
+_|crew=6,2||init=2,0,2||man=2,0,2||def=20,0,10||SP=90,30||HP=200,30||Cu=0||MS=Cruising,4|
+_|size=Medium,??||HD=4,0||Pass=40||CC=19,000 tons||Con=6 months||Cn=350000||AS=800,13||wpn1=12|
+1,Sienar Fleet Systems Skipray Blastboat
+_|crew=4,4||init=5,1,4||man=5,1,4||def=21,1,10||SP=200,20||HP=230,20||Cu=0||MS=Ramming,9|
+_|size=Small,25||HD=2,0||Pass=None||CC=20 tons||Con=1 month||Cn=624000||AS=1050,18||wpn1=13||wpn2=15||wpn3=14||wpn4=16|
+2,Corellian Star Shuttle
+_|crew=8,2||init=2,0,2||man=2,0,2||def=25,0,15||SP=200,30||HP=300,40||Cu=0||MS=Cruising,4|
+_|size=Medium,??||HD=1.5,(x12)||Pass=200||CC=900 tons||Con=3 years||Cn=2650000||AS=800,13|
+1,Silvuit Corporation Vibre-class Assault Cruiser
+_|crew=45,4||init=4,0,4||man=4,0,4||def=20,0,10||SP=140,30||HP=300,30||Cu=0||MS=Attack,7|
+_|size=Medium,??||HD=1,(backup x15)||Pass=60 (troops)||CC=500 tons||Con=5 months||Cn=2259000||AS=1000,17||wpn1=17||wpn2=18||wpn3=19||wpn4=20|
+3,Corellian Engineering Corporation YT-2400
+_|crew=1,2||init=3,1,2||man=3,1,2||def=21,1,10||SP=60,20||HP=120,20||Cu=32000||MS=Attack,8|
+_|size=Small,21||HD=2,(backup x12)||Pass=6||CC=150 tons||Con=2 months||Cn=130000||AS=1000,17||wpn1=8|
+
+:Capital Ship
+1,Kuat Drive Yards Imperial 1-class Star Destroyer
+_|crew=5k-37k,4||init=-4,-8,4||man=4,-8,4||def=12,-8,10||SP=300,60||HP=700,60||Cu=0||MS=Cruising,3|
+_|size=Colossal,1600||HD=2,(backup x8)||Pass=9700 (troops)||CC=36,000 tons||Con=6 years||Cn=0||AS=0,0||wpn1=1||wpn2=2||wpn3=3||wpn4=4|
+2,Mon Calamari MC80 Star Cruiser
+_|crew=1230+,4||init=-4,-8,4||man=-4,-8,4||def=12,-8,4||SP=300,60||HP=600,60||Cu=0||MS=Cruising,4|
+_|size=Colossal,1200||HD=1,(backup x9)||Pass=1200 (troops)||CC=20,000 tons||Con=2 years||Cn=0||AS=0,0||wpn1=5||wpn2=6||wpn3=7|
+3,Kuat Drive Yards Nebulon-B Frigate
+_|crew=307+,2||init=0,-2,2||man=0,-2,2||def=18,-2,10||SP=200,40||HP=360,40||Cu=0||MS=Cruising,3|
+_|size=Huge,300||HD=2,(backup x12)||Pass=75 (troops)||CC=6000 tons||Con=2 years||Cn=0||AS=800,13||wpn1=8||wpn2=9||wpn3=10|
+4,Corellian Engineering Corporation Corvette
+_|crew=30-165,2||init=1,-1,2||man=1,-1,2||def=19,-1,10||SP=200,40||HP=300,40||Cu=1500000||MS=Attack,5|
+_|size=Large,150||HD=2,0||Pass=600||CC=3000 tons||Con=1 year||Cn=3500000||AS=950,16||wpn1=11|
+5,Corellian Engineering Corporation Space Cruiser
+_|crew=8,2||init=1,-1,2||man=1,-1,2||def=19,-1,10||SP=180,40||HP=220,40||Cu=550000||MS=Attack,6|
+_|size=Large,115||HD=2,(backup x6)||Pass=16||CC=110 tons||Con=1 month||Cn=850000||AS=900,15||wpn1=12|
+6,Rothans Heavy Engineering Acclamator-class Assault Ship
+_|crew=700,4||init=0,-4,4||man=0,-4,4||def=16,-4,10||SP=240,50||HP=320,50||Cu=19000000||MS=Attack,8|
+_|size=Gargantuan,752||HD=2,(backup x10)||Pass=16000 tons||CC=2000 tons||Con=20 days||Cn=29000000||AS=1200,20||wpn1=13||wpn2=14||wpn3=15|
+7,Bothan Assault Cruiser
+_|crew=1240,4||init=0,-4,4||man=0,-4,4||def=16,-4,10||SP=450,50||HP=690,50||Cu=0||MS=Cruising,3|
+_|size=Gargantuan,850||HD=1,(backup x8)||Pass=250 (troops/pilots)||CC=5000 tons||Con=2 years||Cn=97000000||AS=800,13||wpn1=16||wpn2=17||wpn3=18||wpn4=19||wpn5=20|
+8,Damorian Manufacturing's Carrack-class Light Cruiser
+_|crew=1092,2||init=0,-2,2||man=0,-2,2||def=18,-2,10||SP=160,40||HP=500,40||Cu=0||MS=Cruising,4|
+_|size=Huge,350||HD=1,(backup x12)||Pass=142 (troops)||CC=3500 tons||Con=1 year||Cn=19148000||AS=800,13||wpn1=21||wpn2=22||wpn3=23|
+9,Corellian Engineering Corporation Gunship
+_|crew=91,2||init=1,-1,2||man=1,-1,2||def=19,-1,10||SP=230,40||HP=460,40||Cu=0||MS=Attack,8|
+_|size=Large,120||HD=2,(backup x16)||Pass=None||CC=300 tons||Con=8 months||Cn=4800000||AS=900,15||wpn1=24||wpn2=25||wpn3=26|
+10,Corellian Engineering Corporation Space Cruiser
+_|crew=8,4||init=3,-1,4||man=3,-1,4||def=19,-1,10||SP=200,40||HP=480,40||Cu=0||MS=Attack,8|
+_|size=Large,115||HD=2,0||Pass=16||CC=1000 tons||Con=6 months||Cn=1250000||AS=900,15|
+11,Republic Engineering Corporation Defender-class Star Destroyer
+_|crew=7039,4||init=-4,-8,4||man=-4,-8,4||mansys=4||def=12,-8,10||SP=500,60||HP=700,60||Cu=0||MS=Cruising,3|
+_|size=Colossal,1040||HD=1,(backup x10)||Pass=1600 (troops)||CC=15,000 tons||Con=6 months||Cn=168528000||AS=0,0||wpn1=27||wpn2=28||wpn3=29||wpn4=30|
+12,Rendili StarDrive's Dreadnaught Heavy Cruiser
+_|crew=16210,4||init=0,-4,4||man=0,-4,4||EQ=-2||def=16,-4,10||SP=230,50||HP=560,50||Cu=0||MS=Cruising,3|
+_|size=Gargantuan,??||HD=2,(backup x18)||Pass=3000 (troops)||CC=9000 tons||Con=2 years||Cn=35555000||AS=0,0||wpn1=31||wpn2=32||wpn3=33|
+13,Olanjii/Charubah Battle Dragon
+_|crew=12190,4||init=0,-4,4||man=0,-4,4||def=16,-4,10||SP=300,50||HP=760,50||Cu=0||MS=Attack,8|
+_|size=Gargantuan,500||HD=2,(backup x14)||Pass=500 (troops)||CC=6000 tons||Con=1 year||Cn=68470000||AS=0,0||wpn1=34||wpn2=35||wpn3=36||wpn4=37|
+14,Hapan Nova-class Battle Cruiser
+_|crew=1790,4||init=2,-2,4||man=2,-2,4||def=10,-2,10||SP=200,40||HP=500,40||Cu=0||MS=Attack,8|
+_|size=Huge,400||HD=1.5,(x12)||Pass=600 (troops)||CC=600 tons||Con=1 month||Cn=19721000||AS=0,0||wpn1=38||wpn2=39||wpn3=18|
+15,Kuat Drive Yards Imperial Escort Carrier
+_|crew=3505,4||init=2,-2,4||man=2,-2,4||def=18,-2,10||SP=200,40||HP=480,40||Cu=0||MS=Attack,8|
+_|size=Huge,500||HD=1,(backup x12)||Pass=800 (troops)||CC=1500 tons||Con=9 months||Cn=9775000||AS=0,0||wpn1=40|
+16,Kuat Drive Yards Imperial II Star Destroyer
+_|crew=37105,4||init=-4,-8,4||man=-4,-8,4||def=12,-8,10||SP=250,60||HP=730,60||Cu=0||MS=Cruising,3|
+_|size=Colossal,1600||HD=1,(backup x8)||Pass=9700 (troops)||CC=36,000 tons||Con=6 years||Cn=145670000||AS=0,0||wpn1=41||wpn2=42||wpn3=4|
+17,Kuat Drive Yards Imperial Star Galleon
+_|crew=150,2||init=0,-2,2||man=0,-2,2||def=18,-2,10||SP=200,40||HP=560,40||Cu=0||MS=Cruising,4|
+_|size=Huge,300||HD=2,(backup x15)||Pass=300 (troops)||CC=100,000 tons||Con=6 months||Cn=17503500||AS=0,0||wpn1=43||wpn2=44|
+18,Sienar Fleet Systems Immobilizer 418 Cruiser (Interdictor-class)
+_|crew=2807,2||init=-2,-4,2||man=-2,-4,2||def=16,-4,10||SP=300,50||HP=500,50||Cu=0||MS=Attack,7|
+_|size=Gargantuan,600||HD=2,(backup x8)||Pass=80 (troops)||CC=5500 tons||Con=1.2 years||Cn=52240000||AS=0,0||wpn1=45||wpn2=46|
+19,Sienar Fleet Systems Vindicator Heavy Cruiser
+_|crew=2551,2||init=-2,-4,2||man=-2,-4,2||def=16,-4,10||SP=300,50||HP=600,50||Cu=0||MS=Attack,7|
+_|size=Gargantuan,600||HD=2,(backup x8)||Pass=400 (troops)||CC=8000 tons||Con=1.5 years||Cn=43000000||AS=0,0||wpn1=47||wpn2=45||wpn3=48||wpn4=49|
+20,Kuat Drive Yards Lancer-class Frigate
+_|crew=850,2||init=1,-1,2||man=1,-1,2||def=19,-1,10||SP=250,40||HP=400,40||Cu=0||MS=Attack,8|
+_|size=Large,250||HD=2,(backup x15)||Pass=40 (troops)||CC=300 tons||Con=1 week||Cn=4760000||AS=0,0||wpn1=50|
+21,Sienar Republic Systems Marauder Corvette
+_|crew=177,2||init=1,-1,2||man=1,-1,2||def=19,-1,10||SP=200,40||HP=300,40||Cu=0||MS=Attack,8|
+_|size=Large,195||HD=2,0||Pass=40 (troops)||CC=300 tons||Con=3 months||Cn=2398000||AS=0,0||wpn1=51||wpn2=52|
+22,Mon Calamari MC90 Star Cruiser
+_|crew=min 1350,2||init=-6,-8,2||man=-6,-8,2||def=12,-8,10||SP=600,60||HP=700,60||Cu=0||MS=Cruising,3|
+_|size=Colossal,1255||HD=1,(backup x9)||Pass=1700 (troops)||CC=30,000 tons||Con=2 years||Cn=1318000000||AS=0,0||wpn1=53||wpn2=54||wpn3=55||wpn4=56|
+23,Sienar Republic Systems 1PV System Patrol Craft
+_|crew=12,2||init=1,-1,2||man=1,-1,2||mansys=4||def=19,-1,10||SP=250,40||HP=330,40||Cu=0||MS=Attack,8|
+_|size=Large,120||HD=None,0||Pass=10||CC=200 tons||Con=3 months||Cn=3342000||AS=0,0||wpn1=57|
+24,Rendili StarDrive's Victory Star Destroyer
+_|crew=5200,2||init=-2,-4,2||man=-2,-4,2||EQ=-4||def=16,-4,10||SP=330,50||HP=400,50||Cu=0||MS=Cruising,3|
+_|size=Gargantuan,900||HD=1,(backup x15)||Pass=2040 (troops)||CC=8100 tons||Con=4 years||Cn=57000000||AS=0,0||wpn1=58||wpn2=59||wpn3=60||wpn4=61|
+25,Rendili StarDrive's Victory II Star Destroyer
+_|crew=6107,2||init=-2,-4,2||man=-2,-4,2||def=16,-4,10||SP=300,50||HP=460,50||Cu=0||MS=Cruising,3|
+_|size=Gargantuan,900||HD=1,(backup x15)||Pass=1600 (troops)||CC=8100 tons||Con=4 years||Cn=50000000||AS=0,0||wpn1=62||wpn2=59||wpn3=63||wpn4=64|
+26,Kuat Drive Yards Vanator-class Star Destroyer
+_|crew=7400,4||init=-4,-8,4||man=-4,-8,4||def=12,-8,10||SP=330,60||HP=530,50||Cu=0||MS=Attack,7|
+_|size=Colossal,1137||HD=1,(backup x15)||Pass=2000 (troops)||CC=20,000 tons||Con=2 years||Cn=59000000||AS=975,16||wpn1=65||wpn2=66||wpn3=67||wpn4=68||wpn5=69|
+
+
+# ------------------------------------------------
+# Ship Weapons Section
+# ------------------------------------------------
+:Weapon1
+1,[Fighter Weapons=%wpn1%][PrintWpn=%WpnType%]
+2,[Freighter Weapons=%wpn1%][PrintWpn=%WpnType%]
+3,[Capital Ship Weapons=%wpn1%][PrintWpn=%WpnType%]
+
+:Weapon2
+1,[Fighter Weapons=%wpn2%][PrintWpn=%WpnType%]
+2,[Freighter Weapons=%wpn2%][PrintWpn=%WpnType%]
+3,[Capital Ship Weapons=%wpn2%][PrintWpn=%WpnType%]
+
+:Weapon3
+1,[Fighter Weapons=%wpn3%][PrintWpn=%WpnType%]
+2,[Freighter Weapons=%wpn3%][PrintWpn=%WpnType%]
+3,[Capital Ship Weapons=%wpn3%][PrintWpn=%WpnType%]
+
+:Weapon4
+1,[Fighter Weapons=%wpn4%][PrintWpn=%WpnType%]
+2,[Freighter Weapons=%wpn4%][PrintWpn=%WpnType%]
+3,[Capital Ship Weapons=%wpn4%][PrintWpn=%WpnType%]
+
+:Weapon5
+1,[Fighter Weapons=%wpn5%][PrintWpn=%WpnType%]
+2,[Freighter Weapons=%wpn5%][PrintWpn=%WpnType%]
+3,[Capital Ship Weapons=%wpn5%][PrintWpn=%WpnType%]
+
+:Fighter Weapons
+1,|wpn=Laser Cannons (4 fire-linked)||arc=Front||FC=6||dmg=6d10x2||WpnType=1|
+2,|wpn=Proton torpedo Launchers (2, 3 missiles each)||arc=Front||dmg=9d10x2||MQ=Ordinary (+10)||WpnType=2|
+3,|wpn=Laser Cannons (2 fire-linked)||arc=Front||FC=4||dmg=5d10x2||WpnType=1|
+4,|wpn=Proton Torpedo Launchers (2, 8 missiles each)||arc=Front||dmg=9d10x2||MQ=Marginal (+5)||WpnType=2|
+5,|wpn=Light Ion Cannons (2 fire-linked)||arc=Turret (front)||FC=6||dmg=4d10x2||WpnType=1|
+6,|wpn=Proton torpedo Launchers (2, 4 missiles each)||arc=Front||dmg=9d10x2||MQ=Ordinary (+10)||WpnType=2|
+7,|wpn=Proton torpedo Launchers (2 fire-linked, 5 missiles each)||arc=Front||dmg=10d10x2||MQ=Ordinary (+10)||WpnType=2|
+8,|wpn=Heavy Laser Cannons (2 fire-linked)||arc=Front||FC=4||dmg=6d10x2||WpnType=1|
+9,|wpn=Laser Cannons (2 fire-linked)||arc=Front||FC=6||dmg=5d10x2||WpnType=1|
+10,[Special=1]
+11,|wpn=Assault Laser Cannon||arc=Front||dmg=7d10x2||WpnType=1|
+12,|wpn=Small proton torpedo launchers (2 fire-linked, 8 total)||arc=Front||dmg=10d10x2||MQ=Ordinary (+10)||WpnType=2|
+13,|wpn=Light Ion Cannons (3 fire-linked)||arc=Front||FC=8||dmg=5d10x2||WpnType=1|
+14,|wpn=Autoblasters*** (2 fire-linked)||arc=Front||FC=4||dmg=4d10x2||WpnType=1||Fire=3|
+15,|wpn=Proton torpedo launchers (2 fire-linked, 20 total)||arc=Front||dmg=10d10x2||MQ=Ordinary (+10)||WpnType=2|
+16,|wpn=Light Laser Cannons (2 fire-linked)||arc=Front||FC=2||dmg=4d10x2||WpnType=1|
+17,|wpn=Small Concussion missile launchers (2 fire-linked, 8 missiles each)||arc=front||dmg=8d10x2||MQ=Ordinary (+10)||WpnType=2|
+18,|wpn=Heavy Laser Cannons (3 fire-linked)||arc=Front||FC=4||dmg=6d10x2||WpnType=1|
+19,|wpn=Proton torpedo launcher (16 missiles)||arc=Front||dmg=9d10x2||MQ=Ordinary (+10)||WpnType=2|
+20,|wpn=Blaster Cannon*** (2 fire-linked)||arc=Front||FC=2||dmg=5d10x2||WpnType=1||Fire=2|
+21,|wpn=Tractor beams (2)||arc=Front||FC=2||dmg=Special||WpnType=1|
+22,|wpn=Heavy Laser Cannons (2 fire-linked)||arc=Front||FC=6||dmg=6d10x2||WpnType=1|
+23,|wpn=Blaster Cannons*** (3 sets of 2 fire-linked)||arc=2 front, 1 rear||FC=4||dmg=5d10x2||WpnType=1||Fire=2|
+24,|wpn=Twin Laser Cannons*** (2)||arc=Front||FC=4||dmg=2d10x2||WpnType=1||Fire=2|
+25,|wpn=Proton Torpedo launcher (6 missiles)||arc=Front||dmg=9d10x2||MQ=Ordinary (+10)||WpnType=2|
+26,|wpn=Heavy Proton torpedo Tubes (2 fire-linked, 16 each)||arc=Front||dmg=10d10x2||MQ=Ordinary (+10)||WpnType=2|
+27,|wpn=Triple Blasters*** (3 fire-linked)||arc=Front||FC=2||dmg=3d10x2||WpnType=1||Fire=2|
+28,|wpn=Concussion Missile Launcher (6 missiles)||arc=Front||dmg=7d10x2||MQ=Ordinary (+10)||WpnType=2|
+29,|wpn=Heavy Laser Cannons (2 fire-linked)||arc=Turret||FC=2||dmg=6d10x2||WpnType=1|
+30,|wpn=Light Ion Cannons (2 fire-linked)||arc=Rear||FC=2||dmg=5d10x2||WpnType=1|
+31,|wpn=Proton torpedo launchers (2 fire-linked, 16 missiles each)||arc=front||dmg=9d10x2||MQ=Ordinary (+10)||WpnType=2|
+32,|wpn=Light Laser Cannons (2 fire-linked)||arc=Front||FC=4||dmg=4d10x2||WpnType=1|
+33,|wpn=Blaster Cannons*** (2 sets of 2 fire-linked)||arc=1 front, 1 rear||FC=2||dmg=5d10x2||WpnType=1||Fire=2|
+34,|wpn=Laser Cannons (2 sets of 2 fire-linked)||arc=Front||FC=4||dmg=5d10x2||WpnType=1|
+35,|wpn=Heavy Laser Cannons (4 fire-linked)||arc=Front||FC=8||dmg=7d10x2||WpnType=1|
+36,|wpn=Proton torpedo Launchers (2 fire-linked, 4 heavy missiles each)||arc=Front||dmg=10d10x2||MQ=Ordinary (+10)||WpnType=2|
+37,|wpn=Point Laser Cannons (2 fire-linked)||arc=Front||FC=4||dmg=3d10x2||WpnType=1|
+38,|wpn=Medium Laser Cannons (2 fire-linked)||arc=Front||FC=4||dmg=6d10x2||WpnType=1|
+39,|wpn=Laser Cannons (2 fire-linked)||arc=Rear||FC=4||dmg=5d10x2||WpnType=1|
+40,|wpn=Proton Torpedo Launcher (6 torpedos)||arc=Front||dmg=9d10x2||MQ=Ordinary (+10)||WpnType=2|
+41,|wpn=Laser Cannons (2 fire-linked)||arc=Front||FC=4||dmg=5d10x2||WpnType=1|
+42,|wpn=Light Ion Cannon (2 fire-linked||arc=Front||FC=4||dmg=4d10x2||WpnType=1|
+43,|wpn=Quadlaser Cannons (2)||arc=Front||FC=4||dmg=6d10x2||WpnType=1|
+44,|wpn=Laser Cannon||arc=Rear||FC=4||dmg=4d10x2||WpnType=1|
+45,|wpn=Twin Laser Cannons (2 fire-linked)||arc=Front||FC=Front||FC=4||dmg=3d10x2||WpnType=1|
+46,|wpn=Medium Laser Cannon||arc=Front||FC=4||dmg=5d10x2||WpnType=1|
+47,|wpn=Light Laser Cannons (3 fire-linked||arc=Front||FC=4||dmg=4d10x2||WpnType=1|
+48,|wpn=Buzz Droid Missiles ({Dice~1d3*2} carried)||arc=Front||dmg=Special||MQ=Ordinary (+10)||WpnType=1|
+
+:Freighter Weapons
+1,|wpn=Laser Cannon||arc=Turret||FC=4||dmg=4d10x2||WpnType=1|
+2,|wpn=Blaster Cannons***(2)||arc=Turret||FC=4||dmg=5d10x2||WpnType=1||Fire=2|
+3,|wpn=Tractor Beam Projector||arc=Front||FC=2||dmg=Special||WpnType=1|
+4,|wpn=Laser Cannons (4)||arc=2 front, 2 turret||FC=6||dmg=5d10x2||WpnType=1|
+5,|wpn=Turbolaser Cannons (4)||arc=Turret||FC=6||dmg=2d10x5||WpnType=1|
+6,|wpn=Tractor Beam Projector||arc=Front||FC=8||dmg=Special||WpnType=1|
+7,|wpn=Concussion missile launcher (15 missiles)||arc=Front||dmg=8d10x2||MQ=Ordinary (+10)||WpnType=2|
+8,|wpn=Laser Cannon||arc=Turret||FC=2||dmg=4d10x2||WpnType=1|
+9,|wpn=Ion Cannons (2 sets of 2 fire-linked)||arc=Turret||FC=2||dmg=5d10x2||WpnType=1|
+10,|wpn=Laser Cannon (2 fire-linked)||arc=Front||FC=2||dmg=5d10x2||WpnType=1|
+11,|wpn=Concussion missile tube (12 missiles)||arc=Front||dmg=8d10x2||MQ=Ordinary (+10)||WpnType=2|
+12,|wpn=Twin Laser Cannons*** (4 fire-linked)||arc=Turret||FC=2||dmg=4d10x2||WpnType=1||Fire=2|
+13,|wpn=Turbolasers (2)||arc=1 battery in Turret||FC=2||dmg=5d10x2||EB=1||WpnType=1|
+14,|wpn=Ion Cannons (3 fire-linked)||arc=Front||FC=4||dmg=5d10x2||WpnType=1|
+15,|wpn=Small proton torpedo launcher (4 hvy torpedos)||arc=Front||dmg=10d10x2||MQ=Ordinary (+10)||WpnType=2|
+16,|wpn=Concussion missile laucher (8 hvy missiles)||arc=Front||dmg=9d10x2||MQ=Ordinary (+10)||WpnType=2|
+17,|wpn=Light Turbolasers (4)||arc=Turret||FC=2||dmg=4d10x2||WpnType=1|
+18,|wpn=Tractor Beam Projectors (2)||arc=1 right and left||FC=4||dmg=Special||WpnType=1|
+19,|wpn=Ion Cannons (4)||arc=2 front, 1 right and left||FC=4||dmg=5d10x2||WpnType=1|
+20,[Special=2]
+
+:Capital Ship Weapons
+1,|wpn=Turbolasers (60)||arc=4 batteries front, left, and right||FC=8||dmg=5d10x5||EB=4||WpnType=1|
+2,|wpn=Point Laser Cannons (40)||arc= 2 batteries front, 3 batteries left and right||FC=8||dmg=2d10x2||EB=4||WpnType=1|
+3,|wpn=Ion Cannons (60)||arc=4 batteries front, 3 batteries left and right||FC=8||dmg=5d10x2||EB=4||WpnType=1|
+4,|wpn=Tractor Beam Projectors (10)||arc=6 front, 2 left and right||FC=8||dmg=special||EB=0||WpnType=1|
+5,|wpn=Turbolasers (48)||arc=3 batteries front, left, right, and rear||FC=4||dmg=4d10x5||EB=3||WpnType=1|
+6,|wpn=Ion Cannons (20)||arc=2 batteries front, 1 battery left, right, and rear||FC=4||dmg=5d10x2||EB=3||WpnType=1|
+7,|wpn=Tractor Beam Projectors (6)||arc=4 front,1 left and right||FC=4||dmg=Special||EB=0||WpnType=1|
+8,|wpn=Turbolasers (12)||arc=2 batteries front, 1 battery left and right||FC=4||dmg=4d10x5||EB=3||WpnType=1|
+9,|wpn=Laser Cannons (12)||arc=6 front, 2 left, right, and rear||FC=4||dmg=2d10x2||EB=0||WpnType=1|
+10,|wpn=Tractor Beam Projectors (2)||arc=front||FC=4||dmg=Special||EB=0||WpnType=1|
+11,|wpn=Double Turbolaser Cannons*** (6)||arc=3 front, 1 left, right, and rear||FC=6||dmg=5d10x2||EB=0||WpnType=1||Fire=2|
+12,|wpn=Medium Turbolasers (3)||arc=1 front, left, right, rear||FC=4||dmg=5d10x5||EB=0||WpnType=1|
+13,|wpn=Turbo Quadlasers*** (12)||arc=6 front/left, 6 front/right (partial turrets)||FC=6||dmg=6d10x5||EB=0||WpnType=1||Fire=3|
+14,|wpn=Assault Concussion Missile Tubes (4, 20 missiles each)||arc=4 front||dmg=9d10x5||MQ=Ordinary (+10)||WpnType=2|
+15,|wpn=Point Laser Cannons (24)||arc=2 batteries front, left and right||FC=2||dmg=2d10x2||EB=3||WpnType=1|
+16,|wpn=Turbolasers (20)||arc=8 front, 4 left, right, and rear||FC=6||dmg=5d10x5||WpnType=1|
+17,|wpn=Heavy Double Turbolaser cannons (24)||arc=1 battery front and rear, 2 batteries left and right||FC=6||dmg=4d10x5||EB=3||WpnType=1|
+18,|wpn=Ion Cannons (10)||arc=4 front, 3 left and right||FC=4||dmg=5d10x2||WpnType=1|
+19,|wpn=Proton Torpedo launchers (20, 16 torpedos each)||arc=10 front, 5 left and right||dmg=9d10x2||MQ=Ordinary (+10)||WpnType=2|
+20,|wpn=Tractor Beam Projectors (4)||arc=1 front, left, right, and rear||FC=2||dmg=Special||WpnType=1|
+21,|wpn=Turbolasers (12)||arc=1 battery front, left, right and rear||FC=2||dmg=4d10x5||EB=2||WpnType=1|
+22,|wpn=Point Laser Cannon (12)||arc=1 battery front, left, right and rear||FC=6||dmg=2d10x2||EB=2||WpnType=1|
+23,|wpn=Tractor Beam Projectors (5)||arc=1 front, 2 left and right||FC=4||dmg=Special||WpnType=1|
+24,|wpn=Heavy Double Turbolaser cannons (8)||arc=2 front, 3 right and left||FC=6||dmg=4d10x5||WpnType=1|
+25,|wpn=Point Quadlaser Cannons (6)||arc=3 left and right||FC=6||dmg=5d10x2||WpnType=1|
+26,|wpn=Assault concussion missile tubes (4, 30 missiles each)||arc=1 battery front and rear||dmg=9d10x5||MQ=Ordinary (+10)||WpnType=2|
+27,|wpn=Turbolasers (80)||arc=4 batteries front, right, left and rear||FC=4||dmg=5d10x5||EB=4||WpnType=1|
+28,|wpn=Ion Cannons (20)||arc=1 battery front, right, left and rear||FC=6||dmg=5d10x2||EB=4||WpnType=1|
+29,|wpn=Tractor Beam projectors (8)||arc=3 front, 2 right and left, 1 rear||FC=6||dmg=Special||WpnType=1|
+30,|wpn=Assault concussion missile tubes (8, 30 missiles each)||arc=2 batteries in turrets||dmg=9d10x5||MQ=Ordinary (+10)||WpnType=2|
+31,|wpn=Turbolasers (10)||arc=1 battery front and rear||FC=2||dmg=5d10x5||EB=4||WpnType=1|
+32,|wpn=Light Turbo quadlasers*** (20)||arc=6 front, 7 left and right||FC=4||dmg=4d10x5||WpnType=1||Fire=3|
+33,|wpn=Turbolaser Cannons (10)||arc=5 right and left||FC=6||dmg=2d10x5||WpnType=1|
+34,|wpn=Turbolasers (40)||arc=8 batteries in turrets||FC=2||dmg=5d10x5||EB=4||WpnType=1|
+35,|wpn=Ion Cannons (40)||arc=8 batteries in turrent||FC=4||dmg=5d10x2||EB=4||WpnType=1|
+36,|wpn=Ion Cannons (2 sets of 3 fire-linked)||arc=Turret||FC=2||dmg=5d10x2||WpnType=1|
+37,[Special=3]
+38,|wpn=Turbolasers (25)||arc=1 battery front, left, right, rear, and turret||FC=2||dmg=5d10x5||EB=4||WpnType=1|
+39,|wpn=Point Heavy Laser Cannons (10)||arc=Front||FC=4||dmg=5d10x2||WpnType=1|
+40,|wpn=Point Twin Laser Cannons (10)||arc=2 front and rear, 3 left and right||FC=6||dmg=2d10x5||WpnType=1|
+41,|wpn=Turbolasers (100)||arc=8 batteries front, 5 batteries right and left, 2 batteries rear||FC=8||dmg=5d10x5||EB=4||WpnType=1|
+42,|wpn=Ion Cannons (20)||arc=1 battery front, right, left and rear||FC=8||dmg=5d10x2||EB=4||WpnType=1|
+43,|wpn=Light Turbolasers (10)||arc=1 battery left and right||FC=6||dmg=4d10x2||EB=4||WpnType=1|
+44,|wpn=Concussion missile launcher (16 missiles)||arc=Front||dmg=9d10x2||MQ=Ordinary (+10)||WpnType=2|
+45,|wpn=Light Turbo quadlasers*** (20)||arc=2 batteries front, 1 left and right||FC=4||dmg=4d10x5||EB=4||WpnType=1||Fire=3|
+46,[Special=4]
+47,|wpn=Light Turbolasers (25)||arc=2 batteries front, 1 left, right and rear||FC=6||dmg=4d10x5||EB=4||WpnType=1|
+48,|wpn=Point Lasers (10)||arc=2 front and rear, 3 right and left||FC=8||dmg=4d10x2||WpnType=1|
+49,|wpn=Tractor Beam Projectors (3)||arc=1 front, right, and left||FC=2||dmg=Special||WpnType=1|
+50,|wpn=Point quadlaser cannons (20)||arc=1 battery front, right, left, and rear||FC=8||dmg=4d10x2||EB=4||WpnType=1|
+51,|wpn=Heavy double turbolaser cannons (8)||arc=2 front, right, left, rear||FC=6||dmg=4d10x5||WpnType=1|
+52,|wpn=Tractor Beam Projectors (3)||arc=2 front, 1 rear||FC=8||dmg=Special||WpnType=1|
+53,|wpn=Light Turbolasers (75)||arc=6 batteries front, 3 left, right, and rear||FC=6||dmg=4d10x5||EB=4||WpnType=1|
+54,|wpn=Ion cannons (35)||arc=2 batteries front, left and right, 1 battery rear||FC=6||dmg=Special||EB=4||WpnType=1|
+55,|wpn=Tractor Beam projectors (8)||arc=5 front, 1 right, left and rear||FC=4||dmg=Special||WpnType=1|
+56,|wpn=Proton Torpedo tubes (6, 16 missiles each)||arc=Front||dmg=9d10x2||MQ=Ordinary (+10)||WpnType=2|
+57,|wpn=Light turbolasers (4)||arc=2 turrets, 1 partial front/right, 1 partial front/left||FC=4||dmg=4d10x5||WpnType=1|
+58,|wpn=Light Turbo quadlasers*** (20)||arc=2 batteries front, 1 left and right||FC=8||dmg=4d10x5||EB=4||WpnType=1||Fire=3|
+59,|wpn=Heavy double turbolaser cannons (20)||arc=2 batteries front, 1 battery right and left||FC=6||dmg=4d10x5||EB=4||WpnType=1|
+60,|wpn=Assault concussion missile tubes (20, 4 missiles each)||arc=5 front, right, left and rear||dmg=9d10x5||MQ=Ordinary (+10)||WpnType=2|
+61,|wpn=Tractor Beam Projectors (10)||arc=3 batteries front, 1 battery left and right||FC=8||dmg=special||EB=1||WpnType=1|
+62,|wpn=Turbolasers (20)||arc=2 batteries front, 1 battery right and left||FC=2||dmg=5d10x5||EB=4||WpnType=1|
+63,|wpn=Ion Cannons (10)||arc=2 front and rear, 3 left and right||FC=8||dmg=5d10x2||WpnType=1|
+61,|wpn=Tractor Beam Projectors (10)||arc=3 batteries front, 1 battery left and right||FC=4||dmg=special||EB=1||WpnType=1|
+65,|wpn=Heavy Turbolasers (8 fire-linked pairs)||arc=1 battery front/left, 1 battery front/right||FC=6||EB=3||dmg=8d10x5||WpnType=1|
+66,|wpn=Medium Dual Turbolasers (2)||arc=1 front/left, 1 front/right||FC=10||dmg=6d10x2||WpnType=1|
+67,|wpn=Point Defense Laser Cannons (26 fire-linked pairs)||arc=12 front, 6 left and right, 2 rear||FC=6||dmg=3d10x2||WpnType=1|
+68,|wpn=Tractor Beam Projectors (6)||arc=4 front, 1 left and right||FC=4||dmg=Special||WpnType=1|
+69,|wpn=Proton Torpedo Tubes (4, 16 torpedos each)||arc=Front||dmg=9d10x2||MQ=Ordinary (+10)||WpnType=2|
+
+# Prints Weapons
+:PrintWpn
+1,[Cannon]
+2,[Torpedo]
+3,
+
+:Cannon
+1,<b>Weapon:</b> %wpn% <b>Fire Arc:</b> %arc%<br>
+_<b>Attack Bonus:</b> [plus=4]{Calc~%SM%+%skill%+%FC%+%EB%}
+_{If~%EB%>0? [EB=4]} ([plus=2]%SM% size, +%skill% crew, +%FC% fire control) 
+_<b>Damage:</b> %dmg%{If~%EB%>0? |check=%EB%|}<br>
+
+:Torpedo
+1,<b>Weapon:</b> %wpn% <b><br>Fire Arc:</b> %arc% 
+_<b>Missile Quality:</b> %MQ% <b>Damage:</b> %dmg%<br>
+
+:Special
+1,<b>Weapon:</b> Jammer <b>Fire Arc:</b> All <br>|WpnType=3|
+_<b>Damage:</b> Enemy ships suffer a penalty to sensor checks (fighter -4, transports -2)<br>
+2,<b>Weapon:</b> Sensor Mask <b>Fire Arc:</b> n/a<br>|WpnType=3|
+_<b>Damage:</b> Increase DC of finding ship with sensors by +6<br>
+3,<b>Weapon:</b> Mass Pulse Generator tubes (4, 4 mines each)<br>|WpnType=3|
+4,<b>Weapon:</b> Gravity well projectors (4)<br>|WpnType=3|
+
+# -----------------------------------------------
+# Miscellaneous Tables
+# -----------------------------------------------
+:Quality
+2,|skill=0|
+4,|skill=2|
+8,|skill=4|
+12,|skill=8|
+
+:plus
+1,{If~%b% >= 0 ? +}
+2,{If~%SM% >= 0 ? +}
+3,{If~%a% >= 0 ? +}
+4,{If~{Calc~%SM%+%skill%+%FC%+%EB%} >= 0 ? +}
+
+:EQ
+1,{If~%EQ% > 0 ?*}{If~%EQ% < 0 ?*}
+2,{If~%Emod% = 1 ? <font color="darkred">}<font size="-1">* Improved Engine Quality adds +%EQ% to manuevering</font></font><br>
+3,{If~%Emod% = 2 ? <font color="purple"}<font size="-1">* Reduced Engine Quality reduces maneuvering by %EQ%</font></font><br>
+
+:EB
+1,{If~%Emod% = 1 ? <font color="darkred">}<font size="-1">** Improved Control provides +%check% to attack bonus</font></font><br>
+2,<font size="-1">** Battery Fire provides +%check% to attack bonus</font><br>
+3,<font size="-1">** Battery Fire provides +%check% to attack bonus</font><br>
+4,{If~%EB% > 0 ? **}
+
+:Fire
+1,
+2,<font size="-1">*** Capable of Multifire
+3,<font size="-1">*** Capable of Autofire
+
+:MS
+1,{If~%mansys% > 0 ?*}
+2,{If~%Emod% = 1 ? <font color="darkred">}<font size="-1">* Manuevering system adds +%mansys% to manuevering</font></font><br>
+
+#----------------------------------------------------------------
+# For modified ships
+#----------------------------------------------------------------
+# Sets "modified" variable
+:Mod1
+1,|shipmod=1|, <font color="darkred">Modified</font>[Mod2=1]
+2,|shipmod=2|, <font color="purple">Scrapped Together</font>[Mod2=2]
+3,[Mod1Random]
+
+;Mod1Random
+10,
+1,|shipmod=1|, <font color="darkred">Modified</font>[Mod2=1]
+1,|shipmod=2|, <font color="purple">Scrapped Together</font>[Mod2=2]
+
+# Creates modifications
+:Mod2
+1,{If~%wc% = 1 ? [EngineMod]}[ShieldMod=%wc%][AddManSys]|Cn=0||Cu=0|
+2,[EngineMod2][ShieldMod2=%wc%][RmvManSys][Damaged]|Cn=0||Cu=0|
+
+# Hyperdrive Upgrade
+;HDmod
+4,
+1,{If~%HDa%=None? |HDa=6|}<font color="darkred">|HDa*.5|{If~%HDa% = 0 ? |HDa=3|}
+
+# Hyperdrive Downgrade
+;HDmod2
+5,
+2,{If~%HDa%=None? / <font color="purple">|HDa*2|}
+1,{If~%HDa%=None? / <font color="purple">|HDa*3|}
+
+# Ion Engine Mod
+;EngineMod
+20,
+1,{If~%EQ% < 4 ? |EQ=4||EB=4||Emod=1|}
+2,{If~%EQ% < 3 ? |EQ=3||EB=3||Emod=1|}
+3,{If~%EQ% < 2 ? |EQ=2||EB=2||Emod=1|}
+
+# Ion Engine Downgrade
+;EngineMod2
+10,
+1,{If~%EQ% >= 2 ? |EQ=0||EB=0||Emod=2| / |EQ=-2||EB=0||Emod=2|}
+1,|EQ=-2||EB=0||Emod=2|
+
+# Shield Modification Section --------------------
+:ShieldMod
+1,{Split~SP,",",SPa,SPb}[SMfighter]
+2,{Split~SP,",",SPa,SPb}[SMfreighter]
+
+;SMfighter
+1,{If~%SPa% < 120 ? |SPa=120||SPb=10||Smod=1|}
+2,{If~%SPa% < 90 ? |SPa=90||SPb=10||Smod=1|}
+3,{If~%SPa% < 60 ? |SPa=60||SPb=10||Smod=1|}
+4,{If~%SPa% < 30 ? |SPa=30||SPb=10||Smod=1|}
+5,
+
+;SMfreighter
+1,{If~%SPa% < 200 ? |SPa=200||SPb=20||Smod=1|}
+2,{If~%SPa% < 180 ? |SPa=180||SPb=20||Smod=1|}
+3,{If~%SPa% < 150 ? |SPa=150||SPb=20||Smod=1|}
+4,{If~%SPa% < 120 ? |SPa=120||SPb=20||Smod=1|}
+5,{If~%SPa% < 90 ? |SPa=90||SPb=20||Smod=1|}
+6,{If~%SPa% < 60 ? |SPa=60||SPb=20||Smod=1|}
+# -------------------------------------------------
+# Shield Downgrade Section ------------------------
+:ShieldMod2
+1,{Split~SP,",",SPa,SPb}[SMfighter2]
+2,{Split~SP,",",SPa,SPb}[SMfreighter2]
+
+;SMfighter2
+1,{If~%SPa% >= 120 ? |SPa=90||SPb=10||Smod=1|}
+2,{If~%SPa% >= 90 ? |SPa=60||SPb=10||Smod=1|}
+5,{If~%SPa% >= 60 ? |SPa=30||SPb=10||Smod=1|}
+1,{If~%SPa% >= 30 ? |SPa=0||SPb=0||Smod=1|}
+1,|SPa=0||SPb=0|
+
+;SMfreighter2
+2,{If~%SPa% >= 200 ? |SPa=180||SPb=20||Smod=1|}
+2,{If~%SPa% >= 180 ? |SPa=150||SPb=20||Smod=1|}
+3,{If~%SPa% >= 150 ? |SPa=120||SPb=20||Smod=1|}
+5,{If~%SPa% >= 120 ? |SPa=90||SPb=20||Smod=1|}
+3,{If~%SPa% >= 90 ? |SPa=60||SPb=20||Smod=1|}
+2,{If~%SPa% >= 60 ? |SPa=0||SPb=0||Smod=1|}
+2,|SPa=0||SPb=0|
+# -------------------------------------------------
+# Damaged Section ---------------------------------
+;Damaged
+10,
+1,{Split~HP,",",HPa,HPb}|HPa\2||temp=%HPa%||HPa+{Dice~1d%temp%}|
+2,{Split~HP,",",HPa,HPb}|HPa\4||temp=%HPa%||HPa+{Dice~3d%temp%}|
+# -------------------------------------------------
+
+# Maneuvering System Modification
+;AddManSys
+5,
+1,{If~%mansys% < 4 ? |mansys=4||Emod=1|}
+2,{If~%mansys% < 3 ? |mansys=3||Emod=1|}
+3,{If~%mansys% < 2 ? |mansys=2||Emod=1|}
+4,{If~%mansys% < 1 ? |mansys=1||Emod=1|}
+
+;RmvManSys
+2,
+1,{If~%mansys% > 0 ? |mansys=0||Emod=2|}
+2,{If~%mansys% > 2 ? |mansys=0||Emod=2|}
+1,{If~%mansys% > 2 ? |mansys=2||Emod=2|}
+
+# Weapon Modifications Section -------------------------------
+
+:ModWpn
+1,{If~%shipmod% = 2 ? [ModWpnDn=%wc%] / [ModWpnUp=%wc%]}
+2,{If~%shipmod% = 2 ? [ModWpnDn=%wc%] / [ModWpnUp=%wc%]}
+
+# Valminder Jan 2006: Added [TestTemp] subtable because there was an error message when dmg not a number and was "Special".
+:ModWpnUp
+1,{If~%wpn1% > 0 ? [Fighter Weapons=%wpn1%]}|temp={Left~1,%dmg%}|[TestTemp]{If~%temp% < 5 ? [FighterCannon]|WpnType=1||wpn1=1|<font color="darkred">}|temp=0|{If~%wpn1% > 0 ? [PrintWpn=%WpnType%]}</font>
+_{If~%wpn2% > 0 ? [Fighter Weapons=%wpn2%]}|temp={Left~1,%dmg%}|[TestTemp]{If~%temp% < 7 ? [FighterTorpedo]|WpnType=2||wpn2=1|<font color="darkred">}|temp=0|{If~%wpn2% > 0 ? <br>[PrintWpn=%WpnType%]}</font>
+_{If~%wpn3% > 0 ? [Fighter Weapons=%wpn3%]}|temp={Left~1,%dmg%}|[TestTemp]|temp+{Dice~1d6-2}|{If~%temp% < 5 ? [FighterCannon]|WpnType=1||wpn3=1|<font color="darkred">}|temp=0|{If~%wpn3% > 0 ? <br>[PrintWpn=%WpnType%]}</font>
+_{If~%wpn4% > 0 ? [Fighter Weapons=%wpn4%]}|temp={Dice~1d8}|{If~%temp% = 8 ? [FighterIon]|WpnType=1||wpn4=1|<font color="darkred">}|temp=0|{If~%wpn4% > 0 ? <br>[PrintWpn=%WpnType%]}</font>
+_{If~%wpn5% > 0 ? [Fighter Weapons=%wpn5%]}|temp={Dice~1d10}|{If~%temp% = 10 ? <font color="darkred"><br>[FighterSpecial]}|temp=0|</font>
+2,{If~%wpn1% > 0 ? [Freighter Weapons=%wpn1%]}|temp={Left~1,%dmg%}|[TestTemp]{If~%temp% < 5 ? [FreighterCannon]|WpnType=1||wpn1=1|<font color="darkred">}|temp=0|{If~%wpn1% > 0 ? [PrintWpn=%WpnType%]}</font>
+_{If~%wpn2% > 0 ? [Freighter Weapons=%wpn2%]}|temp={Left~1,%dmg%}|[TestTemp]{If~%temp% < 7 ? [FreighterTorpedo]|WpnType=2||wpn2=1|<font color="darkred">}|temp=0|{If~%wpn2% > 0 ? <br>[PrintWpn=%WpnType%]}</font>
+_{If~%wpn3% > 0 ? [Freighter Weapons=%wpn3%]}|temp={Left~1,%dmg%}|[TestTemp]|temp+{Dice~1d6-2}|{If~%temp% < 5 ? [FreighterCannon]|WpnType=1||wpn3=1|<font color="darkred">}|temp=0|{If~%wpn3% > 0 ? <br>[PrintWpn=%WpnType%]}</font>
+_{If~%wpn4% > 0 ? [Freighter Weapons=%wpn4%]}|temp={Dice~1d8}|{If~%temp% = 8 ? [FreighterIon]|WpnType=1||wpn4=1|<font color="darkred">}|temp=0|{If~%wpn4% > 0 ? <br>[PrintWpn=%WpnType%]}</font>
+_{If~%wpn5% > 0 ? [Freighter Weapons=%wpn5%]}|temp={Dice~1d5}|{If~%temp% = 5 ? <font color="darkred"><br>[FreighterSpecial]}|temp=0|</font>
+
+:TestTemp
+1,{If~%temp%=S?|temp=10|}
+
+# Valminder Jan 2006: Added [TestTemp] subtable because there was an error message when dmg not a number and was "Special".
+:ModWpnDn
+1,{If~%wpn1% > 0 ? [Fighter Weapons=%wpn1%]}|temp={Left~1,%dmg%}|[TestTemp]{If~%temp% > 4 ? [FighterCannon2]|WpnType=1|<font color="purple">}|temp=0|{If~%wpn1% > 0 ? [PrintWpn=%WpnType%]}</font>
+_{If~%wpn2% > 0 ? [Fighter Weapons=%wpn2%]}|temp={Left~1,%dmg%}|[TestTemp]{If~%temp% >= 7 ? [FighterTorpedo2]|WpnType=2|<font color="purple">}|temp=0|{If~%wpn2% > 0 ? <br>[PrintWpn=%WpnType%]}</font>
+_|wpn3=0|
+_|wpn4=0|
+_|wpn5=0|
+2,{If~%wpn1% > 0 ? [Freighter Weapons=%wpn1%]}|temp={Left~1,%dmg%}|[TestTemp]{If~%temp% > 4 ? <font color="purple">[FreighterCannon2]|WpnType=1|}|temp=0|{If~%wpn1% > 0 ? [PrintWpn=%WpnType%]}</font>
+_{If~%wpn2% > 0 ? [Freighter Weapons=%wpn2%]}|temp={Left~1,%dmg%}|[TestTemp]{If~%temp% > 4 ? [FreighterCannon2]<font color="purple">}|temp=0|{If~%wpn2% > 0 ? <br>[PrintWpn=%WpnType%]}</font>
+_{If~%wpn3% > 0 ? [Freighter Weapons=%wpn3%]}|temp={Left~1,%dmg%}|[TestTemp]|temp+{Dice~1d6-2}|{If~%temp% > 5 ? [FreighterCannon2]<font color="purple">}|temp=0|{If~%wpn3% > 0 ? <br>[PrintWpn=%WpnType%]}</font>
+_|wpn4=0|
+_|wpn5=0|
+
+# Weapon Upgrades -------------------------------
+;FighterCannon
+1,|wpn=Laser Cannons (4 fire-linked)||arc=Front||FC=6||dmg=6d10x2||WpnType=1|
+5,|wpn=Laser Cannons (2 fire-linked)||arc=Front||FC=4||dmg=5d10x2||WpnType=1|
+2,|wpn=Heavy Laser Cannons (2 fire-linked)||arc=Front||FC=4||dmg=6d10x2||WpnType=1|
+4,|wpn=Laser Cannons (2 fire-linked)||arc=Front||FC=6||dmg=5d10x2||WpnType=1|
+1,|wpn=Assault Laser Cannon||arc=Front||FC=0||dmg=7d10x2||WpnType=1|
+1,|wpn=Heavy Laser Cannons (3 fire-linked)||arc=Front||FC=4||dmg=6d10x2||WpnType=1|
+5,|wpn=Blaster Cannon*** (2 fire-linked)||arc=Front||FC=2||dmg=5d10x2||WpnType=1||Fire=2|
+2,|wpn=Heavy Laser Cannons (2 fire-linked)||arc=Front||FC=6||dmg=6d10x2||WpnType=1|
+2,|wpn=Heavy Laser Cannons (2 fire-linked)||arc=Turret||FC=2||dmg=6d10x2||WpnType=1|
+3,|wpn=Blaster Cannons*** (2 sets of 2 fire-linked)||arc=1 front, 1 rear||FC=2||dmg=5d10x2||WpnType=1||Fire=2|
+3,|wpn=Laser Cannons (2 sets of 2 fire-linked)||arc=Front||FC=4||dmg=5d10x2||WpnType=1|
+1,|wpn=Heavy Laser Cannons (4 fire-linked)||arc=Front||FC=8||dmg=7d10x2||WpnType=1|
+1,|wpn=Assault Laser Cannon||arc=Front||FC=2||dmg=7d10x2||WpnType=1|
+1,|wpn=Assault Laser Cannons (2 fire-linked)||arc=Front||FC=2||dmg=8d10x2||WpnType=1|
+
+;FighterTorpedo
+5,|wpn=Proton torpedo Launchers (2, 3 missiles each)||arc=Front||dmg=9d10x2||MQ=Ordinary (+10)||WpnType=2|
+3,|wpn=Proton torpedo Launchers (2, 3 missiles each)||arc=Front||dmg=9d10x2||MQ=Good (+15)||WpnType=2|
+1,|wpn=Proton torpedo Launchers (2, 3 missiles each)||arc=Front||dmg=9d10x2||MQ=Superb (+20)||WpnType=2|
+5,|wpn=Proton Torpedo Launchers (2, 8 missiles each)||arc=Front||dmg=9d10x2||MQ=Marginal (+5)||WpnType=2|
+3,|wpn=Proton Torpedo Launchers (2, 8 missiles each)||arc=Front||dmg=9d10x2||MQ=Ordinary (+10)||WpnType=2|
+5,|wpn=Proton torpedo Launchers (2, 4 missiles each)||arc=Front||dmg=9d10x2||MQ=Ordinary (+10)||WpnType=2|
+2,|wpn=Proton torpedo Launchers (2 fire-linked, 5 missiles each)||arc=Front||dmg=10d10x2||MQ=Ordinary (+10)||WpnType=2|
+1,|wpn=Proton torpedo launchers (2 fire-linked, 8 total)||arc=Front||dmg=10d10x2||MQ=Ordinary (+10)||WpnType=2|
+1,|wpn=Proton torpedo launchers (2 fire-linked, 20 total)||arc=Front||dmg=10d10x2||MQ=Ordinary (+10)||WpnType=2|
+2,|wpn=Proton torpedo launcher (16 missiles)||arc=Front||dmg=9d10x2||MQ=Ordinary (+10)||WpnType=2|
+3,|wpn=Proton Torpedo launcher (6 missiles)||arc=Front||dmg=9d10x2||MQ=Ordinary (+10)||WpnType=2|
+1,|wpn=Heavy Proton torpedo Tubes (2 fire-linked, 16 each)||arc=Front||dmg=11d10x2||MQ=Ordinary (+10)||WpnType=2|
+5,|wpn=Concussion missile launchers (2 fire-linked, 8 missiles each)||arc=front||dmg=8d10x2||MQ=Ordinary (+10)||WpnType=2|
+3,|wpn=Concussion missile launchers (2 fire-linked, 8 missiles each)||arc=front||dmg=8d10x2||MQ=Good (+15)||WpnType=2|
+5,|wpn=Concussion Missile Launcher (6 missiles)||arc=Front||dmg=7d10x2||MQ=Ordinary (+10)||WpnType=2|
+3,|wpn=Concussion Missile Launcher (6 missiles)||arc=Front||dmg=7d10x2||MQ=Good (+15)||WpnType=2|
+1,|wpn=Concussion Missile Launcher (6 missiles)||arc=Front||dmg=7d10x2||MQ=Superb (+20)||WpnType=2|
+1,|wpn=Proton torpedo launchers (2 fire-linked, 16 missiles each)||arc=front||dmg=10d10x2||MQ=Ordinary (+10)||WpnType=2|
+1,|wpn=Proton torpedo Launchers (2 fire-linked, 4 hvy missiles each)||arc=Front||dmg=11d10x2||MQ=Ordinary (+10)||WpnType=2|
+
+;FighterIon
+1,|wpn=Light Ion Cannons (2 fire-linked)||arc=Turret (front)||FC=6||dmg=4d10x2||WpnType=1|
+1,|wpn=Light Ion Cannons (2 fire-linked)||arc=Front||FC=8||dmg=4d10x2||WpnType=1|
+2,|wpn=Light Ion Cannons (2 fire-linked)||arc=Rear||FC=2||dmg=4d10x2||WpnType=1|
+5,|wpn=Light Ion Cannons||arc=Front||FC=4||dmg=3d10x2||WpnType=1|
+5,|wpn=Light Ion Cannons (2 fire-linked)||arc=Front||FC=4||dmg=4d10x2||WpnType=1|
+
+;FighterSpecial
+5,<b>Weapon:</b> Jammer <b>Fire Arc:</b> All <br>
+_<b>Damage:</b> Enemy ships suffer a penalty to sensor checks (fighter -4, transports -2)<br>
+5,<b>Weapon:</b> Sensor Mask <b>Fire Arc:</b> n/a<br>
+_<b>Damage:</b> Increase DC of finding ship with sensors by +2
+3,<b>Weapon:</b> Sensor Mask <b>Fire Arc:</b> n/a<br>
+_<b>Damage:</b> Increase DC of finding ship with sensors by +4
+2,<b>Weapon:</b> Sensor Mask <b>Fire Arc:</b> n/a<br>
+_<b>Damage:</b> Increase DC of finding ship with sensors by +6
+1,<b>Weapon:</b> Sensor Mask <b>Fire Arc:</b> n/a<br>
+_<b>Damage:</b> Increase DC of finding ship with sensors by +8
+
+;FreighterCannon
+3,|wpn=Blaster Cannons***(2)||arc=Turret||FC=4||dmg=5d10x2||WpnType=1||Fire=2|
+1,|wpn=Laser Cannons (4)||arc=2 front, 2 turret||FC=6||dmg=5d10x2||WpnType=1|
+5,|wpn=Laser Cannon||arc=Turret||FC=6||dmg=4d10x2||WpnType=1|
+3,|wpn=Laser Cannon||arc=Turret||FC=8||dmg=4d10x2||WpnType=1|
+5,|wpn=Laser Cannon (2 fire-linked)||arc=Turret||FC=4||dmg=5d10x2||WpnType=1|
+3,|wpn=Laser Cannon (2 fire-linked)||arc=Turret||FC=6||dmg=5d10x2||WpnType=1|
+1,|wpn=Turbolasers (2)||arc=1 battery in Turret||FC=2||dmg=5d10x2||EB=1||WpnType=1|
+5,|wpn=Heavy Laser Cannon||arc=Turret||FC=4||dmg=5d10x2||WpnType=1|
+3,|wpn=Heavy Laser Cannon||arc=Turret||FC=6||dmg=5d10x2||WpnType=1|
+1,|wpn=Heavy Laser Cannon||arc=Turret||FC=8||dmg=5d10x2||WpnType=1|
+3,|wpn=Heavy Laser Cannons (2)||arc=Turret||FC=4||dmg=5d10x2||WpnType=1|
+5,|wpn=Heavy Laser Cannon (2 fire-linked)||arc=Turret||FC=4||dmg=6d10x2||WpnType=1|
+3,|wpn=Quadlaser Cannon||arc=Turret||FC=4||dmg=6d10x2||WpnType=1|
+2,|wpn=Quadlaser Cannons (2)||arc=Turret||FC=4||dmg=6d10x2||WpnType=1|
+2,|wpn=Quadlaser Cannon (2 fire-linked)||arc=Turret||FC=4||dmg=7d10x2||WpnType=1|
+1,|wpn=Assault Laser Cannon||arc=Turret||FC=4||dmg=7d10x2||WpnType=1|
+
+;FreighterTorpedo
+3,|wpn=Concussion missile launcher (15 missiles)||arc=Front||dmg=8d10x2||MQ=Ordinary (+10)||WpnType=2|
+5,|wpn=Concussion missile tube (12 missiles)||arc=Front||dmg=8d10x2||MQ=Ordinary (+10)||WpnType=2|
+5,|wpn=Proton torpedo launcher (4 hvy torpedos)||arc=Front||dmg=10d10x2||MQ=Ordinary (+10)||WpnType=2|
+5,|wpn=Concussion missile laucher (8 hvy missiles)||arc=Front||dmg=9d10x2||MQ=Ordinary (+10)||WpnType=2|
+5,|wpn=Proton torpedo Launchers (2, 3 missiles each)||arc=Front||dmg=9d10x2||MQ=Ordinary (+10)||WpnType=2|
+3,|wpn=Proton torpedo Launchers (2, 3 missiles each)||arc=Front||dmg=9d10x2||MQ=Good (+15)||WpnType=2|
+1,|wpn=Proton torpedo Launchers (2, 3 missiles each)||arc=Front||dmg=9d10x2||MQ=Superb (+20)||WpnType=2|
+5,|wpn=Proton Torpedo Launchers (2, 8 missiles each)||arc=Front||dmg=9d10x2||MQ=Marginal (+5)||WpnType=2|
+3,|wpn=Proton Torpedo Launchers (2, 8 missiles each)||arc=Front||dmg=9d10x2||MQ=Ordinary (+10)||WpnType=2|
+5,|wpn=Proton torpedo Launchers (2, 4 missiles each)||arc=Front||dmg=9d10x2||MQ=Ordinary (+10)||WpnType=2|
+2,|wpn=Proton torpedo Launchers (2 fire-linked, 5 missiles each)||arc=Front||dmg=10d10x2||MQ=Ordinary (+10)||WpnType=2|
+1,|wpn=Proton torpedo launchers (2 fire-linked, 8 total)||arc=Front||dmg=10d10x2||MQ=Ordinary (+10)||WpnType=2|
+1,|wpn=Proton torpedo launchers (2 fire-linked, 20 total)||arc=Front||dmg=10d10x2||MQ=Ordinary (+10)||WpnType=2|
+2,|wpn=Proton torpedo launcher (16 missiles)||arc=Front||dmg=9d10x2||MQ=Ordinary (+10)||WpnType=2|
+3,|wpn=Proton Torpedo launcher (6 missiles)||arc=Front||dmg=9d10x2||MQ=Ordinary (+10)||WpnType=2|
+1,|wpn=Heavy Proton torpedo Tubes (2 fire-linked, 16 each)||arc=Front||dmg=11d10x2||MQ=Ordinary (+10)||WpnType=2|
+5,|wpn=Concussion missile launchers (2 fire-linked, 8 missiles each)||arc=front||dmg=8d10x2||MQ=Ordinary (+10)||WpnType=2|
+3,|wpn=Concussion missile launchers (2 fire-linked, 8 missiles each)||arc=front||dmg=8d10x2||MQ=Good (+15)||WpnType=2|
+5,|wpn=Concussion Missile Launcher (6 missiles)||arc=Front||dmg=7d10x2||MQ=Ordinary (+10)||WpnType=2|
+3,|wpn=Concussion Missile Launcher (6 missiles)||arc=Front||dmg=7d10x2||MQ=Good (+15)||WpnType=2|
+1,|wpn=Concussion Missile Launcher (6 missiles)||arc=Front||dmg=7d10x2||MQ=Superb (+20)||WpnType=2|
+1,|wpn=Proton torpedo launchers (2 fire-linked, 16 missiles each)||arc=front||dmg=10d10x2||MQ=Ordinary (+10)||WpnType=2|
+1,|wpn=Proton torpedo Launchers (2 fire-linked, 4 hvy missiles each)||arc=Front||dmg=11d10x2||MQ=Ordinary (+10)||WpnType=2|
+
+;FreighterIon
+3,|wpn=Ion Cannons (2 sets of 2 fire-linked)||arc=Turret||FC=2||dmg=5d10x2||WpnType=1|
+2,|wpn=Ion Cannons (3 fire-linked)||arc=Front||FC=4||dmg=5d10x2||WpnType=1|
+1,|wpn=Ion Cannons (4)||arc=2 front, 1 right and left||FC=4||dmg=5d10x2||WpnType=1|
+10,|wpn=Ion Cannon||arc=Turret||FC=4||dmg=5d10x2||WpnType=1|
+5,|wpn=Ion Cannon||arc=Turret||FC=6||dmg=5d10x2||WpnType=1|
+1,|wpn=Ion Cannon||arc=Turret||FC=8||dmg=5d10x2||WpnType=1|
+
+;FreighterSpecial
+5,<b>Weapon:</b> Jammer <b>Fire Arc:</b> All <br>
+_<b>Damage:</b> Enemy ships suffer a penalty to sensor checks (fighter -4, transports -2)<br>
+5,<b>Weapon:</b> Sensor Mask <b>Fire Arc:</b> n/a<br>
+_<b>Damage:</b> Increase DC of finding ship with sensors by +2<br>
+3,<b>Weapon:</b> Sensor Mask <b>Fire Arc:</b> n/a<br>
+_<b>Damage:</b> Increase DC of finding ship with sensors by +4<br>
+2,<b>Weapon:</b> Sensor Mask <b>Fire Arc:</b> n/a<br>
+_<b>Damage:</b> Increase DC of finding ship with sensors by +6<br>
+1,<b>Weapon:</b> Sensor Mask <b>Fire Arc:</b> n/a<br>
+_<b>Damage:</b> Increase DC of finding ship with sensors by +8<br>
+4,[FreighterCannon][PrintWpn=%WpnType%]
+2,[FreighterTorpedo][PrintWpn=%WpnType%]
+15,[FreighterTrac][PrintWpn=%WpnType%]
+
+;FreighterTrac
+10,|wpn=Tractor Beam Projector||arc=Front||FC=2||dmg=Special||WpnType=1|
+5,|wpn=Tractor Beam Projector||arc=Front||FC=4||dmg=Special||WpnType=1|
+2,|wpn=Tractor Beam Projector||arc=Front||FC=6||dmg=Special||WpnType=1|
+1,|wpn=Tractor Beam Projector||arc=Front||FC=8||dmg=Special||WpnType=1|
+3,|wpn=Tractor Beam Projectors (2)||arc=1 right and left||FC=4||dmg=Special||WpnType=1|
+3,|wpn=Tractor Beam Projectors (2)||arc=front||FC=4||dmg=Special||WpnType=1|
+
+# Weapon Downgrades -----------------------------------
+;FighterCannon2
+5,|wpn=Autoblasters*** (2)||arc=Front||FC=4||dmg=3d10x2||WpnType=1||Fire=3|
+3,|wpn=Autoblasters*** (2 fire-linked)||arc=Front||FC=4||dmg=4d10x2||WpnType=1||Fire=3|
+5,|wpn=Light Laser Cannons (2 fire-linked)||arc=Front||FC=2||dmg=4d10x2||WpnType=1|
+5,|wpn=Twin Laser Cannons*** (2)||arc=Front||FC=4||dmg=2d10x2||WpnType=1||Fire=2|
+5,|wpn=Twin Laser Cannons*** (2 fire-linked)||arc=Front||FC=4||dmg=3d10x2||WpnType=1||Fire=2|
+3,|wpn=Light Laser Cannons (2 fire-linked)||arc=Front||FC=4||dmg=4d10x2||WpnType=1|
+5,|wpn=Light Laser Cannons (2)||arc=Front||FC=4||dmg=3d10x2||WpnType=1|
+
+;FighterTorpedo2
+5,<font color="black">|wpn2=0|
+2,|wpn=Concussion Missile Launcher ({Dice~1d6} missiles)||arc=Front||dmg=7d10x2||MQ=Marginal (+5)||WpnType=2|
+1,|wpn=Concussion Missile Launcher ({Dice~1d2} missiles)||arc=Front||dmg=7d10x2||MQ=Marginal (+10)||WpnType=2|
+
+;FreighterCannon2
+5,|wpn=Light Laser Cannon||arc=Turret||FC=4||dmg=3d10x2||WpnType=1|
+5,|wpn=Light Laser Cannons (2)||arc=Turret||FC=4||dmg=3d10x2||WpnType=1|
+3,|wpn=Light Laser Cannons (2 fire-linked)||arc=Turret||FC=4||dmg=4d10x2||WpnType=1|
+3,|wpn=Laser Cannon||arc=Turret||FC=4||dmg=4d10x2||WpnType=1|
+3,|wpn=Turbolaser Cannons (2)||arc=Turret||FC=6||dmg=2d10x5||WpnType=1|
+3,|wpn=Laser Cannon||arc=Turret||FC=2||dmg=4d10x2||WpnType=1|
+1,|wpn=Twin Laser Cannons*** (4 fire-linked)||arc=Turret||FC=2||dmg=4d10x2||WpnType=1||Fire=2|
+2,|wpn=Light Turbolasers (2)||arc=Turret||FC=2||dmg=4d10x2||WpnType=1|
+1,<font color="black">|wpn2=0||wpn3=0|
+1,<font color="black">|wpn3=0|
+
+:Cargo
+1,[Starfighter],%Cn%
+2,[Freighter],%Cn%

@@ -1,0 +1,528 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder Jan 01, 2006.
+# ---------------------------------------------------
+#
+# The Oracle by Larry Cormier
+#
+# Need some suitably obscure Visions or prophecies from the Mystical Figures
+# in your adventure... but don't have a clue what to say?
+#
+# Try this table to provide some divine inspiration!
+#
+# The Oracle is a random sentence generator that takes it's 'Wisdom' from a
+# specialized word base derived from contemporary metaphysically-based root
+# words.
+# You can read everything into it - or nothing at all. See if you can
+# understand its deep meaning, or just enjoy its sometimes-bizarre
+# existential ramblings.
+#
+# -------------------------------------------------------------------------
+#
+# To call this table from another one:
+#    [The Oracle.RandomSentence
+#
+# -------------------------------------------------------------------------
+#
+# Table Calling this one
+#    Zombie Appearance
+#
+# Modified by Valminder, Nov 2005.
+#    Nothing to modify. ;-)
+# Modified by Valminder, Nov 2011
+#    Added some information above.
+#
+
+%Tense%,0
+%PhraseKind%,0
+%TempNumber%,0
+%FirstSentence%,0
+
+:Start
+1,{Status~by Larry Cormier}[RandomSentence].
+
+:RandomSentence
+# code keys:
+#1 = lone noun
+#2 = noun phrase
+#3 = transitive verb phrase (present tense, singular, third person)
+#4 = conjunction
+#5 = intransitive verb phrase
+#6 = transitive verb phrase (infinitive, singular)
+#7 = adjective
+#8 = adverb
+1,{Cap~[ElementBranch=2]} [ElementBranch=3] [ElementBranch=1]
+2,{Cap~[ElementBranch=2]} [ElementBranch=3] [ElementBranch=2]
+3,When [ElementBranch=2] [ElementBranch=5], [ElementBranch=2] [ElementBranch=5]
+4,{Cap~[ElementBranch=2]} [ElementBranch=3] [ElementBranch=2]
+5,{Cap~[ElementBranch=2]} [ElementBranch=3] [ElementBranch=2]
+6,{Cap~[ElementBranch=1]} [ElementBranch=3] [ElementBranch=1]
+7,{Cap~[ElementBranch=2]} [ElementBranch=3] [ElementBranch=2]
+8,{Cap~[ElementBranch=2]} [ElementBranch=5], [ElementBranch=4] [ElementBranch=2] [ElementBranch=3] [ElementBranch=2]
+9,{Cap~[ElementBranch=2]} [ElementBranch=3] [ElementBranch=2]
+10,{Cap~[ElementBranch=2]} [ElementBranch=5], and [ElementBranch=2] [ElementBranch=5]
+11,{Cap~[ElementBranch=2]} [ElementBranch=3] [ElementBranch=2]
+12,{If~%FirstSentence%=1 ? [ElementBranch=2] [ElementBranch=3] [ElementBranch=2]/{Cap~[ElementBranch=2]} [ElementBranch=5], and [ElementBranch=2] [ElementBranch=3] [ElementBranch=2]} |FirstSentence=1|
+13,{If~%FirstSentence%=1 ? [ElementBranch=2] [ElementBranch=3] [ElementBranch=2]/{Cap~[ElementBranch=2]} supports [ElementBranch=2]} |FirstSentence=1|
+14,{Cap~[ElementBranch=2]} [ElementBranch=3] [ElementBranch=2]
+15,{Cap~[ElementBranch=2]} [ElementBranch=3] [ElementBranch=2]
+16,{Cap~[ElementBranch=2]} is [ElementBranch=7]
+17,{Cap~[ElementBranch=2]} is [ElementBranch=7], [ElementBranch=2] [ElementBranch=3] [ElementBranch=2]
+18,{Cap~[ElementBranch=2]} [ElementBranch=3] [ElementBranch=2]
+19,{Cap~[ElementBranch=2]} [ElementBranch=9] [ElementBranch=2] [ElementBranch=8] [ElementBranch=5] [ElementBranch=9] [ElementBranch=2]
+20,[CompleteVisions]  
+
+:ElementBranch
+1,[Noun]
+2,|Tense={Dice~1d2}|[NounPhrase]
+3,|Tense=1|[TransitiveVerbPhrase]
+#(PresentTense, Singular, ThirdPerson)
+4,[Conjunction]
+5,|Tense={Dice~1d2}|[IntransitiveVerbPhrase]
+6,|Tense=1|[TransitiveVerbPhrase]
+#(Infinitive, Singular)
+7,[Adjective]
+8,[Adverb]
+9,[Preposition]
+
+:NounPhrase
+1,[PhraseKindBranch={Dice~1d100}]
+
+:PhraseKindBranch
+1-30,the [Noun]
+31-35,another [Noun]
+36-40,some [Noun]
+41-94,{AorAn~[Noun]}
+95-100,[Noun]
+
+:!Noun
+1,endless capacity
+2,life
+3,wondering person
+4,intention
+5,core
+6,fluid
+7,delicious fruit
+8,fruition
+9,wheel
+10,dream
+11,purpose
+12,desire
+13,reason
+14,world
+15,light
+16,power
+17,work
+18,change
+19,energy
+20,job
+21,choice
+22,Spirit
+23,nature
+24,connection
+25,fire
+26,dancer
+27,offering
+28,peace
+29,simple unity
+30,forgiving act
+31,center
+32,source
+33,glowing ember
+34,spiritual food
+35,practical purpose
+36,ocean
+37,doubt
+38,faith
+39,ritual
+40,practice
+41,student
+42,teacher
+43,sacred time
+44,soul
+45,winding path
+46,challenge
+47,transformation
+48,transience
+49,burden
+50,release
+51,support
+52,oracle
+53,direction
+54,wondering
+55,God
+56,local community
+57,world community
+58,creation
+59,relaxation
+60,moving planet
+61,gift
+62,present
+63,never-failing Source
+64,body
+65,part
+66,mind
+67,river
+68,waterfall
+69,leader
+70,community
+71,soul
+72,lesson
+73,destination
+74,journey
+75,confusion
+76,striking clarity
+77,lover
+78,home
+79,serendipitous design
+80,similar dream
+81,hope
+82,loving action
+83,joy
+84,path
+85,gateway
+86,transcendent experience
+87,angel
+88,soul guide
+89,curious spirit
+90,song
+91,method
+92,map
+93,blueprint
+94,received wisdom
+95,block
+96,true wonder
+97,star
+98,entire universe
+99,immense sky
+100,whole
+101,tree
+102,branch
+103,power
+104,peace maker
+105,genius
+106,seed
+107,marvelous ruby
+108,wondrous alchemy
+109,turning
+110,hidden science
+111,jewel
+112,forest
+113,exchange
+114,remembered passion
+115,fiery stillness
+116,elder
+117,communication
+118,root
+119,crossroads
+120,nexus
+121,way
+122,integrated reality
+123,integral notion
+124,catharsis
+125,distinction
+126,compassionate action
+127,forgiving word
+128,action
+129,cycle
+130,feeling
+131,season
+132,harvest
+133,dawn
+134,birth
+135,notion
+136,circle
+137,ring
+138,myth
+139,radical truth
+140,essence
+141,infinite and gentle force
+142,spiritual cycle
+143,reason
+144,graceful act
+145,discovery
+146,need
+147,forgotton mystery
+148,wing
+149,motivation
+150,structure
+
+:Preposition
+1,of
+2,from
+3,near
+4,about
+5,around
+6,for
+7,toward
+8,over
+9,behind
+10,beyond
+11,related to
+12,defined by
+13,within
+14,living with
+
+:!Adverb
+1,knowingly
+2,consciously
+3,gently
+4,emphatically
+5,enthusiastically
+6,strangely
+7,surprisingly
+8,nearly
+9,yearningly
+10,non-chalantly
+11,hardly
+12,eagerly
+13,purposefully
+14,actively
+15,inexorably
+16,accurately
+17,accidentally
+18,completely
+19,differently
+20,single-handledly
+21,consciously
+22,almost
+23,wisely
+24,creatively
+25,somewhat
+26,overwhelmingly
+27,seldom
+28,often
+
+:!Adjective
+1,quick
+2,kind
+3,gentle
+4,optimal
+5,challenging
+6,loyal
+7,sweet
+8,ravishing
+9,stimulating
+10,strong
+11,activating
+12,graceful
+13,devoted
+14,global
+15,genuine
+16,magnificent
+17,masked
+18,separated
+19,gratifying
+20,elusive
+21,revered
+22,rigorous
+23,righteous
+24,mysterious
+25,infinite
+26,salient
+27,magnificent
+28,activated
+29,sharing
+30,feeling
+31,powerful
+32,clear
+33,energized
+34,rainbow
+35,perfect
+36,truly united
+37,world
+38,local
+39,ripe
+40,loving
+41,anticipating
+42,pleasant
+43,personalized
+44,transient
+45,individualized
+46,truly-unique
+47,ancient
+48,loving
+49,experienced
+50,creative
+51,foreign
+52,familiar
+53,worthy
+54,precise
+55,intelligent
+56,gifted
+57,strained
+58,free-spirited
+59,true
+60,clear
+61,temporal
+62,caring
+63,dreamlike
+64,imaginative
+65,collaborative
+66,service-oriented
+67,straightforward
+68,strong
+69,orbiting
+70,glowing
+71,stable
+72,outer
+73,nearest
+74,most-difficult
+75,transient
+76,full
+77,round
+78,fluid
+79,opaque
+80,known
+81,highly-valued
+82,smooth
+83,warm
+84,loose
+85,ready
+86,burning
+87,effervescent
+88,impactful
+89,parental
+90,childlike
+91,soft
+92,simple
+93,subtle
+94,new
+95,abundant
+96,intergalactic
+97,questioning
+98,resplendent
+99,terrific
+100,energetic
+101,powerful
+102,discriminating
+103,self-actualized
+104,ecological
+105,planetary
+
+:!TransitiveVerbPhrase
+# Tense' is one of the following:
+# 1 = infinitive
+# 2 = present tense, third person singular
+1,remove[ModifyByTense=1]
+2,move[ModifyByTense=1] through
+3,discover[ModifyByTense=1]
+4,know[ModifyByTense=1]
+5,teach[ModifyByTense=2]
+6,learn[ModifyByTense=1] the essential teachings from
+7,lend[ModifyByTense=1] integrity to
+8,find[ModifyByTense=1] insights in
+9,seek[ModifyByTense=1]
+10,focus[ModifyByTense=2] on
+11,dance[ModifyByTense=1] with
+12,recognize[ModifyByTense=1]
+13,complete[ModifyByTense=1]
+14,reach[ModifyByTense=2] an understanding with
+15,mediate[ModifyByTense=1] the awareness of
+16,become[ModifyByTense=1]
+17,bestow[ModifyByTense=1] meaning on
+18,derive[ModifyByTense=1] power from
+19,borrow[ModifyByTense=1] energy from
+20,tr[ModifyByTense=5] to bring out
+21,go[ModifyByTense=2] on a journey with
+22,find[ModifyByTense=1] subtle differences in
+23,move[ModifyByTense=1] with
+24,befriend[ModifyByTense=1]
+25,make[ModifyByTense=1] an agreement with
+26,give[ModifyByTense=1] hidden help to
+27,donate[ModifyByTense=1]
+28,devote[ModifyByTense=1] energy to
+29,give[ModifyByTense=1] [NounPhrase] to
+30,show[ModifyByTense=1] us
+31,clean[ModifyByTense=1]
+32,satiate[ModifyByTense=1]
+33,organize[ModifyByTense=1]
+34,move[ModifyByTense=1] towards
+35,become[ModifyByTense=1] the reason to
+36,den[ModifyByTense=5] nothing in
+37,interact[ModifyByTense=1] with
+38,give[ModifyByTense=1] everything to
+39,share[ModifyByTense=1] root causes with
+40,remind[ModifyByTense=1] us to be grateful for
+41,inspire[ModifyByTense=1] us with
+42,take[ModifyByTense=1] all of our
+43,integrate[ModifyByTense=1] with
+44,tell[ModifyByTense=1] us to
+45,fall[ModifyByTense=1] in love with
+46,avoid[ModifyByTense=1] contact with
+47,[ModifyByTense=3] a spiritual messenger of
+48,admire[ModifyByTense=1]
+49,come[ModifyByTense=1] with
+50,energize[ModifyByTense=1] our lives with
+51,bring[ModifyByTense=1] [NounPhrase] to
+52,bring[ModifyByTense=1] [NounPhrase] with
+53,can be kind to
+54,learn[ModifyByTense=1] a challenging lesson from
+55,plan[ModifyByTense=1] a course of action to [NounPhrase]
+56,give[ModifyByTense=1] unconditional love to
+
+:ModifyByTense
+1,{If~%Tense%=1 ?s}
+2,{If~%Tense%=1 ?es}
+3,{If~%Tense%=1 ? is/ be}
+4,{If~%Tense%=1 ? has/ have}
+5,{If~%Tense%=1 ?ies/y}
+
+:!IntransitiveVerbPhrase
+1,arrives
+2,beckons
+3,takes a rest
+4,becomes clear
+5,learns
+6,removes a block
+7,meditates
+8,remembers the soul
+9,jumps without a net
+10,remembers everything
+11,cleans the window of awareness
+12,feels truth
+13,returns
+14,rejoices
+15,prays
+16,takes action
+17,dreams
+18,ceases to exist
+19,hides
+20,chooses
+21,laughs with joy
+22,plays without questioning
+23,loves
+24,wakes up
+25,hesitates and moves anyway
+26,trembles with comprehension
+27,reflects
+28,is born
+29,wakes up
+30,finds inspiration
+31,feels completely full
+32,senses
+33,sees
+34,joins the path
+35,listens
+36,reasons
+37,sits
+38,flies
+39,sings
+40,knows
+
+:Conjunction
+1,and
+2,or
+3,but
+4,because
+
+:CompleteVisions
+1,There is a storm in your past and yet another in your future, but persistence and clear thinking will show you the road once more
+2,The answers you seek will be found within. Seek the obvious to address the unknown
+3,What one man has wrought, another can undo. Although they differ, they are one and the same
+4,The path you walk is built on faith. Fear not your choices, as they are the stepping stones that bridge the chasm
+5,One cannot be truly wrong if he is really right. Believe in yourself, and you will find the answers you seek
+6,What you possess is all you need. Don’t be swayed by the illusion of what’s needed
+7,Although you fear your choices, they are all you have. Fear the Choice you‘ve lost more than the choices that you still possess
+8,Don’t be blinded by the tree that blocks your sight, skirt its trunk to see the forest
+9,The one you seek will need you more. He is hanging from the precipice of shattered dreams, and has lost what cannot be found
+10,Trust what you know, since it is also the answer to what you do not

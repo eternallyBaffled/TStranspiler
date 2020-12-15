@@ -1,0 +1,874 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder August 4, 2006.
+# ---------------------------------------------------
+#
+# Criticals and Fumbles
+#
+# by Valminder, March 2002, modified for 3rd Edition D&D
+# based on the "Good hits & bad misses" from Dragon Magazine #39
+# (July 1980) and reprinted in the Best of Dragon magazine, vol. V
+# (May 1986).
+# Modified, August 2005. 
+#    -Halved the duration of stun effects.
+#    -Added some alternate fumbles.
+# Modified, Jan 2006.
+#    -Added fumbles: Disease, fatigue.
+#    -Reworked the fumble table and removed the Fumble2 table.
+#    -Fumble: removed the stunned condition on the first fumble.
+#    -piercing: added punctured artery.
+# Modified, Dec 2010.
+#    -Using Blood & Guts Modern Military: Combat Procedures (RPGObjects)
+#    -Critical on Vehicles: Modern Dispatch 96.
+#    -Criticals and Fumbles for magic.
+# Modified, Feb 2011
+#    -Modified Fumble table for Modern and Western (or more archaic firearms).
+# Modified, Nov 2011
+#    -Added optional Zombie critical hit table
+#
+
+/OverrideRolls 1
+
+%MagicCrit%,0
+%ZombieCrit%,0
+%CritType%,0
+%VehicleCrit%,0
+%ShowCover%,0
+%Location%,0
+%DmgMod%,0
+%CritMod%,0
+%AttMod%,0
+%Injury%,0
+%ZombieCrit%,0
+
+@CritType,2,What kind of Critical Hits do you use?,D&D Style,Modern Style,Archaic Firearms (ex: Western),Both Modern and Archaic Firearms
+@ShowCover,1,In Modern Criticals; do you want to show Hit Location based on Cover?,Yes,No
+@VehicleCrit,1,Do you use the Modern vehicle critical hit table?,Yes,No
+@MagicCrit,2,Do you use Criticals and Fumbles for Magic effects?,Yes,No
+@ZombieCrit,1,Do you want to use a special Critical Hit table for Zombies?,Yes,No
+
+:Start
+1,{If~%CritType%=1 ? [DDCrits]/[ModernCrits]}
+
+:DDCrits
+1,<i>Bite:</i> slashing, blunt, and piercing (choose one of the 3 effects <u>or</u> <i>[~RandomBite]</i>).<br>
+_<i>Claw / Rake:</i> blunt and piercing (choose on of the 2 effects <u>or</u> <i>[~RandomClaw]</i>).<br>
+_<i>Gore:</i> piercing.<br>
+_<i>Slap / Slam:</i> blunt.<br>
+_<i>Sting:</i> piercing.<br>
+_<i>Tentacle:</i> blunt (sometimes slashing).<br><br>
+_<hr><br><b>Slashing:</b> [~Slashing]
+_<br><b>Blunt:</b> [~Blunt]
+_<br><b>Piercing:</b> [~Piercing]
+_{If~%MagicCrit%=1 ? <br>[MagicCrits]}
+_{If~%ZombieCrit%=1 ? <br>[ZombieCrits]}
+_<br><br><b><i>Fumble:</b></i> [~Fumble]
+_{If~%MagicCrit%=1 ? [MagicFumbles]}
+_[Condition]
+_[DD_Explanations]
+_[Fumble_Explanations]
+
+:ModernCrits
+1,<b>Hit Location</b>:{If~%ShowCover%=1? (No Cover)}[HitLocation][PrintLocation]
+_{If~%ShowCover%=1?[HitLocationCover]}
+_<br>
+_{If~%VehicleCrit%=1 ? [VehicleCrits]}
+_{If~%MagicCrit%=1 ? [MagicCrits]}
+_{If~%ZombieCrit%=1 ? [ZombieCrits]}
+_<br>{If~%CritType%=2? [ModernCritsModern]}
+_{If~%CritType%=3? [ModernCritsArchaic]}
+_{If~%CritType%=4? [ModernCritsModern][ModernCritsArchaic]}
+_<br><b><i>Fumble (Other):</b></i> [~Fumble]
+_{If~%MagicCrit%=1 ? [MagicFumbles]}
+_[Condition]
+_{If~%CritType%=3? [MisfiresArchaic]/[MisfiresModern]}
+_[Fumble_Explanations]
+_<br><hr><br><b><u>Critical Hits made by PCs</u>:</b><br><br>[ShowWounds]
+
+:ModernCritsModern
+1,<br><b><i>Fumble, Modern Firearm:</b></i> [~FumbleGunModern]
+
+:ModernCritsArchaic
+1,<br><b><i>Fumble, Archaic Firearm:</b></i> [~FumbleGunArchaic]
+
+:HitLocationCover
+1,<br><br><b>Hit Location</b>: (lower body 90 <b>percent</b> cover; +10 DEF; +4 Reflex (½ or no damage))[HitLocation90Low][PrintLocation]
+_<br><br><b>Hit Location</b>: (3/4 cover; +7 DEF; +3 Reflex)[HitLocation75][PrintLocation]
+
+#_<br>[Tab]<u>Location</u>:[Tab]<b>%Location%</b>
+#_[Tab]<u>Damage Modifier</u>:[Tab]<b>%DmgMod%</b>
+#_[Tab]<u>Critical Modifier</u>:[Tab]<b>%CritMod%</b>
+#_[Tab]<u>Attack Modifier</u>:[Tab]<b>%AttMod%</b>
+#_<br>[Tab]<u>Possible Injury</u>: {Generate~0,Fortitude DC15 if Massive Damage or on Critical Hit (click to generate injury),%Injury%}
+#_<br>[Tab]* Injury must me treated within 1 hour. {Color~Red,+1DC Treat Injury} per hour (in Gritty campaigns) or {Color~Red,+5DC} per hour (in True Grit campaigns).
+# True Grit
+#_<br>[Tab]<u>Possible Injury</u>: {Generate~0,Fortitude DC15 if Critical Threat; Massive Damage or receive Wound damage (click to generate injury),%Injury%}
+
+:Condition
+1,<br><hr><u>Prone Condition</u>: The character is on the ground. -4 AC vs melee attacks, +4 AC vs ranged attacks.
+_<br><u>Prone and Stunned Condition</u>: (As above) Drop everything held, can't take actions, -2 penalty to AC (total -6 vs melee; +2 vs ranged), and loses his Dexterity bonus to AC (if any).
+_<br>*<u>Shield/Helmet destroyed</u>: the item is destroyed but you don't suffer the effect of the critical hit.
+_<br><hr>
+_{If~%CritType% != 1 ? [Condition2]}
+
+:Condition2
+1,<i>Bite:</i> slashing, blunt, and piercing (choose one of the 3 effects <u>or</u> <i>[~RandomBite]</i>).[Tab][Tab][Tab]
+_<i>Claw / Rake:</i> blunt and piercing (choose on of the 2 effects <u>or</u> <i>[~RandomClaw]</i>).<br>
+_<i>Gore:</i> piercing.[Tab][Tab][Tab][Tab][Tab][Tab]<i>Slap / Slam:</i> blunt.<br>
+_<i>Sting:</i> piercing.[Tab][Tab][Tab][Tab][Tab][Tab]<i>Tentacle:</i> blunt (sometimes slashing).<br>
+_<i>Ballistic:</i> piercing.[Tab][Tab][Tab][Tab][Tab]<i>Concussion:</i> blunt.<br>
+_<i>Fire:</i> energy.[Tab][Tab][Tab][Tab][Tab][Tab]{Color~White,...}<i>Sonic:</i> blunt.
+_<br><hr>
+
+;RandomBite
+1,slashing
+1,blunt
+1,piercing
+
+;RandomClaw
+1,blunt
+1,piercing
+
+:DD_Explanations
+1,<b><u>Critical Hit</u>:</b> A threat is made as per the normal rules from the <i>Modern Rules</i>. If the threat roll hits the target again, a critical hit is scored and the attacker rolls 1d100 in the appropriate table: blunt, piercing, or slashing.<br>
+_<u>Optional Rule</u>: If, on the threat roll, the attacker hits the target and gets another threat, he must roll again for an extra critical hit. If this second threat hits the target, the critical hit is much better, and the damage are multiplied by x2 (as per the rules, if it was x2 it becomes x3). The attacker continues like this as long as he gets a threat and hits the target with the threat. Roll only once in the critical hit table.<br><br>
+_<b><u>Critical Hits: Special Effects</b></u> (-2 penalties)<br>
+_<b>Arm:</b> Climb and Swim; attack rolls and Strength.<br>
+_<b>Hand:</b> Alchemy, Climb, Craft, Disable Device, Escape Artist, Forgery, Heal, Open Lock, Pick Pocket, and Use Rope; attack rolls.<br>
+_<b>Eye (1):</b> Appraise, Alchemy, Craft, Decipher Script, Disable Device, Forgery, Open Lock, Read Lips, Scry, Search, Sense Motive, Spellcraft, Spot, Wilderness Lore (track only); initiative; Dex checks; Reflex saves. Blind if both eyes.<br>
+_<b>Ear (1):</b> Listen; initiative. Deaf if both ears.<br>
+_<b>Feet/Leg:</b> Balance, Climb, Jump, Move Silently, Ride, Swim, Tumble; Dex checks, Reflex saves.<br>
+_<b>Head:</b> Attack rolls, all saving throws, all other checks.<br><br>
+_<b>Example</b>: If the "Primary arm (weapon) struck" critical hit is rolled, the target suffers a -2 penalty on its attack rolls, Climb and Swim checks, and its Strength score.<br><br>
+_<u>Until Healed</u>: all the damage received from a critical hit must be healed to prevent the special effects of this critical hit. (Example: For the "Chest injuries (death in 2d4 rounds)" critical hit, all damage from this critical hit must be healed or death will happen in 2d4 rounds, even if only 1 hit point was not restored.)"<br><br>
+
+:Fumble_Explanations
+1,<br><br><b><u>Fumble:</b></u><br>
+_A <i>fumble</i> is obtained when a natural "1" si rolled on any attack roll. This has 2 effects:<br>
+_1- All attacks after the "1", in the same action (not for AoO made later in the round), are cancelled. So, a "1" on an AoO cancels only this AoO.<br>
+_2- The attacker rolls 1d100 in the fumble table and suffers the consequences.<br><br>
+_Note: if the critical hit or the fumble result rolled does not apply (ex: the target does not have a shield), the critical hit is made normally or there is no other effects from the fumble, except losing the attacks after the "1".<br>
+
+:MagicCrits
+1,<br><b><i>Magic:</i></b> [~Magic]
+
+:MagicFumbles
+1,<br><b><i>Fumble, Magic:</b></i> [~FumbleMagic]
+
+# Misfire rules (SideWinder Recoiled Fort Griffin Echo 1)
+:MisfiresArchaic
+1,<b><u>Misfire</u>:</b> {Color~Blue,Concentration DC 15}.
+_<br>This check represents how carefully you loaded your firearm and how methodically you have cleaned, repaired, and maintained the weapon over time.
+_<br><u>Repair 5+ ranks</u>: {Color~Green,+2 Concentration vs Misfire}.
+_<br>DC Modifier
+_<br>{Color~Red,+2}[Tab]Percussion firearm / Flintlock firearm
+_<br>{Color~Red,+2}[Tab]Unreliable firearm <i>(poorly maintained firearm, poorly designed firearm, firearm older than 20 years, cheap knock-off)</i>
+_<br>{Color~Red,+4}[Tab]Notoriously unreliable firearm <i>(abysmally maintained, dangerously designed, firearm older than 50 years, shoddily made knock-off)</i>
+_<br>{Color~Red,+2}[Tab]Damaged firearm <i>(more than half hp remaining</i>
+_<br>{Color~Red,+4}[Tab]Heavily damaged firearm <i>(less than half hp remaining)</i>
+_<br>{Color~Red,+2}[Tab]Inclement weather <i>(rain, snow, fog, etc.)</i>
+_<br>{Color~Red,var}[Tab]Unfamiliar firearm <i>(For firearms not loaded or maintained by the firing character, the GM should feel free to set the DC.)</i>
+_<br><br>{Color~Green,<u>Success</u>:} <b>Dud.</b> The primer either doesn't fire or fails to ignite the main charge of powder.
+_<br>[Tab]-Percussion or Flintlock: The percussion cap or priming-powder fails to ignite the main charge. Although the weapon remains loaded, the cap or priming-powder needs to be replaced before the ammunition may be discharged. This requires a move action to accomplish by itself, or occurs automatically during reloading.
+_<br>[Tab]-Metallic Cartridge: The primer fails and the bullet must be completely replaced. Removing the dud round is no trickier than removing a spent casing, happening automatically during reloading or whenever a spent casing would be ejected normally by the lever or pump action of the weapon.
+_<br><br>{Color~Red,<u>Failure by 1-4</u>:} <b>Jam.</b> The ammunition not only fails to fire, but becomes jammed in the barrel or breech. Clearing the jam requires a Repair or DEX check.
+_<br>[Tab]<u>Percussion or Flintlock</u>: Revolving breech (DC15;4 FULL); Breechloader (DC15;4 FULL); Muzzleloader (DC20;1 hour).
+_<br>[Tab]<u>Metallic Cartridge</u>: Revolving breech (DC10;2 FULL); Breechloader (DC10;2 FULL); Repeating longarm (DC10;2 FULL); Gatling gun (DC10;4 FULL).
+_<br>[Tab]Removing jammed ammunition from a percussion revolver or breechloader typically involves boring into the ammunition and pulling it out using special tools. Muzzleloaders must be disassembled to remove a jam. When metallic cartridge ammunition becomes jammed due to swelling relative to the barrel, the shell must be pried or bored free.
+_<br>[Tab]The continued functionality of a jammed weapon also depends on the type of firearm, as indicated by the following:
+_<br>[Tab][Tab]-<u>Pepperbox (pistol or longarm) or Revolver</u>: Only the chamber with the dud cannot be reloaded until the jam is cleared. The remaining chambers can still be reloaded and fired normally; however, each time the jammed ammunition comes up in the firing sequence, the shooter must advance the cylinder or firing pin to the next chamber. For a pepperbox this requires a move action; for a revolver it requires the expenditure of one of the character's available attacks.
+_<br>[Tab][Tab]-<u>Single-barrel One-Shot Firearm</u>: For a single-barreled muzzleloader or breechloader, the jam must be cleared before the weapon can be used again.
+_<br>[Tab][Tab]-<u>Double-barrel Firearm</u>: For a muzzleloader or breechloader, the jammed barrel cannot be used again until the jam is cleared. The remaining barrel can still be loaded and fired as normal.
+_<br>[Tab][Tab]-<u>Repeating Rifle or Shotgun</u>: The breech must be cleared before the weapon may be fired again. 
+_<br>[Tab][Tab]-<u>Gatling Gun</u>: The jam must be cleared before the weapon can be fired again.
+_<br><br>{Color~Red,<u>Failure by 5+</u>:} <b>Minor Mishap.</b> Weapon fails to fire and is damaged in the process. (1d4 or GM's choice).
+_<br>[Tab]<b>Damage to weapon:</b> x2 the normal weapon's damage. The weapon cannot be used again until repaired. Even if the weapon didn't suffer damage (due to its hardness), repairing the weapon is considered a complex task.
+_<br>[Tab]1- <i>Mechanical Failure:</i> A spring, pin, roller, or other critical component breaks. The ammunition is unspent, but the weapon is no longer functional.
+_<br>[Tab]2- <i>Misaligned Cylinder:</i> The cylinder doesn't lock into place correctly and the bullet doesn't enter the barrel cleanly.
+_<br>[Tab]3- <i>Over fire:</i> The charge of powder exploded with a force too large for the breech or barrel to hold and the weapon is damaged.
+_<br>[Tab]4- <i>Under fire:</i> The bullet fails to escape the barrel and becomes lodged.
+_<br><br>{Color~Red,<u>Failure by 10+</u>:} <b>Major Mishap.</b> Weapon doesn't fire and a catastrophic failure ensues. (1d2 or GM's choice).
+_<br>[Tab]<b>Damage to weapon:</b> weapon destroyed. Characters and unattended objects (5' radius) take ballistic dmg (x2 normal weapon's dmg; Reflex ½ DC12).
+_<br>[Tab]1- <i>Chainfire:</i> If the weapon is a percussion weapon with a revolving breech (or a percussion multi-barreled breechloader or muzzleloader) the ignition of one chamber sparks the other chambers as well, leading to the uncontrolled simultaneous firing of all remaining ammunition.
+_<br>[Tab]2- <i>Explosion:</i> A metallurgical failure occurs and the chamber blows out, launching shrapnel in an area around the shooter. 
+
+# Misfire rules (SideWinder Recoiled Fort Griffin Echo 1)
+# The effects are lessen for modern firearms, even in Post-Apocalyptic Worlds.
+# XXXXX Another table should be made for laser weapons XXXXX
+:MisfiresModern
+1,<b><u>Misfire</u>:</b> {Color~Blue,Concentration DC 15}.
+_<br>This check represents how carefully you loaded your firearm and how methodically you have cleaned, repaired, and maintained the weapon over time.
+_<br><u>Repair 5+ ranks</u>: {Color~Green,+2 Concentration vs Misfire}.
+_<br>DC Modifier
+#_<br>{Color~Red,+2}[Tab]Percussion firearm / Flintlock firearm
+_<br>{Color~Red,+2}[Tab]Unreliable firearm <i>(poorly maintained firearm, poorly designed firearm, firearm older than 20 years, cheap knock-off)</i>
+_<br>{Color~Red,+4}[Tab]Notoriously unreliable firearm <i>(abysmally maintained, dangerously designed, firearm older than 50 years, shoddily made knock-off)</i>
+_<br>{Color~Red,+2}[Tab]Damaged firearm <i>(more than half hp remaining</i>
+_<br>{Color~Red,+4}[Tab]Heavily damaged firearm <i>(less than half hp remaining)</i>
+_<br>{Color~Red,+2}[Tab]Inclement weather <i>(rain, snow, fog, etc.)</i>
+_<br>{Color~Red,var}[Tab]Unfamiliar firearm <i>(For firearms not loaded or maintained by the firing character, the GM should feel free to set the DC.)</i>
+_<br><br>{Color~Green,<u>Success</u>:} <b>Dud.</b> The primer either doesn't fire or fails to ignite the main charge of powder.
+_<br>[Tab]-Percussion or Flintlock: The percussion cap or priming-powder fails to ignite the main charge. Although the weapon remains loaded, the cap or priming-powder needs to be replaced before the ammunition may be discharged. This requires a move action to accomplish by itself, or occurs automatically during reloading.
+_<br>[Tab]-Metallic Cartridge: The primer fails and the bullet must be completely replaced. Removing the dud round is no trickier than removing a spent casing, happening automatically during reloading or whenever a spent casing would be ejected normally by the lever or pump action of the weapon.
+_<br><br>{Color~Red,<u>Failure by 1-9</u>:} <b>Jam.</b> The ammunition not only fails to fire, but becomes jammed in the barrel or breech. Clearing the jam requires a Repair or DEX check.
+_<br>[Tab]<u>Percussion or Flintlock</u>: Revolving breech (DC15;4 FULL); Breechloader (DC15;4 FULL); Muzzleloader (DC20;1 hour).
+_<br>[Tab]<u>Metallic Cartridge</u>: Revolving breech (DC10;2 FULL); Breechloader (DC10;2 FULL); Repeating longarm (DC10;2 FULL); Gatling gun (DC10;4 FULL).
+_<br>[Tab]Removing jammed ammunition from a percussion revolver or breechloader typically involves boring into the ammunition and pulling it out using special tools. Muzzleloaders must be disassembled to remove a jam. When metallic cartridge ammunition becomes jammed due to swelling relative to the barrel, the shell must be pried or bored free.
+_<br>[Tab]The continued functionality of a jammed weapon also depends on the type of firearm, as indicated by the following:
+_<br>[Tab][Tab]-<u>Pepperbox (pistol or longarm) or Revolver</u>: Only the chamber with the dud cannot be reloaded until the jam is cleared. The remaining chambers can still be reloaded and fired normally; however, each time the jammed ammunition comes up in the firing sequence, the shooter must advance the cylinder or firing pin to the next chamber. For a pepperbox this requires a move action; for a revolver it requires the expenditure of one of the character's available attacks.
+_<br>[Tab][Tab]-<u>Single-barrel One-Shot Firearm</u>: For a single-barreled muzzleloader or breechloader, the jam must be cleared before the weapon can be used again.
+_<br>[Tab][Tab]-<u>Double-barrel Firearm</u>: For a muzzleloader or breechloader, the jammed barrel cannot be used again until the jam is cleared. The remaining barrel can still be loaded and fired as normal.
+_<br>[Tab][Tab]-<u>Repeating Rifle or Shotgun</u>: The breech must be cleared before the weapon may be fired again. 
+_<br>[Tab][Tab]-<u>Gatling Gun</u>: The jam must be cleared before the weapon can be fired again.
+_<br><br>{Color~Red,<u>Failure by 10+</u>:} <b>Minor Mishap.</b> Weapon fails to fire and is damaged in the process. (1d4 or GM's choice).
+_<br>[Tab]<b>Damage to weapon:</b> x2 the normal weapon's damage. The weapon cannot be used again until repaired. Even if the weapon didn't suffer damage (due to its hardness), repairing the weapon is considered a complex task.
+_<br>[Tab]1- <i>Mechanical Failure:</i> A spring, pin, roller, or other critical component breaks. The ammunition is unspent, but the weapon is no longer functional.
+_<br>[Tab]2- <i>Misaligned Cylinder:</i> The cylinder doesn't lock into place correctly and the bullet doesn't enter the barrel cleanly.
+_<br>[Tab]3- <i>Over fire:</i> The charge of powder exploded with a force too large for the breech or barrel to hold and the weapon is damaged.
+_<br>[Tab]4- <i>Under fire:</i> The bullet fails to escape the barrel and becomes lodged.
+_<br><br>{Color~Red,<u>Failure by 15+</u>:} <b>Major Mishap.</b> Weapon doesn't fire and a catastrophic failure ensues. (1d2 or GM's choice).
+_<br>[Tab]<b>Damage to weapon:</b> weapon destroyed. Characters and unattended objects (5' radius) take ballistic dmg (x2 normal weapon's dmg; Reflex ½ DC12).
+_<br>[Tab]1- <i>Chainfire:</i> If the weapon is a percussion weapon with a revolving breech (or a percussion multi-barreled breechloader or muzzleloader) the ignition of one chamber sparks the other chambers as well, leading to the uncontrolled simultaneous firing of all remaining ammunition.
+_<br>[Tab]2- <i>Explosion:</i> A metallurgical failure occurs and the chamber blows out, launching shrapnel in an area around the shooter. 
+
+:PrintLocation
+1,<br>[Tab]<u>Location</u>:[Tab]<b>%Location%</b>
+_[Tab]<u>Damage Modifier</u>:[Tab]<b>%DmgMod%</b>
+_[Tab]<u>Critical Modifier</u>:[Tab]<b>%CritMod%</b>
+_[Tab]<u>Attack Modifier</u>:[Tab]<b>%AttMod%</b>
+_<br>[Tab]<u>Possible Injury</u>: {Generate~0,Fortitude DC15 if Massive Damage or on Critical Hit (click to generate injury),PrintInjury}
+
+;Tab
+1,{Loop~5,&nbsp;}
+
+:VehicleCrits
+1,<br><b>Vehicles:</b> [~Vehicles]
+
+:ZombieCrits
+1,<br><b><i>Zombie:</i></b> [~Zombie]
+
+# ------------------ HIT LOCATION --------------------------
+:HitLocation
+1,|Location=Head||DmgMod=x2||CritMod=+2||AttMod=-8||Injury=Inj_Head|
+2,|Location=Throat||DmgMod=x2||CritMod=+2||AttMod=-8||Injury=Inj_Throat|
+3-8,|Location=Chest||DmgMod=x1||CritMod=+0||AttMod=-2||Injury=Inj_Chest|
+9-10,|Location=Stomach||DmgMod=x1||CritMod=+1||AttMod=-4||Injury=Inj_Stomach_Abdomen|
+11-12,|Location=Lower Abdomen||DmgMod=x1||CritMod=+1||AttMod=-4||Injury=Inj_Stomach_Abdomen|
+13,|Location=Shoulder||DmgMod=x1||CritMod=+0||AttMod=-2||Injury=Inj_Shoulder_Bicep|
+14,|Location=Bicep||DmgMod=x½||CritMod=-1||AttMod=-2||Injury=Inj_Shoulder_Bicep|
+15,|Location=Hand/Forearm||DmgMod=x½||CritMod=-1||AttMod=-2||Injury=Inj_Hand_Forearm|
+16,|Location=Groin||DmgMod=x1½||CritMod=+1||AttMod=-6||Injury=Inj_Groin|
+17,|Location=Thigh||DmgMod=x1||CritMod=+0||AttMod=-2||Injury=Inj_Thigh|
+18,|Location=Knee||DmgMod=x1||CritMod=+1||AttMod=-4||Injury=Inj_Knee|
+19,|Location=Calf||DmgMod=x1||CritMod=+0||AttMod=-2||Injury=Inj_Calf|
+20,|Location=Foot||DmgMod=x½||CritMod=-1||AttMod=-2||Injury=Inj_Foot|
+
+;HitLocation90Low
+6,|Location=Head||DmgMod=x2||CritMod=+2||AttMod=-8||Injury=Inj_Head|
+6,|Location=Throat||DmgMod=x2||CritMod=+2||AttMod=-8||Injury=Inj_Throat|
+1,|Location=Chest||DmgMod=x1||CritMod=+0||AttMod=-2||Injury=Inj_Chest|
+4,|Location=Shoulder||DmgMod=x1||CritMod=+0||AttMod=-2||Injury=Inj_Shoulder_Bicep|
+1,|Location=Bicep||DmgMod=x½||CritMod=-1||AttMod=-2||Injury=Inj_Shoulder_Bicep|
+2,|Location=Hand/Forearm||DmgMod=x½||CritMod=-1||AttMod=-2||Injury=Inj_Hand_Forearm|
+
+;HitLocation75
+4,|Location=Head||DmgMod=x2||CritMod=+2||AttMod=-8||Injury=Inj_Head|
+4,|Location=Throat||DmgMod=x2||CritMod=+2||AttMod=-8||Injury=Inj_Throat|
+2,|Location=Chest||DmgMod=x1||CritMod=+0||AttMod=-2||Injury=Inj_Chest|
+1,|Location=Stomach||DmgMod=x1||CritMod=+1||AttMod=-4||Injury=Inj_Stomach_Abdomen|
+1,|Location=Lower Abdomen||DmgMod=x1||CritMod=+1||AttMod=-4||Injury=Inj_Stomach_Abdomen|
+2,|Location=Shoulder||DmgMod=x1||CritMod=+0||AttMod=-2||Injury=Inj_Shoulder_Bicep|
+1,|Location=Bicep||DmgMod=x½||CritMod=-1||AttMod=-2||Injury=Inj_Shoulder_Bicep|
+1,|Location=Hand/Forearm||DmgMod=x½||CritMod=-1||AttMod=-2||Injury=Inj_Hand_Forearm|
+# 1,|Location=Groin||DmgMod=x1½||CritMod=+1||AttMod=-6||Injury=Inj_Groin|
+1,|Location=Thigh||DmgMod=x1||CritMod=+0||AttMod=-2||Injury=Inj_Thigh|
+1,|Location=Knee||DmgMod=x1||CritMod=+1||AttMod=-4||Injury=Inj_Knee|
+1,|Location=Calf||DmgMod=x1||CritMod=+0||AttMod=-2||Injury=Inj_Calf|
+1,|Location=Foot||DmgMod=x½||CritMod=-1||AttMod=-2||Injury=Inj_Foot|
+
+:PrintInjury
+1,[%Injury%][PrintInjury2]
+
+:PrintInjury2
+1,<br>[Tab]* Injury must me treated within 1 hour. {Color~Red,+1DC Treat Injury} per hour (in Gritty campaigns) or {Color~Red,+5DC} per hour (in True Grit campaigns).
+
+;Inj_Head
+3,[IBleeding]
+2,[IBlinded]
+1,[IComa]
+2,[IConcussion]
+3,[IDeafened]
+4,[IEarsDamaged]
+4,[IEyesDamaged]
+1,[ILossIntWis]
+
+;Inj_Throat
+4,[IBleeding]
+1,[IExhausted]
+2,[IFatigued]
+1,[ILossCon]
+
+;Inj_Chest
+4,[IBleeding]
+1,[IBleedingInternally]
+1,[IExhausted]
+2,[IFatigued]
+1,[ILossCon]
+1,[ILossStr]
+
+;Inj_Stomach_Abdomen
+4,[IBleeding]
+1,[IBleedingInternally]
+1,[IExhausted]
+3,[IFatigued]
+1,[ILossCon]
+
+;Inj_Shoulder_Bicep
+1,[IArmLoss]
+4,[IBleeding]
+2,[IBrokenArm]
+1,[ILossStr]
+
+;Inj_Hand_Forearm
+1,[IArmLoss]
+4,[IBleeding]
+2,[IBrokenArm]
+1,[ILossDex]
+1,[ILossStr]
+
+;Inj_Groin
+4,[IBleeding]
+1,[IBleedingInternally]
+1,[IExhausted]
+2,[IFatigued]
+1,[ILossCon]
+
+;Inj_Thigh
+2,[IBrokenLeg]
+2,[IDefensePenalty]
+1,[ILegLoss]
+1,[ILossDex]
+1,[ILossStr]
+3,[IMovementPenalty]
+
+;Inj_Knee
+2,[IBrokenLeg]
+2,[IDefensePenalty]
+1,[ILegLoss]
+1,[ILossDex]
+2,[IMovementPenalty]
+
+;Inj_Calf
+2,[IBrokenLeg]
+1,[ILegLoss]
+1,[ILossDex]
+4,[IMovementPenalty]
+
+;Inj_Foot
+2,[IBrokenLeg]
+1,[ILossDex]
+4,[IMovementPenalty]
+
+;IArmLoss
+1,<b>Danger of Losing an Arm (DC20*):</b> <u>One Arm</u>: –4 Climb/Grapple checks.
+_<br>[Tab][Tab]<u>Primary hand injured</u>: off-hand penalties for 1 year (6 months if he has a two-weapon fighting feat).
+_<br>[Tab][Tab]{Color~Red,Failed Treat Injury:} cannot use one of your arms (random) for 1-6 (<b>{Dice~1d6}</b>) months (in Gritty campaigns) or the arm must be removed (in True Grit campaigns).
+
+;IBleeding
+1,<b>Bleeding (DC15*):</b> 1d6 damage/round (DU: 1 round/4 damage received).
+
+;IBleedingInternally
+1,<b>Bleeding Internally (DC20*):</b> 1 CON / hour until bleeding is stopped.
+_<br>[Tab][Tab]A much more serious condition, this is not even evident except by its symptoms.
+_<br>[Tab][Tab]<u>Stopping the Bleeding</u>: Treat Injury DC20 (need Surgery feat).
+
+;IBlinded
+1,<b>Blinded (DC25*):</b> (-2 AC, no DEX to DEF, ½ MV, -4 Search/STR-DEX checks, 50 <b>percent</b> concealment for oppenents).
+_<br>[Tab][Tab]{Color~Red,Failed Treat Injury:} blinded 1-6 (<b>{Dice~1d6}</b>) months (in Gritty campaigns) or permanently (in True Grit campaigns).
+
+;IBrokenArm
+1,<b>Broken Arm (DC15*):</b> It lasts for 1-6 (<b>{Dice~1d6}</b>) weeks (-1 per CON modifier, minimum 1 week).
+_<br>[Tab][Tab]The Treat Injury check for this injury implies that the bone has been set so it can heal properly.
+_<br>[Tab][Tab]If broken arm is not set, you may use it normally, but {Color~Red,–2} to all actions with that arm,
+_ and Fortitude (DC 15) or 1d6 damage when using that arm.
+_<br>[Tab][Tab]<u>Setting the Arm</u>: First Aid kit and Treat Injury check (DC 15) (10 minutes).
+_<br>[Tab][Tab][Tab]{Color~Green,Treat Injury Succeeds:} Penalty reduced to {Color~Red,–1} and NO damage from using the limb.
+_<br>[Tab][Tab][Tab]Once an arm is set, only the {Color~Red,–1} penalty applies until the condition is healed.
+
+;IBrokenLeg
+1,<b>Broken Leg (DC20*):</b> It lasts for 1-6 (<b>{Dice~1d6}</b>) months (-1 per CON modifier, minimum 2 months).
+_<br>[Tab][Tab]The Treat Injury check for this injury implies that the bone has been set so it can heal properly.
+_<br>[Tab][Tab]If the broken leg is not set, you may stand on that leg, but {Color~Red,–4 Defense},
+_ and Fortitude (DC 15) or 1d6 damage each round you stand on that leg.
+_<br>[Tab][Tab]<u>Standing on One Leg</u>: Flat-Footed, no damage.
+_<br>[Tab][Tab][Tab]If hit in combat = Reflex (DC 15 if placing weight on broken leg, DC 20 if standing on one leg) or be knocked prone. 
+_<br>[Tab][Tab]<u>Setting the Leg</u>: First Aid kit and Treat Injury check (DC 15) (10 minutes).
+_<br>[Tab][Tab][Tab]{Color~Green,Treat Injury Succeeds:} Penalty reduced to {Color~Red,–1} and NO damage from using the limb.
+_<br>[Tab][Tab][Tab]Once a leg is set, only the {Color~Red,–2 Defense} until the condition is healed.
+
+;IComa
+1,<b>Coma (DC25*):</b> Drop to 0 hp and unconscious.
+_<br>[Tab][Tab]{Color~Green,Treat Injury Succeeds:} will wake in 1-6 (<b>{Dice~1d6}</b>) weeks. 
+_<br>[Tab][Tab]{Color~Red,Failed Treat Injury:} retry Treat Injury in 6 weeks ({Color~Red,+1 DC}). Retry every 6 weeks, {Color~Red,+1 DC} each 6 weeks.
+
+;IConcussion
+1,<b>Concussion (DC20*):</b> For 2-12 (<b>{Dice~2d6}</b>) days, you can only use ½ your ranks in any skill. (Will save each time to use full ranks).
+_<br>[Tab][Tab]{Color~Red,Failed Treat Injury:} duration of 1-6 (<b>{Dice~2d6}</b>) weeks (in Gritty campaigns) or permanent (in True Grit campaigns).
+
+;IDeafened
+1,<b>Deafened (DC25*):</b> (-4 Initiative, no Listen, 20 <b>percent</b> spell failure for "V" spells)
+_<br>[Tab][Tab]{Color~Red,Failed Treat Injury:} deafened 1-6 (<b>{Dice~1d6}</b>) months (in Gritty campaigns) or permanently (in True Grit campaigns).
+
+;IDefensePenalty
+1,<b>Defense Penalty (DC15*):</b> -1 DEF / 4 damage. 
+_<br>[Tab][Tab]It represents an injury that would affect the character’s lateral, but not straight-line movement (certain knee, hip and tendon injuries).
+_<br>[Tab][Tab]{Color~Red,Failed Treat Injury:} you have this penalty for 1-6 (<b>{Dice~1d6}</b>) months (in Gritty campaigns) or permanently (in True Grit campaigns).
+
+;IEarsDamaged
+1,<b>Ears damaged (DC25*):</b> -1 Listen / 4 damage.
+_<br>[Tab][Tab]{Color~Green,Treat Injury Succeeds:} recovers ½ of the penalty immediately and the remainder at the rate of 1/day.
+_<br>[Tab][Tab]{Color~Red,Failed Treat Injury:} recover penalty slowly (1/month in Gritty campaigns) or is permanent (in True Grit campaigns).
+
+;IExhausted
+1,<b>Exhausted (DC20*):</b> (-6 Str/Dex, ½ MV, NO run/charge) Injury to the character’s lungs, diaphragm or intestines.
+_<br>[Tab][Tab]{Color~Red,Failed Treat Injury:} exhausted 1-6 (<b>{Dice~1d6}</b>) months (in gritty campaigns) or permanently (in True Grit campaigns).
+
+;IEyesDamaged
+1,<b>Eyes damaged (DC25*):</b> -1 Spot / 4 damage.
+_<br>[Tab][Tab]{Color~Green,Treat Injury Succeeds:} recovers ½ of the penalty immediately and the remainder at the rate of 1/day.
+_<br>[Tab][Tab]{Color~Red,Failed Treat Injury:} recover penalty slowly (1/month in Gritty campaigns) or is permanent (in True Grit campaigns).
+
+;IFatigued
+1,<b>Fatigued (DC20*):</b> (-2 Str/Dex, NO run/charge) Injury to the character’s lungs, diaphragm or intestines.
+_<br>[Tab][Tab]{Color~Red,Failed Treat Injury:} fatigued 1-6 (<b>{Dice~1d6}</b>) months (in gritty campaigns) or permanently (in True Grit campaigns).
+
+;ILegLoss
+1,<b>Danger of Losing a Leg (DC20*):</b> <u>One Leg</u>: 10' MV, NO Jump, -4 Balance/Tumble, NO DEX to Defense.
+_<br>[Tab][Tab]<u>Note</u>: Modern prosthetics can remove the MV penalty, allows Jumps (with {Color~Red,-4} penalty), can use DEX to Defense, and only {Color~Red,-2} Balance/Tumble.
+_<br>[Tab][Tab]{Color~Red,Failed Treat Injury:} cannot use one of your legs for 7-12 (<b>{Dice~1d6+6}</b>) months (in Gritty campaigns) or the leg must be removed (in True Grit campaigns).
+
+;ILossCon
+1,<b>Loss of CON (DC20*):</b> Lose 1 CON per 4 damage.
+_<br>[Tab][Tab]{Color~Green,Treat Injury Succeeds:} you recover ½ CON immediately and the remainder at the rate of 1/day.
+_<br>[Tab][Tab]{Color~Red,Failed Treat Injury:} you recover 1 CON per month (in Gritty campaigns) or is permanent (in True Grit campaigns).
+
+;ILossDex
+1,<b>Loss of DEX (DC20*):</b> Lose 1 DEX per 4 damage.
+_<br>[Tab][Tab]{Color~Green,Treat Injury Succeeds:} you recover ½ DEX immediately and the remainder at the rate of 1/day.
+_<br>[Tab][Tab]{Color~Red,Failed Treat Injury:} you recover 1 DEX per month (in Gritty campaigns) or is permanent (in True Grit campaigns).
+
+;ILossIntWis
+1,<b>Loss of INT or WIS (DC25*):</b> Serious brain injury. Lose 1 INT or WIS (random) per 4 damage.
+_<br>[Tab][Tab]{Color~Green,Treat Injury Succeeds:} you recover ½ INT and/or WIS immediately and the remainder at the rate of 1/day.
+_<br>[Tab][Tab]{Color~Red,Failed Treat Injury:} you recover 1 INT and/or WIS per month (in Gritty campaigns) or is permanent (in True Grit campaigns).
+
+;ILossStr
+1,<b>Loss of STR (DC20*):</b> Lose 1 STR per 4 damage.
+_<br>[Tab][Tab]{Color~Green,Treat Injury Succeeds:} you recover ½ STR immediately and the remainder at the rate of 1/day.
+_<br>[Tab][Tab]{Color~Red,Failed Treat Injury:} you recover 1 STR per month (in Gritty campaigns) or is permanent (in True Grit campaigns).
+
+;IMovementPenalty
+1,<b>MovementPenalty (DC15*):</b> -5' MV/10 damage.
+_<br>[Tab][Tab]{Color~Red,Failed Treat Injury:} you suffers this penalty for 1-6 (<b>{Dice~1d6}</b>) months (in Gritty campaigns) or permanently (in True Grit campaigns)
+
+# ---------------------- Show All Wounds -----------------------------
+
+:ShowWounds
+1,|Location=Head||Injury=Inj_Head|[PrintShowWounds]
+_|Location=Throat||Injury=Inj_Throat|[PrintShowWounds]
+_|Location=Chest||Injury=Inj_Chest|[PrintShowWounds]
+_|Location=Stomach||Injury=Inj_Stomach_Abdomen|[PrintShowWounds]
+_|Location=Lower Abdomen||Injury=Inj_Stomach_Abdomen|[PrintShowWounds]
+_|Location=Shoulder||Injury=Inj_Shoulder_Bicep|[PrintShowWounds]
+_|Location=Bicep||Injury=Inj_Shoulder_Bicep|[PrintShowWounds]
+_|Location=Hand/Forearm||Injury=Inj_Hand_Forearm|[PrintShowWounds]
+_|Location=Groin||Injury=Inj_Groin|[PrintShowWounds]
+_|Location=Thigh||Injury=Inj_Thigh|[PrintShowWounds]
+_|Location=Knee||Injury=Inj_Knee|[PrintShowWounds]
+_|Location=Calf||Injury=Inj_Calf|[PrintShowWounds]
+_|Location=Foot||Injury=Inj_Foot|[PrintShowWounds]
+
+:PrintShowWounds
+1,<u>Location</u>: <b>%Location%</b><br>[Tab][PrintInjury]<br><br>
+
+#1,|Location=Head||Injury=Inj_Head|<u>Location</u>: <b>%Location%</b><br>[Tab]{Generate~0,click to generate injury,Inj_Head2}<br><br>
+#_|Location=Throat||Injury=Inj_Throat|<u>Location</u>: <b>%Location%</b><br>[Tab]{Generate~0,click to generate injury,[Inj_Throat][PrintInjury2]}<br><br>
+#_|Location=Chest||Injury=Inj_Chest|<u>Location</u>: <b>%Location%</b><br>[Tab]{Generate~0,click to generate injury,[Inj_Chest][PrintInjury2]}<br><br>
+#_|Location=Stomach||Injury=Inj_Stomach_Abdomen|<u>Location</u>: <b>%Location%</b><br>[Tab]{Generate~0,click to generate injury,[Inj_Stomach_Abdomen][PrintInjury2]}<br><br>
+#_|Location=Lower Abdomen||Injury=Inj_Stomach_Abdomen|<u>Location</u>: <b>%Location%</b><br>[Tab]{Generate~0,click to generate injury,[Inj_Stomach_Abdomen][PrintInjury2]}<br><br>
+#_|Location=Shoulder||Injury=Inj_Shoulder_Bicep|<u>Location</u>: <b>%Location%</b><br>[Tab]{Generate~0,click to generate injury,[Inj_Shoulder_Bicep][PrintInjury2]}<br><br>
+#_|Location=Bicep||Injury=Inj_Shoulder_Bicep|<u>Location</u>: <b>%Location%</b><br>[Tab]{Generate~0,click to generate injury,[Inj_Shoulder_Bicep][PrintInjury2]}<br><br>
+#_|Location=Hand/Forearm||Injury=Inj_Hand_Forearm|<u>Location</u>: <b>%Location%</b><br>[Tab]{Generate~0,click to generate injury,[Inj_Hand_Forearm][PrintInjury2]}<br><br>
+#_|Location=Groin||Injury=Inj_Groin|<u>Location</u>: <b>%Location%</b><br>[Tab]{Generate~0,click to generate injury,[Inj_Groin][PrintInjury2]}<br><br>
+#_|Location=Thigh||Injury=Inj_Thigh|<u>Location</u>: <b>%Location%</b><br>[Tab]{Generate~0,click to generate injury,[Inj_Thigh][PrintInjury2]}<br><br>
+#_|Location=Knee||Injury=Inj_Knee|<u>Location</u>: <b>%Location%</b><br>[Tab]{Generate~0,click to generate injury,[Inj_Knee][PrintInjury2]}<br><br>
+#_|Location=Calf||Injury=Inj_Calf|<u>Location</u>: <b>%Location%</b><br>[Tab]{Generate~0,click to generate injury,[Inj_Calf][PrintInjury2]}<br><br>
+#_|Location=Foot||Injury=Inj_Foot|<u>Location</u>: <b>%Location%</b><br>[Tab]{Generate~0,click to generate injury,[Inj_Foot][PrintInjury2]}<br><br>
+
+#:Inj_Head2
+#1,[Inj_Head][PrintInjury2]
+
+:ShowWounds2
+1,<u>Location</u>: <b>Head</b><br>[Tab]{Generate~0,Click to Generate Injury,Inj_Head}<br><br>
+_<u>Location</u>: <b>Throat</b><br>[Tab]{Generate~0,Click to Generate Injury,Inj_Throat}<br><br>
+_<u>Location</u>: <b>Chest</b><br>[Tab]{Generate~0,Click to Generate Injury,Inj_Chest}<br><br>
+_<u>Location</u>: <b>Stomach</b><br>[Tab]{Generate~0,Click to Generate Injury,Inj_Stomach_Abdomen}<br><br>
+_<u>Location</u>: <b>Lower Abdomen</b><br>[Tab]{Generate~0,Click to Generate Injury,Inj_Stomach_Abdomen}<br><br>
+_<u>Location</u>: <b>Shoulder</b><br>[Tab]{Generate~0,Click to Generate Injury,Inj_Shoulder_Bicep}<br><br>
+_<u>Location</u>: <b>Bicep</b><br>[Tab]{Generate~0,Click to Generate Injury,Inj_Shoulder_Bicep}<br><br>
+_<u>Location</u>: <b>Hand/Forearm</b><br>[Tab]{Generate~0,Click to Generate Injury,Inj_Hand_Forearm}<br><br>
+_<u>Location</u>: <b>Groin</b><br>[Tab]{Generate~0,Click to Generate Injury,Inj_Groin}<br><br>
+_<u>Location</u>: <b>Thigh</b><br>[Tab]{Generate~0,Click to Generate Injury,Inj_Thigh}<br><br>
+_<u>Location</u>: <b>Knee</b><br>[Tab]{Generate~0,Click to Generate Injury,Inj_Knee}<br><br>
+_<u>Location</u>: <b>Calf</b><br>[Tab]{Generate~0,Click to Generate Injury,Inj_Calf}<br><br>
+_<u>Location</u>: <b>Foot</b><br>[Tab]{Generate~0,Click to Generate Injury,Inj_Foot}<br><br>
+
+
+# ----------------------- D&D Criticals ------------------------------
+:Slashing
+1-45,Normal Critical Hit.
+46-60,Critical Hit +1x.
+61-62,Shield destroyed.
+63,Helmet destroyed (or other head-worn item).
+64,Helm removed (lose 1 ear and <i>stun</i> <b>{Dice~1d4}</b> rounds).
+65,Voice box punctured (no talking) or helmet destroyed*.
+66,Ear removed or helmet destroyed*.
+67,Ear removed (no effect if helmed).
+68,Eye removed or helmet destroyed*.
+69,Eye removed.
+70,Knee split (½ MV).
+71,Knee split (no MV).
+72,{Dice~1d3} fingers removed.
+73,Leg removed at ankle (no MV).
+74,Leg removed at knee (no MV).
+75,Leg removed at hip (no MV).
+76,Shield arm removed at wrist or shield destroyed*.
+77,Shield arm removed at elbow or shield destroyed*.
+78,Shield arm removed at shoulder or shield destroyed*.
+79,Shield arm removed at wrist.
+80,Shield arm removed at elbow.
+81,Shield arm removed at shoulder.
+82,Primary arm (weapon) removed at wrist.
+83,Primary arm (weapon) removed at elbow.
+84,Primary arm (weapon) removed at shoulder.
+85,Abdominal injuries (½ carrying capacity).
+86,Chest injuries (½ carrying capacity).
+87,Abdominal injuries (death in <b>{Dice~1d6}</b> days).
+88,Chest injuries (death in <b>{Dice~1d4}</b> days).
+89,Abdominal injuries (death in <b>{Dice~2d6}</b> rounds).
+90,Chest injuries (death in <b>{Dice~2d4}</b> rounds).
+91,Abdominal injuries (death in 1 round).
+92,Chest injuries (death in 1 round).
+93,Throat cut (death in 1 round) or helmet destroyed*.
+94,Throat cut (death in 1 round).
+95,Decapitated (immediate death) or helmet destroyed*.
+96,Decapitated (immediate death).
+97-100,Critical Hit +2x.
+
+:Blunt
+1-45,Normal Critical Hit.
+46-60,Critical Hit +1x.
+61-62,Shield destroyed.
+63,Helmet destroyed (or other head-worn item).
+64-65,Shield arm struck (no shield for <b>{Dice~1d6}</b> rounds).
+66-67,Shield arm broken or shield destroyed*.
+68-69,Primary arm (weapon) struck.
+70-71,Primary arm (weapon) struck hard (effects at -4).
+72-73,Primary arm (weapon) broken (unusable).
+74-75,Primary hand (weapon) struck.
+76-77,Primary hand (weapon) broken (unusable).
+78-80,Chest struck (<i>stun</i> <b>{Dice~1d4}</b> rounds).
+81-82,Ribs broken, lungs punctured (no MV, -2 everything).
+83,Ribs broken, heart punctured (death in 1 round).
+84-86,Leg struck; fall down.
+87-88,Leg struck; fall down (½ MV).
+89-90,Leg broken; fall down (no MV).
+91-92,Head struck (lose <b>{Dice~1d3}</b> INT) or helmet destroyed*.
+93-94,Head struck (lose <b>{Dice~1d3}</b> INT).
+95,Skull crushed (immediate death) or helmet destroyed*.
+96,Skull crushed (immediate death).
+97-100,Critical Hit +2x.
+
+:Piercing
+1-45,Normal Critical Hit.
+46-60,Critical Hit +1x.
+61,Helmet removed (or other head-worn item).
+62-63,Shield arm unusable (no shield for <b>{Dice~1d6}</b> rounds).
+64-65,Primary arm (weapon) struck.
+66-67,Primary arm (weapon) struck (effects at -4).
+68-69,Primary arm (weapon) struck (unusable).
+70-71,Lungs punctured (no MV, -4 everything).
+72-73,Artery punctured (lose 1 hp/round).
+74,Heart punctured (death in 1 round).
+75-76,Abdominal injuries (death in <b>{Dice~1d6}</b> days).
+77-78,Chest injuries (death in <b>{Dice~1d4}</b> days).
+79-80,Abdominal injuries (death in <b>{Dice~2d4}</b> rounds).
+81-82,Chest injuries (death in <b>{Dice~2d4}</b> rounds).
+83,Abdominal injuries (death in 1 round).
+84,Chest injuries (death in 1 round).
+85-86,Eye punctured or helmet destroyed*.
+87-88,Eye punctured.
+89-90,Larynx punctured (no talking) or helmet destroyed*.
+91-92,Larynx punctured (no talking).
+93,Throat struck (death in 1 round) or helmet destroyed*.
+94,Throat struck (death in 1 round).
+95,Head struck (immediate death) or helmet destroyed*.
+96,Head struck (immediate death).
+97-100,Critical Hit +2x.
+
+# ------------------------- VEHICLES CRITICALS -----------------------
+:!Vehicles
+01-50,No Critical.
+51-75,<u>Normal Critical</u>: The effect of the critical is normal, increased damage, as if the vehicle were a character.
+76-80,<u>Crew Hit</u>: Roll randomly to determine affected crewmember. The attack inflicts damage to the vehicle and 25 <b>percent</b> of the rolled damage amount (roll down) against the randomly selected crewmember.
+81-85,<u>System</u>: One communications or electrical system – rolled randomly – is completely destroyed by the attack.
+86-90,<u>Engine hit (minor)</u>: The vehicle’s top speed is decreased by 25 <b>percent</b>. Repair (DC 20) and two hours of time is required to repair this damage.
+91-95,<u>Engine hit (major)</u>: The engine is destroyed. The vehicle’s speed decreases by one category each round until it comes to a stop. The engine cannot be repaired and must be completely replaced.
+96-99,<u>Fuel Tank</u>: x2 damage.
+100,<u>Fuel Tank</u>: The tank explodes: 5d10 (<b>{Dice~5d10}</b>) damage to the vehicle and 3d10 (<b>{Dice~3d10}</b>) damage to each crewmember.
+
+# ------------------------- MAGIC CRITICALS --------------------------
+:Magic
+01-45,Critical hit x2.
+46-60,Critical hit x3.
+61-64,Crit x2. Spell if harder to dispel (DC13 + caster level).
+65-68,Crit x2. Save: +2 DC.
+69-72,Crit x2. +2 Caster Level check vs SR.
+73-76,Crit x2. Target failing its save is knocked prone (no effect if no save).
+77-79,Crit x2. Target failing its save is <i>staggered</i> until your next action (1 Move or Standard action only) (no effect if no save).
+80,Crit x2. Target failing its save is <i>stunned</i> until your next action (drops everything held, no actions, -2 AC, loses DEX to AC) (no effect if no save).
+81-84,Crit x2. +1d6 energy damage per spell level. Random energy ([~MagicEnergy]) or as per the spell's energy.
+85-86,Crit x2. The spell tries to dispel (see <i>dispel magic</i>) <b>ONE</b> spell on the target. The active spell of the highest level is affected.
+_<br>[Tab]Caster level check (max 1d20+10) vs DC 11+caster level.
+_<br>[Tab]It affects only spells active on a creature or object.
+_<br>[Tab]Independant spells or spells affecting an area (<i>wall of fire, antimagic field,</i> illusions or summoned monsters) cannot pe dispelled, even if they prevent your spell from affecting the target.
+87-90,Crit x2. The spell tries to dispel all spell effect on the target which interacts directly with itself.
+_<br>[Tab]Caster level check (max 1d20+10) vs DC 11+caster level.
+_<br>[Tab]Ex: <i>fireball vs protection from elements (fire)</i> already active. If the dispel check succeds, the spell is "cancelled" before the <i>fireball</i> takes effect. But immediately after, the spell <i>protection from elements (fire)</i> is "reactivated" and continues to affect its target.
+_<br>[Tab]It affects only spells active on a creature or object. Independant spells or spells affecting an area (<i>wall of fire, antimagic field,</i> illusions or summoned monsters) cannot pe dispelled, even if they prevent your spell from affecting the target.
+91-96,Crit x2. Special Effect:
+_<br>-<u>Acid</u>: one object is affected by acid (as if a natural "1" as rolled on its save). Save or object is destroyed.
+_<br>-<u>Cold</u>: target receives 1d4 (<b>{Dice~1d4}</b>) DEX dmg.
+_<br>-<u>Electricity</u>: target in metal armor receives 1d6 dmg/spell level.
+_<br>-<u>Fire</u>: target automatically catches on fire.
+_<br>[Tab]1d6 (<b>{Dice~1d6}</b>) Fire dmg.
+_<br>[Tab]<u>Extinguishing Flames</u>: Full-round, DC15 Reflex.
+_<br>[Tab]<u>Rolling on ground or smothering</u>: +4 save.
+_<br>[Tab]<u>Jumping in water</u>: SAVE successful.
+_<br>[Tab][Tab]<u>Save made</u>: fire extinguished.
+_<br>[Tab][Tab]<u>Save failed</u>: 1d6 (<b>{Dice~1d6}</b>) Fire damage.
+_<br>-<u>Negative Energy</u>: target has one negative level (save in 24 hours = same DC as the spell).
+_<br>-<u>Positive Energy</u>: the caster is cured of the same "damage" done (before critical effect is applied).
+_<br>-<u>Sonic</u>: target receives 1d4 (<b>{Dice~1d4}</b>) dmg on INT or SAG (<b>[~MagicIntWis]</b>).
+97-100,Critical hit x4.
+
+;MagicEnergy
+1,Acid
+2,Electricity
+3,Fire
+4,Cold
+
+;MagicIntWis
+1,INT
+2,WIS
+
+# ---------------------------- Zombie Criticals --------------------------
+
+:Zombie
+01-03,Damaged leg tendons (<b>[LeftRight]</b>) (-1 DEX, ½ MV).
+04-06,Damaged ankle (<b>[LeftRight]</b>) (-2 DEX, ½ MV).
+07-08,Spinal damage bends torso (-3 DEX, ½ MV).
+09-10,Damaged knee (<b>[LeftRight]</b>) (-4 DEX, ½ MV).
+11-14,Nose damaged (-3 CHA).
+15-18,Eye damaged (<b>[LeftRight]</b>) (-2 CHA).
+19-20,Head wound (+1d4 (<b>{Dice~1d4}</b>) damage, Stun 1d4 (<b>{Dice~1d4}</b>) rounds).
+21-22,Hand damage (<b>[LeftRight]</b>) (-1 STR, -1 DEX).
+23-24,Arm damaged (<b>[LeftRight]</b>) (+1d4 (<b>{Dice~1d4}</b>) damage, -4 attack roll with wounded arm for 1d6 (<b>{Dice~1d6}</b>) rounds unless healed). Immediately drop anything held in that arm.
+25-26,Thigh dmg (<b>[LeftRight]</b>) (+1d4 (<b>{Dice~1d4}</b>) dmg, ½ MV, -4 Climb/Swim 1d6 hr).
+27-28,Spine damage (-3 DEX).
+29-30,Fingers damaged (<b>[LeftRight]</b>) (-2 DEX).
+31-34,Deep stomach wound (+1d4 (<b>{Dice~1d4}</b>) damage, +1d6 (<b>{Dice~1d6}</b>) damage every half hour for 5d6 (<b>{Dice~5d6}</b>) hours unless healed).
+35-37,Intestinal wound (Staggered 1d6 (<b>{Dice~1d6}</b>) rounds unless healed).
+38-40,Damaged throat (+1d6 (<b>{Dice~1d6}</b>) dmg, Stun; attacker Fort save (DC = dmg inflicted) or –4 Reflex to avoid blood spurt).[ZombieBloodSpurt]
+41-43,Concussion (-2 WIS).[ZombieBloodSpurt]
+44-46,Head wound (Concentration to use any INT skill).[ZombieBloodSpurt]
+47-48,Depth perception damaged (-2 to ranged attacks).[ZombieBloodSpurt]
+49-50,Multiple cuts to face (-2 CHA).[ZombieBloodSpurt]
+51-52,Leg severed (<b>[LeftRight]</b>) (-4 Balance, Climb, Escape Artist, Jump, Move Silently, Ride, Swim, Tumble, Reflex save, DEX checks, 2/3 MV).[ZombieBloodSpurt]
+53-56,Broken ankle bones cause limping (<b>[LeftRight]</b>) (-4 DEX, ½ MV).[ZombieBloodSpurt]
+57-58,Spinal damage (-6 DEX, ½ MV).[ZombieBloodSpurt]
+59-60,Shattered knee that cannot bend (<b>[LeftRight]</b>) (-8 DEX, ½ MV).[ZombieBloodSpurt]
+61-63,Nose sliced away (-6 CHA).[ZombieBloodSpurt]
+64-67,Lose eye (<b>[LeftRight]</b>) (–4 CHA).[ZombieBloodSpurt]
+68-70,Ear severed (<b>[LeftRight]</b>) (-2 Listen / Initiative).[ZombieBloodSpurt]
+71-72,Hand severed (<b>[LeftRight]</b>) (-2 STR / DEX).[ZombieBloodSpurt]
+73-74,Slab of arm muscle cut away (<b>[LeftRight]</b>) (-4 STR).[ZombieBloodSpurt]
+75-76,Chunk hewn from thigh (<b>[LeftRight]</b>) (-4 STR / DEX).[ZombieBloodSpurt]
+77-78,Spinal nerve damage (-6 DEX).[ZombieBloodSpurt]
+79-80,Fingers severed (<b>[LeftRight]</b>) (-4 DEX).[ZombieBloodSpurt]
+81-82,Punctured lungs (<b>[LeftRight]</b>) (-6 CHA).[ZombieBloodSpurt]
+83-84,Deep stomach wound (-8 CHA).[ZombieBloodSpurt]
+85-86,Intestinal wound (-10 CHA).[ZombieBloodSpurt]
+87-88,Punctured kidneys (-2 CHA).[ZombieBloodSpurt]
+89-90,Punctured liver (-4 CHA).[ZombieBloodSpurt]
+91-92,Vocal-cord severed (Mute, no verbal casting, use Bluff to speak through sign language).[ZombieBloodSpurt]
+93-94,Nerve damage (-3 DEX in one arm).[ZombieBloodSpurt]
+95-96,Severed arm (<b>[LeftRight]</b>) (-6 DEX).[ZombieBloodSpurt]
+97-98,Nerve damage to both arms (-4 DEX in both arms).[ZombieBloodSpurt]
+99,Awful mutilation (<b>[LeftRight]</b>) (-3 CHA / DEX).[ZombieBloodSpurt]
+100,Head destroyed (Destroyed or -4 CHA / DEX / STR if the zombie has DR 10/Piercing).[ZombieBloodSpurt]
+
+;ZombieBloodSpurt
+1,<br>[Tab][Tab]<b>Blood Spurt from the zombie:</b> This may spread the infection. 10' radius, Reflex negates (DC10+CR). Failure: you get spattered with zombie blood (which may require additional saving throws or have no effect, depending on the type of zombie).
+
+;LeftRight
+1,Left
+1,Right
+
+# ---------------------------- FUMBLES --------------------------
+# Regular Fumbles (D&D style - no firearms)
+:!Fumble
+1-20,<u>Slip</u>: Balance (DC 10) or fall down.
+21-30,<u>Stumble</u>: Balance (DC 10) or fall down and <i>stunned</i> <b>{Dice~1d4}</b> rounds.
+31-35,<u>Trip and fall</u>: <i>stunned</i> <b>{Dice~1d3}</b> rounds.
+36-37,<u>Twist ankle</u>: 1 damage, ½ MV, Balance (DC10) or fall down.
+38-39,<u>Off balance</u>: Balance (DC 10) or no action next round.
+40-41,<u>Disease</u>: You are exposed to the Filth Fever disease (DC12 Fortitude save). Incubation period: 1d3 <b>({Dice~1d3})</b> days, Damage: 1d3 Dex/Con.
+42-45,<u>Fatigue</u>: CON (DC10) or you become fatigued. If already fatigued, you become exhausted. The Endurance feat gives +4 to this check.
+46-48,<u>Lose grip on weapon</u>: DEX (DC 10) or no attack next round.{Lockout~Fumble,49-53}
+49-51,<u>Lose grip on weapon</u>: DEX (DC 10) or drop weapon.{Lockout~Fumble,46-53}
+52-53,<u>Lose grip on weapon</u>: drop weapon. Random for <b>{Dice~1d3}</b> 5' squares(s).{Lockout~Fumble,46-51}
+54-55,<u>Lose item</u>: drop one useful item (usually magical) other than a weapon (ex: helm, cloak, shield).
+56-57,<u>Damaged armor</u>: -1 AC for your armor or shield (player's choice). Craft (armorsmithing) DC 10 to fix.
+58-61,<u>Helm or hood slips</u>: DEX (DC 10) to fix (partial action) or ½ concealment (20 <b>percent</b> miss chance).{Lockout~Fumble,58-63}
+62-63,<u>Helm or hood slips</u>: DEX (DC 10) to fix (partial action) or total concealment (50 <b>percent</b> miss chance).{Lockout~Fumble,58-63}
+64-65,<u>Shield becomes tangled with opponent</u>: next round, remove shield or no actions (lose DEX bonus to AC).
+66-67,<u>Tangled with opponent</u>: you and opponent have no action until your next round (lose DEX bonus to AC).
+68-69,<u>Weapon tangled with opponent</u>: next round, drop weapon or no actions (lose DEX bonus to AC).
+70-71,<u>Distracted</u>: you lose your DEX bonus to AC until the next round.
+72-75,<u>Damaged weapon</u>: reduce weapon damage by one dice category (ex: 1d6 to 1d4). Craft (mechanical) DC10 to fix.
+76-78,<u>Weapon breaks</u>: 100 <b>percent</b> (no effect for a magical weapon).{Lockout~Fumble,76-79}
+79,<u>Weapon breaks</u>: 100 <b>percent</b> (-10 per "+" of the weapon, including powers).{Lockout~Fumble,76-79}
+80-81,<u>Ouverture</u>: the opponent can make an attack of opportunity against you.
+82-84,<u>Hit self (on opponent's weapons?)</u>: ½ dmg of your weapon.{Lockout~Fumble,82-87}
+85-86,<u>Hit self (on opponent's weapons?)</u>: dmg of your weapon.{Lockout~Fumble,82-87}
+87,<u>Hit self (on opponent's weapons?)</u>: 2x dmg of your weapon.{Lockout~Fumble,82-87}
+88-90,<u>Hit friend in reach</u>: ½ dmg of your weapon.{Lockout~Fumble,88-93}
+91-92,<u>Hit friend in reach</u>: dmg of your weapon.{Lockout~Fumble,88-93}
+93,<u>Hit friend in reach</u>: 2x dmg of your weapon.{Lockout~Fumble,88-93}
+94-95,<u>Critical, hit self (on opponent's weapons?)</u>: si above in blunt, piercing, or slashing.
+96-97,<u>Critical, Hit friend in reach</u>:  si above in blunt, piercing, or slashing.
+98-99,<u>Roll twice</u>:{Lockout~Fumble,98-100}<br>[Tab][Fumble]<br>[Tab][Fumble]
+100,<u>Roll 3 times</u>:{Lockout~Fumble,98-100}<br>[Tab][Fumble]<br>[Tab][Fumble]<br>[Tab][Fumble]
+
+# Fumbles for Archaic Firearms (like in Western games and some Post-Apocalyptic)
+:!FumbleGunArchaic
+1-50,{Color~black,<u>Misfire</u>:} {Color~Blue,Concentration DC15+} {Color~black,(see below).[Tab]<u>Repair 5+ ranks</u>:} {Color~Green,+2 Concentration vs Misfire}
+_<br>[Tab]{Color~Green,<u>Success</u>:} <b>Dud.</b> Must replace the dud round.
+_<br>[Tab]{Color~Red,<u>Failure by 1-4</u>:} <b>Jam.</b> Repair or DEX DC10-20.
+_<br>[Tab]{Color~Red,<u>Failure by 5+</u>:} <b>Minor Mishap</b> (effect <b>"#{Dice~1d4}"</b> or GM's choice). 
+_<br>[Tab]{Color~Red,<u>Failure by 10+</u>:} <b>Major Mishap</b> (effect <b>"#{Dice~1d2}"</b> or GM's choice). 
+51-59,<u>Slip</u>: Balance (DC 10) or fall down.
+61-65,<u>Stumble</u>: Balance (DC 10) or fall down and <i>stunned</i> <b>{Dice~1d4}</b> rounds.
+66-67,<u>Trip and fall</u>: <i>stunned</i> <b>{Dice~1d3}</b> rounds.
+68,<u>Twisted ankle</u>: 1 damage, ½ MV, Balance (DC10) or fall down.
+69-70,<u>Off balance</u>: Balance (DC 10) or no action next round.
+71,<u>Fatigue</u>: CON (DC10) or you become fatigued. If already fatigued, you become exhausted. The Endurance feat gives +4 to this check.
+72-74,<u>Lose grip on weapon</u>: DEX (DC 10) or no attack next round.{Lockout~FumbleGunArchaic,75-76}
+75,<u>Lose grip on weapon</u>: DEX (DC 10) or drop weapon.{Lockout~FumbleGunArchaic,72-76}
+76,<u>Lose grip on weapon</u>: drop weapon. Random for <b>{Dice~1d3}</b> 5' squares(s).{Lockout~FumbleGunArchaic,72-75}
+77-78,<u>Lose item</u>: drop one useful item (usually magical) other than a weapon (ex: helm, cloak, shield).
+79,<u>Damaged armor</u>: -1 DEF for your armor or shield (player's choice). Craft (mechanical) DC 10 to fix.
+80-81,<u>Helm or hood slips</u>: DEX (DC 10) to fix (partial action) or ½ concealment (20 <b>percent</b> miss chance).{Lockout~FumbleGunArchaic,80-82}
+82,<u>Helm or hood slips</u>: DEX (DC 10) to fix (partial action) or total concealment (50 <b>percent</b> miss chance).{Lockout~FumbleGunArchaic,80-82}
+83,<u>Distracted</u>: you lose your DEX bonus to AC until the next round.
+84-86,<u>Hit self (on opponent's weapons?)</u>: ½ dmg of your weapon.{Lockout~FumbleGunArchaic,84-89}
+87-88,<u>Hit self (on opponent's weapons?)</u>: dmg of your weapon.{Lockout~FumbleGunArchaic,84-89}
+89,<u>Hit self (on opponent's weapons?)</u>: 2x dmg of your weapon.{Lockout~FumbleGunArchaic,84-89}
+90-92,<u>Hit friend in reach</u>: ½ dmg of your weapon.{Lockout~FumbleGunArchaic,90-95}
+93-94,<u>Hit friend in reach</u>: dmg of your weapon.{Lockout~FumbleGunArchaic,90-95}
+95,<u>Hit friend in reach</u>: 2x dmg of your weapon.{Lockout~FumbleGunArchaic,90-95}
+96,<u>Critical, hit self (on opponent's weapons?)</u>: si above in blunt, piercing, or slashing.
+97,<u>Critical, Hit friend in reach</u>:  si above in blunt, piercing, or slashing.
+98-99,<u>Roll twice</u>:{Lockout~FumbleGunArchaic,98-100}<br>[Tab][FumbleGunArchaic]<br>[Tab][FumbleGunArchaic]
+100,<u>Roll 3 times</u>:{Lockout~FumbleGunArchaic,98-100}<br>[Tab][FumbleGunArchaic]<br>[Tab][FumbleGunArchaic]<br>[Tab][FumbleGunArchaic]
+
+# Fumbles for Modern Firearms (better bullets with less risk of major failures. Also for some Post-Apocalyptic weapons.
+:!FumbleGunModern
+1-22,{Color~black,<u>Misfire</u>:} {Color~Blue,Concentration DC15+} {Color~black,(see below).[Tab]<u>Repair 5+ ranks</u>:} {Color~Green,+2 Concentration vs Misfire}
+_<br>[Tab]{Color~Green,<u>Success</u>:} <b>Dud.</b> Must replace the dud round.
+_<br>[Tab]{Color~Red,<u>Failure by 1-9</u>:} <b>Jam.</b> Repair or DEX DC10-20.
+_<br>[Tab]{Color~Red,<u>Failure by 10+</u>:} <b>Minor Mishap</b> (effect <b>"#{Dice~1d4}"</b> or GM's choice). 
+_<br>[Tab]{Color~Red,<u>Failure by 15+</u>:} <b>Major Mishap</b> (effect <b>"#{Dice~1d2}"</b> or GM's choice). 
+23-36,<u>Slip</u>: Balance (DC 10) or fall down.
+37-44,<u>Stumble</u>: Balance (DC 10) or fall down and <i>stunned</i> <b>{Dice~1d4}</b> rounds.
+45-47,<u>Trip and fall</u>: <i>stunned</i> <b>{Dice~1d3}</b> rounds.
+48-49,<u>Twisted ankle</u>: 1 damage, ½ MV, Balance (DC10) or fall down.
+50-52,<u>Off balance</u>: Balance (DC 10) or no action next round.
+53-54,<u>Fatigue</u>: CON (DC10) or you become fatigued. If already fatigued, you become exhausted. The Endurance feat gives +4 to this check.
+55-59,<u>Lose grip on weapon</u>: DEX (DC 10) or no attack next round.{Lockout~FumbleGunModern,60-63}
+60-61,<u>Lose grip on weapon</u>: DEX (DC 10) or drop weapon.{Lockout~FumbleGunModern,55-63}
+62-63,<u>Lose grip on weapon</u>: drop weapon. Random for <b>{Dice~1d3}</b> 5' squares(s).{Lockout~FumbleGunModern,55-61}
+64-66,<u>Lose item</u>: drop one useful item (usually magical) other than a weapon (ex: helm, cloak, shield).
+67-68,<u>Damaged armor</u>: -1 DEF for your armor or shield (player's choice). Craft (mechanical) DC 10 to fix.
+69-71,<u>Helm or hood slips</u>: DEX (DC 10) to fix (partial action) or ½ concealment (20 <b>percent</b> miss chance).{Lockout~FumbleGunModern,69-73}
+72-73,<u>Helm or hood slips</u>: DEX (DC 10) to fix (partial action) or total concealment (50 <b>percent</b> miss chance).{Lockout~FumbleGunModern,69-73}
+74-75,<u>Distracted</u>: you lose your DEX bonus to AC until the next round.
+76-80,<u>Hit self (on opponent's weapons?)</u>: ½ dmg of your weapon.{Lockout~FumbleGunModern,76-85}
+81-83,<u>Hit self (on opponent's weapons?)</u>: dmg of your weapon.{Lockout~FumbleGunModern,76-85}
+84-85,<u>Hit self (on opponent's weapons?)</u>: 2x dmg of your weapon.{Lockout~FumbleGunModern,76-85}
+86-90,<u>Hit friend in reach</u>: ½ dmg of your weapon.{Lockout~FumbleGunModern,86-95}
+91-93,<u>Hit friend in reach</u>: dmg of your weapon.{Lockout~FumbleGunModern,86-95}
+94-95,<u>Hit friend in reach</u>: 2x dmg of your weapon.{Lockout~FumbleGunModern,86-95}
+96,<u>Critical, hit self (on opponent's weapons?)</u>: si above in blunt, piercing, or slashing.
+97,<u>Critical, Hit friend in reach</u>:  si above in blunt, piercing, or slashing.
+98-99,<u>Roll twice</u>:{Lockout~FumbleGunModern,98-100}<br>[Tab][FumbleGunModern]<br>[Tab][FumbleGunModern]
+100,<u>Roll 3 times</u>:{Lockout~FumbleGunModern,98-100}<br>[Tab][FumbleGunModern]<br>[Tab][FumbleGunModern]<br>[Tab][FumbleGunModern]
+
+# Fumble for Magical Spells with a "To-Hit" roll.
+:!FumbleMagic
+01-20,<u>Slip</u>: Balance (DC 10) or fall down.
+21-30,<u>Stumble</u>: Balance (DC 10) or fall down and <i>stunned</i> <b>{Dice~1d4}</b> rounds.
+31-35,<u>Trip and fall</u>: <i>stunned</i> <b>{Dice~1d3}</b> rounds.
+36-38,<u>Lesser Energy Backlash</u>: 1 damage, ½ MV, Balance (DC10) or fall down.
+39-40,<u>Major Energy Backlash</u>: you receive 1d6 energy dmg per spell level. Random energy ([~MagicEnergy]) or as per the spell's energy. Balance (DC10) or prone.
+41,<u>Flashy Cancellation</u>: you are blinded until your next action (-2 AC, no DEX to AC, ½ MV, -4 Search/STR-DEX checks, 50 <b>percent</b> concealment for oppenents).
+42-43,<u>Magical Off Balance</u>: Balance (DC 10) or no action next round.
+44-47,<u>Fatigue</u>: CON (DC10) or you become fatigued. If already fatigued, you become exhausted. The Endurance feat gives +4 to this check.
+48-57,<u>Lesser Component Destruction</u>: all "free" M components of this spell are used up. The spell cannot be cast again until other components are found (magical component pouch: 1 hour before it replenishes).
+58,<u>Major Component Destruction</u>: all components of this spell are used up and destroyed (including Focus and Divine Focus).
+59-63,<u>Magical Fatique</u>: you cannot cast spells on the following round.
+64-65,<u>Magical Damage</u>: 1d3 (<b>{Dice~1d3}</b>) dmg INT-SAG-CHA (as per your spellcasting class).
+66-69,<u>Lesser Magical Drain</u>: INT-SAG-CHA (DC 10 + spell level) or you lose one spell of the same level or higher (random).
+70-71,<u>Greater Magical Drain</u>: INT-SAG-CHA (DC 15 + spell level) or you lose one spell of each inferior level of the spell you just cast (random).
+72,<u>Are Magic Drain</u>: Starting with you, the spell drains a number of charges from magical items equal to the spell level of the fumbled spell (stat with wands, then staves and others afterward, 1 charge per object and, if charges are left to drain, we continue starting with you).
+73-74,<u>Distracted</u>: you lose your DEX bonus to AC until the next round.
+75-76,<u>Ouverture</u>: the opponent can make an attack of opportunity against you (or any other opponent in melee).
+77-81,<u>Wild Magic</u>: your spell has a special effect:<br>[Tab][Tab]<i>[~FumbleWild]</i>
+82-84,<u>Your spell affects you</u>: ½ effect of the spell.{Lockout~FumbleMagic,82-87}
+85-86,<u>Your spell affects you</u>: effect of the spell.{Lockout~FumbleMagic,82-87}
+87,<u>Your spell affects you</u>: 2x effect of the spell.{Lockout~FumbleMagic,82-87}
+88-90,<u>You affect an ally in range</u>: ½ effect of the spell.{Lockout~FumbleMagic,88-93}
+91-92,<u>You affect an ally in range</u>: effect of the spell.{Lockout~FumbleMagic,88-93}
+93,<u>You affect an ally in range</u>: 2x effect of the spell.{Lockout~FumbleMagic,88-93}
+94-95,<u>Critical, your spell affects you</u>: [~Magic].
+96-97,<u>Critical, your spell affects an ally in range</u>: [~Magic].
+98-99,Roll twice.{Lockout~FumbleMagic,98-100}<br>[Tab][FumbleMagic]<br>[Tab][FumbleMagic]
+100,Roll three times.{Lockout~FumbleMagic,98-100}<br>[Tab][FumbleMagic]<br>[Tab][FumbleMagic]<br>[Tab][FumbleMagic]
+
+# Side table for a Magical Fumble.
+:!FumbleWild
+01-19,Spell rebounds on caster with normal effect. If the spell cannot affect the caster, it fails.
+20-23,A circular pit 15' wide opens under caster's feet; it is 10' deep/level of the caster.
+24-27,Spell fails, but target(s) of the spell are pelted with a rain of small objects (anything from flowers to rotten fruit), which disappear upon striking. The barrage continues for 1 round. During this time the targets are blinded and must make Concentration checks (DC 15 + spell level) to cast spells.
+28-31,Spell affects random target/area. Randomly choose a different target from among those in range of the spell or center the spell at a random place within range of the spell. 
+_<br>[Tab]<u>Direction</u>: roll 1d8 (<b>{Dice~1d8}</b>) and count clockwise around the compass, starting with south.
+_<br>[Tab]<u>Range</u>: 3d6 (<b>{Dice~3d6}</b>) x5' (close range), x20' (medium), x80' (long).	
+32-35,Spell functions normally. Material components are not consumed. The spell is not expended from the caster's mind. Item does not lose charges, and the effect does not count gainst an item's or SP ability's use limit. 
+36-39,Spell does not function. Everyone (friend or foe) within 30' of the caster receives the effect of a heal spell.
+40-43,Spell does not function. Deeper darkness and silence effect cover a 30' radius around the caster for 2d4 (<b>{Dice~2d4}</b>) rounds.
+44-47,Spell does not function. Reverse gravity effect covers a 30' radius around caster for 1 round.
+48-51,Spell functions, but shimmering colors swirl around the caster for 1d4 (<b>{Dice~1d4}</b>) rounds. Treat this a glitterdust effect with a save DC of 10 + the level of the spell that generated this result.
+52-59,Nothing happens. Spell does not function. Any material components are used up. The spell or spell slot is used up, and charges or uses from an item are used up.
+60-71,Nothing happens. Spell does not function. Any material components are not consumed.Spell is not expended from the caster's mind. An item does not lose charges, and the effect does not count against an item's or spell-like ability's use limit.
+72-98,The spell functions normally.
+99-100,The spell functions strongly. Saving throws against the spell incur a -2 penalty. The spell has the maximum possible effect, as if it were cast with the Maximize Spell feat. If the spell is already maximized with the feat, there is no further effect. 	

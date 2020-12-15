@@ -1,0 +1,111 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder Oct 30, 2003.
+# ---------------------------------------------------
+#
+# SMS
+# 06/20/03
+# Forgotten Realms Table 41: Northern Marsh (EL 5-15) random encounter tables
+#
+# Corrected by Valminder, Oct 2003
+#   -{If~} and {Dice~}
+#
+#Variables
+
+%Time%,0
+%Temp%,0
+
+#Parameters
+
+@Time,3,Select a time of day,Day,Night,_
+
+#
+#  Starts by putting up the instructions
+#
+
+:Start
+1,{If~%Time% = 3 ? [Instructions]/[Northern Marsh %Time%]}
+
+;Instructions
+1,<b>Forgotten Realms Table 41: Northern Marsh (EL 5-15)</b></br></br><h3>Instructions:</h3>
+_<b>Determine whether an encounter should occur before using this table. The chance of an encounter is based on terrain type and travel (chance per hour):</b><br>
+_<table border=1><tr><th>Terrain</th><th>Normal Travel</th><th>Cautious Travel</th><th>Hiding</th></tr>
+_<tr><td>Desolate/wasteland</td><td>5/%</td><td>2/%</td><td>1/%</td></tr>
+_<tr><td>Frontier/wilderness</td><td>8/%</td><td>4/%</td><td>2/%</td></tr>
+_<tr><td>Verdant/civilized area</td><td>10/%</td><td>5/%</td><td>2/%</td></tr>
+_<tr><td>Heavily traveled</td><td>12/%</td><td>6/%</td><td>3/%</td></tr>
+_</table>
+_<ul><li>Use the Parameter Box (below) to indicate whether it is day or night. Selecting "_" displays these instructions.</li>
+_<li>The only local area this table refers to is the <font color=blue>Mere of Dead Men</font>, so no region parameter is necessary</li></ul><br>
+
+# 1 corresponds to time="Day"
+:Northern Marsh 1
+01-03,{Dice~1d2} Behir
+04-08,Black pudding
+09-10,{Dice~4d6} Crawling Claw (MoF)
+11-15,{Dice~1d10+10} Dire rat
+16-17,Cryohydra {Dice~1d6+4} heads
+18-27,Dragon: [NM_Dragon]
+28-30,Gibbering mouther
+31-33,Gulguthydra (MoF)
+34-40,Hydra {Dice~1d8+4} heads
+41,Lernaean cryohydra {Dice~1d4+4} heads
+42-44,Lernaean hydra {Dice~1d6+4} heads
+45-54,[NM_Local]
+55-59,{Dice~1d2} Meazel (MoF)
+60-64,{Dice~1d6+2} Merrow (ogre)
+65,Nishruu (MoF)
+66,Nyth (MoF)
+67-69,Ochre jelly (ooze)
+70-73,{Dice~1d6+2} Ogre
+74-80,Orc Patrol: {Dice~1d4+4} orcs, {Dice~1d2} level {Dice~1d3} orc barbarians, led by level {Dice~1d4+2} [FR_Misc.Orc_Class]
+81-87,Siv Squad: {Dice~1d6+6} sivs, {Dice~1d4+1} 2nd level siv monks, led by a level {Dice~1d2} [FR_Misc.Siv_Class]
+88-92,{Dice~1d3+1} Scrag
+93-100,{Dice~1d3+1} Troll
+
+# 2 corresponds to time="Night"
+:Northern Marsh 2
+01-02,{Dice~1d4} Abishai, black
+03-04,Avoral guardinal (celestial)
+05-06,{Dice~1d6+6} Banedead
+07-08,{Dice~1d2} Behir
+09-14,Black pudding
+15-16,{Dice~4d6} Crawling Claw (MoF)
+17-21,{Dice~1d2+2} Darkenbeast (MoF)
+22-25,{Dice~1d10+10} Dire rat
+26-27,Cryohydra {Dice~1d6+4} heads
+28-37,Dragon: [NM_Dragon]
+38-39,{Dice~1d4+3} Dread warrior (MoF)
+40-42,Gibbering mouther
+43-45,Gulguthydra (MoF)
+46-51,Hydra {Dice~1d8+4} heads
+52,Lernaean cryohydra {Dice~1d4+4} heads
+53-55,Lernaean hydra {Dice~1d6+4} heads
+56-65,[NM_Local]
+66-69,{Dice~1d2} Meazel (MoF)
+70-73,{Dice~1d6+2} Merrow (ogre)
+74-75,Nishruu (MoF)
+76-77,Nyth (MoF)
+78-79,Ochre jelly (ooze)
+80-82,{Dice~1d6+2} Ogre
+83-88,Orc Patrol: {Dice~1d4+4} orcs, {Dice~1d2} level {Dice~1d3} orc barbarians, led by level {Dice~1d4+2} [FR_Misc.Orc_Class]
+89-93,Siv Squad: {Dice~1d6+6} sivs, {Dice~1d4+1} 2nd level siv monks, led by a level {Dice~1d2} [FR_Misc.Siv_Class]
+94-95,{Dice~1d3+1} Scrag
+96-98,{Dice~1d3+1} Troll
+99-100,{Dice~1d6} Will-o'-wisp
+
+:NM_Local
+01-50,Local creatures: [NM_Local1]
+51-100,<b>NPCs:</b><br>{Loop~{Dice~1d3+2},[FR_Random_NPC.FR_SM_NPC]}
+
+#Mere of Dead Men
+:NM_Local1
+01-40,{Dice~1d2*4} Bullywug
+41-80,{Dice~1d6+4} Lizardfolk
+81-100,Lizardfolk Warband: {Dice~1d6+6} lizardfolk, {Dice~1d2} level {Dice~1d3} druids, led by level {Dice~1d4+2} [FR_Misc.Lizardfolk_Class]
+
+:NM_Dragon
+01,Dracolich: Black, adult
+02-61,Black, mature adult
+62-69,Gold, young adult
+70,Dracolich: White, adult
+71-100,White, old

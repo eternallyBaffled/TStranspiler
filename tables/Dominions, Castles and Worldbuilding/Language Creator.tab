@@ -1,0 +1,1346 @@
+# ------------------------------------------------------
+# Last Update: re-verified by Valminder Jan 10, 2012.
+# ------------------------------------------------------
+# ---------------------------------------------------
+# Last Update: modified by Valminder August 19, 2006.
+# ---------------------------------------------------
+#
+# LanguageVocab
+# by Quenten Walker 2004
+#
+# Modified by Valminder, August  2006.
+#    Adapted for TSv5.
+#    Added some color and order.
+#    Renamed from "LanguageVocab.tab"
+#
+
+/OverrideRolls 1
+
+:Start
+1,[GenVocabulary]
+
+:GenVocabulary
+1,<font face="verdana"><h2 align="center">{Cap~[Noun]} Vocabulary</h2></font>
+_<hr>
+_<table width="100&#37;" border="0" cellpadding="5" cellspacing="5">
+_<tbody style="font-family: verdana; font-size: smaller;">
+_<tr valign="top">
+_<td width="50&#37;" bgcolor="#808000"><font color="White"><b>Pronunciation Guide</b></font></td>
+_<td width="50&#37;" bgcolor="#808000"><font color="White"><b>Grammar</b></font></td>
+_</tr>
+_<tr valign="top"><td width="50&#37;" bgcolor="#FFFFC0">
+_{Status~Generating PronunciationGuide}[Pronunciation]<br>
+_</td><td width="50&#37;" bgcolor="#FFFFC0">
+_{Status~Generating GrammarRules}[Grammar]<br><br>
+_</td></tr>
+_</tbody>
+_</table>
+_<hr>
+_<table width="100&#37;" border="0" cellpadding="5" cellspacing="5">
+_<tbody style="font-family: verdana; font-size: smaller;">
+_<tr valign="top">
+_<td width="50&#37;" bgcolor="#FFFFC0">
+_{Status~Generating Vocab1}[Vocabulary1]<br>
+_</td><td width="50&#37;" bgcolor="#FFFFC0">
+_{Status~Generating Vocab2}[Vocabulary2]<br><br>
+_</td></tr>
+_</tbody>
+_</table>
+_{Status~By Quenten Walker, Valminder 2006}
+
+
+
+
+
+;Word
+1,[Verb]
+1,[Noun]
+1,{Cap~[Name]}
+1,{Cap~[Place]}
+1,[Inflection]
+
+
+;Verb
+10,[Syllable]
+2,[Syllable][Syllable]
+
+
+;Noun
+10,[Syllable]
+5,[Syllable][Syllable]
+2,[Syllable][Syllable][Syllable]
+1,[Syllable][Syllable][Syllable][Syllable]
+
+;Name
+5,[Syllable]
+10,[Syllable][Syllable]
+4,[Syllable][Syllable][Syllable]
+2,[Syllable][Syllable][Syllable][Syllable]
+
+;Place
+10,[Syllable][Syllable]
+10,[Syllable][Syllable][Syllable]
+5,[Syllable][Syllable][Syllable][Syllable]
+1,[Syllable][Syllable][Syllable][Syllable][Syllable]
+
+;Inflection
+1,[Syllable]
+
+
+
+;Syllable
+20,[C][V]
+50,[C][V][C]
+10,[D][V]
+10,[D][V][D]
+10,[D][V][C]
+10,[C][V][D]
+#0,[V][C]
+#0,[V][D]
+#0,[V]
+
+
+;C
+9,b
+1,d
+2,f
+6,g
+1,h
+2,j
+6,k
+3,l
+2,m
+2,n
+1,p
+5,r
+8,s
+6,t
+2,v
+#0,w
+3,y
+1,z
+2,ch
+4,sh
+1,zh
+5,dh
+3,th
+2,kh
+2,ng
+3,rr
+
+
+;V
+2,a
+#_<br>as in cat
+4,ai
+#_<br>as in day
+10,à
+#_<br>as in car
+6,e
+#_<br>as in bed
+4,ee
+#_<br>as in bead
+#0,è
+#_<br>as in bear
+6,i
+#_<br>as in ink
+2,ae
+#_<br>as in like
+4,ì
+#_<br>as in ear
+6,o
+#_<br>as in dog
+1,oa
+#_<br>as in load
+6,ó
+#_<br>as in book
+8,ò
+#_<br>as in lord
+6,u
+#_<br>as in cut
+4,oo
+#_<br>as in coot
+4,ù
+#_<br>as in err
+6,õ
+#_<br>as in ouch
+
+;D
+#0,bd
+#0,bf
+5,bg
+#0,bh
+#0,bj
+#0,bk
+#0,bl
+#0,bm
+#0,bn
+#0,bp
+5,br
+#0,bd
+#0,bt
+#0,bv
+#0,bw
+#0,by
+#0,bz
+#0,bch
+#0,bsh
+#0,bdh
+#0,bzh
+#0,bth
+#0,bch
+#0,bng
+#0,brng
+5,brr
+#0,db
+#0,df
+1,dg
+#0,dh
+#0,dj
+#0,dk
+#0,dl
+#0,dm
+#0,dn
+#0,dp
+1,dr	
+#0,ds
+#0,dt
+#0,dv
+#0,dw
+#0,dy
+#0,dz
+#0,dch
+#0,dsh
+#0,ddh
+#0,dzh
+#0,dth
+#0,dch
+#0,dng
+#0,drng
+1,drr
+#0,fb
+#0,fd
+#0,fg
+#0,fh
+#0,fj
+#0,fk
+#0,fl
+#0,fm
+#0,fn
+#0,fp
+#0,fr
+#0,fs
+#0,ft
+#0,fv
+#0,fw
+#0,fy
+#0,fz
+#0,fch
+#0,fsh
+#0,fdh
+#0,fzh
+#0,fth
+#0,fch
+#0,fng
+#0,frr
+#0,frng
+#0,gb
+#0,gd
+#0,gf
+#0,gh
+#0,gj
+#0,gk
+#0,gl
+#0,gm
+#0,gn
+#0,gp
+6,gr
+#0,gs
+3,gt
+#0,gv
+#0,gw
+#0,gy
+#0,gz
+#0,gch
+#0,gsh
+3,gdh
+#0,gzh
+#0,gth
+#0,gch
+1,gng
+1,grng
+#0,grr
+#0,hb
+#0,hd
+#0,hf
+#0,hg
+#0,hj
+#0,hk
+#0,hl
+#0,hm
+#0,hn
+#0,hp
+#0,hr
+#0,hs
+#0,ht
+#0,hv
+#0,hw
+#0,hy
+#0,hz
+#0,hch
+#0,hsh
+#0,hdh
+#0,hzh
+#0,hth
+#0,hch
+#0,hng
+#0,hrrg
+6,tr
+5,kr
+5,krr
+5,rg
+5,tg
+5,trr
+3,kg
+3,kd
+3,rdh
+3,sg
+1,zr
+3,zg
+3,zrr
+1,kdh
+1,kng
+1,rhg
+1,sr
+1,srr
+1,srng
+1,sng
+1,tng
+1,trng
+
+;Insertion
+5,<b> beginning</b>
+1,<b> middle</b>
+10,<b> end</b>
+
+;Syntax
+1,SVO   
+1,SOV
+1,OVS
+1,OSV
+1,VSO
+1,VOS
+
+;Negation
+1,Add a particle before the verb or after the verb or both (eq French <i>je ne sais pas</i>) 
+1,Use a special mood of the verb 
+1,Add a particle at the beginning or end of the sentence 
+1,Insert a special verb and negating that, as English does 
+1,Use a special inflected auxiliary (e.g. Finnish e) 
+
+;Question
+1,Invert subject and verb (SVO -> VSO) 
+1,Rise in intonation
+1,Add particle at beginning or end (eg, eh) <font color=blue>[Inflection]</font>
+1,Add morpheme to verb
+1,Give yes/no choice: (eg "You be, not be from Beijing?")
+
+;Pronunciation
+1,PRONUNCIATION NOTES
+_<br><b>The following conventions are used for vowel pronunciation:</b>
+_<br>à as in car
+_<br>e as in bed
+_<br>ee as in bead
+_<br>è as in bear
+_<br>i as in ink
+_<br>ae as in like
+_<br>ì as in ear
+_<br>o as in dog
+_<br>oa as in load
+_<br>ó as in book
+_<br>ò as in lord
+_<br>u as in cut
+_<br>oo as in coot
+_<br>ù as in err
+_<br>õ as in ouch
+_<br>
+_<br>
+_<br><b>The following conventions are used for consonant pronunciation:</b>
+_<br>b as in bed
+_<br>d as in dog
+_<br>f as in fan
+_<br>g as in get (hard 'g' only)
+_<br>h as in hat
+_<br>j as in just (replaces 'soft g')
+_<br>k as in kettle (replaces hard 'c')
+_<br>l as in lip
+_<br>m as in man
+_<br>n as in nut
+_<br>p as in pill
+_<br>r as in run
+_<br>s as in sex
+_<br>t as in top
+_<br>v as in van
+_<br>w as in will
+_<br>y as in yellow
+_<br>z as in zebra
+_<br>ch as in church
+_<br>sh as in shit
+_<br>zh as in genre
+_<br>dh as in the
+_<br>th as in thin
+_<br>kh as bach with gutteral german sound
+_<br>ng as in sing
+_<br>rr as in RReady - rolled scottish r
+_<br>
+
+
+;Grammar
+1,<b>GENDER</b>
+_<br>Masculine = <font color=blue>[Inflection]</font>		
+_<br>Feminine = <font color=blue>[Inflection]</font>
+_<br>Neuter = <font color=blue>[Inflection]</font>
+_<br>Animal = <font color=blue>[Inflection]</font>
+_<br>Plant = <font color=blue>[Inflection]</font>
+_<br>Mineral = <font color=blue>[Inflection]</font>
+_<br>
+_<br><b>CASE</b>
+_<br>Subject Singular = <font color=blue>[Inflection]</font>
+#_<br>Vocative Singular = <font color=blue>[Inflection]</font>
+_<br>Object Singular = <font color=blue>[Inflection]</font>
+#_<br>Indirect Object Singular = <font color=blue>[Inflection]</font>
+_<br>Possessive Singular = <font color=blue>[Inflection]</font>
+#_<br>Subject Dual = <font color=blue>[Inflection]</font>
+#_<br>Vocative Dual = <font color=blue>[Inflection]</font>
+#_<br>Object Dual = <font color=blue>[Inflection]</font>
+#_<br>Indirect Object Dual = <font color=blue>[Inflection]</font>
+#_<br>Possessive Dual = <font color=blue>[Inflection]</font>
+#_<br>Subject Many = <font color=blue>[Inflection]</font>
+#_<br>Vocative Many = <font color=blue>[Inflection]</font>
+#_<br>Object Many = <font color=blue>[Inflection]</font>
+#_<br>Indirect Object Many = <font color=blue>[Inflection]</font>
+#_<br>Possessive Many = <font color=blue>[Inflection]</font>
+_<br>
+_<br><b>NUMBER</b> - Inserted at [Insertion]
+_<br>Singular - no change
+_<br>Dual = <font color=blue>[Inflection]</font>
+_<br>Many = <font color=blue>[Inflection]</font>
+_<br>
+_<br><b>TENSE</b> - inserted at [Insertion]
+_<br>Present-ongoing = <font color=blue>[Inflection]</font>
+#_<br>Present-completed = <font color=blue>[Inflection]</font>
+#_<br>Present-repeated = <font color=blue>[Inflection]</font>
+#_<br>Present-doubtful = <font color=blue>[Inflection]</font>
+#_<br>Present-imperative = <font color=blue>[Inflection]</font>
+#_<br>Present-passive = <font color=blue>[Inflection]</font>
+_<br>Present-infinitive = <font color=blue>[Inflection]</font>
+#_<br>Present-participle = <font color=blue>[Inflection]</font>
+_<br>Future-ongoing = <font color=blue>[Inflection]</font>
+#_<br>Future-completed = <font color=blue>[Inflection]</font>
+#_<br>Future-repeated = <font color=blue>[Inflection]</font>
+#_<br>Future-doubtful = <font color=blue>[Inflection]</font>
+#_<br>Future-imperative = <font color=blue>[Inflection]</font>
+#_<br>Future-passive = <font color=blue>[Inflection]</font>
+#_<br>Future-infinitve = <font color=blue>[Inflection]</font>
+#_<br>Future-participle = <font color=blue>[Inflection]</font>
+_<br>Past-ongoing = <font color=blue>[Inflection]</font>
+#_<br>Past-completed = <font color=blue>[Inflection]</font>
+#_<br>Past-repeated = <font color=blue>[Inflection]</font>
+#_<br>Past-doubtful = <font color=blue>[Inflection]</font>
+#_<br>Past-imperative = <font color=blue>[Inflection]</font>
+#_<br>Past-passive = <font color=blue>[Inflection]</font>
+#_<br>Past-infinitive = <font color=blue>[Inflection]</font>
+_<br>Past-participle = <font color=blue>[Inflection]</font>
+_<br>
+_<br><b>ADJECTIVES</b>
+_<br>negation = <font color=blue>[Inflection]</font> 'un' - Inserted at [Insertion]
+_<br>superlative = <font color=blue>[Inflection]</font> '-est' - Inserted at [Insertion]
+_<br>Comparative = <font color=blue>[Inflection]</font> '-er' - Inserted at [Insertion]
+#_<br>Lack = <font color=blue>[Inflection]</font> '-less' - Inserted at [Insertion]
+#_<br>Surfeit = <font color=blue>[Inflection]</font> '-ful' - Inserted at [Insertion]
+#_<br>Possibility = <font color=blue>[Inflection]</font> '-able' - Inserted at [Insertion]
+#_<br>Liking = <font color=blue>[Inflection]</font> '-phile' - Inserted at [Insertion]
+#_<br>Disliking = <font color=blue>[Inflection]</font> '-' - Inserted at [Insertion]
+_<br>Inhabitant = <font color=blue>[Inflection]</font>  - Inserted at [Insertion]
+#_<br>Strengthen meaning = <font color=blue>[Inflection]</font> - Inserted at [Insertion]
+#_<br>Weaken meaning = <font color=blue>[Inflection]</font> - Inserted at [Insertion]
+#_<br>Adverb = <font color=blue>[Inflection]</font> - Inserted at [Insertion]
+_<br>
+_<br><b>ARTICLES</b>
+_<br>None
+#_<br>Definite
+#_<br>Singular-Subject
+#_<br>  -Vocative
+#_<br>  -Object
+#_<br>  -Indirect Object
+#_<br>  -Possessive
+#_<br>Plural-Subject
+#_<br>  -Vocative
+#_<br>  -Object
+#_<br>  -Indirect Object
+#_<br>  -Possessive
+#_<br>Indefinite
+#_<br>Singular-Subject
+#_<br>  -Vocative
+#_<br>  -Object
+#_<br>  -Indirect Object
+#_<br>  -Possessive
+#_<br>Plural-Subject
+#_<br>  -Vocative
+#_<br>  -Object
+#_<br>  -Indirect Object
+#_<br>  -Possessive
+_<br>
+_<br>
+_<br><b>PRONOUNS</b>
+_<br>I = <font color=blue>[Inflection]</font>
+_<br>Thou = <font color=blue>[Inflection]</font>
+_<br>He = <font color=blue>[Inflection]</font>
+_<br>She = <font color=blue>[Inflection]</font>
+_<br>It = <font color=blue>[Inflection]</font>
+_<br>We = <font color=blue>[Inflection]</font>
+_<br>You = <font color=blue>[Inflection]</font>
+_<br>They = <font color=blue>[Inflection]</font>
+#_<br>1st  Person sing-M = <font color=blue>[Inflection]</font>
+#_<br>2nd person sing-M = <font color=blue>[Inflection]</font>
+#_<br>3rd person sing-M = <font color=blue>[Inflection]</font>
+#_<br>1st  Person plur-M = <font color=blue>[Inflection]</font>
+#_<br>2nd person plur-M = <font color=blue>[Inflection]</font>
+#_<br>3rd person plur-M = <font color=blue>[Inflection]</font>
+#_<br>1st  Person sing-F = <font color=blue>[Inflection]</font>
+#_<br>2nd person sing-F = <font color=blue>[Inflection]</font>
+#_<br>3rd person sing-F = <font color=blue>[Inflection]</font>
+#_<br>1st  Person plur-F = <font color=blue>[Inflection]</font>
+#_<br>2nd person plur-F = <font color=blue>[Inflection]</font>
+#_<br>3rd person plur-F = <font color=blue>[Inflection]</font>
+#_<br>1st  Person sing-N = <font color=blue>[Inflection]</font>
+#_<br>2nd person sing-N = <font color=blue>[Inflection]</font>
+#_<br>3rd person sing-N = <font color=blue>[Inflection]</font>
+#_<br>1st  Person plur-N = <font color=blue>[Inflection]</font>
+#_<br>2nd person plur-N = <font color=blue>[Inflection]</font>
+#_<br>3rd person plur-N = <font color=blue>[Inflection]</font>
+_<br>
+_<br><b>QUERY THIS THAT SOME NO EVERY</b>
+_<br><b>ADJECTIVE</b> which = <font color=blue>[Inflection]</font> this = <font color=blue>[Inflection]</font> that = <font color=blue>[Inflection]</font> some = <font color=blue>[Inflection]</font> no = <font color=blue>[Inflection]</font> every = <font color=blue>[Inflection]</font>
+_<br><b>PERSON</b> who = <font color=blue>[Inflection]</font> this = <font color=blue>[Inflection]</font> that = <font color=blue>[Inflection]</font> someone = <font color=blue>[Inflection]</font> no one = <font color=blue>[Inflection]</font> everyone = <font color=blue>[Inflection]</font>
+_<br><b>THING</b> what = <font color=blue>[Inflection]</font> this = <font color=blue>[Inflection]</font> that = <font color=blue>[Inflection]</font> something = <font color=blue>[Inflection]</font> nothing = <font color=blue>[Inflection]</font> everything = <font color=blue>[Inflection]</font>
+_<br><b>PLACE</b> where = <font color=blue>[Inflection]</font> here = <font color=blue>[Inflection]</font> there = <font color=blue>[Inflection]</font> somewhere = <font color=blue>[Inflection]</font> nowhere = <font color=blue>[Inflection]</font> everywhere = <font color=blue>[Inflection]</font>
+_<br><b>TIME</b> when = <font color=blue>[Inflection]</font> now = <font color=blue>[Inflection]</font> then = <font color=blue>[Inflection]</font> sometime = <font color=blue>[Inflection]</font> never = <font color=blue>[Inflection]</font> always = <font color=blue>[Inflection]</font>
+_<br><b>WAY</b> how = <font color=blue>[Inflection]</font> thus = <font color=blue>[Inflection]</font> somehow = <font color=blue>[Inflection]</font>   
+_<br><b>REASON</b> why = <font color=blue>[Inflection]</font>  
+_<br>   
+_<br><b>SENTENCE ORDER</b>
+_<br>Sentences are structured thus: [Syntax] 
+_<br>  (V=Verb, S=Subject, O=Object)
+_<br>
+_<br><b>QUESTION</b>
+_<br>Questions are worded thus: [Question]
+_<br>
+_<br><b>NEGATION</b>
+_<br> Sentences are negated thus: [Negation]
+_<br>
+_<br><b>FAMILY</b> - inserted at [Insertion]
+_<br>Son of: <font color=blue>[Inflection]</font>
+_<br>Daughter of: <font color=blue>[Inflection]</font>
+_<br>Husband of: <font color=blue>[Inflection]</font>
+_<br>Wife of: <font color=blue>[Inflection]</font>
+_<br>
+_<br><b>HONORIFICS</b> - inserted at [Insertion]
+_<br>Mr: <font color=blue>[Inflection]</font>
+_<br>Mrs: <font color=blue>[Inflection]</font>
+_<br>Miss: <font color=blue>[Inflection]</font>
+_<br>Master: <font color=blue>[Inflection]</font>
+
+
+
+
+
+;Vocabulary
+1,[Vocabulary1]
+_[Vocabulary2]
+
+
+
+;Vocabulary1
+1,<b>COSMOS</b> = <font color=blue>{Cap~[Noun]}</font>
+_<br>Cloud = <font color=blue>{Cap~[Noun]}</font>
+_<br>Comet = <font color=blue>{Cap~[Noun]}</font>
+_<br>Moon = <font color=blue>{Cap~[Noun]}</font>
+_<br>Sky = <font color=blue>{Cap~[Noun]}</font>
+_<br>Star = <font color=blue>{Cap~[Noun]}</font>
+_<br>Sun = <font color=blue>{Cap~[Noun]}</font>
+_<br>
+_<br>Avalanche = <font color=blue>{Cap~[Noun]}</font>
+_<br>Breeze = <font color=blue>{Cap~[Noun]}</font>
+_<br>Cyclone = <font color=blue>{Cap~[Noun]}</font>
+_<br>Earthquake = <font color=blue>{Cap~[Noun]}</font>
+_<br>Gale = <font color=blue>{Cap~[Noun]}</font>
+_<br>Hail = <font color=blue>{Cap~[Noun]}</font>
+_<br>Lightning = <font color=blue>{Cap~[Noun]}</font>
+_<br>Rain = <font color=blue>{Cap~[Noun]}</font>
+_<br>Shine = <font color=blue>{Cap~[Noun]}</font>
+_<br>Storm = <font color=blue>{Cap~[Noun]}</font>
+_<br>Thunder = <font color=blue>{Cap~[Noun]}</font>
+_<br>Tsunami = <font color=blue>{Cap~[Noun]}</font>
+_<br>Wind = <font color=blue>{Cap~[Noun]}</font>
+_<br>
+_<br>Day = <font color=blue>{Cap~[Noun]}</font>
+_<br>Evening = <font color=blue>{Cap~[Noun]}</font>
+_<br>Land = <font color=blue>{Cap~[Noun]}</font>
+_<br>Midnight = <font color=blue>{Cap~[Noun]}</font>
+_<br>Morning = <font color=blue>{Cap~[Noun]}</font>
+_<br>Night = <font color=blue>{Cap~[Noun]}</font>
+_<br>Noon = <font color=blue>{Cap~[Noun]}</font>
+_<br>Rings = <font color=blue>{Cap~[Noun]}</font>
+_<br>Sunrise = <font color=blue>{Cap~[Noun]}</font>
+_<br>Sunset = <font color=blue>{Cap~[Noun]}</font>
+_<br>
+_<br>
+_<br><b>GEOGRAPHICAL</b> = <font color=blue>{Cap~[Noun]}</font>
+_<br>Air = <font color=blue>{Cap~[Noun]}</font>
+_<br>Bank = <font color=blue>{Cap~[Noun]}</font>
+_<br>Bay = <font color=blue>{Cap~[Noun]}</font>
+_<br>Beach = <font color=blue>{Cap~[Noun]}</font>
+_<br>Blizzard = <font color=blue>{Cap~[Noun]}</font>
+_<br>Brook = <font color=blue>{Cap~[Noun]}</font>
+_<br>Canyon = <font color=blue>{Cap~[Noun]}</font>
+_<br>Cape = <font color=blue>{Cap~[Noun]}</font>
+_<br>Cave = <font color=blue>{Cap~[Noun]}</font>
+_<br>Cliff = <font color=blue>{Cap~[Noun]}</font>
+_<br>Coast = <font color=blue>{Cap~[Noun]}</font>
+_<br>Cove = <font color=blue>{Cap~[Noun]}</font>
+_<br>Creek = <font color=blue>{Cap~[Noun]}</font>
+_<br>Desert = <font color=blue>{Cap~[Noun]}</font>
+_<br>Downs = <font color=blue>{Cap~[Noun]}</font>
+_<br>Earth = <font color=blue>{Cap~[Noun]}</font>
+_<br>Earth = <font color=blue>{Cap~[Noun]}</font>
+_<br>Estuary = <font color=blue>{Cap~[Noun]}</font>
+_<br>Fens = <font color=blue>{Cap~[Noun]}</font>
+_<br>Field = <font color=blue>{Cap~[Noun]}</font>
+_<br>Fire = <font color=blue>{Cap~[Noun]}</font>
+_<br>Ford = <font color=blue>{Cap~[Noun]}</font>
+_<br>Forest = <font color=blue>{Cap~[Noun]}</font>
+_<br>Glacier = <font color=blue>{Cap~[Noun]}</font>
+_<br>Gorge = <font color=blue>{Cap~[Noun]}</font>
+_<br>Gorge = <font color=blue>{Cap~[Noun]}</font>
+_<br>Grasslands = <font color=blue>{Cap~[Noun]}</font>
+_<br>Gulf = <font color=blue>{Cap~[Noun]}</font>
+_<br>Headland = <font color=blue>{Cap~[Noun]}</font>
+_<br>Heath = <font color=blue>{Cap~[Noun]}</font>
+_<br>Highlands = <font color=blue>{Cap~[Noun]}</font>
+_<br>Hill = <font color=blue>{Cap~[Noun]}</font>
+_<br>Ice = <font color=blue>{Cap~[Noun]}</font>
+_<br>Inlet = <font color=blue>{Cap~[Noun]}</font>
+_<br>Island = <font color=blue>{Cap~[Noun]}</font>
+_<br>Jungle = <font color=blue>{Cap~[Noun]}</font>
+_<br>Lake = <font color=blue>{Cap~[Noun]}</font>
+_<br>Marsh = <font color=blue>{Cap~[Noun]}</font>
+_<br>Mesa = <font color=blue>{Cap~[Noun]}</font>
+_<br>Moors = <font color=blue>{Cap~[Noun]}</font>
+_<br>Mountain = <font color=blue>{Cap~[Noun]}</font>
+_<br>Oasis = <font color=blue>{Cap~[Noun]}</font>
+_<br>Ocean = <font color=blue>{Cap~[Noun]}</font>
+_<br>Pass = <font color=blue>{Cap~[Noun]}</font>
+_<br>Peak = <font color=blue>{Cap~[Noun]}</font>
+_<br>Peninsula = <font color=blue>{Cap~[Noun]}</font>
+_<br>Pit = <font color=blue>{Cap~[Noun]}</font>
+_<br>Plain = <font color=blue>{Cap~[Noun]}</font>
+_<br>Plateau = <font color=blue>{Cap~[Noun]}</font>
+_<br>Pond = <font color=blue>{Cap~[Noun]}</font>
+_<br>Promontory = <font color=blue>{Cap~[Noun]}</font>
+_<br>Rapids = <font color=blue>{Cap~[Noun]}</font>
+_<br>Ravine = <font color=blue>{Cap~[Noun]}</font>
+_<br>Reef = <font color=blue>{Cap~[Noun]}</font>
+_<br>River = <font color=blue>{Cap~[Noun]}</font>
+_<br>Rivermouth = <font color=blue>{Cap~[Noun]}</font>
+_<br>Rock = <font color=blue>{Cap~[Noun]}</font>
+_<br>Saltpan = <font color=blue>{Cap~[Noun]}</font>
+_<br>Sand = <font color=blue>{Cap~[Noun]}</font>
+_<br>Sea = <font color=blue>{Cap~[Noun]}</font>
+_<br>Snow = <font color=blue>{Cap~[Noun]}</font>
+_<br>Spring = <font color=blue>{Cap~[Noun]}</font>
+_<br>Stream = <font color=blue>{Cap~[Noun]}</font>
+_<br>Swamp = <font color=blue>{Cap~[Noun]}</font>
+_<br>Tor = <font color=blue>{Cap~[Noun]}</font>
+_<br>Water = <font color=blue>{Cap~[Noun]}</font>
+_<br>Waterfall = <font color=blue>{Cap~[Noun]}</font>
+_<br>Wave = <font color=blue>{Cap~[Noun]}</font>
+_<br>Well = <font color=blue>{Cap~[Noun]}</font>
+_<br>Whirlpool = <font color=blue>{Cap~[Noun]}</font>
+_<br>Wood = <font color=blue>{Cap~[Noun]}</font>
+_<br>
+_<br>
+_<br><b>STRUCTURES</b> = <font color=blue>{Cap~[Noun]}</font>
+_<br>Abbey = <font color=blue>{Cap~[Noun]}</font>
+_<br>Bank = <font color=blue>{Cap~[Noun]}</font>
+_<br>Barn = <font color=blue>{Cap~[Noun]}</font>
+_<br>Bridge = <font color=blue>{Cap~[Noun]}</font>
+_<br>Castle = <font color=blue>{Cap~[Noun]}</font>
+_<br>Church = <font color=blue>{Cap~[Noun]}</font>
+_<br>City = <font color=blue>{Cap~[Noun]}</font>
+_<br>College = <font color=blue>{Cap~[Noun]}</font>
+_<br>Cottage = <font color=blue>{Cap~[Noun]}</font>
+_<br>Dwelling = <font color=blue>{Cap~[Noun]}</font>
+_<br>Estate = <font color=blue>{Cap~[Noun]}</font>
+_<br>Factory = <font color=blue>{Cap~[Noun]}</font>
+_<br>Farm = <font color=blue>{Cap~[Noun]}</font>
+_<br>Fort = <font color=blue>{Cap~[Noun]}</font>
+_<br>Guild = <font color=blue>{Cap~[Noun]}</font>
+_<br>Hall = <font color=blue>{Cap~[Noun]}</font>
+_<br>Hamlet = <font color=blue>{Cap~[Noun]}</font>
+_<br>Hermitage = <font color=blue>{Cap~[Noun]}</font>
+_<br>Hospital = <font color=blue>{Cap~[Noun]}</font>
+_<br>House = <font color=blue>{Cap~[Noun]}</font>
+_<br>Hut = <font color=blue>{Cap~[Noun]}</font>
+_<br>Inn = <font color=blue>{Cap~[Noun]}</font>
+_<br>Keep = <font color=blue>{Cap~[Noun]}</font>
+_<br>Monastery = <font color=blue>{Cap~[Noun]}</font>
+_<br>Palace = <font color=blue>{Cap~[Noun]}</font>
+_<br>Place = <font color=blue>{Cap~[Noun]}</font>
+_<br>Port = <font color=blue>{Cap~[Noun]}</font>
+_<br>Ruin = <font color=blue>{Cap~[Noun]}</font>
+_<br>School = <font color=blue>{Cap~[Noun]}</font>
+_<br>Shed = <font color=blue>{Cap~[Noun]}</font>
+_<br>Shrine = <font color=blue>{Cap~[Noun]}</font>
+_<br>Slums = <font color=blue>{Cap~[Noun]}</font>
+_<br>Stable = <font color=blue>{Cap~[Noun]}</font>
+_<br>Stronghold = <font color=blue>{Cap~[Noun]}</font>
+_<br>Tavern = <font color=blue>{Cap~[Noun]}</font>
+_<br>Temple = <font color=blue>{Cap~[Noun]}</font>
+_<br>Tenements = <font color=blue>{Cap~[Noun]}</font>
+_<br>Thorp = <font color=blue>{Cap~[Noun]}</font>
+_<br>Tollhouse = <font color=blue>{Cap~[Noun]}</font>
+_<br>Tower = <font color=blue>{Cap~[Noun]}</font>
+_<br>Town = <font color=blue>{Cap~[Noun]}</font>
+_<br>University = <font color=blue>{Cap~[Noun]}</font>
+_<br>Village = <font color=blue>{Cap~[Noun]}</font>
+_<br>Warehouse = <font color=blue>{Cap~[Noun]}</font>
+_<br>
+_<br>Avenue = <font color=blue>{Cap~[Noun]}</font>
+_<br>Crossroads = <font color=blue>{Cap~[Noun]}</font>
+_<br>Road = <font color=blue>{Cap~[Noun]}</font>
+_<br>Street = <font color=blue>{Cap~[Noun]}</font>
+_<br>
+_<br>Chair = <font color=blue>{Cap~[Noun]}</font>
+_<br>Chest = <font color=blue>{Cap~[Noun]}</font>
+_<br>Door  = <font color=blue>{Cap~[Noun]}</font>
+_<br>Roof = <font color=blue>{Cap~[Noun]}</font>
+_<br>Stair = <font color=blue>{Cap~[Noun]}</font>
+_<br>Table = <font color=blue>{Cap~[Noun]}</font>
+_<br>Window = <font color=blue>{Cap~[Noun]}</font>
+_<br>
+_<br>
+_<br><b>MILITARY</b> = <font color=blue>{Cap~[Noun]}</font>
+_<br>Armour = <font color=blue>{Cap~[Noun]}</font>
+_<br>Arrow = <font color=blue>{Cap~[Noun]}</font>
+_<br>Axe = <font color=blue>{Cap~[Noun]}</font>
+_<br>Bow = <font color=blue>{Cap~[Noun]}</font>
+_<br>Catapult = <font color=blue>{Cap~[Noun]}</font>
+_<br>Hammer = <font color=blue>{Cap~[Noun]}</font>
+_<br>Helm = <font color=blue>{Cap~[Noun]}</font>
+_<br>Lance = <font color=blue>{Cap~[Noun]}</font>
+_<br>Mace = <font color=blue>{Cap~[Noun]}</font>
+_<br>Mail = <font color=blue>{Cap~[Noun]}</font>
+_<br>Net = <font color=blue>{Cap~[Noun]}</font>
+_<br>Shield = <font color=blue>{Cap~[Noun]}</font>
+_<br>Sling = <font color=blue>{Cap~[Noun]}</font>
+_<br>Spear = <font color=blue>{Cap~[Noun]}</font>
+_<br>Sword = <font color=blue>{Cap~[Noun]}</font>
+_<br>
+_<br>Battle = <font color=blue>{Cap~[Noun]}</font>
+_<br>Battleground = <font color=blue>{Cap~[Noun]}</font>
+_<br>Boat = <font color=blue>{Cap~[Noun]}</font>
+_<br>Crown  = <font color=blue>{Cap~[Noun]}</font>
+_<br>Homeland = <font color=blue>{Cap~[Noun]}</font>
+_<br>Oar = <font color=blue>{Cap~[Noun]}</font>
+_<br>Peace = <font color=blue>{Cap~[Noun]}</font>
+_<br>Sail = <font color=blue>{Cap~[Noun]}</font>
+_<br>Ship = <font color=blue>{Cap~[Noun]}</font>
+_<br>Throne = <font color=blue>{Cap~[Noun]}</font>
+_<br>Victory = <font color=blue>{Cap~[Noun]}</font>
+_<br>War = <font color=blue>{Cap~[Noun]}</font>
+_<br>
+_<br>
+_<br><b>COLOURS</b>
+_<br>Black = <font color=blue>{Cap~[Noun]}</font>
+_<br>Blue = <font color=blue>{Cap~[Noun]}</font>
+_<br>Brown = <font color=blue>{Cap~[Noun]}</font>
+_<br>Green = <font color=blue>{Cap~[Noun]}</font>
+_<br>Orange = <font color=blue>{Cap~[Noun]}</font>
+_<br>Pink = <font color=blue>{Cap~[Noun]}</font>
+_<br>Purple = <font color=blue>{Cap~[Noun]}</font>
+_<br>Red = <font color=blue>{Cap~[Noun]}</font>
+_<br>Turquoise = <font color=blue>{Cap~[Noun]}</font>
+_<br>Violet = <font color=blue>{Cap~[Noun]}</font>
+_<br>White = <font color=blue>{Cap~[Noun]}</font>
+_<br>Yellow = <font color=blue>{Cap~[Noun]}</font>
+_<br>
+_<br>
+_<br><b>METALS</b> = <font color=blue>{Cap~[Noun]}</font>
+_<br>Bronze = <font color=blue>{Cap~[Noun]}</font>
+_<br>Gold = <font color=blue>{Cap~[Noun]}</font>
+_<br>Iron = <font color=blue>{Cap~[Noun]}</font>
+_<br>Lead = <font color=blue>{Cap~[Noun]}</font>
+_<br>Mercury = <font color=blue>{Cap~[Noun]}</font>
+_<br>Platinum = <font color=blue>{Cap~[Noun]}</font>
+_<br>Silver = <font color=blue>{Cap~[Noun]}</font>
+_<br>Steel = <font color=blue>{Cap~[Noun]}</font>
+_<br>Tin = <font color=blue>{Cap~[Noun]}</font>
+_<br>Adamantite = <font color=blue>{Cap~[Noun]}</font>
+_<br>
+_<br>Clay = <font color=blue>{Cap~[Noun]}</font>
+_<br>Granite = <font color=blue>{Cap~[Noun]}</font>
+_<br>Marble = <font color=blue>{Cap~[Noun]}</font>
+_<br>Stone = <font color=blue>{Cap~[Noun]}</font>
+_<br>Wood = <font color=blue>{Cap~[Noun]}</font>
+_<br>
+_<br>Diamonds = <font color=blue>{Cap~[Noun]}</font>
+_<br>Emerald = <font color=blue>{Cap~[Noun]}</font>
+_<br>Gems = <font color=blue>{Cap~[Noun]}</font>
+_<br>Glass = <font color=blue>{Cap~[Noun]}</font>
+_<br>Jewellery = <font color=blue>{Cap~[Noun]}</font>
+_<br>Ruby = <font color=blue>{Cap~[Noun]}</font>
+_<br>Sapphire = <font color=blue>{Cap~[Noun]}</font>
+_<br>
+_<br>
+_<br><b>PLANTS</b> = <font color=blue>{Cap~[Noun]}</font>
+_<br>Flower = <font color=blue>{Cap~[Noun]}</font>
+_<br>Fruit = <font color=blue>{Cap~[Noun]}</font>
+_<br>Herb = <font color=blue>{Cap~[Noun]}</font>
+_<br>Seed = <font color=blue>{Cap~[Noun]}</font>
+_<br>Shrub = <font color=blue>{Cap~[Noun]}</font>
+_<br>Thorn = <font color=blue>{Cap~[Noun]}</font>
+_<br>Tree = <font color=blue>{Cap~[Noun]}</font>
+_<br>Vegetable = <font color=blue>{Cap~[Noun]}</font>
+_<br>Weed = <font color=blue>{Cap~[Noun]}</font>
+_<br>
+_<br>Apple = <font color=blue>{Cap~[Noun]}</font>
+_<br>Banana = <font color=blue>{Cap~[Noun]}</font>
+_<br>Banyan = <font color=blue>{Cap~[Noun]}</font>
+_<br>Barley = <font color=blue>{Cap~[Noun]}</font>
+_<br>Beech = <font color=blue>{Cap~[Noun]}</font>
+_<br>Birch = <font color=blue>{Cap~[Noun]}</font>
+_<br>Bramble = <font color=blue>{Cap~[Noun]}</font>
+_<br>Carnation = <font color=blue>{Cap~[Noun]}</font>
+_<br>Corn = <font color=blue>{Cap~[Noun]}</font>
+_<br>Daffodil = <font color=blue>{Cap~[Noun]}</font>
+_<br>Daisy = <font color=blue>{Cap~[Noun]}</font>
+_<br>Elder = <font color=blue>{Cap~[Noun]}</font>
+_<br>Elm = <font color=blue>{Cap~[Noun]}</font>
+_<br>Fir = <font color=blue>{Cap~[Noun]}</font>
+_<br>Grape = <font color=blue>{Cap~[Noun]}</font>
+_<br>Hazel = <font color=blue>{Cap~[Noun]}</font>
+_<br>Laurel = <font color=blue>{Cap~[Noun]}</font>
+_<br>Lemon = <font color=blue>{Cap~[Noun]}</font>
+_<br>Lily = <font color=blue>{Cap~[Noun]}</font>
+_<br>Lotus = <font color=blue>{Cap~[Noun]}</font>
+_<br>Oak = <font color=blue>{Cap~[Noun]}</font>
+_<br>Oats = <font color=blue>{Cap~[Noun]}</font>
+_<br>Olive = <font color=blue>{Cap~[Noun]}</font>
+_<br>Orange = <font color=blue>{Cap~[Noun]}</font>
+_<br>Orchid = <font color=blue>{Cap~[Noun]}</font>
+_<br>Pansy = <font color=blue>{Cap~[Noun]}</font>
+_<br>Pine = <font color=blue>{Cap~[Noun]}</font>
+_<br>Poplar = <font color=blue>{Cap~[Noun]}</font>
+_<br>Potato = <font color=blue>{Cap~[Noun]}</font>
+_<br>Rose = <font color=blue>{Cap~[Noun]}</font>
+_<br>Spruce = <font color=blue>{Cap~[Noun]}</font>
+_<br>Tulip = <font color=blue>{Cap~[Noun]}</font>
+_<br>Violet = <font color=blue>{Cap~[Noun]}</font>
+_<br>Wattle = <font color=blue>{Cap~[Noun]}</font>
+_<br>Wheat = <font color=blue>{Cap~[Noun]}</font>
+_<br>Willow = <font color=blue>{Cap~[Noun]}</font>
+_<br>Yew = <font color=blue>{Cap~[Noun]}</font>
+_<br>
+_<br>
+_<br><b>ADJECTIVES</b> 
+_<br>Arrogant = <font color=blue>{Cap~[Noun]}</font>
+_<br>Brave = <font color=blue>{Cap~[Noun]}</font>
+_<br>Cautious = <font color=blue>{Cap~[Noun]}</font>
+_<br>Confident = <font color=blue>{Cap~[Noun]}</font>
+_<br>Cowardly = <font color=blue>{Cap~[Noun]}</font>
+_<br>Cruel = <font color=blue>{Cap~[Noun]}</font>
+_<br>Diffident = <font color=blue>{Cap~[Noun]}</font>
+_<br>Foolish = <font color=blue>{Cap~[Noun]}</font>
+_<br>Generous = <font color=blue>{Cap~[Noun]}</font>
+_<br>Humble = <font color=blue>{Cap~[Noun]}</font>
+_<br>Ignorant = <font color=blue>{Cap~[Noun]}</font>
+_<br>Kind = <font color=blue>{Cap~[Noun]}</font>
+_<br>Learned = <font color=blue>{Cap~[Noun]}</font>
+_<br>Mean = <font color=blue>{Cap~[Noun]}</font>
+_<br>Nasty = <font color=blue>{Cap~[Noun]}</font>
+_<br>Nice = <font color=blue>{Cap~[Noun]}</font>
+_<br>Proud = <font color=blue>{Cap~[Noun]}</font>
+_<br>Rash = <font color=blue>{Cap~[Noun]}</font>
+_<br>Wise = <font color=blue>{Cap~[Noun]}</font>
+_<br>
+_<br>Tall = <font color=blue>{Cap~[Noun]}</font>
+_<br>Short = <font color=blue>{Cap~[Noun]}</font>
+_<br>Large = <font color=blue>{Cap~[Noun]}</font>
+_<br>Small = <font color=blue>{Cap~[Noun]}</font>
+_<br>Fat = <font color=blue>{Cap~[Noun]}</font>
+_<br>Thin = <font color=blue>{Cap~[Noun]}</font>
+_<br>Fast = <font color=blue>{Cap~[Noun]}</font>
+_<br>Slow = <font color=blue>{Cap~[Noun]}</font>
+_<br>Big = <font color=blue>{Cap~[Noun]}</font>
+_<br>Little = <font color=blue>{Cap~[Noun]}</font>
+_<br>
+_<br>Wet = <font color=blue>{Cap~[Noun]}</font>
+_<br>Dry = <font color=blue>{Cap~[Noun]}</font>
+_<br>
+_<br>Dangerous = <font color=blue>{Cap~[Noun]}</font>
+_<br>Safe = <font color=blue>{Cap~[Noun]}</font>
+_<br>Calm = <font color=blue>{Cap~[Noun]}</font>
+_<br>Turbulent = <font color=blue>{Cap~[Noun]}</font>
+_<br>Smooth = <font color=blue>{Cap~[Noun]}</font>
+_<br>Rough = <font color=blue>{Cap~[Noun]}</font>
+_<br>
+_<br>Famous = <font color=blue>{Cap~[Noun]}</font>
+_<br>Unknown = <font color=blue>{Cap~[Noun]}</font>
+_<br>
+_<br>Cursed = <font color=blue>{Cap~[Noun]}</font>
+_<br>Blessed = <font color=blue>{Cap~[Noun]}</font>
+_<br>
+_<br>High = <font color=blue>{Cap~[Noun]}</font>
+_<br>Low = <font color=blue>{Cap~[Noun]}</font>
+_<br>Upper = <font color=blue>{Cap~[Noun]}</font>
+_<br>Lower = <font color=blue>{Cap~[Noun]}</font>
+_<br>Middle = <font color=blue>{Cap~[Noun]}</font>
+_<br>
+_<br>Salt = <font color=blue>{Cap~[Noun]}</font>
+_<br>Fresh = <font color=blue>{Cap~[Noun]}</font>
+_<br>Stale = <font color=blue>{Cap~[Noun]}</font>
+_<br>
+_<br>Happy = <font color=blue>{Cap~[Noun]}</font>
+_<br>Sad = <font color=blue>{Cap~[Noun]}</font>
+_<br>Lucky = <font color=blue>{Cap~[Noun]}</font>
+_<br>Unlucky = <font color=blue>{Cap~[Noun]}</font>
+_<br>
+_<br>Good = <font color=blue>{Cap~[Noun]}</font>
+_<br>Evil = <font color=blue>{Cap~[Noun]}</font>
+_<br>
+_<br>North = <font color=blue>{Cap~[Noun]}</font>
+_<br>South = <font color=blue>{Cap~[Noun]}</font>
+_<br>East = <font color=blue>{Cap~[Noun]}</font>
+_<br>West = <font color=blue>{Cap~[Noun]}</font>
+_<br>Centre = <font color=blue>{Cap~[Noun]}</font>
+_<br>
+_<br>Old = <font color=blue>{Cap~[Noun]}</font>
+_<br>New = <font color=blue>{Cap~[Noun]}</font>
+_<br>Past = <font color=blue>{Cap~[Noun]}</font>
+_<br>Present = <font color=blue>{Cap~[Noun]}</font>
+_<br>Future = <font color=blue>{Cap~[Noun]}</font>
+_<br>
+_<br>Hot = <font color=blue>{Cap~[Noun]}</font>
+_<br>Cold = <font color=blue>{Cap~[Noun]}</font>
+_<br>
+_<br>Wet = <font color=blue>{Cap~[Noun]}</font>
+_<br>Dry = <font color=blue>{Cap~[Noun]}</font>
+_<br>
+_<br>Rich = <font color=blue>{Cap~[Noun]}</font>
+_<br>Poor = <font color=blue>{Cap~[Noun]}</font>
+_<br>
+_<br>Mighty = <font color=blue>{Cap~[Noun]}</font>
+_<br>Weak = <font color=blue>{Cap~[Noun]}</font>
+_<br>Strong = <font color=blue>{Cap~[Noun]}</font>
+_<br>Chief = <font color=blue>{Cap~[Noun]}</font>
+_<br>
+_<br>Industrious = <font color=blue>{Cap~[Noun]}</font>
+_<br>Lazy = <font color=blue>{Cap~[Noun]}</font>
+_<br>Powerful = <font color=blue>{Cap~[Noun]}</font>
+_<br>Powerless = <font color=blue>{Cap~[Noun]}</font>
+_<br>Strong-willed = <font color=blue>{Cap~[Noun]}</font>
+_<br>Weak-willed = <font color=blue>{Cap~[Noun]}</font>
+_<br>
+_<br>Beloved = <font color=blue>{Cap~[Noun]}</font>
+_<br>Hated = <font color=blue>{Cap~[Noun]}</font>
+_<br>Despised = <font color=blue>{Cap~[Noun]}</font>
+_<br>Compassionate = <font color=blue>{Cap~[Noun]}</font>
+_<br>Serious = <font color=blue>{Cap~[Noun]}</font>
+_<br>Joking = <font color=blue>{Cap~[Noun]}</font>
+_<br>
+_<br>Sharp = <font color=blue>{Cap~[Noun]}</font>
+_<br>Blunt = <font color=blue>{Cap~[Noun]}</font>
+_<br>Noble = <font color=blue>{Cap~[Noun]}</font>
+_<br>Ignoble = <font color=blue>{Cap~[Noun]}</font>
+_<br>Bitter = <font color=blue>{Cap~[Noun]}</font>
+_<br>Sweet = <font color=blue>{Cap~[Noun]}</font>
+_<br>Sour = <font color=blue>{Cap~[Noun]}</font>
+_<br>Constant = <font color=blue>{Cap~[Noun]}</font>
+_<br>Changing = <font color=blue>{Cap~[Noun]}</font>
+_<br>Free = <font color=blue>{Cap~[Noun]}</font>
+_<br>Enslaved = <font color=blue>{Cap~[Noun]}</font>
+_<br>Shining (shiny) = <font color=blue>{Cap~[Noun]}</font>
+_<br>Dull = <font color=blue>{Cap~[Noun]}</font>
+_<br>Bright = <font color=blue>{Cap~[Noun]}</font>
+_<br>Loyal = <font color=blue>{Cap~[Noun]}</font>
+_<br>Disloyal = <font color=blue>{Cap~[Noun]}</font>
+_<br>Worthy = <font color=blue>{Cap~[Noun]}</font>
+_<br>Worthless = <font color=blue>{Cap~[Noun]}</font>
+_<br>Pure = <font color=blue>{Cap~[Noun]}</font> 
+_<br>Impure = <font color=blue>{Cap~[Noun]}</font>
+_<br>
+_<br>
+
+;Vocabulary2
+1,<b>PREPOSITIONS</b> 
+_<br>Always = <font color=blue>{Cap~[Inflection]}</font>
+_<br>and = <font color=blue>{Cap~[Inflection]}</font>
+_<br>Around = <font color=blue>{Cap~[Inflection]}</font>
+_<br>Away = <font color=blue>{Cap~[Inflection]}</font>
+_<br>Back = <font color=blue>{Cap~[Inflection]}</font>
+_<br>Beside = <font color=blue>{Cap~[Inflection]}</font>
+_<br>By = <font color=blue>{Cap~[Inflection]}</font>
+_<br>Don't know = <font color=blue>{Cap~[Inflection]}</font>
+_<br>Down = <font color=blue>{Cap~[Inflection]}</font>
+_<br>Far = <font color=blue>{Cap~[Inflection]}</font>
+_<br>For = <font color=blue>{Cap~[Inflection]}</font>
+_<br>From = <font color=blue>{Cap~[Inflection]}</font>
+_<br>Front = <font color=blue>{Cap~[Inflection]}</font>
+_<br>Goodbye = <font color=blue>{Cap~[Inflection]}</font>
+_<br>Hello = <font color=blue>{Cap~[Inflection]}</font>
+_<br>In = <font color=blue>{Cap~[Inflection]}</font>
+_<br>Maybe = <font color=blue>{Cap~[Inflection]}</font>
+_<br>Mostly = <font color=blue>{Cap~[Inflection]}</font>
+_<br>Near = <font color=blue>{Cap~[Inflection]}</font>
+_<br>Never = <font color=blue>{Cap~[Inflection]}</font>
+_<br>No = <font color=blue>{Cap~[Inflection]}</font>
+_<br>Off = <font color=blue>{Cap~[Inflection]}</font>
+_<br>On = <font color=blue>{Cap~[Inflection]}</font>
+_<br>or = <font color=blue>{Cap~[Inflection]}</font>
+_<br>Out = <font color=blue>{Cap~[Inflection]}</font>
+_<br>Over = <font color=blue>{Cap~[Inflection]}</font>
+_<br>Please = <font color=blue>{Cap~[Inflection]}</font>
+_<br>Seldom = <font color=blue>{Cap~[Inflection]}</font>
+_<br>Thanks  = <font color=blue>{Cap~[Inflection]}</font>
+_<br>To = <font color=blue>{Cap~[Inflection]}</font>
+_<br>Under = <font color=blue>{Cap~[Inflection]}</font>
+_<br>Yes = <font color=blue>{Cap~[Inflection]}</font>
+_<br>
+_<br>
+_<br><b>VERBS</b> 
+_<br>Attack = <font color=blue>{Cap~[Verb]}</font>
+_<br>Be = <font color=blue>{Cap~[Verb]}</font>
+_<br>Buy = <font color=blue>{Cap~[Verb]}</font>
+_<br>Carry/bear = <font color=blue>{Cap~[Verb]}</font>
+_<br>Cast = <font color=blue>{Cap~[Verb]}</font>
+_<br>Charge = <font color=blue>{Cap~[Verb]}</font>
+_<br>Climb = <font color=blue>{Cap~[Verb]}</font>
+_<br>Crawl = <font color=blue>{Cap~[Verb]}</font>
+_<br>Defend = <font color=blue>{Cap~[Verb]}</font>
+_<br>Destroy = <font color=blue>{Cap~[Verb]}</font>
+_<br>Do = <font color=blue>{Cap~[Verb]}</font>
+_<br>Drink = <font color=blue>{Cap~[Verb]}</font>
+_<br>Dwell/live = <font color=blue>{Cap~[Verb]}</font>
+_<br>Eat = <font color=blue>{Cap~[Verb]}</font>
+_<br>Feel = <font color=blue>{Cap~[Verb]}</font>
+_<br>Fight = <font color=blue>{Cap~[Verb]}</font>
+_<br>Flee = <font color=blue>{Cap~[Verb]}</font>
+_<br>Fly = <font color=blue>{Cap~[Verb]}</font>
+_<br>Get = <font color=blue>{Cap~[Verb]}</font>
+_<br>Give = <font color=blue>{Cap~[Verb]}</font>
+_<br>Go = <font color=blue>{Cap~[Verb]}</font>
+_<br>Guard = <font color=blue>{Cap~[Verb]}</font>
+_<br>Hate = <font color=blue>{Cap~[Verb]}</font>
+_<br>Have = <font color=blue>{Cap~[Verb]}</font>
+_<br>Heal = <font color=blue>{Cap~[Verb]}</font>
+_<br>Hear = <font color=blue>{Cap~[Verb]}</font>
+_<br>Lead = <font color=blue>{Cap~[Verb]}</font>
+_<br>Lie = <font color=blue>{Cap~[Verb]}</font>
+_<br>Love = <font color=blue>{Cap~[Verb]}</font>
+_<br>Protect = <font color=blue>{Cap~[Verb]}</font>
+_<br>Retreat = <font color=blue>{Cap~[Verb]}</font>
+_<br>Run = <font color=blue>{Cap~[Verb]}</font>
+_<br>See = <font color=blue>{Cap~[Verb]}</font>
+_<br>Sell = <font color=blue>{Cap~[Verb]}</font>
+_<br>Shout = <font color=blue>{Cap~[Verb]}</font>
+_<br>Sit = <font color=blue>{Cap~[Verb]}</font>
+_<br>Sleep = <font color=blue>{Cap~[Verb]}</font>
+_<br>Smell = <font color=blue>{Cap~[Verb]}</font>
+_<br>Speak = <font color=blue>{Cap~[Verb]}</font>
+_<br>Stand = <font color=blue>{Cap~[Verb]}</font>
+_<br>Swim = <font color=blue>{Cap~[Verb]}</font>
+_<br>Take = <font color=blue>{Cap~[Verb]}</font>
+_<br>Taste = <font color=blue>{Cap~[Verb]}</font>
+_<br>Trade = <font color=blue>{Cap~[Verb]}</font>
+_<br>Travel = <font color=blue>{Cap~[Verb]}</font>
+_<br>Wake = <font color=blue>{Cap~[Verb]}</font>
+_<br>Walk = <font color=blue>{Cap~[Verb]}</font>
+_<br>Whisper = <font color=blue>{Cap~[Verb]}</font>
+_<br>
+_<br>
+_<br><b>DIVINE</b> = <font color=blue>{Cap~[Noun]}</font>
+_<br>Demonic = <font color=blue>{Cap~[Noun]}</font>
+_<br>Divine = <font color=blue>{Cap~[Noun]}</font>
+_<br>Essence = <font color=blue>{Cap~[Noun]}</font>
+_<br>God = <font color=blue>{Cap~[Noun]}</font>
+_<br>Goddess = <font color=blue>{Cap~[Noun]}</font>
+_<br>Leyline = <font color=blue>{Cap~[Noun]}</font>
+_<br>Magic = <font color=blue>{Cap~[Noun]}</font>
+_<br>Sacred = <font color=blue>{Cap~[Noun]}</font>
+_<br>Saint = <font color=blue>{Cap~[Noun]}</font>
+_<br>
+_<br>
+_<br><b>BODY PARTS</b> = <font color=blue>{Cap~[Noun]}</font>
+_<br>Abdomen = <font color=blue>{Cap~[Noun]}</font>
+_<br>Anus = <font color=blue>{Cap~[Noun]}</font>
+_<br>Arms = <font color=blue>{Cap~[Noun]}</font>
+_<br>Artery = <font color=blue>{Cap~[Noun]}</font>
+_<br>Back = <font color=blue>{Cap~[Noun]}</font>
+_<br>Beak = <font color=blue>{Cap~[Noun]}</font>
+_<br>Blood = <font color=blue>{Cap~[Noun]}</font>
+_<br>Bone = <font color=blue>{Cap~[Noun]}</font>
+_<br>Brain = <font color=blue>{Cap~[Noun]}</font>
+_<br>Breast = <font color=blue>{Cap~[Noun]}</font>
+_<br>Calf = <font color=blue>{Cap~[Noun]}</font>
+_<br>Chest = <font color=blue>{Cap~[Noun]}</font>
+_<br>Chin = <font color=blue>{Cap~[Noun]}</font>
+_<br>Colon = <font color=blue>{Cap~[Noun]}</font>
+_<br>Ears = <font color=blue>{Cap~[Noun]}</font>
+_<br>Eyes = <font color=blue>{Cap~[Noun]}</font>
+_<br>Faeces = <font color=blue>{Cap~[Noun]}</font>
+_<br>Finger = <font color=blue>{Cap~[Noun]}</font>
+_<br>Foot = <font color=blue>{Cap~[Noun]}</font>
+_<br>Forehead = <font color=blue>{Cap~[Noun]}</font>
+_<br>Groin = <font color=blue>{Cap~[Noun]}</font>
+_<br>Hair = <font color=blue>{Cap~[Noun]}</font>
+_<br>Hand = <font color=blue>{Cap~[Noun]}</font>
+_<br>Head = <font color=blue>{Cap~[Noun]}</font>
+_<br>Heart = <font color=blue>{Cap~[Noun]}</font>
+_<br>Intestine = <font color=blue>{Cap~[Noun]}</font>
+_<br>Kidney = <font color=blue>{Cap~[Noun]}</font>
+_<br>Leg = <font color=blue>{Cap~[Noun]}</font>
+_<br>Lips = <font color=blue>{Cap~[Noun]}</font>
+_<br>Liver = <font color=blue>{Cap~[Noun]}</font>
+_<br>Loin = <font color=blue>{Cap~[Noun]}</font>
+_<br>Lung = <font color=blue>{Cap~[Noun]}</font>
+_<br>Menstruum = <font color=blue>{Cap~[Noun]}</font>
+_<br>Mouth = <font color=blue>{Cap~[Noun]}</font>
+_<br>Mucous = <font color=blue>{Cap~[Noun]}</font>
+_<br>Muscle = <font color=blue>{Cap~[Noun]}</font>
+_<br>Nail = <font color=blue>{Cap~[Noun]}</font>
+_<br>Neck = <font color=blue>{Cap~[Noun]}</font>
+_<br>Nerve = <font color=blue>{Cap~[Noun]}</font>
+_<br>Nipple = <font color=blue>{Cap~[Noun]}</font>
+_<br>Nose = <font color=blue>{Cap~[Noun]}</font>
+_<br>Pelvis = <font color=blue>{Cap~[Noun]}</font>
+_<br>Penis = <font color=blue>{Cap~[Noun]}</font>
+_<br>Rectum = <font color=blue>{Cap~[Noun]}</font>
+_<br>Saliva = <font color=blue>{Cap~[Noun]}</font>
+_<br>Shoulders = <font color=blue>{Cap~[Noun]}</font>
+_<br>Skeleton = <font color=blue>{Cap~[Noun]}</font>
+_<br>Skin = <font color=blue>{Cap~[Noun]}</font>
+_<br>Skull = <font color=blue>{Cap~[Noun]}</font>
+_<br>Spine = <font color=blue>{Cap~[Noun]}</font>
+_<br>Stomach = <font color=blue>{Cap~[Noun]}</font>
+_<br>Tail = <font color=blue>{Cap~[Noun]}</font>
+_<br>Teeth = <font color=blue>{Cap~[Noun]}</font>
+_<br>Testicles = <font color=blue>{Cap~[Noun]}</font>
+_<br>Thigh = <font color=blue>{Cap~[Noun]}</font>
+_<br>Throat = <font color=blue>{Cap~[Noun]}</font>
+_<br>Toe = <font color=blue>{Cap~[Noun]}</font>
+_<br>Tongue = <font color=blue>{Cap~[Noun]}</font>
+_<br>Urine = <font color=blue>{Cap~[Noun]}</font>
+_<br>Vagina = <font color=blue>{Cap~[Noun]}</font>
+_<br>Vein = <font color=blue>{Cap~[Noun]}</font>
+_<br>Wing = <font color=blue>{Cap~[Noun]}</font>
+_<br>Womb = <font color=blue>{Cap~[Noun]}</font>
+_<br>
+_<br>
+_<br><b>MONSTERS</b> = <font color=blue>{Cap~[Noun]}</font>
+_<br>Centaur = <font color=blue>{Cap~[Noun]}</font>
+_<br>Demon = <font color=blue>{Cap~[Noun]}</font>
+_<br>Demonkin = <font color=blue>{Cap~[Noun]}</font>
+_<br>Draconian = <font color=blue>{Cap~[Noun]}</font>
+_<br>Dragon = <font color=blue>{Cap~[Noun]}</font>
+_<br>Dwarf = <font color=blue>{Cap~[Noun]}</font>
+_<br>Elf = <font color=blue>{Cap~[Noun]}</font>
+_<br>Ghoul = <font color=blue>{Cap~[Noun]}</font>
+_<br>Giant = <font color=blue>{Cap~[Noun]}</font>
+_<br>Gnoll = <font color=blue>{Cap~[Noun]}</font>
+_<br>Gnome = <font color=blue>{Cap~[Noun]}</font>
+_<br>Goblin = <font color=blue>{Cap~[Noun]}</font>
+_<br>Hobbit = <font color=blue>{Cap~[Noun]}</font>
+_<br>Hobgoblin = <font color=blue>{Cap~[Noun]}</font>
+_<br>Human-baby = <font color=blue>{Cap~[Noun]}</font>
+_<br>Human-child-female = <font color=blue>{Cap~[Noun]}</font>
+_<br>Human-child-male = <font color=blue>{Cap~[Noun]}</font>
+_<br>Human-female = <font color=blue>{Cap~[Noun]}</font>
+_<br>Human-male = <font color=blue>{Cap~[Noun]}</font>
+_<br>Kobold = <font color=blue>{Cap~[Noun]}</font>
+_<br>Lich = <font color=blue>{Cap~[Noun]}</font>
+_<br>Lizardmen = <font color=blue>{Cap~[Noun]}</font>
+_<br>Merman = <font color=blue>{Cap~[Noun]}</font>
+_<br>Minotaur = <font color=blue>{Cap~[Noun]}</font>
+_<br>Ogre = <font color=blue>{Cap~[Noun]}</font>
+_<br>Orc = <font color=blue>{Cap~[Noun]}</font>
+_<br>Sahuagin = <font color=blue>{Cap~[Noun]}</font>
+_<br>Selkie = <font color=blue>{Cap~[Noun]}</font>
+_<br>Shapechanger = <font color=blue>{Cap~[Noun]}</font>
+_<br>Skeleton = <font color=blue>{Cap~[Noun]}</font>
+_<br>Spectre = <font color=blue>{Cap~[Noun]}</font>
+_<br>Triton = <font color=blue>{Cap~[Noun]}</font>
+_<br>Troll = <font color=blue>{Cap~[Noun]}</font>
+_<br>Undead = <font color=blue>{Cap~[Noun]}</font>
+_<br>Vampire = <font color=blue>{Cap~[Noun]}</font>
+_<br>Were-animal = <font color=blue>{Cap~[Noun]}</font>
+_<br>Wight = <font color=blue>{Cap~[Noun]}</font>
+_<br>Wolfen = <font color=blue>{Cap~[Noun]}</font>
+_<br>Zombie = <font color=blue>{Cap~[Noun]}</font>
+_<br>
+_<br>
+_<br><b>ANIMALS</b> = <font color=blue>{Cap~[Noun]}</font>
+_<br>Egg = <font color=blue>{Cap~[Noun]}</font>
+_<br>Feather = <font color=blue>{Cap~[Noun]}</font>
+_<br>Fur = <font color=blue>{Cap~[Noun]}</font>
+_<br>Hide = <font color=blue>{Cap~[Noun]}</font>
+_<br>Horn = <font color=blue>{Cap~[Noun]}</font>
+_<br>Meat = <font color=blue>{Cap~[Noun]}</font>
+_<br>Milk = <font color=blue>{Cap~[Noun]}</font>
+_<br>Wool = <font color=blue>{Cap~[Noun]}</font>
+_<br>
+_<br>Albatross = <font color=blue>{Cap~[Noun]}</font>
+_<br>Ant = <font color=blue>{Cap~[Noun]}</font>
+_<br>Antelope = <font color=blue>{Cap~[Noun]}</font>
+_<br>Ape = <font color=blue>{Cap~[Noun]}</font>
+_<br>Bear = <font color=blue>{Cap~[Noun]}</font>
+_<br>Bee = <font color=blue>{Cap~[Noun]}</font>
+_<br>Bison = <font color=blue>{Cap~[Noun]}</font>
+_<br>Boar/pig = <font color=blue>{Cap~[Noun]}</font>
+_<br>Bull = <font color=blue>{Cap~[Noun]}</font>
+_<br>Camel = <font color=blue>{Cap~[Noun]}</font>
+_<br>Cat = <font color=blue>{Cap~[Noun]}</font>
+_<br>Chicken = <font color=blue>{Cap~[Noun]}</font>
+_<br>Cow = <font color=blue>{Cap~[Noun]}</font>
+_<br>Crab = <font color=blue>{Cap~[Noun]}</font>
+_<br>Crocodile = <font color=blue>{Cap~[Noun]}</font>
+_<br>Crow/raven = <font color=blue>{Cap~[Noun]}</font>
+_<br>Dog = <font color=blue>{Cap~[Noun]}</font>
+_<br>Dolphin = <font color=blue>{Cap~[Noun]}</font>
+_<br>Donkey = <font color=blue>{Cap~[Noun]}</font>
+_<br>Dove = <font color=blue>{Cap~[Noun]}</font>
+_<br>Duck = <font color=blue>{Cap~[Noun]}</font>
+_<br>Eagle = <font color=blue>{Cap~[Noun]}</font>
+_<br>Eel = <font color=blue>{Cap~[Noun]}</font>
+_<br>Elephant = <font color=blue>{Cap~[Noun]}</font>
+_<br>Emu = <font color=blue>{Cap~[Noun]}</font>
+_<br>Fish = <font color=blue>{Cap~[Noun]}</font>
+_<br>Fish = <font color=blue>{Cap~[Noun]}</font>
+_<br>Flea = <font color=blue>{Cap~[Noun]}</font>
+_<br>Fly = <font color=blue>{Cap~[Noun]}</font>
+_<br>Fox = <font color=blue>{Cap~[Noun]}</font>
+_<br>Galah = <font color=blue>{Cap~[Noun]}</font>
+_<br>Giraffe = <font color=blue>{Cap~[Noun]}</font>
+_<br>Goat = <font color=blue>{Cap~[Noun]}</font>
+_<br>Goose = <font color=blue>{Cap~[Noun]}</font>
+_<br>Gull = <font color=blue>{Cap~[Noun]}</font>
+_<br>Hawk = <font color=blue>{Cap~[Noun]}</font>
+_<br>Hen = <font color=blue>{Cap~[Noun]}</font>
+_<br>Hippopotamus = <font color=blue>{Cap~[Noun]}</font>
+_<br>Horse = <font color=blue>{Cap~[Noun]}</font>
+_<br>Ibis = <font color=blue>{Cap~[Noun]}</font>
+_<br>Jackal = <font color=blue>{Cap~[Noun]}</font>
+_<br>Jaguar = <font color=blue>{Cap~[Noun]}</font>
+_<br>Kangaroo = <font color=blue>{Cap~[Noun]}</font>
+_<br>Koala = <font color=blue>{Cap~[Noun]}</font>
+_<br>Kookaburra = <font color=blue>{Cap~[Noun]}</font>
+_<br>Leopard = <font color=blue>{Cap~[Noun]}</font>
+_<br>Lion = <font color=blue>{Cap~[Noun]}</font>
+_<br>Lizard = <font color=blue>{Cap~[Noun]}</font>
+_<br>Lobster = <font color=blue>{Cap~[Noun]}</font>
+_<br>Maggot = <font color=blue>{Cap~[Noun]}</font>
+_<br>Monkey = <font color=blue>{Cap~[Noun]}</font>
+_<br>Moose = <font color=blue>{Cap~[Noun]}</font>
+_<br>Mosquito = <font color=blue>{Cap~[Noun]}</font>
+_<br>Mouse = <font color=blue>{Cap~[Noun]}</font>
+_<br>Oyster = <font color=blue>{Cap~[Noun]}</font>
+_<br>Parrot = <font color=blue>{Cap~[Noun]}</font>
+_<br>Pearl = <font color=blue>{Cap~[Noun]}</font>
+_<br>Penguin = <font color=blue>{Cap~[Noun]}</font>
+_<br>Pigeon = <font color=blue>{Cap~[Noun]}</font>
+_<br>Polar bear = <font color=blue>{Cap~[Noun]}</font>
+_<br>Prawn = <font color=blue>{Cap~[Noun]}</font>
+_<br>Rabbit = <font color=blue>{Cap~[Noun]}</font>
+_<br>Rat = <font color=blue>{Cap~[Noun]}</font>
+_<br>Rhino = <font color=blue>{Cap~[Noun]}</font>
+_<br>Rooster = <font color=blue>{Cap~[Noun]}</font>
+_<br>Scorpion = <font color=blue>{Cap~[Noun]}</font>
+_<br>Seal = <font color=blue>{Cap~[Noun]}</font>
+_<br>Shark = <font color=blue>{Cap~[Noun]}</font>
+_<br>Sheep = <font color=blue>{Cap~[Noun]}</font>
+_<br>Slug = <font color=blue>{Cap~[Noun]}</font>
+_<br>Snail = <font color=blue>{Cap~[Noun]}</font>
+_<br>Snake = <font color=blue>{Cap~[Noun]}</font>
+_<br>Spider = <font color=blue>{Cap~[Noun]}</font>
+_<br>Sponge = <font color=blue>{Cap~[Noun]}</font>
+_<br>Stag = <font color=blue>{Cap~[Noun]}</font>
+_<br>Swallow = <font color=blue>{Cap~[Noun]}</font>
+_<br>Swan = <font color=blue>{Cap~[Noun]}</font>
+_<br>Tiger = <font color=blue>{Cap~[Noun]}</font>
+_<br>Vulture = <font color=blue>{Cap~[Noun]}</font>
+_<br>Walrus = <font color=blue>{Cap~[Noun]}</font>
+_<br>Whale = <font color=blue>{Cap~[Noun]}</font>
+_<br>Wolf = <font color=blue>{Cap~[Noun]}</font>
+_<br>Worm = <font color=blue>{Cap~[Noun]}</font>
+_<br>Zebra = <font color=blue>{Cap~[Noun]}</font>
+_<br>
+_<br>
+_<br><b>OCCUPATIONS</b> = <font color=blue>{Cap~[Noun]}</font>
+_<br>Admiral = <font color=blue>{Cap~[Noun]}</font>
+_<br>Alchemist = <font color=blue>{Cap~[Noun]}</font>
+_<br>Alderman = <font color=blue>{Cap~[Noun]}</font>
+_<br>Archer = <font color=blue>{Cap~[Noun]}</font>
+_<br>Baron = <font color=blue>{Cap~[Noun]}</font>
+_<br>Baroness = <font color=blue>{Cap~[Noun]}</font>
+_<br>Bishop = <font color=blue>{Cap~[Noun]}</font>
+_<br>Blacksmith = <font color=blue>{Cap~[Noun]}</font>
+_<br>Captain (sea) = <font color=blue>{Cap~[Noun]}</font>
+_<br>Citizen = <font color=blue>{Cap~[Noun]}</font>
+_<br>Commander (land) = <font color=blue>{Cap~[Noun]}</font>
+_<br>Counsellor = <font color=blue>{Cap~[Noun]}</font>
+_<br>Count = <font color=blue>{Cap~[Noun]}</font>
+_<br>Countess = <font color=blue>{Cap~[Noun]}</font>
+_<br>Dame = <font color=blue>{Cap~[Noun]}</font>
+_<br>Duchess = <font color=blue>{Cap~[Noun]}</font>
+_<br>Duke = <font color=blue>{Cap~[Noun]}</font>
+_<br>Earl = <font color=blue>{Cap~[Noun]}</font>
+_<br>Emperor = <font color=blue>{Cap~[Noun]}</font>
+_<br>Empress = <font color=blue>{Cap~[Noun]}</font>
+_<br>Farmer = <font color=blue>{Cap~[Noun]}</font>
+_<br>Female Earl = <font color=blue>{Cap~[Noun]}</font>
+_<br>Fighter = <font color=blue>{Cap~[Noun]}</font>
+_<br>General = <font color=blue>{Cap~[Noun]}</font>
+_<br>Healer/Doctor = <font color=blue>{Cap~[Noun]}</font>
+_<br>King = <font color=blue>{Cap~[Noun]}</font>
+_<br>Knight = <font color=blue>{Cap~[Noun]}</font>
+_<br>Lady = <font color=blue>{Cap~[Noun]}</font>
+_<br>Lawyer = <font color=blue>{Cap~[Noun]}</font>
+_<br>Lord = <font color=blue>{Cap~[Noun]}</font>
+_<br>Mayor = <font color=blue>{Cap~[Noun]}</font>
+_<br>Merchant = <font color=blue>{Cap~[Noun]}</font>
+_<br>Miller = <font color=blue>{Cap~[Noun]}</font>
+_<br>Mistress = <font color=blue>{Cap~[Noun]}</font>
+_<br>Monk = <font color=blue>{Cap~[Noun]}</font>
+_<br>Pilgrim = <font color=blue>{Cap~[Noun]}</font>
+_<br>Priest = <font color=blue>{Cap~[Noun]}</font>
+_<br>Prince = <font color=blue>{Cap~[Noun]}</font>
+_<br>Princess = <font color=blue>{Cap~[Noun]}</font>
+_<br>Queen = <font color=blue>{Cap~[Noun]}</font>
+_<br>Ruler = <font color=blue>{Cap~[Noun]}</font>
+_<br>Sage = <font color=blue>{Cap~[Noun]}</font>
+_<br>Sailor = <font color=blue>{Cap~[Noun]}</font>
+_<br>Serf = <font color=blue>{Cap~[Noun]}</font>
+_<br>Slave = <font color=blue>{Cap~[Noun]}</font>
+_<br>Sorcerer = <font color=blue>{Cap~[Noun]}</font>
+_<br>Squire = <font color=blue>{Cap~[Noun]}</font>
+_<br>Steward = <font color=blue>{Cap~[Noun]}</font>
+_<br>Stranger = <font color=blue>{Cap~[Noun]}</font>
+_<br>Warrior = <font color=blue>{Cap~[Noun]}</font>
+_<br>Witch = <font color=blue>{Cap~[Noun]}</font>
+_<br>Wizard = <font color=blue>{Cap~[Noun]}</font>
+_<br>
+_<br>
+
+
+
+

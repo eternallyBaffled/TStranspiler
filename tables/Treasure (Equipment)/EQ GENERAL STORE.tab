@@ -1,0 +1,531 @@
+# ------------------------------------------------------
+# Last Update: modified by Valminder September 14, 2006.
+# ------------------------------------------------------
+#
+# The General Store
+#
+# Sean Hlousek
+#
+# -------------------------------------------------------------------------
+#
+# To call this table from another one:
+#    [EQ General Store.Generate(%Rolls%,%GenItem%)
+#
+#    Parameters: (%Rolls%,%GenItem%)
+#
+#    Rolls:    (1) Enter the number of items needed.
+#    Gen Item: (1) 1= ALL Items
+#                  2= Armors (Mundane)
+#                  3= Bardic Items
+#                  4= Clerics & Temples Items
+#                  5= Clothier
+#                  6= Fighter Items (no armors nor weapons)
+#                  7= Furrier
+#                  8= Herbalist
+#                  9= MAGIC ITEMS
+#                  10= Outdoor Items
+#                  11= Racial Items
+#                  12= Rogues Items
+#                  13= Weapons
+#
+# -------------------------------------------------------------------------
+#
+# Modified by Valminder, August  2006.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+#    I heavily modified this table. I could modify it more by
+#       removing all the variables for the cost, but it would
+#       be too long. For now, it works fine.
+#    The final price need to be adjusted for some items, but it
+#       seems relatively OK.
+#    I diminished the price variation in [Store].
+#    Cost of Items: Put the cost in GP, the output will modify it
+#       for gp, sp, or cp.
+#       1 sp = 0.1 gp
+#       1 cp = 0.01 gp
+#
+
+%BelayingPin%,1
+%Carpenter'sAxe%,2
+%Pitchfork%,2
+%Woodsmen'sAxe%,3
+%Ankus%,1
+%Artisan'sOutfit%,1
+%Barrel%,0.1
+%Basket%,0.1
+%Bell%,1
+%Bit&Bridle%,2
+%Block&Tackle%,8
+%Bottle%,2
+%BrandingIron%,2
+%Bucket%,0.2
+%Cart%,15
+%Chain(10ft)%,30
+%ChastityBelt(DC20)%,30
+%ChastityBelt(DC25)%,60
+%ChastityBelt(DC30)%,120
+%ChastityBelt(DC40)%,235
+%Chest%,2
+%Copper%,10
+%Crowbar%,2
+%DiceSetBone%,0.5
+%DiceSetIvory%,4
+%DiceSetSilver%,0.7
+%Feed(perDay)%,0.05
+%Flask%,0.03
+%Gold%,50
+%Grindstone%,25
+%Grindstone(ExtraLarge)%,100
+%Hammer%,0.5
+%Hourglass%,25
+%Iron%,0.2
+%JugClay%,0.03
+%Ladder(10ft)%,0.05
+%Linen(SqYd.)%,0.8
+%MagnifyingGlass%,100
+%Manacles%,15
+%MirrorSmallSteel%,10
+%Mug/TankardClay%,0.02
+%Miner'sPick%,3
+%ClayPitcher%,0.02
+%Pole10foot%,0.02
+%IronPot%,0.5
+%RopeHemp(50ft)%,1
+%RopeSilk(50ft)%,10
+%Sack%,0.1
+%SaddleAmazon%,12
+%SaddleCutting%,15
+%SaddleExotic%,75
+%SaddleFitted%,30
+%SaddleLightCavalry%,12
+%SaddleMilitary%,20
+%SaddlePack%,5
+%SaddleRiding%,10
+%SaddleTravel%,10
+%Saddlebags%,4
+%Sailor'sWax%,10
+%Merchant'sScale%,2
+%Scholar'sOutfit%,5
+%SeaChest%,25
+%SealingWax%,1
+%SewingNeedle%,0.05
+%SignetRing%,5
+%Silk(2sqyd)%,10
+%Silver%,5
+%Sled%,10
+%Soap(perlb)%,0.5
+%Shovel%,2
+%Stabling(perday)%,0.5
+%Stocks%,6
+%Archer'sTarget%,18
+%ToolkitBowyer's/Fletcher's%,20
+%ToolkitKeymaker's%,85
+%ToolkitLeatherworker's%,71
+%ToolkitMapmaker's%,12
+%ToolkitNavigator's%,250
+%ToolkitSurgeon's%,30
+%ToolkitArcaneForensic's%,50
+%Ink%,8
+%Wagon%,35
+%Whetstone%,0.02
+%Backpack%,1
+%Bedroll%,0.1
+%Bell%,1
+%WinterBlanket%,0.5
+%BottleofWine%,2
+%Caltrops%,1
+%Candle%,0.01
+%Canvas(SqYard)%,0.4
+%MapCase%,2
+%ScrollCase%,2
+%Chalk(1piece)%,0.01
+%Firewood(perday)%,0.01
+%Fishhook%,0.1
+%FishingNet(25sq.ft.)%,4
+%Flint&Steel%,1
+%GrapplingHook%,1
+%Inkpen%,0.1
+%CommonLamp%,0.1
+%BullseyeLantern%,12
+%HoodedLantern%,7
+%Lock:VerySimple%,20
+%Lock:Average%,40
+%Lock:Good%,80
+%Lock:Amazing%,150
+%Oil(1pintFlask)%,0.1
+%Paper(sheet)%,0.4
+%Parchment(sheet)%,0.2
+%Piton%,0.1
+%10FootPole%,0.2
+%BeltPouch%,0.8
+%PortableRam%,10
+%TrailRations%,0.5
+%SignalWhistle%,0.8
+%Sledge%,1
+%Spade%,2
+%Spyglass%,1000
+%Torch%,0.01
+%Vial%,2
+%Waterskin%,1.2
+%Acid(Flask)%,10
+%Alchemist'sFire(flask)%,20
+%Antitoxin(vial)%,50
+%EverburningTorch%,110
+%HolyWater(flask)%,25
+%Smokestick%,20
+%Sunrod%,2
+%TanglefootBag%,50
+%Thunderstone%,30
+%Tindertwig%,1
+%Alchemist'sLab%,500
+%Artisan'sTools%,5
+%Climber'sKit%,80
+%DisguiseKit%,50
+%Healer'sKit%,50
+%HolySymbol%,6
+%BlankSpellbook%,15
+%Waterclock%,1000
+%Cleric'sVestments%,5
+%ColdWeatherotfit%,8
+%Courtier'sOutfit%,30
+%Entertainer'sOutfit%,3
+%Explorer'sOutfit%,10
+%Monk'sOutfit%,5
+%Noble'sOutfit%,75
+%Peasent'sOutfit%,0.1
+%RoyalOutfit%,200
+%Scholar'sOutfit%,5
+%Traveler'sOufit%,1
+%Ale:Gallon%,0.1
+%Bread(perloaf)%,0.02
+%Cheese(Hunk)%,0.1
+%RageWine%,65
+%SleepyTea(12servings)%,2
+%UniversalRations%,0.4
+%Wakeberries%,2
+%TravelBread%,0.1
+%Pipe%,0.1
+%Tobacco%,2
+
+### Was %Base%
+%PercentGPMod%,1
+### This is the Store modifier on all its prices 70% to 200% (normal 95% - 105%)
+%STVR%,0
+### How many items to roll
+%Rolls%,0
+#### Was %Base1%
+%MagicalGPMod%,0
+
+# New variables Aug 2006.
+%Item%,0
+# Put Book=2 in the item's description if you do not want books to appear.
+%Book%,0
+%Cost%,0
+%Condition%,0
+%GenItem%,0
+# 1= Mundane Item, 2= Magical Item
+%Magic%,1
+%MWGPMod%,0
+%ArmorSizeMod%,1
+# To be used with "EQ_Main.tab"
+%GetData%,0
+%DataName%,0
+%DataPercentMod%,0
+%SpecialEffect%,0
+%BodySize%,0
+%MoneyType%,gp
+%Temp%,0
+
+@Rolls,10,How many Items are in this Shop?
+@GenItem,1,What do you want to generate,ALL Items,Armors (Mundane),Bardic Items,Clerics and Temples Items,Clothier,Fighter Items,Furrier,Herbalist,Magic Items,Outdoor Items,Racial Items (Dwarf - Elf - Halfling),Rogues Items,Weapons (Mundane)
+
+:Start
+1,{Status~By Sean Hlousek, Valminder 2006}[Generate]
+
+:Generate
+1,|STVR=1|[Store]
+#_[Multiplier]
+_{Loop~%Rolls%,|BodySize=0||PercentGPMod=0||MagicalGPMod=0||Magic=1||MWGPMod=0||ArmorSizeMod=1||SpecialEffect=0|
+_[GeneralStoreMaster=%GenItem%]}
+
+:Print
+1,<b>Item:</b> <i><font color="Purple">%Item%</font></i>[Print2]
+2,<b>Item:</b> <i><font color="Blue">(Magic) %Item%</font></i>[Print2]
+
+:Print2
+1,{If~%SpecialEffect%!=0? [PrintExtraMW]}
+_{IIf~%Book%!=2?  <font size=1>(%Book%)</font>}
+#If you do not want BodySize for everything put |BodySize=0| above and |BodySize=1| in item's description.
+_{If~%BodySize%=1? ([BodySize] size)}
+_|Cost+%MagicalGPMod%||Cost+%MWGPMod%|{If~%Magic%=1?|Cost*%ArmorSizeMod%|}
+_[Calculate Cost]
+_ (%Condition%, [AddComma.Start(%Cost%)] %MoneyType%)
+
+:PrintExtraMW
+1,<u>Extra MW Effect</u>: %SpecialEffect%.
+
+# This will give a modifier to the cost of the items.
+;Store
+2,|STVR-{Calc~({Dice~1d10+20}/100)}|
+4,|STVR-{Calc~({Dice~1d10+10}/100)}|
+8,|STVR-{Calc~({Dice~1d10+5}/100)}|
+15,|STVR-{Calc~({Dice~1d5}/100)}|
+70,|STVR=1|
+30,|STVR+{Calc~({Dice~1d5}/100)}|
+15,|STVR+{Calc~({Dice~1d10+5}/100)}|
+8,|STVR+{Calc~({Dice~1d10+10}/100)}|
+4,|STVR+{Calc~({Dice~1d15+20}/100)}|
+2,|STVR+{Calc~({Dice~1d25+35}/100)}|
+1,|STVR+{Calc~({Dice~1d50+50}/100)}|
+
+:Multiplier
+1,Price Multiplier: %STVR%<br>
+
+:Calculate Cost
+1,|Cost={Calc~((%STVR%+%PercentGPMod%)*%Cost%)}|
+_{If~%Cost%>=5?|Cost={Trunc~%Cost%}||MoneyType=gp|}
+_{If~{And~%Cost%>=1,%Cost%<5}=1?{If~%Cost%={Trunc~%Cost%}?|MoneyType=gp|/|Cost={Round~1,%Cost%}||Cost*10||MoneyType=sp|}}
+_{If~%Cost%<0.1?|Cost*100||Cost={Trunc~%Cost%}|{If~%Cost%=0?|Cost=1|}|MoneyType=cp|/{If~%Cost%<1?|Cost*10||Cost={Trunc~%Cost%}|{If~%Cost%=0?|Cost=1|}|MoneyType=sp|}}
+
+:GeneralStoreMaster
+1,[RandomItem]
+2,[EQ Armory.Generate(1,3)]
+3,[EQ Bardic Items.Generate(1,3)]
+4,[EQ Clerics & Temples Items.Generate(1)]
+5,[EQ Clothier.Generate(1)]
+6,[EQ Fighter Items.Generate(1,2)]
+7,[EQ Furrier.Generate(1)]
+8,[EQ Herbalist.Generate(1,1)]
+9,[EQ MAGIC ITEMS.Generate(1,1)]
+10,[EQ Outdoor Items.Generate(1)]
+11,[EQ Racial Items.Generate(1,1)]
+12,[EQ Rogues Items.Generate(1)]
+13,[EQ Blacksmith.Generate(1,{Dice~1d2})]
+
+;RandomItem
+20,[ItemsMaster][Print=%Magic%]
+40,[EQ Armory.Generate(1,3)]
+30,[EQ Bardic Items.Generate(1,3)]
+50,[EQ Blacksmith.Generate(1,{Dice~1d2})]
+20,[EQ Clerics & Temples Items.Generate(1)]
+20,[EQ Clothier.Generate(1)]
+20,[EQ Fighter Items.Generate(1,2)]
+20,[EQ Furrier.Generate(1)]
+20,[EQ Herbalist.Generate(1,1)]
+5,[EQ MAGIC ITEMS.Generate(1,1)]
+30,[EQ Outdoor Items.Generate(1)]
+30,[EQ Racial Items.Generate(1,1)]
+10,[EQ Rogues Items.Generate(1)]
+                                                                         
+;ItemsMaster
+30,|Item=Tobacco</font></i> ([Drug and Tobacco Generator.TobaccoNames]).||Book=UEG||Condition=n/a||Cost=%Tobacco%|
+20,|Item=Pipe:</font></i> [PipeGen]||Book=UEG||Condition=[Condition]||Cost=%Pipe%|
+5,|Item=Belaying Pin (metal)</font></i>||Book=UEG||Condition=[Condition]||Cost=%BelayingPin%|
+25,|Item=Carpenter's Axe</font></i> It has a haft made of [Woods], a blade [WeaponMetals] and a handle wrapped in [HiltMaterial]||Book=UEG||Condition=[Condition]||Cost=%Carpenter'sAxe%|
+25,|Item=Pitchfork</font></i> [WeaponMetals] and [Woods].||Book=UEG||Condition=[Condition]||Cost=%Pitchfork%|
+25,|Item=Woodsmen's Axe</font></i> It has a haft made of [Woods], a blade [WeaponMetals] and a handle wrapped in [HiltMaterial] ||Book=UEG||Condition=[Condition]||Cost=%Woodsmen'sAxe%|
+5,|Item=Ankus</font></i>||Book=UEG||Condition=[Condition]||Cost=%Ankus%|
+5, |Item=Artisan's Outfit</font></i>||BodySize=1||Book=UEG||Condition=[Condition]||Cost=%Artisan'sOutfit%|
+35,|Item=Barrel (2 gallons keg)</font></i> made of [Woods].||Book=UEG||Condition=[Condition]||Cost=%Barrel%|
+40,|Item=Basket</font></i>||Book=UEG||Condition=[Condition]||Cost=%Basket%|
+10,|Item=Bell</font></i> [CommonRingMetal]||Book=UEG||Condition=[InstrumentCondition]||Cost=%Bell%|
+15,|Item=Bit & Bridle</font></i>||Book=UEG||Condition=[Condition]||Cost=%Bit&Bridle%|
+15,|Item=Block & Tackle (200 lbs)</font></i>||Book=UEG||Condition=[Condition]||Cost=%Block&Tackle%|
+25,|Item=Bottle (1.5 pint)</font></i>||Book=UEG||Condition=[Condition]||Cost=%Bottle%|
+15,|Item=Branding Iron</font></i>||Book=UEG||Condition=[Condition]||Cost=%BrandingIron%|
+30,|Item=Bucket</font></i> made of [Woods].||Book=UEG||Condition=[Condition]||Cost=%Bucket%|
+20,|Item=Cart (Medium, 1/2 ton)</font></i>||Book=UEG||Condition=[Condition]||Cost=%Cart%|
+10,|Item=Chain (10 ft) (1/2 in, 970 lbs)</font></i> [WeaponMetals]||Book=UEG||Condition=[Condition]||Cost=%Chain(10ft)%|
+5,|Item=Chastity Belt (DC 20)</font></i> [WeaponMetals]||Book=UEG||Condition=[Condition]||Cost=%ChastityBelt(DC20)%|
+3,|Item=Chastity Belt (DC 25)</font></i> [WeaponMetals]||Book=UEG||Condition=[Condition]||Cost=%ChastityBelt(DC25)%|
+2,|Item=Chastity Belt (DC 30)</font></i> [WeaponMetals]||Book=UEG||Condition=[Condition]||Cost=%ChastityBelt(DC30)%|
+1,|Item=Chastity Belt (DC 40)</font></i> [WeaponMetals]||Book=UEG||Condition=[Condition]||Cost=%ChastityBelt(DC40)%|
+25,|Item=Chest, Small (2'x1'x1')</font></i> made of [Woods].||Book=UEG||Condition=[Condition]||Cost=%Chest%|
+5,|Item=Copper</font></i>||Book=UEG||Condition=[Condition]||Cost=%Copper%|
+30,|Item=Crowbar</font></i> [WeaponMetals]||Book=UEG||Condition=[Condition]||Cost=%Crowbar%|
+10,|Item=Dice Set, Bone</font></i>||Book=UEG||Condition=[Condition]||Cost=%DiceSetBone%|
+2,|Item=Dice Set, Ivory</font></i>||Book=UEG||Condition=[Condition]||Cost=%DiceSetIvory%|
+1,|Item=Dice Set, Silver</font></i>||Book=UEG||Condition=[Condition]||Cost=%DiceSetSilver%|
+35,|Item=Feed (per Day)</font></i> There are {Dice~5d5} days available.||Book=UEG||Condition=[Condition]||Cost=%Feed(perDay)%|
+20,|Item=Flask (1 pint)</font></i>||Book=UEG||Condition=[Condition]||Cost=%Flask%|
+1,|Item=Gold</font></i>||Book=UEG||Condition=[Condition]||Cost=%Gold%|
+10,|Item=Grindstone</font></i>||Book=UEG||Condition=[Condition]||Cost=%Grindstone%|
+5,|Item=Grindstone (Extra Large)</font></i>||Book=UEG||Condition=[Condition]||Cost=%Grindstone(ExtraLarge)%|
+40,|Item=Hammer</font></i>||Book=UEG||Condition=[Condition]||Cost=%Hammer%|
+1,|Item=Hourglass (1 hour)</font></i> made from [Woods] and glass.||Book=UEG||Condition=[Condition]||Cost=%Hourglass%|
+5,|Item=Iron</font></i>||Book=UEG||Condition=[Condition]||Cost=%Iron%|
+30,|Item=Jug, Clay (1 gallon)</font></i>||Book=UEG||Condition=[Condition]||Cost=%JugClay%|
+20,|Item=Ladder (10 ft)</font></i> made out of [Woods].||Book=UEG||Condition=[Condition]||Cost=%Ladder(10ft)%|
+10,|Item=Linen (Sq Yd.)</font></i> There are {Dice~1d30} sq. yards available.||Book=UEG||Condition=[Condition]||Cost=%Linen(SqYd.)%|
+2,|Item=Magnifying Glass</font></i>||Book=UEG||Condition=[Condition]||Cost=%MagnifyingGlass%|
+15,|Item=Manacles</font></i> [WeaponMetals]||Book=UEG||Condition=[Condition]||Cost=%Manacles%|
+15,|Item=Mirror, Small </font></i> [WeaponMetals]||Book=UEG||Condition=[Condition]||Cost=%MirrorSmallSteel%|
+40,|Item=Mug/Tankard Clay</font></i>||Book=UEG||Condition=[Condition]||Cost=%Mug/TankardClay%|
+30,|Item=Peasant's Outfit</font></i> The outfit is mostly [RobeColors].||BodySize=1||Book=UEG||Condition=[Condition]||Cost=%Peasent'sOutfit%|
+15,|Item=Miner's Pick</font></i> It has a haft made of [Woods], a pick [WeaponMetals] and a handle wrapped in [HiltMaterial] ||Book=UEG||Condition=[Condition]||Cost=%Miner'sPick%|
+30,|Item=Clay Pitcher (1/2 gallon)</font></i>||Book=UEG||Condition=[Condition]||Cost=%ClayPitcher%|
+20,|Item=Pole, 10 foot</font></i> made out of [Woods].||Book=UEG||Condition=[Condition]||Cost=%10FootPole%|
+30,|Item=Iron Pot</font></i>||Book=UEG||Condition=[Condition]||Cost=%IronPot%|
+40,|Item=Rope, Hemp (50 ft)</font></i>||Book=UEG||Condition=[Condition]||Cost=%RopeHemp(50ft)%|
+10,|Item=Rope, Silk (50 ft)</font></i>||Book=UEG||Condition=[Condition]||Cost=%RopeSilk(50ft)%|
+30,|Item=Sack, Grain (2'x1'x1')</font></i>||Book=UEG||Condition=[Condition]||Cost=%Sack%|
+1,|Item=Saddle Amazon</font></i> made out of [HiltMaterial]||Book=UEG||Condition=[Condition]||Cost=%SaddleAmazon%|
+2,|Item=Saddle Cutting</font></i> made out of [HiltMaterial]||Book=UEG||Condition=[Condition]||Cost=%SaddleCutting%|
+1,|Item=Saddle Exotic</font></i> made out of [HiltMaterial]||Book=UEG||Condition=[Condition]||Cost=%SaddleExotic%|
+1,|Item=Saddle Fitted</font></i> made out of [HiltMaterial]||Book=UEG||Condition=[Condition]||Cost=%SaddleFitted%|
+5,|Item=Saddle Light Cavalry</font></i> made out of [HiltMaterial]||Book=UEG||Condition=[Condition]||Cost=%SaddleLightCavalry%|
+8,|Item=Saddle Military</font></i> made out of [HiltMaterial]||Book=UEG||Condition=[Condition]||Cost=%SaddleMilitary%|
+30,|Item=Saddle Pack</font></i> made out of [HiltMaterial]||Book=UEG||Condition=[Condition]||Cost=%SaddlePack%|
+20,|Item=Saddle Riding</font></i> made out of [HiltMaterial]||Book=UEG||Condition=[Condition]||Cost=%SaddleRiding%|
+25,|Item=Saddle Travel</font></i> made out of [HiltMaterial]||Book=UEG||Condition=[Condition]||Cost=%SaddleTravel%|
+25,|Item=Saddlebags (large)</font></i> made out of [HiltMaterial]||Book=UEG||Condition=[Condition]||Cost=%Saddlebags%|
+5,|Item=Sailor's Wax</font></i>||Book=UEG||Condition=[Condition]||Cost=%Sailor'sWax%|
+10,|Item=Merchant's Scale</font></i>||Book=UEG||Condition=[Condition]||Cost=%Merchant'sScale%|
+10,|Item=Scholar's Outfit</font></i> The outfit is mostly [RobeColors].||BodySize=1||Book=UEG||Condition=[Condition]||Cost=%Scholar'sOutfit%|
+5,|Item=Sea Chest</font></i> It is made of [Woods].||Book=UEG||Condition=[Condition]||Cost=%SeaChest%|
+30,|Item=Sealing Wax</font></i>||Book=UEG||Condition=[Condition]||Cost=%SealingWax%|
+30,|Item=Sewing Needle</font></i>||Book=UEG||Condition=[Condition]||Cost=%SewingNeedle%|
+20,|Item=Signet Ring</font></i> [CommonRingMetal]||Book=UEG||Condition=[Condition]||Cost=%SignetRing%|
+5,|Item=Silk (1 sq yd)</font></i> There are {Dice~3d4} sq. yd. available.||Book=UEG||Condition=[Condition]||Cost=%Silk(2sqyd)%|
+1,|Item=Silver</font></i>||Book=UEG||Condition=[Condition]||Cost=%Silver%|
+15,|Item=Sled</font></i> It is made mostly of [Woods] and [HiltMaterial].||Book=UEG||Condition=[Condition]||Cost=%Sled%|
+25,|Item=Soap (per lb)</font></i> There are {Dice~4d4} pounds available.||Book=UEG||Condition=[Condition]||Cost=%Soap(perlb)%|
+30,|Item=Shovel</font></i> The handle is made from [Woods] wood and the blade [WeaponMetals]||Book=UEG||Condition=[Condition]||Cost=%Shovel%|
+5,|Item=Stocks</font></i> They are made from [Woods].||Book=UEG||Condition=[Condition]||Cost=%Stocks%|
+10,|Item=Archer's Target</font></i>||Book=UEG||Condition=[Condition]||Cost=%Archer'sTarget%|
+15,|Item=Toolkit Bowyer's/Fletcher's</font></i>||Book=UEG||Condition=[Condition]||Cost=%ToolkitBowyer's/Fletcher's%|
+5,|Item=Toolkit Keymaker's</font></i>||Book=UEG||Condition=[Condition]||Cost=%ToolkitKeymaker's%|
+25,|Item=Toolkit Leatherworker's</font></i>||Book=UEG||Condition=[Condition]||Cost=%ToolkitLeatherworker's%|
+5,|Item=Toolkit Mapmaker's</font></i>||Book=UEG||Condition=[Condition]||Cost=%ToolkitMapmaker's%|
+5,|Item=Toolkit Navigator's</font></i>||Book=UEG||Condition=[Condition]||Cost=%ToolkitNavigator's%|
+10,|Item=Toolkit Surgeon's</font></i>||Book=UEG||Condition=[Condition]||Cost=%ToolkitSurgeon's%|
+20,|Item=Toolkit Arcane Forensic's</font></i>||Book=UEG||Condition=[Condition]||Cost=%ToolkitArcaneForensic's%|
+25,|Item=Ink ([RobeColors])</font></i>||Book=UEG||Condition=[Condition]||Cost=%Ink%|
+20,|Item=Wagon, Medium (2 tons)</font></i>||Book=UEG||Condition=[Condition]||Cost=%Wagon%|
+30,|Item=Whetstone</font></i>||Book=UEG||Condition=[Condition]||Cost=%Whetstone%|
+40,|Item=Backpack</font></i> made out of [HiltMaterial]||BodySize=1||Book=PHB3.5||Condition=[Condition]||Cost=%Backpack%|
+40,|Item=Bedroll</font></i>||BodySize=1||Book=PHB3.5||Condition=[Condition]||Cost=%Bedroll%|
+40,|Item=Winter Blanket</font></i>||BodySize=1||Book=PHB3.5||Condition=[Condition]||Cost=%WinterBlanket%|
+20,|Item=Bottle of Wine ([Inn Menu.Wine Name])</font></i>||Book=PHB3.5||Condition=[Condition]||Cost=%BottleofWine%|
+10,|Item=Caltrops</font></i>||Book=PHB3.5||Condition=[Condition]||Cost=%Caltrops%|
+40,|Item=Candle</font></i>||Book=PHB3.5||Condition=[Condition]||Cost=%Candle%|
+20,|Item=Canvas (Sq Yard)</font></i> There are {Dice~4d5} sq. yd. available.||Book=PHB3.5||Condition=[Condition]||Cost=%Canvas(SqYard)%|
+30,|Item=Map Case</font></i> It is made out of [HiltMaterial].||Book=PHB3.5||Condition=[Condition]||Cost=%MapCase%|
+30,|Item=Scroll Case</font></i> It is made out of [HiltMaterial].||Book=PHB3.5||Condition=[Condition]||Cost=%ScrollCase%|
+30,|Item=Chalk (1 piece)</font></i>||Book=PHB3.5||Condition=[Condition]||Cost=%Chalk(1piece)%|
+40,|Item=Firewood (per day)</font></i>  It appears to be a mixture of local woods. There are {Dice~1d8} days available.||Book=PHB3.5||Condition=[Condition]||Cost=%Firewood(perday)%|
+40,|Item=Fishhook</font></i>||Book=PHB3.5||Condition=[Condition]||Cost=%Fishhook%|
+15,|Item=Fishing Net (25 sq. ft.)</font></i>||Book=PHB3.5||Condition=[Condition]||Cost=%FishingNet(25sq.ft.)%|
+40,|Item=Flint & Steel</font></i>||Book=PHB3.5||Condition=[Condition]||Cost=%Flint&Steel%|
+20,|Item=Grappling Hook</font></i> [WeaponMetals]||Book=PHB3.5||Condition=[Condition]||Cost=%GrapplingHook%|
+25,|Item=Inkpen</font></i>||Book=PHB3.5||Condition=[Condition]||Cost=%Inkpen%|
+30,|Item=Common Lamp</font></i>||Book=PHB3.5||Condition=[Condition]||Cost=%CommonLamp%|
+10,|Item=Bullseye Lantern</font></i>||Book=PHB3.5||Condition=[Condition]||Cost=%BullseyeLantern%|
+20,|Item=Hooded Lantern</font></i>||Book=PHB3.5||Condition=[Condition]||Cost=%HoodedLantern%|
+15,|Item=Lock: Very Simple</font></i>||Book=PHB3.5||Condition=[Condition]||Cost=%Lock:VerySimple%|
+10,|Item=Lock: Average</font></i>||Book=PHB3.5||Condition=[Condition]||Cost=%Lock:Average%|
+5,|Item=Lock: Good</font></i>||Book=PHB3.5||Condition=[Condition]||Cost=%Lock:Good%|
+1,|Item=Lock: Amazing</font></i>||Book=PHB3.5||Condition=[Condition]||Cost=%Lock:Amazing%|
+10,|Item=Oil (1 pint Flask)</font></i>||Book=PHB3.5||Condition=[Condition]||Cost=%Oil(1pintFlask)%|
+10,|Item=Paper (sheet)</font></i> There are {Dice~1d30} sheets available.||Book=PHB3.5||Condition=[Condition]||Cost=%Paper(sheet)%|
+15,|Item=Parchment (sheet)</font></i> There are {Dice~1d30} sheets available.||Book=PHB3.5||Condition=[Condition]||Cost=%Parchment(sheet)%|
+40,|Item=Piton</font></i> There are {Dice~3d10} available.||Book=PHB3.5||Condition=[Condition]||Cost=%Piton%|
+40,|Item=Belt Pouch, Large (6"x8"x2")</font></i>||Book=PHB3.5||Condition=[Condition]||Cost=%BeltPouch%|
+10,|Item=Portable Ram</font></i>||Book=PHB3.5||Condition=[Condition]||Cost=%PortableRam%|
+40,|Item=Trail Rations</font></i> There are {Dice~1d50+50} total days available.||Book=PHB3.5||Condition=[Condition]||Cost=%TrailRations%|
+25,|Item=Signal Whistle</font></i>||Book=PHB3.5||Condition=[Condition]||Cost=%SignalWhistle%|
+30,|Item=Sledge</font></i> It has a haft made of [Woods], a head [WeaponMetals] and a handle wrapped in [HiltMaterial]||Book=PHB3.5||Condition=[Condition]||Cost=%Sledge%|
+30,|Item=Spade </font></i> The handle is made from [Woods] and the blade [WeaponMetals]||Book=PHB3.5||Condition=[Condition]||Cost=%Spade%|
+1,|Item=Spyglass</font></i>||Book=PHB3.5||Condition=[Condition]||Cost=%Spyglass%|
+40,|Item=Torch</font></i> There are {Dice~5d6} available.||Book=PHB3.5||Condition=[Condition]||Cost=%Torch%|
+20,|Item=Vial, Glass (1 ounce)</font></i>||Book=PHB3.5||Condition=[Condition]||Cost=%Vial%|
+40,|Item=Waterskin (1 gallon)</font></i> made out of [HiltMaterial]||Book=PHB3.5||Condition=[Condition]||Cost=%Waterskin%|
+10,|Item=Acid (Flask)</font></i>||Book=PHB3.5||Condition=[Condition]||Cost=%Acid(Flask)%|
+5,|Item=Alchemist's Fire (flask)</font></i>||Book=PHB3.5||Condition=[Condition]||Cost=%Alchemist'sFire(flask)%|
+5,|Item=Antitoxin (vial)</font></i>||Book=PHB3.5||Condition=[Condition]||Cost=%Antitoxin(vial)%|
+5,|Item=Everburning Torch</font></i>||Book=PHB3.5||Condition=[Condition]||Cost=%EverburningTorch%|
+10,|Item=Holy Water (flask)</font></i>||Book=PHB3.5||Condition=[Condition]||Cost=%HolyWater(flask)%|
+5,|Item=Smokestick</font></i>||Book=PHB3.5||Condition=[Condition]||Cost=%Smokestick%|
+5,|Item=Sunrod</font></i>||Book=PHB3.5||Condition=[Condition]||Cost=%Sunrod%|
+5,|Item=Tanglefoot Bag</font></i>||Book=PHB3.5||Condition=[Condition]||Cost=%TanglefootBag%|
+2,|Item=Thunderstone</font></i>||Book=PHB3.5||Condition=[Condition]||Cost=%Thunderstone%|
+10,|Item=Tindertwig</font></i>||Book=PHB3.5||Condition=[Condition]||Cost=%Tindertwig%|
+10,|Item=Alchemist's Lab</font></i>||Book=PHB3.5||Condition=[Condition]||Cost=%Alchemist'sLab%|
+20,|Item=Artisan's Tools</font></i>||Book=PHB3.5||Condition=[Condition]||Cost=%Artisan'sTools%|
+15,|Item=Climber's Kit</font></i>||Book=PHB3.5||Condition=[Condition]||Cost=%Climber'sKit%|
+10,|Item=Disguise Kit</font></i>||Book=PHB3.5||Condition=[Condition]||Cost=%DisguiseKit%|
+25,|Item=Healer's Kit</font></i>||Book=PHB3.5||Condition=[Condition]||Cost=%Healer'sKit%|
+15,|Item=Holy Symbol, Bronze, of [~Religion.Deities2(2)]</font></i>||Book=PHB3.5||Condition=[Condition]||Cost=%HolySymbol%|
+5,|Item=Blank Spellbook</font></i>||Book=PHB3.5||Condition=[Condition]||Cost=%BlankSpellbook%|
+1,|Item=Waterclock</font></i>||Book=PHB3.5||Condition=[Condition]||Cost=%Waterclock%|
+10,|Item=Cleric's Vestments</font></i>||BodySize=1||Book=PHB3.5||Condition=[Condition]||Cost=%Cleric'sVestments%|
+20,|Item=Cold Weather Outfit</font></i>||BodySize=1||Book=PHB3.5||Condition=[Condition]||Cost=%ColdWeatherotfit%|
+10,|Item=Courtier's Outfit</font></i> The outfit is mostly [RobeColors].||BodySize=1||Book=PHB3.5||Condition=[Condition]||Cost=%Courtier'sOutfit%|
+15,|Item=Entertainer's Outfit</font></i> The outfit is mostly [RobeColors].||BodySize=1||Book=PHB3.5||Condition=[Condition]||Cost=%Entertainer'sOutfit%|
+20,|Item=Explorer's Outfit</font></i> The outfit is mostly [RobeColors].||BodySize=1||Book=PHB3.5||Condition=[Condition]||Cost=%Explorer'sOutfit%|
+10,|Item=Monk's Outfit</font></i> The outfit is mostly [RobeColors].||BodySize=1||Book=PHB3.5||Condition=[Condition]||Cost=%Monk'sOutfit%|
+5,|Item=Noble's Outfit</font></i> The outfit is mostly [RobeColors].||BodySize=1||Book=PHB3.5||Condition=[Condition]||Cost=%Noble'sOutfit%|
+1,|Item=Royal Outfit</font></i>||BodySize=1||Book=PHB3.5||Condition=[Condition]||Cost=%RoyalOutfit%|
+25,|Item=Traveler's Oufit</font></i> The outfit is mostly [RobeColors].||BodySize=1||Book=PHB3.5||Condition=[Condition]||Cost=%Traveler'sOufit%|
+30,|Item=Ale (1 Gallon) ([Inn Menu.Ale Name])</font></i>||Book=PHB3.5||Condition=[Condition]||Cost=%Ale:Gallon%|
+25,|Item=Bread (per loaf)</font></i> There are {Dice~1d4} loaves available.||Book=PHB3.5||Condition=[Condition]||Cost=%Bread(perloaf)%|
+15,|Item=Cheese (Hunk)</font></i>||Book=PHB3.5||Condition=[Condition]||Cost=%Cheese(Hunk)%|
+2,|Item=Rage Wine</font></i>||Book=UEG||Condition=[Condition]||Cost=%RageWine%|
+5,|Item=Sleepy Tea (12 servings)</font></i>||Book=UEG||Condition=[Condition]||Cost=%SleepyTea(12servings)%|
+15,|Item=Universal Rations </font></i> There are {Dice~1d10} days available.||Book=UEG||Condition=[Condition]||Cost=%UniversalRations%|
+20,|Item=Wakeberries</font></i> There are {Dice~5d5} available.||Book=UEG||Condition=[Condition]||Cost=%Wakeberries%|
+25,|Item=Travel Bread (per loaf)</font></i> There are {Dice~2d4} loaves available.||Book=UEG||Condition=[Condition]||Cost=%TravelBread%|
+
+
+# -----------------------------------------------------------------------------------
+# Support Tables
+
+;BodySize
+1,|GetData=[EQ_Main.BodySize]|
+_{Split~GetData,"!!!",DataName,ArmorSizeMod}
+_%DataName%
+
+;CommonRingMetal
+1,|GetData=[EQ_Main.CommonRingMetal]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+;Condition
+1,|GetData=[EQ_Main.Condition]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+;HiltMaterial
+1,|GetData=[EQ_Main.HiltMaterial]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+;InstrumentCondition
+1,|GetData=[EQ_Main.InstrumentCondition]|
+_{Split~GetData,"!!!",DataName,DataPercentMod,SpecialEffect}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+;PipeGen
+1,|GetData=[EQ_Main.PipeGen]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+;RobeColors
+1,[~Miscellaneous.Color+1]
+
+;WeaponMetals
+1,|GetData=[EQ_Main.WeaponMetals]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+;Woods
+1,|GetData=[EQ_Main.Woods]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%

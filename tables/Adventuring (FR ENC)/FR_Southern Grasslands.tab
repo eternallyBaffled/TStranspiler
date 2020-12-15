@@ -1,0 +1,126 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder Oct 30, 2003.
+# ---------------------------------------------------
+#
+# SMS
+# 06/23/03
+# Forgotten Realms Table 37: Southern Grasslands (EL 2-6) random encounter tables
+#
+# Corrected by Valminder, Oct 2003
+#   -{If~} and {Dice~}
+#
+#Variables
+
+%Time%,0
+%Temp%,0
+
+#Parameters
+
+@Time,3,Select a time of day,Day,Night,_
+
+#
+#  Starts by putting up the instructions
+#
+
+:Start
+1,{If~%Time% = 3 ? [Instructions]/[Southern Grasslands %Time%]}
+
+;Instructions
+1,<b>Forgotten Realms Table 37: Southern Grasslands (EL 2-6)</b></br></br><h3>Instructions:</h3>
+_<b>Determine whether an encounter should occur before using this table. The chance of an encounter is based on terrain type and travel (chance per hour):</b><br>
+_<table border=1><tr><th>Terrain</th><th>Normal Travel</th><th>Cautious Travel</th><th>Hiding</th></tr>
+_<tr><td>Desolate/wasteland</td><td>5/%</td><td>2/%</td><td>1/%</td></tr>
+_<tr><td>Frontier/wilderness</td><td>8/%</td><td>4/%</td><td>2/%</td></tr>
+_<tr><td>Verdant/civilized area</td><td>10/%</td><td>5/%</td><td>2/%</td></tr>
+_<tr><td>Heavily traveled</td><td>12/%</td><td>6/%</td><td>3/%</td></tr>
+_</table>
+_<ul><li>Use the Parameter Box (below) to indicate whether it is day or night. Selecting "_" will show these instructions.</li>
+_<li>This table applies to all Southern Grasslands areas in the Realms (so there is no need to input a region)</li></ul><br>
+
+# 1 corresponds to time="Day"
+:Southern Grasslands 1
+01,Androsphinx
+02-03,{Dice~1d2} Ankheg
+04,Annis (hag)
+05-06,Basilisk
+07-08,Barghest Pack: {Dice~1d2} barghest and {Dice~1d4+4} goblins
+09-13,{Dice~1d4+4} Blink dog
+14-15,{Dice~1d3+2} Animal: Cheetah
+16-18,{Dice~1d10+10} Dire rat
+19-25,Dragon: [SG_Dragon]
+26-28,Animal: Elephant
+29-30,{Dice~1d3+1} Gargoyle
+31-32,Giant Ant Crew: {Dice~1d6+5} workers and 1 soldier
+33-35,Gnoll hunters: {Dice~1d4+1} gnolls led by a level {Dice~1d3+1} gnoll ranger
+36-37,Goblin patrol: {Dice~1d6+3} goblins, led by level {Dice~1d3} goblin fighter
+38-39,Goblin raiders: {Dice~1d3+2} goblins, led by level {Dice~1d3} goblin fighter, all mounted on worgs
+40,Greenhag (hag)
+41,Gynosphinx
+42-45,Lightfoot halfling scouts: {Dice~1d4+4} 1st level warriors, {Dice~1d3+1} dogs, led by level {Dice~1d6+2} [FR_Misc.Halfling_Class]
+46-47,{Dice~1d3+1} Hell hound
+48-49,Hobgoblin raiders: {Dice~1d6+3} hobgoblins, {Dice~1d2} level {Dice~1d2} fighters, and {Dice~1d2} dire wolves
+50,Ibrandlin (MoF)
+51-55,{Dice~1d3+1} Animal: Lion
+56-66,<b>NPCs:</b><br>{Loop~{Dice~1d3+2},[FR_Random_NPC.FR_SM_NPC]}
+67-80,Nomads (human Nar tribesmen, barbarians from the Ride, Shaar horsemen, or Tuigan bands): {Dice~1d4+2} 1st level warriors led by [FR_Misc.Nomad_Leader], all mounted on light warhorses
+81-83,{Dice~1d3+1} Ogre
+84-86,Orc Patrol: {Dice~1d4+4} orcs, {Dice~1d2} level {Dice~1d3} orc barbarians, led by level {Dice~1d4+2} [FR_Misc.Orc_Class]
+87-88,{Dice~2d6} Animal: Rhinoceros
+89-90,Troll
+91-94,{Dice~1d8+8} Wemic (MoF)
+95-100,{Dice~1d6+3} Wolf
+
+# 2 corresponds to time="Night"
+:Southern Grasslands 2
+01,Allip
+02,Androsphinx
+03,{Dice~1d2} Ankheg
+04,Annis (hag)
+05,Baneguard (MoF)
+06-07,Barghest Pack: {Dice~1d2} barghest and {Dice~1d4+4} goblins
+08,{Dice~1d4+4} Blink dog
+09,{Dice~1d3+2} Animal: Cheetah
+10-11,{Dice~1d2} Drakenbeast (MoF)
+12-14,{Dice~1d10+10} Dire rat
+15-21,Dragon: [SG_Dragon]
+21,Animal: Elephant
+22-23,{Dice~1d3+1} Gargoyle
+24,{Dice~1d3+1} Ghast
+25,Ghast pack: {Dice~1d3+1} ghasts and {Dice~1d6+6} ghouls
+26-27,{Dice~1d3+3} Ghoul
+28,Giant Ant Crew: {Dice~1d6+5} workers and 1 soldier
+29-32,Gnoll hunters: {Dice~1d4+1} gnolls led by a level {Dice~1d3+1} gnoll ranger
+33-35,Goblin patrol: {Dice~1d6+3} goblins, led by level {Dice~1d3} goblin fighter
+36-38,Goblin raiders: {Dice~1d3+2} goblins, led by level {Dice~1d3} goblin fighter, all mounted on worgs
+39-40,Greenhag (hag)
+41,Gynosphinx
+42-43,Lightfoot halfling scouts: {Dice~1d4+4} 1st level warriors, {Dice~1d3+1} dogs, led by level {Dice~1d6+2} [FR_Misc.Halfling_Class]
+44-46,{Dice~1d3+1} Hell hound
+47-49,Hobgoblin raiders: {Dice~1d6+3} hobgoblins, {Dice~1d2} level {Dice~1d2} fighters, and {Dice~1d2} dire wolves
+50,{Dice~1d2} Hound Archon (celestial)
+51,Ibrandlin (MoF)
+52-53,{Dice~1d3+1} Animal: Lion
+54-61,<b>NPCs:</b><br>{Loop~{Dice~1d3+2},[FR_Random_NPC.FR_SM_NPC]}
+62-63,Nightmare
+64-69,Nomads (human Nar tribesmen, barbarians from the Ride, Shaar horsemen, or Tuigan bands): {Dice~1d4+2} 1st level warriors led by [FR_Misc.Nomad_Leader], all mounted on light warhorses
+70-73,{Dice~1d3+1} Ogre
+74-79,Orc Patrol: {Dice~1d4+4} orcs, {Dice~1d2} level {Dice~1d3} orc barbarians, led by level {Dice~1d4+2} [FR_Misc.Orc_Class]
+80-81,{Dice~1d6} Shadow
+82-83,Shadow mastiff
+84-85,Spectral Panther (MoF)
+86-87,Troll
+88,{Dice~1d3+1} Vampire spawn
+89,{Dice~1d4+1} Vargouille
+90-93,{Dice~1d8+8} Wemic (MoF)
+94,{Dice~1d6} Wight
+95-98,{Dice~1d6+3} Wolf
+99,{Dice~1d3} Wraith
+100,{Dice~1d4+6} Zombie, medium
+
+:SG_Dragon
+01-30,Blue, very young
+31-45,Brass, juvenile
+46-75,Brown, young (MoF)
+76-82,Gold, young
+83,Dracolich: Song, very young (MoF) (FRCS)
+84-100,Song, young (MoF)

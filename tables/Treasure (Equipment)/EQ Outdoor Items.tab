@@ -1,0 +1,620 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder August 24, 2006.
+# ---------------------------------------------------
+#
+# Outdoor Items
+#
+# Sean Hlousek
+#
+# -------------------------------------------------------------------------
+#
+# To call this table from another one:
+#    [EQ Outdoor Items.Generate(%Rolls%)
+#
+#    Parameters: (%Rolls%)
+#
+#    Rolls:    (1) Enter the number of items needed.
+#
+# -------------------------------------------------------------------------
+#
+# Modified by Valminder, August  2006.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+#    I heavily modified this table. I could modify it more by
+#       removing all the variables for the cost, but it would
+#       be too long. For now, it works fine.
+#    The final price need to be adjusted for some items, but it
+#       seems relatively OK.
+#    I diminished the price variation in [Store].
+#    Cost of Items: Put the cost in GP, the output will modify it
+#       for gp, sp, or cp.
+#       1 sp = 0.1 gp
+#       1 cp = 0.01 gp
+#
+
+%HuntingKnives%,5
+%Machete%,30
+%Aba%,0.9
+%AnimalSnare(Bird)%,2
+%AnimalSnare(Small)%,3
+%AnimalSnare(tiny)%,2
+%AntifungalOintment(10days)%,25
+%Backpack%,1
+%Bedroll%,0.1
+%BirdCall%,1
+%WinterBlanket%,0.5
+%HorseBlanket&Hood(Huge)%,9
+%HorseBlanket&Hood(Large)%,3
+%HorseBlanket&Hood(Medium)%,2
+%BloodDecoy%,5
+%BoatBoots%,25
+%BodyPack%,10
+%BodySled%,8
+%BladedBoots%,15
+%BreathBag%,1.5
+%BreathingRope(50ft)%,10
+%BrickPress%,10
+%CamoflagueTarp(10ftSq)%,12
+%BarkCanoe%,5
+%DugoutCanoe%,5
+%OutriggerCanoe%,250
+%Canvas(1sqyard)%,0.2
+%MapCase%,2
+%Chalk(1piece)%,0.01
+%Climber'sKit%,80
+%ColdWeatherOutfit%,8
+%Compass%,450
+%Coracle%,15
+%DesertKit%,10
+%DowsingRod%,5
+%DwarvenPie%,0.2
+%Earth'sBlood(perdose)%,2
+%ElvenWafer%,2
+%Explorer'sOutfit%,10
+%Fin's(Pair)%,15
+%FireSeed%,1
+%FishingKit%,5
+%FishingNet(25sqft)%,4
+%FlatBoat%,50
+%Flint&Steel%,1
+%ForestBlind%,45
+%ForestKit%,5
+%GlowPowder%,10
+%GlowingHarness%,2
+%GlowmouldFuel%,0.15
+%GlowmouldLantern(Bullseye)%,15
+%GlowmouldLantern(Hooded)%,10
+%GrapplingHook%,1
+%GrippingResin(4Applications)%,10
+%HalflingBread(PerLoaf)%,50
+%HearthStones%,1.5
+%HuntingHorn%,20
+%SmallHorn%,15
+%Hunter'sOutfit%,15
+%IceBoots%,15
+%InsectNetting%,300
+%InsectRepellent%,5
+%InsectRepellentCandle%,1
+%JungleKit%,5
+%LadderRope(30ft)%,0.75
+%CommonLamp%,0.1
+%LanternBullseye%,12
+%LanternHooded%,7
+%LeashHuge%,1.6
+%LeashLarge%,0.8
+%LeashMedium%,0.6
+%LeashSmall%,0.5
+%LeashTiny%,0.2
+%Moleskin%,2
+%MountainKit%,20
+%Mountaineer'sOutfit%,3
+%Oil(1pintflask)%,0.1
+%PackingBoard%,2
+%Piton%,0.1
+%BeltPouch%,0.8
+%PreservingKit%,10
+%Riser%,5
+%RopeHemp(50ft)%,1
+%RopeSilk(50ft)%,10
+%Rucksack%,1
+%SaltTablet%,0.2
+%SightingLens%,45
+%SignalWhistle%,0.8
+%Sleigh2-Person%,50
+%Sleigh4-Person%,150
+%Skates%,3
+%Skies%,6
+%SnowGuards%,7
+%SnowShoes%,2
+%SoundingDrum%,20
+%Spyglass%,1000
+%StrongRations%,0.7
+%SwampDweller'sOutfit%,5
+%SwampKit%,10
+%Tent%,10
+%ThickFurs%,35
+%Torch%,0.01
+%Tourniquet%,0.1
+%Traveler'sOutfit%,1
+%Traveler'sStock%,3
+%Travois%,2.5
+%TreeNet%,8
+%UndergroundOutfit%,10
+%WaterAdditive%,3
+%WaterPack%,10
+%WaterTrap%,47
+%Waterskin%,1.2
+%WeatherGauge%,50
+%WebNet%,25
+%WellStraw%,10
+%Whale-SkinSuit%,50
+%Pipe%,0.1
+
+### Was %Base%
+%PercentGPMod%,1
+### This is the Store modifier on all its prices 70% to 200% (normal 95% - 105%)
+%STVR%,0
+### How many items to roll
+%Rolls%,0
+#### Was %Base1%
+%MagicalGPMod%,0
+
+# New variables Aug 2006.
+%Item%,0
+# Put Book=2 in the item's description if you do not want books to appear.
+%Book%,0
+%Cost%,0
+%Condition%,0
+%GenItem%,0
+# 1= Mundane Item, 2= Magical Item
+%Magic%,1
+%MWGPMod%,0
+%ArmorSizeMod%,1
+# To be used with "EQ_Main.tab"
+%GetData%,0
+%DataName%,0
+%DataPercentMod%,0
+%SpecialEffect%,0
+%BodySize%,0
+%MoneyType%,gp
+%Temp%,0
+
+@Rolls,10,How many Items are in this Shop?
+#@GenItem,9,What do you want to generate,
+
+:Start
+1,{Status~By Sean Hlousek, Valminder 2006}[Generate]
+
+:Generate
+1,|STVR=1|[Store]
+#_[Multiplier]
+_{Loop~%Rolls%,|BodySize=0||PercentGPMod=0||MagicalGPMod=0||Magic=1||MWGPMod=0||ArmorSizeMod=1||SpecialEffect=0|
+_[OutdoorItems][Print=%Magic%]
+_{If~%Rolls%>1?<br>}}
+
+:Print
+1,<b>Item:</b> <i><font color="Purple">%Item%</font></i>[Print2]
+2,<b>Item:</b> <i><font color="Blue">(Magic) %Item%</font></i>[Print2]
+
+:Print2
+1,{If~%SpecialEffect%!=0? [PrintExtraMW]}
+_{IIf~%Book%!=2?  <font size=1>(%Book%)</font>}
+#If you do not want BodySize for everything put |BodySize=0| above and |BodySize=1| in item's description.
+_{If~%BodySize%=1? ([BodySize] size)}
+_|Cost+%MagicalGPMod%||Cost+%MWGPMod%|{If~%Magic%=1?|Cost*%ArmorSizeMod%|}
+_[Calculate Cost]
+_ (%Condition%, [AddComma.Start(%Cost%)] %MoneyType%)
+
+:PrintExtraMW
+1,<u>Extra MW Effect</u>: %SpecialEffect%.
+
+# This will give a modifier to the cost of the items.
+;Store
+2,|STVR-{Calc~({Dice~1d10+20}/100)}|
+4,|STVR-{Calc~({Dice~1d10+10}/100)}|
+8,|STVR-{Calc~({Dice~1d10+5}/100)}|
+15,|STVR-{Calc~({Dice~1d5}/100)}|
+70,|STVR=1|
+30,|STVR+{Calc~({Dice~1d5}/100)}|
+15,|STVR+{Calc~({Dice~1d10+5}/100)}|
+8,|STVR+{Calc~({Dice~1d10+10}/100)}|
+4,|STVR+{Calc~({Dice~1d15+20}/100)}|
+2,|STVR+{Calc~({Dice~1d25+35}/100)}|
+1,|STVR+{Calc~({Dice~1d50+50}/100)}|
+
+:Multiplier
+1,Price Multiplier: %STVR%<br>
+
+:Calculate Cost
+1,|Cost={Calc~((%STVR%+%PercentGPMod%)*%Cost%)}|
+_{If~%Cost%>=5?|Cost={Trunc~%Cost%}||MoneyType=gp|}
+_{If~{And~%Cost%>=1,%Cost%<5}=1?{If~%Cost%={Trunc~%Cost%}?|MoneyType=gp|/|Cost={Round~1,%Cost%}||Cost*10||MoneyType=sp|}}
+_{If~%Cost%<0.1?|Cost*100||Cost={Trunc~%Cost%}|{If~%Cost%=0?|Cost=1|}|MoneyType=cp|/{If~%Cost%<1?|Cost*10||Cost={Trunc~%Cost%}|{If~%Cost%=0?|Cost=1|}|MoneyType=sp|}}
+
+# ----------------------------------------------------------                                                                         
+;OutdoorItems
+20,|Item=Pipe:</font></i> [PipeGen]||Book=UEG||Condition=[Condition]||Cost=%Pipe%|
+20,|Item=Hunting Knives</font></i>[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%HuntingKnives%|
+10,|Item=Machete</font></i> It has a blade [WeaponMetals] and a hilt wrapped in [HiltMaterial].[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%Machete%|
+3,|Item=Aba</font></i>||BodySize=1||Book=UEG||Condition=[Condition]||Cost=%Aba%|
+10,|Item=Animal Snare (Bird)</font></i>||Book=UEG||Condition=[Condition]||Cost=%AnimalSnare(Bird)%|
+20,|Item=Animal Snare (Small)</font></i>||Book=UEG||Condition=[Condition]||Cost=%AnimalSnare(Small)%|
+5,|Item=Animal Snare (tiny)</font></i>||Book=UEG||Condition=[Condition]||Cost=%AnimalSnare(tiny)%|
+5,|Item=Antifungal Ointment (10 days)</font></i>||Book=UEG||Condition=[Condition]||Cost=%AntifungalOintment(10days)%|
+30,|Item=Backpack</font></i> made of [HiltMaterial].[AnyExtrasMundane]||BodySize=1||Book=UEG||Condition=[Condition]||Cost=%Backpack%|
+30,|Item=Bedroll</font></i>[AnyExtrasMundane]||BodySize=1||Book=UEG||Condition=[Condition]||Cost=%Bedroll%|
+5,|Item=Bird Call</font></i>||Book=UEG||Condition=[Condition]||Cost=%BirdCall%|
+30,|Item=Winter Blanket</font></i>[ColdWeatherAccents].[AnyExtrasMundane]||BodySize=1||Book=UEG||Condition=[Condition]||Cost=%WinterBlanket%|
+10,|Item=Horse Blanket & Hood (Huge)</font></i>[ColdWeatherAccents].[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%HorseBlanket&Hood(Huge)%|
+10,|Item=Horse Blanket & Hood (Large)</font></i>[ColdWeatherAccents].[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%HorseBlanket&Hood(Large)%|
+15,|Item=Horse Blanket & Hood (Medium)</font></i>[ColdWeatherAccents].[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%HorseBlanket&Hood(Medium)%|
+10,|Item=Blood Decoy</font></i>||Book=UEG||Condition=[Condition]||Cost=%BloodDecoy%|
+2,|Item=Boat Boots</font></i> made of [Woods].[AnyExtrasMundane]||BodySize=1||Book=UEG||Condition=[Condition]||Cost=%BoatBoots%|
+15,|Item=Body Pack</font></i> made of [HiltMaterial].[AnyExtrasMundane]||BodySize=1||Book=UEG||Condition=[Condition]||Cost=%BodyPack%|
+5,|Item=Body Sled</font></i> made primarily of [Woods].[AnyExtrasMundane]||BodySize=1||Book=UEG||Condition=[Condition]||Cost=%BodySled%|
+5,|Item=Bladed Boots</font></i> the boots are made of [HiltMaterial] and the blades are [WeaponMetals].[AnyExtrasMundane]||BodySize=1||Book=UEG||Condition=[Condition]||Cost=%BladedBoots%|
+8,|Item=Breath Bag</font></i>||Book=UEG||Condition=[Condition]||Cost=%BreathBag%|
+5,|Item=Breathing Rope (50 ft)</font></i>||Book=UEG||Condition=[Condition]||Cost=%BreathingRope(50ft)%|
+3,|Item=Brick Press</font></i>||Book=UEG||Condition=[Condition]||Cost=%BrickPress%|
+5,|Item=Camouflage Tarp (10 ft Sq)</font></i>||Book=UEG||Condition=[Condition]||Cost=%CamoflagueTarp(10ftSq)%|
+5,|Item=Bark Canoe</font></i>[AnyExtrasMundane]||BodySize=1||Book=UEG||Condition=[Condition]||Cost=%BarkCanoe%|
+10,|Item=Dugout Canoe</font></i> made of a [Woods].[AnyExtrasMundane]||BodySize=1||Book=UEG||Condition=[Condition]||Cost=%DugoutCanoe%|
+1,|Item=Outrigger Canoe</font></i>[AnyExtrasMundane]||BodySize=1||Book=UEG||Condition=[Condition]||Cost=%OutriggerCanoe%|
+5,|Item=Canvas (1 sq yard)</font></i> There are {Dice~1d30} square yards available.||Book=UEG||Condition=[Condition]||Cost=%Canvas(1sqyard)%|
+20,|Item=Map Case</font></i> made out of [HiltMaterial].[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%MapCase%|
+20,|Item=Chalk (1 piece)</font></i>||Book=UEG||Condition=[Condition]||Cost=%Chalk(1piece)%|
+15,|Item=Climber's Kit</font></i>[AnyExtrasMundane]||BodySize=1||Book=UEG||Condition=[Condition]||Cost=%Climber'sKit%|
+20,|Item=Cold Weather Outfit</font></i>[ColdWeatherAccents].[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%ColdWeatherOutfit%|
+1,|Item=Compass</font></i>[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%Compass%|
+5,|Item=Coracle</font></i> made of [HiltMaterial] and [Woods].[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%Coracle%|
+3,|Item=Desert Kit</font></i>[AnyExtrasMundane]||BodySize=1||Book=UEG||Condition=[Condition]||Cost=%DesertKit%|
+5,|Item=Dowsing Rod</font></i>[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%DowsingRod%|
+5,|Item=Dwarven Pie</font></i>||Book=UEG||Condition=[Condition]||Cost=%DwarvenPie%|
+5,|Item=Earth's Blood (per dose)</font></i>||Book=UEG||Condition=[Condition]||Cost=%Earth'sBlood(perdose)%|
+5,|Item=Elven Wafer</font></i> There are {Dice~1d30} available.||Book=UEG||Condition=[Condition]||Cost=%ElvenWafer%|
+20,|Item=Explorer's Outfit</font></i> colored mainly [RobeColors].[AnyExtrasMundane]||BodySize=1||Book=UEG||Condition=[Condition]||Cost=%Explorer'sOutfit%|
+3,|Item=Fin's (Pair)</font></i>[AnyExtrasMundane]||Book=UEG</i>||BodySize=1||Condition=[Condition]||Cost=%Fin's(Pair)%|
+10,|Item=Fire Seed</font></i> [WeaponMetals]||Book=UEG||Condition=[Condition]||Cost=%FireSeed%|
+15,|Item=Fishing Kit</font></i>||Book=UEG||Condition=[Condition]||Cost=%FishingKit%|
+10,|Item=Fishing Net (25 sq ft)</font></i>||Book=UEG||Condition=[Condition]||Cost=%FishingNet(25sqft)%|
+5,|Item=Flat Boat</font></i> made out of logs of [Woods].[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%FlatBoat%|
+30,|Item=Flint & Steel</font></i>[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%Flint&Steel%|
+5,|Item=Forest Blind</font></i>||Book=UEG||Condition=[Condition]||Cost=%ForestBlind%|
+15,|Item=Forest Kit</font></i>[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%ForestKit%|
+5,|Item=Glow Powder</font></i>||Book=UEG||Condition=[Condition]||Cost=%GlowPowder%|
+3,|Item=Glowing Harness</font></i> made out of [HiltMaterial].[AnyExtrasMundane]||BodySize=1||Book=UEG||Condition=[Condition]||Cost=%GlowingHarness%|
+5,|Item=Glowmould Fuel</font></i>||Book=UEG||Condition=[Condition]||Cost=%GlowmouldFuel%|
+2,|Item=Glowmould Lantern (Bullseye)</font></i>[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%GlowmouldLantern(Bullseye)%|
+3,|Item=Glowmould Lantern (Hooded)</font></i>[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%GlowmouldLantern(Hooded)%|
+25,|Item=Grappling Hook</font></i> [WeaponMetals].[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%GrapplingHook%|
+5,|Item=Gripping Resin (4 Applications)</font></i>||Book=UEG||Condition=[Condition]||Cost=%GrippingResin(4Applications)%|
+8,|Item=Halfling Bread (Per Loaf)</font></i> There are {Dice~2d4} loaves available.||Book=UEG||Condition=[Condition]||Cost=%HalflingBread(PerLoaf)%|
+5,|Item=Hearth Stones</font></i>||Book=UEG||Condition=[Condition]||Cost=%HearthStones%|
+10,|Item=Hunting Horn</font></i>[WoodOrSteel].[AnyExtrasMundane]||Book=UEG||Condition=[InstrumentCondition]||Cost=%HuntingHorn%|
+10,|Item=Small Horn</font></i>[AnyExtrasMundane]||Book=UEG||Condition=[InstrumentCondition]||Cost=%SmallHorn%|
+10,|Item=Hunter's Outfit</font></i>[AnyExtrasMundane]||BodySize=1||Book=UEG||Condition=[Condition]||Cost=%Hunter'sOutfit%|
+5,|Item=Ice Boots</font></i>[AnyExtrasMundane]||BodySize=1||Book=UEG||Condition=[Condition]||Cost=%IceBoots%|
+2,|Item=Insect Netting</font></i>||Book=UEG||Condition=[Condition]||Cost=%InsectNetting%|
+5,|Item=Insect Repellent</font></i>||Book=UEG||Condition=[Condition]||Cost=%InsectRepellent%|
+5,|Item=Insect Repellent Candle</font></i>||Book=UEG||Condition=[Condition]||Cost=%InsectRepellentCandle%|
+3,|Item=Jungle Kit</font></i>||Book=UEG||Condition=[Condition]||Cost=%JungleKit%|
+5,|Item=Ladder Rope (30 ft)</font></i>||Book=UEG||Condition=[Condition]||Cost=%LadderRope(30ft)%|
+30,|Item=Common Lamp </font></i>[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%CommonLamp%|
+15,|Item=Lantern, Bullseye</font></i>[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%LanternBullseye%|
+20,|Item=Lantern, Hooded</font></i>[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%LanternHooded%|
+2,|Item=Leash, Huge</font></i>||Book=UEG||Condition=[Condition]||Cost=%LeashHuge%|
+8,|Item=Leash, Large</font></i>||Book=UEG||Condition=[Condition]||Cost=%LeashLarge%|
+15,|Item=Leash, Medium</font></i>||Book=UEG||Condition=[Condition]||Cost=%LeashMedium%|
+10,|Item=Leash, Small</font></i>||Book=UEG||Condition=[Condition]||Cost=%LeashSmall%|
+2,|Item=Leash, Tiny</font></i>||Book=UEG||Condition=[Condition]||Cost=%LeashTiny%|
+10,|Item=Moleskin</font></i> There are {Dice~1d20} patches available.||Book=UEG||Condition=[Condition]||Cost=%Moleskin%|
+5,|Item=Mountain Kit</font></i>||Book=UEG||Condition=[Condition]||Cost=%MountainKit%|
+5,|Item=Mountaineer's Outfit</font></i>||BodySize=1||Book=UEG||Condition=[Condition]||Cost=%Mountaineer'sOutfit%|
+25,|Item=Oil (1 pint flask)</font></i>||Book=UEG||Condition=[Condition]||Cost=%Oil(1pintflask)%|
+3,|Item=Packing Board</font></i> made out of [Woods].[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%PackingBoard%|
+30,|Item=Piton</font></i> There are {Dice~3d10} available.[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%Piton%|
+30,|Item=Belt Pouch, Large</font></i> made of [HiltMaterial].[AnyExtrasMundane]||BodySize=1||Book=UEG||Condition=[Condition]||Cost=%BeltPouch%|
+5,|Item=Preserving Kit</font></i>||Book=UEG||Condition=[Condition]||Cost=%PreservingKit%|
+10,|Item=Riser</font></i>||Book=UEG||Condition=[Condition]||Cost=%Riser%|
+30,|Item=Rope, Hemp (50 ft)</font></i>||Book=UEG||Condition=[Condition]||Cost=%RopeHemp(50ft)%|
+10,|Item=Rope, Silk (50 ft)</font></i>||Book=UEG||Condition=[Condition]||Cost=%RopeSilk(50ft)%|
+25,|Item=Rucksack</font></i>[AnyExtrasMundane]||BodySize=1||Book=UEG||Condition=[Condition]||Cost=%Rucksack%|
+10,|Item=Salt Tablet</font></i>||Book=UEG||Condition=[Condition]||Cost=%SaltTablet%|
+2,|Item=Sighting Lens</font></i> with a sheath made of [HiltMaterial].[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%SightingLens%|
+10,|Item=Signal Whistle</font></i>[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%SignalWhistle%|
+5,|Item=Sleigh, 2-Person</font></i>[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%Sleigh2-Person%|
+2,|Item=Sleigh, 4-Person</font></i>[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%Sleigh4-Person%|
+2,|Item=Skates</font></i>[AnyExtrasMundane]||BodySize=1||Book=UEG||Condition=[Condition]||Cost=%Skates%|
+2,|Item=Skies</font></i>||BodySize=1||Book=UEG||Condition=[Condition]||Cost=%Skies%|
+3,|Item=Snow Guards</font></i>[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%SnowGuards%|
+10,|Item=Snow Shoes</font></i> made of [HiltMaterial] and [Woods].[AnyExtrasMundane]||BodySize=1||Book=UEG||Condition=[Condition]||Cost=%SnowShoes%|
+2,|Item=Sounding Drum</font></i> made of [HiltMaterial].[AnyExtrasMundane]||Book=UEG||Condition=[InstrumentCondition]||Cost=%SoundingDrum%|
+1,|Item=Spyglass</font></i>[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%Spyglass%|
+15,|Item=Strong Rations</font></i> There are {Dice~1d50+50} total days available.||Book=UEG||Condition=[Condition]||Cost=%StrongRations%|
+5,|Item=Swamp Dweller's Outfit</font></i>||BodySize=1||Book=UEG||Condition=[Condition]||Cost=%SwampDweller'sOutfit%|
+8,|Item=Swamp Kit</font></i>||Book=UEG||Condition=[Condition]||Cost=%SwampKit%|
+30,|Item=[TentType] Tent</font></i>[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%Tent%|
+10,|Item=Thick Furs</font></i> ([Furs2])||BodySize=1||Book=UEG||Condition=[Condition]||Cost=%ThickFurs%|
+30,|Item=Torch</font></i> There are {Dice~1d10} available.[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%Torch%|
+15,|Item=Tourniquet</font></i>||Book=UEG||Condition=[Condition]||Cost=%Tourniquet%|
+30,|Item=Traveler's Outfit</font></i> Its primary color scheme is [RobeColors].||BodySize=1||Book=UEG||Condition=[Condition]||Cost=%Traveler'sOutfit%|
+15,|Item=Traveler's Stock</font></i>||Book=UEG||Condition=[Condition]||Cost=%Traveler'sStock%|
+10,|Item=Travois</font></i> made out of [Woods].||Book=UEG||Condition=[Condition]||Cost=%Travois%|
+10,|Item=Tree Net</font></i>||Book=UEG||Condition=[Condition]||Cost=%TreeNet%|
+5,|Item=Underground Outfit</font></i>||BodySize=1||Book=UEG||Condition=[Condition]||Cost=%UndergroundOutfit%|
+5,|Item=Water Additive</font></i>||Book=UEG||Condition=[Condition]||Cost=%WaterAdditive%|
+10,|Item=Water Pack</font></i> made of [HiltMaterial].[AnyExtrasMundane]||BodySize=1||Book=UEG||Condition=[Condition]||Cost=%WaterPack%|
+2,|Item=Water Trap</font></i>||Book=UEG||Condition=[Condition]||Cost=%WaterTrap%|
+30,|Item=Waterskin</font></i> made of [HiltMaterial].[AnyExtrasMundane]||Book=UEG||Condition=[Condition]||Cost=%Waterskin%|
+5,|Item=Weather Gauge</font></i>||Book=UEG||Condition=[Condition]||Cost=%WeatherGauge%|
+5,|Item=Web Net</font></i>||Book=UEG||Condition=[Condition]||Cost=%WebNet%|
+2,|Item=Well Straw</font></i>||Book=UEG||Condition=[Condition]||Cost=%WellStraw%|
+2,|Item=Whale-Skin Suit</font></i>[AnyExtrasMundane]||BodySize=1||Book=UEG||Condition=[Condition]||Cost=%Whale-SkinSuit%|
+
+# -----------------------------------------------------------------------------------
+# Support Tables
+
+# -----------------------------------------------------------------------------------
+# Clothing Colors and Other Colors
+
+;RobeColors
+1,[~Miscellaneous.Color+1]
+
+;RobeColorsMix
+3,[~Miscellaneous.Color+1]
+6,[~Miscellaneous.Color+1] and [~Miscellaneous.Color+1]
+1,[~Miscellaneous.Color+1], [~Miscellaneous.Color+1], and [~Miscellaneous.Color+1]
+
+;TentType
+3,1 person|PercentGPMod+0|
+6,2 person|PercentGPMod+0|
+4,3 person|PercentGPMod+{Dice~2d5/100}|
+2,4 person|PercentGPMod+{Dice~5d5/100}|
+1,6 person|PercentGPMod+{Dice~10d5/100}|
+
+# For clothes. Embroidery and fur. Calling: [Accents].
+# Complete phrase: There is ... 
+;Accents
+1,|GetData=[EQ_Main.Accents]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# For cold weather clothes which can include extensive use of furs. Calling: [ColdWeatherAccents].
+# Complete phrase: This outfit ... 
+;ColdWeatherAccents
+1,|GetData=[EQ_Main.ColdWeatherAccents]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# To generate only the type of fur.  Calling: [Furs]
+;Furs2
+1,|GetData=[EQ_Main.Furs]!!!%Temp%|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# -----------------------------------------------------------------------------------
+# Conditions
+
+;ArmorCondition
+1,|GetData=[EQ_Main.ArmorCondition]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_{If~%DataName%=Masterwork?|MWGPMod=%DataPercentMod%|/|PercentGPMod+%DataPercentMod%|}
+_%DataName%
+
+;Condition
+1,|GetData=[EQ_Main.Condition]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+;FurCondition
+1,|GetData=[EQ_Main.FurCondition]|
+_{Split~GetData,"!!!",DataName,DataPercentMod,SpecialEffect}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+;NotFullFurCondition
+1,|GetData=[EQ_Main.NotFullFurCondition]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+;InstrumentCondition
+1,|GetData=[EQ_Main.InstrumentCondition]|
+_{Split~GetData,"!!!",DataName,DataPercentMod,SpecialEffect}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+;WeaponCondition
+1,|GetData=[EQ_Main.WeaponCondition]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_{If~%DataName%=Masterwork?|MWGPMod=%DataPercentMod%|/|PercentGPMod+%DataPercentMod%|}
+_%DataName%
+
+# -----------------------------------------------------------------------------------
+# Tables Related to the Extra features of Items - Engravings and the like
+
+# Extras for magical items. Calling: [AnyExtrasMA]
+# Complete phrase: It is ... pattern.
+;AnyExtrasMA
+1,|GetData=[EQ_Main.AnyExtrasMA]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# Extras for mundane items. Calling: [AnyExtrasMundane]
+# Complete phrase: It is ... pattern.
+;AnyExtrasMundane
+1,|GetData=[EQ_Main.AnyExtrasMundane]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# For extras on staves and wood items.  Calling: [ArcaneStaffTrimmings1].
+# There will be 1 or 2 special description.
+;ArcaneStaffTrimmings1
+1,|GetData=[EQ_Main.ArcaneStaffTrimmings1]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# -----------------------------------------------------------------------------------
+# Materials
+
+# 60% woods / 40% metal.  Calling: [WoodOrSteel].
+# Output: made of XXX
+;WoodOrSteel
+1,|GetData=[EQ_Main.WoodOrSteel]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# 30% woods / 70% metal.  Calling: [WoodOrSteel2].
+# Output: made of XXX
+;WoodOrSteel2
+1,|GetData=[EQ_Main.WoodOrSteel2]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# For handles wrapped in something.  Calling: [Wrapping].
+# Output: (20%) The handle is wrapped with XXX
+;Wrapping
+1,|GetData=[EQ_Main.Wrapping]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# For a leathery material. Calling: [HiltMaterial]
+# Output: red leather / stretched bear skin / humanskin / stretched griffon hide
+;HiltMaterial
+1,|GetData=[EQ_Main.HiltMaterial]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# For a leathery material with more special ones. Calling: [MAHilt]
+# Output: humanskin / stretched griffon hide / red leather 
+;MAHilt
+1,|GetData=[EQ_Main.MAHilt]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# MAHilt2 == Removed, call MAHilt instead.
+
+# For studs and small metal or chitin items. Calling: [ChitOrSteel] or [ChitOrSteel].
+# Output: made of XXX 
+#-----------
+;ChitOrSteel
+1,|GetData=[EQ_Main.ChitOrSteel]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod/5||PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# To choose a type of metal. Calling: [WeaponMetals].
+# Output: made of XXX
+;WeaponMetals
+1,|GetData=[EQ_Main.WeaponMetals]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# To choose in what metal a tool is made of. Calling: [ToolMetals].
+# Output: It is made of XXX
+;ToolMetals
+1,|GetData=[EQ_Main.ToolMetals]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# As WeaponMetals but a little more chance for special metal. Calling: [CommonRingMetal].
+# Output: made of XXX
+;CommonRingMetal
+1,|GetData=[EQ_Main.CommonRingMetal]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# Description for special/magical arrows. Calling: [MAArrowExtras].
+# Output: These arrows ...
+;MAArrowExtras
+1,|GetData=[EQ_Main.MAArrowExtras]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# Metal for magical items. Calling: [MAMaterial].
+# Output: made of XXX
+;MAMaterial
+1,|GetData=[EQ_Main.MAMaterial]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# Type of hide/chitin for magical items. Calling: [HideKindMagical].
+# Output: made out of XXX / (20%) made from the plates of XXX
+;HideKindMagical
+1,|GetData=[EQ_Main.HideKindMagical]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# Type of hide/chitin for mundane items. Calling: [HideKindMundane].
+# Output: made out of XXX / (5%) made from teh plates of XXX
+;HideKindMundane
+1,|GetData=[EQ_Main.HideKindMundane]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# Gives a type of chitin. Calling: [Chiton2]
+# Output: giant wasp / crabman / giant beetle
+;Chiton2
+1,|GetData=[EQ_Main.Chiton]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# -----------------------------------------------------------------------------------
+# Size Tables
+
+# To give the size of an item and cost multiplier. Calling: [BodySize] size
+# Output: human / ogre / elvish
+;BodySize
+1,|GetData=[EQ_Main.BodySize]|
+_{Split~GetData,"!!!",DataName,ArmorSizeMod}
+_%DataName%
+
+# To give the size of an item and cost modifer. Calling: [ItemSize]
+# Output: tiny / small / medium / large / huge
+;ItemSize
+1,|GetData=[EQ_Main.ItemSize]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# ----------------------------------------------------------------------------
+# Wood Tables
+
+# Gives a type of wood. Calling: [Woods].
+# Output: apple wood / elm wood / red oak wood
+;Woods
+1,|GetData=[EQ_Main.Woods]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+
+# ---------------------------------------------------------------------
+
+# To generate a pipe. Calling: [PipeGen]
+# Output: A decent pipe with a ... is made of XXX wood.
+;PipeGen
+1,|GetData=[EQ_Main.PipeGen]|
+_{Split~GetData,"!!!",DataName,DataPercentMod}
+_|PercentGPMod+%DataPercentMod%|
+_%DataName%
+

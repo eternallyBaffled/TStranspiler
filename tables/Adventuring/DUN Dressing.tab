@@ -1,0 +1,355 @@
+# ------------------------------------------------------
+# Last Update: re-verified by Valminder Jan 10, 2012.
+# ------------------------------------------------------
+#
+# Dungeon Dressing
+# Converted from TableMaster Copyright 1995 by Wintertree Software
+#
+# Modified by Valminder, Jan 2004.
+#    Added links to:
+#        Creatures.Familiar
+#        Creatures.Humanoid
+#        Creatures.Start
+#        Curios.Generate
+#        Miscellaneous.Color
+#        Miscellaneous.Metal
+#        Miscellaneous.Odor2
+#        Miscellaneous.Sound
+#        Religion.Deities3
+#        Rune Generator.GenRune
+#        Traps.Generate
+#
+# Modified by Valminder, Sept 2005.
+#    Added link to:
+#        DUN Graffiti.Generate
+# Modified by Valminder, Nov 2005.
+#    Removed header from [Start]
+#
+
+#Declare Variables
+%Loop%,1
+%TempNumber%,0
+%Count%,0
+%Chance%,0
+
+:Start
+1,{Loop~{Max~1,{Dice~1d4-1}},-{Cap~[Generate]}.<br><br>}
+
+:Chanceof
+1,|Chance={Dice~1d100}|
+
+;Generate
+4,you find [Finds]
+1,you find [Curios.Generate]
+1,you find a spell component: [~Spell Components.Generate]
+2,you see [Traces]
+2,you smell [Smell]
+3,you hear [Miscellaneous.Sound] ([Distant])
+1,a [Breeze] brings [Smell]
+1,a [Breeze] carries the sound of [Miscellaneous.Sound]
+1,there is a trap here: [~Traps.Generate]
+1,there is {AorAn~[Object]}
+1,there [DUN Graffiti.Generate]
+
+# ---------------------------------------------------------------------------
+
+;Coin
+12,copper
+5,silver
+2,gold
+1,platinum
+
+;Damage
+5,intact
+14,broken
+1,petrified
+
+;Damage2
+1,intact
+1,broken
+
+;Distant
+3,in the distance [Side]
+2,faintly and [Side]
+1,nearby
+1,loudly and [Side]
+
+;Location
+6,wall
+3,floor
+1,ceiling
+
+;Side
+4,ahead
+4,behind
+1,above
+1,below
+
+;Type
+2,Blunt
+1,Piercing
+2,Slashing
+
+# ---------------------------------------------------------------------------
+
+;Breeze
+5,[Breeze_Type] breeze 
+1,gust of cold air
+1,gust of warm air
+1,puff of wind
+
+;Breeze_Type
+3,slight
+1,faint
+1,trace of
+1,sudden
+2,chill
+1,warm
+
+;Finds
+1,{AorAn~[Damage]} arrow
+1,{AorAn~[Damage]} crossbow bolt
+1,a scrap of leather strap
+1,an old boot (with holes)
+1,a rusty knife
+1,a dull, rusty dagger
+1,{AorAn~[Damage]} [Miscellaneous.Metal] buckle
+1,a candle stub
+1,a dung heap
+1,a burned-out torch
+1,a rusty spike[Chanceof]{If~%Chance%<40? pounded into the wall}
+1,a short piece of rope
+1,a torn scrap of parchment[Chanceof]{If~%Chance%<10? with part of a map}
+1,some torn bits of linen
+1,a pile of ashes
+1,{AorAn~[Damage]} bottle
+1,a few links of chain
+1,a splintered club
+1,|TempNumber={Dice~1d6}|<b>%TempNumber%</b> [Coin] {If~%TempNumber%>1? coins/coin}
+1,a tarnished silver coin
+1,a torn waterskin
+1,some food scraps|Count=2|
+1,a badly dented helmet
+1,a bent and rusty iron bar
+1,part of a broken wooden pole
+1,a torn sack
+1,scraps of wood 
+1,crusts of bread|Count=2|
+1,the broken tip of a [Chanceof]{If~%Chance%<50? sword/dagger} blade
+1,a smashed lantern
+1,a torn rag
+1,{AorAn~[Damage]} shortbow
+1,{AorAn~[Damage]} crossbow
+1,a piece of burned parchament
+1,a water-soaked book ([~Book Titles.Random])
+1,some shards of broken glass
+1,an empty potion vial
+1,some ash
+1,a bale of straw
+1,bellows
+1,{AorAn~[Damage]} belt
+1,{AorAn~[Damage]} backpack
+1,some bits of fur
+1,{AorAn~[Damage]} blanket
+1,some [~Creatures.Humanoid] [Chanceof]{If~%Chance%<20? teeth/bones}
+1,some [~Creatures.Start] [Chanceof]{If~%Chance%<20? teeth/bones}
+1,some [~Creatures.Familiar] [Chanceof]{If~%Chance%<20? teeth/bones}
+1,a [~Creatures.Humanoid] skull
+1,some broken glass
+1,{AorAn~[Damage2]} bucket
+1,{AorAn~[Damage]} candle
+1,{AorAn~[Damage2]} deck of playing cards
+1,{AorAn~[Damage2]} cleaver
+1,{AorAn~[Damage2]} tinderbox
+1,some flint and tinder
+1,some [~Creatures.Humanoid] clothing
+1,the corpse of {AorAn~[~Creatures.Humanoid]}
+1,the corpse of {AorAn~[~Creatures.All]}
+1,cobwebs
+1,{AorAn~[Damage2]} dishes
+1,{AorAn~[Damage]} drum
+5,{AorAn~[Damage]} [~Equipment.MiscItems]
+1,{AorAn~[Damage]} flask
+1,{AorAn~[Damage]} horn
+1,{AorAn~[Damage]} hourglass
+1,{AorAn~[Damage]} jar
+1,{AorAn~[Damage]} keg
+1,{AorAn~[Damage]} key
+1,{AorAn~[Damage]} lamp
+1,{AorAn~[Damage]} mug
+1,{AorAn~[Damage]} pillow
+1,{AorAn~[Damage]} smoking pipe
+1,{AorAn~[Damage]} pot
+1,{AorAn~[Damage]} razor
+1,{AorAn~[Damage]} rope
+1,{AorAn~[Damage]} scroll (nonmagical)
+1,{AorAn~[Damage]} scroll case (empty)
+1,{AorAn~[Damage]} tongs
+1,{AorAn~[Damage]} urn
+1,{AorAn~[Damage]} utensils
+1,some twine
+1,torch stub
+1,a cold spot
+1,a hot spot
+5,a wet spot
+1,a discarded and [Damaged2] [~Equipment.Weapons]
+5,some dripping water
+5,a rivulet
+5,some dust
+1,some [Miscellaneous.Color] fungus
+5,some insects on the [Location]
+1,a pottery shard
+1,a rune ([~Rune Generator.GenRune])
+1,some scattered stones
+
+;Object
+5,alcove
+1,[Damage2] altar of [~Religion.Deities3]
+1,[Damage2] anvil 
+5,arch
+1,arrow slit (wall) or murder hole (ceiling)
+1,[Damage2] balcony
+1,[Damage2] barrel
+1,[Damage2] bed
+1,[Damage2] bench
+1,[Damage2] bookcase
+1,[Damage2] branding iron
+5,[Damage2] brazier
+1,[Damage2] cage
+1,[Damage2] cauldron
+1,[Damage2] carpet
+1,[Damage2] casket
+1,[Damage2] catwalk
+1,[Damage] chain
+1,[Damage2] chair
+1,[Damage2] chandelier
+1,[Damage2] charcoal bin
+1,chasm
+1,[Damage2] chest
+1,[Damage2] chest of drawers
+1,chute
+1,[Damage2] coat rack
+5,collapsed [Location]
+5,crack in the [Location]
+1,[Damage2] crate
+1,[Damage] cupboard
+1,[Damage2] curtain
+1,[Damage2] divan
+1,[Damage2] dome
+1,door on the [Location]
+5,dung heap
+1,evil symbol of [~Religion.Evil Gods]
+5,fallen stone
+1,firepit
+1,[Damage2] fireplace
+1,[Damage2] font
+1,[Damage2] forge
+1,[Damage2] fountain
+1,broken furniture 
+1,[Damage2] gong
+1,[Damage2] hay pile
+3,hole in the [Location]
+1,hole (blasted) in the [Location]
+1,[Damage] hooded lantern
+2,hook in the [Location]
+1,[Damage2] idol
+1,[Damage2] iron maiden
+1,[Damage2] kiln
+1,[Damage] ladder
+1,ledge 
+1,[Damage2] loom
+5,piece of loose masonry on the [Location]
+1,pair of [Damage2] manacles
+1,[Damage] mirror
+1,[Damage2] mosaic
+5,mound of rubble
+1,[Damage] oven
+2,overhang
+1,[Damage2] painting representing a [~Creatures.All]
+5,partially collapsed [Location]
+1,[Damage2] pedestal
+2,peephole in the wall
+5,pillar
+1,pillory
+3,pit (shallow)
+1,platform
+1,pool
+1,[Damage2] pouch
+1,portcullis
+5,puddle of water
+1,[Damage2] rack
+1,ramp
+3,recess
+1,[Damage2] relief
+5,sconce
+1,[Damage2] screen
+1,shaft
+1,[Damage2] shelf
+1,[Damage2] shrine of [~Religion.Deities3(1)]
+3,short flight of steps
+1,[Damage2] spinning wheel
+1,[Damage2] stall or pen
+1,[Damage2] stool
+1,[Damage2] stuffed [~Creatures.All]
+5,sunken area
+1,[Damage2] table (large)
+1,[Damage2] table (small)
+1,[Damage] tapestry
+1,[Damage] throne
+5,trash (pile)
+1,[Damage] tripod
+1,[Damage2] tub
+5,[Damage2] wall basin
+1,[Damage2] weapon rack
+1,well
+1,[Damage2] winch and pulley
+1,[Damage2] workbench
+
+;Smell
+1,{AorAn~[Miscellaneous.Odor2]} odor
+1,the odor of [Smell2]
+
+;Smell2
+1,roses
+1,hyacinths
+2,mushrooms
+2,a wet dog
+2,mud
+2,cow manure
+2,pig manure
+1,old socks
+1,almonds
+1,sour milk
+1,honey
+1,carrion
+1,tar
+1,turpentine
+1,asphalt
+2,leather
+1,onions
+1,garlic
+1,chocolate
+2,ditch water
+2,vinegar
+2,skunk
+2,boiled cabbage
+2,hot metal
+2,burnt flesh
+1,new-mown hay
+1,cinnamon
+
+;Traces
+1,a mysterious [~Miscellaneous.ColorNoType] stain
+1,a dried bloodstain
+1,a fresh bloodstain
+1,a trail of dried bloodstains
+1,a trail of fresh bloodstains
+1,claw marks on the [Location]
+1,weapon damage ([Type]) to the [Location]
+1,a trail of slime on the [Location]
+1,a discolored area on the [Location]
+1,a charred area on the [Location]
+1,a patch of stone (on the [Location]) which has been warped and deformed
+1,some ash
+1,some mud
+1,scorched marks on the [Location]

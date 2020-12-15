@@ -1,0 +1,42 @@
+﻿# ------------------------------------------------------
+# Last Update: modified by Valminder Jan 01, 2014.
+# ------------------------------------------------------
+#
+# MC Treasure Generator (from Magic Compendium)
+#
+# Common
+#
+
+%itemPlus%,0
+
+%temp%,0
+%name%,0
+%value%,0
+
+@itemPlus,1,Item parameter
+
+:Start
+1,Parameters: %itemPlus%
+
+;Type
+1,arcane
+1,divine
+
+;Align
+1,law
+1,good
+1,evil
+1,chaos
+
+;Energy
+1,acid
+1,fire
+1,cold
+1,electricity
+1,sonic
+
+;Magic Armor
+1,[MC Magic Armor.Start(1,%itemPlus%,2,2)]
+
+;Magic Weapons
+1,[MC Magic Weapons.Start(1,%itemPlus%,2,2)]

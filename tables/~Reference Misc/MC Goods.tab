@@ -1,0 +1,226 @@
+﻿# ------------------------------------------------------
+# Last Update: modified by Valminder Jan 01, 2014.
+# ------------------------------------------------------
+#
+# MC Treasure Generator (from Magic Compendium)
+#
+# Goods (gems)
+#
+
+%type%,0
+%target%,0
+%item%,0
+%value%,0
+%temp%,0
+
+# Currently unused
+%weight%,0
+%appraisalDC%,0
+
+@type,1,Type,A (10 gp avg.),B (50 gp avg.),C (100 gp avg.),D (250 gp avg.),E (500 gp avg.),F (1000 gp avg.),G (2500 gp avg.),H (5000 gp avg.),I (10000 gp avg.)
+@target,1,Human-readable or for another table?,Human,Table
+
+:Start
+1,[GenGoods=%type%]
+_[DisplayItem=%target%]
+
+:DisplayItem
+1,{Bold~{Cap~%item%}}{CR~}Value: %value% gp{CR~}Weight: %weight% lb.
+2,%item%!%weight%!%value%
+
+:GenGoods
+1,|temp=[TypeA]|{Split~temp,"!",item,weight}|appraisalDC=12||value={Dice~4d4}|
+2,|temp=[TypeB]|{Split~temp,"!",item,weight}|appraisalDC=12||value={Dice~2d4*10}|
+3,|temp=[TypeC]|{Split~temp,"!",item,weight}|appraisalDC=12||value={Dice~4d4*10}|
+4,|temp=[TypeD]|{Split~temp,"!",item,weight}|appraisalDC=15||value={Dice~1d4*100}|
+5,|temp=[TypeE]|{Split~temp,"!",item,weight}|appraisalDC=15||value={Dice~2d4*100}|
+6,|temp=[TypeF]|{Split~temp,"!",item,weight}|appraisalDC=15||value={Dice~4d4*100}|
+7,|temp=[TypeG]|{Split~temp,"!",item,weight}|appraisalDC=15||value={Dice~1d4*1000}|
+8,|temp=[TypeH]|{Split~temp,"!",item,weight}|appraisalDC=15||value={Dice~2d4*1000}|
+9,|temp=[TypeI]|{Split~temp,"!",item,weight}|appraisalDC=20||value={Dice~4d4*1000}|
+
+;TypeA
+1,banded agate!0
+1,moss agate!0
+1,eye agate!0
+1,azurite!0
+1,blue quartz!0
+1,hematite!0
+1,lapis lazuli!0
+1,malachite!0
+1,obsidian!0
+1,rhodochrosite!0
+1,tiger eye turquoise!0
+1,freshwater pearl!0
+1,silver pledge pin!0
+1,boarskin hat!0
+1,embroidered linen blanket!2
+1,platter carved from maple!0.5
+1,sealskin boots!1
+1,teak bowl!0.5
+1,cotton tunic with royal crest!0.5
+1,bronze spectacles!0
+1,granite dice!0
+1,satin belt!1
+1,hammered brass wine cup!0.5
+
+;TypeB
+1,bloodstone!0
+1,carnelian!0
+1,chalcedony!0
+1,chysoprase!0
+1,citrine!0
+1,iolite!0
+1,jasper!0
+1,moonstone!0
+1,onyx!0
+1,peridot!0
+1,clear quartz!0
+1,sard!0
+1,sardonyx!0
+1,rose quartz!0
+1,smokey quartz!0
+1,star rose quartz!0
+1,zircon!0
+1,silver ewer!2
+1,carved bone statuette!0.5
+1,carved ivory statuette!0.5
+1,small gold bracelet!0
+1,bronze statue of a knight!5
+1,mahogany bust of a poet!3
+1,silver ring with blue quartz!0
+1,small perfume bottle of black crystal!0
+1,purple velvet gloves with silver stitching!0
+1,ornate wooden box!3
+1,bronze earrings set with ceramic ovals!0
+1,copper horn ringed with seashells!2
+1,oak candlestick!1
+1,mahogany tray carved with flowers!1
+1,rhinoceros-hide sack!0.5
+1,peacock-feather mask!0
+1,broad-brimmed velvet hat!0
+1,zircon-studded dancing slippers!0.5
+
+;TypeC
+1,amber
+1,amethyst
+1,chrysoberyl
+1,coral
+1,red garnet
+1,brown-green garnet
+1,jade
+1,jet
+1,white pearl
+1,golden pearl
+1,pink pearl
+1,silver pearl
+1,red spinel
+1,red-brown spinel
+1,deep-green spinel!0
+1,tourmaline!0
+1,cloth of gold vestments!3
+1,black velvet mask adorned with citrines!0
+1,silver chalice with lapis inlay!0.5
+1,coral saucer!0.5
+1,heraldic banner edged with swan feathers!3
+1,marble relief of dwarf wrestlers!10
+1,copper anklet plated with silver!0
+1,prayer mat with inlaid gold thread!3
+
+;TypeD
+1,large wool tapestry!{Dice~1d6+4}
+1,brass mug with jade inlays!0.5
+1,harp painted with pastoral scene!5
+1,mountain landscape in ash frame!5
+1,wall hanging of a forest in black ink!5
+1,velvet cloak with eagle feathers!1
+1,small marble statue of an athlete!10
+1,granite cup carved with staring eyes!1
+1,ivory bust of a high priest!10
+1,mithral circlet engraved with elvish poetry!0
+1,dragonhide gloves!0
+1,onyx hourglass set with malachite!2
+1,coral brooch with oval jasper setting!0
+1,gold anklet with bloodstone cabochons!0
+1,adamantine armband with filigree carvings!0
+1,oil painting of a royal wedding!5
+1,jade cameo pendant!0
+1,life-size darkwood cat sculpture with yellow topaz eyes!2
+
+;TypeE
+1,alexandrite!0
+1,aquamarine!0
+1,violet garnet!0
+1,black pearl!0
+1,deep-blue spinel!0
+1,golden yellow topaz!0
+1,silver comb with moonstones!0
+1,silver-plated scabbard with jet cabochons!1
+1,carved darkwood harp with ivory inlay and zircon gems!5
+1,solid gold idol!10
+1,linen tapestry depicting giants destroying a town!5
+1,obsidian statue of a hunting dog!3
+1,painting of a sailing ship!5
+1,onyx sphere with trees carved in relief!1
+1,silk banner embroidered with performing musician!1
+1,small masterpiece portrait in gold frame inlaid with opal!2
+
+;TypeF
+1,emerald!0
+1,white opal!0
+1,black opal!0
+1,fire opal!0
+1,blue sapphire!0
+1,fiery yellow corundum!0
+1,rich purple corundum!0
+1,blue star sapphire!0
+1,black star sapphire!0
+1,star ruby!0
+1,gold dragon comb with red garnet eye!0
+1,gold and topaz bottle stopper cork!0
+1,ceremonial electrum dagger with star ruby in pommel!1
+1,eyepatch with mock eye of sapphire and moonstone!0
+1,fire opal pendant on gold chain!0
+1,masterpiece portrait of an elite general!5
+1,dinosaurhide tapestry depicting a mage!8
+1,mother-of-pearl statue of a naga!3
+1,mithral comb with opal runes!0
+1,silver crown with opal inlay!0.5
+1,vestments of celestial lion fur!2
+1,set of six gold and silver bells with jeweled handles!1
+
+;TypeG
+1,embroidered silk and velvet mantle with moonstones!2
+1,sapphire pendant on gold chain!0
+1,embroidered and bejeweled glove!0
+1,jeweled anklet!0
+1,golden circlet with four aquamarines!0
+1,necklace of pink pearls!0
+1,basalt pyramid with images of dragons inlaid in gems!5
+1,lead crown adorned with black pearls!2
+1,bejeweled gold tiara shaped like dragon horns!0.5
+1,bronze music box with pearl inlay!1
+1,mahogany bracelet plated with gold and platinum!0
+1,dragonhide formal shoes with electrum buckles!1
+
+;TypeH
+1,bright green emerald
+1,blue-white diamond
+1,canary diamond
+1,pink diamond
+1,brown diamond
+1,blue diamond
+1,jacinth
+1,jeweled gold crown!1
+1,jeweled electrum ring!0
+1,bone mug set with opals!0.5
+1,platinum sunburst crown!1
+
+;TypeI
+1,gold and ruby ring!0
+1,gold cup set with emeralds!0.5
+1,regal scepter set with sapphires!1
+1,platinum locket ringed with garnets!0
+1,mithral statue of a noble horse!3
+1,platinum tiara!0.5
+1,gilt dragon's skull with opal eyes and adamantine teeth!5

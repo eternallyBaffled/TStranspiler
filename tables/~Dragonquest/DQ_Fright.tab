@@ -1,0 +1,34 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder Nov 30, 2005.
+# ---------------------------------------------------
+#
+# Table by "dante_acq"
+#
+# Modified by Valminder, Nov 2005.
+#
+
+%dado%,0
+%modificador%,0
+
+@modificador,0,modificador
+
+:Start
+1,<b><u>Dragonquest - Fright table</u>:</b><br>|dado={Dice~1d100}| D100 = %dado% modifier = %modificador% <br>|dado+%modificador%|<br> Result = %dado% [Fright=%dado%]
+
+:Fright
+01-20, Target is wary and suffers a subtraction of 5 from all strike chances for the remainder of the pulse.
+21-25, Target flies into a berserk rage and immediately attempts to attack (within the limits of TMR) the object of his rage.  He will charge if possible and attempt to grapple.  All strike chances against him are increased by 10 o/o and all strike chances he or she makes are increased by 10 o/o.
+26-76, Target flees as rapidly as possible away from the source of his or her terror.
+77-90, Character is immobilized as if stunned and adds 5 to all subsequent rolls on the Fright Table this day.
+91-95, Target becomes hysterical and will continue to stand in place and scream until snapped out of it (GM may determine how this occurs).  Add 15[Percent] to subsequent rolls on the Fright Table this day.
+96-100, Target becomes totally catatonic (as if stunned).  Add 15 to subsequent rolls on the Fright Table this day.  Target has a 5[Percent] chance of having hair turn permanently white.
+101-106, Target faints dead away (collapsing to the ground).  He or she remains unconscious for d +6 minutes.  Add 10 to all subsequent rolls on the Fright Table this day.
+107-110, Target suffers a heart attack (collapsing to the ground).  He or she remains unconscious for d +6 minutes.  Add 10 to all subsequent rolls on the Fright Table this day. The target cannot move about under his own power for the remainder of the day and suffers a decrease of 2 in all characteristics until he has spent one month resting in bed.
+111-1000, Target suffers a heart attack and must have medical attention within one minute or die.  If he does survive all subsequent rolls on the Fright Table are increased by 20 this day.
+
+:Percent
+1,/%
+
+
+
+

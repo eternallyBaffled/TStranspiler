@@ -1,0 +1,45 @@
+# ------------------------------------------------------
+# Last Update: verified by Valminder Jan 02, 2014.
+# ------------------------------------------------------
+#
+
+%name%,0
+%weight%,0
+%value%,0
+%vmod%,1
+%wmod%,1
+%appraisalDC%,12
+
+%type%,0
+%format%,0
+
+@type,3,Type of instrument:,Personal,Lair,Random
+@format,1,Select format:,Human-readable,Delimited for other table
+
+;Start
+1,|name=[MusicalInstrument{Param~type,%type%}]||value*%vmod%||weight*%wmod%||weight={Trunc~%weight%}|[DisplayItem=%format%]
+
+# Format: name!value!weight
+:DisplayItem
+1,{Bold~{Cap~%name%}}{CR~}Value: %value% gp{CR~}Weight: %weight% lbs.
+2,%name%!%value%!%weight%!%appraisalDC%
+
+;MusicalInstrumentPersonal
+1,lute|value=35||weight={Dice~1d6+4}|
+1,lyre|value=40||weight={Dice~1d5+2}|
+1,mandolin|value=40||weight={Dice~1d6+4}|
+1,horn|value=40||weight={Dice~1d3}|
+1,recorder|value=15||weight=0.5|
+1,pan pipes|value=20||weight=1|
+1,hand bell|value=5||weight=1|
+
+;MusicalInstrumentLair
+1,dulcimer|value=60||weight={Dice~1d3+13}|
+1,harp|value=75||weight={Dice~1d10+25}|
+1,zither|value=65||weight={Dice~1d3+13}|
+1,drum|value=50||weight={Dice~1d6+2}|
+1,gong|value=75||weight={Dice~1d10+25}|
+
+;MusicalInstrumentRandom
+1,[MusicalInstrumentPersonal]
+1,[MusicalInstrumentLair]

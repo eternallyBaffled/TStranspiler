@@ -1,0 +1,114 @@
+# ------------------------------------------------------
+# Last Update: re-verified by Valminder Jan 10, 2012.
+# ------------------------------------------------------
+# ---------------------------------------------------
+# Last Update: Valminder Jan 15, 2006.
+# ---------------------------------------------------
+#
+# Ruins
+#
+# Ruins that may be encountered during
+# wilderness journeys.
+#
+# Copyright 1998 Bruce A. Gulke
+#
+#
+# Modified by Valminder April 2002
+#    I modified the "START" line.
+#    I added some links to these other tables:
+#        Creatures.Dragon
+#        Creatures.Humanoid
+#        Creatures.Undead
+#        Formal Names.Start
+#        Inn and Tavern Names.Names
+#        Miscellaneous.Class
+#        Miscellaneous.Size C
+#        Names Generator.NAME Random
+#        Noble Household Names.Start
+#        Religion.Evil Gods
+#
+# Modified by Valminder Nov 2005
+#    Removed header from "START" line.
+#
+# Modified by Larry Cormier Jan 2006
+#    Added Variables, and relevant code & Links to:
+#        MAP Ruins.tab
+#
+# Modified by Valminder Jan 2006
+#    Added "GenerateNoMap" subtable.
+#
+
+# Define Variables
+%Wd%,0
+%Ht%,0
+%OpenArea%,0
+%Size%,0
+
+:Start
+1,{Status~Ruins encountered in a wilderness journey, by Bruce A. Gulke.}{Cap~[Generate]}
+
+:GenerateNoMap
+1,[Opening] [Building][BuildingSize=%Size%]. [Occupation]
+
+:Generate
+1,[Opening] [Building][BuildingSize=%Size%]. [Occupation]{Generate~0, (Click to show map),PrintMap}
+
+:PrintMap
+1,<br><br>[~GenRandomMap]
+
+:GenerateAlternate
+1,[Building][BuildingSize=%Size%]. [Occupation]<br><br><b>Map of Ruins:</b><br><br>[~GenRandomMap]
+
+:Opening
+1,the ruins of
+2,the remnants of
+3,the crumbling remains of
+4,what remains of
+
+;Building
+2,an old castle (<b>[Formal Names.Start]</b>)|Size=1|
+5,a forgotten monastery|Size=2|
+3,a wizard's tower (<b>[Names Generator.NAME Random]</b>)|Size=3|
+1,an orcish stronghold (<b>[Names Generator.NAME Orc]</b>)|Size=2|
+5,a large manor (<b>[Formal Names.Start]</b>)|Size=4|
+5,a small shrine of [~Religion.Deities]|Size=5|
+1,a great temple of [~Religion.Deities]|Size=2|
+5,a wayside inn ([~Inn and Tavern Names.Names])|Size=6|
+
+:BuildingSize
+# Width: 11-22 Height: 11-18, with 10-90% Open Space
+1,|Wd={Dice~1d12+10}||Ht={Dice~1d8+10}||OpenArea={Dice~1d9*10}|
+# Width: 6-15 Height: 6-11, with 10-90% Open Space
+2,|Wd={Dice~1d10+5}||Ht={Dice~1d6+5}||OpenArea={Dice~1d9*10}|
+# Width: 3-12 Height: 3-12, with 10-90% Open Space
+3,|Wd={Dice~1d10+2}||Ht={Dice~1d10+2}||OpenArea={Dice~1d9*10}|
+# Width: 4-20 Height: 3-15, with 10-90% Open Space
+4,|Wd={Dice~4d5}||Ht={Dice~3d5}||OpenArea={Dice~1d9*10}|
+# Width: 3-9 Height: 3-9, with 10-90% Open Space
+5,|Wd={Dice~2d4+1}||Ht={Dice~2d4+1}||OpenArea={Dice~1d9*10}|
+# Width: 3-18 Height: 3-7, with 10-90% Open Space
+6,|Wd={Dice~3d6}||Ht={Dice~2d6+1}||OpenArea={Dice~1d9*10}|
+
+;Occupation
+3,It appears to be deserted.
+1,It is currently inhabited by [Inhabitants].
+
+;Inhabitants
+5,rodents, insects, and spiders
+5,a [~Creatures.Humanoid] [~Miscellaneous.Class2] hermit named [~Names Generator.NAME Random]
+5,a small group of <b>{Dice~1d10+2} {Plural~[Creatures.Humanoid]}</b>
+1,[~Creatures.Humanoid2] refugees from a nearby region, which was decimated by war
+1,<b>{Dice~1d20+5}</b> cultists of a dark god <b>([Religion.Evil Gods])</b>, attempting to operate in secret
+1,<b>[~Noble Household Names.Start]</b>, who are searching for something within
+1,a horde of <b>{Dice~1d20+10}</b> undeads ([~Creatures.Undead])
+2,a group of <b>{Dice~1d100+10}</b> [~Creatures.Humanoid2] brigands lead by <b>[Names Generator.NAME Random]</b> ({AorAn~[Miscellaneous.Class]})
+2,a tribe of <b>{Plural~[Creatures.Humanoid]}</b>
+1,an evil warlord (<b>[Names Generator.NAME Random]</b>) who is rebuilding an army
+1,a [Miscellaneous.Size C] <b>[Creatures.Dragon]</b>
+1,a powerful demon or devil, bound within the ruins by magic
+
+:RuinsMap
+1,[MAP Ruins.GenMap(%Wd%,%Ht%,%OpenArea%)]
+
+:GenRandomMap
+1,[BuildingSize=%Size%][RuinsMap]

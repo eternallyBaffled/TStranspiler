@@ -1,0 +1,830 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder Jan 30, 2006.
+# ---------------------------------------------------
+#
+# Monastic Orders v3
+# Original version by Ashon (tfcoug@hotmail.com)
+#
+# ---------------------------------------------------------------------------
+# UPDATE:
+#
+# Ashon's Monastic Orders table intrigued and inspired me to elaborate on the
+# great ideas. As I hacked at the scripting to get my ideas to fit, creating
+# a garbled mess that depended on other tables that I had also altered.
+#
+# Here is a cleaned up Version 3 of the Monastic Orders table. After hacking
+# it apart and then trying to clean it up, it probably bears little
+# resemblance to Ashon's original. I claim responsibility for all errors, but
+# much of the content is his.
+#
+# In the Related Files folder are two of the modified tables needed for
+# Monastic Orders v3 to function properly.  You will need to place them in
+# the Misc. folder or in the ~Reference folder.
+#
+# The Table could still use a Parameter input section and assigning a gender
+# to each Important Person to get rid of the awkward s/he's.  Feel free to
+# update and post.
+#
+# ---------------------------------------------------------------------------
+#
+# This table is used to quickly generate the outline of a Monastic Order for
+# use in your game. Does a player want to play a monk? Can't think of the
+# more mundane tidbits?  Here it is.
+# A mysterious monk wanders up to the party?  Need to know some quick
+# information?
+#
+# Any Additions to the list can as always be emailed to me.
+#
+# NOTE: This Table calls these other tables as necessary:
+# 1, Ethics.tab  (creates guiding virtues of the Order i.e. Be kind to
+#                 children, Live in poverty)
+# 2, Book Titles.tab (some groups are referenced in creating names of Sacred
+#                     Texts)
+# 3, Countries.tab (referenced in creating Name of the guild, home area of
+#                   leaders, and for locations if needed within the Story of
+#                   the order)
+# 4, KS_KungFuTheater.tab (used to create names for the order's Signature
+#                          Moves, and groups are referenced to create the
+#                          name of overall technique used by the Order)
+# 4, MARTIAL ARTS Moves 4 Kung Fu Styles.tab
+#                       (used to create names for the order's Signature
+#                        Moves, and groups are referenced to create the name
+#                        of overall technique used by the Order)
+# 5, NPC Appearance.tab (currently seems only to be used to generate the
+#                        leaders geneder and a sub-referral to naming file,
+#                        but since it works, I left it in)
+# 6, Miscellaneous.tab (used for ocupations)
+# 7, The Oracle.tab (used to create the Order's overall philosophy)
+# 8, Names Generator.tab (creates names of leaders of the order throughout
+#                         its history)
+#
+# Modified "NPC Appearance.tab" with this line:
+#    :GenerateNoClass
+#    1,[~Names Generator.NAME For All], a <b>[Gender]</b>
+#    _ [~Creatures.Humanoid2], from [~Countries.Countries].
+#
+# Joey Joe Joe expanded and modified this table, Summer 2005
+# It should not be dificult to add Parameter options, but I hate doing them.
+#
+#
+# Modified by Valminder, Jan 2006.
+#    Adapted for TSv5.
+#    Corrected some minor errors.
+#    Fixed "NPC Appearance.tab"
+# Modified by Valminder, Octobre 2016
+#    Modified link "Countries.Start" to "Countries.Countries"
+#
+
+/OverrideRolls 1
+
+#Used for the State Machine
+%State%,0
+#
+#used in tracking combat maneuvers
+%counter%,0
+%temp%,0
+
+#Used for the Important People of the Monastary's history
+%founder%,0
+%impperson1%,0
+%impperson2%,0
+%impperson3%,0
+%impperson4%,0
+%impperson5%,0
+
+#Used for the Important Person LL
+%preimpperson%,0
+%curimpperson%,0
+%nextimpperson%,0
+
+#Used to define the Ranks of the Monastary
+%lhier%,0
+%mhier%,0
+%hhier%,0
+
+#Used to define the overall Technique used by the Order
+%tech%,0
+%Adj%,0
+%Noun%,0
+%FightStyle%,0
+
+#Used to define name and size
+%OrderType%,0
+
+#Used to define the Order Name
+%oname%,0
+
+#Used to track the combat maneuvers used by the Order
+%maneuver1%,0
+%maneuver2%,0
+%maneuver3%,0
+%maneuver4%,0
+%maneuver5%,0
+%maneuver6%,0
+%maneuver7%,0
+%maneuver8%,0
+
+#Used to Track the Vows
+%vow1%,0
+%vow2%,0
+%vow3%,0
+%vow4%,0
+%vow5%,0
+%vow6%,0
+%vow7%,0
+
+# Used to Build the physical compound:
+
+#Size: 1 = Very Small, 2 = Small, 3 = Medium, 4 = Large, 5 = Huge, 6-9=small to large, 10 = Any
+%size%,0
+
+#Buildings: is now based on Size 
+%buildings%,0
+%numbuildings%,0
+
+#Walls: 1-2=no wall, 3 and 6=wall based on size of monastary, 4=cliff, 5=wall 7=large wall 8=wall & gatehouse 9=wall, gatehouse & towers, 10=random
+%walls%,10
+
+#Pond: 1= None, 2=small, 3=medium, 4=large  5=elegently simple, 6=elaborate, 7-9=2 ponds, 10=Any
+%pond%,0
+%numponds%,0
+
+#Garden: 1= None, 2=small, 3=medium, 4=extensive, 5-6=2 Gardens, 7=simple, 8=two small gardens, 9=elaborate, 10=Any
+%garden%,0
+%numgarden%,0
+
+#Library: 1=none, 2=very small, 3=small, 4=medium, 5=large, 6=outstanding, 7=simple but carefully stocked, 8=ecclectic, 9=2 collections, 10 = Any 
+%library%,10
+
+#Location: 1=mountain, 2=forest, 3=island, 4=in capital, 5=hinterlands, 6=bustling town, 7=cliff, 8=many cities, 9=desert, 10=Any
+%location%,10
+
+:Start
+1,{Status~By Ashon, Valminder 2006}
+_|library={Dice~1d10}|
+_[MARTIAL ARTS Moves 4 Kung Fu Styles.AssignStyleConstants]
+_|Adj=[MARTIAL ARTS Moves 4 Kung Fu Styles.PassAdj]|
+_|Noun=[MARTIAL ARTS Moves 4 Kung Fu Styles.PassNoun]|
+_|FightStyle=[MARTIAL ARTS Moves 4 Kung Fu Styles.PassFightStyle]|
+_[OrderType]
+_{CapEachWord~[Technique]}
+_|oname={CapEachWord~[OrderName]}|
+_[Hierarchy]
+_[Generate imppersons]
+_ <b>NAME</b>: %oname%<br><hr width=500>
+_ <b>LIST OF VIRTUES </b><br>
+_{Loop~{Dice~2d3},|counter+1|[set virtues=%counter%][Tab]%temp%<br>}
+_ <hr width=500>
+_ <b>COMBAT STYLE: </b> %tech%<br>|counter=0|
+_{Loop~{Dice~2d3},|counter+1|[set moves=%counter%][Tab]Traditional Maneuver: %temp%<br>}
+_ <hr width=500>
+_ <b>RANKS:</b><br>
+_ <B>[Tab]Beginning Members:</b> %lhier%<br>
+_ <B>[Tab]Intermediate Members:</b> %mhier%<br>
+_ <B>[Tab]Highest Members:</b> %hhier%<br>
+_ <b>[Tab]Current Head Master:</b> [Master Name], a <b>[NPC Appearance.Gender]</b> {Cap~[~Creatures.Humanoid2]}, from [~Countries.Countries].<br>
+_ <hr width=500>
+_ <b>LIST OF BOOKS/SACRED TEXTS/ETC.:</b><br>[SacredTexts]
+_ <hr width=500>
+_ <b>THE STORY OF THE MONASTARY:</b><br>
+_ [Tab][Monk Story]
+_ <hr width=500>
+_ <b>LAYOUT OF THE PHYSICAL MONASTARY:</b><br>
+_ [Tab][Layout of Monastary]
+_ <hr width=500>
+_ [Monastary Philosophy]
+
+;Tab
+1,{Loop~5,&nbsp;} 
+
+;OrderType
+# Type of Order: Monastary, Brotherhood, Order blah... If you wish, you can set more variables to create 
+# styles - (i.e. Ashrams always have Gatehouses, Viahara's never have walls etc.)
+1, |OrderType=Shrine| |size=1||walls=1||buildings=2||pond=1||garden=1||library=1||location=10|
+1, |OrderType=Chapel| |size=2||walls=1||buildings=2||pond=2||garden=2||library=1||location=10|
+1, |OrderType=Abbey| |size=10||walls=10||pond=10||garden=10||library=10||location=10|
+1, |OrderType=Monastary| |size=10||walls=10||pond=10||garden=10||library=10||location=10|
+1, |OrderType=Order| |size=10||walls=10||pond=10||garden=10||library=10||location=10|
+1, |OrderType=Brotherhood| |size=10||walls=10||pond=10||garden=10||library=10||location=10|
+1, |OrderType=Commune| |size=10||walls=10||pond={Dice~1d8+1}||garden={Dice~1d8+1}||library=10||location=10|
+1, |OrderType=Covenant|  |size=10||walls=10||pond=10||garden=10||library=10||location=10|
+1, |OrderType=Cloister| |size=2||walls=10||pond=10||garden=10||library=10||location=10|
+1, |OrderType=Priory| |size=10||walls=10||pond=10||garden=10||library=10||location=10|
+1, |OrderType=Friary| |size=10||walls=10||pond=10||garden=10||library=10||location=10|
+1, |OrderType=Vihara| |size=10||walls=10||pond=10||garden=10||library=10||location=1|
+1, |OrderType=Ashram| |size=10||walls=10||pond=10||garden=10||library=10||location=2|
+1, |OrderType=Lamasery| |size=10||walls=10||pond=10||garden=10||library=10||location=3|
+1, |OrderType=Convent| |size=10||walls=10||pond=10||garden=10||library=10||location=10|
+1, |OrderType=Dojo| |size=10||walls=10||pond=10||garden=10||library=10||location=10|
+1, |OrderType=School| |size=5||walls=10||pond=1||garden=10||library={Dice~1d7+2}||location=10|
+
+
+;Technique
+# The Name of the martial arts style used by the Order
+1, |tech={CapEachWord~[Name Style]}|
+
+;Name Style
+1,%Adj% %Noun%
+1,%Adj% %FightStyle%
+1,%FightStyle% %Noun%s
+1,%Adj% %Noun% %FightStyle%
+
+;!OrderName
+#Creates the name of the Order, often using references from the Martial Arts Style used by the Order (%Adj%, %Noun% etc.)
+1, %OrderType% of the {Cap~[Complex]} {CapEachWord~[Creatures.All]}
+1, %OrderType% of the {Cap~[Complex]} %Noun%
+1, [Location] %OrderType%
+1, The %tech% Monks
+1, The Way of %tech% {Lockout~Types of Sacred Texts,1}
+1, The %Adj%  %Noun%s
+1, The %Adj%  %Noun%s of [Location]
+
+;Complex
+# May make the name of the Order more complex by adding an adjective
+1,
+1,%Adj%
+
+;Location
+1, [Countries.Land]
+1, [Countries.Countries]
+#1, [Countries.Region]
+1, [Countries.Generate]
+
+
+;Hierarchy
+1, |lhier=[Low Hierarchy]||mhier=[Mid Hierarchy]||hhier=[High Hierarchy]|
+
+;Low Hierarchy
+1,Brother
+1,Foot Soldier of %oname%
+1,Acolyte
+1,Devotee
+1,Adherent
+1,Initiate
+1,Progeny
+1,Sister
+1,Penitant
+1,Young {Cap~%Noun%}
+
+;Mid Hierarchy
+1,Intermediate
+1,Master
+1,Layman
+1,Dillettante
+1,Mother
+1,Father
+1,Skilled {Cap~%Noun%}
+
+;High Hierarchy
+1,Progenitor
+1,Antediluvian
+1,Venerable
+1,Grand Master
+1,High Master
+1,Enlightened
+1,Elevated
+1,Ascended
+1,Grandfather
+1,Grandmother
+1,Grand {Cap~%Noun%}
+
+;Generate imppersons
+#Creates the names and ranks of the people of the Order for reference in Book titles/authors and the Story
+1,|founder=[Random Hierarchy+1] [Names Generator.NAME For All]||impperson1=[Random Hierarchy] [Names Generator.NAME For All]||impperson2=[Random Hierarchy] [Names Generator.NAME For All]||impperson3=[Random Hierarchy] [Names Generator.NAME For All]||impperson4=[Random Hierarchy] [Names Generator.NAME For All]||impperson5=[Random Hierarchy] [Names Generator.NAME For All]| 
+
+;Random Hierarchy
+#Chooses one of the Rank Titles used by the Order
+1,%lhier%
+5,%mhier%
+8,%hhier%
+
+;Master Name
+#Creates the name of the current leader of the Order
+1,%mhier% [Names Generator.NAME For All]
+4,%hhier% [Names Generator.NAME For All]
+
+:set virtues
+#Sets a list of the Virtues of the Order
+1,|vow1=[Ethics.Generate=2]||temp=%vow1%|
+2,|vow2=[Ethics.Generate+1]||temp=%vow2%|
+3,|vow3=[Ethics.Generate+1]||temp=%vow3%|
+4,|vow4=[Ethics.Generate+1]||temp=%vow4%|
+5,|vow5=[Ethics.Generate=2]||temp=%vow5%|
+6,|vow6=[Ethics.Generate+1]||temp=%vow6%|
+
+;Choose Vow
+#Selects one of the Virtues of the Order for inclusion in Book Title or as referenced in the Story
+1, %vow1%
+1, %vow2%
+1, {If~%vow3%!=0 ? %vow3% / [Choose Vow]}
+1, {If~%vow4%!=0 ? %vow4% / [Choose Vow]}
+1, {If~%vow5%!=0 ? %vow5% / [Choose Vow]}
+1, {If~%vow6%!=0 ? %vow6% / [Choose Vow]}
+
+:CombatStyle
+#Not sure why this is here. I dont think it is needed any more.
+1, {If~%tech% = 0 ?[MARTIAL ARTS Moves 4 Kung Fu Styles.RelatedMoves]/%tech%}
+
+:set moves
+#Creates a list of the martial arts moves associated with the Order
+1,|maneuver1={CapEachWord~[MARTIAL ARTS Moves 4 Kung Fu Styles.RelatedMoves]}||temp=%maneuver1%|
+2,|maneuver2={CapEachWord~[MARTIAL ARTS Moves 4 Kung Fu Styles.RelatedMoves]}||temp=%maneuver2%|
+3,|maneuver3={CapEachWord~[MARTIAL ARTS Moves 4 Kung Fu Styles.RelatedMoves]}||temp=%maneuver3%|
+4,|maneuver4={CapEachWord~[MARTIAL ARTS Moves 4 Kung Fu Styles.RelatedMoves]}||temp=%maneuver4%|
+5,|maneuver5={CapEachWord~[MARTIAL ARTS Moves 4 Kung Fu Styles.RelatedMoves]}||temp=%maneuver5%|
+6,|maneuver6={CapEachWord~[MARTIAL ARTS Moves 4 Kung Fu Styles.RelatedMoves]}||temp=%maneuver6%|
+
+;Choose Move
+#used to select one of the Order's moves for inclusion in title of a text or as part of the Story
+1, %maneuver1%
+1, %maneuver2%
+1, {If~%maneuver3%!=0 ? %maneuver3% / [Choose Move]}
+1, {If~%maneuver4%!=0 ? %maneuver4% / [Choose Move]}
+1, {If~%maneuver5%!=0 ? %maneuver5% / [Choose Move]}
+1, {If~%maneuver6%!=0 ? %maneuver6% / [Choose Move]}
+1, {If~%maneuver7%!=0 ? %maneuver7% / [Choose Move]}
+
+;SacredTexts
+1,[Tab]{CapEachWord~[Types of Sacred Texts]}
+1,[Tab]{CapEachWord~[Types of Sacred Texts]} <br>[Tab]{CapEachWord~[Types of Sacred Texts]}
+1,[Tab]{CapEachWord~[Types of Sacred Texts]} <br>[Tab]{CapEachWord~[Types of Sacred Texts]} <br>[Tab]{CapEachWord~[Types of Sacred Texts]}
+1,[Tab]{CapEachWord~[Types of Sacred Texts]} <br>[Tab]{CapEachWord~[Types of Sacred Texts]} <br>[Tab]{CapEachWord~[Types of Sacred Texts]} <br>[Tab]{CapEachWord~[Types of Sacred Texts]}
+
+;!Types of Sacred Texts
+#The option: %tech%: The way of the %oname% - should be the first option because of a Lockout
+1, <i>A [Book Titles.TypeE]: [Monk Weapons] work of the %tech% style</i>{Unlock~Types of Sacred Texts,1}
+1, <i>%tech%: The way of the %oname%</i>
+1, <i>%tech%: The Warriors Code</i>
+1, <i>%tech%: Code of the Enlightened</i>
+3, <i>[Monk Master Teachings] [Author] </i>
+1, <i>[Book Titles.TypeH] %tech%</i>
+1, <i>[Book Titles.TypeH] [Monk Weapons] use in the %tech% style</i>
+1, <i>%tech%: [BookDesc] [Book Titles.TypeNS]</i>
+3, <i>[Author], the Story of %oname%</i> 
+1, <i>[Monk Weapons] and the %tech%</i>
+1, <i>{Dice~1d500+1} Thoughts on: [Choose Vow]</i>
+1, <i>The Making of A Full Life: [Choose Vow]</i>
+1, <i>[Choose Vow]: Key to a Virtuous Life</i>
+3, <i>[Author]'s [Book Titles.TypeNS] of [Monk Weapons]</i>
+
+:!Monk Master Teachings
+1, The Oral Teachings of
+2, The Written Teachings of
+3, The Foundations of
+4, The Teachings of 
+5, {Dice~1d1000+1} Lessons of 
+6, %tech%, Life, and Me. </i> By
+7, %tech%.  </i>By
+8, {Dice~1d500+1} [Random Hierarchy]s </i> By
+9, My Vow: [Choose Vow]</i> By
+ 
+;BookDesc
+1,modern
+1,collected
+1,classic
+1,%founder%'s
+1,selected
+1,begining
+1,advanced
+1,rare
+
+:Monk Weapons
+1,Sai
+2,Kama
+3,Kukri
+4,Nunchaku
+5,Siangham
+6,Foot Work
+7,Grappling
+8,Fan
+# Change 9) to reflect your campaign's "Mental Energy" power: Chi, Psi, etc.
+9,Ki
+
+;Author
+1,[Random Hierarchy] [Names Generator.NAME For All]
+2,%founder%
+2,[Random Important People by State={Dice~1d%State%}]
+
+:Random Important People by State
+#selects an author from a time that has already passed
+1,%founder%
+2,%impperson1%
+3,%impperson2%
+4,%impperson3%
+5,%impperson4%
+6,%impperson5%
+7,%impperson6%
+
+;Monk Story
+# Tells the founding of the Order and selects the number of items to include in the history.
+1,The legends say [State One][State Two][State Three][State Four][State Five][State Six]
+1,Long ago [State One][State Two][State Four][State Five][State Six]
+1,In the begining [State One][State Two][State Three][State Five][State Six]
+1,The order started when [State One][State Two][State Three][State Four][State Six]
+1,In ages past, [State One][State Three][State Four][State Five][State Six]
+1,Not long ago, [State One][State Two][State Three][State Six]
+1,No one knows when %oname% began, but all know that [State One][State Two][State Three][State Four][State Five][State Six]
+#
+#These sections transport Important People's names through the story in order
+#
+;State One
+1,|State =1|
+_ |curimpperson=%founder%|
+_ |nextimpperson=%impperson1%|
+_ [Founding]
+
+;State Two
+1,|State =2|
+_ |preimpperson=%curimpperson%|
+_ |curimpperson=%nextimpperson%|                   
+_ |nextimpperson=%impperson2%|
+_ [Beginning]
+
+;State Three
+1,|State =3|
+_ |preimpperson=%curimpperson%|
+_ |curimpperson=%nextimpperson%|                   
+_ |nextimpperson=%impperson3%|
+_ [Early Middle]
+
+;State Four
+1,|State =4|
+_ |preimpperson=%curimpperson%|
+_ |curimpperson=%nextimpperson%|                   
+_ |nextimpperson=%impperson4%|
+_ [Middle]
+
+;State Five
+1,|State =5|
+_ |preimpperson=%curimpperson%|
+_ |curimpperson=%nextimpperson%|
+_ |nextimpperson=%impperson5%|
+_ [Late Middle]
+
+;State Six
+1,|State =5|
+_ |preimpperson=%curimpperson%|
+_ |curimpperson=%nextimpperson%|
+_ [Current]
+
+;Founding
+1,%curimpperson% was not always {AorAn~%hhier%}. In fact, s/he was an ordinary [Miscellaneous.Occupations] until the day s/he stumbled across ancient scripts detailing the %tech% combat style. S/he built %oname%'s first %OrderType% to train others.
+1,%curimpperson% was not always {AorAn~%hhier%}. In fact, s/he was an ordinary [Miscellaneous.Occupations] until the day s/he met {AorAn~[who]} who began sharing the lost secrets of %oname%. %curimpperson% listened to these tales and brought the %oname% back to life.
+1,%curimpperson% meditated for many years. Finally the void inside his/her heart opened up and s/he discovered the secrets of the %tech% combat style.  %oname% was founded to train others in these secrets.
+1,%curimpperson% grew tired of the politics in {CapEachWord~[OrderName]}. S/he struck out with a few %lhier%s and began her/his own %OrderType%, the %oname%.
+1,%curimpperson% taught all of the skills of %tech% to his/her sole apprentice %nextimpperson%.
+1,[Writing Component] which made her/him a hero in the %lhier%'s eyes and who began to follow her/his new innovative thinking.
+
+
+;who
+1,old man
+1,old woman
+1,wise [Creatures.Fantastic]
+1,fantastic talking [Nature]
+
+;Nature
+1,tree
+1,boulder
+1,stream
+1,cloud
+1,wind
+5,[Creatures.Start]
+
+;Beginning
+1,[Story Transition] [Random Component].
+1,[Simple Component].
+
+;Early Middle
+4,[Story Transition] [Random Component].
+1,[Simple Component].
+
+;Middle
+4,[Story Transition] [Random Component].
+1,[Simple Component].
+
+;Late Middle
+4,[Story Transition] [Random Component].
+1,[Simple Component].
+
+
+;Current
+1,[CurrentTransition] %oname% is strong, with a large number of members and a strong ethical teaching.
+1,[CurrentTransition] %oname% is weak, being set upon with too many troubles. |size-1|
+1,[CurrentTransition] %oname% has a significant following, but the ethical teachings are fading.
+1,[CurrentTransition] %oname% has a small following, but the members cling to the ethical teachings.
+
+;!Story Transition
+1,Then,{Unlock~Story Transition,1}
+1,Later,
+1,As time passed,
+1,Shortly thereafter,
+1,Many years passed and
+1,After an age,
+
+;CurrentTransition
+1,Currently,
+1,Today,
+1,At this time,
+1,Recent events show that
+1,Lately,
+1,Now,
+
+;Random Component
+#Selects random events that happen for each portion of the Order's Story
+1,[Art Component]
+1,[Battle Component]
+1,[Coup Component]
+1,[Deed Component]
+1,[Move Component]
+1,[Technique Component]
+1,[Writing Component]
+1,[Vow Component]
+
+;Art Component
+#Events related to the Arts
+1, %curimpperson% became renown throughout the land for his/her skill [ArtSkill]
+1, %oname% became a great patron of artitsts during the leadership of %curimpperson%
+1, %curimpperson% amassed a large collection of art for the order
+1, %curimpperson% brought to the %OrderType% the artist [Names Generator.NAME For All], whose skill [ArtSkill] is now legendary
+1, %curimpperson% saved the artistic works of [Names Generator.NAME For All] from desecration by the [Creatures.Humanoid]s
+1, %curimpperson% took in a young child to be trained [ArtSkill]. However, the child instead took to the martial training and rose through the ranks to become %nextimpperson%
+
+;ArtSkill
+1,as a painter
+1,as a potter
+1,as a sculptor
+1,as a singer
+1,as a musician
+1,as a dancer
+1,in caligraphy
+1,as a poet
+
+;Battle Component
+#Stories of major combats
+1, during the leadership of %curimpperson%, %oname% had to deal with the threat of a [Creatures.Fantastic]
+1, %curimpperson% defended %oname% against the threat of [Creatures.Humanoid]s
+1, %curimpperson% cleaned up the messy [Creatures.Humanoid] situation left to her/him by %preimpperson%
+1, %curimpperson% lead %oname% into battle against rebels of the kingdom
+1, %curimpperson% lead %oname% into battle alongside rebels of the kingdom
+1, when the national army was unable to mount an effective defense against invaders, %curimpperson% lead %oname% into battle and saved the kingdom 
+
+;Coup Component
+#Stories of internal intrigue within the Order
+1, failing to deal with an ideological paradigm shift, %preimpperson% lost control of %oname% to %curimpperson%
+1, tired of the failings of %preimpperson%, %curimpperson% led the [Random Hierarchy]s in a bloodless coup
+1, %preimpperson% passed beyond this life, leaving %curimpperson% to lead %oname%
+1, %preimpperson% retired from active life, and handed the reigns over to %curimpperson%
+1, %curimpperson% confronted a brewing rebellion within the [Random Hierarchy]s and forced the heretics from %oname%
+1, some say %curimpperson% stole the leadership of the order from %preimpperson% 
+
+;Deed Component
+#Specific Acts by individuals
+1, %curimpperson% brought the teachings of %oname% to the Imperial Court where they found favor
+1, %curimpperson% brought the teachings of %oname% to the Imperial Court where they were declared treasonous
+1, %curimpperson% had a disagreement with [Random Hierarchy] [NPC Appearance.GenerateNoClass], causing a blood feud with the {CapEachWord~[OrderName]} that continues to this day
+1, the %oname% was thrown into chaos when %curimpperson% disappeared
+1, %curimpperson%'s sacrifice for the people of [Location] became a legend
+1, %curimpperson%'s wisdom was renown throughout the land
+1, %oname% became a powerful force in local politics
+
+:!Move Component
+#Changes in the location of the Order
+1, %curimpperson% closed the school and took a sole apprentice, %nextimpperson%
+2, a [disaster] destroyed the old compound. %oname% moved to a new location where the %OrderType% was rebuilt
+3, suffering from persecution by the local populace, %oname% moved to a new location where the %OrderType% was rebuilt
+4, suffering from persecution by local authorities, %oname% moved to a new location where the %OrderType% was rebuilt
+5, because so many pilgrims came seeking the order, %oname% went underground and stayed hidden for many [Time]
+6, %oname% moved to [Location] at the request of local peasants{Unlock~Move Component,6}
+
+;disaster
+1,fire
+1,earthquake
+1,flood
+1,tsunami
+1,hurricane
+1,war
+
+;Time
+1,years
+1,decades
+1,generations
+
+:!Simple Component
+#Transitions in power that may have deeper backstory, or ar not very interesting times
+1, After many years, %preimpperson% passed the leadership to %curimpperson%
+2, For many years the order thrived under the guidance of %curimpperson%
+3, Then, the order struggled under the neglectful eye of %curimpperson%
+4, Later, without %preimpperson%'s leadership, the order almost faded into obscurity
+5, %curimpperson% then began to build the order's reputation{Unlock~Simple Component,5}
+6, Little is known about the order during the time of %curimpperson%
+
+;Technique Component
+#Portions of the history related to Combat Moves associated with the Order
+1, %curimpperson% found the new Technique [Choose Move] while carefully reading {CapEachWord~[Types of Sacred Texts]}
+1, %curimpperson% meditated for many years, until finally s/he truly understood the new Technique: [Choose Move]
+1, %curimpperson% spent many years travelling and when s/he returned to %oname%, s/he revealed [Choose Move]
+1, %curimpperson%, to prove him/herself to be a %hhier%, was the first to develop [Choose Move]
+1, %curimpperson% left %oname% without ever sharing the knowledge of {CapEachWord~[MARTIAL ARTS Moves 4 Kung Fu Styles.RelatedMoves]}
+1, %curimpperson% brought [Random Hierarchy] [Names Generator.NAME For All] to the %OrderType% where s/he taught [Choose Move] to all the students
+1, %curimpperson% banned the use of {CapEachWord~[MARTIAL ARTS Moves 4 Kung Fu Styles.RelatedMoves]}, as it violated <i>[Choose Vow]</i>
+
+;Vow Component
+#Portions of the history related to the Virtues associated with the Order
+1, %curimpperson% swore to %preimpperson%: <i>[Choose Vow]</i>
+1, %curimpperson% found the inner strength to adhere to: <i>[Choose Vow]</i>
+1, %curimpperson% showed the assembled multitudes the value of:<i> [Choose Vow]</i>
+1, %curimpperson% meditated on the worth of the vow: <i>[Choose Vow]</i>
+1, %curimpperson% found that: <i>[Ethics.Generate]</i> was less proper for %oname% then:<i> [Choose Vow]</i>
+1, %curimpperson% discovered [Choose Move] while meditating and contemplating: <i> [Choose Vow]</i>
+1, %curimpperson% formulated the basis for the Virtue: <i>[Choose Vow]</i> by reading <i>{CapEachWord~[Types of Sacred Texts]}</i>
+
+:!Writing Component
+#Portions of the history connected to the Sacred Writings of the Order
+1, %curimpperson% wrote the stunning work:<i> [Monk Master Teachings] %curimpperson% </i>
+2, %curimpperson% discovered a lost text named <i>[Monk Master Teachings] %founder% </i>
+3, %curimpperson% wrote an essay on:<i> [Monk Master Teachings={Dice~1d4}] %founder%</i>
+4, %curimpperson% discovered a missing chapter from <i>{CapEachWord~[Types of Sacred Texts]}</i>
+5, %curimpperson% translated <i>{CapEachWord~[Types of Sacred Texts]} </i>and fixed errors
+6, %curimpperson% secretly removed certain pages from <i>{CapEachWord~[Types of Sacred Texts]}</i>
+7, %curimpperson% destroyed the heretical book <i>{CapEachWord~[Types of Sacred Texts]}</i>
+8, %curimpperson% wrote the book <i>{CapEachWord~[Types of Sacred Texts]}</i> after meditating on: <i> [Choose Vow]</i> 
+9, %curimpperson% spent many years looking but never found the legendary scrolls containing <i>{CapEachWord~[Types of Sacred Texts]}</i>
+
+;Layout of Monastary
+1,The %OrderType% can be found [location=%location%]. It is a [size1=%size%] complex
+#The following line makes sure that every compound has at least one Core building
+_ with [buildings=%size%]: [GenBuildingLoop] and {If~{Used~CoreBuilding,0}=1?[AuxBuilding]/[CoreBuilding]}.
+_[physicalfeatures]
+
+:location
+1, on a mountain
+2, in the forest
+3, on an island
+4, in the capital
+5, in a province in the hinterlands
+6, near a bustling merchant town
+7, high on a cliff 
+8, with a branch in nearly every large city. This complex is typical
+9, isolated in the desert {Lockout~Select Pond,4,6-7,9}
+10, [location]
+
+:size1
+#selects the size of the Order's physical home compound
+1, very small |size=1|
+2, small      |size=2|
+3, medium     |size=3|
+4, large      |size=4|
+5, huge       |size=5|
+6-9,     [size1={Dice~2d2}]
+10,      [size1]
+
+:buildings
+1,|numbuildings=2|two buildings
+2,|numbuildings={Dice~1d2+1}|%numbuildings% buildings
+3,|numbuildings={Dice~1d3+3}|%numbuildings% buildings
+4,|numbuildings={Dice~1d4+5}|%numbuildings% buildings
+5,|numbuildings={Dice~1d5+8}|%numbuildings% buildings
+6-10,[buildings]
+
+;GenBuildingLoop
+1,{Loop~{Calc~%numbuildings%-1}, [Select Building],}
+
+:Select Building
+#These lines make sure that the the table doesn't crash because of using up all of Core or Auxillary buildings
+1,{If~{Used~CoreBuilding,0}=0?[CoreBuilding]/[AuxBuilding]}
+2,{If~{Used~AuxBuilding,0}=0?[AuxBuilding]/[CoreBuilding]}
+
+:!CoreBuilding
+#Every compound will have at least one Core Building
+1,a dormitory for the %lhier%s
+2,a cell block for the %mhier%s 
+3,a living quaters for the %hhier%s
+4,a [size1=%size%] meeting hall{Unlock~CoreBuilding,4}
+5,a training arena
+6,a classroom building
+7,a meditation building 
+
+;!AuxBuilding
+#Auxillary buildings/structures that may be found in the compound
+1,courtyard{Unlock~AuxBuilding,1}
+1,a dining hall
+1,a stables
+1,an armory 
+1,a prayer shrine
+1,a conservatory
+1,a greenhouse
+1,a bell tower 
+1,an aviary
+1,a cave for contemplation
+1,burial sites or memorials for members who have passed
+1,a scriptorium
+1,a hall of arts
+1,vinyard and wine press
+
+
+;physicalfeatures
+# The following loop describes additional features of the compound in a random order
+1, {Loop~4, [Transition] [CompoundDetails]}
+
+;!CompoundDetails
+1,[Walls=%walls%].{Unlock~CompoundDetails,1}
+1,[Pond=%pond%].
+1,[Garden=%garden%].
+1,[Library=%library%] on the premesis.
+
+;!Transition
+#Creates a narative feel for the description of the buildings
+1, It has{Unlock~Transition,1}
+1, You can find
+1, There is
+1, The group built
+1, Visitors will see
+1, The %OrderType% contains
+1, The order maintains
+1, The complex has
+
+:Walls
+1,no wall around the compound
+2,no wall around the compound 
+3,a [size1=%size%] wall around the compound
+4,a cliff providing the only wall defining the compound
+5,a wall around the compound
+6,a [size1=%size%] wall around the compound
+7,a large wall around the compound
+8,a large wall around the compound, including a gatehouse 
+9,a large wall around the compound, including a gatehouse and towers
+10-100,[Walls+%size%]
+
+:!Pond
+#selects the number or size of water features
+1, no water feature in the complex
+2, one small [Select Pond]
+3, a medium  [Select Pond]
+4,  a large  [Select Pond]
+5,  an elegently simple [Select Pond] 
+6,  an elaborate [Select Pond]
+7,  a small [Select Pond] and a [size1=%size%] [Select Pond]
+8,  two small water features: a [Select Pond] and a [Select Pond]
+9,  two large water features: a [Select Pond] and a [Select Pond]
+10, [Pond]
+
+
+;!Select Pond
+#selects the type of water feature
+1, koi pond
+1, reflecting pool
+1, waterfall spilling into a pond
+1, lily pond
+1, fountain
+1, fountain gurgling into a pond
+1, babbling brook
+1, still pond
+1, water clock
+1, hot mineral springs
+1, roofed bathing sauna
+1, well
+
+:!Garden
+#selects the number and/or size of gardens in the compounds
+1, no gardens
+2, one small [Select Garden]
+3, a medium [Select Garden]
+4, an extensive  [Select Garden]
+5, both a small [Select Garden] and a [size1=%size%] [Select Garden]
+6, both a [size1=%size%]  [Select Garden] and an extensive [Select Garden]
+7, a simple [Select Garden]
+8, two small gardens: {AorAn~[Select Garden]} and {AorAn~[Select Garden]}
+9, an elaborate [Select Garden]
+10, [Garden]
+
+;!Select Garden
+#selects the types of garden
+1, rose garden
+1, grove of cherry trees
+1, [Miscellaneous.Wood] grove
+1, herb garden
+1, vegetable garden
+1, rock garden
+1, hedge Maze
+1, flower garden of chrysanthymums, lilies and peonies
+1, raked-sand garden
+1, bonsai collection
+1, shaped topiaries
+ 
+:Library
+#selects the size/quality of any library the order maintains
+1, no library
+2, a very small library
+3, a small library
+4, a medium library
+5, a large collection of books for their library
+6, an outstanding library
+7, a simple but carefully stocked library
+8, an ecclectic assortment of writings they call a library
+9, a [size1=%size%] library as well as the excellent personal collection of the %hhier%
+10, [Library]
+
+
+;Monastary Philosophy
+#Generates an esoteric that can be used as a guiding philosophy for the Order
+1,<b>The Order's philosophy is based upon the following truth:</b> [The Oracle.RandomSentence]

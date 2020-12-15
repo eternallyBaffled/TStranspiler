@@ -1,0 +1,756 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder August 24, 2006.
+# ---------------------------------------------------
+#
+# Herbalist
+#
+# Sean Hlousek
+#
+# -------------------------------------------------------------------------
+#
+# To call this table from another one:
+#    [EQ Herbalist.Generate(%Rolls%,%Purpose_Gen%)
+#
+#    Parameters: (%Rolls%,%Purpose%)
+#
+#    Rolls:       (1) Enter the number of items needed.
+#    Purpose_Gen: (2) Roll a random purpose
+#                     1= Yes, 2= No.
+#
+# -------------------------------------------------------------------------
+#
+# Modified by Valminder, August  2006.
+#    Adapted for TSv5.
+#    I changed the "START" line.
+#    I heavily modified this table. I could modify it more by
+#       removing all the variables for the cost, but it would
+#       be too long. For now, it works fine.
+#    The final price need to be adjusted for some items, but it
+#       seems relatively OK.
+#    I diminished the price variation in [Store].
+#    Cost of Items: Put the cost in GP, the output will modify it
+#       for gp, sp, or cp.
+#       1 sp = 0.1 gp
+#       1 cp = 0.01 gp
+#
+
+%HerbalMixture:Adrupan%,150
+%HerbalMixture:CelestialHealthPotion%,20
+%HerbalMixture:Earsplitter%,25
+%HerbalMixture:Garnatara%,50
+%HerbalMixture:Hag'sCurse%,100
+%HerbalMixture:LabyrinthJuice%,75
+%HerbalMixture:Mataparan%,50
+%HerbalMixture:Orchidia%,100
+%HerbalMixture:Satum'sBane%,15
+%HerbalMixture:SealskinSalve%,20
+%HerbalMixture:SecondWind%,25
+%HerbalMixture:WhiteLlemBlossom%,25
+%HerbalMixture:WraithEssence%,500
+%Acacia%,12
+%Addar'sBalm%,25
+%Addar'sTongue%,5
+%Agaric%,25
+%Agrimony%,20
+%Angelica%,30
+%Anise%,12
+%ArquefoilTincture%,50
+%Asafoetida%,20
+%Avens%,10
+%BakedGarlic(perBulb)%,1
+%BakedGarlicBlessed(perinfusion)%,13
+%Belladonna%,50
+%BladderwrackTea%,60
+%BlessedRosePetals%,5
+%BlueVision%,75
+%Boneset%,15
+%BrambleHold%,150
+%CatmintPotpourri%,40
+%Celandine%,30
+%Cinnamon%,1
+%CleanWater(pergallon)%,2
+%Cloves%,5
+%ComfeyRoot%,5
+%DamianaOil%,45
+%Dandelion%,5
+%Deathstalk%,12
+%Deidre'sTears%,25
+%Eaglesight%,75
+%Elderberry%,40
+%Elftrick(perfruit)%,62
+%Eyeblight%,20
+%Eyebright%,75
+%FaerieWings%,25
+%FenwaterBile%,200
+%Figwort%,20
+%GardeniaBalm%,105
+%GingerorPepper%,1
+%HallowflowerEssence%,250
+%Hawthorn%,25
+%HeartyBroth(8servings)%,1
+%Hemlock%,50
+%Henbane%,37
+%Holly%,15
+%HorehoundWhite%,10
+%Hushberry%,250
+%IcebloomRoseTea%,62
+%IgnisWeed%,7
+%Jow%,5
+%Jowlnumb(1pintflask)%,35
+%KnowingTreeOil%,175
+%Larkspur%,5
+%LightningBalm%,112
+%Lotus%,200
+%Lover'sBloom%,45
+%Mandrake%,75
+%Mindsharp%,12
+%Mistletoe%,5
+%MoneycallPotion%,250
+%Monkshood%,25
+%Mother'sMilk%,250
+%Mugwort%,100
+%Mullein%,10
+%Night'sCream%,125
+%OpenquietOil%,2
+%Paindull%,40
+%Poisonbane%,150
+%QuickenberryTea%,70
+%RatspawPoultice%,40
+%Saffron%,7
+%Skullcap%,10
+%SleepyTea(12servings)%,1
+%SpeaksweetBrew%,140
+%SwinesRest%,5
+%TeaLeaves%,1
+%Tobacco%,2
+%TureNorth(perSeedPod)%,2
+%Twinklejuice%,100
+%Unicorn'sHorn(perPiece)%,40
+%VileblossomEssence%,175
+%Wakeberries(each)%,1
+%WillstoneTea%,80
+%WitchHazel%,37
+%Wolf'sBane%,12
+%WoodBetony%,5
+%Wormwood%,7
+%Woundwort%,12
+%Xanapher'sToil%,75
+%Yarrow&NettleBalm%,150
+%ZarakrootChew(10Uses)%,50
+%Incense:BaneoftheWolf%,11
+%Incense:Enamour%,4
+%Incense:FarSeer%,12
+%Incense:LadyLuck%,3
+%Incense:Maiden'sTouch%,3
+%Incense:Mindbender%,6
+%Incense:PureEndurance%,7
+%Incense:Quick&Nimble%,6
+%Incense:StrengthoftheBull%,9
+%Incense:WardofEvil%,15
+%Incense:WisdomoftheAges%,5
+%Incense:Wit'sFool%,8
+%Incense:Scentbreaker%,10
+%Incense:Camaraderie%,9
+%Incense:EyesoftheNight%,12
+%Incense:SpiritCaller%,16
+%Incense:WarMist%,15
+%Adgana%,250
+%Agrimony%,4
+%Aldaka%,500
+%Alether%,50
+%Alkanet%,1
+%All-Heale%,5
+%Aloe%,0.02
+%Amrans%,25
+%Anserke%,37
+%Archangelica%,0.2
+%Arfandas%,0.1
+%Arkasu%,6
+%Arlan%,1
+%Arnica%,1
+%Arnuminas%,3
+%Arpusar%,15
+%Asarabacca%,3
+%Ash%,4
+%Ashline%,250
+%Athelas%,100
+%Atigax%,35
+%Attanar%,4
+%Balm%,2
+%Barberry%,4
+%BaseMullein%,0.5
+%Basil%,0.1
+%Bastit%,0.1
+%Belan%,20
+%Belramba%,90
+%Bilberry%,1500
+%Birthnot%,0.01
+%Bishop’sWeed%,5
+%Bittermourn%,1000
+%Blackberry%,1
+%Blackroot%,2
+%BlackRose%,50
+%Bloodkeep%,0.2
+%Borage%,5
+%Breldiar%,25
+%Bull-Rush%,1
+%Burdock%,1.5
+%Bursthelas%,500
+%Caffar%,5
+%Calamus%,7
+%CalcenaMushroom%,500
+%Callin%,12
+%Cat’sTail%,1
+%Cephalophage%,50
+%Chamomile%,1
+%Chervil%,5
+%Cinquefoil%,7
+%Colewort%,0.3
+%Coltsfoot%,2
+%CowParsnip%,5
+%Cow-Wheat%,5
+%Culkas%,17
+%Dagmather%,14
+%Dainaberry%,4
+%Darnell%,3
+%Darsurion%,0.1
+%Deadly-Nightshade%,4
+%Degiik%,50
+%Delrean%,0.1
+%Dittany%,2
+%DogRose%,0.5
+%Draaf%,0.2
+%Dragontears%,50
+%Dragonwort%,150
+%DwarfMallow%,1
+%Ebur%,11
+%Edram%,15
+%Eldaas%,2
+%Elecampane%,0.1
+%ElvishGalingale%,1
+%Entriste%,12
+%Falsifal%,1
+%Febfendu%,450
+%Felmather%,5
+%Fennel%,1
+%Fetherfew%,2
+%Fire-Flower%,500000
+%Floure-De-Luce%,5
+%Footleaf%,0.5
+%Fumitore%,3
+%Gallowbrush%,25
+%GardenFlax%,3
+%Gariig%,35
+%Gefnul%,250
+%Goat’sRue%,7
+%GoldenCrown%,1
+%GoldenLungwort%,1
+%Guardseye%,50
+%Gylvir%,50
+%Hare’sEars%,2
+%Harfy%,75
+%Hart’sTongue%,1
+%Hawkweed%,3
+%Healwell%,0.1
+%HorehoundBlack%,2
+%Horseweed%,3
+%Ironhard%,7
+%Jaffray%,7
+%Jinab%,3
+%Jojojopo%,0.4
+%Juniper%,2
+%Kathkusa%,25
+%Kelventari%,9
+%Kilmakur%,150
+%Klagul%,25
+%Kylathar%,10
+%Laishaberries%,20
+%LandCaltrops%,2
+%Larnurma%,50
+%Laumspur%,250
+%Leopard’sBane%,2
+%LesserCentaury%,2
+%Lungwort%,1
+%Makebate%,1
+%Marigold%,5
+%Marjerome%,3
+%MarshMallow%,4
+%Maruera%,50
+%Masterwort%,3
+%Megillos%,1
+%Melander%,10
+%Milkworte%,4
+%Mirenna%,5
+%MountainGarlick%,4
+%MountainSetwall%,1
+%Napweed%,1
+%Navew%,6
+%Nightcall%,25
+%Oede%,500
+%Oiolosse%,600
+%OlusVeritis%,5
+%Olvar%,150
+%Orach%,5
+%Pallast%,1
+%PalmaEldath%,1
+%Pargen%,1000
+%Pattran%,5
+%Pennyroyal%,1
+%Peony%,1
+%Periwinkle%,5
+%Petiveria%,1
+%Prince’sFeather%,1
+%Rampalt%,0.02
+%Rewk%,1
+%RibwortPlantain%,1
+%RoseCampion%,1
+%Rue%,1
+%Sabito%,250
+%Saddilia%,150
+%Sanicle%,15
+%SaracenConfound%,10
+%ScentedMayweed%,7
+%SerapiasTurbith%,3
+%Sessali%,2
+%Shepherd’sPurse%,6
+%Silverthorn%,5000
+%Sinquoi%,1
+%Snakespike%,3
+%SpanishNut%,50
+%Spiderwort%,5
+%SpringAdonis%,4
+%Strawberry%,1
+%Suaeysit%,25
+%SweetTrefoile%,1
+%Tai-Gi%,1
+%Tamarindes%,1
+%Tamariske%,3
+%Tateesha%,5
+%Tempin%,2
+%Tephrosia%,1
+%Terbas%,1
+%TerikoWeed%,1
+%ThornApple%,1
+%Throw-Waxe%,1
+%Thurl%,0.1
+%Thyme%,2
+%Ur%,1
+%Valerian%,1
+%Vinuk%,0.4
+%WhiteBryony%,1
+%Whitecandle%,2
+%Willow-Herb%,2
+%Winclamit%,50
+%Wolfsbane%,20
+%Wolfsbane(whole)%,50
+%Woodrose%,1
+%WoodSorrel%,2
+%Yaran%,0.4
+%Yarrow%,5
+%Yavethalion%,22
+%YoungLad’sLove%,1
+%Zulsendra%,35
+%Zur%,25
+
+### Was %Base%
+%PercentGPMod%,1
+### This is the Store modifier on all its prices 70% to 200% (normal 95% - 105%)
+%STVR%,0
+### How many items to roll
+%Rolls%,0
+#### Was %Base1%
+%MagicalGPMod%,0
+
+# New variables Aug 2006.
+%Item%,0
+# Put Book=2 in the item's description if you do not want books to appear.
+%Book%,0
+%Cost%,0
+%Condition%,0
+%GenItem%,0
+# 1= Mundane Item, 2= Magical Item
+%Magic%,1
+%MWGPMod%,0
+%ArmorSizeMod%,1
+# To be used with "EQ_Main.tab"
+%GetData%,0
+%DataName%,0
+%DataPercentMod%,0
+%SpecialEffect%,0
+%BodySize%,0
+%MoneyType%,gp
+%Purpose_Gen%,0
+%Purpose%,0
+
+@Rolls,10,How many Items are in this Shop?
+@Purpose_Gen,2,Do you want to generate a random purpose if none is available,Yes,No
+
+:Start
+1,{Status~By Sean Hlousek, Valminder 2006}[Generate]
+
+:Generate
+1,|STVR=1|[Store]
+#_[Multiplier]
+_{Loop~%Rolls%,|Purpose=0||BodySize=0||PercentGPMod=0||MagicalGPMod=0||Magic=1||MWGPMod=0||ArmorSizeMod=1||SpecialEffect=0|
+_[Herbalist][Print=%Magic%]
+_{If~%Rolls%>1?<br>}}
+
+:Print
+1,<b>Item:</b> <i><font color="Purple">%Item%</font></i>[Print2]
+2,<b>Item:</b> <i><font color="Blue">(Magic) %Item%</font></i>[Print2]
+
+:Print2
+1,{If~%SpecialEffect%!=0? [PrintExtraMW]}
+_{IIf~%Book%!=2?  <font size=1>(%Book%)</font>}
+#If you do not want BodySize for everything put |BodySize=0| above and |BodySize=1| in item's description.
+#_{If~%BodySize%=1? ([BodySize] size)}
+_|Cost+%MagicalGPMod%||Cost+%MWGPMod%|{If~%Magic%=1?|Cost*%ArmorSizeMod%|}
+_[Calculate Cost]
+#_ (%Condition%, [AddComma.Start(%Cost%)] %MoneyType%)<br>
+_{If~%Purpose%!=0?%Purpose%/{If~%Purpose_Gen%=1? ([~Random Herbs.PurportedUses])}}
+_ ([AddComma.Start(%Cost%)] %MoneyType%)
+
+:PrintExtraMW
+1,<u>Extra MW Effect</u>: %SpecialEffect%.
+
+# This will give a modifier to the cost of the items.
+;Store
+2,|STVR-{Calc~({Dice~1d10+20}/100)}|
+4,|STVR-{Calc~({Dice~1d10+10}/100)}|
+8,|STVR-{Calc~({Dice~1d10+5}/100)}|
+15,|STVR-{Calc~({Dice~1d5}/100)}|
+70,|STVR=1|
+30,|STVR+{Calc~({Dice~1d5}/100)}|
+15,|STVR+{Calc~({Dice~1d10+5}/100)}|
+8,|STVR+{Calc~({Dice~1d10+10}/100)}|
+4,|STVR+{Calc~({Dice~1d15+20}/100)}|
+2,|STVR+{Calc~({Dice~1d25+35}/100)}|
+1,|STVR+{Calc~({Dice~1d50+50}/100)}|
+
+:Multiplier
+1,Price Multiplier: %STVR%<br>
+
+:Calculate Cost
+1,|Cost={Calc~((%STVR%+%PercentGPMod%)*%Cost%)}|
+_{If~%Cost%>=5?|Cost={Trunc~%Cost%}||MoneyType=gp|}
+_{If~{And~%Cost%>=1,%Cost%<5}=1?{If~%Cost%={Trunc~%Cost%}?|MoneyType=gp|/|Cost={Round~1,%Cost%}||Cost*10||MoneyType=sp|}}
+_{If~%Cost%<0.1?|Cost*100||Cost={Trunc~%Cost%}|{If~%Cost%=0?|Cost=1|}|MoneyType=cp|/{If~%Cost%<1?|Cost*10||Cost={Trunc~%Cost%}|{If~%Cost%=0?|Cost=1|}|MoneyType=sp|}}
+
+# -----------------------------------------------------------------------------
+;Herbalist
+10,|Item=Herbal Mixture: Adrupan</font></i> Uses available: {Dice~1d6}||Book=KOK||Cost=%HerbalMixture:Adrupan%|
+20,|Item=Herbal Mixture: Celestial Health Potion</font></i> Uses available: {Dice~1d10}||Book=KOK||Cost=%HerbalMixture:CelestialHealthPotion%|
+20,|Item=Herbal Mixture: Earsplitter</font></i> Uses available: {Dice~1d10}||Book=KOK||Cost=%HerbalMixture:Earsplitter%|
+15,|Item=Herbal Mixture: Garnatara</font></i> Uses available: {Dice~1d8}||Book=KOK||Cost=%HerbalMixture:Garnatara%|
+10,|Item=Herbal Mixture: Hag's Curse</font></i> Uses available: {Dice~1d6}||Book=KOK||Cost=%HerbalMixture:Hag'sCurse%|
+15,|Item=Herbal Mixture: Labyrinth Juice</font></i> Uses available: {Dice~1d6}||Book=KOK||Cost=%HerbalMixture:LabyrinthJuice%|
+15,|Item=Herbal Mixture: Mataparan</font></i> Uses available: {Dice~1d8}||Book=KOK||Cost=%HerbalMixture:Mataparan%|
+10,|Item=Herbal Mixture: Orchidia</font></i> Uses available: {Dice~1d6}||Book=KOK||Cost=%HerbalMixture:Orchidia%|
+20,|Item=Herbal Mixture: Satum's Bane</font></i> Uses available: {Dice~1d10}||Book=KOK||Cost=%HerbalMixture:Satum'sBane%|
+20,|Item=Herbal Mixture: Sealskin Salve</font></i> Uses available: {Dice~1d10}||Book=KOK||Cost=%HerbalMixture:SealskinSalve%|
+20,|Item=Herbal Mixture: Second Wind</font></i> Uses available: {Dice~1d10}||Book=KOK||Cost=%HerbalMixture:SecondWind%|
+20,|Item=Herbal Mixture: White Llem Blossom</font></i> Uses available: {Dice~1d10}||Book=KOK||Cost=%HerbalMixture:WhiteLlemBlossom%|
+2,|Item=Herbal Mixture: Wraith Essence</font></i> Uses available: 1||Book=KOK||Cost=%HerbalMixture:WraithEssence%|
+20,|Item=Acacia</font></i> Uses available: {Dice~1d10}||Purpose= ([Random Herbs.PurportedUses=3]||Book=UEG||Cost=%Acacia%|
+10,|Item=Addar's Balm</font></i> Uses available: {Dice~1d8}||Book=UEG||Cost=%Addar'sBalm%|
+20,|Item=Addar's Tongue</font></i> Uses available: {Dice~1d10}||Book=UEG||Cost=%Addar'sTongue%|
+10,|Item=Agaric</font></i> Uses available: {Dice~1d8}||Purpose= ([Random Herbs.PurportedUses=13]||Book=UEG||Cost=%Agaric%|
+20,|Item=Agrimony</font></i> Uses available: {Dice~1d10}||Purpose= ([Random Herbs.PurportedUses=14]||Book=UEG,SHH||Cost=%Agrimony%|
+10,|Item=Angelica</font></i> Uses available: {Dice~1d8}||Purpose= ([Random Herbs.PurportedUses=29]||Book=UEG||Cost=%Angelica%|
+20,|Item=Anise</font></i> Uses available: {Dice~1d10}||Purpose= ([Random Herbs.PurportedUses=30]||Book=UEG||Cost=%Anise%|
+5,|Item=Arquefoil Tincture</font></i> Uses available: {Dice~1d6} ||Book=UEG||Cost=%ArquefoilTincture%|
+20,|Item=Asafoetida</font></i> Uses available: {Dice~1d8}||Book=UEG||Cost=%Asafoetida%|
+20,|Item=Avens</font></i> Uses available: {Dice~1d10}||Purpose= ([Random Herbs.PurportedUses=51])}||Book=UEG||Cost=%Avens%|
+30,|Item=Baked Garlic (per Bulb)</font></i> Uses available: {Dice~4d4}||Purpose= ([Random Herbs.PurportedUses=159]||Book=UEG||Cost=%BakedGarlic(perBulb)%|
+20,|Item=Baked Garlic, Blessed (per infusion)</font></i> Uses available: {Dice~1d10}||Purpose= ([Random Herbs.PurportedUses=159]||Book=UEG||Cost=%BakedGarlicBlessed(perinfusion)%|
+20,|Item=Belladonna</font></i> Uses available: {Dice~4d4}||Purpose= ([Random Herbs.PurportedUses=65]||Book=UEG||Cost=%Belladonna%|
+5,|Item=Bladderwrack Tea</font></i> Uses available: {Dice~1d6}||Book=UEG||Cost=%BladderwrackTea%|
+20,|Item=Blessed Rose Petals</font></i> Uses available: {Dice~4d4}||Purpose= ([Random Herbs.PurportedUses=230]||Book=UEG||Cost=%BlessedRosePetals%|
+5,|Item=Blue Vision</font></i> Uses available: {Dice~1d10}||Book=UEG||Cost=%BlueVision%|
+20,|Item=Boneset</font></i> Uses available: {Dice~1d20}||Purpose= ([Random Herbs.PurportedUses=103]||Book=UEG||Cost=%Boneset%|
+5,|Item=Bramble Hold</font></i> Uses available: {Dice~1d2}||Book=UEG||Cost=%BrambleHold%|
+10,|Item=Catmint Potpourri</font></i> Uses available: {Dice~1d8}||Book=UEG||Cost=%CatmintPotpourri%|
+10,|Item=Celandine</font></i> Uses available: {Dice~1d8}||Book=UEG||Cost=%Celandine%|
+30,|Item=Cinnamon</font></i> Uses available: {Dice~4d4}||Purpose= ([Random Herbs.PurportedUses=128]||Book=UEG||Cost=%Cinnamon%|
+30,|Item=Clean Water (per gallon)</font></i> Uses available: {Dice~4d4}||Book=UEG||Cost=%CleanWater(pergallon)%|
+20,|Item=Cloves</font></i> Uses available: {Dice~1d10}||Purpose= ([Random Herbs.PurportedUses=132]||Book=UEG||Cost=%Cloves%|
+20,|Item=Comfey Root</font></i> Uses available: {Dice~1d10}||Purpose= ([Random Herbs.PurportedUses=133]||Book=UEG||Cost=%ComfeyRoot%|
+10,|Item=Damiana Oil</font></i> Uses available: {Dice~1d10}||Book=UEG||Cost=%DamianaOil%|
+20,|Item=Dandelion</font></i> Uses available: {Dice~1d10}||Purpose= ([Random Herbs.PurportedUses=139]||Book=UEG||Cost=%Dandelion%|
+20,|Item=Deathstalk</font></i> Uses available: {Dice~1d10}||Book=UEG||Cost=%Deathstalk%|
+10,|Item=Deidre's Tears</font></i> Uses available: {Dice~1d8}||Book=UEG||Cost=%Deidre'sTears%|
+5,|Item=Eaglesight</font></i> Uses available: {Dice~1d6}||Book=UEG||Cost=%Eaglesight%|
+10,|Item=Elderberry</font></i> Uses available: {Dice~1d8}||Book=UEG||Cost=%Elderberry%|
+5,|Item=Elftrick (per fruit)</font></i> Uses available: {Dice~1d6}||Book=UEG||Cost=%Elftrick(perfruit)%|
+20,|Item=Eyeblight</font></i> Uses available: {Dice~1d10}||Book=UEG||Cost=%Eyeblight%|
+5,|Item=Eyebright</font></i> Uses available: {Dice~1d6}||Book=UEG||Cost=%Eyebright%|
+10,|Item=Faerie Wings</font></i> Uses available: {Dice~1d8}||Book=UEG||Cost=%FaerieWings%|
+5,|Item=Fenwater Bile</font></i> Uses available: {Dice~1d2}||Book=UEG||Cost=%FenwaterBile%|
+20,|Item=Figwort</font></i> Uses available: {Dice~1d10}||Purpose= ([Random Herbs.PurportedUses=153]||Book=UEG||Cost=%Figwort%|
+5,|Item=Gardenia Balm</font></i> Uses available: {Dice~1d6}||Book=UEG||Cost=%GardeniaBalm%|
+30,|Item=Ginger</font></i> Uses available: {Dice~4d4}||Purpose= ([Random Herbs.PurportedUses=167]||Book=UEG||Cost=%GingerorPepper%|
+30,|Item=Pepper</font></i> Uses available: {Dice~4d4}||Purpose= ([Random Herbs.PurportedUses=217]||Book=UEG||Cost=%GingerorPepper%|
+2,|Item=Hallowflower Essence</font></i> Uses available: 1||Book=UEG||Cost=%HallowflowerEssence%|
+10,|Item=Hawthorn</font></i> Uses available: {Dice~1d8}||Purpose= ([Random Herbs.PurportedUses=172]||Book=UEG||Cost=%Hawthorn%|
+30,|Item=Hearty Broth (8 servings)</font></i> Uses available: {Dice~4d4}||Book=UEG||Cost=%HeartyBroth(8servings)%|
+5,|Item=Hemlock</font></i> Uses available: {Dice~1d6}||Book=UEG||Cost=%Hemlock%|
+10,|Item=Henbane</font></i> Uses available: {Dice~1d8}||Book=UEG-SHH||Cost=%Henbane%|
+20,|Item=Holly</font></i> Uses available: {Dice~1d10}||Book=UEG||Cost=%Holly%|
+20,|Item=Horehound, White</font></i> Uses available: {Dice~1d10}||Purpose= ([Random Herbs.PurportedUses=176]||Book=UEG||Cost=%HorehoundWhite%|
+2,|Item=Hushberry</font></i> Uses available: 1||Book=UEG||Cost=%Hushberry%|
+5,|Item=Icebloom Rose Tea</font></i> Uses available: {Dice~1d6}||Purpose= ([Random Herbs.PurportedUses=230]||Book=UEG||Cost=%IcebloomRoseTea%|
+20,|Item=Ignis Weed</font></i> Uses available: {Dice~1d10}||Book=UEG||Cost=%IgnisWeed%|
+20,|Item=Jow</font></i> Uses available: {Dice~1d10}||Book=UEG||Cost=%Jow%|
+5,|Item=Jowlnumb (1 pint flask)</font></i> Uses available: {Dice~1d8}||Book=UEG||Cost=%Jowlnumb(1pintflask)%|
+5,|Item=Knowing Tree Oil</font></i> Uses available: {Dice~1d2}||Book=UEG||Cost=%KnowingTreeOil%|
+20,|Item=Larkspur</font></i> Uses available: {Dice~1d10}||Purpose= ([Random Herbs.PurportedUses=190]||Book=UEG||Cost=%Larkspur%|
+5,|Item=Lightning Balm</font></i> Uses available: {Dice~1d6}||Book=UEG||Cost=%LightningBalm%|
+3,|Item=Lotus</font></i> Uses available: {Dice~1d2}||Purpose= ([Random Herbs.PurportedUses=194]||Book=UEG||Cost=%Lotus%|
+10,|Item=Lover's Bloom</font></i> Uses available: {Dice~1d8}||Book=UEG||Cost=%Lover'sBloom%|
+5,|Item=Mandrake or Mandragora</font></i> Uses available: {Dice~1d6}||Purpose= ([Random Herbs.PurportedUses=253]||Book=UEG||Cost=%Mandrake%|
+20,|Item=Mindsharp</font></i> Uses available: {Dice~1d10}||Book=UEG||Cost=%Mindsharp%|
+20,|Item=Mistletoe</font></i> Uses available: {Dice~1d10}||Purpose= ([Random Herbs.PurportedUses=205]||Book=UEG||Cost=%Mistletoe%|
+2,|Item=Moneycall Potion</font></i> Uses available: 1||Book=UEG||Cost=%MoneycallPotion%|
+10,|Item=Monkshood</font></i> Uses available: {Dice~1d8}||Purpose= ([Random Herbs.PurportedUses=6]||Book=UEG||Cost=%Monkshood%|
+2,|Item=Mother's Milk</font></i> Uses available: 1||Book=UEG||Cost=%Mother'sMilk%|
+5,|Item=Mugwort</font></i> Uses available: {Dice~1d6}||Book=UEG||Cost=%Mugwort%|
+20,|Item=Mullein</font></i> Uses available: {Dice~1d10}||Book=UEG-SHH||Cost=%Mullein%|
+5,|Item=Night's Cream</font></i> Uses available: {Dice~1d6}||Book=UEG||Cost=%Night'sCream%|
+10,|Item=Openquiet Oil</font></i> Uses available: {Dice~1d8}||Book=UEG||Cost=%OpenquietOil%|
+10,|Item=Paindull</font></i> Uses available: {Dice~1d8}||Book=UEG||Cost=%Paindull%|
+3,|Item=Poisonbane</font></i> Uses available: {Dice~1d2}||Book=UEG||Cost=%Poisonbane%|
+5,|Item=Quickenberry Tea</font></i> Uses available: {Dice~1d6}||Book=UEG||Cost=%QuickenberryTea%|
+10,|Item=Ratspaw Poultice</font></i> Uses available: {Dice~1d8}||Book=UEG||Cost=%RatspawPoultice%|
+20,|Item=Saffron</font></i> Uses available: {Dice~1d10}||Purpose= ([Random Herbs.PurportedUses=232]||Book=UEG||Cost=%Saffron%|
+20,|Item=Skullcap</font></i> Uses available: {Dice~1d10}||Purpose= ([Random Herbs.PurportedUses=238]||Book=UEG||Cost=%Skullcap%|
+30,|Item=Sleepy Tea (12 servings)</font></i> Uses available: {Dice~4d4}||Book=UEG||Cost=%SleepyTea(12servings)%|
+5,|Item=Speaksweet Brew</font></i> Uses available: {Dice~1d6}||Book=UEG||Cost=%SpeaksweetBrew%|
+20,|Item=Swines Rest</font></i> Uses available: {Dice~1d10}||Book=UEG||Cost=%SwinesRest%|
+30,|Item=Tea Leaves</font></i> Uses available: {Dice~4d4}||Purpose= ([Random Herbs.PurportedUses=247]||Book=UEG||Cost=%TeaLeaves%|
+200,|Item=Tobacco</font></i> ([Drug and Tobacco Generator.TobaccoNames]).||Book=UEG||Cost=%Tobacco%|
+30,|Item=Ture North (per Seed Pod)</font></i> Uses available: {Dice~4d4}||Book=UEG||Cost=%TureNorth(perSeedPod)%|
+5,|Item=Twinklejuice</font></i> Uses available: {Dice~1d6}||Book=UEG||Cost=%Twinklejuice%|
+10,|Item=Unicorn's Horn (per Piece)</font></i> Uses available: {Dice~1d8}||Book=UEG||Cost=%Unicorn'sHorn(perPiece)%|
+3,|Item=Vileblossom Essence</font></i> Uses available: {Dice~1d2}||Book=UEG||Cost=%VileblossomEssence%|
+30,|Item=Wakeberries (each)</font></i> Uses available: {Dice~4d4}||Book=UEG||Cost=%Wakeberries(each)%|
+5,|Item=Willstone Tea</font></i> Uses available: {Dice~1d6}||Book=UEG||Cost=%WillstoneTea%|
+10,|Item=Witch Hazel</font></i> Uses available: {Dice~1d8}||Book=UEG||Cost=%WitchHazel%|
+20,|Item=Wolf's Bane</font></i> Uses available: {Dice~1d10}||Purpose= ([Random Herbs.PurportedUses=7]||Book=UEG||Cost=%Wolf'sBane%|
+20,|Item=Wood Betony</font></i> Uses available: {Dice~1d10}||Book=UEG||Cost=%WoodBetony%|
+20,|Item=Wormwood</font></i> Uses available: {Dice~1d10}||Book=UEG-SHH||Cost=%Wormwood%|
+5,|Item=Woundwort</font></i> Uses available: {Dice~1d10}||Purpose= ([Random Herbs.PurportedUses=20]||Book=UEG||Cost=%Woundwort%|
+3,|Item=Xanapher's Toil</font></i> Uses available: {Dice~1d6}||Book=UEG||Cost=%Xanapher'sToil%|
+5,|Item=Yarrow & Nettle Balm</font></i> Uses available: {Dice~1d2}||Book=UEG||Cost=%Yarrow&NettleBalm%|
+5,|Item=Zarakroot Chew (10 Uses)</font></i> Uses available: {Dice~1d8}||Book=UEG||Cost=%ZarakrootChew(10Uses)%|
+20,|Item=Incense: Bane of the Wolf</font></i> Sticks available: {Dice~1d10}||Book=UEG||Cost=%Incense:BaneoftheWolf%|
+30,|Item=Incense: Enamour</font></i> Sticks available: {Dice~4d4}||Book=UEG||Cost=%Incense:Enamour%|
+20,|Item=Incense: Far Seer</font></i> Sticks available: {Dice~1d10}||Book=UEG||Cost=%Incense:FarSeer%|
+30,|Item=Incense: Lady Luck</font></i> Sticks available: {Dice~4d4}||Book=UEG||Cost=%Incense:LadyLuck%|
+30,|Item=Incense: Maiden's Touch</font></i> Sticks available: {Dice~4d4}||Book=UEG||Cost=%Incense:Maiden'sTouch%|
+20,|Item=Incense: Mindbender</font></i> Sticks available: {Dice~1d10}||Book=UEG||Cost=%Incense:Mindbender%|
+20,|Item=Incense: Pure Endurance</font></i> Sticks available: {Dice~1d10}||Book=UEG||Cost=%Incense:PureEndurance%|
+20,|Item=Incense: Quick & Nimble</font></i> Sticks available: {Dice~1d10}||Book=UEG||Cost=%Incense:Quick&Nimble%|
+20,|Item=Incense: Strength of the Bull</font></i> Sticks available: {Dice~1d10}||Book=UEG||Cost=%Incense:StrengthoftheBull%|
+20,|Item=Incense: Ward of Evil</font></i> Sticks available: {Dice~1d10}||Book=UEG||Cost=%Incense:WardofEvil%|
+20,|Item=Incense: Wisdom of the Ages</font></i> Sticks available: {Dice~1d10}||Book=UEG||Cost=%Incense:WisdomoftheAges%|
+20,|Item=Incense: Wit's Fool</font></i> Sticks available: {Dice~1d10}||Book=UEG||Cost=%Incense:Wit'sFool%|
+20,|Item=Incense: Scentbreaker</font></i> Sticks available: {Dice~1d10}||Book=UEG||Cost=%Incense:Scentbreaker%|
+20,|Item=Incense: Camaraderie</font></i> Sticks available: {Dice~1d10}||Book=UEG||Cost=%Incense:Camaraderie%|
+20,|Item=Incense: Eyes of the Night</font></i> Sticks available: {Dice~1d10}||Book=UEG||Cost=%Incense:EyesoftheNight%|
+20,|Item=Incense: Spirit Caller</font></i> Sticks available: {Dice~1d10}||Book=UEG||Cost=%Incense:SpiritCaller%|
+20,|Item=Incense: War Mist</font></i> Sticks available: {Dice~1d10}||Book=UEG||Cost=%Incense:WarMist%|
+2,|Item=Adgana</font></i> Uses available: 1||Book=SHH||Cost=%Adgana%|
+1,|Item=Aldaka</font></i> Uses available: 1||Book=SHH||Cost=%Aldaka%|
+5,|Item=Alether</font></i> Uses available: {Dice~1d6}||Book=SHH||Cost=%Alether%|
+30,|Item=Alkanet Root</font></i> Uses available: {Dice~4d4}||Purpose= ([Random Herbs.PurportedUses=18]||Book=SHH||Cost=%Alkanet%|
+20,|Item=All-Heale</font></i> Uses available: {Dice~1d10}||Purpose= ([Random Herbs.PurportedUses=19]||Book=SHH||Cost=%All-Heale%|
+30,|Item=Aloe</font></i> Uses available: {Dice~4d4}||Purpose= ([Random Herbs.PurportedUses=23]||Book=SHH||Cost=%Aloe%|
+10,|Item=Amrans</font></i> Uses available: {Dice~1d8}||Book=SHH||Cost=%Amrans%|
+10,|Item=Anserke</font></i> Uses available: {Dice~1d8}||Book=SHH||Cost=%Anserke%|
+30,|Item=Archangelica</font></i> Uses available: {Dice~4d4}||Purpose= ([Random Herbs.PurportedUses=29]||Book=SHH||Cost=%Archangelica%|
+30,|Item=Arfandas</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Arfandas%|
+20,|Item=Arkasu</font></i> Uses available: {Dice~1d10}||Book=SHH||Cost=%Arkasu%|
+30,|Item=Arlan</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Arlan%|
+30,|Item=Arnica</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Arnica%|
+30,|Item=Arnuminas</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Arnuminas%|
+20,|Item=Arpusar</font></i> Uses available: {Dice~1d10}||Book=SHH||Cost=%Arpusar%|
+30,|Item=Asarabacca</font></i> Uses available: {Dice~4d4}||Purpose= ([Random Herbs.PurportedUses=44]||Book=SHH||Cost=%Asarabacca%|
+30,|Item=Ash</font></i> Uses available: {Dice~4d4}||Purpose= ([Random Herbs.PurportedUses={Dice~1d2+46}]||Book=SHH||Cost=%Ash%|
+2,|Item=Ashline</font></i> Uses available: 1||Book=SHH||Cost=%Ashline%|
+5,|Item=Athelas</font></i> Uses available: {Dice~1d6}||Book=SHH||Cost=%Athelas%|
+10,|Item=Atigax</font></i> Uses available: {Dice~1d8}||Book=SHH||Cost=%Atigax%|
+30,|Item=Attanar</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Attanar%|
+30,|Item=Balm</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Balm%|
+30,|Item=Barberry</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Barberry%|
+30,|Item=Basil</font></i> Uses available: {Dice~4d4}||Purpose= ([Random Herbs.PurportedUses=62]||Book=SHH||Cost=%Basil%|
+30,|Item=Bastit</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Bastit%|
+20,|Item=Belan</font></i> Uses available: {Dice~1d10}||Book=SHH||Cost=%Belan%|
+5,|Item=Belramba </font></i> Uses available: {Dice~1d6}||Book=SHH||Cost=%Belramba%|
+1,|Item=Bilberry</font></i> Uses available: 1||Purpose= ([Random Herbs.PurportedUses=77]||Book=SHH||Cost=%Bilberry%|
+30,|Item=Birthnot</font></i> Uses available: {Dice~4d4}||Purpose= ([Random Herbs.PurportedUses=83]||Book=SHH||Cost=%Birthnot%|
+20,|Item=Bishop’s Weed</font></i> Uses available: {Dice~1d10}||Book=SHH||Cost=%Bishop’sWeed%|
+1,|Item=Bittermourn</font></i> Uses available: 1||Book=SHH||Cost=%Bittermourn%|
+30,|Item=Blackberry</font></i> Uses available: {Dice~4d4}||Purpose= ([Random Herbs.PurportedUses=90]||Book=SHH||Cost=%Blackberry%|
+30,|Item=Blackroot</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Blackroot%|
+5,|Item=Black Rose</font></i> Uses available: {Dice~1d6}||Purpose= ([Random Herbs.PurportedUses=230]||Book=SHH||Cost=%BlackRose%|
+30,|Item=Bloodkeep</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Bloodkeep%|
+20,|Item=Borage</font></i> Uses available: {Dice~1d10}||Purpose= ([Random Herbs.PurportedUses=105]||Book=SHH||Cost=%Borage%|
+10,|Item=Breldiar</font></i> Uses available: {Dice~1d8}||Book=SHH||Cost=%Breldiar%|
+30,|Item=Bull-Rush</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Bull-Rush%|
+20,|Item=Burdock</font></i> Uses available: {Dice~1d10}||Purpose= ([Random Herbs.PurportedUses=109]||Book=SHH||Cost=%Burdock%|
+1,|Item=Bursthelas</font></i> Uses available: 1||Book=SHH||Cost=%Bursthelas%|
+20,|Item=Caffar</font></i> Uses available: {Dice~1d10}||Book=SHH||Cost=%Caffar%|
+20,|Item=Calamus</font></i> Uses available: {Dice~1d10}||Book=SHH||Cost=%Calamus%|
+1,|Item=Calcena Mushroom</font></i> Uses available: 1||Book=SHH||Cost=%CalcenaMushroom%|
+20,|Item=Callin</font></i> Uses available: {Dice~1d10}||Book=SHH||Cost=%Callin%|
+30,|Item=Cat’s Tail</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Cat’sTail%|
+5,|Item=Cephalophage</font></i> Uses available: {Dice~1d6}||Book=SHH||Cost=%Cephalophage%|
+30,|Item=Chamomile</font></i> Uses available: {Dice~4d4}||Purpose= ([Random Herbs.PurportedUses=123]||Book=SHH||Cost=%Chamomile%|
+20,|Item=Chervil</font></i> Uses available: {Dice~1d10}||Purpose= ([Random Herbs.PurportedUses=126]||Book=SHH||Cost=%Chervil%|
+20,|Item=Cinquefoil</font></i> Uses available: {Dice~1d10}||Book=SHH||Cost=%Cinquefoil%|
+30,|Item=Colewort</font></i> Uses available: {Dice~4d4}||Purpose= ([Random Herbs.PurportedUses=52]||Book=SHH||Cost=%Colewort%|
+30,|Item=Coltsfoot</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Coltsfoot%|
+20,|Item=Cow Parsnip</font></i> Uses available: {Dice~1d10}||Purpose= ([Random Herbs.PurportedUses=215]||Book=SHH||Cost=%CowParsnip%|
+30,|Item=Cow-Wheat</font></i> Uses available: {Dice~1d10}||Book=SHH||Cost=%Cow-Wheat%|
+20,|Item=Culkas</font></i> Uses available: {Dice~1d10}||Book=SHH||Cost=%Culkas%|
+20,|Item=Dagmather</font></i> Uses available: {Dice~1d10}||Book=SHH||Cost=%Dagmather%|
+30,|Item=Dainaberry</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Dainaberry%|
+30,|Item=Darnell</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Darnell%|
+30,|Item=Darsurion</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Darsurion%|
+30,|Item=Deadly-Nightshade</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Deadly-Nightshade%|
+5,|Item=Degiik</font></i> Uses available: {Dice~1d6}||Book=SHH||Cost=%Degiik%|
+30,|Item=Delrean</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Delrean%|
+30,|Item=Dittany</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Dittany%|
+30,|Item=Dog Rose</font></i> Uses available: {Dice~4d4}||Purpose= ([Random Herbs.PurportedUses=230]||Book=SHH||Cost=%DogRose%|
+30,|Item=Draaf</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Draaf%|
+5,|Item=Dragontears</font></i> Uses available: {Dice~1d6}||Book=SHH||Cost=%Dragontears%|
+3,|Item=Dragonwort</font></i> Uses available: {Dice~1d2}||Book=SHH||Cost=%Dragonwort%|
+30,|Item=Dwarf Mallow</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%DwarfMallow%|
+20,|Item=Ebur</font></i> Uses available: {Dice~1d10}||Book=SHH||Cost=%Ebur%|
+20,|Item=Edram</font></i> Uses available: {Dice~1d10}||Book=SHH||Cost=%Edram%|
+30,|Item=Eldaas</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Eldaas%|
+30,|Item=Elecampane</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Elecampane%|
+30,|Item=Elvish Galingale</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%ElvishGalingale%|
+20,|Item=Entriste</font></i> Uses available: {Dice~1d10}||Book=SHH||Cost=%Entriste%|
+30,|Item=Falsifal</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Falsifal%|
+2,|Item=Febfendu</font></i> Uses available: 1||Book=SHH||Cost=%Febfendu%|
+20,|Item=Felmather</font></i> Uses available: {Dice~1d10}||Book=SHH||Cost=%Felmather%|
+30,|Item=Fennel</font></i> Uses available: {Dice~4d4}||Purpose= ([Random Herbs.PurportedUses=150]||Book=SHH||Cost=%Fennel%|
+30,|Item=Fetherfew</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Fetherfew%|
+1,|Item=Fire-Flower</font></i> Uses available: 1||Book=SHH||Cost=%Fire-Flower%|
+20,|Item=Floure-De-Luce</font></i> Uses available: {Dice~1d10}||Book=SHH||Cost=%Floure-De-Luce%|
+30,|Item=Footleaf</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Footleaf%|
+30,|Item=Fumitore</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Fumitore%|
+10,|Item=Gallowbrush</font></i> Uses available: {Dice~1d8}||Book=SHH||Cost=%Gallowbrush%|
+30,|Item=Garden Flax</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%GardenFlax%|
+10,|Item=Gariig</font></i> Uses available: {Dice~1d8}||Book=SHH||Cost=%Gariig%|
+2,|Item=Gefnul</font></i> Uses available: {Dice~1d2}||Book=SHH||Cost=%Gefnul%|
+20,|Item=Goat’s Rue</font></i> Uses available: {Dice~1d10}||Purpose= ([Random Herbs.PurportedUses=169]||Book=SHH||Cost=%Goat’sRue%|
+30,|Item=Golden Crown</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%GoldenCrown%|
+30,|Item=Golden Lungwort</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%GoldenLungwort%|
+5,|Item=Guardseye</font></i> Uses available: {Dice~1d6}||Book=SHH||Cost=%Guardseye%|
+5,|Item=Gylvir</font></i> Uses available: {Dice~1d6}||Book=SHH||Cost=%Gylvir%|
+30,|Item=Hare’s Ears</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Hare’sEars%|
+5,|Item=Harfy</font></i> Uses available: {Dice~1d6}||Book=SHH||Cost=%Harfy%|
+30,|Item=Hart’s Tongue</font></i> Uses available: {Dice~4d4}||Purpose= ([Random Herbs.PurportedUses=171]||Book=SHH||Cost=%Hart’sTongue%|
+30,|Item=Hawkweed</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Hawkweed%|
+30,|Item=Healwell</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Healwell%|
+30,|Item=Horehound, Black</font></i> Uses available: {Dice~4d4}||Purpose= ([Random Herbs.PurportedUses=177]||Book=SHH||Cost=%HorehoundBlack%|
+30,|Item=Horseweed</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Horseweed%|
+20,|Item=Ironhard</font></i> Uses available: {Dice~1d10}||Book=SHH||Cost=%Ironhard%|
+20,|Item=Jaffray</font></i> Uses available: {Dice~1d10}||Book=SHH||Cost=%Jaffray%|
+30,|Item=Jinab</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Jinab%|
+30,|Item=Jojojopo</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Jojojopo%|
+30,|Item=Juniper</font></i> Uses available: {Dice~4d4}||Purpose= ([Random Herbs.PurportedUses=186]||Book=SHH||Cost=%Juniper%|
+10,|Item=Kathkusa</font></i> Uses available: {Dice~1d8}||Book=SHH||Cost=%Kathkusa%|
+20,|Item=Kelventari</font></i> Uses available: {Dice~1d10}||Book=SHH||Cost=%Kelventari%|
+3,|Item=Kilmakur</font></i> Uses available: {Dice~1d2}||Book=SHH||Cost=%Kilmakur%|
+10,|Item=Klagul</font></i> Uses available: {Dice~1d8}||Book=SHH||Cost=%Klagul%|
+20,|Item=Kylathar</font></i> Uses available: {Dice~1d10}||Book=SHH||Cost=%Kylathar%|
+20,|Item=Laishaberries</font></i> Uses available: {Dice~1d10}||Book=SHH||Cost=%Laishaberries%|
+30,|Item=Land Caltrops</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%LandCaltrops%|
+5,|Item=Larnurma</font></i> Uses available: {Dice~1d6}||Book=SHH||Cost=%Larnurma%|
+2,|Item=Laumspur</font></i> Uses available: 1||Book=SHH||Cost=%Laumspur%|
+30,|Item=Leopard’s Bane</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Leopard’sBane%|
+30,|Item=Lesser Centaury</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%LesserCentaury%|
+30,|Item=Lungwort</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Lungwort%|
+30,|Item=Makebate</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Makebate%|
+20,|Item=Marigold</font></i> Uses available: {Dice~1d10}||Purpose= ([Random Herbs.PurportedUses=202]||Book=SHH||Cost=%Marigold%|
+30,|Item=Marjerome, Marjoram</font></i> Uses available: {Dice~4d4}||Purpose= ([Random Herbs.PurportedUses=203]||Book=SHH||Cost=%Marjerome%|
+30,|Item=Marsh Mallow</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%MarshMallow%|
+5,|Item=Maruera</font></i> Uses available: {Dice~1d6}||Book=SHH||Cost=%Maruera%|
+30,|Item=Masterwort</font></i> Uses available: {Dice~4d4}||Purpose= ([Random Herbs.PurportedUses=204]||Book=SHH||Cost=%Masterwort%|
+30,|Item=Megillos</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Megillos%|
+20,|Item=Melander</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Melander%|
+30,|Item=Milkworte</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Milkworte%|
+20,|Item=Mirenna</font></i> Uses available: {Dice~1d10}||Book=SHH||Cost=%Mirenna%|
+30,|Item=Mountain Garlick</font></i> Uses available: {Dice~4d4}||Purpose= ([Random Herbs.PurportedUses=159]||Book=SHH||Cost=%MountainGarlick%|
+30,|Item=Mountain Setwall</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%MountainSetwall%|
+30,|Item=Napweed</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Napweed%|
+20,|Item=Navew</font></i> Uses available: {Dice~1d10}||Book=SHH||Cost=%Navew%|
+10,|Item=Nightcall</font></i> Uses available: {Dice~1d8}||Book=SHH||Cost=%Nightcall%|
+1,|Item=Oede</font></i> Uses available: 1||Book=SHH||Cost=%Oede%|
+1,|Item=Oiolosse</font></i> Uses available: 1||Book=SHH||Cost=%Oiolosse%|
+20,|Item=Olus Veritis</font></i> Uses available: {Dice~1d10}||Book=SHH||Cost=%OlusVeritis%|
+3,|Item=Olvar</font></i> Uses available: {Dice~1d2}||Book=SHH||Cost=%Olvar%|
+20,|Item=Orach</font></i> Uses available: {Dice~1d10}||Book=SHH||Cost=%Orach%|
+30,|Item=Pallast</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Pallast%|
+30,|Item=Palma Eldath</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%PalmaEldath%|
+1,|Item=Pargen</font></i> Uses available: 1||Book=SHH||Cost=%Pargen%|
+20,|Item=Pattran</font></i> Uses available: {Dice~1d10}||Book=SHH||Cost=%Pattran%|
+30,|Item=Pennyroyal</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Pennyroyal%|
+30,|Item=Peony</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Peony%|
+20,|Item=Periwinkle</font></i> Uses available: {Dice~1d10}||Book=SHH||Cost=%Periwinkle%|
+30,|Item=Petiveria</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Petiveria%|
+30,|Item=Prince’s Feather</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Prince’sFeather%|
+30,|Item=Rampalt</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Rampalt%|
+30,|Item=Rewk</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Rewk%|
+30,|Item=Ribwort Plantain</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%RibwortPlantain%|
+30,|Item=Rose Campion</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%RoseCampion%|
+30,|Item=Rue</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Rue%|
+2,|Item=Sabito</font></i> Uses available: 1||Book=SHH||Cost=%Sabito%|
+3,|Item=Saddilia</font></i> Uses available: {Dice~1d2}||Book=SHH||Cost=%Saddilia%|
+20,|Item=Sanicle</font></i> Uses available: {Dice~1d10}||Book=SHH||Cost=%Sanicle%|
+20,|Item=Saracen Confound</font></i> Uses available: {Dice~1d10}||Book=SHH||Cost=%SaracenConfound%|
+20,|Item=Scented Mayweed</font></i> Uses available: {Dice~1d10}||Book=SHH||Cost=%ScentedMayweed%|
+30,|Item=Serapias Turbith</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%SerapiasTurbith%|
+30,|Item=Sessali</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Sessali%|
+20,|Item=Shepherd’s Purse</font></i> Uses available: {Dice~1d10}||Book=SHH||Cost=%Shepherd’sPurse%|
+1,|Item=Silverthorn</font></i> Uses available: 1||Book=SHH||Cost=%Silverthorn%|
+30,|Item=Sinquoi</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Sinquoi%|
+30,|Item=Snakespike</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Snakespike%|
+5,|Item=Spanish Nut</font></i> Uses available: {Dice~1d6}||Book=SHH||Cost=%SpanishNut%|
+20,|Item=Spiderwort</font></i> Uses available: {Dice~1d10}||Book=SHH||Cost=%Spiderwort%|
+30,|Item=Spring Adonis</font></i> Uses available: {Dice~1d10}||Book=SHH||Cost=%SpringAdonis%|
+30,|Item=Strawberry</font></i> Uses available: {Dice~4d4}||Purpose= ([Random Herbs.PurportedUses=242]||Book=SHH||Cost=%Strawberry%|
+10,|Item=Suaeysit</font></i> Uses available: {Dice~1d8}||Book=SHH||Cost=%Suaeysit%|
+30,|Item=Sweet Trefoile</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%SweetTrefoile%|
+30,|Item=Tai-Gi</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Tai-Gi%|
+30,|Item=Tamarindes</font></i> Uses available: {Dice~4d4}||Purpose= ([Random Herbs.PurportedUses=244]||Book=SHH||Cost=%Tamarindes%|
+30,|Item=Tamariske</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Tamariske%|
+20,|Item=Tateesha</font></i> Uses available: {Dice~1d10}||Book=SHH||Cost=%Tateesha%|
+30,|Item=Tempin</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Tempin%|
+30,|Item=Tephrosia</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Tephrosia%|
+30,|Item=Terbas</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Terbas%|
+30,|Item=Teriko Weed</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%TerikoWeed%|
+30,|Item=Thorn Apple</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%ThornApple%|
+30,|Item=Throw-Waxe</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Throw-Waxe%|
+30,|Item=Thurl</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Thurl%|
+30,|Item=Thyme</font></i> Uses available: {Dice~4d4}||Purpose= ([Random Herbs.PurportedUses=248]||Book=SHH||Cost=%Thyme%|
+30,|Item=Ur</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Ur%|
+30,|Item=Valerian</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Valerian%|
+30,|Item=Vinuk</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Vinuk%|
+30,|Item=White Bryony</font></i> Uses available: {Dice~4d4}||Purpose= ([Random Herbs.PurportedUses=252]||Book=SHH||Cost=%WhiteBryony%|
+30,|Item=Whitecandle</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Whitecandle%|
+30,|Item=Willow-Herb</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Willow-Herb%|
+5,|Item=Winclamit</font></i> Uses available: {Dice~1d6} ||Book=SHH||Cost=%Winclamit%|
+20,|Item=Wolfsbane</font></i> Uses available: {Dice~4d4}||Purpose= ([Random Herbs.PurportedUses=7]||Book=SHH||Cost=%Wolfsbane%|
+5,|Item=Wolfsbane (whole)</font></i> Uses available: {Dice~1d6}||Purpose= ([Random Herbs.PurportedUses=7]||Book=SHH||Cost=%Wolfsbane(whole)%|
+30,|Item=Woodrose</font></i> Uses available: {Dice~4d4}||Purpose= ([Random Herbs.PurportedUses=230]||Book=SHH||Cost=%Woodrose%|
+30,|Item=Wood Sorrel</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%WoodSorrel%|
+30,|Item=Yaran</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%Yaran%|
+20,|Item=Yarrow</font></i> Uses available: {Dice~1d10}||Book=SHH||Cost=%Yarrow%|
+20,|Item=Yavethalion</font></i> Uses available: {Dice~1d10}||Book=SHH||Cost=%Yavethalion%|
+30,|Item=Young Lad’s Love</font></i> Uses available: {Dice~4d4}||Book=SHH||Cost=%YoungLad’sLove%|
+10,|Item=Zulsendra</font></i> Uses available: {Dice~1d8}||Book=SHH||Cost=%Zulsendra%|
+10,|Item=Zur</font></i> Uses available: {Dice~1d8}||Book=SHH||Cost=%Zur%|

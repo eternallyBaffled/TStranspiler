@@ -1,0 +1,929 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder Jan 10, 2006.
+# ---------------------------------------------------
+#
+# Calendrical Calculator for Earth
+#
+# by Darren Hill
+#
+# Table created - September, 2003
+#
+# NOTE: This table is used by "Calendar Earth.tab"
+#
+# --------------------------------------------------
+# 	Constants
+# --------------------------------------------------
+%PhaseCycle%,12
+# how many entries exist 
+# on Phase_Conversion Table
+
+# --------------------------------------------------
+# 	Variables
+# --------------------------------------------------
+%Year%,2003
+%Day%,0
+%Month%,0
+%IsLeap%,0
+%LeapYear%,0
+%LeapYear100%,0
+%LeapYear400%,0
+
+%DoW%,0
+%Temp%,0
+%Temp2%,0
+%Cntr%,0
+
+%Instruct%,0
+
+%CalType%,1
+%JulianDay%,0
+%DaysThisYear%,1
+%TotalDays%,0
+%UT%,0
+
+%LunarDays%,1
+%LunarPhase%,1
+%GNumber%,0
+%GNumber1%,0
+%GNumber_Trunc%,0
+%EclipseL%,0
+%EclipseS%,0
+
+%EasterMonth%,3
+%EasterDay%,30
+%EasterDate%,89
+%EasterOffset%,0
+%a%,0
+%b%,0
+%c%,0
+%d%,0
+%e%,0
+%f%,0
+%g%,0
+%h%,0
+%i%,0
+%k%,0
+%l%,0
+%m%,0
+%p%,0
+
+%Holiday%,NOTHING
+%Holiday2%,NOTHING
+%SaveMonth%,1
+%SaveDay%,1
+# --------------------------------------------------
+# 	Parameters
+# --------------------------------------------------
+@Instruct,2,Display instructions?,Yes,No
+@CalType,1,Calendar Type?,Gregorian Calendar,Julian Calendar
+@Year,2003,What year?
+@Month,9,Which Month?,January,February,March,April,May,June,July,August,September,October,November,December
+@Day,4,What day of the month?(1-31)
+@UT,0,Universal Time?
+
+# --------------------------------------------------
+# 	Day Of Week Calculations
+# --------------------------------------------------
+:Start
+1,{If~%Instruct%=1 ? [DisplayInstructions]/[GetStarted]}
+
+:DisplayInstructions
+1,<b>Instructions</b><br>
+_This table is intended as a resource for other tables, 
+_to extract date-related information. 
+
+:GetStarted
+1,The {Ordinal~%Day%} of [Month_Name=%Month%] is the [CalcDaysThisYear]{Ordinal~%DaysThisYear%} day of the year. 
+_<br>In %Year%, it is the [CalcDay] day of the week, a [Weekday=%DoW%].<br>
+_It is [DaysOfMoon] days since the New Moon, and the moon is a |Temp2=[PhaseOfMoon]|{CapEachWord~[MoonPhase_Names=%Temp2%]}.<br>
+_Easter this year falls on [EasterCalc][Month_Name=%EasterMonth%] {Ordinal~%EasterDay%}, the |Temp=[EasterDate]|
+_{Ordinal~%Temp%} day of the year.
+_<br>Mediaeval Holidays for this day: 
+_|Temp=[Holiday_String]|{If~%Temp% = NOTHING ? None / %Holiday%}
+_<br><br>
+_Julian Day: %JulianDay%<br>
+_Golden Number: [GNumber]<br>
+
+_<br>Yearly Calculations<br>[NextLunarEclipse][NextSolarEclipse]
+_Days to Lunar Eclipse: {Calc~%EclipseL%/24} 
+_(Next: |Temp=[GetNextLunarEclipsePlusOne]|{Calc~%EclipseL%/24})<br>
+_Days to Solar Eclipse: {Calc~%EclipseS%/24} 
+_(Next: |Temp=[GetNextSolarEclipsePlusOne]|{Calc~%EclipseS%/24})<br>
+
+# --------------------------------------------------
+# 	Day Of Week
+# --------------------------------------------------
+:CallDayOfWeek
+1,{If~%CalType%=1 ? [GCalendar] / [JCalendar]}
+_[ConvertToWeekDay]%DoW%
+
+:CalcDay
+1,{If~%CalType%=1 ? [GCalendar] / [JCalendar]}
+_[ConvertToWeekDay]{Ordinal~%DoW%}
+
+# The following section works only for AD dates
+:GCalendar
+1,[JCalendar]
+_|TotalDays={Calc~%TotalDays%+(%Year%-1)\400-(%Year%-1)\100}|
+
+:JCalendar
+1,|TotalDays={Calc~(%Year%-1)*365+(%Year%-1)\4}|
+#Following Loop calculates days in months so far this year
+_[CalcDaysThisYear]|TotalDays+%DaysThisYear%|
+
+:CalcDaysThisYear
+1,|DaysThisYear=0||Cntr=1||Temp=0||Temp2={Calc~%Month%-1}|
+_{Loop~%Temp2%,|Temp=[MonthDays=%Cntr%]|
+_|DaysThisYear+%Temp%||Cntr+1|}
+_|DaysThisYear+%Day%|
+_{If~%Month% > 2 ? |DaysThisYear={Calc~%DaysThisYear%+%IsLeap%}|}
+
+:ReturnDaysThisYear
+1,[CalcDaysThisYear]%DaysThisYear%
+
+:IsThisLeapYear
+1,|LeapYear={Calc~%Year%/4}|
+_|LeapYear100={Calc~%Year%/100}|
+_|LeapYear400={Calc~%Year%/400}|
+_{If~{Floor~%LeapYear%}=%LeapYear% ? |IsLeap=1| / |IsLeap=0|}
+_{If~%CalType% = 1 ?
+_{If~{Floor~%LeapYear100%}=%LeapYear100% ? |IsLeap=0|}
+_{If~{Floor~%LeapYear400%}=%LeapYear400% ? |IsLeap=1|}
+_}
+
+:ReturnLeapYear
+1,[IsThisLeapYear]%IsLeap%
+
+:ConvertToWeekDay
+1,|Temp={Calc~%TotalDays%-((%TotalDays%\7)*7)}|
+_{If~%CalType% = 2 ? |Temp+5|
+#The CalType modifier corrects for the fact that 
+# 1st jan 1 AD was a different day in each calendar
+_{If~%Temp% > 7 ? |Temp-7|}}
+_{If~%Temp% = 0 ? |Temp=7|}
+_|DoW=%Temp%|
+
+# --------------------------------------------------
+# 	Julian Day Calculations
+# --------------------------------------------------
+:GetJulianDay
+1,{If~%CalType% = 1 ? [GDay] / [JDay]}
+_%JulianDay%
+
+:GDay
+1,[GCalendar]
+_|JulianDay=%TotalDays%|
+_|JulianDay+1721424.5|
+
+:JDay
+1,[JCalendar]
+_|JulianDay=%TotalDays%|
+_|JulianDay+1721424.5|
+
+# --------------------------------------------------
+# 	Moon Phase Calculations
+# --------------------------------------------------
+:DaysOfMoon
+1,[MoonDayCalc]
+_|LunarDays*29.53058867|
+_|LunarDays={Trunc~%LunarDays%}|
+_%LunarDays%
+
+:MoonDayCalc
+1,{If~%CalType% = 1 ? [GDay] / [JDay]}
+# take julian day and convert into phase of moon
+_|LunarDays={Calc~%JulianDay%+610.9237085}|
+_|LunarDays/29.53058867|
+_|Temp={Trunc~%LunarDays%}|
+_|LunarDays-%Temp%|
+
+:PhaseOfMoon
+1,[MoonDayCalc]
+_|LunarPhase={Calc~%LunarDays%*%PhaseCycle%+.5}|
+_|LunarPhase={Trunc~%LunarPhase%}|
+_|LunarPhase+1|
+_{If~%LunarPhase%>%PhaseCycle% ? |LunarPhase=1|}
+_[Phase_Conversion=%LunarPhase%]
+
+# --------------------------------------------------
+# 	Calendar Tables
+# --------------------------------------------------
+
+:Weekday
+1,Monday
+2,Tuesday
+3,Wednesday
+4,Thursday
+5,Friday
+6,Saturday
+7,Sunday
+
+:Month_Name
+1,January
+2,February
+3,March
+4,April
+5,May
+6,June
+7,July
+8,August
+9,September
+10,October
+11,November
+12,December
+
+:MonthDays
+1,31
+2,28
+3,31
+4,30
+5,31
+6,30
+7,31
+8,31
+9,30
+10,31
+11,30
+12,31
+
+:MoonPhase_Names
+1,new moon
+2,waxing crescent
+3,first quarter
+4,waxing gibbous
+5,full moon
+6,waning gibbous
+7,third quarter
+8,waning crescent
+9,lunar eclipse
+10,solar eclipse
+
+;Phase_Conversion
+1,1
+2,2
+1,3
+2,4
+1,5
+2,6
+1,7
+2,8
+
+# --------------------------------------------------
+# 	Eclipse Calculations
+# --------------------------------------------------
+:GNumber
+1,[CalcGNumber]%GNumber%
+
+:CalcGNumber
+1,{If~%CalType% = 1 ? [GDay] / [JDay]}
+_|GNumber={Calc~(%JulianDay%+610.9237085)/29.53058867}|
+_|GNumber={Calc~%GNumber%-((%GNumber%\223)*223)}|
+_{If~%GNumber% < 1 ? |GNumber+223|}
+
+:GetLunarEclipse
+1,[NextLunarEclipse]%EclipseL%
+
+:GetSolarEclipse
+1,[NextSolarEclipse]%EclipseS%
+
+:NextSolarEclipse
+1,[CalcGNumber]|Cntr=1||Temp2=%Cntr%|
+_{While~%Cntr%,
+_|Temp=[SolarGNumbers2=%Cntr%]|
+_{If~%Temp% > %GNumber% ? |Cntr=0| / |Cntr+1||Temp2=%Cntr%|}
+_}
+_|EclipseS={Calc~(%Temp%-%GNumber%)*29.53058867*24}|
+
+:NextLunarEclipse
+1,[CalcGNumber]|Cntr=1||Temp2=%Cntr%|
+_{While~%Cntr%,
+_|Temp=[LunarGNumbers2=%Cntr%]|
+_{If~%Temp% > %GNumber% ? |Cntr=0| / |Cntr+1||Temp2=%Cntr%|}
+_}
+_|EclipseL={Calc~(%Temp%-%GNumber%)*29.53058867*24}|
+
+
+:GetNextLunarEclipsePlusOne
+1,[NextLunarEclipse]
+_|Cntr=1|{Loop~%Cntr%,
+_|Temp2+1|
+_|Temp=[LunarGNumbers2=%Temp2%]|
+_|EclipseL={Calc~%Temp%-%GNumber%}|
+_{If~%EclipseL% > 0 ? |Cntr=0|}
+_}
+_|EclipseL={Calc~%EclipseL%*29.53058867*24}|
+_%EclipseL%
+
+:GetNextSolarEclipsePlusOne
+1,[NextSolarEclipse]
+_|Temp2+1|
+_|Temp=[SolarGNumbers2=%Temp2%]|
+_|EclipseS={Calc~(%Temp%-%GNumber%)*29.53058867*24}|
+_%EclipseS%
+
+# --------------------------------------------------
+# 	Eclipse Saros Tables
+# --------------------------------------------------
+
+;SolarGNumbers2
+1,0
+1,6
+1,12
+1,18
+1,24
+1,30
+1,36
+1,42
+1,47
+1,53
+1,59
+1,65
+1,71
+1,77
+1,83
+1,89
+1,94
+1,100
+1,106
+1,112
+1,118
+1,124
+1,130
+1,135
+1,141
+1,147
+1,153
+1,159
+1,165
+1,171
+1,177
+1,182
+1,188
+1,194
+1,200
+1,206
+1,212
+1,218
+1,223
+1,229
+
+;LunarGNumbers2
+1,0.5
+1,6.5
+1,12.5
+1,23.5
+1,35.5
+1,41.5
+1,47.5
+1,53.5
+1,76.5
+1,82.5
+1,88.5
+1,94.5
+1,100.5
+1,123.5
+1,129.5
+1,135.5
+1,141.5
+1,158.5
+1,164.5
+1,170.5
+1,176.5
+1,182.5
+1,188.5
+1,205.5
+1,211.5
+1,217.5
+1,223.5
+1,229.5
+
+
+
+# --------------------------------------------------
+# 	Build Holiday String
+# --------------------------------------------------
+:Holiday_String
+1,{If~%Month% < 6 ? |Holiday=[CheckIfEaster]| / 
+_{If~%Month% > 10 ? |Holiday=[CheckIfAdvent]| / |Holiday=NOTHING|}}
+_|Holiday2=[Holydays_[Month_Name=%Month%]=%Day%]|
+_{If~%Holiday% = NOTHING ? 
+_{If~%Holiday2% = NOTHING ? / |Holiday=%Holiday2%|} /
+_{If~%Holiday2% = NOTHING ? / |Holiday=%Holiday%<br>%Holiday2%|}
+_}
+_{If~%Holiday% = NOTHING ? / |Holiday=<b>%Holiday%</b>|}
+_|Holiday2=[SaintDays_[Month_Name=%Month%]=%Day%]|
+_{If~%Holiday% = NOTHING ? 
+_{If~%Holiday2% = NOTHING ? / |Holiday=%Holiday2%|} /
+_{If~%Holiday2% = NOTHING ? / |Holiday=%Holiday%<br>%Holiday2%|}
+_}
+_%Holiday%
+
+# --------------------------------------------------
+# 	Easter Calculations
+# --------------------------------------------------
+#Easter in this table is standardised to day 200
+# the function that looks up this table
+# will add a modifier equal to 200-%EasterDate%
+
+:CheckIfEaster
+1,[CalcDaysThisYear][EasterOffset]
+_|Temp={Calc~%DaysThisYear%+%EasterOffset%}|
+_[Easter_Table=%Temp%]
+
+
+:EasterOffset
+1,|EasterOffset=[EasterDate]|
+_|EasterOffset={Calc~200-%EasterOffset%}|
+
+:EasterDate
+1,[EasterCalc]
+_|EasterDate={Calc~59+%EasterDay%}|
+_{If~%EasterMonth%=4 ? |EasterDate+31|}
+_[IsThisLeapYear]
+_{If~%IsLeap%=1 ? |EasterDate+1|}
+_%EasterDate%
+
+:EasterMonth
+1,[EasterCalc]%EasterMonth%
+
+:EasterDay
+1,[EasterCalc]%EasterDay%
+
+:EasterCalc
+1,|a={Calc~%Year%-((%Year%\19)*19)}|
+_|b={Calc~%Year%\100}|
+_|c={Calc~%Year%-(%b%*100)}|
+_|d={Calc~%b%\4}|
+_|e={Calc~%b%-(%d%*4)}|
+_|f={Calc~(%b%+8)\25}|
+_|g={Calc~(%b%-%f%+1)\3}|
+_|h={Calc~19*%a%+%b%-%d%-%g%+15}|
+_|h={Calc~%h%-((%h%\30)*30)}|
+_|i={Calc~%c%\4}|
+_|k={Calc~%c%-(%i%*4)}|
+_|l={Calc~32+2*(%e%+%i%)-(%h%+%k%)}|
+_|l={Calc~%l%-((%l%\7)*7)}|
+_|m={Calc~(%a%+(11*%h%)+(22*%l%))\451}|
+_|p={Calc~(%h%+%l%-7*%m%+114)}|
+_|EasterMonth={Calc~%p%\31}|
+_|EasterDay={Calc~%p%-((%p%\31)*31)+1}|
+
+:Easter_Table
+1-136,NOTHING
+137,Septuagesima
+138-143,NOTHING
+144,Sexagesima
+145-150,NOTHING
+151,Quinquagesima
+152,NOTHING
+#151,Shrove Sunday
+#152,Shrove Monday
+153,Shrove Tuesday
+154,Ash Wednesday
+#start of lent
+#155-192,Lent
+155-185,NOTHING
+186,Passion Sunday
+187-192,NOTHING
+193,Palm Sunday
+194-196,NOTHING
+197,Maundy Thursday
+198,Good Friday
+199,NOTHING
+200,Easter Sunday
+201-234,NOTHING
+235,Rogation Sunday
+236-238,NOTHING
+239,Ascension Day
+240-248,NOTHING
+249,Pentecost
+250-255,NOTHING
+256,Trinity Sunday
+257-259,NOTHING
+260,Corpus Christi
+261-566,NOTHING
+
+#-------------------------------
+# Holiday: Advent
+#-------------------------------
+# This resets the parameters, so need to save them
+:CheckIfAdvent
+1,|SaveMonth=%Month%||SaveDay=%Day%|
+_|EasterOffset=
+_[CalendarCalc.CallDayOfWeek(2,%CalType%,%Year%,11,27,0)]|
+#The following line exists only to reset parameters
+_|DoW=[CalendarCalc.CallDayOfWeek(2,%CalType%,%Year%,%SaveMonth%,%SaveDay%,0)]|
+_|EasterOffset={Calc~%DaysThisYear%+100+(%EasterOffset%-7)}|
+_[Advent_Table=%EasterOffset%]
+
+:Advent_Table
+#424,Christ the King
+1-430,NOTHING
+431,Advent Sunday I
+#431,1st Sunday of Advent
+432-437,NOTHING
+438,Advent Sunday II
+#438,2nd Sunday of Advent
+439-444,NOTHING
+#445,3rd Sunday of Advent
+445,Advent Sunday III
+446-451,NOTHING
+452,Advent Sunday IV
+#452,4th Sunday of Advent
+453-466,NOTHING
+
+#-------------------------------
+# Holiday Tables
+#-------------------------------
+#For holy days not related to Easter or Advent
+
+:Holydays_January
+1,Feast of the Circumcision
+#1,Solemnity of Mary
+2-5,NOTHING
+6,Feast of the Epiphany
+#Or 2nd Sunday after Christmas
+#7,Christmas Day in Orthodox Calendar
+7-24,NOTHING
+25,NOTHING
+26-31,NOTHING
+
+:Holydays_February
+1,NOTHING
+2,Candlemas
+3-29,NOTHING
+
+:Holydays_March
+1-24,NOTHING
+25,Feast of the Annunciation (Lady Day)
+26-31,NOTHING
+
+:Holydays_April
+1-31,NOTHING
+
+:Holydays_May
+1-2,NOTHING
+3,Invention of the Cross
+4-6,NOTHING
+7,Hocktide
+8-30,NOTHING
+31,Visitation of the Virgin
+
+:Holydays_June
+1-23,NOTHING
+24,Feast of St. John the Baptist (Midsummer)
+25-31,NOTHING
+
+:Holydays_July
+1-31,NOTHING
+
+:Holydays_August
+1,Lammastide
+2-3,NOTHING
+4,Michaelmas
+5,NOTHING
+6,Transfiguration of Christ
+7-14,NOTHING
+#15,Assumption of Mary
+15,NOTHING
+16-28,NOTHING
+29,Beheading of John the Baptist
+30-31,NOTHING
+
+:Holydays_September
+1-7,NOTHING
+8,Birth of Mary
+9-13,NOTHING
+14,Holy Cross Day
+15-28,NOTHING
+29,Michaelmas (Feast of the Archangels)
+30,NOTHING
+
+:Holydays_October
+1,NOTHING
+2,Feast of the Guardian Angels
+3-31,NOTHING
+
+:Holydays_November
+1,Feast of All Saints
+2,Feast of All Souls
+3-10,NOTHING
+11,Martinmas
+12-20,NOTHING
+21,Presentation of Mary
+22-31,NOTHING
+
+:Holydays_December
+1-7,NOTHING
+#8,Immaculate Conception
+8,NOTHING
+9-24,NOTHING
+25,Christmas Day (Feast of the Nativity)
+26-27,NOTHING
+28,Childermas (Holy Innocents)
+29-31,NOTHING
+
+:SaintDays_January
+1-2,NOTHING
+3,Ste. Genevieve de Paris
+4-7,NOTHING
+8,St. Apollonaris
+9,St. Adrian of Canterbury
+10,St. William of Nevers
+11,St. Paulinus of Aquileia
+12,St. Bennet of Northumberland, Abbot
+13-15,NOTHING
+16,St. Berard and Companions
+17,St. Anthony
+18,NOTHING
+19,St. Wulstan, Bishop of Worcester
+20,St. Sebastian Martyr
+21,St. Agnes Martyr
+22,St. Vincent, Martyr
+23,St. Ildefonsus, Bishop of Toledo
+24,NOTHING
+25,The Conversion of St. Paul
+26,Sts. Timothy & Titus
+27-28,NOTHING
+29,St. Gildas, Abbot
+30-31,NOTHING
+
+:SaintDays_February
+1-2,NOTHING
+3,St. Blase, Martyr
+4,St. Veronica of the Veil
+5,St. Agatha, Martyr
+6-8,NOTHING
+9,St. Apollonia, Martyr
+10,St. Scholastica
+11,NOTHING
+12,St. Saturninus & Companions
+13,NOTHING
+14,Sts. Cyril & Methodius<br>St. Valentine
+15,NOTHING
+16,St. Gilbert of Sempringham
+17-19,NOTHING
+20,St. Eucherius
+21,St. Peter Damian
+22,St. Peter Apostle (Antioch)
+23,St. Polycarp, Martyr
+24,St. Ethelbert of Kent
+25-27,NOTHING
+28,St. Romanus
+29,NOTHING
+
+:SaintDays_March
+1,St. Albinus of Brittany<br>St. David, Patron of Wales
+2,Blessed Charles, Martyr
+3-6,NOTHING
+7,Sts. Perpetua & Felicity, Martyrs
+8-9,NOTHING
+10,St. Macarius
+11,St. Eulogius
+12,St. Theophanes
+13,St. Roderick Martyr
+14,St. Mathilda of Bayern
+15,NOTHING
+16,St. Heribert of Köln
+17,St. Patrick
+18,St. Cyril of Jerusalem
+19,St. Joseph
+20,St. Wulfran
+21-26,NOTHING
+27,St. Rupert of Salzburg
+28,St. Guntramnus
+29,St. Joseph of Arimathea
+30,St. John Climacus
+31,St. Benjamin Martyr
+
+:SaintDays_April
+1,St. Hugh
+2,NOTHING
+3,St. Richard of Chichester
+4,St. Isidore of Navara
+5,NOTHING
+6,St. Marcellinus, Martyr
+7-8,NOTHING
+9,St. Gaucherius of Aureil
+10,St. Fulbert
+11,St. Stanislaus
+12,St. Julius
+13,St. Martin I Martyr
+14,St. Elmo
+15,St. Paternus
+16,NOTHING
+17,St. Stephen Harding, Cistercian
+18,St. Apollonius, Martyr
+19,St. Elphege, Martyr
+20,St. Marcellinus
+21,St. Anselm
+22,Sts. Alexander & Epipodius
+23,St. George of Terrea, Martyr
+24,NOTHING
+25,St. Mark, Apostle
+26-31,NOTHING
+:SaintDays_May
+1,NOTHING
+2,St. Athanasius
+3,Sts. Philip and James, Apostles
+4,St. Gothard of Hildesheim
+5-7,NOTHING
+8,St. Desideratus of Bourges
+9,St. Pachomius
+10,St. Solange
+11-13,NOTHING
+14,St. Matthias, Apostle
+15-17,NOTHING
+18,St. John I, Martyr
+19-20,NOTHING
+21,St. Godric of Finchale
+20-24,NOTHING
+25,St. (Venerable) Bede<br> St. Gregory VII
+26,NOTHING
+27,St. Augustine of Canterbury
+28,St. Germanus of Paris
+29,St. Maximinus of Trier
+30-31,NOTHING
+
+:SaintDays_June
+1,St. Justin
+2-4,NOTHING
+5,St. Boniface Martyr
+6,St. Norbert
+7,St. Robert of Newminster
+8,St. Medard of Soissons
+9,NOTHING
+10,St. Landericus
+11,St. Barnabas, Apostle
+12,St. Guy
+13,St. Anthony
+14,St. Methodius
+15,St. Vitus
+16,NOTHING
+17,St. Hervé of Bretagne
+18-19,NOTHING
+20,St. Silverius Martyr
+21,NOTHING
+22,St. Paulinus of Nola
+23,St. Ethelreda
+24,NOTHING
+25,NOTHING
+26,St. Anthelm
+27,St. Cyril
+28,St. Irenaeus
+29,St. Peter and St. Paul
+30-31,NOTHING
+
+:SaintDays_July
+1,St. Thierry of Rheims
+2,NOTHING
+3,St. Thomas Apostle
+4-7,NOTHING
+8,St. Grimbald of Newminster
+9,NOTHING
+10,St. Ulric of Augsburg
+11,St. Benedict
+12,St. John Gualbert
+13,Emperor St. Henry II
+14,NOTHING
+15,St. Swithin
+16-17,NOTHING
+18,St. Frederick
+19,St. Arsenius
+20,St. Ansegisus
+21,NOTHING
+22,St. Mary Magdelene
+23-24,NOTHING
+25,St. Christopher<br>St. James the Greater, Apostle
+26,St. Ann
+27,Martyrs of Cordova
+28,St. Samson of Wales
+29,St. Martha
+30-31,NOTHING
+
+:SaintDays_August
+1,NOTHING
+2,St. Eusebius
+3,St. Lydia
+4-6,NOTHING
+7,St. Sixtus & Companions
+8,St. Dominic
+9,St. Romanus
+10,St. Lawrence
+11,St. Clare
+12,St. Euplius
+13-15,NOTHING
+16,St. Stephen of Hungary
+17-18,NOTHING
+19,St. Ann of Kennet
+20,St. Bernard of Clairvaux
+21-23,NOTHING
+24,St. Bartholomew, Apostle
+25,NOTHING
+26,St. Caeserius of Arles
+27,St. Monica
+28,St. Augustine
+29,NOTHING
+30-31,NOTHING
+
+:SaintDays_September
+1,St. Giles
+2,NOTHING
+3,St. Gregory the Great
+4-7,NOTHING
+8,NOTHING
+9-10,NOTHING
+11,St. Adelphus of Metz
+12,NOTHING
+13,St. John Chrysostom
+14-15,NOTHING
+16,St. Cyprian & Cornelius Martyrs
+17,NOTHING
+18,St. Tesochus
+19-20,NOTHING
+21,St. Matthew Apostle
+22-25,NOTHING
+26,St. Cosmas & Damian Martyrs
+27,NOTHING
+28,St. Wenzel Martyr
+29,NOTHING
+30,St. Jerome
+31,NOTHING
+
+:SaintDays_October
+1-2,NOTHING
+3,St. Gerard
+4,St. Francis
+5,NOTHING
+6,St. Bruno (Carthusians)
+7-8,NOTHING
+9,St. Denis & Companions
+10,St. Ghislain
+11,St. Firminius
+12,St. Wilfrid
+13,St. Gerald of Aurillac
+14,St. Callistus Martyr
+15-16,NOTHING
+17,St. Ignatius of Antioch
+18,St. Luke, Apostle
+19-21,NOTHING
+22,St. Salome
+23-24,NOTHING
+25,St. Gaudentius of Brescia; St. Crispin
+26-27,NOTHING
+28,St. Simon & Jude, Apostles
+29,St. Narcissus
+30,St. Marcellus, Martyr
+31,St. Wolfgang of Ratisbon
+
+:SaintDays_November
+1-4,NOTHING
+5,St. Sylvia
+6,St. Bertille
+7,NOTHING
+8,St. Godfrey of Amiens
+9,NOTHING
+10,St. Leo the Great
+11,St. Martin of Tours
+12-15,NOTHING
+16,St. Margaret of Scotia
+17-19,NOTHING
+20,St. Bernward of Hildesheim
+21,NOTHING
+22,St. Cecelia, Martyr
+23,St. Clement I Martyr<br>St. Columban
+24,NOTHING
+25,St. Catherine
+26,NOTHING
+27,St. Maximus
+28,NOTHING
+29,St. Saturninus, Martyr
+30,St. Andrew, Apostle
+31,NOTHING
+
+:SaintDays_December
+1-3,NOTHING
+4,St. John Damascene
+5,St. Gerald of Braga
+6,St. Nicholas of Lycia
+7,St. Ambrose
+8-9,NOTHING
+10,St. Romaric
+11,St. Damasus
+12,NOTHING
+13,St. Lucy
+14-15,NOTHING
+16,St. Adelaide
+17,NOTHING
+18,St. Gatian of Tours
+19-21,NOTHING
+22,St. Chaeremon & Ischyrion, Martyrs
+23,NOTHING
+24,St. Adele
+25,NOTHING
+26,St. Stephen Martyr
+27,St. John Apostle
+28,NOTHING
+29,St. Thomas à Becket
+30,St. Anysius
+31,St. Sylvester I

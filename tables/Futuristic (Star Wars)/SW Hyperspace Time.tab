@@ -1,0 +1,741 @@
+# ------------------------------------------------------
+# Last Update: modified by Valminder Jan 10, 2016.
+# ------------------------------------------------------
+# ---------------------------------------------------
+# Last Update: modified by Valminder Jan 20, 2006.
+# ---------------------------------------------------
+# 
+# Table created by Patrick Hodak, 2005
+#
+#
+# CUSTOM USE:
+# If you do not play in the Rebellion Era, set parameter %I% to 1
+# (The deafult is 14 for the Rebellion Era).
+#
+#
+# Modified by Valminder, Jan 2006.
+#    Adapted for TSv5.
+#    Added: Quality of Astrogation Data
+#           Hazard Die and Base DC based on Quality of Data
+#           Hazard Die subtable.
+#           Situation: No HoloNet access or Rebellion Era.
+#           Added a 4th Situation called "I"
+#           Adapted to "SW Revised Core Rulebook d20"
+#    Changed link to: "Orc Tribes.Generate"
+#    Added link to:
+#       Names Generator.NAME FormalGen
+#    I moved the "Astrogation Roll" parameter up front for ease of use
+#       when you already have the parameters fixed for a trip.
+# Modified by Valminder, Jan 2016.
+#    Added "Same Quadrant" parameter for 1/2 travel time.
+#
+
+/OverrideRolls 1
+
+#Hyperdrive Multiplier
+%A%,0
+# Travel From
+%B%,1
+# Travel to
+%C%,1
+# Route Chosen
+%D%,1
+# Situation 1
+%E%,1
+# Situation 2
+%F%,1
+# Situation 3
+%G%,1
+# Astrogation Roll
+%H%,0
+%DC%,0
+%TIME%,0
+%ROUTE%,0
+%SIT1%,0
+%SIT2%,0
+%SIT3%,0
+%AST%,0
+%DM%,0
+%FROM%,0
+%TO%,0
+%ROUTE2%,0
+
+# New variables, Jan 2006 (Valminder)
+%BaseDC%,0
+%HazardDice%,0
+%HazardDiceRoll%,0
+%Quality%,0
+%SIT4%,0
+%I%,1
+%Timed12%,0
+
+%SameQuadrant%,0
+
+@H,100,Astrogation Roll
+@A,1.5,Hyperdrive Multiplier
+@B,7,Region Traveling From,Deep Core,Core Worlds,Colonies,Inner Rim,Expansion Region,Mid Rim,Outer Rim,Wild Space,Unknown Regions
+@C,7,Region Traveling To,Deep Core,Core Worlds,Colonies,Inner Rim,Expansion Region,Mid Rim,Outer Rim,Wild Space,Unknown Regions
+@D,1,Route Chosen (NOT based on what the PCs know but on common knowledge),Known route (+0),New route between familiar systems (+5),New route between unfamiliar systems (+10),Within a star system (+0)
+@SameQuadrant,1,Same Quadrant (1/2 travel time),Yes,No
+@Quality,6,Quality of Astrogation Data,One day old or less,More than one day old up to one week old,More than one week old up to one month old,More than one month old,No data available,Random
+@E,3,Situation (1st),Reduce calculation time by 1 round (+2),No nav computer or astromech used (+5),Ordinary nav computer used (-2),Good nav computer used (-4),Amazing nav computer used (-6),Ordinary astromech used (-1),Good astromech used (-2),Amazing astromech used (-3),Each hour added to trip (-1),Each hour saved on trip (+1),Hyperdrive lightly damaged or jurry-rigged (+5),Hyperdrive heavily damaged (+10),No HoloNet Access or Rebellion Era (+5)
+@F,1,More Situations (2nd),None,Reduce calculation time by 1 round (+2),No nav computer or astromech used (+5),Ordinary nav computer used (-2),Good nav computer used (-4),Amazing nav computer used (-6),Ordinary astromech used (-1),Good astromech used (-2),Amazing astromech used (-3),Each hour added to trip (-1),Each hour saved on trip (+1),Hyperdrive lightly damaged or jurry-rigged (+5),Hyperdrive heavily damaged (+10),No HoloNet Access or Rebellion Era (+5)
+@G,1,Even More Situations (3rd),None,Reduce calculation time by 1 round (+2),No nav computer or astromech used (+5),Ordinary nav computer used (-2),Good nav computer used (-4),Amazing nav computer used (-6),Ordinary astromech used (-1),Good astromech used (-2),Amazing astromech used (-3),Each hour added to trip (-1),Each hour saved on trip (+1),Hyperdrive lightly damaged or jurry-rigged (+5),Hyperdrive heavily damaged (+10),No HoloNet Access or Rebellion Era (+5)
+@I,14,Even More Situations (4th),None,Reduce calculation time by 1 round (+2),No nav computer or astromech used (+5),Ordinary nav computer used (-2),Good nav computer used (-4),Amazing nav computer used (-6),Ordinary astromech used (-1),Good astromech used (-2),Amazing astromech used (-3),Each hour added to trip (-1),Each hour saved on trip (+1),Hyperdrive lightly damaged or jurry-rigged (+5),Hyperdrive heavily damaged (+10),No HoloNet Access or Rebellion Era (+5)
+
+:Start
+1,
+#<b><u>Junts Star Wars Hyperdrive Time Calculator</u></b><br><br><br>
+_{Status~by Patrick Hodak 2005, Valminder 2006}
+#_{Input~H,Input Astrogation Roll,10}
+_{If~%Quality%=6?|Quality={Dice~1d5}|}
+_[From Where=%B%][Route=%D%]
+_{If~%SameQuadrant%=1?|TIME\2|}
+_[Situation1=%E%][Situation2=%F%][Situation3=%G%][Situation4=%I%]
+_<b><u>Travelling from %FROM% to %TO% %ROUTE2%.</u></b><br><br>
+_-<u>Hyperdrive Multiplier</u>: {If~%A%>=1? x%A% / x0%A%}<br>
+_[DC_Hazard=%Quality%]-<u>Quality of Astrogation Data</u>: {Param~Quality,%Quality%} |HazardDiceRoll={Dice~1d%HazardDice%}|
+# to show modifiers used remove the #
+#_<font size=2><font color=gray><br>Quality: (Base DC = %BaseDC%, Hazard Die = 1d%HazardDice% (%HazardDiceRoll% = +[Hazard=%HazardDiceRoll%]DC)) Route: (+%ROUTE%DC) Travel From To modifier: ({If~%DM%>0?+%DM%DC/ %DM%DC})</font></font>
+_<br><br>
+_-{Param~E,%E%}<br>
+_{If~%F%!=1?-{Param~F,%F%}<br>}
+_{If~%G%!=1?-{Param~G,%G%}<br>}
+_{If~%I%!=1?-{Param~I,%I%}<br>}<br>
+_|DC={Calc~(%BaseDC% + %DM% + %ROUTE% + %SIT1% + %SIT2% + %SIT3% + %SIT4%)}|
+_<b>Base Difficulty Class:</b> %DC% |DC+[Hazard=%HazardDiceRoll%]|(%DC% with hazard die) <b>Astrogation Roll:</b> %H%<br>
+_{If~{Calc~(%H% - %DC%)}<-4? [No jump occurs] / [Jump occurs]}
+
+:DC_Hazard
+1,|BaseDC=10||HazardDice=4|
+2,|BaseDC=15||HazardDice=6|
+3,|BaseDC=20||HazardDice=8|
+4,|BaseDC=25||HazardDice=10|
+5,|BaseDC=30||HazardDice=12|
+
+:From Where
+1,|FROM=Deep Core|[ToWhere=%C%]
+2,|FROM=Core Worlds|[ToWhere=%C%]
+3,|FROM=The Colonies|[ToWhere=%C%]
+4,|FROM=The Inner Rim|[ToWhere=%C%]
+5,|FROM=The Expansion Region|[ToWhere=%C%]
+6,|FROM=The Mid Rim|[ToWhere=%C%]
+7,|FROM=The Outer Rim|[ToWhere=%C%]
+8,|FROM=Wild Space|[ToWhere=%C%]
+9,|FROM=Unknown Regions|[ToWhere=%C%]
+
+:ToWhere
+1,[To Deep Core%B%]
+2,[To Core Worlds%B%]
+3,[To Colonies%B%]
+4,[To Inner Rim%B%]
+5,[To Expansion Region%B%]
+6,[To Mid Rim%B%]
+7,[To Outer Rim%B%]
+8,[To Wild Space%B%]
+9,[To Unknown Regions%B%]
+
+#From Deep Core
+:To Deep Core1
+1, |TO=the Deep Core||DM=10||TIME=12|
+
+:To Core Worlds1
+1, |TO=the Core Worlds||DM=5||TIME=18|
+
+:To Colonies1
+1, |TO=the Colonies||DM=3||TIME=24|
+
+:To Inner Rim1
+1, |TO=the Inner Rim||DM=2||TIME=48|
+
+:To Expansion Region1
+1, |TO=the Expansion Region||DM=1||TIME=72|
+
+:To Mid Rim1
+1, |TO=the Mid Rim||DM=3||TIME=96|
+
+:To Outer Rim1
+1, |TO=the Outer Rim||DM=5||TIME=120|
+
+:To Wild Space1
+1, |TO=Wild Space||DM=10||TIME=144|
+
+:To Unknown Regions1
+1, |TO=Unknown Regions||DM=20||TIME=168|
+
+#From Core Worlds
+:To Deep Core2
+1, |TO=the Deep Core||DM=5||TIME=24|
+
+:To Core Worlds2
+1, |TO=the Core Worlds||DM=-5||TIME=6|
+
+:To Colonies2
+1, |TO=the Colonies||DM=-4||TIME=24|
+
+:To Inner Rim2
+1, |TO=the Inner Rim||DM=-3||TIME=36|
+
+:To Expansion Region2
+1, |TO=the Expansion Region||DM=-2||TIME=48|
+
+:To Mid Rim2
+1, |TO=the Mid Rim||DM=-1||TIME=84|
+
+:To Outer Rim2
+1, |TO=the Outer Rim||DM=0||TIME=96|
+
+:To Wild Space2
+1, |TO=Wild Space||DM=10||TIME=120|
+
+:To Unknown Regions2
+1, |TO=Unknown Regions||DM=25||TIME=144|
+
+#From Colonies
+:To Deep Core3
+1, |TO=the Deep Core||DM=5||TIME=48|
+
+:To Core Worlds3
+1, |TO=the Core Worlds||DM=-4||TIME=24|
+
+:To Colonies3
+1, |TO=the Colonies||DM=-3||TIME=12|
+
+:To Inner Rim3
+1, |TO=the Inner Rim||DM=-2||TIME=24|
+
+:To Expansion Region3
+1, |TO=the Expansion Region||DM=-1||TIME=48|
+
+:To Mid Rim3
+1, |TO=the Mid Rim||DM=0||TIME=72|
+
+:To Outer Rim3
+1, |TO=the Outer Rim||DM=2||TIME=96|
+
+:To Wild Space3
+1, |TO=Wild Space||DM=15||TIME=120|
+
+:To Unknown Regions3
+1, |TO=Unknown Regions||DM=20||TIME=96|
+
+#From Inner Rim
+:To Deep Core4
+1, |TO=the Deep Core||DM=5||TIME=72|
+
+:To Core Worlds4
+1, |TO=the Core Worlds||DM=-3||TIME=36|
+
+:To Colonies4
+1, |TO=the Colonies||DM=-2||TIME=24|
+
+:To Inner Rim4
+1, |TO=the Inner Rim||DM=-1||TIME=18|
+
+:To Expansion Region4
+1, |TO=the Expansion Region||DM=0||TIME=24|
+
+:To Mid Rim4
+1, |TO=the Mid Rim||DM=2||TIME=48|
+
+:To Outer Rim4
+1, |TO=the Outer Rim||DM=3||TIME=72|
+
+:To Wild Space4
+1, |TO=Wild Space||DM=10||TIME=96|
+
+:To Unknown Regions4
+1, |TO=Unknown Regions||DM=15||TIME=72|
+
+#From Expansion Region
+:To Deep Core5
+1, |TO=the Deep Core||DM=10||TIME=96|
+
+:To Core Worlds5
+1, |TO=the Core Worlds||DM=-2||TIME=60|
+
+:To Colonies5
+1, |TO=the Colonies||DM=-1||TIME=48|
+
+:To Inner Rim5
+1, |TO=the Inner Rim||DM=0||TIME=24|
+
+:To Expansion Region5
+1, |TO=the Expansion Region||DM=0||TIME=24|
+
+:To Mid Rim5
+1, |TO=the Mid Rim||DM=-1||TIME=24|
+
+:To Outer Rim5
+1, |TO=the Outer Rim||DM=-2||TIME=48|
+
+:To Wild Space5
+1, |TO=Wild Space||DM=10||TIME=72|
+
+:To Unknown Regions5
+1, |TO=Unknown Regions||DM=15||TIME=96|
+
+#From Mid Rim
+:To Deep Core6
+1, |TO=the Deep Core||DM=10||TIME=120|
+
+:To Core Worlds6
+1, |TO=the Core Worlds||DM=2||TIME=84|
+
+:To Colonies6
+1, |TO=the Colonies||DM=1||TIME=72|
+
+:To Inner Rim6
+1, |TO=the Inner Rim||DM=0||TIME=48|
+
+:To Expansion Region6
+1, |TO=the Expansion Region||DM=-1||TIME=24|
+
+:To Mid Rim6
+1, |TO=the Mid Rim||DM=-2||TIME=36|
+
+:To Outer Rim6
+1, |TO=the Outer Rim||DM=-1||TIME=24|
+
+:To Wild Space6
+1, |TO=Wild Space||DM=7||TIME=48|
+
+:To Unknown Regions6
+1, |TO=Unknown Regions||DM=12||TIME=72|
+
+#From Outer Rim
+:To Deep Core7
+1, |TO=the Deep Core||DM=15||TIME=144|
+
+:To Core Worlds7
+1, |TO=the Core Worlds||DM=3||TIME=96|
+
+:To Colonies7
+1, |TO=the Colonies||DM=2||TIME=96|
+
+:To Inner Rim7
+1, |TO=the Inner Rim||DM=1||TIME=72|
+
+:To Expansion Region7
+1, |TO=the Expansion Region||DM=1||TIME=48|
+
+:To Mid Rim7
+1, |TO=the Mid Rim||DM=0||TIME=24|
+
+:To Outer Rim7
+1, |TO=the Outer Rim||DM=1||TIME=48|
+
+:To Wild Space7
+1, |TO=Wild Space||DM=6||TIME=24|
+
+:To Unknown Regions7
+1, |TO=Unknown Regions||DM=10||TIME=60|
+
+#From Wild Spaces
+:To Deep Core8
+1, |TO=the Deep Core||DM=20||TIME=168|
+
+:To Core Worlds8
+1, |TO=the Core Worlds||DM=18||TIME=120|
+
+:To Colonies8
+1, |TO=the Colonies||DM=15||TIME=120|
+
+:To Inner Rim8
+1, |TO=the Inner Rim||DM=12||TIME=96|
+
+:To Expansion Region8
+1, |TO=the Expansion Region||DM=10||TIME=72|
+
+:To Mid Rim8
+1, |TO=the Mid Rim||DM=7||TIME=48|
+
+:To Outer Rim8
+1, |TO=the Outer Rim||DM=3||TIME=24|
+
+:To Wild Space8
+1, |TO=Wild Space||DM=0||TIME=12|
+
+:To Unknown Regions8
+1, |TO=Unknown Regions||DM=25||TIME=120|
+
+#From Unknown Regions
+:To Deep Core9
+1, |TO=the Deep Core||DM=25||TIME=192|
+
+:To Core Worlds9
+1, |TO=the Core Worlds||DM=20||TIME=144|
+
+:To Colonies9
+1, |TO=the Colonies||DM=15||TIME=96|
+
+:To Inner Rim9
+1, |TO=the Inner Rim||DM=10||TIME=72|
+
+:To Expansion Region9
+1, |TO=the Expansion Region||DM=5||TIME=60|
+
+:To Mid Rim9
+1, |TO=the Mid Rim||DM=4||TIME=72|
+
+:To Outer Rim9
+1, |TO=the Outer Rim||DM=3||TIME=96|
+
+:To Wild Space9
+1, |TO=Wild Space||DM=2||TIME=120|
+
+:To Unknown Regions9
+1, |TO=Unknown Regions||DM=1||TIME=48|
+
+# ----------------------------------------------------------------------
+
+:Situation1
+1,[Reduce calculation time by 1 round]
+2,[No nav computer or astromech used]
+3,[Ordinary Nav computer used]
+4,[Good Nav computer used]
+5,[Amazing Nav computer used]
+6,[Ordinary Astromech used]
+7,[Good Astromech used]
+8,[Amazing Astromech used]
+9,[Each hour added to trip]
+10,[Each hour saved to trip]
+11,[Hyperdrive lightly damaged]
+12,[Hyperdrive heavily damaged]
+13,[No HoloNet or Rebellion]
+
+:Reduce calculation time by 1 round
+1, |SIT1=2|
+
+:No nav computer or astromech used
+1, |SIT1=5|
+
+:Ordinary Nav computer used
+1, |SIT1=-2|
+
+:Good Nav computer used
+1, |SIT1=-4|
+
+:Amazing Nav computer used
+1, |SIT1=-6|
+
+:Ordinary Astromech used
+1, |SIT1=-1|
+
+:Good Astromech used
+1, |SIT1=-2|
+
+:Amazing Astromech used
+1, |SIT1=-3|
+
+:Each hour added to trip
+1, |SIT1=-1|
+
+:Each hour saved to trip
+1, |SIT1=1|
+
+:Hyperdrive lightly damaged
+1, |SIT1=5|
+
+:Hyperdrive heavily damaged
+1, |SIT1=10|
+
+:No HoloNet or Rebellion
+1, |SIT1=5|
+
+:Situation2
+1,[None2]
+2,[Reduce calculation time by 1 round2]
+3,[No nav computer or astromech used2]
+4,[Ordinary Nav computer used2]
+5,[Good Nav computer used2]
+6,[Amazing Nav computer used2]
+7,[Ordinary Astromech used2]
+8,[Good Astromech used2]
+9,[Amazing Astromech used2]
+10,[Each hour added to trip2]
+11,[Each hour saved to trip2]
+12,[Hyperdrive lightly damaged2]
+13,[Hyperdrive heavily damaged2]
+14,[No HoloNet or Rebellion2]
+
+:None2
+1, |SIT2=0|
+
+:Reduce calculation time by 1 round2
+1, |SIT2=2|
+
+:No nav computer or astromech used2
+1, |SIT2=5|
+
+:Ordinary Nav computer used2
+1, |SIT2=-2|
+
+:Good Nav computer used2
+1, |SIT2=-4|
+
+:Amazing Nav computer used2
+1, |SIT2=-6|
+
+:Ordinary Astromech used2
+1, |SIT2=-1|
+
+:Good Astromech used2
+1, |SIT2=-2|
+
+:Amazing Astromech used2
+1, |SIT2=-3|
+
+:Each hour added to trip2
+1, |SIT2=-1|
+
+:Each hour saved to trip2
+1, |SIT2=1|
+
+:Hyperdrive lightly damaged2
+1, |SIT2=5|
+
+:Hyperdrive heavily damaged2
+1, |SIT2=10|
+
+:No HoloNet or Rebellion2
+1, |SIT2=5|
+
+:Situation3
+1,[None3]
+2,[Reduce calculation time by 1 round3]
+3,[No nav computer or astromech used3]
+4,[Ordinary Nav computer used3]
+5,[Good Nav computer used3]
+6,[Amazing Nav computer used3]
+7,[Ordinary Astromech used3]
+8,[Good Astromech used3]
+9,[Amazing Astromech used3]
+10,[Each hour added to trip3]
+11,[Each hour saved to trip3]
+12,[Hyperdrive lightly damaged3]
+13,[Hyperdrive heavily damaged3]
+14,[No HoloNet or Rebellion3]
+
+:None3
+1, |SIT3=0|
+
+:Reduce calculation time by 1 round3
+1, |SIT3=2|
+
+:No nav computer or astromech used3
+1, |SIT3=5|
+
+:Ordinary Nav computer used3
+1, |SIT3=-2|
+
+:Good Nav computer used3
+1, |SIT3=-4|
+
+:Amazing Nav computer used3
+1, |SIT3=-6|
+
+:Ordinary Astromech used3
+1, |SIT3=-1|
+
+:Good Astromech used3
+1, |SIT3=-2|
+
+:Amazing Astromech used3
+1, |SIT3=-3|
+
+:Each hour added to trip3
+1, |SIT3=-1|
+
+:Each hour saved to trip3
+1, |SIT3=1|
+
+:Hyperdrive lightly damaged3
+1, |SIT3=5|
+
+:Hyperdrive heavily damaged3
+1, |SIT3=10|
+
+:No HoloNet or Rebellion3
+1, |SIT3=5|
+
+:Situation4
+1,[None4]
+2,[Reduce calculation time by 1 round4]
+3,[No nav computer or astromech used4]
+4,[Ordinary Nav computer used4]
+5,[Good Nav computer used4]
+6,[Amazing Nav computer used4]
+7,[Ordinary Astromech used4]
+8,[Good Astromech used4]
+9,[Amazing Astromech used4]
+10,[Each hour added to trip4]
+11,[Each hour saved to trip4]
+12,[Hyperdrive lightly damaged4]
+13,[Hyperdrive heavily damaged4]
+14,[No HoloNet or Rebellion4]
+
+:None4
+1, |SIT4=0|
+
+:Reduce calculation time by 1 round4
+1, |SIT4=2|
+
+:No nav computer or astromech used4
+1, |SIT4=5|
+
+:Ordinary Nav computer used4
+1, |SIT4=-2|
+
+:Good Nav computer used4
+1, |SIT4=-4|
+
+:Amazing Nav computer used4
+1, |SIT4=-6|
+
+:Ordinary Astromech used4
+1, |SIT4=-1|
+
+:Good Astromech used4
+1, |SIT4=-2|
+
+:Amazing Astromech used4
+1, |SIT4=-3|
+
+:Each hour added to trip4
+1, |SIT4=-1|
+
+:Each hour saved to trip4
+1, |SIT4=1|
+
+:Hyperdrive lightly damaged4
+1, |SIT4=5|
+
+:Hyperdrive heavily damaged4
+1, |SIT4=10|
+
+:No HoloNet or Rebellion4
+1, |SIT4=5|
+
+# ------------------------------------------------------------------------
+
+:Route
+1,|ROUTE=0||ROUTE2=using a known route|
+2,|ROUTE=5||ROUTE2=using a new route between familiar systems|
+3,|ROUTE=10||ROUTE2=using a new route to or from familiar systems|
+4,|ROUTE=0||ROUTE2=within a star system|
+
+# ------------------------------------------------------------------------
+
+:Hazard
+1-3,0
+4,2
+5,4
+6,6
+7,8
+8,10
+9,15
+10,20
+11,25
+12,30
+
+;Collision
+8,The ship crashes into an asteroid.
+5,The ship has collided with a another large vessel ([SW Starship Gen.Random={Dice~1d11+5}]).
+5,The ship emerges within {Dice~1d10} feet of a navigational body.
+1,The ship emerges within the atmoshere of a planet.
+2,The ship glances off the gravity-well of a planetary moon.
+5,The ship smashes into the remains of a wrecked starship ([SW Starship Gen.Random={Dice~1d11+5}]).
+3,The ship exits hyperspace inches from the surface of a spaceport.
+1,The ship is swallowed whole by a giant space slug.
+5,The ship slams into a distressed ship ([SW Starship Gen.Random={Dice~1d11+5}]). Apparently, another galactic accident has occured here.
+
+;Random Event
+1,A Local Authority Starship stops the ship with a gravity-well for a random search.
+1,The ship emerges from hyperspace due to a pirate mass blockade. The pirate band includes a Corellian Corvette ([SW Starship Names.Start]), {Dice~1d4} fighter(s), and {Dice~1d2} Personnel Carrier(s)<br>
+_<b>Pirates:</b> [~Orc Tribes.Generate]
+5,An asteroid seems out of place. Maybe your just out of place. In either event, you've stopped.
+1,Captain [~Names Generator.NAME FormalGen] of the Imperial Star Destroyer [SW Starship Names.Start] is in your path. Remember who has the right-of-way.
+1,Captain [~Names Generator.NAME FormalGen] of the Interdictor Class Star Destroyer [SW Starship Names.Start] is in your path. What have you done this time?
+1,Scanners pickup a distress signal in the immediate viscinity.
+
+# If you add Error messages, also modify in "SW Ship Mishaps.tab"
+;Calc Error
+1,ERROR: Cannot free already freed memory.
+1,ERROR: Ending destination does not exist.
+1,ERROR: Calculation distance out of range, cannot compute safe trip.
+1,ERROR: Invalid Syntax.
+1,ERROR: Destination within known gravity-well.
+1,ERROR: Cannot divide by zero.
+1,ERROR: Your operating system has stopped functioning.
+1,ERROR: Cannot connect to main star chart.
+1,ERROR: System malfunction, please reboot (if this does not work, contact your nearest nav-com retailer).
+1,ERROR: Distance determined to be negative.
+1,ERROR: Error reading drive [alpha.alphabet]:
+1,ERROR: Your system has become unstable. You can wait for the system to become stable or you can restart the navcomputer.
+1,ERROR: Running Safe Disk. Please Wait...........
+1,ERROR: System Fault. Please consult the owner's manual, PG {Dice~1d12}-{Dice~1d100}.
+1,ERROR: Unknown error, reboot system.
+1,ERROR: Cannot access database [alpha.alphabet]{Dice~1d99}[alpha.alphabet][alpha.alphabet]{Dice~1d1000}[alpha.alphabet].
+1,ERROR: Error {Dice~1d100}[alpha.alphabet][alpha.alphabet]{Dice~1d100}[alpha.alphabet][alpha.alphabet] has occured.
+1,ERROR: Memory overload, cannot execute.
+
+:Mishaps
+1-30,<b>No Jump Occurs:</b> The hyperdrive does not activate.
+31-50,<b>Off Course:</b> The ship is completely off course, emerging from hyperspace in the wrong system, which may not be in the same region of space as the intended system. An entirely new hyperspace trip must be calculated.
+51-65,<b>Hyperspace Fluctuations:</b>Random radiation fluctuations affect the ship's travel time. The new traveltime adds +2d12 hours to the trip.<br>
+_<b>Average Time:</b> {Calc~(%TIME% * %A%)} hours
+_<br><b>Time:</B> {Calc~(%TIME% * %A% + {Dice~2d12})} hours
+66-80,<b>Hyperdrive Failure:</b> The ship's nav computer detected a gravity-well shadow and returns the ship to realspace to avoid a collision (see below). This occurs at a randomly determined point along the trip. A new hyperspace route must be calculated.<br>
+_<br><u>For a ship without a nav computer or astromech droid</u>:<br>[Mishaps=91]
+81-90,<b>Hyperdrive Failure and Damage:</b> The ship's nav computer detected a gravity-well shadow and returns the ship to realspace to avoid a collision. This occurs at a randomly determined point along the trip.<br>
+_<b>Damage:</b> The hyperdrive system is damaged and must be repaired, or a backup system must be used. A new hyperspace route must then be calculated.<br>
+_<hr><b>Alternate damage:</b><br> [~SW Ship Mishaps.Drive Systems] <hr>
+_<br><u>For a ship without a nav computer or astromech droid</u>:<br>[Mishaps=91]
+91-95,<b>Hyperspace Collision:</b> The ship collides with a gravity-well shadow and drops to realspace. The ship suffers 1d10 x 1d10 hull points of damage. Assuming the ship remains intact, a new hyperspace trip must be calculated.<br>
+_<b>Hull Damage:</b> ({Calc~({Dice~1d10}*{Dice~1d10})})<br>
+_<b>Collision:</b> [Collision]<br>
+_<br><b>Percent of trip finished:</b> {Dice~1d100} &#37 <br>
+96-100,<b>Random Event:</b> [Random Event]
+
+:No jump occurs
+1,<font color=red><b>Mishap:</b></font><br>[Mishaps]<br><b>Navigation Computer reads:</b> [~Calc Error]
+
+:Jump occurs
+1,{If~{Calc~(%H% - %DC%)}=-4? [Jump occurs add 1d12 hours]}
+_{If~{Calc~(%H% - %DC%)}=-3? [Jump occurs add 1d12 hours]}
+_{If~{Calc~(%H% - %DC%)}=-2? [Jump occurs add 1d12 hours]}
+_{If~{Calc~(%H% - %DC%)}=-1? [Jump occurs add 1d12 hours]}
+_{If~{Calc~(%H% - %DC%)}=0? [Jump occur no time modifier]}
+_{If~{Calc~(%H% - %DC%)}=1? [Jump occur no time modifier]}
+_{If~{Calc~(%H% - %DC%)}=2? [Jump occur no time modifier]}
+_{If~{Calc~(%H% - %DC%)}=3? [Jump occur no time modifier]}
+_{If~{Calc~(%H% - %DC%)}=4? [Jump occur no time modifier]}
+_[Jump occurs2]
+
+:Jump occurs2
+1,{If~{Calc~(%H% - %DC%)}=5? [Jump occur subtract 1d12 hours]}
+_{If~{Calc~(%H% - %DC%)}=6? [Jump occur subtract 1d12 hours]}
+_{If~{Calc~(%H% - %DC%)}=7? [Jump occur subtract 1d12 hours]}
+_{If~{Calc~(%H% - %DC%)}=8? [Jump occur subtract 1d12 hours]}
+_{If~{Calc~(%H% - %DC%)}=9? [Jump occur subtract 1d12 hours]}
+_{If~{Calc~(%H% - %DC%)}>9? [Jump occur subtract 2d12 hours]}
+
+:Jump occurs add 1d12 hours
+1,<b>Outcome:</b> Jump occurs, but things don't go exactly as planned (add +1d12 hours (|Timed12={Dice~1d12}|<b>+%Timed12%</b>))<br>
+_<b>Average Time:</b> {Calc~(%TIME% * %A%)} hours
+_<br><b>Time:</B> {Calc~(%TIME% * %A% + %Timed12%)} hours<br>
+
+:Jump occur no time modifier
+1,<b>Jump occurs with no time modified:</b> The trip went just as planned without any delays.<br>
+_<b>Time:</b> {Calc~(%TIME% * %A%)} hours
+
+:Jump occur subtract 1d12 hours
+1,<b>Jump occurs subtract 1d12 hours:</b>|Timed12={Dice~1d12}| The trip took less time after looking over the astrogation charts and finding a better route.<br>
+_<b>Average Time:</b> {Calc~(%TIME% * %A%)} hours
+_<b><br>Time:</b> {Calc~(%TIME% * %A% - %Timed12%)} hours.
+
+:Jump occur subtract 2d12 hours
+1,<b>Jump occurs subtract 2d12 hours:</b>|Timed12={Dice~2d12}| You have found a remarkable opportunity after careful examination of the astrogation charts.<br>
+_<b>Average Time:</b> {Calc~(%TIME% * %A%)} hours
+_<b><br>Time:</b> {Calc~(%TIME% * %A% - %Timed12%)} hours

@@ -1,0 +1,167 @@
+# ------------------------------------------------------
+# Last Update: re-verified by Valminder Jan 10, 2012.
+# ------------------------------------------------------
+#
+# Overnight stops when crossing a desert region.
+#
+# Copyright 1996 by P.J.Masters (Software & Writing) Ltd.
+#  - for use with Wintertree Software's "TableMaster" program
+#  - Converted to TableSmith format
+#
+# Modified by Valminder, April 2002.
+#
+
+:Start
+1,<b><u>Overnight stops when crossing a desert region</u>:</b><br>This night, you rest [Locations]<br>{Space~5}You [RestQuality].
+
+:Locations
+1-3,huddled in the lee of a bare rock outcrop.
+4,sheltered in an ancient, disintegrating ruin, [Ruins]
+5-7,in a tiny, uninhabited oasis, with a [SpringQuality] spring.
+8-10,in a tumble-down, unmanned caravanserai.
+11-12,camped in a small oasis, [Oasis] The place has a [SpringQuality] spring.
+13-17,sheltered in a minor caravanserai [Caretaker1] [Peddler1]
+18,in the shelter of a military outpost. The garrison consists of [Garrison]; they [TroopMood].
+19-23,in an oasis village. The local peasants seem [TownMood]. The place has a [Oasis Spring] spring.
+24-27,in a fair-sized caravanserai, [Caretaker2] [Peddler2]
+28-29,in a small trading town with a caravanserai [TownCaravanserai] [TownPeddlers] [TownParties] The townsfolk seem [TownMood]. [TownGarrison]
+30-50,[WeirdStuff]
+
+:TownGarrison
+1,There is a military garrison, consisting of [Garrison].
+2,
+
+:TownCaravanserai
+1-7,manned by a caretaker.
+8-10,.
+
+:TownPeddlers
+1-95,<b>{Dice~1d7+1}</b> local peddlers seek to sell you supplies.
+96-100,
+
+:TownParties
+1-3,There are <b>{Dice~1d3+1}</b> other travelling parties in the caravanserai.
+4,
+
+:Oasis Spring
+1-3,barely drinkable
+4-10,reasonable
+
+:Peddler1
+1,A local peddler offers to sell you a little food.
+2-20,
+
+:Peddler2
+1-4,<b>{Dice~1d5+1}</b> local peddlers seek to sell you supplies.
+5-10,
+
+:Oasis
+1-7,inhabited by a few poor peasants.
+8-10,which is too small or remote to have any inhabitants.
+
+:RestQuality
+1-2,barely sleep as the desert wind howls
+3,do sleep, but you are disturbed by noises in the night
+4-7,sleep with only the occasional disturbance
+8,sleep better than you expected
+9-10,sleep the calm sleep of the blessed
+
+:WeirdStuff
+1,in the camp of a great army that you meet on the march.
+2,you know not where, for you have been carried off by a whimsical djinn.
+3,in the ruins of an ancient city into which you have blundered.
+4,in confusion, for you seemingly wander in an enchanted wilderness of dreams.
+5,in an impressive shelter, for you have come upon a royal palace which is [Palace]
+6,beyond the worlds of men; you have an indescribable mystical experience.
+7-10,not at all, for you are lost in a howling sandstorm.
+
+:Palace
+1,currently not occupied by its owner, but the servants [PalaceStaff].
+2,occupied by a great ruler, who [RulerStyle].
+
+:Ruins
+1-70,which fortunately proves unremarkable.
+71-79,so old that the stones could almost be taken for natural outcrops.
+80-96,carved with arcane [Symbols]symbols.
+97-100,which proves to be inhabited by a djinn, leading to a strange night.
+
+:Symbols
+1-2,blasphemous 
+3-5,
+
+:SpringQuality
+1,sour and undrinkable
+2-3,slightly salty but drinkable
+4-5,decent
+6,wondrously sweet and cool
+
+:Caretaker
+1,who doesn't seem to do very much.
+2,who supposedly tends a lighthouse-beacon for travellers, but who may be negligent.
+3,who diligently tends to the place's beacon for travellers.
+
+:Caretaker1
+1-7,which lacks even a caretaker.
+8-10,manned by a caretaker [Caretaker]
+
+:Caretaker2
+1-4,albeit one which lacks a caretaker.
+5-10,manned by a caretaker [Caretaker]
+
+:Garrison
+1-2,mercenary tribesmen
+3,cavalry, younger sons of some lesser nobility, taken to mercenary service
+4-5,assorted hirelings from some local noble's household
+6-7,Mameluke slave-soldiers, serving the local rulers
+8,Mamelukes of the royal army
+9,peasants, pressed into service to deal with some possible problem
+10,strange foreigners, far from home
+
+:TroopMood
+1,are surly and suspicious
+2,seem little better than bandits
+3,seem on edge, tolerating visitors but apparently always expecting trouble
+4,are suspicious at first, but prove friendly enough when they accept you
+5-6,leave you to your own devices, saying little
+7-8,seem glad of company, sharing food and water with you
+9,are old hands, who sit back in the shade and say little, good or bad, but remain polite
+10,are clearly tough, determined, and enthusiastic - pleasant but tiring company
+
+:TownMood
+1,utterly evil, depraved, and vicious
+2-5,brutal, dangerous, and suspicious
+6-12,cautious and highly suspicious of strangers
+13-15,depressed and fearful
+16-25,mean-minded, tricky, and hard to deal with
+26,pleasant enough, but full of strange ideas and given to bizarre practices
+27-40,reasonable, but inward-looking and given to driving hard bargains
+41-55,reticent but reasonable when they have cause to talk
+56-80,normal enough, willing to do business but sensibly cautious
+81-97,tolerant, friendly, and very easy to do business with
+98-99,extremely friendly and pleasant. [WhyNiceFolks]
+100,wildly happy, even orgiastic, as some strange festival is in progress
+
+:WhyNiceFolks
+1-14,They are clearly an admirable people
+15-19,You gather that they are celebrating some local festival
+20,However, you sense a strange undercurrent to their attitude
+
+:PalaceStaff
+1-7,make you welcome, by the laws of hospitality, so that you sleep in silken sheets
+8-9,give you a reasonable bed for the night in the outbuildings
+10,grudgingly permit you to sleep in the stables, with many surly remarks
+
+:RulerStyle
+1-3,commands that a great feast be set for you, and provides a bed with silken sheets
+4,insists on keeping you up all night with feasting and carousing, so that you barely have a chance to rest
+5-8,makes you amply welcome, by the laws of hospitality, providing a bed with silken sheets
+9,is cool but courteous and polite, giving you adequate food and shelter, and a comfortable bed
+10,commands his servants to provide you with decent food and shelter, and a comfortable bed
+11,you barely glimpse; however, his servants are glad of news and company, and treat you very well
+12,seems cold and distant; you barely glimpse him, but his servants let you sleep in the out-buildings
+13,seems to be a sinister tyrant; you sleep in his out-buildings, but remain on your guard at all times
+14,proves to be a strange [Mage], and you are distracted all night by bizarre magical goings-on
+
+:Mage
+1-4,witch
+5-10,wizard

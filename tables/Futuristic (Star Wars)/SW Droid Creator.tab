@@ -1,0 +1,655 @@
+# ------------------------------------------------------
+# Last Update: re-verified by Valminder Jan 10, 2012.
+# ------------------------------------------------------
+# ---------------------------------------------------
+# Last Update: modified by Valminder Feb 28, 2006.
+# ---------------------------------------------------
+#
+# Star Wars Droid Creator 1.0
+# 
+# Copyright Patrick Hodak 2005
+#
+# *************************************************
+# NOTE: this table uses a House-rule pricing guide.
+# *************************************************
+#
+# Modified by Valminder, Jan 2006.
+#    Adapted for TSv5.
+#    Added some {Loop~} for the hit points.
+# Modified by Valminder, Feb 2006.
+#    Removed "SortDesc~" and modified the table.
+#
+
+/OverrideRolls 1
+
+%Degree%,1
+%Type%,1
+%Class%,1
+%Level%,1
+
+%STR%,0
+%DEX%,0
+%CON%,0
+%INT%,0
+%CHA%,0
+%WIS%,0
+
+%ROLL1%,0
+%ROLL2%,0
+%ROLL3%,0
+%ROLL4%,0
+%ROLL5%,0
+%ROLL6%,0
+
+%Total%,0
+%LowRoll%,0
+%Die1%,0
+%Die2%,0
+%Die3%,0
+%Die4%,0
+
+%Lvl%,0
+%HP%,0
+%HPMod%,0
+%HPMod2%,0
+%X%,0
+
+%BASEATK%,0
+%BASEATK2%,0
+%BASEATK3%,0
+%BASEATK4%,0
+%BASEDEF%,0
+%Melee%,0
+%Ranged%,0
+%DefBon%,10
+%BASEREFLEX%,0
+%BASEFORT%,0
+%BASEWILL%,0
+%Reflex%,0
+%Fortitude%,0
+%Will%,0
+
+%temp%,0
+%A%,0
+%B%,0
+%C%,0
+%D%,0
+
+%avgroll%,0
+%totroll%,0
+%icost%,0
+%ccost%,0
+%ecost%,0
+%ccmlt%,0
+%sizfac%,1
+%totcost%,0
+
+%defsiz%,0
+%strsiz%,0
+
+# Temporary variable to put the rolls in order (Feb 2006).
+%TempSort%,0
+
+@Type,13,Choose Type,Medical,Astromech,Repair,Battle,Assassin,Tracker,Exploration,Protocol,Labor,Worker Drone,Messenger,Security,Random
+#@Class,6,Choose Class,Soldier,Diplomat,Expert,Thug,Scout,Random
+
+#----------------------------------------------------------------
+# Your Basic Program Start
+# NOTE: Don't Mess with the Order Please. 
+#       This table can be called from others.
+#----------------------------------------------------------------
+:Start
+1,{Status~By Patrick Hodak 2005, Valminder 2006}
+_<b><u>Hodax Star Wars Droid Creator</u></b></br>
+_<b>Model: </b>[Model]</br>
+_<b>Type: </b>{If~%Type%=13? [RandomType] / [Type=%Type%]} Droid</br>
+_<b>Degree: </b>[Degree=%Degree%]</br>
+#_Make
+_<b>Size: </b>[Size]</br>
+_<b>Class: </b>[Class=%Class%]</br>
+_<b>Level: </b>{If~%Class%=6? [ZeroLvl] / [Level][ClassBonus=%Class%]}</br> 
+_[Initial Rolls]
+#_%totroll%</br>
+_[Stats=%Class%]
+_[Modify=%Degree%]|STR+%strsiz%|{If~%STR%<1? |STR=1|}
+_[DisplayCharacter]</br>
+_<b>Vitality Points: </b>{If~%HP%>0? [HitPoints=%Lvl%] / [ZeroHP]}
+_<b> Wound Points: </b>%CON%</br>
+_<hr><b>Class Attack Bonus: </b>%BASEATK%</br>
+_<b>STR Attack Bonus: </b> [GetStatBonus=%STR%]|Melee+%BASEATK%||Melee+%X%| <b> Total Melee Bonus: </b> %Melee%
+_{If~%BASEATK%>=6? [Attack2]}{If~%BASEATK%>=11? [Attack3]}{If~%BASEATK%>=16? [Attack4]}</br>
+_<b>DEX Attack Bonus: </b> [GetStatBonus=%DEX%]|Ranged+%BASEATK%||Ranged+%X%| <b> Total Ranged Bonus: </b> %Ranged%</br>
+_<hr><b>Class Defense Bonus: </b>%BASEDEF%</br>
+_<b>DEX Defense Bonus: </b> [GetStatBonus=%DEX%]|DefBon+%BASEDEF%||DefBon+%X%||DefBon+%defsiz%| <b> Defense Total: </b> %DefBon%</br>
+_<hr><b>CON Bonus: </b> [GetStatBonus=%CON%]|Fortitude+%BASEFORT%||Fortitude+%X%| <b> Total Fortitude: </b> %Fortitude%</br>
+_<b>DEX Bonus: </b> [GetStatBonus=%DEX%]|Reflex+%BASEREFLEX%||Reflex+%X%| <b> Total Reflex: </b> %Reflex%</br>
+_<b>WIS Bonus: </b> [GetStatBonus=%WIS%]|Will+%BASEWILL%||Will+%X%| <b> Total Will: </b> %Will%</br><hr>
+_<b>Equipment</b><br>{Loop~{Dice~3d5},[Equipment], }<hr>
+_<b>Initial Cost: </b>[InitCost=%totroll%]</br>
+_<b>Class Cost: </b>+%ccost%</br>
+_<b>Size Factor: </b>x%sizfac%</br>
+_<b>Equipment Cost:</b> +%ecost%<br>
+_----------------------------</br>
+_<b>Total Cost: </b>|totcost+%icost%||totcost+%ccost%||totcost*%sizfac%||totcost+%ecost%|%totcost%
+
+#----------------------------------------------------------------
+# Randomizes Type
+# WHAT-IT-NEEDS: Better Probability
+#----------------------------------------------------------------
+;RandomType
+1,[Type=1]
+1,[Type=2]
+1,[Type=3]
+1,[Type=4]
+1,[Type=5]
+1,[Type=6]
+1,[Type=7]
+1,[Type=8]
+1,[Type=9]
+1,[Type=10]
+1,[Type=11]
+1,[Type=12]
+
+#----------------------------------------------------------------
+# Prints Type based on parameter/randomization selection.
+#----------------------------------------------------------------
+:Type
+1,Medical|Type=1||Class=3||Degree=1|
+2,Astromech|Type=2|[EorTS]|Degree=2|
+3,Repair|Type=3|[EorTS]|Degree=2|
+4,Battle|Type=4|[TorS]|Degree=4|
+5,Assassin|Type=5|[TorS]|Degree=4|
+6,Tracker|Type=6||Class=5||Degree=4|
+7,Exploration|Type=7||Class=5||Degree=4|
+8,Protocol|Type=8||Class=2||Degree=3|
+9,Labor|Type=9||Class=6||Degree=5|
+10,Worker Drone|Type=10||Class=6||Degree=5|
+11,Messenger|Type=11||Class=6||Degree=5|
+12,Security|Type=12|[TorS]|Degree=4|
+
+;EorTS
+4,|Class=3|
+1,|Class=7|
+
+;TorS
+4,|Class=4|
+1,|Class=1|
+
+#--------
+# Sizes
+#--------
+;Size
+100,Medium |sizfac=1|
+50,Small |defsiz=1||sizfac=1|
+10,Tiny |defsiz=2||strsiz=-4||sizfac=1.2|
+2,Diminutive |defsiz=4||strsiz=-8||sizfac=1.5|
+1,Fine |defsiz=8||strsiz=-16||sizfac=3|
+20,Large |defsiz=-1||strsiz=2||sizfac=1.5|
+4,Huge |defsiz=-2||strsiz=4||sizfac=2|
+2,Gargantuan |defsiz=-4||strsiz=8||sizfac=5|
+1,Colossal |defsiz=-8||strsiz=16||sizfac=10|
+
+#----------------------------------------------------------------
+# Prints Class Based on Parameter. Also sets level 1 HP.
+# WHAT-IT-NEEDS: Alternative Classes?
+#----------------------------------------------------------------
+:Degree
+1,First |Degree=1||INT+2||STR-2||CHA-2|
+2,Second |Degree=2||DEX+2||INT+2||STR-4|
+3,Third |Degree=3||CHA+2||STR-2||WIS-2|
+4,Fourth |Degree=4||DEX+2||CON+2||INT-4|
+5,Fifth |Degree=5||STR+2||WIS-2||CHA-2|
+
+:Class
+1,Soldier |HP=10||Class=1||ccmlt=1|
+2,Diplomat |HP=0||Class=2||ccmlt=.5|
+3,Expert |HP=0||Class=3||ccmlt=.5|
+4,Thug |HP=0||Class=4||ccmlt=.5|
+5,Scout |HP=8||Class=5||ccmlt=1|
+6,Commoner |HP=0||Class=6||ccmlt=0|
+7,Tech Specialist |HP=6||Class=7||ccmlt=1|
+
+#----------------------------------------------------------------
+# Used to Randomly select level.
+# WHAT-IT-NEEDS: NOTHING!!!
+#----------------------------------------------------------------
+
+;Level
+6,|Lvl=1| %Lvl% |ccost=500||ccost*%ccmlt%|
+5,|Lvl=2| %Lvl% |ccost=1000||ccost*%ccmlt%|
+4,|Lvl=3| %Lvl% |ccost=3000||ccost*%ccmlt%|
+3,|Lvl=4| %Lvl% |ccost=6000||ccost*%ccmlt%|
+2,|Lvl=5| %Lvl% |ccost=10000||ccost*%ccmlt%|
+1,|Lvl=6| %Lvl% |ccost=15000||ccost*%ccmlt%|
+
+:ZeroLvl
+1,|Lvl=1| %Lvl%
+
+#----------------------------------------------------------------
+# Calculates and Prints HitPoints
+# NOTE: DO NOT EDIT WHATSOEVER!
+# Because I don't know how I got it to work right.
+# WHAT-IT-NEEDS:
+#----------------------------------------------------------------
+:HitPoints
+1,|HP+%HPMod%| {If~%HP%<0? |HP=0|} %HP%
+2,[HPRoll=%Class%] |HP+%HPMod%| {If~%HP%<0? |HP=0|} %HP%
+3,{Loop~2,[HPRoll=%Class%]} |HP+%HPMod%| {If~%HP%<0? |HP=0|} %HP%
+4,{Loop~3,[HPRoll=%Class%]} |HP+%HPMod%| {If~%HP%<0? |HP=0|} %HP%
+5,{Loop~4,[HPRoll=%Class%]} |HP+%HPMod%| {If~%HP%<0? |HP=0|} %HP%
+6,{Loop~5,[HPRoll=%Class%]} |HP+%HPMod%| {If~%HP%<0? |HP=0|} %HP%
+7,{Loop~6,[HPRoll=%Class%]} |HP+%HPMod%| {If~%HP%<0? |HP=0|} %HP%
+8,{Loop~7,[HPRoll=%Class%]} |HP+%HPMod%| {If~%HP%<0? |HP=0|} %HP%
+9,{Loop~8,[HPRoll=%Class%]} |HP+%HPMod%| {If~%HP%<0? |HP=0|} %HP%
+10,{Loop~9,[HPRoll=%Class%]} |HP+%HPMod%| {If~%HP%<0? |HP=0|} %HP%
+11,{Loop~10,[HPRoll=%Class%]} |HP+%HPMod%| {If~%HP%<0? |HP=0|} %HP%
+12,{Loop~11,[HPRoll=%Class%]} |HP+%HPMod%| {If~%HP%<0? |HP=0|} %HP%
+13,{Loop~12,[HPRoll=%Class%]} |HP+%HPMod%| {If~%HP%<0? |HP=0|} %HP%
+14,{Loop~13,[HPRoll=%Class%]} |HP+%HPMod%| {If~%HP%<0? |HP=0|} %HP%
+15,{Loop~14,[HPRoll=%Class%]} |HP+%HPMod%| {If~%HP%<0? |HP=0|} %HP%
+16,{Loop~15,[HPRoll=%Class%]} |HP+%HPMod%| {If~%HP%<0? |HP=0|} %HP%
+17,{Loop~16,[HPRoll=%Class%]} |HP+%HPMod%| {If~%HP%<0? |HP=0|} %HP%
+18,{Loop~17,[HPRoll=%Class%]} |HP+%HPMod%| {If~%HP%<0? |HP=0|} %HP%
+19,{Loop~18,[HPRoll=%Class%]} |HP+%HPMod%| {If~%HP%<0? |HP=0|} %HP%
+20,{Loop~19,[HPRoll=%Class%]} |HP+%HPMod%| {If~%HP%<0? |HP=0|} %HP%
+21,{Loop~20,[HPRoll=%Class%]} |HP+%HPMod%| {If~%HP%<0? |HP=0|} %HP%
+
+:HPRoll
+1,|HP+%HPMod%|{If~%HP%<0? |HP=0|}|HP={Dice~1d10+%HP%}|
+2,|HP=0|
+3,|HP=0|
+4,|HP=0|
+5,|HP+%HPMod%|{If~%HP%<0? |HP=0|}|HP={Dice~1d8+%HP%}|
+6,|HP=0|
+7,|HP+%HPMod%|{If~%HP%<0? |HP=0|}|HP={Dice~1d6+%HP%}|
+
+:ZeroHP
+1,0
+
+#----------------------------------------------------------------
+# Used to Determine Stats
+# 
+#----------------------------------------------------------------
+:Initial Rolls
+1,|ROLL1=[RollScore]| 
+_|ROLL2=[RollScore]| 
+_|ROLL3=[RollScore]| 
+_|ROLL4=[RollScore]| 
+_|ROLL5=[RollScore]| 
+_|ROLL6=[RollScore]| 
+# This was the old version with TSv4
+#_{SortDesc~ROLL1,ROLL2,ROLL3,ROLL4,ROLL5,ROLL6}</br>
+_|TempSort=%ROLL1%;%ROLL2%;%ROLL3%;%ROLL4%;%ROLL5%;%ROLL6%|
+#_Before sorting:<br>Roll1=%ROLL1%<br>Roll2=%ROLL2%<br>Roll3=%ROLL3%<br>Roll4=%ROLL4%<br>Roll5=%ROLL5%<br>Roll6=%ROLL6%<br><br>
+_|TempSort={OrderDesc~";",%TempSort%}|
+_{Split~TempSort,";",ROLL1,ROLL2,ROLL3,ROLL4,ROLL5,ROLL6}
+#_After sorting (descending):<br>Roll1=%ROLL1%<br>Roll2=%ROLL2%<br>Roll3=%ROLL3%<br>Roll4=%ROLL4%<br>Roll5=%ROLL5%<br>Roll6=%ROLL6%<br><br>
+#Now Rolls are %ROLL1% %ROLL2% %ROLL3% %ROLL4% %ROLL5% %ROLL6%
+
+:Stats
+# Places soldier stats
+1,|DEX=%ROLL1%|
+_|CON=%ROLL2%|
+_|STR=%ROLL3%|
+_|INT=%ROLL4%|
+_|WIS=%ROLL5%|
+_|CHA=%ROLL6%|
+# Places diplomat stats
+2,|CHA=%ROLL1%|
+_|WIS=%ROLL2%|
+_|INT=%ROLL3%|
+_|DEX=%ROLL4%|
+_|CON=%ROLL5%|
+_|STR=%ROLL6%|
+# Places expert Stats
+3,|INT=%ROLL1%|
+_|DEX=%ROLL2%|
+_|WIS=%ROLL3%|
+_|STR=%ROLL4%|
+_|CON=%ROLL5%|
+_|CHA=%ROLL6%|
+# Places thug Stats
+4,|STR=%ROLL1%|
+_|CON=%ROLL2%|
+_|DEX=%ROLL3%|
+_|INT=%ROLL4%|
+_|WIS=%ROLL5%|
+_|CHA=%ROLL6%|
+# Places Scout Stats
+5,|DEX=%ROLL1%|
+_|INT=%ROLL2%|
+_|WIS=%ROLL3%|
+_|STR=%ROLL4%|
+_|CON=%ROLL5%|
+_|CHA=%ROLL6%|
+# Places Commoner Stats
+6,|STR=%ROLL1%|
+_|CON=%ROLL2%|
+_|DEX=%ROLL3%|
+_|WIS=%ROLL4%|
+_|INT=%ROLL5%|
+_|CHA=%ROLL6%|
+# Places Tech Spec Stats
+7,|INT=%ROLL1%|
+_|DEX=%ROLL2%|
+_|WIS=%ROLL3%|
+_|STR=%ROLL4%|
+_|CON=%ROLL5%|
+_|CHA=%ROLL6%|
+
+#----------------------------------------------------------------
+# Used to modify Attributes based on Degree
+# WHAT-IT-NEEDS:
+#----------------------------------------------------------------
+:Modify
+1,|INT+2||STR-2||CHA-2|
+2,|DEX+2||INT+2||STR-4|
+3,|CHA+2||STR-2||WIS-2|
+4,|DEX+2||CON+2||INT-4|
+5,|STR+2||WIS-2||CHA-2|
+
+#----------------------------------------------------------------
+# To generate multiple attacks based on BAB
+#----------------------------------------------------------------
+
+:Attack2
+1,|Melee-%BASEATK%||Melee+%BASEATK2%| <b> 2nd: </b> %Melee%
+
+:Attack3
+1,|Melee-%BASEATK2%||Melee+%BASEATK3%| <b> 3rd: </b> %Melee%
+
+:Attack4
+1,|Melee-%BASEATK3%||Melee+%BASEATK4%| <b> 4th: </b> %Melee%
+
+#----------------------------------------------------------------
+# Prints out the Attributes all nice and neat.
+# Taken straight from Gulke's Character Generator
+# NOTE: The variable that sets HP Modification is set within this
+#       program group.
+#----------------------------------------------------------------
+:DisplayCharacter
+1,
+_<table border=2>
+_<tr> 
+_<td width=150 align="right"><b><u>Ability</u></b></td>
+_<td width=50 align="center"><b><u>Score</u></b></td>
+_<td width=50 align="center"><b><u>Modifier</u></b></td>
+_</tr>
+_<tr>
+_<td width=150 align="right"><b>Strength:</b></td>
+_<td width=50 align="center">%STR%</td>
+_<td width=50 align="center">[GetStatBonus=%STR%]</td>
+_</tr>
+_<tr>
+_<td width=150 align="right"><b>Intelligence:</b></td>
+_<td width=50 align="center">%INT%</td>
+_<td width=50 align="center">[GetStatBonus=%INT%]</td>
+_</tr>
+_<tr>
+_<td width=150 align="right"><b>Wisdom:</b></td>
+_<td width=50 align="center">%WIS%</td>
+_<td width=50 align="center">[GetStatBonus=%WIS%]</td>
+_</tr>
+_<tr>
+_<td width=150 align="right"><b>Dexterity:</b></td>
+_<td width=50 align="center">%DEX%</td>
+_<td width=50 align="center">[GetStatBonus=%DEX%]</td>
+_</tr>
+_<tr>
+_<td width=150 align="right"><b>Constitution:</b></td>
+_<td width=50 align="center">%CON%</td>
+_<td width=50 align="center">[GetStatBonus=%CON%]</td>|HPMod=%X%|
+_</tr>
+_<tr>
+_<td width=150 align="right"><b>Charisma:</b></td>
+_<td width=50 align="center">%CHA%</td>
+_<td width=50 align="center">[GetStatBonus=%CHA%]</td>
+_</tr>
+_</table>
+
+#---------------
+# Pricing Guide
+#---------------
+:InitCost
+0-54,200 |icost=200|
+55-60,300 |icost=300|
+61-66,600 |icost=600|
+67-72,800 |icost=800|
+73-78,1100 |icost=1100|
+79-84,1500 |icost=1500|
+85-90,2000 |icost=2000|
+91-96,2600 |icost=2600|
+97-102,3300 |icost=3300|
+103-108,4100 |icost=4100|
+
+#----------------
+# Cosmetic Stuff
+#----------------
+:Model
+#a1-a1
+1,[alpha.alphabet]{Dice~1d9}-[alpha.alphabet]{Dice~1d9}
+#a-a1
+2,[alpha.alphabet]-{Dice~1d9}[alpha.alphabet]
+#a1-1
+3,[alpha.alphabet]{Dice~1d9}-{Dice~1d9}
+#a11
+4,[alpha.alphabet]{Dice~1d9}{Dice~1d9}
+#a-1aa
+5,[alpha.alphabet]-{Dice~1d9}[alpha.alphabet][alpha.alphabet]
+#a1-a
+6,[alpha.alphabet]{Dice~1d9}-[alpha.alphabet]
+
+# ----------------------------------------------------------
+# Reference Tables
+#
+# GetStatBonus: Used throughout the program to add Stat Mods
+# ClassBonus:   Used to get Base Attack, Defense Bonuses
+# 
+# ----------------------------------------------------------
+:RollScore
+1,|Die1={Dice~1d6}||Die2={Dice~1d6}||Die3={Dice~1d6}||Die4={Dice~1d6}|
+_|LowRoll={Min~%Die1%,%Die2%,%Die3%,%Die4%}|
+_|Total=0|
+_|Total+%Die1%||Total+%Die2%||Total+%Die3%||Total+%Die4%|
+_|Total-%LowRoll%|
+_%Total%
+
+:GetStatBonus
+1,-5 |X=-5|
+2-3,-4 |X=-4|
+4-5,-3 |X=-3|
+6-7,-2 |X=-2|
+8-9,-1 |X=-1|
+10-11,0 |X=0|
+12-13,1 |X=1|
+14-15,2 |X=2|
+16-17,3 |X=3|
+18-19,4 |X=4|
+20-21,5 |X=5|
+22-23,6 |X=6|
+24-25,7 |X=7|
+26-27,8 |X=8|
+28-29,9 |X=9|
+30-31,10 |X=10|
+
+:ClassBonus
+1,[SoldierBonus=%Lvl%]
+2,[DiplomatBonus=%Lvl%]
+3,[ExpertBonus=%Lvl%]
+4,[ThugBonus=%Lvl%]
+5,[ScoutBonus=%Lvl%]
+6,
+#6,[Commoner=%Lvl%]
+7,[TechBonus=%Lvl%]
+
+:SoldierBonus
+1,|BASEATK=1||BASEDEF=2||BASEFORT=2|
+2,|BASEATK=2||BASEDEF=2||BASEFORT=3|
+3,|BASEATK=3||BASEDEF=3||BASEFORT=3||BASEREFLEX=1||BASEWILL=1|
+4,|BASEATK=4||BASEDEF=3||BASEFORT=4||BASEREFLEX=1||BASEWILL=1|
+5,|BASEATK=5||BASEDEF=3||BASEFORT=4||BASEREFLEX=1||BASEWILL=1|
+6,|BASEATK=6||BASEATK2=1||BASEDEF=4||BASEFORT=5||BASEREFLEX=2||BASEWILL=2|
+7,|BASEATK=7||BASEATK2=2||BASEDEF=4||BASEFORT=5||BASEREFLEX=2||BASEWILL=2|
+8,|BASEATK=8||BASEATK2=3||BASEDEF=4||BASEFORT=6||BASEREFLEX=2||BASEWILL=2|
+9,|BASEATK=9||BASEATK2=4||BASEDEF=5||BASEFORT=6||BASEREFLEX=3||BASEWILL=3|
+10,|BASEATK=10||BASEATK2=5||BASEDEF=5||BASEFORT=7||BASEREFLEX=3||BASEWILL=3|
+11,|BASEATK=11||BASEATK2=6||BASEATK3=1||BASEDEF=5||BASEFORT=7||BASEREFLEX=3||BASEWILL=3|
+12,|BASEATK=12||BASEATK2=7||BASEATK3=2||BASEDEF=6||BASEFORT=8||BASEREFLEX=4||BASEWILL=4|
+13,|BASEATK=13||BASEATK2=8||BASEATK3=3||BASEDEF=6||BASEFORT=8||BASEREFLEX=4||BASEWILL=4|
+14,|BASEATK=14||BASEATK2=9||BASEATK3=4||BASEDEF=6||BASEFORT=9||BASEREFLEX=4||BASEWILL=4|
+15,|BASEATK=15||BASEATK2=10||BASEATK3=5||BASEDEF=7||BASEFORT=9||BASEREFLEX=5||BASEWILL=5|
+16,|BASEATK=16||BASEATK2=11||BASEATK3=6||BASEATK4=1||BASEDEF=7||BASEFORT=10||BASEREFLEX=5||BASEWILL=5|
+17,|BASEATK=17||BASEATK2=12||BASEATK3=7||BASEATK4=2||BASEDEF=7||BASEFORT=10||BASEREFLEX=5||BASEWILL=5|
+18,|BASEATK=18||BASEATK2=13||BASEATK3=8||BASEATL4=3||BASEDEF=8||BASEFORT=11||BASEREFLEX=6||BASEWILL=6|
+19,|BASEATK=19||BASEATK2=14||BASEATK3=9||BASEATK4=4||BASEDEF=8||BASEFORT=11||BASEREFLEX=6||BASEWILL=6|
+20,|BASEATK=20||BASEATK2=15||BASEATK3=10||BASEATK4=5||BASEDEF=6||BASEFORT=12||BASEREFLEX=6||BASEWILL=6|
+21,|BASEATK=21||BASEATK2=16||BASEATK3=11||BASEATK4=6||BASEDEF=6||BASEFORT=12||BASEREFLEX=7||BASEWILL=7|
+
+#Diplomat - fixed
+:DiplomatBonus
+1,|BASEATK=0||BASEDEF=0||BASEFORT=0||BASEREFLEX=0||BASEWILL=2|
+2,|BASEATK=1||BASEDEF=0||BASEFORT=0||BASEREFLEX=0||BASEWILL=3|
+3,|BASEATK=1||BASEDEF=1||BASEFORT=1||BASEREFLEX=1||BASEWILL=3|
+4,|BASEATK=2||BASEDEF=1||BASEFORT=1||BASEREFLEX=1||BASEWILL=4|
+5,|BASEATK=2||BASEDEF=1||BASEFORT=1||BASEREFLEX=1||BASEWILL=4|
+6,|BASEATK=3||BASEDEF=2||BASEFORT=2||BASEREFLEX=2||BASEWILL=5|
+7,|BASEATK=3||BASEDEF=2||BASEFORT=2||BASEREFLEX=2||BASEWILL=5|
+8,|BASEATK=4||BASEDEF=2||BASEFORT=2||BASEREFLEX=2||BASEWILL=6|
+9,|BASEATK=4||BASEDEF=3||BASEFORT=3||BASEREFLEX=3||BASEWILL=6|
+10,|BASEATK=5||BASEDEF=3||BASEFORT=3||BASEREFLEX=3||BASEWILL=7|
+
+#Expert
+:ExpertBonus
+1,|BASEATK=0||BASEDEF=0||BASEFORT=0||BASEREFLEX=0||BASEWILL=2|
+2,|BASEATK=1||BASEDEF=0||BASEFORT=0||BASEREFLEX=0||BASEWILL=3|
+3,|BASEATK=2||BASEDEF=1||BASEFORT=1||BASEREFLEX=1||BASEWILL=3|
+4,|BASEATK=3||BASEDEF=1||BASEFORT=1||BASEREFLEX=1||BASEWILL=4|
+5,|BASEATK=3||BASEDEF=1||BASEFORT=1||BASEREFLEX=1||BASEWILL=4|
+6,|BASEATK=4||BASEDEF=2||BASEFORT=2||BASEREFLEX=2||BASEWILL=5|
+7,|BASEATK=5||BASEDEF=2||BASEFORT=2||BASEREFLEX=2||BASEWILL=5|
+8,|BASEATK=6||BASEATK2=1||BASEDEF=2||BASEFORT=2||BASEREFLEX=2||BASEWILL=6|
+9,|BASEATK=6||BASEATK2=1||BASEDEF=3||BASEFORT=3||BASEREFLEX=3||BASEWILL=6|
+10,|BASEATK=7||BASEATK2=2||BASEDEF=3||BASEFORT=3||BASEREFLEX=3||BASEWILL=7|
+
+#Thug - fixed
+:ThugBonus
+1,|BASEATK=1||BASEDEF=1||BASEFORT=2||BASEREFLEX=0||BASEWILL=0|
+2,|BASEATK=2||BASEDEF=1||BASEFORT=3||BASEREFLEX=0||BASEWILL=0|
+3,|BASEATK=3||BASEDEF=1||BASEFORT=1||BASEREFLEX=1||BASEWILL=1|
+4,|BASEATK=4||BASEDEF=2||BASEFORT=1||BASEREFLEX=1||BASEWILL=1|
+5,|BASEATK=5||BASEDEF=2||BASEFORT=1||BASEREFLEX=1||BASEWILL=1|
+6,|BASEATK=6||BASEATK2=1||BASEDEF=2||BASEFORT=2||BASEREFLEX=2||BASEWILL=2|
+7,|BASEATK=7||BASEATK2=2||BASEDEF=3||BASEFORT=2||BASEREFLEX=2||BASEWILL=2|
+8,|BASEATK=8||BASEATK2=3||BASEDEF=3||BASEFORT=2||BASEREFLEX=2||BASEWILL=2|
+9,|BASEATK=9||BASEATK2=4||BASEDEF=3||BASEFORT=3||BASEREFLEX=3||BASEWILL=3|
+10,|BASEATK=10||BASEATK2=5||BASEDEF=4||BASEFORT=3||BASEREFLEX=3||BASEWILL=3|
+
+:ScoutBonus
+1,|BASEATK=0||BASEDEF=3||BASEFORT=1||BASEREFLEX=1||BASEWILL=1|
+2,|BASEATK=1||BASEDEF=4||BASEFORT=2||BASEREFLEX=2||BASEWILL=2|
+3,|BASEATK=2||BASEDEF=4||BASEFORT=2||BASEREFLEX=2||BASEWILL=2|
+4,|BASEATK=3||BASEDEF=4||BASEFORT=2||BASEREFLEX=2||BASEWILL=2|
+5,|BASEATK=3||BASEDEF=5||BASEFORT=3||BASEREFLEX=3||BASEWILL=3|
+6,|BASEATK=4||BASEDEF=5||BASEFORT=3||BASEREFLEX=3||BASEWILL=3|
+7,|BASEATK=5||BASEDEF=6||BASEFORT=4||BASEREFLEX=4||BASEWILL=4|
+8,|BASEATK=6||BASEATK2=1||BASEDEF=6||BASEFORT=4||BASEREFLEX=4||BASEWILL=4|
+9,|BASEATK=6||BASEATK2=1||BASEDEF=6||BASEFORT=4||BASEREFLEX=4||BASEWILL=4|
+10,|BASEATK=7||BASEATK2=2||BASEDEF=7||BASEFORT=5||BASEREFLEX=5||BASEWILL=5|
+11,|BASEATK=8||BASEATK2=3||BASEDEF=7||BASEFORT=5||BASEREFLEX=5||BASEWILL=5|
+12,|BASEATK=9||BASEATK2=4||BASEDEF=8||BASEFORT=6||BASEREFLEX=6||BASEWILL=6|
+13,|BASEATK=9||BASEATK2=4||BASEDEF=8||BASEFORT=6||BASEREFLEX=6||BASEWILL=6|
+14,|BASEATK=10||BASEATK2=5||BASEDEF=8||BASEFORT=6||BASEREFLEX=6||BASEWILL=6|
+15,|BASEATK=11||BASEATK2=6||BASEATK3=1||BASEDEF=9||BASEFORT=7||BASEREFLEX=7||BASEWILL=7|
+16,|BASEATK=12||BASEATK2=7||BASEATK3=2||BASEDEF=9||BASEFORT=7||BASEREFLEX=7||BASEWILL=7|
+17,|BASEATK=12||BASEATK2=7||BASEATK3=2||BASEDEF=10||BASEFORT=8||BASEREFLEX=8||BASEWILL=8|
+18,|BASEATK=13||BASEATK2=8||BASEATK3=3||BASEDEF=10||BASEFORT=8||BASEREFLEX=8||BASEWILL=8|
+19,|BASEATK=14||BASEATK2=9||BASEATK3=4||BASEDEF=10||BASEFORT=8||BASEREFLEX=8||BASEWILL=8|
+20,|BASEATK=15||BASEATK2=10||BASEATK3=5||BASEDEF=11||BASEFORT=9||BASEREFLEX=9||BASEWILL=9|
+21,|BASEATK=15||BASEATK2=10||BASEATK3=5||BASEDEF=11||BASEFORT=9||BASEREFLEX=9||BASEWILL=9|
+
+#Tech Spec - Fixed
+:TechBonus
+1,|BASEATK=0||BASEDEF=2||BASEFORT=0||BASEREFLEX=1||BASEWILL=1|
+2,|BASEATK=1||BASEDEF=3||BASEFORT=0||BASEREFLEX=1||BASEWILL=1|
+3,|BASEATK=2||BASEDEF=3||BASEFORT=0||BASEREFLEX=1||BASEWILL=2|
+4,|BASEATK=3||BASEDEF=3||BASEFORT=1||BASEREFLEX=2||BASEWILL=2|
+5,|BASEATK=3||BASEDEF=4||BASEFORT=1||BASEREFLEX=2||BASEWILL=2|
+6,|BASEATK=4||BASEDEF=4||BASEFORT=2||BASEREFLEX=3||BASEWILL=3|
+7,|BASEATK=5||BASEDEF=5||BASEFORT=2||BASEREFLEX=3||BASEWILL=3|
+8,|BASEATK=6||BASEATK2=1||BASEDEF=5||BASEFORT=3||BASEREFLEX=3||BASEWILL=4|
+9,|BASEATK=6||BASEATK2=1||BASEDEF=5||BASEFORT=3||BASEREFLEX=4||BASEWILL=4|
+10,|BASEATK=7||BASEATK2=2||BASEDEF=6||BASEFORT=4||BASEREFLEX=4||BASEWILL=4|
+11,|BASEATK=8||BASEATK2=3||BASEDEF=6||BASEFORT=4||BASEREFLEX=5||BASEWILL=5|
+12,|BASEATK=9||BASEATK2=4||BASEDEF=7||BASEFORT=5||BASEREFLEX=5||BASEWILL=5|
+13,|BASEATK=9||BASEATK2=4||BASEDEF=7||BASEFORT=5||BASEREFLEX=5||BASEWILL=6|
+14,|BASEATK=10||BASEATK2=5||BASEDEF=7||BASEFORT=6||BASEREFLEX=6||BASEWILL=6|
+15,|BASEATK=11||BASEATK2=6||BASEATK3=1||BASEDEF=8||BASEFORT=6||BASEREFLEX=6||BASEWILL=6|
+16,|BASEATK=12||BASEATK2=7||BASEATK3=2||BASEDEF=8||BASEFORT=7||BASEREFLEX=7||BASEWILL=7|
+17,|BASEATK=12||BASEATK2=7||BASEATK3=2||BASEDEF=9||BASEFORT=7||BASEREFLEX=7||BASEWILL=7|
+18,|BASEATK=13||BASEATK2=8||BASEATK3=3||BASEDEF=9||BASEFORT=8||BASEREFLEX=7||BASEWILL=8|
+19,|BASEATK=14||BASEATK2=9||BASEATK3=4||BASEDEF=9||BASEFORT=8||BASEREFLEX=8||BASEWILL=8|
+20,|BASEATK=15||BASEATK2=10||BASEATK3=5||BASEDEF=10||BASEFORT=9||BASEREFLEX=8||BASEWILL=8|
+21,|BASEATK=15||BASEATK2=10||BASEATK3=5||BASEDEF=10||BASEFORT=9||BASEREFLEX=9||BASEWILL=9|
+
+;!Equipment
+1,[Armor]
+10,Comlink|ecost+250|
+5,Diagnostics Package|ecost+250|
+3,Electroshock Probe|ecost+400|
+5,Environmental Compensator: [Ecomp]|ecost+100|
+3,Environmental Compensator: [Ecomp]|ecost+100|
+1,Environmental Compensator: [Ecomp]|ecost+100|
+3,Fire Extinguisher|ecost+50|
+1,Flame Thrower|ecost+400|
+1,Hueristic Processor|ecost+2000|
+5,Locked Access|ecost+50|
+5,Magnetic Feet|ecost+80|
+3,Recording Unit: [RU]
+5,Restraining Bolt|ecost+5|
+5,Rust Inhibitor|ecost+40|
+3,Secondary Battery|ecost+400|
+1,Self-Destruct System|ecost+500|
+2,Improved Sensor Package|ecost+200|
+3,Infrared Vision|ecost+150|
+2,Low-light Vision|ecost+200|
+5,Motion Sensors|ecost+100|
+5,Sonic Sensors|ecost+100|
+3,Telescopic Vision|ecost+100|
+1,360-Degree Vision|ecost+200|
+1,Shield Generator: [SG]
+2,Telescopic Appendage|ecost+25|
+5,Tool Mount|temp={Dice~1d6}| (%temp%)|ecost+{Calc~10*%temp%}|
+2,Translator Unit: [TU]
+10,Vocabulator|ecost+50|
+5,Weapon Mount|temp={Dice~1d4}| (%temp%)|ecost+{Calc~30*%temp%}|
+3,Welding/Cutting Torch|ecost+300|
+
+;Armor
+20,Light Armor|ecost+1500|
+5,Medium Armor|ecost+6000|
+1,Heavy Armor|ecost+12000|
+
+;!Ecomp
+1,Extreme Heat
+1,Extreme Cold
+1,Sand
+1,Water
+1,Vacuum
+
+;RU
+5,Audiorecorder|ecost+100|
+2,Videorecorder|ecost+250|
+1,Holorecorder|ecost+400|
+
+;SG
+20,DR 3|ecost+5000|
+5,DR 6|ecost+10000|
+1,DR 9|ecost+15000|
+
+;TU
+10,DC 30|ecost+50|
+8,DC 25|ecost+150|
+6,DC 20|ecost+300|
+4,DC 15|ecost+500|
+2,DC 10|ecost+750|
+1,DC 5|ecost+1000|

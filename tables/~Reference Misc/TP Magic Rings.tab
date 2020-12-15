@@ -1,0 +1,148 @@
+# ------------------------------------------------------
+# Last Update: modified by Valminder Jan 02, 2014.
+# ------------------------------------------------------
+#
+# Note for customizing: Each table assumes that
+# the items are listed in order of value.
+#
+# Modified by Valminder, January 2014.
+#    Added link to: 
+#        Miscellaneous.Precious Material
+#        Miscellaneous.Shape
+#        Rune Generator.GenRune
+#
+
+%minVal%,0
+%maxVal%,99999999
+%power%,0
+%format%,0
+%tries%,0
+%maxTries%,0
+%temp%,0
+%inRange%,0
+%group%,0
+%item%,0
+%name%,0
+%value%,0
+%desc%,0
+%aura%,0
+%valMinItem%,0
+%valMaxItem%,0
+%itemsDS%,0
+%index%,0
+
+@minVal,0,Enter minimum value (in gp):
+@maxVal,99999999,Enter maximum value (in gp):
+@power,4,Degree of Power:,Minor,Medium,Major,Random
+@format,1,Select format:,Human-readable,Delimited for other table
+@maxTries,10,Number of attempts:
+
+:Start
+1,{DSRead~itemsDS,TP Magic Rings}
+_|temp=[CheckParams]|{If~%temp%=OK?[Continue]/ %temp%}
+_{Status~}
+
+:Continue
+1,|tries=0|{While~%tries%<%maxTries%,[GenItem][CheckValueInRange]{If~%inRange%=yes?|tries=maxTries|/|tries+1|}}
+_{If~%inRange%=no?[Error=4]/ [DisplayItem=%format%]}
+
+:GenItem
+1,|group={Iif~%power%=4?{Param~power,{Dice~1d3}}:{Param~power,%power%}}|
+_{Status~Attempt RING #{Calc~%tries%+1} of %maxTries%}
+_|index={DSRoll~itemsDS,{LCase~%group%}roll}|
+_|name=ring of {DSGet~itemsDS,%index%,name}|
+_|value={DSGet~itemsDS,%index%,value}|
+_|aura={DSGet~itemsDS,%index%,aura}|
+_|desc=[GenDesc]|
+
+#
+# Note: The "0" in entry 2 below is for weight; rings are considered to
+# have no weight, but this is a placeholder to fit the item standard used
+# by other tables.
+#
+:DisplayItem
+1,{Bold~{Cap~%name%}}
+_{CR~}Description: {Cap~%desc%}{CR~}Value: %value% gp
+_{CR~}Aura: {Italic~%aura%}
+2,%name%!%value%!0!%aura%!%desc%
+
+# ----------------------------------------------------
+# Initialization and parameter validation
+:CheckParams
+1,{If~%minVal%<=%maxVal%?OK/ [Error=1]}
+
+:CheckValueInRange
+1,|inRange={If~{And~%minVal%<=%value%,%value%<=%maxVal%}=1?yes/no}|
+
+:Error
+1,ERR001: Invalid min and/or max values
+2,ERR002: Minimum value given greater than maximum value for selected group
+3,ERR003: Maximum value given less than minimum value for selected group
+4,ERR005: Couldn't generate item in %tries% tries
+
+# ----------------------------------------------------
+
+;EnergyResist
+1,fire
+1,cold
+1,electricity
+1,acid
+1,sonic
+
+:GenDesc
+1,[RingMaterial] ring[Clue]
+
+;RingMaterial
+19,[Metal]
+1,[OtherMatl]
+20,[~Miscellaneous.Precious Material]
+
+;Metal
+10,silver
+6,gold
+3,platinum
+1,[OtherMetal]
+
+;OtherMetal
+1,copper
+1,iron
+1,steel
+1,brass
+1,bronze
+10,[~Miscellaneous.Metal]
+
+;OtherMatl
+3,bone
+1,{Reset~Miscellaneous.Wood}[~Miscellaneous.Wood]-wood
+1,glass
+
+#
+# Note: No provision is currently made for intelligent rings
+#
+;Clue
+3,; {AorAn~[ClueType]} provides some clue as to its function
+7,
+
+;ClueType
+1,glyph[ClueGlyph] [ClueMethod]
+1,rune[ClueGlyph] [ClueMethod]
+1,symbol[ClueGlyph] [ClueMethod]
+1,pattern[ClueGlyph] [ClueMethod]
+
+;ClueGlyph
+1, ([~Rune Generator.GenRune])
+1, ([~Miscellaneous.Shape])
+
+;ClueMethod
+1,carved into [ClueLocation] of the [RingNames]
+1,scratched into [ClueLocation] of the [RingNames]
+1,engraved on [ClueLocation] of the [RingNames]
+
+;ClueLocation
+1,the outside
+1,the inside
+
+;RingNames
+1,ring
+1,band
+1,loop

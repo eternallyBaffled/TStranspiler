@@ -1,0 +1,105 @@
+# ---------------------------------------------------
+# Last Update: modified by Valminder Aug 02, 2007.
+# ---------------------------------------------------
+#
+# Names By Race
+# By Larry Cormier, 2005
+#
+# This table is designed to generate lists of Names by specified race.
+# It is Linked to these Other Tables, and may Generate an Error if they are
+# not present:
+#       Names Generator.tab
+#       Lizardfolk Names.tab
+#       Egyptian Names.tab
+#       Infernal Names.tab
+#       Underdark.tab
+#       Lovecraft.tab
+#       Noble Household Names
+#       Demon Names.tab
+#
+# Modified by Valminder, Nov 2005.
+#
+# Modified by Valminder, Feb 2006.
+#    I changed the "START" line.
+#    Added {Param~} instead of "Race" subtable.
+#    Added link to:
+#       Tinker Gnome Names.Generate
+# Modified by Valminder, August 2007.
+#    Added link to:
+#       Angel Names.Start
+#
+
+# ****************************************************
+# If you add a race, add it to:
+#    -parameter "@Race"
+#    -{If~%Race%=1? |Race={Dice~1d24+1}|} (add +1 to XX in 1dXX+1)
+#
+
+# Declare Variables
+%Gender%,0
+%Race%,0
+%Chance%,0
+#%Count%,0
+%Instructions%,1
+
+# Parameter Display Lists:
+@Race,1,Please choose a Race,Random,Human,Dwarf,Elf,Gnome,Half-Elf,Half-Orc,Halfling,Lizardfolk,Kuo-Toa,Egyptian (Human),Olde English (Human),Oriental (Human),Name with Epithet,Noble's Title,Derro (Dwarf),Duergar (Dwarf),Drow (Elf),Svifneblin (Gnome),Middle Earth,Dragonkin,Infernal and Demonic,Illithid (Mind Flayer),Lovecraft Creature,Tinker Gnome,Angel/Fallen Angel
+@Gender,3,Please choose a Gender,Male,Female,Random
+@Instructions,1,Would you like to re-show the Instructions?,Yes,No
+
+:Start
+1,{Status~By Larry Cormier}{If~%Instructions%=1? [Instructions]/[InitializeTable]}
+
+:InitializeTable
+1,{If~%Gender%=3? [Chanceof]{If~%Chance%<75 ? |Gender=1|/|Gender=2|}}
+_{If~%Race%=1? |Race={Dice~1d25+1}|}
+_<b>{If~%Race%<21? {If~%Race%=20? [Chanceof]/[Gender=%Gender%] {Param~Race,%Race%}:}/{Param~Race,%Race%}:}</b> [NamesBranch=%Race%]
+
+:Instructions
+1,This table generates a Random Name Based on the Race and Gender provided.
+_<br><br> You can also generate completely random Lists of Names if desired. (Listed Races Only).
+_<br><br> Use the Change Button located in the Lower Right-hand corner of the screen to select your initial
+_ Race and Gender to get started.
+
+:Chanceof
+1,|Chance={Dice~1d100}|
+
+:NamesBranch
+1,ERROR
+2,{If~%Gender%=1? [Names Generator.NAME Human Male]/[Names Generator.NAME Human Female]}
+3,{If~%Gender%=1? [Names Generator.NAME Dwarf Male]/[Names Generator.NAME Dwarf Female]}
+4,[Names Generator.NAME Elf]
+5,{If~%Gender%=1? {Cap~[Names Generator.NAME Gnome Male]}/[Names Generator.NAME Gnome Female]}
+6,[Chanceof]{If~%Chance%=75? {If~%Gender%=1? [Names Generator.NAME Human Male]/
+_[Names Generator.NAME Human Female]}/[Names Generator.NAME Elf]}
+7,[Chanceof]{If~%Chance%=75? {If~%Gender%=1? [Names Generator.NAME Human Male]/
+_[Names Generator.NAME Human Female]}/[Names Generator.NAME Orc]}
+8,{If~%Gender%=1? [Names Generator.NAME Halfling Male]/[Names Generator.NAME Halfling Female]}
+9,[Chanceof]{If~%Chance%<50? [Lizardfolk Names.BuildLizardfolkName]/[Lizardfolk Names.Start]}
+10,[Underdark.KuoToaNoMeaning]
+11,[Egyptian Names.Start]
+12,[Olde English Names.Start]
+13,{If~%Gender%=1? [Names Generator.NAME Oriental Male]/[Names Generator.NAME Oriental Female]}
+14,{If~%Gender%=1? [JG Names.Male Title]/[JG Names.Female Title]}
+15,{If~%Gender%=1? [Noble Household Names.Start=1]/[Noble Household Names.Start=67]}
+16,[Underdark.DerroNoMeaning]
+17,[Underdark.DuergarNoMeaning]
+18,[Drow Names.Start]
+19,{If~%Gender%=1? [Underdark.SvifneblinMaleNoMeaning]/[Underdark.SvifneblinFemaleNoMeaning]}
+20,{If~%Chance%<75? [MiddleEarthBranch=1]/<b>Middle Earth: </b>[MiddleEarthBranch={Dice~1d2+1}]}
+21,[Names Generator.NAME Dragon]
+22,{Cap~[Names Generator.Demonic Names]} (True Name) / {Cap~[Infernal Names.UseName]} (Use Name)
+23,[Underdark.IllithidNoMeaning]
+24,[Lovecraft.Start]
+25,{CapEachWord~[Tinker Gnome Names.Generate]}
+26,[Angel Names.Start]
+
+
+;MiddleEarthBranch
+1,<b>[Gender=%Gender%] Middle Earth: </b>{If~%Gender%=1? [Names Generator.NAME Human Male=7]/[Names Generator.NAME Human Female=7]}
+2,[Names Generator.NAME For All=25]
+3,[Names Generator.Other=2]
+
+:Gender
+1,Male
+2,Female

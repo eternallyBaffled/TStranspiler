@@ -1,0 +1,838 @@
+# ---------------------------------------------------
+# Last Update: verified by Valminder Oct 30, 2003.
+# ---------------------------------------------------
+#
+# FR_Random_NPC
+#
+# Various tables intended for use by other tables
+# to generate basic NPC information: number, level, race, class, alignment
+#
+# Includes level adjustment code to reroll result if calculated level is 0 or less
+# Gets religion for clerics and paladins
+#
+# Created 06/18/03 SMS
+# 
+# Corrected by Valminder, Oct 2003
+#   -{If~} and {Dice~}
+#   -Changed [Religion.RACEDeities] to standard [Religion.RACE Gods]
+#
+
+%Adj%,0
+%Level%,0
+%Race%,0
+%Class%,0
+%Deity%,XXX
+
+:Start
+1,{Loop~{Dice~1d3+2},[FR_SM_NPC]}
+
+:FR_SM_NPC
+01-20,|Adj=0||Class=[FR_Good_Class]||Level={Dice~2d8+%Adj%}|
+_{If~%Level% < 1 ? [FR_SM_NPC]/Good (LG, NG, or CG) %Race% %Class%, level %Level%<BR>}
+21-50,|Adj=0||Class=[FR_Neutral_Class]||Level={Dice~2d8+%Adj%}|
+_{If~%Level% < 1 ? [FR_SM_NPC]/Neutral (LN, N, or CN) %Race% %Class%, level %Level%<BR>}
+51-100,|Adj=0||Class=[FR_Evil_Class]||Level={Dice~2d8+%Adj%}|
+_{If~%Level% < 1 ? [FR_SM_NPC]/Evil (LE, NE, or CE) %Race% %Class%, level %Level%<BR>}
+
+:Deity
+1,{If~%Deity%=XXX? [LN~Religion.Deities]/%Deity%}
+
+:FR_Good_Class
+01-05,barbarian|Race=[bbn_FR_Good_Race]|
+06-10,bard|Race=[brd_FR_Good_Race]|
+11-30,cleric|Race=[clr_FR_Good_Race]| of [Deity]
+31-35,druid|Race=[drd_FR_Good_Race]|
+36-45,fighter|Race=[ftr_FR_Good_Race]|
+46-50,monk|Race=[mnk_FR_Good_Race]|
+51-55,paladin|Race=[pal_FR_Good_Race]| of [Deity]
+56-65,ranger|Race=[rgr_FR_Good_Race]|
+66-75,rogue|Race=[rog_FR_Good_Race]|
+76-80,sorcerer|Race=[sor_FR_Good_Race]|
+81-100,wizard|Race=[wiz_FR_Good_Race]|
+
+:FR_Neutral_Class
+01-05,barbarian|Race=[bbn_FR_Neutral_Race]|
+06-10,bard|Race=[brd_FR_Neutral_Race]|
+11-15,cleric|Race=[clr_FR_Neutral_Race]| of [Deity]
+16-25,druid|Race=[drd_FR_Neutral_Race]|
+26-45,fighter|Race=[ftr_FR_Neutral_Race]|
+46-50,monk|Race=[mnk_FR_Neutral_Race]|
+51-55,ranger|Race=[rgr_FR_Neutral_Race]|
+56-75,rogue|Race=[rog_FR_Neutral_Race]|
+76-80,sorcerer|Race=[sor_FR_Neutral_Race]|
+81-100,wizard|Race=[wiz_FR_Neutral_Race]|
+
+:FR_Evil_Class
+01-10,barbarian|Race=[bbn_FR_Evil_Race]|
+11-15,bard|Race=[brd_FR_Evil_Race]|
+16-35,cleric|Race=[clr_FR_Evil_Race]| of [Deity]
+36-40,druid|Race=[drd_FR_Evil_Race]|
+41-50,fighter|Race=[ftr_FR_Evil_Race]|
+51-55,monk|Race=[mnk_FR_Evil_Race]|
+56-60,ranger|Race=[rgr_FR_Evil_Race]|
+61-80,rogue|Race=[rog_FR_Evil_Race]|
+81-85,sorcerer|Race=[sor_FR_Evil_Race]|
+86-100,wizard|Race=[wiz_FR_Evil_Race]|
+
+:!bbn_FR_Good_Race
+01-03,Shield dwarf
+04-23,Wild elf
+24-25,Wood elf
+26,Half-elf
+27-31,Ghostwise halfing
+32-52,Half-orc
+53-77,Human
+78,|Adj=-3|Half-celestial {Lockout~bbn_FR_Good_Race,78-79}[bbn_FR_Good_Race]
+79,|Adj=-3|Half-dragon {Lockout~bbn_FR_Good_Race,78-79}[bbn_FR_Good_Race]
+80-100,|Adj=-5| Wemic
+
+:!brd_FR_Good_Race
+01,|Adj=-1| Planetouched Aasimar
+02-05,Gold dwarf
+06-12,Sun elf
+13-22,Moon elf
+23-29,Wild elf
+30-33,Wood elf
+34,|Adj=-1|Planetouched Air Genasi
+35,|Adj=-1|Planetouched Earth Genasi
+36,|Adj=-1|Planetouched Fire Genasi
+37,|Adj=-1|Planetouched Water Genasi
+38-42,Gnome
+43-54,Half-elf
+55,Strongheart halfing
+56,Lightfoot halfing
+57,Ghostwise halfing
+58,Half-orc
+59-93,Human
+94,|Adj=-1|Hybsil
+95,|Adj=-3|Svirfneblin (gnome)
+96,|Adj=-3|Half-celestial {Lockout~brd_FR_Good_Race,96-97}[brd_FR_Good_Race]
+97,|Adj=-3|Half-dragon {Lockout~brd_FR_Good_Race,96-97}[brd_FR_Good_Race]
+98-100,|Adj=-5|Wemic
+
+:!clr_FR_Good_Race
+01,|Adj=-1| Planetouched Aasimar |Deity=[LN~Religion.Deities]|
+02-08,Gold dwarf |Deity=[LN~Religion.Dwarf Gods]|
+09-15,Shield dwarf |Deity=[LN~Religion.Dwarf Gods]|
+16-20,Sun elf |Deity=[LN~Religion.Elf Gods]|
+21-25,Moon elf |Deity=[LN~Religion.Elf Gods]|
+26-30,Wild elf |Deity=[LN~Religion.Elf Gods]|
+31-35,Wood elf |Deity=[LN~Religion.Elf Gods]|
+36,|Adj=-1| Planetouched Air Genasi |Deity=[LN~Religion.Deities]|
+37,|Adj=-1| Planetouched Earth Genasi |Deity=[LN~Religion.Deities]|
+38,|Adj=-1| Planetouched Fire Genasi |Deity=[LN~Religion.Deities]|
+39,|Adj=-1| Planetouched Water Genasi |Deity=[LN~Religion.Deities]|
+40-44,Gnome |Deity=[LN~Religion.Gnome Gods]| 
+45-49,Half-elf |Deity=[LN~Religion.Deities]|
+50,Strongheart halfing |Deity=[LN~Religion.Halfling Gods]|
+51-55,Lightfoot halfing |Deity=[LN~Religion.Halfling Gods]|
+56-60,Ghostwise halfing |Deity=[LN~Religion.Halfling Gods]|
+61-65,Half-orc |Deity=[LN~Religion.Deities]|
+66-91,Human |Deity=[LN~Religion.Deities]|
+92-93,|Adj=-1|Hybsil
+94-95,|Adj=-3|Svirfneblin (gnome)
+96-97,|Adj=-3|Half-celestial {Lockout~clr_FR_Good_Race,96-98,100}[clr_FR_Good_Race]
+98,|Adj=-3|Half-dragon {Lockout~clr_FR_Good_Race,96-98,100}[clr_FR_Good_Race]
+99,|Adj=-5|Wemic
+100,|Adj=-4|Werebear {Lockout~clr_FR_Good_Race,96-98,100}[clr_FR_Good_Race]
+
+:!drd_FR_Good_Race
+01-08,Sun elf
+09-16,Moon elf
+17-31,Wild elf
+32-45,Wood elf
+46,|Adj=-1| Planetouched Air Genasi
+47,|Adj=-1| Planetouched Earth Genasi
+48,|Adj=-1| Planetouched Fire Genasi
+49,|Adj=-1| Planetouched Water Genasi
+50-59,Half-elf
+60,Lightfoot halfing
+61-70,Ghostwise halfing
+71,Half-orc
+72-96,Human
+97,|Adj=-1| Hybsil
+98,|Adj=-3| Half-celestial {Lockout~drd_FR_Good_Race,98}[drd_FR_Good_Race]
+99-100,|Adj=-5| Wemic
+
+:!ftr_FR_Good_Race
+01-02,|Adj=-1| Planetouched Aasimar
+03-12,Gold dwarf
+13-27,Shield dwarf
+28-32,Sun elf
+33-37,Moon elf
+38-42,Wild elf
+43-47,Wood elf
+48,|Adj=-1| Planetouched Air Genasi
+49-50,|Adj=-1| Planetouched Earth Genasi
+51,|Adj=-1| Planetouched Water Genasi
+52,Gnome
+53-58,Half-elf
+59,Strongheart halfing
+60,Lightfoot halfing
+61,Ghostwise halfing
+62-66,Half-orc
+67-91,Human
+92,|Adj=-1|Hybsil
+93,|Adj=-3|Svirfneblin (gnome)
+94,|Adj=-3|Half-celestial {Lockout~ftr_FR_Good_Race,94-95,100}[ftr_FR_Good_Race]
+95,|Adj=-3|Half-dragon {Lockout~ftr_FR_Good_Race,94-95,100}[ftr_FR_Good_Race]
+96-99,|Adj=-5|Wemic
+100,|Adj=-4| Werebear {Lockout~ftr_FR_Good_Race,94-95,100}[ftr_FR_Good_Race]
+
+:!mnk_FR_Good_Race
+01-02,|Adj=-1|Planetouched Aasimar
+03-04,Gold dwarf
+05,Shield dwarf
+06,Sun elf
+07-21,Moon elf
+22-26,Wild elf
+27-31,Wood elf
+32,|Adj=-1|Planetouched Air Genasi
+33,|Adj=-1|Planetouched Earth Genasi
+34,|Adj=-1|Planetouched Fire Genasi
+35,|Adj=-1|Planetouched Water Genasi
+36,Gnome
+37-51,Half-elf
+52,Strongheart halfing
+53,Lightfoot halfing
+54,Ghostwise halfing
+55-69,Half-orc
+70-95,Human
+96-97,|Adj=-3|Half-celestial {Lockout~mnk_FR_Good_Race,96-100}[mnk_FR_Good_Race]
+98-99,|Adj=-3|Half-dragon {Lockout~mnk_FR_Good_Race,96-100}[mnk_FR_Good_Race]
+100,|Adj=-4|Werebear {Lockout~mnk_FR_Good_Race,96-100}[mnk_FR_Good_Race]
+
+:!pal_FR_Good_Race
+01-10,|Adj=-1| Planetouched Aasimar |Deity=[LN~Religion.Deities]|
+11-16,Gold dwarf |Deity=[LN~Religion.Dwarf Gods]|
+17-26,Shield dwarf |Deity=[LN~Religion.Dwarf Gods]|
+27-30,Sun elf |Deity=[LN~Religion.Elf Gods]|
+31-35,Moon elf |Deity=[LN~Religion.Elf Gods]|
+36-39,Wild elf |Deity=[LN~Religion.Elf Gods]|
+40-43,Wood elf |Deity=[LN~Religion.Elf Gods]|
+44,|Adj=-1| Planetouched Air Genasi |Deity=[LN~Religion.Deities]|
+45,|Adj=-1| Planetouched Earth Genasi |Deity=[LN~Religion.Deities]|
+46,|Adj=-1| Planetouched Fire Genasi |Deity=[LN~Religion.Deities]|
+47,|Adj=-1| Planetouched Water Genasi |Deity=[LN~Religion.Deities]|
+48,Gnome |Deity=[LN~Religion.Gnome Gods]| 
+49-55,Half-elf |Deity=[LN~Religion.Deities]|
+56,Strongheart halfing |Deity=[LN~Religion.Halfling Gods]|
+57,Lightfoot halfing |Deity=[LN~Religion.Halfling Gods]|
+58,Ghostwise halfing |Deity=[LN~Religion.Halfling Gods]|
+59-63,Half-orc |Deity=[LN~Religion.Deities]|
+64-91,Human |Deity=[LN~Religion.Deities]|
+92-96,|Adj=-3|Half-celestial {Lockout~pal_FR_Good_Race,92-100}[pal_FR_Good_Race]
+97-99,|Adj=-3|Half-dragon {Lockout~pal_FR_Good_Race,92-100}[pal_FR_Good_Race]
+100,|Adj=-4|Werebear {Lockout~pal_FR_Good_Race,92-100}[pal_FR_Good_Race]
+
+:!rgr_FR_Good_Race
+01-04,Gold dwarf
+05-08,Shielf dwarf
+09-18,Sun elf
+19-23,Moon elf
+24-28,Wild elf
+29-33,Wood elf
+34,|Adj=-1| Planetouched Air Genasi
+35,|Adj=-1| Planetouched Earth Genasi
+36,|Adj=-1| Planetouched Fire Genasi
+37,|Adj=-1| Planetouched Water Genasi
+38,Gnome
+39-44,Half-elf
+45,Lightfoot halfing
+46-50,Ghostwise halfing
+51-55,Half-orc
+56-92,Human
+93-94,|Adj=-1| Hybsil
+95,|Adj=-3|Half-celestial {Lockout~rgr_FR_Good_Race,95,96,100}[rgr_FR_Good_Race]
+96,|Adj=-3|Half-dragon {Lockout~rgr_FR_Good_Race,95,96,100}[rgr_FR_Good_Race]
+97-99,|Adj=-5| Wemic
+100,|Adj=-4|Werebear {Lockout~rgr_FR_Good_Race,95,96,100}[rgr_FR_Good_Race]
+
+:!rog_FR_Good_Race
+01-03,Gold dwarf
+04-06,Shield dwarf
+07-10,Sun elf
+11-20,Moon elf
+21-22,|Adj=-1| Planetouched Air Genasi
+23,|Adj=-1| Planetouched Water Genasi
+24-29,Gnome
+30-41,Half-elf
+42-48,Strongheart halfing
+49-54,Lightfoot halfing
+55-56,Ghostwise halfing
+57-71,Half-orc
+72-96,Human
+97,|Adj=-3|Svirfneblin (gnome)
+98,|Adj=-3|Half-celestial {Lockout~rog_FR_Good_Race,98-100}[rog_FR_Good_Race]
+99,|Adj=-3|Half-dragon {Lockout~rog_FR_Good_Race,98-100}[rog_FR_Good_Race]
+100,|Adj=-4|Werebear {Lockout~rog_FR_Good_Race,98-100}[rog_FR_Good_Race]
+
+:!sor_FR_Good_Race
+01-02,|Adj=-1| Planetouched Aasimar
+03-10,Gold dwarf
+11,Shield dwarf
+12-21,Sun elf
+22-31,Moon elf
+32,Wild elf
+33,Wood elf
+34,|Adj=-1|Planetouched Air Genasi
+35,|Adj=-1|Planetouched Earth Genasi
+36,|Adj=-1|Planetouched Fire Genasi
+37,|Adj=-1|Planetouched Water Genasi
+38-47,Gnome
+48-57,Half-elf
+58-59,Strongheart halfing
+60-61,Lightfoot halfing
+62-63,Ghostwise halfing
+64-65,Half-orc
+66-90,Human
+91,|Adj=-1|Hybsil
+92,|Adj=-3|Svirfneblin (gnome)
+93-95,|Adj=-3|Half-celestial {Lockout~sor_FR_Good_Race,93-98,100}[sor_FR_Good_Race]
+96-98,|Adj=-3|Half-dragon {Lockout~sor_FR_Good_Race,93-98,100}[sor_FR_Good_Race]
+99,|Adj=-5|Wemic
+100,|Adj=-4|Werebear {Lockout~sor_FR_Good_Race,93-98,100}[sor_FR_Good_Race]
+
+:!wiz_FR_Good_Race
+01,|Adj=-1| Planetouched Aasimar
+02,Gold dwarf
+03-11,Sun elf
+12-31,Moon elf
+32,Wild elf
+33,Wood elf
+34,|Adj=-1|Planetouched Air Genasi
+35,|Adj=-1|Planetouched Earth Genasi
+36-37,|Adj=-1|Planetouched Fire Genasi
+38-42,Gnome
+43-61,Half-elf
+62,Strongheart halfing
+63,Lightfoot halfing
+64,Ghostwise halfing
+65,Half-orc
+66-95,Human
+96,|Adj=-1|Hybsil
+97,|Adj=-3|Svirfneblin (gnome)
+98,|Adj=-3|Half-celestial {Lockout~wiz_FR_Good_Race,98-100}[wiz_FR_Good_Race]
+99,|Adj=-3|Half-dragon {Lockout~wiz_FR_Good_Race,98-100}[wiz_FR_Good_Race]
+100,|Adj=-4|Werebear {Lockout~wiz_FR_Good_Race,98-100}[wiz_FR_Good_Race]
+
+:!bbn_FR_Neutral_Race
+01,Gold dwarf
+02,Shield dward
+03-12,Wild elf
+13,Wood elf
+14-15,Half-elf
+16,Lightfoot halfing
+17-29,Ghostwise halfing
+30-64,Half-orc
+65-74,Human
+75-85,|Adj=-2|Lizardfolk
+86-98,|Adj=-5|Wemic
+99,|Adj=-3|Wereboar {Lockout~bbn_FR_Neutral_Race,99-100}[bbn_FR_Neutral_Race]
+100,|Adj=-4|Weretiger {Lockout~bbn_FR_Neutral_Race,99-100}[bbn_FR_Neutral_Race]
+
+:!brd_FR_Neutral_Race
+01-02,Gold dwarf
+03,Shield dwarf
+04-06,Sun elf
+07-14,Moon elf
+15,Wild elf
+16-19,Wood elf
+20,|Adj=-1|Planetouched Air Genasi
+21,|Adj=-1|Planetouched Earth Genasi
+22,|Adj=-1|Planetouched Fire Genasi
+23,|Adj=-1|Planetouched Water Genasi
+24,Gnome
+25-34,Half-elf
+35-37,Strongheart halfing
+38-39,Lightfoot halfing
+40,Ghostwise halfing
+41,Half-orc
+42-97,Human
+98,|Adj=-2|Shade
+99,|Adj=-3|Wereboar {Lockout~brd_FR_Neutral_Race,99-100}[brd_FR_Neutral_Race]
+100,|Adj=-4|Weretiger {Lockout~brd_FR_Neutral_Race,99-100}[brd_FR_Neutral_Race]
+
+:!clr_FR_Neutral_Race
+01-10,Gold dwarf|Deity=[LN~Religion.Dwarf Gods]|
+11-25,Shield dwarf |Deity=[LN~Religion.Dwarf Gods]|
+26-31,Sun elf|Deity=[LN~Religion.Elf Gods]|
+32-36,Moon elf|Deity=[LN~Religion.Elf Gods]|
+37,Wild elf|Deity=[LN~Religion.Elf Gods]|
+38,Wood elf|Deity=[LN~Religion.Elf Gods]|
+39,|Adj=-1| Planetouched Air Genasi|Deity=[LN~Religion.Deities]|
+40,|Adj=-1| Planetouched Earth Genasi|Deity=[LN~Religion.Deities]|
+41,|Adj=-1| Planetouched Fire Genasi|Deity=[LN~Religion.Deities]|
+42,|Adj=-1| Planetouched Water Genasi|Deity=[LN~Religion.Deities]|
+43,Gnome|Deity=[LN~Religion.Gnome Gods]|
+44-53,Half-elf|Deity=[LN~Religion.Deities]|
+54-56,Strongheart halfing|Deity=[LN~Religion.Halfling Gods]|
+57-58,Lightfoot halfing|Deity=[LN~Religion.Halfling Gods]|
+59-60,Ghostwise halfing|Deity=[LN~Religion.Halfling Gods]|
+61-62,Half-orc|Deity=[LN~Religion.Deities]|
+63-89,Human|Deity=[LN~Religion.Deities]|
+90-95,|Adj=-2|Lizardfolk
+96,|Adj=-3|Svirfneblin (gnome)
+97,|Adj=-3|Doppelganger
+98,|Adj=-2|Shade
+99,|Adj=-3|Wereboar {Lockout~clr_FR_Neutral_Race,99-100}[clr_FR_Neutral_Race]
+100,|Adj=-4|Weretiger {Lockout~clr_FR_Neutral_Race,99-100}[clr_FR_Neutral_Race]
+
+:!drd_FR_Neutral_Race
+01-02,Gold dwarf
+03,Shield dwarf
+04-05,Sun elf
+06-10,Moon elf
+11-15,Wild elf
+16-31,Wood elf
+32,|Adj=-1|Planetouched Air Genasi
+33,|Adj=-1|Planetouched Earth Genasi
+34,|Adj=-1|Planetouched Fire Genasi
+35,|Adj=-1|Planetouched Water Genasi
+36,Gnome
+37-41,Half-elf
+42-46,Ghostwise halfing
+47,Half-orc
+48-87,Human
+88-98,|Adj=-2|Lizardfolk
+99,|Adj=-3|Wereboar {Lockout~drd_FR_Neutral_Race,99-100}[drd_FR_Neutral_Race]
+100,|Adj=-4|Weretiger {Lockout~drd_FR_Neutral_Race,99-100}[drd_FR_Neutral_Race]
+
+:!ftr_FR_Neutral_Race
+01-10,Gold dwarf
+11-30,Shield dwarf
+31-32,Sun elf
+33-34,Moon elf
+35-36,Wild elf
+37-42,Wood elf
+43-44,|Adj=-1| Planetouched Earth Genasi
+45,|Adj=-1| Planetouched Fire Genasi
+46,|Adj=-1| Planetouched Water Genasi
+47,Gnome
+48-52,Half-elf
+53,Strongheart halfing
+54,Lightfoot halfing
+55,Ghostwise halfing
+56-58,Half-orc
+59-92,Human
+93,|Adj=-2|Lizardfolk
+94,|Adj=-3|Svirfneblin (gnome)
+95,|Adj=-3|Doppelganger
+96,|Adj=-2|Shade
+97-98,|Adj=-5|Wemic
+99,|Adj=-3|Wereboar {Lockout~ftr_FR_Neutral_Race,99-100}[ftr_FR_Neutral_Race]
+100,|Adj=-4|Weretiger {Lockout~ftr_FR_Neutral_Race,99-100}[ftr_FR_Neutral_Race]
+
+:mnk_FR_Neutral_Race
+01-02,Moon elf
+03,Wood elf
+04,|Adj=-1|Planetouched Air Genasi
+05,|Adj=-1|Planetouched Earth Genasi
+06,|Adj=-1|Planetouched Fire Genasi
+07,|Adj=-1|Planetouched Water Genasi
+08,Gnome
+09-18,Half-elf
+19,Strongheart halfing
+20,Lightfoot halfing
+21-24,Half-orc
+25-100,Human
+
+:!rgr_FR_Neutral_Race
+01,Gold dwarf
+02,Shield dwarf
+03-04,Sun elf
+05-06,Moon elf
+07-13,Wild elf
+14-28,Wood elf
+29,|Adj=-1|Planetouched Air Genasi
+30,|Adj=-1|Planetouched Earth Genasi
+31,|Adj=-1|Planetouched Fire Genasi
+32,|Adj=-1|Planetouched Water Genasi
+33,Gnome
+34-53,Half-elf
+54,Strongheart halfing
+55,Ghostwise halfing
+56-65,Half-orc
+66-95,Human
+96,|Adj=-2|Lizardfolk
+97,|Adj=-3|Svirfneblin (gnome)
+98,|Adj=-2|Shade
+99,|Adj=-3|Wereboar {Lockout~rgr_FR_Neutral_Race,99-100}[rgr_FR_Neutral_Race]
+100,|Adj=-4|Weretiger {Lockout~rgr_FR_Neutral_Race,99-100}[rgr_FR_Neutral_Race]
+
+:!rog_FR_Neutral_Race
+01,Gold dwarf
+02-04,Shield dwarf
+05,Sun elf
+06-09,Moon elf
+10-11,|Adj=-1| Planetouched Air Genasi
+12,|Adj=-1| Planetouched Earth Genasi
+13,|Adj=-1| Planetouched Water Genasi
+14,Gnome
+15-20,Half-elf
+21-50,Strongheart halfing
+51-55,Lightfoot halfing
+56-60,Ghostwise halfing
+61-70,Half-orc
+71-95,Human
+96,|Adj=-3|Svirfneblin (gnome)
+97,|Adj=-3|Doppelganger
+98,|Adj=-2|Shade
+99,|Adj=-3|Wereboar {Lockout~rog_FR_Neutral_Race,99-100}[rog_FR_Neutral_Race]
+100,|Adj=-4|Weretiger {Lockout~rog_FR_Neutral_Race,99-100}[rog_FR_Neutral_Race]
+
+
+:!sor_FR_Neutral_Race
+01,Gold dwarf
+02,Sun elf
+03,Moon elf
+04,Wild elf
+05,Wood elf
+06-07,|Adj=-1|Planetouched Air Genasi
+08-09,|Adj=-1|Planetouched Earth Genasi
+10-11,|Adj=-1|Planetouched Fire Genasi
+12-13,|Adj=-1|Planetouched Water Genasi
+14,Gnome
+15-29,Half-elf
+30,Strongheart halfing
+31-32,Lightfoot halfing
+33,Ghostwise halfing
+34-39,Half-orc
+40-94,Human
+95,|Adj=-2|Lizardfolk
+96,|Adj=-3|Svirfneblin (gnome)
+97,|Adj=-3|Doppelganger
+98,|Adj=-2|Shade
+99,|Adj=-3|Wereboar {Lockout~sor_FR_Neutral_Race,99-100}[sor_FR_Neutral_Race]
+100,|Adj=-4|Weretiger {Lockout~sor_FR_Neutral_Race,99-100}[sor_FR_Neutral_Race]
+
+
+:!wiz_FR_Neutral_Race
+01-06,Sun elf
+07-22,Moon elf
+23-24,Wood elf
+25-26,|Adj=-1|Planetouched Air Genasi
+27-28,|Adj=-1|Planetouched Fire Genasi
+29-30,|Adj=-1|Planetouched Water Genasi
+31-32,Gnome
+33-43,Half-elf
+44,Strongheart halfing
+45-46,Half-orc
+47-96,Human
+97,|Adj=-3|Doppelganger
+98,|Adj=-2|Shade
+99,|Adj=-3|Wereboar {Lockout~wiz_FR_Neutral_Race,99-100}[wiz_FR_Neutral_Race]
+100,|Adj=-4|Weretiger {Lockout~wiz_FR_Neutral_Race,99-100}[wiz_FR_Neutral_Race]
+
+:!bbn_FR_Evil_Race
+01,Wild elf
+02-03,Wood elf
+04,|Adj=-1|Planetouched Fey'ri
+05,Half-elf
+06,Strongheart halfing
+07,Lightfoot halfing
+08,Ghostwise halfing
+09-23,Half-orc
+24-38,Human
+39,|Adj=-6| Kir-lanan (gargoyle)
+40-43,|Adj=-2|Lizardfolk
+44,Goblin
+45,Hobgoblin
+46,Kobold
+47-66,Orc
+67,|Adj=-5|Planetouched Tanarukk
+68,|Adj=-1|Planetouched Tiefling
+69-83,|Adj=-2|Gnoll
+84,|Adj=-2|Troglodyte
+85-86,|Adj=-3|Bugbear
+87-88,|Adj=-5|Ogre
+89-91,|Adj=-8|Minotaur
+92,|Adj=-4|Werebat {Lockout~bbn_FR_Evil_Race,92-100}[bbn_FR_Evil_Race]
+93-94,|Adj=-7|Werecrocodile {Lockout~bbn_FR_Evil_Race,92-100}[bbn_FR_Evil_Race]
+95-96,|Adj=-3|Werewolf {Lockout~bbn_FR_Evil_Race,92-100}[bbn_FR_Evil_Race]
+97-98,|Adj=-3|Half-fiend {Lockout~bbn_FR_Evil_Race,92-100}[bbn_FR_Evil_Race]
+99-100,|Adj=-3|Half-dragon {Lockout~bbn_FR_Evil_Race,92-100}[bbn_FR_Evil_Race]
+
+:!brd_FR_Evil_Race
+01,Wood elf
+02,|Adj=-1|Planetouched Fey'ri
+03-16,Half-elf
+17,Strongheart halfing
+18,Lightfoot halfing
+19,Ghostwise halfing
+20-21,Half-orc
+22-84,Human
+85,|Adj=-6| Kir-lanan (gargoyle)
+86,|Adj=-1|Planetouched Air Genasi
+87,|Adj=-1|Planetouched Earth Genasi
+88,|Adj=-1|Planetouched Fire Genasi
+89,|Adj=-1|Planetouched Water Genasi
+90,Goblin
+91,|Adj=-5|Planetouched Tanarukk
+92,|Adj=-1|Planetouched Tiefling
+93,|Adj=-4|Werebat {Lockout~brd_FR_Evil_Race,93-96,98-99}[brd_FR_Evil_Race]
+94,|Adj=-2|Wererat {Lockout~brd_FR_Evil_Race,93-96,98-99}[brd_FR_Evil_Race]
+95,|Adj=-7|Werecrocodile {Lockout~brd_FR_Evil_Race,93-96,98-99}[brd_FR_Evil_Race]
+96,|Adj=-3|Werewolf {Lockout~brd_FR_Evil_Race,93-96,98-99}[brd_FR_Evil_Race]
+97,|Adj=-12|Greater Doppelganger
+98,|Adj=-3|Half-fiend {Lockout~brd_FR_Evil_Race,93-96,98-99}[brd_FR_Evil_Race]
+99,|Adj=-3|Half-dragon {Lockout~brd_FR_Evil_Race,93-96,98-99}[brd_FR_Evil_Race]
+100,|Adj=-2|Shade
+
+:!clr_FR_Evil_Race
+01,Gold dwarf|Deity=Abbathor|
+02,Shield dwarf|Deity=Abbathor|
+03,Moon elf|Deity=[LN~Religion.Evil Gods]|
+04,Wild elf|Deity=[LN~Religion.Evil Gods]|
+05,Wood elf|Deity=[LN~Religion.Evil Gods]|
+06-09,|Adj=-1|Planetouched Fey'ri|Deity=[LN~Religion.Evil Gods]|
+10-19,Half-elf|Deity=[LN~Religion.Evil Gods]|
+20,Lightfoot halfing|Deity=[LN~Religion.Evil Gods]|
+21,Ghostwise halfing|Deity=[LN~Religion.Evil Gods]|
+22-30,Half-orc|Deity=[LN~Religion.Evil Gods]|
+31-55,Human|Deity=[LN~Religion.Evil Gods]|
+56,|Adj=-6|Kir-lanan (gargoyle)
+57-61,|Adj=-2|Lizardfolk
+62,|Adj=-1|Planetouched Air Genasi|Deity=[LN~Religion.Evil Gods]|
+63,|Adj=-1|Planetouched Earth Genasi|Deity=[LN~Religion.Evil Gods]|
+64,|Adj=-1|Planetouched Fire Genasi|Deity=[LN~Religion.Evil Gods]|
+65,|Adj=-1|Planetouched Water Genasi|Deity=[LN~Religion.Evil Gods]|
+66,Goblin
+67,Hobgoblin
+68,Kobold
+69,Orc|Deity=Gruumsh|
+70,|Adj=-5|Planetouched Tanarukk|Deity=[LN~Religion.Evil Gods]|
+71,|Adj=-1|Planetouched Tiefling|Deity=[LN~Religion.Evil Gods]|
+72-74,|Adj=-2|Female Drow Elf|Deity=Lolth|
+75,|Adj=-2|Duergar (dwarf)|Deity=Deep Duerra|
+76-77,|Adj=-2|Gnoll
+78-80,|Adj=-2|Troglodyte
+81-82,|Adj=-3|Bugbear
+83,|Adj=-5|Ogre
+84,|Adj=-8|Minotaur
+85,|Adj=-8|Mind flayer
+86,|Adj=-8|Ogre Magi
+87,|Adj=-4|Werebat {Lockout~clr_FR_Evil_Race,89-90,93-95}[clr_FR_Evil_Race]
+88,|Adj=-2|Wererat {Lockout~clr_FR_Evil_Race,89-90,93-95}[clr_FR_Evil_Race]
+89,|Adj=-7|Werecrocodile {Lockout~clr_FR_Evil_Race,89-90,93-95}[clr_FR_Evil_Race]
+90,|Adj=-3|Werewolf {Lockout~clr_FR_Evil_Race,89-90,93-95}[clr_FR_Evil_Race]
+91-92,|Adj=-12|Greater Doppelganger
+93-94,|Adj=-3|Half-fiend {Lockout~clr_FR_Evil_Race,89-90,93-95}[clr_FR_Evil_Race]
+95,|Adj=-3|Half-dragon {Lockout~clr_FR_Evil_Race,89-90,93-95}[clr_FR_Evil_Race]
+96,|Adj=-2|Shade
+97,|Adj=-6|Pureblood Yuan-ti
+98,|Adj=-6|Halfblood Yuan-ti
+99,|Adj=-9|Abomination Yuan-ti
+100,|Adj=-3|Tainted one Yuan-ti
+
+:drd_FR_Evil_Race
+01,Wood elf
+02,|Adj=-1|Planetouched Fey'ri
+03,Half-elf
+04-05,Half-orc
+06-56,Human
+57,|Adj=-6|Kir-lanan (gargoyle)
+58-71,|Adj=-2|Lizardfolk
+72,Goblin
+73,Hobgoblin
+74,Kobold
+75,Orc
+76,|Adj=-5|Planetouched Tanarukk
+77,|Adj=-1|Planetouched Tiefling
+78-100,|Adj=-2|Gnoll
+
+:!ftr_FR_Evil_Race
+01-02,Gold dwarf
+03-04,Shield dwarf
+05,Moon elf
+06,Wood elf
+07-08,|Adj=-1|Planetouched Fey'ri
+09-11,Half-elf
+12,Lightfoot halfing
+13-19,Half-orc
+20-51,Human
+52,|Adj=-6|Kir-lanan (gargoyle)
+53,|Adj=-2|Lizardfolk
+54-55,|Adj=-1|Planetouched Earth Genasi
+56,|Adj=-1|Planetouched Fire Genasi
+57,|Adj=-1|Planetouched Water Genasi
+58,Goblin
+59-69,Hobgoblin
+70,Kobold
+71-76,Orc
+77,|Adj=-5|Planetouched Tanarukk
+78,|Adj=-1|Planetouched Tiefling
+79,|Adj=-2|Female Drow Elf
+80,|Adj=-2|Male Drow Elf
+81,|Adj=-2|Duergar (dwarf)
+82,|Adj=-1|Dwarf (derro)
+83,|Adj=-2|Gnoll
+84,|Adj=-2|Troglodyte
+85,|Adj=-3|Bugbear
+86,|Adj=-5|Ogre
+87,|Adj=-8|Mind flayer
+88,|Adj=-8|Ogre Magi
+89,|Adj=-4|Werebat {Lockout~ftr_FR_Evil_Race,89-92,94-95}[ftr_FR_Evil_Race]
+90,|Adj=-2|Wererat {Lockout~ftr_FR_Evil_Race,89-92,94-95}[ftr_FR_Evil_Race]
+91,|Adj=-7|Werecrocodile {Lockout~ftr_FR_Evil_Race,89-92,94-95}[ftr_FR_Evil_Race]
+92,|Adj=-3|Werewolf {Lockout~ftr_FR_Evil_Race,89-92,94-95}[ftr_FR_Evil_Race]
+93,|Adj=-12|Greater Doppelganger
+94,|Adj=-3|Half-fiend {Lockout~ftr_FR_Evil_Race,89-92,94-95}[ftr_FR_Evil_Race]
+95,|Adj=-3|Half-dragon {Lockout~ftr_FR_Evil_Race,89-92,94-95}[ftr_FR_Evil_Race]
+96,|Adj=-2|Shade
+97,|Adj=-6|Pureblood Yuan-ti
+98,|Adj=-6|Halfblood Yuan-ti
+99,|Adj=-9|Abomination Yuan-ti
+100,|Adj=-3|Tainted one Yuan-ti
+
+:!mnk_FR_Evil_Race
+01,|Adj=-1|Planetouched Fey'ri
+02-09,Half-elf
+10-17,Half-orc
+18-81,Human
+82,|Adj=-1|Planetouched Air Genasi
+83,|Adj=-1|Planetouched Earth Genasi
+84,|Adj=-1|Planetouched Fire Genasi
+85,|Adj=-1|Planetouched Water Genasi
+86-89,Hobgoblin
+90,|Adj=-5|Planetouched Tanarukk
+91,|Adj=-1|Planetouched Tiefling
+92-93,|Adj=-8|Ogre Magi
+94,|Adj=-3|Half-fiend {Lockout~mnk_FR_Evil_Race,94-95}[mnk_FR_Evil_Race]
+95,|Adj=-3|Half-dragon {Lockout~mnk_FR_Evil_Race,94-95}[mnk_FR_Evil_Race]
+96,|Adj=-2|Shade
+97,|Adj=-6|Pureblood Yuan-ti
+98,|Adj=-6|Halfblood Yuan-ti
+99,|Adj=-9|Abomination Yuan-ti
+100,|Adj=-3|Tainted one Yuan-ti
+
+:!rgr_FR_Evil_Race
+01,Moon elf
+02-03,Wood elf
+04-05,|Adj=-1|Planetouched Fey'ri
+06-20,Half-elf
+21-26,Half-orc
+27-44,Human
+45,|Adj=-6|Kir-lanan (gargoyle)
+46-47,|Adj=-2|Lizardfolk
+48,|Adj=-1|Planetouched Air Genasi
+49,|Adj=-1|Planetouched Earth Genasi
+50,|Adj=-1|Planetouched Fire Genasi
+51,|Adj=-1|Planetouched Water Genasi
+52,Hobgoblin
+53,|Adj=-5|Planetouched Tanarukk
+54-71,|Adj=-2|Gnoll
+72,|Adj=-2|Troglodyte
+73,|Adj=-3|Bugbear
+74,|Adj=-5|Ogre
+75,|Adj=-4|Werebat {Lockout~rgr_FR_Evil_Race,75-95}[rgr_FR_Evil_Race]
+76,|Adj=-2|Wererat {Lockout~rgr_FR_Evil_Race,75-95}[rgr_FR_Evil_Race]
+77,|Adj=-7|Werecrocodile {Lockout~rgr_FR_Evil_Race,75-95}[rgr_FR_Evil_Race]
+78-79,|Adj=-3|Werewolf {Lockout~rgr_FR_Evil_Race,75-95}[rgr_FR_Evil_Race]
+80,|Adj=-3|Half-fiend {Lockout~rgr_FR_Evil_Race,75-95}[rgr_FR_Evil_Race]
+81-95,|Adj=-3|Half-dragon {Lockout~rgr_FR_Evil_Race,75-95}[rgr_FR_Evil_Race]
+96,|Adj=-2|Shade
+97,|Adj=-6|Pureblood Yuan-ti
+98,|Adj=-6|Halfblood Yuan-ti
+99,|Adj=-9|Abomination Yuan-ti
+100,|Adj=-3|Tainted one Yuan-ti
+
+:!rog_FR_Evil_Race
+01,Gold dwarf
+02,Shield dwarf
+03-04,Moon elf
+05,Wood elf
+06-07,|Adj=-1|Planetouched Fey'ri
+08-22,Half-elf
+23,Strongheart halfling
+24,Lightfoot halfing
+25,Ghostwise halfing
+26-38,Half-orc
+39-56,Human
+57-58,|Adj=-1|Planetouched Air Genasi
+59,|Adj=-1|Planetouched Earth Genasi
+60,|Adj=-1|Planetouched Fire Genasi
+61,|Adj=-1|Planetouched Water Genasi
+62-79,Goblin
+80,Hobgoblin
+81,Kobold
+82-83,|Adj=-5|Planetouched Tanarukk
+84-85,|Adj=-1|Planetouched Tiefling
+86-89,|Adj=-3|Bugbear
+90,|Adj=-8|Mind flayer
+91,|Adj=-4|Werebat {Lockout~rog_FR_Evil_Race,91-95,97-99}[rog_FR_Evil_Race]
+92-93,|Adj=-2|Wererat {Lockout~rog_FR_Evil_Race,91-95,97-99}[rog_FR_Evil_Race]
+94,|Adj=-7|Werecrocodile {Lockout~rog_FR_Evil_Race,91-95,97-99}[rog_FR_Evil_Race]
+95,|Adj=-3|Werewolf {Lockout~rog_FR_Evil_Race,91-95,97-99}[rog_FR_Evil_Race]
+96,|Adj=-12|Greater Doppelganger
+97-98,|Adj=-3|Half-fiend {Lockout~rog_FR_Evil_Race,91-95,97-99}[rog_FR_Evil_Race]
+99,|Adj=-3|Half-dragon {Lockout~rog_FR_Evil_Race,91-95,97-99}[rog_FR_Evil_Race]
+100,|Adj=-2|Shade
+
+:!sor_FR_Evil_Race
+01,Wild elf
+02,|Adj=-1|Planetouched Fey'ri
+03-17,Half-elf
+18,Strongheart halfling
+19,Lightfoot halfing
+20,Ghostwise halfing
+21-23,Half-orc
+24-55,Human
+56,|Adj=-6|Kir-lanan (gargoyle)
+57,|Adj=-2|Lizardfolk
+58,|Adj=-1|Planetouched Air Genasi
+59,|Adj=-1|Planetouched Earth Genasi
+60,|Adj=-1|Planetouched Fire Genasi
+61,|Adj=-1|Planetouched Water Genasi
+62,Goblin
+63,Hobgoblin
+64-77,Kobold
+78,|Adj=-5|Planetouched Tanarukk
+79,|Adj=-2|Gnoll
+80-81,|Adj=-2|Troglodyte
+82,|Adj=-3|Bugbear
+83,|Adj=-5|Ogre
+84,|Adj=-8|Minotaur
+85,|Adj=-8|Mind flayer
+86,|Adj=-8|Ogre Magi
+87,|Adj=-4|Werebat {Lockout~sor_FR_Evil_Race,87-90,92-94}[sor_FR_Evil_Race]
+88,|Adj=-2|Wererat {Lockout~sor_FR_Evil_Race,87-90,92-94}[sor_FR_Evil_Race]
+89,|Adj=-7|Werecrocodile {Lockout~sor_FR_Evil_Race,87-90,92-94}[sor_FR_Evil_Race]
+90,|Adj=-3|Werewolf {Lockout~sor_FR_Evil_Race,87-90,92-94}[sor_FR_Evil_Race]
+91,|Adj=-12|Greater Doppelganger
+92,|Adj=-3|Half-fiend {Lockout~sor_FR_Evil_Race,87-90,92-94}[sor_FR_Evil_Race]
+93-94,|Adj=-3|Half-dragon {Lockout~sor_FR_Evil_Race,87-90,92-94}[sor_FR_Evil_Race]
+95-96,|Adj=-2|Shade
+97,|Adj=-6|Pureblood Yuan-ti
+98,|Adj=-6|Halfblood Yuan-ti
+99,|Adj=-9|Abomination Yuan-ti
+100,|Adj=-3|Tainted one Yuan-ti
+
+:!wiz_FR_Evil_Race
+01-09,Moon elf
+10,Wood elf
+11,|Adj=-1|Planetouched Fey'ri
+12-26,Half-elf
+27,Lightfoot halfing
+28,Ghostwise halfing
+29-69,Human
+70,|Adj=-6|Kir-lanan (gargoyle)
+71,|Adj=-1|Planetouched Air Genasi
+72-73,|Adj=-1|Planetouched Fire Genasi
+74-75,|Adj=-1|Planetouched Water Genasi
+76-77,Hobgoblin
+78,|Adj=-5|Planetouched Tanarukk
+79,|Adj=-1|Planetouched Tiefling
+80-87,|Adj=-2|Male Drow Elf
+88,|Adj=-2|Gnoll
+89,|Adj=-3|Bugbear
+90,|Adj=-8|Mind flayer
+91-92,|Adj=-8|Ogre Magi
+93,|Adj=-4|Werebat {Lockout~wiz_FR_Evil_Race,93-96,98-99}[wiz_FR_Evil_Race]
+94,|Adj=-2|Wererat {Lockout~wiz_FR_Evil_Race,93-96,98-99}[wiz_FR_Evil_Race]
+95,|Adj=-7|Werecrocodile {Lockout~wiz_FR_Evil_Race,93-96,98-99}[wiz_FR_Evil_Race]
+96,|Adj=-3|Werewolf {Lockout~wiz_FR_Evil_Race,93-96,98-99}[wiz_FR_Evil_Race]
+97,|Adj=-12|Greater Doppelganger
+98,|Adj=-3|Half-fiend {Lockout~wiz_FR_Evil_Race,93-96,98-99}[wiz_FR_Evil_Race]
+99,|Adj=-3|Half-dragon {Lockout~wiz_FR_Evil_Race,93-96,98-99}[wiz_FR_Evil_Race]
+100,|Adj=-2|Shade
