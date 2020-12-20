@@ -3,12 +3,17 @@
   "version": "1.0.0",
   "description": "Parser for tablesmith files.",
   "main": "src/index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node --experimental-modules src/match.js",
     "build": "webpack --progress -p",
     "watch": "webpack --progress --watch",
     "lint": "eslint src"
+  },
+  "engines" : {
+    "node": "10",
+    "npm": "6"
   },
   "repository": {
     "type": "git",

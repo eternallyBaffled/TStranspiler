@@ -1,7 +1,8 @@
-// Very dirty and naive basic parser
+// Simplistic attempt at prettyprinter
 
 import fs from 'fs';
 import ohm from 'ohm-js';
+import pp from './semantics.js';
 
 /*
  * Both grammar and table files could be larger than comfortable
@@ -28,10 +29,7 @@ var input = fs.readFileSync(inputfile);
 // A bom indicates table is actually utf8
 
 var match = myGrammar.match(input.toString('utf8'));
+var mySemantics = myGrammar.createSemantics();
+mySemantics.addOperation('prettyPrint', pp);
 
-if (match.succeeded()) {
-//  console.log('table parsed');
-} else {
-  console.log('Unable to parse table', inputfile);
-  console.log(match.message);
-}
+console.log(mySemantics(match).prettyPrint());
